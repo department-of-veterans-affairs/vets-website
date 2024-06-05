@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import foldersReducer from '../../reducers/folders';
 
-import { FETCH_FOLDER_SUCCESS } from '../../utils/constants';
+import { FETCH_FOLDER_SUCCESS } from '../../actions/messaging';
 
 import { allFolders, messages } from '../../mocks/messaging';
 

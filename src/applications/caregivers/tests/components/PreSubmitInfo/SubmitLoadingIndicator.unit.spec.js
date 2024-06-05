@@ -32,7 +32,7 @@ describe('CG <SubmitLoadingIndicator>', () => {
         wrapper: view.container.querySelector('.loading-container'),
         component: view.container.querySelector('va-loading-indicator'),
       };
-      await waitFor(() => {
+      waitFor(() => {
         expect(selectors.wrapper).to.exist;
         expect(selectors.component).to.have.attribute(
           'message',

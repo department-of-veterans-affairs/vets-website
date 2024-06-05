@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -31,13 +31,16 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
+  showMeb1990ER6MaintenanceMessage,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   toeDupContactInfoCall,
+  toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
   useEffect(
     () => {
@@ -108,6 +111,21 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (
+        showMeb1990ER6MaintenanceMessage !==
+        formData.showMeb1990ER6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990ER6MaintenanceMessage,
+        });
+      }
+    },
+    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
+  );
+
+  useEffect(
+    () => {
       if (showMebEnhancements08 !== formData.showMebEnhancements08) {
         setFormData({
           ...formData,
@@ -161,6 +179,25 @@ function ToeApp({
       }
     },
     [formData, setFormData, showMebEnhancements08, toeDupContactInfoCall],
+
+      if (
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
+      ) {
+        setLighthouseFlag(true);
+
+        setFormData({
+          ...formData,
+          toeLightHouseDgiDirectDeposit,
+        });
+      }
+    },
+    [
+      formData,
+      setFormData,
+      showMebEnhancements08,
+      toeLightHouseDgiDirectDeposit,
+    ],
   );
 
   useEffect(
@@ -168,26 +205,49 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedDirectDeposit) {
+
+      if (!fetchedDirectDeposit && lightHouseFlag) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit();
+        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+    [
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      user?.login?.currentlyLoggedIn,
+      lightHouseFlag,
+    ],
   );
 
   return (
     <>
-      <va-breadcrumbs>
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/survivor-dependent-benefits/transferred-benefits/">
-          VA education benefits for survivors and dependents
-        </a>
-        <a href="/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e">
-          Apply to use transferred education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href:
+                  '/education/survivor-dependent-benefits/transferred-benefits/',
+                label: 'VA education benefits for survivors and dependents',
+              },
+              {
+                href:
+                  '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
+                label: 'Apply to use transferred education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -209,6 +269,7 @@ ToeApp.propTypes = {
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
+  toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
 

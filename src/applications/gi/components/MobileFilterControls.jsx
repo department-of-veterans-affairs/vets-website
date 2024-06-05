@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 // import FilterBeforeResults from '../containers/search/FilterBeforeResults';
 
 export default function MobileFilterControls({ className }) {
@@ -63,11 +64,11 @@ export default function MobileFilterControls({ className }) {
         />
       )}
       {filtersOpen &&
-        environment.isProduction() && (
+        !isProductionOrTestProdEnv() && (
           <FilterYourResults smallScreen modalClose={closeFilters} />
         )}
       {filtersOpen &&
-        !environment.isProduction() && (
+        isProductionOrTestProdEnv() && (
           <FilterYourResults smallScreen modalClose={closeFilters} />
         )}
     </div>

@@ -1,7 +1,4 @@
 // Claims helpers
-export const FETCH_CLAIMS_PENDING = 'FETCH_CLAIMS_PENDING';
-export const FETCH_CLAIMS_SUCCESS = 'FETCH_CLAIMS_SUCCESS';
-export const FETCH_CLAIMS_ERROR = 'FETCH_CLAIMS_ERROR';
 export const CHANGE_INDEX_PAGE = 'CHANGE_INDEX_PAGE';
 
 export const claimsAvailability = {

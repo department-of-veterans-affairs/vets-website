@@ -10,7 +10,7 @@ import {
 } from '../utils/date';
 
 function MHVDowntime({
-  appTitle = 'some of our health tools',
+  appTitle = 'our health tools',
   children = null,
   endTime,
   status,
@@ -34,7 +34,12 @@ function MHVDowntime({
     timeInterval,
   };
   if (status === externalServiceStatus.downtimeApproaching) {
-    return <MHVDowntimeApproaching {...props} />;
+    return (
+      <>
+        <MHVDowntimeApproaching {...props} />
+        {children}
+      </>
+    );
   }
 
   if (status === externalServiceStatus.down) {

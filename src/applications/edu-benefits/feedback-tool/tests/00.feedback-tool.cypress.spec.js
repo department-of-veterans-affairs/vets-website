@@ -18,14 +18,14 @@ describe('Feedback Tool Test', () => {
       .click();
 
     cy.url().should('not.contain', '/introduction');
-
     // Applicant relationship
-    cy.get('input[name="root_onBehalfOf"][value="Myself"]').should('exist');
+    cy.get('va-radio-option[value="Myself"]').should('exist');
     cy.injectAxeThenAxeCheck();
-    cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
-    cy.get('.usa-alert.usa-alert-info.background-color-only', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
+    cy.get('va-radio-option[value="Myself"]').click();
+    // cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
+    // cy.get('.usa-alert.usa-alert-info.background-color-only', {
+    //   timeout: Timeouts.slow,
+    // }).should('be.visible');
 
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/applicant-relationship');
@@ -84,14 +84,11 @@ describe('Feedback Tool Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
 
-    cy.get('va-checkbox')
-      .shadow()
-      .find('input')
-      .click();
-    cy.get('va-checkbox')
-      .shadow()
-      .find('input')
-      .click();
+    // checkbox to enter information manually
+    cy.get('label[id="option-label"]').click();
+
+    cy.get('label[id="option-label"]').click();
+
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },

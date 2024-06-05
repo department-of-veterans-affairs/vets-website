@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // import { deductionCodes } from '../const/deduction-codes';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
+import recordEvent from '~/platform/monitoring/record-event';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
-import recordEvent from '~/platform/monitoring/record-event';
 
 const DebtDetailsCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
@@ -31,7 +31,6 @@ const DebtDetailsCard = ({ debt }) => {
       show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
-      uswds
     >
       <h2 slot="headline">{debtCardContent.headerText}</h2>
 

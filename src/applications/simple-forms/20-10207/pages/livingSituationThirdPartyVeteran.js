@@ -27,5 +27,6 @@ export default {
         Object.keys(LIVING_SITUATIONS_3RD_PTY_VET),
       ),
     },
+    required: ['livingSituation'],
   },
 };

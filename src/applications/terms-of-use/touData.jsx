@@ -67,11 +67,12 @@ export default [
             authorized use by a VA-documented representative.)
           </li>
           <li>
-            Using secure messaging to promote your personal agenda, for
-            solicitation, or to transmit prohibited material. (
-            <strong>Note:</strong> You may use messaging only to communicate
-            with your VA health care team about your health care and VA benefits
-            and services, and with VA staff about your privacy rights.)
+            Using messaging to promote your personal agenda, for solicitation,
+            to transmit prohibited material, or for disruptive and/or
+            threatening behavior. (<strong>Note:</strong> You may use messaging
+            only to communicate with your VA health care team about your health
+            care and VA benefits and services, and with VA staff about your
+            privacy rights.)
           </li>
           <li>
             Sending material that infringes on the patents, trademarks,
@@ -207,9 +208,9 @@ export default [
       <>
         <p>
           We may store personal and self-entered information and data that you
-          choose to share with us. VA online services use encryption to securely
-          store and transmit all data, including personal and self-entered
-          information.
+          choose to share with us or send to us. VA online services use
+          encryption to securely store and transmit all data, including personal
+          and self-entered information.
         </p>
         <p>
           Our use and release of your information, including your health
@@ -220,6 +221,10 @@ export default [
           <li>
             We may do statistical analysis of characteristics of people who use
             our online services to assess areas of interest.
+          </li>
+          <li>
+            We will use VA or third-party analytical tools to collect aggregate
+            data to monitor and improve site performance.
           </li>
           <li>
             We may use data for quality control, approved research, population
@@ -250,7 +255,11 @@ export default [
             </a>
           </li>
         </ul>
-        <p>We never share your information for marketing purposes.</p>
+        <p>
+          We never share your information for marketing purposes. For text
+          messaging, we do not share your opt-in data and consent with any third
+          parties.
+        </p>
       </>
     ),
   },
@@ -384,12 +393,14 @@ export default [
   {
     header: `Acceptance of terms`,
     content: (
-      <p>
-        When you accept these terms, you confirm that the personally
-        identifiable information you provide to sign in to VA.gov or another VA
-        online service is your information or the information of a person you
-        legally represent or are legally authorized to act on behalf of.
-      </p>
+      <>
+        <p>
+          When you accept these terms, you confirm that the personally
+          identifiable information you provide to sign in to VA.gov or another
+          VA online service is your information or the information of a person
+          you legally represent or are legally authorized to act on behalf of.
+        </p>
+      </>
     ),
   },
 ];

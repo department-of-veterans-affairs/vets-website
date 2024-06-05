@@ -19,10 +19,6 @@ const TravelQuestion = props => {
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
-  const onEditClick = e => {
-    e.preventDefault();
-    jumpToPage('/travel-vehicle');
-  };
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
@@ -38,31 +34,44 @@ const TravelQuestion = props => {
     dispatch(recordAnswer({ 'travel-question': 'no' }));
     goToNextPage();
   };
+  const agreementLink = e => {
+    e.preventDefault();
+    jumpToPage('/travel-agreement');
+  };
+  const startOverAction = e => {
+    e.preventDefault();
+    jumpToPage('/travel-pay');
+  };
+
   const bodyText = (
     <>
       <p>{t('review-body-text')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
-        <h2>{t('claim-informaiton')}</h2>
-        <a
-          className="vads-u-margin-left--auto"
-          href="travel-vehicle"
-          onClick={e => onEditClick(e)}
-          data-testid="review-edit-link"
-        >
-          {t('Edit')}
-        </a>
+        <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
-        <dd className="vads-u-margin-top--0p5">
-          {t('mileage-reimbursement-only')}
+        <dd className="vads-u-margin-top--0p5" data-testid="claim-list">
+          <span data-testid="claim-list">
+            {t('mileage-only-reimbursement')}
+          </span>
         </dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('travel-method')}</h2>
+      </div>
+      <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('how-you-traveled')}</dt>
         <dd className="vads-u-margin-top--0p5">{t('in-your-own-vehicle')}</dd>
+      </dl>
+      <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
+        <h2 className="vads-u-margin-top--2p5">{t('starting-address')}</h2>
+      </div>
+      <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">
           {t('where-you-traveled-from')}
         </dt>
-        <dd className="vads-u-margin-top--0p5">
+        <dd className="vads-u-margin-top--0p5 vads-u-margin-bottom--5">
           <AddressBlock address={demographics.homeAddress} />
         </dd>
       </dl>
@@ -89,24 +98,32 @@ const TravelQuestion = props => {
           uswds
         >
           <div slot="description">
-            <p>{t('by-submitting-claim')}</p>
-            <va-additional-info
-              uswds
-              trigger={t('beneficiary-travel-agreement')}
-              class="vads-u-margin-bottom--3"
-            >
-              <span className="vads-u-font-weight--bold">
-                {t('please-review')}
-              </span>
-              <ul>
-                <Trans
-                  i18nKey="certify-statements"
-                  components={[<li key="list-item" />]}
-                />
-              </ul>
-            </va-additional-info>
+            <p>
+              <Trans
+                i18nKey="by-submitting-this-claim"
+                components={[
+                  <a
+                    data-testid="travel-agreement-link"
+                    key="link"
+                    aria-label={t('beneficiary-travel-agreement')}
+                    href="travel-agreement"
+                    onClick={e => agreementLink(e)}
+                  />,
+                ]}
+              />
+            </p>
           </div>
         </VaCheckbox>
+      </div>
+      <div className="vads-u-margin-top--2p5">
+        <a
+          className="vads-u-margin-left--auto"
+          href="travel-pay"
+          onClick={e => startOverAction(e)}
+          data-testid="review-edit-link"
+        >
+          {t('start-travel-claim-over')}
+        </a>
       </div>
     </>
   );

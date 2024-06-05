@@ -1,24 +1,29 @@
 import {
-  yesNoSchema,
+  titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import {
   AssetInformationAlert,
   RequestIncomeAndAssetInformationAlert,
 } from '../../../components/FormAlerts';
 
+const { totalNetWorth } = fullSchemaPensions.properties;
+
 /** @type {PageSchema} */
 export default {
+  title: 'Total net worth',
+  path: 'financial/total-net-worth',
   uiSchema: {
-    'ui:title': 'Income and assets',
-    'ui:description':
+    ...titleUI(
+      'Income and assets',
       'We need to know if you and your dependents have over $25,000 in assets.',
+    ),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
     },
     totalNetWorth: yesNoUI({
       title: 'Do you and your dependents have over $25,000 in assets?',
-      uswds: true,
     }),
     'view:warningAlertOnYes': {
       'ui:description': RequestIncomeAndAssetInformationAlert,
@@ -35,7 +40,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      totalNetWorth: yesNoSchema,
+      totalNetWorth,
       'view:warningAlertOnYes': {
         type: 'object',
         properties: {},

@@ -1,22 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import manifest from '../manifest.json';
+import Alert from '../components/Alert';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
+export const VERIFICATION_REVIEW_URL_SEGMENT = 'verify-information';
 export const VERIFICATION_PROFILE_URL = BASE_URL;
 export const VERIFICATION_RELATIVE_URL = `/`;
 
 export const BENEFITS_PROFILE_URL = `${VERIFICATION_PROFILE_URL}${BENEFITS_PROFILE_URL_SEGMENT}/`;
 export const BENEFITS_PROFILE_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${BENEFITS_PROFILE_URL_SEGMENT}/`;
 
+export const VERIFICATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
+export const VERIFICATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
+
 export const CHANGE_OF_DIRECT_DEPOSIT_TITLE = 'Direct deposit information';
-export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or update account';
+export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or change account';
 export const CHANGE_OF_ADDRESS_TITLE = 'Contact information';
 export const PAYEE_INFO_TITLE = 'Payee information';
 export const PENDING_DOCUMENTS_TITLE = 'Pending documents';
 export const ADDRESS_BUTTON_TEXT = 'Edit';
 export const SMALL_SCREEN = 481;
 export const ENROLLMETS_PER_PAGE = 6;
+export const BAD_UNIT_NUMBER = 'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER';
+export const MISSING_UNIT_NUMBER =
+  'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER';
+
 export const howToChangeLegalNameInfoLink =
   'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
 
@@ -26,6 +36,7 @@ export const addressFormRequiredData = [
   'addressLine1',
   'city',
   'stateCode',
+  'zipCode',
 ];
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
@@ -34,6 +45,23 @@ export const blockURLsRegEx =
   '^((?!http|www\\.|\\.co|\\.net|\\.gov|\\.edu|\\.org).)*$';
 
 // export const STREET_LINE_MAX_LENGTH = 20;
+export const Paragraph = ({ title, date, className }) => {
+  return (
+    <p
+      className={`vads-u-font-size--md vads-u-font-family--serif vads-u-font-weight--bold ${className}`}
+    >
+      {title}:
+      <span className="vads-u-font-weight--normal vads-u-font-family--sans text-color vads-u-display--inline-block vads-u-margin-left--1">
+        {date}
+      </span>
+    </p>
+  );
+};
+Paragraph.propTypes = {
+  className: PropTypes.string,
+  date: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export const ACTIVEDUTYBENEFITSSTATEMENT = (
   <p>
@@ -44,7 +72,7 @@ export const ACTIVEDUTYBENEFITSSTATEMENT = (
 );
 
 export const PENDING_DOCUMENTS_STATEMENT = (
-  <p>The following document is currently being processed for your account.</p>
+  <p>We’re currently processing this document for your account: </p>
 );
 
 // export const PENDING_DOCUMENTS_STATEMENT_ALT = (
@@ -60,11 +88,67 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   <p>
     We currently do not show a claim pending. If you recently submitted your
     claim, Verify Your Enrollment may not have been updated yet. Please allow
-    for mail time plus 3 - 5 business days. Check back periodically. If you have
-    had a claim pending, but it is no longer reflected on this page, it may have
-    been recently completed.
+    for mail time plus 4 to 6 business days. Check back periodically. If you
+    have had a claim pending, but it is no longer reflected on this page, it may
+    have been recently completed.
   </p>
 );
+
+export const EnrollmentInformation = () => (
+  <div className="vye-max-width-480px">
+    <p>
+      <span className="vads-u-font-weight--bold">Note: </span> If the enrollment
+      information on this page isn’t correct, you’ll need to leave this tool and
+      contact your School Certifying Official (SCO) to update your enrollment
+      information. After they update your information, you’ll need to return to
+      this tool to verify your updated information.
+    </p>
+    <p>
+      You can use our GI Bill Comparison Tool to search for your school and find
+      your SCO.
+    </p>
+    <p>
+      <va-link
+        href="/education/gi-bill-comparison-tool/"
+        text="Use the GI Bill Comparison Tool to find your SCO"
+      />
+    </p>
+    <p>
+      Willful false reports concerning benefits payable by VA may result in a
+      fine, imprisonment, or both.
+    </p>
+  </div>
+);
+export const errorAddressAlert = deliveryPointValidation => {
+  if (deliveryPointValidation === BAD_UNIT_NUMBER) {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="U.S. Postal Service records show that there may be a problem with the unit number for this address. Confirm that you want us to use this address as you entered it. Or, cancel to edit the address."
+      />
+    );
+  }
+  if (deliveryPointValidation === MISSING_UNIT_NUMBER) {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="U.S. Postal Service records show this address may need a unit number. Confirm that you want us to use this address as you entered it. Or, go back to edit and add a unit number."
+      />
+    );
+  }
+  if (deliveryPointValidation === 'MISSING_ZIP') {
+    return (
+      <Alert
+        status="warning"
+        title="Confirm your address"
+        message="We can’t confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or, go back to edit it."
+      />
+    );
+  }
+  return null;
+};
 
 export const TIMS_DOCUMENTS = {
   '1990': {

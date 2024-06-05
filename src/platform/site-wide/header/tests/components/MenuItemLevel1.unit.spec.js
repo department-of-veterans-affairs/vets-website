@@ -15,7 +15,6 @@ describe('Header <MenuItemLevel1>', () => {
     expect(wrapper.find('a[href="https://example.com"]')).to.have.length(1);
     expect(wrapper.find('a').text()).to.equal('example');
     expect(wrapper.find('.header-menu-item-button')).to.have.length(0);
-    expect(wrapper.find('i.fa.fa-plus')).to.have.length(0);
 
     wrapper.unmount();
   });
@@ -41,8 +40,6 @@ describe('Header <MenuItemLevel1>', () => {
     expect(wrapper.find('a')).to.have.length(0);
     expect(wrapper.find('.header-menu-item-button')).to.have.length(1);
     expect(wrapper.find('.header-menu-item-button').text()).to.equal('example');
-    expect(wrapper.find('i.fa.fa-plus')).to.have.length(0);
-    expect(wrapper.find('i.fa.fa-minus')).to.have.length(1);
     expect(wrapper.find('ul')).to.have.length(1);
 
     wrapper.find('.header-menu-item-button').simulate('click');
@@ -73,8 +70,6 @@ describe('Header <MenuItemLevel1>', () => {
     expect(wrapper.find('a')).to.have.length(0);
     expect(wrapper.find('.header-menu-item-button')).to.have.length(1);
     expect(wrapper.find('.header-menu-item-button').text()).to.equal('example');
-    expect(wrapper.find('i.fa.fa-plus')).to.have.length(1);
-    expect(wrapper.find('i.fa.fa-minus')).to.have.length(0);
     expect(wrapper.find('ul')).to.have.length(0);
 
     wrapper.find('.header-menu-item-button').simulate('click');

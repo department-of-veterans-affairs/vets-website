@@ -31,11 +31,11 @@
       {
         "jobDate": "2020-06-15",
         "jobType": "Customer service",
-        "jobHoursWeek": 20,
+        "jobHoursWeek": "20",
         "jobTitle": "Manager"
       }
     ],
-    "maritalStatus": "Never Married",
+    "maritalStatus": "NEVER_MARRIED",
     "view:hasDependents": false,
     "totalNetWorth": true,
     "hasCareExpenses": false,

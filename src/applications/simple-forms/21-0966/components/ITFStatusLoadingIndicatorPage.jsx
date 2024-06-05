@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 export default () => {
+  const focus = () => {
+    /* istanbul ignore next */
+    if (!window.Cypress) {
+      waitForRenderThenFocus('va-loading-indicator');
+    }
+  };
+
+  useEffect(focus, []);
+
   return (
     <div className="vads-u-margin-y--5">
       <div className="loading-indicator-container">

@@ -1,12 +1,15 @@
 import {
   addressSchema,
   addressUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Mailing address',
+  path: 'applicant/mail-address',
   uiSchema: {
-    'ui:title': 'Mailing address',
+    ...titleUI('Mailing address'),
     veteranAddress: addressUI({
       labels: {
         militaryCheckbox:

@@ -9,7 +9,13 @@ const Issues = ({ issues, isAppeal }) => {
   const withdrawn = issues.filter(i => i.status === 'withdrawn');
 
   const getListItems = (item, i) => (
-    <li key={`${item.status}-${i}`}>{item.description}</li>
+    <li
+      className="issue-item"
+      key={`${item.status}-${i}`}
+      data-dd-privacy="mask"
+    >
+      {item.description}
+    </li>
   );
 
   const openListItems = open.map(getListItems);
@@ -64,7 +70,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <va-accordion-item open uswds="false">
+      <va-accordion-item open>
         <h3 slot="headline">
           {`Currently on ${isAppeal ? 'appeal' : 'review'}`}
         </h3>
@@ -82,7 +88,7 @@ const Issues = ({ issues, isAppeal }) => {
   ) {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
-      <va-accordion-item open={!activeItems} uswds="false">
+      <va-accordion-item open={!activeItems}>
         <h3 slot="headline">Closed</h3>
         {grantedSection}
         {deniedSection}
@@ -94,7 +100,7 @@ const Issues = ({ issues, isAppeal }) => {
   return (
     <div className="issues-container">
       <h2>Issues</h2>
-      <va-accordion bordered open-single uswds="false">
+      <va-accordion bordered open-single>
         {activeItems}
         {closedItems}
       </va-accordion>

@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { Prompt } from 'react-router-dom';
-import { useLastLocation } from 'react-router-last-location';
+import { Prompt, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
@@ -26,7 +25,7 @@ const getScrollTarget = hash => {
  * @return {*}
  */
 const PersonalInformation = () => {
-  const lastLocation = useLastLocation();
+  const location = useLocation();
 
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
@@ -57,15 +56,15 @@ const PersonalInformation = () => {
 
   useEffect(
     () => {
-      if (window.location.hash) {
+      if (location.hash) {
         // We will always attempt to focus on the element that matches the
         // location.hash
-        const focusTarget = document.querySelector(window.location.hash);
+        const focusTarget = document.querySelector(location.hash);
         // But if the hash starts with `edit` we will scroll a different
         // element to the top of the viewport
-        const scrollTarget = getScrollTarget(window.location.hash);
+        const scrollTarget = getScrollTarget(location.hash);
         if (scrollTarget) {
-          scrollTarget.scrollIntoView();
+          scrollTarget.scrollIntoView?.();
         }
         if (focusTarget) {
           focusElement(focusTarget);
@@ -75,7 +74,7 @@ const PersonalInformation = () => {
 
       focusElement('[data-focus-target]');
     },
-    [lastLocation],
+    [location],
   );
 
   useEffect(

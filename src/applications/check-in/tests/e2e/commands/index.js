@@ -1,9 +1,9 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
-const checkInUUID = sharedData.get.defaultUUID;
+const { defaultUUID } = sharedData.get;
 
-Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
+Cypress.Commands.add('visitWithUUID', (uuid = defaultUUID, language = 'en') => {
   cy.visit(`/health-care/appointment-check-in/?id=${uuid}`, {
     onBeforeLoad(win) {
       Object.defineProperty(win.navigator, 'language', {
@@ -20,10 +20,12 @@ Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
   });
 });
 
-const preCheckInUUID = sharedData.get.defaultUUID;
-
-Cypress.Commands.add('visitPreCheckInWithUUID', (uuid = preCheckInUUID) => {
+Cypress.Commands.add('visitPreCheckInWithUUID', (uuid = defaultUUID) => {
   cy.visit(`/health-care/appointment-pre-check-in/?id=${uuid}`);
+});
+
+Cypress.Commands.add('visitTravelClaimWithUUID', (uuid = defaultUUID) => {
+  cy.visit(`/my-health/appointment-travel-claim/?id=${uuid}`);
 });
 
 Cypress.Commands.add('createScreenshots', filename => {
@@ -55,5 +57,38 @@ Cypress.Commands.add('createScreenshots', filename => {
     cy.wait(1000);
     // Back to english
     cy.get('[data-testid="translate-button-en"]').click();
+    const screenshotHiddenItem = (item, type) => {
+      item.each((i, v) => {
+        cy.get(v)
+          .shadow()
+          .find('[aria-expanded="false"]')
+          .click();
+      });
+      cy.screenshot(`english/${filename}-${type}-expanded`);
+      cy.wait(1000);
+      // Capture Spanish
+      cy.get('[data-testid="translate-button-es"]').click();
+      cy.wait(1000);
+      cy.screenshot(`spanish/${filename}-${type}-expanded-spanish`);
+      cy.wait(1000);
+      // Capture Tagalog
+      cy.get('[data-testid="translate-button-tl"]').click();
+      cy.wait(1000);
+      cy.screenshot(`tagalog/${filename}-${type}-expanded-tagalog`);
+      cy.wait(1000);
+      // Back to english
+      cy.get('[data-testid="translate-button-en"]').click();
+    };
+    // Expand additional info if it exists and make more screenshots
+    // eslint-disable-next-line cypress/no-assigning-return-values
+    const additionalInfo = cy.$$('va-additional-info');
+    // eslint-disable-next-line cypress/no-assigning-return-values
+    const accordion = cy.$$('va-accordion-item');
+    if (additionalInfo.length) {
+      screenshotHiddenItem(additionalInfo, 'info');
+    }
+    if (accordion.length) {
+      screenshotHiddenItem(accordion, 'accordion');
+    }
   }
 });

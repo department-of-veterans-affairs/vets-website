@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from '../pages/Confirmation';
 import Appointments from '../pages/Appointments';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel pay path', () => {
@@ -35,6 +36,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -54,6 +57,10 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--travel-question');
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--vehicle-question');
@@ -61,10 +68,6 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('address');
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--travel-pay--address-question');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--travel-pay--mileage-question');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
       cy.injectAxeThenAxeCheck();
@@ -93,7 +96,7 @@ describe('Check In Experience', () => {
     it('Routes to appointments on no to second question.', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -101,9 +104,9 @@ describe('Check In Experience', () => {
     it('Routes to appointments on no to third question.', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
+      TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -111,11 +114,11 @@ describe('Check In Experience', () => {
     it('Routes to appointments on no to fourth question.', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
@@ -129,11 +132,11 @@ describe('Check In Experience', () => {
     it('Routes to appointments on no to review terms.', () => {
       TravelPages.validatePageLoaded();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
       TravelPages.attemptToGoToNextPage('no');

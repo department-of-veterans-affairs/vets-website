@@ -22,6 +22,9 @@ export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`
 export const SC_FORM_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
+// TODO: placeholder while waiting for Lighthouse
+export const NOD_PDF_DOWNLOAD_URL = '';
+
 // session storage keys
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 
@@ -51,10 +54,10 @@ export const REVIEW_AND_SUBMIT = '/review-and-submit';
 /**
  **** DATES ****
  */
-// contested issue dates
-export const FORMAT_YMD = 'YYYY-MM-DD';
-export const FORMAT_READABLE = 'LL';
-export const FORMAT_COMPACT = 'MMM DD, YYYY';
+// contested issue dates - date-fns formatting
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise

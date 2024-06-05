@@ -36,11 +36,11 @@ function StemAskVAQuestions() {
       <br />
       <p>Education Call Center:</p>
       <p>
-        <va-telephone contact={CONTACTS.GI_BILL} uswds="false" />
+        <va-telephone contact={CONTACTS.GI_BILL} />
         <span id="inside-US-tele">(inside the U.S.)</span>
       </p>
       <p>
-        <va-telephone contact="9187815678" international uswds="false" />
+        <va-telephone contact="9187815678" international />
         <span id="outside-US-tele">(outside the U.S.)</span>
       </p>
       <p>

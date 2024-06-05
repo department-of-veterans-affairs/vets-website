@@ -1,6 +1,13 @@
 import PageObject from './PageObject';
 
 export class ReasonForAppointmentPageObject extends PageObject {
+  assertHeading({ name }) {
+    return this.assertShadow({
+      element: 'va-radio',
+      text: name,
+    });
+  }
+
   assertUrl() {
     cy.url().should('include', '/reason');
     cy.axeCheckBestPractice();
@@ -9,16 +16,21 @@ export class ReasonForAppointmentPageObject extends PageObject {
   }
 
   selectReasonForAppointment() {
-    cy.findByLabelText(/Routine or follow-up visit/i).click();
+    cy.get('va-radio')
+      .shadow()
+      .get('va-radio-option')
+      .findByText(/Routine or follow-up visit/i)
+      .click();
 
     return this;
   }
 
-  typeAdditionalText({
-    content,
-    label = /Please provide any additional details/,
-  }) {
-    cy.findByLabelText(label).type(content);
+  typeAdditionalText({ content }) {
+    cy.get('va-textarea')
+      .shadow()
+      .find('textarea')
+      .type(content);
+
     return this;
   }
 }

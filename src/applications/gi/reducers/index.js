@@ -9,6 +9,8 @@ import preview from './preview';
 import profile from './profile';
 import search from './search';
 import errorReducer from './error';
+import filterBeforeResultsReducer from './filterBeforeResultsReducer';
+import focusSearchReducer from './searchFocusReducer';
 
 const rootReducer = {
   autocomplete,
@@ -22,6 +24,8 @@ const rootReducer = {
   profile,
   search,
   errorReducer,
+  filterBeforeResultsReducer,
+  focusSearchReducer,
 };
 
 export default rootReducer;

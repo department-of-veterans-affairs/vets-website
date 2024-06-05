@@ -145,7 +145,6 @@ export {
   $,
   focusElement,
   getFocusableElements,
-  scrollElementName,
   focusOnChange,
   scrollToElement,
   setGlobalScroll,

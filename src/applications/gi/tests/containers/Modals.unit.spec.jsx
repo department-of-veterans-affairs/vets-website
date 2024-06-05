@@ -429,9 +429,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain(
-        'Accreditation types (regional vs. national vs. hybrid)',
-      );
+      expect(wrapper.html()).to.contain('Accreditation and why it matters');
       wrapper.unmount();
     });
   });
@@ -1002,7 +1000,7 @@ describe('<Modals>', () => {
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
       expect(wrapper.html()).to.contain(
-        'Is the school single-gender, a Historically Black college or university, or does it have a religious affiliation?',
+        'Community focus indicates colleges or other institutions of higher learning that support one or more specific communities (e.g., support for a specified race, ethnicity, or religious affiliation).',
       );
       wrapper.unmount();
     });

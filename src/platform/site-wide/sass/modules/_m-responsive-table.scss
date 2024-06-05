@@ -16,7 +16,7 @@
   }
   .va-table--responsive {
     tr {
-      border-top: 2px solid $color-gray-light;
+      border-top: 2px solid var(--vads-color-base-light);
     }
     thead {
       display: none;

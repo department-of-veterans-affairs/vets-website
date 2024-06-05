@@ -5,13 +5,12 @@ import {
   getFormDOM,
   DefinitionTester,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-
 import ChangeOfDirectDepositForm, {
   makeSchemas,
 } from '../../components/ChangeOfDirectDepositForm';
 
 const dummyProps = {
-  title: 'TEST Direct Deposit Information',
+  title: 'TEST Direct deposit information',
   formChange: () => {},
   formData: {},
   formPrefix: 'test-',
@@ -41,7 +40,7 @@ describe('Change Of Direct Deposit Form', () => {
     const formDOM = getFormDOM(screen);
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(6);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
   });
 
   it('Should raise one error with the account validation', () => {
@@ -57,7 +56,17 @@ describe('Change Of Direct Deposit Form', () => {
       />,
     );
     const formDOM = getFormDOM(screen);
-    const accountTypeButton = screen.getByRole('radio', { name: /checking/i });
+
+    const VeteranPhone = screen.getByRole('textbox', {
+      name: "Veteran's phone number (*Required)",
+    });
+    const VeteranEmail = screen.getByRole('textbox', {
+      name: "Veteran's email address (*Required)",
+    });
+    const accountTypeButton = screen.container.querySelector(
+      'va-radio-option[label="Checking"]',
+    );
+
     const bankName = screen.getByRole('textbox', {
       name: /name of financial institution \(\*required\)/i,
     });
@@ -75,13 +84,15 @@ describe('Change Of Direct Deposit Form', () => {
     });
 
     fireEvent.click(accountTypeButton);
+    fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
+    fireEvent.change(VeteranEmail, {
+      target: { value: 'someemail@gmail.com' },
+    });
     fireEvent.change(bankName, { target: { value: 'Test Bank Name' } });
     fireEvent.change(bankPhone, { target: { value: '1234567890' } });
     fireEvent.change(routingNumber, { target: { value: '123456789' } });
     fireEvent.change(accountNumber, { target: { value: '123' } });
     fireEvent.change(verifyAccountNumber, { target: { value: '123456' } });
-
-    expect(accountTypeButton.checked).to.be.true;
     expect(bankName.value).to.equal('Test Bank Name');
     expect(bankPhone.value).to.equal('1234567890');
     expect(routingNumber.value).to.equal('123456789');
@@ -93,7 +104,7 @@ describe('Change Of Direct Deposit Form', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
   });
 
-  it('Should submit form', () => {
+  it('Should submit form', async () => {
     const screen = render(
       <DefinitionTester
         pagePerItemIndex={0}
@@ -106,9 +117,17 @@ describe('Change Of Direct Deposit Form', () => {
       />,
     );
     const formDOM = getFormDOM(screen);
-    const accountTypeButton = screen.getByRole('radio', { name: /checking/i });
+    const accountTypeButton = screen.container.querySelector(
+      'va-radio-option[label="Checking"]',
+    );
     const bankName = screen.getByRole('textbox', {
       name: /name of financial institution \(\*required\)/i,
+    });
+    const VeteranPhone = screen.getByRole('textbox', {
+      name: "Veteran's phone number (*Required)",
+    });
+    const VeteranEmail = screen.getByRole('textbox', {
+      name: "Veteran's email address (*Required)",
     });
     const bankPhone = screen.getByRole('textbox', {
       name: /telephone number of financial institution \(\*required\)/i,
@@ -122,23 +141,23 @@ describe('Change Of Direct Deposit Form', () => {
     const verifyAccountNumber = screen.getByRole('textbox', {
       name: /verify account number \(\*required\)/i,
     });
-
     fireEvent.click(accountTypeButton);
+    fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
+    fireEvent.change(VeteranEmail, {
+      target: { value: 'someemail@gmail.com' },
+    });
     fireEvent.change(bankName, { target: { value: 'Test Bank Name' } });
     fireEvent.change(bankPhone, { target: { value: '1234567890' } });
     fireEvent.change(routingNumber, { target: { value: '123456789' } });
     fireEvent.change(accountNumber, { target: { value: '123' } });
     fireEvent.change(verifyAccountNumber, { target: { value: '123' } });
 
-    expect(accountTypeButton.checked).to.be.true;
     expect(bankName.value).to.equal('Test Bank Name');
     expect(bankPhone.value).to.equal('1234567890');
     expect(routingNumber.value).to.equal('123456789');
     expect(accountNumber.value).to.equal('123');
     expect(verifyAccountNumber.value).to.equal('123');
-
     formDOM.submitForm();
-
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
   });
 });

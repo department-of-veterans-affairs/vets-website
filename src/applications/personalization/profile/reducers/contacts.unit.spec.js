@@ -50,7 +50,7 @@ describe('profileContactsReducer', () => {
       nextState = reducer(state, action);
       expect(nextState.error).to.be.true;
       expect(nextState.loading).to.be.false;
-      expect(nextState.data).to.be.false;
+      expect(nextState.data).to.deep.equal([]);
     });
   });
 });

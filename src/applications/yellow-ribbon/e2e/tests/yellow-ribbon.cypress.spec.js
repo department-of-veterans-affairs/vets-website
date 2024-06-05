@@ -23,6 +23,8 @@ function axeTestPage() {
 }
 
 describe('functionality of Yellow Ribbons', () => {
+  // cy.axeCheck() is required at least once, is wrapped in axeTestPage() above for DRYness, and used throughout these tests
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('search the form and expect dom to have elements on success', () => {
     cy.intercept(
       'GET',
@@ -67,7 +69,7 @@ describe('functionality of Yellow Ribbons', () => {
       .should('contain', 'All eligible students')
       .should('contain', 'Undergraduate')
       // Check website link.
-      .should('contain', 'www.concordia.edu');
+      .should('contain', 'Visit Concordia University-Texas website');
 
     // Ensure Tool Tip exists
     cy.get(`${SELECTORS.APP} va-additional-info`).click();
@@ -88,6 +90,7 @@ describe('functionality of Yellow Ribbons', () => {
       .should('not.exist');
   });
 
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('search the form and expect dom to have elements on error', () => {
     cy.intercept(
       'GET',

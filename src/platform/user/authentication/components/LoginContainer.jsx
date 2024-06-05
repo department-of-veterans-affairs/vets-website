@@ -20,7 +20,11 @@ const LoginContainer = props => {
           <div className="row">
             <div className="columns">
               <div className="logo">
-                <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+                <img
+                  alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+                  className="va-header-logo"
+                  src={logoSrc}
+                />
               </div>
             </div>
           </div>

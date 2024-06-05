@@ -55,6 +55,15 @@ export const updateDD4CNPFailure = [
   ),
 ];
 
+export const apmTelemetry = [
+  rest.post(
+    `http://127.0.0.1:8126/telemetry/proxy/api/v2/apmtelemetry`,
+    (req, res, ctx) => {
+      return res(ctx.status(200));
+    },
+  ),
+];
+
 // Response when successfully creating a transaction request. This body mentions
 // `email` in a couple of places but for testing purposes I'm reusing this body
 // for _all_ transaction creation requests.
@@ -187,6 +196,18 @@ export const transactionSucceeded = [
             metadata: [],
           },
         },
+      }),
+    );
+  }),
+];
+
+// When the profile first loads, it will make a request to get the user's transaction status
+// This is the response when there are no transactions in progress
+export const rootTransactionStatus = [
+  rest.get(`${prefix}/v0/profile/status/`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: [],
       }),
     );
   }),

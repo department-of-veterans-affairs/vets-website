@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 export default function ClaimCardLink({
   ariaLabel,
   href,
-  text = 'View details',
+  text = 'Details',
   onClick,
 }) {
   return (
@@ -16,7 +16,7 @@ export default function ClaimCardLink({
       onClick={onClick}
     >
       {text}
-      <i aria-hidden="true" />
+      <va-icon icon="chevron_right" size={3} aria-hidden="true" />
     </Link>
   );
 }

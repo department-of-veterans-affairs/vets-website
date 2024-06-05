@@ -18,7 +18,7 @@ export default function SubmittedTrackedItem({ item }) {
     <div className="submitted-file-list-item">
       <h3 className="submission-file-type">{displayName}</h3>
       {description && (
-        <p className="submission-description">
+        <p className="submission-description" data-dd-privacy="mask">
           {truncateDescription(description)}
         </p>
       )}
@@ -26,7 +26,12 @@ export default function SubmittedTrackedItem({ item }) {
         documents.map((doc, index) => (
           <div key={index} className="submission-description">
             <span className="claim-item-label">File:</span>{' '}
-            {doc.originalFileName}
+            <span
+              className="submission-description-filename"
+              data-dd-privacy="mask"
+            >
+              {doc.originalFileName}
+            </span>
             <br />
             <span className="claim-item-label">Type:</span>{' '}
             {doc.documentTypeLabel}
@@ -41,7 +46,7 @@ export default function SubmittedTrackedItem({ item }) {
         reviewed && (
           <div>
             <span className="submission-status reviewed-file">
-              <i className="fa fa-check-circle submission-icon" />
+              <va-icon icon="check_circle" size={3} class="submission-icon" />
               Reviewed by VA
             </span>
             <span className="submission-date reviewed-file">

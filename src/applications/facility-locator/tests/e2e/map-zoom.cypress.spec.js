@@ -63,7 +63,10 @@ it('handles map zooming correctly', () => {
   cy.visit('/find-locations');
 
   cy.get('#street-city-state-zip').type('Austin, TX');
-  cy.get('#facility-type-dropdown').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('#facility-search')
     .click({ force: true })
     .then(() => {

@@ -146,13 +146,25 @@ export const paymentsSuccessEmpty = () => {
   };
 };
 
-export const paymentsError = () => {
+export const paymentsServerError = () => {
   return {
     errors: [
       {
         title: 'Server Error',
         code: '500',
         status: '500',
+      },
+    ],
+  };
+};
+
+export const paymentsClientError = () => {
+  return {
+    errors: [
+      {
+        title: 'Client Error',
+        code: '404',
+        status: '404',
       },
     ],
   };

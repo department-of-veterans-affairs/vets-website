@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { homelessReviewField as HomelessRF } from '../../content/homeless';
+import { homelessReviewField as HomelessRF } from '../../../shared/content/homeless';
 
 describe('homelessReviewField', () => {
   it('should return a review row element with a label & value', () => {

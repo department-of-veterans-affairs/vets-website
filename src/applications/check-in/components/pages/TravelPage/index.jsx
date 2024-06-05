@@ -9,11 +9,12 @@ import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { makeSelectCurrentContext } from '../../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const TravelPage = ({
   header,
@@ -27,6 +28,7 @@ const TravelPage = ({
   yesFunction,
   noButtonText,
   noFunction,
+  testID = 'travel-page',
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -39,15 +41,18 @@ const TravelPage = ({
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
 
   const onClick = event => {
     const answer = event.target.attributes.value.value;
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
-          setECheckinStartedCalled ? '' : '-45MR'
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
         }-clicked`,
         'nav',
+        app,
       ),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
@@ -61,7 +66,7 @@ const TravelPage = ({
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useStorage(false);
+  const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -79,22 +84,20 @@ const TravelPage = ({
         classNames="travel-page"
         eyebrow={eyebrow}
         withBackButton
+        testID={testID}
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}
         {additionalInfoItems &&
           additionalInfoItems.map((infoData, index) => (
-            <React.Fragment key={index}>
+            <div className="vads-u-margin-bottom--2" key={index}>
               <va-additional-info uswds trigger={infoData.trigger}>
                 {infoData.info}
               </va-additional-info>
-            </React.Fragment>
+            </div>
           ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
@@ -144,6 +147,7 @@ TravelPage.propTypes = {
   helpText: PropTypes.node,
   noButtonText: PropTypes.string,
   noFunction: PropTypes.func,
+  testID: PropTypes.string,
   yesButtonText: PropTypes.string,
   yesFunction: PropTypes.func,
 };

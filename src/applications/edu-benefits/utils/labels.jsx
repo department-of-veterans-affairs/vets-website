@@ -183,8 +183,8 @@ export const benefitsLabelsUpdate = {
     <p>
       Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
       <a
-        aria-label="Learn more about Montgomery GI Bill Selected Reserve benefits"
-        href="/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+        aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance"
+        href="/education/survivor-dependent-benefits/dependents-education-assistance/"
         target="_blank"
       >
         Learn more
@@ -261,7 +261,6 @@ export const bankAccountChangeLabels = {
 export const bankAccountChangeLabelsUpdate = {
   startUpdate: 'Start or update direct deposit',
   noChange: 'No change to payment method',
-  none: "I don't have a bank account",
 };
 
 export const directDepositWarning = (
@@ -330,3 +329,9 @@ export const bankInfoHelpText = (
     </span>
   </va-additional-info>
 );
+
+export const genderLabels = {
+  F: 'Female',
+  M: 'Male',
+  NA: 'Prefer not to answer',
+};

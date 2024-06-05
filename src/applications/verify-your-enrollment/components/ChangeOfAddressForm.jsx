@@ -1,28 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  getFormSchema,
-  getUiSchema,
-} from '@@vap-svc/components/AddressField/address-schemas';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { addressFormRequiredData, blockURLsRegEx } from '../constants';
 import { MILITARY_STATES } from '../helpers';
+import { getFormSchema, getUiSchema } from './addressSchema';
 
 const ChangeOfAddressForm = ({
   children,
   formChange,
   addressFormData,
   formSubmit,
+  formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
+  const createFormSchema = (requiredArray = []) => {
+    const fSchema = getFormSchema(formData);
 
-  const livesOnMilitaryBaseInfo = {
-    title: 'view:livesOnMilitaryBaseInfo',
+    if (requiredArray.size === 0) {
+      return fSchema;
+    }
+    const tempSchemaWithRequiredFields = { ...fSchema };
+    // remove default required fileds to create an empty array
+    tempSchemaWithRequiredFields.required = [];
+    // add required fields
+    requiredArray.forEach(requiredField =>
+      tempSchemaWithRequiredFields.required.push(requiredField),
+    );
+    // return new schema with updated fields
+    return tempSchemaWithRequiredFields;
   };
-
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
@@ -38,9 +47,17 @@ const ChangeOfAddressForm = ({
   };
   const ipc = {
     title: 'internationalPostalCode',
+    'ui:errorMessages': {
+      required: 'International Postal code is required',
+    },
+    'ui:required': () => true,
   };
   const province = {
     title: 'province',
+    'ui:errorMessages': {
+      required: 'State/Province/Region is required',
+    },
+    'ui:required': () => true,
   };
 
   const city = {
@@ -84,22 +101,10 @@ const ChangeOfAddressForm = ({
 
   const ZC = {
     title: 'zipCode',
-  };
-
-  const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema();
-    if (requiredArray.size === 0) {
-      return fSchema;
-    }
-    const tempSchemaWithRequiredFields = { ...fSchema };
-    // remove default required fileds to create an empty array
-    tempSchemaWithRequiredFields.required = [];
-    // add required fields
-    requiredArray.forEach(requiredField =>
-      tempSchemaWithRequiredFields.required.push(requiredField),
-    );
-    // return new schema with updated fields
-    return tempSchemaWithRequiredFields;
+    'ui:errorMessages': {
+      required: 'Zip code is required',
+    },
+    'ui:required': () => true,
   };
 
   const removeObjectKeys = (originalObject, keysToRemove, schemaType) => {
@@ -142,27 +147,11 @@ const ChangeOfAddressForm = ({
     return newObject;
   };
 
-  useEffect(() => {
-    setAddressSchema(
-      removeObjectKeys(
-        createFormSchema(addressFormRequiredData),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'schema',
-      ),
-    );
-    setAddressUISchema(
-      removeObjectKeys(
-        getUiSchema(),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'uiSchema',
-      ),
-    );
-  }, []);
-
   useEffect(
     () => {
       const updateSchema = () => {
         if (addressFormData) {
+          // if livesOnMilitaryBase is checked
           if (addressFormData?.['view:livesOnMilitaryBase']) {
             const tempSchemaAddObj = addObjectKeys(
               createFormSchema(addressFormRequiredData),
@@ -197,16 +186,16 @@ const ChangeOfAddressForm = ({
             setAddressUISchema(tempUISchemaRemoveObj);
           }
 
+          // if livesOnMilitaryBase is unchecked
           if (!addressFormData?.['view:livesOnMilitaryBase']) {
             if (
-              Object.keys(addressFormData).length === 0 ||
-              addressFormData?.countryCodeIso3 === 'USA' ||
-              addressFormData?.countryCodeIso3 === undefined
+              formData?.countryCodeIso3 === undefined ||
+              formData?.countryCodeIso3 === 'USA'
             ) {
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'schema',
                 ),
               );
@@ -224,19 +213,26 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'uiSchema',
                 ),
               );
             } else {
-              // removes stateCode as a requiredField
-              const updateAddressRequiredData = addressFormRequiredData.filter(
-                item => item !== stateCode.title,
+              // removes stateCode and zipCode as a requiredField
+              const tempAddressRequiredData = addressFormRequiredData.filter(
+                item => {
+                  let result = '';
+                  if (item !== stateCode.title && item !== ZC.title) {
+                    result = item;
+                  }
+                  return result;
+                },
               );
+              // adds province as a requiredField
               setAddressSchema(
                 removeObjectKeys(
-                  createFormSchema(updateAddressRequiredData),
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  createFormSchema(tempAddressRequiredData),
+                  [ZC.title, stateCode.title],
                   'schema',
                 ),
               );
@@ -254,7 +250,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  [ZC.title, stateCode.title],
                   'uiSchema',
                 ),
               );
@@ -267,7 +263,6 @@ const ChangeOfAddressForm = ({
     },
     [addressFormData],
   );
-
   return (
     <SchemaForm
       addNameAttribute
@@ -289,8 +284,7 @@ const ChangeOfAddressForm = ({
 ChangeOfAddressForm.propTypes = {
   addressFormData: PropTypes.object.isRequired,
   formChange: PropTypes.func.isRequired,
-  // Prefix to apply to all the form's schema fields
-  // formPrefix: PropTypes.string.isRequired,
+  formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.oneOfType([

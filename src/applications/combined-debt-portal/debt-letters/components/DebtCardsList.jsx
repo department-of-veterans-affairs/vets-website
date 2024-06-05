@@ -21,11 +21,14 @@ const DebtCardsList = () => {
         reflected here until our systems are updated with your next monthly
         statement.
       </p>
-      <div className="vads-u-margin-top--3" data-testid="debt-list">
+      <ul
+        className="vads-u-margin-top--3 no-bullets vads-u-padding-x--0"
+        data-testid="debt-list"
+      >
         {debts.map((debt, index) => (
           <DebtSummaryCard key={`${index}-${debt.fileNumber}`} debt={debt} />
         ))}
-      </div>
+      </ul>
     </>
   );
 };

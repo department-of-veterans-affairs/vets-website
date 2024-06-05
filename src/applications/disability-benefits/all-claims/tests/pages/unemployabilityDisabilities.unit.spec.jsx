@@ -137,11 +137,25 @@ describe('Select related disabilities for unemployability', () => {
         .at(2)
         .find('h3')
         .text(),
-    ).to.equal('CAD');
+    ).to.equal('Migraines');
+    expect(
+      labels
+        .at(2)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('Current rating: 100%');
 
     expect(
       labels
         .at(3)
+        .find('h3')
+        .text(),
+    ).to.equal('CAD');
+
+    expect(
+      labels
+        .at(4)
         .find('h3')
         .text(),
     ).to.equal('Cancer');

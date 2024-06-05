@@ -1,16 +1,18 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 
+import { isProfileLoading } from '@department-of-veterans-affairs/platform-user/selectors';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { selectRumUser } from '../utils/selectors/datadog-rum';
 
-const initializeRealUserMonitoring = () => {
-  // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  if (
-    !environment.BASE_URL.includes('localhost') &&
-    !window.DD_RUM?.getInitConfiguration()
-  ) {
+const initializeRealUserMonitoring = user => {
+  // Prevent RUM from running on local/CI environments
+  if (environment.BASE_URL.includes('localhost')) return;
+
+  // Prevent RUM from re-initializing the SDK
+  if (!window.DD_RUM?.getInitConfiguration()) {
     datadogRum.init({
       applicationId: '9d5155fd-8623-4bc9-8580-ad8ec2cdd7fa',
       clientToken: 'pub20bf1f8aaef56d8c0100b0a65601a702',
@@ -26,27 +28,39 @@ const initializeRealUserMonitoring = () => {
       defaultPrivacyLevel: 'mask',
     });
 
-    // If sessionReplaySampleRate > 0, we need to manually start the recording
+    // if sessionReplaySampleRate > 0, we need to manually start the recording
     datadogRum.startSessionReplayRecording();
   }
+
+  // set additional user properties
+  const userProps = Object.entries(user);
+  userProps.forEach(([key, val]) => {
+    datadogRum.setUserProperty(key, val);
+  });
 };
 
 const useBrowserMonitoring = () => {
   // Retrieve feature flag values to control behavior
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
+  const isLoadingUserProfile = useSelector(isProfileLoading);
+  const userProps = useSelector(selectRumUser);
   const { isBrowserMonitoringEnabled, isLoadingFeatureFlags } = featureToggles;
 
   useEffect(
     () => {
-      if (isLoadingFeatureFlags) return;
+      if (isLoadingFeatureFlags || isLoadingUserProfile) return;
       if (isBrowserMonitoringEnabled) {
-        initializeRealUserMonitoring();
+        initializeRealUserMonitoring(userProps);
       } else {
         delete window.DD_RUM;
       }
     },
-    [isBrowserMonitoringEnabled, isLoadingFeatureFlags],
+    [
+      isBrowserMonitoringEnabled,
+      isLoadingFeatureFlags,
+      isLoadingUserProfile,
+      userProps,
+    ],
   );
 };
 

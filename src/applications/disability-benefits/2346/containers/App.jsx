@@ -65,7 +65,7 @@ class App extends Component {
       <>
         {!featureToggles.loading && (
           <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
-            <VaBreadcrumbs label="Breadcrumb">
+            <VaBreadcrumbs uswds="false" label="Breadcrumb">
               <a href="/">Home</a>
               {/* this will get updated when this route is added */}
               <a href="/health-care">Health care</a>

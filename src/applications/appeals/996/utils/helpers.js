@@ -1,7 +1,9 @@
-import moment from 'moment';
+import { startOfToday, addYears, isAfter, isValid } from 'date-fns';
 
 import { processContestableIssues } from '../../shared/utils/issues';
+import { parseDateToDateObj } from '../../shared/utils/dates';
 import '../../shared/definitions';
+import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
 
 /**
  * Determine if we're in the v1 flow using the save-in-progress data
@@ -19,7 +21,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
  * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = issues => {
-  const today = moment().startOf('day');
+  const today = startOfToday();
   const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
@@ -30,11 +32,11 @@ export const getEligibleContestableIssues = issues => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
+    const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
+    if (isDeferred || !isValid(date) || !ratingIssueSubjectText) {
       return false;
     }
-    return date.add(1, 'years').isAfter(today);
+    return isAfter(addYears(date, 1), today);
   });
   return processContestableIssues(result);
 };

@@ -5,7 +5,7 @@ import { fireEvent } from '@testing-library/react';
 import moment from 'moment';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import StatusAlert from '../StatusAlert';
+import StatusAlert from '../../../../components/StatusAlert';
 import {
   Facility,
   MockAppointment,
@@ -13,7 +13,7 @@ import {
 
 const facilityData = new Facility();
 
-describe('VAOS <StatusAlert> component', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: false,
@@ -76,7 +76,7 @@ describe('VAOS <StatusAlert> component', () => {
       },
     );
     expect(screen.baseElement).to.contain('.usa-alert-error');
-    expect(screen.baseElement).to.contain.text('You canceled your appointment');
+    expect(screen.baseElement).to.contain.text('You canceled this appointment');
 
     expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
@@ -105,10 +105,11 @@ describe('VAOS <StatusAlert> component', () => {
     expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
   });
 });
-describe('VAOS <StatusAlert> component with After visit summary link', () => {
+describe('VAOS Component: StatusAlert', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
   it('Should display after visit summary link', () => {
@@ -168,5 +169,30 @@ describe('VAOS <StatusAlert> component with After visit summary link', () => {
     expect(window.dataLayer[0]).to.deep.equal({
       event: 'vaos-after-visit-summary-link-clicked',
     });
+  });
+  it('Should display after visit summary link unavailable message', async () => {
+    const mockAppointment = new MockAppointment({ start: moment() });
+    mockAppointment.setKind('clinic');
+    mockAppointment.setStatus('booked');
+    mockAppointment.setAvsPath(null);
+    mockAppointment.setIsUpcomingAppointment(false);
+    mockAppointment.setIsPastAppointment(true);
+
+    const screen = renderWithStoreAndRouter(
+      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
+      {
+        initialState,
+        path: `/${mockAppointment.id}`,
+      },
+    );
+    expect(
+      screen.getByText(
+        'An after-visit summary is not available at this time.',
+        {
+          exact: true,
+          selector: 'p',
+        },
+      ),
+    );
   });
 });

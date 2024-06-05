@@ -8,7 +8,7 @@ export default {
   uiSchema: {
     mailingAddressYesNo: yesNoUI({
       title: 'Do you have a current mailing address?',
-      description:
+      hint:
         'If we have a way to contact you, we’ll be able to process this request faster. But we don’t require a mailing address for this request.',
       labels: MAILING_ADDRESS_YES_NO_LABELS,
       labelHeaderLevel: '3',

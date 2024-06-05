@@ -1,84 +1,31 @@
-import path from 'path';
-
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import loggedInUser from '../fixtures/mocks/loggedInUser.json';
-import featuresDisabled from '../fixtures/mocks/featuresDisabled.json';
-import featuresEnabled from '../fixtures/mocks/featuresEnabled.json';
-import mockStatus from '../fixtures/mocks/profile-status.json';
+
+import kitchenSinkFixture from 'vets-json-schema/dist/21P-527EZ-KITCHEN_SINK-cypress-example.json';
+import overflowFixture from 'vets-json-schema/dist/21P-527EZ-OVERFLOW-cypress-example.json';
+import simpleFixture from 'vets-json-schema/dist/21P-527EZ-SIMPLE-cypress-example.json';
+
 import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import setupCypress, { cypressBeforeAllSetup } from './cypress.setup';
 
 import {
   fillAddressWebComponentPattern,
+  fillCareExpensesPage,
+  fillCurrentEmploymentHistoryPage,
+  fillDependentsPage,
+  fillFederalMedicalCentersPage,
+  fillIncomeSourcesPage,
+  fillMedicalExpensesPage,
+  fillPreviousEmploymentHistoryPage,
+  fillPreviousNamesPage,
   selectRadioWebComponent,
+  fillSpouseMarriagesPage,
+  fillVaMedicalCentersPage,
 } from './helpers';
 
 import pagePaths from './pagePaths';
-
-const TEST_URL = '/pension/application/527EZ/introduction';
-const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-527EZ';
-const PENSIONS_CLAIMS_URL = '/v0/pension_claims';
-const SUBMISSION_DATE = new Date().toISOString();
-
-const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
-
-export const setup = ({ authenticated, isEnabled = true } = {}) => {
-  const features = isEnabled ? featuresEnabled : featuresDisabled;
-  cy.intercept('GET', '/v0/feature_toggles*', features);
-
-  cy.get('@testData').then(testData => {
-    cy.intercept('GET', IN_PROGRESS_URL, {
-      formData: {},
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/applicant/information',
-      },
-    });
-    cy.intercept('PUT', IN_PROGRESS_URL, testData);
-  });
-
-  cy.intercept('POST', PENSIONS_CLAIMS_URL, {
-    data: {
-      id: '8',
-      type: 'saved_claim_pensions',
-      attributes: {
-        submittedAt: SUBMISSION_DATE,
-        regionalOffice: [
-          'Attention:  Philadelphia Pension Center',
-          'P.O. Box 5206',
-          'Janesville, WI 53547-5206',
-        ],
-        confirmationNumber: SUBMISSION_CONFIRMATION_NUMBER,
-        guid: '01e77e8d-79bf-4991-a899-4e2defff11e0',
-        form: '21P-527EZ',
-      },
-    },
-  }).as('submitApplication');
-
-  cy.intercept(
-    'GET',
-    `${PENSIONS_CLAIMS_URL}/${SUBMISSION_CONFIRMATION_NUMBER}`,
-    {
-      data: {
-        attributes: {
-          submittedAt: SUBMISSION_DATE,
-          state: 'success',
-        },
-      },
-    },
-  ).as('pollSubmission');
-
-  if (!authenticated) {
-    cy.visit(TEST_URL);
-    return;
-  }
-  cy.intercept('GET', '/v0/profile/status', mockStatus).as('loggedIn');
-  cy.login(loggedInUser);
-  cy.visit(TEST_URL);
-};
 
 export const pageHooks = cy => ({
   introduction: () => {
@@ -90,6 +37,66 @@ export const pageHooks = cy => ({
   [pagePaths.mailingAddress]: () => {
     cy.get('@testData').then(data => {
       fillAddressWebComponentPattern('veteranAddress', data.veteranAddress);
+    });
+  },
+  [pagePaths.previousNames]: () => {
+    cy.get('@testData').then(data => {
+      data.previousNames.forEach((previousName, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          previousName,
+          index,
+          fillPreviousNamesPage,
+          data.previousNames.length,
+        );
+      });
+    });
+  },
+  [pagePaths.currentEmploymentHistory]: () => {
+    cy.get('@testData').then(data => {
+      data.currentEmployers.forEach((employer, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          employer,
+          index,
+          fillCurrentEmploymentHistoryPage,
+          data.currentEmployers.length,
+        );
+      });
+    });
+  },
+  [pagePaths.previousEmploymentHistory]: () => {
+    cy.get('@testData').then(data => {
+      data.previousEmployers.forEach((employer, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          employer,
+          index,
+          fillPreviousEmploymentHistoryPage,
+          data.previousEmployers.length,
+        );
+      });
+    });
+  },
+  [pagePaths.vaMedicalCenters]: () => {
+    cy.get('@testData').then(data => {
+      data.vaMedicalCenters.forEach((medicalCenter, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalCenter,
+          index,
+          fillVaMedicalCentersPage,
+          data.vaMedicalCenters.length,
+        );
+      });
+    });
+  },
+  [pagePaths.federalMedicalCenters]: () => {
+    cy.get('@testData').then(data => {
+      data.federalMedicalCenters.forEach((medicalCenter, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalCenter,
+          index,
+          fillFederalMedicalCentersPage,
+          data.federalMedicalCenters.length,
+        );
+      });
     });
   },
   [pagePaths.maritalStatus]: () => {
@@ -110,14 +117,66 @@ export const pageHooks = cy => ({
       fillAddressWebComponentPattern('spouseAddress', data.spouseAddress);
     });
   },
-  // [pagePaths.dependentChildAddress]: ({ index }) => {
-  //   cy.get('@testData').then(data => {
-  //     fillAddressWebComponentPattern(
-  //       'childAddress',
-  //       data.dependents[index].childAddress,
-  //     );
-  //   });
-  // },
+  [pagePaths.currentSpouseFormerMarriages]: () => {
+    cy.get('@testData').then(data => {
+      data.spouseMarriages.forEach((marriage, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          marriage,
+          index,
+          fillSpouseMarriagesPage,
+          data.spouseMarriages.length,
+        );
+      });
+    });
+  },
+  [pagePaths.dependentChildren]: () => {
+    cy.get('@testData').then(data => {
+      data.dependents.forEach((dependent, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          dependent,
+          index,
+          fillDependentsPage,
+          data.dependents.length,
+        );
+      });
+    });
+  },
+  [pagePaths.incomeSources]: () => {
+    cy.get('@testData').then(data => {
+      data.incomeSources.forEach(async (incomeSource, index) => {
+        await cy.fillFieldsInVaCardIfNeeded(
+          incomeSource,
+          index,
+          fillIncomeSourcesPage,
+          data.incomeSources.length,
+        );
+      });
+    });
+  },
+  [pagePaths.careExpenses]: () => {
+    cy.get('@testData').then(data => {
+      data.careExpenses.forEach((careExpense, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          careExpense,
+          index,
+          fillCareExpensesPage,
+          data.careExpenses.length,
+        );
+      });
+    });
+  },
+  [pagePaths.medicalExpenses]: () => {
+    cy.get('@testData').then(data => {
+      data.medicalExpenses.forEach((medicalExpense, index) => {
+        cy.fillFieldsInVaCardIfNeeded(
+          medicalExpense,
+          index,
+          fillMedicalExpensesPage,
+          data.medicalExpenses.length,
+        );
+      });
+    });
+  },
   'review-and-submit': ({ afterHook }) => {
     afterHook(() => {
       cy.get('@testData').then(data => {
@@ -130,7 +189,7 @@ export const pageHooks = cy => ({
           .first()
           .shadow()
           .find('input')
-          .check();
+          .click({ force: true });
         cy.findAllByText(/Submit application/i, {
           selector: 'button',
         }).click();
@@ -144,12 +203,19 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: 'Pensions',
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['maximal-test', 'overflow-test', 'simple-test'],
+    dataDir: null,
+    dataSets: [
+      { title: 'kitchen-sink', data: kitchenSinkFixture },
+      { title: 'overflow', data: overflowFixture },
+      { title: 'simple', data: simpleFixture },
+    ],
     pageHooks: pageHooks(cy),
+    setup: () => {
+      cypressBeforeAllSetup();
+    },
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy);
+      setupCypress(cy);
     },
 
     // skip: [],

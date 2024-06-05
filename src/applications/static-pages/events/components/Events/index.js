@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
 import Results from '../Results';
 import Search from '../Search';
 import {
@@ -39,19 +40,21 @@ export const Events = ({ rawEvents }) => {
     setResults(deriveResults(filteredEvents, newPage, perPage));
   };
 
-  const onSearch = event => {
+  const onSearch = (event, filterList, dropdownValue) => {
+    const incomingValue = event?.target?.filterBy?.value || dropdownValue;
+
     const newSelectedOption = filterByOptions.find(
-      option => option?.value === event?.target?.filterBy?.value,
+      option => option?.value === incomingValue,
     );
 
     setSelectedOption(newSelectedOption);
 
-    const startDateMonth = event?.filterList?.startDateMonth;
-    const startDateDay = event?.filterList?.startDateDay;
-    const startDateYear = event?.filterList?.startDateYear;
-    const endDateMonth = event?.filterList?.endDateMonth;
-    const endDateDay = event?.filterList?.endDateDay;
-    const endDateYear = event?.filterList?.endDateYear;
+    const startDateMonth = filterList?.startDateMonth;
+    const startDateDay = filterList?.startDateDay;
+    const startDateYear = filterList?.startDateYear;
+    const endDateMonth = filterList?.endDateMonth;
+    const endDateDay = filterList?.endDateDay;
+    const endDateYear = filterList?.endDateYear;
 
     const filteredEvents = deriveFilteredEvents({
       endDateDay,
@@ -80,6 +83,7 @@ export const Events = ({ rawEvents }) => {
   };
 
   const onPageSelect = newPage => {
+    focusElement('[data-events-focus]');
     setPage(newPage);
     setResults(deriveResults(events, newPage, perPage));
     scrollToTop();

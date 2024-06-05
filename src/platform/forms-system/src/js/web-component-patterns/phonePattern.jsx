@@ -2,7 +2,7 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
- * Web component uiSchema for phone number
+ * Web component v3 uiSchema for phone number
  *
  * ```js
  * examplePhone: phoneUI() // Phone number
@@ -15,7 +15,7 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  *  ...phoneUI('Main phone number')
  * }
  * ```
- * @param {string | {
+ * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
  * }} [options] accepts a single string for title, or an object of options

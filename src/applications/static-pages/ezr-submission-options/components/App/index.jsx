@@ -5,6 +5,7 @@ import {
   InPersonDescription,
   MailDescription,
   PhoneDescription,
+  ModifiableHealthBenefitsInformation,
 } from '../Descriptions';
 
 export const App = ({ isEzrEnabled }) => {
@@ -47,6 +48,8 @@ export const App = ({ isEzrEnabled }) => {
 
       <h3>Option 4: In person</h3>
       <InPersonDescription />
+
+      <ModifiableHealthBenefitsInformation isEzrEnabled={isEzrEnabled} />
     </>
   ) : (
     <>
@@ -63,6 +66,8 @@ export const App = ({ isEzrEnabled }) => {
 
       <h3>Option 3: In person</h3>
       <InPersonDescription />
+
+      <ModifiableHealthBenefitsInformation isEzrEnabled={isEzrEnabled} />
     </>
   );
 };

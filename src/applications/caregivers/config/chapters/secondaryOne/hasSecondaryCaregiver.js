@@ -1,5 +1,7 @@
+import { shouldHideAlert } from '../../../utils/helpers';
 import { primaryCaregiverFields } from '../../../definitions/constants';
-import { secondaryRequiredAlert } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryRequiredAlert from '../../../components/FormAlerts/SecondaryRequiredAlert';
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
@@ -7,10 +9,11 @@ const hasSecondaryCaregiverPage = {
     [primaryCaregiverFields.hasSecondaryCaregiverOne]: {
       'ui:title':
         'Would you like to apply for benefits for a Secondary Family Caregiver?',
-      'ui:widget': 'yesNo',
       'ui:description': SecondaryCaregiverDescription({
         additionalInfo: true,
       }),
+      'ui:reviewField': CustomYesNoReviewField,
+      'ui:widget': 'yesNo',
       'ui:required': formData =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],
       'ui:validations': [
@@ -30,7 +33,13 @@ const hasSecondaryCaregiverPage = {
         },
       ],
     },
-    'view:secondaryAlert': secondaryRequiredAlert,
+    'view:secondaryAlert': {
+      'ui:title': ' ',
+      'ui:widget': SecondaryRequiredAlert,
+      'ui:options': {
+        hideIf: formData => shouldHideAlert(formData),
+      },
+    },
   },
   schema: {
     type: 'object',

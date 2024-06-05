@@ -75,6 +75,7 @@ describe('Pre-Check In Experience', () => {
       Confirmation.validatePageLoaded();
       cy.reload();
       Error.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--reload--data-error');
       cy.injectAxeThenAxeCheck();
     });
   });

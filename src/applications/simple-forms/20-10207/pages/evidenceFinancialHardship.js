@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from '../components/FileField';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import FinancialHardshipViewField from '../components/FinancialHardshipViewField';
 
 import { FINANCIAL_HARDSHIP_DESCRIPTION } from '../config/constants';
@@ -9,13 +9,13 @@ import { createPayload, parseResponse } from '../helpers';
 
 const uiTitle = 'Upload evidence for extreme financial hardship';
 const uiDescription =
-  'If you have documents you would like to submit as evidence of financial hardship upload them here.';
+  'If you have documents you would like to submit as evidence of financial hardship, upload them here.';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': FINANCIAL_HARDSHIP_DESCRIPTION,
+    'ui:description': () => FINANCIAL_HARDSHIP_DESCRIPTION,
     'ui:objectViewField': FinancialHardshipViewField,
     financialHardshipDocuments: {
       'ui:title': 'Upload additional evidence',
@@ -34,7 +34,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_financial_hardship_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

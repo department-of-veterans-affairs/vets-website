@@ -12,25 +12,8 @@ export const focusEvidence = (_index, root) => {
       scrollToFirstError();
       focusElement(error);
     } else {
-      scrollTo('topPageElement');
+      scrollTo('topContentElement');
       focusElement('#main h3', null, root);
     }
   });
-};
-
-export const focusUploads = (_index, root) => {
-  const hash = window.location.hash || '';
-  const index = hash.startsWith('#') ? parseInt(hash.substring(1), 10) : null;
-  if (typeof index === 'number') {
-    setTimeout(() => {
-      scrollTo(`root_additionalDocuments_file_${index}`);
-      focusElement(
-        `#root_additionalDocuments_${index}_attachmentId`,
-        null,
-        root,
-      );
-    });
-  } else {
-    focusElement('#main h3', null, root);
-  }
 };

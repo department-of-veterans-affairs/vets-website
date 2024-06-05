@@ -4,18 +4,14 @@ import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
-import AskVAQuestions from '../AskVAQuestions';
+import NeedHelp from '../NeedHelp';
 
 const vhaVersion = (
   <>
     <h2 className="help-heading">Need help?</h2>
     <p>Call Health Care Benefits</p>
     <p className="help-phone-number">
-      <va-telephone
-        contact={CONTACTS['222_VETS']}
-        vanity="VETS"
-        uswds="false"
-      />
+      <va-telephone contact={CONTACTS['222_VETS']} vanity="VETS" />
     </p>
     <p>Monday through Friday, 8:00 a.m. to 8:00 p.m. ET</p>
   </>
@@ -25,11 +21,10 @@ const vhaVersion = (
 const AppealHelpSidebar = ({ aoj }) => {
   switch (aoj) {
     case AOJS.vba:
-      return <AskVAQuestions />;
+      return <NeedHelp />;
     case AOJS.vha:
       return vhaVersion;
     case AOJS.nca:
-      return null; // nca version (coming soon to a sidebar near you!)
     case AOJS.other:
       return null;
     default:

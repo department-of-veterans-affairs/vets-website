@@ -99,16 +99,14 @@ const HomepageSearch = () => {
   };
 
   return (
-    <div role="search">
-      <VaSearchInput
-        value={userInput}
-        label="Search VA.gov"
-        onInput={handleInputChange}
-        onSubmit={handleSubmit}
-        suggestions={latestSuggestions}
-        uswds={false}
-      />
-    </div>
+    <VaSearchInput
+      value={userInput}
+      label="Search VA.gov"
+      onInput={handleInputChange}
+      onSubmit={handleSubmit}
+      suggestions={latestSuggestions}
+      uswds
+    />
   );
 };
 

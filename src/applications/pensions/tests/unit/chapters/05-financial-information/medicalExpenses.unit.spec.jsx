@@ -3,15 +3,17 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  testSubmitsWithoutErrors,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import medicalExpenses from '../../../../config/chapters/05-financial-information/medicalExpenses';
 
 const { schema, uiSchema } = medicalExpenses;
 
-describe('Unreimbursed care expenses pension page', () => {
+describe('Medical expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 3;
+  const expectedNumberOfFields = 1;
   testNumberOfFields(
     formConfig,
     schema,
@@ -20,7 +22,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 3;
+  const expectedNumberOfErrors = 1;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -29,7 +31,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 3;
+  const expectedNumberOfWebComponentFields = 5;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -38,12 +40,27 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 3;
+  const expectedNumberOfErrorsForWebComponents = 5;
   testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrorsForWebComponents,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 2,
+      'va-memorable-date': 1,
+      'va-radio': 2,
+      input: 1,
+    },
     pageTitle,
   );
 });

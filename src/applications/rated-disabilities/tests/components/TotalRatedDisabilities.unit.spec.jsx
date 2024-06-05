@@ -12,7 +12,7 @@ describe('<TotalRatedDisabilities />', () => {
         totalDisabilityRating={80}
       />,
     );
-    expect(wrapper.find('va-featured-content')).to.exist;
+    expect(wrapper.find('va-summary-box')).to.exist;
     wrapper.unmount();
   });
 

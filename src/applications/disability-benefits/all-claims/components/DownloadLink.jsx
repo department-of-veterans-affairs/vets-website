@@ -18,11 +18,7 @@ const DownloadLink = ({ url = '', content, size }) => {
       type="application/pdf"
       download={fileName}
     >
-      <i
-        aria-hidden="true"
-        className="fas fa-download vads-u-padding-right--1"
-        role="img"
-      />
+      <va-icon aria-hidden="true" icon="file_download" size={3} />
       {content}{' '}
       <dfn>
         <abbr title="Portable Document Format">PDF</abbr> ({size}

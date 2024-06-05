@@ -2,12 +2,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
 
 import reducer from '../../../reducers/index';
 import * as selectors from '../../../selectors';
 
 import YourClaimLetters from '../../../containers/YourClaimLetters';
+import { renderWithRouter } from '../../utils';
 
 const actions = require('../../../actions/index');
 
@@ -41,7 +41,7 @@ describe('<YourClaimLetters>', () => {
     it('should render a helpful message if there are no letters', async () => {
       getClaimLettersStub.resolves([]);
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,
@@ -54,7 +54,7 @@ describe('<YourClaimLetters>', () => {
       showLettersFeatureStub.returns(false);
       getClaimLettersStub.resolves([]);
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,
@@ -66,7 +66,7 @@ describe('<YourClaimLetters>', () => {
     it('should render a message alerting the user to a problem if unable to retrieve letters', async () => {
       getClaimLettersStub.rejects({ errors: [{ code: 500 }] });
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,
@@ -78,7 +78,7 @@ describe('<YourClaimLetters>', () => {
     it('should render a message alerting the user that they are unauthenticated', async () => {
       getClaimLettersStub.rejects({ status: 401 });
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,
@@ -90,7 +90,7 @@ describe('<YourClaimLetters>', () => {
     it('should render a message alerting the user that they are unauthorized', async () => {
       getClaimLettersStub.rejects({ status: 403 });
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,
@@ -110,7 +110,7 @@ describe('<YourClaimLetters>', () => {
         },
       ]);
 
-      const { findByText } = render(
+      const { findByText } = renderWithRouter(
         <Provider store={store}>
           <YourClaimLetters />
         </Provider>,

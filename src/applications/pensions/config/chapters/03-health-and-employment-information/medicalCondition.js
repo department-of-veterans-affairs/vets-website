@@ -1,16 +1,21 @@
 import {
-  yesNoSchema,
+  titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { MedicalEvidenceAlert } from '../../../components/FormAlerts';
+import { hasNoSocialSecurityDisability } from './helpers';
 
+const { medicalCondition } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
+  title: 'Medical condition',
+  path: 'medical/history/condition',
+  depends: hasNoSocialSecurityDisability,
   uiSchema: {
-    'ui:title': 'Medical condition',
+    ...titleUI('Medical condition'),
     medicalCondition: yesNoUI({
       title: 'Do you have a medical condition that prevents you from working?',
-      uswds: true,
       classNames: 'vads-u-margin-bottom--2',
     }),
     'view:warningAlert': {
@@ -24,7 +29,7 @@ export default {
     type: 'object',
     required: ['medicalCondition'],
     properties: {
-      medicalCondition: yesNoSchema,
+      medicalCondition,
       'view:warningAlert': {
         type: 'object',
         properties: {},

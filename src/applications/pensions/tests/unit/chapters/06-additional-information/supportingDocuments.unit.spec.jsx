@@ -4,6 +4,7 @@ import formConfig from '../../../../config/form';
 import supportingDocuments, {
   childAttendsCollege,
   childIsDisabled,
+  childIsAdopted,
 } from '../../../../config/chapters/06-additional-information/supportingDocuments';
 
 const { schema, uiSchema } = supportingDocuments;
@@ -28,6 +29,12 @@ describe('Supporting documents pension page', () => {
   describe('childIsDisabled', () => {
     it('should return true if child is disabled', () => {
       expect(childIsDisabled({ disabled: true })).to.be.true;
+    });
+  });
+
+  describe('childIsAdopted', () => {
+    it('should return true if child is adopted', () => {
+      expect(childIsAdopted({ childRelationship: 'ADOPTED' })).to.be.true;
     });
   });
 });

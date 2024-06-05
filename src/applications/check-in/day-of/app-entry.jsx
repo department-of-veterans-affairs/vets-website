@@ -7,7 +7,9 @@ import createRoutesWithStore from './routes';
 import reducer from '../reducers';
 import manifest from './manifest.json';
 
-import '../utils/i18n/i18n';
+import { setupI18n } from '../utils/i18n/i18n';
+
+setupI18n();
 
 startApp({
   url: manifest.rootUrl,

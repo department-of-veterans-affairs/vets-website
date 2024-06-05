@@ -1,115 +1,218 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { cloneDeep } from 'lodash';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../10-7959F-1-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/10-7959F-1-schema.json';
-
+import {
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintUI,
+  fullNameUI,
+  fullNameSchema,
+  titleUI,
+  titleSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  addressUI,
+  addressSchema,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefillTransformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
-// const { } = fullSchema.properties;
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
-// const { } = fullSchema.definitions;
+const veteranFullNameUI = cloneDeep(fullNameUI());
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
-// pages
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
-
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  footerContent: GetFormHelp,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  customText: {
+    appType: 'form',
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
   formId: '10-7959F-1',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your health care benefits application (10-7959F-1) is in progress.',
-    //   expired: 'Your saved health care benefits application (10-7959F-1) has expired. If you want to apply for health care benefits, please start a new application.',
-    //   saved: 'Your health care benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
+      expired:
+        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foriegn Medical Program benefits, please start a new application.',
+      saved: 'Your FMP benefits registration has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for health care benefits.',
+    notFound: 'Please start over to register for FMP benefits.',
     noAuth:
-      'Please sign in again to continue your application for health care benefits.',
+      'Please sign in again to continue your registration for FMP benefits.',
   },
-  title: 'Complex Form',
-  defaultDefinitions: {
-    fullName,
-    ssn,
-    date,
-    dateRange,
-    usaPhone,
-  },
+  title: 'Register for the Foreign Medical Program (FMP)',
+  subTitle: 'FMP Registration Form (VA Form 10-7959f-1)',
+  defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: 'Name and date of birth',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
+        page1: {
+          // initialData: mockdata.data,
+          path: 'veteran-information',
+          title: 'Personal Information',
           uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
+            ...titleUI(
+              'Name and date of birth',
+              'We use this information to verify other details.',
+            ),
+            messageAriaDescribedby:
+              'We use this information to verify other details.',
+            veteranFullName: veteranFullNameUI,
+            veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
           schema: {
             type: 'object',
-            required: ['fullName'],
+            required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
-              fullName,
-              ssn,
+              titleSchema,
+              veteranFullName: fullNameSchema,
+              veteranDateOfBirth: dateOfBirthSchema,
             },
           },
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    identificationInformation: {
+      title: 'Identification Information',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
+        page2: {
+          path: 'identification-information',
+          title: 'Veteran SSN and VA file number',
           uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
+            ...titleUI(
+              `Identification information`,
+              `You must enter either a Social Security number or VA file number.`,
+            ),
+            messageAriaDescribedby:
+              'You must enter either a Social Security number or VA file number.',
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranSocialSecurityNumber'],
+            properties: {
+              titleSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
             },
-            altEmail: {
-              'ui:title': 'Secondary email',
+          },
+        },
+      },
+    },
+    mailingAddress: {
+      title: 'Mailing Address',
+      pages: {
+        page3: {
+          path: 'mailing-address',
+          title: "Veteran's Mailing address",
+          uiSchema: {
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address.",
+            ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
+            veteranAddress: addressUI({
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              titleSchema,
+              veteranAddress: addressSchema({}),
             },
-            phoneNumber: phoneUI('Daytime phone'),
+          },
+        },
+      },
+    },
+    physicalAddress: {
+      title: 'Home Address',
+      pages: {
+        page4: {
+          path: 'home-address',
+          title: "Veteran's Home address",
+          uiSchema: {
+            ...titleUI(
+              'Home Address',
+              'This is your current location, outside the United States.',
+            ),
+            messageAriaDescribedby:
+              'This is your current location, outside the United States.',
+            physicalAddress: addressUI({
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              physicalAddress: addressSchema({}),
+            },
+          },
+        },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
+        page5: {
+          path: 'contact-info',
+          title: "Veteran's contact information",
+          uiSchema: {
+            ...titleUI(
+              'Phone and email address',
+              'Please include this information so that we can contact you with questions or updates',
+            ),
+            messageAriaDescribedby:
+              'Please include this information so that we can contact you with questions or updates.',
+            veteranPhoneNumber: phoneUI(),
+            veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
+              titleSchema,
+              veteranPhoneNumber: phoneSchema,
+              veteranEmailAddress: emailSchema,
             },
           },
         },

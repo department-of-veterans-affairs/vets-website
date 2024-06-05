@@ -1,10 +1,11 @@
 import React from 'react';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
@@ -22,10 +23,7 @@ export class IntroductionPage extends React.Component {
 
   loginPrompt() {
     if (this.props.isLoggedIn) {
-      if (
-        this.props.useEvss &&
-        this.moreThanSixMonths(this.props?.remainingEntitlement)
-      ) {
+      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
         return (
           <div
             id="entitlement-remaining-alert"
@@ -251,11 +249,17 @@ export class IntroductionPage extends React.Component {
   }
 }
 
+IntroductionPage.propTypes = {
+  getRemainingEntitlement: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  remainingEntitlement: PropTypes.object,
+  route: PropTypes.object,
+};
+
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
-    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 

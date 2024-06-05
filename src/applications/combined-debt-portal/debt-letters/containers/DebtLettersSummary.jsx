@@ -11,7 +11,6 @@ import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
-import '../sass/debt-letters.scss';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -21,11 +20,7 @@ const renderAlert = (alertType, statements) => {
   const showOther = statements > 0;
 
   return (
-    <va-alert
-      data-testid={alertInfo.testID}
-      status={alertInfo.alertStatus}
-      uswds
-    >
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -50,11 +45,7 @@ const renderOtherVA = (mcpLength, mcpError) => {
     return (
       <>
         <h3>Your other VA bills</h3>
-        <va-alert
-          data-testid={alertInfo.testID}
-          status={alertInfo.alertStatus}
-          uswds
-        >
+        <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
@@ -105,10 +96,6 @@ const DebtLettersSummary = () => {
             label: 'Home',
           },
           {
-            href: '/manage-va-debt',
-            label: 'Manage your VA debt',
-          },
-          {
             href: '/manage-va-debt/summary',
             label: 'Your VA debt and bills',
           },
@@ -118,7 +105,6 @@ const DebtLettersSummary = () => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <div

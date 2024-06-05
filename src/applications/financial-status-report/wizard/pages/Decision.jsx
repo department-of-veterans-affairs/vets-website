@@ -45,7 +45,6 @@ const Decision = ({ setPageState, state = {} }) => {
       className="vads-u-margin-y--2"
       label={label}
       onVaValueChange={handleOptionChange}
-      uswds
     >
       {options.map((option, index) => (
         <VaRadioOption
@@ -59,7 +58,6 @@ const Decision = ({ setPageState, state = {} }) => {
             state.selected === option.value ? option.value : null
           }
           className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
-          uswds
         />
       ))}
     </VaRadio>

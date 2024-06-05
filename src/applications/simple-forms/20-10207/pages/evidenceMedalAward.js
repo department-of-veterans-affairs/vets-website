@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from '../components/FileField';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import MedalAwardViewField from '../components/MedalAwardViewField';
 
 import { MEDAL_AWARD_DESCRIPTION } from '../config/constants';
@@ -16,7 +16,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': MEDAL_AWARD_DESCRIPTION,
+    'ui:description': () => MEDAL_AWARD_DESCRIPTION,
     'ui:objectViewField': MedalAwardViewField,
     medalAwardDocuments: {
       'ui:title': 'Upload additional evidence',
@@ -35,7 +35,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_medal_award_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

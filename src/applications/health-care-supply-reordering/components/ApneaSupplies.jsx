@@ -8,7 +8,6 @@ import moment from 'moment';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // FIXME: figure out why cypress doesn't like this import.
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import recordEvent from 'platform/monitoring/record-event';
 
 import { APNEA, DLC_PHONE } from '../constants';
@@ -193,7 +192,7 @@ class ApneaSupplies extends Component {
               The CPAP supplies you need may not be listed here if you haven’t
               placed an order for resupply items within the last 2 years. If you
               need a CPAP supply that hasn’t been ordered within the last 2
-              years, call the DLC Customer Service Section at
+              years, call the DLC Customer Service Section at{' '}
               <va-telephone
                 contact={DLC_PHONE}
                 className="vads-u-margin--0p5"

@@ -2,10 +2,27 @@ $teamsite-large-screen: 1008px;
 
 .usa-banner-header {
   .usa-banner-inner p {
-    font-size: 1.2rem;
+    font-size: 12px;
     font-family: inherit;
     padding: 0;
   }
+}
+
+.hidden-header > a {
+  font-size: 16px;
+}
+
+.header-us-flag {
+  height: 20px;
+}
+
+button.expand-official-govt-explanation {
+  font-size: 12px;
+}
+
+.header-search label {
+  font-size: 16px;
+  font-weight: normal;
 }
 
 @media (max-width: 480px) {
@@ -13,8 +30,9 @@ $teamsite-large-screen: 1008px;
     .usa-banner-button-text {
       display: none;
     }
+
     .usa-banner-inner p {
-      font-size: 1.5rem;
+      font-size: 0.9375rem;
     }
   }
 }
@@ -24,12 +42,12 @@ $teamsite-large-screen: 1008px;
 }
 
 .login .container h1 {
-  color: $color-black !important;
+  color: var(--vads-color-black) !important;
 }
 
 .usa-banner-content p {
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 15px;
 }
 
 .login-container {
@@ -51,6 +69,7 @@ $teamsite-large-screen: 1008px;
     padding-left: 1px;
     padding-right: 1px;
   }
+
   .usa-grid-full {
     width: $teamsite-width;
   }
@@ -62,17 +81,19 @@ header.merger {
 
   .va-crisis-line-container {
     box-sizing: border-box;
+
     button.va-crisis-line {
       background-image: none;
 
       // HACK: override rules from benefits.va.gov
       .va-crisis-line-text {
-        color: $color-white;
+        color: var(--vads-color-white);
       }
     }
   }
 
   #vetnav-menu {
+
     // HACK: To override `content-box` on benefits site
     button.vetnav-level1 {
       box-sizing: border-box;
@@ -80,10 +101,11 @@ header.merger {
   }
 
   @media (min-width: $teamsite-large-screen) {
+
     .va-notice--banner-inner,
     .va-crisis-line-container {
       width: $teamsite-width;
-      padding-left: 1rem;
+      padding-left: 0.625rem;
     }
   }
 
@@ -95,6 +117,7 @@ header.merger {
 
     .vetnav-panel {
       box-sizing: border-box;
+
       .mm-links {
         font-family: $font-stack;
       }
@@ -102,6 +125,7 @@ header.merger {
   }
 
   @media (min-width: $large-screen) {
+
     .mega-menu,
     #mega-menu {
       .vetnav-panel {
@@ -140,6 +164,7 @@ header.merger {
   }
 
   @media (max-width: $large-screen - 1) {
+
     #vetnav-va-benefits-and-health-care,
     #vetnav-about-va {
       width: 100%;
@@ -151,17 +176,28 @@ header.merger {
         display: none;
       }
     }
+
+   a, p, span {
+    font-size: 16px;
+   }
+
+   .usa-banner-button-text {
+    font-size: 12px;
+   }
   }
 
   #login-root {
     .profile-nav {
       box-sizing: border-box;
+
       .va-dropdown {
+
         span,
         p {
           font-family: "Source Sans Pro";
           font-size: 16px;
         }
+
         p {
           padding-bottom: 0;
         }
@@ -178,6 +214,7 @@ header.merger {
       width: 768px !important;
     }
   }
+
   @include media($small-desktop-screen) {
     &.vetnav-submenu--expanded {
       width: 1008px !important;
@@ -191,16 +228,16 @@ footer.footer {
 }
 
 .footer-lastupdated {
-  background: $color-white;
-  color: $color-gray-dark;
+  background: var(--vads-color-white);
+  color: var(--vads-color-base-darker);
   font-size: 1em;
-  border: 2px solid $color-gray-light;
+  border: 2px solid var(--vads-color-base-light);
   padding: 5px 0;
 }
 
 .sign-in-nav {
   .sign-in-links {
-    color: $color-white;
+    color: var(--vads-color-white);
   }
 }
 
@@ -215,5 +252,15 @@ footer.footer {
 .vetnav-panel--submenu {
   h3 {
     background-color: transparent;
+  }
+}
+
+#mega-menu #vetnav-va-benefits-and-health-care {
+
+  &,
+  & .vetnav-panel.vetnav-panel--submenu {
+    @media screen and (min-width: 768px) {
+      height: 490px !important;
+    }
   }
 }

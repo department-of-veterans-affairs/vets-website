@@ -72,6 +72,7 @@ export default function VaCheckboxGroupField(props) {
       label={props.label}
       labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
       onVaChange={onGroupChange}
+      uswds={props.uiOptions?.uswds ?? true}
       // onBlur={} // it seems this is not necessary.
       // prefer to show error on trying to continue instead.
     >
@@ -99,10 +100,12 @@ export default function VaCheckboxGroupField(props) {
                 name={`${props.childrenProps.idSchema.$id}_${key}`}
                 key={key}
                 uswds={props.uiOptions?.uswds ?? true}
-                label={uiSchema['ui:title']}
+                label={uiSchema?.['ui:title'] || schema.title}
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}
-                checkbox-description={uiSchema['ui:description']}
+                checkbox-description={
+                  uiSchema?.['ui:description'] || schema.description
+                }
               />
             );
           })}

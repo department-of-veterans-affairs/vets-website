@@ -5,19 +5,21 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../../actions/authentication';
+import { setFormData } from '../../../actions/travel-claim';
 
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+import { makeSelectCurrentContext } from '../../../selectors';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Validate = ({ router }) => {
-  const { setPermissions } = useStorage(true);
+  const { setPermissions } = useStorage(APP_NAMES.TRAVEL_CLAIM);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -30,12 +32,15 @@ const Validate = ({ router }) => {
     },
     [dispatch, setPermissions],
   );
-
+  const recordTimeAndGoToNextPage = useCallback(
+    () => {
+      dispatch(setFormData({ startedTime: new Date().getTime() }));
+      goToNextPage();
+    },
+    [dispatch, goToNextPage],
+  );
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
-
-  const selectApp = useMemo(makeSelectApp, []);
-  const { app } = useSelector(selectApp);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -55,16 +60,15 @@ const Validate = ({ router }) => {
         setLastNameError,
         setIsLoading,
         setShowValidateError,
-        goToNextPage,
+        recordTimeAndGoToNextPage,
         token,
         setSession,
-        app,
+        APP_NAMES.TRAVEL_CLAIM,
         updateError,
       );
     },
     [
-      app,
-      goToNextPage,
+      recordTimeAndGoToNextPage,
       lastName,
       dob,
       dobError,
@@ -81,10 +85,8 @@ const Validate = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header={t('start-pre-check-in')}
-        subtitle={t(
-          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
-        )}
+        header={t('file-travel-reimbursement-claim')}
+        subtitle={t('first-need-last-name-date-birth')}
         lastNameInput={{
           lastNameError,
           setLastName,

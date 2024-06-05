@@ -1,61 +1,101 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const MedicalEvidenceAlert = () => (
-  <va-alert status="warning" uswds slim>
-    <p className="vads-u-margin-y--0">
-      You’ll need to provide medical evidence with this application.
-    </p>
-  </va-alert>
-);
-
 export const AssetInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What are assets?">
-    <p>Assets are all the money and property you or your dependents own.</p>
-    <br />
+  <va-additional-info trigger="How we define assets" uswds>
     <p>
-      Don’t include the value of your primary residence or personal belongings
-      such as appliances and vehicles you or your dependents need for
-      transportation.
+      Assets are all the money and property you or your dependents own. Don’t
+      include the value of your primary residence or personal belongings such as
+      appliances and vehicles you or your dependents need for transportation.
     </p>
-  </va-alert-expandable>
+  </va-additional-info>
 );
 
 export const AssetTransferInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What are assets?">
-    <p>Assets are all the money and property you or your dependents own.</p>
-    <br />
-    <p>
-      Don’t include the value of your primary residence or personal belongings
-      such as appliances and vehicles you or your dependents need for
-      transportation.
-    </p>
-    <br />
+  <va-additional-info trigger="How to tell if you transferred assets" uswds>
     <p>You transferred assets if you made any of these transactions:</p>
-    <br />
     <ul>
       <li>You gave away money or property</li>
       <li>You sold a home that isn’t your primary residence</li>
       <li>You purchased an annuity</li>
       <li>You put money or property into a trust</li>
     </ul>
-  </va-alert-expandable>
+  </va-additional-info>
+);
+
+export const ContactWarningAlert = () => (
+  <va-alert uswds>
+    <p className="vads-u-margin-y--0">
+      We usually don’t need to contact a former spouse of a Veteran’s spouse. In
+      very rare cases where we need information from this person, we’ll contact
+      you first.
+    </p>
+  </va-alert>
+);
+
+export const ContactWarningMultiAlert = () => (
+  <va-alert uswds>
+    <p className="vads-u-margin-y--0">
+      We won’t contact any of the people listed here without contacting you
+      first.
+    </p>
+  </va-alert>
+);
+
+export const DisabilityDocsAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to provide all private medical records for your child’s
+      disability.
+    </p>
+  </va-alert>
+);
+
+export const IncomeAssetStatementFormAlert = () => (
+  <RequestFormAlert
+    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
+    formName="VA Form 21P-0969"
+    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
+  />
 );
 
 export const IncomeInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What is income?">
+  <va-additional-info trigger="What is income?">
     <p>
       Your income is how much you earn. It includes your Social Security
       benefits, investment and retirement payments, and any income your spouse
       and dependents receive.
     </p>
-  </va-alert-expandable>
+  </va-additional-info>
+);
+
+export const LandMarketableAlert = () => (
+  <va-alert status="info" uswds>
+    <p className="vads-u-margin-y--0">
+      The additional land might not be marketable in these situations:
+    </p>
+    <ul>
+      <li>The entire lot of land is only slightly more than 2 acres, or</li>
+      <li>The additional land isn’t accessible, or</li>
+      <li>
+        There are zoning rules that prevent selling the additional property
+      </li>
+    </ul>
+  </va-alert>
+);
+
+export const MedicalEvidenceAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to provide medical evidence with this application.
+    </p>
+  </va-alert>
 );
 
 const RequestFormAlert = ({ title, formName, formLink, children }) => {
   const linkText = `Get ${formName} to download (opens in new tab)`;
   return (
-    <va-alert status="warning" uswds slim>
+    <va-alert status="warning" uswds>
       <p className="vads-u-margin-y--0">
         You’ll need to submit an {title} ({formName}
         ).
@@ -105,6 +145,14 @@ export const RequestNursingHomeInformationAlert = () => (
   </RequestFormAlert>
 );
 
+export const SchoolAttendanceAlert = () => (
+  <RequestFormAlert
+    title="Request for Approval of School Attendance"
+    formName="VA Form 21-674"
+    formLink="https://www.va.gov/find-forms/about-form-21-674/"
+  />
+);
+
 export const SpecialMonthlyPensionEvidenceAlert = () => (
   <RequestFormAlert
     title="Examination for Household Status or Permanent
@@ -121,7 +169,7 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
 export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
   const linkText = 'Get VA Form 21P-0969 to download (opens in new tab)';
   return (
-    <va-alert status="warning" uswds slim>
+    <va-alert status="warning" uswds>
       <p className="vads-u-margin-y--0">
         You answered that you have more than $25,000 in assets. You’ll need to
         submit an Income and Asset Statement in Support of Claim for Pension or
@@ -153,38 +201,64 @@ export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
   );
 };
 
-export const IncomeAssetStatementFormAlert = () => (
-  <RequestFormAlert
-    title="Income and Asset Statement in Support of Claim for Pension or Parents' Dependency and Indemnity Compensation"
-    formName="VA Form 21P-0969"
-    formLink="https://www.va.gov/find-forms/about-form-21p-0969/"
-  />
-);
-
-export const LandMarketableAlert = () => (
-  <va-alert status="info" uswds>
+export const WartimeWarningAlert = () => (
+  <va-alert status="warning" uswds>
     <p className="vads-u-margin-y--0">
-      The additional land might not be marketable in these situations:
+      <strong>Note:</strong> You have indicated that you did not serve during an{' '}
+      <a
+        href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {' '}
+        eligible wartime period
+      </a>
+      . Find out if you still qualify.{' '}
+      <a href="/pension/eligibility/" target="_blank">
+        Check your eligibility
+      </a>
     </p>
-    <ul>
-      <li>
-        The entire lot of land is only slightly more than 2 acres,{' '}
-        <strong>or</strong>
-      </li>
-      <li>
-        The additional land isn’t accessible, <strong>or</strong>
-      </li>
-      <li>
-        There are zoning rules that prevent selling the additional property
-      </li>
-    </ul>
   </va-alert>
 );
 
-export const SchoolAttendanceAlert = (
-  <RequestFormAlert
-    title="Request for Approval of School Attendance"
-    formName="VA Form 21-674"
-    formLink="https://www.va.gov/find-forms/about-form-21-674/"
-  />
+export const FormReactivationAlert = () => (
+  <p>
+    You should know that we updated our online form.{' '}
+    <strong>If you started applying online before November 8, 2023</strong>, we
+    have some new questions for you to answer. And we changed some questions, so
+    you may need to provide certain information again.
+    <br />
+    <br />
+    Select <strong>Continue your application</strong> to use our update form. Or
+    come back later to finish your application.
+  </p>
+);
+
+export const AccountInformationAlert = () => (
+  <div className="vads-u-margin-top--4">
+    <va-alert uswds>
+      <h4 slot="headline" className="vads-u-font-size--h4">
+        We’ll use this bank account for all your VA benefit payments
+      </h4>
+      <p className="vads-u-margin-y--0">
+        If we approve your application for pension benefits, we’ll update your
+        direct deposit information for all your VA benefit payments. We’ll
+        deposit any payments you may receive for pension or education benefits
+        directly into the bank account you provide here.
+      </p>
+      <p>
+        We’re making this change to help protect you from fraud and to make sure
+        we can pay you on time, every time, without error.
+      </p>
+    </va-alert>
+  </div>
+);
+
+export const AdoptionEvidenceAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to submit adoption papers or amended birth certificate with
+      this application.
+    </p>
+  </va-alert>
 );

@@ -9,14 +9,13 @@ import {
   getContestableIssues,
   getEligibleContestableIssues,
   getPart3Data,
-  getTimeZone,
   getEmail,
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
-import { getDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 
-const validDate1 = getDate({ offset: { months: -2 } });
+const validDate1 = parseDateWithOffset({ months: -2 });
 const issue1 = {
   raw: {
     type: 'contestableIssue',
@@ -54,7 +53,7 @@ const issue1 = {
   },
 };
 
-const validDate2 = getDate({ offset: { months: -4 } });
+const validDate2 = parseDateWithOffset({ months: -4 });
 const issue2 = {
   raw: {
     type: 'contestableIssue',
@@ -367,13 +366,6 @@ describe('getAddress', () => {
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });
 

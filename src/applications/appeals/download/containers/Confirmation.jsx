@@ -7,22 +7,13 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
+import { disagreeWith } from '../../shared/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
-
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-const maskVafn = number => {
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `V A file number ending with ${number.split('').join(' ')}`,
-  );
-};
+import { maskVafn } from '../../shared/utils/data';
 
 const Confirmation = () => {
   useEffect(() => {
@@ -82,8 +73,7 @@ const Confirmation = () => {
           </p>
         </va-alert>
 
-        {/* <va-summary-box uswds class="vads-u-margin-y--2"> */}
-        <div className="inset">
+        <va-summary-box uswds class="vads-u-margin-y--2">
           <h3 slot="headline" className="vads-u-margin-top--0">
             Save a PDF copy of your Board Appeal
           </h3>
@@ -98,8 +88,7 @@ const Confirmation = () => {
             href="#"
             text="Download a copy of your Board Appeal (PDF)"
           />
-        </div>
-        {/* </va-summary-box> */}
+        </va-summary-box>
 
         <h3 className="vads-u-margin-top--0">
           {`You submitted the following information for Board Appeal on ${format(

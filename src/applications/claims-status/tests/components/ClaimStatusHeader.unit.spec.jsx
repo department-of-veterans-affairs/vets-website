@@ -1,20 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { buildDateFormatter } from '../../utils/helpers';
 
-import ClaimStatusHeader from '../../components/ClaimStatusHeader';
-
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
-
-const getLastUpdated = claim => {
-  const updatedOn = formatDate(
-    claim.attributes.claimPhaseDates?.phaseChangeDate,
-  );
-
-  return `Last updated: ${updatedOn}`;
-};
+import ClaimStatusHeader, {
+  getLastUpdated,
+} from '../../components/ClaimStatusHeader';
 
 describe('<ClaimStatusHeader>', () => {
   it('should render a ClaimStatusHeader section for an In Progress claim', () => {
@@ -67,11 +59,12 @@ describe('<ClaimStatusHeader>', () => {
         },
       },
     };
-    const { container, getByText } = render(
+    const { container, queryByText } = render(
       <ClaimStatusHeader claim={claim} />,
     );
     expect($('.claim-status-header-container', container)).to.exist;
+    expect(queryByText('In Progress')).not.to.exist;
     expect($('.usa-label', container)).to.not.exist;
-    expect(getByText(getLastUpdated(claim))).to.exist;
+    expect(queryByText(getLastUpdated(claim))).not.to.exist;
   });
 });

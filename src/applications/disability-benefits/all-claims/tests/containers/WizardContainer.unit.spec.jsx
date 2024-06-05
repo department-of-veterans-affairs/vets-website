@@ -21,7 +21,7 @@ describe('Wizard Container', () => {
     expect($('h1', container)).to.exist;
     expect($('.wizard-container', container)).to.exist;
     expect($('.skip-wizard-link', container)).to.exist;
-    expect($('.help-footer-box', container)).to.exist;
+    expect($('va-need-help', container)).to.exist;
   });
   it('should update wizard status on bypass click', () => {
     const { container } = render(<WizardContainer />);

@@ -111,7 +111,7 @@ describe('ClaimsAndAppeals component', () => {
             claimsLoading: false,
             appeals: [],
             claims: [],
-            v2Availability: 'ERROR',
+            appealsAvailability: 'ERROR',
           },
         };
         view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {

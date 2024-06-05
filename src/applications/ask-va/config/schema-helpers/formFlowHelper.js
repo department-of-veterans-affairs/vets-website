@@ -2,24 +2,34 @@ import _ from 'lodash';
 import { CHAPTER_3 } from '../../constants';
 
 // Personal Information
-import deathDatePage from '../chapters/personalInformation/deathDate';
-import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
-import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
-import vaEmployeePage from '../chapters/personalInformation/vaEmployee';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
-import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
-import aboutYourRelationshipPage from '../chapters/personalInformation/aboutYourRelationship';
-import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
-import howToContactPage from '../chapters/personalInformation/howToContact';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
-import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
-import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
-import yourCountryPage from '../chapters/personalInformation/yourCountry';
-import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
-import yourRolePage from '../chapters/personalInformation/yourRole';
+import deathDatePage from '../chapters/personalInformation/deathDate';
+import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
+import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
+import howToContactPage from '../chapters/personalInformation/howToContact';
+import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
+import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
+import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
+import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
+import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
+import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
+import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
+import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
+import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
+import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
+import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
+import yourAddressPage from '../chapters/personalInformation/yourAddress';
+import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
+import yourCountryPage from '../chapters/personalInformation/yourCountry';
+import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
+import yourRolePage from '../chapters/personalInformation/yourRole';
+import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
 
 const ch3Pages = {
   yourRole: {
@@ -27,10 +37,15 @@ const ch3Pages = {
     uiSchema: yourRolePage.uiSchema,
     schema: yourRolePage.schema,
   },
-  aboutYourRelationship: {
-    title: CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
-    uiSchema: aboutYourRelationshipPage.uiSchema,
-    schema: aboutYourRelationshipPage.schema,
+  yourRoleEducation: {
+    title: CHAPTER_3.YOUR_ROLE.TITLE,
+    uiSchema: yourRoleEducationPage.uiSchema,
+    schema: yourRoleEducationPage.schema,
+  },
+  moreAboutYourRelationshipToVeteran: {
+    title: CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
+    uiSchema: moreAboutYourRelationshipToVeteranPage.uiSchema,
+    schema: moreAboutYourRelationshipToVeteranPage.schema,
     depends: form => form.personalRelationship !== 'VETERAN',
   },
   aboutTheVeteran: {
@@ -49,10 +64,20 @@ const ch3Pages = {
     schema: deathDatePage.schema,
     depends: form => form.isVeteranDeceased === 'YES',
   },
-  veteransAddressZip: {
-    title: CHAPTER_3.VET_POSTAL_CODE.TITLE,
-    uiSchema: veteransAddressZipPage.uiSchema,
-    schema: veteransAddressZipPage.schema,
+  veteransPostalCode: {
+    title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
+    uiSchema: veteransPostalCodePage.uiSchema,
+    schema: veteransPostalCodePage.schema,
+  },
+  veteransLocationOfResidence: {
+    title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: veteransLocationOfResidencePage.uiSchema,
+    schema: veteransLocationOfResidencePage.schema,
+  },
+  familyMembersPostalCode: {
+    title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
+    uiSchema: familyMembersPostalCodePage.uiSchema,
+    schema: familyMembersPostalCodePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -65,26 +90,49 @@ const ch3Pages = {
     uiSchema: whoQuestionAboutPage.uiSchema,
     schema: whoQuestionAboutPage.schema,
   },
-  vaEmployee: {
-    title: CHAPTER_3.VA_EMPLOYEE.TITLE,
-    uiSchema: vaEmployeePage.uiSchema,
-    schema: vaEmployeePage.schema,
-  },
   aboutYourself: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
   },
   searchVAMedicalCenter: {
-    path: CHAPTER_3.VA_MED_CENTER.PATH,
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
+    depends: form =>
+      form.selectCategory === 'VA Health Care' &&
+      (form.selectTopic === 'Medical Care Concerns at a VA Medical Facility' ||
+        form.selectTopic === 'VHA Audiology & Hearing Aids'),
   },
-  yourPhoneAndEmail: {
-    title: CHAPTER_3.PHONE_EMAIL.TITLE,
-    uiSchema: yourPhoneAndEmailPage.uiSchema,
-    schema: yourPhoneAndEmailPage.schema,
+  searchSchools: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: searchSchoolsPage.uiSchema,
+    schema: searchSchoolsPage.schema,
+  },
+  schoolStOrResidency: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolStOrResidencyPage.uiSchema,
+    schema: schoolStOrResidencyPage.schema,
+  },
+  stateOfSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOfSchoolPage.uiSchema,
+    schema: stateOfSchoolPage.schema,
+  },
+  stateOrFacility: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOrFacilityPage.uiSchema,
+    schema: stateOrFacilityPage.schema,
+  },
+  useThisSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: useThisSchoolPage.uiSchema,
+    schema: useThisSchoolPage.schema,
+  },
+  yourContactInformation: {
+    title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
+    uiSchema: yourContactInformationPage.uiSchema,
+    schema: yourContactInformationPage.schema,
   },
   howToContact: {
     title: CHAPTER_3.CONTACT_PREF.TITLE,
@@ -107,8 +155,7 @@ const ch3Pages = {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
     uiSchema: addressConfirmationPage.uiSchema,
     schema: addressConfirmationPage.schema,
-    depends: form =>
-      !form.onBaseOutsideUS && form.contactPreference === 'US_MAIL',
+    depends: form => form.contactPreference === 'US_MAIL',
   },
   aboutYourFamilyMember: {
     title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
@@ -120,6 +167,21 @@ const ch3Pages = {
     uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
     schema: aboutYourRelationshipToFamilyMemberPage.schema,
   },
+  aboutTheirRelationshipToVeteran: {
+    title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
+    uiSchema: theirRelationshipToVeteranPage.uiSchema,
+    schema: theirRelationshipToVeteranPage.schema,
+  },
+  familyMembersLocationOfResidence: {
+    title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: familyMembersLocationOfResidencePage.uiSchema,
+    schema: familyMembersLocationOfResidencePage.schema,
+  },
+  yourLocationOfResidence: {
+    title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: yourLocationOfResidencePage.uiSchema,
+    schema: yourLocationOfResidencePage.schema,
+  },
 };
 
 export const flowPaths = {
@@ -128,6 +190,7 @@ export const flowPaths = {
   someoneElseBenVet: 'veteran-someones-benefits',
   someoneElseBenFam: 'family-someones-benefits',
   someoneElseBen3rdParty: 'third-party-someones-benefits',
+  someoneElseBen3rdPartyEducation: 'third-party-someones-benefits-education',
   general: 'general-question',
 };
 
@@ -148,21 +211,25 @@ export const flowPages = (obj, list, path) => {
       flowGroup[key].onNavBack = ({ goPath }) => goPath('/question-3');
     }
   });
-
   return flowGroup;
 };
 
 // Form flows
 const myOwnBenVet = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
-  'yourPhoneAndEmail',
+  'searchSchools',
+  'schoolStOrResidency',
+  'stateOrFacility',
+  'stateOfSchool',
+  'useThisSchool',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
+  'veteransLocationOfResidence',
 ];
 export const myOwnBenVetPages = flowPages(
   ch3Pages,
@@ -171,15 +238,14 @@ export const myOwnBenVetPages = flowPages(
 );
 
 const myOwnBenFam = [
-  'aboutYourRelationship',
+  'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
-  'vaEmployee',
+  'veteransPostalCode',
   'aboutYourself',
   'searchVAMedicalCenter',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -192,16 +258,15 @@ export const myOwnBenFamPages = flowPages(
 );
 
 const someoneElseBenVet = [
-  'vaEmployee',
   'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
-  'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
+  'aboutTheirRelationshipToVeteran',
   'searchVAMedicalCenter',
 ];
 export const someoneElseBenVetPages = flowPages(
@@ -211,25 +276,25 @@ export const someoneElseBenVetPages = flowPages(
 );
 
 const someoneElseBenFam = [
-  'aboutYourRelationship',
+  'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'whoThisIsAbout',
   'searchVAMedicalCenter',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'searchVAMedicalCenter',
-  'vaEmployee',
-  'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
+  'familyMembersLocationOfResidence',
   'aboutYourFamilyMember',
+  'familyMembersPostalCode',
 ];
 export const someoneElseBenFamPages = flowPages(
   ch3Pages,
@@ -248,19 +313,19 @@ someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward
 };
 
 const someoneElseBen3rdParty = [
-  'yourRole',
-  'aboutTheVeteran',
-  'veteranDeceased',
-  'dateOfDeath',
-  'veteransAddressZip',
-  'searchVAMedicalCenter',
-  'vaEmployee',
-  'aboutYourself',
-  'yourPhoneAndEmail',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
-  'yourAddressConfirmation',
+  // 'yourRole',
+  // 'aboutTheVeteran',
+  // 'veteranDeceased',
+  // 'dateOfDeath',
+  // 'veteransPostalCode',
+  // 'searchVAMedicalCenter',
+  // 'aboutYourself',
+  // 'yourContactInformation',
+  // 'howToContact',
+  // 'yourCountry',
+  // 'yourAddress',
+  // 'yourAddressConfirmation',
+  'yourLocationOfResidence',
 ];
 export const someoneElseBen3rdPartyPages = flowPages(
   ch3Pages,
@@ -268,11 +333,30 @@ export const someoneElseBen3rdPartyPages = flowPages(
   flowPaths.someoneElseBen3rdParty,
 );
 
+const someoneElseBen3rdPartyEducation = [
+  'yourRoleEducation',
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'veteransPostalCode',
+  'searchVAMedicalCenter',
+  'aboutYourself',
+  'yourContactInformation',
+  'howToContact',
+  'yourCountry',
+  'yourAddress',
+  'yourAddressConfirmation',
+];
+export const someoneElseBen3rdPartyEducationPages = flowPages(
+  ch3Pages,
+  someoneElseBen3rdPartyEducation,
+  flowPaths.someoneElseBen3rdPartyEducation,
+);
+
 const generalQuestion = [
-  'vaEmployee',
   'aboutYourself',
   'searchVAMedicalCenter',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',

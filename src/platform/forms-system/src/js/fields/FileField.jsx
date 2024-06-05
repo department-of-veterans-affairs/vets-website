@@ -46,6 +46,7 @@ import { MISSING_PASSWORD_ERROR } from '../validation';
  * @property {string} buttonText='Upload' - upload button text
  * @property {string} addAnotherLabel='Upload another' - upload another text,
  *  replaces upload button text when greater than one upload is showing
+ * @property {string} ariaLabelAdditionalText additional screen-reader text to be appended to upload button's aria-label attribute.
  * @property {string} tryAgain='Try again' - button in enableShortWorkflow
  * @property {string} newFile='Upload a new file' - button in enableShortWorkflow
  * @property {string} cancel='Cancel' - button visible while uploading & in enableShortWorkflow
@@ -106,11 +107,11 @@ const FileField = props => {
   const attachmentIdRequired = schema.additionalItems.required
     ? schema.additionalItems.required.includes('attachmentId')
     : false;
-  const uswds = uiOptions.uswds || null;
 
   const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
+    ariaLabelAdditionalText: uiOptions.ariaLabelAdditionalText || '',
     passwordLabel: fileName => `Add a password for ${fileName}`,
     tryAgain: 'Try again',
     tryAgainLabel: fileName => `Try uploading ${fileName} again`,
@@ -418,7 +419,7 @@ const FileField = props => {
         onPrimaryButtonClick={() => closeRemoveModal({ remove: true })}
         onSecondaryButtonClick={closeRemoveModal}
         visible={showRemoveModal}
-        uswds={uswds}
+        uswds
       >
         <p>
           {removeIndex !== null
@@ -494,13 +495,15 @@ const FileField = props => {
             const retryButtonText =
               content[allowRetry ? 'tryAgain' : 'newFile'];
             const deleteButtonText =
-              content[
-                enableShortWorkflow && hasVisibleError ? 'cancel' : 'delete'
-              ];
+              content[hasVisibleError ? 'cancel' : 'delete'];
 
             const getUiSchema = innerUiSchema =>
               typeof innerUiSchema === 'function'
-                ? innerUiSchema({ fileId: fileNameId, index })
+                ? innerUiSchema({
+                    fileId: fileNameId,
+                    index,
+                    fileName: file.name,
+                  })
                 : innerUiSchema;
 
             // make index available to widgets in attachment ui schema
@@ -534,7 +537,7 @@ const FileField = props => {
                       }}
                       label={content.cancelLabel(file.name)}
                       text={content.cancel}
-                      uswds={uswds}
+                      uswds
                     />
                   </div>
                 )}
@@ -607,40 +610,46 @@ const FileField = props => {
                     index={index}
                     onSubmitPassword={onSubmitPassword}
                     passwordLabel={content.passwordLabel(file.name)}
-                    uswds={uswds}
                   />
                 )}
                 {!formContext.reviewMode &&
                   !isUploading && (
                     <div className="vads-u-margin-top--2">
-                      {hasVisibleError &&
-                        enableShortWorkflow && (
-                          <va-button
-                            name={`retry_upload_${index}`}
-                            class="retry-upload vads-u-width--auto vads-u-margin-right--2"
-                            onClick={getRetryFunction(
-                              allowRetry,
-                              index,
-                              file.file,
-                            )}
-                            label={
-                              allowRetry
-                                ? content.tryAgainLabel(file.name)
-                                : content.newFile
-                            }
-                            text={retryButtonText}
-                            uswds={uswds}
-                          />
-                        )}
+                      {hasVisibleError && (
+                        <va-button
+                          name={`retry_upload_${index}`}
+                          class="retry-upload vads-u-width--auto vads-u-margin-right--2"
+                          onClick={getRetryFunction(
+                            allowRetry,
+                            index,
+                            file.file,
+                          )}
+                          label={
+                            allowRetry
+                              ? content.tryAgainLabel(file.name)
+                              : content.newFile
+                          }
+                          text={retryButtonText}
+                          uswds
+                        />
+                      )}
                       <va-button
                         secondary
                         class="delete-upload vads-u-width--auto"
                         onClick={() => {
-                          openRemoveModal(index);
+                          if (hasVisibleError) {
+                            // Cancelling with error should not show the remove
+                            // file modal
+                            removeFile(index);
+                          } else {
+                            openRemoveModal(index);
+                          }
                         }}
-                        label={content.deleteLabel(file.name)}
+                        label={content[
+                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                        ](file.name)}
                         text={deleteButtonText}
-                        uswds={uswds}
+                        uswds
                       />
                     </div>
                   )}
@@ -656,6 +665,7 @@ const FileField = props => {
           {(maxItems === null || files.length < maxItems) &&
             // Prevent additional upload if any upload has error state
             checkUploadVisibility() && (
+              // eslint-disable-next-line jsx-a11y/label-has-associated-control
               <label
                 id={`${idSchema.$id}_add_label`}
                 htmlFor={idSchema.$id}
@@ -667,9 +677,12 @@ const FileField = props => {
                   secondary
                   class="vads-u-padding-x--0 vads-u-padding-y--1"
                   onClick={() => fileInputRef?.current?.click()}
-                  label={`${uploadText} ${titleString || ''}`}
+                  // label is the aria-label
+                  label={`${uploadText} ${titleString || ''}. ${
+                    content.ariaLabelAdditionalText
+                  }`}
                   text={uploadText}
-                  uswds={uswds}
+                  uswds
                 />
               </label>
             )}
@@ -681,6 +694,9 @@ const FileField = props => {
             id={idSchema.$id}
             name={idSchema.$id}
             onChange={onAddFile}
+            onClick={() => {
+              fileInputRef.current.value = '';
+            }}
           />
         </>
       )}

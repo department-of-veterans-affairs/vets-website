@@ -1,20 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
+import { recipientTypeLabels } from '../../../labels';
+import { doesHaveMedicalExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
-const recipientOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  CHILD: 'Veteran’s child',
-};
+const {
+  childName,
+  provider,
+  purpose,
+  paymentAmount,
+} = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
@@ -34,39 +42,52 @@ MedicalExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'List of medical expenses and other unreimbursed expenses',
+  path: 'financial/medical-expenses/add',
+  depends: doesHaveMedicalExpenses,
   uiSchema: {
-    'ui:title': 'Add a medical or other unreimbursed expense',
+    ...titleUI(
+      'List of medical expenses and other unreimbursed expenses',
+      <ArrayDescription message="Add a medical or other unreimbursed expense" />,
+    ),
     medicalExpenses: {
       'ui:options': {
-        itemName: 'Unreimbursed Expense',
+        itemName: 'Medical Expense',
+        itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
-        reviewTitle: 'Unreimbursed Expenses',
+        reviewTitle: 'Medical Expenses',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({
           title: 'Who is the expense for?',
-          labels: recipientOptions,
+          labels: recipientTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
           'ui:title': 'Enter the child’s name',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'CHILD',
+            expandUnderCondition: 'DEPENDENT',
           },
           'ui:required': (form, index) =>
-            get(['medicalExpenses', index, 'recipients'], form) === 'CHILD',
+            get(['medicalExpenses', index, 'recipients'], form) === 'DEPENDENT',
         },
         provider: {
           'ui:title': 'Who receives the payment?',
+          'ui:webComponentField': VaTextInputField,
         },
         purpose: {
           'ui:title': 'What’s the payment for?',
+          'ui:webComponentField': VaTextInputField,
         },
         paymentDate: currentOrPastDateUI('What’s the date of the payment?'),
         paymentFrequency: radioUI({
@@ -74,7 +95,11 @@ export default {
           labels: frequencyOptions,
           classNames: 'vads-u-margin-bottom--2',
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
+        }),
       },
     },
   },
@@ -96,13 +121,13 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientOptions)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
-            purpose: { type: 'string' },
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
+            childName,
+            provider,
+            purpose,
             paymentDate: currentOrPastDateSchema,
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            paymentAmount,
           },
         },
       },

@@ -5,6 +5,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
@@ -16,7 +17,7 @@ export const SearchResultsHeader = props => {
     searchArea,
   } = query;
   const { totalEntries, currentPage, totalPages } = pagination;
-  const noResultsFound = !searchResults || !searchResults.length;
+  const noResultsFound = !searchResults || !searchResults?.length;
 
   const [selectedSortType, setSelectedSortType] = useState(sortType);
 
@@ -25,7 +26,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Accredited Veteran Service Officer (VSO)',
+    veteran_service_officer: 'Accredited Veterans Service Officer (VSO)',
     attorney: 'Accredited attorney',
     claim_agents: 'Accredited claims agent',
   };
@@ -70,26 +71,38 @@ export const SearchResultsHeader = props => {
 
   return (
     <div className="search-results-header vads-u-margin-bottom--5 vads-u-margin-padding-x--5">
+      {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
+      {props.onClickApplyButtonTester ? (
+        <button
+          id="test-button"
+          label="test-button"
+          type="button"
+          text-label="button"
+          onClick={onClickApplyButton}
+        />
+      ) : null}
       <h2 className="vads-u-margin-y--1">Your search results</h2>
       <div className="vads-u-margin-top--3">
-        <div>
-          {' '}
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="info"
-            uswds
-            visible
-          >
-            <h3 id="track-your-status-on-mobile" slot="headline">
-              We’re updating our search tool
-            </h3>
-            <p>
-              Our search tool may show outdated contact information for some
-              accredited representatives. You can report outdated information in
-              your search results.
-            </p>
-          </va-alert>
-        </div>
+        {searchResults?.length ? (
+          <div>
+            {' '}
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              uswds
+              visible
+            >
+              <h3 id="track-your-status-on-mobile" slot="headline">
+                We’re updating our search tool
+              </h3>
+              <p>
+                Our search tool may show outdated contact information for some
+                accredited representatives. You can report outdated information
+                in your search results.
+              </p>
+            </va-alert>
+          </div>
+        ) : null}
 
         <p
           id="search-results-subheader"
@@ -98,32 +111,42 @@ export const SearchResultsHeader = props => {
         >
           {handleNumberOfResults()} for
           {` `}
-          &quot;
           <b>{repFormat[representativeType]}</b>
-          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              matching &quot;
+              named
               <b>{context.repOrgName}</b>
-              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within &quot;
-              <b>{searchArea} miles</b>
-              &quot; of &quot;
-              <b>{context.location}</b>
-              &quot;
+              within
+              {` `}
+              <b>
+                {searchArea === 'Show all' ? (
+                  'Show all'
+                ) : (
+                  <>{searchArea} miles</>
+                )}
+              </b>
+              {` `}
+              of
+              {` `}
+              <b>{context.location}</b>{' '}
             </>
           )}
+          <>
+            sorted by
+            {` `}
+            <b>{sortOptions[sortType]}</b>
+          </>
         </p>
 
         {noResultsFound ? (
           <p className="vads-u-margin-bottom--8">
-            For better results, you can increase your <b>search area</b>.
+            For better results, try increasing your <b>search area</b>.
           </p>
         ) : (
           <div className="sort-dropdown">
@@ -164,10 +187,12 @@ SearchResultsHeader.propTypes = {
     }),
     inProgress: PropTypes.bool,
     representativeType: PropTypes.string,
+    searchArea: PropTypes.any,
     sortType: PropTypes.string,
   }),
   searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
+  onClickApplyButtonTester: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed

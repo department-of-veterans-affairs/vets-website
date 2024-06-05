@@ -10,7 +10,6 @@ import {
 } from '../../authentication/utilities';
 
 const commonServices = {
-  EMIS: 'EMIS',
   MVI: 'MVI',
   VA_PROFILE: 'VAProfile',
 };
@@ -84,9 +83,7 @@ export function mapRawUserDataToState(json) {
 
   if (meta && veteranStatus === null) {
     const errorStatus = meta.errors.find(
-      error =>
-        error.externalService === commonServices.VA_PROFILE ||
-        error.externalService === commonServices.EMIS,
+      error => error.externalService === commonServices.VA_PROFILE,
     ).status;
     userState.veteranStatus.status = getErrorStatusDesc(errorStatus);
   } else {

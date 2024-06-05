@@ -1,4 +1,5 @@
 import { primaryCaregiverFields } from '../../../definitions/constants';
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const hasPrimaryCaregiverPage = {
@@ -6,11 +7,12 @@ const hasPrimaryCaregiverPage = {
     [primaryCaregiverFields.hasPrimaryCaregiver]: {
       'ui:title':
         'Would you like to apply for benefits for a Primary Family Caregiver?',
-      'ui:required': () => true,
       'ui:description': PrimaryCaregiverDescription({
         additionalInfo: true,
       }),
+      'ui:reviewField': CustomYesNoReviewField,
       'ui:widget': 'yesNo',
+      'ui:required': () => true,
     },
   },
   schema: {

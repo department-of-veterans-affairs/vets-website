@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { CHANGE_OF_DIRECT_DEPOSIT_TITLE } from '../constants';
 
 export function makeFormProperties(prefix) {
   return {
+    phone: `${prefix}phone`,
+    phone2: `${prefix}phone`,
+    email: `${prefix}email`,
     accountType: `${prefix}AccountType`,
     routingNumber: `${prefix}RoutingNumber`,
     accountNumber: `${prefix}AccountNumber`,
@@ -20,6 +26,15 @@ export function makeSchemas(prefix) {
   const schema = {
     type: 'object',
     properties: {
+      [properties.phone]: {
+        type: 'string',
+        pattern: '^\\d{10}$',
+      },
+      [properties.email]: {
+        type: 'string',
+        pattern:
+          '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
+      },
       [properties.accountType]: {
         type: 'string',
         enum: ['Checking', 'Savings'],
@@ -45,6 +60,8 @@ export function makeSchemas(prefix) {
       },
     },
     required: [
+      properties.phone,
+      properties.email,
       properties.bankName,
       properties.bankPhone,
       properties.accountType,
@@ -56,17 +73,19 @@ export function makeSchemas(prefix) {
 
   const uiSchema = {
     [properties.bankName]: {
-      'ui:title': 'Name of Financial Institution',
+      'ui:title': 'Name of financial institution',
       'ui:errorMessages': {
         required: 'Please enter the name of your Financial Institution',
       },
     },
+    [properties.phone]: phoneUI("Veteran's phone number"),
+    [properties.email]: emailUI("Veteran's email address"),
     [properties.bankPhone]: phoneUI(
-      'Telephone Number of Financial Institution',
+      'Telephone number of financial institution',
     ),
     [properties.accountType]: {
       'ui:title': 'Account type',
-      'ui:widget': 'radio',
+      'ui:webComponentField': VaRadioField,
       'ui:errorMessages': {
         required: 'Please select the type that best describes your account',
       },
@@ -118,7 +137,7 @@ const ChangeOfDirectDepositForm = ({
       addNameAttribute
       name="Direct Deposit Information"
       // title is required by the SchemaForm and used internally
-      title="Direct Deposit Information"
+      title={CHANGE_OF_DIRECT_DEPOSIT_TITLE}
       schema={schema}
       uiSchema={uiSchema}
       data={formData}
@@ -143,6 +162,7 @@ ChangeOfDirectDepositForm.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]),
+  defaultName: PropTypes.string,
 };
 
 ChangeOfDirectDepositForm.defaultProps = {

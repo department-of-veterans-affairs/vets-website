@@ -1,4 +1,4 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
 import {
@@ -14,15 +14,11 @@ export const uiSchema = {
   'ui:description': sponsorDemographicsDescription,
   application: {
     veteran: merge({}, veteranUI, {
-      gender: {
-        'ui:title': 'What’s the sponsor’s sex?',
-      },
-      race: {
-        'ui:title':
-          'Which categories best describe the sponsor? (You may check more than one.)',
-      },
       maritalStatus: {
         'ui:title': 'What’s the sponsor’s marital status?',
+      },
+      gender: {
+        'ui:title': 'What’s the sponsor’s sex?',
       },
     }),
   },
@@ -36,12 +32,8 @@ export const schema = {
       properties: {
         veteran: {
           type: 'object',
-          required: ['gender', 'race', 'maritalStatus'],
-          properties: pick(veteran.properties, [
-            'gender',
-            'race',
-            'maritalStatus',
-          ]),
+          required: ['maritalStatus', 'gender'],
+          properties: pick(veteran.properties, ['maritalStatus', 'gender']),
         },
       },
     },

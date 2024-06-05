@@ -8,6 +8,7 @@ import {
 } from '../utils/contactInfo';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 import { content } from '../content/primaryPhone';
+import { data995 } from '../../shared/props';
 
 const PrimaryPhoneReview = ({ data, editPage }) => {
   const primary = data[PRIMARY_PHONE] || '';
@@ -50,13 +51,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
 };
 
 PrimaryPhoneReview.propTypes = {
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({}),
-      mobilePhone: PropTypes.shape({}),
-    }),
-    [PRIMARY_PHONE]: PropTypes.string,
-  }),
+  data: data995,
   editPage: PropTypes.func,
 };
 

@@ -8,12 +8,24 @@ import {
   SET_UPDATED_IN_REVIEW,
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
+  SET_LOCATION_SEARCH,
 } from '../actions';
+
+import {
+  GEOCODE_COMPLETE,
+  GEOCODE_FAILED,
+  GEOLOCATE_USER,
+} from '../actions/geoLocateUser';
 
 const initialState = {
   categoryID: '',
   topicID: '',
   updatedInReview: '',
+  searchLocationInput: '',
+  getLocationInProgress: false,
+  currentUserLocation: '',
+  getLocationError: false,
+  selectedFacility: null,
   reviewPageView: {
     openChapters: [],
   },
@@ -63,6 +75,28 @@ export default {
 
         return set('reviewPageView.viewedPages', viewedPages, newState);
       }
+      case GEOLOCATE_USER:
+        return {
+          ...state,
+          getLocationInProgress: true,
+        };
+      case GEOCODE_FAILED:
+        return {
+          ...state,
+          getLocationError: true,
+          getLocationInProgress: false,
+        };
+      case GEOCODE_COMPLETE:
+        return {
+          ...state,
+          currentUserLocation: action.payload,
+          getLocationInProgress: false,
+        };
+      case SET_LOCATION_SEARCH:
+        return {
+          ...state,
+          searchLocationInput: action.payload,
+        };
       default:
         return state;
     }

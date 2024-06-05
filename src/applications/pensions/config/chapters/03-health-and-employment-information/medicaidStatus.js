@@ -1,16 +1,22 @@
 import {
-  yesNoSchema,
+  titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { RequestNursingHomeInformationAlert } from '../../../components/FormAlerts';
+import { medicaidDoesNotCoverNursingHome } from './helpers';
+
+const { medicaidStatus } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
+  title: 'Medicaid application status',
+  path: 'medical/history/nursing/medicaid/status',
+  depends: medicaidDoesNotCoverNursingHome,
   uiSchema: {
-    'ui:title': 'Medicaid application status',
+    ...titleUI('Medicaid application status'),
     medicaidStatus: yesNoUI({
       title: 'Have you applied for Medicaid?',
-      uswds: true,
     }),
     'view:warningAlert': {
       'ui:description': RequestNursingHomeInformationAlert,
@@ -22,7 +28,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      medicaidStatus: yesNoSchema,
+      medicaidStatus,
       'view:warningAlert': {
         type: 'object',
         properties: {},

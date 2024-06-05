@@ -29,6 +29,7 @@ describe('Additional evidence upload', () => {
     );
 
     expect(form.find('input[type="file"]').length).to.equal(1);
+    expect(form.find('va-additional-info').length).to.equal(1);
     form.unmount();
   });
 

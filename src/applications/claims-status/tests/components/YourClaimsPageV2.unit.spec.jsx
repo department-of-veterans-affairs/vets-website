@@ -2,13 +2,21 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import set from 'platform/utilities/data/set';
+import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
+import { claimsAvailability } from '../../utils/appeals-v2-helpers';
+import { renderWithRouter } from '../utils';
+
+const mockStore = createStore(() => ({}));
+
 const localStorageMock = (() => {
-  let store = {};
+  let store = createStore(() => ({}));
 
   return {
     getItem(key) {
@@ -38,8 +46,8 @@ describe('<YourClaimsPageV2>', () => {
     appealsLoading: false,
     stemClaimsLoading: false,
     loading: false,
-    appealsAvailable: 'AVAILABLE',
-    claimsAvailable: 'AVAILABLE',
+    appealsAvailable: claimsAvailability.AVAILABLE,
+    claimsAvailable: claimsAvailability.AVAILABLE,
     claimsAuthorized: true,
     list: [
       {
@@ -52,8 +60,22 @@ describe('<YourClaimsPageV2>', () => {
         },
       },
       {
+        id: '9043',
+        type: 'education_benefits_claims',
+        attributes: {
+          confirmationNumber: 'V-EBC-9043',
+          isEnrolledStem: true,
+          isPursuingTeachingCert: null,
+          benefitLeft: 'moreThanSixMonths',
+          remainingEntitlement: null,
+          automatedDenial: true,
+          deniedAt: '2022-01-31T15:08:20.489Z',
+          submittedAt: '2022-01-31T15:08:20.489Z',
+        },
+      },
+      {
         type: 'legacyAppeal',
-        id: '1122334455',
+        id: '1122334454',
         attributes: {
           updated: '2018-05-29T19:38:40-04:00',
           events: [{ date: '2018-06-01' }],
@@ -75,6 +97,20 @@ describe('<YourClaimsPageV2>', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.type()).to.equal(React.Fragment);
     wrapper.unmount();
+  });
+
+  it('should render <ClaimsAppealsUnavailable/>', () => {
+    const { container } = renderWithRouter(
+      <Provider store={mockStore}>
+        <YourClaimsPageV2
+          {...defaultProps}
+          appealsAvailable={claimsAvailability.UNAVAILABLE}
+          claimsAvailable={claimsAvailability.UNAVAILABLE}
+        />
+      </Provider>,
+    );
+
+    expect($('.claims-unavailable', container)).to.exist;
   });
 
   it('should render a loading indicator if all requests loading', () => {
@@ -179,9 +215,9 @@ describe('<YourClaimsPageV2>', () => {
     wrapper.unmount();
   });
 
-  it('should render an AskVAQuestions warning component', () => {
+  it('should render a NeedHelp warning component', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('Connect(AskVAQuestions)').length).to.equal(1);
+    expect(wrapper.find('NeedHelp').length).to.equal(1);
     wrapper.unmount();
   });
 

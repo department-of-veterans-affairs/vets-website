@@ -92,7 +92,11 @@ const DependentCount = ({
 
   const handleSubmit = event => {
     event.preventDefault();
-    goToPath(determineNextPath());
+    if (!dependents || error) {
+      setError('Please enter a valid number of dependents (0-25).');
+    } else {
+      goToPath(determineNextPath());
+    }
   };
 
   return (
@@ -110,11 +114,10 @@ const DependentCount = ({
           onInput={handleInput}
           value={dependents.toString()} // Ensure value is always a string
           inputMode="numeric" // Use "numeric" for better mobile keyboard support
-          className="no-wrap input-size-2"
+          width="md"
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}
           required
-          uswds
         />
         <DependentExplainer />
       </fieldset>

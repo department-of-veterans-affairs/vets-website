@@ -21,6 +21,8 @@ import {
   RESERVE_GUARD_TYPES,
 } from './constants';
 
+import { showRevisedNewDisabilitiesPage } from './content/addDisabilities';
+
 /**
  * Checks if the user has received military retirement pay
  * @param {Object} data - Form data
@@ -270,10 +272,10 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const in180Days = moment().add(180, 'days');
   if (enteredDate.isValid()) {
     if (enteredDate.isBefore()) {
-      errors.addError('Please enter a future separation date');
+      errors.addError('Enter a future separation date');
     } else if (enteredDate.isSameOrAfter(in180Days)) {
       errors.addError(
-        'Please enter a separation date less than 180 days in the future',
+        'Enter a separation date less than 180 days in the future',
       );
     }
   }
@@ -295,7 +297,7 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
     errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
+      'Enter an expected separation date that is after your activation date',
     );
   }
 };
@@ -326,13 +328,8 @@ export const isValidYear = (err, fieldData) => {
  * first visited the facility.
  * @param {Object} formData - Full formData for the form
  */
-export function startedAfterServicePeriod(err, fieldData, formData) {
-  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
-    return;
-  }
-
-  // find the earliest service period
-  const earliestServiceStartDate = formData.serviceInformation.servicePeriods
+export function findEarliestServiceDate(servicePeriods) {
+  return servicePeriods
     .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
     .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
     .reduce(
@@ -340,11 +337,43 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
         current.isBefore(earliestDate) ? current : earliestDate,
       moment(),
     );
+}
+export function isMonthOnly(fieldData) {
+  return /^XXXX-\d{2}-XX$/.test(fieldData);
+}
+export function isYearOnly(fieldData) {
+  return /^\d{4}-XX-XX$/.test(fieldData);
+}
+export function isYearMonth(fieldData) {
+  return /^\d{4}-\d{2}-XX$/.test(fieldData);
+}
+export function isTreatmentBeforeService(
+  treatmentDate,
+  earliestServiceDate,
+  fieldData,
+) {
+  return (
+    (isYearOnly(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
+    (isYearMonth(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'month') < 0)
+  );
+}
+export function startedAfterServicePeriod(err, fieldData, formData) {
+  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
+    return;
+  }
 
-  const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  // If the moment is earlier than the moment passed to moment.diff(),
-  // the return value will be negative.
-  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
+  const treatmentDate = moment(fieldData, 'YYYY-MM');
+  const { servicePeriods } = formData.serviceInformation;
+  const earliestServiceDate = findEarliestServiceDate(servicePeriods);
+
+  if (isMonthOnly(fieldData)) {
+    err.addError('Enter a month and year.');
+    return;
+  }
+
+  if (isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)) {
     err.addError(
       'Your first treatment date needs to be after the start of your earliest service period.',
     );
@@ -392,8 +421,9 @@ export const isWithinServicePeriod = (
   }
 };
 
-export const missingConditionMessage =
-  'Please enter a condition or select one from the suggested list';
+export const missingConditionMessage = showRevisedNewDisabilitiesPage()
+  ? 'Enter a condition, diagnosis, or short description of your symptoms'
+  : 'Please enter a condition or select one from the suggested list';
 
 /**
  * Validates a given disability name for length and duplication.
@@ -424,7 +454,10 @@ export const validateDisabilityName = (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
-    err.addError('Condition names should be less than 256 characters');
+    const errorMessage = showRevisedNewDisabilitiesPage()
+      ? 'This needs to be less than 256 characters'
+      : 'Condition names should be less than 256 characters';
+    err.addError(errorMessage);
   }
 
   if (
@@ -447,7 +480,10 @@ export const validateDisabilityName = (
     item => item === itemLowerCased || sippableId(item) === itemSippableId,
   );
   if (itemCount.length > 1) {
-    err.addError('Please enter a unique condition name');
+    const errorMessage = showRevisedNewDisabilitiesPage()
+      ? 'You’ve already added this condition to your claim'
+      : 'Please enter a unique condition name';
+    err.addError(errorMessage);
   }
 };
 
@@ -475,9 +511,10 @@ export const requireDisability = (err, fieldData, formData) => {
  */
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
-    err.addError(
-      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
-    );
+    const errorMessage = showRevisedNewDisabilitiesPage()
+      ? 'You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim.'
+      : 'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.';
+    err.addError(errorMessage);
   }
 };
 
@@ -562,7 +599,8 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+  const dob = moment(appStateData.dob).add(13, 'years');
+  if (moment(dateString).isSameOrBefore(dob)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -646,7 +684,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (!startTimes[0] || dateString < startTimes[0]) {
+  if (moment(dateString).isAfter()) {
+    errors.addError('Enter an activation date in the past');
+  } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );

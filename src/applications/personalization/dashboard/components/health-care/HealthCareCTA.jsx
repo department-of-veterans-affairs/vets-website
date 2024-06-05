@@ -20,12 +20,11 @@ const HealthCareCTA = ({
 
   return (
     <>
-      <h3 className="sr-only">Popular actions for Health Care</h3>
       {(!isVAPatient || isLOA1) && (
         <IconCTALink
           text="Apply for VA health care"
           icon="file-medical"
-          href="/health-care/apply/application/introduction"
+          href="/health-care/apply-for-health-care-form-10-10ez/"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({

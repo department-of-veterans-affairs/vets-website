@@ -150,13 +150,14 @@ const DependentInformation = props => {
         {/** Cancel confirmation modal trigger */}
         <div className="vads-u-margin-y--2">
           <va-button
+            id="ezr-modal-cancel"
             text={replaceStrValues(
               content['household-dependent-cancel-button-text'],
               searchAction.label,
             )}
             onClick={handlers.showConfirm}
             secondary
-            id="ezr-modal-cancel"
+            uswds
           />
         </div>
 

@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Confirmation from '../pages/Confirmation';
 import Appointments from '../pages/Appointments';
+import Arrived from '../pages/Arrived';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 
 describe('Check In Experience', () => {
@@ -31,6 +32,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -51,13 +54,13 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');

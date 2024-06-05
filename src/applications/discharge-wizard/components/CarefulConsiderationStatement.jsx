@@ -47,7 +47,8 @@ const reasonStatement = formValues => {
             punishment for those events.
           </p>
         );
-      } else if (dischargeType === '1') {
+      }
+      if (dischargeType === '1') {
         return (
           <p>
             Many Veterans have received general or honorable discharges due to
@@ -93,7 +94,7 @@ const priorServiceStatement = formValues => {
           isVisible
           status="info"
           content={
-            <div>
+            <>
               <h4 className="usa-alert-heading">
                 You can apply for VA benefits using your honorable
                 characterization.
@@ -110,7 +111,7 @@ const priorServiceStatement = formValues => {
                 for an upgrade or correction to your final, less than honorable
                 period of service.
               </p>
-            </div>
+            </>
           }
         />
       );
@@ -120,7 +121,7 @@ const priorServiceStatement = formValues => {
           isVisible
           status="info"
           content={
-            <div className="usa-alert-text">
+            <>
               <h4 className="usa-alert-heading">
                 You can apply for VA benefits using your honorable
                 characterization.
@@ -154,7 +155,7 @@ const priorServiceStatement = formValues => {
                   </Link>
                 </p>
               </div>
-            </div>
+            </>
           }
         />
       );

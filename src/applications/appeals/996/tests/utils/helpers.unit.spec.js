@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { startOfDay } from 'date-fns';
 import { expect } from 'chai';
 
 import {
@@ -8,7 +8,7 @@ import {
 } from '../../utils/helpers';
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
-import { getDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   isEmptyObject,
   returnPhoneObject,
@@ -26,14 +26,14 @@ import {
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
-  const date = moment().startOf('day');
+  const date = startOfDay(new Date());
 
   const eligibleIssue = {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: '',
-      approxDecisionDate: getDate({ date, offset: { months: -10 } }),
+      approxDecisionDate: parseDateWithOffset({ months: -10 }, date),
     },
   };
   const ineligibleIssue = [
@@ -42,7 +42,7 @@ describe('getEligibleContestableIssues', () => {
       attributes: {
         ratingIssueSubjectText: 'Issue 1',
         description: '',
-        approxDecisionDate: getDate({ date, offset: { years: -2 } }),
+        approxDecisionDate: parseDateWithOffset({ years: -2 }, date),
       },
     },
   ];
@@ -51,7 +51,7 @@ describe('getEligibleContestableIssues', () => {
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: 'this is a deferred issue',
-      approxDecisionDate: getDate({ date, offset: { months: -1 } }),
+      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
     },
   };
 

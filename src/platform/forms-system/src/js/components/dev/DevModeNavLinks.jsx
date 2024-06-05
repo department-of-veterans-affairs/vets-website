@@ -50,5 +50,5 @@ NavLinks.propTypes = {
 
 DevModeNavLinks.propTypes = {
   collapsible: PropTypes.bool,
-  pageList: NavLinks.propTypes,
+  pageList: NavLinks.propTypes.pageList,
 };

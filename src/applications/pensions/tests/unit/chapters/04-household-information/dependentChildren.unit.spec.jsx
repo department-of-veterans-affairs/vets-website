@@ -1,6 +1,8 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
+  testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import careExpenses from '../../../../config/chapters/04-household-information/dependentChildren';
 
@@ -10,8 +12,8 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Add dependent children page', () => {
   const pageTitle = 'Add dependent children';
-  const expectedNumberOfFields = 7;
-  testNumberOfFields(
+  const expectedNumberOfFields = 4;
+  testNumberOfWebComponentFields(
     formConfig,
     schema,
     uiSchema,
@@ -20,11 +22,24 @@ describe('Add dependent children page', () => {
   );
 
   const expectedNumberOfErrors = 3;
-  testNumberOfErrorsOnSubmit(
+  testNumberOfErrorsOnSubmitForWebComponents(
     formConfig,
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 3,
+      'va-memorable-date': 1,
+    },
     pageTitle,
   );
 });

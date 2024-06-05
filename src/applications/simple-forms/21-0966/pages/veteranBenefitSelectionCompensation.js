@@ -3,24 +3,31 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns/yesNoPattern';
+import { format } from 'date-fns';
 
 /* @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI(
       'You already have an intent to file for pension',
-      'Our records show that you already have an intent to file for pension.',
+      ({ formData }) =>
+        `Our records show that you already have an intent to file for pension. Your intent to file will expire on ${formData?.[
+          'view:activePensionITF'
+        ]?.expirationDate &&
+          format(
+            new Date(formData['view:activePensionITF'].expirationDate),
+            'MMMM d, yyyy',
+          )}.`,
     ),
     benefitSelectionCompensation: yesNoUI({
       title: 'Do you also intend to file a claim for compensation?',
       labelHeaderLevel: '3',
       labels: {
-        Y: 'Yes, I want to submit an intent to file for a compensation claim',
-        N: 'No, I don’t intend to file a claim for compensation',
+        Y: 'Yes',
+        N: 'No',
       },
       errorMessages: {
-        required:
-          'Please answer if you intend to file a claim for compensation',
+        required: 'Select yes if you intend to file a claim for compensation',
       },
     }),
   },

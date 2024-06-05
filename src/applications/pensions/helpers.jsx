@@ -1,13 +1,8 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
-import { createSelector } from 'reselect';
+
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -18,250 +13,7 @@ export const scrollToTop = () => {
   });
 };
 
-// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
-const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
-
-export function replacer(key, value) {
-  if (usaPhoneKeys.includes(key) && value?.length) {
-    // Strip spaces, dashes, and parens from phone numbers
-    return value.replace(/[^\d]/g, '');
-  }
-
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
-
-  return value;
-}
-
-function checkStatus(guid) {
-  return apiRequest(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    mode: 'cors',
-  }).catch(res => {
-    if (res instanceof Error) {
-      Sentry.captureException(res);
-      Sentry.captureMessage('vets_pension_poll_client_error');
-
-      // keep polling because we know they submitted earlier
-      // and this is likely a network error
-      return Promise.resolve();
-    }
-
-    // if we get here, it's likely that we hit a server error
-    return Promise.reject(res);
-  });
-}
-
-const POLLING_INTERVAL = 1000;
-
-function pollStatus(
-  { guid, confirmationNumber, regionalOffice },
-  onDone,
-  onError,
-) {
-  setTimeout(() => {
-    checkStatus(guid)
-      .then(res => {
-        if (!res || res.data.attributes.state === 'pending') {
-          pollStatus(
-            { guid, confirmationNumber, regionalOffice },
-            onDone,
-            onError,
-          );
-        } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || {
-            confirmationNumber,
-            regionalOffice,
-          };
-          onDone(response);
-        } else {
-          // needs to start with this string to get the right message on the form
-          throw new Error(
-            `vets_server_error_pensions: status ${res.data.attributes.state}`,
-          );
-        }
-      })
-      .catch(onError);
-  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
-}
-
-export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
-  return JSON.stringify({
-    pensionClaim: {
-      form: formData,
-    },
-    // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
-  });
-}
-
-export function submit(form, formConfig) {
-  const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
-
-  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
-    body,
-    headers,
-    method: 'POST',
-    mode: 'cors',
-  })
-    .then(resp => {
-      const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
-      return new Promise((resolve, reject) => {
-        pollStatus(
-          { guid, confirmationNumber, regionalOffice },
-          response => {
-            window.dataLayer.push({
-              event: `${formConfig.trackingPrefix}-submission-successful`,
-            });
-            return resolve(response);
-          },
-          error => reject(error),
-        );
-      });
-    })
-    .catch(respOrError => {
-      if (respOrError instanceof Response && respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_pensions');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
-
-        return Promise.reject(error);
-      }
-      return Promise.reject(respOrError);
-    });
-}
-
-export const employmentDescription = (
-  <p className="pension-employment-desc">
-    Please tell us about all of your employment, including self-employment,{' '}
-    <strong>from one year before you became disabled</strong> to the present.
-  </p>
-);
-
-export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
-}
-
-export function getMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `${titleCase(desc)} marriage`;
-}
-
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
-    return 'Current marriage';
-  }
-
-  return getMarriageTitle(index);
-}
-
-export function getDependentChildTitle(item, description) {
-  if (item.fullName) {
-    return `${item.fullName.first || ''} ${item.fullName.last ||
-      ''} ${description}`;
-  }
-  return 'description';
-}
-
-export function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
-
 export const formatCurrency = num => `$${num.toLocaleString()}`;
-
-export const directDepositWarning = (
-  <div className="pension-dd-warning">
-    <div>
-      <p>
-        The Department of Treasury requires all federal benefit payments be made
-        by electronic funds transfer (EFT), also called direct deposit.
-      </p>
-    </div>
-    <div>
-      <h3>If you don’t have a bank account</h3>
-      <p>
-        If you don’t have a bank account, you must get your payment through
-        Direct Express Debit MasterCard. To request a Direct Express Debit
-        MasterCard, you’ll need to apply one of these two ways:
-      </p>
-      <ul>
-        <li>
-          <a
-            href="http://www.usdirectexpress.com"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Apply online for a Direct Express Debit MasterCard (opens in new tab)"
-          >
-            Apply online for a Direct Express Debit MasterCard (opens in new
-            tab)
-          </a>
-        </li>
-        <li>
-          Call <va-telephone contact="8003331795" /> to apply by phone
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h3>If you want to opt out of direct deposit</h3>
-      <p>
-        If you chose not to enroll, you must contact representatives handling
-        waiver requests for the Department of Treasury at{' '}
-        <va-telephone contact="8882242950" />. They will address any questions
-        or concerns you may have and encourage your participation in EFT.
-      </p>
-    </div>
-  </div>
-);
-
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
-      <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
-      </p>
-    </div>
-  </div>
-);
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
@@ -286,57 +38,14 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentsMinItem = (
+export const DependentsMinItem = (
   <span>
     If you are claiming child dependents,{' '}
     <strong>you must add at least one</strong> here.
   </span>
 );
 
-export const expectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that you expect to receive
-    in the next 12 months
-  </span>
-);
-
-export const spouseExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your spouse expects
-    to receive in the next 12 months
-  </span>
-);
-
-export const dependentExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your dependent
-    expects to receive in the next 12 months
-  </span>
-);
-
-export const dependentSeriouslyDisabledDescription = (
+export const DependentSeriouslyDisabledDescription = (
   <div className="vads-u-padding-y--1">
     <va-additional-info trigger="What do we mean by seriously disabled?">
       <span>
@@ -348,50 +57,15 @@ export const dependentSeriouslyDisabledDescription = (
   </div>
 );
 
-export const contactWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We usually don’t need to contact a former spouse of a Veteran’s spouse.
-        In very rare cases where we need information from this person, we’ll
-        contact you first.
-      </div>
-    </div>
-  </div>
-);
-
-export const contactWarningMulti = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        We won’t contact any of the people listed here without contacting you
-        first.
-      </div>
-    </div>
-  </div>
-);
-
 export const IncomeSourceDescription = (
-  <div>
+  <>
     <p>
       We want to know more about the gross monthly income you, your spouse, and
       your dependents receive.
     </p>
     <p>List the sources of income for you, your spouse, and your dependents.</p>
-  </div>
+  </>
 );
-
-export const generateHelpText = text => {
-  return (
-    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
-  );
-};
-
-export const validateWorkHours = (errors, fieldData) => {
-  if (fieldData > 168) {
-    errors.addError('Enter a number less than 169');
-  }
-};
 
 /**
  * Formats a full name from the given first, middle, last, and suffix
@@ -425,3 +99,22 @@ export function isHomeAcreageMoreThanTwo(formData) {
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
   );
 }
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};
+
+export const obfuscateAccountNumber = accountNumber => {
+  // Replace all digits except the last 4 with asterisks (*)
+  return accountNumber.replace(/\d(?=\d{4})/g, '*');
+};
+
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
+};

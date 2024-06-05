@@ -1,23 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   radioUI,
   radioSchema,
+  numberUI,
+  numberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaTextInputField,
+  VaCheckboxField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
-import { validateWorkHours } from '../../../helpers';
+import { recipientTypeLabels } from '../../../labels';
+import { doesHaveCareExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
-const { dateRange } = fullSchemaPensions.definitions;
-
-const recipientOptions = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  CHILD: 'Veteran’s child',
-};
+const {
+  childName,
+  provider,
+  ratePerHour,
+  noCareEndDate,
+  paymentAmount,
+} = fullSchemaPensions.definitions.careExpenses.items.properties;
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -41,61 +52,88 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'List of unreimbursed care expenses',
+  path: 'financial/care-expenses/add',
+  depends: doesHaveCareExpenses,
   uiSchema: {
-    'ui:title': 'Add an unreimbursed care expense',
+    ...titleUI(
+      'List of unreimbursed care expenses',
+      <ArrayDescription message="Add an unreimbursed care expense" />,
+    ),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',
+        itemAriaLabel: data => `${data.provider} care expense`,
         viewField: CareExpenseView,
         reviewTitle: 'Care Expenses',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({
           title: 'Who receives care?',
-          labels: recipientOptions,
+          labels: recipientTypeLabels,
           classNames: 'vads-u-margin-bottom--2',
         }),
         childName: {
           'ui:title': 'Enter the child’s name',
+          'ui:webComponentField': VaTextInputField,
           'ui:options': {
             classNames: 'vads-u-margin-bottom--2',
             expandUnder: 'recipients',
-            expandUnderCondition: 'CHILD',
+            expandUnderCondition: 'DEPENDENT',
           },
           'ui:required': (form, index) =>
-            get(['careExpenses', index, 'recipients'], form) === 'CHILD',
+            get(['careExpenses', index, 'recipients'], form) === 'DEPENDENT',
         },
         provider: {
           'ui:title': 'What’s the name of the care provider?',
+          'ui:webComponentField': VaTextInputField,
         },
         careType: radioUI({
           title: 'Choose the type of care:',
           labels: careOptions,
         }),
-        ratePerHour: currencyUI(
-          'If this is an in-home provider, what is the rate per hour?',
+        ratePerHour: merge(
+          {},
+          currencyUI(
+            'If this is an in-home provider, what is the rate per hour?',
+          ),
+          {
+            'ui:options': {
+              classNames: 'schemaform-currency-input-v3',
+            },
+          },
         ),
-        hoursPerWeek: {
-          'ui:title': 'How many hours per week does the care provider work?',
-          'ui:validations': [validateWorkHours],
-        },
-        careDateRange: dateRangeUI(
+        hoursPerWeek: numberUI({
+          title: 'How many hours per week does the care provider work?',
+          width: 'sm',
+          min: 1,
+          max: 168,
+        }),
+        careDateRange: currentOrPastDateRangeUI(
           'Care start date',
           'Care end date',
           'End of care must be after start of care',
         ),
         noCareEndDate: {
           'ui:title': 'No end date',
+          'ui:webComponentField': VaCheckboxField,
         },
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
           labels: frequencyOptions,
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
+        }),
       },
     },
   },
@@ -115,19 +153,19 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientOptions)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
+            childName,
+            provider,
             careType: radioSchema(Object.keys(careOptions)),
-            ratePerHour: { type: 'number' },
-            hoursPerWeek: { type: 'number' },
+            ratePerHour,
+            hoursPerWeek: numberSchema,
             careDateRange: {
-              ...dateRange,
+              ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
-            noCareEndDate: { type: 'boolean' },
+            noCareEndDate,
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            paymentAmount,
           },
         },
       },

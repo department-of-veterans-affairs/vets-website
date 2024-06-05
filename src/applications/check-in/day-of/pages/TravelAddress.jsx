@@ -29,7 +29,7 @@ const TravelAddress = props => {
     {
       info: (
         <Trans
-          i18nKey="if-you-traveled-from-a-different-address--helptext"
+          i18nKey="if-you-traveled-from-a-different-address-you--helptext"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
           ]}

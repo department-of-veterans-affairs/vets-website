@@ -46,7 +46,7 @@ describe('Pre-Check In Experience', () => {
     it('Demographics page', () => {
       ApiInitializer.initializePreCheckInDataGet.withUuidNotFound();
       cy.reload();
-      Error.validateUuidNotFoundErrorPageLoaded();
+      Error.validatePageLoadedNotAvailable();
       cy.injectAxeThenAxeCheck();
     });
     it('emergency contact page', () => {
@@ -54,7 +54,7 @@ describe('Pre-Check In Experience', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       cy.reload();
-      Error.validateUuidNotFoundErrorPageLoaded();
+      Error.validatePageLoadedNotAvailable();
       cy.injectAxeThenAxeCheck();
     });
     it('next of kin page', () => {
@@ -64,7 +64,7 @@ describe('Pre-Check In Experience', () => {
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       cy.reload();
-      Error.validateUuidNotFoundErrorPageLoaded();
+      Error.validatePageLoadedNotAvailable();
       cy.injectAxeThenAxeCheck();
     });
 
@@ -77,9 +77,9 @@ describe('Pre-Check In Experience', () => {
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageLoaded();
       cy.reload();
-      Error.validateUuidNotFoundErrorPageLoaded();
+      Error.validatePageLoadedNotAvailable();
       cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Pre-check-in--reload--404-uuid-not-found');
+      cy.createScreenshots('Pre-check-in-404-uuid-not-found');
     });
   });
 });

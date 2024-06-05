@@ -4,14 +4,14 @@ import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import moment from 'moment';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED } from '../../../shared/constants';
+import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
+import { parseDate } from '../../../shared/utils/dates';
 
 const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
@@ -100,13 +100,16 @@ describe('Confirmation page', () => {
 
   it('should render the submit date', () => {
     const data = getData();
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = parseDate(
+      data.form.submission.response,
+      FORMAT_READABLE_DATE_FNS,
+    );
     const { container } = render(
       <Provider store={mockStore(data)}>
         <ConfirmationPage />
       </Provider>,
     );
-    expect($('.inset', container).textContent).to.contain(date);
+    expect($('va-summary-box', container).textContent).to.contain(date);
   });
   it('should render the selected contested issue', () => {
     const { container } = render(

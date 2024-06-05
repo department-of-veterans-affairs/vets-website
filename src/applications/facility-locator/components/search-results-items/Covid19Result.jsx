@@ -81,14 +81,18 @@ const Covid19Result = ({
             <va-telephone
               className="vads-u-margin-left--0p25"
               contact={phone.main}
+              message-aria-describedby="Main Number"
             />
           </div>
         )}
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
-            <a href={infoURL} target="_blank" rel="noreferrer">
-              COVID-19 info at this location
-            </a>
+            <va-link
+              href={infoURL}
+              target="_blank"
+              rel="noreferrer"
+              text="COVID-19 info at this location"
+            />
           </span>
         )}
       </>

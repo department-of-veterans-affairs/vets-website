@@ -1,13 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { isValid, format } from 'date-fns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { genderLabels } from 'platform/static-data/labels';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+import { genderLabels } from '~/platform/static-data/labels';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
-import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
+import {
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+} from '../../shared/constants';
+
+import { parseDateToDateObj } from '../../shared/utils/dates';
 
 const VeteranInformation = ({ veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
@@ -16,8 +21,7 @@ const VeteranInformation = ({ veteran = {} }) => {
   const first = 'HECTOR';
   const last = 'BAKER';
 
-  // moment called with undefined = today's date
-  const momentDob = moment(dob || null, FORMAT_YMD);
+  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
 
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"
@@ -62,12 +66,12 @@ const VeteranInformation = ({ veteran = {} }) => {
         )}
         <p>
           Date of birth:{' '}
-          {momentDob.isValid() ? (
+          {isValid(dobDateObj) ? (
             <span
               className="dob dd-privacy-mask"
               data-dd-action-name="Date of birth"
             >
-              {momentDob.format(FORMAT_READABLE)}
+              {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
             </span>
           ) : null}
         </p>

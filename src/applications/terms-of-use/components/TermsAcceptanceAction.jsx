@@ -13,41 +13,39 @@ export default function TermsAcceptance({
 }) {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
   const className = isUnauthenticated ? 'hidden' : '';
+  const acceptBtnText =
+    isFullyAuthenticated && !isMiddleAuth ? 'Continue to accept' : 'Accept';
   return (
     <>
-      <h2 id="do-you-accept-of-terms-of-use" className={className}>
-        Do you accept these terms of use?
-      </h2>
-      {error.isError && (
-        <va-alert
-          status="error"
-          slim
-          visible
-          uswds
-          data-testid="error-non-modal"
-          class="vads-u-margin-y--1p5"
-        >
-          {error.message}
-        </va-alert>
-      )}
       {(isMiddleAuth || isFullyAuthenticated) &&
         termsOfUseAuthorized && (
           <>
+            <h2 id="do-you-accept-of-terms-of-use" className={className}>
+              Do you accept these terms of use?
+            </h2>
+            {error.isError && (
+              <va-alert
+                status="error"
+                slim
+                visible
+                uswds
+                data-testid="error-non-modal"
+                class="vads-u-margin-y--1p5"
+              >
+                {error.message}
+              </va-alert>
+            )}
             <va-button
               data-testid="accept"
-              text={`${
-                isFullyAuthenticated && !isMiddleAuth
-                  ? 'Continue to accept'
-                  : 'Accept'
-              }`}
+              text={acceptBtnText}
               onClick={() => handleTouClick('accept')}
-              ariaLabel="I accept the VA online services terms of use"
+              ariaLabel="Accept the VA online services terms of use"
             />
             <va-button
               data-testid="decline"
               text="Decline"
               secondary
-              ariaLabel="I decline the VA online services terms of use"
+              ariaLabel="Decline the VA online services terms of use"
               onClick={() => setShowDeclineModal(true)}
             />
           </>

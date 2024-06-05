@@ -51,25 +51,19 @@ export class DirectDepositClient {
     };
   }
 
-  recordLighthouseEvent({ method, status, errorKey = '' }) {
+  recordDirectDepositEvent({ status, method = 'GET', extraProperties = {} }) {
     const payload = {
       event: 'api_call',
       'api-name': `${method} ${this.endpoint}`,
       'api-status': status,
     };
 
+    const errorKey = extraProperties?.['error-key'];
+
     if (errorKey) {
       payload['error-key'] = errorKey;
     }
 
     this.recordAnalyticsEvent(payload);
-  }
-
-  recordCNPEvent({ status, method = 'GET', extraProperties = {} }) {
-    this.recordLighthouseEvent({
-      method,
-      status,
-      errorKey: extraProperties?.['error-key'],
-    });
   }
 }

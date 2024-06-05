@@ -5,7 +5,7 @@ import { APPOINTMENT_STATUS } from '../../../../utils/constants';
 import NoOnlineCancelAlert from '../NoOnlineCancelAlert';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 
-describe('No Online Cancel Modal', () => {
+describe('VAOS Component: NoOnlineCancelAlert', () => {
   const appointmentData = {
     vaos: {
       isPastAppointment: false,

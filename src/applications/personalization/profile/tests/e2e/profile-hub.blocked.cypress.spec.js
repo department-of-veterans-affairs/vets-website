@@ -13,19 +13,12 @@ const checkForAccountSecurityAsRedirect = () => {
 };
 
 describe('Profile - Hub page', () => {
-  // visits the profile page with useProfileHub toggled on and off
-  // and checks that the correct content is rendered
-
   beforeEach(() => {
     cy.login(mockUser);
 
-    mockProfileLOA3();
-
-    cy.intercept(
-      'v0/feature_toggles*',
+    mockProfileLOA3(
       generateFeatureToggles({
-        profileUseHubPage: true,
-        profileLighthouseDirectDeposit: true,
+        profileContacts: true,
       }),
     );
   });

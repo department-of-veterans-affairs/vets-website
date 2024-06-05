@@ -1,29 +1,28 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AdditionalEvidencePageOld from '../containers/AdditionalEvidencePageOld';
-import { getTrackedItemId } from '../utils/helpers';
 import FilesOptionalOld from './FilesOptionalOld';
 import FilesNeededOld from './FilesNeededOld';
 
 export default function RequestedFilesInfo({ id, filesNeeded, optionalFiles }) {
+  const documentsNeeded = filesNeeded.length + optionalFiles.length === 0;
+
   return (
     <div className="claims-requested-files-container">
       <div className="file-request-list">
         <h2 className="claim-file-border">File requests</h2>
 
-        {filesNeeded.length + optionalFiles.length === 0 ? (
-          <div className="no-documents">
-            <p>You don’t need to turn in any documents to VA.</p>
-          </div>
-        ) : null}
+        {documentsNeeded && (
+          <p>You don’t need to turn in any documents to VA.</p>
+        )}
 
         {filesNeeded.map(item => (
-          <FilesNeededOld key={getTrackedItemId(item)} id={id} item={item} />
+          <FilesNeededOld key={item.id} id={id} item={item} />
         ))}
 
         {optionalFiles.map(item => (
-          <FilesOptionalOld key={getTrackedItemId(item)} id={id} item={item} />
+          <FilesOptionalOld key={item.id} id={id} item={item} />
         ))}
       </div>
 

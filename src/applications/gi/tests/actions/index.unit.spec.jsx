@@ -850,4 +850,10 @@ describe('actionCreators', () => {
     fetchStub.returns(Promise.resolve(mockResponse));
     return store.dispatch(actions.beneficiaryZIPCodeChanged('12345'));
   });
+  it('filterBeforeResults should create an action to filter before results', () => {
+    const expectedAction = {
+      type: actions.FILTER_BEFORE_RESULTS,
+    };
+    expect(actions.filterBeforeResultFlag()).to.deep.equal(expectedAction);
+  });
 });

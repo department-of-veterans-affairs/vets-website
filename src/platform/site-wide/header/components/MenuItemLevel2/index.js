@@ -69,10 +69,22 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
           type="button"
         >
           {item?.title}
-          <i
+          {/* right caret icon */}
+          {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+          <svg
             aria-hidden="true"
-            className="fa fa-chevron-right vads-u-margin-left--1 vads-u-font-size--lg"
-          />
+            focusable="false"
+            viewBox="-1 2 17 17"
+            width="22"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#005ea2"
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"
+            />
+          </svg>
         </button>
       )}
     </li>

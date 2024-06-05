@@ -3,8 +3,12 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { render, within } from '@testing-library/react';
+import { within } from '@testing-library/react';
+
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import ClaimDetailLayout from '../../components/ClaimDetailLayout';
+import { renderWithRouter } from '../utils';
 
 const store = createStore(() => ({}));
 
@@ -16,8 +20,6 @@ const getStore = (cstUseClaimDetailsV2Enabled = false) =>
     },
   }));
 
-import ClaimDetailLayout from '../../components/ClaimDetailLayout';
-
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
@@ -25,25 +27,10 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.everySubTree('va-loading-indicator')).not.to.be.empty;
   });
 
-  it('should render sync warning', () => {
-    const claim = {
-      attributes: {
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout claim={claim} synced={false} />,
-    );
-    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
-  });
-
   it('should render unavailable warning', () => {
     const claim = null;
 
-    const tree = SkinDeep.shallowRender(
-      <ClaimDetailLayout claim={claim} synced={false} />,
-    );
+    const tree = SkinDeep.shallowRender(<ClaimDetailLayout claim={claim} />);
     expect(tree.everySubTree('ClaimsUnavailable')).to.have.lengthOf(1);
   });
 
@@ -55,7 +42,8 @@ describe('<ClaimDetailLayout>', () => {
         contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
       },
     };
-    const screen = render(
+
+    const screen = renderWithRouter(
       <Provider store={store}>
         <ClaimDetailLayout claim={claim} />
       </Provider>,
@@ -107,7 +95,7 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const { container } = render(
+    const { container } = renderWithRouter(
       <Provider store={getStore()}>
         <ClaimDetailLayout currentTab="Files" claim={claim} />
       </Provider>,
@@ -117,7 +105,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(within(tabList).getAllByRole('listitem').length).to.equal(3);
   });
 
-  it('should render 4 tabs when toggle true', () => {
+  it('should render 3 tabs when toggle true', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
@@ -126,14 +114,14 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const { container } = render(
+    const { container } = renderWithRouter(
       <Provider store={getStore(true)}>
         <ClaimDetailLayout currentTab="Files" claim={claim} />
       </Provider>,
     );
 
     const tabList = $('.tabs', container);
-    expect(within(tabList).getAllByRole('listitem').length).to.equal(4);
+    expect(within(tabList).getAllByRole('listitem').length).to.equal(3);
   });
 
   it('should render normal info', () => {

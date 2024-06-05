@@ -59,7 +59,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 export const recordsNotFound = (
   <div id="records-not-found">
     <p />
-    <va-alert status="warning" uswds="false">
+    <va-alert status="warning">
       <h2 slot="headline">We couldn’t find your VA letters or documents</h2>
       <p>
         <EbenefitsLink path="ebenefits/download-letters">
@@ -72,7 +72,7 @@ export const recordsNotFound = (
     <hr className="divider" />
     <p>
       If you have questions or need help looking up your VA letters and
-      documents, please call <va-telephone contact="8008271000" uswds="false" />
+      documents, please call <va-telephone contact="8008271000" />
       from 8:00 a.m. to 7:00 pm ET.
     </p>
   </div>
@@ -94,7 +94,7 @@ export const characterOfServiceContent = {
 // letter
 const serviceVerificationLetterContent = (
   <>
-    <va-alert status="warning" uswds="false">
+    <va-alert status="warning">
       <p>
         You can now use your Benefit Summary letter instead of this Service
         Verification letter.
@@ -155,8 +155,8 @@ export const letterContent = {
       you’re enrolled in the VA health care system, you must have IRS Form
       1095-B from VA to show what months you were covered by a VA health care
       plan. If you’ve lost your IRS Form 1095-B, please call{' '}
-      <va-telephone contact="8772228387" uswds="false" />, Monday through
-      Friday, 8:00 a.m. to 8:00 p.m. ET to request another copy.
+      <va-telephone contact="8772228387" />, Monday through Friday, 8:00 a.m. to
+      8:00 p.m. ET to request another copy.
     </div>
   ),
   service_verification: serviceVerificationLetterContent,

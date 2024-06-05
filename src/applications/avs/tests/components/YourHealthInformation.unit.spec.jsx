@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
 import YourHealthInformation from '../../components/YourHealthInformation';
@@ -13,7 +13,7 @@ describe('Avs: Your Health Information', () => {
   it('correctly renders all data', async () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     const props = { avs };
-    const screen = render(<YourHealthInformation {...props} />);
+    const screen = renderInReduxProvider(<YourHealthInformation {...props} />);
     expect(screen.getByTestId('primary-care-provider').firstChild).to.have.text(
       'DOCTOR,GREAT B',
     );
@@ -48,13 +48,13 @@ describe('Avs: Your Health Information', () => {
       'INSULIN REGULAR 500',
     );
     expect(screen.getByTestId('my-medications')).to.contain.text(
+      'Quantity: 90 for 90 days',
+    );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
       'Documenting Facility & Provider: CAMP MASTER, PROVIDER,ONE',
     );
     expect(screen.getByTestId('my-va-supplies')).to.contain.text(
       'TABLET CUTTER',
-    );
-    expect(screen.getByTestId('medications-not-taking')).to.contain.text(
-      'NELFINAVIR TAB',
     );
   });
 
@@ -71,7 +71,7 @@ describe('Avs: Your Health Information', () => {
     delete avs.vaMedications;
     delete avs.nonvaMedications;
     const props = { avs };
-    const screen = render(<YourHealthInformation {...props} />);
+    const screen = renderInReduxProvider(<YourHealthInformation {...props} />);
     expect(screen.queryByTestId('primary-care-team-name')).to.not.exist;
     expect(screen.queryByTestId('primary-care-team-list')).to.not.exist;
     expect(screen.queryByTestId('scheduled-appointments')).to.not.exist;
@@ -82,6 +82,5 @@ describe('Avs: Your Health Information', () => {
     expect(screen.queryByTestId('lab-results')).to.not.exist;
     expect(screen.queryByTestId('my-medications')).to.not.exist;
     expect(screen.queryByTestId('my-va-supplies')).to.not.exist;
-    expect(screen.queryByTestId('medications-not-taking')).to.not.exist;
   });
 });

@@ -6,45 +6,28 @@ import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureCCDirectScheduling,
+  // selectFeatureBookingExclusion,
+} from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
-import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import {
+  APPOINTMENT_STATUS,
+  // OH_TRANSITION_SITES,
+} from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
-
-const SUBPAGE_TITLES = {
-  upcoming: 'Your appointments',
-  requested: 'Requested',
-  past: 'Past appointments',
-  canceled: 'Canceled appointments',
-};
-
-function getSubPageTitleFromLocation(pathname) {
-  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
-    return SUBPAGE_TITLES.requested;
-  }
-
-  if (pathname.endsWith(SUBPAGE_TITLES.past)) {
-    return SUBPAGE_TITLES.past;
-  }
-  if (pathname.endsWith(SUBPAGE_TITLES.canceled)) {
-    return SUBPAGE_TITLES.canceled;
-  }
-
-  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
-    return SUBPAGE_TITLES.requested;
-  }
-
-  return SUBPAGE_TITLES.upcoming;
-}
+// import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
+// import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -56,11 +39,19 @@ function renderWarningNotification() {
     );
   };
 }
+renderWarningNotification.propTypes = {
+  description: PropTypes.string,
+  status: PropTypes.string,
+};
 
 export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
+  );
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -68,8 +59,9 @@ export default function AppointmentsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
-
-  const subPageTitle = getSubPageTitleFromLocation(location.pathname);
+  // const featureBookingExclusion = useSelector(state =>
+  //   selectFeatureBookingExclusion(state),
+  // );
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -85,6 +77,21 @@ export default function AppointmentsPage() {
     pageTitle = 'Appointments';
   }
 
+  // Commenting this out for now until we have another migration.
+
+  // const registeredFacilities = useSelector(selectPatientFacilities);
+  // const hasRegisteredOHTransitionSite = registeredFacilities?.find(
+  //   ({ facilityId }) => facilityId === OH_TRANSITION_SITES.siteName.id,
+  // );
+  // const hasRegisteredNonTransitionSite = registeredFacilities?.find(
+  //   ({ facilityId }) => facilityId !== OH_TRANSITION_SITES.siteName.id,
+  // );
+  // hide schedule link if user is registered at an OH Transition site and has no other registered facilities.
+  // const hideScheduleLink = () =>
+  //   featureBookingExclusion
+  //     ? !!hasRegisteredOHTransitionSite && !hasRegisteredNonTransitionSite
+  //     : false;
+
   useEffect(
     () => {
       if (featureBreadcrumbUrlUpdate) {
@@ -95,13 +102,7 @@ export default function AppointmentsPage() {
         scrollAndFocus('h1');
       }
     },
-    [
-      subPageTitle,
-      location.pathname,
-      prefix,
-      pageTitle,
-      featureBreadcrumbUrlUpdate,
-    ],
+    [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate],
   );
 
   const [count, setCount] = useState(0);
@@ -135,13 +136,28 @@ export default function AppointmentsPage() {
       </h1>
       {/* display paragraphText on RequestedAppointmentsListGroup page when print list flag is on */}
       <CernerAlert className="vads-u-margin-bottom--3" pageTitle={pageTitle} />
+      {/* {featureBookingExclusion && (
+        <CernerTransitionAlert
+          className="vads-u-margin-bottom--3"
+          pageTitle={pageTitle}
+        />
+      )} */}
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
         dependencies={[externalServices.vaosWarning]}
         render={renderWarningNotification()}
       />
+      {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
+      {featureCCDirectScheduling && (
+        <div>
+          <ReferralAppLink
+            linkText="Review and manage your appointment notifications"
+            linkPath="/appointment-notifications"
+          />
+        </div>
+      )}
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
@@ -153,15 +169,7 @@ export default function AppointmentsPage() {
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
-        <Route path="/canceled">
-          <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
-        </Route>
       </Switch>
     </PageLayout>
   );
 }
-
-renderWarningNotification.propTypes = {
-  description: PropTypes.string,
-  status: PropTypes.string,
-};

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
@@ -14,11 +13,10 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
-  isLoggedIn,
+  isVAPatient,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
-  hasHealthData,
+  selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -26,33 +24,25 @@ const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const enabled = useSelector(isLandingPageEnabledForUser);
-  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
-  const signedIn = useSelector(isLoggedIn);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
-  const userHasHealthData = useSelector(hasHealthData);
+  const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
+  const hasMHVAccount = useSelector(selectHasMHVAccountState);
 
   const data = useMemo(
     () => {
       return resolveLandingPageLinks(
         ssoe,
         featureToggles,
-        unreadMessageCount,
         unreadMessageAriaLabel,
-        userHasHealthData,
+        registered,
       );
     },
-    [
-      featureToggles,
-      ssoe,
-      unreadMessageCount,
-      unreadMessageAriaLabel,
-      userHasHealthData,
-    ],
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
   const datadogRumConfig = {
@@ -70,10 +60,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
-
-  const redirecting = signedIn && !loading && !enabled;
+  const loading = featureToggles.loading || profile.loading;
 
   useEffect(
     () => {
@@ -82,26 +69,14 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-
-      if (enabled) {
+      if (enabled && hasMHVAccount) {
         loadMessages();
       }
     },
-    [enabled],
+    [enabled, hasMHVAccount],
   );
 
-  useEffect(
-    () => {
-      const redirect = () => {
-        const redirectUrl = mhvUrl(ssoe, 'home');
-        window.location.replace(redirectUrl);
-      };
-      if (redirecting) redirect();
-    },
-    [ssoe, redirecting],
-  );
-
-  if (loading || redirecting)
+  if (loading)
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator

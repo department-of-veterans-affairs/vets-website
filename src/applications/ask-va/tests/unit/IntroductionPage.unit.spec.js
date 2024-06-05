@@ -21,7 +21,7 @@ describe('IntroductionPage', () => {
     expect($$('h2', container)[1].textContent).to.eq(
       'Sign in for the best experience',
     );
-    expect($('button', container).textContent).to.eq(
+    expect($('va-button', container).outerHTML).to.contain(
       'Sign in or create an account',
     );
   });

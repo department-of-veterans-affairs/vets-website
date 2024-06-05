@@ -32,18 +32,18 @@
     h3 {
       font-size: 300%;
     }
-    background-color: $color-primary-alt-lightest;
+    background-color: var(--vads-color-primary-alt-lightest);
     p {
       font-weight: bold !important;
     }
     text-align: center;
-    color: $color-primary-darkest;
+    color: var(--vads-color-primary-darker);
   }
   .covid-screener-results-pass {
     i {
       font-size: 10em;
     }
-    background-color: $color-primary-darkest;
-    color: $color-white;
+    background-color: var(--vads-color-primary-darker);
+    color: var(--vads-color-white);
   }
 }

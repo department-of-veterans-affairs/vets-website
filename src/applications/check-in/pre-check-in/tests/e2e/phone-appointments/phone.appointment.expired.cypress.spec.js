@@ -3,7 +3,6 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../pages/Error';
-import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -41,15 +40,9 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // Expired UUID should navigate to an error
-    Error.validateExpiredPageLoaded('phone');
+    Error.validatePageLoadedExpired();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--expired-error--default-accordions',
-    );
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--expired-error--expanded-accordions',
-    );
+    cy.createScreenshots('Pre-check-in--Phone-appointment--expired-error');
   });
 });

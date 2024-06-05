@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 import { validateWhiteSpace } from 'platform/forms/validations';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
@@ -27,7 +29,7 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
 }
 
 /**
- * Web component uiSchema for `first`, `middle`, and `last name`
+ * Web component v3 uiSchema for `first`, `middle`, and `last name`
  *
  * ```js
  * fullName: fullNameNoSuffixUI()
@@ -160,8 +162,8 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
  * @returns {UISchemaOptions} uiSchema
  */
 const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
-  const uiSchema = {
-    ...fullNameNoSuffixUI(formatTitle, uiOptions),
+  return {
+    ...firstNameLastNameNoSuffixUI(formatTitle, uiOptions),
     suffix: {
       'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
       'ui:autocomplete': 'honorific-suffix',
@@ -173,9 +175,6 @@ const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
       },
     },
   };
-  delete uiSchema.middle;
-
-  return uiSchema;
 };
 
 /**
@@ -211,8 +210,8 @@ const fullNameSchema = commonDefinitions.fullName;
 /**
  * @returns `commonDefinitions.fullName` minus `middle`
  */
-const firstNameLastNameDef = { ...commonDefinitions.fullName };
-delete firstNameLastNameDef.middle;
+const firstNameLastNameDef = cloneDeep(commonDefinitions.fullName);
+delete firstNameLastNameDef.properties.middle;
 const firstNameLastNameSchema = firstNameLastNameDef;
 
 /**
@@ -223,8 +222,10 @@ const fullNameNoSuffixSchema = commonDefinitions.fullNameNoSuffix;
 /**
  * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
  */
-const firstNameLastNameNoSuffixDef = { ...commonDefinitions.fullNameNoSuffix };
-delete firstNameLastNameNoSuffixDef.middle;
+const firstNameLastNameNoSuffixDef = cloneDeep(
+  commonDefinitions.fullNameNoSuffix,
+);
+delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
 
 /**

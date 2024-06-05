@@ -6,6 +6,7 @@ import {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
+  benefitEffectiveDate: state?.form?.data?.benefitEffectiveDate,
   eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
   duplicatePhone: state.data?.duplicatePhone,
@@ -22,11 +23,15 @@ export const getAppData = state => ({
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
+  user: state.user || {},
   showDgiDirectDeposit1990EZ: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showDgiDirectDeposit1990EZ
   ],
   showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
+  ],
+  showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
@@ -54,5 +59,7 @@ export const getAppData = state => ({
   mebExclusionPeriodEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
   ],
-  user: state.user || {},
+  mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
+  ],
 });

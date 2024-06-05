@@ -584,7 +584,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Page Title')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Page Title"]'))
+      .to.exist;
 
     const review = document.getElementsByClassName('review')[0];
     expect(within(review).getByRole('textbox')).to.exist;
@@ -615,7 +616,11 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Page Title [from function]')).to.exist;
+    expect(
+      tree.container.querySelector(
+        'va-button[label="Edit Page Title [from function]"]',
+      ),
+    ).to.exist;
 
     const review = document.getElementsByClassName('review')[0];
     expect(within(review).getByRole('textbox')).to.exist;
@@ -650,7 +655,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Custom label')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Custom label"]'))
+      .to.exist;
   });
 
   it('should render aria-label on edit button using value from config', () => {
@@ -686,7 +692,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Happy')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Happy"]')).to
+      .exist;
   });
 
   it('should render a div when rendering a ReviewCardField content with volatileData', () => {
@@ -724,7 +731,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Blah')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Blah"]')).to
+      .exist;
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -764,7 +772,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Blah')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Blah"]')).to
+      .exist;
 
     const review = document.querySelector('dl.review');
 
@@ -806,7 +815,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Blah')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Blah"]')).to
+      .exist;
     const review = document.querySelector('div.review');
     expect(within(review).getByRole('textbox')).to.exist;
   });
@@ -846,7 +856,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Blah')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Blah"]')).to
+      .exist;
     const review = document.querySelector('div.review');
 
     expect(within(review).getByRole('textbox')).to.exist;
@@ -887,7 +898,8 @@ describe('Schemaform review: ObjectField', () => {
       />,
     );
 
-    expect(tree.getByLabelText('Edit Blah')).to.exist;
+    expect(tree.container.querySelector('va-button[label="Edit Blah"]')).to
+      .exist;
 
     const review = document.querySelector('dl.review');
     expect(within(review).getByRole('textbox')).to.exist;

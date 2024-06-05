@@ -111,6 +111,8 @@ describe('VAOS select appointment date', () => {
         .clickNextButton();
 
       DateTimeSelectPageObject.assertUrl()
+        // advance to next month if secondDate lands on following month
+        .compareDatesClickNextMonth(firstDate, secondDate)
         .selectDate(secondDate)
         .assertDateSelected(secondDate);
 
@@ -175,6 +177,11 @@ describe('VAOS select appointment date', () => {
       // Add one day since same day appointments are not allowed.
       const firstDate = moment().add(1, 'day');
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+      const todayDate = moment().date();
+      const endOfMonthDate = moment()
+        .clone()
+        .endOf('month')
+        .date();
 
       mockSlotsApi({
         locationId: '983',
@@ -197,7 +204,10 @@ describe('VAOS select appointment date', () => {
 
       AppointmentListPageObject.visit().scheduleAppointment();
 
-      TypeOfCarePageObject.assertUrl()
+      TypeOfCarePageObject.assertUrl({
+        url: '/type-of-care',
+        breadcrumb: 'Choose the type of care you need',
+      })
         .assertAddressAlert({ exist: false })
         .selectTypeOfCare(/COVID-19 vaccine/i)
         .clickNextButton();
@@ -220,9 +230,11 @@ describe('VAOS select appointment date', () => {
       DateTimeSelectPageObject.assertUrl()
         // Account for 1st call returning 2 months of slots
         .clickNextMonth()
-        .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
-        .assertCallCount({ alias: '@v2:get:slots', count: 2 });
+        .assertCallCount({
+          alias: '@v2:get:slots',
+          count: todayDate < endOfMonthDate ? 2 : 3,
+        });
 
       // Assert
       cy.axeCheckBestPractice();

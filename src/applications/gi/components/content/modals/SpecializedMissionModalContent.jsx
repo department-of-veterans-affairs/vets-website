@@ -1,17 +1,17 @@
 import React from 'react';
-import { isProductionOfTestProdEnv } from '../../../utils/helpers';
+
+const h3Text = () => {
+  return 'Community focus';
+};
 
 export default function SpecializedMissionModalContent() {
   return (
     <>
-      <h3>
-        {isProductionOfTestProdEnv()
-          ? 'Specialized mission'
-          : 'Community focus'}
-      </h3>
+      <h3>{h3Text()}</h3>
       <p>
-        Is the school single-gender, a Historically Black college or university,
-        or does it have a religious affiliation?
+        Community focus indicates colleges or other institutions of higher
+        learning that support one or more specific communities (e.g., support
+        for a specified race, ethnicity, or religious affiliation).
       </p>
     </>
   );

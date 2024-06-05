@@ -356,7 +356,7 @@
                 },
                 {
                   "text": "Apply now for health care",
-                  "href": "/health-care/apply/application"
+                  "href": "/health-care/apply-for-health-care-form-10-10ez/"
                 }
               ]
             },
@@ -423,7 +423,7 @@
                 {
                   "text": "File a claim online",
                   "href": "/disability/file-disability-claim-form-21-526ez/"
-                }    
+                }
               ]
             },
             "columnTwo": {
@@ -561,8 +561,7 @@
                   "href": "/careers-employment/veteran-owned-business-support"
                 },
                 {
-                  "href":
-                    "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/",
+                  "href": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/",
                   "text": "Apply for VR&E benefits"
                 }
               ]
@@ -629,7 +628,7 @@
                 },
                 {
                   "text": "Apply now for a Veterans Pension",
-                  "href": "/pension/application/527EZ"
+                  "href": "/pension/apply-for-veteran-pension-form-21p-527ez"
                 }
               ]
             },

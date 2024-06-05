@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
+import { format, isValid } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { FORMAT_READABLE } from '../../shared/constants';
+import { FORMAT_READABLE_DATE_FNS } from '../../shared/constants';
 import { getSelected, getIssueName } from '../../shared/utils/issues';
 import { scrollAndFocusTarget } from '../utils/focus';
 
@@ -19,7 +19,7 @@ export const ConfirmationPage = ({ data }) => {
       </span>
     </li>
   ));
-  const submitDate = moment();
+  const submitDate = new Date();
   const handlers = {
     print: () => window.print(),
   };
@@ -39,7 +39,8 @@ export const ConfirmationPage = ({ data }) => {
       <h1>Your request has been submitted</h1>
       <p>We may contact you for more information or documents.</p>
       <p className="screen-only">Print this page for your records.</p>
-      <div className="inset">
+
+      <va-summary-box uswds class="vads-u-margin-y--2">
         <h1 className="vads-u-margin-top--0">
           Request a Board Appeal{' '}
           <span className="additional">(Form 10182)</span>
@@ -48,11 +49,11 @@ export const ConfirmationPage = ({ data }) => {
         <span className="dd-privacy-hidden" data-dd-action-name="full name">
           HECTOR BAKER
         </span>
-        {submitDate.isValid() && (
+        {isValid(submitDate) && (
           <p>
             <strong>Date submitted</strong>
             <br role="presentation" />
-            <span>{submitDate.format(FORMAT_READABLE)}</span>
+            <span>{format(submitDate, FORMAT_READABLE_DATE_FNS)}</span>
           </p>
         )}
         <strong>
@@ -66,7 +67,7 @@ export const ConfirmationPage = ({ data }) => {
           text="Print this for your records"
           uswds
         />
-      </div>
+      </va-summary-box>
 
       <h2>After you request a decision review</h2>
       <p>

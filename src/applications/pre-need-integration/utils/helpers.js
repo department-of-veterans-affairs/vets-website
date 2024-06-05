@@ -9,6 +9,10 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -27,9 +31,21 @@ import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
-export const applicantDetailsSubHeader = (
+export const veteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
+  </div>
+);
+
+export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export const nonVeteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
 
@@ -56,16 +72,45 @@ export const currentlyBuriedPersonsTitle = (
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
     <p>
-      We’ll now ask you questions about the sponsor’s passing. We understand
-      that the questions may be difficult to answer, but your answers will help
-      us determine eligibility for your application.
+      We’ll ask you questions about your sponsor’s death. We understand that the
+      questions may be difficult to answer, but your answers will help us
+      determine eligibility for your application.
     </p>
   </div>
 );
 
-export const sponsorDetailsSubHeader = (
-  <div className="sponsorDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+export function isApplicantTheSponsor(item) {
+  return get('application.applicant.isSponsor', item) === 'yes';
+}
+
+export function sponsorDetailsSubHeader({ formContext, formData }) {
+  return (
+    <>
+      {isApplicantTheSponsor(formData) &&
+        !formContext.onReviewPage && (
+          <div className="sponsorDetailsSummaryBox">
+            <va-summary-box>
+              <p className="sponsorDetailsSummaryBoxText">
+                We’ve prefilled your details since you indicated you’re the
+                applicant’s sponsor. If you need to correct anything, you can
+                edit the fields below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+      <div className="sponsorDetailsSubHeader">
+        <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+      </div>
+    </>
+  );
+}
+
+export const sponsorDetailsGuidingText = (
+  <div className="sponsorDetailsGuidingText">
+    <p>
+      Provide the details for the Veteran or service member the applicant is
+      connected to.
+    </p>
   </div>
 );
 
@@ -78,9 +123,8 @@ export const sponsorDemographicsSubHeader = (
 export const sponsorDemographicsDescription = (
   <div className="sponsorDemographicsDescription">
     <p>
-      We require some basic details about the applicant’s sponsor as part of the
-      application. Please know we need to gather the data for statistical
-      purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
@@ -93,7 +137,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
+    <p>When did the sponsor die?</p>
   </div>
 );
 
@@ -105,6 +149,12 @@ export const sponsorMilitaryDetailsSubHeader = (
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsPreparerSubHeader = (
+  <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
   </div>
 );
@@ -112,17 +162,24 @@ export const applicantDemographicsSubHeader = (
 export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
     <p>
-      We require some basic details as part of your application. Please know we
-      need to gather the data for statistical purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
 
-export const militaryDetailsSubHeader = (
-  <div className="militaryDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Military details</h3>
-  </div>
-);
+export function militaryDetailsSubHeader(formData) {
+  return (
+    <div className="militaryDetailsSubHeader">
+      {get('applicant.applicantRelationshipToClaimant', formData.formData) ===
+      'Authorized Agent/Rep' ? (
+        <h3 className="vads-u-font-size--h5">Applicant’s military details</h3>
+      ) : (
+        <h3 className="vads-u-font-size--h5">Your military details</h3>
+      )}
+    </div>
+  );
+}
 
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
@@ -165,59 +222,57 @@ export const applicantInformationDescription = (
   </va-additional-info>
 );
 
-export const applicantDetailsDescription = (
-  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
+export const veteranApplicantDetailsPreparerDescription =
+  'Provide the details for the person you’re filling out the application for (called the applicant).';
+
+export const nonVeteranApplicantDetailsDescription =
+  "Since you're applying for eligibility determination, first we'll ask for your details. Then we'll ask for the details for the Veteran or service member you’re connected to.";
+
+export const nonVeteranApplicantDetailsDescriptionPreparer =
+  'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
+
+export const applicantContactInfoAddressTitle = 'Your mailing address';
+
+export const applicantContactInfoPreparerAddressTitle =
+  'Applicant’s mailing address';
+
+export const applicantContactInfoSubheader = (
+  <div className="applicantContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Your contact details</h3>
+  </div>
+);
+
+export const applicantContactInfoPreparerSubheader = (
+  <div className="applicantContactInfoPreparerSubheader">
+    <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+  </div>
+);
+
+export const sponsorContactInfoSubheader = (
+  <div className="sponsorContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+  </div>
+);
+
+export const bottomPadding = <div className="bottomPadding" />;
+
+export const applicantContactInfoDescription = (
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
-      If you’re filling out the form on behalf of someone else, you’ll need to
-      provide their details below. As the preparer, we’ll ask for your own
-      details later.
+      Once you’ve submitted this application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );
 
-export const sponsorDetailsDescription = (
-  <va-additional-info trigger="What is a sponsor?">
-    <ul>
-      <>
-        <li>
-          You’re considered the sponsor if you’re the service member or Veteran
-          sponsoring the applicant’s benefits. We’ll ask you to provide your
-          details.
-        </li>
-        <li>
-          If you’re not the sponsor, you’ll still need to provide the details
-          for the service member or Veteran who is sponsoring the applicant’s
-          benefits.
-        </li>
-      </>
-    </ul>
-  </va-additional-info>
-);
+export const applicantContactInfoPreparerDescription = <p />;
 
-// do not render with a prod flag
-export const applicantContactInfoDescriptionVet = (
-  <va-additional-info trigger="Why do we need your contact details?">
+export const sponsorContactInfoDescription = (
+  <va-additional-info trigger="Why we ask for contact details">
     <p>
-      We may reach out by phone if we need more information about your
-      application.
-    </p>
-    <p>
-      Your email address will be used to send a confirmation message once you’ve
-      submitted your application.
-    </p>
-  </va-additional-info>
-);
-
-// do not render with a prod flag
-export const applicantContactInfoDescriptionNonVet = (
-  <va-additional-info trigger="Why do we need the applicant’s contact details?">
-    <p>
-      We may reach out by phone if we need more information about the
-      application.
-    </p>
-    <p>
-      Their email address will be used to send a confirmation message once the
-      application is submitted.
+      We may contact the sponsor by phone or mail if we need more information
+      about this application.
     </p>
   </va-additional-info>
 );
@@ -262,6 +317,21 @@ export const authorizedAgentDescription = (
         <li>They physically can’t sign the application</li>
       </>
     </ul>
+  </va-additional-info>
+);
+
+export const isSponsorDescription = (
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="What it means to be the “sponsor”">
+    <p>
+      You’re the sponsor if you’re the Veteran or service member who the
+      applicant is connected to.
+    </p>
+    <br />
+    <p>
+      If you’re not the sponsor, you’ll still need to provide the details for
+      the Veteran or service member who the applicant is connected to.
+    </p>
   </va-additional-info>
 );
 
@@ -387,6 +457,37 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
+export const applicantDetailsCityTitle = 'Your birth city or county';
+
+export const applicantDetailsStateTitle = 'Your birth state or territory';
+
+export const applicantDetailsPreparerCityTitle =
+  'Applicant’s birth city or county';
+
+export const applicantDetailsPreparerStateTitle =
+  'Applicant’s birth state or territory';
+
+export const applicantDemographicsGenderTitle = 'What’s your sex?';
+
+export const applicantDemographicsMaritalStatusTitle =
+  'What’s your marital status?';
+
+export const applicantDemographicsPreparerGenderTitle =
+  'What’s the applicant’s sex?';
+
+export const applicantDemographicsPreparerMaritalStatusTitle =
+  'What’s the applicant’s marital status?';
+
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
+export const applicantDemographicsPreparerEthnicityTitle =
+  'What’s the applicant’s ethnicity?';
+
+export const applicantDemographicsPreparerRaceTitle =
+  'What’s the applicant’s race?';
+
 export function preparerAddressHasState(item) {
   const country = get(
     'application.applicant.view:applicantInfo.mailingAddress.country',
@@ -409,7 +510,10 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === 'veteran';
+  const response =
+    get('application.claimant.relationshipToVet', item) ||
+    get('formData.application.claimant.relationshipToVet', item);
+  return response === 'veteran';
 }
 
 export function isSponsorDeceased(item) {
@@ -590,18 +694,36 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = !environment.isProduction()
-  ? merge({}, fullNameUI, {
-      first: { 'ui:title': 'First name' },
-      middle: { 'ui:title': 'Middle name' },
-      last: { 'ui:title': 'Last name' },
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    })
-  : merge({}, fullNameUI, {
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    });
+export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const nonPreparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Your first name' },
+  middle: { 'ui:title': 'Your middle name' },
+  last: { 'ui:title': 'Your last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
+export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Applicant’s first name' },
+  middle: { 'ui:title': 'Applicant’s middle name' },
+  last: { 'ui:title': 'Applicant’s last name' },
+  maiden: { 'ui:title': 'Applicant’s maiden name' },
+  suffix: { 'ui:title': 'Applicant’s suffix' },
+});
+
+export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
+  'Your date of birth',
+);
+
+export const preparerDateOfBirthUI = currentOrPastDateUI(
+  'Applicant’s date of birth',
+);
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -637,17 +759,39 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
+export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
+  'ui:title': 'Applicant’s Social Security number',
+});
+
+export const VAClaimNumberAdditionalInfo = (
+  <va-additional-info trigger="What is a “VA claim number”?">
+    <p>
+      We used to give a VA claim number to every person who applied for VA
+      benefits or services. We no longer give people these numbers. But if you
+      have one, you can provide it here.
+    </p>
+  </va-additional-info>
+);
+
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title': 'Military Service number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: 'If it’s different than your Social Security number',
+    },
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
   },
   vaClaimNumber: {
-    'ui:title': 'VA claim number (if known)',
+    'ui:title': 'VA claim number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: "If you don't have a VA claim number, leave this blank.",
+    },
     'ui:errorMessages': {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
@@ -656,15 +800,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -673,21 +820,33 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
+    },
+  },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': applicantDemographicsEthnicityTitle,
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
     },
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
+    'ui:title': applicantDemographicsRaceTitle,
+    'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -695,11 +854,14 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
+    },
+    isOther: {
+      'ui:title': 'Other',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -710,20 +872,39 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },
-  militaryStatus: {
-    'ui:title':
-      'Current military status (You can add more service history information later in this application.)',
+  raceComment: {
+    'ui:title': 'Enter the race that best describes you',
+    'ui:widget': 'textarea',
+    'ui:required': form => {
+      return form?.application?.veteran?.race?.isOther;
+    },
     'ui:options': {
+      expandUnder: 'race',
+      maxLength: 100,
+      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
+      hideIf: form => {
+        return !form?.application?.veteran?.race?.isOther;
+      },
+    },
+  },
+
+  militaryStatus: {
+    'ui:title': 'Current military status',
+    'ui:webComponentField': VaSelectField,
+    'ui:options': {
+      hint:
+        'You can add more service history information later in this application.',
       labels: {
-        A: 'Active Duty',
-        I: 'Death Related to Inactive Duty Training',
-        D: 'Died on Active Duty',
+        A: 'Active duty',
+        I: 'Death related to inactive duty training',
+        D: 'Died on active duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
-        E: 'Retired Active Duty',
+        E: 'Retired active duty',
         O: 'Retired Reserve/National Guard',
         V: 'Veteran',
         X: 'Other',
@@ -732,8 +913,131 @@ export const veteranUI = {
   },
 };
 
-export const serviceRecordsUI = {
-  'ui:title': 'Service period(s)',
+export const preparerVeteranUI = {
+  militaryServiceNumber: {
+    'ui:title': 'Applicant’s Military Service number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: 'If it’s different than their Social Security number',
+    },
+    'ui:errorMessages': {
+      pattern:
+        'Their Military Service number must be between 4 to 9 characters',
+    },
+  },
+  vaClaimNumber: {
+    'ui:title': 'Applicant’s VA claim number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: "If they don't have a VA claim number, leave this blank.",
+    },
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 8 to 9 digits',
+    },
+  },
+  placeOfBirth: {
+    'ui:title': 'Place of birth (City, State, or Territory)',
+  },
+  gender: {
+    'ui:title': 'What’s your sex?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
+  },
+  maritalStatus: {
+    'ui:title': 'What’s your marital status?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        single: 'Single',
+        separated: 'Separated',
+        married: 'Married',
+        divorced: 'Divorced',
+        widowed: 'Widowed',
+        na: 'Prefer not to answer',
+      },
+    },
+  },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
+    },
+  },
+  race: {
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your race?',
+    'ui:webComponentField': VaCheckboxGroupField,
+    isAmericanIndianOrAlaskanNative: {
+      'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
+    isBlackOrAfricanAmerican: {
+      'ui:title': 'Black or African American',
+    },
+    isNativeHawaiianOrOtherPacificIslander: {
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
+    },
+    isWhite: {
+      'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
+    },
+    'ui:validations': [
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
+      },
+    ],
+    'ui:options': {
+      hint: 'You can select more than one option.',
+      showFieldLabel: true,
+    },
+  },
+  militaryStatus: {
+    'ui:title': 'Applicant’s current military status',
+    'ui:webComponentField': VaSelectField,
+    'ui:options': {
+      hint:
+        'You can add more service history information later in this application.',
+      labels: {
+        A: 'Active duty',
+        S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired active duty',
+        O: 'Retired Reserve/National Guard',
+        V: 'Veteran',
+        X: 'Other',
+      },
+    },
+  },
+};
+
+export const selfServiceRecordsUI = {
+  'ui:title': 'Your service period(s)',
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
@@ -767,16 +1071,76 @@ export const serviceRecordsUI = {
         labels: {
           1: 'Honorable',
           2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
+          3: 'Entry Level Separation',
+          4: 'Uncharacterized',
+          5: 'Other Than Honorable',
+          6: 'Bad Conduct',
+          7: 'Dishonorable',
+          8: 'Other',
         },
       },
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+    },
+    nationalGuardState: {
+      'ui:title': 'State (for National Guard Service only)',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !['AG', 'NG'].includes(
+            formData.application.veteran.serviceRecords[index].serviceBranch,
+          ),
+      },
+    },
+  },
+};
+
+export const preparerServiceRecordsUI = {
+  'ui:title': 'Applicant’s service period(s)',
+  'ui:options': {
+    viewField: ServicePeriodView,
+    itemName: 'Service period',
+    keepInPageOnReview: true,
+    useDlWrap: true,
+  },
+  items: {
+    'ui:order': [
+      'serviceBranch',
+      'highestRank',
+      'dateRange',
+      'dischargeType',
+      'nationalGuardState',
+    ],
+    'ui:options': {
+      itemName: 'Service Period',
+    },
+    serviceBranch: autosuggest.uiSchema('Applicant’s branch of service', null, {
+      'ui:options': {
+        labels: serviceLabels,
+      },
+    }),
+    dateRange: dateRangeUI(
+      'Applicant’s service start date',
+      'Applicant’s service end date',
+      'Service start date must be after end date',
+    ),
+    dischargeType: {
+      'ui:title': 'Applicant’s discharge character of service',
+      'ui:options': {
+        labels: {
+          1: 'Honorable',
+          2: 'General',
+          3: 'Entry Level Separation',
+          4: 'Uncharacterized',
+          5: 'Other Than Honorable',
+          6: 'Bad Conduct',
+          7: 'Dishonorable',
+          8: 'Other',
+        },
+      },
+    },
+    highestRank: {
+      'ui:title': 'Applicant’s highest rank attained',
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

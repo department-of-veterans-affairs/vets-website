@@ -24,7 +24,10 @@ const CheckInButton = ({
       if (isBefore(checkInWindowEnd, new Date())) {
         const currentPage = getCurrentPageFromRouter();
         eventRecorder({
-          event: createAnalyticsSlug('check-in-attempted-after-expiration'),
+          event: createAnalyticsSlug(
+            'check-in-attempted-after-expiration',
+            'nav',
+          ),
           fromPage: currentPage,
         });
       }

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "Primary Next of Kin",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Primary Next of Kin",
+        "givenName": "James",
+        "middleName": "Daniel",
+        "familyName": "Bishop",
+        "relationship": "Son",
+        "addressLine1": "823 SE 2ND ST",
+        "addressLine2": "BLDG 2",
+        "addressLine3": "UNIT 163",
+        "city": "GUADALAJARA",
+        "state": "JAL.",
+        "zipCode": null,
+        "primaryPhone": "(254)394-1938"
+      }
+    }
+  ]
+}

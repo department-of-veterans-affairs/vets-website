@@ -242,6 +242,7 @@ describe('check in', () => {
           expect(state.form.pages).to.deep.equal([
             'verify',
             'loading-appointments',
+            'arrived',
             'contact-information',
             'emergency-contact',
             'next-of-kin',

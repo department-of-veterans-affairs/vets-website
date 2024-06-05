@@ -1,6 +1,6 @@
-import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import React from 'react';
 
 import formConfig from '../../config/form';
 
@@ -36,7 +36,9 @@ describe('Confirmation page', () => {
   it('should render the confirmation page', () => {
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree).not.to.be.undefined;
-    expect(tree.text()).to.contain('Your application has been submitted');
+    expect(tree.text()).to.contain(
+      'Thank you for submitting a question to the U.S. Department of Veteran Affairs.',
+    );
     tree.unmount();
   });
 });

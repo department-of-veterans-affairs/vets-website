@@ -3,6 +3,22 @@ import moment from 'moment';
 import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
+export const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
+  const dateFromData = moment(dateToCheck);
+
+  if (!mebAutoPopulateRelinquishmentDate)
+    return dateFromData.format('YYYY-MM-DD');
+
+  const currentDate = moment();
+  const oneYearAgo = currentDate.subtract(1, 'y');
+
+  if (dateFromData.isBefore(oneYearAgo) || dateToCheck === undefined) {
+    return oneYearAgo.format('YYYY-MM-DD');
+  }
+
+  return dateFromData.format('YYYY-MM-DD');
+};
+
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -235,6 +251,10 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
+  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
+  const mebAutoPopulateRelinquishmentDate =
+    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
+
   let firstName;
   let middleName;
   let lastName;
@@ -325,6 +345,10 @@ export function prefillTransformerV1(pages, formData, metadata, state) {
       },
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
+      [formFields.benefitEffectiveDate]: checkDate(
+        mebAutoPopulateRelinquishmentDate,
+        benefitEffectiveDate,
+      ),
     },
     [formFields.bankAccount]: {
       ...bankInformation,
@@ -492,6 +516,9 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
 
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
+  const mebAutoPopulateRelinquishmentDate =
+    state?.featureToggles.mebAutoPopulateRelinquishmentDate;
 
   let firstName;
   let middleName;
@@ -589,6 +616,10 @@ export function prefillTransformerV3(pages, formData, metadata, state) {
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
     },
+    [formFields.benefitEffectiveDate]: checkDate(
+      mebAutoPopulateRelinquishmentDate,
+      benefitEffectiveDate,
+    ),
     [formFields.federallySponsoredAcademy]: exclusionPeriods?.includes(
       'Academy',
     )
@@ -628,7 +659,9 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user || {};
-
+  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
+  const mebAutoPopulateRelinquishmentDate =
+    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
   const profile = stateUser?.profile;
   const vapContactInfo = stateUser.profile?.vapContactInfo || {};
 
@@ -728,6 +761,10 @@ export function prefillTransformerV4(pages, formData, metadata, state) {
       [formFields.livesOnMilitaryBase]:
         address?.addressType === 'MILITARY_OVERSEAS',
     },
+    [formFields.benefitEffectiveDate]: checkDate(
+      mebAutoPopulateRelinquishmentDate,
+      benefitEffectiveDate,
+    ),
     [formFields.viewDirectDeposit]: {
       [formFields.bankAccount]: {
         ...bankInformation,

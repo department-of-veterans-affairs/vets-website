@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import CancelAppointmentConfirmationModal from '../CancelAppointmentConfirmationModal';
 import { FETCH_STATUS } from '../../../../utils/constants';
 
-describe('Cancel appointment confirmation modal', () => {
+describe('VAOS Component: CancelAppointmentConfirmationModal', () => {
   const initialState = {
     featureToggles: {},
   };

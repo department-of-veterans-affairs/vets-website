@@ -43,6 +43,7 @@ class FormSignInModal extends React.Component {
         status="warning"
         title="If you sign in now, you’ll lose any information you’ve filled in"
       >
+        {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
         <p>
           Since you didn’t sign in before you started, we can’t save your
           in-progress {appType}.
@@ -56,6 +57,11 @@ class FormSignInModal extends React.Component {
 FormSignInModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
   visible: PropTypes.bool,
 };
 

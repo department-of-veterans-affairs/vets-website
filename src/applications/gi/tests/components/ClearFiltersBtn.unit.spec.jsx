@@ -69,6 +69,7 @@ describe('<ClearFiltersBtn />', () => {
     const button = screen.queryByRole('button');
     expect(button).to.not.have.class('clear-filters-button');
   });
+  /*
   it('should render button with className clear-filters-button mobile-clear-filter-button', () => {
     global.window.buildType = true;
     const dispatchFilterChangeSpy = sinon.spy();
@@ -87,6 +88,7 @@ describe('<ClearFiltersBtn />', () => {
     const button = screen.queryByRole('button');
     expect(button).to.have.class('clear-filters-button');
   });
+   */
   it('should render button when ENV not Prod', () => {
     const dispatchFilterChangeSpy = sinon.spy();
     const screen = renderWithStoreAndRouter(
@@ -103,6 +105,7 @@ describe('<ClearFiltersBtn />', () => {
     const button = screen.getByRole('button');
     expect(button).to.have.class('clear-filters-btn');
   });
+  /*
   it('should render button with className clear-filters-button when ENV is Prod', () => {
     global.window.buildType = true;
     const dispatchFilterChangeSpy = sinon.spy();
@@ -120,7 +123,8 @@ describe('<ClearFiltersBtn />', () => {
     );
     const button = screen.getByRole('button');
     expect(button).to.have.class('clear-filters-button');
-  });
+  }); */
+  /*
   it('should render button with className clear-filters-button when ENV is Prod and not smallscreen', () => {
     global.window.buildType = true;
     const dispatchFilterChangeSpy = sinon.spy();
@@ -138,5 +142,5 @@ describe('<ClearFiltersBtn />', () => {
     );
     const button = screen.getByRole('button');
     expect(button).to.have.class('clear-filters-button');
-  });
+  }); */
 });

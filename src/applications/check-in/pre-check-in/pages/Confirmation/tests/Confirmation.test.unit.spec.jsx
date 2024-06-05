@@ -4,13 +4,20 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '../../../../utils/i18n/i18n';
+import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
 import Confirmation from '../index';
 import { singleAppointment } from '../../../../tests/unit/mocks/mock-appointments';
 import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import PreCheckinConfirmation from '../../../../components/PreCheckinConfirmation';
 
 describe('pre-check-in', () => {
+  let i18n;
+  beforeEach(() => {
+    i18n = setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Confirmation page', () => {
     describe('redux store without friendly name', () => {
       const initState = {

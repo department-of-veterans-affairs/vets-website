@@ -160,9 +160,10 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress()
-            .selectProvider()
+            .selectProvider({ label: /Routine hearing exam providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -177,7 +178,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -215,9 +216,10 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress({ exist: false })
-            .selectProvider()
+            .selectProvider({ label: /Routine hearing exam providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -232,7 +234,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -295,9 +297,10 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress()
-            .selectProvider()
+            .selectProvider({ label: /Routine hearing exam providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -312,7 +315,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();
@@ -354,9 +357,10 @@ describe('VAOS community care flow - Audiology', () => {
             .clickNextButton();
 
           CommunityCarePreferencesPageObject.assertUrl()
+            .assertHeading({ name: /Which provider do you prefer/i })
             .expandAccordian()
             .assertHomeAddress({ exist: false })
-            .selectProvider()
+            .selectProvider({ label: /Routine hearing exam providers/i })
             .clickNextButton();
 
           PreferredLanguagePageObject.assertUrl()
@@ -371,7 +375,7 @@ describe('VAOS community care flow - Audiology', () => {
             .typeEmailAddress('user@va.gov')
             .clickNextButton();
 
-          ReviewPageObject.assertUrl().clickNextButton('Request appointment');
+          ReviewPageObject.assertUrl().clickRequestButton();
           cy.wait('@v2:get:appointment');
 
           ConfirmationPageObject.assertUrl();

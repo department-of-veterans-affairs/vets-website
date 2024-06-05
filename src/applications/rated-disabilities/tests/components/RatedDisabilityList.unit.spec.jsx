@@ -1,62 +1,61 @@
 import React from 'react';
-import moment from 'moment';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import RatedDisabilityList from '../../components/RatedDisabilityList';
 
-describe('<RatedDisabilityList/>', () => {
-  const ratedDisabilities = {
-    ratedDisabilities: [
-      {
-        decisionCode: 'SVCCONNCTED',
-        decisionText: 'Service Connected',
-        diagnosticCode: 5238,
-        effectiveDate: '2008-10-01T05:00:00.000+00:00',
-        name: 'Diabetes mellitus0',
-        ratedDisabilityId: '0',
-        ratingDecisionId: '63655',
-        ratingPercentage: 100,
-        relatedDisabilityDate: '2012-03-09T21:22:09.000+00:00',
-        specialIssues: [
-          {
-            code: 'TRM',
-            name: 'Personal Trauma PTSD',
-          },
-        ],
-      },
-    ],
-  };
-  const fetchRatedDisabilities = () => {};
+const fetchRatedDisabilities = () => {};
+const noRatingsHeading = 'We don’t have rated disabilities on file for you';
+const ratedDisabilities = {
+  ratedDisabilities: [
+    {
+      decisionCode: 'SVCCONNCTED',
+      decisionText: 'Service Connected',
+      diagnosticCode: 5238,
+      effectiveDate: '2008-10-01T00:00:00.000-06:00',
+      name: 'Diabetes mellitus0',
+      ratedDisabilityId: '0',
+      ratingDecisionId: '63655',
+      ratingPercentage: 100,
+      relatedDisabilityDate: '2012-03-09T21:22:09.000+00:00',
+      specialIssues: [
+        {
+          code: 'TRM',
+          name: 'Personal Trauma PTSD',
+        },
+      ],
+    },
+  ],
+};
 
+describe('<RatedDisabilityList>', () => {
   it('should convert disability data into a readable format', () => {
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
     );
-    const date = moment(
-      ratedDisabilities.ratedDisabilities[0].effectiveDate,
-    ).format('MMMM DD, YYYY');
-    expect(wrapper.getByText(date)).to.exist;
+
+    const expectedDate = 'October 01, 2008';
+    expect(screen.getByText(expectedDate)).to.exist;
   });
 
   it('should render a rated disabilities list', () => {
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilities}
       />,
     );
 
-    const disability = ratedDisabilities.ratedDisabilities[0];
+    const [disability] = ratedDisabilities.ratedDisabilities;
     const headingText = `${disability.ratingPercentage}% rating for ${
       disability.name
     }`;
 
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 4,
         name: headingText,
       }),
@@ -71,14 +70,14 @@ describe('<RatedDisabilityList/>', () => {
         },
       ],
     };
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
         name: 'We’re sorry. Something went wrong on our end',
       }),
@@ -93,16 +92,16 @@ describe('<RatedDisabilityList/>', () => {
         },
       ],
     };
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesErr}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
-        name: 'We don’t have rated disabilities on file for you',
+        name: noRatingsHeading,
       }),
     ).to.exist;
   });
@@ -112,16 +111,16 @@ describe('<RatedDisabilityList/>', () => {
       ratedDisabilities: [],
     };
 
-    const wrapper = render(
+    const screen = render(
       <RatedDisabilityList
         fetchRatedDisabilities={fetchRatedDisabilities}
         ratedDisabilities={ratedDisabilitiesEmpty}
       />,
     );
     expect(
-      wrapper.getByRole('heading', {
+      screen.getByRole('heading', {
         level: 2,
-        name: 'We don’t have rated disabilities on file for you',
+        name: noRatingsHeading,
       }),
     ).to.exist;
   });

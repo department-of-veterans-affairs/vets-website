@@ -5,6 +5,8 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect, useDispatch } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -35,6 +37,7 @@ const App = ({
   formData,
   getFormStatus,
   isError,
+  isLoadingFeatures,
   isLoggedIn,
   isStartingOver,
   location,
@@ -43,14 +46,15 @@ const App = ({
   router,
   setFormData,
   showFSR,
-  showEnhancedFSR,
-  showStreamlinedWaiver,
-  showStreamlinedWaiverAssetUpdate,
   showReviewPageNavigationFeature,
   showWizard,
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showUpdatedExpensePages = useToggleValue(
+    TOGGLE_NAMES.financialStatusReportExpensesUpdate,
+  );
 
   useEffect(
     () => {
@@ -92,9 +96,10 @@ const App = ({
   // Contact information data
   useEffect(
     () => {
-      if (isLoggedIn && showEnhancedFSR) {
+      if (isLoggedIn) {
         const { personalData = {} } = formData || {};
         const { veteranContactInformation = {} } = personalData;
+
         if (
           email?.emailAddress !== veteranContactInformation.email ||
           mobilePhone?.updatedAt !==
@@ -116,15 +121,7 @@ const App = ({
         }
       }
     },
-    [
-      email,
-      formData,
-      isLoggedIn,
-      mobilePhone,
-      mailingAddress,
-      setFormData,
-      showEnhancedFSR,
-    ],
+    [email, formData, isLoggedIn, mobilePhone, mailingAddress, setFormData],
   );
 
   useEffect(() => {
@@ -153,20 +150,20 @@ const App = ({
     () => {
       setFormData({
         ...formData,
-        'view:enhancedFinancialStatusReport': showEnhancedFSR,
-        'view:streamlinedWaiver': showStreamlinedWaiver,
-        'view:streamlinedWaiverAssetUpdate': showStreamlinedWaiverAssetUpdate,
+        'view:enhancedFinancialStatusReport': true,
+        'view:streamlinedWaiver': true,
+        'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
+        'view:showUpdatedExpensePages': showUpdatedExpensePages,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      showEnhancedFSR,
-      showStreamlinedWaiver,
-      showStreamlinedWaiverAssetUpdate,
-      setFormData,
       isStartingOver,
+      setFormData,
+      showReviewPageNavigationFeature,
+      showUpdatedExpensePages,
     ],
   );
 
@@ -175,6 +172,16 @@ const App = ({
       <va-loading-indicator
         label="Loading"
         message="Loading your information..."
+        set-focus
+      />
+    );
+  }
+
+  if (isLoadingFeatures) {
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading features..."
         set-focus
       />
     );
@@ -211,6 +218,7 @@ App.propTypes = {
   formData: PropTypes.object,
   getFormStatus: PropTypes.func,
   isError: PropTypes.bool,
+  isLoadingFeatures: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isStartingOver: PropTypes.bool,
   location: PropTypes.object,
@@ -242,6 +250,7 @@ const mapStateToProps = state => ({
     state,
   ),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
+  isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,
 });
 

@@ -7,8 +7,16 @@ import {
 
 const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   return (
-    <VaAccordion uswds>
-      <VaAccordionItem open={expanded} onClick={onChange}>
+    <VaAccordion uswds openSingle>
+      <VaAccordionItem
+        uswds
+        open={expanded}
+        onClick={e => {
+          if (e.target.tagName === 'VA-ACCORDION-ITEM') {
+            onChange();
+          }
+        }}
+      >
         <h2 slot="headline">{title}</h2>
         {children}
       </VaAccordionItem>

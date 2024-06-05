@@ -16,7 +16,6 @@ export default {
       errorMessages: {
         required: 'Select the appropriate living situation',
       },
-      // TODO: Determine how custom-validations work here.
     }),
     'ui:validations': [validateLivingSituation],
   },
@@ -25,5 +24,6 @@ export default {
     properties: {
       livingSituation: checkboxGroupSchema(Object.keys(LIVING_SITUATIONS)),
     },
+    required: ['livingSituation'],
   },
 };

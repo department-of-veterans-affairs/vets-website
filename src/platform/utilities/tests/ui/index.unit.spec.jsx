@@ -5,7 +5,12 @@ import sinon from 'sinon';
 
 import { $ } from '../../../forms-system/src/js/utilities/ui';
 
-import { formatSSN, isReactComponent, customScrollAndFocus } from '../../ui';
+import {
+  displayFileSize,
+  formatSSN,
+  isReactComponent,
+  customScrollAndFocus,
+} from '../../ui';
 
 describe('ui/index', () => {
   describe('formatSSN', () => {
@@ -114,6 +119,16 @@ describe('ui/index', () => {
       const spy = sinon.spy();
       customScrollAndFocus(spy);
       expect(spy.called).to.be.true;
+    });
+  });
+
+  describe('displayFileSize', () => {
+    it('should display correctly', () => {
+      expect(displayFileSize(null)).to.equal('');
+      expect(displayFileSize(0)).to.equal('0B');
+      expect(displayFileSize(1)).to.equal('1B');
+      expect(displayFileSize(1024)).to.equal('1KB');
+      expect(displayFileSize(1024 * 1024)).to.equal('1MB');
     });
   });
 });

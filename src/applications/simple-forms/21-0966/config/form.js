@@ -1,10 +1,10 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
 import manifest from '../manifest.json';
 
 import ITFStatusLoadingIndicatorPage from '../components/ITFStatusLoadingIndicatorPage';
 
+import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -19,24 +19,31 @@ import survivingDependentIdentificationInformation from '../pages/survivingDepen
 import survivingDependentMailingAddress from '../pages/survivingDependentMailingAddress';
 import survivingDependentPhoneAndEmailAddress from '../pages/survivingDependentPhoneAndEmailAddress';
 import {
-  preparerIsVeteran,
+  bypassFormCheck,
   preparerIsSurvivingDependent,
   preparerIsThirdPartyToTheVeteran,
   preparerIsThirdPartyToASurvivingDependent,
-  hasActiveCompensationITF,
-  hasActivePensionITF,
-  noActiveITF,
+  shouldSeeVeteranBenefitSelection,
+  shouldSeeVeteranBenefitSelectionCompensation,
+  shouldSeeVeteranBenefitSelectionPension,
   benefitSelectionChapterTitle,
   survivingDependentPersonalInformationChapterTitle,
   survivingDependentContactInformationChapterTitle,
-  initializeFormDataWithPreparerIdentification,
+  initializeFormDataWithPreparerIdentificationAndPrefill,
   statementOfTruthFullNamePath,
   veteranPersonalInformationChapterTitle,
   veteranContactInformationChapterTitle,
+  getIntentsToFile,
+  preparerIsThirdParty,
+  preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent,
+  preparerIsVeteranAndHasPrefill,
+  shouldSeeVeteranPersonalInformation,
+  shouldSeeVeteranIdentificationInformation,
 } from './helpers';
 import survivingDependentBenefitSelection from '../pages/survivingDependentBenefitSelection';
 import thirdPartySurvivingDependentBenefitSelection from '../pages/thirdPartySurvivingDependentBenefitSelection';
 import veteranPersonalInformation from '../pages/veteranPersonalInformation';
+import confirmVeteranPersonalInformation from '../pages/confirmVeteranPersonalInformation';
 import veteranIdentificationInformation from '../pages/veteranIdentificationInformation';
 import thirdPartyPreparerFullName from '../pages/thirdPartyPreparerFullName';
 import thirdPartyPreparerRole from '../pages/thirdPartyPreparerRole';
@@ -83,6 +90,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   v3SegmentedProgressBar: true,
   subTitle:
     'Intent to File a Claim for Compensation and/or Pension, or Survivors Pension and/or DIC (VA Form 21-0966)',
@@ -112,74 +120,30 @@ const formConfig = {
           path: 'preparer-identification',
           title: 'Your identity',
           initialData:
+            /* istanbul ignore next */
             !!mockData && environment.isLocalhost() && !window.Cypress
               ? mockData
               : undefined,
           uiSchema: preparerIdentification.uiSchema,
           schema: preparerIdentification.schema,
-          onNavForward: ({ formData, goPath, goNextPath, setFormData }) => {
-            if (preparerIsVeteran({ formData })) {
-              goPath('get-itf-status');
-
-              apiRequest(
-                `${
-                  environment.API_URL
-                }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
-              )
-                .then(({ compensationIntent, pensionIntent }) => {
-                  const formDataToSet = {
-                    ...formData,
-                    'view:activeCompensationITF':
-                      compensationIntent?.data?.attributes?.status === 'active'
-                        ? compensationIntent.data.attributes
-                        : {},
-                    'view:activePensionITF':
-                      pensionIntent?.data?.attributes?.status === 'active'
-                        ? pensionIntent.data.attributes
-                        : {},
-                  };
-
-                  setFormData(formDataToSet);
-
-                  if (
-                    hasActiveCompensationITF({ formData: formDataToSet }) &&
-                    hasActivePensionITF({ formData: formDataToSet })
-                  ) {
-                    goPath('confirmation');
-                  } else if (
-                    hasActiveCompensationITF({ formData: formDataToSet })
-                  ) {
-                    goPath('veteran-benefit-selection-pension');
-                  } else if (hasActivePensionITF({ formData: formDataToSet })) {
-                    goPath('veteran-benefit-selection-compensation');
-                  } else {
-                    goNextPath();
-                  }
-                })
-                .catch(() => goNextPath());
-            } else {
-              goNextPath();
-            }
-          },
+          onNavForward: ({ formData, goPath, goNextPath, setFormData }) =>
+            getIntentsToFile({ formData, goPath, goNextPath, setFormData }),
           updateFormData: (oldFormData, newFormData) =>
-            initializeFormDataWithPreparerIdentification(
+            initializeFormDataWithPreparerIdentificationAndPrefill(
               newFormData.preparerIdentification,
+              newFormData['view:veteranPrefillStore'],
             ),
         },
         thirdPartyPreparerFullName: {
           path: 'third-party-preparer-name',
-          depends: formData =>
-            preparerIsThirdPartyToTheVeteran({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          depends: formData => preparerIsThirdParty({ formData }),
           title: 'Your name',
           uiSchema: thirdPartyPreparerFullName.uiSchema,
           schema: thirdPartyPreparerFullName.schema,
         },
         thirdPartyPreparerRole: {
           path: 'third-party-preparer-role',
-          depends: formData =>
-            preparerIsThirdPartyToTheVeteran({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+          depends: formData => preparerIsThirdParty({ formData }),
           title: 'Your role',
           uiSchema: thirdPartyPreparerRole.uiSchema,
           schema: thirdPartyPreparerRole.schema,
@@ -191,8 +155,7 @@ const formConfig = {
       pages: {
         veteranBenefitSelection: {
           path: 'veteran-benefit-selection',
-          depends: formData =>
-            preparerIsVeteran({ formData }) && noActiveITF({ formData }),
+          depends: formData => shouldSeeVeteranBenefitSelection({ formData }),
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelection.uiSchema,
           schema: veteranBenefitSelection.schema,
@@ -200,20 +163,30 @@ const formConfig = {
         veteranBenefitSelectionCompensation: {
           path: 'veteran-benefit-selection-compensation',
           depends: formData =>
-            preparerIsVeteran({ formData }) &&
-            hasActivePensionITF({ formData }),
+            shouldSeeVeteranBenefitSelectionCompensation({ formData }),
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionCompensation.uiSchema,
           schema: veteranBenefitSelectionCompensation.schema,
+          onNavForward: ({ formData, goPath, goNextPath }) =>
+            bypassFormCheck('benefitSelectionCompensation', {
+              formData,
+              goPath,
+              goNextPath,
+            }),
         },
         veteranBenefitSelectionPension: {
           path: 'veteran-benefit-selection-pension',
           depends: formData =>
-            preparerIsVeteran({ formData }) &&
-            hasActiveCompensationITF({ formData }),
+            shouldSeeVeteranBenefitSelectionPension({ formData }),
           title: formData => benefitSelectionChapterTitle({ formData }),
           uiSchema: veteranBenefitSelectionPension.uiSchema,
           schema: veteranBenefitSelectionPension.schema,
+          onNavForward: ({ formData, goPath, goNextPath }) =>
+            bypassFormCheck('benefitSelectionPension', {
+              formData,
+              goPath,
+              goNextPath,
+            }),
         },
         thirdPartyVeteranBenefitSelection: {
           path: 'third-party-veteran-benefit-selection',
@@ -246,8 +219,9 @@ const formConfig = {
         survivingDependentPersonalInformation: {
           path: 'surviving-dependent-personal-information',
           depends: formData =>
-            preparerIsSurvivingDependent({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+            preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+              formData,
+            }),
           title: formData =>
             survivingDependentPersonalInformationChapterTitle({ formData }),
           uiSchema: survivingDependentPersonalInformation.uiSchema,
@@ -256,8 +230,9 @@ const formConfig = {
         survivingDependentIdentificationInformation: {
           path: 'surviving-dependent-identification-information',
           depends: formData =>
-            preparerIsSurvivingDependent({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+            preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+              formData,
+            }),
           title: 'Identification information',
           uiSchema: survivingDependentIdentificationInformation.uiSchema,
           schema: survivingDependentIdentificationInformation.schema,
@@ -271,8 +246,9 @@ const formConfig = {
         survivingDependentMailingAddress: {
           path: 'surviving-dependent-mailing-address',
           depends: formData =>
-            preparerIsSurvivingDependent({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+            preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+              formData,
+            }),
           title: 'Mailing address',
           uiSchema: survivingDependentMailingAddress.uiSchema,
           schema: survivingDependentMailingAddress.schema,
@@ -280,8 +256,9 @@ const formConfig = {
         survivingDependentPhoneAndEmailAddress: {
           path: 'surviving-dependent-phone-and-email-address',
           depends: formData =>
-            preparerIsSurvivingDependent({ formData }) ||
-            preparerIsThirdPartyToASurvivingDependent({ formData }),
+            preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent({
+              formData,
+            }),
           title: 'Phone and email address',
           uiSchema: survivingDependentPhoneAndEmailAddress.uiSchema,
           schema: survivingDependentPhoneAndEmailAddress.schema,
@@ -292,11 +269,18 @@ const formConfig = {
       title: ({ formData }) =>
         veteranPersonalInformationChapterTitle({ formData }),
       pages: {
+        confirmVeteranPersonalInformation: {
+          path: 'confirm-veteran-personal-information',
+          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
+          title: 'Confirm the personal information we have on file for you',
+          uiSchema: confirmVeteranPersonalInformation.uiSchema,
+          schema: confirmVeteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
         veteranPersonalInformation: {
           path: 'veteran-personal-information',
           depends: formData =>
-            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
-            preparerIsThirdPartyToTheVeteran({ formData }),
+            shouldSeeVeteranPersonalInformation({ formData }),
           title: 'Name and date of birth',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
@@ -320,14 +304,15 @@ const formConfig = {
         veteranIdentificationInformation: {
           path: 'veteran-identification-information',
           title: 'Identification information',
-          depends: formData => noActiveITF({ formData }),
+          depends: formData =>
+            shouldSeeVeteranIdentificationInformation({ formData }),
           uiSchema: veteranIdentificationInformation.uiSchema,
           schema: veteranIdentificationInformation.schema,
         },
         survivingDependentRelationshipToVeteran: {
           path: 'surviving-dependent-relationship-to-veteran',
           depends: formData => preparerIsSurvivingDependent({ formData }),
-          title: '',
+          title: 'Relationship to Veteran',
           uiSchema: survivingDependentRelationshipToVeteran.uiSchema,
           schema: survivingDependentRelationshipToVeteran.schema,
         },
@@ -335,7 +320,7 @@ const formConfig = {
           path: 'third-party-surviving-dependent-relationship-to-veteran',
           depends: formData =>
             preparerIsThirdPartyToASurvivingDependent({ formData }),
-          title: '',
+          title: 'Relationship to Veteran',
           uiSchema: thirdPartySurvivingDependentRelationshipToVeteran.uiSchema,
           schema: thirdPartySurvivingDependentRelationshipToVeteran.schema,
         },
@@ -348,8 +333,7 @@ const formConfig = {
         veteranMailingAddress: {
           path: 'veteran-mailing-address',
           depends: formData =>
-            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
-            preparerIsThirdPartyToTheVeteran({ formData }),
+            shouldSeeVeteranPersonalInformation({ formData }),
           title: 'Mailing address',
           uiSchema: veteranMailingAddress.uiSchema,
           schema: veteranMailingAddress.schema,
@@ -357,8 +341,7 @@ const formConfig = {
         veteranPhoneAndEmailAddress: {
           path: 'veteran-phone-and-email-address',
           depends: formData =>
-            (preparerIsVeteran({ formData }) && noActiveITF({ formData })) ||
-            preparerIsThirdPartyToTheVeteran({ formData }),
+            shouldSeeVeteranPersonalInformation({ formData }),
           title: 'Phone and email address',
           uiSchema: veteranPhoneAndEmailAddress.uiSchema,
           schema: veteranPhoneAndEmailAddress.schema,

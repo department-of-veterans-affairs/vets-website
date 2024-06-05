@@ -1,4 +1,6 @@
 import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import {
   validateCurrency,
   validateRealEstateRecordAssetsLimits,
@@ -15,10 +17,12 @@ export const uiSchema = {
   assets: {
     realEstateValue: {
       'ui:title': 'What is the estimated value of all your properties?',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         classNames: 'schemaform-currency-input',
-        widgetClassNames: 'input-size-3',
+        width: 'md',
       },
+
       'ui:errorMessages': {
         required: 'Please enter the value of all your properties.',
       },

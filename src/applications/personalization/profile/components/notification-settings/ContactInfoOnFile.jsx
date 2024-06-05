@@ -26,6 +26,7 @@ const ContactInfoOnFile = ({
             <strong>Email address: </strong>
             {emailAddress && `${emailAddress} `}
             <Link
+              data-testid="email-address-on-file"
               to={generateContactInfoLink({
                 fieldName: FIELD_NAMES.EMAIL,
                 returnPath: encodeURIComponent(

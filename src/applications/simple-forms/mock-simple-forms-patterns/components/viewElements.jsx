@@ -38,3 +38,14 @@ export const RecordHeading = ({ formData }) => (
     <strong>{formData.name}</strong>
   </div>
 );
+
+export const ArrayAddress = ({ formData }) => (
+  <div className="vads-u-padding--2">
+    <strong>{formData.arrayAddress.street}</strong>
+    <br />
+    <strong>
+      {formData.arrayAddress.city}, {formData.arrayAddress.state}{' '}
+      {formData.arrayAddress.postalCode}
+    </strong>
+  </div>
+);

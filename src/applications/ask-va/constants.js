@@ -1,13 +1,15 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
-  // TODO: Add address validation endpoint
-  ADDRESS_VALIDATION: '',
-  GET_INQUIRY: '',
+  ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
+  GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
+  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [
@@ -61,8 +63,14 @@ export const yesNoOptions = {
   NO: 'No',
 };
 
-// Relationship options
-export const relationshipOptions = {
+// Relationship options for Myself
+export const relationshipOptionsMyself = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+};
+
+// Relationship options for SomeoneElse
+export const relationshipOptionsSomeoneElse = {
   VETERAN: "I'm the Veteran",
   FAMILY_MEMBER: "I'm a family member of a Veteran",
   WORK:
@@ -71,20 +79,20 @@ export const relationshipOptions = {
 
 // Military base options
 export const postOfficeOptions = {
-  ARMY_POST_OFFICE: 'Army post office',
-  FLEET_POST_OFFICE: 'Fleet post office',
-  DIPLOMATIC_POST_OFFICE: 'Diplomatic post office',
+  APO: 'Army post office',
+  FPO: 'Fleet post office',
+  DPO: 'Diplomatic post office',
 };
 
 export const regionOptions = {
-  AMERICA_AA: 'Armed Forces America (AA)',
-  EUROPE_AE: 'Armed Forces Europe (AE)',
-  PACIFIC_AP: 'Armed Forces Pacific (AP)',
+  AA: 'Armed Forces America (AA)',
+  AE: 'Armed Forces Europe (AE)',
+  AP: 'Armed Forces Pacific (AP)',
 };
 
 // Contact options
 export const contactOptions = {
-  PHONE: 'Phone',
+  PHONE: 'Phone call',
   EMAIL: 'Email',
   US_MAIL: 'U.S. mail',
 };
@@ -104,32 +112,55 @@ export const addressFields = {
 export const aboutRelationship = {
   SPOUSE: "I'm the Veteran's spouse",
   CHILD: "I'm the Veteran's child",
-  STEPCHILD: "I'm the Veteran's stepchild",
+  STEPCHILD: "I'm the Veteran's step child",
   PARENT: "I'm the Veteran's parent",
-  NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
+// What is THEIR relationship to the family member
+export const aboutTheirRelationshipToVet = {
+  SPOUSE: "They're the Veteran's spouse",
+  CHILD: "They're the Veteran's child",
+  STEPCHILD: "They're the Veteran's step child",
+  PARENT: "They're the Veteran's parent",
+  NOT_LISTED: "They have a relationship that's not listed",
 };
 
 // Who your question is about
 export const whoYourQuestionIsAbout = {
-  ABOUT_VETERAN: 'About the Veteran',
-  ABOUT_SOMEONE_ELSE: 'About someone else',
+  VETERAN: 'Veteran',
+  SOMEONE_ELSE: 'Someone else',
 };
 
-// Question About options
-export const questionAboutOptions = {
-  MY_OWN: 'My own VA benefits',
-  SOMEONE_ELSE: "Someone else's VA benefits",
+// Question About labels
+export const questionAboutLabels = {
+  MYSELF: 'Myself',
+  SOMEONE_ELSE: 'Someone else',
   GENERAL: "It's a general question",
+};
+
+// Question About descriptions
+export const questionAboutDescriptions = {
+  GENERAL: `For example, "What type of home loans does the VA offer?`,
 };
 
 // Reason options
 export const reasonOptions = {
-  QUESTION: 'I have a question',
-  NICE: 'I want to say something nice',
-  COMPLAINT: 'I have a complaint about a service',
-  SUGGESTION: 'I have a suggestion',
-  TOWN_HALL: 'I attended a Town Hall and now I have a question',
-  SOMETHING_ELSE: 'I want to say something else',
+  QUESTION: 'I had a question',
+  NICE: 'I wanted to say something nice',
+  COMPLAINT: 'I had a complaint about a service',
+  SUGGESTION: 'I had a suggestion',
+  TOWN_HALL: 'I had a question after attending a Town Hall',
+  OTHER: 'Other',
 };
 
 // Reason options
@@ -138,6 +169,28 @@ export const yourRoleOptions = {
     'Accredited representative (such as an accredited attorney, claims agent, or Veterans Service Officer)',
   FIDUCIARY: 'Fiduciary',
   FUNERAL_DIR: 'Funeral director',
+  TRAINING_OR_APPRENTICESHIP_SUP:
+    'On-the-job training or apprenticeship supervisor',
+  SCO: 'School Certifying Official (SCO)',
+  VA_EMPLOYEE: 'VA employee',
+  WORK_STUDY_SUP: 'Work study site supervisor',
+  OTHER: 'Other',
+};
+
+// State or Facility options
+export const stateOrFacilityOptions = {
+  SCHOOL_STATE: 'School state',
+  SCHOOL_FACILITY: 'School facility',
+};
+
+// Do you want to use this school options
+export const useThisSchoolOptions = {
+  YES: 'Yes',
+  NO: "No, I'll choose a different option",
+};
+
+// Reason options
+export const yourRoleOptionsEducation = {
   TRAINING_OR_APPRENTICESHIP_SUP:
     'On-the-job training or apprenticeship supervisor',
   SCO: 'School Certifying Official (SCO)',
@@ -174,21 +227,21 @@ export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
     PATH: 'question-1',
-    TITLE: "What's your question about?",
+    TITLE: 'Who is your question about?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select what your question is about:',
+    QUESTION_1: 'Select who your question is about:',
   },
   PAGE_2: {
     PATH: 'question-2',
-    TITLE: "Reason you're contacting us",
+    TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+    QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
     PATH: 'question-3',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: "What's your question?",
+    QUESTION_1: 'What is your question?',
   },
 };
 
@@ -197,15 +250,19 @@ export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
-    TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION:
-      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
-    QUESTION_1: 'Select your relationship to the Veteran:',
-  },
-  ABOUT_YOUR_RELATIONSHIP: {
-    TITLE: 'Tell us more about your relationship to the Veteran',
+    TITLE: 'What is your relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    QUESTION_1: '',
+  },
+  MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
+    TITLE: 'Tell us more about your relationship?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
+  THEIR_RELATIONSHIP_TO_VET: {
+    TITLE: 'What is their relationship to the veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Please describe their relationship to the veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -217,33 +274,41 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Selection',
   },
   DEATH_DATE: {
-    TITLE: 'When did the Veteran die?',
+    TITLE: "Date of Veteran's death",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Date',
+    QUESTION_1: '',
   },
-  VET_POSTAL_CODE: {
+  FAMILY_MEMBERS_POSTAL_CODE: {
+    TITLE: "Family member's postal code",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'Family member receives mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'State',
+    QUESTION_4: 'Postal code',
+  },
+  VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'The Veteran lives on a United States military base outside of the country.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   YOUR_POSTAL_CODE: {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
-    TITLE: 'Who your question is about',
+    TITLE: 'Is your question about the Veteran or someone else?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1:
-      "Is your question about the Veteran's benefits or someone else's",
+    QUESTION_1: 'Select who your question is about:',
   },
   VA_EMPLOYEE: {
     TITLE: 'VA employee',
@@ -259,17 +324,27 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PHONE_EMAIL: {
-    TITLE: 'Your phone number and email',
+  SCHOOL: {
+    TITLE: 'School information',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Mobile phone number',
+    QUESTION_1: '',
+  },
+  CONTACT_INFORMATION: {
+    TITLE: 'Your contact information',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Phone number',
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -278,7 +353,7 @@ export const CHAPTER_3 = {
       'I live on a United States military base outside of the country',
   },
   YOUR_ADDRESS: {
-    TITLE: 'Your address', // full address
+    TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
   ADDRESS_CONFIRM: {
@@ -287,17 +362,48 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',
     QUESTION_1: 'Select your role:',
+  },
+  STATE_OR_FACILITY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
+    QUESTION_1: 'Select school or state facility',
+  },
+  USE_THIS_SCHOOL: {
+    TITLE: 'School information',
+    QUESTION_1: 'Do you want to use this school?',
+  },
+  STATE_OF_SCHOOL: {
+    TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  SCHOOL_STATE_OR_RESIDENCY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'School or state of residency',
+    QUESTION_1: 'Please provide one of the following',
+  },
+  VETERAN_LOCATION_OF_RESIDENCE: {
+    TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
+    QUESTION_1: 'State/Province/Region',
   },
 };
 
@@ -305,7 +411,7 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
-  CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
+  CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
 export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];

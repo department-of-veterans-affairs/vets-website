@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import { APP_NAME } from '../constants';
 import { nodPart3UpdateFeature } from '../utils/helpers';
 import { getEligibleContestableIssues } from '../utils/submit';
 
+import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../shared/actions';
 import ContestableIssues from '../../shared/components/ContestableIssues';
 
 /**

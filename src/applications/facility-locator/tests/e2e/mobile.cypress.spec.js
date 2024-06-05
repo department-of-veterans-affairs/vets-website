@@ -30,7 +30,10 @@ Cypress.Commands.add('checkSearch', () => {
     .should('not.be.disabled')
     .focus()
     .type(city, { force: true });
-  cy.get('#facility-type-dropdown').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('#facility-search').click();
 
   // Search title

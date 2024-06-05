@@ -4,9 +4,18 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import Demographics from '../Demographics';
 
 describe('check in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+
+  afterEach(() => {
+    teardownI18n();
+  });
+
   describe('Demographics', () => {
     const veteranData = {
       demographics: {

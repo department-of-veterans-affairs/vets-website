@@ -4,7 +4,6 @@ import {
   getAddress,
   getConferenceTime,
   getRep,
-  getTimeZone,
   getContact,
 } from '../../utils/submit';
 
@@ -18,7 +17,7 @@ describe('getRep', () => {
     informalConferenceRep: {
       firstName: 'James',
       lastName: 'Sullivan',
-      phone: '8005551212',
+      phone: '800-555-1212',
       extension,
       email,
     },
@@ -143,13 +142,6 @@ describe('getAddress', () => {
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });
 

@@ -12,8 +12,8 @@ div.review {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
-    padding: 1.5rem;
+    border-top: 1px solid var(--vads-color-base-light);
+    padding: 0.9375rem;
     padding-left: 0;
     > dd {
       font-weight: bold;
@@ -35,11 +35,11 @@ div.review {
       }
     }
   }
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 div.form-review-panel-page-header-row {
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 article[data-location="confirmation"] {

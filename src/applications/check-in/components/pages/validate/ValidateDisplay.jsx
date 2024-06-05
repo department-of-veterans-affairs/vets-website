@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
@@ -7,6 +8,7 @@ import {
   VaMemorableDate,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Wrapper from '../../layout/Wrapper';
+import { makeSelectApp } from '../../../selectors';
 
 export default function ValidateDisplay({
   header = '',
@@ -20,6 +22,9 @@ export default function ValidateDisplay({
   validateErrorMessage,
 }) {
   const { t } = useTranslation();
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
 
   useEffect(
     () => {
@@ -77,7 +82,10 @@ export default function ValidateDisplay({
     : '';
 
   return (
-    <Wrapper pageTitle={header || t('check-in-at-va')}>
+    <Wrapper
+      pageTitle={header || t('check-in-at-va')}
+      testID={`${app}-validate-page`}
+    >
       <p>
         {subtitle ||
           t(

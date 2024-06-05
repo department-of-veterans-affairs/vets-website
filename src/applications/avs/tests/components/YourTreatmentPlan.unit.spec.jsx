@@ -56,9 +56,7 @@ describe('Avs: Your Treatment Plan', () => {
     delete avs.orders;
     delete avs.patientInstructions;
     delete avs.clinicalReminders;
-    avs.medChangesSummary.discontinuedMeds = [];
-    avs.medChangesSummary.newMedications = [];
-    avs.medChangesSummary.changedMedications = [];
+    avs.medChangesSummary = null;
     const props = { avs };
     const screen = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('new-orders-heading')).to.not.exist;
@@ -71,6 +69,16 @@ describe('Avs: Your Treatment Plan', () => {
     expect(screen.queryByTestId('other-instructions')).to.not.exist;
     expect(screen.queryByTestId('new-medications-list')).to.not.exist;
     expect(screen.queryByTestId('discontinued-medications-list')).to.not.exist;
+    expect(screen.queryByTestId('changed-medications-list')).to.not.exist;
+  });
+
+  it('Med Changes section is not shown if all sub-sections are empty', async () => {
+    const avs = replacementFunctions.cloneDeep(avsData);
+    avs.medChangesSummary.discontinuedMeds = [];
+    avs.medChangesSummary.newMedications = [];
+    avs.medChangesSummary.changedMedications = [];
+    const props = { avs };
+    const screen = render(<YourTreatmentPlan {...props} />);
     expect(screen.queryByTestId('changed-medications-list')).to.not.exist;
   });
 });

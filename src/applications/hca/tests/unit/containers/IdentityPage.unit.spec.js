@@ -4,12 +4,11 @@ import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import IdentityPage from '../../../containers/IdentityPage';
-
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../../../utils/constants';
 import { simulateInputChange } from '../../helpers';
 import formConfig from '../../../config/form';
+import IdentityPage from '../../../containers/IdentityPage';
 
 describe('hca IdentityPage', () => {
   const getData = ({
@@ -18,6 +17,7 @@ describe('hca IdentityPage', () => {
     status = '',
     loggedIn = false,
     fetchingStatus = false,
+    fetchAttempted = false,
   }) => ({
     props: {
       router: {
@@ -33,13 +33,12 @@ describe('hca IdentityPage', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          enrollmentStatus: status,
-          isLoading: false,
-          isUserInMVI: false,
-          loginRequired: false,
-          noESRRecordFound: false,
+          statusCode: status,
+          isUserInMPI: false,
+          vesRecordFound: false,
           hasServerError: false,
-          isLoadingApplicationStatus: fetchingStatus,
+          loading: fetchingStatus,
+          fetchAttempted,
         },
         form: {
           data: {},
@@ -146,9 +145,7 @@ describe('hca IdentityPage', () => {
         </Provider>,
       );
 
-      const { mockStore: newMockStore } = getData({
-        status: HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
-      });
+      const { mockStore: newMockStore } = getData({ fetchAttempted: true });
       rerender(
         <Provider store={newMockStore}>
           <IdentityPage {...props} />

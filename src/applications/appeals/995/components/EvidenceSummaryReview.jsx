@@ -17,6 +17,7 @@ import {
   UploadContent,
 } from './EvidenceSummaryLists';
 import { SUMMARY_EDIT } from '../constants';
+import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '' } = data;
@@ -97,12 +98,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 };
 
 EvidenceSummaryReview.propTypes = {
-  data: PropTypes.shape({
-    locations: PropTypes.array,
-    providerFacility: PropTypes.array,
-    limitedConsent: PropTypes.string,
-    additionalDocuments: PropTypes.array,
-  }),
+  data: data995,
   editPage: PropTypes.func,
 };
 

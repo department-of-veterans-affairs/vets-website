@@ -49,10 +49,10 @@ function mapStateToProps(state) {
     updatedPage: state.askVA.updatedInReview,
   };
 }
-PageFieldSummary.prototype = {
-  title: PropTypes.string,
+PageFieldSummary.propTypes = {
   defaultEditButton: PropTypes.func,
   renderedProperties: PropTypes.array,
+  title: PropTypes.string,
   updatedPage: PropTypes.string,
 };
 

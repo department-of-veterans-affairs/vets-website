@@ -26,8 +26,12 @@ export const getAppData = state => ({
   // ],
   showMeb1990EMaintenanceAlert:
     state.featureToggles.showMeb1990EMaintenanceAlert,
+  showMeb1990ER6MaintenanceMessage:
+    state.featureToggles.showMeb1990ER6MaintenanceMessage,
   showMebEnhancements06: state.featureToggles.showMebEnhancements06,
   showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
+  toeLightHouseDgiDirectDeposit:
+    state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   user: state.user || {},
 });

@@ -1,10 +1,6 @@
-import {
-  VaButton,
-  VaFileInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { getFileSize } from '../helpers';
 
 const FileUpload = props => {
   const {
@@ -15,7 +11,7 @@ const FileUpload = props => {
     header = 'Upload your files',
     hint = null,
     showDescription = true,
-    success = null,
+    // success = null,
   } = props;
 
   const [attachments, setAttachments] = useState([]);
@@ -25,31 +21,31 @@ const FileUpload = props => {
     setAttachments([...attachments, ...files]);
   };
 
-  const onRemoveFile = fileToRemoveName => {
-    setAttachments(attachments.filter(file => file.name !== fileToRemoveName));
-  };
+  // const onRemoveFile = fileToRemoveName => {
+  //   setAttachments(attachments.filter(file => file.name !== fileToRemoveName));
+  // };
 
-  const renderAlert = () => {
-    if (success === true) {
-      return (
-        <div className="usa-alert usa-alert--success usa-alert--slim">
-          <div className="usa-alert__body">
-            <p className="usa-alert__text">File attached successfully</p>
-          </div>
-        </div>
-      );
-    }
-    if (success === false) {
-      return (
-        <div className="usa-alert usa-alert--error usa-alert--slim">
-          <div className="usa-alert__body">
-            <p className="usa-alert__text">Issue uploading your file</p>
-          </div>
-        </div>
-      );
-    }
-    return null;
-  };
+  // const renderAlert = () => {
+  //   if (success === true) {
+  //     return (
+  //       <div className="usa-alert usa-alert--success usa-alert--slim">
+  //         <div className="usa-alert__body">
+  //           <p className="usa-alert__text">File attached successfully</p>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   if (success === false) {
+  //     return (
+  //       <div className="usa-alert usa-alert--error usa-alert--slim">
+  //         <div className="usa-alert__body">
+  //           <p className="usa-alert__text">Issue uploading your file</p>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  //   return null;
+  // };
 
   return (
     <div>
@@ -73,30 +69,20 @@ const FileUpload = props => {
         </div>
         <VaFileInput
           accept={acceptFileTypes}
+          multiple="multiple"
           button-text={buttonText}
           data-testid="ask-va-file-upload-button"
           error={error}
           hint={hint}
           label={label}
-          name="ask-va-file-input"
+          name="usa-file-input"
           onVaChange={onAddFile}
           uswds
         />
-        {/* <input
-          accept=".pdf,.jpeg,.png"
-          id="file-input-multiple"
-          className="usa-file-input"
-          type="file"
-          name="file-input-multiple"
-          aria-describedby="file-input-multiple-hint"
-          aria-label="Drag files here or choose from folder"
-          multiple="multiple"
-          onChange={onAddFile}
-        /> */}
       </div>
-      <h3 className="site-preview-heading">Attachments</h3>
-      {renderAlert()}
-      {attachments.length > 0 ? (
+      {/* <h3 className="site-preview-heading">Attachments</h3>
+      {renderAlert()} */}
+      {/* {attachments.length > 0 ? (
         <ul className="attachments-list">
           {attachments.map(file => (
             <li key={file.name + file.size}>
@@ -122,7 +108,7 @@ const FileUpload = props => {
         </ul>
       ) : (
         <div className="no-attachments">There are no attachments.</div>
-      )}
+      )} */}
     </div>
   );
 };

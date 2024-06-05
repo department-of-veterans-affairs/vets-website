@@ -2,7 +2,6 @@ import {
   SEARCH_FAILED,
   REPORT_COMPLETE,
   REPORT_FAILED,
-  REPORT_ITEMS_UPDATED,
   GEOCODE_FAILED,
   CLEAR_ERROR,
   GEOCODE_STARTED,
@@ -37,16 +36,6 @@ export const ErrorsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isErrorReportSubmission: null,
-      };
-    // case CLEAR_GEOCODE_ERROR:
-    //   return {
-    //     ...state,
-    //     isErrorGeocode: 0,
-    //   };
-    case REPORT_ITEMS_UPDATED:
-      return {
-        ...state,
-        error: null,
       };
     case GEOCODE_FAILED:
       return {

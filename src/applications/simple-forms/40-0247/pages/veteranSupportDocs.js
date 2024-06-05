@@ -24,7 +24,7 @@ export default {
       'ui:title': 'Upload documents',
       'ui:field': FileField,
       'ui:options': {
-        hideLabelText: false,
+        hideLabelText: true,
         showFieldLabel: true,
         buttonText: 'Upload file',
         addAnotherLabel: 'Upload another file',

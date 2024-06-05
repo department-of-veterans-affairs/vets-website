@@ -1,11 +1,11 @@
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: $color-primary-darkest;
+  background-color: var(--vads-color-primary-darker);
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: $color-black;
+  background-color: var(--vads-color-black);
 }
 
 /* Duo-tone effect */
@@ -15,7 +15,8 @@
   display: inline-block;
 }
 
-.duotone::before, .duotone::after {
+.duotone::before,
+.duotone::after {
   content: "";
   width: 100%;
   height: 100%;
@@ -30,9 +31,12 @@
   mix-blend-mode: screen;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+
   /* Cheat to restrict to IE10+ CSS styles. */
-  .duotone::before, .duotone::after {
+  .duotone::before,
+  .duotone::after {
     width: 0%;
     height: 0%;
   }
@@ -45,8 +49,10 @@
 }
 
 @supports (-ms-ime-align: auto) {
+
   /* Cheat to restrict to IE Edge CSS styles. */
-  .duotone::before, .duotone::after {
+  .duotone::before,
+  .duotone::after {
     width: 0%;
     height: 0%;
   }
@@ -155,6 +161,7 @@
     width: 50%;
     padding-right: 12px;
     padding-left: 0;
+
     &:not(:only-child):last-child {
       padding-right: 0;
       padding-left: 12px;
@@ -167,12 +174,14 @@
 
   @include media($medium-screen) {
     width: 65%;
+
     &.event,
     &.facility {
       width: 50%;
     }
 
     &:not(:only-child):last-child {
+
       &.event,
       &.facility {
         width: 50%;
@@ -202,26 +211,20 @@
 }
 
 .expand-image-button {
-  background-color: $color-primary;
+  background-color: var(--vads-color-primary);
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   height: 32px;
   width: 32px;
 
   &:visited {
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
   }
 
   &:hover {
-    background-color: $color-primary-darker;
-    color: $color-white;
-  }
-}
-
-.social-links {
-  &:last-child.vads-u-margin-bottom--2 {
-    margin-bottom: 0 !important;
+    background-color: var(--vads-color-primary-dark);
+    color: var(--vads-color-white);
   }
 }
 
@@ -235,7 +238,7 @@
     margin-right: 0;
   }
 
-  @include media($medium-screen){
+  @include media($medium-screen) {
     width: 33%;
   }
 }
@@ -266,20 +269,12 @@
 
 .va-facility-page {
   .va-address-block {
-    margin-left: 1rem;
+    margin-left: 0.625rem;
     border-left: none;
   }
 }
 
 .facilities_health_service {
-  h3 {
-    margin-top: 1em;
-  }
-
-  h4 {
-    margin-top: 1em;
-  }
-
   .usa-button {
     margin-bottom: 0;
   }

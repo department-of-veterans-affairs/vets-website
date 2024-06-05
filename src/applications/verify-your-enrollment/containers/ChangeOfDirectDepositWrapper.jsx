@@ -1,47 +1,77 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import '../sass/change-of-direct-deposit-wrapper.scss';
-import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 
-import { scrollToElement } from '../helpers';
+import { hasFormChanged, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
   DIRECT_DEPOSIT_BUTTON_TEXT,
   SMALL_SCREEN,
 } from '../constants/index';
+import { updateBankInfo } from '../actions';
+import Alert from '../components/Alert';
+import Loader from '../components/Loader';
+import AlertModal from '../components/AlertModal';
 
-const ChangeOfDirectDepositWrapper = () => {
+const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
+  const prefix = 'GI-Bill-Chapters-';
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [formData, setFormData] = useState({});
-
-  const PREFIX = 'GI-Bill-Chapters-';
+  const [formData, setFormData] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, error, data: response } = useSelector(
+    state => state.bankInfo,
+  );
 
   const scrollToTopOfForm = () => {
     scrollToElement('Direct deposit information');
   };
 
-  const handleCloseForm = () => {
+  const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
+    setShowModal(false);
     scrollToTopOfForm();
-  };
+  }, []);
 
+  const onCancelButtonClick = () => {
+    if (hasFormChanged(formData, applicantName)) {
+      setShowModal(true);
+    } else {
+      handleCloseForm();
+    }
+  };
   // called when submitting form
   const saveBankInfo = () => {
-    // commented out until tied in with redux
-    // const fields = {
-    //     bankname: formData[`${PREFIX}BankName`],
-    //     bankPhone: formData[`${PREFIX}BankPhone`],
-    //     routingNumber: formData[`${PREFIX}RoutingNumber`],
-    //     accountNumber: formData[`${PREFIX}AccountNumber`],
-    //     accountType: formData[`${PREFIX}AccountType`],
-
-    // };
-    handleCloseForm(); // close directDeposit form
-    // add redux logic here when API is available
+    // commented out until tied in with redu
+    const fields = {
+      phone: formData[`${prefix}phone`],
+      // phone2: formData[`${prefix}phone`],
+      fullName: applicantName,
+      email: formData[`${prefix}email`],
+      acctType: formData[`${prefix}AccountType`].toLowerCase(),
+      routingNo: formData[`${prefix}RoutingNumber`],
+      acctNo: formData[`${prefix}AccountNumber`],
+      bankName: formData[`${prefix}BankName`],
+      bankPhone: formData[`${prefix}BankPhone`],
+    };
+    dispatch(updateBankInfo(fields));
   };
 
+  useEffect(
+    () => {
+      if (!loading && (response || error)) {
+        handleCloseForm();
+      } else {
+        window.scrollTo(0, 0);
+      }
+    },
+    [error, handleCloseForm, loading, response],
+  );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
       <p>
@@ -111,26 +141,11 @@ const ChangeOfDirectDepositWrapper = () => {
     };
   }, []);
 
-  //   scroll to top of div when edit page is canceled or saved
-  // useEffect(
-  //   () => {
-  //     if (!toggleDirectDepositForm) {
-  //       scrollToElement('Direct deposit information');
-  //       // const element = document.getElementById('Direct deposit information');
-  //       // if (element) {
-  //       //   element.scrollIntoView({ behavior: 'smooth' });
-  //       // }
-  //     }
-  //     // }
-  //   },
-  //   [toggleDirectDepositForm],
-  // );
-
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -143,68 +158,76 @@ const ChangeOfDirectDepositWrapper = () => {
       >
         {!toggleDirectDepositForm && (
           <>
+            {error && (
+              <Alert
+                status="error"
+                message="Sorry, something went wrong. Please try again Later"
+              />
+            )}
+            {response?.ok && (
+              <Alert
+                status="success"
+                title="New account added"
+                message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
+              />
+            )}
             <va-button
               id="VYE-add-new-account-button"
               onClick={handleAddNewClick}
               text={DIRECT_DEPOSIT_BUTTON_TEXT}
             />
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-y--2"
-            >
-              <h2 id="VYE-change-of-direct-deposit" slot="headline">
-                Change of Direct Deposit for Veryify Your Enrollment
-              </h2>
-              <div>
-                <span className="vads-u-margin-y--0">
-                  <p>
-                    This direct deposit information is only used for payments
-                    for Montgomery GI Bill® Benefits.
-                  </p>
-                  <p>
-                    To change your direct deposit information for other VA
-                    services, edit your{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
-                      VA Profile.
-                    </a>
-                  </p>
-                </span>
-              </div>
-            </va-alert>
-            {bankInfoHelpText}
+            <div>
+              <p>
+                <span className="vads-u-font-weight--bold">Note: </span>
+                Any updates you make here will affect your Montgomery GI Bill
+                benefits only.{' '}
+              </p>
+              <va-link
+                href="/change-direct-deposit/"
+                text="Learn how to update your direct deposit account for other VA benefits"
+              />
+              <div className="vads-u-margin-top--3">{bankInfoHelpText}</div>
+            </div>
           </>
         )}
         {toggleDirectDepositForm && (
           <div className="direct-deposit-form-container">
-            <p className="vads-u-font-weight--bold">Add new account</p>
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+              Add new account
+            </h3>
             {directDepositDescription}
+            {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
-              formData={formData}
+              defaultName={applicantName}
+              formData={formData ?? {}}
               formChange={data => setFormData(data)}
-              formPrefix={PREFIX}
+              formPrefix={prefix}
               formSubmit={saveBankInfo}
             >
-              <LoadingButton
-                aria-label="save your bank information for GI Bill® benefits"
-                type="submit"
-                loadingText="saving bank information"
-                className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
-              >
-                Save
-              </LoadingButton>
-              <va-button
-                text="Cancel"
-                secondary
-                label="cancel updating your bank information for GI Bill® benefits"
-                onClick={() => {
-                  handleCloseForm();
-                }}
-                data-qa="cancel-button"
-                data-testid={`${PREFIX}form-cancel-button`}
+              <AlertModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                cancelEditClick={handleCloseForm}
+                formType="direct deposit"
               />
+              <div className="button-container">
+                <LoadingButton
+                  aria-label="save your bank information for GI Bill® benefits"
+                  type="submit"
+                  loadingText="saving bank information"
+                  className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
+                >
+                  Save
+                </LoadingButton>
+                <va-button
+                  text="Cancel"
+                  secondary
+                  label="cancel updating your bank information for GI Bill® benefits"
+                  onClick={onCancelButtonClick}
+                  data-qa="cancel-button"
+                  data-testid={`${prefix}form-cancel-button`}
+                />
+              </div>
             </ChangeOfDirectDepositForm>
           </div>
         )}
@@ -212,5 +235,7 @@ const ChangeOfDirectDepositWrapper = () => {
     </div>
   );
 };
-
+ChangeOfDirectDepositWrapper.propTypes = {
+  applicantName: PropTypes.string,
+};
 export default ChangeOfDirectDepositWrapper;

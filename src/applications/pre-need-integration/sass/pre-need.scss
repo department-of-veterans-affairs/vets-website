@@ -22,7 +22,7 @@
 }
 
 .autosuggest-list {
-  max-height: 17rem;
+  max-height: 10.625rem;
 }
 
 h3.name-of-deceased-text {
@@ -33,28 +33,39 @@ h3.name-of-deceased-text {
 
 .mail-or-fax-message,
 .mail-or-fax-steps {
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
   margin-top: 0;
 }
 
 .mail-or-fax-steps {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 0.625rem;
 }
 
 .mail-or-fax-step {
-  margin-bottom: 0.75rem;
-  padding-left: 1rem;
+  margin-bottom: 0.46875rem;
+  padding-left: 0.625rem;
 }
 
 .mail-fax-address {
-  border-left: 3px solid $color-primary;
-  padding-left: 1rem;
+  border-left: 3px solid var(--vads-color-primary);
+  padding-left: 0.625rem;
 }
 
 article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="applicant-demographics-preparer"],
 article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+}
+
+article#pre-need[data-location="applicant-demographics-2"],
+article#pre-need[data-location="applicant-demographics-2-preparer"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
   }
 }
 
@@ -65,9 +76,16 @@ article#pre-need[data-location="sponsor-date-of-death"] {
   }
 }
 
+.sponsorDeceasedDescriptionNotProd {
+  margin-bottom: 2em;
+}
+
 article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
   }
 }
 
@@ -106,8 +124,17 @@ fieldset.schemaform-field-template.schemaform-first-field {
   padding-bottom: 1em;
 }
 
+.sponsor-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 0em;
+}
+
 .preparer-va-radio {
-  padding-top: 0.5em;
+  padding-top: 0em;
+}
+
+.sponsor-va-radio {
+  margin-top: -3em;
 }
 
 .desiredCemeteryNoteTitle {
@@ -116,9 +143,24 @@ fieldset.schemaform-field-template.schemaform-first-field {
   font-weight: normal;
 }
 
-.applicantDetailsSubHeader,
-.sponsorDetailsSubHeader {
+.isSponsorSubHeader {
+  margin-top: 0em;
+}
+
+.applicantDetailsSubHeader {
   margin-bottom: -1em;
+}
+
+.sponsorDetailsSubHeader {
+  padding-bottom: 0em;
+}
+
+.sponsorDetailsSummaryBoxText {
+  padding-top: 0.5em;
+}
+
+.sponsorDetailsSummaryBox {
+  margin-bottom: 1.5em;
 }
 
 .sponsorMilitaryDetailsSubHeader {
@@ -147,12 +189,32 @@ fieldset.schemaform-field-template.schemaform-first-field {
   margin-bottom: -1em;
 }
 
+.applicantContactInfoSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.applicantContactInfoPreparerSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.sponsorContactInfoSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.bottomPadding {
+  padding-bottom: 16px;
+}
+
 .phone {
   @media screen and (min-width: ($small-screen+1px)) {
-    max-width: 18rem;
+    max-width: 11.25rem;
   }
 }
 
 .desiredCemeteryNote {
   padding-top: 2em;
+}
+
+.suffixSpacing {
+  padding-bottom: 1em;
 }

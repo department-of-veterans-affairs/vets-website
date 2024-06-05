@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import sinon from 'sinon';
 
@@ -45,24 +46,29 @@ describe('<AddressSection>', () => {
   });
 
   it('should enable the View Letters button with default props', () => {
-    const screen = render(
+    const { container } = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
         <AddressSection address={address} />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('View Letters')).to.not.have.attr('disabled');
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'View Letters',
+    );
+    expect($('va-button', container).getAttribute('disabled')).to.eq('false');
   });
 
   it('should render an empty address warning on the view screen and disable the View Letters button', () => {
-    const screen = render(
+    const { container, getByText } = render(
       <MemoryRouter initialEntries={[`/confirm-address`]}>
         <AddressSection address={emptyAddress} />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('We don’t have a valid address on file for you')).to
-      .exist;
-    expect(screen.getByText('View Letters')).to.have.attr('disabled');
+    expect(getByText('We don’t have a valid address on file for you').exist);
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'View Letters',
+    );
+    expect($('va-button', container).getAttribute('disabled')).to.eq('true');
   });
 });

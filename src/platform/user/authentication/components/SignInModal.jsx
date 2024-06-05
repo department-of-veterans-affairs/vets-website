@@ -25,6 +25,7 @@ export default class SignInModal extends React.Component {
         onClose={this.props.onClose}
         id="signin-signup-modal"
       >
+        {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
         <LoginContainer />
       </Modal>
     );

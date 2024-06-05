@@ -74,8 +74,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
             </li>
             <li>
               You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your application to come back and
-              finish it.
+              you start or make updates to your form to come back and finish it.
             </li>
           </ul>
           {sipIntro}

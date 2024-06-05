@@ -17,7 +17,7 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    getByText(/you may have trouble using APPLICATION/i);
+    getByText(/During this time, you won’t be able to use APPLICATION/i);
     getByText(startString);
     getByText(endString);
   });
@@ -30,7 +30,7 @@ describe('MHVDowntimeApproaching', () => {
     };
 
     const { getByText } = render(<MHVDowntimeApproaching {...props} />);
-    getByText(/you may have trouble using some of our health tools/i);
+    getByText(/you won’t be able to use our health tools/i);
     getByText(startString);
     getByText(endString);
   });

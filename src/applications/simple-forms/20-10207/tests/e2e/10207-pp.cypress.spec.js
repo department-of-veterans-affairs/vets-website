@@ -6,6 +6,8 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import {
   fillAddressWebComponentPattern,
   fillDateWebComponentPattern,
+  fillTextWebComponent,
+  reviewAndSubmitPageFlow,
   selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
@@ -13,6 +15,10 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
 import user from './fixtures/mocks/user.json';
+import sipPut from './fixtures/mocks/sip-put.json';
+import sipGet from './fixtures/mocks/sip-get.json';
+import { statementOfTruthFullNamePath } from '../../helpers';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 
 // mock logged in LOA3 user
 const userLOA3 = {
@@ -33,6 +39,9 @@ const userLOA3 = {
     },
   },
 };
+
+// tracks if already added list and loop item
+let addedListAndLoopItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -58,61 +67,85 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'mailing-address': ({ afterHook }) => {
+      'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get(
-              'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
-            )
-              .should('be.visible')
-              .then(() => {
-                cy.get('[name="root_mailingAddress_state"]')
-                  .should('not.have.attr', 'disabled')
-                  .then(() => {
-                    // callback to avoid field-disabled errors, but
-                    // even now we must wait a bit!
-                    // eslint-disable-next-line cypress/no-unnecessary-waiting
-                    cy.wait(1000);
-                    fillAddressWebComponentPattern(
-                      'mailingAddress',
-                      data.mailingAddress,
-                    );
-
-                    cy.axeCheck('.form-panel');
-                    cy.findByText(/continue/i, { selector: 'button' }).click();
-                  });
-              });
+            fillAddressWebComponentPattern(
+              'veteranMailingAddress',
+              data.veteranMailingAddress,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       'other-reasons': ({ afterHook }) => {
         afterHook(() => {
           cy.selectVaCheckbox('root_otherReasons_FINANCIAL_HARDSHIP', true);
+          cy.axeCheck('.form-panel');
           cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();
         });
       },
-      'evidence-pow': ({ afterHook }) => {
+      'medical-treatments': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const {
-              powConfinementStartDate,
-              powConfinementEndDate,
-              powMultipleConfinements,
-            } = data;
-            fillDateWebComponentPattern(
-              'powConfinementStartDate',
-              powConfinementStartDate,
-            );
-            fillDateWebComponentPattern(
-              'powConfinementEndDate',
-              powConfinementEndDate,
-            );
+            let hasReceivedMedicalTreatment =
+              data['view:hasReceivedMedicalTreatment'];
+            if (addedListAndLoopItem) {
+              hasReceivedMedicalTreatment = false;
+              addedListAndLoopItem = false;
+            }
+
             selectYesNoWebComponent(
-              'powMultipleConfinements',
-              powMultipleConfinements,
+              'view:hasReceivedMedicalTreatment',
+              hasReceivedMedicalTreatment,
             );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'medical-treatments/0/name-and-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { medicalTreatments } = data;
+            const { facilityName, facilityAddress } = medicalTreatments[0];
+
+            fillTextWebComponent('facilityName', facilityName);
+            fillAddressWebComponentPattern('facilityAddress', facilityAddress);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'medical-treatments/0/treatment-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { medicalTreatments } = data;
+            const { startDate } = medicalTreatments[0];
+
+            fillDateWebComponentPattern('startDate', startDate);
+
+            addedListAndLoopItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fullNamePath = statementOfTruthFullNamePath({
+              formData: data,
+            });
+            reviewAndSubmitPageFlow(data[fullNamePath], 'Submit application');
           });
         });
       },
@@ -120,13 +153,16 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('/v0/api', { status: 200 });
-      cy.intercept('/v0/feature_toggles', featureToggles);
+      cy.intercept('/v0/feature_toggles*', featureToggles);
+      cy.intercept('PUT', '/v0/in_progress_forms/20-10207', sipPut);
+      cy.intercept('GET', '/v0/in_progress_forms/20-10207', sipGet);
+      cy.intercept(formConfig.submitUrl, mockSubmit);
       cy.login(userLOA3);
     },
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

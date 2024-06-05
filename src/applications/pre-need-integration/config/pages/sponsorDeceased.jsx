@@ -15,7 +15,7 @@ export const uiSchema = {
         },
       },
       isDeceased: {
-        'ui:title': 'Has the sponsor passed away?',
+        'ui:title': 'Has the sponsor died?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {

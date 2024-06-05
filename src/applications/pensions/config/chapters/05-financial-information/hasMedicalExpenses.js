@@ -1,11 +1,14 @@
 import React from 'react';
 import {
-  yesNoSchema,
+  titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { hasMedicalExpenses } = fullSchemaPensions.properties;
 
 export const description = (
-  <section>
+  <>
     <p>
       We want to know if you, your spouse, or your dependents pay medical or
       certain other expenses that aren’t reimbursed.
@@ -33,25 +36,25 @@ export const description = (
         </li>
       </ul>
     </p>
-  </section>
+  </>
 );
 
 /** @type {PageSchema} */
 export default {
+  title: 'Medical expenses and other unreimbursed expenses',
+  path: 'financial/medical-expenses',
   uiSchema: {
-    'ui:title': 'Medical expenses and other unreimbursed expenses',
-    'ui:description': description,
+    ...titleUI('Medical expenses and other unreimbursed expenses', description),
     hasMedicalExpenses: yesNoUI({
       title:
         "Do you, your spouse, or your dependents pay medical or other expenses that aren't reimbursed?",
-      uswds: true,
     }),
   },
   schema: {
     type: 'object',
     required: ['hasMedicalExpenses'],
     properties: {
-      hasMedicalExpenses: yesNoSchema,
+      hasMedicalExpenses,
       'view:warningAlert': {
         type: 'object',
         properties: {},

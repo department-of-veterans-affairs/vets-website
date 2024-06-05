@@ -9,8 +9,15 @@ import {
   singleAppointment,
 } from '../../../tests/unit/mocks/mock-appointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 
 describe('check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     const initAppointments = [...multipleAppointments, ...singleAppointment];
     const now = format(new Date(), "yyyy-LL-dd'T'HH:mm:ss");
@@ -51,19 +58,27 @@ describe('check-in experience', () => {
       stationNo: '0001',
       clinicIen: '0001',
     };
+    initAppointments[4] = {
+      ...initAppointments[4],
+      kind: 'cvt',
+      appointmentIen: 5555,
+      eligibility: 'INELIGIBLE_BAD_STATUS',
+      stationNo: '0001',
+      clinicIen: '0001',
+    };
+    initAppointments[5] = {
+      ...initAppointments[5],
+      kind: 'vvc',
+      appointmentIen: 6666,
+      stationNo: '0001',
+      clinicIen: '0001',
+    };
     delete initAppointments[0].clinicPhoneNumber;
     delete initAppointments[0].doctorName;
     delete initAppointments[0].clinicStopCodeName;
     const preCheckInStore = {
       app: 'preCheckIn',
       appointments: initAppointments,
-    };
-    const preCheckInStoreWith45MinuteFlag = {
-      app: 'preCheckIn',
-      appointments: initAppointments,
-      features: {
-        check_in_experience_45_minute_reminder: true,
-      },
     };
     const dayOfCheckInStore = {
       app: 'dayOf',
@@ -93,6 +108,18 @@ describe('check-in experience', () => {
         appointmentId: '4444-0001',
       },
     };
+    const appointmentFiveRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '5555-0001',
+      },
+    };
+    const appointmentSixRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '6666-0001',
+      },
+    };
     describe('AppointmentDetails', () => {
       describe('Phone pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
@@ -117,7 +144,7 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('phone-appointment-subtitle')).to.exist;
         });
-        it('renders clinic instead of where to attend', () => {
+        it('renders need to make changes instead of where to attend', () => {
           const { getByRole } = render(
             <CheckInProvider
               store={preCheckInStore}
@@ -126,7 +153,20 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(getByRole('heading', { name: 'Clinic', level: 2 })).to.exist;
+          expect(
+            getByRole('heading', { name: 'Need to make changes?', level: 2 }),
+          ).to.exist;
+        });
+        it('renders facility information', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentOneRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('appointment-details--facility-info')).to.exist;
         });
       });
       describe('In person pre-check-in appointment', () => {
@@ -152,18 +192,7 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('in-person-appointment-subtitle')).to.exist;
         });
-        it('renders correct subtitle for 45 minute reminder feature flag', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStoreWith45MinuteFlag}
-              router={appointmentTwoRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(getByTestId('in-person-45-minute-subtitle')).to.exist;
-        });
-        it('renders where to attend instead of clinic', () => {
+        it('renders where to attend instead of need to make changes', () => {
           const { getByRole } = render(
             <CheckInProvider
               store={preCheckInStore}
@@ -176,9 +205,33 @@ describe('check-in experience', () => {
             .exist;
         });
       });
-      describe('All appointments - data exists', () => {
-        it('renders stopcode if exists', () => {
+      describe('CVT pre-check-in appointment', () => {
+        it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentFiveRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('header')).to.have.text(
+            'Video appointment at LOMA LINDA VA CLINIC',
+          );
+        });
+        it('renders correct subtitle', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentFiveRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('cvt-appointment-subtitle')).to.exist;
+        });
+        it('renders where to attend instead of need to make changes', () => {
+          const { getByRole } = render(
             <CheckInProvider
               store={preCheckInStore}
               router={appointmentTwoRoute}
@@ -186,10 +239,59 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('stop code test');
+          expect(getByRole('heading', { name: 'Where to attend', level: 2 })).to
+            .exist;
         });
+      });
+      describe('VVC pre-check-in appointment', () => {
+        it('renders correct heading for appointment type', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('header')).to.have.text('Video appointment');
+        });
+        it('renders correct subtitle', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('vvc-appointment-subtitle')).to.exist;
+        });
+        it('renders need to make changes instead of where to attend', () => {
+          const { getByRole } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(
+            getByRole('heading', { name: 'Need to make changes?', level: 2 }),
+          ).to.exist;
+        });
+        it('renders facility information', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('appointment-details--facility-info')).to.exist;
+        });
+      });
+      describe('All appointments - data exists', () => {
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(
             <CheckInProvider
@@ -214,32 +316,6 @@ describe('check-in experience', () => {
         });
       });
       describe("All appointments - data doesn't exist", () => {
-        it('renders VA appointment when no stopcode', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentOneRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
-        });
-        it('renders generic appointment if stopCodeName is empty string', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentThreeRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
-        });
         it('does not render doctor name if missing', () => {
           const { queryByTestId } = render(
             <CheckInProvider
