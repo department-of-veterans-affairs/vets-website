@@ -30,7 +30,7 @@ export const recordTypes = [
 
 const toKebabCase = (phrase = '') => phrase.toLowerCase().replace(/\s+/g, '-');
 
-const MedicalRecords = ({ blueButtonUrl }) => (
+const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
   <div
     className={classnames(
       'vads-l-grid-container',
@@ -42,7 +42,7 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     <VaBreadcrumbs breadcrumbList={breadcrumbList} />
 
     <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
-      <h1 className="vads-u-margin-bottom--0">Medical records</h1>
+      <h1 className="vads-u-margin-bottom--0">{pageHeading}</h1>
 
       <div
         className={classnames(
@@ -125,6 +125,7 @@ const MedicalRecords = ({ blueButtonUrl }) => (
 
 MedicalRecords.propTypes = {
   blueButtonUrl: PropTypes.string.isRequired,
+  pageHeading: PropTypes.string.isRequired,
 };
 
 export default MedicalRecords;

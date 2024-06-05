@@ -10,12 +10,13 @@ describe('Medications Refill History on Details Page', () => {
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
+    const cardNumber = 16;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(refillHistoryDetails);
+    detailsPage.clickMedicationDetailsLink(refillHistoryDetails, cardNumber);
     detailsPage.verifyRefillHistoryHeaderOnDetailsPage();
     detailsPage.verifyFirstRefillHeaderTextOnDetailsPage();
     detailsPage.verifyFillDateFieldOnDetailsPage();

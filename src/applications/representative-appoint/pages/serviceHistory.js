@@ -3,9 +3,9 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 // Example of an imported schema:
-// import fullSchema from '../21-22-AND-21-22A-schema.json';
+// import fullSchema from '../21-22-schema.json';
 // In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
+// import fullSchema from 'vets-json-schema/dist/21-22-schema.json';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
