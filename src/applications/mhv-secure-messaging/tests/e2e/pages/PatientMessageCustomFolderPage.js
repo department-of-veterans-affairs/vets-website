@@ -218,8 +218,6 @@ class PatientMessageCustomFolderPage {
   };
 
   clickClearFilterButton = () => {
-    this.inputFilterDataText('any');
-    this.clickFilterMessagesButton();
     cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 

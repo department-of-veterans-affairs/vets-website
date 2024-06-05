@@ -3,6 +3,9 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { Data, Assertions, Locators, Paths } from '../utils/constants';
 
 class FolderLoadPage {
@@ -37,7 +40,7 @@ class FolderLoadPage {
     folderName,
     folderNumber,
     folderResponseIndex,
-    messagesList = mockMessages,
+    messagesList,
   ) => {
     this.foldersSetup();
     this.loadFolders();
@@ -51,25 +54,25 @@ class FolderLoadPage {
     ).as('folderThreadResponse');
 
     cy.get(`[data-testid=${folderName}]>a`).click({ force: true });
-    cy.wait('@folderMetaData');
-    cy.wait('@folderThreadResponse');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
+    // cy.wait('@folderMetaData');
+    // cy.wait('@folderThreadResponse');
+    // cy.wait('@featureToggle');
+    // cy.wait('@mockUser');
   };
 
   loadInboxMessages = messagesList => {
     this.loadFolderMessages('Inbox', 0, 0, messagesList);
   };
 
-  loadDraftMessages = messagesList => {
+  loadDraftMessages = (messagesList = mockDraftMessages) => {
     this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
-  loadSentMessages = messagesList => {
+  loadSentMessages = (messagesList = mockSentMessages) => {
     this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
 
-  loadDeletedMessages = messagesList => {
+  loadDeletedMessages = (messagesList = mockTrashMessages) => {
     this.loadFolderMessages('Deleted', -3, 3, messagesList);
   };
 
@@ -97,6 +100,10 @@ class FolderLoadPage {
     cy.get(Locators.ALERTS.PAGIN_LIST).each(el => {
       cy.wrap(el).should('be.visible');
     });
+  };
+
+  backToFolder = name => {
+    cy.contains(`Back to ${name}`).click({ force: true });
   };
 }
 

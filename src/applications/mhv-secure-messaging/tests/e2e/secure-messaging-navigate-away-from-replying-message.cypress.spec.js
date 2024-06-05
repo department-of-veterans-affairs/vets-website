@@ -4,6 +4,7 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import PatientComposePage from './pages/PatientComposePage';
 
@@ -24,7 +25,7 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
 
-    PatientComposePage.backToFolder('inbox');
+    FolderLoadPage.backToFolder('inbox');
     PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
 
     PatientComposePage.clickOnContinueEditingButton();

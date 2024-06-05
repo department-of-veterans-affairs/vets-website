@@ -4,8 +4,8 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
-import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging navigate away from unsaved draft', () => {
   it(' Check navigation away from unsaved draft', () => {
@@ -23,7 +23,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
       force: true,
     });
 
-    PatientComposePage.backToFolder('inbox');
+    FolderLoadPage.backToFolder('inbox');
     PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
 
     cy.injectAxe();
