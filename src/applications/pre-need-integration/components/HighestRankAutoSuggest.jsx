@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
@@ -45,17 +44,13 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
         if (currentBranch) {
           setBranchOfService(currentBranch);
         }
-        const ranks = getRanksForBranch(currentBranch);
-        const currentRank = serviceRecords[currentIndex]?.highestRank;
-        if (currentRank) {
-          const matchingRank = ranks.find(
-            rankOption => rankOption.key === currentRank,
+        const currentRank = serviceRecords[currentIndex];
+        if (currentRank.highestRank) {
+          setRank(
+            `${currentRank.highestRank} - ${
+              currentRank.highestRankDescription
+            }`,
           );
-          if (matchingRank) {
-            setRank(
-              `${matchingRank.key.toUpperCase()} - ${matchingRank.value}`,
-            );
-          }
         }
       }
     },
@@ -81,11 +76,28 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
 
   const handleSelectionChange = selection => {
     setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
-    const updatedFormData = set(
-      `application.veteran.serviceRecords[${index}].highestRank`,
-      selection.key,
-      { ...formData },
-    );
+
+    // Create an updated form data object with both highestRank and highestRankDescription
+    const updatedFormData = {
+      ...formData,
+      application: {
+        ...formData.application,
+        veteran: {
+          ...formData.application.veteran,
+          serviceRecords: formData.application.veteran.serviceRecords.map(
+            (record, idx) =>
+              idx === index
+                ? {
+                    ...record,
+                    highestRank: selection.key,
+                    highestRankDescription: selection.value,
+                  }
+                : record,
+          ),
+        },
+      },
+    };
+
     dispatch(setData(updatedFormData));
   };
 

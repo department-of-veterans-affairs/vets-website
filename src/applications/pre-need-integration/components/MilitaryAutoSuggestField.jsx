@@ -23,7 +23,6 @@ function MilitaryAutoSuggest({
 
   const getMatchScore = (input, labelValue) => {
     if (!input || !labelValue) return 0;
-
     const normalizedInput = input.toLowerCase();
     const label = `${labelValue.key} - ${labelValue.value}`;
     const normalizedLabel = label ? label.toLowerCase() : '';
@@ -54,7 +53,10 @@ function MilitaryAutoSuggest({
           <input
             {...getInputProps({
               value: inputValue,
-              onChange: e => setInputValue(e.target.value),
+              onChange: e => {
+                setInputValue(e.target.value);
+              },
+              autoComplete: true,
             })}
           />
           {isOpen && (
