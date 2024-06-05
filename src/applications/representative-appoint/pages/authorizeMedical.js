@@ -1,62 +1,51 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-// Example of an imported schema:
-// import fullSchema from '../21-22-AND-21-22A-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
-
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
-
-const { toursOfDuty } = commonDefinitions;
+import {
+  authorizationInfo,
+  authorizationNote,
+} from '../content/authorizationInfo';
 
 export default {
   uiSchema: {
-    toursOfDuty: {
-      'ui:title': 'Service periods',
+    'view:authorizationInfo': {
+      'ui:description': authorizationInfo,
+    },
+    authorizationRadio: {
+      'ui:title': `Do you authorize this accredited VSO to access your medical records?`,
+      'ui:widget': 'radio',
       'ui:options': {
-        itemName: 'Service Period',
-        viewField: ServicePeriodView,
-        hideTitle: true,
-      },
-      items: {
-        dateRange: dateRangeUI(
-          'Service start date',
-          'Service end date',
-          'End of service must be after start of service',
-        ),
-        serviceBranch: {
-          'ui:title': 'Branch of service',
+        widgetProps: {
+          'First option': { 'data-info': 'first_1' },
+          'Second option': { 'data-info': 'second_2' },
         },
-        serviceStatus: {
-          'ui:title':
-            'Type of service (Active duty, drilling reservist, IRR, etc.)',
-        },
-        applyPeriodToSelected: {
-          'ui:title':
-            'Apply this service period to the benefit I’m applying for.',
-          'ui:options': {
-            hideOnReviewIfFalse: true,
-          },
-        },
-        benefitsToApplyTo: {
-          'ui:title':
-            'Please explain how you’d like this service period applied.',
-          'ui:widget': 'textarea',
-          'ui:options': {
-            expandUnder: 'applyPeriodToSelected',
-            expandUnderCondition: false,
-          },
+        selectedProps: {
+          'First option': { 'aria-describedby': 'some_id_1' },
+          'Second option': { 'aria-describedby': 'some_id_2' },
         },
       },
+    },
+
+    'view:authorizationNote': {
+      'ui:description': authorizationNote,
     },
   },
   schema: {
     type: 'object',
     properties: {
-      toursOfDuty,
+      'view:authorizationInfo': {
+        type: 'object',
+        properties: {},
+      },
+      authorizationRadio: {
+        type: 'string',
+        enum: [
+          'Yes, they can access all of these types of records',
+          'Yes, but they can only access some of these types of records',
+          `No, they can't access any of these types of records`,
+        ],
+      },
+      'view:authorizationNote': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
