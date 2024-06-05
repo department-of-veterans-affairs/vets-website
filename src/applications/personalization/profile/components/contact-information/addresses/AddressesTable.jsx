@@ -8,7 +8,7 @@ import {
   FIELD_TITLES,
 } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { formatAddressTitle } from '@@vap-svc/util/contact-information/addressUtils';
 
 import { NavLink } from 'react-router-dom';
@@ -17,7 +17,7 @@ import CopyAddressModalController from './CopyAddressModalController';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
 import BadAddressAlert from '../../alerts/bad-address/FormAlert';
 
-const generateRows = showBadAddress => [
+const generateRows = (showBadAddress, toggleValue) => [
   {
     title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]),
     description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
@@ -28,10 +28,16 @@ const generateRows = showBadAddress => [
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
           ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
         />
-        <NavLink activeClassName="is-active" exact to="/profile/direct-deposit">
-          Go to direct deposit to manage your Montgomery Gl Bill benefit payment
-          address.
-        </NavLink>
+        {toggleValue ? (
+          <NavLink
+            activeClassName="is-active"
+            exact
+            to="/profile/direct-deposit"
+          >
+            Go to direct deposit to manage your Montgomery Gl Bill benefit
+            payment address.
+          </NavLink>
+        ) : null}
       </>
     ),
     alertMessage: showBadAddress ? <BadAddressAlert /> : null,
@@ -48,19 +54,25 @@ const generateRows = showBadAddress => [
   },
 ];
 
-const AddressesTable = ({ className, showBadAddress }) => (
-  <>
-    <CopyAddressModalController />
+const AddressesTable = ({ className, showBadAddress }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.toggleVyeAdressDirectDepositFormsInProfile,
+  );
+  return (
+    <>
+      <CopyAddressModalController />
 
-    <ProfileInfoCard
-      title="Addresses"
-      level={2}
-      namedAnchor="addresses"
-      data={generateRows(showBadAddress)}
-      className={className}
-    />
-  </>
-);
+      <ProfileInfoCard
+        title="Addresses"
+        level={2}
+        namedAnchor="addresses"
+        data={generateRows(showBadAddress, toggleValue)}
+        className={className}
+      />
+    </>
+  );
+};
 
 AddressesTable.propTypes = {
   className: PropTypes.string,

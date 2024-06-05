@@ -24,6 +24,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import { benefitTypes } from '~/applications/personalization/common/constants';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { handleDowntimeForSection } from '../../alerts/DowntimeBanner';
 import VerifyIdentity from '../alerts/VerifyIdentity';
 
@@ -69,6 +70,10 @@ const DirectDeposit = ({
   const wasSavingEDUBankInfo = usePrevious(eduUiState.isSaving);
   const eduSaveError = eduUiState.responseError;
   const showBankInformation = isVerifiedUser;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.toggleVyeAdressDirectDepositFormsInProfile,
+  );
 
   const removeBankInfoUpdatedAlert = useCallback(() => {
     setTimeout(() => {
@@ -167,7 +172,7 @@ const DirectDeposit = ({
                   setViewingPayments={setViewingPayments}
                   showSuccessMessage={showCNPSuccessMessage}
                 />
-                <BenefitsProfilePageWrapper />
+                {toggleValue && <BenefitsProfilePageWrapper />}
               </>
             )}
           </DowntimeNotification>
