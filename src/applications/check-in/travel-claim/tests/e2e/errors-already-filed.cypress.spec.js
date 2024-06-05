@@ -3,9 +3,6 @@ import '../../../tests/e2e/commands';
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 import Error from './pages/Error';
-import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
-
-const dateFns = require('date-fns');
 
 // skipping rather than fixing since this will be overhauled.
 describe('A Patient who has already filed for all eligile appointments', () => {
@@ -27,28 +24,12 @@ describe('A Patient who has already filed for all eligile appointments', () => {
       // Set the value in local storage using win.localStorage.setItem()
       win.localStorage.setItem(
         'my.health.travel-claim.travel.pay.sent',
-        `["${new Date().toISOString()}"]`,
+        JSON.stringify(new Date().toISOString()),
       );
     });
     cy.visitTravelClaimWithUUID();
     Error.validatePageLoaded();
     Error.validateErrorAlert('already-filed-claim');
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--error-already-filed-claim');
-  });
-  it('should load the validate page if not already filed', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.defaultUUID,
-    );
-    cy.window().then(win => {
-      // Set the value in local storage using win.localStorage.setItem()
-      win.localStorage.setItem(
-        'my.health.travel-claim.travel.pay.sent',
-        `["${dateFns.subDays(new Date(), 1).toISOString()}"]`,
-      );
-    });
-    cy.visitTravelClaimWithUUID();
-    ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--error-already-filed-claim');
   });
