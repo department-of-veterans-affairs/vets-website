@@ -243,6 +243,6 @@ export default function ClaimPhaseStepper({
 
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
-  currentClaimPhaseDate: PropTypes.number.isRequired,
+  currentClaimPhaseDate: PropTypes.string.isRequired,
   currentPhase: PropTypes.number.isRequired,
 };
