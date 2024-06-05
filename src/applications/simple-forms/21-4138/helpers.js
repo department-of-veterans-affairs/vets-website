@@ -77,33 +77,43 @@ const upperizeKeys = obj => {
   }, {});
 };
 
-export const fetchFormData = async (dispatch, form) => {
+const alreadyStarted = formData => {
+  return (
+    formData.livingSituation ||
+    formData.otherReasons ||
+    formData.otherHousingRisks
+  );
+};
+
+export const unifyPPFormData = async dispatch => {
   try {
-    const response = await apiRequest('/in_progress_forms/20-10207');
-    const formData = response?.formData;
+    const forms = ['20-10207', '21-4138'];
 
-    if (formData) {
-      const { livingSituation, otherReasons, otherHousingRisks } = formData;
+    const [pp, ss] = await Promise.all(
+      forms.map(form =>
+        apiRequest(`/in_progress_forms/${form}`).then(
+          response => response?.formData || {},
+        ),
+      ),
+    );
 
-      const existingData = form?.data || {};
-      const formAlreadyStarted =
-        existingData.livingSituation ||
-        existingData.otherReasons ||
-        existingData.otherHousingRisks;
+    const ppStarted = alreadyStarted(pp);
+    const ssStarted = alreadyStarted(ss);
 
-      if (formAlreadyStarted) return;
+    // If neither form is started or both are started, return early
+    if ((!ppStarted && !ssStarted) || (ppStarted && ssStarted)) return;
 
-      const updatedFormData = {
-        ...existingData,
-        livingSituation: upperizeKeys(livingSituation),
-        otherReasons: upperizeKeys(otherReasons),
-        otherHousingRisks,
-      };
-      dispatch(setData(updatedFormData));
-    }
+    const source = ppStarted ? pp : ss;
+    const target = ppStarted ? ss : pp;
+
+    target.livingSituation = upperizeKeys(source.livingSituation);
+    target.otherReasons = upperizeKeys(source.otherReasons);
+    target.otherHousingRisks = source.otherHousingRisks;
+
+    dispatch(setData(target));
   } catch (error) {
-    // Handle error if necessary
+    // no-op
   } finally {
-    // Optional cleanup or final steps
+    // no-op
   }
 };

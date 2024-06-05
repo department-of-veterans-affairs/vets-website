@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
-import { fetchFormData } from '../helpers';
+import { unifyPPFormData } from '../helpers';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -14,7 +14,7 @@ const IntroductionPage = props => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchFormData(dispatch, form);
+    unifyPPFormData(dispatch, form);
   }, []);
 
   const childContent = (
