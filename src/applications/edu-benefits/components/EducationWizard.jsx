@@ -225,7 +225,7 @@ class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Find your education benefits form
+          Apply for education benefits
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">

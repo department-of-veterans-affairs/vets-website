@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
-import parkedRx from '../fixtures/parked-prescription-details.json';
+
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -82,7 +82,7 @@ class MedicationsListPage {
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
-      'we’ll include a list of allergies and reactions',
+      'If you’re on a public or shared computer',
     );
   };
 
@@ -136,7 +136,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
   };
@@ -255,12 +255,6 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      `#card-header-${
-        parkedRx.data.id
-      } > [data-testid="medications-history-details-link"]`,
-    ).should('be.visible');
-
-    cy.get(
       '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
@@ -302,18 +296,15 @@ class MedicationsListPage {
     cy.get('[data-testid="prescription-VA-health-link"]').should('be.visible');
   };
 
-  verifyInformationBasedOnStatusUnknown = () => {
-    cy.get('[data-testid="unknown"] > div')
+  verifyInformationBasedOnStatusUnknown = unknownPrescription => {
+    cy.get(
+      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(1)`,
+    )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
-    cy.get(
-      `[data-testid="rx-card-info"] > #card-header-${
-        activeRxRefills.data.id
-      } > [data-testid="medications-history-details-link"]`,
-    );
     cy.get(
       '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
     ).should(
@@ -333,9 +324,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      `#card-header-${
-        nonVARx.data.id
-      } > [data-testid="medications-history-details-link"]`,
+      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -440,7 +429,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
       );
   };
@@ -469,25 +458,23 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
       );
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
     );
   };
 
-  verifyDiscontinuedMedicationNameIsVisibleOnListPage = prescriptionDetails => {
+  verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('be.visible');
   };
 

@@ -75,16 +75,9 @@ const MessageThreadHeader = props => {
         formattedRecipient,
       } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
-      if (!isAssociated) {
+      if (!isAssociated || isBlocked) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageGroupList([formattedRecipient]);
-      } else if (recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(isBlocked);
-        setBlockedTriageGroupList(
-          recipients.blockedRecipients.filter(
-            recipient => recipient.name === formattedRecipient.name,
-          ),
-        );
       }
     }
 

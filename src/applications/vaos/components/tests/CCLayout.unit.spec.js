@@ -11,7 +11,6 @@ describe('VAOS Component: CCLayout', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 
