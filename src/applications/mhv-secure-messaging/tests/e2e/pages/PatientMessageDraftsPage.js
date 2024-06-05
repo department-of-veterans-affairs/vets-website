@@ -583,6 +583,7 @@ class PatientMessageDraftsPage {
       .should('be.visible')
       .and('have.text', `Delete draft ${number}`);
 
+    cy.get('[class^="attachments-section]').should('not.exist');
     cy.get(`#send-button-${number}`).should('not.exist');
     cy.get(`#save-draft-button-${number}`).should('not.exist');
   };

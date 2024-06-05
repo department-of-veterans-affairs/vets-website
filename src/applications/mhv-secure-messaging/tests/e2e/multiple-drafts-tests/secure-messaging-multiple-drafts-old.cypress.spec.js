@@ -26,6 +26,9 @@ describe('handle multiple drafts older than 45 days', () => {
 
     cy.get(Locators.BUTTONS.EDIT_DRAFTS).should('not.exist');
 
+    draftPage.expandSingleDraft(1);
+    draftPage.verifyExpandedOldDraftButtons(1);
+
     draftPage.expandSingleDraft(2);
     draftPage.verifyExpandedOldDraftButtons(2);
   });
