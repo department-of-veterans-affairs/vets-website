@@ -4,6 +4,7 @@
     "applicantHasPrimary": false,
     "applicantMedicareStatus": false,
     "applicantPhone": "1112221212",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "888 Street Lane",

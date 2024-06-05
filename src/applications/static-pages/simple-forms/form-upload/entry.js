@@ -2,23 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
-import environment from 'platform/utilities/environment';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 export default function createFormUploadAccess(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   const { hasOnlineTool, formNumber } = root.dataset;
 
-  // TODO: Remove `environment.isStaging()` when we want to release this to production
-  if (root && environment.isStaging()) {
+  if (root) {
     import(/* webpackChunkName: "form-upload" */ './App.js').then(module => {
       const App = module.default;
       ReactDOM.render(
-        <Provider store={store}>
-          <App
-            hasOnlineTool={hasOnlineTool === 'true'}
-            formNumber={formNumber}
-          />
-        </Provider>,
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.formUploadFlow}>
+          <Toggler.Enabled>
+            <Provider store={store}>
+              <App
+                hasOnlineTool={hasOnlineTool === 'true'}
+                formNumber={formNumber}
+              />
+            </Provider>
+          </Toggler.Enabled>
+
+          <Toggler.Disabled>{null}</Toggler.Disabled>
+        </Toggler>,
         root,
       );
     });
