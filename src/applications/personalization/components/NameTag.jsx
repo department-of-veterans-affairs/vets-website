@@ -9,32 +9,31 @@ import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
 import { formatFullName } from '../common/helpers';
 
+const disabilityRatingClasses = prefixUtilityClasses([
+  'margin-top--1p5',
+  'color--white',
+  'text-align--center',
+  'line-height--3',
+]);
+
+const disabilityRatingClassesMedium = prefixUtilityClasses(
+  ['margin-top--1', 'text-align--left', 'display--flex'],
+  'medium',
+);
+
+const disabilityRatingClassesSmall = prefixUtilityClasses(
+  ['display--block'],
+  'small',
+);
+
+const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5'], 'medium');
+
 const DisabilityRatingContent = ({ rating }) => {
-  const disabilityRatingClasses = prefixUtilityClasses([
-    'margin-top--1p5',
-    'color--white',
-    'text-align--center',
-    'line-height--3',
-  ]);
-
-  const disabilityRatingClassesMedium = prefixUtilityClasses(
-    ['margin-top--1', 'text-align--left', 'display--flex'],
-    'medium',
-  );
-
-  const disabilityRatingClassesSmall = prefixUtilityClasses(
-    ['display--block'],
-    'small',
-  );
-
-  const dtRatingClasses = prefixUtilityClasses(['margin-right--0p5']);
-
   const classes = [
     ...disabilityRatingClasses,
     ...disabilityRatingClassesMedium,
     ...disabilityRatingClassesSmall,
   ].join(' ');
-
   return (
     <div className={classes}>
       <dt className={rating ? dtRatingClasses : null}>
@@ -48,7 +47,7 @@ const DisabilityRatingContent = ({ rating }) => {
               ? `View your ${rating}% service connected disability rating`
               : 'view your disability rating'
           }
-          className="vads-u-color--white"
+          className="vads-u-color--white medium-screen:vads-u-margin-top--neg0p25 medium-screen:vads-u-margin-left--0 vads-u-margin-left--2"
           style={{ whiteSpace: 'nowrap' }}
         >
           <strong>
@@ -56,10 +55,10 @@ const DisabilityRatingContent = ({ rating }) => {
               ? `${rating}% service connected`
               : 'View disability rating '}
           </strong>
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-chevron-right vads-u-padding-left--0p5"
+          <va-icon
+            icon="chevron_right"
+            size="3"
+            style={{ position: 'relative', top: '2px', marginTop: '-2px' }}
           />
         </a>
       </dd>

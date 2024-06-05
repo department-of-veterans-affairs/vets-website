@@ -13,7 +13,7 @@ const LastFilledInfo = rx => {
     showLastFilledDate = true;
   }
   return (
-    <div>
+    <>
       {nonVA &&
         orderedDate && (
           <p data-testid="rx-last-filled-info">
@@ -29,7 +29,7 @@ const LastFilledInfo = rx => {
         !showLastFilledDate && (
           <p data-testid="active-not-filled-rx">Not filled yet</p>
         )}
-    </div>
+    </>
   );
 };
 
