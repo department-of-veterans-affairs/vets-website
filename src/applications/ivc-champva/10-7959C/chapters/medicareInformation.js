@@ -4,6 +4,8 @@ import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/V
 import {
   titleUI,
   titleSchema,
+  textUI,
+  textSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   yesNoUI,
@@ -73,7 +75,7 @@ export const applicantMedicareClassSchema = {
       ...radioUI({
         required: () => true,
         labels: {
-          ab: 'Original Medicare Parts A and B (hospital and medical coverage',
+          ab: 'Original Medicare Parts A and B (hospital and medical coverage)',
           advantage: 'Medicare Advantage Plan (Part C)',
           other: 'Other Medicare plan',
         },
@@ -153,12 +155,11 @@ export const applicantMedicarePartACarrierSchema = {
           true,
         )} Medicare Part A carrier`,
     ),
-    applicantMedicarePartACarrier: {
-      'ui:title': 'Name of insurance carrier',
-      'ui:hint':
-        'Your insurance is "Medicare Health Insurance" or your insurance company',
-      'ui:webComponentField': VaTextInputField,
-    },
+    applicantMedicarePartACarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint:
+        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+    }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
       hint: effectiveDateHint,
@@ -172,7 +173,7 @@ export const applicantMedicarePartACarrierSchema = {
     ],
     properties: {
       titleSchema,
-      applicantMedicarePartACarrier: { type: 'string' },
+      applicantMedicarePartACarrier: textSchema,
       applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -181,14 +182,19 @@ export const applicantMedicarePartACarrierSchema = {
 export const applicantMedicarePartBCarrierSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} Medicare Part B carrier`,
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} Medicare Part B carrier`,
     ),
-    applicantMedicarePartBCarrier: {
-      'ui:title': 'Name of insurance carrier',
-      'ui:hint':
-        'Your insurance is "Medicare Health Insurance" or your insurance company',
-      'ui:webComponentField': VaTextInputField,
-    },
+    applicantMedicarePartBCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint:
+        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+    }),
     applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B effective date',
       hint: effectiveDateHint,
@@ -202,7 +208,7 @@ export const applicantMedicarePartBCarrierSchema = {
     ],
     properties: {
       titleSchema,
-      applicantMedicarePartBCarrier: { type: 'string' },
+      applicantMedicarePartBCarrier: textSchema,
       applicantMedicarePartBEffectiveDate: currentOrPastDateSchema,
     },
   },
@@ -219,6 +225,7 @@ export const applicantMedicareABUploadSchema = {
             You’ll need to submit a copy of the front and back of {appName}{' '}
             Medicare card for hospital and medical coverage.
             <br />
+            <br />
             Upload a copy of one of these documents:
             <ul>
               <li>
@@ -232,6 +239,7 @@ export const applicantMedicareABUploadSchema = {
             <br />
             You can also upload any other supporting documents you may have for
             this Medicare plan.
+            <br />
             <br />
             If you don’t have a copy to upload now, you can send it by mail or
             fax
@@ -301,7 +309,7 @@ export const applicantMedicarePartDCarrierSchema = {
     ),
     applicantMedicarePartDCarrier: {
       'ui:title': 'Name of insurance carrier',
-      'ui:hint': 'Your insurance carrier is your insurance company.',
+      'ui:description': 'Your insurance carrier is your insurance company.',
       'ui:webComponentField': VaTextInputField,
     },
     applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
