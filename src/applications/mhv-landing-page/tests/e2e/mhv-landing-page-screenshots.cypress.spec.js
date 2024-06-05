@@ -19,6 +19,8 @@ Cypress.Commands.add('saveScreenshot', filename => {
 
 viewports.forEach(viewport => {
   describe(`${appName} -- ${viewport} screenshots`, () => {
+    const scenario = Cypress.env('with_screenshots') ? it : it.skip;
+
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
@@ -26,19 +28,19 @@ viewports.forEach(viewport => {
       cy.viewportPreset(viewport);
     });
 
-    it("displays 'Identity not verified' alert", () => {
+    scenario("displays 'Identity not verified' alert", () => {
       LandingPage.visit({ verified: false });
       cy.saveScreenshot(`my-health--alert--identity-not-verified--${viewport}`);
       cy.injectAxeThenAxeCheck();
     });
 
-    it("displays 'You don't have access' alert", () => {
+    scenario("displays 'You don't have access' alert", () => {
       LandingPage.visit({ registered: false });
       cy.saveScreenshot(`my-health--alert--you-dont-have-access--${viewport}`);
       cy.injectAxeThenAxeCheck();
     });
 
-    it('renders', () => {
+    scenario('renders', () => {
       LandingPage.visit();
       cy.saveScreenshot(`my-health--${viewport}`);
       cy.injectAxeThenAxeCheck();
