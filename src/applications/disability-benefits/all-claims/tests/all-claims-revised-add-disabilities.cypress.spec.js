@@ -27,7 +27,7 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
     },
 
-    pageHooks: pageHooks(cy),
+    pageHooks: pageHooks(cy, mockFeatureToggles),
     setupPerTest: () => {
       cy.login(mockUser);
       setup(cy, mockFeatureToggles);
