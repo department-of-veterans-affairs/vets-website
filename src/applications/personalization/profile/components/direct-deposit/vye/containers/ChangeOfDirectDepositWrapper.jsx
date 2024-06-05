@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import '../sass/change-of-direct-deposit-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
