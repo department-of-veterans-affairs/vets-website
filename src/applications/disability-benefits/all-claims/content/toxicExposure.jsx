@@ -294,36 +294,6 @@ export function getOtherFieldDescription(formData, objectName) {
 }
 
 /**
- * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
- * If the 'none' checkbox is selected along with another item, adds an error.
- *
- * @param {object} errors - Errors object from rjsf
- * @param {object} formData
- * @param {string} objectName - Name of the object to look at in the form data
- * @param {string} otherObjectName - Name of the object containing other location or other hazard data
- * @param {string} selectionTypes - locations or hazards
- */
-export function validateSelections(
-  errors,
-  formData,
-  objectName,
-  otherObjectName,
-  selectionTypes = 'locations',
-) {
-  const { [objectName]: items = {} } = formData?.toxicExposure;
-
-  if (
-    items?.none === true &&
-    (Object.values(items).filter(value => value === true).length > 1 ||
-      !!getOtherFieldDescription(formData, otherObjectName))
-  ) {
-    errors.toxicExposure[objectName].addError(
-      selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
-    );
-  }
-}
-
-/**
  * Given the key for a selected checkbox option, find the index within the selected items. In this
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
@@ -385,16 +355,46 @@ export function getSelectedCount(
     return 0;
 
   let count = 0;
+  const ignoredItems = ['none', 'notsure'];
   for (const [key, value] of Object.entries(
     formData.toxicExposure[checkboxObjectName],
   )) {
-    // Skip `notsure` since it's not a location
-    if (value === true && key !== 'notsure') {
+    // Skip `none` and `notsure` as non-locations
+    if (value === true && !ignoredItems.includes(key)) {
       count += 1;
     }
   }
 
   return count + (otherFieldDescription ? 1 : 0);
+}
+
+/**
+ * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * If the 'none' checkbox is selected along with another item, adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ * @param {string} objectName - Name of the object to look at in the form data
+ * @param {string} otherObjectName - Name of the object containing other location or other hazard data
+ * @param {string} selectionTypes - locations or hazards
+ */
+export function validateSelections(
+  errors,
+  formData,
+  objectName,
+  otherObjectName,
+  selectionTypes = 'locations',
+) {
+  const { [objectName]: items = {} } = formData?.toxicExposure;
+
+  if (
+    items?.none === true &&
+    !!getSelectedCount(objectName, formData, otherObjectName)
+  ) {
+    errors.toxicExposure[objectName].addError(
+      selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
+    );
+  }
 }
 
 /**

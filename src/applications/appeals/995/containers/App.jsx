@@ -27,6 +27,7 @@ import {
 } from '../constants';
 
 import { wrapInH1 } from '../../shared/content/intro';
+import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
@@ -168,10 +169,11 @@ export const App = ({
     service: DATA_DOG_SERVICE,
   });
 
-  return (
+  return wrapWithBreadcrumb(
+    'sc',
     <article id="form-0995" data-location={`${pathname?.slice(1)}`}>
       {content}
-    </article>
+    </article>,
   );
 };
 
