@@ -102,7 +102,7 @@ describe('ProofOfVeteranStatus', () => {
 
       expect(
         view.queryByAltText(
-          /sample proof of 3 veteran status card featuring name, date of birth, disability rating and period of service/,
+          /sample proof of veteran status card featuring name, date of birth, disability rating and period of service/,
         ),
       ).to.exist;
     });
