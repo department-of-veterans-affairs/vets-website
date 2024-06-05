@@ -81,18 +81,6 @@ export const schema = {
               'cityOfBirth',
               'stateOfBirth',
             ]),
-            // delete this once schema is updated
-
-            {
-              cityOfBirth: {
-                type: 'string',
-                maxLength: 100,
-              },
-              stateOfBirth: {
-                type: 'string',
-                maxLength: 100,
-              },
-            },
           ),
         },
       },
