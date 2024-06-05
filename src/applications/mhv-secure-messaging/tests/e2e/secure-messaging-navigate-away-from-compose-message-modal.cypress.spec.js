@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
@@ -19,11 +20,11 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     PatientComposePage.enterDataToMessageSubject();
     PatientComposePage.enterDataToMessageBody();
 
-    PatientComposePage.backToFolder('inbox');
+    FolderLoadPage.backToFolder('inbox');
     PatientComposePage.clickOnContinueEditingButton();
     PatientComposePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
-    PatientComposePage.backToFolder('inbox');
+    FolderLoadPage.backToFolder('inbox');
     PatientComposePage.clickOnDeleteDraftButton();
     PatientComposePage.verifyExpectedPageOpened('Inbox');
     cy.get(Locators.ALERTS.CREATE_NEW_MESSAGE).should('be.visible');

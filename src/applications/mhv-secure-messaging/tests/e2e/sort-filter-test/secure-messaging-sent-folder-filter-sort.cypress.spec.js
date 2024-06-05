@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessagesSentPage from '../pages/PatientMessageSentPage';
+import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Message Details in Sent AXE Check', () => {
@@ -8,7 +9,7 @@ describe('Secure Messaging Message Details in Sent AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessagesSentPage.loadMessages();
+    FolderLoadPage.loadSentMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
