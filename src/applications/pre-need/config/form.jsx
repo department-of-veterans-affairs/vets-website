@@ -10,7 +10,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import fileUploadUI from '../definitions/file';
 import transformForSubmit from './transformForSubmit';
 
 import emailUI from '../definitions/email';
