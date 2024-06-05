@@ -10,7 +10,6 @@ describe('Secure Messaging Trash Folder checks', () => {
     site.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadDeletedMessages();
-    // PatientMessageTrashPage.loadMessages();
   });
 
   it('Verify filter works correctly', () => {

@@ -11,8 +11,7 @@ describe('Secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
     site.login();
     PatientInboxPage.loadInboxMessages(mockDraftMessages);
-    FolderLoadPage.loadFolders();
-    FolderLoadPage.loadDraftMessages(mockDraftMessages);
+    FolderLoadPage.loadDraftMessages();
   });
 
   it('Verify filter works correctly', () => {

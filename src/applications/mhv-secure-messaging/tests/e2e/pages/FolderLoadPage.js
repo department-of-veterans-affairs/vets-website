@@ -60,10 +60,6 @@ class FolderLoadPage {
     // cy.wait('@mockUser');
   };
 
-  loadInboxMessages = messagesList => {
-    this.loadFolderMessages('Inbox', 0, 0, messagesList);
-  };
-
   loadDraftMessages = (messagesList = mockDraftMessages) => {
     this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
