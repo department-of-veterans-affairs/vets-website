@@ -131,15 +131,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.uiSchema,
-  1,
-  'Applicant medicare advantage benefits',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
   formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
   1,
