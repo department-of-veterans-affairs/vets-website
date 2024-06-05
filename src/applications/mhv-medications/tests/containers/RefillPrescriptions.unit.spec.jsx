@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import {
   mockApiRequest,
-  mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
@@ -57,7 +56,7 @@ describe('Refill Prescriptions Component', () => {
   };
 
   beforeEach(() => {
-    mockFetch();
+    // mockFetch();
   });
 
   afterEach(() => {
