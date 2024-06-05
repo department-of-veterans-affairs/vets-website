@@ -48,11 +48,10 @@ describe('Microbiology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText('May', {
-      exact: false,
-      selector: 'p',
+    const formattedDate = screen.getAllByText('May 1, 2018, 12:00 a.m.', {
+      exact: true,
     });
-    expect(formattedDate).to.exist;
+    expect(formattedDate.length).to.eq(2);
   });
 
   it('should display the lab results', () => {

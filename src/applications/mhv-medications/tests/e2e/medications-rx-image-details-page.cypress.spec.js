@@ -10,10 +10,11 @@ describe('Medications Details Review Image DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 16;
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(rxTrackingDetails);
+    detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
     // detailsPage.clickReviewImageDropDownOnDetailsPage();
     detailsPage.verifyMedicationImageVisibleOnDetailsPage();
     cy.injectAxe();

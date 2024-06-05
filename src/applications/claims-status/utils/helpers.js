@@ -71,7 +71,7 @@ const claimPhaseTypeDescriptionMap = {
   PENDING_DECISION_APPROVAL:
     'We’re preparing your decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
   PREPARATION_FOR_NOTIFICATION:
-    'A senior reviewer is doing a final review of your claim and the decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+    'A senior reviewer is doing a final review of your claim and the decision letter.',
   COMPLETE:
     'You can view and download your decision letter. We also sent you a copy by mail.',
 };

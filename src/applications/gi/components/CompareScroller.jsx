@@ -31,11 +31,21 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
     <div className="compare-scroller">
       <div className="scroll-controls">
         <div className="left-arrow scroll-arrrow vads-u-text-align--left">
-          <i className={`fa fa-chevron-left`} onClick={() => arrowClick(-1)} />
+          <va-icon
+            icon="navigate_before"
+            class="arrow-icon"
+            size={9}
+            onClick={() => arrowClick(-1)}
+          />
         </div>
         <div className="vads-u-text-align--center circles">{circles}</div>
         <div className="right-arrow scroll-arrrow vads-u-text-align--right">
-          <i className={`fa fa-chevron-right`} onClick={() => arrowClick(1)} />
+          <va-icon
+            icon="navigate_next"
+            class="arrow-icon"
+            size={9}
+            onClick={() => arrowClick(1)}
+          />
         </div>
       </div>
     </div>

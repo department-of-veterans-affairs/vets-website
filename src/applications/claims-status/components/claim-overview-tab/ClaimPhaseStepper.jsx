@@ -36,8 +36,7 @@ export default function ClaimPhaseStepper({
             and Social Security number.
           </p>
           <p className="vads-u-margin-bottom--0">
-            If basic information is missing, we’ll contact you to gather that
-            information.
+            If information is missing, we’ll contact you.
           </p>
         </>
       ),
@@ -135,10 +134,6 @@ export default function ClaimPhaseStepper({
             A senior reviewer will do a final review of your claim and the
             decision letter.
           </p>
-          <p>
-            If we need more evidence or you submit more evidence, your claim
-            will go back to Step 3: Evidence gathering.
-          </p>
         </>
       ),
     },
@@ -186,6 +181,18 @@ export default function ClaimPhaseStepper({
     return '';
   };
 
+  const headerIconText = phase => {
+    if (isCurrentPhase(phase) && phase !== 8) {
+      return 'Current';
+    }
+
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
+      return 'Completed';
+    }
+
+    return '';
+  };
+
   const headerIconColor = phase => {
     if (isCurrentPhase(phase) && phase !== 8) {
       return 'phase-current';
@@ -211,6 +218,7 @@ export default function ClaimPhaseStepper({
             <va-icon
               icon={headerIcon(claimPhase.phase)}
               class={headerIconColor(claimPhase.phase)}
+              srtext={headerIconText(claimPhase.phase)}
               slot="icon"
             />
             {isCurrentPhase(claimPhase.phase) && (

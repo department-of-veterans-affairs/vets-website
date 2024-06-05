@@ -91,7 +91,9 @@ const BenefitsProfileWrapper = ({ children }) => {
                   loading={loading}
                   applicantName={applicantName}
                   mailingAddress={{
-                    street: latestAddress?.address1,
+                    street: `${
+                      latestAddress?.address1
+                    } ${latestAddress?.address2 ?? ''}`,
                     city: latestAddress?.city,
                     stateCode: latestAddress?.state,
                     zipCode: latestAddress?.zipCode,

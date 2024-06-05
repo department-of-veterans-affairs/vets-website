@@ -1,14 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
-
-function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return [formattedDate, formattedTime];
-}
+import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
   const {
@@ -16,7 +8,7 @@ export default function TravelClaimCard(props) {
     createdOn,
     claimStatus,
     claimNumber,
-    appointmentDateTime,
+    appointmentDate: appointmentDateTime,
     facilityName,
     modifiedOn,
   } = props;
@@ -29,7 +21,10 @@ export default function TravelClaimCard(props) {
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3 ">
+      <h2
+        className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
+        data-testid="travel-claim-details"
+      >
         {/* TODO: validate if appending "appointment" is always correct */}
         {appointmentDate} at {appointmentTime} appointment
       </h2>
@@ -48,7 +43,7 @@ export default function TravelClaimCard(props) {
 }
 
 TravelClaimCard.propTypes = {
-  appointmentDateTime: PropTypes.string,
+  appointmentDate: PropTypes.string,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,

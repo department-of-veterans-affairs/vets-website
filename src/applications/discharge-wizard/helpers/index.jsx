@@ -59,6 +59,14 @@ export const board = (formValues, noDRB) => {
     if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
+
+    if (formValues['1_branchOfService'] === 'airForce') {
+      return {
+        name: 'Air Force Review Boards Agency (AFDRB) for the Air Force',
+        abbr: 'AFDRB',
+      };
+    }
+
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
   }
 
@@ -69,7 +77,12 @@ export const venueAddress = (formValues, noDRB) => {
   if (!formValues) return null;
 
   const boardData = board(formValues);
-  if (!noDRB && boardData && boardData.abbr === 'DRB') {
+
+  if (
+    !noDRB &&
+    boardData &&
+    (boardData.abbr === 'DRB' || boardData.abbr === 'AFDRB')
+  ) {
     switch (formValues['1_branchOfService']) {
       case 'army':
         return (
@@ -87,7 +100,9 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Air Force Discharge Review Board
+            Air Force Review Boards Agency
+            <br />
+            SAF/MRBP (AFDRB)
             <br />
             3351 Celmers Lane
             <br />
