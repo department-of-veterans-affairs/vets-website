@@ -10,12 +10,13 @@ describe('Medications Details Page Active Submmitted Status DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 4;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(submittedRx);
+    detailsPage.clickMedicationDetailsLink(submittedRx, cardNumber);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     cy.injectAxe();
     cy.axeCheck('main');

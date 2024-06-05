@@ -35,7 +35,7 @@ function RemoveFileModal({
 }
 
 RemoveFileModal.propTypes = {
-  removeFileName: PropTypes.string.isRequired,
+  removeFileName: PropTypes.string,
   showRemoveFileModal: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired,

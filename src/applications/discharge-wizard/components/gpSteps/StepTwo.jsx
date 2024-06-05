@@ -70,7 +70,7 @@ const StepOne = ({ formValues }) => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.dpris.dod.mil/veteranaccess.html"
+          href="https://www.archives.gov/veterans/military-service-records"
         >
           Get your military personnel record.
         </a>
