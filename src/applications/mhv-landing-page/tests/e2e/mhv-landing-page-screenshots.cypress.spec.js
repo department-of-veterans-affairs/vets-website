@@ -4,9 +4,8 @@ import LandingPage from './pages/LandingPage';
 
 // Screenshots save to 'vets-website/cypress/screenshots'
 
-const viewports = ['va-top-mobile-1', 'va-top-desktop-2'];
-
-Cypress.Commands.add('saveScreenshot', filename => {
+Cypress.Commands.add('saveScreenshot', (...args) => {
+  const filename = args.join('--');
   cy.wait(500); // eslint-disable-line cypress/no-unnecessary-waiting
   // set scroll behavior to default
   cy.get('html, body').invoke(
@@ -17,10 +16,10 @@ Cypress.Commands.add('saveScreenshot', filename => {
   cy.screenshot(filename, { overwrite: true });
 });
 
-viewports.forEach(viewport => {
-  describe(`${appName} -- ${viewport} screenshots`, () => {
-    const scenario = Cypress.env('with_screenshots') ? it : it.skip;
+const viewports = ['va-top-mobile-1', 'va-top-desktop-2'];
 
+const executeTests = viewport => {
+  describe(`${appName} -- ${viewport} screenshots`, () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
@@ -28,22 +27,37 @@ viewports.forEach(viewport => {
       cy.viewportPreset(viewport);
     });
 
-    scenario("displays 'Identity not verified' alert", () => {
+    it('not-verified', () => {
       LandingPage.visit({ verified: false });
-      cy.saveScreenshot(`my-health--alert--identity-not-verified--${viewport}`);
+      cy.saveScreenshot(viewport, 'my-health', Cypress.currentTest.title);
       cy.injectAxeThenAxeCheck();
     });
 
-    scenario("displays 'You don't have access' alert", () => {
+    it('not-registered', () => {
       LandingPage.visit({ registered: false });
-      cy.saveScreenshot(`my-health--alert--you-dont-have-access--${viewport}`);
+      cy.saveScreenshot(viewport, 'my-health', Cypress.currentTest.title);
       cy.injectAxeThenAxeCheck();
     });
 
-    scenario('renders', () => {
+    it('registered', () => {
       LandingPage.visit();
-      cy.saveScreenshot(`my-health--${viewport}`);
+      cy.saveScreenshot(viewport, 'my-health', Cypress.currentTest.title);
       cy.injectAxeThenAxeCheck();
     });
+  });
+};
+
+(async () => {
+  if (!Cypress.env('with_screenshots')) {
+    return;
+  }
+
+  viewports.forEach(viewport => executeTests(viewport));
+})();
+
+describe('mhv-landing-page-screenshots', () => {
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('is true', () => {
+    expect(true).to.equal(true);
   });
 });
