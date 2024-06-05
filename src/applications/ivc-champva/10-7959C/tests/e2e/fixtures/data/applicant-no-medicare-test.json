@@ -8,7 +8,7 @@
       "other": true,
       "medigap": true
     },
-    "applicantSecondaryEOB": "hasEob",
+    "applicantSecondaryEOB": true,
     "applicantSecondaryHasPrescription": true,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -22,7 +22,7 @@
       "ppo": true,
       "medigap": true
     },
-    "applicantPrimaryEOB": "noEob",
+    "applicantPrimaryEOB": false,
     "applicantPrimaryHasPrescription": true,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "Primary Provider Name",
@@ -31,6 +31,7 @@
     "applicantHasPrimary": true,
     "applicantMedicareStatus": false,
     "applicantPhone": "5551112222",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Avenue",
@@ -50,6 +51,12 @@
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
         "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceScheduleOfBenefits",
+        "path": "secondary-insurance-sob",
+        "required": false,
         "uploaded": false
       },
       {

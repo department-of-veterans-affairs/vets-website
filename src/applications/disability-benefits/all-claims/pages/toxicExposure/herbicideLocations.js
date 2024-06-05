@@ -6,7 +6,7 @@ import {
 import {
   herbicidePageTitle,
   herbicideQuestion,
-  validateLocations,
+  validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 import { HERBICIDE_LOCATIONS } from '../../constants';
@@ -28,7 +28,7 @@ export const uiSchema = {
   'ui:validations': [
     {
       validator: (errors, formData) => {
-        validateLocations(
+        validateSelections(
           errors,
           formData,
           'herbicide',
