@@ -1,6 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageTrashPage from '../pages/PatientMessageTrashPage';
+import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
@@ -8,7 +9,7 @@ describe('Secure Messaging Trash Folder checks', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageTrashPage.loadMessages();
+    FolderLoadPage.loadDeletedMessages();
   });
 
   it('Verify filter works correctly', () => {

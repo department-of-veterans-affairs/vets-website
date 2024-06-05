@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
@@ -8,7 +9,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
+    FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
   });
 
@@ -21,8 +22,8 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   });
 
   it('Verify clear filter btn works correctly', () => {
-    // PatientMessageCustomFolderPage.inputFilterDataText('any');
-    // PatientMessageCustomFolderPage.clickFilterMessagesButton();
+    PatientMessageCustomFolderPage.inputFilterDataText('any');
+    PatientMessageCustomFolderPage.clickFilterMessagesButton();
     PatientMessageCustomFolderPage.clickClearFilterButton();
     PatientMessageCustomFolderPage.verifyFilterFieldCleared();
     cy.injectAxe();

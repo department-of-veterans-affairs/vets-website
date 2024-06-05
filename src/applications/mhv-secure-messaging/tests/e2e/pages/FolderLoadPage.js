@@ -3,8 +3,10 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import { Data, Assertions, Locators, Paths } from '../utils/constants';
-import PatientInboxPage from './PatientInboxPage';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -27,39 +29,47 @@ class FolderLoadPage {
     });
   };
 
-  loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
+  loadFolders = () => {
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
+      'foldersResponse',
+    );
+    cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
+  };
+
+  loadFolderMessages = (
+    folderName,
+    folderNumber,
+    folderResponseIndex,
+    messagesList,
+  ) => {
     this.foldersSetup();
-    PatientInboxPage.selectFolder();
+    this.loadFolders();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}/threads*`,
-      mockMessages,
+      messagesList,
     ).as('folderThreadResponse');
 
     cy.get(`[data-testid=${folderName}]>a`).click({ force: true });
-    cy.wait('@folderMetaData');
-    cy.wait('@folderThreadResponse');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
+    // cy.wait('@folderMetaData');
+    // cy.wait('@folderThreadResponse');
+    // cy.wait('@featureToggle');
+    // cy.wait('@mockUser');
   };
 
-  loadInboxMessages = () => {
-    this.loadFolderMessages('Inbox', 0, 0);
+  loadDraftMessages = (messagesList = mockDraftMessages) => {
+    this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
-  loadDraftMessages = () => {
-    this.loadFolderMessages('Drafts', -2, 1);
+  loadSentMessages = (messagesList = mockSentMessages) => {
+    this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
 
-  loadSentMessages = () => {
-    this.loadFolderMessages('Sent', -1, 2);
-  };
-
-  loadDeletedMessages = () => {
-    this.loadFolderMessages('Deleted', -3, 3);
+  loadDeletedMessages = (messagesList = mockTrashMessages) => {
+    this.loadFolderMessages('Deleted', -3, 3, messagesList);
   };
 
   verifyFolderHeaderText = text => {
@@ -86,6 +96,10 @@ class FolderLoadPage {
     cy.get(Locators.ALERTS.PAGIN_LIST).each(el => {
       cy.wrap(el).should('be.visible');
     });
+  };
+
+  backToFolder = name => {
+    cy.contains(`Back to ${name}`).click({ force: true });
   };
 }
 

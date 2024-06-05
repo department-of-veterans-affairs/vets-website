@@ -275,10 +275,6 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  backToFolder = name => {
-    cy.contains(`Back to ${name}`).click({ force: true });
-  };
-
   //* Refactor*Remove and consolidate
   selectSideBarMenuOption = menuOption => {
     if (menuOption === 'Inbox') {
