@@ -163,7 +163,7 @@ class OverviewPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('#tabPanelStatus');
+      setFocus('#tabPanelOverview');
     }
   }
 
