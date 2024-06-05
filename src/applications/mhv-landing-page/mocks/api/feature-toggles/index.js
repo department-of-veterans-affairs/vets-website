@@ -39,4 +39,4 @@ const generateFeatureToggles = ({
   };
 };
 
-module.exports = { generateFeatureToggles };
+module.exports = { APPLICATION_FEATURE_TOGGLES, generateFeatureToggles };
