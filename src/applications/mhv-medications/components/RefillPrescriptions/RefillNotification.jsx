@@ -103,22 +103,23 @@ const RefillNotification = ({ refillResult = {} }) => {
           Refills requested
         </h2>
         <ul className="va-list--disc">
-          {refillResult?.successfulMeds.map((item, idx) => (
+          {refillResult?.successfulMeds.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"
               data-testid="medication-requested"
               key={idx}
             >
-              {item?.prescriptionName}
+              {id?.prescriptionName}
             </li>
           ))}
         </ul>
-        <p
+        <div
           className="vads-u-margin-y--0"
           data-testid="success-message-description"
         >
-          For updates on your refill requests, go to your medications list.{' '}
-          <br />
+          <p>
+            For updates on your refill requests, go to your medications list.
+          </p>
           <Link
             data-testid="back-to-medications-page-link"
             to="/"
@@ -129,7 +130,7 @@ const RefillNotification = ({ refillResult = {} }) => {
           >
             Go to your medications list
           </Link>
-        </p>
+        </div>
       </va-alert>
     </>
   );
