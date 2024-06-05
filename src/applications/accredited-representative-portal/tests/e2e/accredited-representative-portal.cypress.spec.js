@@ -12,20 +12,8 @@ const vamcUser = {
 
 const arpUserLOA3 = {
   ...user,
-  data: {
-    ...user.data,
-    attributes: {
-      ...user.data.attributes,
-      login: {
-        currentlyLoggedIn: true,
-      },
-      profile: {
-        ...user.data.attributes.profile,
-        loa: {
-          current: 3,
-        },
-      },
-    },
+  login: {
+    currentlyLoggedIn: true,
   },
 };
 

@@ -107,9 +107,7 @@ const UserNav = ({ isMobile }) => {
               data-dd-privacy="mask"
               data-dd-action-name="First Name"
             >
-              {`${profile.first_name}${
-                isMobile ? '' : ` ${profile.last_name}`
-              }`}
+              {`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
             </div>
           </span>
         </button>

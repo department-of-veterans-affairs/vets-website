@@ -35,12 +35,11 @@ describe('UserNav mobile', () => {
   });
 
   it('renders with first name when has profile', () => {
-    // eslint-disable-next-line camelcase
-    const profile = { first_name: 'First', last_name: 'Last' };
+    const profile = { firstName: 'First', lastName: 'Last' };
     const { getByTestId } = getUserNav(true, false, profile);
 
     expect(getByTestId('user-nav-user-name').textContent).to.eq(
-      profile.first_name,
+      profile.firstName,
     );
     fireEvent.click(getByTestId('user-nav-dropdown-panel-button'));
     expect(getByTestId('user-nav-sign-out-link').getAttribute('href')).to.eq(
@@ -64,12 +63,11 @@ describe('UserNav wider than mobile', () => {
   });
 
   it('renders with first and last name when has profile', () => {
-    // eslint-disable-next-line camelcase
-    const profile = { first_name: 'First', last_name: 'Last' };
+    const profile = { firstName: 'First', lastName: 'Last' };
     const { getByTestId } = getUserNav(false, false, profile);
 
     expect(getByTestId('user-nav-user-name').textContent).to.eq(
-      `${profile.first_name} ${profile.last_name}`,
+      `${profile.firstName} ${profile.lastName}`,
     );
     fireEvent.click(getByTestId('user-nav-dropdown-panel-button'));
     expect(getByTestId('user-nav-sign-out-link').getAttribute('href')).to.eq(

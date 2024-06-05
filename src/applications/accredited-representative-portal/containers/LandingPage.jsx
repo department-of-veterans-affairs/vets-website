@@ -43,7 +43,7 @@ const LandingPage = () => {
       </LandingPageWelcome>
     );
   } else if (profile) {
-    content = <LandingPageWelcome firstName={profile.first_name} />;
+    content = <LandingPageWelcome firstName={profile.firstName} />;
   }
 
   return <div className="landing-page-container">{content}</div>;

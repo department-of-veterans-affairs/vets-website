@@ -20,7 +20,10 @@ export function fetchUser() {
         },
       );
 
-      const profile = response?.data?.attributes?.profile;
+      // NOTE: accredited_representative_portal/v0/user returns a flat profile object.
+      // see: https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/accredited_representative_portal/app/controllers/accredited_representative_portal/v0/representative_users_controller.rb
+      // TODO: consider nesting the ARP user profile data in a profile object to match: https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/users_controller.rb
+      const profile = response;
 
       if (profile) {
         dispatch({
