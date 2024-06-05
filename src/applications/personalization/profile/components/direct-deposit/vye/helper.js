@@ -35,7 +35,15 @@ export const noSuggestedAddress = deliveryPointValidation => {
     deliveryPointValidation === 'MISSING_ZIP'
   );
 };
+export const formatAddress = address => {
+  const city = address?.city ?? '';
+  const stateCode = address?.stateCode ?? '';
+  const zipCode = address?.zipCode ?? '';
 
+  return `${city}${
+    stateCode || zipCode ? ',' : ''
+  } ${stateCode} ${zipCode}`.trim();
+};
 export const prepareAddressData = formData => {
   let addressData = {
     veteranName: formData.fullName,
@@ -91,12 +99,7 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
-        <>
-          {line1}
-          <br />
-        </>
-      )}
+      {line1 && <>{line1}</>}
       {line2 && (
         <>
           {line2}
@@ -111,14 +114,17 @@ export const addressLabel = address => {
   );
 };
 
-export const hasFormChanged = (obj, applicantName) => {
-  const keys = Object.keys(obj);
-
+export const hasFormChanged = obj => {
+  const keys = Object.keys(obj ?? {});
   for (const key of keys) {
-    if (
-      (!key.includes('fullName') && obj[key] !== undefined) ||
-      (key.includes('fullName') && obj[key] !== applicantName)
-    ) {
+    const value = obj[key];
+    // Skip the specific key
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Checking if there is value that is not undefined
+    if (value !== undefined) {
       return true;
     }
   }
@@ -135,6 +141,10 @@ export function compareAddressObjects(obj1, obj2) {
     return false;
   }
   for (const key of keys1) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj1, key) &&
       hasOwnProperty.call(obj2, key) &&
@@ -145,6 +155,10 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   for (const key of keys2) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj2, key) &&
       hasOwnProperty.call(obj1, key) &&
