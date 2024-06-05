@@ -67,12 +67,16 @@ describe('Locator url and parameters builder', () => {
       bounds: [-118.9939, 33.3044, -117.4939, 34.8044],
       store,
     });
-    let test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=health&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
-    );
+    const url = `${environment.API_URL}/facilities_api/v2/va`;
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      bbox: ['-118.9939', '33.3044', '-117.4939', '34.8044'],
+    });
     result = resolveParamsWithUrl({
       locationType: 'health',
       serviceType: 'PrimaryCare',
@@ -80,12 +84,16 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.52, 29.74, -97.02, 31.24],
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      services: ['PrimaryCare'],
+      bbox: ['-98.52', '29.74', '-97.02', '31.24'],
+    });
   });
 
   /**
@@ -100,12 +108,16 @@ describe('Locator url and parameters builder', () => {
       bounds,
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      services: ['UrgentCare'],
+      bbox: ['-118.9939', '33.3044', '-117.4939', '34.8044'],
+    });
   });
 
   /**
@@ -118,12 +130,15 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.52, 29.74, -97.02, 31.24],
       store,
     });
-    let test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=benefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
-    );
+    const url = `${environment.API_URL}/facilities_api/v2/va`;
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      bbox: ['-98.52', '29.74', '-97.02', '31.24'],
+    });
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'VAHomeLoanAssistance',
@@ -131,12 +146,15 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.52, 29.74, -97.02, 31.24],
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      services: ['VAHomeLoanAssistance'],
+      bbox: ['-98.52', '29.74', '-97.02', '31.24'],
+    });
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'ApplyingForBenefits',
@@ -144,12 +162,15 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.52, 29.74, -97.02, 31.24],
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      services: ['ApplyingForBenefits'],
+      bbox: ['-98.52', '29.74', '-97.02', '31.24'],
+    });
   });
 
   /**
@@ -162,12 +183,14 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.52, 29.74, -97.02, 31.24],
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=cemetery&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'cemetery',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      bbox: ['-98.52', '29.74', '-97.02', '31.24'],
+    });
   });
 
   /**
@@ -202,12 +225,15 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.45, 29.59, -96.95, 31.09],
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v2/va?type=vet_center&page=1&per_page=10&mobile=false&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'vet_center',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      bbox: ['-98.45', '29.59', '-96.95', '31.09'],
+    });
   });
 
   /**

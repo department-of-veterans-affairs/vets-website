@@ -149,6 +149,21 @@ export const resolveParamsWithUrl = ({
     }
   });
 
+  const postParamsObj = {
+    type: facility && !communityServiceType ? facility : null,
+    services:
+      filterableLocations.includes(facility) && service ? [service] : null,
+    page,
+    // eslint-disable-next-line camelcase
+    per_page: perPage,
+    mobile:
+      facility === LocationType.VET_CENTER || facility === LocationType.HEALTH
+        ? false
+        : null,
+    radius: roundRadius || null,
+    ...postLocationParams,
+  };
+
   return {
     url,
     params: compact([
@@ -163,20 +178,9 @@ export const resolveParamsWithUrl = ({
       roundRadius ? `radius=${roundRadius}` : null,
       ...locationParams,
     ]).join('&'),
-    postParams: {
-      type: facility && !communityServiceType ? facility : null,
-      services:
-        filterableLocations.includes(facility) && service ? [service] : null,
-      page,
-      // eslint-disable-next-line camelcase
-      per_page: perPage,
-      mobile:
-        facility === LocationType.VET_CENTER || facility === LocationType.HEALTH
-          ? false
-          : null,
-      radius: roundRadius || null,
-      ...postLocationParams,
-    },
+    postParams: Object.fromEntries(
+      Object.entries(postParamsObj).filter(([_, v]) => v != null),
+    ),
   };
 };
 

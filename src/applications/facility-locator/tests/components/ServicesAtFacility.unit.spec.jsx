@@ -13,7 +13,14 @@ describe('<ServicesAtFacility>', () => {
         facilityType: 'va_benefits_facility',
         id: 'vba_313f',
         services: {
-          benefits: ['VocationalRehabilitationAndEmploymentAssistance'],
+          benefits: [
+            {
+              name: 'ApplyingForBenefits',
+              serviceId: 'applyingForBenefits',
+              link:
+                'example.com/services/va_facilities/v1/facilities/vba_313f/services/applyingForBenefits',
+            },
+          ],
         },
       },
     };
