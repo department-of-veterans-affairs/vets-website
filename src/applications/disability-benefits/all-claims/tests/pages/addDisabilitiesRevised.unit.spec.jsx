@@ -106,9 +106,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
     form.find('form').simulate('submit');
     const error = form.find('va-alert');
     expect(error.length).to.equal(1);
-    expect(error.text()).to.contain(
-      'add a new condition in order to submit your claim',
-    );
+    expect(error.text()).to.contain('Enter a condition to submit your claim');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
