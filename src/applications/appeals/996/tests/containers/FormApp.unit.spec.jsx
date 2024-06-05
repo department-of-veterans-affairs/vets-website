@@ -147,14 +147,13 @@ describe('Form0996App', () => {
     const { props, data } = getData({
       formData: { benefitType: 'compensation', internalTesting: true },
     });
-    const { container } = render(
+    render(
       <Provider store={mockStore(data)}>
         <Form0996App {...props} />
       </Provider>,
     );
 
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.exist;
       expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
       resetFetch();
     });

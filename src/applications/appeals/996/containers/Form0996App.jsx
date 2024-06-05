@@ -19,7 +19,6 @@ import forcedMigrations from '../migrations/forceMigrations';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -157,19 +156,6 @@ export const Form0996App = ({
       <va-loading-indicator
         set-focus
         message="Please wait while we restart the application for you."
-      />,
-    );
-  } else if (
-    loggedIn &&
-    (!isOutsideForm(pathname) || formData.internalTesting) &&
-    hasSupportedBenefitType &&
-    ((contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
-  ) {
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
       />,
     );
   }
