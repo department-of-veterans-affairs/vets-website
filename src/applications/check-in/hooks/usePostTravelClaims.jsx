@@ -20,6 +20,7 @@ const usePostTravelClaims = props => {
   const { appointmentToFile, startedTime } = data;
   const appointmentStartTime = utcToFacilityTimeZone(
     appointmentToFile.startTime,
+    appointmentToFile.timezone,
   );
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token: uuid } = useSelector(selectCurrentContext);
