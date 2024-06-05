@@ -27,10 +27,10 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
     },
 
-    pageHooks: pageHooks(cy, mockFeatureToggles),
+    pageHooks: pageHooks(cy, toggles),
     setupPerTest: () => {
       cy.login(mockUser);
-      setup(cy, mockFeatureToggles);
+      setup(cy, toggles);
     },
   },
   manifest,
