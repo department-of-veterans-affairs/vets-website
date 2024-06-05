@@ -18,7 +18,7 @@ import {
   sponsorInfo,
 } from '../pages';
 
-import { isProductionOfTestProdEnv } from '../helpers';
+import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
@@ -131,7 +131,7 @@ export const chapters = {
     },
   },
   sponsorInformation: {
-    title: 'Sponsor information',
+    title: sponsorInformationTitle(),
     pages: {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
