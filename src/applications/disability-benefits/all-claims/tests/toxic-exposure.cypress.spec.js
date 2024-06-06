@@ -3,10 +3,18 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import { cloneDeep } from 'lodash';
 import mockUser from './fixtures/mocks/user.json';
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { setup, pageHooks } from './cypress.helpers';
+
+const toggles = cloneDeep(mockFeatureToggles);
+toggles.data.features.push({
+  name: 'disability_526_toxic_exposure',
+  value: true,
+});
 
 const testConfig = createTestConfig(
   {
@@ -19,11 +27,11 @@ const testConfig = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
     },
 
-    pageHooks: pageHooks(cy),
+    pageHooks: pageHooks(cy, toggles),
     setupPerTest: () => {
       const enableContent = true;
       cy.login(mockUser);
-      setup(cy, enableContent);
+      setup(cy, toggles, enableContent);
     },
 
     useWebComponentFields: true,

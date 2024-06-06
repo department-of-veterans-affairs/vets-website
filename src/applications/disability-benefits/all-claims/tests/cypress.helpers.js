@@ -16,6 +16,7 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
 const todayPlus120 = format(add(new Date(), { days: 120 }), 'yyyy-M-d').split(
   '-',
@@ -113,16 +114,30 @@ export const postItf = () => ({
 });
 
 /**
+ * Get the toggle value within a given list of toggles and for a given a name
+ * @param {object} toggles - feature toggles object, based on api response
+ * @param {string} name - unique name for the toggle
+ * @returns {boolean} true if the toggle is enabled, false otherwise
+ */
+function getToggleValue(toggles, name) {
+  return toggles.data.features.find(item => item.name === name)?.value;
+}
+
+/**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
  * @param {object} toggles - feature toggles object, based on api response
  */
-export const setup = (cy, enableContent) => {
+export const setup = (
+  cy,
+  toggles = mockFeatureToggles,
+  enableContent = false,
+) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  cy.intercept('GET', '/v0/feature_toggles*', toggles);
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -180,7 +195,44 @@ export const setup = (cy, enableContent) => {
   });
 };
 
-export const pageHooks = cy => ({
+/**
+ * Build a list of unreleased pages using the given toggles
+ *
+ * @param {object} toggles - feature toggles object, based on api response
+ * @returns {string[]} - list of paths for unreleased pages
+ */
+function getUnreleasedPages(toggles) {
+  // if toxic exposure toggle is disabled, add those pages to the unreleased pages list
+  if (getToggleValue(toggles, 'disability_526_toxic_exposure') !== true) {
+    return Object.keys(toxicExposurePages).map(page => {
+      return toxicExposurePages[page].path;
+    });
+  }
+
+  return [];
+}
+
+/**
+ * For each unreleased page, create the page hook to throw an error if the page loads
+ * @param {object} toggles - feature toggles object, based on api response
+ * @returns {object} object with page hook for each unreleased page
+ */
+function makeUnreleasedPageHooks(toggles) {
+  const pages = getUnreleasedPages(toggles);
+
+  return Object.assign(
+    {},
+    ...pages.map(path => {
+      return {
+        [path]: () => {
+          throw new Error(`Unexpectedly showing unreleased page [${path}]`);
+        },
+      };
+    }),
+  );
+}
+
+export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -311,4 +363,5 @@ export const pageHooks = cy => ({
       }
     });
   },
+  ...makeUnreleasedPageHooks(toggles),
 });
