@@ -1,5 +1,5 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
-import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
+// import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import mockServices from '../../constants/mock-provider-services.json';
@@ -100,22 +100,22 @@ describe('Facility VA search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
     );
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?**',
+      '/facilities_api/v2/ccp/provider?**',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesCCP');
     cy.intercept(
-      'GET',
-      '/facilities_api/v1/va?type=**',
+      'POST',
+      '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
-    cy.intercept('GET', '/facilities_api/v1/va/vba**', mockFacilityDataV1).as(
-      'facilityDetail',
-    );
+    // cy.intercept('POST', '/facilities_api/v2/va', mockFacilityDataV1).as(
+    //   'facilityDetail',
+    // );
   });
 
   it('does a simple search and finds a result on the list', () => {
@@ -208,7 +208,7 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
-    cy.intercept('GET', '/facilities_api/v1/ccp/provider?**', {
+    cy.intercept('GET', '/facilities_api/v2/ccp/provider?**', {
       data: [],
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
