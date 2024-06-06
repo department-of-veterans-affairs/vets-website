@@ -253,7 +253,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 {fullRefillList.slice().map((prescription, idx) => (
                   <div key={idx} className="vads-u-margin-bottom--2">
                     <VaCheckbox
-                      id={`refill-prescription-checkbox-${idx}`}
+                      id={`checkbox-${prescription.prescriptionId}`}
                       data-testid={`refill-prescription-checkbox-${idx}`}
                       label={prescription.prescriptionName}
                       name={prescription.prescriptionId}
