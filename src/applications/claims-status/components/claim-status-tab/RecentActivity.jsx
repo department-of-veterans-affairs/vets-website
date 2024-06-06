@@ -126,6 +126,7 @@ export default function RecentActivity({ claim }) {
                   <p
                     className="item-description vads-u-margin-top--0 vads-u-margin-bottom--1"
                     data-dd-privacy="mask"
+                    data-dd-action-name="item description"
                   >
                     {item.description}
                   </p>
@@ -135,6 +136,7 @@ export default function RecentActivity({ claim }) {
                   <p
                     className="item-description vads-u-margin-top--0p5 vads-u-margin-bottom--1"
                     data-dd-privacy="mask"
+                    data-dd-action-name="item description"
                   >
                     {item.description}
                   </p>
