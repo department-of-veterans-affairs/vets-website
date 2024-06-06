@@ -1,5 +1,5 @@
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
-// import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
+import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import mockServices from '../../constants/mock-provider-services.json';
@@ -113,10 +113,9 @@ describe('Facility VA search', () => {
       '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
-    // Have to find where this is being called and update since we no longer have .../va/facilityLocatorId
-    // cy.intercept('POST', '/facilities_api/v2/va/vba', mockFacilityDataV1).as(
-    //   'facilityDetail',
-    // );
+    cy.intercept('GET', '/facilities_api/v2/va/vba_**', mockFacilityDataV1).as(
+      'facilityDetail',
+    );
   });
 
   it('does a simple search and finds a result on the list', () => {
@@ -243,7 +242,9 @@ describe('Facility VA search', () => {
       .shadow()
       .find('select')
       .select('VA benefits');
-    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({
+      waitForAnimations: true,
+    });
     cy.get('#search-results-subheader').contains(
       'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
     );
@@ -258,7 +259,9 @@ describe('Facility VA search', () => {
       selector: 'a',
     })
       .first()
-      .click({ waitForAnimations: true });
+      .click({
+        waitForAnimations: true,
+      });
 
     // Note - we're using mock data so the names don't match.
     cy.get('h1').contains('Austin VA Clinic');
