@@ -1,24 +1,30 @@
 import {
-  authorizationInfo,
+  authorizeMedical,
   authorizationNote,
-} from '../content/authorizationInfo';
+} from '../content/authorizeMedical';
+import { saveYourApplication } from '../content/saveYourApplication';
 
 export default {
   uiSchema: {
-    'view:authorizationInfo': {
-      'ui:description': authorizationInfo,
+    'view:saveYourApplication': {
+      'ui:description': saveYourApplication,
+    },
+    'view:authorizeMedical': {
+      'ui:description': authorizeMedical,
     },
     authorizationRadio: {
       'ui:title': `Do you authorize this accredited VSO to access your medical records?`,
       'ui:widget': 'radio',
       'ui:options': {
         widgetProps: {
-          'First option': { 'data-info': 'first_1' },
-          'Second option': { 'data-info': 'second_2' },
+          'All records': { 'data-info': 'all_records' },
+          'Some records': { 'data-info': 'some_records' },
+          'No records': { 'data-info': 'no_records' },
         },
         selectedProps: {
-          'First option': { 'aria-describedby': 'some_id_1' },
-          'Second option': { 'aria-describedby': 'some_id_2' },
+          'All records': { 'aria-describedby': 'all_records' },
+          'Some records': { 'aria-describedby': 'some_records' },
+          'No records': { 'aria-describedby': 'no_records' },
         },
       },
     },
@@ -30,7 +36,11 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:authorizationInfo': {
+      'view:saveYourApplication': {
+        type: 'object',
+        properties: {},
+      },
+      'view:authorizeMedical': {
         type: 'object',
         properties: {},
       },

@@ -1,3 +1,4 @@
 import * as authorizeMedical from './authorizeMedical';
+import * as authorizeMedicalSelect from './authorizeMedicalSelect';
 
-export { authorizeMedical };
+export default { authorizeMedical, authorizeMedicalSelect };
