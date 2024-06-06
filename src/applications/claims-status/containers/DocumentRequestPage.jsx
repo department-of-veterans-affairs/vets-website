@@ -34,6 +34,7 @@ import { benefitsDocumentsUseLighthouse } from '../selectors';
 import { scrubDescription, setDocumentTitle } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
+import Automated5103DocumentRequestPage from '../components/claim-document-requests/Automated5103DocumentRequestPage';
 
 const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
@@ -140,6 +141,7 @@ class DocumentRequestPage extends React.Component {
             </div>
           )}
           {this.getPageContent()}
+          <Automated5103DocumentRequestPage item={trackedItem} />
           <AddFilesFormOld
             field={this.props.uploadField}
             progress={this.props.progress}
