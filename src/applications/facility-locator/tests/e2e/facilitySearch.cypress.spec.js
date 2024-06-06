@@ -113,7 +113,8 @@ describe('Facility VA search', () => {
       '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
-    // cy.intercept('POST', '/facilities_api/v2/va', mockFacilityDataV1).as(
+    // Have to find where this is being called and update since we no longer have .../va/facilityLocatorId
+    // cy.intercept('POST', '/facilities_api/v2/va/vba', mockFacilityDataV1).as(
     //   'facilityDetail',
     // );
   });
