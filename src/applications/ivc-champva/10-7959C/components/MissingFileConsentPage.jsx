@@ -22,6 +22,8 @@ export function MissingFileConsentPage(props) {
 }
 
 MissingFileConsentPage.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  data: PropTypes.object,
   form: PropTypes.shape({
     pages: PropTypes.object,
     data: PropTypes.shape({
@@ -40,5 +42,8 @@ MissingFileConsentPage.propTypes = {
       timestamp: PropTypes.string,
     }),
   }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   name: PropTypes.string,
+  setFormData: PropTypes.func,
 };
