@@ -35,4 +35,15 @@ describe('Secure Messaging Trash Folder checks', () => {
     });
     FolderLoadPage.verifyPaginationElements();
   });
+
+  it('verify breadcrumbs', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    FolderLoadPage.verifyBreadCrumbsLength(4);
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
+    FolderLoadPage.verifyBreadCrumbText(3, 'Trash');
+  });
 });

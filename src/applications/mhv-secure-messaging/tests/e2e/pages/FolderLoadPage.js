@@ -98,8 +98,26 @@ class FolderLoadPage {
     });
   };
 
+  backToInbox = () => {
+    cy.get('.sm-breadcrumb-list-item > a').click({ force: true });
+  };
+
   backToFolder = name => {
-    cy.contains(`Back to ${name}`).click({ force: true });
+    cy.get(Locators.LINKS.CRUMB)
+      .contains(name)
+      .click({ force: true });
+  };
+
+  verifyBreadCrumbsLength = num => {
+    cy.get(Locators.LINKS.CRUMB).should('have.length', num);
+  };
+
+  verifyBreadCrumbText = (index, text) => {
+    cy.get(Locators.LINKS.CRUMB_LIST).within(() => {
+      cy.get('a')
+        .eq(index)
+        .should('contain.text', text);
+    });
   };
 }
 
