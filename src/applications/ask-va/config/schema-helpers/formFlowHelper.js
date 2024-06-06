@@ -5,7 +5,7 @@ import { CHAPTER_3 } from '../../constants';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
-import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
+import addressValidationPage from '../chapters/personalInformation/addressValidation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
 import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
 import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
@@ -151,10 +151,10 @@ const ch3Pages = {
     schema: yourAddressPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
-  yourAddressConfirmation: {
+  addressValidation: {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
-    uiSchema: addressConfirmationPage.uiSchema,
-    schema: addressConfirmationPage.schema,
+    uiSchema: addressValidationPage.uiSchema,
+    schema: addressValidationPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
   aboutYourFamilyMember: {
@@ -227,7 +227,7 @@ const myOwnBenVet = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
   'veteransLocationOfResidence',
 ];
@@ -238,18 +238,18 @@ export const myOwnBenVetPages = flowPages(
 );
 
 const myOwnBenFam = [
-  'moreAboutYourRelationshipToVeteran',
-  'aboutTheVeteran',
-  'veteranDeceased',
-  'dateOfDeath',
-  'veteransPostalCode',
-  'aboutYourself',
-  'searchVAMedicalCenter',
+  // 'moreAboutYourRelationshipToVeteran',
+  // 'aboutTheVeteran',
+  // 'veteranDeceased',
+  // 'dateOfDeath',
+  // 'veteransPostalCode',
+  // 'aboutYourself',
+  // 'searchVAMedicalCenter',
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
+  // 'howToContact',
+  // 'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const myOwnBenFamPages = flowPages(
   ch3Pages,
@@ -262,7 +262,7 @@ const someoneElseBenVet = [
   'yourContactInformation',
   'howToContact',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
@@ -291,7 +291,7 @@ const someoneElseBenFam = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'familyMembersLocationOfResidence',
   'aboutYourFamilyMember',
   'familyMembersPostalCode',
@@ -313,18 +313,18 @@ someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward
 };
 
 const someoneElseBen3rdParty = [
-  // 'yourRole',
-  // 'aboutTheVeteran',
-  // 'veteranDeceased',
-  // 'dateOfDeath',
-  // 'veteransPostalCode',
-  // 'searchVAMedicalCenter',
-  // 'aboutYourself',
-  // 'yourContactInformation',
-  // 'howToContact',
-  // 'yourCountry',
-  // 'yourAddress',
-  // 'yourAddressConfirmation',
+  'yourRole',
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'veteransPostalCode',
+  'searchVAMedicalCenter',
+  'aboutYourself',
+  'yourContactInformation',
+  'howToContact',
+  'yourCountry',
+  'yourAddress',
+  'addressValidation',
   'yourLocationOfResidence',
 ];
 export const someoneElseBen3rdPartyPages = flowPages(
@@ -345,7 +345,7 @@ const someoneElseBen3rdPartyEducation = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const someoneElseBen3rdPartyEducationPages = flowPages(
   ch3Pages,
@@ -360,7 +360,7 @@ const generalQuestion = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
 ];
 export const generalQuestionPages = flowPages(
@@ -369,7 +369,7 @@ export const generalQuestionPages = flowPages(
   flowPaths.general,
 );
 
-generalQuestionPages.yourAddressConfirmation_generalquestion.onNavForward = ({
+generalQuestionPages.addressValidation_generalquestion.onNavForward = ({
   goPath,
 }) => goPath('/review-then-submit');
 
