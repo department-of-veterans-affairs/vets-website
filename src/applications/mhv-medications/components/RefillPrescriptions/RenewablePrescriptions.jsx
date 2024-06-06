@@ -58,17 +58,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         If you can’t find the prescription you’re looking for
       </h2>
       <div className="vads-u-margin-y--3">
-        <p className="vads-u-margin-y--0">You may need to renew it. </p>
-        <p className="vads-u-margin-y--0">
-          <va-link
-            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-            text="Learn how to renew prescriptions"
-            data-testid="learn-to-renew-prescriptions-link"
-            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            } - Renew Section`}
-          />
-        </p>
+        <p className="vads-u-margin-y--0">You may need to renew it.</p>
+        <va-link
+          class="vads-u-margin-y--0"
+          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+          text="Learn how to renew prescriptions"
+          data-testid="learn-to-renew-prescriptions-link"
+          data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+            DD_ACTIONS_PAGE_TYPE.REFILL
+          } - Renew Section`}
+        />
       </div>
       <div>
         <p className="vads-u-margin-y--0">

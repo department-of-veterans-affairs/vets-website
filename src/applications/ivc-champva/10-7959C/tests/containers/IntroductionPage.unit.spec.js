@@ -58,6 +58,6 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(container.querySelector('.signed-in-sip')).to.exist;
+    expect(container.querySelector('.vads-c-action-link--green')).to.exist;
   });
 });

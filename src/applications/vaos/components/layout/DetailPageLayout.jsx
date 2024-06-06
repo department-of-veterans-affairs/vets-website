@@ -127,8 +127,11 @@ export default function DetailPageLayout({
           </Section>
         )}
         {children}
-        <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
-          <span className="vads-u-margin-right--2">
+        <div
+          className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
+          style={{ rowGap: '16px' }}
+        >
+          <div className="vads-u-display--auto vads-u-margin-right--2">
             <VaButton
               text="Print"
               secondary
@@ -136,8 +139,10 @@ export default function DetailPageLayout({
               data-testid="print-button"
               uswds
             />
-          </span>
-          <CancelButton appointment={appointment} />
+          </div>
+          <div className="vads-u-flex--auto">
+            <CancelButton appointment={appointment} />
+          </div>
         </div>
       </AppointmentCard>
     </>

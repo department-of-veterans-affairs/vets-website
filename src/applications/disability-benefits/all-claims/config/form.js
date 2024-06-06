@@ -132,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
