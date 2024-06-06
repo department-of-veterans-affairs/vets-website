@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import authorizeMedical from '../pages/authorizeMedical';
+import authorizeMedicalSelect from '../pages/authorizeMedicalSelect';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -58,8 +59,15 @@ const formConfig = {
       pages: {
         authorizeMedical: {
           path: 'authorize-medical',
+          title: 'Authorization for Certain Medical Records',
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
+        },
+        authorizeMedicalSelect: {
+          path: 'authorize-medical/select',
+          title: 'Authorization for Certain Medical Records - Select',
+          uiSchema: authorizeMedicalSelect.uiSchema,
+          schema: authorizeMedicalSelect.schema,
         },
       },
     },
