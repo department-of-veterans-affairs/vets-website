@@ -53,14 +53,14 @@ const MedicationsListCard = ({ rx }) => {
         </Link>
         {rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
-            <div data-testid="rx-number">
+            <p data-testid="rx-number">
               Prescription number: {rx.prescriptionNumber}
-            </div>
+            </p>
           )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (
-          <div
+          <p
             id={`status-${rx.prescriptionId}`}
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
             data-testid="rxStatus"
@@ -68,7 +68,7 @@ const MedicationsListCard = ({ rx }) => {
             {rx.dispStatus !== 'Active: Refill in Process'
               ? rx.dispStatus
               : 'Active: Refill in process'}
-          </div>
+          </p>
         )}
         {rx && <ExtraDetails {...rx} />}
         {!showRefillContent && rx && <FillRefillButton {...rx} />}
