@@ -91,12 +91,7 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
-        <>
-          {line1}
-          <br />
-        </>
-      )}
+      {line1 && <>{line1}</>}
       {line2 && (
         <>
           {line2}
