@@ -60,6 +60,7 @@ import {
   SUBMIT_URL,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
+import { getTitle, getSubTitle } from '../content/title';
 
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
@@ -104,8 +105,8 @@ const formConfig = {
   },
   saveInProgress,
   savedFormMessages,
-  title: 'File a Supplemental Claim',
-  subTitle: 'VA Form 20-0995',
+  title: getTitle,
+  subTitle: getSubTitle,
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
