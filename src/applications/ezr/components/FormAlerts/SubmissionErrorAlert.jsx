@@ -12,8 +12,12 @@ const SubmissionErrorAlert = () => {
       <va-alert status="error" uswds>
         <h3 slot="headline">{content['alert-submission-title']}</h3>
         <div>
-          <p>{content['alert-submission-message']}</p>
+          <p>{content['alert-submission-primary-message']}</p>
+          <p>{content['alert-submission-secondary-message']}</p>
         </div>
+        <a href="/health-care/update-health-information/#how-do-i-update-my-information">
+          Learn more about how to update your health benefits information
+        </a>
       </va-alert>
     </div>
   );
