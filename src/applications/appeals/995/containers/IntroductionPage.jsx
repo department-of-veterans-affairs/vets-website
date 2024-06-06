@@ -6,6 +6,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
+import {
+  title995,
+  subTitle995,
+  title4142,
+  subTitle4142,
+} from '../content/title';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -33,7 +39,7 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+      <FormTitle title={formConfig.title()} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim
         may be an option for you.
@@ -173,7 +179,17 @@ const IntroductionPage = props => {
         bottom
       />
 
-      <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
+      <h2 className="vads-u-font-size--h3">{title995}</h2>
+      <p>{subTitle995}</p>
+      <va-omb-info
+        res-burden="15"
+        omb-number="2900-0886"
+        exp-date="4/30/2024"
+      />
+
+      <h2 className="vads-u-font-size--h3">{title4142}</h2>
+      <p>{subTitle4142}</p>
+      <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
         <p>
           <strong>Respondent Burden:</strong> We need this information to
           determine your eligibility for benefits (38 U.S.C. 3471). Title 38,
@@ -238,8 +254,8 @@ IntroductionPage.propTypes = {
       prefillEnabled: PropTypes.bool,
       rootUrl: PropTypes.string,
       savedFormMessages: PropTypes.shape({}),
-      subTitle: PropTypes.string,
-      title: PropTypes.string,
+      subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     }),
     pageList: PropTypes.array,
   }),
