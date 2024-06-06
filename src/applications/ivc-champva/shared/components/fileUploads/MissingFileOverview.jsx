@@ -385,3 +385,31 @@ MissingFileOverview.propTypes = {
   showConsent: PropTypes.bool,
   showMail: PropTypes.bool,
 };
+
+// For use by components that wrap MissingFileOverview in a custompage
+export const MissingFileConsentPagePropTypes = {
+  contentAfterButtons: PropTypes.object,
+  data: PropTypes.object,
+  form: PropTypes.shape({
+    pages: PropTypes.object,
+    data: PropTypes.shape({
+      applicants: PropTypes.array,
+      statementOfTruthSignature: PropTypes.string,
+      veteransFullName: {
+        first: PropTypes.string,
+        middle: PropTypes.string,
+        last: PropTypes.string,
+        suffix: PropTypes.string,
+      },
+    }),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
+      timestamp: PropTypes.string,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  name: PropTypes.string,
+  setFormData: PropTypes.func,
+};

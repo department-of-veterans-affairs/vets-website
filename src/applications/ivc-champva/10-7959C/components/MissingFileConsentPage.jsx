@@ -1,7 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { requiredFiles } from '../config/constants';
-import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
+import MissingFileOverview, {
+  MissingFileConsentPagePropTypes,
+} from '../../shared/components/fileUploads/MissingFileOverview';
 
 export function MissingFileConsentPage(props) {
   const OverviewComp = MissingFileOverview({
@@ -21,29 +22,4 @@ export function MissingFileConsentPage(props) {
   return <>{OverviewComp}</>;
 }
 
-MissingFileConsentPage.propTypes = {
-  contentAfterButtons: PropTypes.object,
-  data: PropTypes.object,
-  form: PropTypes.shape({
-    pages: PropTypes.object,
-    data: PropTypes.shape({
-      applicants: PropTypes.array,
-      statementOfTruthSignature: PropTypes.string,
-      veteransFullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
-      timestamp: PropTypes.string,
-    }),
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  name: PropTypes.string,
-  setFormData: PropTypes.func,
-};
+MissingFileConsentPage.propTypes = MissingFileConsentPagePropTypes;
