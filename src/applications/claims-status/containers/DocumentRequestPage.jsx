@@ -337,6 +337,7 @@ DocumentRequestPage.propTypes = {
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
+  uploadField: PropTypes.object,
   uploading: PropTypes.bool,
 };
 
