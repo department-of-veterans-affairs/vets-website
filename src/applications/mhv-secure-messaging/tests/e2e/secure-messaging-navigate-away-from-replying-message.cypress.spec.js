@@ -25,7 +25,7 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
 
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
 
     PatientComposePage.clickOnContinueEditingButton();

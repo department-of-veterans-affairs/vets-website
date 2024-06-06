@@ -23,7 +23,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
       force: true,
     });
 
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
 
     cy.injectAxe();
