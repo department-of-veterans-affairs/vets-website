@@ -120,6 +120,7 @@ const formConfig = {
       title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
+          // initialData: mockdata.data,
           path: 'applicant-info',
           title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
