@@ -10,6 +10,7 @@ import {
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
   SET_FORM_ERRORS,
+  SET_FORM_LAYOUT,
 } from '../actions';
 
 import { recalculateSchemaAndData } from './helpers';
@@ -40,6 +41,9 @@ export default {
   [SET_DATA]: (state, action) => {
     const newState = set('data', action.data, state);
     return recalculateSchemaAndData(newState);
+  },
+  [SET_FORM_LAYOUT]: (state, action) => {
+    return set('layout', action.layout, state);
   },
   [SET_EDIT_MODE]: (state, action) => {
     if (state.pages[action.page].showPagePerItem) {

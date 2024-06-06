@@ -104,6 +104,7 @@ const formConfig = {
           pageClass: 'statement-type',
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
+          useTopBackLink: true,
         },
         layWitnessStatementPage: {
           depends: formData =>
@@ -114,6 +115,7 @@ const formConfig = {
           schema: layWitnessStatementPage.schema,
           pageClass: 'lay-witness-statement',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         decisionReviewPage: {
           depends: formData =>
@@ -123,6 +125,7 @@ const formConfig = {
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
+          useTopBackLink: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -134,6 +137,7 @@ const formConfig = {
           schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         selectDecisionReviewPage: {
           depends: formData =>
@@ -144,6 +148,7 @@ const formConfig = {
           uiSchema: selectDecisionReviewPage.uiSchema,
           schema: selectDecisionReviewPage.schema,
           pageClass: 'select-decision-review',
+          useTopBackLink: true,
         },
         supplementalClaimPage: {
           depends: formData =>
@@ -156,6 +161,7 @@ const formConfig = {
           schema: supplementalClaimPage.schema,
           pageClass: 'supplemental-claim',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         higherLevelReviewPage: {
           depends: formData =>
@@ -168,6 +174,7 @@ const formConfig = {
           schema: higherLevelReviewPage.schema,
           pageClass: 'higher-level-review',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         boardAppealPage: {
           depends: formData =>
@@ -180,6 +187,7 @@ const formConfig = {
           schema: boardAppealPage.schema,
           pageClass: 'board-appeal',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         aboutPriorityProcessingPage: {
           depends: formData =>
@@ -189,6 +197,7 @@ const formConfig = {
           uiSchema: aboutPriorityProcessingPage.uiSchema,
           schema: aboutPriorityProcessingPage.schema,
           pageClass: 'about-priority-processing',
+          useTopBackLink: true,
         },
         housingRisksPage: {
           depends: formData =>
@@ -199,6 +208,7 @@ const formConfig = {
           uiSchema: housingRisksPage.uiSchema,
           schema: housingRisksPage.schema,
           pageClass: 'housing-risks',
+          useTopBackLink: true,
         },
         otherHousingRisksPage: {
           depends: formData =>
@@ -209,6 +219,7 @@ const formConfig = {
           uiSchema: otherHousingRisksPage.uiSchema,
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
+          useTopBackLink: true,
         },
         hardshipsPage: {
           depends: formData =>
@@ -218,6 +229,7 @@ const formConfig = {
           uiSchema: hardshipsPage.uiSchema,
           schema: hardshipsPage.schema,
           pageClass: 'hardships',
+          useTopBackLink: true,
         },
         priorityProcessingNotQualifiedPage: {
           depends: formData => isIneligibleForPriorityProcessing(formData),
@@ -226,6 +238,7 @@ const formConfig = {
           uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
           schema: priorityProcessingNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
+          useTopBackLink: true,
         },
         priorityProcessingRequestPage: {
           depends: formData =>
@@ -238,6 +251,7 @@ const formConfig = {
           schema: priorityProcessingRequestPage.schema,
           pageClass: 'priority-processing-request',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         personalRecordsRequestPage: {
           depends: formData =>
@@ -248,6 +262,7 @@ const formConfig = {
           schema: personalRecordsRequestPage.schema,
           pageClass: 'personal-records-request',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
         claimStatusToolPage: {
           depends: formData =>
@@ -258,6 +273,7 @@ const formConfig = {
           schema: claimStatusToolPage.schema,
           pageClass: 'claim-status-tool',
           hideNavButtons: true,
+          useTopBackLink: true,
         },
       },
     },
@@ -272,6 +288,7 @@ const formConfig = {
           uiSchema: personalInformationPage.uiSchema,
           schema: personalInformationPage.schema,
           pageClass: 'personal-information',
+          useTopBackLink: true,
         },
       },
     },
@@ -286,6 +303,7 @@ const formConfig = {
           uiSchema: identificationInformationPage.uiSchema,
           schema: identificationInformationPage.schema,
           pageClass: 'identification-information',
+          useTopBackLink: true,
         },
       },
     },
@@ -300,6 +318,7 @@ const formConfig = {
           uiSchema: mailingAddressPage.uiSchema,
           schema: mailingAddressPage.schema,
           pageClass: 'mailing-address',
+          useTopBackLink: true,
         },
       },
     },
@@ -314,6 +333,7 @@ const formConfig = {
           uiSchema: contactInformationPage.uiSchema,
           schema: contactInformationPage.schema,
           pageClass: 'contact-information',
+          useTopBackLink: true,
         },
       },
     },
@@ -328,6 +348,7 @@ const formConfig = {
           uiSchema: statementPage.uiSchema,
           schema: statementPage.schema,
           pageClass: 'statement',
+          useTopBackLink: true,
         },
       },
     },

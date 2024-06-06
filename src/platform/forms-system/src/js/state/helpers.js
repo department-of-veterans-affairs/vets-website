@@ -715,6 +715,7 @@ export function createInitialState(formConfig) {
       hasAttemptedSubmit: false,
     },
     formId: formConfig.formId,
+    layout: {},
     loadedData: {
       formData: {},
       metadata: {},

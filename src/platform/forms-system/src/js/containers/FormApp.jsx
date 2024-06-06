@@ -3,15 +3,28 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { isLoggedIn } from 'platform/user/selectors';
+import PropTypes from 'prop-types';
 
+import BackLink from '../components/BackLink';
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
 
 const { Element } = Scroll;
+
+const BeforePage = ({ useTopBackLink }) => {
+  return useTopBackLink ? <BackLink /> : null;
+};
+
+const BeforePageContent = connect(state => ({
+  useTopBackLink: state?.form?.layout?.useTopBackLink,
+}))(BeforePage);
+
+BeforePage.propTypes = {
+  useTopBackLink: PropTypes.bool,
+};
 
 /*
  * Primary component for a schema generated form app.
@@ -95,6 +108,7 @@ class FormApp extends React.Component {
         <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
+            <BeforePageContent />
             {notProd && noTitle ? null : formTitle}
             {notProd && noTopNav ? null : formNav}
             <Element name="topContentElement" />

@@ -14,9 +14,11 @@ import {
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
-import FormNavButtons from '../components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
-import { setData, uploadFile } from '../actions';
+import { setData, setFormLayout, uploadFile } from '../actions';
 import {
   getNextPagePath,
   getPreviousPagePath,
@@ -37,6 +39,7 @@ function focusForm(route, index) {
 class FormPage extends React.Component {
   componentDidMount() {
     this.prePopulateArrayData();
+    this.setFormLayout();
     if (!this.props.blockScrollOnMount) {
       focusForm(this.props.route, this.props?.params?.index);
     }
@@ -49,6 +52,7 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
+      this.setFormLayout(prevProps);
       focusForm(this.props.route, this.props?.params?.index);
     }
   }
@@ -141,6 +145,19 @@ class FormPage extends React.Component {
         const newData = this.setArrayIndexedData(defaultData);
         this.props.setData(newData);
       }
+    }
+  };
+
+  setFormLayout = (prevProps = null) => {
+    const { form, route } = this.props;
+    const useTopBackLink = route.pageConfig?.useTopBackLink;
+    const shouldUpdateLayout =
+      (!form.layout?.useTopBackLink && useTopBackLink) ||
+      (prevProps &&
+        prevProps.route.pageConfig?.useTopBackLink !== useTopBackLink);
+
+    if (shouldUpdateLayout) {
+      this.props.setFormLayout({ useTopBackLink });
     }
   };
 
@@ -272,6 +289,9 @@ class FormPage extends React.Component {
         />
       );
     }
+    const NavButtons = route.pageConfig?.useTopBackLink
+      ? FormNavButtonContinue
+      : FormNavButtons;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -339,7 +359,7 @@ class FormPage extends React.Component {
           ) : (
             <>
               {contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
@@ -365,6 +385,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   setData,
   uploadFile,
+  setFormLayout,
 };
 
 FormPage.propTypes = {
@@ -413,6 +434,7 @@ FormPage.propTypes = {
       showPagePerItem: PropTypes.bool,
       title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
       uiSchema: PropTypes.object.isRequired,
+      useTopBackLink: PropTypes.bool,
       updateFormData: PropTypes.func,
     }),
     formConfig: PropTypes.shape({
@@ -434,6 +456,7 @@ FormPage.propTypes = {
     push: PropTypes.func,
   }),
   setData: PropTypes.func,
+  setFormLayout: PropTypes.func,
   uploadFile: PropTypes.func,
 };
 

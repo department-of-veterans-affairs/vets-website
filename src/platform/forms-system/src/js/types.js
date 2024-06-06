@@ -163,6 +163,7 @@
  * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
+ * @property {boolean} useTopBackLink will show a back link at the top of the page and only a continue button at the bottom
  */
 
 /**
