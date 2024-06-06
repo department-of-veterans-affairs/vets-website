@@ -26,6 +26,7 @@
     "applicantMedicarePartDCarrier": "Test D Carrier",
     "applicantMedicarePartDEffectiveDate": "2010-01-01",
     "applicantHasPrimary": true,
+    "applicantHasSecondary": false,
     "applicantPrimaryProvider": "Primary Provider",
     "applicantPrimaryEffectiveDate": "2010-01-01",
     "applicantPrimaryExpirationDate": "2010-01-01",
@@ -35,16 +36,8 @@
     "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
-    "applicantHasSecondary": true,
-    "applicantSecondaryProvider": "Secondary Provider",
-    "applicantSecondaryEffectiveDate": "2010-01-01",
-    "applicantSecondaryExpirationDate": "2010-01-01",
-    "applicantSecondaryThroughEmployer": true,
-    "applicantSecondaryHasPrescription": true,
-    "applicantSecondaryEOB": true,
-    "applicantSecondaryInsuranceType": "medigap",
-    "secondaryMedigapPlan": "M",
-    "secondaryAdditionalComments": "Additional secondary comment",
-    "consentToMailMissingRequiredFiles": true
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "Jimmy Alvin"
   }
 }
