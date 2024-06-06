@@ -2,11 +2,7 @@
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
     "secondaryMedigapPlan": "C",
-    "applicantSecondaryInsuranceType": {
-      "hmo": true,
-      "ppo": true,
-      "medigap": true
-    },
+    "applicantSecondaryInsuranceType": "medigap",
     "applicantSecondaryHasPrescription": false,
     "applicantSecondaryThroughEmployer": false,
     "applicantSecondaryProvider": "SecondaryProviderName",
@@ -15,12 +11,7 @@
     "applicantHasSecondary": true,
     "primaryAdditionalComments": "Additional Comment 1",
     "primaryMedigapPlan": "G",
-    "applicantPrimaryInsuranceType": {
-      "ppo": true,
-      "medicaid": true,
-      "rxDiscount": true,
-      "medigap": true
-    },
+    "applicantPrimaryInsuranceType": "medigap",
     "applicantPrimaryHasPrescription": false,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "PrimaryProviderName",
