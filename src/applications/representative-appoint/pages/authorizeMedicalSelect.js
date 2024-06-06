@@ -1,9 +1,13 @@
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { authorizeMedicalSelect } from '../content/authorizeMedicalSelect';
+import { saveYourApplication } from '../content/saveYourApplication';
 
 export default {
   uiSchema: {
+    'view:saveYourApplication': {
+      'ui:description': saveYourApplication,
+    },
     'view:authorizeMedicalSelect': {
       'ui:description': authorizeMedicalSelect,
     },
@@ -38,6 +42,15 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:saveYourApplication': {
+        type: 'object',
+        properties: {},
+      },
+      'view:authorizeMedicalSelect': {
+        type: 'object',
+        formData: { prop1: 'test' },
+        properties: {},
+      },
       'view:authorizeRecordsCheckbox': {
         type: 'object',
         properties: {
