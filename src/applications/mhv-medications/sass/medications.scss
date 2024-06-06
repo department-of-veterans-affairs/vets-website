@@ -307,16 +307,6 @@
   }
 }
 
-va-checkbox.select-all-checkbox::part(label),
-va-checkbox.select-1-checkbox::part(label) {
-  font-weight: bold;
-
-  &::before {
-    box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
-    margin-left: 1px;
-  }
-}
-
 va-checkbox {
   &.select-all-checkbox,
   &.select-1-checkbox {
