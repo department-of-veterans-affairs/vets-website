@@ -469,6 +469,7 @@ const formConfig = {
           path: 'applicant-military-history',
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
+          editModeOnReviewPage: true,
           uiSchema: applicantMilitaryHistorySelf.uiSchema,
           schema: applicantMilitaryHistorySelf.schema,
         },
