@@ -445,7 +445,6 @@ export const PROFILE = {
             longitude: null,
             employerProvider: false,
             schoolProvider: true,
-            vrrap: null,
             inStateTuitionInformation: null,
             badAddress: false,
             highSchool: null,
@@ -1147,7 +1146,6 @@ export const PROFILE = {
     ratingAverage: null,
     ratingCount: 0,
     inStateTuitionInformation: 'https://admissions.utexas.edu/residency',
-    vrrap: null,
     ownershipName: null,
     website: 'https://www.utexas.edu/',
     scorecard:
