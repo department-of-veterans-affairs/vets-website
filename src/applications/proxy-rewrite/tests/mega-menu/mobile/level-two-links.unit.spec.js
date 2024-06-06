@@ -10,27 +10,27 @@ describe('mega menu - level two links', () => {
           links: {
             seeAllLink: {
               text: 'View all in records',
-              href: 'https://va.gov/records',
+              href: 'https://www.va.gov/records',
             },
             columnOne: {
               title: 'Get your records',
               links: [
                 {
                   text: 'Get your VA medical records (Blue Button)',
-                  href: 'https://va.gov/health-care/get-medical-records',
+                  href: 'https://www.va.gov/health-care/get-medical-records',
                 },
                 {
                   text: 'Download your VA benefits letters',
-                  href: 'https://va.gov/records/download-va-letters',
+                  href: 'https://www.va.gov/records/download-va-letters',
                 },
                 {
                   text: 'Learn how to request a home loan COE',
                   href:
-                    'https://va.gov/housing-assistance/home-loans/how-to-request-coe',
+                    'https://www.va.gov/housing-assistance/home-loans/how-to-request-coe',
                 },
                 {
                   text: 'Get Veteran ID cards',
-                  href: 'https://va.gov/records/get-veteran-id-cards',
+                  href: 'https://www.va.gov/records/get-veteran-id-cards',
                 },
               ],
             },
@@ -39,11 +39,11 @@ describe('mega menu - level two links', () => {
               links: [
                 {
                   text: 'Request your military records (DD214)',
-                  href: 'https://va.gov/records/get-military-service-records',
+                  href: 'https://www.va.gov/records/get-military-service-records',
                 },
                 {
                   text: 'Change your address',
-                  href: 'https://va.gov/change-address',
+                  href: 'https://www.va.gov/change-address',
                 },
                 {
                   text: 'How to apply for a discharge upgrade',
@@ -51,7 +51,7 @@ describe('mega menu - level two links', () => {
                 },
                 {
                   text: 'View your VA payment history',
-                  href: 'https://va.gov/va-payment-history',
+                  href: 'https://www.va.gov/va-payment-history',
                 },
                 {
                   text:
@@ -63,12 +63,12 @@ describe('mega menu - level two links', () => {
             columnThree: {
               img: {
                 src:
-                  'https://va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/records.png',
+                  'https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/records.png',
                 alt: '',
               },
               link: {
                 text: 'Confirm your VA benefit status',
-                href: 'https://va.gov/records/download-va-letters',
+                href: 'https://www.va.gov/records/download-va-letters',
               },
               description:
                 'Download letters like your eligibility or award letter for certain benefits.',
@@ -92,7 +92,7 @@ describe('mega menu - level two links', () => {
         links: [
           {
             text: 'Veterans Health Administration',
-            href: 'https://va.gov/health',
+            href: 'https://www.va.gov/health',
           },
         ],
       },
@@ -117,7 +117,7 @@ describe('mega menu - level two links', () => {
       columnThree: {
         img: {
           src:
-            'https://va.gov/img/styles/3_2_medium_thumbnail/public/2023-11/disability%20icon.png',
+            'https://www.va.gov/img/styles/3_2_medium_thumbnail/public/2023-11/disability%20icon.png',
           alt: 'Paper icon',
         },
         link: {

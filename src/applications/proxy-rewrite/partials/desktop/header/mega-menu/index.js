@@ -49,14 +49,14 @@ export const makeMegaMenu = megaMenuData => {
       <div class="menu-rule usa-one-whole"></div>
       <div id="mega-menu">
         <div class="hidden-header login-container">
-          <div class="row va-flex">
+          <div class="row vads-u-display--flex">
             <div id="vetnav" role="navigation">
               <ul id="vetnav-menu">
                 <li>
                   <a
                     class="vetnav-level1"
                     data-testid="mobile-home-nav-link"
-                    href="https://va.gov"
+                    href="https://www.va.gov"
                   >
                     Home
                   </a>

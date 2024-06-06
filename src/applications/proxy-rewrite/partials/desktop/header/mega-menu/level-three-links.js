@@ -43,6 +43,10 @@ export const buildImageColumn = (
   columnClass = '',
   marketingClass = '',
 ) => {
+  if (!column) {
+    return ``;
+  }
+  
   const imageSource = updateLinkDomain(column.img.src);
 
   return `
@@ -84,11 +88,13 @@ export const buildLevelThreeLinksForBenefitHubs = section => {
     seeAllLink = buildSeeAllLink(section.links.seeAllLink);
   }
 
+  console.log('section.links: ', section.links);
+
   return `
     ${seeAllLink}
-    ${buildColumns(section.links.columnOne, 'column-one')}
-    ${buildColumns(section.links.columnTwo, 'column-two')}
-    ${buildImageColumn(section.links.columnThree)}
+    ${buildColumns(section?.links?.columnOne, 'column-one')}
+    ${buildColumns(section?.links?.columnTwo, 'column-two')}
+    ${buildImageColumn(section?.links?.columnThree)}
   `;
 };
 

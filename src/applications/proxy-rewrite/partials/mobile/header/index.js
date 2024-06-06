@@ -74,7 +74,7 @@ export const getMobileHeaderHtml = megaMenuData => {
         <div class="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
           
           <!-- start VA logo -->
-          <a aria-label="VA logo" class="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center" href="https://va.gov">
+          <a aria-label="VA logo" class="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center" href="https://www.va.gov">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57.6 35.2" role="img">
             <title>VA</title>
             <g fill="#FFF">

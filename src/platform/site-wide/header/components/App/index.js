@@ -6,8 +6,8 @@ import { updateLayoutHeaderType } from 'platform/site-wide/layout/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from '../Header';
 import {
-  hideLegacyHeader,
-  showLegacyHeader,
+  hideDesktopHeader,
+  showDesktopHeader,
   toggleMinimalHeader,
 } from '../../helpers';
 
@@ -44,9 +44,9 @@ function setStaticHeaderDisplay(
       toggleMinimalHeader(headerState === 'minimal');
     }
     if (isDesktop) {
-      showLegacyHeader();
+      showDesktopHeader();
     } else {
-      hideLegacyHeader();
+      hideDesktopHeader();
     }
   }
   // else everything is already hidden by default
@@ -109,16 +109,6 @@ export const App = ({
     return null;
   }
 
-<<<<<<< HEAD
-=======
-  if (isDesktop) {
-    showDesktopHeader();
-    return null;
-  }
-
-  hideDesktopHeader();
-
->>>>>>> bab4c82fd3 (VACMS-16815 Separate header and footer for TeamSites)
   return (
     <MobileHeader
       megaMenuData={megaMenuData}

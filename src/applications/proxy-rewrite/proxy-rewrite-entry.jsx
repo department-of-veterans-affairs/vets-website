@@ -200,6 +200,7 @@ function activateInjectedAssets() {
     })
     .then(headerFooterData => {
       teamsitesSetup();
+      console.log('headerFooterData: ', headerFooterData);
 
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');

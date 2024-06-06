@@ -3,7 +3,7 @@ export const updateLinkDomain = href => {
   const local2 = 'http://localhost:3002';
   const stagingWithoutWWW = 'https://staging.va.gov';
   const stagingWithWWW = 'https://www.staging.va.gov';
-  const prodWithoutWWW = 'https://va.gov';
+  const prodWithoutWWW = 'https://www.va.gov';
   const prodWithWWW = 'https://www.va.gov';
 
   if (href.startsWith(local1)) {

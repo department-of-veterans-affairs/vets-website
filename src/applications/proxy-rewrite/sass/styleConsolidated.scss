@@ -1394,10 +1394,6 @@
     padding-left: 1rem
   }
 
-  .va-flex {
-    display: flex
-  }
-
   .va-list--plain {
     list-style: none;
     padding-left: 0
@@ -3511,10 +3507,6 @@
     padding: 12px 10px 10px;
   }
 
-  [id="search-dropdown"] > .va-flex {
-    align-items: center
-  }
-
   @media (min-width: 320px) and (max-width: 767px) {
     #mega-menu .login-container {
       position: relative;
@@ -4240,17 +4232,6 @@
 
   @media screen and (min-width: 768px) {
     .footer {
-      flex-wrap: nowrap
-    }
-  }
-
-  .footer .va-flex {
-    flex-wrap: wrap;
-    padding-left: 0.9375rem
-  }
-
-  @media screen and (min-width: 768px) {
-    .footer .va-flex {
       flex-wrap: nowrap
     }
   }

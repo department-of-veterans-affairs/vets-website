@@ -51,20 +51,20 @@ export const getDesktopFooterHtml = footerData => {
               <h2 class="va-footer-linkgroup-title vads-u-padding-bottom--1">Language assistance</h2>
               <ul class="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
                 <li>
-                  <a href="https://va.gov/asistencia-y-recursos-en-espanol" lang="es" hreflang="es">Español</a>
+                  <a href="https://www.va.gov/asistencia-y-recursos-en-espanol" lang="es" hreflang="es">Español</a>
                 </li>
                 <li>
-                  <a href="https://va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hreflang="tl">Tagalog</a>
+                  <a href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hreflang="tl">Tagalog</a>
                 </li>
                 <li>
-                  <a href="https://va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hreflang="en">Other languages</a>
+                  <a href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hreflang="en">Other languages</a>
                 </li>
               </ul>
             </div>
   
             <!-- Bottom rail -->
             <div class="usa-grid usa-grid-full footer-banner">
-              <a href="https://va.gov" title="Go to VA.gov">
+              <a href="https://www.va.gov" title="Go to VA.gov">
                 <img src="https://www.va.gov/img/homepage/va-logo-white.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" width="200" class="vads-u-height--auto">
               </a>
             </div>

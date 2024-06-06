@@ -61,7 +61,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
       </div>
       <!-- end Veterans Crisis Line banner -->
 
-      <div class="row va-flex usa-grid vads-u-font-size--base" id="va-header-logo-menu">
+      <div class="vads-u-padding-top--3 vads-u-display--flex usa-grid vads-u-font-size--base" id="va-header-logo-menu">
         <div class="va-header-logo-wrapper">
           <a href="https://www.va.gov" class="va-header-logo">
             <img src="https://www.va.gov/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" />
@@ -75,21 +75,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
               <div class="va-dropdown">
                 <button id="search-dropdown-button" class="va-btn-withicon va-btn-withicon va-dropdown-trigger" aria-controls="search" aria-expanded="false">
                   <span>
-                    <svg
-                      aria-hidden="true"
-                      className="vads-u-margin-left--1"
-                      focusable="false"
-                      width="18"
-                      viewBox="7 3 17 17"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill="#fff"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"
-                      />
-                    </svg>
+                    <svg aria-hidden="true" class="vads-u-margin-right--0p5" focusable="false" width="24" viewBox="2 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"></path></svg>
                     Search
                   </span>
                 </button>

@@ -13,6 +13,7 @@ export const makeMegaMenu = megaMenuData => {
   };
 
   const buildLevelOneLinks = (sectionData, index) => {
+    console.log('sectionData: ', sectionData);
     if (sectionData.menuSections) {
       return `
         <li class="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
@@ -62,7 +63,7 @@ export const makeMegaMenu = megaMenuData => {
 
     return `
     <li class="vads-u-font-size--base vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
-      <a class="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://va.gov/find-locations">
+      <a class="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://www.va.gov/find-locations">
         Find a VA Location
       </a>
     </li>
@@ -80,7 +81,7 @@ export const makeMegaMenu = megaMenuData => {
             .join()
             .replaceAll(',', '')}
           <li class="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold vads-u-font-size--md">
-            <a class="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://va.gov/contact-us/">Contact us</a>
+            <a class="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://www.va.gov/contact-us/">Contact us</a>
           </li>
         </ul>
       </div>
