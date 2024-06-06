@@ -96,7 +96,7 @@ const generate = async data => {
     doc
       .font(config.headings.H1.font)
       .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 110, 115);
+      .text(data.details.fullName, 110, 115, { width: 150 });
   });
 
   wrapper.add(name);

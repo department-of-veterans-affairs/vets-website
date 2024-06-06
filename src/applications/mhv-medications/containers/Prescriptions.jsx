@@ -435,6 +435,7 @@ const Prescriptions = () => {
   );
 
   const handleFullListDownload = async format => {
+    setHasFullListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     if (
@@ -453,11 +454,12 @@ const Prescriptions = () => {
   };
 
   const isShowingErrorNotification = Boolean(
-    ((prescriptionsFullList?.length &&
+    (((prescriptionsFullList?.length &&
       pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
       paginatedPrescriptionsList) &&
       pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      allergiesError,
+      allergiesError) ||
+      hasFullListDownloadError,
   );
 
   const content = () => {
@@ -466,7 +468,7 @@ const Prescriptions = () => {
         <div className="landing-page no-print">
           <h1 data-testid="list-page-title">Medications</h1>
           <p
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--3"
             data-testid="Title-Notes"
           >
             When you share your medications list with providers, make sure you
@@ -474,8 +476,6 @@ const Prescriptions = () => {
             you print or download this list, we’ll include a list of your
             allergies.
           </p>
-          <br />
-          <br />
           {prescriptionsApiError ? (
             <>
               <ApiErrorNotification errorType="access" content="medications" />
@@ -483,24 +483,21 @@ const Prescriptions = () => {
             </>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList &&
               paginatedPrescriptionsList.length === 0 ? (
-                <>
-                  <CernerFacilityAlert />
-                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                    <h2 className="vads-u-margin--0">
-                      You don’t have any VA prescriptions or medication records
-                    </h2>
-                    <p className="vads-u-margin-y--3">
-                      If you need a prescription or you want to tell us about a
-                      medication you’re taking, tell your care team at your next
-                      appointment.
-                    </p>
-                  </div>
-                </>
+                <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                  <h2 className="vads-u-margin--0">
+                    You don’t have any VA prescriptions or medication records
+                  </h2>
+                  <p className="vads-u-margin-y--3">
+                    If you need a prescription or you want to tell us about a
+                    medication you’re taking, tell your care team at your next
+                    appointment.
+                  </p>
+                </div>
               ) : (
                 <>
-                  <CernerFacilityAlert />
                   {showRefillContent && (
                     <va-card background>
                       <div className="vads-u-padding-x--1">

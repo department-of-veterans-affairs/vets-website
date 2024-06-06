@@ -38,12 +38,13 @@ export default function PhoneLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status && (
-        <Section heading="How to join">
-          We'll call you at the appointment time. But contact the facility you
-          scheduled through if you have questions or need to reschedule.
-        </Section>
-      )}
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="How to join">
+            We'll call you at the appointment time. But contact the facility you
+            scheduled through if you have questions or need to reschedule.
+          </Section>
+        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
