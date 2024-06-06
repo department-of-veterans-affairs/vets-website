@@ -72,7 +72,7 @@ const DirectDeposit = ({
   const showBankInformation = isVerifiedUser;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
-    TOGGLE_NAMES.toggleVyeAdressDirectDepositFormsInProfile,
+    TOGGLE_NAMES.toggleVyeAddressDirectDepositFormsInProfile,
   );
 
   const removeBankInfoUpdatedAlert = useCallback(() => {

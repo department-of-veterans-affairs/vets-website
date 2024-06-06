@@ -27,7 +27,7 @@ const generateRows = (showBadAddress, toggleValue) => [
           fieldName={FIELD_NAMES.MAILING_ADDRESS}
           ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
         />
-        {toggleValue ? (
+        {toggleValue && (
           <NavLink
             activeClassName="is-active"
             exact
@@ -36,7 +36,7 @@ const generateRows = (showBadAddress, toggleValue) => [
             Go to direct deposit to manage your Montgomery Gl Bill benefit
             payment address.
           </NavLink>
-        ) : null}
+        )}
       </>
     ),
     alertMessage: showBadAddress ? <BadAddressAlert /> : null,
@@ -56,7 +56,7 @@ const generateRows = (showBadAddress, toggleValue) => [
 const AddressesTable = ({ className, showBadAddress }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
-    TOGGLE_NAMES.toggleVyeAdressDirectDepositFormsInProfile,
+    TOGGLE_NAMES.toggleVyeAddressDirectDepositFormsInProfile,
   );
   return (
     <>
