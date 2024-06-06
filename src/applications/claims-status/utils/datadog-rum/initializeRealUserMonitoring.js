@@ -14,8 +14,9 @@ const defaultRumSettings = {
   site: 'ddog-gov.com',
   // see src/site/constants/vsp-environments.js for defaults
   env: environment.vspEnvironment(), // 'production'
-  sessionSampleRate: 5,
-  sessionReplaySampleRate: 20,
+  sessionSampleRate: environment.vspEnvironment() === 'staging' ? 100 : 5,
+  sessionReplaySampleRate:
+    environment.vspEnvironment() === 'staging' ? 100 : 20,
   trackInteractions: true,
   trackUserInteractions: true,
   trackFrustrations: true,
@@ -24,10 +25,7 @@ const defaultRumSettings = {
   defaultPrivacyLevel: 'mask-user-input',
   beforeSend: event => {
     // Prevent PII from being sent to Datadog with click actions.
-    if (
-      event.action?.type === 'click' &&
-      event.action?.target.getAttribute('data-dd-privacy') === 'mask'
-    ) {
+    if (event.action?.type === 'click') {
       // eslint-disable-next-line no-param-reassign
       event.action.target.name = 'Clicked item';
     }
