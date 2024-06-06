@@ -3,6 +3,7 @@ import Scroll from 'react-scroll';
 import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
@@ -34,7 +35,7 @@ import { benefitsDocumentsUseLighthouse } from '../selectors';
 import { scrubDescription, setDocumentTitle } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
-import Automated5103DocumentRequestPage from '../components/claim-document-requests/Automated5103DocumentRequestPage';
+import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
 
 const scrollToError = () => {
   const options = merge({}, window.VetsGov.scroll, { offset: -25 });
@@ -115,7 +116,6 @@ class DocumentRequestPage extends React.Component {
   }
 
   render() {
-    const { trackedItem } = this.props;
     let content;
 
     if (this.props.loading) {
@@ -126,7 +126,9 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const { lastPage, message } = this.props;
+      const { lastPage, message, trackedItem } = this.props;
+      const is5103Notice =
+        trackedItem.displayName === 'Automated 5103 Notice Response';
 
       content = (
         <>
@@ -140,37 +142,80 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
-          {this.getPageContent()}
-          <Automated5103DocumentRequestPage item={trackedItem} />
-          <AddFilesFormOld
-            field={this.props.uploadField}
-            progress={this.props.progress}
-            uploading={this.props.uploading}
-            files={this.props.files}
-            backUrl={lastPage ? `/${lastPage}` : filesPath}
-            onSubmit={() => {
-              // START lighthouse_migration
-              if (this.props.documentsUseLighthouse) {
-                this.props.submitFilesLighthouse(
-                  this.props.claim.id,
-                  trackedItem,
-                  this.props.files,
-                );
-              } else {
-                this.props.submitFiles(
-                  this.props.claim.id,
-                  trackedItem,
-                  this.props.files,
-                );
-              }
-              // END lighthouse_migration
-            }}
-            onAddFile={this.props.addFile}
-            onRemoveFile={this.props.removeFile}
-            onFieldChange={this.props.updateField}
-            onCancel={this.props.cancelUpload}
-            onDirtyFields={this.props.setFieldsDirty}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+            <Toggler.Enabled>
+              {is5103Notice ? (
+                <Automated5103Notice item={trackedItem} />
+              ) : (
+                <>
+                  {this.getPageContent()}
+                  <AddFilesFormOld
+                    field={this.props.uploadField}
+                    progress={this.props.progress}
+                    uploading={this.props.uploading}
+                    files={this.props.files}
+                    backUrl={lastPage ? `/${lastPage}` : filesPath}
+                    onSubmit={() => {
+                      // START lighthouse_migration
+                      if (this.props.documentsUseLighthouse) {
+                        this.props.submitFilesLighthouse(
+                          this.props.claim.id,
+                          trackedItem,
+                          this.props.files,
+                        );
+                      } else {
+                        this.props.submitFiles(
+                          this.props.claim.id,
+                          trackedItem,
+                          this.props.files,
+                        );
+                      }
+                      // END lighthouse_migration
+                    }}
+                    onAddFile={this.props.addFile}
+                    onRemoveFile={this.props.removeFile}
+                    onFieldChange={this.props.updateField}
+                    onCancel={this.props.cancelUpload}
+                    onDirtyFields={this.props.setFieldsDirty}
+                  />
+                </>
+              )}
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <>
+                {this.getPageContent()}
+                <AddFilesFormOld
+                  field={this.props.uploadField}
+                  progress={this.props.progress}
+                  uploading={this.props.uploading}
+                  files={this.props.files}
+                  backUrl={lastPage ? `/${lastPage}` : filesPath}
+                  onSubmit={() => {
+                    // START lighthouse_migration
+                    if (this.props.documentsUseLighthouse) {
+                      this.props.submitFilesLighthouse(
+                        this.props.claim.id,
+                        trackedItem,
+                        this.props.files,
+                      );
+                    } else {
+                      this.props.submitFiles(
+                        this.props.claim.id,
+                        trackedItem,
+                        this.props.files,
+                      );
+                    }
+                    // END lighthouse_migration
+                  }}
+                  onAddFile={this.props.addFile}
+                  onRemoveFile={this.props.removeFile}
+                  onFieldChange={this.props.updateField}
+                  onCancel={this.props.cancelUpload}
+                  onDirtyFields={this.props.setFieldsDirty}
+                />
+              </>
+            </Toggler.Disabled>
+          </Toggler>
         </>
       );
     }
@@ -281,6 +326,7 @@ DocumentRequestPage.propTypes = {
   message: PropTypes.object,
   navigate: PropTypes.func,
   params: PropTypes.object,
+  progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
   setFieldsDirty: PropTypes.func,

@@ -3,11 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { buildDateFormatter } from '../../utils/helpers';
 
-function Automated5103DocumentRequestPage({ item }) {
+function Automated5103Notice({ item }) {
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-
+  if (item.displayName !== 'Automated 5103 Notice Response') {
+    return null;
+  }
   return (
-    <>
+    <div className="automated-5103-notice-page">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Review the list of evidence we need
       </h1>
@@ -29,13 +31,16 @@ function Automated5103DocumentRequestPage({ item }) {
         <strong>{formattedDueDate}</strong>, to move your claim to the next
         step.
       </p>
-      <h2>If you have more evidence to submit</h2>
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+        If you have more evidence to submit
+      </h2>
       <p>
         <strong>Note:</strong> You can add evidence at any time. But if you add
         evidence later in the process, your claim will move back to this step.
         So we encourage you to add all your evidence now.
       </p>
       <Link
+        data-testid="upload-evidence-link"
         aria-label="Upload your evidence here"
         title="Upload your evidence here"
         to="../files"
@@ -49,12 +54,12 @@ function Automated5103DocumentRequestPage({ item }) {
         </strong>{' '}
         This might help speed up the claim process.
       </p>
-    </>
+    </div>
   );
 }
 
-Automated5103DocumentRequestPage.propTypes = {
-  item: PropTypes.object,
+Automated5103Notice.propTypes = {
+  item: PropTypes.object.isRequired,
 };
 
-export default Automated5103DocumentRequestPage;
+export default Automated5103Notice;
