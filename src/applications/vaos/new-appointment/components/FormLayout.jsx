@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
@@ -28,17 +28,52 @@ function Title() {
   return 'New appointment';
 }
 
+function Nav({ pageTitle }) {
+  const history = useHistory();
+  const location = useLocation();
+
+  function handleRouteChange() {
+    history.goBack();
+  }
+
+  if (location.pathname === '/schedule/type-of-care')
+    return (
+      <Breadcrumbs>
+        <a href="/my-health/appointments/schedule/type-of-care">{pageTitle}</a>
+      </Breadcrumbs>
+    );
+
+  return (
+    <div className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--0 small-screen:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+      <nav aria-label="Breadcrumb" className="vads-u-padding-y--2 ">
+        <va-icon
+          icon="navigate_before"
+          size="2"
+          class="vads-u-padding-y--0p25 vads-color-gray-medium"
+        />
+        <NavLink
+          aria-label="Back link"
+          to="#"
+          className=""
+          onClick={handleRouteChange}
+        >
+          Back
+        </NavLink>
+      </nav>
+    </div>
+  );
+}
+Nav.propTypes = {
+  pageTitle: PropTypes.string.isRequired,
+};
+
 export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
   return (
     <>
       <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <Breadcrumbs>
-          <a href="/my-health/appointments/schedule/type-of-care">
-            {pageTitle}
-          </a>
-        </Breadcrumbs>
+        <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
             appTitle="VA online scheduling tool"
