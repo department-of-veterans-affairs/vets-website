@@ -117,7 +117,7 @@ export const postItf = () => ({
  * @param {object} cy
  * @param {object} toggles - feature toggles object, based on api response
  */
-export const setup = cy => {
+export const setup = (cy, enableContent) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
@@ -173,7 +173,7 @@ export const setup = cy => {
         servicePeriods: data.serviceInformation.servicePeriods,
         reservesNationalGuardService:
           data.serviceInformation.reservesNationalGuardService,
-        includeToxicExposure: data.includeToxicExposure,
+        includeToxicExposure: enableContent,
       },
       metadata: mockPrefill.metadata,
     });

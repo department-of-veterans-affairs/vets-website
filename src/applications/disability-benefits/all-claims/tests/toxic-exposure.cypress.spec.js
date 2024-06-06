@@ -21,8 +21,9 @@ const testConfig = createTestConfig(
 
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
+      const enableContent = true;
       cy.login(mockUser);
-      setup(cy);
+      setup(cy, enableContent);
     },
 
     useWebComponentFields: true,

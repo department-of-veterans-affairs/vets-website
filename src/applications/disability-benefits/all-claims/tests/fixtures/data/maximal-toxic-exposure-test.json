@@ -136,7 +136,6 @@
     "view:needsCarHelp": {
       "view:alreadyClaimedVehicleAllowance": false
     },
-    "includeToxicExposure": true,
     "toxicExposure": {
       "conditions": {
         "asthma": true,

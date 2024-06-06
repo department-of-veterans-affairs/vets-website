@@ -33,7 +33,6 @@
       "zipCode": "54321",
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
-    "includeToxicExposure": true,
     "toxicExposure": {
       "conditions": {
         "asthma": true,
