@@ -99,14 +99,13 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && <>{line1}</>}
-      {line2 && (
+      {line1 && <>{line1} </>}
+      {line2 && <>{` ${line2}`}</>}
+      {cityState && (
         <>
-          {line2}
-          <br />
+          <br /> {cityState}
         </>
       )}
-      {cityState && <>{cityState}</>}
       {state && <>{state}</>}
       {postalCode && (state || cityState) && ' '}
       {postalCode}
