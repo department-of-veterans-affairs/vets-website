@@ -37,14 +37,10 @@ export const veteranApplicantDetailsSubHeader = (
   </div>
 );
 
-export function isApplicantTheVeteran(item) {
-  return get('application.applicant.isVeteran', item) === 'yes';
-}
-
-export function veteranApplicantDetailsSummary({ formContext, formData }) {
+export function veteranApplicantDetailsSummary({ formContext }) {
   return (
     <>
-      {formData &&
+      {formContext.isLoggedIn &&
         !formContext.onReviewPage && (
           <div className="veteranApplicantDetailsSummaryBox">
             <va-summary-box>
