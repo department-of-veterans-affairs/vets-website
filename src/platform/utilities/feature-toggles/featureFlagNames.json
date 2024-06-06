@@ -257,6 +257,6 @@
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
   "toggleVyeAdressDirectDepositForms": "toggle_vye_adress_direct_deposit_forms",
-  "toggleVyeAddressDirectDepositFormsInProfile": "toggle_vye_adress_direct_deposit_forms_in_profile",
+  "toggleVyeAddressDirectDepositFormsInProfile": "toggle_vye_address_direct_deposit_forms_in_profile",
   "vyeLoginWidget":" vye_login_widget"
 }
