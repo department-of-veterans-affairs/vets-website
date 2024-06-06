@@ -4,7 +4,6 @@ import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { isLoggedIn } from 'platform/user/selectors';
-import PropTypes from 'prop-types';
 
 import BackLink from '../components/BackLink';
 import FormNav from '../components/FormNav';
