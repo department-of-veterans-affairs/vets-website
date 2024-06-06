@@ -73,7 +73,7 @@ class FacilityDetail extends Component {
           website !== 'NULL' && (
             <span>
               <a href={website} target="_blank" rel="noopener noreferrer">
-                <i className="fa fa-globe" />
+                <va-icon icon="language" size="3" />
                 Website
               </a>
             </span>
