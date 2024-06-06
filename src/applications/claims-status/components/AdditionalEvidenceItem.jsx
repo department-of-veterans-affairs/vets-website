@@ -11,7 +11,14 @@ export default function AdditionalEvidenceItem({ item }) {
         Additional evidence
       </h3>
       <p className="submission-description">
-        <span className="claim-item-label">File:</span> {originalFileName}
+        <span className="claim-item-label">File:</span>{' '}
+        <span
+          className="filename"
+          data-dd-privacy="mask"
+          data-dd-action-name="filename"
+        >
+          {originalFileName}
+        </span>
         <br />
         <span className="claim-item-label">Type:</span> {documentTypeLabel}
       </p>

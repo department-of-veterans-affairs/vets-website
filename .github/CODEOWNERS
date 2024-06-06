@@ -223,6 +223,9 @@ src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appoi
 # Benefits Accredited Representative Facing (ARF)
 src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing
 
+# Income and Asset Statement
+src/applications/income-and-asset-statement @department-of-veterans-affairs/pensions
+
 # Other
 
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend

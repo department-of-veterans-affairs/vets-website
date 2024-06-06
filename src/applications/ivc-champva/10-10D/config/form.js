@@ -32,6 +32,7 @@ import { customRelationshipSchema } from '../components/CustomRelationshipPatter
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
+import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
@@ -132,6 +133,21 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded
+function showFileOverviewPage(formData) {
+  try {
+    return (
+      hasReq(formData.applicants, true, true) ||
+      hasReq(formData.applicants, false, true) ||
+      hasReq(formData, true, true) ||
+      hasReq(formData, false, true)
+    );
+  } catch {
+    return false;
+  }
+}
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -170,6 +186,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for CHAMPVA benefits.',
     noAuth:
@@ -312,7 +329,10 @@ const formConfig = {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
                   if (
-                    formData.certifierRelationship.relationshipToVeteran.other
+                    get(
+                      'certifierRelationship.relationshipToVeteran.other',
+                      formData,
+                    )
                   )
                     fs.properties.otherRelationshipToVeteran[
                       'ui:collapsed'
@@ -616,7 +636,11 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} mailing address`,
-          depends: (formData, index) => index && index > 0,
+          // Only show if we have addresses to pull from:
+          depends: (formData, index) =>
+            (index && index > 0) || // We will have app0's address
+            (get('street', formData?.certifierAddress) ||
+              get('street', formData?.sponsorAddress)),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -697,7 +721,7 @@ const formConfig = {
           path: 'applicant-gender/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} gender`,
+          title: item => `${applicantWording(item)} sex listed at birth`,
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
@@ -1371,6 +1395,7 @@ const formConfig = {
         page23: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -1383,18 +1408,7 @@ const formConfig = {
         page24: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

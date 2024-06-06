@@ -24,6 +24,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_4142: '21-4142',
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
+  FORM_21_686CV2: '686C-674-V2',
   FORM_21P_0847: '21P-0847',
   FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
@@ -53,10 +54,10 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_HC_QSTNR: 'HC-QSTNR',
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
   FORM_COVID_VACCINE_TRIAL_UPDATE: 'COVID-VACCINE-TRIAL-UPDATE',
-  FORM_21_22: '21-22',
   FORM_5655: '5655',
   FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
   FORM_26_1880: '26-1880',
+  FORM_21_22: '21-22',
   FORM_21_22A: '21-22a',
   FORM_XX_123: 'XX-123',
   FORM_MOCK: '00-1234',
@@ -112,6 +113,9 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
+  [VA_FORM_IDS.FORM_21_22]: 'VSO representative appointment application',
+  [VA_FORM_IDS.FORM_21_22A]:
+    'Individual representative appointment application',
 };
 
 export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
@@ -172,6 +176,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/`,
     [VA_FORM_IDS.FORM_21_4142]: `${getAppUrlImpl('21-4142-medical-release')}/`,
     [VA_FORM_IDS.FORM_21_526EZ]: `${getAppUrlImpl('526EZ-all-claims')}/`,
+    [VA_FORM_IDS.FORM_21_22]: `${getAppUrlImpl('appoint-a-representative')}/`,
+    [VA_FORM_IDS.FORM_21_22A]: `${getAppUrlImpl('appoint-a-representative')}/`,
     [VA_FORM_IDS.FORM_21_686C]: `${getAppUrlImpl('686C-674')}/`,
     [VA_FORM_IDS.FORM_21P_0847]: `${getAppUrlImpl(
       '21P-0847-substitute-claimant',
@@ -226,6 +232,8 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
+  [VA_FORM_IDS.FORM_21_22]: 'appoint-a-rep-21-22',
+  [VA_FORM_IDS.FORM_21_22A]: 'appoint-a-rep-21-22',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_1990]: 'edu-',
   [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
@@ -255,6 +263,8 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21_22,
+  VA_FORM_IDS.FORM_21_22A,
   VA_FORM_IDS.FORM_21_4142,
   VA_FORM_IDS.FORM_21_686C,
   VA_FORM_IDS.FORM_21_526EZ,
@@ -518,5 +528,19 @@ export const MY_VA_SIP_FORMS = [
     title: 'financial status report (5655)',
     description: 'financial status report application (5655)',
     trackingPrefix: 'fsr-5655-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_22,
+    benefit: `Appointment of Veterans Service Organization as Claimant's Representative`,
+    title: `Appointment of Veterans Service Organization as Claimant's Representative (21-22)`,
+    description: 'VSO representative appointment application',
+    trackingPrefix: 'appoint-a-rep-21-22',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_22A,
+    benefit: `Appointment of Individual as Claimant's Representative`,
+    title: `Appointment of Individual as Claimant's Representative (21-22a)`,
+    description: 'Individual representative appointment application',
+    trackingPrefix: 'appoint-a-rep-21-22',
   },
 ];

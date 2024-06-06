@@ -307,17 +307,19 @@ function main() {
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
     fs.writeFileSync(
       `e2e_tests_to_stress_test.json`,
       JSON.stringify(allAllowListSpecs),
     );
-  } else {
-    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
+  } else if (testsToStressTest.length > 0) {
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
     fs.writeFileSync(
       `e2e_tests_to_stress_test.json`,
       JSON.stringify(testsToStressTest),
     );
+  } else {
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'false');
   }
 }
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {

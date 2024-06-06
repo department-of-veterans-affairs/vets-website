@@ -48,6 +48,31 @@ describe('SM main page', () => {
     cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
+
+  it('verify breadcrumbs', () => {
+    cy.get('[data-testid="sm-breadcrumb"]')
+      .shadow()
+      .find('a')
+      .should('have.length', 3);
+
+    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
+      cy.get('a')
+        .eq(0)
+        .should('have.attr', 'href', '/');
+    });
+
+    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
+      cy.get('a')
+        .eq(1)
+        .should('have.attr', 'href', '/my-health');
+    });
+
+    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
+      cy.get('a')
+        .eq(2)
+        .should('have.attr', 'href', '#content');
+    });
+  });
 });
 
 describe('SM main page without API calls', () => {

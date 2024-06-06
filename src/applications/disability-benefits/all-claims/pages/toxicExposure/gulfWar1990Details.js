@@ -13,6 +13,7 @@ import {
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
+  notSureDatesDetails,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -24,7 +25,7 @@ import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 function makeUiSchema(locationId) {
   return {
     'ui:title': formTitle(gulfWar1990PageTitle),
-    'ui:description': formData =>
+    'ui:description': ({ formData }) =>
       dateRangePageDescription(
         getKeyIndex(locationId, 'gulfWar1990', formData),
         getSelectedCount('gulfWar1990', formData),
@@ -35,12 +36,13 @@ function makeUiSchema(locationId) {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
-            monthYearOnly: true,
           }),
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
-            monthYearOnly: true,
           }),
+          'view:notSure': {
+            'ui:title': notSureDatesDetails,
+          },
         },
       },
       'view:gulfWar1990AdditionalInfo': {
@@ -70,6 +72,9 @@ function makeSchema(locationId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
@@ -103,15 +108,15 @@ function makeSchema(locationId) {
  */
 export function makePages() {
   const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .map(locationId => {
       const pageName = `gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
           title: formData =>
             teSubtitle(
-              getKeyIndex(locationId, 'gulfWar1990', { formData }),
-              getSelectedCount('gulfWar1990', { formData }),
+              getKeyIndex(locationId, 'gulfWar1990', formData),
+              getSelectedCount('gulfWar1990', formData),
               GULF_WAR_1990_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,

@@ -10,13 +10,14 @@ describe('Medications Refill History No Image on Details Page', () => {
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
+    const cardNumber = 2;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     listPage.verifyCmopNdcNumberIsNull();
-    detailsPage.clickMedicationDetailsLink(activeRxNoImage);
+    detailsPage.clickMedicationDetailsLink(activeRxNoImage, cardNumber);
 
     detailsPage.verifyNoImageFieldMessageOnDetailsPage();
   });

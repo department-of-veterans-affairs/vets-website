@@ -564,9 +564,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       // When user clicks on cancel request link
-      const button = document.querySelector(
-        'va-button[text="Cancel appointment"]',
-      );
+      const button = document.querySelector('va-button[text="Cancel request"]');
       button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
@@ -607,9 +605,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Request for appointment')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
-      let button = document.querySelector(
-        'va-button[text="Cancel appointment"]',
-      );
+      let button = document.querySelector('va-button[text="Cancel request"]');
       button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
@@ -618,7 +614,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Would you like to cancel this request?'))
         .to.be.ok;
 
-      button = screen.getByText(/Yes, cancel appointment/i);
+      button = screen.getByText(/Yes, cancel request/i);
       button.click();
 
       expect(window.dataLayer[0]).to.deep.equal({
@@ -663,7 +659,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
         const button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
+          'va-button[text="Cancel request"]',
         );
         button.click();
         await waitFor(() => {
@@ -727,9 +723,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        let button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
-        );
+        let button = document.querySelector('va-button[text="Cancel request"]');
         button.click();
 
         await waitFor(() => {
@@ -740,7 +734,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel request/i);
         button.click();
 
         expect(window.dataLayer[0]).to.deep.equal({
@@ -805,9 +799,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        let button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
-        );
+        let button = document.querySelector('va-button[text="Cancel request"]');
         button.click();
 
         await waitFor(() => {
@@ -818,7 +810,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel request/i);
         button.click();
 
         await waitFor(() => {
@@ -827,11 +819,10 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           ).to.equal(FETCH_STATUS.failed);
         });
 
-        expect(screen.getByText(/We couldn.t cancel your appointment/i)).to.be
-          .ok;
+        expect(screen.getByText(/We couldn.t cancel your request/i)).to.be.ok;
         expect(
           screen.getByText(
-            /Something went wrong when we tried to cancel this appointment. Please contact your medical center to cancel:/i,
+            /Something went wrong when we tried to cancel this request. Please contact your medical center to cancel:/i,
           ),
         ).to.be.ok;
       });

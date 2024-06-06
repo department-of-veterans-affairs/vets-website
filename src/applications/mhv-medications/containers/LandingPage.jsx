@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -96,12 +97,12 @@ const LandingPage = () => {
 
   const content = () => {
     return (
-      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+      <>
         <div className="main-content">
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="small-screen:vads-u-margin-top--4 small-screen:vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-margin-bottom--1"
+              className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
@@ -112,10 +113,12 @@ const LandingPage = () => {
           </section>
           {prescriptionsApiError ? (
             <section>
-              <ApiErrorNotification />
+              <ApiErrorNotification errorType="access" content="medications" />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
             </section>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
@@ -187,7 +190,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0">
               What to know as you try out this tool
@@ -569,7 +572,7 @@ const LandingPage = () => {
                   <a
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
-                      'health-history',
+                      'va-allergies-adverse-reactions',
                     )}
                     rel="noreferrer"
                     data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
@@ -605,7 +608,7 @@ const LandingPage = () => {
           </section>
         </div>
         <va-back-to-top />
-      </div>
+      </>
     );
   };
 
@@ -634,7 +637,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6 small-screen:vads-u-margin-x--1">
+      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
         {content()}
       </div>
     </RequiredLoginView>

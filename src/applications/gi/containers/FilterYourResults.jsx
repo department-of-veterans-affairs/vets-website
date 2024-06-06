@@ -16,6 +16,7 @@ import {
   addAllOption,
   createId,
   validateSearchTerm,
+  isShowVetTec,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
@@ -28,6 +29,43 @@ import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
 // import { useFilterBtn } from '../hooks/useFilterbtn';
 // import Loader from '../components/Loader';
+
+const vetTecCheckbox = (
+  vettec,
+  preferredProvider,
+  handleVetTecChange,
+  handlePreferredProviderChange,
+  legendId,
+  automatedTest = false,
+) => {
+  if (isShowVetTec(automatedTest)) {
+    return (
+      <>
+        <Checkbox
+          checked={vettec}
+          name="vettec"
+          label="VET TEC providers"
+          onChange={handleVetTecChange}
+          className="expanding-header-checkbox"
+          inputAriaLabelledBy={legendId}
+        />
+        <div className="expanding-group-children">
+          {vettec && (
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers only"
+              onChange={handlePreferredProviderChange}
+              labelAriaLabel="VET TEC Preferred providers"
+              inputAriaLabelledBy={legendId}
+            />
+          )}
+        </div>
+      </>
+    );
+  }
+  return <div />;
+};
 
 export function FilterYourResults({
   dispatchFilterChange,
@@ -53,7 +91,7 @@ export function FilterYourResults({
     yellowRibbonScholarship,
     employers,
     vettec,
-    // preferredProvider,
+    preferredProvider,
     country,
     state,
     specialMissionHbcu,
@@ -138,24 +176,24 @@ export function FilterYourResults({
     }
   };
 
-  // const handlePreferredProviderChange = e => {
-  //   const { checked } = e.target;
-  //   if (checked) {
-  //     dispatchFilterChange({
-  //       ...filters,
-  //       vettec: true,
-  //       preferredProvider: true,
-  //     });
-  //     recordCheckboxEvent(e);
-  //   } else {
-  //     dispatchFilterChange({
-  //       ...filters,
-  //       vettec: true,
-  //       preferredProvider: false,
-  //     });
-  //     recordCheckboxEvent(e);
-  //   }
-  // };
+  const handlePreferredProviderChange = e => {
+    const { checked } = e.target;
+    if (checked) {
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: true,
+      });
+      recordCheckboxEvent(e);
+    } else {
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: false,
+      });
+      recordCheckboxEvent(e);
+    }
+  };
 
   const updateResults = () => {
     if (isProductionOrTestProdEnv()) {
@@ -316,26 +354,13 @@ export function FilterYourResults({
           className="vads-u-margin-bottom--4"
           inputAriaLabelledBy={legendId}
         />
-        <Checkbox
-          checked={vettec}
-          name="vettec"
-          label="VET TEC providers"
-          onChange={handleVetTecChange}
-          className="expanding-header-checkbox"
-          inputAriaLabelledBy={legendId}
-        />
-        {/* <div className="expanding-group-children">
-          {vettec && (
-            <Checkbox
-              checked={preferredProvider}
-              name="preferredProvider"
-              label="Preferred providers only"
-              onChange={handlePreferredProviderChange}
-              labelAriaLabel="VET TEC Preferred providers"
-              inputAriaLabelledBy={legendId}
-            />
-          )}
-        </div>    */}
+        {vetTecCheckbox(
+          vettec,
+          preferredProvider,
+          handleVetTecChange,
+          handlePreferredProviderChange,
+          legendId,
+        )}
         {specializedMissionAttributes()}
       </div>
     );
