@@ -108,22 +108,22 @@ const SearchControls = props => {
             value={queryState}
             title="Your location: Street, City, State or Postal code"
           />
-          {/* {queryState?.length > 0 && ( */}
-          <button
-            aria-label="Clear your city, state or postal code"
-            type="button"
-            id="clear-input"
-            className="clear-button"
-            onClick={handleClearInput}
-          >
-            <va-icon
-              icon="cancel"
-              size={2}
+          {queryState?.length > 0 && (
+            <button
+              aria-label="Clear your city, state or postal code"
+              type="button"
               id="clear-input"
+              className="clear-button"
               onClick={handleClearInput}
-            />
-          </button>
-          {/* )} */}
+            >
+              <va-icon
+                icon="cancel"
+                size={2}
+                id="clear-input"
+                onClick={handleClearInput}
+              />
+            </button>
+          )}
           <input
             id="facility-search"
             className="usa-button"
