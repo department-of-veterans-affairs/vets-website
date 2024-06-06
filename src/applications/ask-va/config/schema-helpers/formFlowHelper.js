@@ -238,16 +238,16 @@ export const myOwnBenVetPages = flowPages(
 );
 
 const myOwnBenFam = [
-  // 'moreAboutYourRelationshipToVeteran',
-  // 'aboutTheVeteran',
-  // 'veteranDeceased',
-  // 'dateOfDeath',
-  // 'veteransPostalCode',
-  // 'aboutYourself',
-  // 'searchVAMedicalCenter',
+  'moreAboutYourRelationshipToVeteran',
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'veteransPostalCode',
+  'aboutYourself',
+  'searchVAMedicalCenter',
   'yourContactInformation',
-  // 'howToContact',
-  // 'yourCountry',
+  'howToContact',
+  'yourCountry',
   'yourAddress',
   'addressValidation',
 ];
