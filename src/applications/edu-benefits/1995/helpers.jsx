@@ -10,6 +10,13 @@ export const isProductionOfTestProdEnv = automatedTest => {
   );
 };
 
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
+};
+
 export const directDepositMethod = (formData, automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? formData.bankAccountChange
@@ -75,7 +82,8 @@ export const ageWarning = (
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
-        Applicants under the age of 18 can’t legally make a benefits election.
+        {isProductionOfTestProdEnv() &&
+          'Applicants under the age of 18 can’t legally make a benefits election.'}
         Based on your date of birth, please have a parent, guardian, or
         custodian review the information on this application, provide their
         contact information in the Guardian Section of this form, and click the

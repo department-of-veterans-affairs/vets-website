@@ -23,10 +23,6 @@ import {
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
-export const getTimeZone = () =>
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 /**
  * @typedef ClaimantData
  * @type {Object}

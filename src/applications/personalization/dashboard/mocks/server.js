@@ -24,6 +24,8 @@ const responses = {
     {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
+      myVaEnableNewSipConfig: false,
+      veteranOnboardingBetaFlow: true,
     },
     true,
   ),
@@ -63,15 +65,6 @@ const responses = {
     }
 
     return res.json({ data: [] });
-  },
-  'GET /v0/profile/service_history': {
-    data: {
-      id: '',
-      type: 'arrays',
-      attributes: {
-        serviceHistory: [],
-      },
-    },
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

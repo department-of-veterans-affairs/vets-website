@@ -351,5 +351,7 @@
   "something-went-wrong": "Something went wrong. If you have questions about your appointments, call your VA health facility.",
   "clinic-phone": "Clinic phone",
   "need-to-make-changes": "Need to make changes?",
-  "contact-this-facility": "Contact this facility if you need to reschedule or cancel your appointment."
+  "contact-this-facility": "Contact this facility if you need to reschedule or cancel your appointment.",
+  "appointments_one": "appointment",
+  "appointments_other": "appointments"
 }

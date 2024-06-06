@@ -9,7 +9,7 @@ const content = {
     <>
       <p>
         We’ll review your statement. If we have any questions or need additional
-        information from you, we’ll contact you.",
+        information from you, we’ll contact you.
       </p>
     </>
   ),

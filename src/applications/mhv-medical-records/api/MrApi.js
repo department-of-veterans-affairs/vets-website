@@ -78,30 +78,15 @@ export const getVitalsList = () => {
   });
 };
 
-export const getConditions = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/conditions`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(conditions);
-    }, 1000);
+export const getConditions = async () => {
+  return apiRequest(`${apiBasePath}/medical_records/conditions`, {
+    headers,
   });
 };
 
-export const getCondition = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const condition = conditions.entry.find(entry => entry.id === id);
-      resolve(condition);
-    }, 1000);
+export const getCondition = id => {
+  return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
+    headers,
   });
 };
 

@@ -65,6 +65,15 @@ describe('Adverse React/Allergy details component', () => {
     expect(coSigner).to.exist;
   });
 
+  it('should display signed on field', () => {
+    expect(
+      screen.getByText('Signed on', {
+        exact: true,
+        selector: 'h3',
+      }),
+    ).to.exist;
+  });
+
   it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;

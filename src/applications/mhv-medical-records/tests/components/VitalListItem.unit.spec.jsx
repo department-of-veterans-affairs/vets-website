@@ -47,15 +47,15 @@ describe('Vital list item component', () => {
   });
 
   it('should contain the date of the record', () => {
-    const recordDate = screen.getByText('October', {
-      exact: false,
+    const recordDate = screen.getByText('October 27, 2023, 10:00 a.m.', {
+      exact: true,
     });
     expect(recordDate).to.exist;
   });
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByRole('link', {
-      name: 'Review blood pressure over time',
+      name: 'Review your blood pressure over time',
     });
     expect(recordDetailsLink).to.exist;
   });

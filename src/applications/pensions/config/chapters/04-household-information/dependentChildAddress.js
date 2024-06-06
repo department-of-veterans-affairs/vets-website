@@ -7,8 +7,13 @@ import {
   fullNameSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { getDependentChildTitle, dependentIsOutsideHousehold } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
+
+const {
+  monthlyPayment,
+} = fullSchemaPensions.properties.dependents.items.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -56,7 +61,7 @@ export default {
           properties: {
             childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
             personWhoLivesWithChild: fullNameSchema,
-            monthlyPayment: { type: 'number' },
+            monthlyPayment,
           },
         },
       },

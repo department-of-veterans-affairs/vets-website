@@ -10,6 +10,7 @@ import {
   addIncludedIssues,
   getPhone,
   addAreaOfDisagreement,
+  getTimeZone,
 } from '../../utils/submit';
 
 const text =
@@ -285,5 +286,12 @@ describe('addAreaOfDisagreement', () => {
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
     expect(result[0].attributes.disagreementArea).to.equal('');
+  });
+});
+
+describe('getTimeZone', () => {
+  it('should return a string', () => {
+    // result will be a location string, not stubbing for this test
+    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });

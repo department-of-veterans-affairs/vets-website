@@ -348,7 +348,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   }
   @media (max-width: $xsmall-screen) {
     width: -webkit-fill-available;
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
     &::part(button) {
       width: 100%;
     }
@@ -369,7 +369,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::before {
       font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
       font-weight: 900; /* Use 900 for solid icons */
-      font-size: 1.6rem;
+      font-size: 1rem;
       vertical-align: bottom;
     }
   }

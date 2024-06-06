@@ -10,13 +10,12 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Delete Reply Draft', () => {
   it('Axe Check Message Delete Reply Draft with Axe Check', () => {
     const draftsPage = new PatientMessageDraftsPage();
-    const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
+    const messageDetails = PatientInboxPage.getNewMessageDetails();
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
+    PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
     messageDetailsPage.loadMessageDetails(messageDetails);
     messageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();

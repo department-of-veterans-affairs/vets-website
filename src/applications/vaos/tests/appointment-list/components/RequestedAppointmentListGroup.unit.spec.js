@@ -4,9 +4,9 @@ import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import RequestedAppointmentsListGroup from '../../../appointment-list/components/RequestedAppointmentsListGroup';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { getVAOSRequestMock } from '../../mocks/mock';
 import reducers from '../../../redux/reducer';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
 import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 
 const initialStateVAOSService = {

@@ -4,14 +4,11 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.textInput.pages.textInputWidgets1;
+const { schema, uiSchema } = formConfig.chapters.textInput.pages.textEmailPhone;
 
 const pageTitle = 'mock text input widgets';
 
-const expectedNumberOfWebComponentFields = 3;
+const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
