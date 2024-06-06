@@ -38,10 +38,10 @@ function RemoveFileModal({
 }
 
 RemoveFileModal.propTypes = {
-  removeFileName: PropTypes.string,
-  showRemoveFileModal: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired,
+  showRemoveFileModal: PropTypes.bool.isRequired,
+  removeFileName: PropTypes.string,
 };
 
 export default RemoveFileModal;

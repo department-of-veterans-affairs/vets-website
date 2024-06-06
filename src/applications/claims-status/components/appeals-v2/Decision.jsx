@@ -100,8 +100,8 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
 };
 
 Decision.propTypes = {
-  issues: PropTypes.array.isRequired,
   aoj: PropTypes.string.isRequired,
+  issues: PropTypes.array.isRequired,
   ama: PropTypes.bool,
   boardDecision: PropTypes.bool,
 };
