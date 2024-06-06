@@ -6,7 +6,7 @@
   "alert-enrollment-action": "Apply for VA health care",
   "alert-server-title": "Something went wrong on our end",
   "alert-server-message": "We\u2019re sorry. Something went wrong on our end. Please try again.",
-  "alert-submission-title": "We can\u2019t your form right now",
+  "alert-submission-title": "We can\u2019t submit your form right now",
   "alert-submission-primary-message": "We\u2019re sorry. Something went wrong in our system. Try again later.",
   "alert-submission-secondary-message": "You can also submit a form to update your health benefits information by mail, by phone, or in person.",
   "button-edit": "Edit",
