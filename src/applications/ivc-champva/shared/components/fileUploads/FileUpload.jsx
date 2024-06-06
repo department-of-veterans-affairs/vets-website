@@ -112,7 +112,6 @@ export function FileFieldCustom(props) {
   );
 }
 
-// TODO: update these:
 FileFieldCustom.propTypes = {
   contentAfterButtons: PropTypes.any,
   contentBeforeButtons: PropTypes.any,
