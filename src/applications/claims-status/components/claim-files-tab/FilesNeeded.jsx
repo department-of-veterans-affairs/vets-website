@@ -18,7 +18,7 @@ function FilesNeeded({ item }) {
             we may need to decide your claim.
           </p>
           <p>
-            Upload the waiver attached to letter if you’re finished adding
+            Upload the waiver attached to the letter if you’re finished adding
             evidence.
           </p>
         </>
@@ -44,7 +44,7 @@ function FilesNeeded({ item }) {
         {item.displayName}
       </h4>
       {!hideDueDate && <DueDate date={item.suspenseDate} />}
-      <p className="alert-description">{getItemDescription()}</p>
+      <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
           aria-label={`Details for ${item.displayName}`}

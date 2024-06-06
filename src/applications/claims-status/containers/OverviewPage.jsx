@@ -23,6 +23,7 @@ import {
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
 const STATUSES = getStatusMap();
@@ -162,7 +163,7 @@ class OverviewPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('#tabPanelStatus');
+      setFocus('#tabPanelOverview');
     }
   }
 
@@ -191,7 +192,7 @@ class OverviewPage extends React.Component {
       return null;
     }
 
-    const { claimPhaseDates } = claim.attributes;
+    const { claimPhaseDates, claimDate } = claim.attributes;
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
@@ -203,14 +204,21 @@ class OverviewPage extends React.Component {
               <MobileClaimPhaseDiagram currentPhase={currentPhase} />
               <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
             </div>
+            <ClaimPhaseStepper
+              claimDate={claimDate}
+              currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+              currentPhase={currentPhase}
+            />
           </Toggler.Enabled>
+          <Toggler.Disabled>
+            <ClaimTimeline
+              id={claim.id}
+              phase={currentPhase}
+              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              events={generateEventTimeline(claim)}
+            />
+          </Toggler.Disabled>
         </Toggler>
-        <ClaimTimeline
-          id={claim.id}
-          phase={currentPhase}
-          currentPhaseBack={claimPhaseDates.currentPhaseBack}
-          events={generateEventTimeline(claim)}
-        />
       </div>
     );
   }

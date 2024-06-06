@@ -1,12 +1,11 @@
 {
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
-    "secondaryMedigapPlan": "medigapPlanK",
+    "secondaryMedigapPlan": "K",
     "applicantSecondaryInsuranceType": {
       "ppo": true,
       "medigap": true
     },
-    "applicantSecondaryEOB": "noEob",
     "applicantSecondaryHasPrescription": false,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -14,10 +13,9 @@
     "applicantSecondaryExpirationDate": "2010-09-03",
     "applicantHasSecondary": true,
     "applicantHasPrimary": false,
-    "applicantMedicareStatusContinued": "enrolledNoUpdates",
     "applicantMedicareStatus": false,
     "applicantPhone": "7771231234",
-    "applicantEmailAddress": "email@email.edu",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "811 Street Circle",
@@ -28,13 +26,10 @@
     "applicantSsn": "444221234",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "II"
     },
     "applicantDOB": "1950-08-02",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "secondaryInsuranceCard",
@@ -44,7 +39,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

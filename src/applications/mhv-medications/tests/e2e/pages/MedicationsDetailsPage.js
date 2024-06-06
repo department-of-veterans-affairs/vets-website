@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       .click({ force: true });
   };
 
-  clickMedicationDetailsLink = prescriptionDetails => {
+  clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
       `/my_health/v1/prescriptions/${
@@ -103,14 +103,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="rx-card-info"] > #card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });
@@ -157,6 +153,13 @@ class MedicationsDetailsPage {
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
     cy.get('[data-testid="print-records-button"] > span').click({
       force: true,
+    });
+  };
+
+  clickPrintThisPageButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
     });
   };
 
@@ -354,6 +357,10 @@ class MedicationsDetailsPage {
       'have.text',
       `${prescriptionDetails.data.attributes.dispStatus}`,
     );
+  };
+
+  verifyFacilityInPlainLanguageOnDetailsPage = prescription => {
+    cy.get('[data-testid="facility-name"]').should('contain', prescription);
   };
 }
 export default MedicationsDetailsPage;

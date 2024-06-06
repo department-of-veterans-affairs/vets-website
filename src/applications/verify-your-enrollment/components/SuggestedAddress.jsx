@@ -26,6 +26,7 @@ const SuggestedAddress = ({
   suggestedAddressPicked,
   setGoBackToEdit,
   scrollToTopOfForm,
+  applicantName,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -70,7 +71,7 @@ const SuggestedAddress = ({
       setSuggestedAddressPicked(true);
       dispatch(handleSuggestedAddressPicked(true));
       try {
-        dispatch(validateAddress(fields, formData?.fullName));
+        dispatch(validateAddress(fields, applicantName));
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -80,7 +81,7 @@ const SuggestedAddress = ({
       try {
         await dispatch(
           postMailingAddress({
-            veteranName: formData.fullName,
+            veteranName: applicantName,
             address1: formData.addressLine1,
             address2: formData.addressLine2,
             address3: formData.addressLine3,
@@ -109,9 +110,9 @@ const SuggestedAddress = ({
       {(isLoadingValidateAddress || isLoading) && (
         <Loader className="loader" message="updating..." />
       )}
-      <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
         Mailing address
-      </p>
+      </h3>
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
@@ -185,12 +186,14 @@ const SuggestedAddress = ({
 };
 
 SuggestedAddress.propTypes = {
+  applicantName: PropTypes.string.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
+  scrollToTopOfForm: PropTypes.func,
   setSuggestedAddressPicked: PropTypes.func,
   suggestedAddressPicked: PropTypes.bool,
 };

@@ -46,71 +46,7 @@ describe('title text logic', () => {
   });
 });
 
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.role.schema,
-  formConfig.chapters.certifierInformation.pages.role.uiSchema,
-  1,
-  'Certifier information',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.name.schema,
-  formConfig.chapters.certifierInformation.pages.name.uiSchema,
-  4,
-  'Certifier name',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.address.schema,
-  formConfig.chapters.certifierInformation.pages.address.uiSchema,
-  8,
-  'Certifier address',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.phoneEmail.schema,
-  formConfig.chapters.certifierInformation.pages.phoneEmail.uiSchema,
-  2,
-  'Certifier phone/email',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.relationship.schema,
-  formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  2,
-  'Certifier relationship',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.relationship.schema,
-  formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  1,
-  'Certifier relationship',
-  {
-    ...mockData.data,
-    certifierRelationship: { relationshipToApplicants: 'applicant' },
-  },
-);
-
 describe('Applicant Name/DOB page title', () => {
-  it('should start with "Your" if role is "applicant"', () => {
-    const {
-      title,
-    } = formConfig.chapters.applicantInformation.pages.applicantNameDob;
-    const res = title({ ...mockData.data, certifierRole: 'applicant' });
-    expect(res.startsWith('Your')).to.be.true;
-  });
   testNumberOfWebComponentFields(
     formConfig,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
@@ -118,14 +54,6 @@ describe('Applicant Name/DOB page title', () => {
     5,
     'Applicant name/DOB',
     { ...mockData.data },
-  );
-  testNumberOfWebComponentFields(
-    formConfig,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
-    5,
-    'Applicant name/DOB',
-    { certifierRole: 'applicant' },
   );
 });
 
@@ -151,7 +79,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantContactInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantContactInfo.uiSchema,
-  2,
+  1,
   'Applicant contact info',
   { ...mockData.data },
 );
@@ -167,46 +95,10 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.medicareInformation.pages.hasMedicareAB.schema,
-  formConfig.chapters.medicareInformation.pages.hasMedicareAB.uiSchema,
-  1,
-  'Applicant has medicare AB (certifier role: applicant)',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
-  1,
-  'Applicant medicare AB context (certifier role: applicant)',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
-  1,
-  'Applicant medicare AB context',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.medicareInformation.pages.partACarrier.schema,
   formConfig.chapters.medicareInformation.pages.partACarrier.uiSchema,
   2,
   'Applicant medicare A carrier',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareIneligible.schema,
-  formConfig.chapters.medicareInformation.pages.medicareIneligible.uiSchema,
-  0,
-  'Applicant medicare ineligible',
   { ...mockData.data },
 );
 
@@ -237,25 +129,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-// Hit the useFirstPerson conditional branch in title
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.schema,
-  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.uiSchema,
-  1,
-  'Applicant medicare pharmacy benefits',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.uiSchema,
-  1,
-  'Applicant medicare advantage benefits',
-  { ...mockData.data },
-);
-
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
@@ -263,16 +136,6 @@ testNumberOfWebComponentFields(
   1,
   'Applicant has medicare D',
   { ...mockData.data },
-);
-
-// Follow title else path
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
-  formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
-  1,
-  'Applicant has medicare D',
-  { ...mockData.data, certifierRole: 'applicant' },
 );
 
 testNumberOfWebComponentFields(
@@ -292,23 +155,6 @@ testNumberOfWebComponentFields(
   'Applicant medicare D cards',
   { ...mockData.data },
 );
-
-describe('Medicare ineligibility screen depends function', () => {
-  // Get date 65 yrs ago in format MM-DD-YYYY (to match what form would produce)
-  const date65YrAgo = new Date();
-  date65YrAgo.setFullYear(date65YrAgo.getFullYear() - 65);
-
-  it('should return true if applicant is ineligible and over 65', () => {
-    const depRes = formConfig.chapters.medicareInformation.pages.medicareIneligible.depends(
-      {
-        applicantMedicareStatusContinued: 'ineligible',
-        applicantDOB: date65YrAgo,
-      },
-    );
-
-    expect(depRes).to.be.true;
-  });
-});
 
 describe('Medicare part D screen depends function', () => {
   it('should return true if applicant has Medicare parts A, B, and D', () => {
@@ -375,7 +221,7 @@ testNumberOfWebComponentFields(
     .uiSchema,
   1,
   'Applicant has secondary healthcare',
-  { applicantHasSecondary: true, certifierRole: 'applicant' },
+  { applicantHasSecondary: true },
 );
 
 testNumberOfWebComponentFields(
@@ -430,7 +276,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.healthcareInformation.pages.secondaryType.uiSchema,
   6,
   'Applicant secondary insurance type',
-  { ...mockData.data, certifierRole: 'applicant' },
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -448,7 +294,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.healthcareInformation.pages.secondaryMedigap.uiSchema,
   1,
   'Applicant secondary Medigap type',
-  { ...mockData.data, certifierRole: 'applicant' },
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -488,17 +334,9 @@ testNumberOfWebComponentFields(
 );
 
 describe('fullNamePath', () => {
-  it('should be "applicantName" if certifierRole is "applicant"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-      certifierRole: 'applicant',
-    });
+  it('should be "applicantName"', () => {
+    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
     expect(v).to.equal('applicantName');
-  });
-  it('should be "certifierName" if certifierRole is "applicant"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-      certifierRole: 'other',
-    });
-    expect(v).to.equal('certifierName');
   });
 });
 

@@ -52,6 +52,7 @@ export default function TypeOfVisitSection({ data }) {
             onClick={handleClick(history, pageFlow)}
             text="Edit"
             aria-label="Edit how you want to attend"
+            tabindex="0"
           />
         </div>
       </div>

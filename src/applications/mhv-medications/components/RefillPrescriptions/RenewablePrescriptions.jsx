@@ -58,17 +58,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         If you can’t find the prescription you’re looking for
       </h2>
       <div className="vads-u-margin-y--3">
-        <p className="vads-u-margin-y--0">You may need to renew it. </p>
-        <p className="vads-u-margin-y--0">
-          <va-link
-            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-            text="Learn how to renew prescriptions"
-            data-testid="learn-to-renew-prescriptions-link"
-            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            } - Renew Section`}
-          />
-        </p>
+        <p className="vads-u-margin-y--0">You may need to renew it.</p>
+        <va-link
+          class="vads-u-margin-y--0"
+          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+          text="Learn how to renew prescriptions"
+          data-testid="learn-to-renew-prescriptions-link"
+          data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+            DD_ACTIONS_PAGE_TYPE.REFILL
+          } - Renew Section`}
+        />
       </div>
       <div>
         <p className="vads-u-margin-y--0">
@@ -87,11 +86,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           </Link>
         </p>
       </div>
-      <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
-        Prescriptions you may need to renew
-      </h3>
       {renewablePrescriptionsList.length > 0 && (
         <>
+          <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
+            Prescriptions you may need to renew
+          </h3>
           <p data-testid="renew-page-list-count">
             Showing
             <span>{` ${displayRange[0]} - ${displayRange[1]} of`}</span>
@@ -106,44 +105,37 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             key={idx}
             className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
           >
-            <h4 className="vads-u-margin--0">
-              <Link
-                data-testid={`medication-details-page-link-${idx}`}
-                to={`/prescription/${prescription.prescriptionId}`}
-                onClick={() => onRxLinkClick(prescription)}
-              >
-                {prescription.prescriptionName}
-              </Link>
-            </h4>
-            <p className="vads-u-margin-top--0">
-              Prescription number: {prescription.prescriptionNumber}
-              <br />
-              <span data-testid={`renew-last-filled-${idx}`}>
-                Last filled on{' '}
-                {dateFormat(
+            <Link
+              data-testid={`medication-details-page-link-${idx}`}
+              to={`/prescription/${prescription.prescriptionId}`}
+              onClick={() => onRxLinkClick(prescription)}
+              className="vads-u-font-weight--bold"
+            >
+              {prescription.prescriptionName}
+            </Link>
+            <div className="renew-card-details">
+              <p>{`Prescription number: ${prescription.prescriptionNumber}`}</p>
+              <p data-testid={`renew-last-filled-${idx}`}>
+                {`Last filled on ${dateFormat(
                   prescription.rxRfRecords.find(record => record.dispensedDate)
                     ?.dispensedDate || prescription.dispensedDate,
                   'MMMM D, YYYY',
-                )}
-              </span>
+                )}`}
+              </p>
               {prescription?.trackingList?.[0]?.completeDateTime && (
-                <>
-                  <br />
-                  <span data-testid={`medications-last-shipped-${idx}`}>
-                    {/* <va-icon
+                <p data-testid={`medications-last-shipped-${idx}`}>
+                  {/* <va-icon
                       size={4}
                       icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                       className="vads-u-margin-right--1p5"
                     /> */}
-                    Last refill shipped on{' '}
-                    {dateFormat(
-                      prescription.trackingList[0].completeDateTime,
-                      'MMMM D, YYYY',
-                    )}
-                  </span>
-                </>
+                  {`Last refill shipped on ${dateFormat(
+                    prescription.trackingList[0].completeDateTime,
+                    'MMMM D, YYYY',
+                  )}`}
+                </p>
               )}
-            </p>
+            </div>
           </div>
         ))}
         <div className="renew-pagination-container">

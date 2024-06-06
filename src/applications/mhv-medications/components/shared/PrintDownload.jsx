@@ -1,17 +1,10 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import FeedbackEmail from './FeedbackEmail';
-import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
-
-export const DOWNLOAD_FORMAT = {
-  PDF: 'PDF',
-  TXT: 'TXT',
-};
-
-export const PRINT_FORMAT = {
-  PRINT: 'print',
-  PRINT_FULL_LIST: 'print-full-list',
-};
+import {
+  DD_ACTIONS_PAGE_TYPE,
+  DOWNLOAD_FORMAT,
+  PRINT_FORMAT,
+} from '../../util/constants';
 
 const PrintDownload = props => {
   const { download, isSuccess, list } = props;
@@ -82,11 +75,10 @@ const PrintDownload = props => {
     <>
       {isSuccess && (
         <div
-          aria-live="polite"
           className="vads-u-margin-bottom--3"
           data-testid="download-success-banner"
         >
-          <va-alert status="success" background-only uswds>
+          <va-alert role="alert" status="success" background-only uswds>
             <h2 slot="headline">Download started</h2>
             <p className="vads-u-margin--0">
               Check your device’s downloads location for your file.
@@ -96,14 +88,22 @@ const PrintDownload = props => {
       )}
       {isError && (
         <div className="vads-u-margin-bottom--3">
-          <va-alert status="error" uswds>
+          <va-alert role="alert" status="error" uswds>
             <h2 slot="headline">We can’t download your records right now</h2>
             <p>
               We’re sorry. There’s a problem with our system. Check back later.
             </p>
-            <p className="vads-u-margin--0">
-              If it still doesn’t work, email us at <FeedbackEmail />
-            </p>
+            <div className="vads-u-margin--0">
+              <p>
+                If it still doesn’t work, call us at{' '}
+                <va-telephone contact="8773270022" /> (
+                <va-telephone tty contact="711" />
+                ).
+              </p>
+              <p>
+                We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              </p>
+            </div>
           </va-alert>
         </div>
       )}

@@ -4,7 +4,6 @@ import mockMessages from '../fixtures/messages-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder checks', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
   const {
@@ -16,35 +15,34 @@ describe('Secure Messaging Inbox Folder checks', () => {
 
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('Verify filter works correctly', () => {
-    landingPage.inputFilterData('test');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.verifyFilterResults('test', mockFilterResults);
+    PatientInboxPage.inputFilterData('test');
+    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientInboxPage.verifyFilterResults('test', mockFilterResults);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    landingPage.inputFilterData('test');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.clickClearFilterButton();
-    landingPage.verifyFilterFieldCleared();
+    PatientInboxPage.inputFilterData('test');
+    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientInboxPage.clickClearFilterButton();
+    PatientInboxPage.verifyFilterFieldCleared();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
-    landingPage.verifySorting();
+    PatientInboxPage.verifySorting();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
 describe('Verify sorting feature with only one filter result', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
   const {
@@ -56,11 +54,11 @@ describe('Verify sorting feature with only one filter result', () => {
 
   it('verify sorting does not appear with only one filter result', () => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
 
-    landingPage.inputFilterData('draft');
-    landingPage.clickFilterMessagesButton(mockSingleFilterResult);
-    landingPage.verifyFilterResults('draft', mockSingleFilterResult);
+    PatientInboxPage.inputFilterData('draft');
+    PatientInboxPage.clickFilterMessagesButton(mockSingleFilterResult);
+    PatientInboxPage.verifyFilterResults('draft', mockSingleFilterResult);
 
     cy.get(Locators.DROPDOWN).should('not.exist');
 

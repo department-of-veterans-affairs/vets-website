@@ -12,10 +12,10 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 const {
   childName,
@@ -42,23 +42,27 @@ MedicalExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Medical expenses and other unreimbursed expenses',
+  title: 'List of medical expenses and other unreimbursed expenses',
   path: 'financial/medical-expenses/add',
   depends: doesHaveMedicalExpenses,
   uiSchema: {
-    ...titleUI('Add a medical or other unreimbursed expense'),
+    ...titleUI(
+      'List of medical expenses and other unreimbursed expenses',
+      <ArrayDescription message="Add a medical or other unreimbursed expense" />,
+    ),
     medicalExpenses: {
       'ui:options': {
-        itemName: 'Unreimbursed Expense',
+        itemName: 'Medical Expense',
         itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
-        reviewTitle: 'Unreimbursed Expenses',
+        reviewTitle: 'Medical Expenses',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({

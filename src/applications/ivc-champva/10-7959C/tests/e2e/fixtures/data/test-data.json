@@ -14,13 +14,14 @@
       "postalCode": "12323"
     },
     "applicantPhone": "3331233456",
+    "applicantGender": "male",
     "applicantMedicareStatus": true,
     "applicantMedicarePartACarrier": "Test A Carrier",
     "applicantMedicarePartBCarrier": "Test B Carrier",
     "applicantMedicarePartAEffectiveDate": "2010-01-01",
     "applicantMedicarePartBEffectiveDate": "2010-01-01",
     "applicantMedicarePharmacyBenefits": false,
-    "applicantMedicareAdvantage": true,
+    "applicantMedicareClass": "advantage",
     "applicantMedicareStatusD": true,
     "applicantMedicarePartDCarrier": "Test D Carrier",
     "applicantMedicarePartDEffectiveDate": "2010-01-01",
@@ -30,9 +31,9 @@
     "applicantPrimaryExpirationDate": "2010-01-01",
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
-    "applicantPrimaryEOB": "noEob",
+    "applicantPrimaryEOB": false,
     "applicantPrimaryInsuranceType": { "hmo": true, "medigap": true },
-    "primaryMedigapPlan": "medigapPlanA",
+    "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
     "applicantHasSecondary": true,
     "applicantSecondaryProvider": "Secondary Provider",
@@ -40,27 +41,12 @@
     "applicantSecondaryExpirationDate": "2010-01-01",
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryHasPrescription": true,
-    "applicantSecondaryEOB": "hasEob",
+    "applicantSecondaryEOB": true,
     "applicantSecondaryInsuranceType": { "ppo": true, "medigap": true },
-    "secondaryMedigapPlan": "medigapPlanM",
+    "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
-    "certifierRelationship": {
-      "relationshipToApplicants": "other",
-      "otherRelationshipToApplicants": "Another relationship"
-    },
-    "certifierName": { "first": "Certifier", "last": "Jones" },
-    "certifierPhone": "5551231234",
-    "certifierEmail": "certifier@email.gov",
-    "certifierAddress": {
-      "country": "USA",
-      "street": "123 Street Lane",
-      "city": "Anytown",
-      "state": "AL",
-      "postalCode": "12345"
-    },
-    "certifierRole": "other",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "Certifier Jones"
+    "statementOfTruthSignature": "Jimmy Alvin"
   }
 }

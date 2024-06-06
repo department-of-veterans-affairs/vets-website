@@ -209,6 +209,7 @@ class ClaimStatusPage extends React.Component {
       status,
       trackedItems,
     } = claim.attributes;
+    const claimPhaseType = claimPhaseDates.latestPhaseType;
     const isOpen = isClaimOpen(status, closeDate);
     const filesNeeded = itemsNeedingAttentionFromVet(trackedItems);
     const showDocsNeeded =
@@ -222,7 +223,11 @@ class ClaimStatusPage extends React.Component {
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing status={status} />
+                <WhatWeAreDoing
+                  claimPhaseType={claimPhaseType}
+                  phaseChangeDate={claimPhaseDates.phaseChangeDate}
+                  status={status}
+                />
               </>
             ) : (
               <>
@@ -242,7 +247,7 @@ class ClaimStatusPage extends React.Component {
               isOpen && (
                 <ClaimTimeline
                   id={claim.id}
-                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  phase={getPhaseFromStatus(claimPhaseType)}
                   currentPhaseBack={claimPhaseDates.currentPhaseBack}
                   events={generateEventTimeline(claim)}
                 />

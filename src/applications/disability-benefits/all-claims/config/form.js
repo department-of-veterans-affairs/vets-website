@@ -69,6 +69,7 @@ import {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
@@ -131,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -751,6 +753,13 @@ const formConfig = {
             !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

@@ -253,5 +253,25 @@ describe('<RecentActivity>', () => {
       expect($('ol', container)).to.exist;
       expect($('va-pagination', container)).to.exist;
     });
+
+    it('should mask activity descriptions from Datadog because they sometimes contain filenames (no PII)', () => {
+      const claim = {
+        attributes: {
+          open: true,
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2022-12-01',
+              status: 'ACCEPTED',
+              displayName: 'Accepted Request',
+            },
+          ],
+        },
+      };
+      const { container } = render(<RecentActivity claim={claim} />);
+      expect(
+        $('.item-description', container).getAttribute('data-dd-privacy'),
+      ).to.equal('mask');
+    });
   });
 });
