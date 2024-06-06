@@ -32,7 +32,7 @@ describe('Enrollment Verification Page Tests', () => {
       'contain',
       'Student Verification of Enrollment (VA Form 22-8979)',
     );
-    cy.url().should('include', '/verification-review');
+    cy.url().should('include', '/verify-information');
     cy.get('.vye-highlighted-content-container').should('exist');
   });
   // it('should show the submit button disabled at first', () => {

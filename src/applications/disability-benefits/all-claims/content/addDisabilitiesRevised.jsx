@@ -31,9 +31,10 @@ export const newOnlyAlertRevised = ({ formContext }) => {
   if (!formContext.submitted) return null;
   return (
     <va-alert status="error" uswds>
-      <h3 slot="headline">We need you to add a condition</h3>
+      <h3 slot="headline">Enter a condition to submit your claim</h3>
       <p className="vads-u-font-size--base">
-        You need to add a new condition in order to submit your claim.
+        You’ll need to enter a condition, diagnosis, or short description of
+        your symptoms to submit your claim.
       </p>
     </va-alert>
   );
