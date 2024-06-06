@@ -6,7 +6,6 @@
       "ppo": true,
       "medigap": true
     },
-    "applicantSecondaryEOB": "noEob",
     "applicantSecondaryHasPrescription": false,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -16,6 +15,7 @@
     "applicantHasPrimary": false,
     "applicantMedicareStatus": false,
     "applicantPhone": "7771231234",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "811 Street Circle",
@@ -31,12 +31,6 @@
     },
     "applicantDOB": "1950-08-02",
     "missingUploads": [
-      {
-        "name": "secondaryInsuranceScheduleOfBenefits",
-        "path": "secondary-insurance-sob",
-        "required": false,
-        "uploaded": false
-      },
       {
         "name": "secondaryInsuranceCard",
         "path": "secondary-insurance-card-upload",
