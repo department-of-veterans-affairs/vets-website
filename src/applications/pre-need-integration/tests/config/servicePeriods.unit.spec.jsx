@@ -69,7 +69,7 @@ describe('Pre-need service periods', () => {
       form.unmount();
     });
 
-    it.skip('should add another service period', () => {
+    it('should add another service period', () => {
       const onSubmit = sinon.spy();
       const form = mount(
         <Provider store={store}>
