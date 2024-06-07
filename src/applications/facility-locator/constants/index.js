@@ -144,3 +144,5 @@ export const MAX_SEARCH_AREA = 500;
  * Min radius search area in miles
  */
 export const MIN_RADIUS = 10;
+
+export const Covid19Vaccine = 'Covid19Vaccine';
