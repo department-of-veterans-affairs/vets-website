@@ -4,7 +4,7 @@ import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
-describe('Secure Messaging Custom Folder AXE Check', () => {
+describe('Secure Messaging Custom Folder filter-sort checks', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();

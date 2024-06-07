@@ -16,7 +16,6 @@ describe(manifest.appName, () => {
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Inbox');
     FolderLoadPage.verifyBreadCrumbsLength(4);
-    FolderLoadPage.backToFolder('Messages');
   });
 
   it('Check the Draft folder', () => {
@@ -25,7 +24,6 @@ describe(manifest.appName, () => {
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Drafts');
     FolderLoadPage.verifyBreadCrumbsLength(4);
-    FolderLoadPage.backToFolder('Messages');
   });
 
   it('Check the Sent folder', () => {
@@ -34,7 +32,6 @@ describe(manifest.appName, () => {
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Sent');
     FolderLoadPage.verifyBreadCrumbsLength(4);
-    FolderLoadPage.backToFolder('Messages');
   });
 
   it('Check the Trash folder', () => {
@@ -43,6 +40,9 @@ describe(manifest.appName, () => {
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Trash');
     FolderLoadPage.verifyBreadCrumbsLength(4);
+  });
+
+  afterEach(() => {
     FolderLoadPage.backToFolder('Messages');
   });
 });

@@ -4,7 +4,7 @@ import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('secure Messaging Sent Folder checks', () => {
+describe('secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();

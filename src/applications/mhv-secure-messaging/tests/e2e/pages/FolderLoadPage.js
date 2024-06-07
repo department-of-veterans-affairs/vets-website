@@ -19,9 +19,9 @@ class FolderLoadPage {
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
       'folders',
     );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
-      'inboxMessages',
-    );
+    // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+    //   'inboxMessages',
+    // );
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
