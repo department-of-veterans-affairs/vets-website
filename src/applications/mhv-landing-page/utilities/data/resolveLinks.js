@@ -1,6 +1,9 @@
 const hasOwn = (object, prop) =>
   Object.prototype.hasOwnProperty.call(object, prop);
 
+const isToggled = (toggle, featureToggles) =>
+  !!toggle && (hasOwn(featureToggles, toggle) && featureToggles[toggle]);
+
 export const toggleLink = (link, featureToggles = {}) => {
   const {
     oldText,
@@ -11,14 +14,31 @@ export const toggleLink = (link, featureToggles = {}) => {
     ariaLabel,
   } = link;
   const showNewLink =
-    (!!toggle && (hasOwn(featureToggles, toggle) && featureToggles[toggle])) ||
-    (!oldText && !oldHref);
+    isToggled(toggle, featureToggles) || (!oldText && !oldHref);
+
   const href = showNewLink ? newHref : oldHref;
   const text = showNewLink ? newText : oldText;
-  return { href, text, key: toggle, ariaLabel };
+  const isExternal = !!link.isExternal;
+  return { href, text, key: toggle, ariaLabel, isExternal };
 };
 
-const resolveLinks = (links, featureToggles) =>
-  links.map(l => toggleLink(l, featureToggles)).filter(l => !!l.href);
+// Removes links that (all must be true):
+// 1. Are not toggled (feature flag disabled)
+// 2. Have no `oldText` or `oldHref`
+// 3. Should be "hard toggled" (completely disabled)
+//     e.g. in the case of a brand-new link with no `oldText`
+//     or in the event the link should be removed quickly and completely
+const filterOutHideableLinks = (links, featureToggles) => {
+  const shouldHideFilter = link =>
+    !isToggled(link.toggle, featureToggles) && link.hardToggle;
+  return links.filter(l => !shouldHideFilter(l));
+};
+
+const resolveLinks = (links, featureToggles) => {
+  const visibleLinks = filterOutHideableLinks(links, featureToggles);
+  return visibleLinks
+    .map(l => toggleLink(l, featureToggles))
+    .filter(l => !!l.href);
+};
 
 export default resolveLinks;

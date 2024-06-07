@@ -81,6 +81,19 @@ const resolveLandingPageLinks = (
     featureToggles,
   );
 
+  const paymentsLinks = resolveLinks(
+    [
+      { ...HEALTH_TOOL_LINKS.PAYMENTS[0] },
+      {
+        ...HEALTH_TOOL_LINKS.PAYMENTS[1],
+        toggle: FEATURE_FLAG_NAMES.travelPayPowerSwitch,
+        hardToggle: true,
+      },
+      { ...HEALTH_TOOL_LINKS.PAYMENTS[2] },
+    ],
+    featureToggles,
+  );
+
   const medicalRecordsLinks = resolveLinks(
     [
       {
@@ -217,7 +230,7 @@ const resolveLandingPageLinks = (
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
       iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
-      links: HEALTH_TOOL_LINKS.PAYMENTS,
+      links: paymentsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,

@@ -60,6 +60,17 @@ describe(`${manifest.appName} -- utilities/data/resolveLinks.js`, () => {
       expect(result.href).to.equal('/new');
       expect(result.text).to.equal('New text');
     });
+
+    it('preserves external link status if present and true', () => {
+      const toggles = initializeFeatureToggles({});
+      const result = toggleLink(
+        { href: '/new', text: 'New text', isExternal: true },
+        toggles,
+      );
+      expect(result.href).to.equal('/new');
+      expect(result.text).to.equal('New text');
+      expect(result.isExternal).to.equal(true);
+    });
   });
 
   describe('resolveLinks', () => {
@@ -96,6 +107,21 @@ describe(`${manifest.appName} -- utilities/data/resolveLinks.js`, () => {
         },
       ];
       expect(resolveLinks(links, toggles).length).to.eq(1);
+    });
+
+    describe('hideable links', () => {
+      it('does not show link or text when a link should be hidden', () => {
+        const toggles = initializeFeatureToggles({ mhvLinkOneEnabled: false });
+        const links = [
+          {
+            href: '/test',
+            text: 'test',
+            toggle: 'mhv_link_one_enabled',
+            hardToggle: true,
+          },
+        ];
+        expect(resolveLinks(links, toggles).length).to.eq(0);
+      });
     });
   });
 });
