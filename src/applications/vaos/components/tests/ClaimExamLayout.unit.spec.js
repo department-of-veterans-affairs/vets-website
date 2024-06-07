@@ -104,12 +104,23 @@ describe('VAOS Component: ClaimExamLayout', () => {
           level: 2,
           name: /Need to make changes/i,
         }),
-      );
-      expect(screen.getByText(/Phone:/));
+      ).to.be.ok;
+      expect(
+        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+      ).to.be.ok;
 
-      // expect(
-      //   screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
-      // ).to.be.ok;
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Scheduling facility/i,
+        }),
+      ).not.to.exist;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).to.not.exist;
     });
 
     it('should display default text for empty data', async () => {
@@ -136,7 +147,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           store,
         },
       );
-
       // Assert
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Type of care information not available/i));
@@ -254,6 +264,12 @@ describe('VAOS Component: ClaimExamLayout', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Need to make changes/i,
+        }),
+      ).not.to.exist;
     });
   });
 
@@ -339,12 +355,17 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /Scheduling facility/i,
         }),
       );
-
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Need to make changes/i,
+        }),
+      ).not.to.exist;
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).not.exist;
+      ).to.not.exist;
     });
   });
 });
