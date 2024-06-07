@@ -4,6 +4,7 @@ import React from 'react';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -90,6 +91,13 @@ export default function InstitutionProfile({
       >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
+          <p>
+            For information about VA flight benefits, visit{' '}
+            <VaLink
+              text="here"
+              href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/"
+            />
+          </p>
         </div>
 
         <div className="usa-width-one-fourth">
