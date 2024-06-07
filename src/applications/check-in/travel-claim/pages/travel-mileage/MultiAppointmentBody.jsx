@@ -42,7 +42,7 @@ const MultipleAppointmentBody = props => {
       >
         {appointments.map((appointment, index) => (
           <VaRadioOption
-            data-testid={`checkbox-${appointment.stationNo}-${
+            data-testid={`radio-${appointment.stationNo}-${
               appointment.appointmentIen
             }`}
             key={`${appointment.stationNo}-${appointment.appointmentIen}`}

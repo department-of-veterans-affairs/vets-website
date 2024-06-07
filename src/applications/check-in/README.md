@@ -70,8 +70,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 
 ### Travel-claim
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - multiApptSingleFacilityUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
-  - multiApptMultiFacilityUUID: `8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0`
+  - multiOHAppointmentsUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
