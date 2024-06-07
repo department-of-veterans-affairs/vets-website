@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import formConfig from '../config/form';
+import { addTopMarginToUsaHint } from '../../shared/utilities';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -21,6 +22,10 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  useEffect(() => {
+    // Reach into shadow doms and add margin to top of .usa-hint
+    addTopMarginToUsaHint();
+  });
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs breadcrumbList={breadcrumbList} />

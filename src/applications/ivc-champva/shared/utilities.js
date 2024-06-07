@@ -1,3 +1,5 @@
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+
 // Produce a string that is either an applicant's name or
 // "your" depending on additional context provided.
 export function applicantWording(
@@ -59,4 +61,19 @@ export function getConditionalPages(pages, data, index) {
 export function getAgeInYears(date) {
   const difference = Date.now() - Date.parse(date);
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+}
+
+// Reach into shadow dom and add margin to .usa-hint class. Implemented for
+// the most common input types paired with hints.
+export async function addTopMarginToUsaHint() {
+  ['va-radio', 'va-select', 'va-memorable-date', 'va-text-input'].map(
+    async e => {
+      const el = await waitForShadowRoot(document.querySelector(e));
+      if (el?.shadowRoot) {
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync('.usa-hint {margin-top: 8px}');
+        el.shadowRoot.adoptedStyleSheets.push(sheet);
+      }
+    },
+  );
 }
