@@ -33,30 +33,15 @@ export const getRefreshStatus = () => {
   });
 };
 
-export const getLabsAndTests = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(labsAndTests);
-    }, 1000);
+export const getLabsAndTests = () => {
+  return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
+    headers,
   });
 };
 
-export const getLabOrTest = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const result = labsAndTests.entry.find(lab => lab.id === id);
-      resolve(result);
-    }, 1000);
+export const getLabOrTest = id => {
+  return apiRequest(`${apiBasePath}/medical_records/labs_and_tests/${id}`, {
+    headers,
   });
 };
 
