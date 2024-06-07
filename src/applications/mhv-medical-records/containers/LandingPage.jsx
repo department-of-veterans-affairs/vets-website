@@ -244,7 +244,7 @@ const LandingPage = () => {
             rel="noreferrer"
           >
             Go back to the previous version of My HealtheVet to download your
-            records
+            records.
           </a>
         </p>
       </section>
