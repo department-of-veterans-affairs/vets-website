@@ -159,12 +159,11 @@ const formConfig = {
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema()
+              veteranAddress: addressSchema(),
               'view:prefilledAddress': {
                 type: 'object',
                 properties: {},
               },
-              veteranAddress: addressSchema({}),
             },
           },
         },
