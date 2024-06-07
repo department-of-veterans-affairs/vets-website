@@ -56,3 +56,4 @@ runs:
     - name: Log out version
       shell: bash
       run: npx cypress --version
+      run: npx cypress install
