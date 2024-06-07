@@ -35,7 +35,7 @@ export class ComboBox extends React.Component {
       searchTerm: props.formData,
       input: props.formData,
       value: props.formData,
-      highlightedIndex: 0,
+      highlightedIndex: null,
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
@@ -99,7 +99,7 @@ export class ComboBox extends React.Component {
     const { highlightedIndex, searchTerm } = this.state;
     const list = this.listRef.current;
     let index = highlightedIndex;
-
+    let focusOption;
     switch (e.key) {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
       case 'Tab':
@@ -117,12 +117,26 @@ export class ComboBox extends React.Component {
         index = this.decrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
+        if (index >= 0 && index <= list.children.length) {
+          focusOption = document.getElementById(`option-${index}`);
+          focusOption.focus();
+        } else {
+          this.sendFocusToInput(this.inputRef);
+          this.setState({ highlightedIndex: 0 });
+        }
         e.preventDefault();
         break;
       case 'ArrowDown':
         index = this.incrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
+        if (index >= 0 && index <= list.children.length) {
+          focusOption = document.getElementById(`option-${index}`);
+          focusOption.focus();
+        } else {
+          this.sendFocusToInput(this.inputRef);
+          this.setState({ highlightedIndex: 0 });
+        }
         e.preventDefault();
         break;
       // On Enter, select the highlighted option and close the list. Focus on text input.
@@ -266,6 +280,7 @@ export class ComboBox extends React.Component {
         onClick={() => {
           this.selectOption(option);
         }}
+        id={`option-${this.state.highlightedIndex}`}
         style={{ cursor: 'pointer' }}
         tabIndex={0}
         onMouseEnter={e => {
@@ -285,7 +300,17 @@ export class ComboBox extends React.Component {
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
-      <div className="cc-combobox">
+      <div
+        role="combobox"
+        aria-expanded={filteredOptions.length > 0}
+        className="cc-combobox"
+        aria-activedescendant={`option-${this.state.highlightedIndex}`}
+        aria-haspopup="listbox"
+        aria-controls="combobox-list"
+        aria-owns="combobox-list"
+        aria-autocomplete="list"
+        tabIndex={0}
+      >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required
@@ -307,6 +332,9 @@ export class ComboBox extends React.Component {
           role="listbox"
           ref={this.listRef}
           aria-label="List of matching conditions"
+          id="combobox-list"
+          // aria-live='polite'
+          aria-labelledby={this.props.idSchema.$id}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -332,6 +360,7 @@ export class ComboBox extends React.Component {
                   label={option}
                   role="option"
                   aria-selected={this.state.input === option}
+                  id={`option-${optionIndex}`}
                 >
                   {option}
                 </li>
