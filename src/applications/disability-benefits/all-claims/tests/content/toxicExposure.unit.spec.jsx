@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   dateRangePageDescription,
   datesDescription,
   getKeyIndex,
@@ -359,14 +359,14 @@ describe('toxicExposure', () => {
   describe('dateRangePageDescription', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
-      tree.getByText('1 of 5: Egypt', { exact: false });
-      tree.getByText(dateRangeDescription);
+      tree.getByText('Location 1 of 5: Egypt', { exact: false });
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
 
     it('displays description when counts not specified', () => {
       const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
       tree.getByText('Egypt');
-      tree.getByText(dateRangeDescription);
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
   });
 
@@ -493,6 +493,18 @@ describe('toxicExposure', () => {
       expect(
         getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
       ).to.be.equal(1);
+    });
+
+    it('gets 0 count when `notsure` location is selected', () => {
+      const formData = {
+        toxicExposure: {
+          gulfWar1990: {
+            notsure: true,
+          },
+        },
+      };
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
     });
   });
 
@@ -653,6 +665,35 @@ describe('toxicExposure', () => {
         expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'yemen')).to
           .be.false;
       });
+
+      it('should return false when `notsure` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              notsure: true,
+            },
+            gulfWar2001: {
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'notsure'))
+          .to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'notsure'))
+          .to.be.false;
+      });
     });
   });
 
@@ -773,7 +814,7 @@ describe('toxicExposure', () => {
         expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
       });
 
-      it('should return false when `none` and another location is selected', () => {
+      it('should return false when `none` and another location are selected', () => {
         const formData = {
           newDisabilities: [
             {
@@ -800,6 +841,62 @@ describe('toxicExposure', () => {
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
         expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return false when `notsure` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              notsure: true,
+            },
+            gulfWar2001: {
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return true when `notsure` and another location are selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              notsure: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.true;
       });
     });
   });

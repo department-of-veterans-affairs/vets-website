@@ -14,6 +14,7 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
@@ -30,13 +31,21 @@ const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const {
+    featureTogglesLoading,
+    appEnabled,
+    uniqueUserTrackingEnabled,
+  } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
         appEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease
+          ],
+        uniqueUserTrackingEnabled:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvSecureMessagingUniqueUserLoggingEnabled
           ],
       };
     },
@@ -45,6 +54,17 @@ const App = ({ isPilot }) => {
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
   );
 
   const scheduledDowntimes = useSelector(
@@ -101,16 +121,16 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
+
+  useDatadogRum(datadogRumConfig);
+  useEffect(
     () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
+      if (uniqueUserTrackingEnabled) {
+        setDatadogRumUser({ id: user?.profile?.accountUuid });
+      }
     },
-    [user],
+    [user, uniqueUserTrackingEnabled],
   );
-  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
@@ -140,6 +160,7 @@ const App = ({ isPilot }) => {
     window.location.replace(manifest.rootUrl);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}

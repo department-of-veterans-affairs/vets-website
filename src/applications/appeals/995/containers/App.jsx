@@ -28,6 +28,7 @@ import {
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
+import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
@@ -174,10 +175,11 @@ export const App = ({
     service: DATA_DOG_SERVICE,
   });
 
-  return (
+  return wrapWithBreadcrumb(
+    'sc',
     <article id="form-0995" data-location={`${location?.pathname?.slice(1)}`}>
       {content}
-    </article>
+    </article>,
   );
 };
 

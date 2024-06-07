@@ -27,7 +27,7 @@ describe('Facility Locator error handling', () => {
     cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
-    cy.get('#search-result-emergency-care-info').should('not.exist');
+    cy.get('#emergency-care-info-note').should('not.exist');
   });
 
   it('should show the 911 banner for emergency searches even if the API returns a non-200 response', () => {
@@ -53,7 +53,7 @@ describe('Facility Locator error handling', () => {
     cy.get('h2.usa-alert-heading').contains(
       'Find VA locations isn’t working right now',
     );
-    cy.get('#search-result-emergency-care-info')
+    cy.get('#emergency-care-info-note')
       .contains('call')
       .contains('911');
   });

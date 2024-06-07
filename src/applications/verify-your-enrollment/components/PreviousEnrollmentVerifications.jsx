@@ -239,10 +239,10 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           start={subsetStart + 1}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          hasEnrollment={false}
         />
       )}
-      {response?.error?.error === 'Forbidden' && (
+      {(response?.error?.error === 'Forbidden' ||
+        totalEnrollmentCount === 0) && (
         <EnrollmentStatus
           start={subsetStart}
           end={subsetEnd}

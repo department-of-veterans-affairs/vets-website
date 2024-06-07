@@ -4,10 +4,17 @@ import {
   emailSchema,
   emailUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
 
 import ReviewCardField from '../components/ReviewCardField';
+import { schemaFields } from '../constants';
+
+const {
+  permanentAddressField,
+  temporaryAddressField,
+  viewCurrentAddressField,
+  vetEmailField,
+} = schemaFields;
 
 // Wrap address fields with DL tags to resolve accessibility error.
 const addressUiWithDlWrappedFields = () => {
@@ -23,7 +30,7 @@ const addressUiWithDlWrappedFields = () => {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    permanentAddress: {
+    [permanentAddressField]: {
       ...addressUiWithDlWrappedFields(),
       'ui:title': 'Permanent address',
       'ui:field': ReviewCardField,
@@ -36,7 +43,7 @@ export default {
         viewComponent: AddressViewField,
       },
     },
-    temporaryAddress: {
+    [temporaryAddressField]: {
       ...addressUiWithDlWrappedFields(),
       'ui:title': 'Temporary address',
       'ui:field': ReviewCardField,
@@ -49,7 +56,7 @@ export default {
         viewComponent: AddressViewField,
       },
     },
-    vetEmail: {
+    [vetEmailField]: {
       ...emailUI(),
       'ui:options': {
         inputType: 'email',
@@ -57,7 +64,7 @@ export default {
         uswds: true,
       },
     },
-    viewCurrentAddressField: {
+    [viewCurrentAddressField]: {
       'ui:options': {
         classNames: 'vads-u-display--none',
         hideOnReview: true,
@@ -68,10 +75,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      permanentAddress: addressSchema({ omit: ['street3'] }),
-      temporaryAddress: addressSchema({ omit: ['street3'] }),
-      vetEmail: emailSchema,
-      viewCurrentAddressField: {
+      [permanentAddressField]: addressSchema({ omit: ['street3'] }),
+      [temporaryAddressField]: addressSchema({ omit: ['street3'] }),
+      [vetEmailField]: emailSchema,
+      [viewCurrentAddressField]: {
         type: 'string',
         enum: ['permanentAddress', 'temporaryAddress'],
         default: 'permanentAddress',

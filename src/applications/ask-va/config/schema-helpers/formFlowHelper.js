@@ -5,7 +5,7 @@ import { CHAPTER_3 } from '../../constants';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
-import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
+import addressValidationPage from '../chapters/personalInformation/addressValidation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
 import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
 import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
@@ -26,6 +26,7 @@ import veteransPostalCodePage from '../chapters/personalInformation/veteransPost
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
+import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
@@ -150,10 +151,10 @@ const ch3Pages = {
     schema: yourAddressPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
-  yourAddressConfirmation: {
+  addressValidation: {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
-    uiSchema: addressConfirmationPage.uiSchema,
-    schema: addressConfirmationPage.schema,
+    uiSchema: addressValidationPage.uiSchema,
+    schema: addressValidationPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
   aboutYourFamilyMember: {
@@ -175,6 +176,11 @@ const ch3Pages = {
     title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: familyMembersLocationOfResidencePage.uiSchema,
     schema: familyMembersLocationOfResidencePage.schema,
+  },
+  yourLocationOfResidence: {
+    title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: yourLocationOfResidencePage.uiSchema,
+    schema: yourLocationOfResidencePage.schema,
   },
 };
 
@@ -221,7 +227,7 @@ const myOwnBenVet = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
   'veteransLocationOfResidence',
 ];
@@ -243,7 +249,7 @@ const myOwnBenFam = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const myOwnBenFamPages = flowPages(
   ch3Pages,
@@ -256,7 +262,7 @@ const someoneElseBenVet = [
   'yourContactInformation',
   'howToContact',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
@@ -285,7 +291,7 @@ const someoneElseBenFam = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'familyMembersLocationOfResidence',
   'aboutYourFamilyMember',
   'familyMembersPostalCode',
@@ -318,7 +324,8 @@ const someoneElseBen3rdParty = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
+  'yourLocationOfResidence',
 ];
 export const someoneElseBen3rdPartyPages = flowPages(
   ch3Pages,
@@ -338,7 +345,7 @@ const someoneElseBen3rdPartyEducation = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const someoneElseBen3rdPartyEducationPages = flowPages(
   ch3Pages,
@@ -353,7 +360,7 @@ const generalQuestion = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
 ];
 export const generalQuestionPages = flowPages(
@@ -362,7 +369,7 @@ export const generalQuestionPages = flowPages(
   flowPaths.general,
 );
 
-generalQuestionPages.yourAddressConfirmation_generalquestion.onNavForward = ({
+generalQuestionPages.addressValidation_generalquestion.onNavForward = ({
   goPath,
 }) => goPath('/review-then-submit');
 
