@@ -278,7 +278,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
               <br />
               <br />
               If you don’t have a copy to upload now, you can send it by mail or
-              fax
+              fax.
             </>
           );
         },
@@ -462,7 +462,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
               Medicare Part A & B card.
               <br />
               If you don’t have a copy to upload now, you can send it by mail or
-              fax
+              fax.
             </>
           );
         },

@@ -361,6 +361,9 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  ADDRESS_VALIDATION: {
+    TITLE: 'Check your mailing address',
+  },
   ABOUT_YOUR_FAM_MEM: {
     TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
