@@ -338,10 +338,13 @@ export const applicantMedicareDUploadSchema = {
           You’ll need to submit a copy of the front and back of {appName}{' '}
           Medicare Part D card.
           <br />
+          <br />
           You can also upload any other supporting documents you may have for
           this Medicare plan.
           <br />
-          If you don’t have a copy to upload now, you can send it by mail or fax
+          <br />
+          If you don’t have a copy to upload now, you can send it by mail or
+          fax.
         </>
       );
     }),
