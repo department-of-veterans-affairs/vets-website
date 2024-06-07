@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { buildDateFormatter } from '../../utils/helpers';
 
-function Automated5103Notice({ item }) {
+export default function Automated5103Notice({ item }) {
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   if (item.displayName !== 'Automated 5103 Notice Response') {
     return null;
@@ -61,5 +61,3 @@ function Automated5103Notice({ item }) {
 Automated5103Notice.propTypes = {
   item: PropTypes.object.isRequired,
 };
-
-export default Automated5103Notice;

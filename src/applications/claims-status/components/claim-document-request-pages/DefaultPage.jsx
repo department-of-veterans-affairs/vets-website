@@ -5,7 +5,7 @@ import { scrubDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 import AddFilesFormOld from '../AddFilesFormOld';
 
-function DefaultPage({
+export default function DefaultPage({
   field,
   files,
   item,
@@ -65,5 +65,3 @@ DefaultPage.propTypes = {
   progress: PropTypes.number,
   uploading: PropTypes.bool,
 };
-
-export default DefaultPage;
