@@ -361,13 +361,13 @@ const PrescriptionDetails = () => {
                     )}
                     content="records"
                   >
-                    <div>
+                    <p>
                       If it still doesn’t work, call us at{' '}
                       <va-telephone contact="8773270022" /> (
                       <va-telephone contact={CONTACTS[711]} tty />
                       ). We’re here Monday through Friday, 8:00 a.m. to 8:00
                       p.m. ET.
-                    </div>
+                    </p>
                   </ApiErrorNotification>
                 )}
                 <div className="no-print">

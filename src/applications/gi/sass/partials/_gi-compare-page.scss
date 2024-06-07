@@ -149,6 +149,9 @@
     border-left: 10px solid var(--vads-color-success-dark);
     .caution-flag-icon {
       color: var(--vads-color-success-dark);
+      .display-none{
+        display: none;
+      }
     }
   }
 
@@ -449,19 +452,16 @@
       }
 
       .circles {
-        padding-top: 12px;
-        width: 200px;
+        padding-top: 30px;
+        width: 180px;
         display: inline-block;
         margin-left: auto;
         margin-right: auto;
       }
 
-      .fa-chevron-left,
-      .fa-chevron-right {
+      .arrow-icon {
         color: var(--vads-color-primary);
         font-size: 40px;
-        padding-left: 10px;
-        padding-right: 10px;
       }
 
       .left-arrow {

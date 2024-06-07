@@ -30,7 +30,7 @@ export const setDateRangeRequired = (formData, _schema) => {
   if (isFieldRequired(formData)) {
     return set(
       'additionalItems.properties.dateRange.required',
-      ['from'],
+      ['from', 'to'],
       _schema,
     );
   }

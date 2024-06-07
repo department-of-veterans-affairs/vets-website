@@ -28,6 +28,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -913,7 +914,6 @@ export const veteranUI = {
       },
     },
   },
-
   militaryStatus: {
     'ui:title': 'Current military status',
     'ui:webComponentField': VaSelectField,
@@ -1058,6 +1058,35 @@ export const preparerVeteranUI = {
   },
 };
 
+export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  for (let index = 0; index < serviceRecords.length; index++) {
+    const serviceRecord = serviceRecords[index];
+    if (
+      serviceRecord.serviceBranch === undefined &&
+      serviceRecord.highestRank !== undefined
+    ) {
+      if (isVeteran(formData)) {
+        if (!isAuthorizedAgent(formData)) {
+          // Self
+          errors[index].highestRank.addError(
+            'Select a branch of service before selecting your highest rank attained.',
+          );
+        } else {
+          // Applicant
+          errors[index].highestRank.addError(
+            "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
+          );
+        }
+      } else {
+        // Sponsor
+        errors[index].highestRank.addError(
+          "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
+        );
+      }
+    }
+  }
+};
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1066,6 +1095,7 @@ export const selfServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
@@ -1104,6 +1134,7 @@ export const selfServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1125,6 +1156,7 @@ export const preparerServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
@@ -1163,6 +1195,7 @@ export const preparerServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

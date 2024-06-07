@@ -8,7 +8,7 @@ const howToContactPage = {
       title: CHAPTER_3.CONTACT_PREF.TITLE,
     }),
     contactPreference: radioUI({
-      title: CHAPTER_3.CONTACT_PREF.QUESTION_1,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
       description: '',
       labels: contactOptions,
     }),
