@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -14,6 +15,16 @@ const IntroductionPage = props => {
   // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
+
+  useEffect(() => {
+    const savedForm = JSON.parse(localStorage.getItem('savedForm'));
+    if (savedForm) {
+      dispatch(setData({ ...formData, ...savedForm }));
+      localStorage.removeItem('savedForm');
+    }
+  }, []);
 
   const childContent = (
     <>

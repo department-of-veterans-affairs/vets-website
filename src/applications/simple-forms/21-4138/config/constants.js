@@ -12,7 +12,7 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
 );
 
 const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
-  const { livingSituation, otherReasons } = useSelector(
+  const { livingSituation, otherReasons, otherHousingRisks } = useSelector(
     state => state.form.data,
   );
 
@@ -20,7 +20,7 @@ const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
     e.preventDefault();
     localStorage.setItem(
       'savedForm',
-      JSON.stringify({ livingSituation, otherReasons }),
+      JSON.stringify({ livingSituation, otherReasons, otherHousingRisks }),
     );
     window.location.href = href;
   };
