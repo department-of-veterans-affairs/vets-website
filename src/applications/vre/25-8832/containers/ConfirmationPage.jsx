@@ -28,7 +28,8 @@ export default function ConfirmationPage() {
   return (
     <div>
       <p>
-        Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
+        Equal to VA Form 27-8832, 28-8832, or 25-8832 (Education/Vocational
+        Counseling Application).
       </p>
       <h2
         id="thank-you-message"
