@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { isLoggedIn } from 'platform/user/selectors';
@@ -42,6 +43,10 @@ class FormApp extends React.Component {
       typeof formConfig.title === 'function'
         ? formConfig.title(this.props)
         : formConfig.title;
+    const subTitle =
+      typeof formConfig.subTitle === 'function'
+        ? formConfig.subTitle(this.props)
+        : formConfig.subTitle;
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
     const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
@@ -54,7 +59,7 @@ class FormApp extends React.Component {
     //    specified in the form config
     // 2. there is a title specified in the form config
     if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
-      formTitle = <FormTitle title={title} subTitle={formConfig.subTitle} />;
+      formTitle = <FormTitle title={title} subTitle={subTitle} />;
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation
@@ -106,6 +111,23 @@ class FormApp extends React.Component {
     );
   }
 }
+
+FormApp.propTypes = {
+  children: PropTypes.any,
+  currentLocation: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  formConfig: PropTypes.shape({
+    additionalRoutes: PropTypes.array,
+    footerContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    formOptions: PropTypes.shape({}),
+    subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  }),
+  formData: PropTypes.shape({}),
+  inProgressFormId: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
+};
 
 const mapStateToProps = state => ({
   formData: state.form.data,
