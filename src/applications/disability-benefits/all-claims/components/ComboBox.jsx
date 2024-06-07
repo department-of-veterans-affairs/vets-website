@@ -35,7 +35,7 @@ export class ComboBox extends React.Component {
       searchTerm: props.formData,
       input: props.formData,
       value: props.formData,
-      highlightedIndex: null,
+      highlightedIndex: 0,
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
@@ -117,12 +117,9 @@ export class ComboBox extends React.Component {
         index = this.decrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
-        if (index >= 0 && index <= list.children.length) {
+        if (index >= 0 && index < list.children.length) {
           focusOption = document.getElementById(`option-${index}`);
           focusOption.focus();
-        } else {
-          this.sendFocusToInput(this.inputRef);
-          this.setState({ highlightedIndex: 0 });
         }
         e.preventDefault();
         break;
@@ -130,12 +127,9 @@ export class ComboBox extends React.Component {
         index = this.incrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
-        if (index >= 0 && index <= list.children.length) {
+        if (index >= 0 && index < list.children.length) {
           focusOption = document.getElementById(`option-${index}`);
           focusOption.focus();
-        } else {
-          this.sendFocusToInput(this.inputRef);
-          this.setState({ highlightedIndex: 0 });
         }
         e.preventDefault();
         break;
@@ -263,7 +257,7 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, searchTerm, value } = this.state;
+    const { highlightedIndex, value } = this.state;
 
     if (option === value || option.length < 1) {
       return null;
@@ -280,16 +274,16 @@ export class ComboBox extends React.Component {
         onClick={() => {
           this.selectOption(option);
         }}
-        id={`option-${this.state.highlightedIndex}`}
+        id="option-0"
         style={{ cursor: 'pointer' }}
         tabIndex={0}
         onMouseEnter={e => {
           this.handleMouseEnter(e, 0);
         }}
-        onKeyDown={() => null}
+        onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected={searchTerm === option}
+        aria-selected="false"
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -310,6 +304,8 @@ export class ComboBox extends React.Component {
         aria-owns="combobox-list"
         aria-autocomplete="list"
         tabIndex={0}
+        aria-labelledby={this.props.idSchema.$id}
+        aria-label="Enter you condition"
       >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
@@ -333,8 +329,6 @@ export class ComboBox extends React.Component {
           ref={this.listRef}
           aria-label="List of matching conditions"
           id="combobox-list"
-          // aria-live='polite'
-          aria-labelledby={this.props.idSchema.$id}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -356,10 +350,10 @@ export class ComboBox extends React.Component {
                   onMouseEnter={e => {
                     this.handleMouseEnter(e, optionIndex);
                   }}
-                  onKeyDown={() => null}
+                  onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected={this.state.input === option}
+                  aria-selected="false"
                   id={`option-${optionIndex}`}
                 >
                   {option}
