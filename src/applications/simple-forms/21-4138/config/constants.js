@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
   <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
@@ -18,9 +19,12 @@ const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
 
   const handlePriorityProcessingOnClick = e => {
     e.preventDefault();
-    localStorage.setItem(
-      'savedForm',
-      JSON.stringify({ livingSituation, otherReasons, otherHousingRisks }),
+    sessionStorage.setItem(
+      `dataTransfer-${VA_FORM_IDS.FORM_20_10207}`,
+      JSON.stringify({
+        data: { livingSituation, otherReasons, otherHousingRisks },
+        expiry: Date.now() + 10000,
+      }),
     );
     window.location.href = href;
   };
