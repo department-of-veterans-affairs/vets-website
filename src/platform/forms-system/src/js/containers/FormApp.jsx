@@ -13,18 +13,6 @@ import { setGlobalScroll } from '../utilities/ui';
 
 const { Element } = Scroll;
 
-const BeforePage = ({ useTopBackLink }) => {
-  return useTopBackLink ? <BackLink /> : null;
-};
-
-const BeforePageContent = connect(state => ({
-  useTopBackLink: state?.form?.layout?.useTopBackLink,
-}))(BeforePage);
-
-BeforePage.propTypes = {
-  useTopBackLink: PropTypes.bool,
-};
-
 /*
  * Primary component for a schema generated form app.
  */
@@ -62,6 +50,7 @@ class FormApp extends React.Component {
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
     const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+    let useTopBackLink = false;
 
     let formTitle;
     let formNav;
@@ -72,6 +61,10 @@ class FormApp extends React.Component {
     // 2. there is a title specified in the form config
     if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
       formTitle = <FormTitle title={title} subTitle={subTitle} />;
+    }
+
+    if (!isNonFormPage) {
+      useTopBackLink = formConfig.useTopBackLink;
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation
@@ -107,7 +100,7 @@ class FormApp extends React.Component {
         <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
-            <BeforePageContent />
+            {useTopBackLink && <BackLink />}
             {notProd && noTitle ? null : formTitle}
             {notProd && noTopNav ? null : formNav}
             <Element name="topContentElement" />

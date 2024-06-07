@@ -9,7 +9,6 @@ import { transformForSubmit } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
-export const SET_FORM_LAYOUT = 'SET_FORM_LAYOUT';
 export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
 export const SET_PRE_SUBMIT = 'SET_PRE_SUBMIT';
 export const SET_SUBMISSION = 'SET_SUBMISSION';
@@ -37,13 +36,6 @@ export function setData(data) {
   return {
     type: SET_DATA,
     data,
-  };
-}
-
-export function setFormLayout(layout) {
-  return {
-    type: SET_FORM_LAYOUT,
-    layout,
   };
 }
 

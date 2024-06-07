@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import { FormPage } from 'platform/forms-system/src/js/containers/FormPage';
-import {
-  setData,
-  uploadFile,
-  setFormLayout,
-} from 'platform/forms-system/src/js/actions';
+import { setData, uploadFile } from 'platform/forms-system/src/js/actions';
 
 import debounce from '../../utilities/data/debounce';
 
@@ -82,7 +78,6 @@ class RoutedSavablePage extends React.Component {
         formContext={getFormContext({ user, form })}
         contentBeforeButtons={contentBeforeButtons}
         contentAfterButtons={contentAfterButtons}
-        setFormLayout={this.props.setFormLayout}
       />
     );
   }
@@ -105,7 +100,6 @@ const mapDispatchToProps = {
   autoSaveForm,
   toggleLoginModal,
   uploadFile,
-  setFormLayout,
 };
 
 RoutedSavablePage.propTypes = {
@@ -133,7 +127,6 @@ RoutedSavablePage.propTypes = {
   }),
   saveAndRedirectToReturnUrl: PropTypes.func,
   setData: PropTypes.func,
-  setFormLayout: PropTypes.func,
   showLoginModal: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
   user: PropTypes.object,

@@ -56,6 +56,7 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
+ * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
  * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
@@ -163,7 +164,6 @@
  * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
- * @property {boolean} useTopBackLink will show a back link at the top of the page and only a continue button at the bottom
  */
 
 /**
