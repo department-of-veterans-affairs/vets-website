@@ -9,7 +9,7 @@ import { APP_NAMES } from '../utils/appConstants';
 import { URLS } from '../utils/navigation';
 import { utcToFacilityTimeZone } from '../utils/appointment';
 
-const usePostTravelClaims = props => {
+const usePostTravelOnlyClaim = props => {
   const { router } = props;
   const { jumpToPage } = useFormRouting(router);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +33,7 @@ const usePostTravelClaims = props => {
   const timeToComplete = Math.round((now - startedTime) / 1000).toString();
   const alreadyPosted =
     differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0;
+
   useEffect(
     () => {
       if (
@@ -55,7 +56,7 @@ const usePostTravelClaims = props => {
         return;
       }
       api.v2
-        .postTravelPayClaims(appointmentStartTime, uuid, timeToComplete)
+        .postTravelOnlyClaim(appointmentStartTime, uuid, timeToComplete)
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -85,4 +86,4 @@ const usePostTravelClaims = props => {
   };
 };
 
-export { usePostTravelClaims };
+export { usePostTravelOnlyClaim };

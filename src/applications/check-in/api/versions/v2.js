@@ -236,7 +236,7 @@ const v2 = {
       ...json,
     };
   },
-  postTravelPayClaims: async (startTime, uuid, timeToComplete) => {
+  postTravelOnlyClaim: async (startTime, uuid, timeToComplete) => {
     const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
     const travelClaimData = {

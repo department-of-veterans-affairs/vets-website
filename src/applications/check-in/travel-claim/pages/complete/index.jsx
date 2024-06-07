@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
-import { usePostTravelClaims } from '../../../hooks/usePostTravelClaims';
+import { usePostTravelOnlyClaim } from '../../../hooks/usePostTravelOnlyClaim';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
@@ -11,7 +11,7 @@ const Complete = props => {
   const { router } = props;
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
-  const { isLoading, travelPayClaimError } = usePostTravelClaims({ router });
+  const { isLoading, travelPayClaimError } = usePostTravelOnlyClaim({ router });
 
   useEffect(
     () => {
