@@ -78,6 +78,9 @@ export const FormApp = ({
 
       if (
         !contestableIssues?.status &&
+        // internalTesting is used to test the get contestable issues API call
+        // in unit tests; Setting up the unit test to get RoutedSavableApp to
+        // work properly is overly complicated
         (!isOutsideForm(pathname) || formData.internalTesting)
       ) {
         getContestableIssues();
