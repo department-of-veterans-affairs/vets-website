@@ -71,8 +71,8 @@ const ChangeOfAddressForm = ({
     },
     addressUISchema: {
       'ui:title': addressFormData?.['view:livesOnMilitaryBase']
-        ? 'APO/FPO/DPO'
-        : 'City',
+        ? 'APO/FPO/DPO '
+        : 'City ',
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'City is required',
@@ -90,7 +90,7 @@ const ChangeOfAddressForm = ({
       enumNames: Object.values(MILITARY_STATES),
     },
     addressUISchema: {
-      'ui:title': 'State',
+      'ui:title': 'State ',
       'ui:autocomplete': 'address-level1',
       'ui:errorMessages': {
         required: 'State is required',
