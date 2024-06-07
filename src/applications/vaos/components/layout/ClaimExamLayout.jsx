@@ -136,11 +136,18 @@ export default function ClaimExamLayout({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">
-            Contact this facility if you need to reschedule or cancel your
-            appointment.
+            Contact this facility compensation and pension office if you need to
+            reschedule or cancel your appointment.
             <br />
-            <br />
-            <span>Phone:</span>
+            {!!facility && (
+              <>
+                <br />
+                {facilityPhone && (
+                  <FacilityPhone heading="Phone:" contact={facilityPhone} />
+                )}
+                {!facilityPhone && <>Not available</>}
+              </>
+            )}
           </Section>
         )}
     </DetailPageLayout>
