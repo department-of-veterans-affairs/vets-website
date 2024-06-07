@@ -21,12 +21,22 @@ const IntroductionPage = props => {
   const formData = useSelector(state => state.form.data);
 
   useEffect(() => {
-    const dataTransfer = JSON.parse(
-      sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
-    );
-    if (dataTransfer && Date.now() > dataTransfer.expiry) {
-      dispatch(setData({ ...formData, ...dataTransfer.data }));
-      sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
+    const { livingSituation, otherReasons, otherHousingRisks } = formData;
+
+    const formNotStarted = ![
+      livingSituation,
+      otherReasons,
+      otherHousingRisks,
+    ].some(obj => obj?.length > 0);
+
+    if (formNotStarted) {
+      const dataTransfer = JSON.parse(
+        sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
+      );
+      if (dataTransfer && Date.now() > dataTransfer.expiry) {
+        dispatch(setData({ ...formData, ...dataTransfer.data }));
+        sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
+      }
     }
   }, []);
 
