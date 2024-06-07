@@ -101,7 +101,7 @@ export async function addStyleToShadowDomOnPages(
           }
         });
       } catch (err) {
-        // Fail silently - this is not important.
+        // Fail silently (styles just won't be applied)
       }
     });
 }
