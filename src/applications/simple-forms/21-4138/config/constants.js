@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { unifyPPFormData } from '../helpers';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
@@ -13,13 +13,12 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
 );
 
 const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
-  const formData = useSelector(state => state.form.data);
+  const dispatch = useDispatch();
 
-  const handlePriorityProcessingOnClick = async e => {
+  const handlePriorityProcessingOnClick = e => {
     e.preventDefault();
-    await unifyPPFormData(formData, href).then(() => {
-      window.location.href = href;
-    });
+    unifyPPFormData(dispatch);
+    window.location.href = href;
   };
 
   return (

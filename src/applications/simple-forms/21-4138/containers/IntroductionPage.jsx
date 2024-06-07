@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
+import { unifyPPFormData } from '../helpers';
 
 const IntroductionPage = props => {
   const { route } = props;
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    unifyPPFormData(dispatch);
+  }, []);
 
   const childContent = (
     <>

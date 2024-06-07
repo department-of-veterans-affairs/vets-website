@@ -1,6 +1,6 @@
 import { startOfDay, subYears, isBefore } from 'date-fns';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { apiRequest } from 'platform/utilities/api';
-import { saveFormApi } from 'platform/forms/save-in-progress/api';
 import { STATEMENT_TYPES } from './config/constants';
 
 export function getMockData(mockData, isLocalhost) {
@@ -64,44 +64,53 @@ export const isEligibleToSubmitStatement = formData => {
   );
 };
 
-// const upperizeKeys = obj => {
-//   if (!obj || obj.length === 0) return {};
+const upperizeKeys = obj => {
+  if (!obj || obj.length === 0) return {};
 
-//   return Object.keys(obj).reduce((acc, k) => {
-//     const modifiedKey = k
-//       .split(/(?=[A-Z])/)
-//       .join('_')
-//       .toUpperCase();
-//     acc[modifiedKey] = obj[k];
-//     return acc;
-//   }, {});
-// };
+  return Object.keys(obj).reduce((acc, k) => {
+    const modifiedKey = k
+      .split(/(?=[A-Z])/)
+      .join('_')
+      .toUpperCase();
+    acc[modifiedKey] = obj[k];
+    return acc;
+  }, {});
+};
 
-export const unifyPPFormData = async (ss, returnUrl) => {
+const alreadyStarted = formData => {
+  return (
+    formData.livingSituation ||
+    formData.otherReasons ||
+    formData.otherHousingRisks
+  );
+};
+
+export const unifyPPFormData = async dispatch => {
   try {
-    const ppFormData = apiRequest('/in_progress_forms/20-10207').then(
-      response => response?.formData || {},
+    const forms = ['20-10207', '21-4138'];
+
+    const [pp, ss] = await Promise.all(
+      forms.map(form =>
+        apiRequest(`/in_progress_forms/${form}`).then(
+          response => response?.formData || {},
+        ),
+      ),
     );
 
-    if (
-      ppFormData.livingSituation ||
-      ppFormData.otherReasons ||
-      ppFormData.otherHousingRisks
-    )
-      return;
+    const ppStarted = alreadyStarted(pp);
+    const ssStarted = alreadyStarted(ss);
 
-    const newPP = {
-      // ...ppFormData,
-      formId: '20-10207',
-      livingSituation: ss.livingSituation,
-      otherReasons: ss.otherReasons,
-      otherHousingRisks: ss.otherHousingRisks,
-    };
+    // If neither form is started or both are started, return early
+    if ((!ppStarted && !ssStarted) || (ppStarted && ssStarted)) return;
 
-    const savedAt = Date.now();
+    const source = ppStarted ? pp : ss;
+    const target = ppStarted ? ss : pp;
 
-    // saveFormApi(newPP.formId, newPP, 0, returnUrl, {});
-    saveFormApi(newPP.formId, newPP, 0, returnUrl, savedAt, {});
+    target.livingSituation = upperizeKeys(source.livingSituation);
+    target.otherReasons = upperizeKeys(source.otherReasons);
+    target.otherHousingRisks = source.otherHousingRisks;
+
+    dispatch(setData(target));
   } catch (error) {
     // no-op
   } finally {
