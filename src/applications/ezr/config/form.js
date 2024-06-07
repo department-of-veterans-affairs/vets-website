@@ -102,7 +102,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
+  submitUrl: `${environment.API_URL}/v0/form1010`,
   transformForSubmit: submitTransformer,
   prefillEnabled: true,
   prefillTransformer,
