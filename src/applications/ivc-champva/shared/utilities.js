@@ -78,9 +78,9 @@ export function getAgeInYears(date) {
  * )
  * ```
  *
- * @param {*} urlArray Array of page URLs where these styles should be applied
- * @param {*} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
- * @param {*} style String of CSS to inject into the specified elements on the specified pages
+ * @param {Array} urlArray Array of page URLs where these styles should be applied
+ * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
+ * @param {String} style String of CSS to inject into the specified elements on the specified pages
  */
 export async function addStyleToShadowDomOnPages(
   urlArray,
