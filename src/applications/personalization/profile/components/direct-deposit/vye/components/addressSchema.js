@@ -30,7 +30,7 @@ export const getFormSchema = (formData = {}) => {
       'view:livesOnMilitaryBaseInfo': {
         type: 'object',
         properties: {},
-        default: !formData['view:livesOnMilitaryBase'],
+        default: !!formData?.['view:livesOnMilitaryBase'],
       },
       countryCodeIso3: {
         type: 'string',
