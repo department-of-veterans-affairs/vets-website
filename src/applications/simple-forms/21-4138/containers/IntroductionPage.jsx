@@ -10,10 +10,11 @@ const IntroductionPage = props => {
   const { route } = props;
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+  const form = useSelector(state => state.form);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    unifyPPFormData(dispatch);
+    unifyPPFormData(dispatch, form);
   }, []);
 
   const childContent = (

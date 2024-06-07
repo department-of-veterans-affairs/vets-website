@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { unifyPPFormData } from '../helpers';
+import { useSelector } from 'react-redux';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
   <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
@@ -13,11 +12,16 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
 );
 
 const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
-  const dispatch = useDispatch();
+  const { livingSituation, otherReasons } = useSelector(
+    state => state.form.data,
+  );
 
   const handlePriorityProcessingOnClick = e => {
     e.preventDefault();
-    unifyPPFormData(dispatch);
+    localStorage.setItem(
+      'savedForm',
+      JSON.stringify({ livingSituation, otherReasons }),
+    );
     window.location.href = href;
   };
 
