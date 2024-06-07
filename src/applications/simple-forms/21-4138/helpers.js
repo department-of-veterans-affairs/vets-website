@@ -1,6 +1,4 @@
 import { startOfDay, subYears, isBefore } from 'date-fns';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { apiRequest } from 'platform/utilities/api';
 import { STATEMENT_TYPES } from './config/constants';
 
 export function getMockData(mockData, isLocalhost) {
@@ -62,48 +60,4 @@ export const isEligibleToSubmitStatement = formData => {
     formData.statementType === STATEMENT_TYPES.NOT_LISTED ||
     isIneligibleForPriorityProcessing(formData)
   );
-};
-
-const upperizeKeys = obj => {
-  if (!obj || obj.length === 0) return {};
-
-  return Object.keys(obj).reduce((acc, k) => {
-    const modifiedKey = k
-      .split(/(?=[A-Z])/)
-      .join('_')
-      .toUpperCase();
-    acc[modifiedKey] = obj[k];
-    return acc;
-  }, {});
-};
-
-export const fetchFormData = async (dispatch, form) => {
-  try {
-    const response = await apiRequest('/in_progress_forms/20-10207');
-    const formData = response?.formData;
-
-    if (formData) {
-      const { livingSituation, otherReasons, otherHousingRisks } = formData;
-
-      const existingData = form?.data || {};
-      const formAlreadyStarted =
-        existingData.livingSituation ||
-        existingData.otherReasons ||
-        existingData.otherHousingRisks;
-
-      if (formAlreadyStarted) return;
-
-      const updatedFormData = {
-        ...existingData,
-        livingSituation: upperizeKeys(livingSituation),
-        otherReasons: upperizeKeys(otherReasons),
-        otherHousingRisks,
-      };
-      dispatch(setData(updatedFormData));
-    }
-  } catch (error) {
-    // Handle error if necessary
-  } finally {
-    // Optional cleanup or final steps
-  }
 };
