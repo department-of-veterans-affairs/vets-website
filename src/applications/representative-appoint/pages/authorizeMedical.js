@@ -1,7 +1,5 @@
-import {
-  authorizeMedical,
-  authorizationNote,
-} from '../content/authorizeMedical';
+import React from 'react';
+import { authorizationNote } from '../content/authorizeMedical';
 import { saveYourApplication } from '../content/saveYourApplication';
 
 export const uiSchema = {
@@ -9,7 +7,25 @@ export const uiSchema = {
     'ui:description': saveYourApplication,
   },
   'view:authorizeMedical': {
-    'ui:description': authorizeMedical,
+    'ui:description': formData => {
+      return (
+        <>
+          <h3>Authorization to access certain medical records</h3>
+          <p>
+            This accredited{' '}
+            {formData.repType || `Veterans Service Organization (VSO)`} may need
+            to access certain medical records to help you. You can authorize
+            them to access all or some of these types of records:
+          </p>
+          <ul>
+            <li>Alcoholism and alcohol abuse records</li>
+            <li>Drug abuse records</li>
+            <li>HIV (human immunodeficiency virus) records</li>
+            <li>Sickle cell anemia records</li>
+          </ul>
+        </>
+      );
+    },
   },
   authorizationRadio: {
     'ui:title': `Do you authorize this accredited VSO to access your medical records?`,
