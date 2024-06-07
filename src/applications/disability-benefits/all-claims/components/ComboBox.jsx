@@ -94,12 +94,17 @@ export class ComboBox extends React.Component {
     input.focus();
   };
 
+  optionFocus(index) {
+    const focusOption = document.getElementById(`option-${index}`);
+    focusOption.focus();
+  }
+
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
     const list = this.listRef.current;
     let index = highlightedIndex;
-    let focusOption;
+
     switch (e.key) {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
       case 'Tab':
@@ -117,20 +122,14 @@ export class ComboBox extends React.Component {
         index = this.decrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
-        if (index >= 0 && index < list.children.length) {
-          focusOption = document.getElementById(`option-${index}`);
-          focusOption.focus();
-        }
+        this.optionFocus(index);
         e.preventDefault();
         break;
       case 'ArrowDown':
         index = this.incrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
-        if (index >= 0 && index < list.children.length) {
-          focusOption = document.getElementById(`option-${index}`);
-          focusOption.focus();
-        }
+        this.optionFocus(index);
         e.preventDefault();
         break;
       // On Enter, select the highlighted option and close the list. Focus on text input.
