@@ -305,6 +305,38 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
     });
   },
 
+  'new-disabilities-revised/add': () => {
+    cy.get('@testData').then(data => {
+      data.newDisabilities.forEach((disability, index) => {
+        if (
+          getToggleValue(
+            toggles,
+            'disability_526_improved_autosuggestions_add_disabilities_page',
+          ) !== true
+        ) {
+          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
+        }
+
+        // if not first index
+        // click the add another condition button
+        if (index > 0) {
+          cy.findByText(/add another condition/i).click();
+        }
+
+        // click on input and enter data
+        // enterData() condition name into input
+        cy.get('#root_newDisabilities_0_condition')
+          .shadow()
+          .find('#inputField')
+          .type(disability.condition, { force: true });
+        // select the first option from the autosuggestions list
+        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+        // click save
+        cy.findByText(/save/i, { selector: 'button' }).click();
+      });
+    });
+  },
+
   'disabilities/rated-disabilities': () => {
     cy.get('@testData').then(data => {
       data.ratedDisabilities.forEach((disability, index) => {

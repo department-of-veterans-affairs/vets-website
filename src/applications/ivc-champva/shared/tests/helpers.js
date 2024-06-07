@@ -143,9 +143,15 @@ export function getAllPages(formConfig) {
 }
 
 export function missingValErrMsg(key, original, submitted) {
-  return `Property with name ${key} and value ${
-    original[key]
-  } not found in submitted data (instead got ${submitted[key]})`;
+  const ogVal =
+    typeof original[key] === 'object'
+      ? JSON.stringify(original[key])
+      : original[key];
+  const subVal =
+    typeof submitted[key] === 'object'
+      ? JSON.stringify(submitted[key])
+      : submitted[key];
+  return `Property with name ${key} and value ${ogVal} not found in submitted data (instead got ${subVal})`;
 }
 
 /**
