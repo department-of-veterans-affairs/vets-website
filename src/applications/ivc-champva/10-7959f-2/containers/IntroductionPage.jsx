@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // import { focusElement } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
@@ -85,6 +86,11 @@ const IntroductionPage = props => {
       </p>
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  isLoggedIn: PropTypes.func,
+  route: PropTypes.object,
 };
 
 const mapStateToProps = state => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import formConfig from '../config/form';
@@ -44,3 +45,8 @@ export default function App({ location, children }) {
     </div>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.object,
+  location: PropTypes.object,
+};

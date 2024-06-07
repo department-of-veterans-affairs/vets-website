@@ -25,25 +25,23 @@ describe('ReportModal component', () => {
     const phoneNumberCheckBox = container.querySelector(
       'va-checkbox[label="Phone number"]',
     );
-    const otherCheckBox = container.querySelector('va-checkbox[label="Other"]');
 
     expect(emailCheckBox).to.exist;
 
     expect(addressCheckBox).to.exist;
 
-    expect(otherCheckBox).to.exist;
     expect(phoneNumberCheckBox).to.exist;
   });
 
   it('should parse reports array', () => {
     localStorage.setItem(
       'vaReports',
-      '[{"representativeId":"28162","reports":{"address":"1521 Scottsdale Ave Columbus, OH 43235","otherComment":"test"}}]',
+      '[{"representativeId":"28162","reports":{"address":"1521 Scottsdale Ave Columbus, OH 43235"}}]',
     );
     const localReportsArray = localStorage.getItem('vaReports');
 
     expect(localReportsArray).to.equal(
-      '[{"representativeId":"28162","reports":{"address":"1521 Scottsdale Ave Columbus, OH 43235","otherComment":"test"}}]',
+      '[{"representativeId":"28162","reports":{"address":"1521 Scottsdale Ave Columbus, OH 43235"}}]',
     );
   });
 
@@ -52,7 +50,6 @@ describe('ReportModal component', () => {
       address: '123 Main St',
       email: 'rep@example.com',
       phone: '794-273-8433',
-      other: 'Some other information',
     };
 
     const wrapper = shallow(
@@ -73,127 +70,6 @@ describe('ReportModal component', () => {
     expect(wrapper.contains(<li>Outdated address</li>)).to.be.true;
     expect(wrapper.contains(<li>Outdated email</li>)).to.be.true;
     expect(wrapper.contains(<li>Outdated phone number</li>)).to.be.true;
-    expect(wrapper.contains(<li>Other: "Some other information"</li>)).to.be
-      .true;
-
-    wrapper.unmount();
-  });
-
-  it('does not cause text input to render when selecting "Address"', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="1"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    const vaTextInputExists = wrapper.find('va-text-input').exists();
-    expect(vaTextInputExists).to.be.false;
-    wrapper.unmount();
-  });
-
-  it('does not cause text input to render when selecting "Email"', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="2"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    const vaTextInputExists = wrapper.find('va-text-input').exists();
-    expect(vaTextInputExists).to.be.false;
-    wrapper.unmount();
-  });
-
-  it('does not cause text input to render when selecting "Phone"', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="3"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    const vaTextInputExists = wrapper.find('va-text-input').exists();
-    expect(vaTextInputExists).to.be.false;
-    wrapper.unmount();
-  });
-
-  it('causes text input to render when selecting "Other"', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="4"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    const vaTextAreaExists = wrapper.find('va-textarea').exists();
-    expect(vaTextAreaExists).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('controls text input', () => {
-    const wrapper = mount(
-      <ReportModal
-        representativeName="Bob law"
-        representativeId="123"
-        address="123 Main St"
-        phone="794-273-8433"
-        email="rep@example.com"
-        existingReports={{}}
-        submitRepresentativeReport={() => {}}
-        onCloseModal={() => {}}
-        handleOtherInputChangeTestId="4"
-      />,
-    );
-    wrapper.find('#handle-checkbox-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    wrapper.find('#handle-other-input-change-test-button').simulate('click');
-
-    wrapper.update();
-
-    expect(wrapper.find('va-textarea').prop('value')).equal('test comment');
 
     wrapper.unmount();
   });
@@ -213,7 +89,6 @@ describe('ReportModal component', () => {
           phone: '976-876-5432',
           email: null,
           address: null,
-          other: null,
         }}
       />,
     );
