@@ -117,9 +117,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
 
   const categorizePrescriptions = ([refillable, renewable], rx) => {
     if (
-      (rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
-      (rx.dispStatus === dispStatusObj.activeParked &&
-        (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
+      rx.isRefillable &&
+      ((rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
+        (rx.dispStatus === dispStatusObj.activeParked &&
+          (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0)))
     ) {
       return [[...refillable, rx], renewable];
     }
