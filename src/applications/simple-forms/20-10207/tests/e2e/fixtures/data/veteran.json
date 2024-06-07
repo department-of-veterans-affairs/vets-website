@@ -9,9 +9,6 @@
     "veteranId": {
       "ssn": "321540987"
     },
-    "livingSituation": {
-      "NONE": true
-    },
     "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",

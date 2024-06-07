@@ -27,17 +27,17 @@ const IntroductionPage = props => {
       livingSituation,
       otherReasons,
       otherHousingRisks,
-    ].some(obj => obj?.length > 0);
+    ].some(obj => obj && Object.values(obj).some(el => el != null));
 
     if (formNotStarted) {
       const dataTransfer = JSON.parse(
         sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
       );
-      if (dataTransfer && Date.now() > dataTransfer.expiry) {
+      if (dataTransfer && Date.now() < dataTransfer.expiry) {
         dispatch(setData({ ...formData, ...dataTransfer.data }));
-        sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
       }
     }
+    sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
   }, []);
 
   const childContent = (

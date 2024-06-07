@@ -23,7 +23,7 @@ const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
       `dataTransfer-${VA_FORM_IDS.FORM_20_10207}`,
       JSON.stringify({
         data: { livingSituation, otherReasons, otherHousingRisks },
-        expiry: Date.now() + 10000,
+        expiry: Date.now() + 300000, // 5 minutes
       }),
     );
     window.location.href = href;
