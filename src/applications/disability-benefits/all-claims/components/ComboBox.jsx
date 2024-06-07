@@ -94,11 +94,6 @@ export class ComboBox extends React.Component {
     input.focus();
   };
 
-  optionFocus(index) {
-    const focusOption = document.getElementById(`option-${index}`);
-    focusOption.focus();
-  }
-
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
@@ -221,6 +216,11 @@ export class ComboBox extends React.Component {
     return index;
   };
 
+  optionFocus(index) {
+    const focusOption = document.getElementById(`option-${index}`);
+    focusOption.focus();
+  }
+
   // Click handler for a list item
   selectOption(option) {
     this.setState({
@@ -297,7 +297,6 @@ export class ComboBox extends React.Component {
         role="combobox"
         aria-expanded={filteredOptions.length > 0}
         className="cc-combobox"
-        aria-activedescendant={`option-${this.state.highlightedIndex}`}
         aria-haspopup="listbox"
         aria-controls="combobox-list"
         aria-owns="combobox-list"
@@ -328,6 +327,12 @@ export class ComboBox extends React.Component {
           ref={this.listRef}
           aria-label="List of matching conditions"
           id="combobox-list"
+          aria-activedescendant={
+            filteredOptions.length > 0
+              ? `option-${this.state.highlightedIndex}`
+              : null
+          }
+          tabIndex={0}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
