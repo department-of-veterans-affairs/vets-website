@@ -122,6 +122,24 @@ describe(`${manifest.appName} -- utilities/data/resolveLinks.js`, () => {
         ];
         expect(resolveLinks(links, toggles).length).to.eq(0);
       });
+
+      it('shows link or text when a link should not be hidden', () => {
+        const toggles = initializeFeatureToggles({ mhvLinkOneEnabled: false });
+        const links = [
+          {
+            href: '/test',
+            text: 'test',
+            toggle: 'mhv_link_one_enabled',
+            hardToggle: false,
+          },
+          {
+            href: '/test2',
+            text: 'test2',
+            toggle: 'mhv_link_one_enabled',
+          },
+        ];
+        expect(resolveLinks(links, toggles).length).to.eq(2);
+      });
     });
   });
 });
