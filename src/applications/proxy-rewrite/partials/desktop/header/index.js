@@ -20,7 +20,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
                   </button>
                 </div>
               </div>
-              <div class="usa-banner-content usa-grid usa-accordion-content" id="gov-banner" aria-hidden="true">
+              <div class="usa-banner-content usa-grid usa-accordion-content vads-u-padding-x--1" id="gov-banner" aria-hidden="true">
                 <div class="usa-banner-guidance-gov usa-width-one-half">
                   <img class="usa-banner-icon usa-media_block-img" src="https://www.va.gov/img/icon-dot-gov.svg" alt="Dot gov">
                   <div class="usa-media_block-body">
@@ -55,7 +55,16 @@ export const getDesktopHeaderHtml = megaMenuData => {
             <span class="va-crisis-line-text">
               Talk to the <strong>Veterans Crisis Line</strong> now
             </span>
-            <img alt="" class="va-crisis-line-arrow" src="https://www.va.gov/img/arrow-right-white.svg" />
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              width="16"
+              height="16"
+              viewBox="8 3 16 16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"></path>
+            </svg>
           </div>
         </button>
       </div>

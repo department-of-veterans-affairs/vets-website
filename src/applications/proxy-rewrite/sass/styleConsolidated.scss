@@ -2907,13 +2907,6 @@
     padding: 0.5em
   }
 
-  .va-crisis-line-arrow {
-    height: 13px;
-    width: 29px;
-    padding-right: 0.5em;
-    padding-left: 0.5em
-  }
-
   .va-crisis-panel {
     color: #1b1b1b
   }
@@ -4500,4 +4493,8 @@
 
 #modal-crisisline {
   display: none !important;
+}
+
+#govt-banner-icon.expanded {
+  transform: rotate(180deg);
 }

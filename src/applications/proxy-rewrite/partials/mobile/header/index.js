@@ -10,13 +10,18 @@ export const getMobileHeaderHtml = megaMenuData => {
         <div class="vads-u-display--flex vads-u-flex-direction--column">
           <div class="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
             <img alt="U.S. flag" class="vads-u-margin-right--1" src="https://www.va.gov/img/tiny-usa-flag.png" height="20" width="20">
-            <button aria-controls="official-govt-site-explanation" aria-expanded="false" class="expand-official-govt-explanation usa-accordion-button va-button-link vads-u-text-decoration--none">An official website of the United States government.
+            <button
+              aria-controls="official-govt-site-explanation"
+              aria-expanded="false"
+              class="expand-official-govt-explanation usa-accordion-button va-button-link vads-u-text-decoration--none"
+              id="govt-banner-button"
+            >
+              An official website of the United States government.
               <svg
                 aria-hidden="true"
-                className="vads-u-margin-left--0p5${
-                  expanded ? ' govt-expanded-arrow' : ''
-                }"
+                className="vads-u-margin-left--0p5"
                 focusable="false"
+                id="govt-banner-icon"
                 width="12"
                 viewBox="6 6 12 12"
                 xmlns="http://www.w3.org/2000/svg"

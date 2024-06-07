@@ -3,14 +3,14 @@ export default `
     <div class="va-crisis-panel va-modal-inner">
       <button aria-label="Close this modal" class="va-modal-close va-overlay-close va-crisis-panel-close" type="button">
         <svg
-        aria-hidden="true"
-        className="va-overlay-close"
-        focusable="false"
-        id="close-button-icon"
-        viewBox="2 2 20 20"
-        width="30"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+          aria-hidden="true"
+          className="va-overlay-close"
+          focusable="false"
+          id="close-button-icon"
+          viewBox="2 2 20 20"
+          width="30"
+          xmlns="http://www.w3.org/2000/svg"
+        >
         <path
           fill="#005ea2"
           d="m8.4 17 3.6-3.6 3.6 3.6 1.4-1.4-3.6-3.6L17 8.4 15.6 7 12 10.6 8.4 7 7 8.4l3.6 3.6L7 15.6 8.4 17Zm3.6 5a10.1 10.1 0 0 1-9.21-6.1A9.74 9.74 0 0 1 2 12a10.1 10.1 0 0 1 6.1-9.21A9.74 9.74 0 0 1 12 2a10.1 10.1 0 0 1 9.21 6.1c.53 1.22.79 2.52.79 3.9s-.26 2.68-.79 3.9a10.1 10.1 0 0 1-5.31 5.31A9.74 9.74 0 0 1 12 22Z"

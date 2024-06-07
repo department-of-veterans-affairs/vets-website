@@ -61,6 +61,7 @@ export function addOverlayTriggers() {
       document.body.classList.add('va-pos-fixed');
     }
   };
+  
   Array.from(overlays).forEach(ol => {
     ol.addEventListener('click', toggleOverlay);
   });
@@ -68,6 +69,16 @@ export function addOverlayTriggers() {
 
 // Adds event listeners for most of the interaction for the header (4 sections of click handlers within this function)
 export const addHeaderEventListeners = () => {
+  // [DESKTOP] Govt banner icon ---------------------------------------------
+  const govtBannerButton = document.getElementById('govt-banner-button');
+  const govtBannerIcon = document.getElementById('govt-banner-icon');
+
+  if (govtBannerButton && govtBannerIcon) {
+    govtBannerButton.addEventListener('click', () => {
+      govtBannerIcon.classList.toggle('expanded');
+    });
+  }
+  
   // [DESKTOP] VA Benefits & Health Care, About VA ---------------------
   const searchButton = document.getElementById('search-dropdown-button');
   const megaMenuL1Buttons = [
