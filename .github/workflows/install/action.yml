@@ -54,4 +54,5 @@ runs:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
 
     - name: Log out version
+      shell: bash
       run: npx cypress --version
