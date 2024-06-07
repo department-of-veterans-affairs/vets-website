@@ -107,7 +107,7 @@ export const getUiSchema = () => {
         <va-additional-info trigger="Learn more about military base addresses">
           <p>
             We automatically enter the United States as your country if you live
-            on a military case outside of the country.
+            on a military base outside of the country.
           </p>
         </va-additional-info>
       ),
