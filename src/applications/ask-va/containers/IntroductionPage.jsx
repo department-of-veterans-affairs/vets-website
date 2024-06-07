@@ -4,6 +4,7 @@ import {
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import {
   isLoggedIn,
@@ -334,10 +335,25 @@ IntroductionPage.propTypes = {
     dob: PropTypes.string,
     gender: PropTypes.string,
   }),
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      formId: PropTypes.string,
+      title: PropTypes.string,
+      subTitle: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+      downtime: PropTypes.shape({}),
+    }),
+    formData: PropTypes.object,
+    setFormData: PropTypes.func,
+    pathname: PropTypes.string,
+    pageList: PropTypes.array,
+  }),
 };
 
 function mapStateToProps(state) {
   return {
+    formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
   };
@@ -345,6 +361,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+  setFormData: setData,
 });
 
 export default connect(
