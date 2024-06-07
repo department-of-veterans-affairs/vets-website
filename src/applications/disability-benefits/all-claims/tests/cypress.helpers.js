@@ -126,18 +126,18 @@ function getToggleValue(toggles, name) {
 /**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with optional prefill data or toggles
  */
-export const setup = (
-  cy,
-  toggles = mockFeatureToggles,
-  enableContent = false,
-) => {
+export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept('GET', '/v0/feature_toggles*', toggles);
+  cy.intercept(
+    'GET',
+    '/v0/feature_toggles*',
+    testOptions?.toggles || mockFeatureToggles,
+  );
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -181,15 +181,20 @@ export const setup = (
       ({ 'view:selected': _, ...obj }) => obj,
     );
 
+    const formData = {
+      ...mockPrefill.formData,
+      disabilities: sanitizedRatedDisabilities,
+      servicePeriods: data.serviceInformation.servicePeriods,
+      reservesNationalGuardService:
+        data.serviceInformation.reservesNationalGuardService,
+    };
+
+    if (testOptions?.prefillData?.includeToxicExposure === true) {
+      formData.includeToxicExposure = true;
+    }
+
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-      formData: {
-        ...mockPrefill.formData,
-        disabilities: sanitizedRatedDisabilities,
-        servicePeriods: data.serviceInformation.servicePeriods,
-        reservesNationalGuardService:
-          data.serviceInformation.reservesNationalGuardService,
-        includeToxicExposure: enableContent,
-      },
+      formData,
       metadata: mockPrefill.metadata,
     });
   });
@@ -198,12 +203,12 @@ export const setup = (
 /**
  * Build a list of unreleased pages using the given toggles
  *
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
  * @returns {string[]} - list of paths for unreleased pages
  */
-function getUnreleasedPages(toggles) {
-  // if toxic exposure toggle is disabled, add those pages to the unreleased pages list
-  if (getToggleValue(toggles, 'disability_526_toxic_exposure') !== true) {
+function getUnreleasedPages(testOptions) {
+  // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
+  if (testOptions?.prefillData?.includeToxicExposure !== true) {
     return Object.keys(toxicExposurePages).map(page => {
       return toxicExposurePages[page].path;
     });
@@ -214,11 +219,11 @@ function getUnreleasedPages(toggles) {
 
 /**
  * For each unreleased page, create the page hook to throw an error if the page loads
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
  * @returns {object} object with page hook for each unreleased page
  */
-function makeUnreleasedPageHooks(toggles) {
-  const pages = getUnreleasedPages(toggles);
+function makeUnreleasedPageHooks(testOptions) {
+  const pages = getUnreleasedPages(testOptions);
 
   return Object.assign(
     {},
@@ -232,7 +237,7 @@ function makeUnreleasedPageHooks(toggles) {
   );
 }
 
-export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
+export const pageHooks = (cy, testOptions = {}) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -313,7 +318,7 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       data.newDisabilities.forEach((disability, index) => {
         if (
           getToggleValue(
-            toggles,
+            testOptions.toggles,
             'disability_526_improved_autosuggestions_add_disabilities_page',
           ) !== true
         ) {
@@ -363,5 +368,5 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       }
     });
   },
-  ...makeUnreleasedPageHooks(toggles),
+  ...makeUnreleasedPageHooks(testOptions),
 });
