@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
@@ -116,14 +115,8 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   );
 }
 
-HighestRankAutoSuggest.propTypes = {
-  formData: PropTypes.object.isRequired,
-  formContext: PropTypes.object,
-  idSchema: PropTypes.object,
-};
-
 const mapStateToProps = state => ({
-  formData: state?.form?.data || {},
+  formData: state?.form?.data,
 });
 
 export default connect(mapStateToProps)(HighestRankAutoSuggest);
