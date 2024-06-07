@@ -6,11 +6,11 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/NA-schema.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../NA-schema.json';
+// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+// import * as address from 'platform/forms-system/src/js/definitions/address';
+// import fullSchema from '../NA-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/NA-schema.json';
 
@@ -24,7 +24,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -38,6 +37,8 @@ const formConfig = {
   trackingPrefix: 'transition-questionnaire-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  stepLabels: 'Service History;',
   formId: 'NA',
   saveInProgress: {
     // messages: {
@@ -53,6 +54,8 @@ const formConfig = {
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
   title: 'We have a few quick questions for you',
+  subTitle:
+    'Please answer the questions on the following few screens to help us recommend helpful resources and benefits.',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -61,27 +64,6 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
-      pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
-        },
-      },
-    },
     serviceHistoryChapter: {
       title: 'Service History',
       pages: {
@@ -90,46 +72,6 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
-        },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
         },
       },
     },
