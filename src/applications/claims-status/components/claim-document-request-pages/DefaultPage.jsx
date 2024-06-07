@@ -5,7 +5,7 @@ import { scrubDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 import AddFilesFormOld from '../AddFilesFormOld';
 
-function DefaultDocumentRequestPage({
+function DefaultPage({
   field,
   files,
   item,
@@ -20,7 +20,7 @@ function DefaultDocumentRequestPage({
   uploading,
 }) {
   return (
-    <div id="default-document-request-page">
+    <div id="default-page">
       <h1 className="claims-header">{item.displayName}</h1>
       {item.status === 'NEEDED_FROM_YOU' ? (
         <DueDate date={item.suspenseDate} />
@@ -51,7 +51,7 @@ function DefaultDocumentRequestPage({
   );
 }
 
-DefaultDocumentRequestPage.propTypes = {
+DefaultPage.propTypes = {
   field: PropTypes.object.isRequired,
   files: PropTypes.array.isRequired,
   item: PropTypes.object.isRequired,
@@ -66,4 +66,4 @@ DefaultDocumentRequestPage.propTypes = {
   uploading: PropTypes.bool,
 };
 
-export default DefaultDocumentRequestPage;
+export default DefaultPage;

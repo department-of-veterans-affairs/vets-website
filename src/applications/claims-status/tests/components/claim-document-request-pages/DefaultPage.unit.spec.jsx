@@ -5,11 +5,11 @@ import moment from 'moment-timezone';
 import { renderWithRouter } from '../../utils';
 import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
 
-import DefaultDocumentRequestPage from '../../../components/claim-document-request-pages/DefaultDocumentRequestPage';
+import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
 
 const formatDate = buildDateFormatter();
 
-describe('<DefaultDocumentRequestPage>', () => {
+describe('<DefaultPage>', () => {
   const defaultProps = {
     field: { value: '', dirty: false },
     files: [],
@@ -40,9 +40,9 @@ describe('<DefaultDocumentRequestPage>', () => {
       date: '2024-03-07',
     };
     const { getByText, container } = renderWithRouter(
-      <DefaultDocumentRequestPage {...defaultProps} item={item} />,
+      <DefaultPage {...defaultProps} item={item} />,
     );
-    expect($('#default-document-request-page', container)).to.exist;
+    expect($('#default-page', container)).to.exist;
     expect($('.due-date-header', container)).to.exist;
     const formattedClaimDate = formatDate(item.suspenseDate);
     getByText(
@@ -73,9 +73,9 @@ describe('<DefaultDocumentRequestPage>', () => {
       date: '2024-03-07',
     };
     const { getByText, container } = renderWithRouter(
-      <DefaultDocumentRequestPage {...defaultProps} item={item} />,
+      <DefaultPage {...defaultProps} item={item} />,
     );
-    expect($('#default-document-request-page', container)).to.exist;
+    expect($('#default-page', container)).to.exist;
     expect($('.due-date-header', container)).to.not.exist;
     expect($('.optional-upload', container)).to.exist;
     getByText(

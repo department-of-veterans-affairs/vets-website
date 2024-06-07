@@ -11,7 +11,7 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import Notification from '../components/Notification';
-import DefaultDocumentRequestPage from '../components/claim-document-request-pages/DefaultDocumentRequestPage';
+import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
   addFile,
   removeFile,
@@ -90,7 +90,7 @@ class DocumentRequestPage extends React.Component {
   getDefaultPage() {
     return (
       <>
-        <DefaultDocumentRequestPage
+        <DefaultPage
           backUrl={this.props.lastPage ? `/${this.props.lastPage}` : filesPath}
           field={this.props.uploadField}
           files={this.props.files}
