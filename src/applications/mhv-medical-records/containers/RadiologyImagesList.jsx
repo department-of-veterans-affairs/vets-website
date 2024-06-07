@@ -21,36 +21,9 @@ const RadiologyImagesList = () => {
   );
   const { labId } = useParams();
   const [currentImageCount, setCurrentImageCount] = useState(5);
-  // const labAndTestDetails = useSelector(
-  //   state => state.mr.labsAndTests.labsAndTestsDetails,
-  // );
-  const labAndTestDetails = {
-    name: 'ANKLE LEFT 3 VIEWS',
-    category: 'Radiology',
-    orderedBy: 'Beth M. Smith',
-    reason: 'Injury',
-    clinicalHistory: 'Information',
-    imagingProvider: 'John J. Lydon',
-    id: 122,
-    date: 'April 13, 2022, 5:25 a.m. MDT',
-    imagingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    reactions: ['Just this one'],
-    results:
-      'This exam was performed at 673RD MED GRP, Elmendorf AFB. The report is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nThis exam was performed at 673RD MED GRP, Elmendorf AFB. The\nreport is available in VistaWeb and Vista Imaging.\nIf you are unable to find images or a report please contact your\nlocal Imaging Coordinator.\nImpression:\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nExam performed and interpreted at 673rd MDG Elmendorf AFB, report\navailable in CPRS using VistaWeb or Remote Data.\nPrimary Diagnostic Code: BI-RADS CATEGORY 6 (Known Biopsy Proven Malignancy)\nSecondary Diagnostic Codes:\nBI-RADS CATEGORY 3 (Probably Benign)\nVERIFIED BY:\n/\n**********************\n*ELECTRONICALLY FILED*\n**********************',
-    images: [
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-      'image',
-    ],
-  };
+  const labAndTestDetails = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsDetails,
+  );
 
   const downloadPdf = () => {
     GenerateRadiologyPdf(labAndTestDetails);
