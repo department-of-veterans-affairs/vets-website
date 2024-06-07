@@ -1,12 +1,11 @@
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import AddressValidationRadio from '../../../components/FormFields/AddressValidationRadio';
-import FormElementTitle from '../../../components/FormElementTitle';
+import { CHAPTER_3 } from '../../../constants';
 
-const addressConfirmationPage = {
+const addressValidationPage = {
   uiSchema: {
-    addressConfirmation: {
-      'ui:title': FormElementTitle({
-        title: 'Veteran Address Confirmation',
-      }),
+    addressValidation: {
+      ...titleUI(CHAPTER_3.ADDRESS_VALIDATION.TITLE),
       'ui:widget': AddressValidationRadio,
       'ui:options': {
         hideOnReview: true,
@@ -17,11 +16,11 @@ const addressConfirmationPage = {
     type: 'object',
     required: [],
     properties: {
-      addressConfirmation: {
+      addressValidation: {
         type: 'string',
       },
     },
   },
 };
 
-export default addressConfirmationPage;
+export default addressValidationPage;
