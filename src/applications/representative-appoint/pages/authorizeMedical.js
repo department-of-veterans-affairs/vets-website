@@ -27,6 +27,37 @@ export const uiSchema = {
       );
     },
   },
+  'view:authorizationPolicy': {
+    'ui:description': () => {
+      return (
+        <>
+          <va-accordion uswds bordered open-single>
+            <va-accordion-item
+              bordered
+              header="Our records authorization policy"
+            >
+              <p>
+                <strong>I authorize</strong> the VA facility having custody of
+                my VA claimant records to disclose to the service organization
+                named in Item 15 all treatment records relating to drug abuse,
+                alcoholism or alcohol abuse, infection with the human
+                immunodeficiency virus (HIV), or sickle cell anemia.
+                Redisclosure of these records by my service organization
+                representative, other than to VA or the Court of Appeals for
+                Veterans Claims, is not authorized without my further written
+                consent. This authorization will remain in effect until the
+                earlier of the following events: (1) I revoke this authorization
+                by filing a written revocation with VA; or (2) I revoke the
+                appointment of the service organization named in Item 15, by
+                explicit revocation or the appointment of another
+                representative.
+              </p>
+            </va-accordion-item>
+          </va-accordion>
+        </>
+      );
+    },
+  },
   authorizationRadio: {
     'ui:title': `Do you authorize this accredited VSO to access your medical records?`,
     'ui:widget': 'radio',
@@ -57,6 +88,10 @@ export const schema = {
       properties: {},
     },
     'view:authorizeMedical': {
+      type: 'object',
+      properties: {},
+    },
+    'view:authorizationPolicy': {
       type: 'object',
       properties: {},
     },
