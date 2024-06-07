@@ -47,14 +47,11 @@ runs:
     - name: Install dependencies
       uses: nick-fields/retry@v3
       with:
-        command: CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.11.0.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
+        command: |
+          CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/13.11.0.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
+          npx cypress install
+          npx cypress --version
         max_attempts: 3
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
-
-    - name: Log out version
-      shell: bash
-      run: |
-            npx cypress --version
-            npx cypress install
