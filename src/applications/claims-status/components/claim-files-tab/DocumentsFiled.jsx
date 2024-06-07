@@ -144,6 +144,7 @@ function DocumentsFiled({ claim }) {
                         <h4
                           className="filename-title vads-u-margin-y--0"
                           data-dd-privacy="mask"
+                          data-dd-action-name="document filename"
                         >
                           {doc.originalFileName
                             ? doc.originalFileName
