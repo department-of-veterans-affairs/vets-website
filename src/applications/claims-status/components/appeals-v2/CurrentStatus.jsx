@@ -6,15 +6,20 @@ const CurrentStatus = ({ title, description, isClosed }) => (
     <h2>Current status</h2>
     <div className="current-status-content">
       <h3>{title}</h3>
-      <div data-dd-privacy="mask">{description}</div>
+      <div
+        data-dd-privacy="mask"
+        data-dd-action-name="current status description"
+      >
+        {description}
+      </div>
     </div>
     {!isClosed && <div className="down-arrow" />}
   </div>
 );
 
 CurrentStatus.propTypes = {
-  title: PropTypes.string.isRequired,
   description: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
   isClosed: PropTypes.bool,
 };
 

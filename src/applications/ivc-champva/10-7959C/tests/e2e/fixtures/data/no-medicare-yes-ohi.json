@@ -2,13 +2,8 @@
   "data": {
     "secondaryAdditionalComments": "Secondary comment",
     "secondaryMedigapPlan": "D",
-    "applicantSecondaryInsuranceType": {
-      "hmo": true,
-      "ppo": true,
-      "other": true,
-      "medigap": true
-    },
-    "applicantSecondaryEOB": "hasEob",
+    "applicantSecondaryInsuranceType": "medigap",
+    "applicantSecondaryEOB": true,
     "applicantSecondaryHasPrescription": true,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -17,12 +12,8 @@
     "applicantHasSecondary": true,
     "primaryAdditionalComments": "Additional primary comment",
     "primaryMedigapPlan": "B",
-    "applicantPrimaryInsuranceType": {
-      "hmo": true,
-      "ppo": true,
-      "medigap": true
-    },
-    "applicantPrimaryEOB": "noEob",
+    "applicantPrimaryInsuranceType": "medigap",
+    "applicantPrimaryEOB": false,
     "applicantPrimaryHasPrescription": true,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "Primary Provider Name",
@@ -31,6 +22,7 @@
     "applicantHasPrimary": true,
     "applicantMedicareStatus": false,
     "applicantPhone": "5551112222",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Avenue",

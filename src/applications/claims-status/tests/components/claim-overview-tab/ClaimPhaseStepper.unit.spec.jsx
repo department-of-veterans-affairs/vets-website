@@ -10,6 +10,23 @@ describe('<ClaimPhaseStepper>', () => {
   const claimDate = '2024-01-16';
   const currentClaimPhaseDate = '2024-03-07';
 
+  it('should render a ClaimPhaseStepper section where there is accessibility text', () => {
+    const { container } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={3}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+
+    const phaseCurrent = $('#phase3 va-icon.phase-current', container);
+    expect(phaseCurrent).to.have.attr('srtext', 'Current');
+
+    const phase2Complete = $('#phase2 va-icon.phase-complete', container);
+    expect(phase2Complete).to.have.attr('srtext', 'Completed');
+  });
+
   it('should render a ClaimPhaseStepper section where step 1 is the current step', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimPhaseStepper

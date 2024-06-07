@@ -7,7 +7,14 @@ import MobileClaimPhaseDiagram from '../../../components/claim-overview-tab/Mobi
 
 describe('<MobileClaimPhaseDiagram>', () => {
   it('should render a MobileClaimPhaseDiagram section', () => {
-    const { container } = render(<MobileClaimPhaseDiagram currentPhase={1} />);
+    const { container, getByTitle } = render(
+      <MobileClaimPhaseDiagram currentPhase={1} />,
+    );
     expect($('.mobile', container)).to.exist;
+    expect(
+      getByTitle(
+        'Your current step is 1 of 8 in the claims process. Steps 3 through 6 can be repeated.',
+      ),
+    );
   });
 });

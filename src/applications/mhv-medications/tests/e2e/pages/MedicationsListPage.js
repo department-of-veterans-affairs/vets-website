@@ -136,7 +136,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by status`,
       );
   };
@@ -265,10 +265,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'We put a hold on this prescription. If you need it now, call your VA pharmacy.',
-      );
+      .and('contain', 'You can’t refill this prescription online right now.');
   };
 
   verifyInformationBasedOnStatusDiscontinued = () => {
@@ -283,7 +280,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'If you need more, request a renewal.');
+      .and('contain', 'This prescription is too old to refill. ');
   };
 
   verifyInformationBasedOnStatusTransferred = () => {
@@ -296,8 +293,10 @@ class MedicationsListPage {
     cy.get('[data-testid="prescription-VA-health-link"]').should('be.visible');
   };
 
-  verifyInformationBasedOnStatusUnknown = () => {
-    cy.get('[data-testid="unknown"] > div')
+  verifyInformationBasedOnStatusUnknown = unknownPrescription => {
+    cy.get(
+      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(1)`,
+    )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
   };
@@ -427,7 +426,7 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, alphabetically by name`,
       );
   };
@@ -456,14 +455,14 @@ class MedicationsListPage {
     cy.get('[data-testid="page-total-info"]')
       .first()
       .should(
-        'have.text',
+        'contain',
         `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} medications, last filled first`,
       );
   };
 
   verifyLastFilledDateforPrescriptionOnListPage = () => {
     cy.get(
-      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(3) > [data-testid="rx-last-filled-date"]',
+      '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > [data-testid="rx-last-filled-date"]',
     ).should(
       'contain',
       `${prescriptionFillDate.data.attributes.sortedDispensedDate}`,
