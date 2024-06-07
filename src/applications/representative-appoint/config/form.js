@@ -7,8 +7,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// pages
-import authorizeMedical from '../pages/authorizeMedical';
+import { authorizeMedical, authorizeMedicalSelect } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -58,8 +57,21 @@ const formConfig = {
       pages: {
         authorizeMedical: {
           path: 'authorize-medical',
+          title: 'Authorization for Certain Medical Records',
           uiSchema: authorizeMedical.uiSchema,
           schema: authorizeMedical.schema,
+        },
+        authorizeMedicalSelect: {
+          path: 'authorize-medical/select',
+          depends: formData => {
+            return (
+              formData.authorizationRadio ===
+              'Yes, but they can only access some of these types of records'
+            );
+          },
+          title: 'Authorization for Certain Medical Records - Select',
+          uiSchema: authorizeMedicalSelect.uiSchema,
+          schema: authorizeMedicalSelect.schema,
         },
       },
     },
