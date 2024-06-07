@@ -241,7 +241,7 @@ export const applicantMedicareABUploadSchema = {
             <br />
             <br />
             If you don’t have a copy to upload now, you can send it by mail or
-            fax
+            fax.
           </>
         );
       },
