@@ -68,11 +68,15 @@ export function getAgeInYears(date) {
 export async function addTopMarginToUsaHint() {
   ['va-radio', 'va-select', 'va-memorable-date', 'va-text-input'].map(
     async e => {
-      const el = await waitForShadowRoot(document.querySelector(e));
-      if (el?.shadowRoot) {
-        const sheet = new CSSStyleSheet();
-        sheet.replaceSync('.usa-hint {margin-top: 8px}');
-        el.shadowRoot.adoptedStyleSheets.push(sheet);
+      try {
+        const el = await waitForShadowRoot(document.querySelector(e));
+        if (el?.shadowRoot) {
+          const sheet = new CSSStyleSheet();
+          sheet.replaceSync('.usa-hint {margin-top: 8px}');
+          el.shadowRoot.adoptedStyleSheets.push(sheet);
+        }
+      } catch {
+        // Fail silently - this is not important.
       }
     },
   );
