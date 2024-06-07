@@ -13,7 +13,7 @@ import { makeSelectForm, makeSelectVeteranData } from '../../../selectors';
 import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
-import SingleFacilityBody from './SingleFacilityBody';
+import SingleAppointmentBody from './SingleAppointmentBody';
 import MultipleAppointmentBody from './MultiAppointmentBody';
 
 const TravelMileage = props => {
@@ -95,7 +95,7 @@ const TravelMileage = props => {
               />
             </>
           ) : (
-            <SingleFacilityBody appointments={sortedAppointments} />
+            <SingleAppointmentBody appointments={sortedAppointments} />
           )}
           <va-additional-info
             trigger={t('if-you-have-other-expenses-to-claim')}

@@ -15,7 +15,7 @@ const SingleAppointmentBody = ({ appointments }) => {
   return (
     <div
       className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-padding-y--1 vads-u-margin-y--4 vads-u-border-color--gray-light"
-      data-testid="single-fac-context"
+      data-testid="single-appointment-context"
     >
       <span className="vads-u-font-weight--bold">
         {appointments[0].facility}

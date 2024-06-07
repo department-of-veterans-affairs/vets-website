@@ -30,7 +30,7 @@ const MultipleAppointmentBody = props => {
   };
 
   return (
-    <div data-testid="multi-fac-context">
+    <div data-testid="multi-appointment-context">
       <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
       <VaRadio
         data-testid="radio-set"
