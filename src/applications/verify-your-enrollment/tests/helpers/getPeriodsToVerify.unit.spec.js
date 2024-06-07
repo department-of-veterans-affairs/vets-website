@@ -63,4 +63,48 @@ describe('getPeriodsToVerify', () => {
     expect(wrapper.children()).to.have.length(0);
     wrapper.unmount();
   });
+  it('should returns "Hours unavailable" for Total credit hours if numberHours is null', () => {
+    const wrapper = shallow(
+      <div>
+        {getPeriodsToVerify([
+          {
+            awardId: '00001',
+            actBegin: '2024-03-01',
+            actEnd: '2024-03-24',
+            numberHours: null,
+            monthlyRate: 600.0,
+            caseTrace: 'CASE 1b',
+          },
+        ])}
+      </div>,
+    );
+    const unavailable = wrapper
+      .find('p.vads-u-margin--0.vads-u-font-size--base')
+      .at(1);
+    expect(unavailable.text()).to.equal(
+      'Total credit hours: Hours unavailable',
+    );
+    wrapper.unmount();
+  });
+  it('should returns "Rate unavailable" for Monthly rate if monthlyRate is null', () => {
+    const wrapper = shallow(
+      <div>
+        {getPeriodsToVerify([
+          {
+            awardId: '00001',
+            actBegin: '2024-03-01',
+            actEnd: '2024-03-24',
+            numberHours: 6,
+            monthlyRate: null,
+            caseTrace: 'CASE 1b',
+          },
+        ])}
+      </div>,
+    );
+    const unavailable = wrapper
+      .find('p.vads-u-margin--0.vads-u-font-size--base')
+      .at(2);
+    expect(unavailable.text()).to.equal('Monthly rate: Rate unavailable');
+    wrapper.unmount();
+  });
 });

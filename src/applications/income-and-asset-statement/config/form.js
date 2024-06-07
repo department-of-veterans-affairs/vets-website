@@ -5,6 +5,8 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { submit } from './submit';
+import applicantInformation from './applicantInformation';
 
 // const { } = fullSchema.properties;
 
@@ -13,9 +15,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: 'income-and-asset-statement-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -34,21 +34,22 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
   title: '21P-0969 Income and Asset Statement Form',
   defaultDefinitions: {},
   chapters: {
     chapter1: {
       title: 'Chapter 1',
       pages: {
-        page1: {
-          path: 'first-page',
-          title: 'First Page',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
-        },
+        applicantInformation,
       },
     },
   },

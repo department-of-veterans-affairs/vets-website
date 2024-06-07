@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Paragraph } from '../constants';
 
 const CurrentBenefitsStatus = ({
@@ -8,6 +9,8 @@ const CurrentBenefitsStatus = ({
   expirationDate,
   link,
 }) => {
+  const response = useSelector(state => state.personalInfo);
+  if (response?.error?.error === 'Forbidden') return null;
   return (
     <div className="vads-u-margin-top--5">
       <va-card>

@@ -92,7 +92,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       address: addressData,
     };
     try {
-      dispatch(validateAddress(fields, formData.fullName));
+      dispatch(validateAddress(fields, applicantName));
     } catch (err) {
       throw new Error(err);
     }
@@ -137,7 +137,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
@@ -201,7 +200,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   const onCancleButtonClicked = () => {
     if (
-      (hasFormChanged(formData, applicantName) && !goBackToEdit) ||
+      (hasFormChanged(formData) && !goBackToEdit) ||
       (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
     ) {
       setShowModal(true);
@@ -257,6 +256,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 suggestedAddressPicked={suggestedAddressPicked}
                 setGoBackToEdit={setGoBackToEdit}
                 scrollToTopOfForm={scrollToTopOfForm}
+                applicantName={applicantName}
               />
             ) : (
               <>
@@ -297,7 +297,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}

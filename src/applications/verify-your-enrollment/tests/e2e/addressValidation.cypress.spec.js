@@ -1,3 +1,4 @@
+import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
 import { mockUser } from './login';
 
 describe('Address Validations', () => {
@@ -34,7 +35,10 @@ describe('Address Validations', () => {
 
   beforeEach(() => {
     cy.login();
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: UPDATED_USER_MOCK_DATA,
+    });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
@@ -52,7 +56,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -74,7 +77,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -99,7 +101,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -127,7 +128,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('Oakland');
@@ -157,7 +157,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -187,7 +186,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 45');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -214,7 +212,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -247,7 +244,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave');
     cy.get('input[id="root_city"]').type('San Francisco');

@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
+import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -26,8 +27,7 @@ import {
   aboutPriorityProcessingPage,
   housingRisksPage,
   otherHousingRisksPage,
-  hardshipsOptionalPage,
-  hardshipsRequiredPage,
+  hardshipsPage,
   priorityProcessingNotQualifiedPage,
   priorityProcessingRequestPage,
 } from '../pages/priorityProcessing';
@@ -60,8 +60,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transform,
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -211,24 +210,13 @@ const formConfig = {
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
         },
-        hardshipsOptionalPage: {
+        hardshipsPage: {
           depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            !formData.livingSituation.NONE,
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
           path: 'hardships',
           title: 'Other reasons for request',
-          uiSchema: hardshipsOptionalPage.uiSchema,
-          schema: hardshipsOptionalPage.schema,
-          pageClass: 'hardships',
-        },
-        hardshipsRequiredPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation.NONE,
-          path: 'hardships',
-          title: 'Other reasons for request',
-          uiSchema: hardshipsRequiredPage.uiSchema,
-          schema: hardshipsRequiredPage.schema,
+          uiSchema: hardshipsPage.uiSchema,
+          schema: hardshipsPage.schema,
           pageClass: 'hardships',
         },
         priorityProcessingNotQualifiedPage: {

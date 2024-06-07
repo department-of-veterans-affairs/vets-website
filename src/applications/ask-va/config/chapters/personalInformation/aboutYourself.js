@@ -8,6 +8,9 @@ import {
 
 const question = <h3>{CHAPTER_3.ABOUT_YOURSELF.TITLE}</h3>;
 
+const aboutYourselfFormSchema = { ...personalInformationFormSchemas };
+delete aboutYourselfFormSchema.pronouns;
+
 const aboutYourselfPage = {
   uiSchema: {
     'ui:title': question,
@@ -20,7 +23,7 @@ const aboutYourselfPage = {
     properties: {
       aboutYourself: {
         type: 'object',
-        properties: personalInformationFormSchemas,
+        properties: aboutYourselfFormSchema,
       },
     },
   },

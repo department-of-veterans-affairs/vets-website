@@ -73,8 +73,8 @@ export default function VeteranProgramsAndSupport({
       '';
 
     return (
-      <div key={programKey}>
-        <i className="fa fa-check vads-u-color--green" />
+      <div className="veteran-programs" key={programKey}>
+        <va-icon icon="check" size={3} class="vads-u-color--green" />
         &nbsp;
         <strong>
           <LearnMoreLabel

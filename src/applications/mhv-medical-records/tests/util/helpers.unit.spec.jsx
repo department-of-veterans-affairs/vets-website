@@ -10,6 +10,8 @@ import {
   extractContainedResource,
   dispatchDetails,
   getActiveLinksStyle,
+  dateFormatWithoutTimezone,
+  parseDate,
 } from '../../util/helpers';
 
 describe('Name formatter', () => {
@@ -30,6 +32,14 @@ describe('Date formatter', () => {
     const timeStamp = '2023-09-29T11:04:31.316-04:00';
     const formattedDate = dateFormat(timeStamp);
     expect(formattedDate).to.contain('September');
+  });
+});
+
+describe('Date formatter with no timezone', () => {
+  it('formats a date in the original time without a timezone', () => {
+    const timeStamp = '2023-09-29T11:04:31.316-04:00';
+    const formattedDate = dateFormatWithoutTimezone(timeStamp);
+    expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
   });
 });
 
@@ -257,5 +267,28 @@ describe('getActiveLinksStyle', () => {
     const style = getActiveLinksStyle(linkPath, currentPath);
 
     expect(style).to.equal(expectedStyle);
+  });
+});
+
+describe('parseDate', () => {
+  it('parses a full date', () => {
+    const expectedStyle = 'March 3, 2013';
+    const date = parseDate('2013-03-03');
+
+    expect(date).to.equal(expectedStyle);
+  });
+
+  // it('parses a date that has a YYYY-MM format and no DD (day of month).', () => {
+  //   const expectedStyle = 'March, 2013';
+  //   const date = parseDate('2013-02'); // January starts at [0] instead of "1"
+
+  //   expect(date).to.equal(expectedStyle);
+  // });
+
+  it('parses a date that only has YYYY and no DD (day of month) nor MM (month)', () => {
+    const expectedStyle = '2013';
+    const date = parseDate('2013');
+
+    expect(date).to.equal(expectedStyle);
   });
 });
