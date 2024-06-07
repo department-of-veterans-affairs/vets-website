@@ -52,3 +52,6 @@ runs:
         timeout_minutes: 7
       env:
         YARN_CACHE_FOLDER: ${{ inputs.yarn_cache_folder }}
+
+    - name: Log out version
+      run: npx cypress --version
