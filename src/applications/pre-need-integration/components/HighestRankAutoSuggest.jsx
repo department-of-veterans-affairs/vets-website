@@ -10,11 +10,39 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   const [rankOptions, setRankOptions] = useState([]);
   const [rank, setRank] = useState('');
   const [index, setIndex] = useState(0);
-  const [initialRender, setInitialRender] = useState(true);
 
   const extractIndex = id => {
     const match = id.match(/serviceRecords_(\d+)_highestRank/);
     return match ? parseInt(match[1], 10) : 0;
+  };
+
+  const handleSelectionChange = selection => {
+    if (selection.key)
+      setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
+    else setRank('');
+
+    // Create an updated form data object with both highestRank and highestRankDescription
+    const updatedFormData = {
+      ...formData,
+      application: {
+        ...formData.application,
+        veteran: {
+          ...formData.application.veteran,
+          serviceRecords: formData.application.veteran.serviceRecords.map(
+            (record, idx) =>
+              idx === index
+                ? {
+                    ...record,
+                    highestRank: selection.key,
+                    highestRankDescription: selection.value,
+                  }
+                : record,
+          ),
+        },
+      },
+    };
+
+    dispatch(setData(updatedFormData));
   };
 
   const getRanksForBranch = branch => {
@@ -45,12 +73,14 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
           setBranchOfService(currentBranch);
         }
         const currentRank = serviceRecords[currentIndex];
-        if (currentRank.highestRank) {
+        if (currentRank?.highestRank) {
           setRank(
             `${currentRank.highestRank} - ${
               currentRank.highestRankDescription
             }`,
           );
+        } else {
+          setRank('');
         }
       }
     },
@@ -62,44 +92,14 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
       if (branchOfService) {
         const newRankOptions = getRanksForBranch(branchOfService);
         if (haveOptionsChanged(rankOptions, newRankOptions)) {
-          if (!initialRender) {
-            setRank('');
-          } else {
-            setInitialRender(false);
-          }
+          const selection = { key: undefined, value: undefined };
+          handleSelectionChange(selection);
           setRankOptions(newRankOptions);
         }
       }
     },
     [branchOfService],
   );
-
-  const handleSelectionChange = selection => {
-    setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
-
-    // Create an updated form data object with both highestRank and highestRankDescription
-    const updatedFormData = {
-      ...formData,
-      application: {
-        ...formData.application,
-        veteran: {
-          ...formData.application.veteran,
-          serviceRecords: formData.application.veteran.serviceRecords.map(
-            (record, idx) =>
-              idx === index
-                ? {
-                    ...record,
-                    highestRank: selection.key,
-                    highestRankDescription: selection.value,
-                  }
-                : record,
-          ),
-        },
-      },
-    };
-
-    dispatch(setData(updatedFormData));
-  };
 
   return (
     <div>
