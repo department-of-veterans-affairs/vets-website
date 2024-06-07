@@ -17,7 +17,6 @@ import {
   formatCurrency,
   createId,
   convertRatingToStars,
-  isStaging,
 } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
@@ -341,7 +340,7 @@ export function ResultCard({
             </div>
           )}
           <>
-            {type === 'FLIGHT' && isStaging() ? null : (
+            {type !== 'FLIGHT' && (
               <div
                 className={classNames(
                   'vads-u-padding-x--2 vads-u-margin-bottom--4',

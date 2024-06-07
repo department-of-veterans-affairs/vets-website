@@ -123,7 +123,6 @@ describe('<ResultCard>', () => {
     expect(screen.getByText('Approved programs:')).to.exist;
   });
   it('should not show You may be eligible for up to when type is FLIGHT', () => {
-    global.window.buildType = true;
     const institution = { ...INSTITUTION, type: 'FLIGHT' };
     const screen = renderWithStoreAndRouter(
       <ResultCard institution={institution} key={25008642} version={null} />,
@@ -136,7 +135,6 @@ describe('<ResultCard>', () => {
     expect(screen.queryByText('You may be eligible for up to:')).to.not.exist;
   });
   it('should show You may be eligible for up to when type is not FLIGHT', () => {
-    global.window.buildType = true;
     const institution = { ...INSTITUTION, type: 'PUBLIC' };
     const screen = renderWithStoreAndRouter(
       <ResultCard institution={institution} key={25008642} version={null} />,
