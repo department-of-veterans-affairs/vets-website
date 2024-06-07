@@ -49,7 +49,7 @@ const TravelReview = props => {
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
         <dd className="vads-u-margin-top--0p5">
-          <span data-testid="claim-list">
+          <span data-testid="claim-info">
             {`${t('mileage-only-reimbursement-for')} ${
               appointmentToFile.clinicStopCodeName
                 ? ` ${appointmentToFile.clinicStopCodeName}`
