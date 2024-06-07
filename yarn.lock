@@ -2875,18 +2875,10 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.0.tgz#cfa903ab54b1a1728cd0226f9b9a6b6fd1e0b2b1"
-  integrity sha512-OAksaHLHwPMynDxjbuhhkGK85Y1rsdI335dFkyhyp5iq8Fcvr9MaVS4nrOEZ89mOYNOyMrq4cxfqmWWzVy1/UQ==
-  dependencies:
-    "@divriots/style-dictionary-to-figma" "^0.4.0"
-    rimraf "^5.0.5"
-
-"@department-of-veterans-affairs/css-library@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.3.tgz#91673fe8a620addc5a83c2d744fbfba9332d83de"
-  integrity sha512-Sy/d+MhD0W/33DPrF/KBosukMHGK6grkTmbc0SdpdyrYpUDIdj5UqJspHGf1K6NW8zKtmlt72s8IVjxUKhW7Fw==
+"@department-of-veterans-affairs/css-library@^0.7.3", "@department-of-veterans-affairs/css-library@^0.7.4":
+  version "0.7.4"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.7.4.tgz#ad0b53ae6ce0660c555fc205c9bbe59182234410"
+  integrity sha512-Qr/V7GtoYhnsUV32FcoF2Tu2JVap/vHvJ65CQKnekTmb5gKg9WD0PqQ5Jq5BRLp9M3ara1IIZfEwxxoXpbhxpA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     rimraf "^5.0.5"
@@ -2898,10 +2890,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.5":
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.5.tgz#20ce74597501244ba73f1e390b098c34854dd4b3"
-  integrity sha512-tYgmOKomXVqUEMN4ajXx/9mVfZwp8yTCjiC8UYG094jyWS2uQR2PhGEzpwp2XDCK1hRFFiV+CK5qROzeORfDWA==
+"@department-of-veterans-affairs/formation@11.0.6":
+  version "11.0.6"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.6.tgz#49a219c164c45086a1cbe5f761ce5c0d66456640"
+  integrity sha512-DKoxoJHl7Dp6YUj2HWhoOlhgziGP3r8VJoBObXB2JV6mWV1eJsc0U7jX/4SkbrKcJcJebK4VTp7mP/VF7Gv/dA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"

@@ -135,14 +135,16 @@ export default function CrisisPanel() {
               </p>
             </li>
           </ul>
-          Get more resources at{' '}
-          <a
-            className="no-external-icon"
-            href="https://www.veteranscrisisline.net/"
-          >
-            VeteransCrisisLine.net
-          </a>
-          .
+          <p>
+            Get more resources at{' '}
+            <a
+              className="no-external-icon"
+              href="https://www.veteranscrisisline.net/"
+            >
+              VeteransCrisisLine.net
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>

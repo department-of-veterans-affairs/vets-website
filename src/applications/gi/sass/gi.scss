@@ -71,6 +71,9 @@
     z-index: 500;
     color: var(--vads-color-base-darker);
     background: var(--vads-color-white);
+    p {
+      max-width: 100%;
+    }
   }
 
   select.hide-arrows {
@@ -291,4 +294,5 @@
 
 .main-text-subtext {
   padding-right: 8em;
+  max-width: 100%;
 }
