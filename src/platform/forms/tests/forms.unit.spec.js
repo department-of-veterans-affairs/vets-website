@@ -89,6 +89,7 @@ const formConfigKeys = [
   'useCustomScrollAndFocus',
   'v3SegmentedProgressBar',
   'formOptions',
+  'stepLabels',
 ];
 
 const validProperty = (
