@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { isLoggedIn } from 'platform/user/selectors';
 
+import BackLink from '../components/BackLink';
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
@@ -50,6 +50,7 @@ class FormApp extends React.Component {
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
     const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+    let useTopBackLink = false;
 
     let formTitle;
     let formNav;
@@ -60,6 +61,10 @@ class FormApp extends React.Component {
     // 2. there is a title specified in the form config
     if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
       formTitle = <FormTitle title={title} subTitle={subTitle} />;
+    }
+
+    if (!isNonFormPage) {
+      useTopBackLink = formConfig.useTopBackLink;
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation
@@ -95,6 +100,7 @@ class FormApp extends React.Component {
         <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
+            {useTopBackLink && <BackLink />}
             {notProd && noTitle ? null : formTitle}
             {notProd && noTopNav ? null : formNav}
             <Element name="topContentElement" />
