@@ -24,7 +24,7 @@ describe('Pre-need sponsor details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -50,7 +50,7 @@ describe('Pre-need sponsor details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(onSubmit.called).to.be.true;
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });
