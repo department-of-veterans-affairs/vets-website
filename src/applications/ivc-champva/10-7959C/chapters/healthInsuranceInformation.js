@@ -473,7 +473,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
       ),
       ...fileUploadBlurb,
       [keyname]: fileUploadUI({
-        label: 'Upload health insurance cards',
+        label: 'Upload health insurance card',
       }),
     },
     schema: {
