@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { submit } from '../helpers.jsx';
-
 import {
   mockFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
+import { submit } from '../utils/helpers.jsx';
 
 describe('Burials helpers', () => {
   describe('submit', () => {

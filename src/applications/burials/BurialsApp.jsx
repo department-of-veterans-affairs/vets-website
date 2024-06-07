@@ -2,18 +2,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 
 export default function BurialsEntry({ location, children }) {
-  const profile = useSelector(state => state?.user?.profile);
-  const {
-    loading: isLoadingFeatures,
-    burialFormEnabled,
-    burialFormV2,
-  } = useSelector(state => state?.featureToggles);
+  const { profile } = useSelector(state => state?.user);
+  const { loading: isLoadingFeatures, burialFormEnabled } = useSelector(
+    state => state?.featureToggles,
+  );
 
   if (isLoadingFeatures || !profile || profile.loading) {
     return <va-loading-indicator message="Loading application..." />;
@@ -25,19 +22,6 @@ export default function BurialsEntry({ location, children }) {
       return <></>;
     }
     return <NoFormPage />;
-  }
-
-  const hasV1Form = profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21P_530,
-  );
-  const hasV2Form = profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21P_530V2,
-  );
-
-  const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
-  if (shouldUseV2) {
-    window.location.href = '/burials-and-memorials-v2/application/530/';
-    return <></>;
   }
 
   return (

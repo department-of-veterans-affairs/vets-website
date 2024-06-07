@@ -71,7 +71,7 @@ const generateData = (type, formData) => {
         'Relationship to the deceased Veterans': formData?.relationship?.type
           ?.other
           ? formData?.relationship?.other
-          : relationshipType[(formData?.relationship.type)],
+          : relationshipType[(formData?.relationship?.type)],
       };
     case 'deceased-veteran-information':
       return {
@@ -293,8 +293,7 @@ export const NoFormPage = () => {
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {
-    const resource = '/in_progress_forms/21P-530';
-
+    const resource = '/in_progress_forms/21P-530V2';
     apiRequest(resource)
       .then(responseData => {
         setData(responseData);
@@ -315,7 +314,6 @@ export const NoFormPage = () => {
   }
 
   const { formData } = data;
-
   return loggedIn ? (
     <div className="row vads-u-margin-bottom--4">
       <h1>Review burial benefits application</h1>
@@ -326,7 +324,6 @@ export const NoFormPage = () => {
             close-btn-aria-label="Close notification"
             status="info"
             visible
-            uswds="false"
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
               This online form isn’t working right now
@@ -397,7 +394,6 @@ export const NoFormPage = () => {
             close-btn-aria-label="Close notification"
             status="info"
             visible
-            uswds="false"
           >
             <h2 id="track-your-status-on-mobile" slot="headline">
               You don’t have any saved online burial forms.
@@ -430,12 +426,7 @@ export const NoFormPage = () => {
     <div className="row vads-u-margin-bottom--4">
       <h1>Review burial benefits application</h1>
       <p>VA Form 21P-530</p>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="info"
-        visible
-        uswds="false"
-      >
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h2 id="track-your-status-on-mobile" slot="headline">
           You don’t have any saved online burial forms.
         </h2>
