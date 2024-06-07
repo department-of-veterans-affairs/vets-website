@@ -62,12 +62,12 @@ describe('<DocumentRequestPage>', () => {
         date: '2024-03-07',
       };
 
-      const { content } = renderWithRouter(
+      const { container } = renderWithRouter(
         <Provider store={getStore()}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', content)).to.exist;
+      expect($('#automated-5103-notice-page', container)).to.exist;
     });
 
     it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
@@ -86,12 +86,12 @@ describe('<DocumentRequestPage>', () => {
         date: '2024-03-07',
       };
 
-      const { content } = renderWithRouter(
+      const { container } = renderWithRouter(
         <Provider store={getStore()}>
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', content)).to.not.exist;
+      expect($('#automated-5103-notice-page', container)).to.not.exist;
     });
   });
 

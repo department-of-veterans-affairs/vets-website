@@ -22,12 +22,12 @@ describe('<Automated5103Notice>', () => {
       date: '2024-03-07',
     };
 
-    const { getByText, getByTestId, content } = renderWithRouter(
+    const { getByText, getByTestId, container } = renderWithRouter(
       <Automated5103Notice item={item} />,
     );
-    expect($('#automated-5103-notice-page', content)).to.exist;
+    expect($('#automated-5103-notice-page', container)).to.exist;
     getByText('Review the list of evidence we need');
-    expect($('.active-va-link', content)).to.have.text('Go to claim letters');
+    expect($('.active-va-link', container)).to.have.text('Go to claim letters');
     getByText('If you have more evidence to submit');
     expect(getByTestId('upload-evidence-link').textContent).to.equal(
       'Upload your evidence here',
@@ -49,7 +49,7 @@ describe('<Automated5103Notice>', () => {
       date: '2024-03-07',
     };
 
-    const { content } = renderWithRouter(<Automated5103Notice item={item} />);
-    expect($('#automated-5103-notice-page', content)).to.not.exist;
+    const { container } = renderWithRouter(<Automated5103Notice item={item} />);
+    expect($('#automated-5103-notice-page', container)).to.not.exist;
   });
 });
