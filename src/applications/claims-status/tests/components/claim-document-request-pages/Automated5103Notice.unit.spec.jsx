@@ -25,7 +25,7 @@ describe('<Automated5103Notice>', () => {
     const { getByText, getByTestId, content } = renderWithRouter(
       <Automated5103Notice item={item} />,
     );
-    expect($('.automated-5103-notice-page', content)).to.exist;
+    expect($('#automated-5103-notice-page', content)).to.exist;
     getByText('Review the list of evidence we need');
     expect($('.active-va-link', content)).to.have.text('Go to claim letters');
     getByText('If you have more evidence to submit');
@@ -50,6 +50,6 @@ describe('<Automated5103Notice>', () => {
     };
 
     const { content } = renderWithRouter(<Automated5103Notice item={item} />);
-    expect($('.automated-5103-notice-page', content)).to.not.exist;
+    expect($('#automated-5103-notice-page', content)).to.not.exist;
   });
 });

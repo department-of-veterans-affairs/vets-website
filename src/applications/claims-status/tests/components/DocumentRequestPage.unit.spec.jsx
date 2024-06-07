@@ -67,7 +67,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('.automated-5103-notice-page', content)).to.exist;
+      expect($('#automated-5103-notice-page', content)).to.exist;
     });
 
     it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
@@ -91,7 +91,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('.automated-5103-notice-page', content)).to.not.exist;
+      expect($('#automated-5103-notice-page', content)).to.not.exist;
     });
   });
 
@@ -200,32 +200,34 @@ describe('<DocumentRequestPage>', () => {
       expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
-    // it('should clear upload error when leaving', () => {
-    //   const trackedItem = {
-    //     status: 'NEEDED_FROM_YOU',
-    //   };
-    //   const message = {
-    //     title: 'test',
-    //     body: 'test',
-    //     type: 'error',
-    //   };
-    //   const clearNotification = sinon.spy();
+    it('should clear upload error when leaving', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+      };
 
-    //   const { context } = renderWithRouter(
-    //     <Provider store={getStore(false)}>
-    //       <DocumentRequestPage
-    //         {...defaultProps}
-    //         trackedItem={trackedItem}
-    //         clearNotification={clearNotification}
-    //         message={message}
-    //       />
-    //       ,
-    //     </Provider>,
-    //   );
+      const message = {
+        title: 'test',
+        body: 'test',
+        type: 'error',
+      };
+      const clearNotification = sinon.spy();
 
-    //   expect($('va-alert', context)).to.exist;
-    //   expect(clearNotification.called).to.be.true;
-    // });
+      const { container, unmount } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage
+            {...defaultProps}
+            trackedItem={trackedItem}
+            clearNotification={clearNotification}
+            message={message}
+          />
+          ,
+        </Provider>,
+      );
+
+      expect($('va-alert', container)).to.exist;
+      unmount();
+      expect(clearNotification.called).to.be.true;
+    });
 
     it('should not clear notification after completed upload', () => {
       const trackedItem = {
@@ -282,33 +284,56 @@ describe('<DocumentRequestPage>', () => {
       expect($('.optional-upload', context)).to.exist;
     });
 
-    // it('should handle submit files', () => {
-    //   const trackedItem = {
-    //     status: 'NEEDED_FROM_YOU',
-    //     suspenseDate: '2010-05-10',
-    //   };
-    //   const onSubmit = sinon.spy();
-    //   const { context } = renderWithRouter(
-    //     <Provider store={getStore(false)}>
-    //       <DocumentRequestPage
-    //         {...defaultProps}
-    //         trackedItem={trackedItem}
-    //         submitFiles={onSubmit}
-    //       />
-    //       ,
-    //     </Provider>,
-    //   );
+    it('should handle submit files', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: '2010-05-10',
+      };
+      const onSubmit = sinon.spy();
+      const { container, rerender } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage
+            {...defaultProps}
+            trackedItem={trackedItem}
+            submitFiles={onSubmit}
+          />
+          ,
+        </Provider>,
+      );
 
-    //   // const tree = SkinDeep.shallowRender(
-    //   //   <DocumentRequestPage
-    //   //     {...defaultProps}
-    //   //     trackedItem={trackedItem}
-    //   //     submitFiles={onSubmit}
-    //   //   />,
-    //   // );
-    //   // tree.subTree('AddFilesFormOld').props.onSubmit();
-    //   expect(onSubmit.called).to.be.true;
-    // });
+      // Check the checkbox
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
+
+      // Create a file
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '', dirty: false },
+        isEncrypted: false,
+      };
+
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage
+            {...defaultProps}
+            trackedItem={trackedItem}
+            files={[file]}
+            submitFiles={onSubmit}
+          />
+          ,
+        </Provider>,
+      );
+
+      fireEvent.click($('.submit-files-button', container));
+      expect(onSubmit.called).to.be.true;
+    });
 
     it('should handle submit files lighthouse and navigate to files page', () => {
       const submitFilesLighthouse = sinon.spy();
@@ -387,33 +412,46 @@ describe('<DocumentRequestPage>', () => {
       expect(resetUploads.called).to.be.true;
     });
 
-    // it('should set details and go to files page if complete', () => {
-    //   const trackedItem = {
-    //     status: 'NEEDED_FROM_YOU',
-    //     displayName: 'Testing',
-    //   };
-    //   const parameters = {
-    //     id: 339,
-    //   };
-    //   const getClaim = sinon.spy();
-    //   const navigate = sinon.spy();
+    it('should set details and go to files page if complete', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+        displayName: 'Testing',
+      };
+      const parameters = {
+        id: 339,
+      };
+      const getClaim = sinon.spy();
+      const navigate = sinon.spy();
 
-    //   const tree = SkinDeep.shallowRender(
-    //     <DocumentRequestPage
-    //       {...defaultProps}
-    //       uploadComplete
-    //       trackedItem={trackedItem}
-    //       navigate={navigate}
-    //       params={parameters}
-    //       getClaim={getClaim}
-    //     />,
-    //   );
+      const { rerender } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage
+            {...defaultProps}
+            trackedItem={trackedItem}
+            navigate={navigate}
+            params={parameters}
+            getClaim={getClaim}
+          />
+        </Provider>,
+      );
 
-    //   tree
-    //     .getMountedInstance()
-    //     .UNSAFE_componentWillReceiveProps({ uploadComplete: true });
-    //   expect(getClaim.calledWith(1)).to.be.true;
-    //   expect(navigate.calledWith('../files')).to.be.true;
-    // });
+      rerenderWithRouter(
+        rerender,
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage
+            {...defaultProps}
+            uploadComplete
+            trackedItem={trackedItem}
+            navigate={navigate}
+            params={parameters}
+            getClaim={getClaim}
+          />
+          ,
+        </Provider>,
+      );
+
+      expect(getClaim.calledWith(1)).to.be.true;
+      expect(navigate.calledWith('../files')).to.be.true;
+    });
   });
 });

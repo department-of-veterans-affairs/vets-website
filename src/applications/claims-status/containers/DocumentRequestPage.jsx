@@ -8,11 +8,10 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import AddFilesFormOld from '../components/AddFilesFormOld';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import DueDate from '../components/DueDate';
 import Notification from '../components/Notification';
+import DefaultDocumentRequestPage from '../components/claim-document-request-pages/DefaultDocumentRequestPage';
 import {
   addFile,
   removeFile,
@@ -32,7 +31,7 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { scrubDescription, setDocumentTitle } from '../utils/helpers';
+import { setDocumentTitle } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
@@ -88,24 +87,39 @@ class DocumentRequestPage extends React.Component {
     }
   }
 
-  getPageContent() {
-    const { trackedItem } = this.props;
-
+  getDefaultPage() {
     return (
       <>
-        <h1 className="claims-header">{trackedItem.displayName}</h1>
-        {trackedItem.status === 'NEEDED_FROM_YOU' ? (
-          <DueDate date={trackedItem.suspenseDate} />
-        ) : null}
-        {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
-          <div className="optional-upload">
-            <p>
-              <strong>Optional</strong> - We’ve asked others to send this to us,
-              but you may upload it if you have it.
-            </p>
-          </div>
-        ) : null}
-        <p>{scrubDescription(trackedItem.description)}</p>
+        <DefaultDocumentRequestPage
+          backUrl={this.props.lastPage ? `/${this.props.lastPage}` : filesPath}
+          field={this.props.uploadField}
+          files={this.props.files}
+          item={this.props.trackedItem}
+          onAddFile={this.props.addFile}
+          onCancel={this.props.cancelUpload}
+          onDirtyFields={this.props.setFieldsDirty}
+          onFieldChange={this.props.updateField}
+          onSubmit={() => {
+            // START lighthouse_migration
+            if (this.props.documentsUseLighthouse) {
+              this.props.submitFilesLighthouse(
+                this.props.claim.id,
+                this.props.trackedItem,
+                this.props.files,
+              );
+            } else {
+              this.props.submitFiles(
+                this.props.claim.id,
+                this.props.trackedItem,
+                this.props.files,
+              );
+            }
+            // END lighthouse_migration
+          }}
+          onRemoveFile={this.props.removeFile}
+          progress={this.props.progress}
+          uploading={this.props.uploading}
+        />
       </>
     );
   }
@@ -126,7 +140,7 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const { lastPage, message, trackedItem } = this.props;
+      const { message, trackedItem } = this.props;
       const is5103Notice =
         trackedItem.displayName === 'Automated 5103 Notice Response';
 
@@ -147,73 +161,11 @@ class DocumentRequestPage extends React.Component {
               {is5103Notice ? (
                 <Automated5103Notice item={trackedItem} />
               ) : (
-                <>
-                  {this.getPageContent()}
-                  <AddFilesFormOld
-                    field={this.props.uploadField}
-                    progress={this.props.progress}
-                    uploading={this.props.uploading}
-                    files={this.props.files}
-                    backUrl={lastPage ? `/${lastPage}` : filesPath}
-                    onSubmit={() => {
-                      // START lighthouse_migration
-                      if (this.props.documentsUseLighthouse) {
-                        this.props.submitFilesLighthouse(
-                          this.props.claim.id,
-                          trackedItem,
-                          this.props.files,
-                        );
-                      } else {
-                        this.props.submitFiles(
-                          this.props.claim.id,
-                          trackedItem,
-                          this.props.files,
-                        );
-                      }
-                      // END lighthouse_migration
-                    }}
-                    onAddFile={this.props.addFile}
-                    onRemoveFile={this.props.removeFile}
-                    onFieldChange={this.props.updateField}
-                    onCancel={this.props.cancelUpload}
-                    onDirtyFields={this.props.setFieldsDirty}
-                  />
-                </>
+                <>{this.getDefaultPage()}</>
               )}
             </Toggler.Enabled>
             <Toggler.Disabled>
-              <>
-                {this.getPageContent()}
-                <AddFilesFormOld
-                  field={this.props.uploadField}
-                  progress={this.props.progress}
-                  uploading={this.props.uploading}
-                  files={this.props.files}
-                  backUrl={lastPage ? `/${lastPage}` : filesPath}
-                  onSubmit={() => {
-                    // START lighthouse_migration
-                    if (this.props.documentsUseLighthouse) {
-                      this.props.submitFilesLighthouse(
-                        this.props.claim.id,
-                        trackedItem,
-                        this.props.files,
-                      );
-                    } else {
-                      this.props.submitFiles(
-                        this.props.claim.id,
-                        trackedItem,
-                        this.props.files,
-                      );
-                    }
-                    // END lighthouse_migration
-                  }}
-                  onAddFile={this.props.addFile}
-                  onRemoveFile={this.props.removeFile}
-                  onFieldChange={this.props.updateField}
-                  onCancel={this.props.cancelUpload}
-                  onDirtyFields={this.props.setFieldsDirty}
-                />
-              </>
+              <>{this.getDefaultPage()}</>
             </Toggler.Disabled>
           </Toggler>
         </>

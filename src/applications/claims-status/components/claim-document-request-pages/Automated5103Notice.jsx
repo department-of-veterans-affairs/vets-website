@@ -9,7 +9,7 @@ function Automated5103Notice({ item }) {
     return null;
   }
   return (
-    <div className="automated-5103-notice-page">
+    <div id="automated-5103-notice-page">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         Review the list of evidence we need
       </h1>
