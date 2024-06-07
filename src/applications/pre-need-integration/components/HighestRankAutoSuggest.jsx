@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
@@ -22,27 +23,29 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
     else setRank('');
 
     // Create an updated form data object with both highestRank and highestRankDescription
-    const updatedFormData = {
-      ...formData,
-      application: {
-        ...formData.application,
-        veteran: {
-          ...formData.application.veteran,
-          serviceRecords: formData.application.veteran.serviceRecords.map(
-            (record, idx) =>
-              idx === index
-                ? {
-                    ...record,
-                    highestRank: selection.key,
-                    highestRankDescription: selection.value,
-                  }
-                : record,
-          ),
+    if (formData.application.veteran.serviceRecords) {
+      const updatedFormData = {
+        ...formData,
+        application: {
+          ...formData.application,
+          veteran: {
+            ...formData.application.veteran,
+            serviceRecords: formData.application.veteran.serviceRecords.map(
+              (record, idx) =>
+                idx === index
+                  ? {
+                      ...record,
+                      highestRank: selection.key,
+                      highestRankDescription: selection.value,
+                    }
+                  : record,
+            ),
+          },
         },
-      },
-    };
+      };
 
-    dispatch(setData(updatedFormData));
+      dispatch(setData(updatedFormData));
+    }
   };
 
   const getRanksForBranch = branch => {
@@ -54,13 +57,6 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
       }));
   };
 
-  const haveOptionsChanged = (currentOptions, newOptions) => {
-    if (currentOptions.length !== newOptions.length) return true;
-    return currentOptions.some(
-      (option, optionsIndex) => option.key !== newOptions[optionsIndex].key,
-    );
-  };
-
   useEffect(
     () => {
       const serviceRecords = formData?.application?.veteran?.serviceRecords;
@@ -69,7 +65,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
 
       if (serviceRecords) {
         const currentBranch = serviceRecords[currentIndex]?.serviceBranch;
-        if (currentBranch) {
+        if (currentBranch !== branchOfService) {
           setBranchOfService(currentBranch);
         }
         const currentRank = serviceRecords[currentIndex];
@@ -79,8 +75,6 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
               currentRank.highestRankDescription
             }`,
           );
-        } else {
-          setRank('');
         }
       }
     },
@@ -91,11 +85,11 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
     () => {
       if (branchOfService) {
         const newRankOptions = getRanksForBranch(branchOfService);
-        if (haveOptionsChanged(rankOptions, newRankOptions)) {
+        if (newRankOptions.length === 0) {
           const selection = { key: undefined, value: undefined };
           handleSelectionChange(selection);
-          setRankOptions(newRankOptions);
         }
+        setRankOptions(newRankOptions);
       }
     },
     [branchOfService],
@@ -107,7 +101,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
       (formContext.onReviewPage && !formContext.reviewMode) ? (
         <div className="highestRank">
           <AutoSuggest
-            value={rank}
+            value={rank || ''}
             setValue={setRank}
             labels={rankOptions}
             onSelectionChange={handleSelectionChange}
@@ -122,8 +116,14 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   );
 }
 
+HighestRankAutoSuggest.propTypes = {
+  formData: PropTypes.object.isRequired,
+  formContext: PropTypes.object,
+  idSchema: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
-  formData: state?.form?.data,
+  formData: state?.form?.data || {},
 });
 
 export default connect(mapStateToProps)(HighestRankAutoSuggest);

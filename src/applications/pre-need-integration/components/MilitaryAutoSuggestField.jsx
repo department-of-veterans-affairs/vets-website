@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 
 function MilitaryAutoSuggest({
@@ -91,5 +92,17 @@ function MilitaryAutoSuggest({
     </Downshift>
   );
 }
+
+MilitaryAutoSuggest.propTypes = {
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  labels: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ).isRequired,
+  onSelectionChange: PropTypes.func.isRequired,
+};
 
 export default MilitaryAutoSuggest;
