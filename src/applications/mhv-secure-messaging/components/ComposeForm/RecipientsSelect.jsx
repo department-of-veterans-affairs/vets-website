@@ -111,7 +111,6 @@ const RecipientsSelect = ({
       </VaSelect>
       {alertDisplayed && (
         <VaAlert
-          aria-live="polite"
           ref={alertRef}
           class="vads-u-margin-y--4"
           closeBtnAriaLabel="Close notification"
