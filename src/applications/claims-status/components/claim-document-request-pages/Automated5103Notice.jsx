@@ -17,12 +17,7 @@ export default function Automated5103Notice({ item }) {
         We sent you a “5103 notice” letter that lists the types of evidence we
         may need to decide your claim.
       </p>
-      <Link
-        className="active-va-link"
-        aria-label="Go to claim letters"
-        title="Go to claim letters"
-        to="/your-claim-letters"
-      >
+      <Link className="active-va-link" to="/your-claim-letters">
         Go to claim letters
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
@@ -39,12 +34,7 @@ export default function Automated5103Notice({ item }) {
         evidence later in the process, your claim will move back to this step.
         So we encourage you to add all your evidence now.
       </p>
-      <Link
-        data-testid="upload-evidence-link"
-        aria-label="Upload your evidence here"
-        title="Upload your evidence here"
-        to="../files"
-      >
+      <Link data-testid="upload-evidence-link" to="../files">
         Upload your evidence here
       </Link>
       <p>
