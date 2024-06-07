@@ -33,7 +33,7 @@ const BenefitsProfileWrapper = ({ children }) => {
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
-    TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
+    TOGGLE_NAMES.toggleVyeAddressDirectDepositForms,
   );
   const [userData, setUserData] = useState({});
   useEffect(() => {
