@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
-
 import MobileHeader from '../../../../../components/common/Header/MobileHeader/MobileHeader';
 
 const mockStore = configureStore([]);

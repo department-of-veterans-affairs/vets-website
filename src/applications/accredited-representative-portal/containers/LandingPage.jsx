@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { selectUserProfile, selectUserIsLoading } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
 import LandingPageWelcome from '../components/LandingPageWelcome/LandingPageWelcome';
@@ -46,7 +47,7 @@ const LandingPage = () => {
     content = <LandingPageWelcome firstName={profile.firstName} />;
   }
 
-  return <div className="landing-page-container">{content}</div>;
+  return <div>{content}</div>;
 };
 
 export default LandingPage;

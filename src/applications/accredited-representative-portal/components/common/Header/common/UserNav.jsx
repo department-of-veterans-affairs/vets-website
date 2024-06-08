@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 import {
   selectUserProfile,
@@ -10,7 +11,7 @@ import {
 const generateUniqueId = () =>
   `account-menu-${Math.random()
     .toString(36)
-    .substr(2, 9)}`;
+    .substring(2, 11)}`;
 
 const UserNav = ({ isMobile }) => {
   const profile = useSelector(selectUserProfile);

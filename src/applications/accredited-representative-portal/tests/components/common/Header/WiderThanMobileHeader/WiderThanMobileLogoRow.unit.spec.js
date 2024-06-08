@@ -32,7 +32,7 @@ describe('WiderThanMobileLogoRow', () => {
 
     const logoImg = getByTestId('wider-than-mobile-logo-row-logo');
     expect(logoImg.src).to.include('/img/arp-header-logo.png');
-    expect(logoImg.alt).to.equal(
+    expect(logoImg.alt).to.eq(
       'VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs',
     );
   });
@@ -43,7 +43,7 @@ describe('WiderThanMobileLogoRow', () => {
     const contactLink = getByTestId(
       'wider-than-mobile-logo-row-contact-us-link',
     );
-    expect(contactLink.href).to.equal('https://www.va.gov/contact-us/');
+    expect(contactLink.href).to.eq('https://www.va.gov/contact-us/');
     expect(contactLink.textContent).to.eq('Contact us');
   });
 

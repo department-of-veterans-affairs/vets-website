@@ -9,7 +9,8 @@ const initialState = {
   profile: null,
   error: null,
 };
-export default function arfUserReducer(state = initialState, action) {
+
+const arpUserReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USER:
       return {
@@ -32,4 +33,6 @@ export default function arfUserReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default arpUserReducer;

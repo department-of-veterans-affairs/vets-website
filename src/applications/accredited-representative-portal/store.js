@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import rootReducer from './reducers';
 
-export default function createReduxStore() {
+const createReduxStore = () => {
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
@@ -14,4 +14,6 @@ export default function createReduxStore() {
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );
-}
+};
+
+export default createReduxStore;

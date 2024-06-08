@@ -47,7 +47,7 @@ describe('Accredited Representative Portal', () => {
 
     it('redirects to VA.gov homepage when in production and app is not enabled', () => {
       cy.axeCheck();
-      cy.location('pathname').should('equal', '/');
+      cy.location('pathname').should('eq', '/');
     });
   });
 
@@ -64,7 +64,7 @@ describe('Accredited Representative Portal', () => {
       cy.get('[data-testid=landing-page-sign-in-link]')
         .contains('Sign in or create account')
         .click();
-      cy.location('pathname').should('equal', '/sign-in/');
+      cy.location('pathname').should('eq', '/sign-in/');
     });
 
     it('displays an alert when in production and when user is not in pilot', () => {
@@ -97,7 +97,7 @@ describe('Accredited Representative Portal', () => {
       );
       cy.get('[data-testid=wider-than-mobile-menu-poa-link]').click();
 
-      cy.location('pathname').should('equal', '/representative/poa-requests');
+      cy.location('pathname').should('eq', '/representative/poa-requests');
       cy.axeCheck();
 
       cy.get('[data-testid=poa-requests-heading]').should(
