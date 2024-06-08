@@ -68,7 +68,7 @@ describe('Mobile', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/**', mockFacilityDataV1).as(
+    cy.intercept('POST', '/facilities_api/**', mockFacilityDataV1).as(
       'searchFacilities',
     );
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
