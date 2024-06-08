@@ -10,7 +10,7 @@ describe('Google Analytics FL Events', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
-      'GET',
+      'POST',
       '/facilities_api/v2/va?type=**',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
