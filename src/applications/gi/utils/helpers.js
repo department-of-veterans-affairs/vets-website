@@ -463,3 +463,9 @@ export const managePushHistory = (history, url) => {
     history.push(url);
   }
 };
+export function showCalcYourBefenits(type) {
+  if (type !== 'FLIGHT') {
+    return true;
+  }
+  return false;
+}
