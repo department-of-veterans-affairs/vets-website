@@ -57,7 +57,7 @@ it('handles map zooming correctly', () => {
   cy.intercept('GET', '/v0/maintenance_windows', []);
   cy.intercept(
     'GET',
-    '/facilities_api/v1/**',
+    '/facilities_api/v2/**',
     mockFacilitiesSearchResultsV1,
   ).as('searchFacilitiesVA');
   cy.visit('/find-locations');
