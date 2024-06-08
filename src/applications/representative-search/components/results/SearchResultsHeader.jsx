@@ -164,11 +164,7 @@ export const SearchResultsHeader = props => {
               </div>
 
               <div className="sort-apply-button">
-                <va-button
-                  onClick={onClickApplyButton}
-                  text="Apply"
-                  secondary
-                />
+                <va-button onClick={onClickApplyButton} text="Sort" secondary />
               </div>
             </div>
           </div>

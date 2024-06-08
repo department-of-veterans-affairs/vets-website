@@ -6,6 +6,7 @@ import {
   datesDescription,
   getOtherFieldDescription,
   goBackLink,
+  goBackLinkExposures,
 } from '../content/toxicExposure';
 
 /**
@@ -66,7 +67,9 @@ export function ToxicExposureSummary({
             search: '?redirect',
           }}
         >
-          {goBackLink}
+          {checkboxObjectName === 'otherExposures'
+            ? goBackLinkExposures
+            : goBackLink}
         </Link>
       </p>
     </>

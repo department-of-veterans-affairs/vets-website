@@ -162,7 +162,7 @@ describe('Provider search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
     );
-    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3').contains('DELL SETON MEDICAL CENTER AT UT');
 
     cy.injectAxe();
