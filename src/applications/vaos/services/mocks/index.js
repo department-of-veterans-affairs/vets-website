@@ -32,7 +32,8 @@ const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.js
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
-const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed.json');
+const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
