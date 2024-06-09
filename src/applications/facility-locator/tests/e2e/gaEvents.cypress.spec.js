@@ -11,7 +11,7 @@ describe('Google Analytics FL Events', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
       'POST',
-      '/facilities_api/v2/va/**',
+      '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
     cy.visit('/find-locations');
