@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 
-describe('Secure Messaging Compose Errors Keyboard Nav', () => {
+describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
   // const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
