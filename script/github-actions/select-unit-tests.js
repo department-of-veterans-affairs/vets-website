@@ -4,7 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 
-const CHANGED_FILES = process.env.CHANGED_FILES || [];
+const CHANGED_FILES = process.env.CHANGED_FILES
+  ? process.env.CHANGED_FILES.split(' ').filter(
+      file =>
+        file !== 'src/platform/utilities/feature-toggles/featureFlagNames.json',
+    )
+  : [];
 const ALLOW_LIST = fs.existsSync(path.resolve(`unit_test_allow_list.json`))
   ? JSON.parse(fs.readFileSync(path.resolve(`unit_test_allow_list.json`)))
   : [];
