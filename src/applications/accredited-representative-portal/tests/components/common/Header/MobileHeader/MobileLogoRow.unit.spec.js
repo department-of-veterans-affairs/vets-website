@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
-import { MobileLogoRow } from '../../../../../components/common/Header/MobileHeader/MobileLogoRow';
+import MobileLogoRow from '../../../../../components/common/Header/MobileHeader/MobileLogoRow';
 
 const mockStore = configureStore([]);
 

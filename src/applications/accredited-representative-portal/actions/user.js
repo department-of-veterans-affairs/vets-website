@@ -10,13 +10,6 @@ export const fetchUser = () => async dispatch => {
   try {
     const response = await apiRequest(
       `${environment.API_URL}/accredited_representative_portal/v0/user`,
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
     );
 
     // NOTE: accredited_representative_portal/v0/user returns a flat profile object.
@@ -30,9 +23,12 @@ export const fetchUser = () => async dispatch => {
         payload: profile,
       });
     } else {
-      dispatch({ type: FETCH_USER_FAILURE });
+      dispatch({ type: FETCH_USER_FAILURE, error: 'Profile not found' });
     }
   } catch (error) {
-    dispatch({ type: FETCH_USER_FAILURE });
+    dispatch({
+      type: FETCH_USER_FAILURE,
+      error: error.message || 'Unknown error',
+    });
   }
 };

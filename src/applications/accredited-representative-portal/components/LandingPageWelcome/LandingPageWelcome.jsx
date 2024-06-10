@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-const LandingPageWelcome = ({ firstName, children }) => (
+const LandingPageWelcome = ({ firstName = '', children }) => (
   <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
     <div className="vads-l-grid-container vads-u-padding-x--0 homepage-hero">
       <div className="vads-l-row">
@@ -44,10 +44,6 @@ const LandingPageWelcome = ({ firstName, children }) => (
 LandingPageWelcome.propTypes = {
   children: PropTypes.node,
   firstName: PropTypes.string,
-};
-
-LandingPageWelcome.defaultProps = {
-  firstName: '',
 };
 
 export default LandingPageWelcome;
