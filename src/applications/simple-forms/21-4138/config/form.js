@@ -89,6 +89,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useTopBackLink: true,
   chapters: {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',

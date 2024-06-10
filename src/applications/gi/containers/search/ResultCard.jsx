@@ -17,6 +17,7 @@ import {
   formatCurrency,
   createId,
   convertRatingToStars,
+  showSchoolContentBasedOnType,
 } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../../components/profile/schoolRatings/RatingsStars';
@@ -51,6 +52,7 @@ export function ResultCard({
     preferredProvider,
     programCount,
     programLengthInHours,
+    type,
   } = institution;
 
   let ratingCount = 0;
@@ -339,17 +341,19 @@ export function ResultCard({
             </div>
           )}
           <>
-            <div
-              className={classNames(
-                'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                {
-                  'vads-u-border-top--3px': cautionFlags.length === 0,
-                  'vads-u-border-color--white': cautionFlags.length === 0,
-                },
-              )}
-            >
-              {tuitionAndEligibility}
-            </div>
+            {showSchoolContentBasedOnType(type) && (
+              <div
+                className={classNames(
+                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                  {
+                    'vads-u-border-top--3px': cautionFlags.length === 0,
+                    'vads-u-border-color--white': cautionFlags.length === 0,
+                  },
+                )}
+              >
+                {tuitionAndEligibility}
+              </div>
+            )}
             <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
               <div className="vads-u-display--flex vads-u-margin-top--1 ">
                 {!vetTecProvider

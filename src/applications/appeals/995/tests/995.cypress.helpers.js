@@ -122,6 +122,7 @@ export const postItf = () => ({
 });
 
 export const getPastItf = cy => {
+  cy.wait('@getIssues');
   cy.get('va-alert')
     .should('be.visible')
     .then(() => {
@@ -151,7 +152,7 @@ export const setupPerTest = () => {
     dataSet === 'maximal-test'
       ? mockContestableIssuesWithLegacyAppeals
       : mockContestableIssues,
-  );
+  ).as('getIssues');
 
   cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
 
