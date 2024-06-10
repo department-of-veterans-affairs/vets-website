@@ -65,10 +65,17 @@ describe('MHV Secondary Navigation Item Component', () => {
     it('when not provided', () => {
       const title = 'a title';
       const { getAllByText } = render(
-        <MhvSecondaryNavItem title={title} icon="home" href="/my-health" />,
+        <MhvSecondaryNavItem
+          title={title}
+          icon="home"
+          href="/my-health"
+          ariaLabel="some label"
+        />,
       );
       // The title and abbreviation are the same
       expect(getAllByText(title).length).to.eql(2);
+      expect(getAllByText(title)[0].parentNode.getAttribute('aria-label')).to.be
+        .null;
     });
   });
 

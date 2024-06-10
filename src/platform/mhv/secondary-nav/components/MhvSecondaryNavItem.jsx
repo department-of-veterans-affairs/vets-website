@@ -49,7 +49,7 @@ const MhvSecondaryNavItem = ({
         href={href}
         data-dd-action-name={actionName}
         className="vads-u-text-decoration--none"
-        aria-label={ariaLabel}
+        aria-label={abbreviation && ariaLabel}
         onClick={() => {
           recordEvent({
             event: 'nav-mhv-secondary',
