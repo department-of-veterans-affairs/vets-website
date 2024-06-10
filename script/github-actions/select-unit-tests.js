@@ -32,7 +32,7 @@ const ALL_APPS = [
 
 const CHANGED_APPS =
   CHANGED_FILES.length > 0
-    ? CHANGED_FILES.split(' ').map(filePath =>
+    ? CHANGED_FILES.map(filePath =>
         filePath
           .split('/')
           .slice(0, 3)
