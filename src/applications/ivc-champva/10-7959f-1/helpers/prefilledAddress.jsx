@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const PrefilledAddress = props => {
   const { isLoggedIn } = props;
@@ -15,4 +17,14 @@ const PrefilledAddress = props => {
   );
 };
 
-export default PrefilledAddress;
+PrefilledAddress.propTypes = {
+  isLoggedIn: PropTypes.func,
+};
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(PrefilledAddress);
