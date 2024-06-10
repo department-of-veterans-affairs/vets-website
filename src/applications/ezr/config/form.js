@@ -73,7 +73,6 @@ import agentOrangeExposureDates from './chapters/militaryService/agentOrangeExpo
 import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
 import otherToxicExposureDetails from './chapters/militaryService/otherToxicExposureDetails';
 import otherToxicExposureDates from './chapters/militaryService/otherToxicExposureDates';
-import supportingDocuments from './chapters/militaryService/supportingDocuments';
 
 // chapter 4 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
@@ -143,7 +142,6 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
-  dev: { showNavLinks: true, collapsibleNavLinks: true },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',
@@ -289,13 +287,6 @@ const formConfig = {
           depends: includeOtherExposureDates,
           uiSchema: otherToxicExposureDates.uiSchema,
           schema: otherToxicExposureDates.schema,
-        },
-        supportingDocuments: {
-          path: 'military-service/upload-supporting-documents',
-          title: 'Upload supporting documents',
-          depends: includeTeraInformation,
-          uiSchema: supportingDocuments.uiSchema,
-          schema: supportingDocuments.schema,
         },
       },
     },
