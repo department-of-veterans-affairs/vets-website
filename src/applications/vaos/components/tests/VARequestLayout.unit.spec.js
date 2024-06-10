@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import moment from 'moment';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -33,9 +34,10 @@ describe('VAOS Component: VARequestLayout', () => {
     },
   };
 
-  describe('When viewing upcomming appointment details', () => {
+  describe('When viewing request details page', () => {
     it('should display VA request layout', async () => {
       // Arrange
+      const startDate = moment.utc();
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
@@ -56,6 +58,18 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        requestedPeriods: [
+          {
+            start: moment(startDate)
+              .subtract(3, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+          {
+            start: moment(startDate)
+              .subtract(4, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -77,7 +91,6 @@ describe('VAOS Component: VARequestLayout', () => {
           store,
         },
       );
-
       // Assert
       expect(
         screen.getByRole('heading', {
@@ -159,6 +172,12 @@ describe('VAOS Component: VARequestLayout', () => {
         .ok;
       expect(screen.container.querySelector('va-button[text="Cancel request"]'))
         .to.be.ok;
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /After visit summary/i,
+        }),
+      ).to.be.null;
     });
   });
 
@@ -284,6 +303,7 @@ describe('VAOS Component: VARequestLayout', () => {
   describe('When scheduling an appointment request', () => {
     it('should display VA request layout', async () => {
       // Arrange
+      const startDate = moment.utc();
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
@@ -304,6 +324,18 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        requestedPeriods: [
+          {
+            start: moment(startDate)
+              .add(3, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+          {
+            start: moment(startDate)
+              .add(4, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
