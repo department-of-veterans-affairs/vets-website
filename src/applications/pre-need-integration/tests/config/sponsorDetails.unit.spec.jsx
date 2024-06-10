@@ -47,10 +47,16 @@ describe('Pre-need sponsor details', () => {
     fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
+    fillData(form, 'input#root_application_veteran_cityOfBirth', 'Charleston');
+    fillData(
+      form,
+      'input#root_application_veteran_stateOfBirth',
+      'South Carolina',
+    );
 
     form.find('form').simulate('submit');
 
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });
