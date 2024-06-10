@@ -238,9 +238,9 @@ describe('travel-mileage', () => {
             <TravelMileage />
           </CheckInProvider>,
         );
-        expect(component.getByTestId('checkbox-500-111')).to.exist;
-        expect(component.getByTestId('checkbox-500-222')).to.exist;
-        expect(component.getByTestId('checkbox-500-333')).to.exist;
+        expect(component.getByTestId('radio-500-111')).to.exist;
+        expect(component.getByTestId('radio-500-222')).to.exist;
+        expect(component.getByTestId('radio-500-333')).to.exist;
       });
     });
   });
