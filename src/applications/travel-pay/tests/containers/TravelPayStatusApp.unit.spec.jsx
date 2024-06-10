@@ -12,6 +12,7 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 import reducer from '../../redux/reducer';
 import App from '../../containers/TravelPayStatusApp';
 import { formatDateTime } from '../../util/dates';
+import travelClaims from '../../services/mocks/travel-claims-31.json';
 
 describe('App', () => {
   let oldLocation;
@@ -222,6 +223,28 @@ describe('App', () => {
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
+    });
+  });
+
+  it('renders pagination correctly', async () => {
+    global.fetch.restore();
+    mockApiRequest(travelClaims);
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      expect(await screen.findByText('Showing 1 ‒ 10 of 31 events')).to.exist;
+      // RTL doesn't support shadow DOM elements, so best we can do here is
+      // check that the top-level pagination element gets rendered
+      expect(await screen.container.querySelector('va-pagination')).to.exist;
     });
   });
 });
