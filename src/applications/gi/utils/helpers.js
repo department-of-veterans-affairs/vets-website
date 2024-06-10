@@ -463,7 +463,7 @@ export const managePushHistory = (history, url) => {
     history.push(url);
   }
 };
-export function showCalcYourBefenits(type) {
+export function showSchoolContentBasedOnType(type) {
   if (type !== 'FLIGHT') {
     return true;
   }

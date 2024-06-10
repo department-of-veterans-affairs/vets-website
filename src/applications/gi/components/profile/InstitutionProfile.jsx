@@ -14,7 +14,7 @@ import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import {
   convertRatingToStars,
-  showCalcYourBefenits,
+  showSchoolContentBasedOnType,
 } from '../../utils/helpers';
 import SchoolRatings from './schoolRatings/SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
@@ -96,7 +96,7 @@ export default function InstitutionProfile({
       >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
-          {!showCalcYourBefenits(type) && (
+          {!showSchoolContentBasedOnType(type) && (
             <p>
               For information about VA flight benefits, visit{' '}
               <VaLink
@@ -116,7 +116,7 @@ export default function InstitutionProfile({
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          {showCalcYourBefenits(type) && (
+          {showSchoolContentBasedOnType(type) && (
             <JumpLink
               label="Calculate your benefits"
               jumpToId="calculate-your-benefits"
@@ -150,7 +150,7 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-      {showCalcYourBefenits(type) && (
+      {showSchoolContentBasedOnType(type) && (
         <ProfileSection
           label="Calculate your benefits"
           id="calculate-your-benefits"
