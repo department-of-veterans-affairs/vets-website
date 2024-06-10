@@ -13,6 +13,7 @@ const Issues = ({ issues, isAppeal }) => {
       className="issue-item"
       key={`${item.status}-${i}`}
       data-dd-privacy="mask"
+      data-dd-action-name="appeal issues"
     >
       {item.description}
     </li>

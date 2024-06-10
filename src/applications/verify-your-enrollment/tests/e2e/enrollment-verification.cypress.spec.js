@@ -74,7 +74,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get('[text="Submit"]').click();
     cy.get('[class="vads-u-margin-y--0"]').should(
       'contain',
-      'Oops Something went wrong',
+      ' We’re sorry. Something went wrong on our end. Please try again',
     );
     cy.get(
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
