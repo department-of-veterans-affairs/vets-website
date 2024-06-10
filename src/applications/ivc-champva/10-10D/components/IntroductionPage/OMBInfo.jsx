@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const OMBInfo = props => (
   <va-omb-info
@@ -36,5 +37,11 @@ const OMBInfo = props => (
     </p>
   </va-omb-info>
 );
+
+OMBInfo.propTypes = {
+  expDate: PropTypes.string,
+  ombNumber: PropTypes.string,
+  resBurden: PropTypes.string,
+};
 
 export default OMBInfo;

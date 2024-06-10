@@ -13,9 +13,9 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourAddressConfirmation_generalquestion;
+} = formConfig.chapters.personalInformation.pages.addressValidation_generalquestion;
 
-describe('addressConfirmationPage', () => {
+describe('addressValidationPage', () => {
   it('should render', () => {
     const mockStore = {
       getState: () => ({
@@ -65,11 +65,9 @@ describe('addressConfirmationPage', () => {
     );
 
     const spans = $$('span', container);
-    const spanList = ['You entered:', 'Suggested Addresses:'];
+    const spanList = ['You entered:', 'Suggested address:'];
 
-    expect($('h2', container).textContent).to.eq(
-      'Veteran Address Confirmation',
-    );
+    expect($('h3', container).textContent).to.eq('Check your mailing address');
 
     spans.forEach(
       span => expect(spanList.includes(span.textContent.trim())).to.be.true,

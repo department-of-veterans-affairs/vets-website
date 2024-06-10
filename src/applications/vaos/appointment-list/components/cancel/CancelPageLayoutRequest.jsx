@@ -38,7 +38,7 @@ export default function CancelPageLayoutRequest() {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
         {`Request for ${isCC ? 'community care appointment' : 'appointment'}`}
       </h2>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">

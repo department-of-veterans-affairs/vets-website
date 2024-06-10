@@ -1,22 +1,18 @@
 {
   "data": {
-    "applicantHasSecondary": false,
     "primaryAdditionalComments": "Primary comments",
     "primaryMedigapPlan": "D",
-    "applicantPrimaryInsuranceType": {
-      "medicaid": true,
-      "rxDiscount": true,
-      "medigap": true
-    },
-    "applicantPrimaryEOB": "hasEob",
+    "applicantPrimaryInsuranceType": "medigap",
     "applicantPrimaryHasPrescription": false,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "Primary Provider Name",
     "applicantPrimaryEffectiveDate": "2000-01-01",
     "applicantPrimaryExpirationDate": "2024-01-01",
     "applicantHasPrimary": true,
+    "applicantHasSecondary": false,
     "applicantMedicareStatus": false,
     "applicantPhone": "6661231234",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Avenue Road",
