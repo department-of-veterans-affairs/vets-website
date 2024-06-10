@@ -23,7 +23,11 @@ export const MobileLogoRow = () => {
         <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
           <div className="profile-nav-container">
             <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
-              <UserNav isMobile />
+              <div className="sign-in-nav">
+                <div className="sign-in-links">
+                  <UserNav isMobile />
+                </div>
+              </div>
             </div>
           </div>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
