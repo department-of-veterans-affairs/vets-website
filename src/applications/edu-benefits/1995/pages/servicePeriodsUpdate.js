@@ -20,6 +20,14 @@ export const schema = {
   },
 };
 
+export const isToDateFieldRequired = formData => {
+  return formData.applicantServed === 'Yes' && formData.isActiveDuty;
+};
+
+export const isFromAndToDateFieldRequired = formData => {
+  return formData.applicantServed === 'Yes' && formData.isActiveDuty === false;
+};
+
 export const isFieldRequired = formData => {
   return formData.applicantServed === 'Yes';
 };
@@ -29,7 +37,14 @@ export const isFieldHidden = formData => {
 };
 
 export const setDateRangeRequired = (formData, _schema) => {
-  if (isFieldRequired(formData)) {
+  if (isToDateFieldRequired(formData)) {
+    return set(
+      'additionalItems.properties.dateRange.required',
+      ['from'],
+      _schema,
+    );
+  }
+  if (isFromAndToDateFieldRequired(formData)) {
     return set(
       'additionalItems.properties.dateRange.required',
       ['from', 'to'],
@@ -58,6 +73,12 @@ export const uiSchema = {
     'ui:required': formData => isFieldRequired(formData),
     'ui:options': {
       hideIf: formData => isFieldHidden(formData),
+      updateSchema: (formData, _schema) => {
+        let finalSchema = { ..._schema };
+        finalSchema = setDateRangeRequired(formData, finalSchema);
+        finalSchema = setServiceBranchRequired(formData, finalSchema);
+        return finalSchema;
+      },
     },
   },
   'view:newService': {
