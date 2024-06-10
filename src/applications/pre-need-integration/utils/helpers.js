@@ -29,6 +29,7 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import ServicePeriodArrayField from '../components/ServicePeriodsArrayField';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -1067,11 +1068,12 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
 
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
+  'ui:field': ServicePeriodArrayField,
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
     keepInPageOnReview: true,
-    useDlWrap: true,
+    showSave: true,
   },
   'ui:validations': [validateMilitaryHistory],
   items: {

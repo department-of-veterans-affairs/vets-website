@@ -467,6 +467,7 @@ const formConfig = {
         applicantMilitaryHistorySelf: {
           title: 'Your service period(s)',
           path: 'applicant-military-history',
+          editModeOnReviewPage: true,
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryHistorySelf.uiSchema,
