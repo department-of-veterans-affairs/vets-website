@@ -60,7 +60,7 @@ export default function PhoneLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care information not available'}</What>
+      <What>{typeOfCareName}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Section heading="Scheduling facility">
         {!!facility === false && (

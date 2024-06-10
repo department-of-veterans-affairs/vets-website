@@ -121,7 +121,7 @@ export default function VideoLayout({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not available'}</What>
+      <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
       {APPOINTMENT_STATUS.booked === status &&

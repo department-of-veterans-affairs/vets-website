@@ -38,6 +38,9 @@ When.propTypes = {
 };
 
 export function What({ children }) {
+  if (!children) {
+    return null;
+  }
   return <Section heading="What">{children}</Section>;
 }
 What.propTypes = {
@@ -45,6 +48,9 @@ What.propTypes = {
 };
 
 export function Who({ children }) {
+  if (!children) {
+    return null;
+  }
   return <Section heading="Who">{children}</Section>;
 }
 Who.propTypes = {

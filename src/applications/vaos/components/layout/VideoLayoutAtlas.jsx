@@ -121,7 +121,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
+      <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
       <Where

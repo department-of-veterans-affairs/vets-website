@@ -25,6 +25,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     startDate,
     status,
     typeOfCareName,
+    videoProviderName,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
@@ -60,9 +61,8 @@ export default function VideoLayoutVA({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
-
-      <Who />
+      <What>{typeOfCareName}</What>
+      <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
         {!!facility === false && (
           <>

@@ -68,7 +68,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care information not available'}</What>
+      <What>{typeOfCareName}</What>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
