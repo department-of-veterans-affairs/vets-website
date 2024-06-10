@@ -37,9 +37,8 @@ import { testPage } from './pageTests.spec';
   ];
 
   const pageTestExpectation = {
-    data: {},
-    numberOfWebComponentErrors: page.webComponentErrorCount || 0,
-    numberOfWebComponentFields: page.webComponentCount || 0,
+    numberOfWebComponentErrors: page.webComponentErrorCount,
+    numberOfWebComponentFields: page.webComponentCount,
     pageTitle: page.title,
     schema,
     uiSchema,

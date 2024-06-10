@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.statementChapter.pages.statementPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
   pageTitle: 'Provide your statement',

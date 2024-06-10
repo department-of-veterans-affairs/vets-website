@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.mailingAddressChapter.pages.mailingAddressPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 4,
   numberOfWebComponentFields: 7,
   pageTitle: 'Mailing address',

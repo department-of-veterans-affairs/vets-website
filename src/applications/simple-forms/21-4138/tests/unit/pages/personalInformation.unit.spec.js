@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.personalInformationChapter.pages.personalInformationPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 3,
   numberOfWebComponentFields: 4,
   pageTitle: 'Name and date of birth',

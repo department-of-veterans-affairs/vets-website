@@ -7,11 +7,11 @@ import {
 import formConfig from '../../../config/form';
 
 export const testPage = ({
-  data,
-  numberOfErrors,
-  numberOfFields,
-  numberOfWebComponentErrors,
-  numberOfWebComponentFields,
+  data = {},
+  numberOfErrors = 0,
+  numberOfFields = 0,
+  numberOfWebComponentErrors = 0,
+  numberOfWebComponentFields = 0,
   pageTitle,
   schema,
   uiSchema,
@@ -38,7 +38,7 @@ export const testPage = ({
     formConfig,
     schema,
     uiSchema,
-    numberOfFields || 0,
+    numberOfFields,
     pageTitle,
     data,
   );
@@ -47,7 +47,7 @@ export const testPage = ({
     formConfig,
     schema,
     uiSchema,
-    numberOfErrors || 0,
+    numberOfErrors,
     pageTitle,
     data,
   );

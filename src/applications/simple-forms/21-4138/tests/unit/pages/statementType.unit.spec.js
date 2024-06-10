@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.statementTypePage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
   pageTitle: 'What kind of statement do you want to submit?',

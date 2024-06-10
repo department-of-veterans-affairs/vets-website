@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.selectDecisionReviewPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
   pageTitle: 'Which description is true for you?',

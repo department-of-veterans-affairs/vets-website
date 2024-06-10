@@ -11,9 +11,6 @@ import { testPage } from './pageTests.spec';
     page
   ];
   const pageTestExpectation = {
-    data: {},
-    numberOfWebComponentErrors: 0,
-    numberOfWebComponentFields: 0,
     pageTitle: "There's a better way for you to ask for a decision review",
     schema,
     uiSchema,

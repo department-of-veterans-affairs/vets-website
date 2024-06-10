@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.identificationChapter.pages.identificationInformationPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 2,
   pageTitle: 'Identification information',

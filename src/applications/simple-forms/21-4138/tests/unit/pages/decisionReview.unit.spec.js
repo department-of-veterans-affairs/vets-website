@@ -7,7 +7,6 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.decisionReviewPage;
 
 const pageTestExpectation = {
-  data: {},
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
   pageTitle: 'What to know before you request a decision review',
