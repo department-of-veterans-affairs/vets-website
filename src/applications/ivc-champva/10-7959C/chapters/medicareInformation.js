@@ -349,7 +349,7 @@ export const applicantMedicareDUploadSchema = {
     }),
     ...fileUploadBlurb,
     applicantMedicarePartDCard: fileUploadUI({
-      label: 'Upload Medicare card',
+      label: 'Upload Medicare Part D card',
     }),
   },
   schema: {
