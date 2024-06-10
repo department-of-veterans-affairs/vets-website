@@ -7,7 +7,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import { customButtonGroupContinue } from './fixtures/helpers';
@@ -40,6 +39,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
@@ -58,7 +58,14 @@ const testConfig = createTestConfig(
 
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
-        cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+        cy.intercept('GET', '/v0/in_progress_forms/5655', {
+          formData: testData,
+          metadata: {
+            version: 0,
+            prefill: true,
+            returnUrl: '/veteran-information',
+          },
+        });
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -299,9 +306,17 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
-            .as('checklist')
-            .should('have.length', 8);
+          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
+          cy.get('@testData').then(testData => {
+            const monetaryAssetChecklistLength = testData[
+              'view:streamlinedWaiverAssetUpdate'
+            ]
+              ? 5
+              : 8;
+            cy.get('[type=checkbox]')
+              .as('checklist')
+              .should('have.length', monetaryAssetChecklistLength);
+          });
           cy.get('@checklist')
             .eq(0)
             .click();
@@ -317,16 +332,33 @@ const testConfig = createTestConfig(
           cy.get('va-number-input')
             .as('numberInputs')
             .should('have.length', 2);
-          cy.get('#Cash0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('[id="Checking accounts1"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1500');
+
+          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
+          cy.get('@testData').then(testData => {
+            if (testData['view:streamlinedWaiverAssetUpdate']) {
+              cy.get('[id="U.S. Savings Bonds0"]')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1000');
+              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1500');
+            } else {
+              cy.get('#Cash0')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1000');
+              cy.get('[id="Checking accounts1"]')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1500');
+            }
+          });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -707,7 +739,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .first()
-            .type('Mark Webb');
+            .type('Brendan JS Eich');
           cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
