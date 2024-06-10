@@ -16,8 +16,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
 
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageSentPage.loadMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
     FolderLoadPage.loadSentMessages(mockSentMessages);
   });
 

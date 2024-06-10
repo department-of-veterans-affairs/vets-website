@@ -21,7 +21,7 @@ describe('Secure Messaging Reply', () => {
       waitForAnimations: true,
     });
 
-    PatientReplyPage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+    cy.get('#input-type-textarea').type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
 
