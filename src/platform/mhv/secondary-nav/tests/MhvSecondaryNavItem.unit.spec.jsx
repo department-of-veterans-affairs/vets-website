@@ -25,7 +25,7 @@ describe('MHV Secondary Navigation Item Component', () => {
   });
 
   describe('handle abbreviations', () => {
-    it('when provided', () => {
+    it('when provided without arial label', () => {
       const title = 'a title';
       const abbr = 'an abbr';
       const { getAllByText } = render(
@@ -38,6 +38,28 @@ describe('MHV Secondary Navigation Item Component', () => {
       );
       expect(getAllByText(title).length).to.eql(1);
       expect(getAllByText(abbr).length).to.eql(1);
+      expect(getAllByText(title)[0].parentNode.getAttribute('aria-label')).to.be
+        .null;
+    });
+
+    it('when provided with aria label', () => {
+      const title = 'a title';
+      const abbr = 'an abbr';
+      const ariaLabel = 'a label';
+      const { getAllByText } = render(
+        <MhvSecondaryNavItem
+          title={title}
+          abbreviation={abbr}
+          ariaLabel={ariaLabel}
+          icon="home"
+          href="/my-health"
+        />,
+      );
+      expect(getAllByText(title).length).to.eql(1);
+      expect(getAllByText(abbr).length).to.eql(1);
+      expect(
+        getAllByText(title)[0].parentNode.getAttribute('aria-label'),
+      ).to.eql(ariaLabel);
     });
 
     it('when not provided', () => {
@@ -98,7 +120,7 @@ describe('MHV Secondary Navigation Item Component', () => {
 
   describe('reports custom events to GA', async () => {
     it('when a link is clicked', async () => {
-      const href = '/my-health/unit-test';
+      const href = '#/my-health/unit-test';
       const title = 'MhvSecondaryNavItem GA Event test';
 
       const event = {
