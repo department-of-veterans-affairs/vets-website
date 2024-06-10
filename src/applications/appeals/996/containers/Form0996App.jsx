@@ -21,6 +21,7 @@ import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
+import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
@@ -176,10 +177,11 @@ export const Form0996App = ({
   });
 
   // Add data-location attribute to allow styling specific pages
-  return (
+  return wrapWithBreadcrumb(
+    'hlr',
     <article id="form-0996" data-location={`${location?.pathname?.slice(1)}`}>
       {content}
-    </article>
+    </article>,
   );
 };
 
