@@ -65,6 +65,7 @@ export class ComboBox extends React.Component {
         value: searchTerm,
         filteredOptions: [],
       });
+      console.log('sending focus to input from handleClickOutsideList');
       this.sendFocusToInput(this.inputRef);
     }
   };
@@ -80,6 +81,7 @@ export class ComboBox extends React.Component {
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
+    console.log('sending focus to input from handleSearchChange');
     this.sendFocusToInput(this.inputRef);
   };
 
@@ -91,6 +93,7 @@ export class ComboBox extends React.Component {
   sendFocusToInput = ref => {
     const { shadowRoot } = ref.current;
     const input = shadowRoot.querySelector('input');
+    console.log('sendFocusToInput() called. Input: ', input);
     input.focus();
   };
 
@@ -138,12 +141,14 @@ export class ComboBox extends React.Component {
           filteredOptions: [],
           highlightedIndex: 0,
         });
+        console.log('sending focus to input from escape');
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
       // All other cases treat as regular user input into the text field.
       default:
         // focus goes to input box by default
+        console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
         this.setState({ highlightedIndex: 0 });
@@ -225,6 +230,7 @@ export class ComboBox extends React.Component {
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
+    console.log('sending focus to input from selectOption');
     this.sendFocusToInput(this.inputRef);
   }
 

@@ -18,6 +18,7 @@ import {
 } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
+import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
@@ -142,6 +143,9 @@ export default class ArrayField extends React.Component {
 
   focusOnEditButton = index => {
     const editButton = this.findElementsFromIndex(-1, '.edit');
+    if (showRevisedNewDisabilitiesPage()) {
+      console.log('focusing on edit button ', editButton[index]);
+    }
     focusElement(editButton[index]);
   };
 
@@ -149,6 +153,9 @@ export default class ArrayField extends React.Component {
     this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     // Focus on first label
     const labels = this.findElementsFromIndex(index, 'label, legend');
+    if (showRevisedNewDisabilitiesPage()) {
+      console.log('focusing on label', labels[0]);
+    }
     focusElement(labels[0]);
   };
 
@@ -158,6 +165,9 @@ export default class ArrayField extends React.Component {
       index,
       '.usa-input-error-message',
     );
+    if (showRevisedNewDisabilitiesPage()) {
+      console.log('focusing on error msg', errorMessage[0]);
+    }
     focusElement(errorMessage[0]);
   };
 
