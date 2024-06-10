@@ -16,7 +16,9 @@ describe('What do know before you download dropdown component', () => {
 
   it('displays text inside of drop down on Details page', async () => {
     const screen = setup(DD_ACTIONS_PAGE_TYPE.DETAILS);
-    const firstItem = await screen.findByText('If you download this page,');
+    const firstItem = await screen.findByText(
+      'If you print or download this page,',
+    );
     expect(firstItem).to.exist;
   });
 
