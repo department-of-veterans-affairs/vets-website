@@ -1,21 +1,21 @@
-// import moment from 'moment';
+import moment from 'moment';
 // import 'moment/dist/locale/en';
 // import moment.locale('en');
 // import 'moment/min/locales';
-import moment from 'moment/min/moment-with-locales';
+// import moment from 'moment/min/moment-with-locales';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
 import defaultVitals from '../fixtures/vitals.json';
 
-moment.updateLocale('en', {
-  meridiem: {
-    am: 'a.m.',
-    AM: 'A.M.',
-    pm: 'p.m.',
-    PM: 'P.M.',
-  },
-});
+// moment.updateLocale('en', {
+//   meridiem: {
+//     am: 'a.m.',
+//     AM: 'A.M.',
+//     pm: 'p.m.',
+//     PM: 'P.M.',
+//   },
+// });
 
 // moment.updateLocale('en', {
 //   // Specify the callback function for
@@ -63,18 +63,16 @@ describe('Medical Records Vitals Details Page', () => {
     // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      // moment(defaultVitals.entry[0].resource.effectiveDateTime).format(
-      //   'MMMM D, YYYY hh:mm A',
-      // ),
-      // moment
-      //   .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
-      //   .format('l LT'),
       moment
         .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, hh:mm a'),
+        .format('MMMM D, YYYY, hh:mm'),
       // .format('MMMM D, YYYY, hh:mm a'),
-      '130/70',
-      'ADTP BURNETT',
+      // '130/70',
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
+        defaultVitals.entry[0].resource.component[1].valueQuantity.value
+      }`,
+      // 'ADTP BURNETT', // OR IS IT  defaultVitals.entry[0].resource.performer[0].display,
+      defaultVitals.entry[0].resource.contained[0].name,
       'None noted',
     );
 
