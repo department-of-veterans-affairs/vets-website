@@ -17,13 +17,9 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Personalized Career Planning and Guidance (PCPG)" />
-      <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg3">
-        Form 27-8832
-      </p>
-      <p>
-        Equal to VA Form 27-8832, 28-8832, or 25-8832 (Education/Vocational
-        Counseling Application).
+      <FormTitle title="Apply for Personalized Career Planning and Guidance" />
+      <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg2 vads-u-margin-bottom--2">
+        Form 27-8832 (formally known as 28-8832, or 25-8832)
       </p>
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
