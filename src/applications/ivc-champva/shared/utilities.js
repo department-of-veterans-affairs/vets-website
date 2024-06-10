@@ -63,21 +63,45 @@ export function getAgeInYears(date) {
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
 }
 
-// Reach into shadow dom and add margin to .usa-hint class. Implemented for
-// the most common input types paired with hints.
-export async function addTopMarginToUsaHint() {
-  ['va-radio', 'va-select', 'va-memorable-date', 'va-text-input'].map(
-    async e => {
+/**
+ * Injects custom CSS into shadow DOMs of specific elements at specific URLs
+ * within an application. Convenience helper for the problem of custom styles
+ * in apps' .sass files not applying to elements with shadow DOMs.
+ *
+ * So for instance, if you wanted to hide the 'For example: January 19 2000'
+ * hint text that cannot be overridden normally:
+ * ```
+ * addStyleToShadowDomOnPages(
+ *   ['/insurance-info'],
+ *   ['va-memorable-date'],
+ *   '#dateHint {display: none}'
+ * )
+ * ```
+ *
+ * @param {Array} urlArray Array of page URLs where these styles should be applied
+ * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
+ * @param {String} style String of CSS to inject into the specified elements on the specified pages
+ */
+export async function addStyleToShadowDomOnPages(
+  urlArray,
+  targetElements,
+  style,
+) {
+  // If we're on one of the desired pages (per URL array), inject CSS
+  // into the specified target elements' shadow DOMs:
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.map(async e => {
       try {
-        const el = await waitForShadowRoot(document.querySelector(e));
-        if (el?.shadowRoot) {
-          const sheet = new CSSStyleSheet();
-          sheet.replaceSync('.usa-hint {margin-top: 8px}');
-          el.shadowRoot.adoptedStyleSheets.push(sheet);
-        }
-      } catch {
-        // Fail silently - this is not important.
+        document.querySelectorAll(e).forEach(async item => {
+          const el = await waitForShadowRoot(item);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        });
+      } catch (err) {
+        // Fail silently (styles just won't be applied)
       }
-    },
-  );
+    });
 }

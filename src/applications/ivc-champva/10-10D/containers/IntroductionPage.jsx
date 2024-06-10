@@ -6,6 +6,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-forms-sys
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 const IntroductionPage = props => {
   const { route, isLoggedIn } = props;
@@ -141,6 +142,11 @@ const IntroductionPage = props => {
       />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  isLoggedIn: PropTypes.func,
+  route: PropTypes.object,
 };
 
 const mapStateToProps = state => {

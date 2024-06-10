@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
@@ -110,6 +111,11 @@ const IntroductionPage = props => {
       />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  isLoggedIn: PropTypes.func,
+  route: PropTypes.object,
 };
 
 const mapStateToProps = state => {
