@@ -44,7 +44,7 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * @param {string} param0.title: title text to display
  * @param {string} param0.description: description text to display
  * @param {boolean} param0.disableLinks: whether or not to show link to edit page
- * @param {string} param0.subset: which classification of files to show: 'required', 'optional', 'all'
+ * @param {boolean} param0.subset: whether we're displaying required files (true) or optional (false)
  * @param {object} param0.filenameMap: (optional) all file names mapped to user-friendly labels
  * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
  * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
@@ -61,15 +61,6 @@ export default function MissingFileList({
   showNameHeader,
   showFileBullets,
 }) {
-  const inSubset = file => {
-    if (subset === 'required') {
-      return file.required === true;
-    }
-    if (subset === 'optional') {
-      return file.required === false;
-    }
-    return true; // Show all if subset is other
-  };
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
   if (
@@ -88,7 +79,9 @@ export default function MissingFileList({
         <strong>{description || ''}</strong>
       </p>
       {wrapped.map((entry, idx) => {
-        if (entry?.missingUploads.filter(f => inSubset(f)).length === 0)
+        if (
+          entry?.missingUploads.filter(f => f.required === subset).length === 0
+        )
           return <></>;
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
@@ -105,7 +98,7 @@ export default function MissingFileList({
               {entry.missingUploads?.map((file, index) => {
                 const fn =
                   fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
-                return inSubset(file) &&
+                return file.required === subset &&
                   (disableLinks ? file.uploaded === false : true) ? (
                   <li key={file.name + file.uploaded + index}>
                     {!disableLinks ? (
@@ -135,6 +128,6 @@ MissingFileList.propTypes = {
   nameKey: PropTypes.string,
   showFileBullets: PropTypes.bool,
   showNameHeader: PropTypes.bool,
-  subset: PropTypes.string,
+  subset: PropTypes.bool,
   title: PropTypes.string,
 };

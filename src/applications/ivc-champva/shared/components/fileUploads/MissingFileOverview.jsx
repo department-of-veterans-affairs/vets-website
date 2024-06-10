@@ -310,6 +310,13 @@ export default function MissingFileOverview({
   } else if (heading && !requiredFilesStillMissing && !showConsent) {
     displayHeading = heading;
   }
+
+  // Set up some display properties:
+  const rh = showRequirementHeaders ?? true ? 'Required documents' : '';
+  const oh = showRequirementHeaders ?? true ? 'Optional documents' : '';
+  const snh = showNameHeader ?? true;
+  const sfb = showFileBullets ?? false;
+
   return (
     <form onSubmit={onGoForward}>
       {displayHeading}
@@ -320,52 +327,50 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title={showRequirementHeaders ?? true ? 'Required documents' : ''}
-              subset="required"
+              title={rh}
+              subset
               description={requiredDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
-              showNameHeader={showNameHeader ?? true}
-              showFileBullets={showFileBullets ?? false}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(apps, true, showConsent) ? (
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title={showRequirementHeaders ?? true ? 'Required documents' : ''}
-              subset="required"
+              title={rh}
+              subset
               description={requiredDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
-              showNameHeader={showNameHeader ?? true}
-              showFileBullets={showFileBullets ?? false}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(sponsorMiss, false, showConsent) ? (
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title={showRequirementHeaders ?? true ? 'Optional documents' : ''}
-              subset="optional"
+              title={oh}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
-              showNameHeader={showNameHeader ?? true}
-              showFileBullets={showFileBullets ?? false}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(apps, false, showConsent) ? (
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title={showRequirementHeaders ?? true ? 'Optional documents' : ''}
-              subset="optional"
+              title={oh}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
-              showNameHeader={showNameHeader ?? true}
-              showFileBullets={showFileBullets ?? false}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {requiredFilesStillMissing && showMail ? (
