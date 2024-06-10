@@ -6,11 +6,50 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import DownloadRecordsPage from '../../containers/DownloadRecordsPage';
 import user from '../fixtures/user.json';
+import allergies from '../fixtures/allergies.json';
+import labsAndTests from '../fixtures/labsAndTests.json';
+import notes from '../fixtures/notes.json';
+import vaccines from '../fixtures/vaccines.json';
+import vitals from '../fixtures/vitals.json';
+import conditions from '../fixtures/conditions.json';
+import { convertAllergy } from '../../reducers/allergies';
+import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
+import { convertVaccine } from '../../reducers/vaccines';
+import { convertVital } from '../../reducers/vitals';
+import { convertCondition } from '../../reducers/conditions';
 
 describe('DownloadRecordsPage', () => {
   const initialState = {
     user,
-    mr: {},
+    mr: {
+      allergies: {
+        allergiesList: allergies.entry.map(item =>
+          convertAllergy(item.resource),
+        ),
+      },
+      labsAndTests: {
+        labsAndTestsList: labsAndTests.entry.map(item =>
+          convertLabsAndTestsRecord(item),
+        ),
+      },
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: notes.entry.map(note =>
+          convertCareSummariesAndNotesRecord(note.resource),
+        ),
+      },
+      vaccines: {
+        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+      },
+      vitals: {
+        vitalsList: vitals.entry.map(item => convertVital(item.resource)),
+      },
+      conditions: {
+        conditionsList: conditions.entry.map(condition =>
+          convertCondition(condition),
+        ),
+      },
+    },
   };
 
   let screen;
