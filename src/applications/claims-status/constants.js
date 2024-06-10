@@ -31,3 +31,40 @@ export const isProductionEnv = () => {
     !window.Mocha
   );
 };
+
+// These are claim types codes for disability compensation claims. Claim type codes listed here
+// are used in isDisabilityCompensationClaim() to show the 8 claim phase steps instead of 5.
+export const disabilityCompensationClaimTypeCodes = [
+  '020NEWPMC',
+  '020PNI',
+  '110LCOMPIDES',
+  '010LCMPPIDES',
+  '110LCOMP7BDD',
+  '110LCOMPD2D',
+  '110INITLESS8',
+  '110LCMP7IDES',
+  '110NADIDES7',
+  '110LCOMP7',
+  '010LCOMPBDD',
+  '010LCOMPD2D',
+  '010INITMORE8',
+  '010LCOMPIDES',
+  '010NADIDES8',
+  '010LCOMP',
+  '020BDDNO',
+  '020CLMINC',
+  '020SD2D',
+  '020EPDSUPP',
+  '020PREDSUPP',
+  '020SUPP',
+  '020NADIDESNO',
+  '020NEWIDES',
+  '020RRNADIDES',
+  '020IDESRRNAD',
+  '020NEW',
+  '020NHPNH10',
+  '020NI',
+  '020RSCDTHPMC',
+  '020RSCDTH',
+  '020SMB',
+];
