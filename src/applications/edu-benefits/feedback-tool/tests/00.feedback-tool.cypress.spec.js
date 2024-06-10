@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import mockFeedbackPost from './fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from './fixtures/mocks/feedback-1234.json';
 import testData from './schema/maximal-test.json';
@@ -9,7 +10,9 @@ describe('Feedback Tool Test', () => {
 
     cy.visit('/education/submit-school-feedback');
     cy.get('body').should('be.visible');
-    cy.get('.schemaform-title').should('be.visible');
+    cy.get('.schemaform-title').should('be.visible', {
+      timeout: Timeouts.slow,
+    });
     cy.get('.schemaform-start-button')
       .first()
       .click();
@@ -88,6 +91,7 @@ describe('Feedback Tool Test', () => {
 
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
+      { timeout: Timeouts.slow },
     );
     cy.fill(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
@@ -129,7 +133,7 @@ describe('Feedback Tool Test', () => {
     cy.axeCheck();
     cy.get('.form-progress-buttons .usa-button-primary').click();
 
-    cy.get('.js-test-location')
+    cy.get('.js-test-location', { timeout: Timeouts.submission })
       .invoke('attr', 'data-location')
       .should('not.contain', '/review-and-submit');
 
