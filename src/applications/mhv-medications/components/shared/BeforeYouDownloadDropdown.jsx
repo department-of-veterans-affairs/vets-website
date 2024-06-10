@@ -9,8 +9,8 @@ const BeforeYouDownloadDropdown = ({ page }) => {
         return (
           <ul>
             <li>
-              <strong>If you download this page,</strong> we’ll include a list
-              of allergies and reactions in your VA medical records.
+              <strong>If you print or download this page,</strong> we’ll include
+              a list of allergies and reactions in your VA medical records.
             </li>
             <li>
               <strong>If you’re on a public or shared computer,</strong>{' '}

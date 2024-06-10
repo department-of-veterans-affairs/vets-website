@@ -32,7 +32,13 @@ const PeriodsToVerify = ({
 
   return (
     <>
-      {error && <Alert status="error" message="Oops Something went wrong" />}
+      {error && (
+        <Alert
+          status="error"
+          title=" We’ve run into a problem"
+          message=" We’re sorry. Something went wrong on our end. Please try again"
+        />
+      )}
       <div id="verifications-pending-alert">
         {enrollmentData?.pendingVerifications?.length > 0 && (
           <va-alert
