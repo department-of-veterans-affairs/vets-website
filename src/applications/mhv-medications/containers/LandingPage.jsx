@@ -53,13 +53,12 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
-
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
-        location.pathname.includes('/accordion-renew-rx') &&
+        location.hash.includes('accordion-renew-rx') &&
         !featureTogglesLoading &&
         !isPrescriptionsLoading
       ) {
