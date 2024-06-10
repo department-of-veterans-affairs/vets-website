@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { URL } from '../constants';
+import { URL, envUrl } from '../constants';
 import SearchItem from './search/SearchItem';
 import { convertToLatLng } from '../utils/mapbox';
 import SearchControls from './search/SearchControls';
@@ -28,18 +27,18 @@ const MedicalFacilitySearch = ({ onChange }) => {
   };
 
   const getFacilitiesFromLocation = async input => {
-    const url = `${environment.API_URL}${
-      URL.GET_HEALTH_FACILITY
-    }?type=health&lat=${input[1]}&long=${input[0]}`;
+    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
+      input[1]
+    }&long=${input[0]}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
     const latLong = await convertToLatLng(input);
-    const url = `${environment.API_URL}${
-      URL.GET_HEALTH_FACILITY
-    }?type=health&lat=${latLong[1]}&long=${latLong[0]}`;
+    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
+      latLong[1]
+    }&long=${latLong[0]}`;
     await getApiData(url);
     setPageURL(url);
   };
