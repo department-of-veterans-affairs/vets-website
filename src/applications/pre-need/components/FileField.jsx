@@ -20,8 +20,8 @@ import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/
 import { ERROR_ELEMENTS } from 'platform/utilities/constants';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  ShowPdfPassword,
-  PasswordLabel,
+  // ShowPdfPassword,
+  // PasswordLabel,
   PasswordSuccess,
   readAndCheckFile,
   checkTypeAndExtensionMatches,
@@ -315,11 +315,11 @@ const FileField = props => {
     }
   };
 
-  const onSubmitPassword = (file, index, password) => {
-    if (file && password) {
-      onAddFile({ target: { files: [file] } }, index, password);
-    }
-  };
+  // const onSubmitPassword = (file, index, password) => {
+  //   if (file && password) {
+  //     onAddFile({ target: { files: [file] } }, index, password);
+  //   }
+  // };
 
   const onAttachmentIdChange = (index, value) => {
     if (!value) {
@@ -554,9 +554,9 @@ const FileField = props => {
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}
-                {(showPasswordInput || showPasswordSuccess) && (
+                {/* {(showPasswordInput || showPasswordSuccess) && (
                   <PasswordLabel />
-                )}
+                )} */}
                 {showPasswordSuccess && <PasswordSuccess />}
                 {!hasVisibleError &&
                   !showPasswordInput &&
@@ -605,12 +605,49 @@ const FileField = props => {
                     </span>
                   )}
                 {showPasswordInput && (
-                  <ShowPdfPassword
-                    file={file.file}
-                    index={index}
-                    onSubmitPassword={onSubmitPassword}
-                    passwordLabel={content.passwordLabel(file.name)}
-                  />
+                  // <ShowPdfPassword
+                  //   file={file.file}
+                  //   index={index}
+                  //   onSubmitPassword={onSubmitPassword}
+                  //   passwordLabel={content.passwordLabel(file.name)}
+                  // />
+                  <div className="vads-u-margin-bottom--2">
+                    <div className="usa-error-message">
+                      We weren’t able to upload your file. Make sure the file is
+                      not encrypted and an accepted format.
+                    </div>
+                    <va-button
+                      class="vads-u-width--auto vads-u-margin-top--2"
+                      text="Upload a new file"
+                      onClick={() => {
+                        // if (value) {
+                        //   onSubmitPassword(file, index, value);
+                        // } else {
+                        //   setValue('');
+                        //   setDirty(true);
+                        //   setFocus();
+                        // }
+                      }}
+                      // label={passwordLabel}
+                      uswds
+                    />
+                    <va-button
+                      secondary
+                      class="vads-u-width--auto vads-u-margin-top--2"
+                      text="Cancel"
+                      onClick={() => {
+                        // if (value) {
+                        //   onSubmitPassword(file, index, value);
+                        // } else {
+                        //   setValue('');
+                        //   setDirty(true);
+                        //   setFocus();
+                        // }
+                      }}
+                      // label={passwordLabel}
+                      uswds
+                    />
+                  </div>
                 )}
                 {!formContext.reviewMode &&
                   !isUploading && (
@@ -633,24 +670,26 @@ const FileField = props => {
                           uswds
                         />
                       )}
-                      <va-button
-                        secondary
-                        class="delete-upload vads-u-width--auto"
-                        onClick={() => {
-                          if (hasVisibleError) {
-                            // Cancelling with error should not show the remove
-                            // file modal
-                            removeFile(index);
-                          } else {
-                            openRemoveModal(index);
-                          }
-                        }}
-                        label={content[
-                          hasVisibleError ? 'cancelLabel' : 'deleteLabel'
-                        ](file.name)}
-                        text={deleteButtonText}
-                        uswds
-                      />
+                      {!showPasswordInput && (
+                        <va-button
+                          secondary
+                          class="delete-upload vads-u-width--auto"
+                          onClick={() => {
+                            if (hasVisibleError) {
+                              // Cancelling with error should not show the remove
+                              // file modal
+                              removeFile(index);
+                            } else {
+                              openRemoveModal(index);
+                            }
+                          }}
+                          label={content[
+                            hasVisibleError ? 'cancelLabel' : 'deleteLabel'
+                          ](file.name)}
+                          text={deleteButtonText}
+                          uswds
+                        />
+                      )}
                     </div>
                   )}
               </li>
