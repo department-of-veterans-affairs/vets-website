@@ -23,6 +23,7 @@ import {
   selectInstitutionQuery,
   selectInstitutions,
   selectInstitutionSelected,
+  selectManualSchoolEntryChecked,
   selectPagesCount,
   selectSearchInputValue,
   selectSearchResultsCount,
@@ -464,7 +465,7 @@ export const mapStateToProps = (state, ownProps) => {
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
   const manualSchoolEntryChecked =
-    ownProps.formData['view:manualSchoolEntryChecked'] || false;
+    selectManualSchoolEntryChecked(ownProps) || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);

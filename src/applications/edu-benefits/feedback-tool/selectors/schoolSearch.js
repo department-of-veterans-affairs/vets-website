@@ -12,8 +12,8 @@ export const selectInstitutions = state =>
   _.get(state, 'schoolSelect.institutions');
 export const selectInstitutionSelected = state =>
   _.get(state, 'schoolSelect.institutionSelected');
-export const selectManualSchoolEntryChecked = state =>
-  _.get(state, 'schoolSelect.manualSchoolEntryChecked');
+export const selectManualSchoolEntryChecked = ownProps =>
+  _.get(ownProps, 'formData.view:manualSchoolEntryChecked');
 export const selectPagesCount = state =>
   _.get(state, 'schoolSelect.pagesCount');
 export const selectSearchInputValue = state =>
