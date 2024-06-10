@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -36,7 +36,6 @@ const VerificationReviewWrapper = ({
   verifyEnrollment,
 }) => {
   useScrollToTop();
-  const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo } = useData();
@@ -131,17 +130,10 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-  // This Effect to check path to add class for bloding Label
-  useEffect(
-    () => {
-      if (location.pathname.includes('verify-information')) {
-        document.body.classList.add('verify-information-path');
-      } else {
-        document.body.classList.remove('verify-information-path');
-      }
-    },
-    [location.pathname],
-  );
+  // This Effect  add class for bloding Label only for this label
+  useEffect(() => {
+    document.body.classList.add('verify-information-path');
+  }, []);
 
   return (
     <>
@@ -166,6 +158,7 @@ const VerificationReviewWrapper = ({
                     error={errorStatement}
                     hint=""
                     label="Is this enrollment information correct?"
+                    required
                     onVaValueChange={handleRadioClick}
                   >
                     <VaRadioOption
