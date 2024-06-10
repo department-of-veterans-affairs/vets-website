@@ -7,6 +7,7 @@ import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificat
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
 import PageLink from '../components/PageLink';
+// import {EnrollmentVerificationLogin} from '../../static-pages/vye-enrollment-login-widget/EnrollmentVerificationLogIn'
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   BENEFITS_PROFILE_URL,
@@ -122,6 +123,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
       personalInfo && expandAllEnrollments();
     },
+    /* eslint-disable react-hooks/exhaustive-deps */
     [enrollmentData],
   );
 
@@ -137,6 +139,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
         <div className="vads-l-row vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <MGIBEnrollmentStatement />
+            {/* <EnrollmentVerificationLogin/> */}
             {loading ? (
               <Loader />
             ) : (
@@ -173,6 +176,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             <PreviousEnrollmentVerifications
               enrollmentData={expandedEnrollmentData}
             />
+
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your Montgomery GI Bill benefits information"

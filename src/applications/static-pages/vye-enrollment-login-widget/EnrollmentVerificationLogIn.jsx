@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
@@ -9,7 +11,11 @@ export const REVIEW_ENROLLMENTS_URL_SEGMENT = 'mgib-enrollments';
 export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 
-export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
+export function EnrollmentVerificationLogin({
+  toggleLoginModal,
+  user,
+  includedInFlipper,
+}) {
   const onSignInClicked = useCallback(() => toggleLoginModal(true), [
     toggleLoginModal,
   ]);
@@ -77,18 +83,36 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
       return spinner;
     }
     if (user?.login?.currentlyLoggedIn) {
-      return loggedInUserUI;
+      if (includedInFlipper === false) {
+        return (
+          <p>
+            You can verify your enrollment by phone. Call
+            <va-telephone contact="8884424551" />
+            {' ('}
+            <va-telephone contact="711" tty="true" />
+            ). We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
+          </p>
+        );
+      }
+      if (includedInFlipper === true) {
+        return loggedInUserUI;
+      }
     }
-
     return visitorUI;
   };
 
   return renderUI();
 }
 
-const mapStateToProps = state => ({
-  user: state.user || {},
+const mapStateToProps = store => ({
+  user: store.user || {},
+  includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.vyeLoginWidget],
 });
+EnrollmentVerificationLogin.propTypes = {
+  toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
+  includedInFlipper: PropTypes.bool,
+};
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
@@ -98,8 +122,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationLogin);
-
-EnrollmentVerificationLogin.propTypes = {
-  toggleLoginModal: PropTypes.func,
-  user: PropTypes.object,
-};
