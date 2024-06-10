@@ -23,7 +23,6 @@ import {
   selectInstitutionQuery,
   selectInstitutions,
   selectInstitutionSelected,
-  selectManualSchoolEntryChecked,
   selectPagesCount,
   selectSearchInputValue,
   selectSearchResultsCount,
@@ -75,7 +74,7 @@ export class SchoolSelectField extends React.Component {
   handleManualSchoolEntryToggled = currentValue => {
     this.props.onChange({
       ...this.props.formData,
-      'view:manualSchoolEntryChecked': !currentValue,
+      'view:manualSchoolEntryChecked': currentValue,
     });
   };
 
@@ -465,7 +464,7 @@ export const mapStateToProps = (state, ownProps) => {
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
   const manualSchoolEntryChecked =
-    selectManualSchoolEntryChecked(state) || false;
+    ownProps.formData['view:manualSchoolEntryChecked'] || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
