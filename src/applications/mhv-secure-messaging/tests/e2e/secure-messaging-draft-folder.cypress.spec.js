@@ -34,6 +34,7 @@ describe('secure Messaging Draft Folder checks', () => {
     });
     FolderLoadPage.verifyPaginationElements();
   });
+
   it('verify breadcrumbs', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

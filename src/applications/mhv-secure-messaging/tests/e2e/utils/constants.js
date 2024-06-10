@@ -140,7 +140,7 @@ export const Locators = {
     PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
-    CRUMB_LIST: '[data-testid="sm-breadcrumb"]',
+    CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
   },
   ALERTS: {
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
