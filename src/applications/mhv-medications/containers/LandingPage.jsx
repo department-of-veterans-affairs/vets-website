@@ -53,6 +53,7 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
+
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
