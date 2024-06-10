@@ -1,10 +1,5 @@
-import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
-  testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
+import { testPage } from './pageTests.spec';
 
 const pages = [
   {
@@ -43,47 +38,16 @@ pages.forEach(page => {
     page.name
   ];
 
-  const pageTitle = page.title;
-
-  const data = {};
-
-  const expectedNumberOfWebComponentFields = page.webComponentCount || 0;
-  testNumberOfWebComponentFields(
-    formConfig,
+  const pageConfig = {
+    data: {},
+    numberOfErrors: 0,
+    numberOfFields: 0,
+    numberOfWebComponentErrors: page.webComponentErrorCount || 0,
+    numberOfWebComponentFields: page.webComponentCount || 0,
+    pageTitle: page.title,
     schema,
     uiSchema,
-    expectedNumberOfWebComponentFields,
-    pageTitle,
-    data,
-  );
+  };
 
-  const expectedNumberOfWebComponentErrors = page.webComponentErrorCount || 0;
-  testNumberOfErrorsOnSubmitForWebComponents(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfWebComponentErrors,
-    pageTitle,
-    data,
-  );
-
-  const expectedNumberOfFields = 0;
-  testNumberOfFields(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfFields,
-    pageTitle,
-    data,
-  );
-
-  const expectedNumberOfErrors = 0;
-  testNumberOfErrorsOnSubmit(
-    formConfig,
-    schema,
-    uiSchema,
-    expectedNumberOfErrors,
-    pageTitle,
-    data,
-  );
+  testPage(pageConfig);
 });

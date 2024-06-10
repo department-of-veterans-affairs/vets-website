@@ -1,56 +1,20 @@
-import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
-  testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../../config/form';
+import { testPage } from './pageTests.spec';
 
 const {
   schema,
   uiSchema,
 } = formConfig.chapters.contactInformationChapter.pages.contactInformationPage;
 
-const pageTitle = 'Phone and email address';
-
-const data = {};
-
-const expectedNumberOfWebComponentFields = 2;
-testNumberOfWebComponentFields(
-  formConfig,
+const pageConfig = {
+  data: {},
+  numberOfErrors: 0,
+  numberOfFields: 0,
+  numberOfWebComponentErrors: 1,
+  numberOfWebComponentFields: 2,
+  pageTitle: 'Phone and email address',
   schema,
   uiSchema,
-  expectedNumberOfWebComponentFields,
-  pageTitle,
-  data,
-);
+};
 
-const expectedNumberOfWebComponentErrors = 1;
-testNumberOfErrorsOnSubmitForWebComponents(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentErrors,
-  pageTitle,
-  data,
-);
-
-const expectedNumberOfFields = 0;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-  data,
-);
-
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
-  pageTitle,
-  data,
-);
+testPage(pageConfig);
