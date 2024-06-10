@@ -16,7 +16,8 @@ const SubmissionErrorAlert = () => {
           <p>{content['alert-submission-secondary-message']}</p>
         </div>
         <a href="/health-care/update-health-information/#how-do-i-update-my-information">
-          Learn more about how to update your health benefits information
+          Learn more about how to update your information by mail, phone, or in
+          person
         </a>
       </va-alert>
     </div>
