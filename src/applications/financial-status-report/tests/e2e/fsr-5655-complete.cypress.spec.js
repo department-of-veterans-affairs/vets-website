@@ -34,7 +34,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     // starting with no data, so form is filled with navigation
-    dataSets: ['initial'],
+    dataSets: ['initial', 'initial-expenses'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -483,6 +483,17 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('123');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      // only shows if showUpdatedExpensePages is active
+      'monthly-housing-expenses': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-text-input')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1200');
           cy.get('.usa-button-primary').click();
         });
       },
