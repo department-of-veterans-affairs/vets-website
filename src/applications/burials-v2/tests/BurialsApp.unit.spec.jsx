@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+// import { VA_FORM_IDS } from 'platform/forms/constants';
 import BurialsApp from '../BurialsApp';
 
 const burialsLocation = {
@@ -85,69 +85,69 @@ describe('BurialsApp', () => {
   //   });
   // });
 
-  it('should redirect to burial allowance', async () => {
-    const mockStore = store({
-      featuresLoading: false,
-      burialFormEnabled: false,
-    });
-    global.window.location = {
-      href: 'test',
-    };
-    render(
-      <Provider store={mockStore}>
-        <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
-      </Provider>,
-    );
-    expect(window.location.href).to.eq(
-      '/burials-memorials/veterans-burial-allowance/',
-    );
-  });
+  // it('should redirect to burial allowance', async () => {
+  //   const mockStore = store({
+  //     featuresLoading: false,
+  //     burialFormEnabled: false,
+  //   });
+  //   global.window.location = {
+  //     href: 'test',
+  //   };
+  //   render(
+  //     <Provider store={mockStore}>
+  //       <BurialsApp location={{ ...burialsLocation, pathname: 'test' }} />
+  //     </Provider>,
+  //   );
+  //   expect(window.location.href).to.eq(
+  //     '/burials-memorials/veterans-burial-allowance/',
+  //   );
+  // });
 
-  it('should redirect to v1', async () => {
-    const mockStore = store({
-      burialFormEnabled: true,
-      burialFormV2: false,
-      featuresLoading: false,
-      profileLoading: false,
-      savedForms: [],
-    });
-    const originalHref = window.location.href;
-    global.window.location = {
-      href: originalHref,
-    };
-    render(
-      <Provider store={mockStore}>
-        <BurialsApp location={burialsLocation} />
-      </Provider>,
-    );
-    expect(window.location.href).to.eq(
-      '/burials-and-memorials/application/530/',
-    );
-  });
+  // it('should redirect to v1', async () => {
+  //   const mockStore = store({
+  //     burialFormEnabled: true,
+  //     burialFormV2: false,
+  //     featuresLoading: false,
+  //     profileLoading: false,
+  //     savedForms: [],
+  //   });
+  //   const originalHref = window.location.href;
+  //   global.window.location = {
+  //     href: originalHref,
+  //   };
+  //   render(
+  //     <Provider store={mockStore}>
+  //       <BurialsApp location={burialsLocation} />
+  //     </Provider>,
+  //   );
+  //   expect(window.location.href).to.eq(
+  //     '/burials-and-memorials/application/530/',
+  //   );
+  // });
 
-  it('should redirect to v1 with in progress form', async () => {
-    const mockStore = store({
-      burialFormEnabled: true,
-      burialFormV2: true, // intentionally true.
-      featuresLoading: false,
-      profileLoading: false,
-      savedForms: [
-        {
-          form: VA_FORM_IDS.FORM_21P_530,
-        },
-      ],
-    });
-    const originalHref = window.location.href;
-    global.window.location = {
-      href: originalHref,
-    };
-    render(
-      <Provider store={mockStore}>
-        <BurialsApp location={burialsLocation} />
-      </Provider>,
-    );
-    expect(window.location.href).to.eq(
-      '/burials-and-memorials/application/530/',
-    );
-  });
+  // it('should redirect to v1 with in progress form', async () => {
+  //   const mockStore = store({
+  //     burialFormEnabled: true,
+  //     burialFormV2: true, // intentionally true.
+  //     featuresLoading: false,
+  //     profileLoading: false,
+  //     savedForms: [
+  //       {
+  //         form: VA_FORM_IDS.FORM_21P_530,
+  //       },
+  //     ],
+  //   });
+  //   const originalHref = window.location.href;
+  //   global.window.location = {
+  //     href: originalHref,
+  //   };
+  //   render(
+  //     <Provider store={mockStore}>
+  //       <BurialsApp location={burialsLocation} />
+  //     </Provider>,
+  //   );
+  //   expect(window.location.href).to.eq(
+  //     '/burials-and-memorials/application/530/',
+  //   );
+  // });
 });

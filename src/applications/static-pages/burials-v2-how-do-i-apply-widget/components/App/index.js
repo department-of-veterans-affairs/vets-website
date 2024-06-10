@@ -223,7 +223,7 @@ export const App = () => {
         <p>
           <a
             className="vads-c-action-link--green"
-            href="/burials-and-memorials-v2/application/530/introduction"
+            href="/burials-and-memorials/application/530/introduction"
           >
             Apply for burial benefits
           </a>

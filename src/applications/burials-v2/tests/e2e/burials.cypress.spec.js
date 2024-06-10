@@ -20,7 +20,7 @@ import {
 
 import pagePaths from './pagePaths';
 
-const TEST_URL = '/burials-and-memorials-v2/application/530/introduction';
+const TEST_URL = '/burials-and-memorials/application/530/introduction';
 const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-530V2';
 const BURIALS_CLAIMS_URL = '/v0/burial_claims';
 const CLAIM_ATTACHMENTS_URL = '/v0/claim_attachments';
