@@ -10,6 +10,23 @@ describe('<ClaimPhaseStepper>', () => {
   const claimDate = '2024-01-16';
   const currentClaimPhaseDate = '2024-03-07';
 
+  it('should render a ClaimPhaseStepper section where there is accessibility text', () => {
+    const { container } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={3}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+
+    const phaseCurrent = $('#phase3 va-icon.phase-current', container);
+    expect(phaseCurrent).to.have.attr('srtext', 'Current');
+
+    const phase2Complete = $('#phase2 va-icon.phase-complete', container);
+    expect(phase2Complete).to.have.attr('srtext', 'Completed');
+  });
+
   it('should render a ClaimPhaseStepper section where step 1 is the current step', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimPhaseStepper
@@ -56,9 +73,7 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'We’ll check your claim for basic information we need, like your name and Social Security number.',
     );
-    getByText(
-      'If basic information is missing, we’ll contact you to gather that information.',
-    );
+    getByText('If information is missing, we’ll contact you.');
   });
 
   it('should render a ClaimPhaseStepper section where step 3 is the current step', () => {
@@ -225,13 +240,6 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'A senior reviewer will do a final review of your claim and the decision letter.',
     );
-
-    const phaseText = $('#phase7, container');
-    expect(
-      within(phaseText).getByText(
-        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
-      ),
-    ).to.exist;
   });
 
   it('should render a ClaimPhaseStepper section where step 8 is the current step', () => {

@@ -10,12 +10,13 @@ describe('Medications Details Page Non VA Prescription ', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 5;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(nonVARx);
+    detailsPage.clickMedicationDetailsLink(nonVARx, cardNumber);
     detailsPage.verifyNonVaMedicationStatusOnDetailsPage(nonVARx);
     // detailsPage.verifyNonVAMedicationDisplayMessageOnDetailsPage(nonVARx);
     listPage.verifyPrescriptionSourceForNonVAMedicationOnDetailsPage();

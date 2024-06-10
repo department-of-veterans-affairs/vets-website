@@ -1,6 +1,6 @@
+import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 
 import { geoLocateUser } from '../../actions/geoLocateUser';
 import { setLocationInput } from '../../actions/index';
@@ -71,12 +71,11 @@ const SearchControls = props => {
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
+              <va-loading-indicator
+                label="Finding your location"
+                message="Finding your location..."
+                set-focus
               />
-              <span aria-live="assertive">Finding your location...</span>
             </div>
           ) : (
             <button
@@ -114,9 +113,16 @@ const SearchControls = props => {
               aria-label="Clear your city, state or postal code"
               type="button"
               id="clear-input"
-              className="fas fa-times-circle clear-button"
+              className="clear-button"
               onClick={handleClearInput}
-            />
+            >
+              <va-icon
+                icon="cancel"
+                size={2}
+                id="clear-input"
+                onClick={handleClearInput}
+              />
+            </button>
           )}
           <input
             id="facility-search"

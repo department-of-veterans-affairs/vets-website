@@ -16,8 +16,6 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -147,10 +145,6 @@ const formConfig = {
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
             veteranAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -161,9 +155,7 @@ const formConfig = {
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              veteranAddress: addressSchema({}),
             },
           },
         },
@@ -182,18 +174,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
-            // matchAddress: checkboxGroupUI({
-            //   title: ' ',
-            //   required: () => false,
-            //   labels: {
-            //     yes: 'Same as Mailing Address',
-            //   },
-            // }),
             physicalAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -204,10 +185,7 @@ const formConfig = {
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              // matchAddress: checkboxGroupSchema(['yes']),
-              physicalAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              physicalAddress: addressSchema({}),
             },
           },
         },

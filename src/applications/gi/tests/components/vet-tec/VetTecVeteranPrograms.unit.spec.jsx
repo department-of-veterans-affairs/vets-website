@@ -115,7 +115,7 @@ describe('<VetTecVeteranPrograms/>', () => {
         onShowModal={() => {}}
       />,
     );
-    expect(wrapper.find('.fa-check').exists()).to.be.true;
+    expect(wrapper.find('va-icon#checkIcon').exists()).to.be.true;
     wrapper.unmount();
   });
 });

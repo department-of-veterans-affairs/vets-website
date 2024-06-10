@@ -178,7 +178,7 @@ export const isSameMonth = (date1, date2) => {
   return month1 === month2 && year1 === year2;
 };
 
-const getEndOfMonth = (year, month) => {
+export const getEndOfMonth = (year, month) => {
   return new Date(year, month, 0).getDate(); // Last day of the month
 };
 
@@ -264,7 +264,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             <span className="vads-u-font-weight--bold">
               Total credit hours:
             </span>{' '}
-            {numberHours === null ? 'Data unavailable' : numberHours}
+            {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
           <p
             className={
@@ -275,7 +275,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
           >
             <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
-              ? 'Data unavailable'
+              ? 'Rate unavailable'
               : formatCurrency(monthlyRate)}
           </p>
         </div>
@@ -330,14 +330,14 @@ export const getGroupedPreviousEnrollments = month => {
                     <span className="vads-u-font-weight--bold">
                       Total credit hours:
                     </span>{' '}
-                    {numberHours === null ? 'Data unavailable' : numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
                     {monthlyRate === null
-                      ? 'Data unavailable'
+                      ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
@@ -393,14 +393,14 @@ export const getGroupedPreviousEnrollments = month => {
                     <span className="vads-u-font-weight--bold">
                       Total credit hours:
                     </span>{' '}
-                    {numberHours === null ? 'Data unavailable' : numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
                     {monthlyRate === null
-                      ? 'Data unavailable'
+                      ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
@@ -487,13 +487,13 @@ export const getSignlePreviousEnrollments = awards => {
                   Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
-                  ? 'Data unavailable'
+                  ? 'Hours unavailable'
                   : awards.numberHours}
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
-                  ? 'Data unavailable'
+                  ? 'Rate unavailable'
                   : formatCurrency(awards.monthlyRate)}
               </p>
               <div className="vads-u-font-style--italic">
@@ -533,13 +533,13 @@ export const getSignlePreviousEnrollments = awards => {
                   Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
-                  ? 'Data unavailable'
+                  ? 'Hours unavailable'
                   : awards.numberHours}
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
-                  ? 'Data unavailable'
+                  ? 'Rate unavailable'
                   : formatCurrency(awards.monthlyRate)}
               </p>
               <div className="vads-u-font-style--italic">
