@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import unset from 'platform/utilities/data/unset';
-import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -13,7 +12,6 @@ import {
   validateBooleanGroup,
   validateCurrentOrFutureDate,
 } from 'platform/forms-system/src/js/validation';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
@@ -34,14 +32,9 @@ import * as toursOfDuty from '../../definitions/toursOfDuty';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
-
 import {
   transform,
   benefitsEligibilityBox,
-  benefitsRelinquishmentWarning,
-  benefitsRelinquishmentLabels,
-  benefitsRelinquishedDescription,
   prefillTransformer,
   reserveKickerWarning,
   SeventeenOrOlder,
@@ -62,8 +55,6 @@ const {
   additionalContributions,
   activeDutyKicker,
   reserveKicker,
-  benefitsRelinquished,
-  benefitsRelinquishedDate,
   serviceAcademyGraduationYear,
 } = fullSchema1990.properties;
 
@@ -293,7 +284,6 @@ const formConfig = {
                 },
               },
               'view:chapter33ExpandedContent': {
-                'ui:description': benefitsLabels.chapter33Description,
                 'ui:options': {
                   expandUnder: 'chapter33',
                 },
@@ -321,57 +311,6 @@ const formConfig = {
                   chapter30,
                   chapter1606,
                 },
-              },
-            },
-          },
-        },
-        benefitsRelinquishment: {
-          title: 'Benefits relinquishment',
-          path: 'benefits-eligibility/benefits-relinquishment',
-          depends: formData => formData['view:selectedBenefits'].chapter33,
-          initialData: {
-            'view:benefitsRelinquishedContainer': {
-              benefitsRelinquishedDate: moment().format('YYYY-MM-DD'),
-            },
-          },
-          uiSchema: {
-            'ui:title': 'Benefits relinquishment',
-            'ui:description': benefitsRelinquishmentWarning,
-            'view:benefitsRelinquishedContainer': {
-              'ui:field': BenefitsRelinquishmentField,
-              benefitsRelinquished: {
-                'ui:title': 'I choose to give up:',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: benefitsRelinquishmentLabels,
-                },
-              },
-              benefitsRelinquishedDate: merge({}, dateUI('Effective date'), {
-                'ui:required': formData =>
-                  get(
-                    'view:benefitsRelinquishedContainer.benefitsRelinquished',
-                    formData,
-                  ) !== 'unknown',
-              }),
-            },
-            'view:questionText': {
-              'ui:description': benefitsRelinquishedDescription,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:benefitsRelinquishedContainer': {
-                type: 'object',
-                required: ['benefitsRelinquished'],
-                properties: {
-                  benefitsRelinquished,
-                  benefitsRelinquishedDate,
-                },
-              },
-              'view:questionText': {
-                type: 'object',
-                properties: {},
               },
             },
           },
