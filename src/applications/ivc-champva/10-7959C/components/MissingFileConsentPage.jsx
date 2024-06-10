@@ -1,5 +1,10 @@
 import React from 'react';
-import { requiredFiles } from '../config/constants';
+import {
+  requiredFiles,
+  office,
+  officeAddress,
+  officeFaxNum,
+} from '../config/constants';
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -18,6 +23,11 @@ export function MissingFileConsentPage(props) {
     fileNameMap: { ...requiredFiles },
     requiredFiles,
     nonListNameKey: 'applicantName',
+    mailingAddress: officeAddress,
+    officeName: office,
+    faxNum: officeFaxNum,
+    showNameHeader: false,
+    showRequirementHeaders: false,
   });
   return <>{OverviewComp}</>;
 }
