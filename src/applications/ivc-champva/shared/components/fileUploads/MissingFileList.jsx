@@ -14,7 +14,7 @@ import { makeHumanReadable } from '../../utilities';
  */
 function alertOrLink(file, entryName, index, fileNameDict = {}) {
   const fn = fileNameDict?.[file.name] ?? makeHumanReadable(file.name);
-  const t = `Upload ${entryName}’s ${fn}`;
+  const t = `Upload ${entryName}’s ${fn} now`;
   const href = file?.path
     ? `${file?.path.replace(/:index/, index)}?fileReview=true`
     : '';
@@ -46,6 +46,8 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * @param {boolean} param0.disableLinks: whether or not to show link to edit page
  * @param {string} param0.subset: which classification of files to show: 'required', 'optional', 'all'
  * @param {object} param0.filenameMap: (optional) all file names mapped to user-friendly labels
+ * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
+ * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
  * @returns JSX
  */
 export default function MissingFileList({
@@ -56,6 +58,8 @@ export default function MissingFileList({
   disableLinks,
   subset,
   fileNameMap,
+  showNameHeader,
+  showFileBullets,
 }) {
   const inSubset = file => {
     if (subset === 'required') {
@@ -80,7 +84,9 @@ export default function MissingFileList({
   return (
     <div>
       <h3 className="vads-u-font-size--h4">{title || ''}</h3>
-      <p>{description || ''}</p>
+      <p>
+        <strong>{description || ''}</strong>
+      </p>
       {wrapped.map((entry, idx) => {
         if (entry?.missingUploads.filter(f => inSubset(f)).length === 0)
           return <></>;
@@ -88,16 +94,28 @@ export default function MissingFileList({
           ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
         return (
           <div key={`${entryName}-${subset}`}>
-            <strong>{entryName}</strong>
-            <ul style={!disableLinks ? { listStyleType: 'none' } : {}}>
+            {showNameHeader ? <strong>{entryName}</strong> : null}
+            <ul
+              style={
+                !disableLinks && !showFileBullets
+                  ? { listStyleType: 'none' }
+                  : { listStylePosition: 'inside' }
+              }
+            >
               {entry.missingUploads?.map((file, index) => {
+                const fn =
+                  fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
                 return inSubset(file) &&
                   (disableLinks ? file.uploaded === false : true) ? (
                   <li key={file.name + file.uploaded + index}>
-                    {!disableLinks
-                      ? alertOrLink(file, entryName, idx, fileNameMap)
-                      : fileNameMap?.[file.name] ??
-                        makeHumanReadable(file.name)}
+                    {!disableLinks ? (
+                      <>
+                        {showFileBullets ? fn : null}
+                        {alertOrLink(file, entryName, idx, fileNameMap)}
+                      </>
+                    ) : (
+                      fn
+                    )}
                   </li>
                 ) : null;
               })}
@@ -115,6 +133,8 @@ MissingFileList.propTypes = {
   disableLinks: PropTypes.bool,
   fileNameMap: PropTypes.any,
   nameKey: PropTypes.string,
+  showFileBullets: PropTypes.bool,
+  showNameHeader: PropTypes.bool,
   subset: PropTypes.string,
   title: PropTypes.string,
 };
