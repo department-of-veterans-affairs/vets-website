@@ -247,7 +247,7 @@ export const recruitingLabel = getIssueLabel(
 
 export const studentLoansLabel = getIssueLabel(
   'Student loan',
-  'The school didn’t provide you total a cost of your school loan.',
+  'The school didn’t provide you a total cost of your school loan.',
 );
 
 export const qualityLabel = getIssueLabel(
