@@ -9,9 +9,8 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    FolderLoadPage.loadFolders();
-    FolderLoadPage.loadSentMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
+    FolderLoadPage.loadSentMessages(mockSentMessages);
   });
 
   it('Verify filter works correctly', () => {
