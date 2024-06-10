@@ -44,7 +44,7 @@ function FilesNeeded({ item }) {
         {item.displayName}
       </h4>
       {!hideDueDate && <DueDate date={item.suspenseDate} />}
-      <p className="alert-description">{getItemDescription()}</p>
+      <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
           aria-label={`Details for ${item.displayName}`}
