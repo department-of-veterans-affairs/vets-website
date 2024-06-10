@@ -24,9 +24,10 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import ArrayField from 'platform/forms-system/src/js/fields/ArrayField';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
-import ServiceRecords from '../components/ServiceRecords';
+// import ServiceRecords from '../components/ServiceRecords';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
@@ -1038,7 +1039,8 @@ export const preparerVeteranUI = {
 };
 
 export const selfServiceRecordsUI = {
-  'ui:field': ServiceRecords,
+  // 'ui:field': ServiceRecords,
+  'ui:field': ArrayField,
   'ui:options': {
     viewField: ServicePeriodView,
     keepInPageOnReview: true,
@@ -1058,11 +1060,21 @@ export const selfServiceRecordsUI = {
     'ui:options': {
       itemName: 'Service Period',
     },
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-      'ui:options': {
-        labels: serviceLabels,
+    serviceBranch: autosuggest.uiSchema(
+      'Branch of service',
+      () =>
+        Promise.resolve(
+          Object.entries(serviceLabels).map(([key, value]) => ({
+            id: key,
+            label: value,
+          })),
+        ),
+      {
+        'ui:options': {
+          // labels: serviceLabels,
+        },
       },
-    }),
+    ),
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',
