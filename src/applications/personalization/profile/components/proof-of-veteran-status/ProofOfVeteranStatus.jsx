@@ -19,6 +19,7 @@ const ProofOfVeteranStatus = ({
     last: '',
     suffix: '',
   },
+  edipi,
   mockUserAgent,
 }) => {
   const { first, middle, last, suffix } = userFullName;
@@ -71,6 +72,7 @@ const ProofOfVeteranStatus = ({
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
           Proof of Veteran status
         </h2>
+        <p>{edipi}</p>
         <p>
           You can use your Veteran status card to get discounts offered to
           Veterans at many restaurants, hotels, stores, and other businesses.
@@ -136,7 +138,7 @@ const ProofOfVeteranStatus = ({
               <p>
                 If you think your discharge status is incorrect, call the
                 Defense Manpower Data Center at{' '}
-                <va-telephone contact={CONTACTS.DS_LOGON} /> (
+                <va-telephone contact={CONTACTS.DS_LOGON} />(
                 <va-telephone contact={CONTACTS[711]} tty />
                 ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m.
                 ET.
@@ -193,6 +195,7 @@ const mapStateToProps = state => ({
     state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
+  edipi: state.user?.profile?.edipi,
 });
 
 export default connect(mapStateToProps)(ProofOfVeteranStatus);
