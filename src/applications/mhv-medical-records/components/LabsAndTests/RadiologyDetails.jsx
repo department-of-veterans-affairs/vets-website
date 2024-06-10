@@ -147,6 +147,7 @@ ${record.results}`;
             'va-medical-images-and-reports',
           )}
           text="Request images on the My HealtheVet website"
+          data-testid="radiology-images-link"
         />
       </div>
 
