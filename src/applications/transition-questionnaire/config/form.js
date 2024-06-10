@@ -2,6 +2,8 @@
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
+import footerContent from 'platform/forms/components/FormFooter';
+import getHelp from '../../simple-forms/shared/components/GetFormHelp';
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/NA-schema.json';
@@ -76,6 +78,8 @@ const formConfig = {
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
