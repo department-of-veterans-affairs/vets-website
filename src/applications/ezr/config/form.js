@@ -16,6 +16,7 @@ import {
   isSigiEnabled,
   hasDifferentHomeAddress,
   teraInformationEnabled,
+  teraUploadEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includeAgentOrangeExposureDates,
@@ -293,7 +294,7 @@ const formConfig = {
         supportingDocuments: {
           path: 'military-service/upload-supporting-documents',
           title: 'Upload supporting documents',
-          depends: includeTeraInformation,
+          depends: teraUploadEnabled,
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
