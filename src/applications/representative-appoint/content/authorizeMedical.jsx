@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const authorizationInfo = () => (
+export const authorizeMedical = () => (
   <>
     <h3>Authorization to access certain medical records</h3>
     <p>
