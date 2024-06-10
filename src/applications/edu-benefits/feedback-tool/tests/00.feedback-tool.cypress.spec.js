@@ -92,7 +92,7 @@ describe('Feedback Tool Test', () => {
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },
-    );
+    ).should('be.visible');
     cy.fill(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       testData.data.educationDetails.school['view:manualSchoolEntry'].name,
