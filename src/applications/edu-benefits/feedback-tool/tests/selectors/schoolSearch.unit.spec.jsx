@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import * as schoolSearch from '../../selectors/schoolSearch';
 
 const ownProps = {
+  formData: {},
   formContext: {
     submitted: false,
   },
@@ -54,9 +55,9 @@ describe('SchoolSearch', () => {
   });
   it('should pass selectManualSchoolEntryChecked', () => {
     const manualSchoolEntryChecked = schoolSearch.selectManualSchoolEntryChecked(
-      state,
+      ownProps,
     );
-    expect(manualSchoolEntryChecked).to.be.false;
+    expect(manualSchoolEntryChecked).to.be.undefined;
   });
   it('should pass selectPagesCount', () => {
     const pagesCount = schoolSearch.selectPagesCount(state);
