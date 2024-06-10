@@ -6,10 +6,8 @@ const {
   uiSchema,
 } = formConfig.chapters.statementChapter.pages.statementPage;
 
-const pageConfig = {
+const pageTestExpectation = {
   data: {},
-  numberOfErrors: 0,
-  numberOfFields: 0,
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
   pageTitle: 'Provide your statement',
@@ -17,4 +15,4 @@ const pageConfig = {
   uiSchema,
 };
 
-testPage(pageConfig);
+testPage(pageTestExpectation);

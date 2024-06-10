@@ -6,10 +6,8 @@ const {
   uiSchema,
 } = formConfig.chapters.identificationChapter.pages.identificationInformationPage;
 
-const pageConfig = {
+const pageTestExpectation = {
   data: {},
-  numberOfErrors: 0,
-  numberOfFields: 0,
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 2,
   pageTitle: 'Identification information',
@@ -17,4 +15,4 @@ const pageConfig = {
   uiSchema,
 };
 
-testPage(pageConfig);
+testPage(pageTestExpectation);

@@ -6,10 +6,8 @@ const {
   uiSchema,
 } = formConfig.chapters.mailingAddressChapter.pages.mailingAddressPage;
 
-const pageConfig = {
+const pageTestExpectation = {
   data: {},
-  numberOfErrors: 0,
-  numberOfFields: 0,
   numberOfWebComponentErrors: 4,
   numberOfWebComponentFields: 7,
   pageTitle: 'Mailing address',
@@ -17,4 +15,4 @@ const pageConfig = {
   uiSchema,
 };
 
-testPage(pageConfig);
+testPage(pageTestExpectation);

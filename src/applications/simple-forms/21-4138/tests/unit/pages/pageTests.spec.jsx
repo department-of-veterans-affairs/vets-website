@@ -38,7 +38,7 @@ export const testPage = ({
     formConfig,
     schema,
     uiSchema,
-    numberOfFields,
+    numberOfFields || 0,
     pageTitle,
     data,
   );
@@ -47,7 +47,7 @@ export const testPage = ({
     formConfig,
     schema,
     uiSchema,
-    numberOfErrors,
+    numberOfErrors || 0,
     pageTitle,
     data,
   );

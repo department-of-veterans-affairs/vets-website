@@ -1,7 +1,7 @@
 import formConfig from '../../../config/form';
 import { testPage } from './pageTests.spec';
 
-const pages = [
+[
   {
     name: 'aboutPriorityProcessingPage',
     title: 'What to know before you request priority processing',
@@ -31,17 +31,13 @@ const pages = [
     name: 'priorityProcessingRequestPage',
     title: "There's a better way to request priority processing",
   },
-];
-
-pages.forEach(page => {
+].forEach(page => {
   const { schema, uiSchema } = formConfig.chapters.statementTypeChapter.pages[
     page.name
   ];
 
-  const pageConfig = {
+  const pageTestExpectation = {
     data: {},
-    numberOfErrors: 0,
-    numberOfFields: 0,
     numberOfWebComponentErrors: page.webComponentErrorCount || 0,
     numberOfWebComponentFields: page.webComponentCount || 0,
     pageTitle: page.title,
@@ -49,5 +45,5 @@ pages.forEach(page => {
     uiSchema,
   };
 
-  testPage(pageConfig);
+  testPage(pageTestExpectation);
 });

@@ -6,10 +6,8 @@ const {
   uiSchema,
 } = formConfig.chapters.statementTypeChapter.pages.claimStatusToolPage;
 
-const pageConfig = {
+const pageTestExpectation = {
   data: {},
-  numberOfErrors: 0,
-  numberOfFields: 0,
   numberOfWebComponentErrors: 0,
   numberOfWebComponentFields: 0,
   pageTitle: "There's a better way to request your personal records",
@@ -17,4 +15,4 @@ const pageConfig = {
   uiSchema,
 };
 
-testPage(pageConfig);
+testPage(pageTestExpectation);

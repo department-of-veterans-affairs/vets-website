@@ -6,10 +6,8 @@ const {
   uiSchema,
 } = formConfig.chapters.personalInformationChapter.pages.personalInformationPage;
 
-const pageConfig = {
+const pageTestExpectation = {
   data: {},
-  numberOfErrors: 0,
-  numberOfFields: 0,
   numberOfWebComponentErrors: 3,
   numberOfWebComponentFields: 4,
   pageTitle: 'Name and date of birth',
@@ -17,4 +15,4 @@ const pageConfig = {
   uiSchema,
 };
 
-testPage(pageConfig);
+testPage(pageTestExpectation);
