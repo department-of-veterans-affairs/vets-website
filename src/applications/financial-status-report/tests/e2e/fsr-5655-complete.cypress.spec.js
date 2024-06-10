@@ -18,6 +18,10 @@ import {
   verifyEditPage,
 } from './pages/ChecklistSummaryFlow';
 import { data } from './fixtures/data/fsr-maximal.json';
+import {
+  otherLivingExpensesOptions,
+  otherLivingExpensesList,
+} from '../../constants/checkboxSelections';
 
 Cypress.config('waitForAnimations', true);
 
@@ -638,6 +642,18 @@ const testConfig = createTestConfig(
       },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
+          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
+          cy.get('@testData').then(testData => {
+            const otherExpenseChecklistLength = testData[
+              'view:showUpdatedExpensePages'
+            ]
+              ? otherLivingExpensesList.length
+              : otherLivingExpensesOptions.length;
+
+            cy.get('[type=checkbox]')
+              .as('checklist')
+              .should('have.length', otherExpenseChecklistLength);
+          });
           fillChecklist(otherExpenses);
           cy.get('.usa-button-primary').click();
         });
