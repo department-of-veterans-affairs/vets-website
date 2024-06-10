@@ -39,6 +39,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     prefillEnabled,
     downtime,
     pageList,
+    devOnly: { forceShowFormControls: true },
   };
 
   const sipIntro = <SaveInProgressIntro {...sipProps} />;
