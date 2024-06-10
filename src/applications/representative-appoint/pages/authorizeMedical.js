@@ -30,7 +30,7 @@ export const uiSchema = {
   'view:authorizationPolicy': {
     'ui:description': () => {
       return (
-        <>
+        <div className="vads-u-margin-y--3">
           <va-accordion uswds bordered open-single>
             <va-accordion-item
               bordered
@@ -54,7 +54,7 @@ export const uiSchema = {
               </p>
             </va-accordion-item>
           </va-accordion>
-        </>
+        </div>
       );
     },
   },
