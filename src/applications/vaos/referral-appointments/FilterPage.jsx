@@ -1,26 +1,42 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import moment from 'moment';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import CalendarWidget from '../components/calendar/CalendarWidget';
-import SelectedIndicator, {
-  getSelectedLabel,
-} from '../new-appointment/components/DateTimeRequestPage/SelectedIndicator';
-import { onCalendarChange } from '../new-appointment/redux/actions';
-import DateTimeRequestOptions from '../new-appointment/components/DateTimeRequestPage/DateTimeRequestOptions';
+import { getSelectedLabel } from '../new-appointment/components/DateTimeRequestPage/SelectedIndicator';
+// import DateTimeRequestOptions from '../new-appointment/components/DateTimeRequestPage/DateTimeRequestOptions';
+// import {
+//   selectDateTime,
+//   selectFacility,
+//   selectCCAppointment,
+// } from './redux/selectors';
 
 export default function ReviewApproved() {
-  const maxSelections = 0;
-
   const submitted = false;
-
-  const selectedDates = [];
 
   const minDate = moment().add(5, 'd');
   if (minDate.day() === 6) minDate.add(2, 'days');
   if (minDate.day() === 0) minDate.add(1, 'days');
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  // const dateTime = useSelector(selectDateTime);
+  // const facility = useSelector(selectFacility);
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedFacility, setSelectedFacility] = useState('');
+  // const [selectedDateTime, setSelectedDateTime] = useState(null);
+
+  const availableSlots = [
+    { start: '2024-06-12T09:00:00', end: '2024-06-12T10:00:00' },
+    { start: '2024-06-14T10:00:00', end: '2024-06-14T11:00:00' },
+  ];
+
+  const selectedDates = ['2024-06-12', '2024-06-14'];
+
+  // const handleFacilityChange = event => {
+  //   setSelectedFacility(event.target.value);
+  // };
 
   function userSelectedSlot(dates) {
     return dates?.length > 0;
@@ -55,25 +71,27 @@ export default function ReviewApproved() {
   // </FormLayout>
 
   return (
-    <FormLayout isReviewPage="true">
+    <FormLayout isReviewPage>
       <div>
-        <h1>Filter [physical therapy] providers</h1>
+        <h1>Filter [physical therapy] providers -- </h1>
         <hr />
         <div>Date:</div>
         <div>
           <CalendarWidget
-            multiSelect
-            maxSelections={maxSelections}
+            maxSelections={2}
+            availableSlots={availableSlots}
             maxSelectionsError="You can only choose up to 3 dates for your appointment"
-            onChange={(...args) => dispatch(onCalendarChange(...args))}
+            onChange={(...args) => setSelectedDate(...args)}
+            id="dateTime"
+            additionalOptions={{
+              fieldName: 'datetime',
+              required: true,
+            }}
             minDate={minDate.format('YYYY-MM-DD')}
             maxDate={moment()
               .add(120, 'days')
               .format('YYYY-MM-DD')}
             value={selectedDates}
-            id="optionTime"
-            renderIndicator={props => <SelectedIndicator {...props} />}
-            renderOptions={props => <DateTimeRequestOptions {...props} />}
             renderSelectedLabel={getSelectedLabel}
             required
             requiredMessage="Select at least one preferred timeframe for your appointment."
@@ -81,31 +99,43 @@ export default function ReviewApproved() {
           />
         </div>
         <div>
-          <va-select
-            hint={null}
-            label="Facility:"
-            message-aria-describedby="Sort provider by"
-            name="options"
-            value=""
+          <VaSelect
+            name="type"
+            data-test-id="facility-type"
+            label="Type of facility"
+            required
+            value={[]}
+            onVaSelect={e => setSelectedFacility(e.detail.value)}
           >
             {sortOptions[0].map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
-          </va-select>
+          </VaSelect>
         </div>
         <div className="vads-u-margin-top--2">
           <va-button
             className="va-button-link"
             secondary
-            text="Canel"
+            text="Cancel"
+            onClick={() => history.push('/choose-community-care-appointment')}
             data-testid="cancel-button"
             uswds
           />
           <va-button
             className="va-button-link"
             text="Apply"
+            onClick={() => {
+              // Dispatch actions to update the Redux store
+
+              // Log the dateTime and facility values
+              // console.log('DateTime:', selectedDate);
+              // console.log('Facility:', selectedFacility);
+
+              // Navigate to the route
+              history.push('/choose-community-care-appointment');
+            }}
             data-testid="apply-button"
             uswds
           />
