@@ -29,7 +29,9 @@ describe('HLR contact info loop', () => {
     window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
 
-    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []).as(
+      'getIssues',
+    );
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
@@ -45,6 +47,8 @@ describe('HLR contact info loop', () => {
     cy.findAllByText(/start the request/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues');
 
     // Veteran info (DOB, SSN, etc)
     cy.location('pathname').should('eq', `${BASE_URL}/veteran-information`);
