@@ -32,6 +32,7 @@ import { customRelationshipSchema } from '../components/CustomRelationshipPatter
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
+import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
@@ -185,6 +186,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for CHAMPVA benefits.',
     noAuth:
@@ -327,7 +329,10 @@ const formConfig = {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
                   if (
-                    formData.certifierRelationship.relationshipToVeteran.other
+                    get(
+                      'certifierRelationship.relationshipToVeteran.other',
+                      formData,
+                    )
                   )
                     fs.properties.otherRelationshipToVeteran[
                       'ui:collapsed'

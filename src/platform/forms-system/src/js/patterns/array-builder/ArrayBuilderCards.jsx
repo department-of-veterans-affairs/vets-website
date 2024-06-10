@@ -75,6 +75,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -131,6 +132,7 @@ const ArrayBuilderCards = ({
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
+    forceRerender(newData);
   }
 
   const Card = ({ index, children }) => (
@@ -241,6 +243,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.string,
   ]).isRequired,
   editItemPathUrl: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
