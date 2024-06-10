@@ -23,6 +23,7 @@ import {
   addOverlayTriggers,
 } from './utilities/menu-behavior';
 import Search from './partials/search';
+import SignInModal from './partials/sign-in';
 
 const store = createCommonStore();
 
@@ -86,7 +87,7 @@ function renderHeader(megaMenuData, headerContainer = null) {
 
   addHeaderEventListeners();
 
-  const parentElement = isMobile
+  const searchParentElement = isMobile
     ? 'mobile-search-container'
     : 'search-dropdown';
 
@@ -94,7 +95,18 @@ function renderHeader(megaMenuData, headerContainer = null) {
     <Provider store={store}>
       <Search isMobile={isMobile} />
     </Provider>,
-    document.getElementById(parentElement),
+    document.getElementById(searchParentElement),
+  );
+
+  const signInParentElement = isMobile
+    ? 'mobile-nav-container'
+    : 'desktop-nav-container';
+
+  startReactApp(
+    <Provider store={store}>
+      <SignInModal />
+    </Provider>,
+    document.getElementById(signInParentElement),
   );
 
   return null;

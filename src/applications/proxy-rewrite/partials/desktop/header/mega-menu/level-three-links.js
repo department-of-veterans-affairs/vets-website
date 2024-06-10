@@ -88,8 +88,6 @@ export const buildLevelThreeLinksForBenefitHubs = section => {
     seeAllLink = buildSeeAllLink(section.links.seeAllLink);
   }
 
-  console.log('section.links: ', section.links);
-
   return `
     ${seeAllLink}
     ${buildColumns(section?.links?.columnOne, 'column-one')}

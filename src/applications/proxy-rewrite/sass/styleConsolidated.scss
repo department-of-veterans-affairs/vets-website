@@ -2728,16 +2728,16 @@
     opacity: 0.7
   }
 
-  .sign-in-links {
+  .sign-in-buttons {
     margin-left: 1rem
   }
 
-  .sign-in-link {
+  .sign-in-button {
     color: inherit !important;
     text-decoration: none
   }
 
-  .sign-in-link:hover {
+  .sign-in-button:hover {
     color: #ffbe2e !important;
     text-decoration: underline
   }
@@ -3703,13 +3703,13 @@
       font-weight: normal
     }
 
-    #login-root .sign-in-nav .sign-in-links {
+    #login-root .sign-in-nav .sign-in-buttons {
       background: none;
       margin-left: 0;
       padding-left: 0.75em
     }
 
-    #login-root .sign-in-nav .sign-in-links .va-button-link {
+    #login-root .sign-in-nav .sign-in-buttons .va-button-link {
       font-weight: 600;
       -webkit-font-smoothing: antialiased
     }
@@ -3756,7 +3756,7 @@
       background-position: right 0.8rem center
     }
 
-    #login-root .profile-nav .va-dropdown .sign-in-links {
+    #login-root .profile-nav .va-dropdown .sign-in-buttons {
       padding-right: 0;
       padding-left: 0
     }
@@ -3766,30 +3766,30 @@
     color: inherit
   }
 
-  .sign-in-links {
+  .sign-in-buttons {
     flex-shrink: 0
   }
 
-  .sign-in-link {
+  .sign-in-button {
     margin: 0
   }
 
   @media screen and (min-width: 768px) {
 
-    .sign-in-link:hover,
-    .sign-in-link:active {
+    .sign-in-button:hover,
+    .sign-in-button:active {
       background-color: #1a4480;
       color: inherit !important;
       text-decoration: none
     }
 
-    .sign-in-link:focus {
+    .sign-in-button:focus {
       outline-offset: 2px
     }
   }
 
   @media (max-width: 767px) {
-    .sign-in-link {
+    .sign-in-button {
       background: none;
       background-color: transparent !important;
       border: 0;
@@ -3811,7 +3811,7 @@
       -webkit-font-smoothing: antialiased
     }
 
-    .sign-in-link:hover {
+    .sign-in-button:hover {
       background: none;
       border: 0;
       border-radius: 0;
@@ -3825,17 +3825,17 @@
       transition-property: color, background-color, border-color
     }
 
-    .sign-in-link:active {
+    .sign-in-button:active {
       background: rgba(0, 0, 0, 0.05)
     }
 
-    .sign-in-link:focus {
+    .sign-in-button:focus {
       outline: 2px solid #face00;
       outline-offset: 2px;
       outline-offset: 0
     }
 
-    .sign-in-link:disabled {
+    .sign-in-button:disabled {
       text-decoration: none;
       color: #a9aeb1 !important
     }
@@ -4020,7 +4020,7 @@
     }
   }
 
-  .sign-in-nav .sign-in-links {
+  .sign-in-nav .sign-in-buttons {
     color: #fff
   }
 
@@ -4497,4 +4497,8 @@
 
 #govt-banner-icon.expanded {
   transform: rotate(180deg);
+}
+
+.merger.modal-open {
+  margin-right: 0;
 }

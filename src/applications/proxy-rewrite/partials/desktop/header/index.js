@@ -78,6 +78,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
         </div>
         <div id="login-root" class="vet-toolbar">
           <div class="profile-nav-container">
+            <div id="desktop-nav-container"></div>
             <div class="hidden-header vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
               
               <!-- start Search -->
@@ -94,8 +95,8 @@ export const getDesktopHeaderHtml = megaMenuData => {
 
               <a class="va-header-contact vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold" href="https://www.va.gov/contact-us/">Contact us</a>
               <div class="sign-in-nav">
-                <div class="sign-in-links">
-                  <button class="sign-in-link">Sign in</button>
+                <div class="sign-in-buttons">
+                  <button class="sign-in-button">Sign in</button>
                 </div>
               </div>
             </div>
