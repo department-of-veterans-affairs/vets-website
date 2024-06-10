@@ -3,6 +3,14 @@ import path from 'path';
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import {
+  fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
+  fillTextWebComponent,
+  reviewAndSubmitPageFlow,
+  selectYesNoWebComponent,
+} from '../../../shared/tests/e2e/helpers';
+
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
@@ -47,6 +55,14 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'statement-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaRadioOption('root_statementType_NOT_LISTED', true);
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
       'personal-information': ({ afterHook }) => {
         afterHook(() => {});
       },
@@ -63,7 +79,14 @@ const testConfig = createTestConfig(
         afterHook(() => {});
       },
       'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          // cy.get('@testData').then(data => {
+          //   const fullNamePath = statementOfTruthFullNamePath({
+          //     formData: data,
+          //   });
+          //   reviewAndSubmitPageFlow(data[fullNamePath], 'Submit application');
+          // });
+        });
       },
     },
 
