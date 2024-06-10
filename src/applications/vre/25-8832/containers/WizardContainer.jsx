@@ -27,8 +27,8 @@ const WizardContainer = props => {
           Apply for Personalized Career Planning and Guidance with VA Form
           25-8832
         </h1>
-        <p>
-          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
+        <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg2">
+          Form 27-8832 (formally known as 28-8832, or 25-8832)
         </p>
         <h2 className="vads-u-margin-top--3">Is this the form I need?</h2>
         <p>
