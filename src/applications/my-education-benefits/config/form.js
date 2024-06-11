@@ -417,6 +417,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
   transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EZ,

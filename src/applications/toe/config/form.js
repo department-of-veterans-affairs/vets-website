@@ -89,6 +89,8 @@ const formConfig = {
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EMEB,
