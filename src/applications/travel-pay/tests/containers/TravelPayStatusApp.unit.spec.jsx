@@ -244,6 +244,9 @@ describe('App', () => {
       expect(await screen.findByText('Showing 1 ‒ 10 of 31 events')).to.exist;
       // RTL doesn't support shadow DOM elements, so best we can do here is
       // check that the top-level pagination element gets rendered
+      expect(await screen.container.querySelectorAll('va-card').length).to.eq(
+        10,
+      );
       expect(await screen.container.querySelector('va-pagination')).to.exist;
     });
   });
