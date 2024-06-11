@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getToggleEnrollmentSuccess } from '../selectors/getToggleEnrollmentSuccess';
-// import { getToggleEnrollmentError } from '../selectors/getToggleEnrollmentError';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
