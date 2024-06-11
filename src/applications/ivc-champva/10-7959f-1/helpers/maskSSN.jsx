@@ -17,21 +17,24 @@ export default function HandlePrefilledSSN(fieldProps) {
   const props = vaTextInputFieldMapping(fieldProps);
   const [val, setVal] = useState(props.value);
   const [displayVal, setDisplayVal] = useState(props.value);
+  const [cleared, setCleared] = useState(false);
   const vaTextInput = useRef();
 
   useEffect(() => {
-    setVal(maskSSN(val));
     setDisplayVal(maskSSN(val));
   }, []);
+
   const handleChange = event => {
     const { value } = event.target;
     let strippedSSN;
     if (value) {
       strippedSSN = value.replace(/[- ]/g, '');
     }
-
+    if (val === '') {
+      setCleared(true);
+      setDisplayVal(val);
+    }
     setVal(value);
-    setDisplayVal(value);
     props.onInput(event, strippedSSN);
   };
 
@@ -41,7 +44,9 @@ export default function HandlePrefilledSSN(fieldProps) {
   };
 
   const handleFocus = () => {
-    setDisplayVal(val);
+    if (cleared) {
+      setDisplayVal(val);
+    }
   };
 
   return (
