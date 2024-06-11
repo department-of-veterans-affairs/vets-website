@@ -2876,17 +2876,17 @@
     react-transition-group "^1.0.0"
 
 "@department-of-veterans-affairs/css-library@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.3.tgz#91673fe8a620addc5a83c2d744fbfba9332d83de"
-  integrity sha512-Sy/d+MhD0W/33DPrF/KBosukMHGK6grkTmbc0SdpdyrYpUDIdj5UqJspHGf1K6NW8zKtmlt72s8IVjxUKhW7Fw==
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.4.tgz#ad0b53ae6ce0660c555fc205c9bbe59182234410"
+  integrity sha512-Qr/V7GtoYhnsUV32FcoF2Tu2JVap/vHvJ65CQKnekTmb5gKg9WD0PqQ5Jq5BRLp9M3ara1IIZfEwxxoXpbhxpA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.0.tgz#2a8df8f3e5c1f7bcff9b0902e12f2190054e5417"
-  integrity sha512-7UXzzH7SBYk+LSSxUnaXcqB7io75MWxg2ASQ9BqAU75oc4q6r2B/dFkRAoXjWMOiBOrz75bjKrltNhy9a7ng4g==
+"@department-of-veterans-affairs/css-library@^0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.2.tgz#3db7ded03f8163ed9141a27f68cb4c59dd4d75a7"
+  integrity sha512-BBuNHmtJsDZM6ho1hryiNpyQsBbjYsthI8uQbESqL7m3pRLbIb1mKXJClM2G7HIa4p4//Yn/CFcdJK8thKOwuQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
