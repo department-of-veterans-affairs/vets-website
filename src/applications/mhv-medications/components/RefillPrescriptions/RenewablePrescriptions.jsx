@@ -100,44 +100,50 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         </>
       )}
       <div>
-        {paginatedRenewablePrescriptions.map((prescription, idx) => (
-          <div
-            key={idx}
-            className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
-          >
-            <Link
-              data-testid={`medication-details-page-link-${idx}`}
-              to={`/prescription/${prescription.prescriptionId}`}
-              onClick={() => onRxLinkClick(prescription)}
-              className="vads-u-font-weight--bold"
+        {paginatedRenewablePrescriptions.map((prescription, idx) => {
+          const lastFilledDate =
+            prescription.rxRfRecords.find(record => record.dispensedDate)
+              ?.dispensedDate || prescription.dispensedDate;
+          const lastFilledContent = lastFilledDate
+            ? `Last filled on ${dateFormat(lastFilledDate, 'MMMM D, YYYY')}`
+            : `Not filled yet`;
+          return (
+            <div
+              key={idx}
+              className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
             >
-              {prescription.prescriptionName}
-            </Link>
-            <div className="renew-card-details">
-              <p>{`Prescription number: ${prescription.prescriptionNumber}`}</p>
-              <p data-testid={`renew-last-filled-${idx}`}>
-                {`Last filled on ${dateFormat(
-                  prescription.rxRfRecords.find(record => record.dispensedDate)
-                    ?.dispensedDate || prescription.dispensedDate,
-                  'MMMM D, YYYY',
-                )}`}
-              </p>
-              {prescription?.trackingList?.[0]?.completeDateTime && (
-                <p data-testid={`medications-last-shipped-${idx}`}>
-                  {/* <va-icon
-                      size={4}
-                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                      className="vads-u-margin-right--1p5"
-                    /> */}
-                  {`Last refill shipped on ${dateFormat(
-                    prescription.trackingList[0].completeDateTime,
-                    'MMMM D, YYYY',
-                  )}`}
+              <Link
+                data-testid={`medication-details-page-link-${idx}`}
+                to={`/prescription/${prescription.prescriptionId}`}
+                onClick={() => onRxLinkClick(prescription)}
+                className="vads-u-font-weight--bold"
+              >
+                {prescription.prescriptionName}
+              </Link>
+              <div className="renew-card-details">
+                <p>
+                  {`Prescription number: ${prescription.prescriptionNumber}`}
                 </p>
-              )}
+                <p data-testid={`renew-last-filled-${idx}`}>
+                  {lastFilledContent}
+                </p>
+                {prescription?.trackingList?.[0]?.completeDateTime && (
+                  <p data-testid={`medications-last-shipped-${idx}`}>
+                    {/* <va-icon
+                        size={4}
+                        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                        className="vads-u-margin-right--1p5"
+                      /> */}
+                    {`Last refill shipped on ${dateFormat(
+                      prescription.trackingList[0].completeDateTime,
+                      'MMMM D, YYYY',
+                    )}`}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         <div className="renew-pagination-container">
           {renewablePrescriptionsList.length > MAX_PAGE_LIST_LENGTH && (
             <VaPagination

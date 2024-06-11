@@ -273,11 +273,16 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                       checkbox-description={`Prescription number: ${
                         prescription.prescriptionNumber
                       }
-                        Last filled on ${dateFormat(
+                        ${
                           prescription.sortedDispensedDate ||
-                            prescription.dispensedDate,
-                          'MMMM D, YYYY',
-                        )}
+                          prescription.dispensedDate
+                            ? `Last filled on ${dateFormat(
+                                prescription.sortedDispensedDate ||
+                                  prescription.dispensedDate,
+                                'MMMM D, YYYY',
+                              )}`
+                            : 'Not filled yet'
+                        }
                         ${prescription.refillRemaining} refills left`}
                     />
                   </div>
