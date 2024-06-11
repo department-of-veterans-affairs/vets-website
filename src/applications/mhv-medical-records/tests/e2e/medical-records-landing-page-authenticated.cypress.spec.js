@@ -3,7 +3,7 @@ import LandingPage from './pages/MedicalRecordsLandingPage';
 // import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
 describe('Medical Records Authenticated Users', () => {
-  it('Visits Medical Records Unauthenticated Users', () => {
+  it('Visits Medical Records Authenticated Users', () => {
     const site = new MedicalRecordsSite();
     site.login(true);
     site.loadPageAuthenticated();

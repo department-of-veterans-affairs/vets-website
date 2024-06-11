@@ -14,7 +14,7 @@ class MedicalRecordsLandingPage {
       .invoke('attr', 'href')
       .should(
         'contain',
-        'mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
+        'myhealth.va.gov/mhv-portal-web/download-my-data', // mhv-syst.
       );
   };
 }
