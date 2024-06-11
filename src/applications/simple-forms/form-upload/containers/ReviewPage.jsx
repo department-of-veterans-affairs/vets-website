@@ -62,6 +62,7 @@ const ReviewPage = () => {
         <VaSegmentedProgressBar
           current={2}
           total={3}
+          headerLevel={2}
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>

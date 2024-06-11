@@ -27,7 +27,11 @@ const WiderThanMobileLogoRow = () => {
         >
           Contact us
         </a>
-        <UserNav />
+        <div className="sign-in-nav">
+          <div className="sign-in-links">
+            <UserNav isMobile={false} />
+          </div>
+        </div>
       </div>
     </div>
   );

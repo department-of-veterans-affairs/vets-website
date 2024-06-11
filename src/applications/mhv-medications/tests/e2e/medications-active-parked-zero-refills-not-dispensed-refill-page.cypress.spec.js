@@ -20,7 +20,7 @@ describe('Medications Refill Page Active Parked Rx', () => {
       activeParkedNoDispenseDate.data.attributes.dispensedDate,
     );
     refillPage.verifyRefillRemainingForActiveParkedRxZeroRefills(
-      activeParkedNoDispenseDate.data.attributes.prescriptionNumber,
+      checkBox,
       activeParkedNoDispenseDate.data.attributes.refillRemaining,
     );
   });
