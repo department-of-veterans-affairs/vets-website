@@ -1728,7 +1728,7 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Direct Deposit',
+      title: 'Direct deposit',
       pages: {
         standardDirectDeposit: {
           path: 'direct-deposit',
