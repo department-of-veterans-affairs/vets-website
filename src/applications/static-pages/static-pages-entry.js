@@ -42,7 +42,6 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
-import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createEZRSubmissionOptions from './ezr-submission-options';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
@@ -162,7 +161,6 @@ createResourcesAndSupportSearchWidget(
 );
 createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
-createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createNearByVALocations(store);
 createFacilityListWidget();

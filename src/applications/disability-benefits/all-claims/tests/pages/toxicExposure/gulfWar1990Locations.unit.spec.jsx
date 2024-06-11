@@ -82,7 +82,7 @@ describe('Gulf War 1990 Locations', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display error when condition and "none"', async () => {
+  it('should display error when location and "none"', async () => {
     const formData = {};
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
@@ -93,6 +93,25 @@ describe('Gulf War 1990 Locations', () => {
 
     userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should submit with `none` and `notsure` selected', async () => {
+    const formData = {};
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'none');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 
   it('should submit with `notsure` and other locations selected', async () => {
