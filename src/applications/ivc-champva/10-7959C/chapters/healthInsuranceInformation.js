@@ -12,8 +12,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { requiredFiles } from '../config/constants';
-import { isRequiredFile, nameWording } from '../helpers/utilities';
+import { nameWording } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
   fileUploadBlurb,
@@ -278,7 +277,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
               <br />
               <br />
               If you don’t have a copy to upload now, you can send it by mail or
-              fax
+              fax.
             </>
           );
         },
@@ -293,7 +292,7 @@ export function applicantInsuranceSOBSchema(isPrimary) {
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema([`Schedule of benefits card`]),
+        [keyname]: fileWithMetadataSchema([`Schedule of benefits document`]),
       },
     },
   };
@@ -320,7 +319,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
             hmo: 'Health Maintenance Organization (HMO) program',
             ppo: 'Preferred Provider Organization (PPO) program',
             medicaid: 'Medicaid or a State Assistance program',
-            rxDiscount: 'PrescriptionDiscount',
+            rxDiscount: 'Prescription Discount program',
             other:
               'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
             medigap: 'Medigap program',
@@ -445,31 +444,32 @@ export function applicantInsuranceCardSchema(isPrimary) {
   return {
     uiSchema: {
       ...titleUI(
-        ({ formData, formContext }) =>
+        ({ formData }) =>
           `Upload ${
             isPrimary
               ? formData?.applicantPrimaryProvider
               : formData?.applicantSecondaryProvider
-          } ${val} health insurance cards ${isRequiredFile(
-            formContext,
-            requiredFiles,
-          )}`,
-        ({ formData }) => {
-          const appName = nameWording(formData);
+          } ${val} health insurance card`,
+        () => {
           return (
             <>
-              You’ll need to submit a copy of the front and back of {appName}{' '}
-              Medicare Part A & B card.
+              You’ll need to submit a copy of the front and back of this health
+              insurance card.
+              <br />
+              <br />
+              You can also upload any other supporting documents you may have
+              for this health insurance.
+              <br />
               <br />
               If you don’t have a copy to upload now, you can send it by mail or
-              fax
+              fax.
             </>
           );
         },
       ),
       ...fileUploadBlurb,
       [keyname]: fileUploadUI({
-        label: 'Upload other health insurance cards',
+        label: 'Upload health insurance card',
       }),
     },
     schema: {
@@ -480,6 +480,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
         [keyname]: fileWithMetadataSchema([
           `Front of ${val} insurance card`,
           `Back of ${val} insurance card`,
+          `Other ${val} insurance supporting document`,
         ]),
       },
     },
