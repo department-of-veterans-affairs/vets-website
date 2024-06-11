@@ -73,10 +73,8 @@ article#pre-need[data-location="sponsor-demographics"] {
   }
 }
 
-// MBMS-61967: change "applicant-demographics-notprod" to "applicant-demographics" and remove the applicant-demographics-notprod section from form.jsx
-// MBMS-61967: change "sponsor-demographics-notprod" to "sponsor-demographics" and remove the sponsor-demographics-notprod section from form.jsx
-article#pre-need[data-location="applicant-demographics-notprod"],
-article#pre-need[data-location="sponsor-demographics-notprod"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
   fieldset.schemaform-field-template.usa-input-error {
     fieldset.vads-u-margin-y--2.rjsf-object-field {
       div {
@@ -136,15 +134,6 @@ article#pre-need[data-location="review-and-submit"] {
     }
     margin-bottom: 1em;
     padding-bottom: 2em;
-  }
-  // MBMS-61967: remove race-view class
-  .race-view {
-  fieldset > div.schemaform-widget-wrapper > fieldset > div {
-    margin-top: -0.9em;
-  }
-  fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
-    margin-top: 0.9em;
-  }
   }
 }
 
