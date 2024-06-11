@@ -47,10 +47,15 @@ const SubmitPage = () => {
   }, []);
 
   return (
-    <FormPage currentLocation={3} pageTitle="Uploaded file">
-      <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
-        <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
-      </div>
+    <FormPage
+      currentLocation={3}
+      pageTitle={
+        <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
+          <h3>Uploaded file</h3>
+          <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
+        </div>
+      }
+    >
       <div>
         <VaIcon icon="description" size={5} srtext="icon representing a file" />
         <b>{fileName}</b> {getFileSize(fileSize)}
@@ -76,12 +81,12 @@ const SubmitPage = () => {
           </>
         )}
       </div>
-      <p>
+      <p className="vads-u-margin-bottom--5">
         <b>Note:</b> If you need to update your personal information, please
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
         9:00pm ET.
       </p>
-      <span>
+      <span className="vads-u-margin-top--0">
         <VaButton secondary back onClick={history.goBack} />
         <VaButton primary text="Submit form" onClick={submitHandler} />
       </span>

@@ -39,7 +39,11 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>
-      <h3 className="vads-u-margin-bottom--4">{pageTitle}</h3>
+      {typeof pageTitle === 'string' ? (
+        <h3 className="vads-u-margin-bottom--4">{pageTitle}</h3>
+      ) : (
+        pageTitle
+      )}
       {children}
       <div className="need-help-footer">
         <h2 className="vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
