@@ -3,8 +3,7 @@ import placeOfBirth from './placeOfBirth';
 import contactInformation from './contactInformation';
 import homeAddress from './homeAddress';
 import workAddress from './workAddress';
-import militaryHistory from './militaryHistory';
-import militaryServiceExperience from './militaryServiceExperience';
+import militaryServicePages from './militaryServicePages';
 
 /** @type {PageSchema} */
 export default {
@@ -15,7 +14,6 @@ export default {
     contactInformation,
     homeAddress,
     workAddress,
-    militaryHistory,
-    militaryServiceExperience,
+    ...militaryServicePages,
   },
 };
