@@ -23,17 +23,14 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
-  // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
-  // (can't be overridden by passing 'hint' to uiOptions):
-  const urls = [
-    formConfig.chapters.healthcareInformation.pages.primaryProvider.path,
-    formConfig.chapters.healthcareInformation.pages.secondaryProvider.path,
-  ];
-  const targets = ['va-memorable-date'];
-  const css = '#dateHint {display: none}';
-
   useEffect(() => {
-    addStyleToShadowDomOnPages(urls, targets, css);
+    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
+    // (can't be overridden by passing 'hint' to uiOptions):
+    addStyleToShadowDomOnPages(
+      [''],
+      ['va-memorable-date'],
+      '#dateHint {display: none}',
+    );
   });
 
   return (

@@ -322,7 +322,7 @@ const formConfig = {
       title: 'Your statement',
       hideFormTitle: true,
       pages: {
-        statement: {
+        statementPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
           path: 'statement',
           title: 'Your statement',
