@@ -612,7 +612,7 @@ const FileField = props => {
                   //   passwordLabel={content.passwordLabel(file.name)}
                   // />
                   <div className="vads-u-margin-bottom--2">
-                    <div className="usa-error-message">
+                    <div className="fieldFieldError">
                       We weren’t able to upload your file. Make sure the file is
                       not encrypted and an accepted format.
                     </div>
@@ -620,13 +620,7 @@ const FileField = props => {
                       class="vads-u-width--auto vads-u-margin-top--2"
                       text="Upload a new file"
                       onClick={() => {
-                        // if (value) {
-                        //   onSubmitPassword(file, index, value);
-                        // } else {
-                        //   setValue('');
-                        //   setDirty(true);
-                        //   setFocus();
-                        // }
+                        deleteThenAddFile(index);
                       }}
                       // label={passwordLabel}
                       uswds
@@ -636,13 +630,7 @@ const FileField = props => {
                       class="vads-u-width--auto vads-u-margin-top--2"
                       text="Cancel"
                       onClick={() => {
-                        // if (value) {
-                        //   onSubmitPassword(file, index, value);
-                        // } else {
-                        //   setValue('');
-                        //   setDirty(true);
-                        //   setFocus();
-                        // }
+                        openRemoveModal(index);
                       }}
                       // label={passwordLabel}
                       uswds

@@ -234,3 +234,11 @@ fieldset.schemaform-field-template.schemaform-first-field {
     max-width: 11.25rem;
   }
 }
+
+.fieldFieldError {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  color: rgb(181, 9, 9);
+  display: block;
+  font-weight: 700;
+}
