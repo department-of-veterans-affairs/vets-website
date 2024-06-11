@@ -70,12 +70,7 @@ const LandingPage = () => {
         }
       }
     },
-    [
-      location.pathname,
-      featureTogglesLoading,
-      appEnabled,
-      isPrescriptionsLoading,
-    ],
+    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
   );
 
   useEffect(
