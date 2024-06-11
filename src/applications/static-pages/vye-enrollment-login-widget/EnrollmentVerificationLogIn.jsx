@@ -86,7 +86,7 @@ export function EnrollmentVerificationLogin({
       if (includedInFlipper === false) {
         return (
           <p>
-            You can verify your enrollment by phone. Call
+            You can verify your enrollment by phone. Call {''}
             <va-telephone contact="8884424551" />
             {' ('}
             <va-telephone contact="711" tty="true" />
