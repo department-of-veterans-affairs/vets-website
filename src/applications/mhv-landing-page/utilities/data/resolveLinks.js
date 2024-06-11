@@ -29,9 +29,10 @@ export const toggleLink = (link, featureToggles = {}) => {
 //     e.g. in the case of a brand-new link with no `oldText`
 //     or in the event the link should be removed quickly and completely
 const filterOutHideableLinks = (links, featureToggles) => {
-  const shouldHideFilter = link =>
-    !isToggled(link.toggle, featureToggles) && link.hardToggle;
-  return links.filter(l => !shouldHideFilter(l));
+  return links.filter(
+    ({ toggle, hardToggle }) =>
+      !(!isToggled(toggle, featureToggles) && hardToggle),
+  );
 };
 
 const resolveLinks = (links, featureToggles) => {
