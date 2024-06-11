@@ -1065,33 +1065,6 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
   }
 };
 
-export function Description() {
-  const data = useSelector(state => state.form.data || {});
-  const serviceRecords = data?.application?.veteran?.serviceRecords;
-  const index = 0;
-
-  if (serviceRecords) {
-    const serviceBranch = serviceRecords[index]?.serviceBranch;
-    const dateRange = serviceRecords[index]?.dateRange;
-    return (
-      <p>
-        We’ll remove this service period for <strong>{serviceBranch}</strong>
-        {dateRange.to &&
-          dateRange.from && (
-            <>
-              <strong>, {dateRange.from}</strong> -{' '}
-              <strong>{dateRange.to}</strong>
-            </>
-          )}
-      </p>
-    );
-  }
-
-  return ' ';
-}
-
-const descriptionWrapper = <Description />;
-
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1100,7 +1073,12 @@ export const selfServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
     confirmRemove: true,
-    confirmRemoveDescription: descriptionWrapper,
+    confirmRemoveDescription: 'We’ll remove this service period for',
+    confirmRemoveDisplayFields: [
+      'serviceBranch',
+      'dateRange.from',
+      'dateRange.to',
+    ],
   },
   'ui:validations': [validateMilitaryHistory],
   items: {

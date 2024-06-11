@@ -402,6 +402,46 @@ export default class ArrayField extends React.Component {
             const useCardStyling = notLastOrMultipleRows;
             const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
 
+            const additionalData = uiOptions.confirmRemoveDisplayFields;
+            const computedValues = additionalData
+              .map(dataPath => {
+                const keys = dataPath.split('.');
+                let value = formData?.[index]; // Assuming index is 0
+
+                keys.forEach(key => {
+                  value = value ? value[key] : undefined;
+                });
+
+                return { dataPath, value };
+              })
+              .filter(({ value }) => value !== undefined);
+
+            const formattedSentenceParts = [];
+
+            computedValues.forEach(({ dataPath, value }) => {
+              if (dataPath === 'dateRange.from' || dataPath === 'dateRange.to')
+                return;
+
+              formattedSentenceParts.push(
+                <strong key={dataPath}>{` ${value}`}</strong>,
+              );
+            });
+
+            const dateRangeFrom = computedValues.find(
+              ({ dataPath }) => dataPath === 'dateRange.from',
+            )?.value;
+            const dateRangeTo = computedValues.find(
+              ({ dataPath }) => dataPath === 'dateRange.to',
+            )?.value;
+
+            const formattedDateRange = (
+              <strong>
+                {dateRangeFrom ? ` ${dateRangeFrom}` : ''}
+                {dateRangeFrom && dateRangeTo ? ' - ' : ''}
+                {dateRangeTo ? `${dateRangeTo}` : ''}
+              </strong>
+            );
+
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
                 <CardOrDiv
@@ -501,9 +541,17 @@ export default class ArrayField extends React.Component {
                       visible={isRemoving}
                       uswds
                     >
-                      {uiOptions.confirmRemoveDescription && (
-                        <p>{uiOptions.confirmRemoveDescription}</p>
-                      )}
+                      <>
+                        {uiOptions.confirmRemoveDescription && (
+                          <p>
+                            {uiOptions.confirmRemoveDescription}
+                            {formattedSentenceParts}
+                            {dateRangeFrom || dateRangeTo
+                              ? formattedDateRange
+                              : null}
+                          </p>
+                        )}
+                      </>
                     </VaModal>
                   )}
                 </CardOrDiv>
