@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import {
   VaBreadcrumbs,
-  VaButton,
+  VaButtonPair,
   VaFileInput,
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -82,15 +82,13 @@ const UploadPage = () => {
         required
         uswds
       />
-      <span>
-        <VaButton secondary text="<< Back" onClick={history.goBack} />
-        <VaButton
-          primary
-          text="Continue >>"
-          onClick={onClickContinue}
-          data-testid="continue-button"
-        />
-      </span>
+      <VaButtonPair
+        class="vads-u-margin-top--2"
+        continue
+        onPrimaryClick={onClickContinue}
+        onSecondaryClick={history.goBack}
+        uswds
+      />
       <div className="need-help-footer">
         <h2 className="vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
           Need help?

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import {
   VaBreadcrumbs,
-  VaButton,
+  VaButtonPair,
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -96,14 +96,13 @@ const ReviewPage = () => {
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
         9:00pm ET.
       </p>
-      <span>
-        <VaButton secondary text="<< Back" onClick={history.goBack} />
-        <VaButton
-          primary
-          text="Continue >>"
-          onClick={() => history.push(`/${formNumber}/submit`, state)}
-        />
-      </span>
+      <VaButtonPair
+        class="vads-u-margin-top--2"
+        continue
+        onPrimaryClick={() => history.push(`/${formNumber}/submit`, state)}
+        onSecondaryClick={history.goBack}
+        uswds
+      />
       <div className="need-help-footer">
         <h2 className="vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
           Need help?

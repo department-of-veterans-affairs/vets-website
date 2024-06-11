@@ -107,7 +107,7 @@ const SubmitPage = () => {
         9:00pm ET.
       </p>
       <span>
-        <VaButton secondary text="<< Back" onClick={history.goBack} />
+        <VaButton secondary back onClick={history.goBack} />
         <VaButton primary text="Submit form" onClick={submitHandler} />
       </span>
       <div className="need-help-footer">
