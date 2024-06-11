@@ -11,6 +11,7 @@ import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { selectAppointmentType } from '../../redux/selectors';
 import CancelPageContent from './CancelPageContent';
+import AppointmentCard from '../../../components/AppointmentCard';
 
 function handleClick(history, dispatch, url) {
   return e => {
@@ -56,13 +57,15 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         online.
       </p>
       <a
-        className="vads-c-action-link--blue vaos-hide-for-print vads-u-margin-bottom--2p5"
+        className="vads-c-action-link--blue vaos-hide-for-print vads-u-margin-bottom--1p5"
         href="/"
         onClick={handleClick(history, dispatch, page.url)}
       >
         Scheduling a new appointment
       </a>
-      <CancelPageContent type={type} />
+      <AppointmentCard appointment={appointment}>
+        <CancelPageContent type={type} />
+      </AppointmentCard>
     </>
   );
 }
