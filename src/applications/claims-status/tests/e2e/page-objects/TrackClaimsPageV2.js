@@ -339,6 +339,32 @@ class TrackClaimsPageV2 {
     cy.get('.claim-contentions > ul > li').should('have.length', 4);
   }
 
+  verifyWhatWeAreDoingSection() {
+    cy.get('.what-were-doing-container').should('be.visible');
+    cy.get('.what-were-doing-container > h3').should(
+      'contain',
+      'What we’re doing',
+    );
+    cy.get('va-card > h4').should('contain', 'Step 3 of 8: Evidence gathering');
+    cy.get('va-card')
+      .shadow()
+      .get('[data-cy="description"]')
+      .should(
+        'contain',
+        'We’re reviewing your claim to make sure we have all the evidence and information we need. If we need anything else, we’ll contact you.',
+      );
+    cy.get('va-card')
+      .shadow()
+      .get('[data-cy="moved-to-date-text"]')
+      .should('contain', 'Moved to this step on January 1, 2022');
+    cy.get('va-card > a')
+      .should('contain', 'Learn more about this step')
+      .click()
+      .then(() => {
+        cy.url().should('contain', '/your-claims/189685/overview');
+      });
+  }
+
   verifyRecentActivity() {
     cy.get('.recent-activity-container').should('be.visible');
     cy.get('.recent-activity-container > h3').should(

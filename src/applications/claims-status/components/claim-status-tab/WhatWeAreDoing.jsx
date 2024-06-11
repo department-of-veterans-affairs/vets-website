@@ -48,11 +48,16 @@ export default function WhatWeAreDoing({
         <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           {humanStatus}
         </h4>
-        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
+        <p
+          data-cy="description"
+          className=" vads-u-margin-top--0p5 vads-u-margin-bottom--0p5"
+        >
           {description}
         </p>
         {cstClaimPhasesEnabled && (
-          <p>{getPhaseChangeDateText(phaseChangeDate)}</p>
+          <p data-cy="moved-to-date-text">
+            {getPhaseChangeDateText(phaseChangeDate)}
+          </p>
         )}
         <Link
           aria-label={linkText}
