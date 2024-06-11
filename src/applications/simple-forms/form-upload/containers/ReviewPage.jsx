@@ -66,13 +66,13 @@ const ReviewPage = () => {
           </>
         )}
       </div>
-      <p>
+      <p className="vads-u-margin-bottom--5">
         <b>Note:</b> If you need to update your personal information, please
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
         9:00pm ET.
       </p>
       <VaButtonPair
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-top--0"
         continue
         onPrimaryClick={() => history.push(`/${formNumber}/submit`, state)}
         onSecondaryClick={history.goBack}

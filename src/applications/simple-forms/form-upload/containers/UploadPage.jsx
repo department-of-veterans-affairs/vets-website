@@ -55,11 +55,12 @@ const UploadPage = () => {
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
         onVaChange={onVaChange}
+        className="vads-u-margin-bottom--5"
         required
         uswds
       />
       <VaButtonPair
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-top--0"
         continue
         onPrimaryClick={onClickContinue}
         onSecondaryClick={history.goBack}
