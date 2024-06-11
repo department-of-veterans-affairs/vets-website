@@ -56,6 +56,7 @@ const UploadPage = () => {
         <VaSegmentedProgressBar
           current={1}
           total={3}
+          headerLevel={2}
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>

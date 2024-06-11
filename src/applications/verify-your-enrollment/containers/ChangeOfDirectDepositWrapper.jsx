@@ -134,7 +134,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     };
 
     window.addEventListener('resize', handleResize);
-
+    document.body.classList.remove('verify-information-path');
     // Cleanup function to remove the event listener
     return () => {
       window.removeEventListener('resize', handleResize);

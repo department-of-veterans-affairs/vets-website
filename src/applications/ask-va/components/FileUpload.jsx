@@ -80,35 +80,6 @@ const FileUpload = props => {
           uswds
         />
       </div>
-      {/* <h3 className="site-preview-heading">Attachments</h3>
-      {renderAlert()} */}
-      {/* {attachments.length > 0 ? (
-        <ul className="attachments-list">
-          {attachments.map(file => (
-            <li key={file.name + file.size}>
-              <div className="attachment-file">
-                <span>
-                  <i
-                    className="fas fa-paperclip"
-                    alt="Attachment icon"
-                    aria-hidden="true"
-                  />
-                  <span className="vads-u-margin-left--1">{file.name}</span> (
-                  {getFileSize(file.size)})
-                </span>
-                <VaButton
-                  onClick={() => onRemoveFile(file.name)}
-                  secondary
-                  text="Remove"
-                  uswds
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="no-attachments">There are no attachments.</div>
-      )} */}
     </div>
   );
 };

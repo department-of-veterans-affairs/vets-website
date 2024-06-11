@@ -107,7 +107,7 @@ describe('FormApp', () => {
 
   it('should call API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({ formData: { internalTesting: true } });
     render(
       <Provider store={mockStore(data)}>
         <FormApp {...props} />
@@ -136,7 +136,9 @@ describe('FormApp', () => {
 
   it('should call API when logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({
+      formData: { internalTesting: true },
+    });
     render(
       <Provider store={mockStore(data)}>
         <FormApp {...props} />

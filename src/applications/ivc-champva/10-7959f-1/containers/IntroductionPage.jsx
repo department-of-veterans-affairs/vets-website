@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -89,6 +90,11 @@ const IntroductionPage = props => {
       />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  route: PropTypes.object,
 };
 
 const mapStateToProps = state => {
