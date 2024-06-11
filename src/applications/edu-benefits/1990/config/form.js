@@ -36,7 +36,6 @@ import {
   transform,
   benefitsEligibilityBox,
   prefillTransformer,
-  reserveKickerWarning,
   SeventeenOrOlder,
   eighteenOrOver,
   ageWarning,
@@ -437,17 +436,6 @@ const formConfig = {
             reserveKicker: {
               'ui:title':
                 'I qualify for a Reserve Kicker (sometimes called a college fund).',
-            },
-            'view:reserveKickerWarning': {
-              'ui:description': reserveKickerWarning,
-              'ui:options': {
-                expandUnder: 'reserveKicker',
-                hideIf: data =>
-                  get(
-                    'view:benefitsRelinquishedContainer.benefitsRelinquished',
-                    data,
-                  ) !== 'chapter30',
-              },
             },
             'view:activeDutyRepayingPeriod': {
               'ui:title':
