@@ -13,10 +13,8 @@ export default function ClaimOverviewHeader({ claimTypeCode }) {
   const showEightPhases =
     cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
   const headerText = showEightPhases
-    ? `There are 8 steps in the claim process. It’s common for claims to
-  repeat steps 3 to 6 if we need more information.`
-    : `Learn about the VA claim process and what happens after you file
-  your claim.`;
+    ? `There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.`
+    : `Learn about the VA claim process and what happens after you file your claim.`;
   return (
     <div className="claim-overview-header-container">
       <h2 className="vads-u-margin-y--0">Overview of the claim process</h2>

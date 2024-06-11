@@ -488,7 +488,11 @@ class TrackClaimsPageV2 {
   verifyOverviewClaimPhaseDiagramAndStepper() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.claim-overview-header-container p').should(
+    cy.get('.claim-overview-header-container > h2').should(
+      'contain',
+      'Overview of the claim process',
+    );
+    cy.get('.claim-overview-header-container > p').should(
       'contain',
       'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
     );
@@ -499,9 +503,13 @@ class TrackClaimsPageV2 {
   verifyOverviewTimeline() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.claim-overview-header-container p').should(
+    cy.get('.claim-overview-header-container > h2').should(
       'contain',
-      'Learn about the VA claim process and what happens after you file your claim.',
+      'Overview of the claim process',
+    );
+    cy.get('.claim-overview-header-container > p').should(
+      'contain',
+      `Learn about the VA claim process and what happens after you file your claim.`,
     );
     cy.get('.claim-timeline').should('be.visible');
   }
