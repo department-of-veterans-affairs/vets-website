@@ -11,9 +11,9 @@ const runCommand = cmd => {
   });
 
   // When we ^C out of the parent Node script, also interrupt the child
-  process.on('SIGINT', () => {
+  /* process.on('SIGINT', () => {
     child.kill('SIGINT');
-  });
+  }); */
 };
 
 const runCommandSync = cmd => {
