@@ -218,7 +218,7 @@ describe('<OverviewPage>', () => {
         expect(overviewPage).to.exist;
         getByText('Overview of the claim process');
         getByText(
-          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+          'Learn about the VA claim process and what happens after you file your claim.',
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
@@ -276,7 +276,7 @@ describe('<OverviewPage>', () => {
         expect(overviewPage).to.exist;
         getByText('Overview of the claim process');
         getByText(
-          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+          'Learn about the VA claim process and what happens after you file your claim.',
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
