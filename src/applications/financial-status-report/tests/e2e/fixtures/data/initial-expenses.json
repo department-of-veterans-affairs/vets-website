@@ -104,10 +104,12 @@
     "view:streamlinedWaiver": true,
     "view:streamlinedWaiverAssetUpdate": true,
     "view:reviewPageNavigationToggle": true,
+    "view:showUpdatedExpensePages": true,
     "income": [
       {
         "veteranOrSpouse": "VETERAN",
-        "compensationAndPension": "1413.68"
+        "compensationAndPension": "3261.1",
+        "education": "50"
       }
     ]
   }
