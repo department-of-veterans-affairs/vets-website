@@ -7,6 +7,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
 import applicantInformation from './applicantInformation';
+import applicantIsVeteran from './applicantIsVeteran';
+import claimantInformation from './claimantInformation';
+import claimantType from './claimantType';
 
 // const { } = fullSchema.properties;
 
@@ -47,9 +50,17 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     chapter1: {
-      title: 'Chapter 1',
+      title: 'Applicant information',
       pages: {
         applicantInformation,
+        applicantIsVeteran,
+      },
+    },
+    chapter2: {
+      title: 'Claimant information',
+      pages: {
+        claimantInformation,
+        claimantType,
       },
     },
   },
