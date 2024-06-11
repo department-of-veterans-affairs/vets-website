@@ -20,11 +20,11 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
     PatientComposePage.enterDataToMessageSubject();
     PatientComposePage.enterDataToMessageBody();
 
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnContinueEditingButton();
     PatientComposePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
     PatientComposePage.verifyExpectedPageOpened('Inbox');
     cy.get(Locators.ALERTS.CREATE_NEW_MESSAGE).should('be.visible');

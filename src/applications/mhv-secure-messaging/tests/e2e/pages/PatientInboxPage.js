@@ -10,7 +10,6 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
-import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
@@ -538,7 +537,7 @@ class PatientInboxPage {
     cy.realPress('Enter');
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -548,7 +547,7 @@ class PatientInboxPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -590,13 +589,13 @@ class PatientInboxPage {
   };
 
   clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
+    option = 'Oldest to newest',
+    sortedResponse,
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
-      .select(`${text}`, { force: true });
+      .select(`${option}`, { force: true });
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,

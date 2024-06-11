@@ -82,7 +82,7 @@ class PatientMessageSentPage {
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -92,7 +92,7 @@ class PatientMessageSentPage {
         cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {

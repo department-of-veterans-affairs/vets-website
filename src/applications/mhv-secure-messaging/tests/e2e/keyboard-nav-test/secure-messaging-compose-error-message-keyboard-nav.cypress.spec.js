@@ -23,7 +23,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.axeCheck(AXE_CONTEXT);
     PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
   });
 
@@ -34,7 +34,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     PatientComposePage.selectCategory();
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
   });
 
@@ -49,7 +49,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
       Data.TEST_MESSAGE_SUBJECT,
       { force: true },
     );
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
   });
 
@@ -64,7 +64,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
   });
 });

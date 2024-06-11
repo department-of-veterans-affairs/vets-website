@@ -308,7 +308,6 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {

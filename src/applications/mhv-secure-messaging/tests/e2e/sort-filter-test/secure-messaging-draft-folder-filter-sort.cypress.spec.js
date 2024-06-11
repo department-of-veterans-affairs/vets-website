@@ -5,7 +5,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 
-describe('Secure Messaging Draft Folder checks', () => {
+describe('Secure Messaging Draft Folder filter-sort checks', () => {
   const site = new SecureMessagingSite();
   const draftsPage = new PatientMessagesDraftsPage();
   beforeEach(() => {

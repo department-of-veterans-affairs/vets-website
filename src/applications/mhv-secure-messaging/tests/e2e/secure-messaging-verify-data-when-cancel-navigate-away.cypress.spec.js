@@ -19,7 +19,7 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     PatientComposePage.enterDataToMessageSubject();
     PatientComposePage.enterDataToMessageBody();
 
-    FolderLoadPage.backToFolder('inbox');
+    FolderLoadPage.backToInbox();
 
     PatientComposePage.verifyAlertModal();
     PatientComposePage.clickOnContinueEditingButton();
