@@ -127,7 +127,7 @@ export const applicantMedicarePharmacySchema = {
             )} Medicare plan provide pharmacy benefits?`,
             'ui:options': {
               hint:
-                'You can find this information ont he front of your Medicare card.',
+                'You can find this information on the front of your Medicare card.',
             },
           };
         },
@@ -235,13 +235,12 @@ export const applicantMedicareABUploadSchema = {
               </li>
               <li>Medicare PACE card</li>
             </ul>
-            <br />
             You can also upload any other supporting documents you may have for
             this Medicare plan.
             <br />
             <br />
             If you don’t have a copy to upload now, you can send it by mail or
-            fax
+            fax.
           </>
         );
       },
@@ -338,16 +337,19 @@ export const applicantMedicareDUploadSchema = {
           You’ll need to submit a copy of the front and back of {appName}{' '}
           Medicare Part D card.
           <br />
+          <br />
           You can also upload any other supporting documents you may have for
           this Medicare plan.
           <br />
-          If you don’t have a copy to upload now, you can send it by mail or fax
+          <br />
+          If you don’t have a copy to upload now, you can send it by mail or
+          fax.
         </>
       );
     }),
     ...fileUploadBlurb,
     applicantMedicarePartDCard: fileUploadUI({
-      label: 'Upload Medicare card',
+      label: 'Upload Medicare Part D card',
     }),
   },
   schema: {
