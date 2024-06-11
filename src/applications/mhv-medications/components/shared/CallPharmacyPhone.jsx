@@ -13,7 +13,7 @@ const CallPharmacyPhone = ({ cmopDivisionPhone, page }) => {
           <va-telephone
             contact={number}
             data-dd-action-name={`Pharmacy Phone Number Link - ${page}`}
-          />
+          />{' '}
           <span>
             (<va-telephone tty contact="711" />)
           </span>
