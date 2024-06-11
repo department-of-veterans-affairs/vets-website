@@ -198,7 +198,7 @@ class OverviewPage extends React.Component {
 
     return (
       <div className="overview-container">
-        <ClaimOverviewHeader />
+        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
             {isDisabilityCompensationClaim(claimTypeCode) ? (
