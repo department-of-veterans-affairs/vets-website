@@ -78,7 +78,9 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
-              <HelpdeskInfo />
+              <div className="vads-l-col medium-screen:vads-l-col--8">
+                <HelpdeskInfo />
+              </div>
             </div>
           </div>
         )}
