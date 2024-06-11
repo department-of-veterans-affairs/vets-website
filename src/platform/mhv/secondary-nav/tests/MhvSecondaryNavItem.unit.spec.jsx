@@ -28,7 +28,7 @@ describe('MHV Secondary Navigation Item Component', () => {
     it('when provided without arial label', () => {
       const title = 'a title';
       const abbr = 'an abbr';
-      const { getAllByText } = render(
+      const { getAllByText, getByRole } = render(
         <MhvSecondaryNavItem
           title={title}
           abbreviation={abbr}
@@ -38,15 +38,14 @@ describe('MHV Secondary Navigation Item Component', () => {
       );
       expect(getAllByText(title).length).to.eql(1);
       expect(getAllByText(abbr).length).to.eql(1);
-      expect(getAllByText(title)[0].parentNode.getAttribute('aria-label')).to.be
-        .null;
+      expect(getByRole('link').getAttribute('aria-label')).to.be.null;
     });
 
     it('when provided with aria label', () => {
       const title = 'a title';
       const abbr = 'an abbr';
       const ariaLabel = 'a label';
-      const { getAllByText } = render(
+      const { getAllByText, getByLabelText } = render(
         <MhvSecondaryNavItem
           title={title}
           abbreviation={abbr}
@@ -57,25 +56,23 @@ describe('MHV Secondary Navigation Item Component', () => {
       );
       expect(getAllByText(title).length).to.eql(1);
       expect(getAllByText(abbr).length).to.eql(1);
-      expect(
-        getAllByText(title)[0].parentNode.getAttribute('aria-label'),
-      ).to.eql(ariaLabel);
+      expect(getByLabelText(ariaLabel)).to.exist;
     });
 
     it('when not provided', () => {
       const title = 'a title';
-      const { getAllByText } = render(
+      const ariaLabel = 'a label';
+      const { getAllByText, getByRole } = render(
         <MhvSecondaryNavItem
           title={title}
           icon="home"
           href="/my-health"
-          ariaLabel="some label"
+          ariaLabel={ariaLabel}
         />,
       );
       // The title and abbreviation are the same
       expect(getAllByText(title).length).to.eql(2);
-      expect(getAllByText(title)[0].parentNode.getAttribute('aria-label')).to.be
-        .null;
+      expect(getByRole('link').getAttribute('aria-label')).to.be.null;
     });
   });
 
