@@ -21,7 +21,7 @@ const useDocumentTitle = location => {
         });
       });
 
-      if (title) {
+      if (title && document.title !== title) {
         setDocumentTitle(title);
       }
     },
