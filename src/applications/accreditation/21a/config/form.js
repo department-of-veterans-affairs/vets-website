@@ -1,5 +1,9 @@
-// import fullSchema from 'vets-json-schema/dist/21A-schema.json';
-
+import {
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  fullNameSchema,
+  fullNameUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -14,15 +18,11 @@ import lawPracticeInformationChapter from '../pages/04-law-practice-information-
 import backgroundInformationChapter from '../pages/05-background-information-chapter';
 import characterReferencesChapter from '../pages/06-character-references-chapter';
 
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
-
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21a-',

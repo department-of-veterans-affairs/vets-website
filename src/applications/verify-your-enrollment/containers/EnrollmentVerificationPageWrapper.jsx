@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getToggleEnrollmentSuccess } from '../selectors/getToggleEnrollmentSuccess';
-// import { getToggleEnrollmentError } from '../selectors/getToggleEnrollmentError';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import MGIBEnrollmentStatement from '../components/MGIBEnrollmentStatement';
 import PreviousEnrollmentVerifications from '../components/PreviousEnrollmentVerifications';
 import PageLink from '../components/PageLink';
+
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   BENEFITS_PROFILE_URL,
@@ -122,6 +122,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
       personalInfo && expandAllEnrollments();
     },
+    /* eslint-disable react-hooks/exhaustive-deps */
     [enrollmentData],
   );
 
@@ -173,6 +174,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             <PreviousEnrollmentVerifications
               enrollmentData={expandedEnrollmentData}
             />
+
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your Montgomery GI Bill benefits information"

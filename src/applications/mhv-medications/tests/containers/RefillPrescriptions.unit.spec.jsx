@@ -110,38 +110,57 @@ describe('Refill Prescriptions Component', () => {
     const checkbox = await screen.findByTestId(
       'refill-prescription-checkbox-0',
     );
-    checkbox.click();
+    expect(checkbox).to.exist;
+    expect(checkbox).to.have.property('label', `MELOXICAM 15MG TAB`);
+    // click checkbox
+    checkbox.__events.vaChange({
+      detail: { checked: true },
+    });
     expect(button).to.have.property('text', 'Request 1 refill');
     button.click();
   });
 
   it('Shows the select all checkbox', async () => {
     const screen = setup();
+    const button = await screen.findByTestId('request-refill-button');
+    expect(button).to.exist;
     const checkbox = await screen.findByTestId('select-all-checkbox');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.property('label', `Select all 8 refills`);
-    checkbox.click();
+    // click checkbox
+    checkbox.__events.vaChange({
+      detail: { checked: true },
+    });
+    expect(button).to.have.property('text', 'Request 8 refills');
   });
 
   it('Shows the correct "last filled on" date for refill', async () => {
     const screen = setup();
-    const lastFilledEl = await screen.findByTestId('refill-last-filled-0');
-    expect(lastFilledEl).to.exist;
-    expect(lastFilledEl).to.have.text(
-      `Last filled on ${dateFormat(prescriptions[0].dispensedDate)}`,
+    const lastFilledEl = await screen.findByTestId(
+      'refill-prescription-checkbox-0',
     );
+    expect(lastFilledEl).to.exist;
+    expect(lastFilledEl)
+      .to.have.property('checkbox-description')
+      .that.includes(
+        `Last filled on ${dateFormat(prescriptions[0].dispensedDate)}`,
+      );
   });
 
   it('Shows the correct "last filled on" date (w/rxRfRecords) for refill', async () => {
     const screen = setup();
-    const lastFilledEl = await screen.findByTestId(`refill-last-filled-6`);
+    const lastFilledEl = await screen.findByTestId(
+      `refill-prescription-checkbox-6`,
+    );
     expect(lastFilledEl).to.exist;
     const rx = prescriptions.find(
       ({ prescriptionId }) => prescriptionId === 22217099,
     );
-    expect(lastFilledEl).to.have.text(
-      `Last filled on ${dateFormat(rx.rxRfRecords[0]?.dispensedDate)}`,
-    );
+    expect(lastFilledEl)
+      .to.have.property('checkbox-description')
+      .that.includes(
+        `Last filled on ${dateFormat(rx.rxRfRecords[0]?.dispensedDate)}`,
+      );
   });
 
   it('Checks the checkbox for first prescription', async () => {

@@ -34,7 +34,7 @@ describe('yourAddressPage', () => {
 
     const labels = $$('label', container);
     const labelList = [
-      'I live on a United States military base outside of the country',
+      'I live on a U.S. military base outside of the United States.',
       'Country',
       'Street address',
       'Apartment or unit number',

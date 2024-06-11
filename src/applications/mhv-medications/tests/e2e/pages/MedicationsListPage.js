@@ -265,10 +265,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusActiveOnHold = () => {
     cy.get('[data-testid="active-onHold"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'We put a hold on this prescription. If you need it now, call your VA pharmacy.',
-      );
+      .and('contain', 'You can’t refill this prescription online right now.');
   };
 
   verifyInformationBasedOnStatusDiscontinued = () => {
@@ -283,7 +280,7 @@ class MedicationsListPage {
   verifyInformationBasedOnStatusExpired = () => {
     cy.get('[data-testid="expired"]')
       .should('be.visible')
-      .and('contain', 'If you need more, request a renewal.');
+      .and('contain', 'This prescription is too old to refill. ');
   };
 
   verifyInformationBasedOnStatusTransferred = () => {

@@ -38,7 +38,7 @@ describe('Submit transformer', () => {
         transformForSubmit(formConfig, {
           data: {
             ...mockData.data,
-            applicantHasPrimary: false,
+            applicantHasPrimary: true,
             applicantHasSecondary: true,
           },
         }),
