@@ -53,6 +53,7 @@ export class ConfirmationPage extends React.Component {
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
           ) : null}
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="usa-button screen-only"
