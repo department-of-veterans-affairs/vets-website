@@ -27,7 +27,6 @@ const VaFacilityResult = ({
     },
     [index, location],
   );
-
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
