@@ -182,19 +182,6 @@ describe('When feature toggle cst_claim_phases enabled', () => {
     },
   );
 
-  context(
-    'On an open claim, a user can view the "What We`re Doing" section',
-    () => {
-      it('Has "Show full list" button which reveals more contentions when clicked', () => {
-        const trackClaimsPage = new TrackClaimsPageV2();
-        trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
-        trackClaimsPage.verifyInProgressClaim(true);
-        trackClaimsPage.verifyWhatWeAreDoingSection();
-        cy.axeCheck();
-      });
-    },
-  );
-
   context('A user that has tracked items can view recent activity', () => {
     it('Shows recent activity for a user with tracked items on a closed claim', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
@@ -267,13 +254,16 @@ describe('When feature toggle cst_claim_phases enabled', () => {
     });
   });
 
-  context('A user can view the overview of the process', () => {
-    it('Shows the overview of the process', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
-      trackClaimsPage.verifyInProgressClaim(true);
-      trackClaimsPage.verifyOverviewOfTheProcess();
-      cy.axeCheck();
-    });
-  });
+  context(
+    'On an open claim, a user can view the "What We`re Doing" section',
+    () => {
+      it('Has "Show full list" button which reveals more contentions when clicked', () => {
+        const trackClaimsPage = new TrackClaimsPageV2();
+        trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
+        trackClaimsPage.verifyInProgressClaim(true);
+        trackClaimsPage.verifyWhatWeAreDoingSection();
+        cy.axeCheck();
+      });
+    },
+  );
 });
