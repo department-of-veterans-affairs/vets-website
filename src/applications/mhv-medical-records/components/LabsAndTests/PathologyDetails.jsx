@@ -134,7 +134,7 @@ ${record.results} \n`;
       <div className="test-results-container">
         <h2>Report</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-results" className="monospace">
+        <p data-testid="pathology-report" className="monospace">
           {record.results}
         </p>
       </div>
