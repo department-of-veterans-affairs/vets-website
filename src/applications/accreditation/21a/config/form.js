@@ -1,9 +1,3 @@
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
