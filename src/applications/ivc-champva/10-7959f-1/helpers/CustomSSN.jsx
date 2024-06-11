@@ -9,7 +9,7 @@ const SSN_DEFAULT_TITLE = 'Social Security number';
 const customSSNUI = title => {
   return {
     'ui:title': title ?? SSN_DEFAULT_TITLE,
-    'ui:webComponentField': HandlePrefilledSSN(),
+    'ui:webComponentField': HandlePrefilledSSN,
     'ui:reviewWidget': SSNReviewWidget,
     'ui:validations': [validateSSN],
     'ui:errorMessages': {
@@ -20,7 +20,6 @@ const customSSNUI = title => {
   };
 };
 
-// Using different hint text from the standard ssnOrVaFileNumberUI
 export const ssnOrVaFileNumberCustomUI = () => {
   return {
     ssn: customSSNUI(),
