@@ -114,7 +114,7 @@ ${record.results}`;
       <DateSubheading
         date={record.date}
         id="microbio-date"
-        label="Date collected"
+        label="Date and time collected"
         labelClass="vads-font-weight-regular"
       />
 
