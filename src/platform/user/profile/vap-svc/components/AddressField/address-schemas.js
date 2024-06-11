@@ -13,6 +13,7 @@ import {
   VaTextInputField,
   VaCheckboxField,
   VaSelectField,
+  VaRadioField,
 } from 'platform/forms-system/src/js/web-component-fields';
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
@@ -203,7 +204,7 @@ const uiSchema = {
         return {
           'ui:webComponentField':
             formData[MILITARY_BASE_DATA] === true
-              ? VaSelectField
+              ? VaRadioField
               : VaTextInputField,
         };
       },
@@ -230,10 +231,17 @@ const uiSchema = {
           enumNames: Object.values(ADDRESS_DATA.states),
         };
       },
+      updateUiSchema: formData => {
+        return {
+          'ui:webComponentField':
+            formData[MILITARY_BASE_DATA] === true
+              ? VaRadioField
+              : VaSelectField,
+        };
+      },
     },
-    'ui:required': formData =>
-      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
+  'ui:required': formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   province: {
     'ui:title': 'State/Province/Region',
     'ui:webComponentField': VaTextInputField,
