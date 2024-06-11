@@ -14,7 +14,9 @@ import {
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
-import FormNavButtons from '../components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import {
@@ -272,6 +274,9 @@ class FormPage extends React.Component {
         />
       );
     }
+    const NavButtons = route.formConfig?.useTopBackLink
+      ? FormNavButtonContinue
+      : FormNavButtons;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -339,7 +344,7 @@ class FormPage extends React.Component {
           ) : (
             <>
               {contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
@@ -423,6 +428,7 @@ FormPage.propTypes = {
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
       }),
+      useTopBackLink: PropTypes.bool,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

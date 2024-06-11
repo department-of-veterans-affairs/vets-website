@@ -437,6 +437,7 @@ module.exports = async (env = {}) => {
         stream: require.resolve('readable-stream'),
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
+        'process/browser': require.resolve('process/browser'),
       },
       symlinks: false,
     },

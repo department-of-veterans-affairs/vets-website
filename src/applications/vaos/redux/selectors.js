@@ -88,9 +88,6 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
-export const selectFeatureGA4Migration = state =>
-  toggleValues(state).vaOnlineSchedulingGA4Migration;
-
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
 

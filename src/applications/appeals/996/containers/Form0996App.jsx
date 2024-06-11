@@ -19,7 +19,6 @@ import forcedMigrations from '../migrations/forceMigrations';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
@@ -30,6 +29,7 @@ import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 import { data996 } from '../../shared/props';
 
@@ -44,6 +44,8 @@ export const Form0996App = ({
   contestableIssues,
   legacyCount,
 }) => {
+  const { pathname } = location || {};
+
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -65,7 +67,14 @@ export const Form0996App = ({
             ...formData,
             benefitType: subTaskBenefitType,
           });
-        } else if (loggedIn && formData.benefitType) {
+        } else if (
+          loggedIn &&
+          // internalTesting is used to test the get contestable issues API call
+          // in unit tests; Setting up the unit test to get RoutedSavableApp to
+          // work properly is overly complicated
+          (!isOutsideForm(pathname) || formData.internalTesting) &&
+          formData.benefitType
+        ) {
           const areaOfDisagreement = getSelected(formData);
           if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
             // load benefit type contestable issues
@@ -134,6 +143,7 @@ export const Form0996App = ({
       loggedIn,
       setFormData,
       subTaskBenefitType,
+      pathname,
     ],
   );
 
@@ -144,24 +154,12 @@ export const Form0996App = ({
   );
 
   // Go to start page if we don't have an expected benefit type
-  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
+  if (!pathname.endsWith('/start') && !hasSupportedBenefitType) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator
         set-focus
         message="Please wait while we restart the application for you."
-      />,
-    );
-  } else if (
-    loggedIn &&
-    hasSupportedBenefitType &&
-    ((contestableIssues?.status || '') === '' ||
-      contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
-  ) {
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
       />,
     );
   }
@@ -179,7 +177,7 @@ export const Form0996App = ({
   // Add data-location attribute to allow styling specific pages
   return wrapWithBreadcrumb(
     'hlr',
-    <article id="form-0996" data-location={`${location?.pathname?.slice(1)}`}>
+    <article id="form-0996" data-location={`${pathname?.slice(1)}`}>
       {content}
     </article>,
   );
