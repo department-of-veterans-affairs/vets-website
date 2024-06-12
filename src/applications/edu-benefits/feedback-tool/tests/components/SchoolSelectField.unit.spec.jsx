@@ -285,15 +285,10 @@ describe('<SchoolSelectField>', () => {
       />,
     );
 
-    const clickEvent = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
-
     const checkbox = container.getElementsByTagName('va-checkbox')[0];
-    checkbox.__events.vaChange(clickEvent);
+    checkbox.__events.vaChange({ detail: { checked: true } });
     expect(onChange.firstCall.args[0]).to.eql({
-      'view:manualSchoolEntryChecked': undefined,
+      'view:manualSchoolEntryChecked': true,
     });
   });
 
