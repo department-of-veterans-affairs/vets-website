@@ -1,4 +1,6 @@
+import React from 'react';
 import { validateSSN } from 'platform/forms-system/src/js/validation';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
 import get from 'platform/utilities/data/get';
 import { vaFileNumberUI } from 'platform/forms-system/src/js/web-component-patterns';
@@ -47,3 +49,24 @@ export const ssnOrVaFileNumberCustomUI = () => {
     },
   };
 };
+
+// TODO: Needs safety checks, prop validation, and maybe some work on the title
+export function CustomSSNReviewPage(props) {
+  return props.data ? (
+    <div className="form-review-panel-page">
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {props?.title}
+        </h4>
+        <VaButton secondary onClick={props?.editPage} text="Edit" uswds />
+      </div>
+      <dl className="review">
+        <div className="review-row">
+          <dt>SSN</dt>
+          {/* TODO: mask the SSN */}
+          <dd>{props?.data?.veteranSocialSecurityNumber?.ssn}</dd>
+        </div>
+      </dl>
+    </div>
+  ) : null;
+}
