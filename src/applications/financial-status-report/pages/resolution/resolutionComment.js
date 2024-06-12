@@ -1,12 +1,12 @@
 import { CurrentDebtTitle } from '../../components/shared/CurrentDebtTitle';
 import ResolutionAmount from '../../components/resolution/ResolutionAmount';
-// import { validateResolutionAmount } from '../../utils/validations';
+import { validateResolutionAmount } from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
       'ui:title': CurrentDebtTitle,
-      // 'ui:validations': [validateResolutionAmount],
+      'ui:validations': [validateResolutionAmount],
       resolutionComment: {
         'ui:title': ' ',
         'ui:widget': ResolutionAmount,
