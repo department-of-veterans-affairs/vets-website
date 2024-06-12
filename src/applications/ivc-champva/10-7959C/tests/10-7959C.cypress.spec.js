@@ -30,16 +30,14 @@ const testConfig = createTestConfig(
     variations designed to trigger the conditionals in the form/follow different paths. 
     */
     dataSets: [
-      'test-data',
-      'no-secondary.json',
-      'applicant-maximal-test.json',
-      'applicant-no-medicare-no-primary-no-secondary-test.json',
-      'applicant-no-medicare-test.json',
-      'applicant-no-primary-yes-secondary-test.json',
-      'applicant-no-secondary-yes-primary-test.json',
-      'thirdparty-no-medicare-no-primary-yes-secondary-test.json',
-      'veteran-child-no-medicare-yes-primary-no-secondary-test.json',
-      'veteran-spouse-medicare-no-ohi-test.json',
+      'test-data.json',
+      'maximal-test.json',
+      'minimal-test.json',
+      'no-medicare-no-ohi.json',
+      'no-medicare-yes-ohi.json',
+      'no-medicare-yes-primary.json',
+      'yes-medicare-no-ohi.json',
+      'yes-medicare-yes-primary.json',
     ],
 
     pageHooks: {

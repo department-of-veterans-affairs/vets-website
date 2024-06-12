@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
+
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
 function App({ location, children }) {
   const subTitle = useSelector(state => state.flow.subTitle);
+  const { pathname } = location || {};
   const [formUseState, setFormUseState] = useState({ ...formConfig });
 
   useEffect(
@@ -16,12 +20,25 @@ function App({ location, children }) {
     [subTitle],
   );
 
-  return (
+  const content = (
     <RoutedSavableApp formConfig={formUseState} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
+
+  return wrapWithBreadcrumb(
+    <article id="form-21-22" data-location={`${pathname?.slice(1)}`}>
+      {content}
+    </article>,
+  );
 }
+
+App.propTypes = {
+  children: PropTypes.object,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+};
 
 function mapStateToProps(state) {
   return {

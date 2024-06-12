@@ -27,9 +27,7 @@ export const renderPhoneNumber = (
 
   return (
     <div>
-      {from === 'FacilityDetail' && (
-        <i aria-hidden="true" role="presentation" className="fa fa-phone" />
-      )}
+      {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       <va-telephone
