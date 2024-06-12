@@ -373,6 +373,7 @@ export default class ArrayField extends React.Component {
       'rjsf-array-field': true,
     });
 
+    // Assuming dateString format is YYYY-MM-DDDD
     const formatDate = dateString => {
       const [year, month, day] = dateString.split('-');
       return `${month}/${day}/${year}`;
