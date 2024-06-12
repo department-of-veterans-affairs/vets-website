@@ -70,12 +70,7 @@ export default function ClaimPhaseStepper({
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <Link
-            data-testid="submit-evidence-link"
-            aria-label="Submit evidence now"
-            title="Submit evidence now"
-            to="../files"
-          >
+          <Link data-testid="submit-evidence-link" to="../files">
             Submit evidence now
           </Link>
         </>
@@ -146,13 +141,7 @@ export default function ClaimPhaseStepper({
             You’ll be able to view and download your decision letter on the
             status page for this claim.
           </p>
-          <Link
-            aria-label="Go to the claim letters page"
-            title="Go to the claim letters page"
-            to="/your-claim-letters"
-          >
-            Go to the claim letters page
-          </Link>
+          <Link to="/your-claim-letters">Go to the claim letters page</Link>
           <p>
             We’ll also send you a copy of your decision letter by mail. It
             should arrive within 10 business days, but it may take longer.
