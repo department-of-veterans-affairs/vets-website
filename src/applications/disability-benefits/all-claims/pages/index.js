@@ -2,6 +2,9 @@ import * as adaptiveBenefits from './adaptiveBenefits';
 import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
+import * as additionalExposures from './toxicExposure/additionalExposures';
+import * as additionalExposuresDetails from './toxicExposure/additionalExposuresDetails';
+import * as additionalExposuresSummary from './toxicExposure/additionalExposuresSummary';
 import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
@@ -87,6 +90,7 @@ import * as separationPay from './separationPay';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
+import * as specifyOtherExposures from './toxicExposure/specifyOtherExposures';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
@@ -117,6 +121,9 @@ export {
   addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
+  additionalExposures,
+  additionalExposuresDetails,
+  additionalExposuresSummary,
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,
@@ -202,6 +209,7 @@ export {
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
+  specifyOtherExposures,
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,

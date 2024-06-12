@@ -6,14 +6,38 @@ import { mapboxToken } from '../../facility-locator/utils/mapboxToken';
 import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
 import { staticMapURL } from '../../facility-locator/utils/mapHelpers';
 
+function cleanAddress(address, lat, long) {
+  try {
+    if (address && address.length > 0) {
+      return address.join(', ');
+    }
+    // If we don't have an address fallback on coords
+    return `${lat},${long}`;
+  } catch (e) {
+    // If we don't have an address fallback on coords
+    return `${lat},${long}`;
+  }
+}
+
+function getLat(facilityDetail) {
+  return facilityDetail && facilityDetail.attributes
+    ? facilityDetail.attributes.lat
+    : 0;
+}
+
+function getLong(facilityDetail) {
+  return facilityDetail && facilityDetail.attributes
+    ? facilityDetail.attributes.long
+    : 0;
+}
 export class FacilityMapSatelliteMainWidget extends React.Component {
   constructor(props) {
     super(props);
     const facilityDetail = this.props.facility;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
+    const lat = getLat(facilityDetail);
+    const long = getLong(facilityDetail);
     let address = buildAddressArray(facilityDetail);
-    address = this.cleanAddress(address, lat, long);
+    address = cleanAddress(address, lat, long);
     this.state = {
       lat,
       long,
@@ -21,26 +45,22 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
     };
   }
 
-  cleanAddress(address, lat, long) {
-    try {
-      if (address && address.length > 0) {
-        return address.join(', ');
-      }
-      // If we don't have an address fallback on coords
-      return `${lat},${long}`;
-    } catch (e) {
-      // If we don't have an address fallback on coords
-      return `${lat},${long}`;
+  componentDidUpdate(prevProps, prevState) {
+    const facilityDetail = this.props.facility;
+    const lat = getLat(facilityDetail);
+    const long = getLong(facilityDetail);
+    if (prevState.lat !== lat && prevState.long !== long) {
+      this.updateLatLongAndAddress(this.props.facility);
     }
   }
 
   updateLatLongAndAddress = facilityDetail => {
     const myThis = this;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
+    const lat = getLat(facilityDetail);
+    const long = getLong(facilityDetail);
     if (lat !== 0 && long !== 0) {
       let address = buildAddressArray(facilityDetail);
-      address = this.cleanAddress(address, lat, long);
+      address = cleanAddress(address, lat, long);
       myThis.setState({
         lat,
         long,
@@ -48,27 +68,6 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
       });
     }
   };
-
-  componentDidUpdate(prevProps, prevState) {
-    const facilityDetail = this.props.facility;
-    const lat = this.getLat(facilityDetail);
-    const long = this.getLong(facilityDetail);
-    if (prevState.lat !== lat && prevState.long !== long) {
-      this.updateLatLongAndAddress(this.props.facility);
-    }
-  }
-
-  getLat(facilityDetail) {
-    return facilityDetail && facilityDetail.attributes
-      ? facilityDetail.attributes.lat
-      : 0;
-  }
-
-  getLong(facilityDetail) {
-    return facilityDetail && facilityDetail.attributes
-      ? facilityDetail.attributes.long
-      : 0;
-  }
 
   render() {
     if (this.props.loading) {
@@ -92,7 +91,7 @@ export class FacilityMapSatelliteMainWidget extends React.Component {
         >
           <div className="va-c-position--relative vads-u-display--inline-block">
             <span className="vads-u-margin-right--1p5 vads-u-margin-top--1p5 vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center expand-image-button va-c-position--absolute va-c-position-top-right-corner vads-u-justify-content--center">
-              <i className="fas fa-expand-arrows-alt" />
+              <va-icon icon="zoom_out_map" size="3" />
             </span>
             <img className="facility-img" src={mapUrl} alt="Static map" />
           </div>
@@ -110,9 +109,9 @@ const mapStateToProps = store => ({
 });
 
 FacilityMapSatelliteMainWidget.propTypes = {
+  error: PropTypes.bool,
   facility: PropTypes.object,
   loading: PropTypes.bool,
-  error: PropTypes.bool,
 };
 
 const mapDispatchToProps = {

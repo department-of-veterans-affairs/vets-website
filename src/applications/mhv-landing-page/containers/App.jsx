@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import LandingPage from '../components/LandingPage';
 import {
@@ -74,6 +75,14 @@ const App = () => {
       }
     },
     [enabled, hasMHVAccount],
+  );
+
+  useEffect(
+    () => {
+      // For accessibility purposes.
+      focusElement('h1');
+    },
+    [loading],
   );
 
   if (loading)
