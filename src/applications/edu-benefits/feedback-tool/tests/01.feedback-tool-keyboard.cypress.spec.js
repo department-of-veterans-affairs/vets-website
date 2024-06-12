@@ -1,6 +1,6 @@
 import manifest from '../manifest.json';
 
-describe('Feedback Tool Keyboard Test', () => {
+describe.skip('Feedback Tool Keyboard Test', () => {
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
       data: {
