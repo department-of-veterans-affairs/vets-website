@@ -65,6 +65,8 @@ export class ComboBox extends React.Component {
         value: searchTerm,
         filteredOptions: [],
       });
+      // eslint-disable-next-line no-console
+      console.log('sending focus to input from handleClickOutsideList');
       this.sendFocusToInput(this.inputRef);
     }
   };
@@ -80,6 +82,8 @@ export class ComboBox extends React.Component {
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from handleSearchChange');
     this.sendFocusToInput(this.inputRef);
   };
 
@@ -91,6 +95,8 @@ export class ComboBox extends React.Component {
   sendFocusToInput = ref => {
     const { shadowRoot } = ref.current;
     const input = shadowRoot.querySelector('input');
+    // eslint-disable-next-line no-console
+    console.log('sendFocusToInput() called. Input: ', input);
     input.focus();
   };
 
@@ -117,12 +123,14 @@ export class ComboBox extends React.Component {
         index = this.decrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
+        this.optionFocus(index);
         e.preventDefault();
         break;
       case 'ArrowDown':
         index = this.incrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
+        this.optionFocus(index);
         e.preventDefault();
         break;
       // On Enter, select the highlighted option and close the list. Focus on text input.
@@ -138,12 +146,16 @@ export class ComboBox extends React.Component {
           filteredOptions: [],
           highlightedIndex: 0,
         });
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from escape');
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
       // All other cases treat as regular user input into the text field.
       default:
         // focus goes to input box by default
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
         this.setState({ highlightedIndex: 0 });
@@ -214,6 +226,11 @@ export class ComboBox extends React.Component {
     return index;
   };
 
+  optionFocus(index) {
+    const focusOption = document.getElementById(`option-${index}`);
+    focusOption.focus();
+  }
+
   // Click handler for a list item
   selectOption(option) {
     this.setState({
@@ -225,6 +242,8 @@ export class ComboBox extends React.Component {
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from selectOption');
     this.sendFocusToInput(this.inputRef);
   }
 
@@ -249,7 +268,7 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, searchTerm, value } = this.state;
+    const { highlightedIndex, value } = this.state;
 
     if (option === value || option.length < 1) {
       return null;
@@ -266,15 +285,16 @@ export class ComboBox extends React.Component {
         onClick={() => {
           this.selectOption(option);
         }}
+        id="option-0"
         style={{ cursor: 'pointer' }}
         tabIndex={0}
         onMouseEnter={e => {
           this.handleMouseEnter(e, 0);
         }}
-        onKeyDown={() => null}
+        onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected={searchTerm === option}
+        aria-selected="false"
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -285,7 +305,18 @@ export class ComboBox extends React.Component {
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
-      <div className="cc-combobox">
+      <div
+        role="combobox"
+        aria-expanded={filteredOptions.length > 0}
+        className="cc-combobox"
+        aria-haspopup="listbox"
+        aria-controls="combobox-list"
+        aria-owns="combobox-list"
+        aria-autocomplete="list"
+        tabIndex={0}
+        aria-labelledby={this.props.idSchema.$id}
+        aria-label="Enter you condition"
+      >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required
@@ -307,6 +338,13 @@ export class ComboBox extends React.Component {
           role="listbox"
           ref={this.listRef}
           aria-label="List of matching conditions"
+          id="combobox-list"
+          aria-activedescendant={
+            filteredOptions.length > 0
+              ? `option-${this.state.highlightedIndex}`
+              : null
+          }
+          tabIndex={0}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -328,10 +366,11 @@ export class ComboBox extends React.Component {
                   onMouseEnter={e => {
                     this.handleMouseEnter(e, optionIndex);
                   }}
-                  onKeyDown={() => null}
+                  onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected={this.state.input === option}
+                  aria-selected="false"
+                  id={`option-${optionIndex}`}
                 >
                   {option}
                 </li>

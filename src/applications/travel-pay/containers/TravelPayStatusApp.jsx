@@ -33,12 +33,14 @@ export default function App({ children }) {
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
-        (a, b) => Date.parse(b.appointmentDate) - Date.parse(a.appointmentDate),
+        (a, b) =>
+          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
       );
       break;
     case 'oldest':
       travelClaims.sort(
-        (a, b) => Date.parse(a.appointmentDate) - Date.parse(b.appointmentDate),
+        (a, b) =>
+          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
       );
       break;
     default:
@@ -92,6 +94,7 @@ export default function App({ children }) {
               </h1>
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <HelpText />
               {isLoading && (
                 <va-loading-indicator
                   label="Loading"
@@ -142,8 +145,6 @@ export default function App({ children }) {
                     {travelClaims.map(travelClaim =>
                       TravelClaimCard(travelClaim),
                     )}
-
-                    <HelpText />
                   </>
                 )}
               {userLoggedIn &&
