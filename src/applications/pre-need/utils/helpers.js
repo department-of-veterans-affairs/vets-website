@@ -587,9 +587,6 @@ class SSNWidget extends React.Component {
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
 export const veteranUI = {
-  'ui:options': {
-    classNames: 'race-view',
-  },
   militaryServiceNumber: {
     'ui:title':
       'Military Service number (if it’s different than your Social Security number)',
