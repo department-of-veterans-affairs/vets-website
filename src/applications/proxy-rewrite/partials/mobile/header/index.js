@@ -92,7 +92,7 @@ export const getMobileHeaderHtml = megaMenuData => {
 
           <div class="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
             <div class="profile-nav-container">
-              <div id="desktop-nav-container"></div>
+              <div id="mobile-nav-container"></div>
               <!-- start Sign In button -->
               <div class="hidden-header vads-u-display--flex vads-u-align-items--center">
                 <div class="sign-in-nav">

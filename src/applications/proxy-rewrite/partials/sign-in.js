@@ -8,17 +8,23 @@ const SignIn = ({ useSignInService }) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggle = () => {
-    console.log('clicking the sign in button');
-    setShowModal(prev => !prev);
-  }
+    setShowModal(!showModal);
+  };
 
-  useEffect(() => {
-    document.getElementsByClassName('sign-in-button').forEach(() => {
-      addEventListener('click', toggle)
-    });
-  }, []);
+  useEffect(
+    () => {
+      const signInButtons = document.getElementsByClassName('sign-in-button');
 
-  console.log('showModal: ' , showModal);
+      signInButtons.forEach(button => button.addEventListener('click', toggle));
+
+      return () => {
+        signInButtons.forEach(button =>
+          button.removeEventListener('click', toggle),
+        );
+      };
+    },
+    [toggle],
+  );
 
   return (
     <SignInModal
@@ -27,10 +33,10 @@ const SignIn = ({ useSignInService }) => {
       useSiS={useSignInService}
     />
   );
-}
+};
 
 SignIn.propTypes = {
-  useSignInService: PropTypes.bool
+  useSignInService: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

@@ -14,6 +14,32 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Bitter Regular"),
+    local("Bitter-Regular"),
+    url(/fonts/bitter-regular.woff2) format("woff2"),
+    url(/fonts/bitter-regular.ttf) format("truetype");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: "Bitter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Bitter Bold"),
+    local("Bitter-Bold"),
+    url(/fonts/bitter-bold.woff2) format("woff2"),
+    url(/fonts/bitter-bold.ttf) format("truetype");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
 .ts-header-container,
 .ts-footer-container {
   $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
@@ -496,7 +522,8 @@
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
     line-height: 1.3;
     margin-bottom: 0.5em;
-    margin-top: 1.5em
+    margin-top: 1.5em;
+    color: inherit;
   }
 
   h1 {
@@ -4463,13 +4490,31 @@
   #mobile-mega-menu {
     font-size: 1.6rem;
   }
+
+  a.vads-c-action-link--blue {
+    position: relative;
+    display: inline-block;
+    padding: 4px 0 4px 38px;
+    font-weight: bold;
+  }
+
+  a.vads-c-action-link--blue::before {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 0;
+    margin-top: -4px;
+    content: url(../assets/right-arrow.svg);
+    background-color: #005ea2;
+    border-radius: 50%;
+  }
 }
 
 .ts-header-container a {
   text-decoration: none;
 }
 
-.ts-footer-container a {
+.ts-footer-container a, #signin-signup-modal a {
   text-decoration: underline;
 }
 
@@ -4500,5 +4545,5 @@
 }
 
 .merger.modal-open {
-  margin-right: 0;
+  margin-right: 0 !important;
 }
