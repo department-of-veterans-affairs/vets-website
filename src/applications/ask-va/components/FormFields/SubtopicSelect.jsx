@@ -1,5 +1,4 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +6,7 @@ import { connect } from 'react-redux';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL } from '../../constants';
+import { URL, envUrl } from '../../constants';
 
 const SubtopicSelect = props => {
   const { id, onChange, value, loggedIn, topicID } = props;
@@ -49,9 +48,7 @@ const SubtopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${
-          URL.GET_SUBTOPICS
-        }/${topicID}/subtopics?mock=true`,
+        `${envUrl}${URL.GET_SUBTOPICS}/${topicID}/subtopics?mock=true`,
       );
     },
     [loggedIn],
