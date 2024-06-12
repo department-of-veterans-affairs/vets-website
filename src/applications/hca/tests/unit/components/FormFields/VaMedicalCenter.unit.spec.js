@@ -166,7 +166,7 @@ describe('hca <VaMedicalCenter>', () => {
   });
 
   context('when the user selects a facility state', () => {
-    it('should render the correct number of options if API call succeeds', async () => {
+    it('should render the correct number of options, resorted in alphabetical order by name, if API call succeeds', async () => {
       mockApiRequest(mockData);
       const { mockStore, props } = getData({
         formData: { 'view:facilityState': 'NY' },
