@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { validateSSN } from 'platform/forms-system/src/js/validation';
@@ -29,13 +28,9 @@ export const ssnOrVaFileNumberCustomUI = () => {
     ssn: customSSNUI(),
     vaFileNumber: {
       ...vaFileNumberUI(),
-      'ui:options': {
-        hint:
-          'Enter this number only if it’s different than the Social Security number',
-      },
     },
     'ui:options': {
-      updateSchema: (formData, _schema, _uiSchema, path) => {
+      updateSchema: (formData, _schema, _uiSchema, index, path) => {
         const { ssn, vaFileNumber } = get(path, formData) ?? {};
 
         let required = ['ssn'];
@@ -53,7 +48,6 @@ export const ssnOrVaFileNumberCustomUI = () => {
 };
 
 export function CustomSSNReviewPage(props) {
-  console.log('props', props);
   const maskedSSN = maskSSN(props?.data?.veteranSocialSecurityNumber?.ssn);
   return props.data ? (
     <div className="form-review-panel-page">
