@@ -240,8 +240,9 @@ const uiSchema = {
         };
       },
     },
+    'ui:required': formData =>
+      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   },
-  'ui:required': formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
   province: {
     'ui:title': 'State/Province/Region',
     'ui:webComponentField': VaTextInputField,
