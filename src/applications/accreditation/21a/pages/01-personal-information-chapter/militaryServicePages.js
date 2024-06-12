@@ -84,8 +84,7 @@ const militaryServiceExperience = {
       'Character of discharge',
     ),
     'view:militaryServiceExperienceNote': {
-      'ui:title': ' ',
-      'ui:field': MilitaryServiceExperienceNote,
+      'ui:description': MilitaryServiceExperienceNote,
     },
   },
   schema: {
@@ -99,7 +98,8 @@ const militaryServiceExperience = {
         characterOfDischargeOptions,
       ),
       'view:militaryServiceExperienceNote': {
-        type: 'string',
+        type: 'object',
+        properties: {},
       },
     },
     required: [
