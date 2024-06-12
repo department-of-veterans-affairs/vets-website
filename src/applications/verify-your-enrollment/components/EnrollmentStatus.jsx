@@ -14,17 +14,13 @@ export const EnrollmentStatus = ({ start, end, total, dontHaveEnrollment }) => {
     >
       {showingEnrollment}
 
-      {dontHaveEnrollment && (
+      {(dontHaveEnrollment || total === 0) && (
         <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2">
-          You currently have no enrollments.
+          {dontHaveEnrollment
+            ? 'You currently have no enrollments.'
+            : 'You currently have no enrollments to verify.'}
         </span>
       )}
-      {total === 0 &&
-        !dontHaveEnrollment && (
-          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2">
-            You currently have no enrollments to verify.
-          </span>
-        )}
     </p>
   );
 };
