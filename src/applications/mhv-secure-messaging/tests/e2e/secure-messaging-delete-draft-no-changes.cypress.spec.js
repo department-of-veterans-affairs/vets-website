@@ -1,6 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import mockDraftResponse from './fixtures/message-draft-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
@@ -11,6 +12,7 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     draftsPage.clickDeleteButton();
+    draftsPage.confirmDeleteDraft(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
     cy.get(Locators.FOLDERS.INBOX);
     cy.injectAxe();

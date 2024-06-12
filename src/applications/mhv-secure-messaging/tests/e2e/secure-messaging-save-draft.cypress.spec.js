@@ -19,7 +19,7 @@ describe('Secure Messaging Save Draft', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     // composePage.getMessageSubjectField().type('message Test');
-    PatientComposePage.getMessageBodyField().type('Test message body', {
+    PatientComposePage.getMessageBodyField().type('Test message body ', {
       force: true,
     });
     cy.realPress(['Enter']);
@@ -30,7 +30,7 @@ describe('Secure Messaging Save Draft', () => {
         ...mockDraftResponse.data,
         attributes: {
           ...mockDraftResponse.data.attributes,
-          body: 'ststASertTest message body',
+          body: 'ststASertTest message body ',
         },
       },
     };

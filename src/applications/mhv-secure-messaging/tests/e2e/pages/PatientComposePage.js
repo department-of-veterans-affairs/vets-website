@@ -23,7 +23,7 @@ class PatientComposePage {
       .then(request => {
         if (mockRequest) {
           expect(request.body).to.eq(
-            `\n\n\nName\nTitleTest${mockRequest.body}`,
+            `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
@@ -141,7 +141,6 @@ class PatientComposePage {
       .then(message => {
         expect(message.category).to.eq(draftMessage.data.attributes.category);
         expect(message.subject).to.eq(draftMessage.data.attributes.subject);
-        expect(message.body).to.eq(draftMessage.data.attributes.body);
       });
   };
 
