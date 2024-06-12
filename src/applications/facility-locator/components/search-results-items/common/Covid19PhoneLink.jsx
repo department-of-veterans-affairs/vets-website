@@ -1,11 +1,7 @@
 import React from 'react';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
-const Covid19PhoneLink = ({
-  phone,
-  showCovidVaccineWalkInAvailabilityText,
-  labelId,
-}) => {
+const Covid19PhoneLink = ({ phone, labelId }) => {
   if (!phone) {
     return null;
   }
@@ -18,11 +14,7 @@ const Covid19PhoneLink = ({
 
   const { extension: parsedExtension, contact } = parsePhoneNumber(number);
 
-  let labelText = 'Call to schedule';
-
-  if (showCovidVaccineWalkInAvailabilityText) {
-    labelText = 'Or make an appointment';
-  }
+  const labelText = 'Call to schedule';
 
   return (
     <div>

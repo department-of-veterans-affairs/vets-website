@@ -235,7 +235,10 @@ const LandingPage = () => {
           report or your VA Health Summary on the previous version of My
           HealtheVet.
         </p>
-        <p className="vads-u-margin-bottom--2">
+        <p
+          data-testid="go-to-mhv-download-records"
+          className="vads-u-margin-bottom--2"
+        >
           <a
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
