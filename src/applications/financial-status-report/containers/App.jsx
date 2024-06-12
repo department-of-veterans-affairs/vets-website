@@ -31,6 +31,7 @@ import {
 } from '../utils/helpers';
 import user from '../mocks/user.json';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const App = ({
   children,
@@ -55,6 +56,8 @@ const App = ({
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
   );
+  // Set the document title based on the current page
+  useDocumentTitle(location);
 
   useEffect(
     () => {

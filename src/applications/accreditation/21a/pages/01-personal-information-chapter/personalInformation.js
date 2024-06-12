@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -7,8 +6,13 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
-fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+const fullNameMiddleInitialUI = {
+  ...fullNameUI(),
+  middle: {
+    ...fullNameUI().middle,
+    'ui:title': 'Middle initial',
+  },
+};
 
 /** @type {PageSchema} */
 export default {
@@ -21,10 +25,10 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfBirth'],
     properties: {
       fullName: fullNameSchema,
       dateOfBirth: dateOfBirthSchema,
     },
+    required: ['dateOfBirth'],
   },
 };
