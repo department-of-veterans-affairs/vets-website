@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import vaTextInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaTextInputFieldMapping';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-function maskSSN(ssnString = '') {
+export function maskSSN(ssnString = '') {
   const strippedSSN = ssnString.replace(/[- ]/g, '');
   const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
     digit.replace(/\d/g, '●'),

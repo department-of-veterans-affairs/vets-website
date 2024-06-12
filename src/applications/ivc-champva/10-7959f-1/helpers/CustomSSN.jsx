@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { validateSSN } from 'platform/forms-system/src/js/validation';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
 import get from 'platform/utilities/data/get';
 import { vaFileNumberUI } from 'platform/forms-system/src/js/web-component-patterns';
-import HandlePrefilledSSN from './maskSSN';
+import HandlePrefilledSSN, { maskSSN } from './maskSSN';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
 
@@ -33,7 +35,7 @@ export const ssnOrVaFileNumberCustomUI = () => {
       },
     },
     'ui:options': {
-      updateSchema: (formData, _schema, _uiSchema, index, path) => {
+      updateSchema: (formData, _schema, _uiSchema, path) => {
         const { ssn, vaFileNumber } = get(path, formData) ?? {};
 
         let required = ['ssn'];
@@ -50,8 +52,9 @@ export const ssnOrVaFileNumberCustomUI = () => {
   };
 };
 
-// TODO: Needs safety checks, prop validation, and maybe some work on the title
 export function CustomSSNReviewPage(props) {
+  console.log('props', props);
+  const maskedSSN = maskSSN(props?.data?.veteranSocialSecurityNumber?.ssn);
   return props.data ? (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
@@ -63,10 +66,19 @@ export function CustomSSNReviewPage(props) {
       <dl className="review">
         <div className="review-row">
           <dt>SSN</dt>
-          {/* TODO: mask the SSN */}
-          <dd>{props?.data?.veteranSocialSecurityNumber?.ssn}</dd>
+          <dd>{maskedSSN}</dd>
         </div>
       </dl>
     </div>
   ) : null;
 }
+
+CustomSSNReviewPage.propTypes = {
+  data: PropTypes.shape({
+    veteranSocialSecurityNumber: PropTypes.shape({
+      ssn: PropTypes.string,
+    }),
+  }),
+  editPage: PropTypes.func,
+  title: PropTypes.string,
+};
