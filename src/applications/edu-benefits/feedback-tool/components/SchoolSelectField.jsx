@@ -15,6 +15,7 @@ import {
   searchInputChange,
   selectInstitution,
   searchSchools,
+  toggleManualSchoolEntry,
 } from '../actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -73,6 +74,7 @@ export class SchoolSelectField extends React.Component {
   }
 
   handleManualSchoolEntryToggled = currentValue => {
+    this.props.toggleManualSchoolEntry(currentValue);
     this.props.onChange({
       ...this.props.formData,
       'view:manualSchoolEntryChecked': currentValue,
@@ -465,7 +467,7 @@ export const mapStateToProps = (state, ownProps) => {
   const institutions = selectInstitutions(state);
   const institutionSelected = selectInstitutionSelected(state);
   const manualSchoolEntryChecked =
-    selectManualSchoolEntryChecked(ownProps) || false;
+    selectManualSchoolEntryChecked(state) || false;
   const pagesCount = selectPagesCount(state);
   const searchInputValue = selectSearchInputValue(state);
   const searchResultsCount = selectSearchResultsCount(state);
@@ -506,6 +508,7 @@ const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
   selectInstitution,
+  toggleManualSchoolEntry,
 };
 
 SchoolSelectField.propTypes = {
