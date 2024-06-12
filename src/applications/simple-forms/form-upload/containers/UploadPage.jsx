@@ -61,6 +61,7 @@ const UploadPage = () => {
       />
       <VaButtonPair
         class="vads-u-margin-top--0"
+        data-testid="upload-button-pair"
         continue
         onPrimaryClick={onClickContinue}
         onSecondaryClick={history.goBack}
