@@ -75,7 +75,7 @@ describe('Medicaitons Landing page container', () => {
     ).to.exist;
   });
 
-  it('opens accordion when url is "/about/accordion-renew-rx"', () => {
+  it('opens accordion when url is "/about#accordion-renew-rx"', () => {
     const setupWithSpecificPathState = (
       state = {
         rx: {
@@ -107,7 +107,7 @@ describe('Medicaitons Landing page container', () => {
       return renderWithStoreAndRouter(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        path: '/accordion-renew-rx',
+        path: '#accordion-renew-rx',
       });
     };
     const newScreen = setupWithSpecificPathState();
@@ -118,7 +118,7 @@ describe('Medicaitons Landing page container', () => {
     ).to.exist;
   });
 
-  it('page loads when loading flag is false and logged in status is false and user navigates to /accordion-renew-rx', () => {
+  it('page loads when loading flag is false and logged in status is false and user navigates to #accordion-renew-rx', () => {
     const setupWithSpecificFeatureToggleState = (
       state = {
         ...initialState,
@@ -140,7 +140,7 @@ describe('Medicaitons Landing page container', () => {
       return renderWithStoreAndRouter(<LandingPage />, {
         initialState: state,
         reducers: reducer,
-        path: '/accordion-renew-rx',
+        path: '#accordion-renew-rx',
       });
     };
     const newScreen = setupWithSpecificFeatureToggleState();
