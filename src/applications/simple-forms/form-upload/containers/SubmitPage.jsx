@@ -47,16 +47,15 @@ const SubmitPage = () => {
     getVeteran();
   }, []);
 
+  const PageTitle = () => (
+    <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
+      <h3>Uploaded file</h3>
+      <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
+    </div>
+  );
+
   return (
-    <FormPage
-      currentLocation={3}
-      pageTitle={
-        <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
-          <h3>Uploaded file</h3>
-          <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
-        </div>
-      }
-    >
+    <FormPage currentLocation={3} pageTitle={<PageTitle />}>
       <div className="vads-u-margin-top--2">
         <div className="vads-u-margin-y--1 vads-u-color--gray">Your file</div>
         <VaCard style={{ maxWidth: '50%' }}>
