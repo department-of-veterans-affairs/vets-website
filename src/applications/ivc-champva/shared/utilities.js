@@ -78,7 +78,7 @@ export function getAgeInYears(date) {
  * )
  * ```
  *
- * @param {Array} urlArray Array of page URLs where these styles should be applied
+ * @param {Array} urlArray Array of page URLs where these styles should be applied - to target all URLs, use value: ['']
  * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
  * @param {String} style String of CSS to inject into the specified elements on the specified pages
  */

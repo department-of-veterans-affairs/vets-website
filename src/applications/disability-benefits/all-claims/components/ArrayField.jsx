@@ -18,8 +18,8 @@ import {
 } from 'platform/forms-system/src/js/utilities/ui';
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
-
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
+import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import { NULL_CONDITION_STRING } from '../constants';
 
@@ -142,6 +142,10 @@ export default class ArrayField extends React.Component {
 
   focusOnEditButton = index => {
     const editButton = this.findElementsFromIndex(-1, '.edit');
+    if (showRevisedNewDisabilitiesPage()) {
+      // eslint-disable-next-line no-console
+      console.log('focusing on edit button ', editButton[index]);
+    }
     focusElement(editButton[index]);
   };
 
@@ -149,6 +153,10 @@ export default class ArrayField extends React.Component {
     this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     // Focus on first label
     const labels = this.findElementsFromIndex(index, 'label, legend');
+    if (showRevisedNewDisabilitiesPage()) {
+      // eslint-disable-next-line no-console
+      console.log('focusing on label', labels[0]);
+    }
     focusElement(labels[0]);
   };
 
@@ -158,6 +166,10 @@ export default class ArrayField extends React.Component {
       index,
       '.usa-input-error-message',
     );
+    if (showRevisedNewDisabilitiesPage()) {
+      // eslint-disable-next-line no-console
+      console.log('focusing on error msg', errorMessage[0]);
+    }
     focusElement(errorMessage[0]);
   };
 
@@ -172,6 +184,10 @@ export default class ArrayField extends React.Component {
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
     this.setState(set(['editing', index], false, this.state), () => {
+      if (showRevisedNewDisabilitiesPage()) {
+        // eslint-disable-next-line no-console
+        console.log('calling focusOnEditButton from handleCancelEdit()', index);
+      }
       this.focusOnEditButton(index);
     });
   };
@@ -203,6 +219,10 @@ export default class ArrayField extends React.Component {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
+        if (showRevisedNewDisabilitiesPage()) {
+          // eslint-disable-next-line no-console
+          console.log('calling focusOnEditButton from handleUpdate()', index);
+        }
         this.focusOnEditButton(index);
       });
     } else {
@@ -231,6 +251,13 @@ export default class ArrayField extends React.Component {
         },
         () => {
           // Focus on edit button after saving
+          if (showRevisedNewDisabilitiesPage()) {
+            // eslint-disable-next-line no-console
+            console.log(
+              'calling focusOnEditButton from handleSave()',
+              lastIndex,
+            );
+          }
           this.focusOnEditButton(lastIndex);
         },
       );
