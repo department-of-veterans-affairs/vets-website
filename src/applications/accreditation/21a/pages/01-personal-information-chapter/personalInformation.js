@@ -25,10 +25,10 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['dateOfBirth'],
     properties: {
       fullName: fullNameSchema,
       dateOfBirth: dateOfBirthSchema,
     },
+    required: ['dateOfBirth'],
   },
 };

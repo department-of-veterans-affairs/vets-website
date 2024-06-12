@@ -17,10 +17,10 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['personalPhone'],
     properties: {
       personalPhone: phoneSchema,
       personalEmail: emailSchema,
     },
+    required: ['personalPhone'],
   },
 };

@@ -14,6 +14,7 @@ export default {
       labels: {
         militaryCheckbox:
           'I work on a United States military base outside of the U.S.',
+        state: 'State/Province/Region',
       },
       omit: ['street3'],
     }),

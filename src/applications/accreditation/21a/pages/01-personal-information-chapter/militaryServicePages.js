@@ -1,11 +1,12 @@
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
+  selectSchema,
+  selectUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
@@ -39,8 +40,7 @@ const summaryPage = {
   uiSchema: {
     'view:isAVeteran': arrayBuilderYesNoUI(options, {
       title: 'Are you a Veteran?',
-      hint:
-        'If yes then you will add your military service experiences on the following page.',
+      hint: ' ',
       labels: {
         Y: 'Yes, I am a Veteran',
         N: 'No, I am a civilian',
@@ -56,6 +56,17 @@ const summaryPage = {
   },
 };
 
+const branchOfServiceOptions = [
+  'Army',
+  'Navy',
+  'Air Force',
+  'Marine Corps',
+  'Space Force',
+  'Coast Guard',
+];
+
+const characterOfDischargeOptions = ['Honorable', 'Other'];
+
 /** @returns {PageSchema} */
 const militaryServiceExperience = {
   uiSchema: {
@@ -63,19 +74,15 @@ const militaryServiceExperience = {
       'Military service experience',
       'Please add your military service history details below.',
     ),
-    militaryServiceExperienceBranchOfService: {
-      'ui:title': 'Branch of service',
-      'ui:webComponentField': VaSelectField,
-    },
+    militaryServiceExperienceBranchOfService: selectUI('Branch of service'),
     militaryServiceExperienceDateRange: currentOrPastDateRangeUI(
       'Active service start date',
       'Active service end date',
       'End of service must be after start of service',
     ),
-    militaryServiceExperienceCharacterOfDischarge: {
-      'ui:title': 'Character of discharge',
-      'ui:webComponentField': VaSelectField,
-    },
+    militaryServiceExperienceCharacterOfDischarge: selectUI(
+      'Character of discharge',
+    ),
     'view:militaryServiceExperienceNote': {
       'ui:title': ' ',
       'ui:field': MilitaryServiceExperienceNote,
@@ -83,32 +90,23 @@ const militaryServiceExperience = {
   },
   schema: {
     type: 'object',
+    properties: {
+      militaryServiceExperienceBranchOfService: selectSchema(
+        branchOfServiceOptions,
+      ),
+      militaryServiceExperienceDateRange: currentOrPastDateRangeSchema,
+      militaryServiceExperienceCharacterOfDischarge: selectSchema(
+        characterOfDischargeOptions,
+      ),
+      'view:militaryServiceExperienceNote': {
+        type: 'string',
+      },
+    },
     required: [
       'militaryServiceExperienceBranchOfService',
       'militaryServiceExperienceDateRange',
       'militaryServiceExperienceCharacterOfDischarge',
     ],
-    properties: {
-      militaryServiceExperienceBranchOfService: {
-        type: 'string',
-        enum: [
-          'Army',
-          'Navy',
-          'Air Force',
-          'Marine Corps',
-          'Space Force',
-          'Coast Guard',
-        ],
-      },
-      militaryServiceExperienceDateRange: currentOrPastDateRangeSchema,
-      militaryServiceExperienceCharacterOfDischarge: {
-        type: 'string',
-        enum: ['Honorable', 'Other'],
-      },
-      'view:militaryServiceExperienceNote': {
-        type: 'string',
-      },
-    },
   },
 };
 
