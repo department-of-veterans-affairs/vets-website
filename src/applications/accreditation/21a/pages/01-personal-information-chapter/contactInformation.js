@@ -12,7 +12,7 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    personalPhone: phoneUI({ title: 'Primary number' }),
+    personalPhone: phoneUI('Primary number'),
     personalEmail: emailUI(),
   },
   schema: {

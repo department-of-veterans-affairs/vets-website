@@ -6,7 +6,6 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
-  descriptionUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
@@ -15,8 +14,8 @@ import MilitaryServiceExperienceNote from '../../components/MilitaryServiceExper
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'military-service-experiences',
-  nounSingular: 'Military service experience',
-  nounPlural: 'Military service experiences',
+  nounSingular: 'military service experience',
+  nounPlural: 'military service experiences',
   required: false,
   isItemIncomplete: item =>
     !item?.militaryServiceExperienceBranchOfService ||
@@ -60,8 +59,10 @@ const summaryPage = {
 /** @returns {PageSchema} */
 const militaryServiceExperience = {
   uiSchema: {
-    ...titleUI('Military service experience'),
-    ...descriptionUI('Please add your military service history details below.'),
+    ...titleUI(
+      'Military service experience',
+      'Please add your military service history details below.',
+    ),
     militaryServiceExperienceBranchOfService: {
       'ui:title': 'Branch of service',
       'ui:webComponentField': VaSelectField,

@@ -1,7 +1,6 @@
 import {
   addressSchema,
   addressUI,
-  descriptionUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -10,8 +9,8 @@ export default {
   title: 'Home address',
   path: 'home-address',
   uiSchema: {
-    ...titleUI('Home address'),
-    ...descriptionUI(
+    ...titleUI(
+      'Home address',
       "We'll send any important information about your form to this address.",
     ),
     homeAddress: addressUI({
