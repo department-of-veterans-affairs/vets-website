@@ -35,6 +35,7 @@ export default function HandlePrefilledSSN(fieldProps) {
       setDisplayVal(val);
     }
     setVal(value);
+    setDisplayVal(value);
     props.onInput(event, strippedSSN);
   };
 
