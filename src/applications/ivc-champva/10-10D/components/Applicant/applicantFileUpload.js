@@ -489,6 +489,15 @@ export const applicantMarriageCertConfig = uploadWithInfoComponent(
   true,
 );
 
+// When in list loop, formData is just the list element's data, but when editing
+// a list item's data on review-and-submit `formData` may be the complete form
+// data object. This provides a consistent interface via formContext.
+export function getTopLevelFormData(formContext) {
+  return formContext.contentAfterButtons === undefined
+    ? formContext.data
+    : formContext.contentAfterButtons.props.form.data;
+}
+
 export const applicantMarriageCertUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
@@ -506,15 +515,17 @@ export const applicantMarriageCertUploadUiSchema = {
             false,
             formContext.pagePerItemIndex,
           );
+          // Inside list loop this lets us grab form data outside the scope of
+          // current list element:
+          const vetName = getTopLevelFormData(formContext)?.veteransFullName;
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{nonPosessive}</b> sponsor and{' '}
+              legal union between <b>{nonPosessive}</b> and{' '}
               <b>
-                {formData.veteransFullName?.first}{' '}
-                {formData.veteransFullName?.last}.
+                {vetName?.first ?? ''} {vetName?.last ?? ''}
               </b>
-              <br />
+              .<br />
               <br />
               {marriageDocumentList}
               {mailOrFaxLaterMsg}

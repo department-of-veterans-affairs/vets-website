@@ -8,12 +8,14 @@ import VaTextareaField from '~/platform/forms-system/src/js/web-component-fields
 import {
   LIVING_SITUATIONS,
   ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
-  OTHER_REASONS_REQUIRED,
-  OTHER_REASONS_OPTIONAL,
+  OTHER_REASONS,
   PRIORITY_PROCESSING_NOT_QUALIFIED,
   PRIORITY_PROCESSING_QUALIFIED,
 } from '../config/constants';
-import { validateCheckboxSelection } from '../helpers';
+import {
+  validateLivingSituationSelection,
+  validateOtherReasonsSelection,
+} from '../helpers';
 
 /** @type {PageSchema} */
 export const aboutPriorityProcessingPage = {
@@ -62,7 +64,7 @@ export const housingRisksPage = {
         required: 'Select the appropriate living situation',
       },
     }),
-    'ui:validations': [validateCheckboxSelection],
+    'ui:validations': [validateLivingSituationSelection],
   },
   schema: {
     type: 'object',
@@ -83,9 +85,6 @@ export const otherHousingRisksPage = {
     otherHousingRisks: {
       'ui:title': 'Tell us about other housing risks you are experiencing',
       'ui:webComponentField': VaTextareaField,
-      'ui:errorMessages': {
-        required: 'List other housing risks you are experiencing',
-      },
       'ui:options': {
         charcount: true,
       },
@@ -103,50 +102,29 @@ export const otherHousingRisksPage = {
         maxLength: 100,
       },
     },
-    required: ['otherHousingRisks'],
   },
 };
 
 /** @type {PageSchema} */
-export const hardshipsOptionalPage = {
-  uiSchema: {
-    otherReasons: checkboxGroupUI({
-      title: 'Are any of these descriptions true for you?',
-      hint: 'If not, select continue',
-      required: false,
-      labels: OTHER_REASONS_OPTIONAL,
-      labelHeaderLevel: '1',
-      tile: false,
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS_OPTIONAL)),
-    },
-  },
-};
-
-/** @type {PageSchema} */
-export const hardshipsRequiredPage = {
+export const hardshipsPage = {
   uiSchema: {
     otherReasons: checkboxGroupUI({
       title: 'Which of these descriptions is true for you?',
       hint: 'Select all that apply.',
       required: true,
-      labels: OTHER_REASONS_REQUIRED,
+      labels: OTHER_REASONS,
       labelHeaderLevel: '1',
       tile: false,
       errorMessages: {
         required: 'Select at least one description',
       },
     }),
-    'ui:validations': [validateCheckboxSelection],
+    'ui:validations': [validateOtherReasonsSelection],
   },
   schema: {
     type: 'object',
     properties: {
-      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS_REQUIRED)),
+      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS)),
     },
     required: ['otherReasons'],
   },

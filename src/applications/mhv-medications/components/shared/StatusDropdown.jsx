@@ -27,16 +27,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Active</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -72,12 +70,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Active: Non-VA</div>
-            <div data-testid="status-dropdown">
-              <va-additional-info uswds trigger="What does this status mean?">
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active: Non-VA</p>
+            <va-additional-info
+              data-testid="status-dropdown"
+              uswds
+              trigger="What does this status mean?"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -115,16 +115,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Active: Parked</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active: Parked</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -136,9 +134,8 @@ const StatusDropdown = props => {
               <p data-testid="onHold-status-definition">
                 We put a hold on this prescription. You can’t request a refill
                 until we remove the hold.
-                <br />
-                We may use this status for either of these reasons:
               </p>
+              <p>We may use this status for either of these reasons:</p>
               <ul>
                 <li>
                   You told us you have too much of this medication or supply,{' '}
@@ -152,16 +149,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Active: On hold</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active: On hold</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -169,22 +164,18 @@ const StatusDropdown = props => {
       case dispStatusObj.refillinprocess: {
         const dropdownContent = () => {
           return (
-            <>
-              <p>
-                We’re processing a fill or refill for this prescription. We’ll
-                update the status here when we ship your prescription.
-              </p>
-            </>
+            <p>
+              We’re processing a fill or refill for this prescription. We’ll
+              update the status here when we ship your prescription.
+            </p>
           );
         };
         return (
           <>
-            <div data-testid="status">Active: Refill in process</div>
-            <div>
-              <va-additional-info uswds trigger="What does this status mean?">
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active: Refill in process</p>
+            <va-additional-info uswds trigger="What does this status mean?">
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -217,16 +208,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Discontinued</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Discontinued</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -237,7 +226,8 @@ const StatusDropdown = props => {
               <p data-testid="submitted-status-definition">
                 We got your request to fill or refill this prescription. We’ll
                 update the status when we process your request.
-                <br />
+              </p>
+              <p>
                 Check back for updates. If we don’t update the status within 3
                 days after your request, call your VA pharmacy.
               </p>
@@ -246,16 +236,14 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Active: Submitted</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Active: Submitted</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
@@ -283,69 +271,60 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <div data-testid="status">Expired</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Expired</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
       case dispStatusObj.transferred: {
         const dropdownContent = () => {
           return (
-            <>
-              <p data-testid="transferred-status-definition">
-                We moved this prescription to our My VA Health portal.
-              </p>
-            </>
+            <p data-testid="transferred-status-definition">
+              We moved this prescription to our My VA Health portal.
+            </p>
           );
         };
         return (
           <>
-            <div data-testid="status">Transferred</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Transferred</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }
       default: {
         const dropdownContent = () => {
           return (
-            <>
-              <p data-testid="unknown-status-definition">
+            <div data-testid="unknown-status-definition">
+              <p>
                 There’s a problem with our system. You can’t manage this
                 prescription online right now.
-                <br />
-                If you need this prescription now, call your VA pharmacy.
               </p>
-            </>
+              <p>If you need this prescription now, call your VA pharmacy.</p>
+            </div>
           );
         };
         return (
           <>
-            <div data-testid="status">Unknown</div>
-            <div>
-              <va-additional-info
-                uswds
-                trigger="What does this status mean?"
-                data-testid="status-dropdown"
-              >
-                {dropdownContent()}
-              </va-additional-info>
-            </div>
+            <p data-testid="status">Unknown</p>
+            <va-additional-info
+              uswds
+              trigger="What does this status mean?"
+              data-testid="status-dropdown"
+            >
+              {dropdownContent()}
+            </va-additional-info>
           </>
         );
       }

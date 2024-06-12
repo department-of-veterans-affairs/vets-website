@@ -36,8 +36,10 @@ const UploadPage = () => {
   };
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
   const onFileUploaded = uploadedFile => {
-    setFileInputError('');
-    setFile(uploadedFile);
+    if (uploadedFile.confirmationCode) {
+      setFileInputError('');
+      setFile(uploadedFile);
+    }
   };
   const onVaChange = e =>
     dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));
@@ -54,6 +56,7 @@ const UploadPage = () => {
         <VaSegmentedProgressBar
           current={1}
           total={3}
+          headerLevel={2}
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>

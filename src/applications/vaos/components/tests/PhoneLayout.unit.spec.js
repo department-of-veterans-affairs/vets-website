@@ -30,7 +30,6 @@ describe('VAOS Component: PhoneLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 
@@ -52,7 +51,7 @@ describe('VAOS Component: PhoneLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          isVAPhoneAppointment: true,
+          isPhoneAppointment: true,
           apiData: {
             serviceType: 'primaryCare',
           },
@@ -131,7 +130,7 @@ describe('VAOS Component: PhoneLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          isVAPhoneAppointment: true,
+          isPhoneAppointment: true,
           apiData: {},
         },
         status: 'booked',
@@ -236,6 +235,8 @@ describe('VAOS Component: PhoneLayout', () => {
           name: /Past phone appointment/i,
         }),
       );
+      expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))
+        .not.to.exist;
       expect(
         screen.getByRole('heading', { level: 2, name: /After visit summary/i }),
       );
@@ -324,6 +325,8 @@ describe('VAOS Component: PhoneLayout', () => {
           /If you want to reschedule, call us or schedule a new appointment online/i,
         ),
       );
+      expect(screen.queryByRole('heading', { level: 2, name: /How to join/ }))
+        .not.to.exist;
       expect(
         screen.queryByRole('heading', {
           level: 2,

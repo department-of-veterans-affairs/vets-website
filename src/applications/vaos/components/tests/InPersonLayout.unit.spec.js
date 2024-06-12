@@ -30,7 +30,6 @@ describe('VAOS Component: InPersonLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 

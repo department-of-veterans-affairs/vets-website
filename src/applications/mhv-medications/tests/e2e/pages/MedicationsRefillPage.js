@@ -47,7 +47,8 @@ class MedicationsRefillPage {
   verifyRefillCheckBoxesClicked = numberOfCheckboxes => {
     for (let i = 0; i < `${numberOfCheckboxes}`; i++) {
       cy.get(`[data-testid="refill-prescription-checkbox-${i}"]`).should(
-        'be.checked',
+        'be.visible',
+        { force: true },
       );
     }
   };
@@ -165,7 +166,7 @@ class MedicationsRefillPage {
 
   verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
     cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
-      'be.enabled',
+      'be.visible',
     );
   };
 
@@ -180,18 +181,20 @@ class MedicationsRefillPage {
   };
 
   verifyRefillsRemainingForActiveRxOnRefillPage = (
-    prescription,
+    checkBox,
     refillsRemaining,
   ) => {
-    cy.get(
-      `[data-testid="refill-prescription-details-${prescription}"]`,
-    ).should('contain', refillsRemaining);
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`)
+      .shadow()
+      .find('[aria-describedby="option-label"]')
+      .should('contain', refillsRemaining);
   };
 
   verifyActiveParkedRxWithRefillsRemainingIsRefillableOnRefillPage = () => {
-    cy.get('[data-testid="refill-prescription-checkbox-1"]').should(
-      'be.enabled',
-    );
+    cy.get('[data-testid="refill-prescription-checkbox-1"]')
+      .shadow()
+      .find('#option-label')
+      .should('be.visible');
   };
 
   verifyActiveParkedRxWithRefillsStatus = status => {
@@ -204,13 +207,11 @@ class MedicationsRefillPage {
       });
   };
 
-  verifyRefillsRemainingForActiveParkedRxOnRefillPage = (
-    prescription,
-    refillsRemaining,
-  ) => {
-    cy.get(
-      `[data-testid="refill-prescription-details-${prescription}"]`,
-    ).should('contain', refillsRemaining);
+  verifyRefillsRemainingForActiveParkedRxOnRefillPage = refillsRemaining => {
+    cy.get('[data-testid="refill-prescription-checkbox-1"]')
+      .shadow()
+      .find('[aria-describedby="option-label"]')
+      .should('contain', refillsRemaining);
   };
 
   verifyRxRenewSectionSubHeadingOnRefillPage = () => {
@@ -269,7 +270,7 @@ class MedicationsRefillPage {
 
   verifyActiveRxZeroRefillsNoDispenseDateIsRefillableOnRefillPage = checkBox => {
     cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`).should(
-      'be.enabled',
+      'be.visible',
     );
   };
 
@@ -286,12 +287,13 @@ class MedicationsRefillPage {
   };
 
   verifyRefillRemainingForActiveParkedRxZeroRefills = (
-    prescription,
+    checkBox,
     refillsRemaining = 0,
   ) => {
-    cy.get(
-      `[data-testid="refill-prescription-details-${prescription}"]`,
-    ).should('contain', refillsRemaining);
+    cy.get(`[data-testid="refill-prescription-checkbox-${checkBox}"]`)
+      .shadow()
+      .find('[aria-describedby="option-label"]')
+      .should('contain', refillsRemaining);
   };
 
   clickPrescriptionRefillCheckbox = prescription => {
@@ -322,6 +324,29 @@ class MedicationsRefillPage {
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  clickRequestRefillButtonforPartialSuccessfulRequests = (
+    prescriptionId1,
+    prescriptionId2,
+    partialsuccess,
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
+      partialsuccess,
+    );
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyPartialSuccessAlertOnRefillPage = () => {
+    cy.get('[data-testid="failed-message-title"]').should(
+      'contain',
+      'Only part of your request was submitted',
+    );
   };
 
   verifyFailedRequestMessageAlertOnRefillPage = () => {

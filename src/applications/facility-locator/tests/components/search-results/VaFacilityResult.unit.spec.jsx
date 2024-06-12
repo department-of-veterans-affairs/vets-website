@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import VaFacilityResult from '../../../components/search-results-items/VaFacilityResult';
 import testData from '../../../constants/mock-facility-data-v1.json';
-import { Covid19Vaccine, LocationType } from '../../../constants';
+import { LocationType } from '../../../constants';
 
 describe('VaFacilityResult', () => {
   it('Should render VaFacilityResult, facility type health', () => {
@@ -75,23 +75,6 @@ describe('VaFacilityResult', () => {
       'https://va.gov/alexandria',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);
-    wrapper.unmount();
-  });
-
-  it('Should render VaFacilityResult, facility type health and service type covid 19 vaccine', () => {
-    const query = {
-      facilityType: LocationType.HEALTH,
-      serviceType: Covid19Vaccine,
-    };
-    const wrapper = shallow(
-      <VaFacilityResult location={testData.data[1]} query={query} />,
-    );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
-    expect(wrapper.find('LocationAddress').length).to.equal(1);
-    expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
-    expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('Covid19Alert').length).to.equal(1);
-    expect(wrapper.find('LocationOperationStatus').length).to.equal(1);
     wrapper.unmount();
   });
 });

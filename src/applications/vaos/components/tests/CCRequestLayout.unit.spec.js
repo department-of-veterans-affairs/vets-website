@@ -30,7 +30,6 @@ describe('VAOS Component: VARequestLayout', () => {
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 
@@ -164,9 +163,8 @@ describe('VAOS Component: VARequestLayout', () => {
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      expect(screen.container.querySelector('va-button[text="Cancel request"]'))
+        .to.be.ok;
     });
   });
 
@@ -301,9 +299,8 @@ describe('VAOS Component: VARequestLayout', () => {
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      expect(screen.container.querySelector('va-button[text="Cancel request"]'))
+        .to.be.ok;
     });
   });
 });
