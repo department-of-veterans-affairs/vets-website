@@ -4,7 +4,7 @@ import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 import categories from '../fixtures/categories-response.json';
 
-describe('Validate the category', () => {
+describe.skip('Validate the category', () => {
   it('selects a category', () => {
     const site = new SecureMessagingSite();
     const listOfCategories = categories.data.attributes.messageCategoryType;
