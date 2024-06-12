@@ -48,18 +48,6 @@ describe('pre-check-in', () => {
         );
         const testInstance = testRenderer.root;
         expect(
-          testInstance.findByType(PreCheckinConfirmation).props.formData
-            .demographicsUpToDate,
-        ).to.equal('yes');
-        expect(
-          testInstance.findByType(PreCheckinConfirmation).props.formData
-            .emergencyContactUpToDate,
-        ).to.equal('yes');
-        expect(
-          testInstance.findByType(PreCheckinConfirmation).props.formData
-            .nextOfKinUpToDate,
-        ).to.equal('no');
-        expect(
           testInstance.findByType(PreCheckinConfirmation).props.appointments,
         ).to.equal(singleAppointment);
       });

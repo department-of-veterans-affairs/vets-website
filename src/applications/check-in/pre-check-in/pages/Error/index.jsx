@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
 
 import { phoneNumbers } from '../../../utils/appConstants';
-import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
 import ExternalLink from '../../../components/ExternalLink';
 
@@ -225,11 +224,45 @@ const Error = () => {
       </va-alert>
       <HowToLink />
       <div className="vads-u-margin-top--3">
-        <PreCheckInAccordionBlock
-          key="accordion"
-          errorPage
-          appointments={appointments}
-        />
+        <va-accordion uswds bordered data-testid="pre-check-in-accordions">
+          <va-accordion-item
+            header={t('what-is-pre-check-in')}
+            open={false}
+            uswds
+            bordered
+          >
+            <p>
+              {t('during-pre-check-in-you-can-review-your-contact-information')}
+            </p>
+            <p>
+              <Trans
+                i18nKey="you-can-also-sign-in-to-your-va-gov-profile-to-review-your-information"
+                components={[
+                  <ExternalLink
+                    key="link"
+                    href="https://www.va.gov/profile/personal-information"
+                    hrefLang="en"
+                  >
+                    link
+                  </ExternalLink>,
+                ]}
+                values={{ link: t('sign-in') }}
+              />
+            </p>
+          </va-accordion-item>
+          <va-accordion-item
+            header={t('why-cant-i-pre-check-in')}
+            open={false}
+            uswds
+            bordered
+          >
+            <p>
+              {t(
+                'you-can-pre-check-in-online-before-midnight-of-the-day-of-your-appointment',
+              )}
+            </p>
+          </va-accordion-item>
+        </va-accordion>
       </div>
     </Wrapper>
   );

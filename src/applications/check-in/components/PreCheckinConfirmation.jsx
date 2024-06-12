@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
-import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
+import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
-  const { appointments, isLoading, formData, router } = props;
+  const { appointments, isLoading, router } = props;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   // appt link will be /my-health/appointments if toggle is on
@@ -19,12 +19,6 @@ const PreCheckinConfirmation = props => {
   )
     ? 'https://va.gov/my-health/appointments/'
     : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
-
-  // If the demographics answers are not present in the data, we
-  // assume that the page was skipped, and default to "yes".
-  const demographicsUpToDate = formData.demographicsUpToDate ?? 'yes';
-  const emergencyContactUpToDate = formData.emergencyContactUpToDate ?? 'yes';
-  const nextOfKinUpToDate = formData.nextOfKinUpToDate ?? 'yes';
 
   const { t } = useTranslation();
 
@@ -63,12 +57,7 @@ const PreCheckinConfirmation = props => {
           </ExternalLink>
         </p>
 
-        <PreCheckInAccordionBlock
-          demographicsUpToDate={demographicsUpToDate}
-          emergencyContactUpToDate={emergencyContactUpToDate}
-          nextOfKinUpToDate={nextOfKinUpToDate}
-          appointments={appointments}
-        />
+        <ConfirmationAccordionBlock appointments={appointments} />
       </Wrapper>
     );
   };
@@ -78,7 +67,6 @@ const PreCheckinConfirmation = props => {
 
 PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
-  formData: PropTypes.object,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

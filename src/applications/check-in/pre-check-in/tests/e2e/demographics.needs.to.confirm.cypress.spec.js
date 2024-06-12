@@ -66,7 +66,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
         });
 
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in for a phone appointment with yes to all demographics questions', () => {
@@ -108,7 +107,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
 
       Confirmation.validatePageLoaded();
       Confirmation.validateAppointmentType('phone');
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in and only display and update relevant demographics', () => {
@@ -146,7 +144,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
         });
 
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to contact info', () => {
