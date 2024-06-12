@@ -177,6 +177,10 @@ export default class ArrayField extends React.Component {
     this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
     const inputs = this.findElementsFromIndex(index, 'va-text-input');
     // use web-component shadow DOM as root to search within
+    if (showRevisedNewDisabilitiesPage()) {
+      // eslint-disable-next-line no-console
+      console.log('focusing on input', inputs[0]);
+    }
     focusElement('input', {}, inputs[0]);
   };
 
@@ -203,6 +207,14 @@ export default class ArrayField extends React.Component {
         oldData: this.props.formData,
       }),
       () => {
+        if (showRevisedNewDisabilitiesPage()) {
+          // eslint-disable-next-line no-console
+          console.log(
+            'from handleEdit() this.state.useNewFocus: ',
+            this.state.useNewFocus,
+          );
+        }
+
         if (this.state.useNewFocus) {
           this.targetInput(index);
         } else {
@@ -298,6 +310,13 @@ export default class ArrayField extends React.Component {
           this.props.onChange(newFormData);
         }, // Allow DOM to render the new card
         setTimeout(() => {
+          if (showRevisedNewDisabilitiesPage()) {
+            // eslint-disable-next-line no-console
+            console.log(
+              'from setTimeout() in handleAdd() this.state.useNewFocus: ',
+              this.state.useNewFocus,
+            );
+          }
           if (this.state.useNewFocus) {
             this.targetInput(lastIndex + 1);
           } else {
