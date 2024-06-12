@@ -24,8 +24,6 @@ const generateState = ({
           }, []),
           maintenance_windows: [],
         },
-        subscribe: () => {},
-        dispatch: () => {},
       }
     : {
         externalServiceStatuses: {
@@ -43,8 +41,6 @@ const generateState = ({
               }),
           maintenanceWindows: isApiDown ? [] : maintenanceWindows,
         },
-        subscribe: () => {},
-        dispatch: () => {},
       };
 };
 
