@@ -4,8 +4,8 @@
 export default {
   hasBeenAdjudicatedBankrupt:
     "Please select whether you've declared bankruptcy (select yes or no)",
-  _override: (error, fullError) => {
-    if (error === 'location' || fullError.includes('location')) {
+  _override: error => {
+    if (error === 'location') {
       return {
         chapterKey: 'locations',
         pageKey: 'summary', // summary page on review & submit
