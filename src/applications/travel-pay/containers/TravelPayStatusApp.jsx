@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -28,6 +29,7 @@ export default function App({ children }) {
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
+  const [currentPage, setCurrentPage] = useState(1);
 
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
@@ -63,6 +65,25 @@ export default function App({ children }) {
       }
     },
     [dispatch, userLoggedIn],
+  );
+
+  const CLAIMS_PER_PAGE = 10;
+  let displayedClaims = travelClaims;
+  const shouldPaginate = travelClaims.length > CLAIMS_PER_PAGE;
+  const numPages = Math.ceil(travelClaims.length / CLAIMS_PER_PAGE);
+
+  const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, travelClaims.length);
+
+  if (shouldPaginate) {
+    displayedClaims = travelClaims.slice(pageStart - 1, pageEnd);
+  }
+
+  const onPageSelect = useCallback(
+    selectedPage => {
+      setCurrentPage(selectedPage);
+    },
+    [setCurrentPage],
   );
 
   if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
@@ -116,7 +137,7 @@ export default function App({ children }) {
                 travelClaims.length > 0 && (
                   <>
                     <p id="pagination-info">
-                      Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
+                      Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
                       events
                     </p>
                     <div className="btsss-claims-order-container">
@@ -144,10 +165,17 @@ export default function App({ children }) {
                       </div>
                     </div>
                     <div id="travel-claims-list">
-                      {travelClaims.map(travelClaim =>
+                      {displayedClaims.map(travelClaim =>
                         TravelClaimCard(travelClaim),
                       )}
                     </div>
+                    {shouldPaginate && (
+                      <VaPagination
+                        onPageSelect={e => onPageSelect(e.detail.page)}
+                        page={currentPage}
+                        pages={numPages}
+                      />
+                    )}
                   </>
                 )}
               {userLoggedIn &&

@@ -24,6 +24,7 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import PrefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -149,13 +150,20 @@ const formConfig = {
                 state: () => true,
               },
             }),
+            'view:prefilledAddress': {
+              'ui:description': PrefilledAddress,
+            },
           },
           schema: {
             type: 'object',
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema({}),
+              veteranAddress: addressSchema(),
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },

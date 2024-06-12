@@ -1,3 +1,10 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const envUrl =
+  environment.API_URL === 'http://localhost:3000'
+    ? 'https://dev-api.va.gov'
+    : environment.API_URL;
+
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
