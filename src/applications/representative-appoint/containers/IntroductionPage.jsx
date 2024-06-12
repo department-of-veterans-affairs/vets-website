@@ -18,7 +18,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Fill out your form to appoint a VA accredited representative or VSO"
-          subtitle="Equal to VA Form 21-22-AND-21-22A (Fill out your form to appoint a VA accredited representative or VSO)"
+          subtitle="Equal to VA Form 21-22 (Fill out your form to appoint a VA accredited representative or VSO)"
         />
         <SaveInProgressIntro
           headingLevel={2}
@@ -27,8 +27,8 @@ class IntroductionPage extends React.Component {
           pageList={pageList}
           startText="Start the Application"
         >
-          Please complete the 21-22-AND-21-22A form to apply for accredited
-          representative appointment.
+          Please complete the 21-22 form to apply for accredited representative
+          appointment.
         </SaveInProgressIntro>
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow the steps below to apply for accredited representative

@@ -10,10 +10,11 @@ describe('Medications Details Page Tracking Rx', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 16;
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(rxTrackingDetails);
+    detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
     detailsPage.verifyPrescriptionTrackingInformation();
     cy.injectAxe();
     cy.axeCheck('main');
