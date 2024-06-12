@@ -7,7 +7,7 @@ import {
   isClaimingNew,
   sippableId,
 } from '../utils';
-import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
+import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic Exposure';
@@ -46,11 +46,22 @@ export const gulfWar2001PageTitle = 'Service post-9/11';
 export const gulfWar2001Question =
   'Did you serve in any of these Gulf War locations on or after September 11, 2001? Check any locations where you served.';
 
+export const herbicidePageTitle = 'Agent Orange locations';
+export const herbicideQuestion =
+  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
+
+export const additionalExposuresPageTitle = 'Other toxic exposures';
+export const additionalExposuresQuestion =
+  'Have you been exposed to any of these hazards? Check any that you’ve been exposed to.';
+export const specifyOtherExposuresLabel =
+  'Other toxic exposures not listed here (250 characters maximum)';
+
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
-
 export const noneAndLocationError =
-  'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
+  'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
+export const noneAndHazardError =
+  'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
@@ -61,11 +72,16 @@ export const dateRangeAdditionalInfo = (
   </va-additional-info>
 );
 
-export const dateRangeDescription =
+export const dateRangeDescriptionWithLocation =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
+export const dateRangeDescriptionWithHazard =
+  'Enter any date range you were exposed to this hazard. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
+export const exposureStartDateApproximate = 'Exposure start date (approximate)';
+export const exposureEndDateApproximate = 'Exposure end date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
+export const goBackLinkExposures = 'Edit exposures and dates';
 export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = 'I’m not sure of the dates';
 export const notSureDatesDetails = (
@@ -73,23 +89,34 @@ export const notSureDatesDetails = (
     I’m not sure of the dates I served in this location
   </p>
 );
+export const notSureHazardDetails = (
+  <p className="vads-spacing-1">
+    I’m not sure of the dates I was exposed to this hazard
+  </p>
+);
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
- * themselves. If there are item counts, it will display something like '1 of 3: Location Name'.
+ * themselves. If there are item counts, it will display something like 'Location 1 of 3: Location Name'.
  * If either count is invalid, the prefix will be dropped to only display 'Location Name'.
  *
  * @param {number} currentItem - this item's count out of the total selected items
  * @param {number} totalItems - total number of selected items
- * @param {string} locationName - Display name of the location
+ * @param {string} itemName - Display name of the location or hazard
+ * @param {string} itemType - Name of the item. Defaults to 'Location'
  * @returns
  */
-export function teSubtitle(currentItem, totalItems, locationName) {
+export function teSubtitle(
+  currentItem,
+  totalItems,
+  itemName,
+  itemType = 'Location',
+) {
   return (
     (currentItem > 0 &&
       totalItems > 0 &&
-      `Location ${currentItem} of ${totalItems}: ${locationName}`) ||
-    locationName
+      `${itemType} ${currentItem} of ${totalItems}: ${itemName}`) ||
+    itemName
   );
 }
 
@@ -97,44 +124,44 @@ export function teSubtitle(currentItem, totalItems, locationName) {
  * Create the markup for page description including the subtitle and date range description text
  *
  * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this location
- * @param {string} locationName - Display name of the location
+ * @param {number} totalItems - Total items for this group
+ * @param {string} itemName - Display name of the location or hazard
+ * @param {string} itemName - Name of the item to display
  * @returns h4 subtitle and p description
  */
 export function dateRangePageDescription(
   currentItem,
   totalItems,
-  locationName,
+  itemName,
+  itemType = 'Location',
 ) {
   const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, locationName),
+    teSubtitle(currentItem, totalItems, itemName, itemType),
   );
   return (
     <>
       {subtitle}
-      <p>{dateRangeDescription}</p>
+      <p>
+        {itemType === 'Location'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
     </>
   );
 }
 
-export const herbicidePageTitle = 'Agent Orange locations';
-export const herbicideQuestion =
-  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
-
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. toggle is enabled
+ *  1. prefilled indicator is true
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
  *
- * Note: toggle is currently read from the redux store by Form526EZApp and stored in sessions storage since
- * not all form aspects have ready access to the store.
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
   return (
-    window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+    formData?.includeToxicExposure === true &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );
@@ -265,31 +292,6 @@ export function getOtherFieldDescription(formData, objectName) {
 }
 
 /**
- * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
- * If the 'none' checkbox is selected along with another location, adds an error.
- *
- * @param {object} errors - Errors object from rjsf
- * @param {object} formData
- * @param {string} objectName - Name of the object to look at in the form data
- * @param {string} otherObjectName - Name of the object containing other location or other hazard data
- */
-export function validateLocations(
-  errors,
-  formData,
-  objectName,
-  otherObjectName,
-) {
-  const { [objectName]: locations = {} } = formData?.toxicExposure;
-  if (
-    locations?.none === true &&
-    (Object.values(locations).filter(value => value === true).length > 1 ||
-      getOtherFieldDescription(formData, otherObjectName))
-  ) {
-    errors.toxicExposure[objectName].addError(noneAndLocationError);
-  }
-}
-
-/**
  * Given the key for a selected checkbox option, find the index within the selected items. In this
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
@@ -334,8 +336,8 @@ export function getKeyIndex(key, objectName, formData) {
  * by the Veteran
  *
  * @param {string} checkboxObjectName - name of the checkbox object to look at in the form data
- * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @param {object} formData - full formData for the form
+ * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @returns {number} count of checkboxes with a value of true
  */
 export function getSelectedCount(
@@ -351,11 +353,12 @@ export function getSelectedCount(
     return 0;
 
   let count = 0;
+  const ignoredItems = ['none', 'notsure'];
   for (const [key, value] of Object.entries(
     formData.toxicExposure[checkboxObjectName],
   )) {
-    // Skip `notsure` since it's not a location
-    if (value === true && key !== 'notsure') {
+    // Skip `none` and `notsure` as non-locations
+    if (value === true && !ignoredItems.includes(key)) {
       count += 1;
     }
   }
@@ -364,14 +367,43 @@ export function getSelectedCount(
 }
 
 /**
+ * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * If the 'none' checkbox is selected along with another item, adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ * @param {string} objectName - Name of the object to look at in the form data
+ * @param {string} otherObjectName - Name of the object containing other location or other hazard data
+ * @param {string} selectionTypes - locations or hazards
+ */
+export function validateSelections(
+  errors,
+  formData,
+  objectName,
+  otherObjectName,
+  selectionTypes = 'locations',
+) {
+  const { [objectName]: items = {} } = formData?.toxicExposure;
+
+  if (
+    items?.none === true &&
+    !!getSelectedCount(objectName, formData, otherObjectName)
+  ) {
+    errors.toxicExposure[objectName].addError(
+      selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
+    );
+  }
+}
+
+/**
  * Checks if a specific details page should display. It should display if all
  * the following is true
  * 1. TE pages should be showing at all
  * 2. the given checkbox data is present for the given itemId with a value of true
- * 3. the 'none' location checkbox is not true
+ * 3. the 'none' checkbox is not true
  *
  * @param {object} formData - full form data
- * @param {string} locationId - unique id for the location
+ * @param {string} itemId - unique id for the item
  * @returns {boolean} true if the page should display, false otherwise
  */
 export function showCheckboxLoopDetailsPage(
@@ -393,8 +425,8 @@ export function showCheckboxLoopDetailsPage(
  * are true
  * 1. TE pages should be showing at all
  * 2. at least one checkbox item was selected OR an 'other' item input was populated
- * 3. the 'none' location checkbox is not true
- * 4. the 'notsure' location checkbox is not the only one selected
+ * 3. the 'none' checkbox is not true
+ * 4. the 'notsure' checkbox is not the only one selected
  *
  * @param {object} formData - full form data
  * @param {string} checkboxObjectName - name of the object containing the checkboxes
@@ -410,13 +442,13 @@ export function showSummaryPage(
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName]
   ) {
-    const locations = formData?.toxicExposure[checkboxObjectName];
+    const checkboxes = formData?.toxicExposure[checkboxObjectName];
     const numSelected = Object.values(
       formData?.toxicExposure[checkboxObjectName],
     ).filter(value => value === true).length;
     return (
-      locations.none !== true &&
-      ((numSelected > 0 && (locations.notsure !== true || numSelected > 1)) ||
+      checkboxes.none !== true &&
+      ((numSelected > 0 && (checkboxes.notsure !== true || numSelected > 1)) ||
         !!getOtherFieldDescription(formData, otherObjectName))
     );
   }

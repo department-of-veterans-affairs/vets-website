@@ -36,8 +36,7 @@ export default function ClaimPhaseStepper({
             and Social Security number.
           </p>
           <p className="vads-u-margin-bottom--0">
-            If basic information is missing, we’ll contact you to gather that
-            information.
+            If information is missing, we’ll contact you.
           </p>
         </>
       ),
@@ -71,12 +70,7 @@ export default function ClaimPhaseStepper({
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <Link
-            data-testid="submit-evidence-link"
-            aria-label="Submit evidence now"
-            title="Submit evidence now"
-            to="../files"
-          >
+          <Link data-testid="submit-evidence-link" to="../files">
             Submit evidence now
           </Link>
         </>
@@ -135,10 +129,6 @@ export default function ClaimPhaseStepper({
             A senior reviewer will do a final review of your claim and the
             decision letter.
           </p>
-          <p>
-            If we need more evidence or you submit more evidence, your claim
-            will go back to Step 3: Evidence gathering.
-          </p>
         </>
       ),
     },
@@ -151,13 +141,7 @@ export default function ClaimPhaseStepper({
             You’ll be able to view and download your decision letter on the
             status page for this claim.
           </p>
-          <Link
-            aria-label="Go to the claim letters page"
-            title="Go to the claim letters page"
-            to="/your-claim-letters"
-          >
-            Go to the claim letters page
-          </Link>
+          <Link to="/your-claim-letters">Go to the claim letters page</Link>
           <p>
             We’ll also send you a copy of your decision letter by mail. It
             should arrive within 10 business days, but it may take longer.
@@ -181,6 +165,18 @@ export default function ClaimPhaseStepper({
 
     if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
       return 'check_circle';
+    }
+
+    return '';
+  };
+
+  const headerIconText = phase => {
+    if (isCurrentPhase(phase) && phase !== 8) {
+      return 'Current';
+    }
+
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
+      return 'Completed';
     }
 
     return '';
@@ -211,6 +207,7 @@ export default function ClaimPhaseStepper({
             <va-icon
               icon={headerIcon(claimPhase.phase)}
               class={headerIconColor(claimPhase.phase)}
+              srtext={headerIconText(claimPhase.phase)}
               slot="icon"
             />
             {isCurrentPhase(claimPhase.phase) && (
@@ -235,6 +232,6 @@ export default function ClaimPhaseStepper({
 
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
-  currentClaimPhaseDate: PropTypes.number.isRequired,
+  currentClaimPhaseDate: PropTypes.string.isRequired,
   currentPhase: PropTypes.number.isRequired,
 };
