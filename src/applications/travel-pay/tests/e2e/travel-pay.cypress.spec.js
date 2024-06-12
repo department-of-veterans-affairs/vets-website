@@ -8,9 +8,6 @@ describe(`${appName} -- Status Page`, () => {
     ApiInitializer.initializeClaims.happyPath();
     cy.login(user);
     cy.visit(rootUrl);
-  });
-
-  it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
   });
 
@@ -21,14 +18,10 @@ describe(`${appName} -- Status Page`, () => {
       .siblings()
       .eq(2)
       .should('have.id', 'travel-claims-list');
-
-    cy.axeCheck();
   });
 
   it('defaults to "most recent" sort order', () => {
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
-
-    cy.axeCheck();
   });
 
   it('shows a list of claims ordered by appointment date descending by default', () => {
@@ -42,8 +35,6 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', ' June 22, 2023');
-
-    cy.axeCheck();
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {
@@ -63,7 +54,5 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', 'August 11, 2022');
-
-    cy.axeCheck();
   });
 });
