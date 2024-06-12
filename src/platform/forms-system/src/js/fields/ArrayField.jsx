@@ -15,6 +15,7 @@ import {
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
+import { serviceLabels } from 'applications/pre-need-integration/utils/labels';
 import {
   scrollToFirstError,
   focusElement,
@@ -345,6 +346,19 @@ export default class ArrayField extends React.Component {
     const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
+    /* 
+     * linkDescriptionAndDisplayFields connects the confirmRemoveDescription and the confirmRemoveDisplayFields.
+     * When linked, if there is no data in the display fields, the discription will not show either.
+     * When linkDescriptionAndDisplayFields is false, the description will show regardless of display fields data.
+     */
+    const linkDescriptionAndDisplayFields =
+      uiOptions.linkDescriptionAndDisplayFields || false;
+    const confirmRemoveDisplayFields =
+      uiOptions.confirmRemoveDisplayFields || [];
+    const modalPrimaryButtonText =
+      uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
+    const modalSecondaryButtonText =
+      uiOptions.modalSecondaryButtonText || 'No, cancel';
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -358,6 +372,11 @@ export default class ArrayField extends React.Component {
       'schemaform-block': hasTitleOrDescription,
       'rjsf-array-field': true,
     });
+
+    const formatDate = dateString => {
+      const [year, month, day] = dateString.split('-');
+      return `${month}/${day}/${year}`;
+    };
 
     return (
       <div className={containerClassNames}>
@@ -379,7 +398,6 @@ export default class ArrayField extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
@@ -402,45 +420,64 @@ export default class ArrayField extends React.Component {
             const useCardStyling = notLastOrMultipleRows;
             const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
 
-            const additionalData = uiOptions.confirmRemoveDisplayFields;
-            const computedValues = additionalData
+            const displayFields = confirmRemoveDisplayFields
               .map(dataPath => {
                 const keys = dataPath.split('.');
-                let value = formData?.[index]; // Assuming index is 0
-
+                let value = formData?.[index];
                 keys.forEach(key => {
                   value = value ? value[key] : undefined;
                 });
+
+                if (dataPath === 'serviceBranch') {
+                  value = serviceLabels[value] || value; // Use the label if available
+                }
 
                 return { dataPath, value };
               })
               .filter(({ value }) => value !== undefined);
 
-            const formattedSentenceParts = [];
+            const formattedSentenceParts = displayFields
+              .filter(
+                ({ dataPath }) =>
+                  dataPath !== 'dateRange.from' && dataPath !== 'dateRange.to',
+              )
+              .map(({ dataPath, value }) => (
+                <strong key={dataPath}>{` ${value}`}</strong>
+              ));
 
-            computedValues.forEach(({ dataPath, value }) => {
-              if (dataPath === 'dateRange.from' || dataPath === 'dateRange.to')
-                return;
+            const formattedSentence = formattedSentenceParts.reduce(
+              (acc, part, sentenceIndex) => {
+                if (sentenceIndex === formattedSentenceParts.length - 1) {
+                  return acc.concat(part);
+                }
+                return acc.concat(part, ', ');
+              },
+              [],
+            );
 
-              formattedSentenceParts.push(
-                <strong key={dataPath}>{` ${value}`}</strong>,
-              );
-            });
-
-            const dateRangeFrom = computedValues.find(
+            const dateRangeFrom = displayFields.find(
               ({ dataPath }) => dataPath === 'dateRange.from',
             )?.value;
-            const dateRangeTo = computedValues.find(
+            const dateRangeTo = displayFields.find(
               ({ dataPath }) => dataPath === 'dateRange.to',
             )?.value;
 
-            const formattedDateRange = (
-              <strong>
-                {dateRangeFrom ? ` ${dateRangeFrom}` : ''}
-                {dateRangeFrom && dateRangeTo ? ' - ' : ''}
-                {dateRangeTo ? `${dateRangeTo}` : ''}
-              </strong>
-            );
+            const formattedDateRange =
+              dateRangeFrom || dateRangeTo ? (
+                <strong>
+                  {dateRangeFrom ? ` ${formatDate(dateRangeFrom)}` : ''}
+                  {dateRangeFrom && dateRangeTo ? ' - ' : ''}
+                  {dateRangeTo ? `${formatDate(dateRangeTo)}` : ''}
+                </strong>
+              ) : null;
+
+            const finalFormattedSentence = formattedDateRange
+              ? [...formattedSentence, ', ', formattedDateRange]
+              : formattedSentence;
+
+            if (dateRangeFrom || dateRangeTo) {
+              formattedSentenceParts.push(',');
+            }
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -531,8 +568,8 @@ export default class ArrayField extends React.Component {
                       clickToClose
                       status="warning"
                       modalTitle={`Are you sure you want to remove this ${uiItemName}?`}
-                      primaryButtonText={`Yes, remove this ${uiItemName}`}
-                      secondaryButtonText="No, cancel"
+                      primaryButtonText={modalPrimaryButtonText}
+                      secondaryButtonText={modalSecondaryButtonText}
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
                       onSecondaryButtonClick={() =>
@@ -542,13 +579,16 @@ export default class ArrayField extends React.Component {
                       uswds
                     >
                       <>
-                        {uiOptions.confirmRemoveDescription && (
+                        {(linkDescriptionAndDisplayFields
+                          ? finalFormattedSentence.length > 0
+                          : uiOptions.confirmRemoveDescription ||
+                            finalFormattedSentence.length > 0) && (
                           <p>
                             {uiOptions.confirmRemoveDescription}
-                            {formattedSentenceParts}
-                            {dateRangeFrom || dateRangeTo
-                              ? formattedDateRange
-                              : null}
+                            {finalFormattedSentence.length > 0 &&
+                              finalFormattedSentence.map((part, idx) => (
+                                <span key={idx}>{part}</span>
+                              ))}
                           </p>
                         )}
                       </>

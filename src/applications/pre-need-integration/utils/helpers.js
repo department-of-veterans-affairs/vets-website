@@ -1072,13 +1072,6 @@ export const selfServiceRecordsUI = {
     itemName: 'Service period',
     keepInPageOnReview: true,
     useDlWrap: true,
-    confirmRemove: true,
-    confirmRemoveDescription: 'We’ll remove this service period for',
-    confirmRemoveDisplayFields: [
-      'serviceBranch',
-      'dateRange.from',
-      'dateRange.to',
-    ],
   },
   'ui:validations': [validateMilitaryHistory],
   items: {
