@@ -1,5 +1,6 @@
 import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import set from 'platform/utilities/data/set';
+import get from 'platform/utilities/data/get';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 
 const { applicantServed, isActiveDuty } = fullSchema1995.properties;
@@ -27,7 +28,14 @@ export const isFieldHidden = formData => {
 };
 
 export const setDateRangeRequired = (formData, _schema) => {
-  if (isFieldRequired(formData)) {
+  if (isFieldRequired(formData) && get('isActiveDuty', formData)) {
+    return set(
+      'additionalItems.properties.dateRange.required',
+      ['from'],
+      _schema,
+    );
+  }
+  if (isFieldRequired(formData) && get('isActiveDuty', formData) === false) {
     return set(
       'additionalItems.properties.dateRange.required',
       ['from', 'to'],
@@ -79,5 +87,6 @@ export const uiSchema = {
         return finalSchema;
       },
     },
+    'ui:required': formData => get('view:newService', formData),
   },
 };
