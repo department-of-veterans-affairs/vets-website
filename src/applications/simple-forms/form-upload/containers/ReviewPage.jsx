@@ -23,6 +23,7 @@ const ReviewPage = () => {
 
   const { state } = location;
   const [veteran, setVeteran] = useState();
+  const path = veteran ? 'submit' : 'review-info';
 
   useEffect(() => {
     const fetchVeteran = async () => {
@@ -74,7 +75,7 @@ const ReviewPage = () => {
       <VaButtonPair
         class="vads-u-margin-top--0"
         continue
-        onPrimaryClick={() => history.push(`/${formNumber}/submit`, state)}
+        onPrimaryClick={() => history.push(`/${formNumber}/${path}`, state)}
         onSecondaryClick={history.goBack}
         uswds
       />
