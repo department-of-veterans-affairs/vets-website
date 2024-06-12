@@ -31,7 +31,7 @@ export function nameWording(
   }
 
   // Optionally capitalize first letter and return
-  return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
+  return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
 }
 
 /**

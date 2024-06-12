@@ -13,10 +13,11 @@ describe('verify details page link to refill prescription', () => {
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
     const refillsPage = new MedicationsRefillPage();
+    const cardNumber = 2;
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails);
+    detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails, cardNumber);
     refillsPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
