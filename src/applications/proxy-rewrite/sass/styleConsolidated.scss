@@ -2319,36 +2319,49 @@
     color: #162e51
   }
 
-  #signin-signup-modal .va-modal-body {
-    color: #3d4551;
-    padding-top: 0;
-    margin-right: 0
-  }
-
-  @media screen and (min-width: 768px) {
-    #signin-signup-modal.new-modal-design .va-modal-body {
-      padding: 0 9em
+  #signin-signup-modal {
+    h2 {
+      padding-bottom: 0 !important;
     }
-  }
 
-  #signin-signup-modal .va-modal-inner {
-    max-width: 62.5em;
-    width: 95vw
-  }
-
-  @media screen and (min-width: 768px) {
-    #signin-signup-modal .login .explanation-content {
-      margin-left: 2em
+    p {
+      padding-bottom: 16px;
+      font-family: $font-stack !important;
     }
-  }
 
-  #signin-signup-modal .login .explanation-content ul {
-    list-style: square;
-    padding-left: 1.5em
-  }
+    .va-modal-body {
+      color: #3d4551;
+      padding-top: 0;
+      margin-right: 0;
+    }
 
-  #signin-signup-modal .login .explanation-content p {
-    margin: 1em 0
+    @media screen and (min-width: 768px) {
+      &.new-modal-design .va-modal-body {
+        padding: 0 9em;
+      }
+
+      .login .explanation-content {
+        margin-left: 2em
+      }
+    }
+
+    .va-modal-inner {
+      max-width: 62.5em;
+      width: 95vw;
+    }
+
+    .login .explanation-content ul {
+      list-style: square;
+      padding-left: 1.5em;
+    }
+
+    .login .explanation-content p {
+      margin: 1em 0;
+    }
+
+    p {
+      font-size: 16px !important;
+    }
   }
 
   #ios-bug ul {
