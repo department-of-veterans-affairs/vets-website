@@ -9,7 +9,6 @@ import {
   ssnDashesUI,
   applicantDetailsCityTitle,
   applicantDetailsStateTitle,
-  veteranApplicantDetailsSummary,
 } from '../../utils/helpers';
 
 const {
@@ -27,8 +26,6 @@ export function uiSchema(
   stateTitle = applicantDetailsStateTitle,
 ) {
   return {
-    'ui:title': (formContext, formData) =>
-      veteranApplicantDetailsSummary(formContext, formData),
     application: {
       'ui:title': subHeader,
       claimant: {
