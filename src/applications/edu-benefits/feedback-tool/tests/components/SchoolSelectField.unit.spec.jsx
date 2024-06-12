@@ -264,6 +264,7 @@ describe('<SchoolSelectField>', () => {
 
   // handleManualSchoolEntryToggled
   it('should call onChange props on when manual entry is toggled', () => {
+    const toggleManualSchoolEntry = sinon.spy();
     const onChange = sinon.spy();
     const { container } = render(
       <SchoolSelectField
@@ -280,6 +281,7 @@ describe('<SchoolSelectField>', () => {
         showInstitutionsLoading={false}
         showPagination
         showPaginationLoading
+        toggleManualSchoolEntry={toggleManualSchoolEntry}
       />,
     );
 
@@ -291,7 +293,7 @@ describe('<SchoolSelectField>', () => {
     const checkbox = container.getElementsByTagName('va-checkbox')[0];
     checkbox.__events.vaChange(clickEvent);
     expect(onChange.firstCall.args[0]).to.eql({
-      'view:manualSchoolEntryChecked': true,
+      'view:manualSchoolEntryChecked': undefined,
     });
   });
 
