@@ -26,6 +26,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_4138,
   VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21A,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
@@ -87,6 +88,7 @@ const formConfigKeys = [
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
+  'useTopBackLink',
   'v3SegmentedProgressBar',
   'formOptions',
 ];
@@ -346,6 +348,7 @@ describe('form:', () => {
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validComponentProperty(formConfig, 'CustomHeader', false);
+          validBooleanProperty(formConfig, 'useTopBackLink', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,

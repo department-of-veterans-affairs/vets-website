@@ -132,11 +132,23 @@ export default function prefillTransformer(pages, formData, metadata) {
     return newData;
   };
 
+  const prefillIncludeToxicExposure = data => {
+    const newData = _.omit(['includeToxicExposure'], data);
+    const { includeToxicExposure } = data;
+
+    if (includeToxicExposure === true) {
+      newData.includeToxicExposure = true;
+    }
+
+    return newData;
+  };
+
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
+    prefillIncludeToxicExposure,
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);

@@ -27,7 +27,7 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
-  applicantMedicareAdditionalCommentsSchema,
+  // applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -224,12 +224,12 @@ const formConfig = {
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
         },
-        medicareComments: {
-          path: 'medicare-comments',
-          title: 'Medicare additional comments',
-          depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareAdditionalCommentsSchema,
-        },
+        // medicareComments: {
+        //   path: 'medicare-comments',
+        //   title: 'Medicare additional comments',
+        //   depends: formData => get('applicantMedicareStatus', formData),
+        //   ...applicantMedicareAdditionalCommentsSchema,
+        // },
       },
     },
     healthcareInformation: {

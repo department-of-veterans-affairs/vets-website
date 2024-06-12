@@ -162,11 +162,7 @@ const SearchControls = props => {
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="autorenew" size={3} />
               <span aria-live="assertive">Finding your location...</span>
             </div>
           ) : (
@@ -175,11 +171,7 @@ const SearchControls = props => {
               type="button"
               className="use-my-location-link"
             >
-              <i
-                className="use-my-location-button"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="near_me" size={3} />
               Use my location
             </button>
           )}

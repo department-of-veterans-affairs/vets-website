@@ -21,7 +21,7 @@ describe(`${appName} -- landing page`, () => {
       level: 1,
       name: /^My HealtheVet$/,
     };
-    cy.findByRole('heading', heading).should.exist;
+    cy.findByRole('heading', heading).should('have.focus');
   });
 
   it('passes automated accessibility (a11y) checks', () => {
