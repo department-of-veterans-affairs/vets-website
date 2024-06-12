@@ -6,10 +6,8 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import applicantInformation from './applicantInformation';
-import applicantIsVeteran from './applicantIsVeteran';
-import claimantInformation from './claimantInformation';
-import claimantType from './claimantType';
+import applicantInformation from './chapters/01-applicant-information';
+import claimantInformation from './chapters/02-claimant-information';
 
 // const { } = fullSchema.properties;
 
@@ -32,7 +30,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -49,20 +47,8 @@ const formConfig = {
   title: '21P-0969 Income and Asset Statement Form',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Applicant information',
-      pages: {
-        applicantInformation,
-        applicantIsVeteran,
-      },
-    },
-    chapter2: {
-      title: 'Claimant information',
-      pages: {
-        claimantInformation,
-        claimantType,
-      },
-    },
+    applicantInformation,
+    claimantInformation,
   },
 };
 
