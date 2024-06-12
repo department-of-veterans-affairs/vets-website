@@ -93,7 +93,8 @@ class FormPage extends React.Component {
     if (typeof route.pageConfig.onNavForward === 'function') {
       route.pageConfig.onNavForward({
         formData,
-        goPath: customPath => this.props.router.push(customPath),
+        goPath: customPath =>
+          this.props.router.push(`${route.urlPrefix}${customPath}`),
         goNextPath: urlParams => {
           const urlParamsString = stringifyUrlParams(urlParams);
           this.props.router.push(path + (urlParamsString || ''));
