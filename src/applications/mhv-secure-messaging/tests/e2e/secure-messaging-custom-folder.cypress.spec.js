@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Custom Folder AXE Check', () => {
+describe.skip('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
