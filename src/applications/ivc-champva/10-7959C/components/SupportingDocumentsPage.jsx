@@ -21,6 +21,9 @@ export default function SupportingDocumentsPage({
     fileNameMap: { ...requiredFiles },
     requiredFiles,
     nonListNameKey: 'applicantName',
+    showNameHeader: false,
+    showFileBullets: true,
+    showRequirementHeaders: false,
   });
   return <>{OverviewComp}</>;
 }

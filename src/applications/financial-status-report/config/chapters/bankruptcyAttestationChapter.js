@@ -31,7 +31,7 @@ export default {
       },
       enhancedBankruptcyHistoryRecords: {
         path: 'enhanced-bankruptcy-history-records',
-        title: 'Bankruptcy history',
+        title: 'Bankruptcy history details',
         uiSchema: enhancedBankruptcyHistoryRecords.uiSchema,
         schema: enhancedBankruptcyHistoryRecords.schema,
         CustomPage: BankruptcyDetails,

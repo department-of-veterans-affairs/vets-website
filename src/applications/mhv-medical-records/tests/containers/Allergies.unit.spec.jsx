@@ -5,7 +5,7 @@ import { beforeEach } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/react';
 import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
-import allergiesWithMissingFields from '../fixtures/allergiesWithMissingFields.json';
+import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
@@ -14,7 +14,7 @@ describe('Allergies list container', () => {
     user,
     mr: {
       allergies: {
-        allergiesList: allergiesWithMissingFields.entry.map(item =>
+        allergiesList: allergies.entry.map(item =>
           convertAllergy(item.resource),
         ),
       },

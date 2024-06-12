@@ -7,7 +7,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-forms-sys
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import GetFormHelp from '../../shared/components/GetFormHelp';
 
 const IntroductionPage = props => {
   const { route, isLoggedIn } = props;
@@ -66,29 +65,34 @@ const IntroductionPage = props => {
         information and copies of your Medicare or other health insurance cards.
       </p>
       {!isLoggedIn ? (
-        <VaAlert status="info" visible uswds>
-          <h2>Sign in now to save time and save your work in progress</h2>
-          <p>Here’s how signing in now helps you:</p>
-          <ul>
-            <li>
-              We can fill in some of your information for you to save you time.
-            </li>
-            <li>
-              You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your application to come back and
-              finish it.
-            </li>
-          </ul>
-          <p>
-            <strong>Note:</strong> You can sign in after you start your
-            application. But you’ll lose any information you already filled in.
-          </p>
-          <p className="vads-u-margin-top--2">
-            <Link onClick={handleClick} to={pageList[1]?.path}>
-              Start your form without signing in
-            </Link>
-          </p>
-        </VaAlert>
+        <>
+          <VaAlert status="info" visible uswds>
+            <h2>Sign in now to save time and save your work in progress</h2>
+            <p>Here’s how signing in now helps you:</p>
+            <ul>
+              <li>
+                We can fill in some of your information for you to save you
+                time.
+              </li>
+              <li>
+                You can save your work in progress. You’ll have 60 days from
+                when you start or make updates to your application to come back
+                and finish it.
+              </li>
+            </ul>
+            <p>
+              <strong>Note:</strong> You can sign in after you start your
+              application. But you’ll lose any information you already filled
+              in.
+            </p>
+            <p className="vads-u-margin-top--2">
+              <Link onClick={handleClick} to={pageList[1]?.path}>
+                Start your form without signing in
+              </Link>
+            </p>
+          </VaAlert>
+          <div className="vads-u-margin-top--3" />
+        </>
       ) : (
         <SaveInProgressIntro
           formId={formConfig.formId}
@@ -105,14 +109,12 @@ const IntroductionPage = props => {
         omb-number="2900-0219"
         exp-date="10/31/2024"
       />
-
-      <GetFormHelp />
     </article>
   );
 };
 
 IntroductionPage.propTypes = {
-  isLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
   route: PropTypes.object,
 };
 
