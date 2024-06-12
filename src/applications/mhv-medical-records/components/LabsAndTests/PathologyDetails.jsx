@@ -101,7 +101,12 @@ ${record.results} \n`;
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="pathology-date" />
+      <DateSubheading
+        date={record.date}
+        id="pathology-date"
+        label="Date and time collected"
+        labelClass="vads-font-weight-regular"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -114,11 +119,11 @@ ${record.results} \n`;
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
         <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Lab location
+          Performing lab location
         </h3>
         <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -127,9 +132,9 @@ ${record.results} \n`;
         <p data-testid="pathology-date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
-        <h2>Results</h2>
+        <h2>Report</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-results" className="monospace">
+        <p data-testid="pathology-report" className="monospace">
           {record.results}
         </p>
       </div>
