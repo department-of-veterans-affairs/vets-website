@@ -503,13 +503,13 @@ class TrackClaimsPageV2 {
   verifyOverviewTimeline() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.claim-overview-header-container > h2').should(
+    cy.get('.claim-overview-header-container h2').should(
       'contain',
       'Overview of the claim process',
     );
-    cy.get('.claim-overview-header-container > p').should(
+    cy.get('.claim-overview-header-container p').should(
       'contain',
-      `Learn about the VA claim process and what happens after you file your claim.`,
+      'Learn about the VA claim process and what happens after you file your claim.',
     );
     cy.get('.claim-timeline').should('be.visible');
   }
