@@ -36,7 +36,7 @@ const Checklist = ({
           checked={isBoxChecked(option)}
           data-name={option}
           message-aria-describedby={option}
-          // className="checkbox-list-item"
+          className="checkbox-list-item"
         />
       ))}
       {/* <div slot="form-description">
