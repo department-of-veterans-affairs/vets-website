@@ -148,6 +148,7 @@ export default function App({ children }) {
                         <select
                           className="vads-u-margin-bottom--0"
                           hint={null}
+                          title="claimsOrder"
                           name="claimsOrder"
                           value={selectedClaimsOrder}
                           onChange={e => setSelectedClaimsOrder(e.target.value)}
@@ -163,9 +164,11 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    {displayedClaims.map(travelClaim =>
-                      TravelClaimCard(travelClaim),
-                    )}
+                    <div id="travel-claims-list">
+                      {displayedClaims.map(travelClaim =>
+                        TravelClaimCard(travelClaim),
+                      )}
+                    </div>
                     {shouldPaginate && (
                       <VaPagination
                         onPageSelect={e => onPageSelect(e.detail.page)}
