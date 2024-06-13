@@ -1,5 +1,7 @@
+import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
+import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 
 describe('Medical Records Download Functionality For Radiology', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
@@ -10,20 +12,32 @@ describe('Medical Records Download Functionality For Radiology', () => {
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
 
     // should display a toggle menu button
-    LabsAndTestsListPage.verifyPrintOrDownload();
-    LabsAndTestsListPage.clickPrintOrDownload();
+    RadiologyDetailsPage.verifyPrintOrDownload();
+    RadiologyDetailsPage.clickPrintOrDownload();
     // should display print button for a list "Print this list"
-    LabsAndTestsListPage.verifyPrintButton();
+    RadiologyDetailsPage.verifyPrintButton();
 
     // should display a download pdf file button "Download PDF of this page"
-    LabsAndTestsListPage.verifyDownloadPDF();
+    RadiologyDetailsPage.verifyDownloadPDF();
 
     // should display a download text file button "Download a text file (.txt) of this list"
-    LabsAndTestsListPage.verifyDownloadTextFile();
-    LabsAndTestsListPage.clickDownloadPDFFile();
+    RadiologyDetailsPage.verifyDownloadTextFile();
+    RadiologyDetailsPage.clickDownloadPDFFile();
 
     // cy.readFile(`${Cypress.config('downloadsFolder')}/radiology_report.pdf`);
+    site.verifyDownloadedPdfFile(
+      'VA-labs-and-tests-Details-Mhvtp',
+      moment(),
+      '',
+    );
 
+    RadiologyDetailsPage.clickPrintOrDownload();
+    RadiologyDetailsPage.clickDownloadTxtFile();
+    site.verifyDownloadedTxtFile(
+      'VA-labs-and-tests-details-Safari-Mhvtp',
+      moment(),
+      '',
+    );
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {
