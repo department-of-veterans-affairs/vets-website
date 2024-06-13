@@ -4,6 +4,7 @@ import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -29,6 +30,20 @@ export default function App({ children }) {
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
 
+  const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
+  const [checkedStatuses, setCheckedStatuses] = useState([]);
+  const [appliedStatuses, setAppliedStatuses] = useState([]);
+
+  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+    // Sets initial status filters after travelClaims load
+    const initialStatusFilters = [
+      ...new Set(travelClaims.map(claim => claim.claimStatus)),
+    ];
+    setStatusesToFilterBy(initialStatusFilters);
+    setAppliedStatuses(initialStatusFilters);
+    setCheckedStatuses(initialStatusFilters);
+  }
+
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
     case 'mostRecent':
@@ -47,6 +62,29 @@ export default function App({ children }) {
       break;
   }
 
+  const resetSearch = () => {
+    setAppliedStatuses(statusesToFilterBy);
+    setCheckedStatuses(statusesToFilterBy);
+  };
+
+  const applyFilters = () => {
+    setAppliedStatuses(checkedStatuses);
+  };
+
+  const statusFilterChange = (e, statusName) => {
+    if (e.currentTarget.checked) {
+      setCheckedStatuses([...checkedStatuses, statusName]);
+    } else {
+      setCheckedStatuses(
+        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      );
+    }
+  };
+
+  const isChecked = statusName => {
+    return checkedStatuses.includes(statusName);
+  };
+
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -55,6 +93,12 @@ export default function App({ children }) {
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const toggleIsLoading = useToggleLoadingValue();
+
+  let displayedClaims = travelClaims;
+
+  displayedClaims = displayedClaims.filter(claim =>
+    appliedStatuses.includes(claim.claimStatus),
+  );
 
   useEffect(
     () => {
@@ -142,7 +186,44 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    {travelClaims.map(travelClaim =>
+                    <va-accordion bordered open-single>
+                      <va-accordion-item
+                        bordered="true"
+                        header="Filter travel claims"
+                      >
+                        <legend>
+                          <h2>Filter your results</h2>
+                        </legend>
+                        <div className="filter-your-results">
+                          <fieldset id="status-filters">
+                            <p>Travel claim status</p>
+                            {statusesToFilterBy.map(status => (
+                              <VaCheckbox
+                                checked={isChecked(status)}
+                                key={status}
+                                label={status}
+                                onVaChange={e => statusFilterChange(e, status)}
+                              />
+                            ))}
+                            <div className="modal-button-wrapper">
+                              <va-button
+                                onClick={applyFilters}
+                                data-testid="Apply filters"
+                                text="Apply filters"
+                                label="Apply filters"
+                              />
+                              <va-button
+                                onClick={resetSearch}
+                                data-testid="Reset search"
+                                text="Reset search"
+                                label="Reset search"
+                              />
+                            </div>
+                          </fieldset>
+                        </div>
+                      </va-accordion-item>
+                    </va-accordion>
+                    {displayedClaims.map(travelClaim =>
                       TravelClaimCard(travelClaim),
                     )}
                   </>
