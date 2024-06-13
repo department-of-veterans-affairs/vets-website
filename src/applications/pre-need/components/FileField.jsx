@@ -611,13 +611,13 @@ const FileField = props => {
                   //   onSubmitPassword={onSubmitPassword}
                   //   passwordLabel={content.passwordLabel(file.name)}
                   // />
-                  <div className="vads-u-margin-bottom--2">
-                    <div className="fieldFieldError">
+                  <div className="fieldErrorBorder vads-u-margin-bottom--2">
+                    <div className="fileFieldError">
                       We weren’t able to upload your file. Make sure the file is
-                      not encrypted and an accepted format.
+                      not encrypted and an accepted format before continuing.
                     </div>
                     <va-button
-                      class="vads-u-width--auto vads-u-margin-top--2"
+                      class="delete-upload vads-u-width--auto vads-u-margin-top--2"
                       text="Upload a new file"
                       onClick={() => {
                         deleteThenAddFile(index);
@@ -627,7 +627,7 @@ const FileField = props => {
                     />
                     <va-button
                       secondary
-                      class="vads-u-width--auto vads-u-margin-top--2"
+                      class="fileButtonSpacing vads-u-width--auto vads-u-margin-top--2"
                       text="Cancel"
                       onClick={() => {
                         openRemoveModal(index);
