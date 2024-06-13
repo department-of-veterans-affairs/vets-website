@@ -1,9 +1,28 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom-v5-compat';
+import {
+  VaCheckbox,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { buildDateFormatter } from '../../utils/helpers';
+import { submit5103 } from '../../actions';
 
-export default function Automated5103Notice({ item }) {
+export default function Automated5103Notice({ claimId, item }) {
+  const [isChecked, setChecked] = useState(false);
+  const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
+  const navigate = useNavigate();
+
+  const submit = () => {
+    if (isChecked) {
+      submit5103(claimId, true);
+      navigate('../files');
+    } else {
+      setCheckboxErrorMessage(
+        `You must confirm you’re done adding evidence before submitting the evidence waiver`,
+      );
+    }
+  };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   if (item.displayName !== 'Automated 5103 Notice Response') {
     return null;
@@ -44,10 +63,28 @@ export default function Automated5103Notice({ item }) {
         </strong>{' '}
         This might help speed up the claim process.
       </p>
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+        If you don’t have more evidence to submit
+      </h2>
+      <p>
+        If you’re finished adding evidence, submit the evidence waiver. We’ll
+        move your claim to the next step as soon as possible.
+      </p>
+      <VaCheckbox
+        label="I’m finished adding evidence to support my claim."
+        className="vads-u-margin-y--3"
+        checked={isChecked}
+        error={checkboxErrorMessage}
+        onVaChange={event => {
+          setChecked(event.detail.checked);
+        }}
+      />
+      <VaButton id="submit" text="Submit evidence waiver" onClick={submit} />
     </div>
   );
 }
 
 Automated5103Notice.propTypes = {
+  claimId: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
 };

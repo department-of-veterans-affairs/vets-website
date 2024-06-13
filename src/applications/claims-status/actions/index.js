@@ -257,7 +257,7 @@ export function submitRequest(id) {
   };
 }
 
-export const submit5103 = id => {
+export function submit5103(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
@@ -269,20 +269,30 @@ export const submit5103 = id => {
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
+        if (cstClaimPhasesEnabled) {
+          dispatch(
+            setNotification({
+              title: 'We received your evidence waiver',
+              body:
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+            }),
+          );
+        } else {
+          dispatch(
+            setNotification({
+              title: 'Request received',
+              body:
+                'Thank you. We have your claim request and will make a decision.',
+            }),
+          );
+        }
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
       },
     );
   };
-};
+}
 // END lighthouse_migration
 
 export function resetUploads() {
