@@ -1,16 +1,16 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-import MicrobiologyListPage from './pages/MicrobiologyListPage';
+import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import MicrobiologyDetailsPage from './pages/MicrobiologyDetailsPage';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records View LabsAndTestsListPage ', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests/');
-    // LabsAndTestsListPage.clickGotoLabsAndTestsLink();
-    // Given Navigate to Microbiology Page
-    MicrobiologyListPage.clickMicrobiologyDetailsLink();
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[2]);
   });
 
   it('Toggle Menu button Print or download ', () => {
