@@ -113,4 +113,45 @@ describe('<Automated5103Notice>', () => {
       // expect(navigate.calledWith('../files')).to.be.true;
     });
   });
+
+  context('when checkbox is not checked and submit button clicked', () => {
+    it('should not submit 5103 notice and error message displayed', () => {
+      const submit = sinon.spy(actions, 'submit5103');
+
+      const item = {
+        closedDate: null,
+        description: 'Automated 5103 Notice Response',
+        displayName: 'Automated 5103 Notice Response',
+        id: 467558,
+        overdue: true,
+        receivedDate: null,
+        requestedDate: '2024-03-07',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: '2024-04-07',
+        uploadsAllowed: true,
+        documents: '[]',
+        date: '2024-03-07',
+      };
+
+      const { container } = renderWithRouter(
+        <Automated5103Notice claimId={claimId} item={item} />,
+      );
+      expect($('#automated-5103-notice-page', container)).to.exist;
+      expect($('va-checkbox', container)).to.exist;
+      expect($('va-button', container)).to.exist;
+
+      expect($('va-checkbox', container).getAttribute('error')).to.be.null;
+
+      // Click submit button
+      fireEvent.click($('#submit', container));
+
+      expect($('va-checkbox', container).getAttribute('checked')).to.equal(
+        'false',
+      );
+      expect(submit.calledOnce).to.be.false;
+      expect($('va-checkbox', container).getAttribute('error')).to.equal(
+        'You must confirm you’re done adding evidence before submitting the evidence waiver',
+      );
+    });
+  });
 });
