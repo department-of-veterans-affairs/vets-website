@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
@@ -12,6 +12,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
+import { routeToPreviousAppointmentPage } from '../redux/actions';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -28,17 +29,27 @@ function Title() {
   return 'New appointment';
 }
 
-export default function FormLayout({ children, isReviewPage, pageTitle }) {
+export default function FormLayout({ children, isReviewPage, pageKey }) {
   const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
   return (
     <>
       <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
-        <Breadcrumbs>
-          <a href="/my-health/appointments/schedule/type-of-care">
-            {pageTitle}
-          </a>
-        </Breadcrumbs>
+        {location.pathname.endsWith('type-of-care') ? (
+          <Breadcrumbs />
+        ) : (
+          <va-link
+            onClick={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
+            text="Back"
+            data-testid="schedule-back-link"
+            tabindex="0"
+          />
+        )}
+
         {location.pathname.endsWith('new-appointment') && (
           <DowntimeNotification
             appTitle="VA online scheduling tool"
@@ -69,5 +80,5 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
 FormLayout.propTypes = {
   children: PropTypes.object,
   isReviewPage: PropTypes.bool,
-  pageTitle: PropTypes.string,
+  pageKey: PropTypes.string,
 };

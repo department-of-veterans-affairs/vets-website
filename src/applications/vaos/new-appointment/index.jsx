@@ -73,7 +73,7 @@ export function NewAppointment() {
 
   if (featureBreadcrumbUrlUpdate) {
     return (
-      <FormLayout pageTitle={crumb}>
+      <FormLayout pageKey={crumb}>
         <Switch>
           <Route
             path={[
@@ -190,7 +190,7 @@ export function NewAppointment() {
     );
   }
   return (
-    <FormLayout pageTitle={crumb}>
+    <FormLayout pageKey={crumb}>
       <Switch>
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route
