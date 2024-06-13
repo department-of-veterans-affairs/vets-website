@@ -355,6 +355,7 @@ export default function MissingFileOverview({
               data={sponsorMiss}
               nameKey="name"
               title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
@@ -367,6 +368,7 @@ export default function MissingFileOverview({
               data={apps}
               nameKey="applicantName"
               title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
