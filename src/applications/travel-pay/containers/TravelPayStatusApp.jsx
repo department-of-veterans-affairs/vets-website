@@ -112,14 +112,12 @@ export default function App({ children }) {
   let displayedClaims = travelClaims.filter(claim =>
     appliedStatuses.includes(claim.claimStatus),
   );
+  const numResults = displayedClaims.length;
   const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
   const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
 
   const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
-  const pageEnd = Math.min(
-    currentPage * CLAIMS_PER_PAGE,
-    displayedClaims.length,
-  );
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, numResults);
 
   if (shouldPaginate) {
     displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
@@ -183,8 +181,7 @@ export default function App({ children }) {
                 travelClaims.length > 0 && (
                   <>
                     <p id="pagination-info">
-                      Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
-                      events
+                      Showing {pageStart} ‒ {pageEnd} of {numResults} events
                     </p>
                     <div className="btsss-claims-order-container">
                       <p className="vads-u-margin-bottom--0">
