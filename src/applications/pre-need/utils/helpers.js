@@ -586,191 +586,95 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
-// MBMS-61967
-export const veteranUI = !environment.isProduction()
-  ? {
-      'ui:options': {
-        classNames: 'race-view',
+export const veteranUI = {
+  militaryServiceNumber: {
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
+    'ui:errorMessages': {
+      pattern: 'Your Military Service number must be between 4 to 9 characters',
+    },
+  },
+  vaClaimNumber: {
+    'ui:title': 'VA claim number (if known)',
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 8 to 9 digits',
+    },
+  },
+  placeOfBirth: {
+    'ui:title': 'Place of birth (City, State, or Territory)',
+  },
+  gender: {
+    'ui:title': 'What’s your sex?',
+    'ui:widget': 'radio',
+  },
+  maritalStatus: {
+    'ui:title': 'What’s your marital status?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        single: 'Single',
+        separated: 'Separated',
+        married: 'Married',
+        divorced: 'Divorced',
+        widowed: 'Widowed',
       },
-      militaryServiceNumber: {
-        'ui:title':
-          'Military Service number (if it’s different than your Social Security number)',
-        'ui:errorMessages': {
-          pattern:
-            'Your Military Service number must be between 4 to 9 characters',
-        },
+    },
+  },
+  race: {
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title':
+      'Which categories best describe you? (You may check more than one)',
+    isSpanishHispanicLatino: {
+      'ui:title': 'Hispanic or Latino',
+    },
+    notSpanishHispanicLatino: {
+      'ui:title': 'Not Hispanic or Latino',
+    },
+    isAmericanIndianOrAlaskanNative: {
+      'ui:title': 'American Indian or Alaskan Native',
+    },
+    isBlackOrAfricanAmerican: {
+      'ui:title': 'Black or African American',
+    },
+    isNativeHawaiianOrOtherPacificIslander: {
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
+    isWhite: {
+      'ui:title': 'White',
+    },
+    'ui:validations': [
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
       },
-      vaClaimNumber: {
-        'ui:title': 'VA claim number (if known)',
-        'ui:errorMessages': {
-          pattern: 'Your VA claim number must be between 8 to 9 digits',
-        },
+    ],
+    'ui:options': {
+      showFieldLabel: true,
+    },
+  },
+  militaryStatus: {
+    'ui:title':
+      'Current military status (You can add more service history information later in this application.)',
+    'ui:options': {
+      labels: {
+        A: 'Active Duty',
+        I: 'Death Related to Inactive Duty Training',
+        D: 'Died on Active Duty',
+        S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired Active Duty',
+        O: 'Retired Reserve/National Guard',
+        V: 'Veteran',
+        X: 'Other',
       },
-      placeOfBirth: {
-        'ui:title': 'Place of birth (City, State, or Territory)',
-      },
-      gender: {
-        'ui:title': 'What’s your sex?',
-        'ui:widget': 'radio',
-      },
-      maritalStatus: {
-        'ui:title': 'What’s your marital status?',
-        'ui:widget': 'radio',
-        'ui:options': {
-          labels: {
-            single: 'Single',
-            separated: 'Separated',
-            married: 'Married',
-            divorced: 'Divorced',
-            widowed: 'Widowed',
-          },
-        },
-      },
-      race: {
-        'ui:field': RaceEthnicityReviewField,
-        'ui:title':
-          'Which categories best describe you? (You may check more than one)',
-        isSpanishHispanicLatino: {
-          'ui:title': 'Hispanic or Latino',
-        },
-        notSpanishHispanicLatino: {
-          'ui:title': 'Not Hispanic or Latino',
-        },
-        isAmericanIndianOrAlaskanNative: {
-          'ui:title': 'American Indian or Alaskan Native',
-        },
-        isBlackOrAfricanAmerican: {
-          'ui:title': 'Black or African American',
-        },
-        isNativeHawaiianOrOtherPacificIslander: {
-          'ui:title': 'Native Hawaiian or other Pacific Islander',
-        },
-        isAsian: {
-          'ui:title': 'Asian',
-        },
-        isWhite: {
-          'ui:title': 'White',
-        },
-        'ui:validations': [
-          // require at least one value to be true/checked
-          (errors, fields) => {
-            if (!Object.values(fields).some(val => val === true)) {
-              errors.addError('Please provide a response');
-            }
-          },
-        ],
-        'ui:options': {
-          showFieldLabel: true,
-        },
-      },
-      militaryStatus: {
-        'ui:title':
-          'Current military status (You can add more service history information later in this application.)',
-        'ui:options': {
-          labels: {
-            A: 'Active Duty',
-            I: 'Death Related to Inactive Duty Training',
-            D: 'Died on Active Duty',
-            S: 'Reserve/National Guard',
-            R: 'Retired',
-            E: 'Retired Active Duty',
-            O: 'Retired Reserve/National Guard',
-            V: 'Veteran',
-            X: 'Other',
-          },
-        },
-      },
-    }
-  : {
-      militaryServiceNumber: {
-        'ui:title':
-          'Military Service number (if it’s different than your Social Security number)',
-        'ui:errorMessages': {
-          pattern:
-            'Your Military Service number must be between 4 to 9 characters',
-        },
-      },
-      vaClaimNumber: {
-        'ui:title': 'VA claim number (if known)',
-        'ui:errorMessages': {
-          pattern: 'Your VA claim number must be between 8 to 9 digits',
-        },
-      },
-      placeOfBirth: {
-        'ui:title': 'Place of birth (City, State, or Territory)',
-      },
-      gender: {
-        'ui:title': 'What’s your sex?',
-        'ui:widget': 'radio',
-      },
-      maritalStatus: {
-        'ui:title': 'What’s your marital status?',
-        'ui:widget': 'radio',
-        'ui:options': {
-          labels: {
-            single: 'Single',
-            separated: 'Separated',
-            married: 'Married',
-            divorced: 'Divorced',
-            widowed: 'Widowed',
-          },
-        },
-      },
-      race: {
-        'ui:field': RaceEthnicityReviewField,
-        'ui:title':
-          'Which categories best describe you? (You may check more than one)',
-        isSpanishHispanicLatino: {
-          'ui:title': 'Hispanic or Latino',
-        },
-        notSpanishHispanicLatino: {
-          'ui:title': 'Not Hispanic or Latino',
-        },
-        isAmericanIndianOrAlaskanNative: {
-          'ui:title': 'American Indian or Alaskan Native',
-        },
-        isBlackOrAfricanAmerican: {
-          'ui:title': 'Black or African American',
-        },
-        isNativeHawaiianOrOtherPacificIslander: {
-          'ui:title': 'Native Hawaiian or other Pacific Islander',
-        },
-        isAsian: {
-          'ui:title': 'Asian',
-        },
-        isWhite: {
-          'ui:title': 'White',
-        },
-        'ui:validations': [
-          // require at least one value to be true/checked
-          (errors, fields) => {
-            if (!Object.values(fields).some(val => val === true)) {
-              errors.addError('Please provide a response');
-            }
-          },
-        ],
-        'ui:options': {
-          showFieldLabel: true,
-        },
-      },
-      militaryStatus: {
-        'ui:title':
-          'Current military status (You can add more service history information later in this application.)',
-        'ui:options': {
-          labels: {
-            A: 'Active Duty',
-            I: 'Death Related to Inactive Duty Training',
-            D: 'Died on Active Duty',
-            S: 'Reserve/National Guard',
-            R: 'Retired',
-            E: 'Retired Active Duty',
-            O: 'Retired Reserve/National Guard',
-            V: 'Veteran',
-            X: 'Other',
-          },
-        },
-      },
-    };
+    },
+  },
+};
 
 export const serviceRecordsUI = {
   'ui:title': 'Service period(s)',

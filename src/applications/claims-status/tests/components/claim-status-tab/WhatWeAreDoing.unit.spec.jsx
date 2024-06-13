@@ -13,7 +13,7 @@ import { renderWithRouter } from '../../utils';
 
 import WhatWeAreDoing from '../../../components/claim-status-tab/WhatWeAreDoing';
 
-const claimPhase1 = {
+const dependencyClaimPhase1 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -23,6 +23,8 @@ const claimPhase1 = {
       latestPhaseType: 'CLAIM_RECEIVED',
       previousPhases: {},
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -31,7 +33,7 @@ const claimPhase1 = {
   },
 };
 
-const claimPhase2 = {
+const dependencyClaimPhase2 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -43,6 +45,8 @@ const claimPhase2 = {
         phase1CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -51,7 +55,7 @@ const claimPhase2 = {
   },
 };
 
-const claimPhase3 = {
+const dependencyClaimPhase3 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -64,6 +68,8 @@ const claimPhase3 = {
         phase2CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -72,7 +78,7 @@ const claimPhase3 = {
   },
 };
 
-const claimPhase4 = {
+const dependencyClaimPhase4 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -86,6 +92,8 @@ const claimPhase4 = {
         phase3CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -94,7 +102,7 @@ const claimPhase4 = {
   },
 };
 
-const claimPhase5 = {
+const dependencyClaimPhase5 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -109,6 +117,8 @@ const claimPhase5 = {
         phase4CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -117,7 +127,7 @@ const claimPhase5 = {
   },
 };
 
-const claimPhase6 = {
+const dependencyClaimPhase6 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -133,6 +143,8 @@ const claimPhase6 = {
         phase5CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -141,7 +153,7 @@ const claimPhase6 = {
   },
 };
 
-const claimPhase7 = {
+const dependencyClaimPhase7 = {
   id: '1',
   attributes: {
     claimDate: '2023-01-01',
@@ -158,6 +170,175 @@ const claimPhase7 = {
         phase6CompleteDate: '2023-02-08',
       },
     },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'PREPARATION_FOR_NOTIFICATION',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase1 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'CLAIM_RECEIVED',
+      previousPhases: {},
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'CLAIM_RECEIVED',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase2 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'UNDER_REVIEW',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'INITIAL_REVIEW',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase3 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+        phase2CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase4 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+        phase2CompleteDate: '2023-02-08',
+        phase3CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase5 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'PREPARATION_FOR_DECISION',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+        phase2CompleteDate: '2023-02-08',
+        phase3CompleteDate: '2023-02-08',
+        phase4CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase6 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'PENDING_DECISION_APPROVAL',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+        phase2CompleteDate: '2023-02-08',
+        phase3CompleteDate: '2023-02-08',
+        phase4CompleteDate: '2023-02-08',
+        phase5CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    documentsNeeded: true,
+    decisionLetterSent: false,
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    supportingDocuments: [],
+  },
+};
+
+const compensationClaimPhase7 = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'PREPARATION_FOR_NOTIFICATION',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+        phase2CompleteDate: '2023-02-08',
+        phase3CompleteDate: '2023-02-08',
+        phase4CompleteDate: '2023-02-08',
+        phase5CompleteDate: '2023-02-08',
+        phase6CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
     closeDate: null,
     documentsNeeded: true,
     decisionLetterSent: false,
@@ -176,267 +357,683 @@ describe('<WhatWeAreDoing>', () => {
     }));
 
   context('cstClaimPhases feature flag enabled', () => {
-    it('should render a WhatWereDoing section when claim phase 1', () => {
-      const { status, claimPhaseDates } = claimPhase1.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseDates.latestPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+    context('claim is a disability compensation claim', () => {
+      it('should render a WhatWereDoing section when claim phase 1', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase1.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseDates.latestPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 2', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase2.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 3', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase3.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 4', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase4.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 5', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase5.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 6', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase6.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
+      it('should render a WhatWereDoing section when claim phase 7', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase7.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+        getByText(getClaimPhaseTypeDescription(claimPhaseType));
+        getByText('Moved to this step on February 8, 2023');
+        expect(getByRole('link')).to.have.text('Learn more about this step');
+      });
     });
-    it('should render a WhatWereDoing section when claim phase 2', () => {
-      const { status, claimPhaseDates } = claimPhase2.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
-    });
-    it('should render a WhatWereDoing section when claim phase 3', () => {
-      const { status, claimPhaseDates } = claimPhase3.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+    context('claim is not a disability compensation claim', () => {
+      it('should render a WhatWereDoing section when claim phase 1', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase1.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
-    });
-    it('should render a WhatWereDoing section when claim phase 4', () => {
-      const { status, claimPhaseDates } = claimPhase4.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 2', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase2.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
-    });
-    it('should render a WhatWereDoing section when claim phase 5', () => {
-      const { status, claimPhaseDates } = claimPhase5.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 3', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
-    });
-    it('should render a WhatWereDoing section when claim phase 6', () => {
-      const { status, claimPhaseDates } = claimPhase6.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 4', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase4.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
-    });
-    it('should render a WhatWereDoing section when claim phase 7', () => {
-      const { status, claimPhaseDates } = claimPhase7.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole } = renderWithRouter(
-        <Provider store={getStore()}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 5', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase5.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
-      getByText(getClaimPhaseTypeDescription(claimPhaseType));
-      getByText('Moved to this step on February 8, 2023');
-      expect(getByRole('link')).to.have.text('Learn more about this step');
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 6', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase6.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 7', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase7.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
     });
   });
 
   context('cstClaimPhases feature flag disabled', () => {
-    it('should render a WhatWereDoing section when claim phase 2', () => {
-      const { status, claimPhaseDates } = claimPhase1.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+    context('claim is a disability compensation claim', () => {
+      it('should render a WhatWereDoing section when claim phase 1', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase1.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 2', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase2.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 3', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase3.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 4', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase4.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 5', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase5.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 6', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase6.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 7', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = compensationClaimPhase7.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
     });
-    it('should render a WhatWereDoing section when claim phase 2', () => {
-      const { status, claimPhaseDates } = claimPhase2.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
-    });
-    it('should render a WhatWereDoing section when claim phase 3', () => {
-      const { status, claimPhaseDates } = claimPhase3.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+    context('claim is not a disability compensation claim', () => {
+      it('should render a WhatWereDoing section when claim phase 1', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase1.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
-    });
-    it('should render a WhatWereDoing section when claim phase 4', () => {
-      const { status, claimPhaseDates } = claimPhase4.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 2', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase2.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
-    });
-    it('should render a WhatWereDoing section when claim phase 5', () => {
-      const { status, claimPhaseDates } = claimPhase5.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 3', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
-    });
-    it('should render a WhatWereDoing section when claim phase 6', () => {
-      const { status, claimPhaseDates } = claimPhase6.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 4', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase4.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
-    });
-    it('should render a WhatWereDoing section when claim phase 7', () => {
-      const { status, claimPhaseDates } = claimPhase7.attributes;
-      const claimPhaseType = claimPhaseDates.latestPhaseType;
-      const { getByText, getByRole, queryByText } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <WhatWeAreDoing
-            status={status}
-            claimPhaseType={claimPhaseType}
-            phaseChangeDate={claimPhaseDates.phaseChangeDate}
-          />
-        </Provider>,
-      );
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 5', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase5.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
 
-      getByText(getStatusDescription(status));
-      getByText(getClaimStatusDescription(status));
-      expect(queryByText('Moved to this step on February 8, 2023')).to.not
-        .exist;
-      expect(getByRole('link')).to.have.text('Overview of the process');
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 6', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase6.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when claim phase 7', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase7.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { getByText, getByRole, queryByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(getStatusDescription(status));
+        getByText(getClaimStatusDescription(status));
+        expect(queryByText('Moved to this step on February 8, 2023')).to.not
+          .exist;
+        expect(getByRole('link')).to.have.text('Overview of the process');
+      });
     });
   });
 });
