@@ -5,7 +5,7 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
-const studentAddressMarriageTuition = omit(
+const agencyOrProgram = omit(
   report674.properties.studentAddressMarriageTuition,
   [
     'properties.address',
@@ -18,37 +18,38 @@ const studentAddressMarriageTuition = omit(
 merge(report674.properties.studentTermDates.properties.currentTermDates, {
   type: 'object',
   properties: {
-    ...studentAddressMarriageTuition.properties,
     isSchoolAccredited: {
       type: 'boolean',
     },
   },
 });
 
-export const schema = omit(report674.properties.studentTermDates, [
+const studentTermDates = omit(report674.properties.studentTermDates, [
   'properties.programInformation.properties.classesPerWeek',
   'properties.programInformation.properties.hoursPerWeek',
   'properties.programInformation.properties.courseOfStudy',
 ]);
 
+export const schema = {
+  type: 'object',
+  properties: {
+    agencyOrProgram,
+    currentTermDates: studentTermDates?.properties?.currentTermDates,
+    programInformation: studentTermDates?.properties?.programInformation,
+  },
+};
+
 export const uiSchema = {
-  currentTermDates: {
-    'ui:title': 'Term or course dates',
-    'ui:order': [
-      'agencyName',
-      'datePaymentsBegan',
-      'isSchoolAccredited',
-      'officialSchoolStartDate',
-      'expectedStudentStartDate',
-      'expectedGraduationDate',
-    ],
+  agencyOrProgram: {
+    'ui:title':
+      'Agency or program paying paying tuition or education allowance',
     agencyName: {
       'ui:title': 'Agency name',
       'ui:required': formData =>
         formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       'ui:errorMessages': {
         required:
-          'Enter the goverment agency paying tuition or education allowance',
+          'Enter the goverment agency or program paying tuition or education allowance',
       },
       'ui:options': {
         hideIf: form =>
@@ -67,6 +68,15 @@ export const uiSchema = {
           !form?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       },
     },
+  },
+  currentTermDates: {
+    'ui:title': 'Term or course dates',
+    'ui:order': [
+      'isSchoolAccredited',
+      'officialSchoolStartDate',
+      'expectedStudentStartDate',
+      'expectedGraduationDate',
+    ],
     isSchoolAccredited: {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:widget': 'yesNo',
@@ -110,8 +120,6 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:title':
         'Is the student enrolled full-time in high school or college?',
-      'ui:description':
-        'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
       'ui:errorMessages': { required: 'Select an option' },
     },
   },
