@@ -42,7 +42,8 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import { formSignatureSchema } from '../chapters/formSignature';
+
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
@@ -449,6 +450,16 @@ const formConfig = {
             },
           },
           schema: blankSchema,
+        },
+      },
+    },
+    formSignature: {
+      title: 'Form signature',
+      pages: {
+        supportingFIlesReview: {
+          path: 'form-signature',
+          title: 'Form signature',
+          ...formSignatureSchema,
         },
       },
     },
