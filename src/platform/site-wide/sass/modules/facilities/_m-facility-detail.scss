@@ -30,6 +30,9 @@
    display: inline-block;
    width: 35px;
    margin-right: 5px;
+   @include media($small-screen) {
+      margin-right: 0;
+    }
 }
 
 .va-c-facility-sidebar {

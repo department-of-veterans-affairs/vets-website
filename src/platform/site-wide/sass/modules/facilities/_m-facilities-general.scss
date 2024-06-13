@@ -241,6 +241,10 @@
   @include media($medium-screen) {
     width: 33%;
   }
+
+  va-link {
+    text-wrap: nowrap;
+  }
 }
 
 .featured-content-hr {
