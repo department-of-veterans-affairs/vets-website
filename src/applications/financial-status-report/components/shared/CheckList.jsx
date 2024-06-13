@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  VaCheckbox,
+  VaCheckboxGroup,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const Checklist = ({
   options,
@@ -8,38 +12,37 @@ const Checklist = ({
   prompt = '',
   title = '',
 }) => {
+  const handleChange = event => {
+    const { checked } = event.detail;
+    const name = event.target.getAttribute('data-name'); // Retrieve custom attribute
+    onChange({ name, checked });
+  };
+
   return (
     <fieldset className="checkbox-list vads-u-margin-y--2">
-      <legend className="schemaform-block-title">
-        {title ? <h3 className="vads-u-margin--0">{title}</h3> : null}
-        {prompt ? (
-          <p className="vads-u-margin-bottom--0p5 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-            {prompt}
-          </p>
-        ) : null}
-      </legend>
-      {options?.map((option, key) => (
-        <div key={option + key} className="checkbox-list-item">
-          <input
-            type="checkbox"
-            id={option + key}
+      <VaCheckboxGroup
+        label={title}
+        label-header-level="3"
+        hint={prompt}
+        onVaChange={handleChange}
+      >
+        {options?.map((option, key) => (
+          <VaCheckbox
+            key={option + key}
             name={option}
-            value={option}
+            label={option}
             checked={isBoxChecked(option)}
-            onChange={onChange}
+            data-name={option}
           />
-          <label className="vads-u-margin-y--2" htmlFor={option + key}>
-            {option}
-          </label>
-        </div>
-      ))}
+        ))}
+      </VaCheckboxGroup>
     </fieldset>
   );
 };
 
 Checklist.propTypes = {
-  isBoxChecked: PropTypes.func,
-  options: PropTypes.arrayOf(PropTypes.string),
+  isBoxChecked: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
   prompt: PropTypes.string,
   title: PropTypes.string,
   onChange: PropTypes.func,
