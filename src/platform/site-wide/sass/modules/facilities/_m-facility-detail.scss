@@ -29,9 +29,9 @@
 .abbrv-day {
    display: inline-block;
    width: 35px;
-   margin-right: 5px;
-   @include media($small-screen) {
-      margin-right: 0;
+   margin-right: 0;
+   @include media($small-screen + 1) {
+      margin-right: 5px;
     }
 }
 
