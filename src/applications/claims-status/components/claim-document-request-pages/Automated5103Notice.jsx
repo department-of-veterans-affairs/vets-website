@@ -85,6 +85,6 @@ export default function Automated5103Notice({ claimId, item }) {
 }
 
 Automated5103Notice.propTypes = {
-  claimId: PropTypes.number.isRequired,
+  claimId: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 };
