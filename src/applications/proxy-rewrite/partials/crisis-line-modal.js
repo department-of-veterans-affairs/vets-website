@@ -1,10 +1,9 @@
 export default `
-  <div id="ts-modal-crisisline" class="va-overlay va-modal va-modal-large" role="alertdialog">
-    <div class="va-crisis-panel va-modal-inner">
-      <button aria-label="Close this modal" class="va-modal-close va-overlay-close va-crisis-panel-close" type="button">
+  <div id="ts-modal-crisisline" class="vcl-overlay va-modal va-modal-large" role="alertdialog">
+    <div class="vcl-crisis-panel va-modal-inner">
+      <button aria-label="Close this modal" id="vcl-modal-close" type="button">
         <svg
           aria-hidden="true"
-          className="va-overlay-close"
           focusable="false"
           id="close-button-icon"
           viewBox="2 2 20 20"
@@ -17,14 +16,14 @@ export default `
         />
       </svg>
       </button>
-      <div class="va-overlay-body va-crisis-panel-body">
-        <h3 class="va-crisis-panel-title">We’re here anytime, day or night – 24/7</h3>
+      <div class="vcl-overlay-body vcl-crisis-panel-body">
+        <h3 class="vcl-crisis-panel-title">We’re here anytime, day or night – 24/7</h3>
         <p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.</p>
-        <ul class="va-crisis-panel-list">
+        <ul class="vcl-crisis-panel-list">
           <li>
             <svg
               aria-hidden="true"
-              className="va-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               style={{ transform: 'rotate(270deg)' }}
               viewBox="0 0 23 23"
@@ -43,7 +42,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="va-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -60,7 +59,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="va-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -78,7 +77,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="va-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"

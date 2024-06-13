@@ -48,11 +48,11 @@ export const getDesktopHeaderHtml = megaMenuData => {
       <!-- end US Govt banner -->
 
       <!-- start Veterans Crisis Line banner -->
-      <div class="va-crisis-line-container vads-u-background-color--secondary-darkest">
-        <button class="va-crisis-line va-overlay-trigger vads-u-background-color--secondary-darkest" data-show="#ts-modal-crisisline">
-          <div class="va-crisis-line-inner">
-            <span class="va-crisis-line-icon" aria-hidden="true"></span>
-            <span class="va-crisis-line-text">
+      <div class="vcl-crisis-line-container vads-u-background-color--secondary-darkest">
+        <button class="vcl-modal-open vads-u-background-color--secondary-darkest">
+          <div class="vcl-crisis-line-inner">
+            <span class="vcl-crisis-line-icon" aria-hidden="true"></span>
+            <span class="vcl-crisis-line-text">
               Talk to the <strong>Veterans Crisis Line</strong> now
             </span>
             <svg

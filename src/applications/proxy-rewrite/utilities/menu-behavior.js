@@ -26,47 +26,6 @@ const closeNotActiveMenu = (buttons, thisButtonText) => {
   });
 };
 
-// Used to add overlay behavior to modals (such as the Veterans Crisis Line modal)
-export function addOverlayTriggers() {
-  const overlays = document.querySelectorAll(
-    '.va-overlay-trigger, .va-overlay',
-  );
-
-  const toggleOverlay = domEvent => {
-    const overlayTarget = domEvent.currentTarget; // The overlay to open or close
-    const clickTarget = domEvent.target; // The element clicked
-
-    /*
-    overlayId will be _either_
-    - The value of element.getAttribute('href')
-    - The value of element.dataset.show
-
-    A .va-overlay-trigger element should have either a data-show attribute
-    (preferred) or an href attribute.
-    */
-    const overlayId =
-      overlayTarget.getAttribute('href') || overlayTarget.dataset.show;
-
-    const shouldCloseOverlay =
-      overlayTarget.classList.contains('va-overlay') &&
-      clickTarget.classList.contains('va-overlay-close');
-
-    if (shouldCloseOverlay) {
-      overlayTarget.classList.remove('va-overlay--open');
-      document.body.classList.remove('va-pos-fixed');
-    } else if (overlayId) {
-      const overlay = document.querySelector(overlayId);
-      overlay.classList.add('va-overlay--open');
-      overlay.querySelector('a').focus();
-      document.body.classList.add('va-pos-fixed');
-    }
-  };
-  
-  Array.from(overlays).forEach(ol => {
-    ol.addEventListener('click', toggleOverlay);
-  });
-}
-
 // Adds event listeners for most of the interaction for the header (4 sections of click handlers within this function)
 export const addHeaderEventListeners = () => {
   // [DESKTOP] Govt banner icon ---------------------------------------------
@@ -78,8 +37,8 @@ export const addHeaderEventListeners = () => {
       govtBannerIcon.classList.toggle('expanded');
     });
   }
-  
-  // [DESKTOP] VA Benefits & Health Care, About VA ---------------------
+
+  // [DESKTOP] VA Benefits & Health Care, About VA ----------------------
   const searchButton = document.getElementById('search-dropdown-button');
   const megaMenuL1Buttons = [
     ...document.querySelectorAll('button.vetnav-level1'),

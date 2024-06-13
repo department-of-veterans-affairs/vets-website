@@ -37,7 +37,7 @@ export const getDesktopFooterHtml = footerData => {
                 <h2 class="va-footer-linkgroup-title">In crisis? Talk to someone now</h2>
                 <ul class="va-footer-links">
                   <li>
-                  <button class="va-button-link va-overlay-trigger" data-show="#ts-modal-crisisline">Veterans Crisis Line</button>
+                  <button class="va-button-link vcl-modal-open">Veterans Crisis Line</button>
                   </li>
                 </ul>
                 <h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Get answers</h2>

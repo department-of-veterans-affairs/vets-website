@@ -7,17 +7,43 @@ import {
 
 import { focusElement } from 'platform/utilities/ui';
 
+// Used to add overlay behavior to VCL modal
+export const addOverlayTriggers = () => {
+  const vclModalTriggers = document.querySelectorAll('.vcl-modal-open');
+  const vclModalClose = document.getElementById('vcl-modal-close');
+  const vclModal = document.getElementById('ts-modal-crisisline');
+
+  const openModal = () => {
+    vclModal.classList.add('vcl-overlay--open');
+    vclModal.querySelector('a').focus();
+    document.body.classList.add('va-pos-fixed');
+  };
+
+  const closeModal = () => {
+    vclModal.classList.remove('vcl-overlay--open');
+    document.body.classList.remove('va-pos-fixed');
+  };
+
+  Array.from(vclModalTriggers).forEach(trigger => {
+    trigger.addEventListener('click', openModal);
+  });
+
+  if (vclModalClose) {
+    vclModalClose.addEventListener('click', closeModal);
+  }
+};
+
 /*
  * Creates function that captures/releases Veterans Crisis Line modal focus.
  */
-export default function addFocusBehaviorToCrisisLineModal() {
+export const addFocusBehaviorToCrisisLineModal = () => {
   const overlay = document.getElementById('ts-modal-crisisline');
-  const modal = document.querySelector('.va-crisis-panel.va-modal-inner');
+  const modal = document.querySelector('.vcl-crisis-panel.va-modal-inner');
   const tabbableElements = getTabbableElements(modal);
   let openControl;
   const closeControl = tabbableElements[0];
   const lastTabbableElement = tabbableElements[tabbableElements.length - 1];
-  const triggers = Array.from(document.querySelectorAll('.va-crisis-line'));
+  const triggers = Array.from(document.querySelectorAll('.vcl-modal-open'));
 
   function captureFocus(e) {
     if (e.target === closeControl && isReverseTab(e)) {
@@ -32,7 +58,7 @@ export default function addFocusBehaviorToCrisisLineModal() {
 
   function closeModal(e) {
     if (isEscape(e)) {
-      overlay.classList.remove('va-overlay--open');
+      overlay.classList.remove('vcl-overlay--open');
       document.body.classList.remove('va-pos-fixed');
       focusElement(openControl);
     }
@@ -55,4 +81,4 @@ export default function addFocusBehaviorToCrisisLineModal() {
   closeControl.addEventListener('click', resetFocus);
   closeControl.addEventListener('keydown', captureFocus);
   lastTabbableElement.addEventListener('keydown', captureFocus);
-}
+};

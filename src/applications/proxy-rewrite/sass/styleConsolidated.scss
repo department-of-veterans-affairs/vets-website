@@ -807,17 +807,27 @@
     white-space: nowrap
   }
 
-  button.va-modal-close {
+  #vcl-modal-close {
     background-color: transparent;
     color: #005ea2;
-    font-size: 2.25rem;
-    padding: 0;
+    padding: 0.1rem 0 0;
+    font-size: 4rem;
     position: absolute;
     margin: 1.6rem;
     right: 0;
     top: 0;
     width: auto;
-    z-index: 9
+    z-index: 9;
+
+    &:hover {
+      background-color: transparent;
+      color: #000;
+    }
+  
+    &:active {
+      background-color: transparent;
+      color: #162e51
+    }
   }
 
   .flex-container {
@@ -1539,8 +1549,8 @@
     background: #005ea2
   }
 
-  // START: va-overlay ------------------------------------------------------
-  .va-overlay {
+  // START: vcl-overlay ------------------------------------------------------
+  .vcl-overlay {
     background: rgba(61, 69, 81, 0.8);
     height: 100%;
     left: 0;
@@ -1559,33 +1569,22 @@
     }
   }
 
-  .va-overlay--open {
+  .vcl-overlay--open {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.5s
   }
 
-  .va-overlay--open .columns {
+  .vcl-overlay--open .columns {
     padding: 0
   }
 
-  .va-overlay .menu {
+  .vcl-overlay .menu {
     perspective: 1200px;
     padding: 1em 1em
   }
 
-  .va-overlay form {
-    opacity: 0.4;
-    transform: translateY(-25%) rotateX(35deg);
-    transition: transform 0.5s, opacity 0.5s
-  }
-
-  .va-overlay--open form {
-    opacity: 1;
-    transform: rotateX(0deg)
-  }
-
-  // END: va-overlay ------------------------------------------------------
+  // END: vcl-overlay ------------------------------------------------------
 
   @media (max-height: 30.5em) {
     .overlay form {
@@ -1652,16 +1651,6 @@
       padding-right: 2rem;
       width: 100%
     }
-  }
-
-  button.va-modal-close:hover {
-    background-color: transparent;
-    color: #1a4480
-  }
-
-  button.va-modal-close:active {
-    background-color: transparent;
-    color: #162e51
   }
 
   #signin-signup-modal {
@@ -2077,64 +2066,20 @@
   }
 
   // START: VA Crisis Line modal/button -----------------------------------------------------
-  .va-crisis-line-container {
+  .vcl-crisis-line-container {
     position: relative;
     margin: auto;
     background-color: #b50909
   }
 
   @media screen and (min-width: 1008px) {
-    .va-crisis-line-container {
+    .vcl-crisis-line-container {
       max-width: 97.5rem;
       background-color: transparent
     }
   }
 
-  button.va-crisis-line {
-    background-color: #b50909;
-    display: block;
-    border-radius: 0;
-    color: #fff;
-    font-size: 16px;
-    font-weight: normal;
-    text-decoration: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-property: background-color
-  }
-
-  button.va-crisis-line:focus {
-    outline-offset: -2px
-  }
-
-  button.va-crisis-line:hover,
-  button.va-crisis-line:active {
-    background-color: #8b0a03
-  }
-
-  @media screen and (min-width: 1008px) {
-
-    button.va-crisis-line:hover .va-crisis-line-icon,
-    button.va-crisis-line:active .va-crisis-line-icon {
-      background-color: #b50909;
-    }
-  }
-
-  @media screen and (min-width: 1008px) {
-    button.va-crisis-line {
-      width: auto;
-      position: absolute;
-      right: 0;
-      bottom: -12px;
-      border-radius: 0 0 0.2em 0.2em;
-      box-shadow: 0 2px 5px #1b1b1b
-    }
-  }
-
-  .va-crisis-line-inner {
+  .vcl-crisis-line-inner {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2142,13 +2087,13 @@
   }
 
   @media screen and (min-width: 1008px) {
-    .va-crisis-line-inner {
+    .vcl-crisis-line-inner {
       text-align: left;
       justify-content: space-between
     }
   }
 
-  .va-crisis-line-icon {
+  .vcl-crisis-line-icon {
     content: "";
     background: url(/img/VCL-icon-white.svg) no-repeat right 29%;
     background-size: 1.75em auto;
@@ -2162,34 +2107,34 @@
   }
 
   @media screen and (max-width: 767px) {
-    .va-crisis-line-icon {
+    .vcl-crisis-line-icon {
       display: none;
     }
   }
 
   @media screen and (min-width: 1008px) {
-    .va-crisis-line-icon {
+    .vcl-crisis-line-icon {
       background-color: #8b0a03;
       background-position: 0.4em 0.5em;
       border-bottom-left-radius: 0.2em
     }
   }
 
-  .va-crisis-line-text {
+  .vcl-crisis-line-text {
     padding: 0.5em
   }
 
-  .va-crisis-panel {
+  .vcl-crisis-panel {
     color: #1b1b1b
   }
 
   @media screen and (max-width: 767px) {
-    .va-crisis-panel {
+    .vcl-crisis-panel {
       margin: 1rem auto;
     }
   }
 
-  .va-crisis-panel-title {
+  .vcl-crisis-panel-title {
     color: #1b1b1b;
     padding-left: 41px;
     background: url(/img/vcl-logo.png) no-repeat left;
@@ -2199,40 +2144,40 @@
     width: 90%
   }
 
-  .va-crisis-panel-list {
+  .vcl-crisis-panel-list {
     list-style: none;
     padding: 0
   }
 
-  .va-crisis-panel-list > li {
+  .vcl-crisis-panel-list > li {
     display: flex;
     min-height: 56px;
     margin-bottom: 0;
     border-top: 1px solid #a9aeb1
   }
 
-  .va-crisis-panel-list > li:last-child {
+  .vcl-crisis-panel-list > li:last-child {
     border-bottom: 1px solid #a9aeb1
   }
 
-  .va-crisis-panel-list > li > a {
+  .vcl-crisis-panel-list > li > a {
     color: #005ea2;
     text-decoration: underline;
     align-self: center
   }
 
-  .va-crisis-panel-list > li > p {
+  .vcl-crisis-panel-list > li > p {
     color: #005ea2;
     text-decoration: underline;
     margin-bottom: 0
   }
 
-  .va-crisis-panel-list > li > p > a {
+  .vcl-crisis-panel-list > li > p > a {
     color: #005ea2;
     padding: 0
   }
 
-  .va-crisis-panel-icon {
+  .vcl-crisis-panel-icon {
     color: #1b1b1b !important;
     font-size: 26px;
     width: 46px;
@@ -2242,32 +2187,26 @@
     font-family: "Font Awesome 5 Free"
   }
 
-  .va-crisis-panel-icon.fa-mobile {
+  .vcl-crisis-panel-icon.fa-mobile {
     font-size: 38px;
     padding: 0.15em 0.3em
   }
 
-  .va-crisis-panel-close.va-modal-close {
-    font-size: 4rem;
-    color: #005ea2;
-    padding-top: 0.1rem
-  }
-
-  .va-crisis-panel-close.va-modal-close:hover {
-    color: #000;
-    background-color: transparent
-  }
-
-  .va-crisis-panel li:nth-child(odd) {
+  .vcl-crisis-panel li:nth-child(odd) {
     border-bottom: none;
   }
 
-  // END: VA Crisis Line modal/button -----------------------------------------------------
-
-  .va-modal-large .va-crisis-panel.va-modal-inner {
+  .va-modal-large .vcl-crisis-panel.va-modal-inner {
     width: 90vw;
     max-width: 75rem
   }
+
+  .vcl-crisis-panel-body {
+    padding: 1.5em;
+    max-height: 100%;
+  }
+
+  // END: VA Crisis Line modal/button -----------------------------------------------------
 
   .va-modal {
     z-index: 400 !important
@@ -3034,10 +2973,6 @@
     }
   }
 
-  .va-modal-close .fa {
-    color: inherit
-  }
-
   .sign-in-buttons {
     flex-shrink: 0
   }
@@ -3190,11 +3125,11 @@
     margin: auto
   }
 
-  header.va-crisis-line-container button.va-crisis-line {
+  header.vcl-crisis-line-container button.vcl-modal-open {
     background-image: none
   }
 
-  header.va-crisis-line-container button.va-crisis-line .va-crisis-line-text {
+  header.vcl-crisis-line-container button.vcl-modal-open .vcl-crisis-line-text {
     color: #fff
   }
 
@@ -3209,7 +3144,7 @@
   @media (min-width: 1008px) {
 
     header.va-notice--banner-inner,
-    header.va-crisis-line-container {
+    header.vcl-crisis-line-container {
       width: 959px;
       padding-left: 0.625rem;
     }
@@ -3458,7 +3393,7 @@
       }
     }
 
-    .va-overlay--open .columns {
+    .vcl-overlay--open .columns {
       padding: 0
     }
   }
@@ -3737,8 +3672,54 @@
   }
 }
 
-.ts-header-container a {
-  text-decoration: none;
+.ts-header-container {
+  a {
+    text-decoration: none;
+  }
+
+  button.vcl-modal-open {
+    background-color: #b50909;
+    display: block;
+    border-radius: 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: background-color
+  }
+
+  button.vcl-modal-open:focus {
+    outline-offset: -2px
+  }
+
+  button.vcl-modal-open:hover,
+  button.vcl-modal-open:active {
+    background-color: #8b0a03
+  }
+
+  @media screen and (min-width: 1008px) {
+
+    button.vcl-modal-open:hover .vcl-crisis-line-icon,
+    button.vcl-modal-open:active .vcl-crisis-line-icon {
+      background-color: #b50909;
+    }
+  }
+
+  @media screen and (min-width: 1008px) {
+    button.vcl-modal-open {
+      width: auto;
+      position: absolute;
+      right: 0;
+      bottom: -12px;
+      border-radius: 0 0 0.2em 0.2em;
+      box-shadow: 0 2px 5px #1b1b1b
+    }
+  }
 }
 
 .ts-footer-container a, #signin-signup-modal a {

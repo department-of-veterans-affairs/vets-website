@@ -9,7 +9,10 @@ import environments from 'site/constants/environments';
 import environment from 'platform/utilities/environment';
 import createCommonStore from 'platform/startup/store';
 import startReactApp from 'platform/startup/react';
-import addFocusBehaviorToCrisisLineModal from './utilities/accessible-VCL-modal';
+import {
+  addOverlayTriggers,
+  addFocusBehaviorToCrisisLineModal,
+} from './utilities/vcl-modal-behavior';
 import { getAssetPath } from './utilities/get-asset-path';
 import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
@@ -18,10 +21,7 @@ import { getMobileHeaderHtml } from './partials/mobile/header';
 import { getDesktopFooterHtml } from './partials/desktop/footer';
 import { getMobileFooterHtml } from './partials/mobile/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import {
-  addHeaderEventListeners,
-  addOverlayTriggers,
-} from './utilities/menu-behavior';
+import { addHeaderEventListeners } from './utilities/menu-behavior';
 import Search from './partials/search';
 import SignInModal from './partials/sign-in';
 
@@ -170,10 +170,6 @@ function teamsitesSetup() {
   // set up sizes for rem
   document.getElementsByTagName('html')[0].style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
-
-  // Start Veteran Crisis Line modal functionality.
-  addFocusBehaviorToCrisisLineModal();
-  addOverlayTriggers();
 }
 
 function getContentHostName() {
@@ -212,7 +208,6 @@ function activateInjectedAssets() {
     })
     .then(headerFooterData => {
       teamsitesSetup();
-      console.log('headerFooterData: ', headerFooterData);
 
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');
@@ -231,6 +226,10 @@ function activateInjectedAssets() {
         'resize',
         debounce(() => renderFooter(headerFooterData.footerData), 200),
       );
+
+      // Start Veteran Crisis Line modal functionality.
+      addFocusBehaviorToCrisisLineModal();
+      addOverlayTriggers();
     });
 }
 

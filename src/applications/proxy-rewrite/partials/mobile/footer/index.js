@@ -18,7 +18,7 @@ export const getMobileFooterHtml = footerData => {
               <ul class="usa-accordion va-footer-accordion">
                 <li>
                   <div class="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-                    <button class="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger" data-show="#ts-modal-crisisline" id="footer-crisis-line">Talk to the <strong>Veterans Crisis Line</strong> now
+                    <button class="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open" id="footer-crisis-line">Talk to the <strong>Veterans Crisis Line</strong> now
                       <svg
                         aria-hidden="true"
                         className="vads-u-margin-left--1"
