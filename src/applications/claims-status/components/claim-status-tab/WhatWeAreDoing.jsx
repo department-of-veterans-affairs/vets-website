@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom-v5-compat';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
+  buildDateFormatter,
   getStatusDescription,
   getClaimStatusDescription,
   getClaimPhaseTypeHeaderText,
   getClaimPhaseTypeDescription,
-  buildDateFormatter,
+  isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
 const getPhaseChangeDateText = phaseChangeDate => {
@@ -19,18 +20,24 @@ const getPhaseChangeDateText = phaseChangeDate => {
 
 export default function WhatWeAreDoing({
   claimPhaseType,
+  claimTypeCode,
   phaseChangeDate,
   status,
 }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-  const humanStatus = cstClaimPhasesEnabled
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
+  const humanStatus = showEightPhases
     ? getClaimPhaseTypeHeaderText(claimPhaseType)
     : getStatusDescription(status);
-  const description = cstClaimPhasesEnabled
+  const description = showEightPhases
     ? getClaimPhaseTypeDescription(claimPhaseType)
     : getClaimStatusDescription(status);
-  const linkText = cstClaimPhasesEnabled
+  const linkText = showEightPhases
     ? 'Learn more about this step'
     : 'Overview of the process';
 
@@ -41,11 +48,16 @@ export default function WhatWeAreDoing({
         <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           {humanStatus}
         </h4>
-        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
+        <p
+          data-cy="description"
+          className=" vads-u-margin-top--0p5 vads-u-margin-bottom--0p5"
+        >
           {description}
         </p>
         {cstClaimPhasesEnabled && (
-          <p>{getPhaseChangeDateText(phaseChangeDate)}</p>
+          <p data-cy="moved-to-date-text">
+            {getPhaseChangeDateText(phaseChangeDate)}
+          </p>
         )}
         <Link
           aria-label={linkText}
@@ -62,6 +74,7 @@ export default function WhatWeAreDoing({
 
 WhatWeAreDoing.propTypes = {
   claimPhaseType: PropTypes.string,
+  claimTypeCode: PropTypes.string,
   phaseChangeDate: PropTypes.string,
   status: PropTypes.string,
 };
