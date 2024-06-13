@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
-import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
+import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
 
+import { makeSelectForm } from '../selectors';
+
 const PreCheckinConfirmation = props => {
-  const { appointments, isLoading, formData, router } = props;
+  const { appointments, isLoading, router } = props;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const selectForm = useMemo(makeSelectForm, []);
+  const currentForm = useSelector(selectForm);
 
   // appt link will be /my-health/appointments if toggle is on
   const apptLink = useToggleValue(
@@ -20,13 +25,11 @@ const PreCheckinConfirmation = props => {
     ? 'https://va.gov/my-health/appointments/'
     : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
 
-  // If the demographics answers are not present in the data, we
-  // assume that the page was skipped, and default to "yes".
-  const demographicsUpToDate = formData.demographicsUpToDate ?? 'yes';
-  const emergencyContactUpToDate = formData.emergencyContactUpToDate ?? 'yes';
-  const nextOfKinUpToDate = formData.nextOfKinUpToDate ?? 'yes';
-
   const { t } = useTranslation();
+  const pageTitle =
+    currentForm.pages.length < 5
+      ? t('your-information-is-up-to-date')
+      : t('youve-successfully-reviewed-your-contact-information');
 
   if (appointments.length === 0) {
     return <></>;
@@ -47,10 +50,7 @@ const PreCheckinConfirmation = props => {
       return <></>;
     }
     return (
-      <Wrapper
-        pageTitle={t('your-information-is-up-to-date')}
-        testID="confirmation-wrapper"
-      >
+      <Wrapper pageTitle={pageTitle} testID="confirmation-wrapper">
         <AppointmentBlock
           appointments={appointments}
           page="confirmation"
@@ -63,12 +63,7 @@ const PreCheckinConfirmation = props => {
           </ExternalLink>
         </p>
 
-        <PreCheckInAccordionBlock
-          demographicsUpToDate={demographicsUpToDate}
-          emergencyContactUpToDate={emergencyContactUpToDate}
-          nextOfKinUpToDate={nextOfKinUpToDate}
-          appointments={appointments}
-        />
+        <ConfirmationAccordionBlock appointments={appointments} />
       </Wrapper>
     );
   };
@@ -78,7 +73,6 @@ const PreCheckinConfirmation = props => {
 
 PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
-  formData: PropTypes.object,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

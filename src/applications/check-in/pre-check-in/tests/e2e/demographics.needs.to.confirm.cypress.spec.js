@@ -66,7 +66,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
         });
 
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in for a phone appointment with yes to all demographics questions', () => {
@@ -108,7 +107,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
 
       Confirmation.validatePageLoaded();
       Confirmation.validateAppointmentType('phone');
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in and only display and update relevant demographics', () => {
@@ -146,7 +144,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
         });
 
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to contact info', () => {
@@ -182,7 +179,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
           checkInType: 'preCheckIn',
         });
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to Emergency Contact', () => {
@@ -218,7 +214,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
           checkInType: 'preCheckIn',
         });
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to Next Of Kin', () => {
@@ -254,7 +249,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
           checkInType: 'preCheckIn',
         });
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to all demographics questions', () => {
@@ -290,7 +284,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
           checkInType: 'preCheckIn',
         });
       Confirmation.validatePageLoaded();
-      Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
     describe('A patient who clicks details from appointments list page, then clicks to verify info from details and completes pre-check-in', () => {
