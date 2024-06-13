@@ -9,8 +9,8 @@ import TravelComplete from './pages/TravelComplete';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
 const dateFns = require('date-fns');
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A Patient with appointments at one facility', () => {
+
+describe('A Patient with a single appointment', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -23,7 +23,7 @@ describe.skip('A Patient with appointments at one facility', () => {
     initializeSessionPost.withSuccess();
     initializeBtsssPost.withSuccess();
   });
-  it('should successfully file a travel claim for a single appointment', () => {
+  it('should successfully file a travel claim', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.defaultUUID,
     );
@@ -41,9 +41,7 @@ describe.skip('A Patient with appointments at one facility', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Travel-claim--single-claim-single-appointment--Mileage',
-    );
+    cy.createScreenshots('Travel-claim--Mileage');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -58,61 +56,16 @@ describe.skip('A Patient with appointments at one facility', () => {
 
     TravelPages.validatePageWrapper('travel-claim-review-page');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Travel-claim--single-claim-single-appointment--Review',
-    );
+    cy.createScreenshots('Travel-claim--Review');
     TravelPages.acceptTerms();
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
     TravelComplete.validateContent('single-claim-single-appointment');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Travel-claim--single-claim-single-appointment--Complete',
-    );
+    cy.createScreenshots('Travel-claim--Complete');
   });
-  it('should successfully file a travel claim for multiple appointments', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptSingleFacilityUUID,
-    );
-    cy.visitTravelClaimWithUUID();
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Travel-claim--single-claim-mulitple-appointments--Mileage',
-    );
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('single-claim-multi-appointments');
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Travel-claim--single-claim-multiple-appointments--Complete',
-    );
-  });
-  it('should successfully file a travel claim for a single appointment the day after the same facility was already filed', () => {
+  it('should successfully file a travel claim for a single appointment the day after another appointment was already filed', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
       sharedData.get.defaultUUID,
     );
@@ -121,7 +74,7 @@ describe.skip('A Patient with appointments at one facility', () => {
       // Set the value in local storage using win.localStorage.setItem()
       win.localStorage.setItem(
         'my.health.travel-claim.travel.pay.sent',
-        `{"530":"${dateFns.sub(new Date(), { days: -1 }).toISOString()}"}`,
+        JSON.stringify(dateFns.sub(new Date(), { days: -1 }).toISOString()),
       );
     });
     ValidateVeteran.validatePage.travelClaim();
@@ -151,7 +104,7 @@ describe.skip('A Patient with appointments at one facility', () => {
     TravelPages.attemptToGoToNextPage();
 
     TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('single-claim-multi-appointments');
+    TravelComplete.validateContent();
     cy.injectAxeThenAxeCheck();
   });
 });
