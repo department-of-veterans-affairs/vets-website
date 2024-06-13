@@ -38,6 +38,10 @@ class PathologyDetailsPage extends BaseDetailsPage {
       .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
+
+  verifyReport = reportText => {
+    cy.get('[data-testid="pathology-report"]').should('contain', reportText);
+  };
 }
 
 export default new PathologyDetailsPage();

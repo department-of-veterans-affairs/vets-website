@@ -144,15 +144,16 @@ describe('Form0996App', () => {
   it('should call API is logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
 
-    const { props, data } = getData();
-    const { container } = render(
+    const { props, data } = getData({
+      formData: { benefitType: 'compensation', internalTesting: true },
+    });
+    render(
       <Provider store={mockStore(data)}>
         <Form0996App {...props} />
       </Provider>,
     );
 
     await waitFor(() => {
-      expect($('va-loading-indicator', container)).to.exist;
       expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
       resetFetch();
     });
@@ -216,6 +217,7 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         contestedIssues: [],
         legacyCount: 0,
+        internalTesting: true,
       },
     });
     const store = mockStore(data);
@@ -257,6 +259,7 @@ describe('Form0996App', () => {
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
         legacyCount: 0,
+        internalTesting: true,
       },
     });
     const store = mockStore(data);
@@ -334,6 +337,7 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         contestedIssues: [],
         legacyCount: 0,
+        internalTesting: true,
       },
     });
     const store = mockStore(data);
@@ -347,7 +351,10 @@ describe('Form0996App', () => {
     await waitFor(() => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal(migratedMaximalTestV1);
+      expect(action.data).to.deep.equal({
+        ...migratedMaximalTestV1,
+        internalTesting: true,
+      });
     });
   });
 });

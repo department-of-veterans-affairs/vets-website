@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const EnrollmentStatus = ({ start, end, total, hasEnrollment }) => {
+export const EnrollmentStatus = ({ start, end, total, dontHaveEnrollment }) => {
   const showingEnrollment = `Showing ${start}${
     end > 0 ? ` - ${end}` : ''
   } of ${total} monthly enrollments listed by most recent`;
@@ -14,9 +14,11 @@ export const EnrollmentStatus = ({ start, end, total, hasEnrollment }) => {
     >
       {showingEnrollment}
 
-      {hasEnrollment && (
+      {(dontHaveEnrollment || total === 0) && (
         <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2">
-          You currently have no enrollments.
+          {dontHaveEnrollment
+            ? 'You currently have no enrollments.'
+            : 'You currently have no enrollments to verify.'}
         </span>
       )}
     </p>
@@ -24,8 +26,8 @@ export const EnrollmentStatus = ({ start, end, total, hasEnrollment }) => {
 };
 
 EnrollmentStatus.propTypes = {
+  dontHaveEnrollment: PropTypes.bool,
   end: PropTypes.number,
-  hasEnrollment: PropTypes.bool,
   start: PropTypes.number,
   total: PropTypes.number,
 };

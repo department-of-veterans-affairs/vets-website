@@ -56,7 +56,6 @@ function MilitaryAutoSuggest({
               onChange: e => {
                 setInputValue(e.target.value);
               },
-              autoComplete: true,
             })}
           />
           {isOpen && (
