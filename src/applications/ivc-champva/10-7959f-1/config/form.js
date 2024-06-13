@@ -16,6 +16,8 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -164,6 +166,30 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
+            },
+          },
+        },
+      },
+    },
+    sameAsMailingAddress: {
+      title: 'Mailing address',
+      pages: {
+        page3a: {
+          path: 'same-as-mailing-address',
+          uiSchema: {
+            sameMailingAddress: yesNoUI({
+              title: 'Is your mailing address the same as your home address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              sameMailingAddress: yesNoSchema,
             },
           },
         },
