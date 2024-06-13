@@ -7,7 +7,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { authorizeMedical, authorizeMedicalSelect } from '../pages';
+import {
+  authorizeMedical,
+  authorizeMedicalSelect,
+  authorizeAddress,
+} from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -72,6 +76,12 @@ const formConfig = {
           title: 'Authorization for Certain Medical Records - Select',
           uiSchema: authorizeMedicalSelect.uiSchema,
           schema: authorizeMedicalSelect.schema,
+        },
+        authorizeAddress: {
+          path: 'authorize-address',
+          title: 'Authorization to change your address',
+          uiSchema: authorizeAddress.uiSchema,
+          schema: authorizeAddress.schema,
         },
       },
     },
