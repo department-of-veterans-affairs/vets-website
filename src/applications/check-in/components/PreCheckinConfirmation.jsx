@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -9,9 +10,13 @@ import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
 
+import { makeSelectForm } from '../selectors';
+
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, router } = props;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const selectForm = useMemo(makeSelectForm, []);
+  const currentForm = useSelector(selectForm);
 
   // appt link will be /my-health/appointments if toggle is on
   const apptLink = useToggleValue(
@@ -21,6 +26,10 @@ const PreCheckinConfirmation = props => {
     : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
 
   const { t } = useTranslation();
+  const pageTitle =
+    currentForm.pages.length < 5
+      ? t('your-information-is-up-to-date')
+      : t('youve-successfully-reviewed-your-contact-information');
 
   if (appointments.length === 0) {
     return <></>;
@@ -41,10 +50,7 @@ const PreCheckinConfirmation = props => {
       return <></>;
     }
     return (
-      <Wrapper
-        pageTitle={t('your-information-is-up-to-date')}
-        testID="confirmation-wrapper"
-      >
+      <Wrapper pageTitle={pageTitle} testID="confirmation-wrapper">
         <AppointmentBlock
           appointments={appointments}
           page="confirmation"
