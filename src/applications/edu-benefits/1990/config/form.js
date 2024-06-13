@@ -282,11 +282,6 @@ const formConfig = {
                   expandUnderClassNames: 'schemaform-expandUnder-indent',
                 },
               },
-              'view:chapter33ExpandedContent': {
-                'ui:options': {
-                  expandUnder: 'chapter33',
-                },
-              },
               chapter30: {
                 'ui:title': benefitsLabels.chapter30,
               },
@@ -303,10 +298,6 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   chapter33,
-                  'view:chapter33ExpandedContent': {
-                    type: 'object',
-                    properties: {},
-                  },
                   chapter30,
                   chapter1606,
                 },
