@@ -4,7 +4,6 @@ import notes from '../tests/fixtures/notes.json';
 import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
-import { IS_TESTING } from '../util/constants';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
 
@@ -12,12 +11,6 @@ const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 const headers = {
   'Content-Type': 'application/json',
-};
-
-const hitApi = runningUnitTest => {
-  return (
-    (environment.BUILDTYPE === 'localhost' && IS_TESTING) || runningUnitTest
-  );
 };
 
 export const createSession = () => {
