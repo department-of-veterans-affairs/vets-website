@@ -89,7 +89,7 @@ const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
-  isLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
   route: PropTypes.object,
 };
 

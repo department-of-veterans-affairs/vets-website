@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { connect } from 'react-redux';
-import { URL } from '../constants';
+import { URL, envUrl } from '../constants';
 import EducationSearchItem from './search/EducationSearchItem';
 import { convertLocation } from '../utils/mapbox';
 import SearchControls from './search/SearchControls';
@@ -31,13 +30,13 @@ const EducationFacilitySearch = ({ onChange }) => {
   const getFacilitiesFromLocation = async input => {
     const place = await convertLocation(input);
     const getLocation = place.zipCode[0].text;
-    const url = `${environment.API_URL}${URL.GET_SCHOOL}${getLocation}`;
+    const url = `${envUrl}${URL.GET_SCHOOL}${getLocation}`;
     await getApiData(url);
     setPageURL(url);
   };
 
   const getFacilities = async input => {
-    const url = `${environment.API_URL}${URL.GET_SCHOOL}${input}`;
+    const url = `${envUrl}${URL.GET_SCHOOL}${input}`;
     await getApiData(url);
     setPageURL(url);
   };

@@ -342,3 +342,7 @@ export const firstLetterLowerCase = str => {
   }
   return str.charAt(0).toLowerCase() + str.slice(1);
 };
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | FSR (VA Form 5655) | Veterans Affairs`;
+};
