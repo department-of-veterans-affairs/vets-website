@@ -20,7 +20,7 @@ export function onReviewPage() {
 }
 
 // Used to condense some repetitive schema boilerplate in form config
-export const MAX_APPLICANTS = 3;
+export const MAX_APPLICANTS = 25;
 export const applicantListSchema = (requireds, propertyList) => {
   return {
     type: 'object',

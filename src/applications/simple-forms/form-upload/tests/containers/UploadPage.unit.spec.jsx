@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
@@ -31,7 +31,8 @@ describe('UploadPage', () => {
         </Provider>,
       );
 
-      await fireEvent.click(getByTestId('continue-button'));
+      const buttonPair = getByTestId('upload-button-pair');
+      buttonPair.__events.primaryClick();
 
       expect(testLocation.pathname).to.equal('/21-0779');
       const input = container.getElementsByTagName('va-file-input');
