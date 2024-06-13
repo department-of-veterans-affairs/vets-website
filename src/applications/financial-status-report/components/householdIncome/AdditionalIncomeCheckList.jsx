@@ -106,6 +106,7 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons

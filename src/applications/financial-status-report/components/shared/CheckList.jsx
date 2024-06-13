@@ -11,6 +11,7 @@ const Checklist = ({
   isBoxChecked,
   prompt = '',
   title = '',
+  isRequired = false,
 }) => {
   const handleChange = event => {
     const { checked } = event.detail;
@@ -19,30 +20,36 @@ const Checklist = ({
   };
 
   return (
-    <fieldset className="checkbox-list vads-u-margin-y--2">
-      <VaCheckboxGroup
-        label={title}
-        label-header-level="3"
-        hint={prompt}
-        onVaChange={handleChange}
-      >
-        {options?.map((option, key) => (
-          <VaCheckbox
-            key={option + key}
-            name={option}
-            label={option}
-            checked={isBoxChecked(option)}
-            data-name={option}
-          />
-        ))}
-      </VaCheckboxGroup>
-    </fieldset>
+    <VaCheckboxGroup
+      form-heading={title}
+      form-heading-level={3}
+      label={prompt}
+      use-forms-pattern="single"
+      onVaChange={handleChange}
+      required={isRequired}
+    >
+      {options?.map((option, key) => (
+        <VaCheckbox
+          key={option + key}
+          name={option}
+          label={option}
+          checked={isBoxChecked(option)}
+          data-name={option}
+          message-aria-describedby={option}
+          // className="checkbox-list-item"
+        />
+      ))}
+      {/* <div slot="form-description">
+        <p>{prompt}</p> 
+      </div> */}
+    </VaCheckboxGroup>
   );
 };
 
 Checklist.propTypes = {
   isBoxChecked: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isRequired: PropTypes.bool,
   prompt: PropTypes.string,
   title: PropTypes.string,
   onChange: PropTypes.func,
