@@ -15,6 +15,7 @@ describe('Medical Records View Labs And Tests', () => {
     PathologyDetailsPage.verifySampleTested('None noted');
     PathologyDetailsPage.verifyLabLocation('None noted');
     PathologyDetailsPage.verifyDateCompleted('August 10, 2000');
+    PathologyDetailsPage.verifyReport('OLD HARDWARE LEFT FOOT X2');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
