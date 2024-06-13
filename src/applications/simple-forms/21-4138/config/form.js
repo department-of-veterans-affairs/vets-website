@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
+import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -59,8 +60,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transform,
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -89,6 +89,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useTopBackLink: true,
   chapters: {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
@@ -321,7 +322,7 @@ const formConfig = {
       title: 'Your statement',
       hideFormTitle: true,
       pages: {
-        statement: {
+        statementPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
           path: 'statement',
           title: 'Your statement',

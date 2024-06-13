@@ -2,12 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useSelector } from 'react-redux';
 import {
   combineEnrollmentsWithStartMonth,
   getGroupedPreviousEnrollments,
   getSignlePreviousEnrollments,
 } from '../helpers';
 import { ENROLLMETS_PER_PAGE } from '../constants';
+import { EnrollmentStatus } from './EnrollmentStatus';
 
 const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [userEnrollmentData, setUserEnrollmentData] = useState([]);
@@ -16,7 +18,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [pageCount, setPageCount] = useState(0);
   const [subsetStart, setSubsetStart] = useState(0);
   const [subsetEnd, setSubsetEnd] = useState(0);
-
+  const response = useSelector(state => state.personalInfo);
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(enrollmentData?.verifications ?? {}),
   ).length;
@@ -207,7 +209,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         <h2>Your monthly enrollment verifications</h2>
         <p>
           Verifications are processed on the business day after submission.
-          Payment is projected to be processed within 4-6 business days.
+          Payment is projected to be processed within 4 to 6 business days.
         </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
@@ -233,16 +235,19 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         </va-additional-info>
       </>
       {totalEnrollmentCount > 0 && (
-        <p
-          id="vye-pagination-page-status-text"
-          className="focus-element-on-pagination"
-          aria-label={`Showing ${subsetStart +
-            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
-          aria-hidden="false"
-        >
-          {`Showing ${subsetStart +
-            1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
-        </p>
+        <EnrollmentStatus
+          start={subsetStart + 1}
+          end={subsetEnd}
+          total={totalEnrollmentCount}
+        />
+      )}
+      {totalEnrollmentCount === 0 && (
+        <EnrollmentStatus
+          start={subsetStart}
+          end={subsetEnd}
+          total={totalEnrollmentCount}
+          dontHaveEnrollment={response?.error?.error === 'Forbidden'}
+        />
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
       {totalEnrollmentCount === undefined && (

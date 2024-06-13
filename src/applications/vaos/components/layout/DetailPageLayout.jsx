@@ -75,7 +75,9 @@ function CancelButton({ appointment }) {
 
   const button = (
     <VaButton
-      text="Cancel appointment"
+      text={`Cancel ${
+        APPOINTMENT_STATUS.booked === status ? 'appointment' : 'request'
+      }`}
       secondary
       onClick={() => {
         recordEvent({
@@ -95,8 +97,7 @@ function CancelButton({ appointment }) {
   )
     return button;
 
-  if (APPOINTMENT_STATUS.proposed === status && !isPastAppointment)
-    return button;
+  if (APPOINTMENT_STATUS.proposed === status) return button;
 
   return null;
 }
@@ -119,14 +120,18 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
-        {isPastAppointment && (
-          <Section heading="After visit summary">
-            <AfterVisitSummary data={appointment} />
-          </Section>
-        )}
+        {isPastAppointment &&
+          APPOINTMENT_STATUS.booked === appointment.status && (
+            <Section heading="After visit summary">
+              <AfterVisitSummary data={appointment} />
+            </Section>
+          )}
         {children}
-        <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
-          <span className="vads-u-margin-right--2">
+        <div
+          className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
+          style={{ rowGap: '16px' }}
+        >
+          <div className="vads-u-display--auto vads-u-margin-right--2">
             <VaButton
               text="Print"
               secondary
@@ -134,8 +139,10 @@ export default function DetailPageLayout({
               data-testid="print-button"
               uswds
             />
-          </span>
-          <CancelButton appointment={appointment} />
+          </div>
+          <div className="vads-u-flex--auto">
+            <CancelButton appointment={appointment} />
+          </div>
         </div>
       </AppointmentCard>
     </>

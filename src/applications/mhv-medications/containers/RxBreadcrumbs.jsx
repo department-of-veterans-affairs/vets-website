@@ -42,7 +42,7 @@ const RxBreadcrumbs = () => {
             href={`${
               medicationsUrls.MEDICATIONS_URL
             }?page=${pagination?.currentPage || 1}`}
-            text="Back to Medications"
+            text="Back to medications"
             data-testid="rx-breadcrumb-link"
           />
         </div>

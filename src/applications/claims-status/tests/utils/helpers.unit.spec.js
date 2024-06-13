@@ -22,6 +22,7 @@ import {
   getItemDate,
   isClaimComplete,
   isClaimOpen,
+  isDisabilityCompensationClaim,
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType,
@@ -29,6 +30,8 @@ import {
   roundToNearest,
   groupClaimsByDocsNeeded,
   claimAvailable,
+  getClaimPhaseTypeHeaderText,
+  getClaimPhaseTypeDescription,
 } from '../../utils/helpers';
 
 import {
@@ -581,6 +584,42 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('isDisabilityCompensationClaim', () => {
+    context('when claimTypeCode is a disability compensation claim', () => {
+      context('when claimTypeCode is null', () => {
+        it('should return false', () => {
+          expect(isDisabilityCompensationClaim(null)).to.be.false;
+        });
+      });
+      // Submit Buddy Statement
+      context(
+        'when claimTypeCode is eBenefits 526EZ-Supplemental (020)',
+        () => {
+          const claimTypeCode = '020SUPP';
+          it('should return true', () => {
+            expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.true;
+          });
+        },
+      );
+      // 5103 Notice
+      context('when claimTypeCode is IDES Initial Live Comp <8 Issues', () => {
+        const claimTypeCode = '110LCMP7IDES';
+        it('should return true', () => {
+          expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.true;
+        });
+      });
+    });
+
+    context('when claimTypeCode is not a disability compensation claim', () => {
+      context('when claimTypeCode is a claim for dependency', () => {
+        const claimTypeCode = '400PREDSCHRG';
+        it('should return true', () => {
+          expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.false;
+        });
+      });
+    });
+  });
+
   describe('isClaimOpen', () => {
     context('when status is COMPLETE', () => {
       const status = 'COMPLETE';
@@ -1027,6 +1066,22 @@ describe('Disability benefits helpers: ', () => {
       const isClaimAvaliable = claimAvailable(claim);
 
       expect(isClaimAvaliable).to.be.true;
+    });
+  });
+
+  describe('getClaimPhaseTypeHeaderText', () => {
+    it('should display claim phase type header text from map', () => {
+      const desc = getClaimPhaseTypeHeaderText('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('Step 1 of 8: Claim received');
+    });
+  });
+
+  describe('getClaimPhaseTypeDescription', () => {
+    it('should display claim phase type description from map', () => {
+      const desc = getClaimPhaseTypeDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('We received your claim in our system.');
     });
   });
 });

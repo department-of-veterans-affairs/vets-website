@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { requiredFiles } from '../config/constants';
+import {
+  requiredFiles,
+  office,
+  officeAddress,
+  officeFaxNum,
+} from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
+import { ConfirmationPagePropTypes } from '../../shared/constants';
 
 const heading = (
   <>
@@ -50,6 +55,11 @@ export function ConfirmationPage(props) {
     fileNameMap: { ...requiredFiles },
     requiredFiles,
     nonListNameKey: 'applicantName',
+    mailingAddress: officeAddress,
+    officeName: office,
+    faxNum: officeFaxNum,
+    showNameHeader: false,
+    showRequirementHeaders: false,
   });
 
   useEffect(() => {
@@ -125,27 +135,7 @@ export function ConfirmationPage(props) {
   );
 }
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    pages: PropTypes.object,
-    data: PropTypes.shape({
-      applicants: PropTypes.array,
-      statementOfTruthSignature: PropTypes.string,
-      veteransFullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
-};
+ConfirmationPage.propTypes = ConfirmationPagePropTypes;
 
 function mapStateToProps(state) {
   return {

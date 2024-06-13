@@ -33,7 +33,7 @@ const BenefitsProfileWrapper = ({ children }) => {
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
-    TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
+    TOGGLE_NAMES.toggleVyeAddressDirectDepositForms,
   );
   const [userData, setUserData] = useState({});
   useEffect(() => {
@@ -91,7 +91,9 @@ const BenefitsProfileWrapper = ({ children }) => {
                   loading={loading}
                   applicantName={applicantName}
                   mailingAddress={{
-                    street: latestAddress?.address1,
+                    street: `${
+                      latestAddress?.address1
+                    } ${latestAddress?.address2 ?? ''}`,
                     city: latestAddress?.city,
                     stateCode: latestAddress?.state,
                     zipCode: latestAddress?.zipCode,

@@ -18,7 +18,11 @@ export default function SubmittedTrackedItem({ item }) {
     <div className="submitted-file-list-item">
       <h3 className="submission-file-type">{displayName}</h3>
       {description && (
-        <p className="submission-description">
+        <p
+          className="submission-description"
+          data-dd-privacy="mask"
+          data-dd-action-name="submission description"
+        >
           {truncateDescription(description)}
         </p>
       )}
@@ -26,7 +30,13 @@ export default function SubmittedTrackedItem({ item }) {
         documents.map((doc, index) => (
           <div key={index} className="submission-description">
             <span className="claim-item-label">File:</span>{' '}
-            {doc.originalFileName}
+            <span
+              className="submission-description-filename"
+              data-dd-privacy="mask"
+              data-dd-action-name="submission description filename"
+            >
+              {doc.originalFileName}
+            </span>
             <br />
             <span className="claim-item-label">Type:</span>{' '}
             {doc.documentTypeLabel}

@@ -70,7 +70,7 @@ describe('verify attach file button behaviour', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify attach file button label change', () => {
+  it('verify already attached file error', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 

@@ -141,7 +141,11 @@ function DocumentsFiled({ claim }) {
                   ) : (
                     item.documents.map((doc, index) => (
                       <div key={index}>
-                        <h4 className="vads-u-margin-y--0">
+                        <h4
+                          className="filename-title vads-u-margin-y--0"
+                          data-dd-privacy="mask"
+                          data-dd-action-name="document filename"
+                        >
                           {doc.originalFileName
                             ? doc.originalFileName
                             : 'File name unknown'}

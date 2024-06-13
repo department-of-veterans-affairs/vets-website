@@ -88,6 +88,7 @@ MhvSecondaryNavMenu.propTypes = {
       title: PropTypes.string.isRequired,
       abbreviation: PropTypes.string,
       actionName: PropTypes.string,
+      ariaLabel: PropTypes.string,
       appRootUrl: PropTypes.string,
     }),
   ),

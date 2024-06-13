@@ -28,6 +28,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -36,6 +37,25 @@ export const veteranApplicantDetailsSubHeader = (
     <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
+
+export function veteranApplicantDetailsSummary({ formContext }) {
+  return (
+    <>
+      {formContext.isLoggedIn &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+    </>
+  );
+}
 
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
@@ -796,8 +816,11 @@ export const veteranUI = {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
-  placeOfBirth: {
-    'ui:title': 'Place of birth (City, State, or Territory)',
+  cityOfBirth: {
+    'ui:title': 'Your birth city or county',
+  },
+  stateOfBirth: {
+    'ui:title': 'Your birth state or territory',
   },
   gender: {
     'ui:title': 'What’s your sex?',
@@ -891,7 +914,6 @@ export const veteranUI = {
       },
     },
   },
-
   militaryStatus: {
     'ui:title': 'Current military status',
     'ui:webComponentField': VaSelectField,
@@ -1036,6 +1058,35 @@ export const preparerVeteranUI = {
   },
 };
 
+export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  for (let index = 0; index < serviceRecords.length; index++) {
+    const serviceRecord = serviceRecords[index];
+    if (
+      serviceRecord.serviceBranch === undefined &&
+      serviceRecord.highestRank !== undefined
+    ) {
+      if (isVeteran(formData)) {
+        if (!isAuthorizedAgent(formData)) {
+          // Self
+          errors[index].highestRank.addError(
+            'Select a branch of service before selecting your highest rank attained.',
+          );
+        } else {
+          // Applicant
+          errors[index].highestRank.addError(
+            "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
+          );
+        }
+      } else {
+        // Sponsor
+        errors[index].highestRank.addError(
+          "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
+        );
+      }
+    }
+  }
+};
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1044,6 +1095,7 @@ export const selfServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
@@ -1082,6 +1134,7 @@ export const selfServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1103,6 +1156,7 @@ export const preparerServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
@@ -1141,6 +1195,7 @@ export const preparerServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
