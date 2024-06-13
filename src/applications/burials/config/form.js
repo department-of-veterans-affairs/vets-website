@@ -64,7 +64,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  formId: VA_FORM_IDS.FORM_21P_530,
+  formId: VA_FORM_IDS.FORM_21P_530V2,
   saveInProgress: {
     messages: {
       inProgress: 'Your burial benefits application (21-530) is in progress.',
