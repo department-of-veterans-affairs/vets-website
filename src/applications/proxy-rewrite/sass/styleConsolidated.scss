@@ -824,9 +824,11 @@
   header {
     background: #162e51;
     clear: both;
-    margin: 0;
     padding: 0;
-    min-height: 189.19px;
+    min-height: 121px;
+    text-align: left;
+    width: 100%;
+    margin: auto;
   }
 
   @media screen and (min-width: 481px) {
@@ -860,12 +862,19 @@
 
   #va-header-logo-menu {
     flex-wrap: wrap;
-    padding: 1em 0.75em 0;
+    padding: 2em 0.75em 0;
+    align-items: center;
   }
 
   @media screen and (min-width: 768px) {
     #va-header-logo-menu {
       padding-bottom: 0;
+    }
+  }
+
+  @media (min-width: 320px) and (max-width: 767px) {
+    #va-header-logo-menu {
+      position: relative;
     }
   }
 
@@ -1308,19 +1317,13 @@
 
   // END: vcl-overlay ------------------------------------------------------
 
-  @media (max-height: 30.5em) {
-    .overlay form {
-      height: 70%
-    }
-  }
-
   @media (max-width: 481px) {
     h1 {
-      font-size: 30px
+      font-size: 30px;
     }
 
     h2 {
-      font-size: 24px
+      font-size: 24px;
     }
   }
 
@@ -1328,38 +1331,8 @@
     max-width: 62.5em;
   }
 
-  .row-padded {
-    max-width: 100rem;
-    padding: 0 1rem;
-    margin: 0 auto;
-  }
-
-  .input-section {
-    margin-bottom: 2em
-  }
-
-  .input-section .row {
-    margin: 0
-  }
-
-  input[type="checkbox"],
-  input[type="radio"] {
-    margin-left: -2rem;
-    opacity: 0;
-    position: absolute;
-    left: auto
-  }
-
   [hidden="false"] {
     display: block !important
-  }
-
-  @media screen and (min-width: 768px) {
-    form [type="submit"] {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      width: 100%
-    }
   }
 
   #signin-signup-modal {
@@ -1382,10 +1355,6 @@
       &.new-modal-design .va-modal-body {
         padding: 0 9em;
       }
-
-      .login .explanation-content {
-        margin-left: 2em
-      }
     }
 
     .va-modal-inner {
@@ -1393,23 +1362,9 @@
       width: 95vw;
     }
 
-    .login .explanation-content ul {
-      list-style: square;
-      padding-left: 1.5em;
-    }
-
-    .login .explanation-content p {
-      margin: 1em 0;
-    }
-
     p {
       font-size: 16px !important;
     }
-  }
-
-  #ios-bug ul {
-    list-style: square;
-    padding-left: 1.5em
   }
 
   @media screen and (min-width: 481px) {
@@ -1419,7 +1374,7 @@
     button,
     [type=button],
     [type=submit] {
-      width: auto
+      width: auto;
     }
   }
 
@@ -1436,7 +1391,7 @@
     background-color: #1a4480;
     border-bottom: 0;
     color: #fff;
-    text-decoration: none
+    text-decoration: none;
   }
 
   .usa-button:active,
@@ -1449,7 +1404,7 @@
   [type=button].usa-button-active,
   [type=submit]:active,
   [type=submit].usa-button-active {
-    background-color: #162e51
+    background-color: #162e51;
   }
 
   .usa-button,
@@ -1462,12 +1417,11 @@
     background-color: #005ea2;
   }
 
-  #login-root #search-dropdown-button,
-  #login-root .sign-in-drop-down-panel-button {
+  #login-root #search-dropdown-button {
     border-top: none;
     margin-right: 0;
     padding: 8px 30px 8px 8px;
-    width: auto
+    width: auto;
   }
 
   .search-dropdown-component {
@@ -1475,12 +1429,6 @@
 
     &.full-width-suggestions {
       position: relative;
-    }
-
-    &.shrink-to-column {
-      @media (max-width: 767px) {
-        flex-direction: column;
-      }
     }
   }
 
@@ -1503,21 +1451,11 @@
     }
   }
 
-  .suggestion {
-    line-height: 24px;
-    cursor: pointer;
-
-    strong {
-      font-weight: 700;
-    }
-  }
-
   .search-dropdown-input-field {
     max-width: unset !important;
     height: 42px;
   }
 
-  .search-input,
   .search-input-container {
     max-width: unset !important;
   }
@@ -1535,8 +1473,7 @@
     }
   }
 
-  .login button,
-  .transfer-account button {
+  .login button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1548,126 +1485,85 @@
     white-space: normal !important
   }
 
-  .login button.dslogon-button,
-  .transfer-account button.dslogon-button {
-    background: #1a4480
+  .login button.dslogon-button {
+    background: #1a4480;
   }
 
-  .login button.dslogon-button:hover,
-  .transfer-account button.dslogon-button:hover {
-    background: #162e51
+  .login button.dslogon-button:hover {
+    background: #162e51;
   }
 
-  .login button.dslogon,
-  .transfer-account button.dslogon {
-    background: #1a4480
+  .login button.dslogon {
+    background: #1a4480;
   }
 
-  .login button.dslogon:hover,
-  .transfer-account button.dslogon:hover {
-    background: #162e51
+  .login button.dslogon:hover {
+    background: #162e51;
   }
 
-  .login button.idme-create,
-  .transfer-account button.idme-create {
-    box-shadow: inset 0 0 0 2px #008817;
-    color: #008817;
-    margin-bottom: 0
+  .login button.idme-button {
+    background: #008817;
   }
 
-  .login button.idme-create:hover,
-  .transfer-account button.idme-create:hover {
-    box-shadow: inset 0 0 0 2px #154c21;
-    color: #154c21
+  .login button.idme-button:hover {
+    background: #154c21;
   }
 
-  .login button.idme-button,
-  .transfer-account button.idme-button {
-    background: #008817
+  .login button.logingov-button {
+    background: #d83933;
   }
 
-  .login button.idme-button:hover,
-  .transfer-account button.idme-button:hover {
-    background: #154c21
+  .login button.logingov-button:hover {
+    background: #8b0a03;
   }
 
-  .login button.logingov-button,
-  .transfer-account button.logingov-button {
-    background: #d83933
+  .login button.mhv-button {
+    background: #005ea2;
   }
 
-  .login button.logingov-button:hover,
-  .transfer-account button.logingov-button:hover {
-    background: #8b0a03
-  }
-
-  .login button.mhv-button,
-  .transfer-account button.mhv-button {
-    background: #005ea2
-  }
-
-  .login button.mhv-button:hover,
-  .transfer-account button.mhv-button:hover {
-    background: #1a4480
+  .login button.mhv-button:hover {
+    background: #1a4480;
   }
 
   .login button img,
-  .login button svg,
-  .transfer-account button img,
-  .transfer-account button svg {
+  .login button svg {
     height: 1em;
-    padding: 0 0.25em
+    padding: 0 0.25em;
   }
 
-  .verify .container,
-  .login .container,
-  .transfer-account .container {
+  .login .container {
     color: #1b1b1b;
-    padding: 2em 0
+    padding: 2em 0;
   }
 
-  .verify .logo,
-  .login .logo,
-  .transfer-account .logo {
+  .login .logo {
     text-align: center;
     border-bottom: solid 2px #edeff0;
-    padding: 1em 0
+    padding: 1em 0;
   }
 
-  .login .logo a,
-  .transfer-account .logo a {
-    display: inline-block
+  .login .logo a {
+    display: inline-block;
   }
 
-  .login .logo a:hover,
-  .transfer-account .logo a:hover {
-    background-color: transparent
+  .login .logo a:hover {
+    background-color: transparent;
   }
 
-  .login .help-info,
-  .transfer-account .help-info {
-    padding: 2em 0
+  .login .help-info {
+    padding: 2em 0;
   }
 
-  .login .help-info p:first-of-type,
-  .transfer-account .help-info p:first-of-type {
-    margin-top: 0
+  .login .help-info p:first-of-type {
+    margin-top: 0;
   }
 
   .login {
-    background: #fff
+    background: #fff;
   }
 
   .login hr {
-    border-color: #dfe1e2
-  }
-
-  .login .mobile-explanation {
-    padding: 1em 0
-  }
-
-  .login .mobile-explanation p {
-    margin-top: 0
+    border-color: #dfe1e2;
   }
 
   .login .fed-warning {
@@ -1695,82 +1591,40 @@
   }
 
   .sign-in-nav a:visited {
-    color: inherit
+    color: inherit;
   }
 
   .sign-in-buttons {
-    margin-left: 1rem
+    margin-left: 1rem;
   }
 
   .sign-in-button {
     color: inherit !important;
-    text-decoration: none
+    text-decoration: none;
   }
 
   .sign-in-button:hover {
     color: #ffbe2e !important;
-    text-decoration: underline
-  }
-
-  .sign-in-spacer {
-    color: #fff;
-    margin: 0 0.6em
-  }
-
-  #help-menu {
-    width: 21rem
+    text-decoration: underline;
   }
 
   #create-account a {
     border-top: 1px solid #a9aeb1;
     border-bottom: 1px solid #a9aeb1;
-    line-height: 100%
+    line-height: 100%;
   }
 
   #create-account a:before {
-    top: unset !important
+    top: unset !important;
   }
 
   #create-account a.logingov {
-    border-bottom: 0
+    border-bottom: 0;
   }
 
   @media screen and (min-width: 768px) {
     #sign-in-wrapper {
-      max-width: 400px
-    }
-  }
-
-  .button-styled-as-link {
-    background-color: transparent;
-    color: #1b1b1b;
-    font-weight: normal;
-    padding: unset;
-    margin: unset;
-    display: inline-block;
-    text-align: left;
-    height: 24px;
-    border-radius: 0
-  }
-
-  .button-styled-as-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: #1b1b1b;
-    text-decoration: none;
-    border-bottom: 0
-  }
-
-  header {
-    min-height: 121px
-  }
-
-  #desktop-header {
-    min-height: 189.19px
-  }
-
-  @media screen and (min-width: 481px) {
-    #desktop-header {
-      min-height: 167.19px
+      max-width: 400px;
     }
   }
 
@@ -1778,13 +1632,13 @@
   .vcl-crisis-line-container {
     position: relative;
     margin: auto;
-    background-color: #b50909
+    background-color: #b50909;
   }
 
   @media screen and (min-width: 1008px) {
     .vcl-crisis-line-container {
       max-width: 97.5rem;
-      background-color: transparent
+      background-color: transparent;
     }
   }
 
@@ -1792,13 +1646,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: auto
+    margin: auto;
   }
 
   @media screen and (min-width: 1008px) {
     .vcl-crisis-line-inner {
       text-align: left;
-      justify-content: space-between
+      justify-content: space-between;
     }
   }
 
@@ -1825,16 +1679,16 @@
     .vcl-crisis-line-icon {
       background-color: #8b0a03;
       background-position: 0.4em 0.5em;
-      border-bottom-left-radius: 0.2em
+      border-bottom-left-radius: 0.2em;
     }
   }
 
   .vcl-crisis-line-text {
-    padding: 0.5em
+    padding: 0.5em;
   }
 
   .vcl-crisis-panel {
-    color: #1b1b1b
+    color: #1b1b1b;
   }
 
   @media screen and (max-width: 767px) {
@@ -1850,40 +1704,40 @@
     background-position: left 5px;
     background-size: 32px auto;
     margin-top: 0;
-    width: 90%
+    width: 90%;
   }
 
   .vcl-crisis-panel-list {
     list-style: none;
-    padding: 0
+    padding: 0;
   }
 
   .vcl-crisis-panel-list > li {
     display: flex;
     min-height: 56px;
     margin-bottom: 0;
-    border-top: 1px solid #a9aeb1
+    border-top: 1px solid #a9aeb1;
   }
 
   .vcl-crisis-panel-list > li:last-child {
-    border-bottom: 1px solid #a9aeb1
+    border-bottom: 1px solid #a9aeb1;
   }
 
   .vcl-crisis-panel-list > li > a {
     color: #005ea2;
     text-decoration: underline;
-    align-self: center
+    align-self: center;
   }
 
   .vcl-crisis-panel-list > li > p {
     color: #005ea2;
     text-decoration: underline;
-    margin-bottom: 0
+    margin-bottom: 0;
   }
 
   .vcl-crisis-panel-list > li > p > a {
     color: #005ea2;
-    padding: 0
+    padding: 0;
   }
 
   .vcl-crisis-panel-icon {
@@ -1901,7 +1755,7 @@
 
   .va-modal-large .vcl-crisis-panel.va-modal-inner {
     width: 90vw;
-    max-width: 75rem
+    max-width: 75rem;
   }
 
   .vcl-crisis-panel-body {
@@ -1912,58 +1766,45 @@
   // END: VA Crisis Line modal/button -----------------------------------------------------
 
   .va-modal {
-    z-index: 400 !important
+    z-index: 400 !important;
   }
 
   #preview-site-alert {
-    z-index: 100
-  }
-
-  #logout-modal-root {
-    position: relative;
-    z-index: 9999
+    z-index: 100;
   }
 
   @media (max-width: 767px) {
     #login-root {
-      z-index: 200
+      z-index: 200;
     }
   }
 
   @media (min-width: 768px) {
     #login-root {
-      z-index: 300
+      z-index: 300;
     }
-  }
-
-  .va-btn-sidebarnav-trigger {
-    z-index: 301
-  }
-
-  .inline {
-    display: inline-block
   }
 
   body.va-pos-fixed {
     width: 100%;
-    height: 100%
+    height: 100%;
   }
 
   // START: #vet-nav -------------------------------------------------
   #vetnav,
   [role="menu"] [role="menu"] {
-    min-height: calc(100vh - 153.16px)
+    min-height: calc(100vh - 153.16px);
   }
 
   @media (max-width: 767px) {
     #vetnav {
-      z-index: 300
+      z-index: 300;
     }
   }
 
   @media (min-width: 768px) {
     #vetnav {
-      z-index: 200
+      z-index: 200;
     }
   }
 
@@ -1971,7 +1812,7 @@
 
     #vetnav,
     [role="menu"] [role="menu"] {
-      min-height: calc(100vh - 131.16px)
+      min-height: calc(100vh - 131.16px);
     }
   }
 
@@ -1979,7 +1820,7 @@
 
     #vetnav,
     [role="menu"] [role="menu"] {
-      min-height: 100%
+      min-height: 100%;
     }
   }
 
@@ -1992,13 +1833,13 @@
 
   #vetnav.vetnav--submenu-expanded #vetnav-menu {
     overflow: hidden;
-    height: 0
+    height: 0;
   }
 
   @media screen and (min-width: 768px) {
     #vetnav.vetnav--submenu-expanded #vetnav-menu {
       height: auto;
-      overflow: visible
+      overflow: visible;
     }
   }
 
@@ -2008,7 +1849,7 @@
       overflow-y: visible;
       position: relative;
       width: auto;
-      top: 0
+      top: 0;
     }
   }
 
@@ -2016,7 +1857,7 @@
     height: auto;
     list-style: none;
     margin: 0;
-    padding-left: 0
+    padding-left: 0;
   }
 
   @media screen and (min-width: 768px) {
@@ -2026,72 +1867,41 @@
       margin-top: 10px;
       margin-bottom: 0;
       overflow-y: visible;
-      position: relative
+      position: relative;
     }
   }
 
   #vetnav-menu > li {
-    margin-bottom: 6px
+    margin-bottom: 6px;
   }
 
   @media screen and (min-width: 768px) {
     #vetnav-menu > li {
-      margin-bottom: 0
+      margin-bottom: 0;
     }
   }
 
   @media screen and (min-width: 768px) {
     #vetnav-menu > li:first-of-type {
-      display: none
+      display: none;
     }
   }
 
   #vetnav-menu::before {
     display: block;
-    content: " "
+    content: " ";
   }
 
   #vetnav-menu ul {
     list-style: none;
     padding-left: 0;
-    margin-bottom: 0
-  }
-
-  #vetnav-controls {
-    position: relative;
-    width: 100px
-  }
-
-  #vetnav-controls svg {
-    display: inline-block;
-    height: 16px;
-    margin-right: 8px;
-    width: 10px;
-    vertical-align: 0
-  }
-
-  #vetnav-controls path {
-    fill: #fff
-  }
-
-  @media screen and (min-width: 768px) {
-    #vetnav-controls {
-      display: none
-    }
+    margin-bottom: 0;
   }
 
   @media (min-width: 320px) and (max-width: 767px) {
     #vetnav {
       width: 100%;
-      left: initial
-    }
-
-    #vetnav-controls {
-      margin-top: 7px
-    }
-
-    #vetnav-controls svg {
-      margin-left: 0.5rem;
+      left: initial;
     }
   }
 
@@ -2103,12 +1913,12 @@
     padding: 16px 16px 16px 30px;
     text-align: left;
     width: 100%;
-    margin: 0
+    margin: 0;
   }
 
   @media screen and (min-width: 768px) {
     #vetnav .back-button {
-      display: none
+      display: none;
     }
   }
 
@@ -2121,24 +1931,11 @@
   // END: #vet-nav -------------------------------------------------
 
   // START: .vet-nav -------------------------------------------------
-  [class^="vetnav-controller"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-    min-width: 100px;
-    width: auto
-  }
-
-  [class^="vetnav-controller"][hidden] {
-    display: none
-  }
-
   @media screen and (min-width: 768px) {
     a.vetnav-level1:hover {
       background-color: #005ea2;
       border-bottom-color: #005ea2;
-      transition: none
+      transition: none;
     }
   }
 
@@ -2160,17 +1957,17 @@
     padding: 16px;
     text-align: left;
     text-decoration: none;
-    width: 100%
+    width: 100%;
   }
 
   .vetnav-level1:not([href]) {
-    background-image: url(/img/minus-white.svg)
+    background-image: url(/img/minus-white.svg);
   }
 
   @media screen and (min-width: 768px) {
     .vetnav-level1:not([href]) {
       background-position: right 16px center;
-      padding-right: 32px
+      padding-right: 32px;
     }
   }
 
@@ -2179,42 +1976,42 @@
       color: #1b1b1b;
       background-color: #fff;
       background-image: url(/img/arrow-up.svg);
-      border-top-color: #8a7237
+      border-top-color: #8a7237;
     }
   }
 
   .vetnav-level1[aria-expanded="false"] {
-    background-image: url(/img/plus-white.svg)
+    background-image: url(/img/plus-white.svg);
   }
 
   .vetnav-level1[aria-expanded="false"]:hover {
-    background-color: #005ea2
+    background-color: #005ea2;
   }
 
   @media screen and (min-width: 768px) {
     .vetnav-level1[aria-expanded="false"] {
-      background-image: url(/img/arrow-down-white.svg)
+      background-image: url(/img/arrow-down-white.svg);
     }
   }
 
   @media screen and (min-width: 768px) {
     .vetnav-level1 {
       background-color: transparent;
-      background-size: 0.625rem auto
+      background-size: 0.625rem auto;
     }
   }
 
   .vetnav-level1:active {
-    color: inherit
+    color: inherit;
   }
 
   .vetnav-level1:hover {
-    text-decoration: none
+    text-decoration: none;
   }
 
   .vetnav-level1:visited,
   .vetnav-level1:active {
-    color: inherit
+    color: inherit;
   }
 
   // START: .vetnav-level2 -------------------------------------------------
@@ -2228,7 +2025,7 @@
     margin: 0;
     padding: 16px;
     text-align: left;
-    -webkit-font-smoothing: antialiased
+    -webkit-font-smoothing: antialiased;
   }
 
   @media screen and (min-width: 768px) {
@@ -2242,7 +2039,7 @@
       margin-left: 8px;
       padding: 8px 0 8px 16px;
       position: relative;
-      width: 253px
+      width: 253px;
     }
 
     .vetnav-level2:hover {
@@ -2261,30 +2058,19 @@
       color: #3d4551;
       font-weight: bold;
       text-decoration: inherit;
-      position: relative
+      position: relative;
     }
 
     .vetnav-level2[aria-expanded="true"] {
-      box-shadow: -3px 0 #8a7237
+      box-shadow: -3px 0 #8a7237;
     }
 
     .vetnav-level2 {
-      width: 24.3rem
+      width: 24.3rem;
     }
-  }
-
-  .vetnav-level2-heading {
-    -webkit-font-smoothing: antialiased;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 8px 16px
   }
 
   @media screen and (min-width: 768px) {
-    .vetnav-level2-heading {
-      display: none;
-    }
-
     header.vetnav-panel .mm-link-container .vetnav-level2 {
       line-height: 1em;
       font-family: $font-stack;
@@ -2302,12 +2088,12 @@
   }
 
   .vetnav-panel a:after {
-    content: none
+    content: none;
   }
 
   @media screen and (min-width: 768px) {
     .vetnav-panel a {
-      color: #005ea2
+      color: #005ea2;
     }
 
     .vetnav-panel a:hover {
@@ -2320,7 +2106,7 @@
       box-shadow: 0 5px 9px -5px #1b1b1b;
       background: #fff;
       padding-bottom: 16px;
-      position: absolute
+      position: absolute;
     }
   }
 
@@ -2331,7 +2117,7 @@
     width: 100%;
     top: 0;
     visibility: visible;
-    margin: 0
+    margin: 0;
   }
 
   @media screen and (min-width: 768px) {
@@ -2342,67 +2128,66 @@
       margin-left: 230px;
       left: 30px;
       padding: 5px 0 16px;
-      width: 310px
+      width: 310px;
     }
   }
 
   // END: .vet-nav -------------------------------------------------
 
-
   #login-root {
     align-items: center;
     flex: 1 1 100%;
     margin-left: -20px;
-    position: relative
+    position: relative;
   }
 
   #login-root > [data-reactroot],
   #login-root > div {
     align-items: center;
-    display: flex
+    display: flex;
   }
 
   @media screen and (min-width: 768px) {
     #login-root {
       flex: 0 1 305px;
       margin-left: 0;
-      margin-right: 0
+      margin-right: 0;
     }
   }
 
   #login-root p {
-    margin: 0
+    margin: 0;
   }
 
   #login-root [href^="tel"] {
-    text-decoration: none
+    text-decoration: none;
   }
 
   #login-root ul {
     list-style: none;
     margin: 0;
-    padding-left: 0
+    padding-left: 0;
   }
 
   #login-root .va-dropdown {
-    margin-left: 10px
+    margin-left: 10px;
   }
 
   #login-root .va-dropdown button {
-    font-size: 16px
+    font-size: 16px;
   }
 
   #login-root .va-dropdown-trigger {
-    font-weight: 600
+    font-weight: 600;
   }
 
   [id="search-dropdown"] {
-    width: 300px
+    width: 300px;
   }
 
   [id="search-dropdown"] [type="text"] {
     margin: 0;
-    flex: 1 0 200px
+    flex: 1 0 200px;
   }
 
   [id="search-dropdown"] [type="submit"] {
@@ -2417,83 +2202,34 @@
   @media (min-width: 320px) and (max-width: 767px) {
     #mega-menu .login-container {
       position: relative;
-      top: -40px
+      top: -40px;
     }
 
     .mm-link-container {
-      padding-left: 10px
-    }
-  }
-
-  #vetnav-records-ms + div .column-two h3 {
-    visibility: hidden
-  }
-
-  #va-nav-controls {
-    position: relative;
-    width: 100px
-  }
-
-  #va-nav-controls svg {
-    display: inline-block;
-    height: 1rem;
-    margin-left: 0.5rem;
-    width: 0.625rem;
-    vertical-align: 0
-  }
-
-  #va-nav-controls path {
-    fill: #fff
-  }
-
-  @media screen and (min-width: 768px) {
-    #va-nav-controls {
-      display: none
+      padding-left: 10px;
     }
   }
 
   @media screen and (min-width: 768px) {
     .vetnav-panel {
-      box-shadow: 0 5px 9px -3px #1b1b1b
+      box-shadow: 0 5px 9px -3px #1b1b1b;
     }
-  }
-
-  [class^="vetnav-controller"] {
-    position: relative !important
-  }
-
-  .va-sidebarnav.new-grid {
-    width: 100% !important
   }
 
   .login .container {
-    width: 100%
+    width: 100%;
   }
 
   .va-dropdown-panel {
-    min-width: 100%
+    min-width: 100%;
   }
 
   #login-root {
-    min-height: 50px
+    min-height: 50px;
   }
 
   .va-modal {
-    font-size: 1.6rem
-  }
-
-  #dashboard-title {
-    margin-top: 0
-  }
-
-  #va-header-logo-menu {
-    align-items: center
-  }
-
-  @media (min-width: 320px) and (max-width: 767px) {
-    #va-header-logo-menu {
-      position: relative
-    }
+    font-size: 1.6rem;
   }
 
   .header-menu-item-button {
@@ -2504,12 +2240,8 @@
     padding: 18px !important;
   }
 
-  .inline {
-    display: inline-block
-  }
-
   section.usa-grid {
-    padding-top: 3em
+    padding-top: 3em;
   }
 
   .menu-rule,
@@ -2517,15 +2249,15 @@
     border-bottom: 1px solid #fff;
     margin-left: -0.55em;
     padding-bottom: 1em;
-    padding-right: 1.2em
+    padding-right: 1.2em;
   }
 
   #login-root .va-dropdown span {
-    white-space: nowrap
+    white-space: nowrap;
   }
 
   .sign-in-nav .va-dropdown-trigger {
-    display: flex
+    display: flex;
   }
 
   .sign-in-nav .va-dropdown-trigger span {
@@ -2533,11 +2265,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 60px;
-    padding-left: 6px
-  }
-
-  .sign-in-nav .va-dropdown-trigger span.user-dropdown-email {
-    margin-top: 5px
+    padding-left: 6px;
   }
 
   #header-nav-items {
@@ -2546,7 +2274,7 @@
 
   @media screen and (min-width: 375px) {
     .sign-in-nav .va-dropdown-trigger span {
-      max-width: 102px
+      max-width: 102px;
     }
   }
 
@@ -2554,78 +2282,70 @@
     .sign-in-nav .va-dropdown-trigger span {
       padding-left: 0;
       max-width: 215px;
-      height: 20px
+      height: 20px;
     }
 
     .sign-in-nav .va-dropdown-trigger span svg {
-      display: inline-block
+      display: inline-block;
     }
   }
 
   @media screen and (min-width: 1008px) {
     .sign-in-nav .va-dropdown-trigger span {
-      max-width: 300px
+      max-width: 300px;
     }
   }
 
   @media (min-width: 320px) and (max-width: 767px) {
-    .flex-col-mobile {
-      flex-direction: column
-    }
-
     .menu-rule,
     #menu-rule {
       border-bottom: 0;
-      padding-bottom: 0
+      padding-bottom: 0;
     }
 
     .va-header-logo-wrapper {
       width: 55%;
       float: left;
-      margin-right: 10px
+      margin-right: 10px;
     }
 
     .va-header-logo-wrapper a {
       width: 100%;
-      height: auto
+      height: auto;
     }
 
     .va-header-logo-wrapper a img {
       width: 100%;
-      height: auto
-    }
-
-    #login-root .profile-nav {
-      justify-content: left
+      height: auto;
     }
 
     #login-root {
-      margin-left: 0
+      margin-left: 0;
     }
 
     #login-root .profile-nav-container {
       align-items: baseline;
-      display: inherit
+      display: inherit;
     }
 
     #login-root .sign-in-nav {
-      font-weight: normal
+      font-weight: normal;
     }
 
     #login-root .sign-in-nav .sign-in-buttons {
       background: none;
       margin-left: 0;
-      padding-left: 0.75em
+      padding-left: 0.75em;
     }
 
     #login-root .sign-in-nav .sign-in-buttons .va-button-link {
       font-weight: 600;
-      -webkit-font-smoothing: antialiased
+      -webkit-font-smoothing: antialiased;
     }
 
     #login-root .va-dropdown {
       margin-left: 0;
-      width: auto
+      width: auto;
     }
 
     #login-root .va-dropdown .va-dropdown-trigger {
@@ -2634,49 +2354,49 @@
       padding-left: 0;
       margin-right: 1em;
       background-position: right 1.5rem center;
-      line-height: unset
+      line-height: unset;
     }
 
     #login-root .va-dropdown .va-dropdown-trigger span {
-      display: inline-block
+      display: inline-block;
     }
   }
 
   @media (min-width: 768px) and (max-width: 1201px) {
     .va-modal .usa-width-one-half {
       margin-right: 4.82916%;
-      width: 44%
+      width: 44%;
     }
 
     .va-header-logo-wrapper {
       margin-bottom: 0;
-      justify-content: space-between
+      justify-content: space-between;
     }
 
     #login-root {
-      flex-shrink: 0
+      flex-shrink: 0;
     }
 
     #login-root .profile-nav {
-      width: 100%
+      width: 100%;
     }
 
     #login-root .profile-nav .va-dropdown .va-dropdown-trigger {
-      background-position: right 0.8rem center
+      background-position: right 0.8rem center;
     }
 
     #login-root .profile-nav .va-dropdown .sign-in-buttons {
       padding-right: 0;
-      padding-left: 0
+      padding-left: 0;
     }
   }
 
   .sign-in-buttons {
-    flex-shrink: 0
+    flex-shrink: 0;
   }
 
   .sign-in-button {
-    margin: 0
+    margin: 0;
   }
 
   @media screen and (min-width: 768px) {
@@ -2685,11 +2405,11 @@
     .sign-in-button:active {
       background-color: #1a4480;
       color: inherit !important;
-      text-decoration: none
+      text-decoration: none;
     }
 
     .sign-in-button:focus {
-      outline-offset: 2px
+      outline-offset: 2px;
     }
   }
 
@@ -2713,7 +2433,7 @@
       font-weight: 600;
       color: #fff !important;
       text-decoration: none;
-      -webkit-font-smoothing: antialiased
+      -webkit-font-smoothing: antialiased;
     }
 
     .sign-in-button:hover {
@@ -2727,83 +2447,50 @@
       background-color: rgba(0, 0, 0, 0.05) !important;
       transition-duration: 0.3s;
       transition-timing-function: ease-in-out;
-      transition-property: color, background-color, border-color
+      transition-property: color, background-color, border-color;
     }
 
     .sign-in-button:active {
-      background: rgba(0, 0, 0, 0.05)
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .sign-in-button:focus {
       outline: 2px solid #face00;
       outline-offset: 2px;
-      outline-offset: 0
+      outline-offset: 0;
     }
   }
 
-  .va-l-detail-page > .usa-grid-full {
-    padding-right: inherit;
-    padding-left: inherit
-  }
-
   .flex-container {
-    display: flex
+    display: flex;
   }
 
   #login-root .va-dropdown {
-    margin-left: 0
-  }
-
-  .circular-profile-image {
-    border-radius: 50%;
-    position: relative
-  }
-
-  .usa-grid > :last-child.half-em-bottom-margin,
-  .usa-grid-full > :last-child.half-em-bottom-margin {
-    margin-bottom: 0.5em
+    margin-left: 0;
   }
 
   .usa-banner-header .usa-banner-inner p {
     font-size: 12px;
     font-family: inherit;
-    padding: 0
-  }
-
-  @media (max-width: 480px) {
-    .usa-banner-header-expanded .usa-banner-button-text {
-      display: none
-    }
-
-    .usa-banner-header-expanded .usa-banner-inner p {
-      font-size: 0.9375rem;
-    }
-  }
-
-  header {
-    text-align: left
+    padding: 0;
   }
 
   .login .container h1 {
-    color: #000 !important
+    color: #000 !important;
   }
 
   .usa-banner-content p {
     font-family: inherit;
-    font-size: 1.5rem
+    font-size: 1.5rem;
   }
 
   .login-container {
-    line-height: 0
+    line-height: 0;
   }
 
   .login-container div.row:first-child {
     display: inline-block;
-    max-width: 100%
-  }
-
-  #va-header-logo-menu {
-    padding-top: 2em
+    max-width: 100%;
   }
 
   @media (min-width: 1008px) {
@@ -2816,11 +2503,6 @@
     .usa-grid-full {
       width: 959px
     }
-  }
-
-  header {
-    width: 100%;
-    margin: auto
   }
 
   header.vcl-crisis-line-container button.vcl-modal-open {
@@ -2854,23 +2536,23 @@
 
   @media (min-width: 1201px) {
     header#mega-menu .vetnav-panel {
-      width: 487px
+      width: 487px;
     }
 
     header#mega-menu .vetnav-panel .mm-link-container {
-      width: 220px
+      width: 220px;
     }
 
     header#mega-menu .vetnav-panel.column-one .mm-link-container {
-      width: 200px
+      width: 200px;
     }
 
     header#mega-menu .vetnav-panel.column-two {
-      left: 240px
+      left: 240px;
     }
 
     header#mega-menu .vetnav-panel.column-three {
-      left: 487px
+      left: 487px;
     }
   }
 
@@ -2916,13 +2598,8 @@
     color: #fff
   }
 
-  .padding-h-none {
-    padding-left: 0 !important;
-    padding-right: 0 !important
-  }
-
   .vetnav-panel--submenu h3 {
-    background-color: transparent
+    background-color: transparent;
   }
 
   div {
@@ -2960,7 +2637,7 @@
   }
 
   .usa-width-one-half:last-child {
-    margin-right: 0
+    margin-right: 0;
   }
 
   .va-header-contact {
@@ -2992,40 +2669,9 @@
     left: 0;
   }
 
-  #va-header-logo-menu {
-    flex-wrap: wrap;
-    padding: 1em 0.75em 0;
-    align-items: center;
-
-    @media screen and (min-width: 768px) {
-      padding-bottom: 0;
-    }
-
-    @media (min-width: 320px) and (max-width: 767px) {
-      position: relative;
-    }
-  }
-
   .header-logo-row {
     .profile-nav-container > div {
       padding-top: 0 !important;
-    }
-
-    .sign-in-drop-down-panel-button {
-      border-top: none !important;
-      padding: 10px 25px 11px 0 !important;
-    }
-
-    .user-dropdown-email {
-      margin-top: 0 !important;
-    }
-
-    #account-menu {
-      ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
     }
 
     .column,
@@ -3033,21 +2679,21 @@
       padding-left: .9375rem;
       padding-right: .9375rem;
       width: 100%;
-      float: left
+      float: left;
     }
 
     .column + .column:last-child,
     .columns + .column:last-child,
     .column + .columns:last-child,
     .columns + .columns:last-child {
-      float: right
+      float: right;
     }
 
     .column + .column.end,
     .columns + .column.end,
     .column + .columns.end,
     .columns + .columns.end {
-      float: left
+      float: left;
     }
 
     @media only screen {
@@ -3057,34 +2703,12 @@
         position: relative;
         padding-left: .9375rem;
         padding-right: .9375rem;
-        float: left
-      }
-    }
-
-    @media only screen and (min-width: 40.0625em) {
-
-      .column,
-      .columns {
-        position: relative;
-        padding-left: .9375rem;
-        padding-right: .9375rem;
-        float: left
-      }
-    }
-
-    @media only screen and (min-width: 64.0625em) {
-
-      .column,
-      .columns {
-        position: relative;
-        padding-left: .9375rem;
-        padding-right: .9375rem;
-        float: left
+        float: left;
       }
     }
 
     .vcl-overlay--open .columns {
-      padding: 0
+      padding: 0;
     }
   }
 
@@ -3117,12 +2741,12 @@
 
   @media screen and (min-width: 768px) {
     .footer {
-      flex-wrap: nowrap
+      flex-wrap: nowrap;
     }
   }
 
   &[data-minimal-footer="true"] .footer-inner {
-    padding-top: 0
+    padding-top: 0;
   }
 
   .footer-inner {
@@ -3131,26 +2755,26 @@
 
   @media screen and (min-width: 768px) {
     .footer-inner {
-      padding: 2rem 1rem 0
+      padding: 2rem 1rem 0;
     }
   }
 
   body.va-pad-promo-banner .footer-inner {
-    padding-bottom: 5.75rem
+    padding-bottom: 5.75rem;
   }
 
   @media screen and (min-width: 768px) {
     body.va-pad-promo-banner .footer-inner {
-      padding-bottom: 3.75rem
+      padding-bottom: 3.75rem;
     }
   }
 
   [class^="va-footer-linkgroup"] {
-    padding-left: 0
+    padding-left: 0;
   }
 
   [class^="va-footer-linkgroup"] li {
-    list-style: none
+    list-style: none;
   }
 
   [class^="va-footer-linkgroup"] a {
@@ -3162,43 +2786,43 @@
   }
 
   [class^="va-footer-linkgroup"] a:hover {
-    color: #ffbe2e
+    color: #ffbe2e;
   }
 
   [class^="va-footer-linkgroup"] a:after {
-    content: none
+    content: none;
   }
 
   .va-footer-linkgroup {
     margin: 2em 1em 0 0;
-    flex: 0 1 100%
+    flex: 0 1 100%;
   }
 
   .va-footer-linkgroup:last-child {
-    margin-right: 0
+    margin-right: 0;
   }
 
   .va-footer-linkgroup:first-child {
-    margin-top: 2em
+    margin-top: 2em;
   }
 
   @media screen and (min-width: 768px) {
     .va-footer-linkgroup {
       flex: 0 1 33%;
-      margin: 2em 1em 1.5em 0
+      margin: 2em 1em 1.5em 0;
     }
   }
 
   .va-footer-linkgroup a {
-    display: inline-block
+    display: inline-block;
   }
 
   .va-footer-linkgroup .va-button-link {
-    color: #fff !important
+    color: #fff !important;
   }
 
   .va-footer-linkgroup .va-button-link:hover {
-    color: #ffbe2e !important
+    color: #ffbe2e !important;
   }
 
   .va-footer-linkgroup-title {
@@ -3207,19 +2831,19 @@
     font-weight: 700;
     font-size: 1.1em;
     margin: 0;
-    padding: 0 0 1em 0
+    padding: 0 0 1em 0;
   }
 
   .va-footer-accordion-content {
-    background: transparent
+    background: transparent;
   }
 
   .va-footer-accordion-content > .va-footer-links {
-    list-style: none
+    list-style: none;
   }
 
   .va-footer-accordion-content > .va-footer-links > li {
-    margin-bottom: 0.5em
+    margin-bottom: 0.5em;
   }
 
   .va-footer-accordion-content > .va-footer-links > li > a {
@@ -3227,31 +2851,31 @@
     color: #fff;
     font-size: 1em;
     font-weight: 400;
-    margin: 0.25em 0
+    margin: 0.25em 0;
   }
 
   .va-footer-accordion-content > .va-footer-links > li > a:hover {
-    color: #ffbe2e !important
+    color: #ffbe2e !important;
   }
 
   .va-footer-links {
     padding-left: 0;
-    margin-top: 0
+    margin-top: 0;
   }
 
   .va-footer-links > li {
-    margin-bottom: 0
+    margin-bottom: 0;
   }
 
   .footer-banner,
   .va-footer-links-bottom {
     padding-left: 0.5em;
-    padding-right: 0.5em
+    padding-right: 0.5em;
   }
 
   .footer-banner {
     padding-top: 1.5em;
-    padding-bottom: 2em
+    padding-bottom: 2em;
   }
 
   .va-footer-button {
@@ -3278,39 +2902,35 @@
     background-color: #1a4480;
     color: #fff;
     border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent
+    border-bottom: 3px solid transparent;
   }
 
   .va-footer-links-bottom ul {
     padding-left: 0;
     padding-bottom: 3em;
-    list-style: none
+    list-style: none;
   }
 
   .va-footer-links-bottom ul li {
-    display: inline-block
+    display: inline-block;
   }
 
   .va-footer-links-bottom ul li a {
-    color: #fff
+    color: #fff;
   }
 
   .va-footer-links-bottom ul li a:visited {
-    color: #fff
+    color: #fff;
   }
 
   .va-footer-links-bottom ul li:not(:last-child):after {
     content: "|";
     padding: 0 1rem;
-    color: #fff
+    color: #fff;
   }
 
   .va-footer-content[aria-hidden=true] {
-    display: none
-  }
-
-  .va-footer-link-text {
-    color: #fff
+    display: none;
   }
 
   .footer-lastupdated {
@@ -3318,7 +2938,7 @@
     color: #3d4551;
     font-size: 1em;
     border: 2px solid #a9aeb1;
-    padding: 5px 0
+    padding: 5px 0;
   }
 
   #ts-modal-crisisline {
@@ -3332,10 +2952,6 @@
   }
 
   .search-input-container {
-    max-width: unset !important;
-  }
-
-  .search-input {
     max-width: unset !important;
   }
 

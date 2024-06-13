@@ -107,7 +107,7 @@ export const addHeaderEventListeners = () => {
     const correspondingUl = document.querySelectorAll('#header-nav-items ul')[
       index
     ];
-    const buttonIcons = btn.querySelectorAll(':scope > i');
+    const buttonIcons = btn.querySelectorAll('.mobile-benhub');
 
     btn.addEventListener('click', () =>
       toggleMenu(correspondingUl, btn, buttonIcons),

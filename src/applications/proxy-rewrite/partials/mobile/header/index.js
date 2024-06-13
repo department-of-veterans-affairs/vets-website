@@ -107,37 +107,39 @@ export const getMobileHeaderHtml = megaMenuData => {
 
             <!-- start Menu button -->
             <button aria-controls="header-nav-items" aria-expanded="false" id="header-menu-button" class="vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative" type="button">
-              <span id="mobile-menu-button" aria-hidden="false">
-                Menu<svg
-                aria-hidden="true"
-                className="vads-u-margin-left--0p5"
-                focusable="false"
-                viewBox="1 2 16 16"
-                width="16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill="#005ea2"
-                  d="M4 17V15H22V17H4ZM4 12V10H22V12H4ZM4 7V5H22V7H4Z"
-                />
-              </svg>
+              <span id="mobile-menu-button" class="vads-u-display--flex vads-u-align-items--center" aria-hidden="false">
+                <span class="vads-u-margin-right--0p5">Menu</span>
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="1 2 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#005ea2"
+                    d="M4 17V15H22V17H4ZM4 12V10H22V12H4ZM4 7V5H22V7H4Z"
+                  />
+                </svg>
               </span>
-              <span id="mobile-close-button" aria-hidden="true" hidden>
-                Close<svg
-                aria-hidden="true"
-                className="vads-u-margin-left--0p5"
-                focusable="false"
-                viewBox="3 3 16 16"
-                width="15"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill="#005ea2"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-                />
-              </svg>
+              <span id="mobile-close-button" class="vads-u-display--flex vads-u-align-items--center" aria-hidden="true" hidden>
+                <span class="vads-u-margin-right--0p5">Close</span>
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="3 3 16 16"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#005ea2"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                  />
+                </svg>
               </span>
               <div class="header-menu-button-overlay vads-u-background-color--gray-lightest vads-u-position--absolute vads-u-width--full" hidden></div>
             </button>

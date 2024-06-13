@@ -22,6 +22,7 @@ export const makeMegaMenu = megaMenuData => {
         1}" type="button">${sectionData.title}
             <svg
               aria-hidden="true"
+              class="mobile-benhub"
               focusable="false"
               viewBox="0 2 20 20"
               width="20"
@@ -36,7 +37,9 @@ export const makeMegaMenu = megaMenuData => {
             </svg>
             <svg
               aria-hidden="true"
+              class="mobile-benhub"
               focusable="false"
+              hidden
               viewBox="0 2 20 20"
               width="20"
               xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +74,7 @@ export const makeMegaMenu = megaMenuData => {
 
   return `
     <div id="mobile-mega-menu" class="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full" hidden>
-      <label class="vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5">Search</label>
+      <label class="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5">Search</label>
       <div>
         <div id="mobile-search-container"></div>
         <ul id="header-nav-items" class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">

@@ -188,7 +188,7 @@ class SearchDropdownComponent extends React.Component {
         </div>
         <button
           type="submit"
-          className="search-button search-dropdown-submit-button vads-u-margin-right--1 vads-u-margin-top--1 vads-u-margin-left--1 vads-u-font-size--base vads-u-padding-left--1p5"
+          className="search-button search-dropdown-submit-button vads-u-margin-right--1 vads-u-margin-top--1 vads-u-font-size--base vads-u-padding-left--1p5"
           data-e2e-id="search-header-dropdown-submit-button"
           id="search-header-dropdown-submit-button"
           tabIndex="0"
