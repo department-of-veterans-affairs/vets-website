@@ -160,7 +160,6 @@ const ReportModal = ({
               error={reportIsBlankError ? 'Please select an item' : null}
               hint={null}
               onVaChange={handleCheckboxChange}
-              required
               label="Select the information we need to update"
               label-header-level=""
               uswds
