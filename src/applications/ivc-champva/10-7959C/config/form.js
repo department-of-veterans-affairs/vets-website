@@ -43,6 +43,7 @@ import {
 } from '../chapters/healthInsuranceInformation';
 
 import { formSignatureSchema } from '../chapters/formSignature';
+import CustomAttestation from '../components/CustomAttestation';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -84,14 +85,8 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.certifierRole ? 'certifierName' : 'applicantName',
-    },
+    required: true,
+    CustomComponent: signatureProps => CustomAttestation(signatureProps),
   },
   saveInProgress: {
     messages: {
