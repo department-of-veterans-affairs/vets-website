@@ -700,8 +700,6 @@ jobs:
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          ref: upgrade_cypress_13
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
