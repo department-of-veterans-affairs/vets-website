@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import { setOnThisPageText } from './utilities/helpers';
 import { ALL_LANGUAGES } from './utilities/constants';
@@ -21,24 +20,17 @@ const I18Select = ({ baseUrls, languageCode }) => {
           }
           return (
             <span key={i}>
-              <a
-                className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
+              <va-link
+                className={`i18-select vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
                   languageConfig.code === languageCode
                     ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
                     : ''
                 }`}
-                onClick={_ => {
-                  recordEvent({
-                    event: 'nav-pipe-delimited-list-click',
-                    'pipe-delimited-list-header': languageConfig.code,
-                  });
-                }}
                 href={baseUrls[languageConfig.code]}
                 hrefLang={languageConfig.code}
                 lang={languageConfig.code}
-              >
-                {languageConfig.label}{' '}
-              </a>
+                text={`${languageConfig.label} ${' '}`}
+              />
               {i !== Object.keys(baseUrls).length - 1 && (
                 <span
                   className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
