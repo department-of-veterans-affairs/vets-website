@@ -48,7 +48,6 @@ export const schema = {
     },
     'view:authorizeMedicalSelect': {
       type: 'object',
-      formData: { prop1: 'test' },
       properties: {},
     },
     'view:authorizeRecordsCheckbox': {
