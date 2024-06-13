@@ -11,10 +11,8 @@ class PatientComposePage {
 
   messageBodyText = 'testBody';
 
-  sendMessage = mockRequest => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
-      'message',
-    );
+  sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockResponse).as('message');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
@@ -23,7 +21,7 @@ class PatientComposePage {
       .then(request => {
         if (mockRequest) {
           expect(request.body).to.eq(
-            `\n\n\nName\nTitleTest${mockRequest.body} `,
+            `\n\n\nName\nTitleTest${mockRequest.body}`,
           );
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
@@ -93,6 +91,10 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
+  getDigitalSignatureField = () => {
+    return cy.get('va-card').find('#inputField');
+  };
+
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
     cy.get(Locators.MESSAGE_SUBJECT)
       .shadow()
@@ -117,11 +119,8 @@ class PatientComposePage {
     return cy.focused().should('have.attr', 'error', text);
   };
 
-  //* Refactor* Needs to have mockDraftMessage as parameter
-  clickOnSendMessageButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
-      'message',
-    );
+  clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockResponse).as('message');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click();
@@ -425,6 +424,20 @@ class PatientComposePage {
     cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
       cy.wrap(el).should('have.text', data[index]);
     });
+  };
+
+  verifyDigitalSignature = () => {
+    cy.get('va-card')
+      .find('h2')
+      .should('have.text', 'Digital signature');
+  };
+
+  verifyDigitalSignatureRequired = () => {
+    cy.get('va-card')
+      .find('va-text-input')
+      .shadow()
+      .find('#input-label')
+      .should('contain.text', 'Required');
   };
 }
 
