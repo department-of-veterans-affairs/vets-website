@@ -12,13 +12,12 @@ const ChangeOfAddressForm = ({
   formChange,
   addressFormData,
   formSubmit,
-  applicantName,
   formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema(applicantName, formData);
+    const fSchema = getFormSchema(formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
@@ -33,11 +32,6 @@ const ChangeOfAddressForm = ({
     // return new schema with updated fields
     return tempSchemaWithRequiredFields;
   };
-
-  const livesOnMilitaryBaseInfo = {
-    title: 'view:livesOnMilitaryBaseInfo',
-  };
-
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
@@ -77,8 +71,8 @@ const ChangeOfAddressForm = ({
     },
     addressUISchema: {
       'ui:title': addressFormData?.['view:livesOnMilitaryBase']
-        ? 'APO/FPO/DPO'
-        : 'City',
+        ? 'APO/FPO/DPO '
+        : 'City ',
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
         required: 'City is required',
@@ -96,7 +90,7 @@ const ChangeOfAddressForm = ({
       enumNames: Object.values(MILITARY_STATES),
     },
     addressUISchema: {
-      'ui:title': 'State',
+      'ui:title': 'State ',
       'ui:autocomplete': 'address-level1',
       'ui:errorMessages': {
         required: 'State is required',
@@ -201,7 +195,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'schema',
                 ),
               );
@@ -219,7 +213,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'uiSchema',
                 ),
               );
@@ -238,7 +232,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(tempAddressRequiredData),
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  [ZC.title, stateCode.title],
                   'schema',
                 ),
               );
@@ -256,7 +250,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  [ZC.title, stateCode.title],
                   'uiSchema',
                 ),
               );
@@ -292,7 +286,6 @@ ChangeOfAddressForm.propTypes = {
   formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
-  applicantName: PropTypes.string,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.oneOfType([
     PropTypes.string,
