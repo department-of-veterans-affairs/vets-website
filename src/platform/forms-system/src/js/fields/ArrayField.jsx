@@ -472,8 +472,10 @@ export default class ArrayField extends React.Component {
                 </strong>
               ) : null;
 
+            const comma = formattedSentence.length > 0 ? ', ' : '';
+
             const finalFormattedSentence = formattedDateRange
-              ? [...formattedSentence, ', ', formattedDateRange]
+              ? [...formattedSentence, comma, formattedDateRange]
               : formattedSentence;
 
             if (dateRangeFrom || dateRangeTo) {
