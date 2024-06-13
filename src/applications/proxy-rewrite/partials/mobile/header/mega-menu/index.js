@@ -13,7 +13,6 @@ export const makeMegaMenu = megaMenuData => {
   };
 
   const buildLevelOneLinks = (sectionData, index) => {
-    console.log('sectionData: ', sectionData);
     if (sectionData.menuSections) {
       return `
         <li class="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
@@ -72,7 +71,7 @@ export const makeMegaMenu = megaMenuData => {
 
   return `
     <div id="mobile-mega-menu" class="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full" hidden>
-      <label class="vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5" for="header-search">Search</label>
+      <label class="vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5">Search</label>
       <div>
         <div id="mobile-search-container"></div>
         <ul id="header-nav-items" class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
