@@ -117,7 +117,7 @@ const resolveLandingPageLinks = (
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
         text: 'Community care',
       },
-      {
+      registered && {
         href:
           '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
