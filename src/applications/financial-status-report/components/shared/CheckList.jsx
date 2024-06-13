@@ -27,6 +27,7 @@ const Checklist = ({
       use-forms-pattern="single"
       onVaChange={handleChange}
       required={isRequired}
+      class="vads-u-margin-y--2"
     >
       {options?.map((option, key) => (
         <VaCheckbox
