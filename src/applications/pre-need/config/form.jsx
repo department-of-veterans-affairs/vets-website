@@ -205,10 +205,7 @@ const formConfig = {
         },
         applicantDemographics: {
           title: 'Applicant demographics',
-          // MBMS-61967
-          path: environment.isProduction()
-            ? 'applicant-demographics'
-            : 'applicant-demographics-notprod',
+          path: 'applicant-demographics',
           depends: isVeteran,
           uiSchema: applicantDemographics.uiSchema,
           schema: applicantDemographics.schema,
@@ -234,10 +231,7 @@ const formConfig = {
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',
-          // MBMS-61967
-          path: environment.isProduction()
-            ? 'sponsor-demographics'
-            : 'sponsor-demographics-notprod',
+          path: 'sponsor-demographics',
           depends: formData => !isVeteran(formData),
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
