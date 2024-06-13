@@ -315,12 +315,6 @@ const FileField = props => {
     }
   };
 
-  // const onSubmitPassword = (file, index, password) => {
-  //   if (file && password) {
-  //     onAddFile({ target: { files: [file] } }, index, password);
-  //   }
-  // };
-
   const onAttachmentIdChange = (index, value) => {
     if (!value) {
       props.onChange(unset([index, 'attachmentId'], props.formData));
@@ -554,9 +548,6 @@ const FileField = props => {
                     {file?.size && <div> {displayFileSize(file.size)}</div>}
                   </>
                 )}
-                {/* {(showPasswordInput || showPasswordSuccess) && (
-                  <PasswordLabel />
-                )} */}
                 {showPasswordSuccess && <PasswordSuccess />}
                 {!hasVisibleError &&
                   !showPasswordInput &&
@@ -605,12 +596,6 @@ const FileField = props => {
                     </span>
                   )}
                 {showPasswordInput && (
-                  // <ShowPdfPassword
-                  //   file={file.file}
-                  //   index={index}
-                  //   onSubmitPassword={onSubmitPassword}
-                  //   passwordLabel={content.passwordLabel(file.name)}
-                  // />
                   <div className="fieldErrorBorder vads-u-margin-bottom--2">
                     <div className="fileFieldError">
                       We weren’t able to upload your file. Make sure the file is
@@ -622,7 +607,7 @@ const FileField = props => {
                       onClick={() => {
                         deleteThenAddFile(index);
                       }}
-                      // label={passwordLabel}
+                      label="Upload a new file"
                       uswds
                     />
                     <va-button
@@ -632,7 +617,7 @@ const FileField = props => {
                       onClick={() => {
                         openRemoveModal(index);
                       }}
-                      // label={passwordLabel}
+                      label="Cancel"
                       uswds
                     />
                   </div>
