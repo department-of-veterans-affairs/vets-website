@@ -89,6 +89,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  useTopBackLink: true,
   chapters: {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
@@ -321,7 +322,7 @@ const formConfig = {
       title: 'Your statement',
       hideFormTitle: true,
       pages: {
-        statement: {
+        statementPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
           path: 'statement',
           title: 'Your statement',

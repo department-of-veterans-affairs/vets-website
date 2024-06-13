@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Applicant information",
+    "pages": [
+      {
+        "title": "Applicant information",
+        "path": "applicant/information"
+      },
+      {
+        "title": "Applicant information",
+        "path": "applicant/information/is-veteran"
+      }
+    ]
+  },
+  {
+    "title": "Claimant information",
+    "pages": [
+      {
+        "title": "Claimant information",
+        "path": "claimant/information",
+        "depends": "return formData.applicantIsVeteran === false;"
+      },
+      {
+        "title": "Claimant type",
+        "path": "claimant/type"
+      }
+    ]
+  }
+]

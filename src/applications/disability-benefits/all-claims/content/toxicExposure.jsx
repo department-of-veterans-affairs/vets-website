@@ -7,7 +7,7 @@ import {
   isClaimingNew,
   sippableId,
 } from '../utils';
-import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
+import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic Exposure';
@@ -153,17 +153,15 @@ export function dateRangePageDescription(
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. toggle is enabled
+ *  1. prefilled indicator is true
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
  *
- * Note: toggle is currently read from the redux store by Form526EZApp and stored in sessions storage since
- * not all form aspects have ready access to the store.
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
   return (
-    window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+    formData?.includeToxicExposure === true &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );

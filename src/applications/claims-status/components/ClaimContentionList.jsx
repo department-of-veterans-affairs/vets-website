@@ -8,7 +8,7 @@ const renderContentions = (contentions, limit = MAX_CONTENTIONS) => {
 
   return list.map((contention, index) => {
     return (
-      <li key={index} data-dd-privacy="mask">
+      <li key={index} data-dd-privacy="mask" data-dd-action-name="contention">
         {contention.name}
       </li>
     );

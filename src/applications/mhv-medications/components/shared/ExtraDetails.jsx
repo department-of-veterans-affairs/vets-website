@@ -60,14 +60,15 @@ const ExtraDetails = rx => {
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
-        <p className="vads-u-margin-y--0" data-testid="VA-prescription">
+        <p className="vads-u-margin-y--0" data-testid="active-parked">
           You can request this prescription when you need it.
         </p>
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="expired">
-            You have no refills left. If you need more, request a renewal.
+            This prescription is too old to refill. If you need more, request a
+            renewal.
           </p>
           <va-link
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
@@ -117,8 +118,8 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.onHold && (
         <p className="vads-u-margin-y--0 no-print" data-testid="active-onHold">
-          We put a hold on this prescription. If you need it now, call your VA
-          pharmacy
+          You can’t refill this prescription online right now. If you need a
+          refill, call your VA pharmacy
           <CallPharmacyPhone
             cmopDivisionPhone={cmopDivisionPhone}
             page={DD_ACTIONS_PAGE_TYPE.DETAILS}
