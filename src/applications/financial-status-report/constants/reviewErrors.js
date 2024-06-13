@@ -11,6 +11,11 @@ export default {
       index + 1,
     )} selected debt`;
   },
+  resolutionComment: index => {
+    return `Please enter a resolution amount for the ${numberToWords(
+      index + 1,
+    )} selected debt`;
+  },
   _override: error => {
     if (error === 'questions') {
       return {
