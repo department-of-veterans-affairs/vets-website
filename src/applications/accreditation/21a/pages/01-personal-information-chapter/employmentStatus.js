@@ -3,6 +3,7 @@ import {
   radioUI,
   textareaSchema,
   textareaUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const employmentStatusOptions = {
@@ -19,6 +20,7 @@ export default {
   title: 'Employment status',
   path: 'employment-status',
   uiSchema: {
+    ...titleUI('Employment status'),
     employmentStatus: radioUI({
       title: 'Select the status of your employment',
       labels: employmentStatusOptions,

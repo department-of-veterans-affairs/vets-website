@@ -20,20 +20,20 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    personalPhone: phoneUI('Primary number'),
+    phone: phoneUI('Primary number'),
     typeOfPhone: radioUI({
       title: 'Type of phone',
       labels: typeOfPhoneOptions,
     }),
-    personalEmail: emailUI(),
+    email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      personalPhone: phoneSchema,
+      phone: phoneSchema,
       typeOfPhone: radioSchema(Object.keys(typeOfPhoneOptions)),
-      personalEmail: emailSchema,
+      email: emailSchema,
     },
-    required: ['personalPhone', 'personalEmail'],
+    required: ['phone', 'email'],
   },
 };

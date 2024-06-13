@@ -1,4 +1,50 @@
 {
   "data": {
+    "typeOfRole": "ATTORNEY",
+    "fullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1995-01-09",
+    "placeOfBirthAddress": {
+      "country": "USA",
+      "city": "City",
+      "state": "CA"
+    },
+    "phone": "345-345-3455",
+    "typeOfPhone": "HOME",
+    "email": "person.name@testmail.com",
+    "homeAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "employmentStatus": "EMPLOYED",
+    "describeEmployment": "Employed at a company",
+    "workAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "communicationAddress": "OTHER",
+    "otherAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    }
   }
 }
