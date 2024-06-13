@@ -8,7 +8,6 @@ import {
   ssnDashesUI,
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
-  veteranApplicantDetailsSummary,
 } from '../../utils/helpers';
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
@@ -21,9 +20,6 @@ export function uiSchema(
   dateOfBirthUI = nonPreparerDateOfBirthUI,
 ) {
   return {
-    'ui:title': (formContext, formData) =>
-      // This function below works for both Veteran and Non-Veteran Flows
-      veteranApplicantDetailsSummary(formContext, formData),
     application: {
       'ui:title': subHeader,
       'ui:description': description,
