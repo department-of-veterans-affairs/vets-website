@@ -7,8 +7,8 @@ import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce, isEqual } from 'lodash';
 import environment from '~/platform/utilities/environment';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { setPowerToolsToggles } from '../powertools.state';
-import { LoadingButton } from '../../../LoadingButton/LoadingButton';
 
 export const TogglesTab = ({ powerToolsApi }) => {
   const {
