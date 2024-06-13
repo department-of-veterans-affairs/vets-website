@@ -14,18 +14,6 @@ class Confirmation {
     cy.get("[data-testid='pre-check-in-accordions']");
   };
 
-  validateConfirmWithUpdates = () => {
-    cy.get("[header='How can I update my information?']")
-      .shadow()
-      .find('button')
-      .contains('How can I update my information?')
-      .should('be.visible');
-  };
-
-  validateConfirmNoUpdates = () => {
-    cy.get("[header='How can I update my information?']").should('not.exist');
-  };
-
   validateDemographicsMessage = () => {
     cy.get("[header='How can I update my information?']").contains(
       "[header='How can I update my information?']",
