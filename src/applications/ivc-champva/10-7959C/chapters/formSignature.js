@@ -33,7 +33,7 @@ export const formSignatureSchema = {
   },
   schema: {
     type: 'object',
-    required: ['applicantMedicareClass'],
+    required: ['certifierRole'],
     properties: {
       certifierRole: radioSchema([
         'applicant',
