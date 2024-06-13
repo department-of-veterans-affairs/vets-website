@@ -22,6 +22,7 @@ import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { APP_NAMES } from '../../../utils/appConstants';
+import ConfirmationAccordionBlock from '../../../components/ConfirmationAccordionBlock';
 
 const CheckInConfirmation = props => {
   const { selectedAppointment, triggerRefresh, router } = props;
@@ -170,6 +171,8 @@ const CheckInConfirmation = props => {
           <TravelPayReimbursementLink />
         )}
         <BackToAppointments />
+
+        <ConfirmationAccordionBlock appointments={[appointment]} />
       </Wrapper>
     );
   };
