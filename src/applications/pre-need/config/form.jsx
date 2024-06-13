@@ -334,6 +334,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
+              // MBMS-66403
               preneedAttachments: environment.isProduction()
                 ? fileUploadUIPlatform('Select files to upload', {
                     buttonText: 'Upload file',
