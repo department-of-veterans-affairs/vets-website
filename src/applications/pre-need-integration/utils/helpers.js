@@ -38,6 +38,25 @@ export const veteranApplicantDetailsSubHeader = (
   </div>
 );
 
+export function veteranApplicantDetailsSummary({ formContext }) {
+  return (
+    <>
+      {formContext.isLoggedIn &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+    </>
+  );
+}
+
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
@@ -797,8 +816,11 @@ export const veteranUI = {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
-  placeOfBirth: {
-    'ui:title': 'Place of birth (City, State, or Territory)',
+  cityOfBirth: {
+    'ui:title': 'Your birth city or county',
+  },
+  stateOfBirth: {
+    'ui:title': 'Your birth state or territory',
   },
   gender: {
     'ui:title': 'What’s your sex?',
