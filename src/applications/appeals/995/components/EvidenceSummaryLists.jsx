@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { readableList } from '../utils/helpers';
-import { getDate } from '../utils/dates';
+import { parseDate } from '../../shared/utils/dates';
 
 import {
-  FORMAT_COMPACT,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
@@ -16,6 +16,11 @@ import {
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
 } from '../constants';
+
+import {
+  FORMAT_COMPACT_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -39,10 +44,10 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = date => {
-  const result = getDate({ date, pattern: FORMAT_COMPACT });
-  return result.includes(',') ? result : '';
-};
+const formatDate = (date = '') =>
+  // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
+  // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
 
 /**
  * Changing header levels :(
@@ -64,8 +69,9 @@ const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
   onReviewPage || reviewMode ? 'h6' : 'h5';
 /**
  * Build VA evidence list
- * @param {Object[]} vaEvidence - VA evidence array
+ * @param {Object[]} list - VA evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -83,7 +89,7 @@ export const VaContent = ({
   return list?.length ? (
     <>
       <Header5>{content.vaTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
           const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
@@ -102,15 +108,30 @@ export const VaContent = ({
           return (
             <li key={locationAndName + index} className={listClassNames}>
               <div className={hasErrors ? errorClassNames : ''}>
-                {errors.name || <Header6>{locationAndName}</Header6>}
-                <div>{errors.issues || readableList(issues)}</div>
+                {errors.name || (
+                  <Header6
+                    className="dd-privacy-hidden overflow-wrap-word"
+                    data-dd-action-name="VA location name"
+                  >
+                    {locationAndName}
+                  </Header6>
+                )}
+                <div
+                  className="dd-privacy-hidden overflow-wrap-word"
+                  data-dd-action-name="VA location treated issues"
+                >
+                  {errors.issues || readableList(issues)}
+                </div>
                 {errors.dates || (
-                  <>
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="VA location date range"
+                  >
                     {errors.from || fromDate} – {errors.to || toDate}
-                  </>
+                  </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
@@ -129,6 +150,7 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -151,8 +173,10 @@ VaContent.propTypes = {
 
 /**
  * Build private evidence list
- * @param {Object[]} privateEvidence - Private medical evidence array
+ * @param {Object[]} list - Private medical evidence array
+ * @param {String} limitContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -171,7 +195,7 @@ export const PrivateContent = ({
   return list?.length ? (
     <>
       <Header5>{content.privateTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -203,16 +227,31 @@ export const PrivateContent = ({
           return (
             <li key={providerFacilityName + index} className={listClassNames}>
               <div className={hasErrors ? errorClassNames : ''}>
-                {errors.name || <Header6>{providerFacilityName}</Header6>}
-                <div>{errors.issues || readableList(issues)}</div>
-                {errors.address}
+                {errors.name || (
+                  <Header6
+                    className="dd-privacy-hidden overflow-wrap-word"
+                    data-dd-action-name="Private facility name"
+                  >
+                    {providerFacilityName}
+                  </Header6>
+                )}
+                <div
+                  className="dd-privacy-hidden overflow-wrap-word"
+                  data-dd-action-name="Private facility treated issues"
+                >
+                  {errors.issues || readableList(issues)}
+                </div>
+                <div>{errors.address}</div>
                 {errors.dates || (
-                  <>
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="Private facility treatment date range"
+                  >
                     {errors.from || fromDate} – {errors.to || toDate}
-                  </>
+                  </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       id={`edit-private-${index}`}
                       className="edit-item"
@@ -230,6 +269,7 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -239,9 +279,9 @@ export const PrivateContent = ({
         })}
         <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
-          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
+          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
-            <div>
+            <div className="vads-u-margin-top--1p5">
               <Link
                 id="edit-limitation"
                 className="edit-item"
@@ -259,6 +299,7 @@ export const PrivateContent = ({
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               ) : null}
             </div>
@@ -282,6 +323,7 @@ PrivateContent.propTypes = {
  * Build uploaded evidence list
  * @param {Object[]} list - Uploaded evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
+ * @param {Boolean} onReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -299,35 +341,57 @@ export const UploadContent = ({
   return list?.length ? (
     <>
       <Header5>{content.otherTitle}</Header5>
-      <ul className="evidence-summary">
-        {list.map((upload, index) => (
-          <li key={upload.name + index} className={listClassNames}>
-            <Header6>{upload.name}</Header6>
-            <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
-            {!reviewMode && (
+      <ul className="evidence-summary remove-bullets">
+        {list.map((upload, index) => {
+          const errors = {
+            attachmentId: upload.attachmentId
+              ? ''
+              : content.missing.attachmentId,
+          };
+          const hasErrors = Object.values(errors).join('');
+
+          return (
+            <li
+              key={upload.name + index}
+              className={hasErrors ? errorClassNames : listClassNames}
+            >
+              <Header6
+                className="dd-privacy-hidden overflow-wrap-word"
+                data-dd-action-name="Uploaded document file name"
+              >
+                {upload.name}
+              </Header6>
               <div>
-                <Link
-                  id={`edit-upload-${index}`}
-                  className="edit-item"
-                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
-                  aria-label={`${content.editLinkAria} ${upload.name}`}
-                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-                >
-                  {content.edit}
-                </Link>
-                <va-button
-                  data-index={index}
-                  data-type="upload"
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${upload.name}`}
-                  text={content.remove}
-                  secondary
-                />
+                {errors.attachmentId ||
+                  ATTACHMENTS_OTHER[upload.attachmentId] ||
+                  ''}
               </div>
-            )}
-          </li>
-        ))}
+              {!reviewMode && (
+                <div className="vads-u-margin-top--1p5">
+                  <Link
+                    id={`edit-upload-${index}`}
+                    className="edit-item"
+                    to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    aria-label={`${content.editLinkAria} ${upload.name}`}
+                    data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    data-type="upload"
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.delete} ${upload.name}`}
+                    text={content.delete}
+                    secondary
+                    uswds
+                  />
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   ) : null;

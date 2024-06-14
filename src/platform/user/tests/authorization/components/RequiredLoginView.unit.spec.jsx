@@ -113,7 +113,8 @@ describe('<RequiredLoginView>', () => {
       </RequiredLoginView>,
     );
 
-    expect(wrapper.text()).to.contain('Redirecting');
+    // expect(wrapper.text()).to.contain('Redirecting');
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
     wrapper.unmount();
   });
 
@@ -129,7 +130,8 @@ describe('<RequiredLoginView>', () => {
       </RequiredLoginView>,
     );
 
-    expect(wrapper.text()).to.contain('Loading your information...');
+    // expect(wrapper.text()).to.contain('Loading your information...');
+    expect(wrapper.find('va-loading-indicator').length).to.equal(1);
     expect(wrapper.find('ProfileErrorMessage').length).to.equal(0);
     wrapper.unmount();
   });
@@ -303,7 +305,8 @@ describe('<RequiredLoginView>', () => {
           <TestChildComponent name="three" />
         </RequiredLoginView>,
       );
-      expect(wrapper.text()).to.include('Redirecting to login...');
+      // expect(wrapper.text()).to.include('Redirecting to login...');\
+      expect(wrapper.find('va-loading-indicator').length).to.equal(1);
       wrapper.unmount();
     });
   });

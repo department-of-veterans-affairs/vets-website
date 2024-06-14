@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { useHistory } from 'react-router-dom';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import {
   routeToNextAppointmentPage,
@@ -12,21 +14,30 @@ import {
   selectPageChangeInProgress,
 } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
 import useFormState from '../../hooks/useFormState';
-
-const uiSchema = {
-  communityCareSystemId: {
-    'ui:title':
-      'Choose a city that is near you. This ensures that we send your community care request to your closest VA health system.',
-    'ui:widget': 'radio',
-  },
-};
+import { getPageTitle } from '../newAppointmentFlow';
 
 const pageKey = 'ccClosestCity';
-const pageTitle = 'What’s the closest city to you?';
 
 export default function ClosestCityStatePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
+  const uiSchema = {
+    communityCareSystemId: {
+      'ui:title': pageTitle,
+      'ui:widget': 'radio', // Required
+      'ui:webComponentField': VaRadioField,
+      'ui:errorMessages': {
+        required: 'Select a city',
+      },
+      'ui:options': {
+        classNames: 'vads-u-margin-top--neg2',
+        showFieldLabel: false,
+        labelHeaderLevel: '1',
+      },
+    },
+  };
+
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -60,7 +71,6 @@ export default function ClosestCityStatePage() {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
       {!!schema && (
         <SchemaForm
           name="Closest city and state"
@@ -73,6 +83,17 @@ export default function ClosestCityStatePage() {
           onChange={newData => setData(newData)}
           data={data}
         >
+          <va-additional-info
+            trigger="Why we’re asking this"
+            class="vads-u-margin-bottom--4"
+            data-testid="additional-info"
+          >
+            <div>
+              We'll send your request to the VA medical center nearest to the
+              city you select. The medical center staff will help schedule your
+              community care appointment.{' '}
+            </div>
+          </va-additional-info>
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))

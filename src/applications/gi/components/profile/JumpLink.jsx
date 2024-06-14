@@ -2,16 +2,25 @@ import React from 'react';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
+import { isProductionOrTestProdEnv } from '../../utils/helpers';
 
-import environment from 'platform/utilities/environment';
-
-export default function JumpLink({ label, jumpToId }) {
+export default function JumpLink({
+  label,
+  jumpToId,
+  iconToggle = true,
+  onClick,
+  dataTestId,
+  customClass,
+}) {
   const jumpLinkClicked = e => {
     e.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
   };
 
   const handleClick = e => {
+    if (onClick) {
+      onClick();
+    }
     jumpLinkClicked(e);
     recordEvent({
       event: 'nav-jumplink-click',
@@ -19,7 +28,7 @@ export default function JumpLink({ label, jumpToId }) {
     });
   };
 
-  if (environment.isProduction()) {
+  if (!isProductionOrTestProdEnv()) {
     return (
       <a
         className="jump-link arrow-down-link"
@@ -27,7 +36,7 @@ export default function JumpLink({ label, jumpToId }) {
         onClick={handleClick}
       >
         <p>
-          <i className="fa fa-arrow-down" aria-hidden="true" />
+          {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
           <span>{label}</span>
         </p>
       </a>
@@ -36,14 +45,21 @@ export default function JumpLink({ label, jumpToId }) {
 
   return (
     <a
-      className="jump-link arrow-down-link"
+      className={`jump-link ${customClass || 'arrow-down-link'}`}
       href={`#${jumpToId}`}
       onClick={handleClick}
       tabIndex={0}
+      data-testid={dataTestId}
     >
-      <p>
-        <i className="fa fa-arrow-down" aria-hidden="true" />
-        <span>{label}</span>
+      <p className={customClass && 'filter-before-res-link'}>
+        {iconToggle && (
+          <va-icon
+            icon="arrow_downward"
+            aria-hidden="true"
+            class="iconToggle"
+          />
+        )}
+        {label}
       </p>
     </a>
   );

@@ -1,5 +1,6 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import vaFileNumberUI from 'platform/forms-system/src/js/definitions/vaFileNumber';
 import { isChapterFieldRequired } from '../../../helpers';
 import { validateName, addSpouse } from '../../../utilities';
 
@@ -19,19 +20,28 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s first name',
-        'ui:errorMessages': { required: 'Please enter a first name' },
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       middle: {
         'ui:title': 'Spouse’s middle name',
         'ui:options': {
           hideEmptyValueInReview: true,
         },
+        'ui:errorMessages': {
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       last: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'addSpouse'),
         'ui:title': 'Spouse’s last name',
-        'ui:errorMessages': { required: 'Please enter a last name' },
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+          pattern: 'This field accepts alphabetic characters only',
+        },
       },
       suffix: {
         'ui:title': 'Spouse’s suffix',
@@ -62,17 +72,12 @@ export const uiSchema = {
       'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
     },
     vaFileNumber: {
+      ...vaFileNumberUI,
       'ui:title': 'Spouse’s VA file number',
-      'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-        expandUnder: 'isVeteran',
-        hideEmptyValueInReview: true,
-      },
     },
     serviceNumber: {
       'ui:title': 'Spouse’s service number',
-      'ui:errorMessages': { pattern: 'Please enter a valid Service Number' },
+      'ui:errorMessages': { pattern: 'Enter a valid Service Number' },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
         expandUnder: 'isVeteran',

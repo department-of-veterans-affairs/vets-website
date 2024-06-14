@@ -2,10 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import NextOfKinDisplay from './NextOfKinDisplay';
 
 describe('pre-check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     describe('NextOfKinDisplay', () => {
       it('renders with default values', () => {
@@ -95,11 +102,27 @@ describe('pre-check-in experience', () => {
         expect(getByText(', Ste 234')).to.exist;
         expect(getByText('Los Angeles, CA 90089')).to.exist;
       });
+      it('renders additional info', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('additional-info')).to.exist;
+      });
+      it('renders help text', () => {
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('help-text')).to.exist;
+      });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay yesAction={yesClick} />
+            <NextOfKinDisplay yesAction={yesClick} noAction={() => {}} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -109,7 +132,7 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay noAction={noClick} />
+            <NextOfKinDisplay yesAction={() => {}} noAction={noClick} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
@@ -118,7 +141,7 @@ describe('pre-check-in experience', () => {
       it('renders the buttons', () => {
         const screen = render(
           <CheckInProvider>
-            <NextOfKinDisplay isLoading={false} />
+            <NextOfKinDisplay yesAction={() => {}} noAction={() => {}} />
           </CheckInProvider>,
         );
         expect(screen.getByTestId('no-button')).to.exist;

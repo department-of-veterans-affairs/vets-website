@@ -7,13 +7,18 @@ export const Balances = ({ statements }) => {
   const single = <h2 id="balance-list">What you owe to your facility</h2>;
   const multiple = (
     <h2 id="balance-list">
-      What you owe to your {statements?.length} facilities
+      Your most recent statement balances for the last six months
     </h2>
   );
 
   return (
     <>
       {statements?.length === 1 ? single : multiple}
+      <p>
+        Any payments you may have made to your current copays will not be
+        reflected here until our systems are updated with your next monthly
+        statement.
+      </p>
       <ul className="no-bullets vads-u-padding-x--0">
         {statements?.map((balance, idx) => {
           const facilityName =

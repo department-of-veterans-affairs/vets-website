@@ -1,4 +1,6 @@
-import { focusElement } from 'platform/utilities/ui';
+// import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+
 import { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -8,10 +10,8 @@ export default function useHandleClick({ link, idClickable }) {
   return useCallback(
     () => {
       return () => {
-        if (!window.getSelection().toString()) {
-          focusElement(`#${idClickable}`);
-          history.push(link);
-        }
+        focusElement(`#${idClickable}`);
+        history.push(link);
       };
     },
     [history, idClickable, link],

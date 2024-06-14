@@ -3,12 +3,12 @@ import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
+import { getContestableIssues } from '../../actions';
 import {
-  getContestableIssues,
   FETCH_CONTESTABLE_ISSUES_INIT,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
+} from '../../../shared/actions';
 
 describe('fetch contestable issues action', () => {
   it('should dispatch an init action', () => {
@@ -32,10 +32,9 @@ describe('fetch contestable issues action', () => {
 
   it('should dispatch an add person failed action', () => {
     const mockData = { data: 'asdf' };
-    const props = { benefitType: 'compensation' };
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getContestableIssues(props)(dispatch).then(() => {
+    return getContestableIssues()(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         FETCH_CONTESTABLE_ISSUES_INIT,
       );

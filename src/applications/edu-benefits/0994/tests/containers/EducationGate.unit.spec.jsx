@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import { EducationGate } from '../../../containers/EducationGate';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import { EducationGate } from '../../../containers/EducationGate';
 
 const user = {
   login: {
@@ -27,7 +27,7 @@ describe('Edu 0994 <ConfirmationPage>', () => {
     tree.unmount();
   });
 
-  it('should render AlertBox', () => {
+  it('should render the proper alert text', () => {
     const missingInfoUser = {
       ...user,
       profile: {
@@ -39,7 +39,9 @@ describe('Edu 0994 <ConfirmationPage>', () => {
       <EducationGate user={missingInfoUser} location={location} />,
     );
 
-    expect(tree.text()).to.contain('AlertBox');
+    expect(tree.text()).to.contain(
+      'We’re sorry. It looks like we’re missing some information needed for your applicationFor help with your application, please call Veterans Benefits Assistance at 800-827-1000, Monday – Friday, 8:00 a.m. to 9:00 p.m. ET.',
+    );
 
     tree.unmount();
   });

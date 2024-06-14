@@ -1,12 +1,14 @@
 import React from 'react';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 
-import recordEvent from '~/platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
-  getPhaseDescription,
+  getClaimStatusDescription,
   isClaimComplete,
   getClaimType,
 } from '../../utils/claims-helpers';
+import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import CTALink from '../CTALink';
 
@@ -14,10 +16,6 @@ const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
 };
-
-function listPhase(phase) {
-  return phase === 8 ? 'Closed' : getPhaseDescription(phase);
-}
 
 function handleViewClaim() {
   recordEvent({
@@ -27,16 +25,25 @@ function handleViewClaim() {
   });
 }
 
+const claimInfo = claim => {
+  return {
+    inProgress: !isClaimComplete(claim),
+    claimDate: claim.attributes.claimDate,
+    status: getClaimStatusDescription(claim.attributes.status),
+  };
+};
+
 const Claim = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
     );
   }
-  const inProgress = !isClaimComplete(claim);
-  const dateRecd = moment(claim.attributes.dateFiled).format('MMMM D, YYYY');
-  return (
-    <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
+  const { inProgress, claimDate, status } = claimInfo(claim);
+  const dateRecd = format(new Date(replace(claimDate)), 'MMMM d, yyyy');
+
+  const content = (
+    <>
       <h3 className="vads-u-margin-top--0">
         {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
       </h3>
@@ -46,9 +53,7 @@ const Claim = ({ claim }) => {
           className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
-          <p className="vads-u-margin-y--0">
-            {listPhase(claim.attributes.phase)}
-          </p>
+          <p className="vads-u-margin-y--0">{status}</p>
           {inProgress && claim.attributes.developmentLetterSent ? (
             <p className="vads-u-margin-y--0">
               We sent you a development letter
@@ -63,13 +68,27 @@ const Claim = ({ claim }) => {
         </div>
       </div>
       <CTALink
-        ariaLabel={`View claim received ${dateRecd}`}
-        className="vads-u-margin-top--2"
-        text="View details"
+        ariaLabel={`Review claim received ${dateRecd}`}
+        className="vads-u-margin-top--2 vads-u-font-weight--bold"
+        text="Review details"
         href={`/track-claims/your-claims/${claim.id}/status`}
         onClick={handleViewClaim}
+        showArrow
       />
+    </>
+  );
+
+  return (
+    <div className="vads-u-margin-bottom--2p5">
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
     </div>
   );
 };
+
+Claim.propTypes = {
+  claim: PropTypes.object.isRequired,
+};
+
 export default Claim;

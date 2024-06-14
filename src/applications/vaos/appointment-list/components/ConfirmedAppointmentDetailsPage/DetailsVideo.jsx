@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
+  isGfeVideoAppointment,
+  isVideoHome,
+  isAtlasVideoAppointment,
 } from '../../../services/appointment';
-import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
+import BackLink from '../../../components/BackLink';
 import CalendarLink from './CalendarLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VideoVisitProvider from './VideoVisitProvider';
@@ -17,16 +19,19 @@ import VideoInstructionsLink from './VideoInstructionsLink';
 import VideoLocation from './VideoLocation';
 
 function formatHeader(appointment) {
-  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
+  if (isGfeVideoAppointment(appointment)) {
     return 'VA Video Connect using VA device';
+  }
+  if (isVideoHome(appointment)) {
+    return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
   }
-  if (appointment.videoData.isAtlas) {
+  if (isAtlasVideoAppointment(appointment)) {
     return 'VA Video Connect at an ATLAS location';
   }
-  return 'VA Video Connect at home';
+  return null;
 }
 
 export default function DetailsVideo({ appointment, facilityData }) {
@@ -37,17 +42,9 @@ export default function DetailsVideo({ appointment, facilityData }) {
 
   return (
     <>
-      <Breadcrumbs>
-        <a
-          href={`/health-care/schedule-view-va-appointments/appointments/va/${
-            appointment.id
-          }`}
-        >
-          Appointment detail
-        </a>
-      </Breadcrumbs>
+      <BackLink appointment={appointment} />
 
-      <h1>
+      <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
@@ -69,6 +66,52 @@ export default function DetailsVideo({ appointment, facilityData }) {
 }
 
 DetailsVideo.propTypes = {
-  appointment: PropTypes.object.isRequired,
-  facilityData: PropTypes.object,
+  appointment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    start: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+      isUpcomingAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
+    }),
+    location: PropTypes.shape({
+      vistaId: PropTypes.string.isRequired,
+      clinicId: PropTypes.string.isRequired,
+      stationId: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
+    }),
+  }),
+  facilityData: PropTypes.shape({
+    id: PropTypes.string,
+    vistaId: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
+};
+DetailsVideo.defaultProps = {
+  appointment: {
+    id: '',
+    start: '',
+    comment: '',
+    vaos: {
+      isPastAppointment: false,
+      isUpcomingAppointment: false,
+      isPendingAppointment: false,
+      isVideo: false,
+      isAtlas: false,
+      extension: { patientHasMobileGfe: false },
+      kind: '',
+    },
+    location: {
+      vistaId: '',
+      clinicId: '',
+      stationId: '',
+      clinicName: '',
+    },
+  },
+  facilityData: {
+    id: '',
+    vistaId: '',
+    name: '',
+  },
 };

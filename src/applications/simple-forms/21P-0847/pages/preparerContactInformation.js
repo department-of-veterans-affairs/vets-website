@@ -8,8 +8,8 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    preparerHomePhone: phoneUI('Home phone number'),
-    preparerMobilePhone: phoneUI('Mobile phone number'),
+    preparerHomePhone: phoneUI('Primary phone number'),
+    preparerMobilePhone: phoneUI('Secondary phone number'),
     preparerEmail: emailUI(),
   },
   schema: {

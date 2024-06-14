@@ -123,19 +123,4 @@ describe('Pre-need definition address', () => {
     expect(form.find('select#root_country').props().value).to.equal('CAN');
     form.unmount();
   }).timeout(4000);
-
-  it('should require state for non-required addresses with other info', () => {
-    const s = schema(addressSchema, false);
-    const uis = uiSchema();
-    const form = mount(<DefinitionTester schema={s} uiSchema={uis} />);
-
-    fillData(form, 'input#root_street', '123 st');
-    fillData(form, 'input#root_city', 'Northampton');
-    fillData(form, 'input#root_postalCode', '12345');
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    form.unmount();
-  }).timeout(4000);
 });

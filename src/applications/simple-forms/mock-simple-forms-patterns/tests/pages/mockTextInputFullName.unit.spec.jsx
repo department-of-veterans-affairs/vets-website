@@ -6,14 +6,11 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.textInput.pages.textInputFullName;
+const { schema, uiSchema } = formConfig.chapters.textInput.pages.fullName;
 
 const pageTitle = 'mock full name inputs';
 
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,7 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 4;
+const expectedNumberOfWebComponentErrors = 2;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
@@ -31,7 +28,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
 );
 
-const expectedNumberOfFields = 4;
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -40,7 +37,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 2;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

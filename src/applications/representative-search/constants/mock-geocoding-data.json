@@ -1,0 +1,185 @@
+{
+  "type": "FeatureCollection",
+  "query": ["austin"],
+  "features": [
+    {
+      "id": "place.1183047979754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q16559"
+      },
+      "text": "Austin",
+      "place_name": "Austin, Texas, United States",
+      "bbox": [
+        -98.0261770004211,
+        30.0678640288457,
+        -97.5416001207618,
+        30.5194859159522
+      ],
+      "center": [-97.7437, 30.2711],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.7437, 30.2711]
+      },
+      "context": [
+        {
+          "id": "region.12968715825342410",
+          "short_code": "US-TX",
+          "wikidata": "Q1439",
+          "text": "Texas"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "place.9659406005754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q780944"
+      },
+      "text": "Austin",
+      "place_name": "Austin, Minnesota, United States",
+      "bbox": [
+        -93.1690963890479,
+        43.5267230298119,
+        -92.7681163506114,
+        43.8209780107886
+      ],
+      "center": [-92.9745, 43.6681],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-92.9745, 43.6681]
+      },
+      "context": [
+        {
+          "id": "region.14740633650676580",
+          "short_code": "US-MN",
+          "wikidata": "Q1527",
+          "text": "Minnesota"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "place.11793391388754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q1810383"
+      },
+      "text": "Austin",
+      "place_name": "Austin, Indiana, United States",
+      "bbox": [
+        -85.9004459788312,
+        38.7168502716925,
+        -85.7072640229621,
+        38.8155169974463
+      ],
+      "center": [-85.808, 38.7584],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-85.808, 38.7584]
+      },
+      "context": [
+        {
+          "id": "region.9456556908766400",
+          "short_code": "US-IN",
+          "wikidata": "Q1415",
+          "text": "Indiana"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "place.17172177594754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "wikidata": "Q80158"
+      },
+      "text": "Austin",
+      "place_name": "Austin, Arkansas, United States",
+      "bbox": [
+        -92.1203868385036,
+        34.9079609800566,
+        -91.8389580686685,
+        35.0763020077028
+      ],
+      "center": [-91.9838, 34.9984],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-91.9838, 34.9984]
+      },
+      "context": [
+        {
+          "id": "region.11813597610087930",
+          "short_code": "US-AR",
+          "wikidata": "Q1612",
+          "text": "Arkansas"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    },
+    {
+      "id": "place.8715667424754850",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {},
+      "text": "Austin",
+      "place_name": "Austin, Nevada, United States",
+      "bbox": [
+        -117.806789007151,
+        38.6224709831346,
+        -116.590042980005,
+        40.3140467936078
+      ],
+      "center": [-117.0695, 39.4933],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.0695, 39.4933]
+      },
+      "context": [
+        {
+          "id": "region.10001740274236760",
+          "short_code": "US-NV",
+          "wikidata": "Q1227",
+          "text": "Nevada"
+        },
+        {
+          "id": "country.19678805456372290",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2020 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

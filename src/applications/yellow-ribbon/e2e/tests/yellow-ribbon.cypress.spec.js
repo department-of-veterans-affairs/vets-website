@@ -23,15 +23,14 @@ function axeTestPage() {
 }
 
 describe('functionality of Yellow Ribbons', () => {
+  // cy.axeCheck() is required at least once, is wrapped in axeTestPage() above for DRYness, and used throughout these tests
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('search the form and expect dom to have elements on success', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url:
-        '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
-    }).as('getSchoolsInYR');
+    cy.intercept(
+      'GET',
+      '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
+      stub,
+    ).as('getSchoolsInYR');
 
     // navigate to yellow-ribbon and make axe check on browser
     cy.visit('/education/yellow-ribbon-participating-schools/');
@@ -52,7 +51,7 @@ describe('functionality of Yellow Ribbons', () => {
     cy.get(`${SELECTORS.SEARCH_FORM} input[name="yr-search-city"]`).type(
       'Austin',
     );
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
+    cy.get(`${SELECTORS.SEARCH_FORM} va-button`).click();
     cy.wait('@getSchoolsInYR');
 
     // A11y check the search results.
@@ -70,7 +69,7 @@ describe('functionality of Yellow Ribbons', () => {
       .should('contain', 'All eligible students')
       .should('contain', 'Undergraduate')
       // Check website link.
-      .should('contain', 'www.concordia.edu');
+      .should('contain', 'Visit Concordia University-Texas website');
 
     // Ensure Tool Tip exists
     cy.get(`${SELECTORS.APP} va-additional-info`).click();
@@ -91,15 +90,13 @@ describe('functionality of Yellow Ribbons', () => {
       .should('not.exist');
   });
 
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('search the form and expect dom to have elements on error', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: [],
-      status: 500,
-      url:
-        '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
-    }).as('getSchoolsInYR');
+    cy.intercept(
+      'GET',
+      '/v0/gi/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX',
+      { statusCode: 500, body: [] },
+    ).as('getSchoolsInYR');
 
     // navigate to yellow-ribbon and make axe check on browser
     cy.visit('/education/yellow-ribbon-participating-schools/');
@@ -120,7 +117,7 @@ describe('functionality of Yellow Ribbons', () => {
     cy.get(`${SELECTORS.SEARCH_FORM} input[name="yr-search-city"]`).type(
       'Austin',
     );
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
+    cy.get(`${SELECTORS.SEARCH_FORM} va-button`).click();
     cy.wait('@getSchoolsInYR');
 
     // Ensure ERROR Alert Box exists

@@ -4,9 +4,16 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import ConfirmablePage from './index';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 
 describe('pre-check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     describe('ConfirmablePage', () => {
       it('renders custom header', () => {
@@ -38,6 +45,22 @@ describe('pre-check-in experience', () => {
         expect(getByText('foo-title')).to.exist;
         expect(getByText('bar')).to.exist;
       });
+
+      it('renders the travel warning alert if travel reimbursement is disabled', () => {
+        const initState = {
+          features: {
+            /* eslint-disable-next-line camelcase */
+            check_in_experience_travel_reimbursement: false,
+          },
+        };
+        const { getByTestId } = render(
+          <CheckInProvider store={initState}>
+            <ConfirmablePage />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('travel-btsss-message')).to.exist;
+      });
+
       it('renders multiple data points the data passed in, with label and data', () => {
         const dataFields = [
           { key: 'foo', title: 'foo-title' },
@@ -67,14 +90,32 @@ describe('pre-check-in experience', () => {
         expect(getByText('foo-title')).to.exist;
         expect(getByText('Not available')).to.exist;
       });
-      it('renders the yes and no buttons with the usa-button-big css class', () => {
+      it('renders help text if provided', () => {
+        const helpText = <div data-testid="help-text">FOO</div>;
         const { getByTestId } = render(
+          <CheckInProvider>
+            <ConfirmablePage helpText={helpText} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('help-text')).to.exist;
+      });
+      it('does not render additional info components if not provided', () => {
+        const { queryByTestId } = render(
           <CheckInProvider>
             <ConfirmablePage />
           </CheckInProvider>,
         );
-        expect(getByTestId('yes-button')).to.have.class('usa-button-big');
-        expect(getByTestId('no-button')).to.have.class('usa-button-big');
+        expect(queryByTestId('help-text')).to.not.exist;
+        expect(queryByTestId('additional-info')).to.not.exist;
+      });
+      it('renders additional info if provided', () => {
+        const additionalInfo = <div data-testid="additional-info">FOO</div>;
+        const { getByTestId } = render(
+          <CheckInProvider>
+            <ConfirmablePage additionalInfo={additionalInfo} />
+          </CheckInProvider>,
+        );
+        expect(getByTestId('additional-info')).to.exist;
       });
       it('fires the yes function', () => {
         const yesClick = sinon.spy();

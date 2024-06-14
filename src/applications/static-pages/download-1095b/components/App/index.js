@@ -220,13 +220,12 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
         <ServiceProvidersTextCreateAcct />
       </div>
-      <button
-        type="button"
+      <va-button
         onClick={() => toggleLoginModal(true)}
-        className="usa-button-primary va-button-primary vads-u-margin-top--2"
-      >
-        Sign in or create an account
-      </button>
+        primary-alternate
+        text="Sign in or create an account"
+        className="vads-u-margin-top--2"
+      />
     </va-alert>
   );
 

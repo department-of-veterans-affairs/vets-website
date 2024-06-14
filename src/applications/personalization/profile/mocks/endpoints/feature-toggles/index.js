@@ -1,24 +1,52 @@
 const { snakeCase } = require('lodash');
 
-const defaultToggleValues = {
-  profileDoNotRequireInternationalZipCode: true,
+// add and remove feature toggles here by name, but generally keep all values as false
+// instead use generateFeatureToggles in server.js to set the toggle values
+const profileToggles = {
+  authExpVbaDowntimeMessage: false,
+  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileUseVAFSC: false,
-  profileHideDirectDepositCompAndPen: false,
-  profileShowPaymentsNotificationSetting: true,
-  profileUseInfoCard: true,
-  profileUseFieldEditingPage: true,
-  profileShowMhvNotificationSettings: true,
-  profileLighthouseDirectDeposit: false,
+  profileHideDirectDeposit: false,
+  profileShowPaymentsNotificationSetting: false,
+  profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
+  profileShowCredentialRetirementMessaging: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
+  profileShowEmailNotificationSettings: false,
 };
 
-const generateFeatureToggles = (values = defaultToggleValues) => {
-  const mergedValues = { ...defaultToggleValues, ...values };
+const makeAllTogglesTrue = toggles => {
+  const result = { ...toggles };
+  Object.keys(result).forEach(key => {
+    result[key] = true;
+  });
+  return result;
+};
 
-  const features = Object.entries(mergedValues).map(([key, value]) => {
+/**
+ * Generates feature toggles mock api response object for profile app
+ *
+ * @param {*} values - set specific values to true or false
+ * @param {*} allOn - set all values to true
+ * @returns
+ */
+const generateFeatureToggles = (values = profileToggles, allOn = false) => {
+  const toggles = allOn
+    ? makeAllTogglesTrue(profileToggles)
+    : { ...profileToggles, ...values };
+
+  const togglesCamelCased = Object.entries(toggles).map(([key, value]) => {
+    return {
+      name: key,
+      value,
+    };
+  });
+
+  const togglesSnakeCased = Object.entries(toggles).map(([key, value]) => {
     return {
       name: snakeCase(key),
       value,
@@ -28,9 +56,24 @@ const generateFeatureToggles = (values = defaultToggleValues) => {
   return {
     data: {
       type: 'feature_toggles',
-      features,
+      features: [...togglesSnakeCased, ...togglesCamelCased],
     },
   };
 };
 
-module.exports = { generateFeatureToggles };
+const generateFeatureTogglesState = (
+  values = profileToggles,
+  allOn = false,
+) => {
+  return {
+    featureToggles: generateFeatureToggles(values, allOn).data.features.reduce(
+      (acc, cur) => {
+        acc[cur.name] = cur.value;
+        return acc;
+      },
+      { loading: false },
+    ),
+  };
+};
+
+module.exports = { generateFeatureToggles, generateFeatureTogglesState };

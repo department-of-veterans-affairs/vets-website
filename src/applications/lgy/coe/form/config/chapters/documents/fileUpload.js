@@ -20,7 +20,7 @@ const DocumentUploadDescription = () => (
     <p>Guidelines for uploading a file:</p>
     <ul>
       <li>You can upload a .pdf, .jpg, .jpeg, or .png file.</li>
-      <li>Your PDF file should be no larger than 150MB.</li>
+      <li>Your PDF file should be no larger than 99MB.</li>
       <li>Non-PDF files should be no larger than 50MB.</li>
     </ul>
     <p>
@@ -108,7 +108,7 @@ export const uiSchema = {
       fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
       hideLabelText: true,
       keepInPageOnReview: true,
-      maxPdfSize: 150 * 1024 * 1024,
+      maxPdfSize: 99 * 1024 * 1024,
       maxSize: 50 * 1024 * 1024,
       minSize: 1024,
       parseResponse: fileInfo => ({

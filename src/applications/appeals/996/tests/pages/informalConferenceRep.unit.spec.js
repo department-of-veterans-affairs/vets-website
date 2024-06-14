@@ -3,13 +3,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   DefinitionTester,
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { $$ } from '../../utils/ui';
 
 describe('HLR informal conference rep v2 page', () => {
   const {
@@ -28,7 +29,7 @@ describe('HLR informal conference rep v2 page', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect($$('input', formDOM).length).to.equal(5);
+    expect($$('va-text-input', formDOM).length).to.equal(5);
   });
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
@@ -42,15 +43,17 @@ describe('HLR informal conference rep v2 page', () => {
       />,
     );
     const formDOM = getFormDOM(form);
-
-    formDOM.fillData('#root_informalConferenceRep_firstName', 'James');
-    formDOM.fillData('#root_informalConferenceRep_lastName', 'Sullivan');
-    formDOM.fillData('#root_informalConferenceRep_phone', '8005551212');
-    formDOM.fillData('#root_informalConferenceRep_extension', '1234');
-    formDOM.fillData('#root_informalConferenceRep_email', 'x@x.com');
+    formDOM.fillData('[name="root_informalConferenceRep_firstName"]', 'James');
+    formDOM.fillData(
+      '[name="root_informalConferenceRep_lastName"]',
+      'Sullivan',
+    );
+    formDOM.fillData('[name="root_informalConferenceRep_phone"]', '8005551212');
+    formDOM.fillData('[name="root_informalConferenceRep_extension"]', '1234');
+    formDOM.fillData('[name="root_informalConferenceRep_email"]', 'x@x.com');
 
     formDOM.submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(0);
+    expect($$('[error]', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
   it('should prevent continuing when data is missing', () => {
@@ -67,7 +70,7 @@ describe('HLR informal conference rep v2 page', () => {
     const formDOM = getFormDOM(form);
 
     formDOM.submitForm();
-    expect($$('.usa-input-error', formDOM).length).to.equal(3);
+    expect($$('[error]', formDOM).length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
   it('should prevent continuing when phone is missing', () => {
@@ -83,10 +86,13 @@ describe('HLR informal conference rep v2 page', () => {
     );
     const formDOM = getFormDOM(form);
 
-    formDOM.fillData('#root_informalConferenceRep_firstName', 'James');
-    formDOM.fillData('#root_informalConferenceRep_lastName', 'Sullivan');
+    formDOM.fillData('[name="root_informalConferenceRep_firstName"]', 'James');
+    formDOM.fillData(
+      '[name="root_informalConferenceRep_lastName"]',
+      'Sullivan',
+    );
     formDOM.submitForm(form);
-    expect($$('.usa-input-error', formDOM).length).to.equal(1);
+    expect($$('[error]', formDOM).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
   });
 });

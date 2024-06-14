@@ -11,11 +11,13 @@ import set from 'platform/utilities/data/set';
 
 /**
  * PATTERNS
- * STREET_PATTERN - rejects white space only
  * US_POSTAL_CODE_PATTERN - Matches 5 digit zipcodes
+ * TWO_CAPS_PATTERN - Matches state and ISO2 country codes
  */
-export const STREET_PATTERN = '^.*\\S.*';
+export const REJECT_WHITESPACE_ONLY = '^.*\\S.*';
+export const STREET_PATTERN = REJECT_WHITESPACE_ONLY;
 export const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
+export const TWO_CAPS_PATTERN = '^[A-Z]{2}$';
 
 export const MILITARY_CITY_VALUES = constants.militaryCities.map(
   city => city.value,
@@ -75,19 +77,19 @@ export const schemaCrossXRef = {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       street2: {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       street3: {
         type: 'string',
         minLength: 1,
         maxLength: 100,
-        pattern: STREET_PATTERN,
+        pattern: REJECT_WHITESPACE_ONLY,
       },
       city: {
         type: 'string',
@@ -341,7 +343,7 @@ export default function addressUiSchema(
             title: 'City',
             minLength: 1,
             maxLength: 100,
-            pattern: STREET_PATTERN,
+            pattern: REJECT_WHITESPACE_ONLY,
           };
         },
       },

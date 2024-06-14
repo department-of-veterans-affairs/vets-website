@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import DetailsPageContent from '../components/evss/DetailsPageContent';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import { cstUseLighthouse } from '../selectors';
-// END lighthouse_migration
-import { getClaimType } from '../utils/helpers';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import {
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
+  claimAvailable,
+} from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+
+// HELPERS
+const formatDate = buildDateFormatter();
 
 class DetailsPage extends React.Component {
   componentDidMount() {
@@ -24,7 +26,7 @@ class DetailsPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('.va-tab-trigger--current');
+      setFocus('#tabPanelDetails');
     }
   }
 
@@ -42,18 +44,28 @@ class DetailsPage extends React.Component {
   }
 
   setTitle() {
-    document.title = this.props.loading
-      ? 'Details - Your Claim'
-      : `Details - Your ${getClaimType(this.props.claim)} Claim`;
+    const { claim } = this.props;
+
+    if (claimAvailable(claim)) {
+      const claimDate = formatDate(claim.attributes.claimDate);
+      const claimType = getClaimType(claim);
+      const title = `Details Of ${claimDate} ${claimType} Claim`;
+
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Details Of Your Claim');
+    }
   }
 
   getPageContent() {
-    const { claim, useLighthouse } = this.props;
-    if (!useLighthouse) {
-      return <DetailsPageContent claim={claim} />;
+    const { claim } = this.props;
+
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
     }
 
-    const { claimDate, claimType, contentions } = claim.attributes || {};
+    const { claimDate, claimType, contentions } = claim.attributes;
     const hasContentions = contentions && contentions.length;
 
     return (
@@ -71,7 +83,12 @@ class DetailsPage extends React.Component {
             {hasContentions ? (
               <ul className="claim-detail-list">
                 {contentions.map((contention, index) => (
-                  <li key={index} className="claim-detail-list-item">
+                  <li
+                    key={index}
+                    className="claim-detail-list-item"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="contention name"
+                  >
                     {contention.name}
                   </li>
                 ))}
@@ -83,33 +100,22 @@ class DetailsPage extends React.Component {
           <dt className="claim-detail-label">
             <h4>Date received</h4>
           </dt>
-          <dd>{moment(claimDate).format('MMM D, YYYY')}</dd>
+          <dd>{formatDate(claimDate)}</dd>
         </dl>
       </>
     );
   }
 
   render() {
-    const { claim, loading, synced, useLighthouse } = this.props;
+    const { claim, loading } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
 
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
-
     return (
-      <ClaimDetailLayout
-        claim={claim}
-        currentTab="Details"
-        loading={loading}
-        synced={synced}
-      >
+      <ClaimDetailLayout claim={claim} currentTab="Details" loading={loading}>
         {content}
       </ClaimDetailLayout>
     );
@@ -122,8 +128,6 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state),
   };
 }
 
@@ -131,8 +135,6 @@ DetailsPage.propTypes = {
   claim: PropTypes.object,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);

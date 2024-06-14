@@ -20,10 +20,10 @@
         "href": "https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/health-care/appointments/va-online-scheduling"
       },
       "Staging": {
-        "href": "https://staging.va.gov/health-care/schedule-view-va-appointments/appointments/"
+        "href": "https://staging.va.gov/my-health/appointments"
       },
       "Local instance": {
-        "href": "http://localhost:3001/health-care/schedule-view-va-appointments/appointments/"
+        "href": "http://localhost:3001/my-health/appointments"
       }
     }
   }

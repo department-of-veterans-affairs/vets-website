@@ -1,10 +1,14 @@
-import { getSelected, getIssueName } from './helpers';
-
 import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../constants';
+
+import { getIssueName, getSelected } from '../../shared/utils/issues';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+
+export const hasErrors = errors =>
+  Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))
+    .length;
 
 export const getIndex = (data, testingIndex, testSearch) => {
   // get index from url '/{path}?index={index}' or testingIndex

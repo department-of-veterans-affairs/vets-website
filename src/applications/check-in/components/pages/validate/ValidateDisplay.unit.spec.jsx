@@ -3,10 +3,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import ValidateDisplay from './ValidateDisplay';
 
 describe('check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     describe('ValidateDisplay', () => {
       it('renders with default values', () => {
@@ -47,26 +54,26 @@ describe('check-in experience', () => {
           </CheckInProvider>,
         );
 
-        expect(getByRole('status')).to.have.text('Loading...');
+        expect(getByRole('status')).to.exist;
       });
       it('renders continue button if isLoading false', () => {
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <ValidateDisplay isLoading={false} />
           </CheckInProvider>,
         );
 
-        expect(getByText('Continue')).to.exist;
+        expect(getByTestId('check-in-button')).to.exist;
       });
       it('calls the validateHandler', () => {
         const validateHandler = sinon.spy();
-        const { getByText } = render(
+        const { getByTestId } = render(
           <CheckInProvider>
             <ValidateDisplay validateHandler={validateHandler} />
           </CheckInProvider>,
         );
 
-        getByText('Continue').click();
+        getByTestId('check-in-button').click();
         expect(validateHandler.called).to.be.true;
       });
       describe('lastNameInput', () => {

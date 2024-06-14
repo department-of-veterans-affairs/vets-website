@@ -1,7 +1,7 @@
 import {
   FETCH_RECIPIENTS_FAILURE,
   FETCH_RECIPIENTS_SUCCESS,
-} from '../utils/constants';
+} from '../actions/messaging';
 
 const initialState = {
   data: null,

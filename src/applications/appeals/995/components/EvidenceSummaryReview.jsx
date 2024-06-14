@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
   hasVAEvidence,
@@ -17,6 +17,7 @@ import {
   UploadContent,
 } from './EvidenceSummaryLists';
 import { SUMMARY_EDIT } from '../constants';
+import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
   const { limitedConsent = '' } = data;
@@ -31,7 +32,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       ) {
         // focus on edit button _after_ editing and returning
         window.sessionStorage.removeItem(SUMMARY_EDIT);
-        setTimeout(() => focusElement(editRef.current));
+        setTimeout(() => focusElement('button', {}, editRef.current));
       }
     },
     [editRef],
@@ -65,15 +66,15 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {content.summaryTitle}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
-          className="edit-page usa-button-secondary"
+          secondary
+          class="edit-page"
           onClick={handlers.onEditPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+          uswds
+        />
       </div>
 
       {noEvidence ? (
@@ -97,12 +98,7 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
 };
 
 EvidenceSummaryReview.propTypes = {
-  data: PropTypes.shape({
-    locations: PropTypes.array,
-    providerFacility: PropTypes.array,
-    limitedConsent: PropTypes.string,
-    additionalDocuments: PropTypes.array,
-  }),
+  data: data995,
   editPage: PropTypes.func,
 };
 

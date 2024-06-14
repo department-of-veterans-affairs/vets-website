@@ -24,10 +24,10 @@ const YesIDES = props => {
         <span className="vads-u-display--block vads-u-margin-y--1">
           Based on your answers, you can apply for VR&E benefits.
         </span>
-        <strong>Before you apply,</strong> please go through the VR&E
-        orientation below. If you already know you want to apply for VR&E, you
-        can go directly to the online application without going through the
-        orientation below.{' '}
+        <strong>Before you apply,</strong> go through the VR&E orientation
+        below. If you already know you want to apply for VR&E, you can go
+        directly to the online application without going through the orientation
+        below.{' '}
       </p>
       <Link
         aria-describedby="orientation-complete-notification"

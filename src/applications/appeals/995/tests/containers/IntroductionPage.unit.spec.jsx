@@ -31,6 +31,7 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
@@ -87,7 +88,10 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     // This SIP alert is _after_ the process list
-    expect($$('.sip-wrapper .schemaform-sip-alert', container).length).to.eq(1);
+    expect($$('va-alert[status="info"]', container).length).to.eq(1);
+    expect($$('va-alert[status="info"]', container)[0].textContent).to.include(
+      'Sign in now',
+    );
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 
@@ -99,8 +103,8 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($('va-alert[status="continue"]', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('.sip-wrapper', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
+    expect($('.sip-wrapper.bottom', container).innerHTML).to.eq('');
   });
 
   it('should render missing SSN alert', () => {
@@ -114,7 +118,7 @@ describe('IntroductionPage', () => {
     const alert = $('va-alert[status="error"]', container);
     expect(alert).to.exist;
     expect(alert.innerHTML).to.contain('your Social Security number.');
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
@@ -128,8 +132,9 @@ describe('IntroductionPage', () => {
 
     const alert = $('va-alert[status="error"]', container);
     expect(alert).to.exist;
+
     expect(alert.innerHTML).to.contain('your date of birth.');
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.vads-c-action-link--green', container)).to.not.exist;
   });
 
@@ -146,11 +151,10 @@ describe('IntroductionPage', () => {
     expect(alert.innerHTML).to.contain(
       'your Social Security number and date of birth.',
     );
-    expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('.sip-wrapper', container)).to.not.exist;
+    expect($('va-alert[status="info"]', container)).to.not.exist;
   });
 
-  it('should render top SIP alert with action links', () => {
+  it('should render top SIP alert with 2 action links', () => {
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -158,11 +162,12 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     expect($$('.vads-c-action-link--green', container).length).to.eq(2);
-    expect($('.schemaform-sip-alert', container).textContent).to.contain(
+    expect($$('va-alert[status="info"]', container)[0].textContent).to.contain(
       'come back later to finish filling it out',
     );
     // Lower SiP alert not shown
-    expect($('.sip-wrapper .schemaform-sip-alert', container)).to.not.exist;
+    expect($('.sip-wrapper.bottom va-alert[status="info"]', container)).to.not
+      .exist;
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 });

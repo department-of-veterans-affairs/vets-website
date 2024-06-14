@@ -1,17 +1,12 @@
-// Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function SubmitSignInForm({ startSentence }) {
   return (
     <span>
       {startSentence ? 'Call' : 'call'} our MyVA411 main information line for
-      help at <Telephone contact={CONTACTS.HELP_DESK} />
-      &nbsp;(TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      help at <va-telephone contact={CONTACTS.HELP_DESK} /> (
+      <va-telephone contact={CONTACTS['711']} tty />
       ).
     </span>
   );

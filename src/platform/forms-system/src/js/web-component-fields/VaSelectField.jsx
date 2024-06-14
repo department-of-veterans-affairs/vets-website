@@ -11,13 +11,37 @@ function optionsList(schema) {
   });
 }
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Usage uiSchema:
+ * ```
+ * select: {
+ *   'ui:title': 'Select field',
+ *   'ui:webComponentField': VaSelectField,
+ *   'ui:description': 'description',
+ *   'ui:options': {
+ *     labels: {
+ *       option1: 'Option 1',
+ *       option2: 'Option 2',
+ *     },
+ *   },
+ * }
+ * ```
+ *
+ * Usage schema:
+ * ```
+ * select: {
+ *   type: 'string',
+ *   enum: ['option1', 'option2'],
+ * }
+ * ```
+ * @param {WebComponentFieldProps} props */
 export default function VaSelectField(props) {
   let addDefaultEntry = false;
   const mappedProps = vaSelectFieldMapping(props);
   const enumOptions =
-    Array.isArray(props.childrenProps.schema.enum) &&
-    optionsList(props.childrenProps.schema);
+    (Array.isArray(props.childrenProps.schema.enum) &&
+      optionsList(props.childrenProps.schema)) ||
+    [];
   const labels = props.uiOptions?.labels || {};
 
   if (!mappedProps?.uswds) {
@@ -32,7 +56,7 @@ export default function VaSelectField(props) {
       value={
         props.childrenProps.formData ??
         props.childrenProps.schema.default ??
-        null
+        undefined
       }
     >
       {addDefaultEntry &&
@@ -53,7 +77,7 @@ VaSelectField.propTypes = {
   childrenProps: PropTypes.object,
   description: PropTypes.string,
   error: PropTypes.string,
-  index: PropTypes.number,
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   label: PropTypes.string,
   required: PropTypes.bool,
   textDescription: PropTypes.string,

@@ -8,6 +8,7 @@ import {
 } from '../utils/contactInfo';
 import { PRIMARY_PHONE, errorMessages } from '../constants';
 import { content } from '../content/primaryPhone';
+import { data995 } from '../../shared/props';
 
 const PrimaryPhoneReview = ({ data, editPage }) => {
   const primary = data[PRIMARY_PHONE] || '';
@@ -28,19 +29,19 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.reviewTitle}
         </h4>
-        <button
-          type="button"
-          className="edit-page usa-button-secondary float-right"
+        <va-button
+          secondary
+          class="edit-page float-right"
           onClick={editPage}
-          aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          label={content.editLabel}
+          text={content.edit}
+          uswds
+        />
       </div>
       <dl className="review">
         <div className="review-row">
           <dt className={labelWrapClasses}>{error || label}</dt>
-          <dd>
+          <dd className="dd-privacy-hidden" data-dd-action-name="primary phone">
             <strong>{error ? '' : getFormattedPhone(phone)}</strong>
           </dd>
         </div>
@@ -50,13 +51,7 @@ const PrimaryPhoneReview = ({ data, editPage }) => {
 };
 
 PrimaryPhoneReview.propTypes = {
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({}),
-      mobilePhone: PropTypes.shape({}),
-    }),
-    [PRIMARY_PHONE]: PropTypes.string,
-  }),
+  data: data995,
   editPage: PropTypes.func,
 };
 

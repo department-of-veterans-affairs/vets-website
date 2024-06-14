@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { $ } from '../../utils/ui';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -13,7 +13,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.infoPages.pages.confirmContactInformation;
+} = formConfig.chapters.infoPages.pages.confirmContactInfo;
 
 describe('contact information page', () => {
   it('should render', () => {
@@ -28,5 +28,9 @@ describe('contact information page', () => {
     );
 
     expect($('button[type="submit"]', container)).to.exist;
+  });
+  it('should have ui:required return true', () => {
+    // code coverage
+    expect(uiSchema['ui:required']()).to.be.true;
   });
 });

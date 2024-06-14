@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { usePrevious } from '@department-of-veterans-affairs/platform-utilities/exports';
+import PropTypes from 'prop-types';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-
 import * as actions from '../../redux/actions';
 import { getFacilityPageInfo } from '../../redux/selectors';
 import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
@@ -16,10 +16,13 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import InfoAlert from '../../../components/InfoAlert';
-import { usePrevious } from 'platform/utilities/react-hooks';
 import useFormState from '../../../hooks/useFormState';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../../flow';
 
 const pageKey = 'vaFacility';
 
@@ -34,20 +37,30 @@ function VAFacilityPage({
   openFacilityPage,
   pageChangeInProgress,
   requestLocationStatus,
-  routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage,
   selectedFacility,
   showEligibilityModal,
   singleValidVALocation,
   sortMethod,
   updateFacilitySortMethod,
   supportedFacilities,
+  changeCrumb,
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const dispatch = useDispatch();
+
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
-    : 'Choose a location';
+    : 'Choose a VA location';
+
+  useEffect(() => {
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -107,9 +120,11 @@ function VAFacilityPage({
     [loadingFacilities],
   );
 
-  const goBack = () => routeToPreviousAppointmentPage(history, pageKey, data);
+  const goBack = () =>
+    dispatch(routeToPreviousAppointmentPage(history, pageKey, data));
 
-  const goForward = () => routeToNextAppointmentPage(history, pageKey, data);
+  const goForward = () =>
+    dispatch(routeToNextAppointmentPage(history, pageKey, data));
 
   const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
@@ -130,6 +145,15 @@ function VAFacilityPage({
       <div>
         <va-loading-indicator message="Finding locations" />
       </div>
+    );
+  }
+  if (loadingClinics) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
     );
   }
 
@@ -219,6 +243,7 @@ function VAFacilityPage({
               <p>
                 Or,{' '}
                 <button
+                  type="button"
                   className="va-button-link"
                   onClick={() => {
                     updateFacilitySortMethod(
@@ -242,6 +267,7 @@ function VAFacilityPage({
             <p>
               Or,{' '}
               <button
+                type="button"
                 className="va-button-link"
                 onClick={() => {
                   updateFacilitySortMethod(
@@ -300,13 +326,6 @@ function VAFacilityPage({
           </SchemaForm>
         )}
 
-      <LoadingOverlay
-        show={loadingClinics}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
-
       {showEligibilityModal && (
         <EligibilityModal
           clinicsStatus={clinicsStatus}
@@ -318,6 +337,26 @@ function VAFacilityPage({
   );
 }
 
+VAFacilityPage.propTypes = {
+  address: PropTypes.object,
+  canScheduleAtChosenFacility: PropTypes.bool,
+  changeCrumb: PropTypes.func,
+  clinicsStatus: PropTypes.string,
+  facilitiesStatus: PropTypes.string,
+  hideEligibilityModal: PropTypes.func,
+  initialData: PropTypes.object,
+  noValidVAFacilities: PropTypes.bool,
+  openFacilityPage: PropTypes.func,
+  pageChangeInProgress: PropTypes.bool,
+  requestLocationStatus: PropTypes.string,
+  selectedFacility: PropTypes.object,
+  showEligibilityModal: PropTypes.bool,
+  singleValidVALocation: PropTypes.bool,
+  sortMethod: PropTypes.string,
+  supportedFacilities: PropTypes.array,
+  updateFacilitySortMethod: PropTypes.func,
+};
+
 function mapStateToProps(state) {
   return getFacilityPageInfo(state);
 }
@@ -325,8 +364,6 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   hideEligibilityModal: actions.hideEligibilityModal,
   openFacilityPage: actions.openFacilityPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   updateFacilitySortMethod: actions.updateFacilitySortMethod,
   updateFormData: actions.updateFormData,
 };

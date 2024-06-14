@@ -18,38 +18,28 @@ export const waiveRetirementPayDescription = (
       depending on if you choose compensation pay versus retirement pay. The tax
       rates below are estimated and will vary depending on income.
     </p>
-    <table>
-      <thead>
-        <tr>
-          <td />
-          <th>Compensation pay</th>
-          <th>Retirement pay</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Monthly base pay example</td>
-          <td>$700</td>
-          <td>$700</td>
-        </tr>
-        <tr>
-          <td>Estimated taxes per month</td>
-          <td>$0 (tax-free)</td>
-          <td>$70</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Total monthly pay example</strong>
-          </td>
-          <td>
-            <strong>$700</strong>
-          </td>
-          <td>
-            <strong>$630</strong>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <va-table>
+      <va-table-row slot="headers">
+        <span> </span>
+        <span>Compensation pay</span>
+        <span>Retirement pay</span>
+      </va-table-row>
+      <va-table-row>
+        <span>Monthly base pay example</span>
+        <span>$700</span>
+        <span>$700</span>
+      </va-table-row>
+      <va-table-row>
+        <span>Estimated taxes per month</span>
+        <span>$0 (tax-free)</span>
+        <span>$70</span>
+      </va-table-row>
+      <va-table-row>
+        <strong>Total monthly pay example</strong>
+        <strong>$700</strong>
+        <strong>$630</strong>
+      </va-table-row>
+    </va-table>
     <p>
       <strong>Please note: </strong>
       If your combined disability rating eventually exceeds 50%, you may be

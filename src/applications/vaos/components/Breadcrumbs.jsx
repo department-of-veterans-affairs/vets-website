@@ -1,106 +1,94 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
+import { useLocation } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import { selectFeatureStatusImprovement } from '../redux/selectors';
-import { GA_PREFIX } from '../utils/constants';
+import manifest from '../manifest.json';
+import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
+import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
 
 export default function VAOSBreadcrumbs({ children }) {
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
   const location = useLocation();
-  const isPast = location.pathname.includes('/past');
-  const isPending =
-    location.pathname.includes('/pending') ||
-    location.pathname.includes('/requests');
-  const breadcrumbsRef = useRef(null);
+  // get boolean if single va location
+
+  const [breadcrumb, setBreadcrumb] = useState([]);
+
+  const label = useSelector(state => getUrlLabel(state, location));
+  const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
+  const newLabel = label === undefined || label === null ? covidLabel : label;
 
   useEffect(
     () => {
-      const updateBreadcrumbs = () => {
-        const anchorNodes = Array.from(
-          breadcrumbsRef.current.querySelectorAll('a'),
-        );
-
-        anchorNodes.forEach((crumb, index) => {
-          crumb.removeAttribute('aria-current');
-
-          if (index === anchorNodes.length - 1) {
-            crumb.setAttribute('aria-current', 'page');
-          }
-        });
-      };
-      updateBreadcrumbs();
+      setBreadcrumb(newLabel);
     },
-    [location, breadcrumbsRef],
+    [location, newLabel],
   );
 
-  const handleClick = gaEvent => {
-    return () => {
-      recordEvent({
-        event: `${GA_PREFIX}-breadcrumb-${gaEvent}-clicked`,
-      });
-    };
+  const getBreadcrumbList = () => {
+    const isPast = location.pathname.includes('/past');
+    const isPending = location.pathname.includes('/pending');
+
+    const BREADCRUMB_BASE = [
+      {
+        href: '/',
+        label: 'Home',
+      },
+      {
+        href: '/my-health',
+        label: 'My HealtheVet',
+      },
+      {
+        href: manifest.rootUrl,
+        label: 'Appointments',
+      },
+    ];
+    if (
+      window.location.pathname === `${manifest.rootUrl}/` ||
+      window.location.pathname === manifest.rootUrl
+    ) {
+      return BREADCRUMB_BASE;
+    }
+
+    if (isPast) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: 'Past appointments',
+        },
+      ];
+    }
+    if (isPending) {
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: window.location.href,
+          label: 'Pending appointments',
+        },
+      ];
+    }
+
+    return [
+      ...BREADCRUMB_BASE,
+      {
+        href: window.location.href,
+        label: breadcrumb,
+      },
+    ];
   };
 
-  // The va-breadcrumbs component only allows for either Link components or anchor links,
-  // it will not work with the va-link component currently
   return (
-    <va-breadcrumbs
-      role="navigation"
-      aria-label="Breadcrumbs"
-      ref={breadcrumbsRef}
-      class="vaos-hide-for-print"
-    >
-      <a href="/" key="home" onClick={handleClick('home')}>
-        Home
-      </a>
-      <a
-        href="/health-care"
-        key="health-care"
-        onClick={handleClick('health-care')}
+    <>
+      <VaBreadcrumbs
+        role="navigation"
+        aria-label="Breadcrumbs"
+        class="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--0 small-screen:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2"
+        breadcrumbList={getBreadcrumbList()}
+        uswds
       >
-        Health care
-      </a>
-      <a
-        href="/health-care/schedule-view-va-appointments"
-        key="schedule-view-va-appointments"
-        onClick={handleClick('schedule-managed')}
-      >
-        Schedule and manage health appointments
-      </a>
-      {!featureStatusImprovement && (
-        <NavLink to="/" id="vaos-home">
-          VA online scheduling
-        </NavLink>
-      )}
-      {featureStatusImprovement && (
-        <NavLink to="/" id="vaos-home">
-          Appointments
-        </NavLink>
-      )}
-
-      {isPast && (
-        <li className="va-breadcrumbs-li">
-          <NavLink to="/past" id="past">
-            Past
-          </NavLink>
-        </li>
-      )}
-
-      {featureStatusImprovement &&
-        isPending && (
-          <li className="va-breadcrumbs-li">
-            <NavLink to="/pending" id="pending">
-              Pending
-            </NavLink>
-          </li>
-        )}
-
-      {children}
-    </va-breadcrumbs>
+        {children}
+      </VaBreadcrumbs>
+    </>
   );
 }
 

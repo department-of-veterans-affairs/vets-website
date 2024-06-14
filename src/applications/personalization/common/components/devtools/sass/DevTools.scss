@@ -1,0 +1,45 @@
+.devtools-panel {
+  position: fixed;
+  pointer-events: none;
+  left: 1vw;
+  top: 1vw;
+  overflow: scroll;
+  max-height: 100vh;
+  min-height: 25vh;
+  max-width: 100vw;
+  min-width: 25vw;
+  height: 75vh;
+  resize: both;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+
+.devtools-panel--hidden {
+  opacity: 0;
+}
+
+.devtools-panel--shown {
+  padding: 1rem 2rem;
+  display: block;
+  z-index: 999999999999;
+  pointer-events: all;
+  opacity: 1;
+  border-radius: 1rem;
+  pointer-events: all;
+}
+
+.devtools-container {
+  position: relative;
+  right: 0;
+  bottom: 0;
+}
+
+.devtools-show-icon .devtools-container .devtools-show-button {
+  position: absolute;
+  right: -1rem;
+  bottom: -3.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: .3rem;
+}
+

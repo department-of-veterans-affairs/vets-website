@@ -50,6 +50,7 @@ const PriorService = ({
     name: key,
     label:
       'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -64,7 +65,7 @@ const PriorService = ({
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}

@@ -5,13 +5,15 @@ import {
   VaButtonPair,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { ROUTES } from '../constants';
 import { updateEditMode, updateYear } from '../actions';
+import { customizeTitle } from '../utilities/customize-title';
 
 const YearPage = ({
   editMode,
+  pastMode,
   router,
   toggleEditMode,
   updateYearField,
@@ -19,10 +21,27 @@ const YearPage = ({
 }) => {
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const H1 = 'Income limits from past years going back to 2001';
 
   useEffect(() => {
-    focusElement('h1');
-  }, []);
+    document.title = customizeTitle(H1);
+  });
+
+  useEffect(
+    () => {
+      // If pastMode is null, the home screen hasn't been used yet
+      const shouldRedirectToHome = pastMode === null;
+
+      if (shouldRedirectToHome) {
+        router.push(ROUTES.HOME);
+        return;
+      }
+
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      waitForRenderThenFocus('h1');
+    },
+    [pastMode, router],
+  );
 
   const onContinueClick = () => {
     setSubmitted(true);
@@ -39,7 +58,7 @@ const YearPage = ({
   };
 
   const onBackClick = () => {
-    // don't do anything yet
+    router.push(ROUTES.HOME);
   };
 
   const onYearInput = event => {
@@ -49,7 +68,7 @@ const YearPage = ({
   const makeYearArray = () => {
     const years = [];
     let currentYear = new Date().getFullYear();
-    const earliestYear = 2015;
+    const earliestYear = 2001;
 
     while (currentYear >= earliestYear) {
       years.push(currentYear);
@@ -74,38 +93,37 @@ const YearPage = ({
 
   return (
     <>
-      <h1>Ipsum quia dolor sit amet consectetur adipisci velit</h1>
+      <h1>{H1}</h1>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non
-        tortor massa. Fusce eros mi, porttitor eu neque nec, mattis vehicula
-        urna. Integer consectetur urna ex, ac tempor urna feugiat ut.
-      </p>{' '}
+        Select the year you&#8217;d like to check income limits for. Then answer
+        2 questions to find out how your income may have affected your VA health
+        care eligibility and costs for that year.
+      </p>
       <p>
-        Curabitur euismod fermentum ante, non maximus ex feugiat quis. Fusce
-        dignissim commodo mauris. Duis posuere congue elit. Aenean ut fermentum
-        quam. Morbi faucibus lacus eu tristique tempor. Fusce at leo ipsum.
-        Maecenas at augue arcu. Duis eu lacinia ligula, quis sodales felis.
-        Praesent aliquet dictum nisl, vel rhoncus eros luctus vulputate. Nullam
-        a massa ut tellus consectetur porttitor.
+        You&#8217;ll need information about your previous year&#8217;s household
+        income and deductions to check income limits. Limits vary by where you
+        live and change each year.
       </p>
       <VaSelect
         autocomplete="false"
         data-testid="il-year"
-        error={(submitted && error && 'Please select a year') || null}
+        error={(submitted && error && 'Select a year.') || null}
         id="year"
         label="Year"
         name="year"
-        required
         value={yearInput}
         onVaSelect={onYearInput}
+        uswds
       >
         {makeYearArray()}
       </VaSelect>
       <VaButtonPair
+        class="vads-u-margin-top--1"
         data-testid="il-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
+        uswds
       />
     </>
   );
@@ -113,6 +131,7 @@ const YearPage = ({
 
 const mapStateToProps = state => ({
   editMode: state?.incomeLimits?.editMode,
+  pastMode: state?.incomeLimits?.pastMode,
   yearInput: state?.incomeLimits?.form?.year,
 });
 
@@ -123,6 +142,7 @@ const mapDispatchToProps = {
 
 YearPage.propTypes = {
   editMode: PropTypes.bool.isRequired,
+  pastMode: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

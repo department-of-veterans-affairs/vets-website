@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router';
-import {
-  VaButtonPair,
-  VaCheckboxGroup,
-  VaMemorableDate,
-  VaModal,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import debounce from 'platform/utilities/data/debounce';
 
-import { EVIDENCE_VA_PATH, NO_ISSUES_SELECTED } from '../constants';
-
+import { EVIDENCE_VA_PATH } from '../constants';
 import { content } from '../content/evidenceVaRecords';
-import { getSelected, getIssueName } from '../utils/helpers';
-import { getIndex } from '../utils/evidence';
-
-import { checkValidations } from '../validations';
+import { getIndex, hasErrors } from '../utils/evidence';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -27,9 +15,17 @@ import {
   isEmptyVaEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../utils/focus';
+import {
+  HeaderAndModal,
+  IssueAndDates,
+  PageNavigation,
+} from './EvidenceRecords';
+
+import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
+import { customPageProps995 } from '../../shared/props';
 
 const VA_PATH = `/${EVIDENCE_VA_PATH}`;
-// const REVIEW_AND_SUBMIT = '/review-and-submit';
 
 const defaultData = {
   locationAndName: '',
@@ -93,11 +89,9 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validateVaFromDate], currentData)[0],
-    to: checkValidations([validateVaToDate], currentData)[0],
+    from: checkValidations([validateVaFromDate], currentData),
+    to: checkValidations([validateVaToDate], currentData),
   };
-
-  const hasErrors = () => Object.values(errors).filter(Boolean).length;
 
   useEffect(
     () => {
@@ -204,7 +198,7 @@ const EvidenceVaRecords = ({
 
     onAddAnother: event => {
       event.preventDefault();
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         // don't show modal
         updateState({ submitted: true });
         focusEvidence();
@@ -220,7 +214,7 @@ const EvidenceVaRecords = ({
       event.preventDefault();
       updateState({ submitted: true });
       // non-empty entry, focus on error
-      if (hasErrors()) {
+      if (hasErrors(errors)) {
         focusEvidence();
         return;
       }
@@ -239,7 +233,7 @@ const EvidenceVaRecords = ({
       // a new empty entry
       if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
-      } else if (hasErrors()) {
+      } else if (hasErrors(errors)) {
         updateState({ submitted: true, showModal: true });
         return;
       }
@@ -289,31 +283,27 @@ const EvidenceVaRecords = ({
   };
 
   const showError = name =>
-    ((currentState.submitted || currentState.dirty[name]) && errors[name]) ||
+    ((currentState.submitted || currentState.dirty[name]) &&
+      (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
+
+  const isInvalid = (name, part) => {
+    const message = errors[name]?.[1] || '';
+    return message.includes(part) || message.includes('other');
+  };
 
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <legend id="va-evidence-title" className="vads-u-font-family--serif">
-          <h3 name="topPageElement" className="vads-u-margin--0">
-            {content.title(addOrEdit, currentIndex + 1)}
-          </h3>
-        </legend>
-        <p>{content.description}</p>
-        <VaModal
-          clickToClose
-          status="info"
-          modalTitle={content.modalTitle(currentData)}
-          primaryButtonText={content.modalYes}
-          secondaryButtonText={content.modalNo}
-          onCloseEvent={handlers.onModalClose}
-          onPrimaryButtonClick={handlers.onModalYes}
-          onSecondaryButtonClick={handlers.onModalNo}
-          visible={currentState.showModal}
-        >
-          <p>{content.modalDescription}</p>
-        </VaModal>
+        <HeaderAndModal
+          currentData={currentData}
+          currentState={currentState}
+          currentIndex={currentIndex}
+          addOrEdit={addOrEdit}
+          content={content}
+          handlers={handlers}
+        />
+
         <VaTextInput
           id="add-location-name"
           name="name"
@@ -326,89 +316,33 @@ const EvidenceVaRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
+          uswds
         />
 
-        <br role="presentation" />
-
-        <VaCheckboxGroup
-          label={content.conditions}
-          name="issues"
-          onVaChange={handlers.onIssueChange}
-          onBlur={handlers.onBlur}
-          error={showError('issues')}
-          required
-        >
-          {availableIssues.length ? (
-            availableIssues.map((issue, index) => (
-              <va-checkbox
-                key={index}
-                name="issues"
-                label={issue}
-                value={issue}
-                checked={(currentData?.issues || []).includes(issue)}
-              />
-            ))
-          ) : (
-            <strong>{NO_ISSUES_SELECTED}</strong>
-          )}
-        </VaCheckboxGroup>
-
-        <VaMemorableDate
-          id="location-from-date"
-          name="from"
-          label={content.dateStart}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.evidenceDates?.from}
-          error={showError('from')}
+        <IssueAndDates
+          currentData={currentData}
+          availableIssues={availableIssues}
+          content={content}
+          handlers={handlers}
+          showError={showError}
+          isInvalid={isInvalid}
+          dateRangeKey="evidenceDates"
         />
-        <VaMemorableDate
-          id="location-to-date"
-          name="to"
-          label={content.dateEnd}
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.evidenceDates?.to}
-          error={showError('to')}
-          required
-        />
-        <div className="vads-u-margin-top--2">
-          <Link
-            to={`${VA_PATH}?index=${currentIndex + 1}`}
-            onClick={handlers.onAddAnother}
-            className="vads-c-action-link--green"
-          >
-            Add another location
-          </Link>
-        </div>
 
-        <div className="vads-u-margin-top--4">
-          {contentBeforeButtons}
-          <div className="form-progress-buttons schemaform-buttons vads-u-margin-y--2">
-            <VaButtonPair
-              continue
-              onPrimaryClick={handlers.onGoForward}
-              onSecondaryClick={handlers.onGoBack}
-              aria-describedby="nav-form-header"
-            />
-          </div>
-          {contentAfterButtons}
-        </div>
+        <PageNavigation
+          path={`${VA_PATH}?index=${currentIndex + 1}`}
+          content={{
+            ...content,
+            contentBeforeButtons,
+            contentAfterButtons,
+          }}
+          handlers={handlers}
+        />
       </fieldset>
     </form>
   );
 };
 
-EvidenceVaRecords.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({}),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidenceVaRecords.propTypes = customPageProps995;
 
 export default EvidenceVaRecords;

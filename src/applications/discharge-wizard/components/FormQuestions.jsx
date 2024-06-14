@@ -1,13 +1,10 @@
-// Dependencies.
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-// Relative Imports
-import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { focusElement, getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 const FormQuestions = ({ formValues, updateFormField }) => {
   useEffect(
@@ -70,10 +67,12 @@ const FormQuestions = ({ formValues, updateFormField }) => {
   const handleScrollTo = e => {
     e.preventDefault();
 
+    const name = e.target.getAttribute('name');
+
     recordEvent({ event: 'discharge-upgrade-review-edit' });
 
     scrollTo(
-      e.target.name,
+      name,
       getScrollOptions() || {
         duration: 1000,
         smooth: true,
@@ -81,8 +80,8 @@ const FormQuestions = ({ formValues, updateFormField }) => {
       },
     );
     (
-      document.querySelector(`input[name="${e.target.name}"]`) ||
-      document.querySelector(`select[name="${e.target.name}"]`)
+      document.querySelector(`input[name="${name}"]`) ||
+      document.querySelector(`select[name="${name}"]`)
     ).focus();
   };
 

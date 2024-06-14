@@ -3,9 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 
 import ServiceProvidersText, {
@@ -77,7 +75,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           If we haven’t contacted you within a week after you submitted your
           application, please don’t apply again. Instead, please call our
-          toll-free hotline at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          toll-free hotline at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
           We’re here Monday through Friday, 8:00 am to 8:00 pm ET.
         </p>
         <h3>How can I check the status of my application?</h3>
@@ -124,7 +122,7 @@ export class ConfirmationPage extends React.Component {
         </h3>
         <p>
           Please call our toll-free hotline at{' '}
-          <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
+          <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
           through Friday, 8:00 am to 8:00 pm ET.
         </p>
       </div>

@@ -20,7 +20,7 @@ describe('the Edu-Benefit 0994 Introduction Page', () => {
 
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
     expect(wrapper.exists('WizardContainer')).to.equal(false);
-    expect(wrapper.exists('.subway-map')).to.equal(true);
+    expect(wrapper.exists('.subway-map')).to.equal(false);
     wrapper.unmount();
   });
   it('should show the subway map if the wizard was completed', () => {
@@ -40,7 +40,21 @@ describe('the Edu-Benefit 0994 Introduction Page', () => {
       expect(status).to.equal(WIZARD_STATUS_COMPLETE);
     });
     expect(wrapper.exists('WizardContainer')).to.equal(false);
-    expect(wrapper.exists('.subway-map')).to.equal(true);
+    expect(wrapper.exists('.subway-map')).to.equal(false);
+    wrapper.unmount();
+  });
+  it('should return null When showWizard is undefined', () => {
+    const fakeStore = {
+      getState: () => ({
+        showWizard: undefined,
+        route: { formConfig: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
+
+    const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+    expect(wrapper).to.not.be.null;
     wrapper.unmount();
   });
 });

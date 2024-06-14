@@ -1,5 +1,5 @@
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
-import { generateFeatureToggles } from 'applications/personalization/profile/mocks/endpoints/feature-toggles';
+import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 
 import {
   mockNotificationSettingsAPIs,
@@ -7,7 +7,6 @@ import {
 } from '../helpers';
 
 import NotificationSettingsFeature from './NotificationSettingsFeature';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 // tests anything that relies on feature toggles within the notifications settings page
 
@@ -34,8 +33,6 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      checkForLegacyLoadingIndicator();
-
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmPaymentNotificationSetting({
@@ -55,8 +52,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      checkForLegacyLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
@@ -80,8 +75,6 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      checkForLegacyLoadingIndicator();
-
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
@@ -102,8 +95,6 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
-      checkForLegacyLoadingIndicator();
-
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
@@ -122,11 +113,11 @@ describe('Notification Settings Feature Toggles', () => {
         generateFeatureToggles({
           profileShowMhvNotificationSettings: true,
           profileShowPaymentsNotificationSetting: true,
+          profileShowEmailNotificationSettings: true,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-      checkForLegacyLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
@@ -156,8 +147,6 @@ describe('Notification Settings Feature Toggles', () => {
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      checkForLegacyLoadingIndicator();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 

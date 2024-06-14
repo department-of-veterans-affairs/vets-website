@@ -3,14 +3,13 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 // Relative imports.
-import AuthContent from '.';
+import { AuthContent } from '.';
 
 describe('Scheduling Page <AuthContent>', () => {
   it('renders what we expect', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
       'How can these appointment tools help me manage my care?',
     );

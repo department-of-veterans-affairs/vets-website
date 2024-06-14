@@ -16,7 +16,7 @@ import {
 
 import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 
-describe.skip('Enhanced FSR debt and copay alerts', () => {
+describe('Enhanced FSR debt and copay alerts', () => {
   afterEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
@@ -31,7 +31,6 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
         features: [
           { name: 'show_financial_status_report_wizard', value: true },
           { name: 'show_financial_status_report', value: true },
-          { name: 'combined_financial_status_report', value: true },
           {
             name: 'combined_financial_status_report_enhancements',
             value: true,

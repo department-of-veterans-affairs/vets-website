@@ -192,9 +192,17 @@ const cypressConfig = {
     baseUrl: 'http://localhost:3001',
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
-    experimentalSessionAndOrigin: true,
     includeShadowDom: true,
   },
 };
 
-module.exports = defineConfig(cypressConfig);
+module.exports = {
+  ...defineConfig(cypressConfig),
+
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'webpack',
+    },
+  },
+};

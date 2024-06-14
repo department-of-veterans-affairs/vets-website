@@ -1,0 +1,75 @@
+{
+  "formData": {
+    "fullName": {
+      "first": "Eddie",
+      "middle": "J",
+      "last": "Caldwell"
+    },
+    "permanentAddress": {
+      "street": "8918 Holder Avenue",
+      "city": "Weston",
+      "state": "OK",
+      "country": "United States",
+      "postalCode": "86401"
+    },
+    "temporaryAddress": {
+      "street": "201 Example Street",
+      "city": "Galveston",
+      "state": "TX",
+      "country": "United States",
+      "postalCode": "77550"
+    },
+    "ssnLastFour": "1086",
+    "gender": "M",
+    "vetEmail": "vet@vet.com",
+    "dateOfBirth": "1933-10-27",
+    "eligibility": {
+      "batteries": true,
+      "accessories": false
+    },
+    "supplies": [
+      {
+        "deviceName": "OMEGAX d3241",
+        "productName": "ZA1239",
+        "productGroup": "Battery",
+        "productId": 1,
+        "availableForReorder": true,
+        "lastOrderDate": "2022-01-01",
+        "nextAvailabilityDate": "2022-01-01",
+        "quantity": 60,
+        "prescribedDate": "2022-12-20"
+      },
+      {
+        "productName": "DOME",
+        "productGroup": "Accessory",
+        "productId": 3,
+        "lastOrderDate": "2021-06-30",
+        "nextAvailabilityDate": "2022-12-15",
+        "quantity": 10,
+        "size": "6mm"
+      },
+      {
+        "productName": "DOME",
+        "productGroup": "Accessory",
+        "productId": 4,
+        "lastOrderDate": "2021-06-30",
+        "nextAvailabilityDate": "2022-12-15",
+        "quantity": 10,
+        "size": "7mm"
+      },
+      {
+        "productName": "WaxBuster Single Unit",
+        "productGroup": "Accessory",
+        "productId": 5,
+        "lastOrderDate": "2021-06-30",
+        "nextAvailabilityDate": "2022-12-15",
+        "quantity": 10
+      }
+    ]
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

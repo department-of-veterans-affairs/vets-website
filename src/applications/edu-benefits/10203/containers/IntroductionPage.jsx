@@ -1,17 +1,19 @@
 import React from 'react';
-import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-    this.props.getRemainingEntitlement();
+    if (this.props.isLoggedIn) {
+      focusElement('.va-nav-breadcrumbs-list');
+      this.props.getRemainingEntitlement();
+    }
   }
 
   moreThanSixMonths = remaining => {
@@ -21,10 +23,7 @@ export class IntroductionPage extends React.Component {
 
   loginPrompt() {
     if (this.props.isLoggedIn) {
-      if (
-        this.props.useEvss &&
-        this.moreThanSixMonths(this.props?.remainingEntitlement)
-      ) {
+      if (this.moreThanSixMonths(this.props?.remainingEntitlement)) {
         return (
           <div
             id="entitlement-remaining-alert"
@@ -239,18 +238,28 @@ export class IntroductionPage extends React.Component {
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >
-          <OMBInfo resBurden={15} ombNumber="2900-0878" expDate="06/30/2023" />
+          <va-omb-info
+            res-burden={15}
+            omb-number="2900-0878"
+            exp-date="06/30/2026"
+          />
         </div>
       </div>
     );
   }
 }
 
+IntroductionPage.propTypes = {
+  getRemainingEntitlement: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  remainingEntitlement: PropTypes.object,
+  route: PropTypes.object,
+};
+
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
-    useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
   };
 };
 

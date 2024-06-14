@@ -10,11 +10,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({
-  location,
-  index,
-  showCovidVaccineWalkInAvailabilityText,
-}) => {
+const Covid19Result = ({ location, index }) => {
   const {
     name,
     website,
@@ -22,10 +18,10 @@ const Covid19Result = ({
     detailedServices,
     phone,
   } = location.attributes;
-  const appointmentPhone = detailedServices
-    ? detailedServices[0]?.appointmentPhones[0]
-    : null;
-  const infoURL = detailedServices ? detailedServices[0]?.path : null;
+
+  const appointmentPhone =
+    detailedServices?.[0]?.appointmentPhones?.[0] || null;
+  const infoURL = detailedServices?.[0]?.path || null;
 
   return (
     <div className="facility-result" id={location.id} key={location.id}>
@@ -60,17 +56,9 @@ const Covid19Result = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {showCovidVaccineWalkInAvailabilityText && (
-          <strong className="vads-u-margin-bottom--2 vads-u-display--block">
-            Walk-ins accepted
-          </strong>
-        )}
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
-            showCovidVaccineWalkInAvailabilityText={
-              showCovidVaccineWalkInAvailabilityText
-            }
             labelId={`${location.id}-phoneLabel`}
           />
         ) : (
@@ -81,14 +69,18 @@ const Covid19Result = ({
             <va-telephone
               className="vads-u-margin-left--0p25"
               contact={phone.main}
+              message-aria-describedby="Main Number"
             />
           </div>
         )}
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
-            <a href={infoURL} target="_blank" rel="noreferrer">
-              COVID-19 info at this location
-            </a>
+            <va-link
+              href={infoURL}
+              target="_blank"
+              rel="noreferrer"
+              text="COVID-19 info at this location"
+            />
           </span>
         )}
       </>
@@ -100,7 +92,6 @@ Covid19Result.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
-  showCovidVaccineWalkInAvailabilityText: PropTypes.bool,
 };
 
 export default Covid19Result;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import ViewDependentsListItem from '../../components/ViewDependentsList/ViewDependentsListItem';
 import removeDependents from '../../manage-dependents/redux/reducers';
 
@@ -13,12 +13,14 @@ describe('<ViewDependentsListItem />', () => {
     relationship: 'Child',
   };
 
-  it('Should Render with all props visible', () => {
-    const screen = renderInReduxProvider(<ViewDependentsListItem />, {
-      mockData,
-      removeDependents,
-    });
+  it('Should Render with all props visible', async () => {
+    const screen = renderInReduxProvider(
+      <ViewDependentsListItem {...mockData} />,
+      {
+        reducers: removeDependents,
+      },
+    );
 
-    expect(screen.findByText(/Cindy See/)).to.exist;
+    expect(await screen.findByText(/Cindy See/)).to.exist;
   });
 });

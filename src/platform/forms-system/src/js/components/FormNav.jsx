@@ -117,13 +117,16 @@ export default function FormNav(props) {
         // before the review & submit page may cause the customScrollAndFocus
         // function to be called inadvertently
         if (
-          formConfig.useCustomScrollAndFocus &&
           !(
             page.chapterKey === 'review' ||
             window.location.pathname.endsWith('review-and-submit')
           )
         ) {
-          customScrollAndFocus(page.scrollAndFocusTarget, index);
+          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
+            customScrollAndFocus(page.scrollAndFocusTarget, index);
+          } else {
+            focusByOrder([defaultFocusSelector, 'h2']);
+          }
         } else {
           // h2 fallback for confirmation page
           focusByOrder([defaultFocusSelector, 'h2']);
@@ -139,6 +142,7 @@ export default function FormNav(props) {
     ],
   );
 
+  const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
@@ -146,30 +150,34 @@ export default function FormNav(props) {
         <va-segmented-progress-bar
           total={chaptersLengthDisplay}
           current={currentChapterDisplay}
+          uswds={v3SegmentedProgressBar}
+          heading-text={chapterName ?? ''} // functionality only available for v3
+          name="v3SegmentedProgressBar"
+          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
         />
       )}
-      <div className="schemaform-chapter-progress">
-        <div className="nav-header nav-header-schemaform">
-          {showHeader &&
-            !hideFormNavProgress && (
-              <h2
-                id="nav-form-header"
-                data-testid="navFormHeader"
-                className="vads-u-font-size--h4"
-              >
-                {stepText}
-                {inProgressMessage}
-              </h2>
-            )}
-          {!showHeader &&
-            !hideFormNavProgress && (
-              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                {stepText}
-                {inProgressMessage}
-              </div>
-            )}
-        </div>
-      </div>
+      {!v3SegmentedProgressBar &&
+        !hideFormNavProgress && (
+          <div className="schemaform-chapter-progress">
+            <div className="nav-header nav-header-schemaform">
+              {showHeader ? (
+                <h2
+                  id="nav-form-header"
+                  data-testid="navFormHeader"
+                  className="vads-u-font-size--h4"
+                >
+                  {stepText}
+                  {inProgressMessage}
+                </h2>
+              ) : (
+                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                  {stepText}
+                  {inProgressMessage}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
     </div>
   );
 }

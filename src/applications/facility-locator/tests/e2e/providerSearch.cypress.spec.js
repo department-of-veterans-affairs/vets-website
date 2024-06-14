@@ -1,5 +1,5 @@
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
-import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
+import mockFacilitiesSearchResultsv2 from '../../constants/mock-facility-data-v1.json';
 import mockUrgentCareSearchResults from '../../constants/mock-urgent-care-mashup-data.json';
 import mockEmergencyCareSearchResults from '../../constants/mock-emergency-care-mashup-data.json';
 import mockServices from '../../constants/mock-provider-services.json';
@@ -13,27 +13,27 @@ describe('Provider search', () => {
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
     );
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/*specialties[]=1223X2210X*',
-      mockFacilitiesSearchResultsV1,
+      '/facilities_api/v2/ccp/*specialties[]=1223X2210X*',
+      mockFacilitiesSearchResultsv2,
     ).as('searchDentistsProvider');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?*specialties[]=261QE0002X*',
+      '/facilities_api/v2/ccp/provider?*specialties[]=261QE0002X*',
       mockEmergencyCareSearchResults,
     ).as('searchFacilitiesProvider');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/urgent_care?*',
+      '/facilities_api/v2/ccp/urgent_care?*',
       mockUrgentCareSearchResults,
     ).as('searchUrgentCare');
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?*specialties[]=261QU0200X*',
+      '/facilities_api/v2/ccp/provider?*specialties[]=261QU0200X*',
       mockUrgentCareSearchResults,
     ).as('searchUrgentCare');
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
@@ -43,9 +43,10 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Community providers (in VA’s network)');
 
     // Wait for services to be saved to state and input field to not be disabled
     cy.get('#service-type-ahead-input')
@@ -64,9 +65,10 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(
-      'Community providers (in VA’s network)',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Community providers (in VA’s network)');
 
     cy.get('#service-type-ahead-input').type('djf');
     cy.get('#could-not-find-service-prompt').should('exist');
@@ -77,7 +79,10 @@ describe('Provider search', () => {
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Dentist');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
@@ -99,7 +104,10 @@ describe('Provider search', () => {
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select(CC_PROVIDER);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
@@ -119,8 +127,13 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin, TX');
-    cy.get('#facility-type-dropdown').select('Urgent care');
-    cy.get('#service-type-dropdown').select(NON_VA_URGENT_CARE);
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Urgent care');
+    cy.get('.service-type-dropdown-container')
+      .find('select')
+      .select(NON_VA_URGENT_CARE);
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       `Results for "Urgent care", "${NON_VA_URGENT_CARE}" near "Austin, Texas"`,
@@ -138,15 +151,18 @@ describe('Provider search', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin');
-    cy.get('#facility-type-dropdown').select('Emergency care');
-    cy.get('#service-type-dropdown').select(
-      'In-network community emergency care',
-    );
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Emergency care');
+    cy.get('.service-type-dropdown-container')
+      .find('select')
+      .select('In-network community emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
     );
-    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3').contains('DELL SETON MEDICAL CENTER AT UT');
 
     cy.injectAxe();

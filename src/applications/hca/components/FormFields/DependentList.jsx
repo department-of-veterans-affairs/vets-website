@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { SESSION_ITEM_NAME, SHARED_PATHS } from '../../utils/constants';
+import { normalizeFullName } from '../../utils/helpers';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 
 // declare shared routes from the form & default states
@@ -83,26 +84,26 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
   // create dependent list items
   const listItems = dependents.map((item, index) => {
     const { fullName, dependentRelation } = item;
-    const normalizedFullName = `${fullName.first} ${
-      fullName.last
-    } ${fullName.suffix || ''}`.replace(/ +(?= )/g, '');
+    const dependentName = normalizeFullName(fullName);
 
     return (
       <li
         key={index}
         id={`hca-dependent-item--${index}`}
         ref={el => listItemsRef.current.push(el)}
-        className="hca-dependent-list--tile vads-u-border--2px vads-u-border-color--gray-light"
+        className="hca-dependent-list--card vads-u-border--1px vads-u-border-color--gray-medium"
       >
         <span
-          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold"
+          className="vads-u-display--block vads-u-line-height--2 vads-u-font-weight--bold dd-privacy-mask"
           data-testid="hca-dependent-tile-name"
+          data-dd-action-name="Dependent name"
         >
-          {normalizedFullName}
+          {dependentName}
         </span>
         <span
-          className="vads-u-display--block vads-u-line-height--2"
+          className="vads-u-display--block vads-u-line-height--2 dd-privacy-mask"
           data-testid="hca-dependent-tile-relationship"
+          data-dd-action-name="Dependent relationship to veteran"
         >
           {dependentRelation}
         </span>
@@ -114,24 +115,29 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               search: `?index=${index}&action=${mode}`,
             }}
           >
-            Edit <span className="sr-only">{normalizedFullName}</span>{' '}
-            <i
-              role="presentation"
-              className="fas fa-chevron-right vads-u-margin-left--0p5"
+            Edit{' '}
+            <span className="sr-only dd-privacy-mask">{dependentName}</span>{' '}
+            <va-icon
+              class="vads-u-margin-left--0p5"
+              icon="chevron_right"
+              size={3}
+              aria-hidden="true"
             />
           </Link>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
-            className="va-button-link hca-button-action vads-u-color--secondary-dark vads-u-font-weight--bold"
-            onClick={() =>
-              handlers.showConfirm({ index, name: normalizedFullName })
-            }
+            className="va-button-link hca-button-remove"
+            onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
-            <i
-              role="presentation"
-              className="fas fa-times vads-u-margin-right--0p5"
+            <va-icon
+              class="vads-u-margin-right--0p5"
+              icon="close"
+              size={3}
+              aria-hidden="true"
             />{' '}
-            Remove <span className="sr-only">{normalizedFullName}</span>
+            Remove{' '}
+            <span className="sr-only dd-privacy-mask">{dependentName}</span>
           </button>
         </span>
       </li>
@@ -145,7 +151,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
       </ul>
 
       <VaModal
-        modalTitle="Remove this dependent"
+        modalTitle="Remove this dependent?"
         primaryButtonText="Yes, remove dependent"
         secondaryButtonText="No, cancel"
         onPrimaryButtonClick={handlers.onConfirm}
@@ -154,10 +160,12 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         visible={modal.show}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
-          This will remove <strong>{modal.item.name}</strong> and all their
-          information from your list of dependents.
+          This will remove{' '}
+          <strong className="dd-privacy-mask">{modal.item.name}</strong> and all
+          their information from your list of dependents.
         </p>
       </VaModal>
     </>

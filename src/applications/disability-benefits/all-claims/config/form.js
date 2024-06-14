@@ -54,6 +54,7 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
+  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -108,6 +109,8 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -119,8 +122,8 @@ import { createFormConfig781, createFormConfig781a } from './781';
 import createformConfig8940 from './8940';
 
 import {
-  PTSD_INCIDENT_ITERATION,
   NULL_CONDITION_STRING,
+  PTSD_INCIDENT_ITERATION,
   WIZARD_STATUS,
 } from '../constants';
 
@@ -129,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -140,12 +144,7 @@ const formConfig = {
   trackingPrefix: 'disability-526EZ-',
   downtime: {
     requiredForPrefill: true,
-    dependencies: [
-      services.evss,
-      services.emis,
-      services.mvi,
-      services.vaProfile,
-    ],
+    dependencies: [services.evss, services.mvi, services.vaProfile],
   },
   formId: VA_FORM_IDS.FORM_21_526EZ,
   wizardStorageKey: WIZARD_STATUS,
@@ -167,6 +166,7 @@ const formConfig = {
   prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
+  v3SegmentedProgressBar: true,
   savedFormMessages: {
     notFound: 'Please start over to file for disability claims increase.',
     noAuth:
@@ -185,7 +185,7 @@ const formConfig = {
     ...fullSchema.definitions,
   },
   title: ({ formData }) => getPageTitle(formData),
-  subTitle: 'Equal to VA Form 21-526EZ',
+  subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
   chapters: {
     veteranDetails: {
@@ -205,18 +205,18 @@ const formConfig = {
           schema: contactInformation.schema,
           updateFormData: contactInformation.updateFormData,
         },
-        homelessOrAtRisk1: {
+        homelessOrAtRisk: {
           title: 'Housing situation',
-          path: 'housing-situation-1',
-          depends: formData => !isBDD(formData) && !environment.isProduction(),
+          path: 'housing-situation',
+          depends: formData => !isBDD(formData),
           uiSchema: homelessOrAtRisk.uiSchema,
           schema: homelessOrAtRisk.schema,
           onContinue: captureEvents.homelessOrAtRisk,
         },
-        terminallyIll1: {
+        terminallyIll: {
           title: 'Terminally ill',
-          path: 'terminally-ill-1',
-          depends: formData => !isBDD(formData) && !environment.isProduction(),
+          path: 'terminally-ill',
+          depends: formData => !isBDD(formData),
           uiSchema: terminallyIll.uiSchema,
           schema: terminallyIll.schema,
         },
@@ -295,10 +295,10 @@ const formConfig = {
       },
     },
     disabilities: {
-      title: 'Disabilities', // this probably needs to change
+      title: 'Conditions', // this probably needs to change
       pages: {
         claimType: {
-          title: 'Claim type',
+          title: 'Reason for claim',
           path: 'claim-type',
           depends: formData => hasRatedDisabilities(formData),
           uiSchema: claimType.uiSchema,
@@ -324,10 +324,29 @@ const formConfig = {
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+            !showRevisedNewDisabilitiesPage(),
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
+        },
+        addDisabilitiesRevised: {
+          title: 'Add a new disability REVISED!',
+          path: 'new-disabilities-revised/add',
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+            showRevisedNewDisabilitiesPage(),
+          uiSchema: addDisabilitiesRevised.uiSchema,
+          schema: addDisabilitiesRevised.schema,
+          updateFormData: addDisabilitiesRevised.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
             // & submit page. Validation functions are provided the pageData and
@@ -342,7 +361,7 @@ const formConfig = {
           path: 'new-disabilities/follow-up',
           uiSchema: {
             'ui:description':
-              'Now we’re going to ask you some follow-up questions about each of your disabilities. We’ll go through them one by one.',
+              'Now we’re going to ask you some follow-up questions about each of your conditions. We’ll go through them one by one.',
           },
           schema: { type: 'object', properties: {} },
         },
@@ -531,6 +550,7 @@ const formConfig = {
           uiSchema: additionalBehaviorChanges.uiSchema,
           schema: additionalBehaviorChanges.schema,
         },
+        ...toxicExposurePages,
         prisonerOfWar: {
           title: 'Prisoner of war (POW)',
           path: 'pow',
@@ -550,7 +570,7 @@ const formConfig = {
             'ui:description': ancillaryFormsWizardDescription,
             'view:ancillaryFormsWizard': {
               'ui:title':
-                'Would you like to learn more about additional benefits?',
+                'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
           },
@@ -598,7 +618,7 @@ const formConfig = {
         },
         // End ancillary forms wizard
         summaryOfDisabilities: {
-          title: 'Summary of disabilities',
+          title: 'Summary of conditions',
           path: 'disabilities/summary',
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
@@ -708,21 +728,6 @@ const formConfig = {
           schema: paymentInformation.schema,
           onContinue: captureEvents.paymentInformation,
         },
-        homelessOrAtRisk: {
-          title: 'Housing situation',
-          path: 'housing-situation',
-          depends: formData => !isBDD(formData) && environment.isProduction(),
-          uiSchema: homelessOrAtRisk.uiSchema,
-          schema: homelessOrAtRisk.schema,
-          onContinue: captureEvents.homelessOrAtRisk,
-        },
-        terminallyIll: {
-          title: 'Terminally ill',
-          path: 'terminally-ill',
-          depends: formData => !isBDD(formData) && environment.isProduction(),
-          uiSchema: terminallyIll.uiSchema,
-          schema: terminallyIll.schema,
-        },
         vaEmployee: {
           title: 'VA employee',
           path: 'va-employee',
@@ -754,7 +759,7 @@ const formConfig = {
           path: 'fully-developed-claim',
           uiSchema: fullyDevelopedClaim.uiSchema,
           schema: fullyDevelopedClaim.schema,
-          depends: formData => !isBDD(formData) && environment.isProduction(),
+          depends: formData => !isBDD(formData),
         },
       },
     },

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import { createId } from '../utils/helpers';
+import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 
 export default function AccordionItem({
   button,
@@ -10,6 +10,7 @@ export default function AccordionItem({
   headerClass,
   onClick,
   section = false,
+  expandedWidth = false,
 }) {
   const id = `${createId(button)}-accordion`;
   const [stateExpanded, setStateExpanded] = useState(expanded || section);
@@ -29,6 +30,10 @@ export default function AccordionItem({
     });
   };
 
+  const expandedSectionClass = section
+    ? 'section-content'
+    : 'usa-accordion-content';
+
   return (
     <li className={section ? 'section-item' : 'accordion-item'} id={id}>
       {section && (
@@ -39,7 +44,11 @@ export default function AccordionItem({
           onClick={toggle}
           className="usa-accordion-button vads-u-margin--0"
         >
-          <span className="section-button-span">{button}</span>
+          {isProductionOrTestProdEnv() ? (
+            <h5 className="section-button-span">{button}</h5>
+          ) : (
+            <span className="section-button-span">{button}</span>
+          )}
         </button>
       )}
       {!section && (
@@ -63,7 +72,11 @@ export default function AccordionItem({
       )}
       <div
         id={`${id}-content`}
-        className={section ? 'section-content' : 'usa-accordion-content'}
+        className={
+          expandedWidth
+            ? 'section-content-expanded-width'
+            : expandedSectionClass
+        }
         aria-hidden={!displayExpanded}
         hidden={!displayExpanded}
       >

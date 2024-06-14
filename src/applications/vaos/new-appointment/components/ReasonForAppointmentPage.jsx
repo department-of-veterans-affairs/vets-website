@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { validateWhiteSpace } from 'platform/forms/validations';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import { useHistory } from 'react-router-dom';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
+import { getFlowType, getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
+import {
+  PURPOSE_TEXT_V2,
+  FACILITY_TYPES,
+  FLOW_TYPES,
+} from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -20,7 +27,7 @@ import {
 } from '../redux/actions';
 import {
   selectFeatureVAOSServiceRequests,
-  selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 
 function isValidComment(value) {
@@ -47,8 +54,8 @@ const initialSchema = {
     properties: {
       reasonForAppointment: {
         type: 'string',
-        enum: PURPOSE_TEXT.map(purpose => purpose.id),
-        enumNames: PURPOSE_TEXT.map(purpose => purpose.label),
+        enum: PURPOSE_TEXT_V2.map(purpose => purpose.id),
+        enumNames: PURPOSE_TEXT_V2.map(purpose => purpose.label),
       },
       reasonAdditionalInfo: {
         type: 'string',
@@ -65,36 +72,14 @@ const initialSchema = {
   },
 };
 
-const uiSchema = {
-  default: {
-    reasonForAppointment: {
-      'ui:widget': 'radio',
-      'ui:title': 'Let us know why you’re making this appointment.',
-    },
-    reasonAdditionalInfo: {
-      'ui:widget': TextareaWidget,
-      'ui:options': {
-        rows: 5,
-      },
-      'ui:validations': [validComment],
-    },
-  },
-  cc: {
-    reasonAdditionalInfo: {
-      'ui:widget': TextareaWidget,
-      'ui:title':
-        'Please let us know any additional details about your symptoms that may be helpful for the community health provider to know. (Optional)',
-      'ui:options': {
-        rows: 5,
-      },
-      'ui:validations': [validateWhiteSpace],
-    },
-  },
-};
-
 const pageKey = 'reasonForAppointment';
 
-export default function ReasonForAppointmentPage() {
+export default function ReasonForAppointmentPage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const flowType = useSelector(getFlowType);
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -102,33 +87,69 @@ export default function ReasonForAppointmentPage() {
   );
   const history = useHistory();
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const pageTitle = isCommunityCare
-    ? 'Tell us the reason for this appointment'
-    : 'Choose a reason for this appointment';
+  const pageTitle =
+    FLOW_TYPES.DIRECT === flowType
+      ? 'Tell us the reason for this appointment'
+      : 'What’s the reason for this appointment?';
   const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
-  const useAcheron = useSelector(state => selectFeatureAcheronService(state));
+  const uiSchema = {
+    default: {
+      reasonForAppointment: {
+        'ui:widget': 'radio', // Required
+        'ui:webComponentField': VaRadioField,
+        'ui:title': pageTitle,
+        'ui:errorMessages': {
+          required: 'Select a reason for your appointment',
+        },
+        'ui:options': {
+          labelHeaderLevel: '1',
+        },
+      },
+      reasonAdditionalInfo: {
+        'ui:widget': TextareaWidget,
+        'ui:options': {
+          hideLabelText: true,
+          rows: 5,
+        },
+        'ui:validations': [validComment],
+        'ui:errorMessages': {
+          required:
+            'Provide more information about why you are requesting this appointment',
+        },
+      },
+    },
+    cc: {
+      reasonAdditionalInfo: {
+        'ui:widget': TextareaWidget,
+        'ui:options': {
+          hideLabelText: true,
+          rows: 5,
+        },
+        'ui:validations': [validateWhiteSpace],
+      },
+    },
+  };
+  const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(
-        pageKey,
-        pageUISchema,
-        pageInitialSchema,
-        useV2,
-        useAcheron,
-      ),
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
     );
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
-    <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div
+      className={classNames({ 'vads-u-margin-top--neg3': !isCommunityCare })}
+    >
+      {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"
@@ -145,7 +166,6 @@ export default function ReasonForAppointmentPage() {
                 pageUISchema,
                 newData,
                 useV2,
-                useAcheron,
               ),
             )
           }
@@ -193,3 +213,7 @@ export default function ReasonForAppointmentPage() {
     </div>
   );
 }
+
+ReasonForAppointmentPage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

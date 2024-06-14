@@ -1,22 +1,25 @@
 import React from 'react';
 import moment from 'moment';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { recordEventOnce } from 'platform/monitoring/record-event';
 
 // EVSS returns dates like '2014-07-28T19:53:45.810+0000'
 const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-const outputDateFormat = 'MMMM DD, YYYY';
+const outputDateFormat = 'dddd[,] MMMM Do[,] Y [at] h[:]mm a';
+// Adding 1 hour to the displayDate output will display the time in the ET timezone as the returned time and date
+// is in the central timezone
 const displayDate = dateString =>
-  moment(dateString, evssDateFormat).format(outputDateFormat);
+  moment(dateString, evssDateFormat)
+    .add(1, 'hours')
+    .format(outputDateFormat);
 
 export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
   //  bottom margin of 0 and overrides it
   <div className="full-page-alert itf-wrapper">
-    <va-alert visible status={status}>
+    <va-alert visible status={status} uswds>
       <h2 slot="headline">{headline}</h2>
       {content}
     </va-alert>
@@ -33,6 +36,7 @@ const expander = (
   <VaAdditionalInfo
     trigger="What is an Intent to File?"
     disableAnalytics
+    disable-border
     onClick={recordITFHelpEvent}
   >
     <p className="vads-u-font-size--base">
@@ -47,29 +51,56 @@ const expander = (
 export const claimsIntakeAddress = (
   <p className="va-address-block vads-u-font-size--base">
     Department of Veterans Affairs
-    <br />
+    <br role="presentation" />
     Claims Intake Center
-    <br />
+    <br role="presentation" />
     PO Box 4444
-    <br />
+    <br role="presentation" />
     Janesville, WI 53547-4444
   </p>
 );
 
 export const itfError = (
   <div>
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <p className="vads-u-font-size--base">
-        We’re sorry. Your Intent to File request didn’t go through because
-        something went wrong on our end. For help creating an Intent to File a
-        Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
-        submit it to:
+        You can continue to file your claim or call us to confirm.
       </p>
-      {claimsIntakeAddress}
+      <strong>What an intent to file means: </strong>
+      <p className="vads-u-font-size--base">
+        An intent to file sets a potential start date (or effective date) for
+        your benefits. You then have up to 1 year to complete and file your
+        claim. And you may be able to get retroactive payments (payments for the
+        time between when you submitted your intent to file and when we approved
+        your claim).
+      </p>
+      <br />
+      <strong>What you can do next:</strong>
+      <p className="vads-u-font-size--base">
+        <ul>
+          <li>
+            You can continue and submit your claim online today—or when you’re
+            ready. If we don’t have an intent to file on record for this claim
+            that’s within the past year, we’ll use the date you submit your
+            claim as a potential start date for your benefits.
+          </li>
+          <li>
+            Or you can call us to confirm if you have an intent to file for this
+            claim and what your next step should be. Call us at{' '}
+            <va-telephone contact="8008271000" /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+          </li>
+        </ul>
+      </p>
+      <a
+        href="/resources/your-intent-to-file-a-va-claim/"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        Learn more about the intent to file process (opens in a new tab)
+      </a>
     </div>
-    {expander}
   </div>
 );
 
@@ -82,15 +113,15 @@ export const itfSuccess = (
     <p className="vads-u-font-size--base">
       Thank you for submitting your Intent to File request for disability
       compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}.
+      <strong>{displayDate(expirationDate)} ET</strong>.
     </p>
     {hasPreviousItf && (
       <p className="vads-u-font-size--base">
         <strong>Please note:</strong> We found a previous Intent to File request
-        in our records that expired on {displayDate(prevExpirationDate)}. This
-        ITF might have been from an application you started, but didn’t finish
-        before the ITF expired. Or, it could have been from a claim you already
-        submitted.
+        in our records that expired on{' '}
+        <strong>{displayDate(prevExpirationDate)} ET</strong>. This ITF might
+        have been from an application you started, but didn’t finish before the
+        ITF expired. Or, it could have been from a claim you already submitted.
       </p>
     )}
     {expander}
@@ -102,8 +133,9 @@ export const itfActive = expirationDate => (
     <p className="vads-u-font-size--base">
       Our records show that you already have an Intent to File for disability
       compensation. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}. You’ll need to submit your claim by this
-      date in order to receive payments starting from your effective date.
+      <strong>{displayDate(expirationDate)} ET</strong>. You’ll need to submit
+      your claim by this date in order to receive payments starting from your
+      effective date.
     </p>
     {expander}
   </div>

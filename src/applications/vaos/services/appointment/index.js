@@ -4,16 +4,13 @@
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
-import { getCancelReasons, updateAppointment, updateRequest } from '../var';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getAppointment,
   getAppointments,
   postAppointment,
   putAppointment,
 } from '../vaos';
-import { transformPendingAppointment } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 import {
   APPOINTMENT_TYPES,
@@ -25,12 +22,13 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
-} from './transformers.v2';
-import { captureError, has400LevelError } from '../../utils/error';
+} from './transformers';
+import { captureError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
+  getTimezoneAbbrFromApi,
   getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
@@ -83,19 +81,15 @@ function apptRequestSort(a, b) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function fetchAppointments({ startDate, endDate }) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(
-      startDate,
-      endDate,
-      ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      useAcheron,
-    );
+    const allAppointments = await getAppointments(startDate, endDate, [
+      'booked',
+      'arrived',
+      'fulfilled',
+      'cancelled',
+    ]);
 
     const filteredAppointments = allAppointments.data.filter(appt => {
       return !appt.requestedPeriods;
@@ -124,18 +118,12 @@ export async function fetchAppointments({
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = await getAppointments(
-      startDate,
-      endDate,
-      ['proposed', 'cancelled'],
-      useAcheron,
-    );
+    const appointments = await getAppointments(startDate, endDate, [
+      'proposed',
+      'cancelled',
+    ]);
 
     const requestsWithoutAppointments = appointments.data.filter(
       appt => !!appt.requestedPeriods,
@@ -169,9 +157,9 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useAcheron }) {
+export async function fetchRequestById({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
 
     return transformVAOSAppointment(appointment);
   } catch (e) {
@@ -191,9 +179,9 @@ export async function fetchRequestById({ id, useAcheron }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, useAcheron = false }) {
+export async function fetchBookedAppointment({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -228,6 +216,37 @@ export function isClinicVideoAppointment(appointment) {
     appointment?.videoData.kind === VIDEO_TYPES.clinic ||
     appointment?.videoData.kind === VIDEO_TYPES.storeForward
   );
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran uses a VA furnished device
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment that uses a VA furnished device
+ */
+export function isGfeVideoAppointment(appointment) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+
+  return (
+    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment?.videoData.isAtlas && patientHasMobileGfe)
+  );
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * at an ATLAS location
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment at ATLAS location
+ */
+export function isAtlasVideoAppointment(appointment) {
+  return appointment?.videoData.isAtlas;
 }
 
 /**
@@ -387,41 +406,6 @@ export function isUpcomingAppointment(appt) {
 }
 
 /**
- * Returns true if the given Appointment is a canceled confirmed appointment
- *
- * @export
- * @param {Appointment} appt The FHIR Appointment to check
- * @returns {boolean} Whether or not the appointment is a canceled
- *  appointment
- */
-export function isCanceledConfirmed(appt) {
-  const today = moment();
-
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos?.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
-    return (
-      appt.status === APPOINTMENT_STATUS.cancelled &&
-      apptDateTime.isValid() &&
-      apptDateTime.isAfter(
-        today
-          .clone()
-          .startOf('day')
-          .subtract(30, 'days'),
-      ) &&
-      apptDateTime.isBefore(
-        today
-          .clone()
-          .endOf('day')
-          .add(395, 'days'),
-      )
-    );
-  }
-
-  return false;
-}
-
-/**
  * Sort method for past appointments
  * @param {Appointment} a A FHIR appointment resource
  * @param {Appointment} b A FHIR appointment resource
@@ -550,77 +534,40 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment, useAcheron = false }) {
-  const result = await postAppointment(appointment, useAcheron);
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
 
   return transformVAOSAppointment(result);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
-const CANCELLED_REQUEST = 'Cancelled';
-async function cancelRequestedAppointment(request) {
+
+/**
+ * Cancels an appointment or request
+ *
+ * @export
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
+ * @returns {?Appointment} Returns either null or the updated appointment data
+ */
+export async function cancelAppointment({ appointment }) {
   const additionalEventData = {
-    appointmentType: 'pending',
-    facilityType: request.vaos?.isCommunityCare ? 'cc' : 'va',
-  };
-
-  recordEvent({
-    event: 'interaction',
-    action: eventPrefix,
-    ...additionalEventData,
-  });
-
-  try {
-    const updatedRequest = await updateRequest({
-      ...request.vaos.apiData,
-      status: CANCELLED_REQUEST,
-      appointmentRequestDetailCode: ['DETCODE8'],
-    });
-
-    recordEvent({
-      event: `${eventPrefix}-successful`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    return transformPendingAppointment(updatedRequest);
-  } catch (e) {
-    captureError(e, true);
-    recordEvent({
-      event: `${eventPrefix}-failed`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    throw e;
-  }
-}
-
-async function cancelV2Appointment(appointment, useAcheron) {
-  const additionalEventData = {
-    custom_string_1:
+    appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'appointmentType: pending'
-        : 'appointmentType: confirmed',
-    custom_string_2: appointment.vaos?.isCommunityCare
-      ? 'facilityType: cc'
-      : 'facilityType: va',
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
   };
 
   recordEvent({
-    event: 'interaction',
-    action: eventPrefix,
+    event: eventPrefix,
     ...additionalEventData,
   });
 
   try {
-    const updatedAppointment = await putAppointment(
-      appointment.id,
-      {
-        status: APPOINTMENT_STATUS.cancelled,
-      },
-      useAcheron,
-    );
+    const updatedAppointment = await putAppointment(appointment.id, {
+      status: APPOINTMENT_STATUS.cancelled,
+    });
 
     recordEvent({
       event: `${eventPrefix}-successful`,
@@ -639,110 +586,6 @@ async function cancelV2Appointment(appointment, useAcheron) {
 
     throw e;
   }
-}
-
-const UNABLE_TO_KEEP_APPT = '5';
-const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
-async function cancelBookedAppointment(appointment) {
-  const additionalEventData = {
-    appointmentType: 'confirmed',
-    facilityType: 'va',
-  };
-
-  recordEvent({
-    event: eventPrefix,
-    ...additionalEventData,
-  });
-  let cancelReasons;
-  let cancelReason;
-
-  try {
-    const cancelData = {
-      appointmentTime: moment
-        .parseZone(appointment.start)
-        .format('MM/DD/YYYY HH:mm:ss'),
-      clinicId: appointment.location.clinicId,
-      facilityId: appointment.location.vistaId,
-      remarks: '',
-      // Grabbing this from the api data because it's not clear if
-      // we have to send the real name or if the friendly name is ok
-      clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
-      cancelCode: 'PC',
-    };
-
-    cancelReasons = await getCancelReasons(appointment.location.vistaId);
-
-    if (cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
-      cancelReason = UNABLE_TO_KEEP_APPT;
-      await updateAppointment({
-        ...cancelData,
-        cancelReason,
-      });
-    } else if (
-      cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
-    ) {
-      cancelReason = cancelReasons.find(reason =>
-        VALID_CANCEL_CODES.has(reason.number),
-      );
-      await updateAppointment({
-        ...cancelData,
-        cancelReason: cancelReason.number,
-      });
-    } else {
-      throw new Error('Unable to find valid cancel reason');
-    }
-
-    recordEvent({
-      event: `${eventPrefix}-successful`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-  } catch (e) {
-    const isVaos400Error = has400LevelError(e);
-    if (isVaos400Error) {
-      Sentry.withScope(scope => {
-        scope.setExtra('error', e);
-        scope.setExtra('cancelReasons', cancelReasons);
-        scope.setExtra('cancelReason', cancelReason);
-        Sentry.captureMessage('Cancel failed due to bad request');
-      });
-    } else {
-      captureError(e, true);
-    }
-
-    recordEvent({
-      event: `${eventPrefix}-failed`,
-      ...additionalEventData,
-    });
-    resetDataLayer();
-
-    throw e;
-  }
-}
-/**
- * Cancels an appointment or request
- *
- * @export
- * @param {Object} params
- * @param {Appointment} params.appointment The appointment to cancel
- * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
- * @returns {?Appointment} Returns either null or the updated appointment data
- */
-export async function cancelAppointment({
-  appointment,
-  useV2 = false,
-  useAcheron = false,
-}) {
-  const isConfirmedAppointment =
-    appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
-
-  if (useV2) {
-    return cancelV2Appointment(appointment, useAcheron);
-  }
-  if (isConfirmedAppointment) {
-    return cancelBookedAppointment(appointment);
-  }
-  return cancelRequestedAppointment(appointment);
 }
 
 export function isInPersonVAAppointment(appointment) {
@@ -890,29 +733,26 @@ export function getCalendarData({ appointment, facility }) {
  *   - description: The written out description (e.g. Eastern time)
  */
 export function getAppointmentTimezone(appointment) {
-  // Most VA appointments will use this, since they're associated with a facility
-  if (appointment.location.vistaId) {
+  // Appointments with timezone included in api
+  if (appointment?.timezone) {
+    const abbreviation = getTimezoneAbbrFromApi(appointment);
+
+    return {
+      identifier: appointment.timezone,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+  // Fallback to getting Timezone from facility Id and hardcoded timezone Json.
+  if (appointment?.location?.vistaId) {
     const locationId =
-      appointment.location.stationId || appointment.location.vistaId;
+      appointment?.location.stationId || appointment?.location.vistaId;
     const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
       identifier: moment.tz
         .zone(getTimezoneByFacilityId(locationId))
-        ?.abbr(appointment.start),
-      abbreviation,
-      description: getTimezoneNameFromAbbr(abbreviation),
-    };
-  }
-
-  // Community Care appointments with timezone included
-  if (appointment.vaos.timeZone) {
-    const abbreviation = stripDST(
-      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
-    );
-
-    return {
-      identifier: null,
+        ?.abbr(appointment?.start),
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
@@ -999,15 +839,15 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({ featureStatusImprovement, appointment }) {
+export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
-  return isCommunityCare
-    ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-        appointment.id
-      }`
-    : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-        appointment.id
-      }`;
+
+  if (!featureBreadcrumbUrlUpdate) {
+    return isCommunityCare
+      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
+      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
+  }
+  return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 
 export function getPractitionerName(appointment) {

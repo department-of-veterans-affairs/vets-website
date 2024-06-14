@@ -1,14 +1,18 @@
+const emptyFunc = () => {
+  return 'test';
+};
+
 const createMockRouter = ({
-  push = () => {},
-  createHref = () => {},
+  push = emptyFunc,
+  createHref = emptyFunc,
   currentPage = '',
   params = {},
-  replace = () => {},
-  go = () => {},
-  goBack = () => {},
-  goForward = () => {},
-  setRouteLeaveHook = () => {},
-  isActive = () => {},
+  replace = emptyFunc,
+  go = emptyFunc,
+  goBack = emptyFunc,
+  goForward = emptyFunc,
+  setRouteLeaveHook = emptyFunc,
+  isActive = emptyFunc,
 } = {}) => {
   const pathname =
     currentPage && !currentPage.startsWith('/')
@@ -30,4 +34,4 @@ const createMockRouter = ({
   };
 };
 
-export { createMockRouter };
+export { createMockRouter, emptyFunc };

@@ -1,10 +1,10 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 
-import Decision from '../components/claims-and-appeals-v2/Decision';
+import Decision from '../components/claims-and-appeals/Decision';
 import {
   getAojDescription,
   getDocketName,
@@ -12,7 +12,8 @@ import {
   STATUS_TYPES,
   DECISION_REVIEW_URL,
   APPEAL_TYPES,
-} from './appeals-v2-helpers';
+} from './appeals-helpers';
+import { replaceDashesWithSlashes } from './date-formatting/helpers';
 
 /**
  * Grabs the matching title and dynamically-generated description for a given current status type
@@ -52,8 +53,9 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.pendingForm9: {
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
+        'MMMM d, yyyy',
       );
       contents.title = 'Please review your Statement of the Case';
       contents.description = (
@@ -95,8 +97,9 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.pendingCertificationSsoc: {
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
+        'MMMM d, yyyy',
       );
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
@@ -122,8 +125,9 @@ export function getStatusContents(appeal, name = {}) {
       break;
     }
     case STATUS_TYPES.remandSsoc: {
-      const formattedSocDate = moment(details.lastSocDate, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedSocDate = format(
+        new Date(replaceDashesWithSlashes(details.lastSocDate)),
+        'MMMM d, yyyy',
       );
       contents.title = 'Please review your Supplemental Statement of the Case';
       contents.description = (
@@ -155,8 +159,9 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.scheduledHearing: {
-      const formattedDate = moment(details.date, 'YYYY-MM-DD').format(
-        'MMMM D, YYYY',
+      const formattedDate = format(
+        new Date(replaceDashesWithSlashes(details.date)),
+        'MMMM d, yyyy',
       );
       contents.title = 'Your hearing has been scheduled';
       contents.description = (
@@ -396,14 +401,14 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     case STATUS_TYPES.postBvaDtaDecision: {
-      const formattedBvaDecisionDate = moment(
-        details.bvaDecisionDate,
-        'YYYY-MM-DD',
-      ).format('MMMM D, YYYY');
-      const formattedAojDecisionDate = moment(
-        details.aojDecisionDate,
-        'YYYY-MM-DD',
-      ).format('MMMM D, YYYY');
+      const formattedBvaDecisionDate = format(
+        new Date(replaceDashesWithSlashes(details.bvaDecisionDate)),
+        'MMMM d, yyyy',
+      );
+      const formattedAojDecisionDate = format(
+        new Date(replaceDashesWithSlashes(details.aojDecisionDate)),
+        'MMMM d, yyyy',
+      );
       contents.title = `The ${aojDescription} corrected an error`;
       contents.description = (
         <div>
@@ -426,14 +431,14 @@ export function getStatusContents(appeal, name = {}) {
       break;
     }
     case STATUS_TYPES.bvaDecisionEffectuation: {
-      const formattedBvaDecisionDate = moment(
-        details.bvaDecisionDate,
-        'YYYY-MM-DD',
-      ).format('MMMM D, YYYY');
-      const formattedAojDecisionDate = moment(
-        details.aojDecisionDate,
-        'YYYY-MM-DD',
-      ).format('MMMM D, YYYY');
+      const formattedBvaDecisionDate = format(
+        new Date(replaceDashesWithSlashes(details.bvaDecisionDate)),
+        'MMMM d, yyyy',
+      );
+      const formattedAojDecisionDate = format(
+        new Date(replaceDashesWithSlashes(details.aojDecisionDate)),
+        'MMMM d, yyyy',
+      );
       contents.title = `The ${aojDescription} corrected an error`;
       contents.description = (
         <div>

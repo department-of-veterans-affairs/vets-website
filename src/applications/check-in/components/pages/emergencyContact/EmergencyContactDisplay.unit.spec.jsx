@@ -2,16 +2,23 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import EmergencyContactDisplay from './EmergencyContactDisplay';
 
 describe('pre-check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     describe('EmergencyContactDisplay', () => {
       it('renders with default values', () => {
         const { getByTestId } = render(
           <CheckInProvider>
-            <EmergencyContactDisplay />
+            <EmergencyContactDisplay yesAction={() => {}} noAction={() => {}} />
           </CheckInProvider>,
         );
         expect(getByTestId('header')).to.contain.text(
@@ -36,7 +43,11 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <CheckInProvider>
-            <EmergencyContactDisplay emergencyContact={emergencyContact} />
+            <EmergencyContactDisplay
+              emergencyContact={emergencyContact}
+              yesAction={() => {}}
+              noAction={() => {}}
+            />
           </CheckInProvider>,
         );
         expect(getByText('Address')).to.exist;
@@ -55,7 +66,7 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <EmergencyContactDisplay yesAction={yesClick} />
+            <EmergencyContactDisplay yesAction={yesClick} noAction={() => {}} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -65,7 +76,7 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <CheckInProvider>
-            <EmergencyContactDisplay noAction={noClick} />
+            <EmergencyContactDisplay yesAction={() => {}} noAction={noClick} />
           </CheckInProvider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));

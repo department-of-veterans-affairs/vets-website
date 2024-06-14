@@ -1,18 +1,20 @@
 import React from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import { isValidDateString } from 'platform/utilities/date';
+import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
+import { isValidDateString } from '~/platform/utilities/date';
+import { formatDate } from '../../../../utils/helpers/general';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import content from '../../../../locales/en/content.json';
 
-const WarningStatus = props => {
+const WarningStatus = () => {
   const {
-    enrollmentStatus,
+    statusCode,
     applicationDate,
     enrollmentDate,
     preferredFacility,
-  } = props;
+  } = useSelector(selectEnrollmentStatus);
 
   // Derive medical facility name from facility ID
   const facilityName = getMedicalCenterNameByID(preferredFacility);
@@ -21,7 +23,7 @@ const WarningStatus = props => {
   const hasNullStatus = new Set([
     HCA_ENROLLMENT_STATUSES.deceased,
     HCA_ENROLLMENT_STATUSES.nonMilitary,
-  ]).has(enrollmentStatus);
+  ]).has(statusCode);
 
   const hasValueToRender = [
     isValidDateString(applicationDate),
@@ -29,16 +31,15 @@ const WarningStatus = props => {
     facilityName,
   ].some(v => !!v);
 
-  const showEnrolledDetails =
-    enrollmentStatus === HCA_ENROLLMENT_STATUSES.enrolled;
+  const showEnrolledDetails = statusCode === HCA_ENROLLMENT_STATUSES.enrolled;
 
   // Render based on enrollment status
   return hasValueToRender && !hasNullStatus ? (
     <ul className="hca-list-style-none">
       {isValidDateString(applicationDate) && (
         <li>
-          <strong>You applied on:</strong>{' '}
-          {moment(applicationDate).format('MMMM D, YYYY')}
+          <strong>{content['enrollment-alert-application-date-label']}</strong>{' '}
+          {formatDate(applicationDate, 'MMMM d, yyyy')}
         </li>
       )}
 
@@ -46,14 +47,14 @@ const WarningStatus = props => {
         <>
           {isValidDateString(enrollmentDate) && (
             <li>
-              <strong>We enrolled you on:</strong>{' '}
-              {moment(enrollmentDate).format('MMMM D, YYYY')}
+              <strong>{content['enrollment-alert-enrolled-date-label']}</strong>{' '}
+              {formatDate(enrollmentDate, 'MMMM d, yyyy')}
             </li>
           )}
 
           {!!facilityName && (
             <li>
-              <strong>Your preferred VA medical center is:</strong>{' '}
+              <strong>{content['enrollment-alert-facility-label']}</strong>{' '}
               {facilityName}
             </li>
           )}
@@ -61,13 +62,6 @@ const WarningStatus = props => {
       )}
     </ul>
   ) : null;
-};
-
-WarningStatus.propTypes = {
-  applicationDate: PropTypes.string,
-  enrollmentDate: PropTypes.string,
-  enrollmentStatus: PropTypes.string,
-  preferredFacility: PropTypes.string,
 };
 
 export default WarningStatus;

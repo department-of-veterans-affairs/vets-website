@@ -4,6 +4,8 @@ import { Formik } from 'formik';
 
 import profile from '@@profile/reducers';
 import connectedApps from '@@profile/components/connected-apps/reducers/connectedApps';
+import snakeCase from 'lodash/snakeCase';
+import merge from 'lodash/merge';
 import {
   renderInReduxProvider,
   renderWithStoreAndRouter,
@@ -212,11 +214,40 @@ export function createBasicInitialState() {
   };
 }
 
+const loa3State = {
+  user: {
+    profile: {
+      loa: { current: 3 },
+      verified: true,
+      multifactor: true,
+      signIn: {
+        serviceName: 'idme',
+        accountType: 'N/A',
+      },
+    },
+  },
+};
+
+export function createCustomProfileState(profileState = { ...loa3State }) {
+  const customState = merge(loa3State, profileState);
+  return merge(createBasicInitialState(), customState);
+}
+
 export function createFeatureTogglesState(customToggles = {}) {
+  // Convert the custom toggles to snake case so that they could be passed in as camel case first
+  const snakeCasedToggles = Object.entries(customToggles).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [snakeCase(key)]: value,
+    }),
+    {},
+  );
+
   return {
     featureToggles: {
       loading: false,
       ...customToggles,
+      ...snakeCasedToggles,
     },
   };
 }
@@ -271,7 +302,7 @@ export function createVapServiceState(customState = {}) {
             inputPhoneNumber: {
               'ui:title': 'Home phone number (U.S. numbers only)',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid 10-digit U.S. phone number.',
+                pattern: 'You must enter a valid 10-digit U.S. phone number.',
               },
               'ui:options': {
                 ariaDescribedby: 'error-message-details',
@@ -280,7 +311,7 @@ export function createVapServiceState(customState = {}) {
             extension: {
               'ui:title': 'Extension',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid extension.',
+                pattern: 'You must enter a valid extension.',
               },
             },
           },

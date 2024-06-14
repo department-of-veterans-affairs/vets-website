@@ -1,6 +1,7 @@
 import profile from '@@profile/reducers';
 import { combineReducers } from 'redux';
-import claimsV2 from './claimsV2';
+import notifications from '../../common/reducers/notifications';
+import claims from './claims';
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
@@ -8,11 +9,10 @@ import unreadCount from './unreadCount';
 import appointments from '~/applications/personalization/appointments/reducers';
 import debts from './debts';
 import payments from './payments';
-import notifications from './notifications';
 
 export default {
   ...profile,
-  claims: claimsV2,
+  claims,
   notifications,
   allPayments: payments,
   allDebts: debts,

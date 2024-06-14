@@ -1,44 +1,45 @@
 import React from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import { selectFeatureStatusImprovement } from '../../redux/selectors';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
+import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
 
 export default function AppointmentListNavigation({ count, callback }) {
   const location = useLocation();
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
 
-  if (featureStatusImprovement) {
-    const isPending = location.pathname.endsWith('/pending');
-    const isPast = location.pathname.endsWith('/past');
-    const isUpcoming = location.pathname.endsWith('/');
+  const isPending = location.pathname.endsWith('/pending');
+  const isPast = location.pathname.endsWith('/past');
+  const isUpcoming = location.pathname.endsWith('/');
 
-    return (
+  return (
+    <div
+      className={classNames(
+        `vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0
+           vads-u-margin-bottom--3 small-screen:${
+             isPast ? 'vads-u-margin-bottom--3' : 'vads-u-margin-bottom--4'
+           } small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium`,
+      )}
+    >
       <nav
         aria-label="Appointment list navigation"
-        className={`vaos-appts__breadcrumb xsmall-screen:${
-          isPast ? 'vads-u-margin-bottom--2' : 'vads-u-margin-bottom--3'
-        } small-screen:vads-u-margin-bottom--4`}
+        className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
       >
         <ul>
           <li>
             <NavLink
-              id="upcoming"
               to="/"
               onClick={() => callback(true)}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isUpcoming}
+              aria-current={
+                Boolean(isUpcoming).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
+              }
             >
               Upcoming
             </NavLink>
           </li>
           <li>
             <NavLink
-              id="pending"
               to="/pending"
               onClick={() => {
                 callback(true);
@@ -46,15 +47,15 @@ export default function AppointmentListNavigation({ count, callback }) {
                   event: `${GA_PREFIX}-status-pending-link-clicked`,
                 });
               }}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isPending}
+              aria-current={
+                Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
+              }
             >
               {`Pending (${count})`}
             </NavLink>
           </li>
           <li>
             <NavLink
-              id="past"
               to="/past"
               onClick={() => {
                 callback(true);
@@ -62,18 +63,20 @@ export default function AppointmentListNavigation({ count, callback }) {
                   event: `${GA_PREFIX}-status-past-link-clicked`,
                 });
               }}
-              // eslint-disable-next-line jsx-a11y/aria-proptypes
-              aria-current={isPast}
+              aria-current={
+                Boolean(isPast).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
+              }
             >
               Past
             </NavLink>
           </li>
         </ul>
-      </nav>
-    );
-  }
-
-  return null;
+      </nav>{' '}
+      <div className="vads-u-margin-bottom--1">
+        <PrintButton className="vads-u-flex--auto " />
+      </div>
+    </div>
+  );
 }
 
 AppointmentListNavigation.propTypes = {

@@ -1,19 +1,20 @@
 import React from 'react';
-import moment from 'moment';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { add } from 'date-fns';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { requestStates } from 'platform/utilities/constants';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { requestStates } from '~/platform/utilities/constants';
+import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
+import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
-import { outputDateFormat } from '../../content/itfWrapper';
-import { ITF_STATUSES, FORMAT_YMD } from '../../constants';
+import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
+
+import { getReadableDate } from '../../../shared/utils/dates';
 
 const getData = ({
   loggedIn = true,
@@ -44,9 +45,6 @@ const getData = ({
     dispatch: () => {},
   },
 });
-
-const getFormattedExpirationDate = date =>
-  moment(date, FORMAT_YMD).format(outputDateFormat);
 
 describe('ITFWrapper', () => {
   afterEach(() => {
@@ -223,7 +221,7 @@ describe('ITFWrapper', () => {
     });
   });
 
-  it('should render an error message if the ITF fetch failed', () => {
+  it('should render an info message if the ITF fetch failed', () => {
     mockApiRequest(null, false);
     const { props, mockStore } = getData({
       fetchCallState: requestStates.failed,
@@ -236,7 +234,7 @@ describe('ITFWrapper', () => {
       </Provider>,
     );
     expect($('va-alert h2', container).textContent).to.contain(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
   });
 
@@ -276,7 +274,7 @@ describe('ITFWrapper', () => {
         </ITFWrapper>
       </Provider>,
     );
-    // Fetch succeded, but no ITFs were returned
+    // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
     const newData = getData({
       fetchCallState: requestStates.succeeded,
@@ -306,15 +304,13 @@ describe('ITFWrapper', () => {
     );
     // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
-    const expirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = add(new Date(), { days: -1 });
     const newData = getData({
       fetchCallState: requestStates.succeeded,
       mockDispatch,
       currentITF: {
         status: 'active',
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
     });
     await rerender(
@@ -331,7 +327,7 @@ describe('ITFWrapper', () => {
     });
   });
 
-  it('should render an error message if the ITF creation failed', () => {
+  it('should render an info message if the ITF creation failed', () => {
     mockApiRequest(null, false);
     const data = getData({
       fetchCallState: requestStates.succeeded,
@@ -346,20 +342,18 @@ describe('ITFWrapper', () => {
       </Provider>,
     );
     expect($('va-alert h2', container).textContent).to.contain(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
+    const expirationDate = add(new Date(), { days: 1 });
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
       currentITF: {
         status: ITF_STATUSES.active,
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
     });
     const { container } = render(
@@ -372,28 +366,24 @@ describe('ITFWrapper', () => {
     expect($('va-alert h2', container).textContent).to.contain(
       'You already have an Intent to File',
     );
-    const date = getFormattedExpirationDate(expirationDate);
+    const date = getReadableDate(expirationDate);
     expect($('va-alert').innerHTML).to.contain(date);
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
-    const previousExpirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = add(new Date(), { days: 1 });
+    const previousExpirationDate = add(new Date(), { days: -1 });
 
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
       currentITF: {
         status: ITF_STATUSES.active,
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
       creationCallState: requestStates.succeeded,
       previousITF: {
-        expirationDate: previousExpirationDate,
+        expirationDate: previousExpirationDate.toISOString(),
       },
     });
     const { container } = render(
@@ -408,7 +398,7 @@ describe('ITFWrapper', () => {
       'You submitted an Intent to File',
     );
     const html = $('va-alert').innerHTML;
-    expect(html).to.contain(getFormattedExpirationDate(expirationDate));
-    expect(html).to.contain(getFormattedExpirationDate(previousExpirationDate));
+    expect(html).to.contain(getReadableDate(expirationDate));
+    expect(html).to.contain(getReadableDate(previousExpirationDate));
   });
 });

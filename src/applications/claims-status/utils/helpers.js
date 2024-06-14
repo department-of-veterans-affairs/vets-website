@@ -1,11 +1,113 @@
 import merge from 'lodash/merge';
+import { format, isValid, parseISO } from 'date-fns';
 // import * as Sentry from '@sentry/browser';
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 // import localStorage from 'platform/utilities/storage/localStorage';
-import { apiRequest } from 'platform/utilities/api';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+
 import { SET_UNAUTHORIZED } from '../actions/types';
+import {
+  DATE_FORMATS,
+  disabilityCompensationClaimTypeCodes,
+} from '../constants';
+
+// Adding !! so that we convert this to a boolean
+export const claimAvailable = claim =>
+  !!(claim && claim.attributes && Object.keys(claim.attributes).length !== 0);
+
+// Using a Map instead of the typical Object because
+// we want to guarantee that the key insertion order
+// is maintained when converting to an array of keys
+export const getStatusMap = () => {
+  const map = new Map();
+  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
+  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
+  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
+  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
+  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
+  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
+  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
+  map.set('COMPLETE', 'COMPLETE');
+  return map;
+};
+
+const statusStepMap = {
+  CLAIM_RECEIVED: 'Step 1 of 5: Claim received',
+  INITIAL_REVIEW: 'Step 2 of 5: Initial review',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'Step 3 of 5: Evidence gathering, review, and decision',
+  PREPARATION_FOR_NOTIFICATION: 'Step 4 of 5: Preparation for notification',
+  COMPLETE: 'Step 5 of 5: Closed',
+};
+
+export function getStatusDescription(status) {
+  return statusStepMap[status];
+}
+
+const claimPhaseTypeStepMap = {
+  CLAIM_RECEIVED: 'Step 1 of 8: Claim received',
+  UNDER_REVIEW: 'Step 2 of 8: Initial review',
+  GATHERING_OF_EVIDENCE: 'Step 3 of 8: Evidence gathering',
+  REVIEW_OF_EVIDENCE: 'Step 4 of 8: Evidence review',
+  PREPARATION_FOR_DECISION: 'Step 5 of 8: Rating',
+  PENDING_DECISION_APPROVAL: 'Step 6 of 8: Preparing decision letter',
+  PREPARATION_FOR_NOTIFICATION: 'Step 7 of 8: Final review',
+  COMPLETE: 'Step 8 of 8: Claim decided',
+};
+
+export function getClaimPhaseTypeHeaderText(claimPhaseType) {
+  return claimPhaseTypeStepMap[claimPhaseType];
+}
+
+const claimPhaseTypeDescriptionMap = {
+  CLAIM_RECEIVED: 'We received your claim in our system.',
+  UNDER_REVIEW:
+    'We’re checking your claim for basic information, like your name and Social Security number. If information is missing, we’ll contact you.',
+  GATHERING_OF_EVIDENCE:
+    'We’re reviewing your claim to make sure we have all the evidence and information we need. If we need anything else, we’ll contact you.',
+  REVIEW_OF_EVIDENCE:
+    'We’re reviewing all the evidence for your claim. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PREPARATION_FOR_DECISION:
+    'We’re deciding your claim and determining your disability rating. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PENDING_DECISION_APPROVAL:
+    'We’re preparing your decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+  PREPARATION_FOR_NOTIFICATION:
+    'A senior reviewer is doing a final review of your claim and the decision letter.',
+  COMPLETE:
+    'You can view and download your decision letter. We also sent you a copy by mail.',
+};
+
+export function getClaimPhaseTypeDescription(claimPhaseType) {
+  return claimPhaseTypeDescriptionMap[claimPhaseType];
+}
+
+const statusDescriptionMap = {
+  CLAIM_RECEIVED:
+    'We received your claim. We haven’t assigned the claim to a reviewer yet.',
+  INITIAL_REVIEW:
+    'We assigned your claim to a reviewer. The reviewer will determine if we need any more information from you.',
+  EVIDENCE_GATHERING_REVIEW_DECISION:
+    'We’re getting evidence from you, your health care providers, government agencies, and other sources. We’ll review the evidence and make a decision.',
+  PREPARATION_FOR_NOTIFICATION:
+    'We’ve made a decision on your claim. We’re getting your decision letter ready to mail to you.',
+  COMPLETE:
+    'We’ve made a decision about your claim. If available, you can view your decision letter. We’ll also send you your letter by U.S. mail.',
+};
+
+export function getClaimStatusDescription(status) {
+  return statusDescriptionMap[status];
+}
+
+export function isDisabilityCompensationClaim(claimTypeCode) {
+  return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
+}
+
+export function isClaimOpen(status, closeDate) {
+  const STATUSES = getStatusMap();
+  return status !== STATUSES.get('COMPLETE') && closeDate === null;
+}
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
@@ -20,6 +122,7 @@ const phaseMap = {
   8: 'Complete',
 };
 
+// Gets the user phase for LH or EVSS claim
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }
@@ -35,11 +138,6 @@ export function getUserPhaseDescription(phase) {
   return phaseMap[phase + 3];
 }
 
-export function getPhaseDescriptionFromEvent(event) {
-  const phase = parseInt(event.type.replace('phase', ''), 10);
-  return phaseMap[phase];
-}
-
 export function getUserPhase(phase) {
   if (phase < 3) {
     return phase;
@@ -51,14 +149,54 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
-// START lighthouse_migration
-export const getTrackedItemId = trackedItem =>
-  trackedItem.trackedItemId || trackedItem.id;
+function isInEvidenceGathering(claim) {
+  const allowedClaimTypes = ['evss_claims', 'claim'];
+  const isEvssClaim = claim.type === 'evss_claims';
+  const isLighthouseClaim = claim.type === 'claim';
 
+  if (!allowedClaimTypes.includes(claim.type)) {
+    return false;
+  }
+
+  if (isEvssClaim) return claim.attributes.phase === 3;
+  if (isLighthouseClaim) {
+    return claim.attributes.status === 'EVIDENCE_GATHERING_REVIEW_DECISION';
+  }
+
+  return false;
+}
+
+// START lighthouse_migration
 export const getTrackedItemDate = item => {
   return item.closedDate || item.receivedDate || item.requestedDate;
 };
 // END lighthouse_migration
+
+export function getFilesNeeded(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_YOU');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_you_list',
+  );
+}
+
+export function getFilesOptional(trackedItems, useLighthouse = true) {
+  // trackedItems are different between lighthouse and evss
+  // Therefore we have to filter them differntly
+  if (useLighthouse) {
+    return trackedItems.filter(item => item.status === 'NEEDED_FROM_OTHERS');
+  }
+
+  return trackedItems.filter(
+    event =>
+      event.status === 'NEEDED' && event.type === 'still_need_from_others_list',
+  );
+}
 
 export function getItemDate(item) {
   // Tracked item that has been marked received.
@@ -146,6 +284,20 @@ export function displayFileSize(size) {
   return `${Math.round(mbSize)}MB`;
 }
 
+export function groupClaimsByDocsNeeded(list) {
+  const groupingPredicate = c => {
+    return c.attributes.documentsNeeded && isInEvidenceGathering(c);
+  };
+
+  const claimsWithOpenRequests = list.filter(groupingPredicate);
+
+  const claimsWithoutOpenRequests = list.filter(
+    claim => !groupingPredicate(claim),
+  );
+
+  return claimsWithOpenRequests.concat(claimsWithoutOpenRequests);
+}
+
 export const DOC_TYPES = [
   { value: 'L029', label: 'Copy of a DD214' },
   { value: 'L450', label: 'STR - Dental - Photocopy' },
@@ -229,18 +381,6 @@ export function hasBeenReviewed(trackedItem) {
   return reviewedStatuses.includes(trackedItem.status);
 }
 
-// Adapted from http://stackoverflow.com/a/26230989/487883
-export function getTopPosition(elem) {
-  const box = elem.getBoundingClientRect();
-  const { body } = document;
-  const docEl = document.documentElement;
-
-  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
-  const clientTop = docEl.clientTop || body.clientTop || 0;
-
-  return Math.round(box.top + scrollTop - clientTop);
-}
-
 export function stripEscapedChars(text) {
   return text && text.replace(/\\(n|r|t)/gm, '');
 }
@@ -254,8 +394,7 @@ export function scrubDescription(text) {
   return stripEscapedChars(stripHtml(text));
 }
 
-export function truncateDescription(text) {
-  const maxLength = 120;
+export function truncateDescription(text, maxLength = 120) {
   if (text && text.length > maxLength) {
     return `${text.substr(0, maxLength)}…`;
   }
@@ -288,7 +427,7 @@ export function makeAuthRequest(
     userOptions,
   );
 
-  apiRequest(`${environment.API_URL}${url}`, options)
+  return apiRequest(`${environment.API_URL}${url}`, options)
     .then(onSuccess)
     .catch(resp => {
       if (resp.status === 401) {
@@ -301,23 +440,8 @@ export function makeAuthRequest(
     });
 }
 
-export function getCompletedDate(claim) {
-  if (claim?.attributes?.eventsTimeline) {
-    const completedEvents = claim.attributes.eventsTimeline.filter(
-      event => event.type === 'completed',
-    );
-    if (completedEvents.length) {
-      return completedEvents[0].date;
-    }
-  }
-
-  return null;
-}
-
 export function getClaimType(claim) {
-  return (
-    claim?.attributes?.claimType || 'disability compensation'
-  ).toLowerCase();
+  return claim?.attributes?.claimType || 'Disability Compensation';
 }
 
 export const mockData = {
@@ -898,3 +1022,19 @@ export const mockData = {
 export function roundToNearest({ interval, value }) {
   return Math.round(value / interval) * interval;
 }
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
+
+// Takes a format string and returns a function that formats the given date
+// `date` must be in ISO format ex. 2020-01-28
+export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
+  return date => {
+    const parsedDate = parseISO(date);
+
+    return isValid(parsedDate)
+      ? format(parsedDate, formatString)
+      : 'Invalid date';
+  };
+};

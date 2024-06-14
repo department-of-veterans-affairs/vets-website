@@ -1,5 +1,7 @@
 import showVaExpandableAlert from './alerts/showVaAlertExpandable';
 
+import MobileAppCallout from './alerts/MobileAppCallout';
+
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
 
 import { toggleValues, isProduction } from './feature-toggles/selectors';
@@ -24,20 +26,6 @@ import { mhvUrl, mhvBaseUrl } from './mhv/utilities';
 
 import startMobileMenuButton from './mobile-menu-button';
 
-// import { default as style } from './sass/style.scss';
-
-// import { default as vaMedalliaStyle } from './sass/va-medallia-style.scss';
-
-// import { default as mOverrides } from './sass/modules/_m-overrides.scss';
-// import { default as mHeader } from './sass/modules/_m-header.scss';
-// import { default as mFooter } from './sass/modules/_m-footer.scss';
-// import { default as mCrisisLine } from './sass/modules/_m-crisis-line.scss';
-// import {
-//   default as mDowntimeNotification,
-// } from './sass/modules/_m-downtime-notification.scss';
-// import { default as mLayers } from './sass/modules/_m-layers.scss';
-// import { default as iconography } from './sass/iconography.scss';
-
 import { sitemapURLs } from './tests/sitemap/sitemap-helpers';
 
 import {
@@ -52,16 +40,22 @@ import {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from './user-nav/actions';
+import { UPDATE_HEADER_TYPE, updateLayoutHeaderType } from './layout/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
-
-// import { default as userNavScss } from './user-nav/sass/user-nav.scss';
+import PageNotFound from './user-nav/components/PageNotFound';
 
 import userNavReducer from './user-nav/reducers';
+import layoutReducer from './layout/reducers';
 
 import { restartShouldRedirect } from './wizard';
 
 import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
+
+const userNavScss = require('./user-nav/sass/user-nav.scss');
+const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
+const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
+const style = require('./sass/style.scss');
 
 const { exports: startSitewideComponents } = require('./index');
 const { exports: startHeader } = require('./header');
@@ -70,6 +64,7 @@ const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
   showVaExpandableAlert,
+  MobileAppCallout,
   EbenefitsLink,
   toggleValues,
   isProduction,
@@ -91,13 +86,17 @@ export {
   UPDATE_SEARCH_HELP_USER_MENU,
   TOGGLE_ACCOUNT_TRANSITION_MODAL,
   TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
+  UPDATE_HEADER_TYPE,
+  updateLayoutHeaderType,
   toggleFormSignInModal,
   toggleAccountTransitionModal,
   toggleAccountTransitionSuccessModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   AutoSSO,
+  PageNotFound,
   userNavReducer,
+  layoutReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,
   startSitewideComponents,
@@ -105,4 +104,8 @@ export {
   startVAFooter,
   footerElemementId,
   startUserNavWidget,
+  vaMedalliaStyle,
+  style,
+  userNavScss,
+  mDowntimeNotification,
 };

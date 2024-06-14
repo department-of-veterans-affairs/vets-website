@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // import { deductionCodes } from '../const/deduction-codes';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
+import recordEvent from '~/platform/monitoring/record-event';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
-import recordEvent from '~/platform/monitoring/record-event';
 
 const DebtDetailsCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
@@ -25,7 +25,6 @@ const DebtDetailsCard = ({ debt }) => {
 
   return (
     <va-alert
-      background-only
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
@@ -33,18 +32,14 @@ const DebtDetailsCard = ({ debt }) => {
       status={debtCardContent.status}
       visible="true"
     >
-      <h2 className="vads-u-margin--0">{debtCardContent.headerText}</h2>
+      <h2 slot="headline">{debtCardContent.headerText}</h2>
 
-      <div>
-        <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
-          {debtCardContent.bodyText}
-        </div>
-      </div>
+      {debtCardContent.bodyText}
 
       {debtCardContent.showLinks && (
-        <div className="vads-u-margin-y--2">
+        <>
           {debtCardContent.showMakePayment && (
-            <div>
+            <p>
               <a
                 aria-label="Make a payment"
                 className="vads-c-action-link--blue"
@@ -56,10 +51,10 @@ const DebtDetailsCard = ({ debt }) => {
               >
                 Make a payment
               </a>
-            </div>
+            </p>
           )}
           {debtCardContent.showRequestHelp && (
-            <div>
+            <p>
               <a
                 aria-label="Request help with your debt"
                 className="vads-c-action-link--blue"
@@ -71,9 +66,9 @@ const DebtDetailsCard = ({ debt }) => {
               >
                 Request help with your debt
               </a>
-            </div>
+            </p>
           )}
-        </div>
+        </>
       )}
     </va-alert>
   );

@@ -13,7 +13,7 @@ import {
   fillTextWebComponent,
   introductionPageFlow,
   reviewAndSubmitPageFlow,
-  selectRadioWebComponent,
+  selectRelationshipToVeteranPattern,
 } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
@@ -37,34 +37,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern('preparerName', data.preparerName);
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.relationshipToDeceasedClaimant]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectRadioWebComponent(
-              'relationshipToDeceasedClaimant',
-              data.relationshipToDeceasedClaimant,
-            );
-
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.otherRelationshipToDeceasedClaimant]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'otherRelationshipToDeceasedClaimant',
-              data.otherRelationshipToDeceasedClaimant,
-            );
 
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -112,22 +84,31 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.veteranPersonalInformation]: ({ afterHook }) => {
+      [pagePaths.deceasedClaimantPersonalInformation]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillFullNameWebComponentPattern(
-              'veteranFullName',
-              data.veteranFullName,
+              'deceasedClaimantFullName',
+              data.deceasedClaimantFullName,
+            );
+            fillDateWebComponentPattern(
+              'deceasedClaimantDateOfDeath',
+              data.deceasedClaimantDateOfDeath,
             );
 
-            fillDateWebComponentPattern(
-              'veteranDateOfBirth',
-              data.veteranDateOfBirth,
-            );
-            fillDateWebComponentPattern(
-              'veteranDateOfDeath',
-              data.veteranDateOfDeath,
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.relationshipToDeceasedClaimant]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            selectRelationshipToVeteranPattern(
+              'relationshipToDeceasedClaimant',
+              data.relationshipToDeceasedClaimant,
             );
 
             cy.axeCheck();
@@ -140,6 +121,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillTextWebComponent('veteranSsn', data.veteranSsn);
+            fillDateWebComponentPattern(
+              'veteranDateOfBirth',
+              data.veteranDateOfBirth,
+            );
             fillTextWebComponent(
               'veteranVaFileNumber',
               data.veteranVaFileNumber,

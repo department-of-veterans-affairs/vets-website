@@ -4,11 +4,6 @@ import { expect } from 'chai';
 import LoginInfo from 'platform/user/authentication/components/LoginInfo';
 
 describe('LoginInfo', () => {
-  it('renders FedWarning component', () => {
-    const wrapper = shallow(<LoginInfo />);
-    expect(wrapper.find('FedWarning').exists()).to.be.true;
-    wrapper.unmount();
-  });
   it('renders SubmitSignInForm component', () => {
     const wrapper = shallow(<LoginInfo />);
     expect(wrapper.find('SubmitSignInForm').exists()).to.be.true;

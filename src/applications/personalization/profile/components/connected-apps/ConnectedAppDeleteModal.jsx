@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export function ConnectedAppDeleteModal({
   title,
@@ -10,13 +10,11 @@ export function ConnectedAppDeleteModal({
   closeModal,
   confirmDelete,
 }) {
-  return (
-    <Modal
+  return modalOpen ? (
+    <VaModal
       clickToClose
-      cssClass="va-modal"
-      id="disconnect-alert"
-      onClose={closeModal}
-      title="Are you sure?"
+      onCloseEvent={closeModal}
+      modalTitle="Disconnect app?"
       visible={modalOpen}
       status="warning"
     >
@@ -33,32 +31,36 @@ export function ConnectedAppDeleteModal({
 
       {!deleting && (
         <>
-          <button
-            className="usa-button-primary"
+          <va-button
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
-          >
-            Disconnect
-          </button>
-          <button className="usa-button-secondary" onClick={closeModal}>
-            No, cancel this change
-          </button>
+            text="Disconnect"
+            class="vads-u-width--full small-screen:vads-u-width--auto vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0"
+          />
+          <va-button
+            secondary
+            onClick={closeModal}
+            text="No, cancel this change"
+            class="vads-u-width--full small-screen:vads-u-width--auto"
+          />
         </>
       )}
 
       {deleting && (
-        <button className="usa-button-primary" disabled>
-          Processing update...
-        </button>
+        <va-button
+          disabled
+          text="Processing update..."
+          class="vads-u-width--full small-screen:vads-u-width--auto"
+        />
       )}
-    </Modal>
-  );
+    </VaModal>
+  ) : null;
 }
 
 ConnectedAppDeleteModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  deleting: PropTypes.bool,
-  modalOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  deleting: PropTypes.bool,
 };

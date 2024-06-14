@@ -410,6 +410,40 @@ describe('Process form validation errors', () => {
     expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
   });
 
+  it('should process array instance messages but return override values', () => {
+    const pages = [
+      {
+        path: '/news/0',
+        showPagePerItem: true,
+        arrayPath: 'news',
+        uiSchema: {},
+        schema: {},
+        chapterTitle: 'Diz',
+        chapterKey: 'diz',
+        pageKey: 'news',
+      },
+    ];
+    const raw = [{ testing: { 0: { __errors: ['Test foo'] } } }];
+    const reviewErrors = {
+      _override: (err, fullError) => {
+        if (/^\d+$/.test(err) && fullError.__errors.includes('Test foo')) {
+          return { chapterKey: 'diz', pageKey: `news${err}` };
+        }
+        return null;
+      },
+    };
+    const result = [
+      {
+        name: '0',
+        message: 'Test foo',
+        chapterKey: 'diz',
+        pageKey: 'news0',
+        index: '0',
+      },
+    ];
+    expect(reduceErrors(raw, pages, reviewErrors)).to.eql(result);
+  });
+
   it('should process minimum array length', () => {
     const pages = [
       {

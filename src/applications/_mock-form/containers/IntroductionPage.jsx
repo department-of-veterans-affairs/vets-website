@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
@@ -50,7 +49,7 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Follow the steps below to apply for Mock form.
         </h2>
-        <va-process-list>
+        <va-process-list uswds="false">
           <li>
             <h3>Prepare</h3>
             <h4>To fill out this application, you’ll need your:</h4>
@@ -99,7 +98,11 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <p />
-        <OMBInfo resBurden={10} ombNumber="0000-0000" expDate="12/31/2022" />
+        <va-omb-info
+          res-burden={10}
+          omb-number="0000-0000"
+          exp-date="12/31/2022"
+        />
       </article>
     );
   }

@@ -9,25 +9,24 @@ class LastUpdated {
     this.gitHubClient = new GitHubClient();
   }
 
-  setLastUpdated() {
-    Object.keys(this.products).forEach(async productId => {
+  async setLastUpdated() {
+    for (const productId of Object.keys(this.products)) {
       const product = this.products[productId];
       const { pathToCode } = product;
+      /* eslint-disable-next-line no-await-in-loop */
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
       });
-    });
+    }
   }
 
   async getLastDateUpdated({ path }) {
     const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
       path,
     });
-
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
         const { date, name } = data[i].commit.author;
-
         // Ignore update to manifest.json files by GitHUb user rjohnson2011 on 5/12/2022
         // eslint-disable-next-line no-continue
         if (this.isManifestJsonUpdate({ date: new Date(date), name })) continue;

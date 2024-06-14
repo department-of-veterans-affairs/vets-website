@@ -31,8 +31,20 @@
   }
 
   .vaos-link-for-print {
-    color: $color-black;
+    color: var(--vads-color-black);
     text-align: left;
     padding-left: 0;
+  }
+}
+
+
+@media screen {
+
+  .vaos-print-only
+   {
+    visibility: hidden;
+    display: none;
+    margin: 0px !important;
+    padding: 0px !important;
   }
 }

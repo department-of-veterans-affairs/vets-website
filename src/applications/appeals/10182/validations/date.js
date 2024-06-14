@@ -1,43 +1,47 @@
-import moment from 'moment';
+import { isBefore, startOfDay, subYears } from 'date-fns';
 
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { SHOW_PART3 } from '../constants';
 
-import { fixDateFormat } from '../utils/replace';
-import { FORMAT_YMD } from '../constants';
+import errorMessages from '../../shared/content/errorMessages';
+import { MAX_YEARS_PAST } from '../../shared/constants';
+import {
+  createScreenReaderErrorMsg,
+  addDateErrorMessages,
+  createDateObject,
+} from '../../shared/validations/date';
 
-import { issueErrorMessages } from '../content/addIssue';
+const minDate1 = startOfDay(subYears(new Date(), 1));
+const minDate100 = startOfDay(subYears(new Date(), MAX_YEARS_PAST));
 
-const minDate = moment()
-  .subtract(1, 'year')
-  .startOf('day');
+export const validateDate = (
+  errors,
+  rawDateString = '',
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData,
+) => {
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
 
-const maxDate = moment().startOf('day');
+  const date = createDateObject(rawDateString);
 
-export const validateDate = (errors, rawString = '') => {
-  const dateString = fixDateFormat(rawString);
-  const { day, month, year } = parseISODate(dateString);
-  const date = moment(rawString, FORMAT_YMD);
-  if (
-    !year ||
-    year === '' ||
-    !day ||
-    day === '0' ||
-    !month ||
-    month === '0' ||
-    dateString?.length < FORMAT_YMD.length
-  ) {
-    // errors.addError(issueErrorMessages.missingDecisionDate);
-    // The va-date component currently overrides the error message when the
-    // value is blank
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (!date.isValid()) {
-    errors.addError(issueErrorMessages.invalidDate);
-  } else if (date.isSameOrAfter(maxDate)) {
-    // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(issueErrorMessages.pastDate);
-  } else if (date.isBefore(minDate)) {
-    errors.addError(issueErrorMessages.newerDate);
+  const hasMessages = addDateErrorMessages(errors, errorMessages, date);
+
+  if (!hasMessages) {
+    if (!data[SHOW_PART3] && isBefore(date.dateObj, minDate1)) {
+      errors.addError(errorMessages.decisions.recentDate);
+      date.errors.year = true;
+    } else if (isBefore(date.dateObj, minDate100)) {
+      // max 1 year for old form or 100 years for newer form
+      errors.addError(errorMessages.decisions.newerDate);
+      date.errors.year = true; // only the year is invalid at this point
+    }
   }
+
+  // add second error message containing the part of the date with an error;
+  // used to add `aria-invalid` to the specific input
+  createScreenReaderErrorMsg(errors, date.errors);
 };
 
 /**

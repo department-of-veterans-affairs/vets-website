@@ -12,7 +12,7 @@ const getData = ({
   loggedIn = true,
   isVerified = true,
   data = {},
-  contestableIssues = {},
+  contestedIssues = {},
 } = {}) => ({
   props: {
     loggedIn,
@@ -31,6 +31,9 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
+          dob: '2000-01-01',
+          claims: { appeals: true },
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
@@ -44,7 +47,7 @@ const getData = ({
           metadata: {},
         },
         data,
-        contestableIssues,
+        contestedIssues,
       },
       scheduledDowntime: {
         globalDowntime: null,
@@ -70,7 +73,7 @@ describe('IntroductionPage', () => {
     expect($('h1', container).textContent).to.eq('Request a Board Appeal');
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.exist;
+    expect($('va-alert[status="info"]', container)).to.exist;
   });
 
   it('should render start action links', () => {
@@ -83,7 +86,7 @@ describe('IntroductionPage', () => {
     expect($$('.vads-c-action-link--green', container).length).to.equal(2);
   });
 
-  it('should show verify your account alert', () => {
+  it('should render verify identity alert', () => {
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -92,9 +95,9 @@ describe('IntroductionPage', () => {
     );
 
     expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('h2', container).textContent).to.eq(
-      'Verify your identity to start your request',
+    expect($('h2', container).textContent).to.contain(
+      'verify your identity to access more VA.gov tools and features',
     );
-    expect($('.verify-link', container).href).to.contain('/verify?');
+    expect($('va-alert[status="continue"]', container)).to.exist;
   });
 });

@@ -3,12 +3,12 @@ import appendQuery from 'append-query';
 import PropTypes from 'prop-types';
 import { intersection } from 'lodash';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
 import SubmitSignInForm from '../../../static-data/SubmitSignInForm';
 
 import backendServices from '../../profile/constants/backendServices';
 import { hasSession } from '../../profile/utilities';
+// import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const signInQuery = useSiS => ({
   next: window.location.pathname,
@@ -21,7 +21,7 @@ const verifyUrl = appendQuery('/verify', nextQuery);
 const RequiredLoginLoader = () => {
   return (
     <div className="vads-u-margin-y--5" data-testid="req-loader">
-      <LoadingIndicator setFocus message="Loading your information..." />
+      <va-loading-indicator set-focus message="Loading your information..." />
     </div>
   );
 };
@@ -84,7 +84,9 @@ export const RequiredLoginView = props => {
 
   const renderVerifiedContent = () => {
     if (shouldVerify()) {
-      return <LoadingIndicator setFocus message="Redirecting to verify..." />;
+      return (
+        <va-loading-indicator set-focus message="Redirecting to verify..." />
+      );
     }
 
     const { serviceRequired } = props;
@@ -168,7 +170,7 @@ export const RequiredLoginView = props => {
     if (shouldSignIn()) {
       return (
         <div className="vads-u-margin-y--5" data-testid="redirect-to-login">
-          <LoadingIndicator setFocus message="Redirecting to login..." />;
+          <va-loading-indicator set-focus message="Redirecting to login..." />;
         </div>
       );
     }

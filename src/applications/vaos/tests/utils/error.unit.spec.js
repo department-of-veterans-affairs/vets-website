@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { getErrorCodes } from '../../utils/error';
 
-describe('Error utils', () => {
+describe('VAOS Utils: getErrorCodes', () => {
   describe('getErrorCodes', () => {
     it('should return array of error codes', () => {
       const error = {

@@ -396,6 +396,42 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERRORS.CERNER_PROVISIONING_FAILURE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble provisioning your My VA Health account right now.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <Helpdesk startScentence />
+        </>
+      );
+      break;
+
+    case AUTH_ERRORS.CERNER_NOT_ELIGIBLE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re sorry. Your health care services are not managed with My VA
+          Health. However, you can still use VA.gov and My HealtheVet to access
+          your health care and benefits.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <p>
+            Navigate to the My HealtheVet page to manage your VA health care and
+            benefits. You can do this by using the "Access My HealtheVet" link
+            below
+          </p>
+          <a href="/my-health">Access My HealtheVet</a>
+          <Helpdesk>If you’re still running into issues</Helpdesk>
+        </>
+      );
+      break;
+
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">

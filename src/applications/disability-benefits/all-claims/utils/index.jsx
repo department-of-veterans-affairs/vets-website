@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-key */
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
@@ -7,9 +8,10 @@ import fastLevenshtein from 'fast-levenshtein';
 
 import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   DATA_PATHS,
@@ -171,6 +173,10 @@ export const ReservesGuardDescription = ({ formData }) => {
       {formatDate(to)}.
     </div>
   );
+};
+
+ReservesGuardDescription.propTypes = {
+  formData: PropTypes.object,
 };
 
 export const title10DatesRequired = formData =>
@@ -669,13 +675,24 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
 
+export const show526MaxRating = state =>
+  toggleValues(state).disability526MaximumRating;
+
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <va-breadcrumbs>
-      <a href="/">Home</a>
-      <a href="/disability">Disability Benefits</a>
-      <a href="/disability/file-disability-claim-form-21-526ez">{title}</a>
-    </va-breadcrumbs>
+    <div className="row">
+      <VaBreadcrumbs
+        uswds
+        breadcrumbList={[
+          { href: '/', label: 'Home' },
+          { href: '/disability', label: 'Disability Benefits' },
+          {
+            href: '/disability/file-disability-claim-form-21-526ez',
+            label: title,
+          },
+        ]}
+      />
+    </div>
     {component}
   </>
 );
@@ -719,3 +736,41 @@ export const truncateDescriptions = data =>
     }),
     {},
   );
+
+/**
+ * Creates consistent form title
+ * @param {string} title
+ * @returns {string} markup with h3 tag and consistent styling
+ */
+export const formTitle = title => (
+  <h3 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+    {title}
+  </h3>
+);
+
+/**
+ * Creates consistent form subtitle
+ * @param {string} subtitle
+ * @returns {string} markup with h4 tag and consistent styling
+ */
+export const formSubtitle = subtitle => (
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+);
+
+/**
+ * Formats a raw date using month and year only. For example: 'January 2000'
+ *
+ * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
+ * @returns {string} A friendly date string if a valid date. Empty string otherwise.
+ */
+export const formatMonthYearDate = (rawDate = '') => {
+  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
+    'en-US',
+    {
+      year: 'numeric',
+      month: 'long',
+    },
+  );
+
+  return date === 'Invalid Date' ? '' : date;
+};

@@ -47,11 +47,9 @@ export const uiSchema = {
         },
       },
       'ui:errorMessages': {
-        pattern:
-          'Please enter a 10-digit phone number without dashes or spaces',
-        minLength:
-          'Please enter a 10-digit phone number without dashes or spaces',
-        required: 'Please enter a phone number',
+        pattern: 'Enter a 10-digit phone number without dashes or spaces',
+        minLength: 'Enter a 10-digit phone number without dashes or spaces',
+        required: 'Enter a phone number',
       },
     },
     emailAddress: emailUI(),
@@ -66,7 +64,7 @@ export const uiSchema = {
               'view:confirmEmail'
             ].toLowerCase()
           ) {
-            errors.addError('Please ensure your emails match');
+            errors.addError('Ensure your emails match');
           }
         },
       ],

@@ -1,11 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
-
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
 import createCommonStore from 'platform/startup/store';
 import { Provider } from 'react-redux';
 import BenefitsForm from '../../../components/profile/BenefitsForm';
 import reducer from '../../../reducers';
+import Dropdown from '../../../components/Dropdown';
 
 const commonStore = createCommonStore(reducer);
 const defaultProps = {
@@ -20,6 +21,35 @@ const checkExpectedDropdowns = (tree, expected) => {
 };
 
 describe('<BenefitsForm>', () => {
+  const preEligibilityChangeMock = value => {
+    function createMockFunction() {
+      const mock = function(...args) {
+        mock.calls.push(args);
+      };
+      mock.calls = [];
+      return mock;
+    }
+    const mockEligibilityChangeRedux = createMockFunction();
+    const eligibilityChangeMock = sinon.stub();
+    const wrapper = shallow(
+      <BenefitsForm
+        eligibilityChangeRedux={mockEligibilityChangeRedux}
+        eligibilityChange={eligibilityChangeMock}
+      />,
+    );
+    wrapper
+      .find(Dropdown)
+      .first()
+      .props()
+      .onChange({
+        target: { name: 'giBillChapter', value },
+      });
+    return {
+      wrapper,
+      mockEligibilityChangeRedux,
+    };
+  };
+
   it('should render', () => {
     const tree = mount(<BenefitsForm {...defaultProps} />);
     expect(tree).to.not.be.undefined;
@@ -93,5 +123,75 @@ describe('<BenefitsForm>', () => {
       'eligForPostGiBill',
     ]);
     tree.unmount();
+  });
+  it('sets the appropriate military status for 33a option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '33a',
+    );
+
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      { militaryStatus: 'veteran' },
+    ]);
+    wrapper.unmount();
+  });
+  it('sets the appropriate military status for 33b option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '33b',
+    );
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      { militaryStatus: 'spouse' },
+    ]);
+
+    wrapper.unmount();
+  });
+  it('sets the appropriate military status for 30 option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '30',
+    );
+
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      { militaryStatus: 'veteran' },
+    ]);
+
+    wrapper.unmount();
+  });
+  it('sets the appropriate military status for 1606 option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '1606',
+    );
+
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      { militaryStatus: 'national guard / reserves' },
+    ]);
+
+    wrapper.unmount();
+  });
+  it('sets the appropriate military status for 31 option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '31',
+    );
+
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      { militaryStatus: 'veteran' },
+    ]);
+
+    wrapper.unmount();
+  });
+  it('sets the appropriate military status for 35 option', () => {
+    const { wrapper, mockEligibilityChangeRedux } = preEligibilityChangeMock(
+      '35',
+    );
+    expect(mockEligibilityChangeRedux.calls).to.have.lengthOf(1);
+    expect(mockEligibilityChangeRedux.calls[0]).to.deep.equal([
+      {
+        militaryStatus: 'spouse',
+      },
+    ]);
+    wrapper.unmount();
   });
 });

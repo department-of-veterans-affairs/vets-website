@@ -4,9 +4,9 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
+import { findVaLinkByText } from '../../../common/e2eHelpers';
 
 /**
  *
@@ -19,24 +19,12 @@ import manifest from 'applications/personalization/dashboard/manifest.json';
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.server();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
       '/v0/disability_compensation_form/rating_info',
       disabilityRating,
     );
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showMyVADashboardV2,
-            value: true,
-          },
-        ],
-      },
-    });
   });
 
   it('should show a dismissible modal if a dependent service has downtime approaching in the next hour', () => {
@@ -44,7 +32,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -60,12 +48,16 @@ describe('The My VA Dashboard', () => {
       ],
     });
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /continue/i }).click();
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    cy.get('va-button', { name: /continue/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
 
     cy.visit(manifest.rootUrl);
-    cy.findByRole('button', { name: /close/i }).click();
-    cy.findByRole('button', { name: /close/i }).should('not.exist');
+    cy.get('va-button', { name: /continue/i }).click();
+    cy.get('va-modal')
+      .invoke('attr', 'visible')
+      .should('eq', 'false');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -75,7 +67,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() + oneDayInMS);
     // end time is two days from now
     const endTime = new Date(Date.now() + oneDayInMS * 2);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -92,7 +84,7 @@ describe('The My VA Dashboard', () => {
     });
     cy.visit(manifest.rootUrl);
     cy.findByRole('heading', { name: /My VA/i }).should('exist');
-    cy.findByRole('button', { name: /continue/i }).should('not.exist');
+    findVaLinkByText('Continue').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -101,7 +93,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -132,7 +124,7 @@ describe('The My VA Dashboard', () => {
     const startTime = new Date(Date.now() - 60 * 1000);
     // end time is one hour from now
     const endTime = new Date(Date.now() + 60 * 60 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',
@@ -159,13 +151,13 @@ describe('The My VA Dashboard', () => {
   });
 
   it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
     // start time is 25 hours in the future
     const startTime = new Date(Date.now() + 60 * 60 * 25 * 1000);
     // end time is 30 days in the future
     const endTime = new Date(Date.now() + 60 * 60 * 30 * 1000);
-    cy.route('GET', '/v0/maintenance_windows', {
+    cy.intercept('GET', '/v0/maintenance_windows', {
       data: [
         {
           id: '1',

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import Scroll from 'react-scroll';
+import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
@@ -21,7 +21,8 @@ import {
   uploadFile,
 } from '../actions';
 
-const scroller = Scroll.scroller;
+import { scrollTo } from '../../../../utilities/ui';
+
 class ReviewChapters extends React.Component {
   componentDidMount() {
     const { formData, pageList } = this.props;
@@ -29,24 +30,18 @@ class ReviewChapters extends React.Component {
     this.props.setViewedPages(viewedPages);
   }
 
-  handleToggleChapter({ name, open, pageKeys }) {
-    if (open) {
-      this.props.closeReviewChapter(name, pageKeys);
-    } else {
-      this.props.openReviewChapter(name);
-      this.scrollToChapter(name);
+  handleToggleChapter = ({ target }) => {
+    if (target) {
+      const name = target.dataset?.chapter;
+      const isOpen = target.getAttribute('open');
+      if (isOpen) {
+        this.props.openReviewChapter(name);
+        scrollTo(`chapter${name}ScrollElement`);
+      } else {
+        const chapter = this.props.chapters.find(chapt => chapt.name === name);
+        this.props.closeReviewChapter(name, chapter?.pageKeys);
+      }
     }
-  }
-
-  scrollToChapter = chapterKey => {
-    scroller.scrollTo(
-      `chapter${chapterKey}ScrollElement`,
-      window.Forms?.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
-    );
   };
 
   handleEdit = (pageKey, editing, index = null) => {
@@ -70,37 +65,36 @@ class ReviewChapters extends React.Component {
       form,
       formConfig,
       formContext,
-      setValid,
       viewedPages,
       pageList,
     } = this.props;
 
     return (
-      <div className="input-section">
-        <div>
-          {chapters.map(chapter => (
-            <ReviewCollapsibleChapter
-              expandedPages={chapter.expandedPages}
-              chapterFormConfig={chapter.formConfig}
-              chapterKey={chapter.name}
-              form={form}
-              reviewErrors={formConfig?.reviewErrors}
-              formContext={formContext}
-              key={chapter.name}
-              onEdit={this.handleEdit}
-              open={chapter.open}
-              pageKeys={chapter.pageKeys}
-              pageList={pageList}
-              setData={(...args) => this.handleSetData(...args)}
-              setValid={setValid}
-              hasUnviewedPages={chapter.hasUnviewedPages}
-              toggleButtonClicked={() => this.handleToggleChapter(chapter)}
-              uploadFile={this.props.uploadFile}
-              viewedPages={viewedPages}
-            />
-          ))}
-        </div>
-      </div>
+      <VaAccordion
+        bordered
+        onAccordionItemToggled={this.handleToggleChapter}
+        uswds
+      >
+        {chapters.map(chapter => (
+          <ReviewCollapsibleChapter
+            expandedPages={chapter.expandedPages}
+            chapterFormConfig={chapter.formConfig}
+            chapterKey={chapter.name}
+            form={form}
+            reviewErrors={formConfig?.reviewErrors}
+            formContext={formContext}
+            key={chapter.name}
+            onEdit={this.handleEdit}
+            open={chapter.open}
+            pageKeys={chapter.pageKeys}
+            pageList={pageList}
+            setData={(...args) => this.handleSetData(...args)}
+            hasUnviewedPages={chapter.hasUnviewedPages}
+            uploadFile={this.props.uploadFile}
+            viewedPages={viewedPages}
+          />
+        ))}
+      </VaAccordion>
     );
   }
 }
@@ -110,9 +104,9 @@ export function mapStateToProps(state, ownProps) {
   const { formConfig, formContext, pageList } = ownProps;
 
   // from redux state
-  const form = state.form;
-  const formData = state.form.data;
-  const openChapters = getReviewPageOpenChapters(state);
+  const { form } = state;
+  const formData = form.data;
+  const openChapters = getReviewPageOpenChapters(state) || {};
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
@@ -122,10 +116,10 @@ export function mapStateToProps(state, ownProps) {
 
     const expandedPages = getActiveExpandedPages(pages, formData);
     const chapterFormConfig = formConfig.chapters[chapterName];
-    const open = openChapters.includes(chapterName);
+    const open = openChapters[chapterName] || false;
     const pageKeys = getPageKeys(pages, formData);
 
-    const hasErrors = state.form.formErrors?.errors?.some(err =>
+    const hasErrors = form.formErrors?.errors?.some(err =>
       pageKeys.includes(err.pageKey),
     );
     const hasUnviewedPages =
@@ -170,10 +164,8 @@ ReviewChapters.propTypes = {
   chapters: PropTypes.array.isRequired,
   closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
-  formData: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
-  formContext: PropTypes.object,
-  onSetData: PropTypes.func,
+  formData: PropTypes.object.isRequired,
   openReviewChapter: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
@@ -181,6 +173,8 @@ ReviewChapters.propTypes = {
   setViewedPages: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
+  formContext: PropTypes.object,
+  onSetData: PropTypes.func,
 };
 
 export default withRouter(

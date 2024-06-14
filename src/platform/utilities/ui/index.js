@@ -13,6 +13,7 @@ import {
   scrollToFirstError,
   scrollAndFocus,
 } from './scroll';
+import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 
 export {
   focusElement,
@@ -24,9 +25,15 @@ export {
   scrollToTop,
   scrollToFirstError,
   scrollAndFocus,
+  ERROR_ELEMENTS,
+  FOCUSABLE_ELEMENTS,
 };
 
 export function displayFileSize(size) {
+  if (size == null) {
+    return '';
+  }
+
   if (size < 1024) {
     return `${size}B`;
   }
@@ -81,6 +88,22 @@ export function formatSSN(ssnString = '') {
 }
 
 /**
+ * Accepts a string of numbers as an argument
+ * and returns a formatted ARN with dashes.
+ */
+export function formatARN(arnString = '') {
+  let val = arnString;
+
+  // Strips any dashes or spaces out of the string if they are included
+  if (val.includes('-') || val.includes(' ')) {
+    val = val.replace(/[- ]/g, '');
+  }
+  val = val.replace(/^(.{3})(.{1,2})/, '$1-$2');
+  val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
+  return val;
+}
+
+/**
  * Custom focus - focuses on a page's H3 by default (unique header) if it exists
  * will fall back to the breadcrumb H2 (Step _ of _). This function is called
  * only if the formConfig includes a `useCustomScrollAndFocus: true`, then it
@@ -96,7 +119,7 @@ export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
   } else if (typeof scrollAndFocusTarget === 'function') {
     scrollAndFocusTarget(pageIndex);
   } else {
-    scrollToTop('topScrollElement', getScrollOptions());
+    scrollTo('topContentElement', getScrollOptions());
     // h3 should be a unique header on the page
     focusByOrder(['#main h3', defaultFocusSelector]);
   }

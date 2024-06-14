@@ -16,9 +16,3 @@ if [ ! -d ../vets-api ]; then
 else
   echo "Repo vets-api already cloned."
 fi
-
-# @TODO: if these are not needed anymore, remove.
-# git clone git@github.com:department-of-veterans-affairs/vets-json-schema.git
-# git clone git@github.com:department-of-veterans-affairs/veteran-facing-services-tools.git
-# git clone git@github.com:department-of-veterans-affairs/vets-api.git
-# git clone git@github.com:department-of-veterans-affairs/vets-api-mockdata.git

@@ -1,27 +1,98 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   selectProfile,
 } from '~/platform/user/selectors';
-
-import {
-  getAppealsV2 as getAppealsAction,
-  getClaimsV2 as getClaimsAction,
-} from '../../actions/claims';
-import {
-  appealsAvailability,
-  claimsAvailability,
-} from '../../utils/appeals-v2-helpers';
+import IconCTALink from '../IconCTALink';
+import { getAppeals as getAppealsAction } from '../../actions/appeals';
+import { getClaims as getClaimsAction } from '../../actions/claims';
+import { appealsAvailability } from '../../utils/appeals-helpers';
+import { claimsAvailability } from '../../utils/claims-helpers';
+import { canAccess } from '../../../common/selectors';
+import { API_NAMES } from '../../../common/constants';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import ClaimsAndAppealsCTA from './ClaimsAndAppealsCTA';
-import HighlightedClaimAppeal from './HighlightedClaimAppeal';
-import useOpenClaimsAppealsCount from './hooks/useOpenClaimOrAppealCount';
 import useHighlightedClaimOrAppeal from './hooks/useHighlightedClaimOrAppeal';
+import HighlightedClaimAppeal from './HighlightedClaimAppeal';
+
+const NoClaimsOrAppealsText = () => {
+  return (
+    <p
+      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+      data-testid="no-outstanding-claims-or-appeals-text"
+    >
+      You have no claims or appeals to show.
+    </p>
+  );
+};
+
+const ClaimsAndAppealsError = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // status will be 'warning' if toggle is on
+  const status = useToggleValue(TOGGLE_NAMES.myVaUpdateErrorsWarnings)
+    ? 'warning'
+    : 'error';
+
+  return (
+    <div
+      data-testid="dashboard-section-claims-and-appeals-error"
+      className="vads-u-margin-bottom--2p5"
+    >
+      <va-alert status={status}>
+        <h2 slot="headline">
+          We can’t access your claims or appeals information
+        </h2>
+        <div>
+          <p>
+            We’re sorry. Something went wrong on our end. If you have any claims
+            and appeals, you won’t be able to access your claims and appeals
+            information right now. Please refresh or try again later.
+          </p>
+        </div>
+      </va-alert>
+    </div>
+  );
+};
+
+const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
+  return (
+    <>
+      <IconCTALink
+        text="Learn how to file a claim"
+        href="/disability/how-to-file-claim/"
+        icon="file"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Learn how to file a claim',
+            'links-list-section-header': 'Claims and appeals',
+          });
+        }}
+        testId="file-claims-and-appeals-link"
+      />
+      {!isLOA1 && (
+        <IconCTALink
+          text="Manage all claims and appeals"
+          href="/claim-or-appeal-status/"
+          icon="clipboard-check"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Manage all claims and appeals',
+              'links-list-section-header': 'Claims and appeals',
+            });
+          }}
+        />
+      )}
+    </>
+  );
+};
 
 const ClaimsAndAppeals = ({
   appealsData,
@@ -31,150 +102,120 @@ const ClaimsAndAppeals = ({
   // component always showing a loading spinner. I do not like this approach.
   dataLoadingDisabled = false,
   hasAPIError,
-  loadAppeals,
-  loadClaims,
+  isLOA1,
+  getAppeals,
+  getClaims,
   shouldLoadAppeals,
   shouldLoadClaims,
   shouldShowLoadingIndicator,
-  userFullName,
 }) => {
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadAppeals) {
-        loadAppeals();
+        getAppeals();
       }
     },
-    [dataLoadingDisabled, loadAppeals, shouldLoadAppeals],
+    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
   );
 
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
-        // stop polling the claims API after 45 seconds
-        loadClaims({ pollingExpiration: Date.now() + 45 * 1000 });
+        getClaims();
       }
     },
-    [dataLoadingDisabled, loadClaims, shouldLoadClaims],
+    [dataLoadingDisabled, getClaims, shouldLoadClaims],
   );
 
-  // the most recently updated claim or appeal that has been updated in the past
-  // 30 days
+  // the most recently updated open claim or appeal or
+  // the latest closed claim or appeal that has been updated in the past 60 days
   const highlightedClaimOrAppeal = useHighlightedClaimOrAppeal(
     appealsData,
     claimsData,
   );
 
-  // the total number of open claims and appeals, no matter when they were last
-  // updated
-  const openClaimsOrAppealsCount = useOpenClaimsAppealsCount(
-    appealsData,
-    claimsData,
-  );
-
-  if (!shouldLoadAppeals && !shouldLoadClaims) {
-    return null;
-  }
-
   if (shouldShowLoadingIndicator) {
     return (
-      <div data-testid="dashboard-section-claims-and-appeals">
-        <va-loading-indicator
-          label="Loading"
-          message="We’re loading your information."
-        />
-      </div>
-    );
-  }
-
-  if (hasAPIError) {
-    return (
       <div
-        className="vads-l-row"
-        data-testid="dashboard-section-claims-and-appeals"
+        className="vads-u-margin-y--6"
+        data-testid="dashboard-section-claims-and-appeals-loader"
       >
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <va-alert status="error">
-            <h2 slot="headline">
-              We can’t access any claims or appeals information right now
-            </h2>
-            <div>
-              <p>
-                We’re sorry. Something went wrong on our end. If you have any
-                claims or appeals, you won’t be able to access your claims or
-                appeals information right now. Please refresh or try again
-                later.
-              </p>
-            </div>
-          </va-alert>
-        </div>
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Claims and appeals
+        </h2>
+        <va-loading-indicator message="Loading claims and appeals..." />
       </div>
     );
   }
 
-  if (highlightedClaimOrAppeal || openClaimsOrAppealsCount > 0) {
-    return (
-      <div data-testid="dashboard-section-claims-and-appeals">
-        <h2>Claims and appeals</h2>
-        <div className="vads-l-row">
-          <DashboardWidgetWrapper>
-            <HighlightedClaimAppeal
-              claimOrAppeal={highlightedClaimOrAppeal}
-              name={userFullName}
-            />
-            {!highlightedClaimOrAppeal ? (
-              <div className="vads-u-margin-top--2p5">
-                <h3 className="sr-only">
-                  Popular actions for Claims and Appeals
-                </h3>
-                <ClaimsAndAppealsCTA />
-              </div>
-            ) : null}
-          </DashboardWidgetWrapper>
-          {highlightedClaimOrAppeal ? (
+  return (
+    <div data-testid="dashboard-section-claims-and-appeals">
+      <h2>Claims and appeals</h2>
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          {hasAPIError && <ClaimsAndAppealsError />}
+          {!hasAPIError && (
+            <>
+              {highlightedClaimOrAppeal && !isLOA1 ? (
+                <HighlightedClaimAppeal
+                  claimOrAppeal={highlightedClaimOrAppeal}
+                />
+              ) : (
+                <>
+                  {!isLOA1 && <NoClaimsOrAppealsText />}
+                  <PopularActionsForClaimsAndAppeals isLOA1={isLOA1} />
+                </>
+              )}
+            </>
+          )}
+        </DashboardWidgetWrapper>
+        {highlightedClaimOrAppeal &&
+          !hasAPIError &&
+          !isLOA1 && (
             <DashboardWidgetWrapper>
-              <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0">
-                <h3 className="sr-only">
-                  Popular actions for Claims and Appeals
-                </h3>
-                <ClaimsAndAppealsCTA />
-              </div>
+              <PopularActionsForClaimsAndAppeals />
             </DashboardWidgetWrapper>
-          ) : null}
-        </div>
+          )}
       </div>
-    );
-  }
-  return null;
+    </div>
+  );
 };
 
 ClaimsAndAppeals.propTypes = {
-  dataLoadingDisabled: PropTypes.bool.isRequired,
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
   hasAPIError: PropTypes.bool.isRequired,
-  loadAppeals: PropTypes.bool.isRequired,
-  loadClaims: PropTypes.bool.isRequired,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
-  userFullName: PropTypes.string.isRequired,
+  userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
+  dataLoadingDisabled: PropTypes.bool,
+  isLOA1: PropTypes.bool,
+};
+
+PopularActionsForClaimsAndAppeals.propTypes = {
+  isLOA1: PropTypes.bool,
 };
 
 const isClaimsAvailableSelector = createIsServiceAvailableSelector(
-  backendServices.EVSS_CLAIMS,
+  backendServices.LIGHTHOUSE,
 );
 const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
-// returns true if claimsV2.v2Availability is set to a value other than
+// returns true if claimsAndAppealsRoot.appealsAvailability is set to a value other than
 // appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
 const hasAppealsErrorSelector = state => {
-  const claimsV2Root = state.claims;
+  const claimsAndAppealsRoot = state.claims;
   return (
-    claimsV2Root.v2Availability &&
-    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
-    claimsV2Root.v2Availability !== appealsAvailability.RECORD_NOT_FOUND_ERROR
+    claimsAndAppealsRoot.appealsAvailability &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.AVAILABLE &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.RECORD_NOT_FOUND_ERROR
   );
 };
 
@@ -185,12 +226,13 @@ const mapStateToProps = state => {
   const hasClaimsError =
     claimsState.claimsAvailability === claimsAvailability.UNAVAILABLE;
   const hasAPIError = !!hasAppealsError || !!hasClaimsError;
+  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
 
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
     hasAPIError,
-    shouldLoadAppeals: isAppealsAvailableSelector(state),
+    shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     // as soon as we realize there is an error getting either claims or appeals
     // data, stop showing a loading spinner
@@ -201,8 +243,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  loadAppeals: getAppealsAction,
-  loadClaims: getClaimsAction,
+  getAppeals: getAppealsAction,
+  getClaims: getClaimsAction,
 };
 
 export default connect(

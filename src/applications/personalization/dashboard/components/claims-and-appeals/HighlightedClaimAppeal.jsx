@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { appealTypes } from '../../claims-and-appeals-helpers';
+import PropTypes from 'prop-types';
+import { appealTypes } from '../../utils/appeals-helpers';
 
 import Claim from './Claim';
 import Appeal from './Appeal';
@@ -14,4 +14,10 @@ const HighlightedClaimAppeal = ({ claimOrAppeal, name }) => {
   }
   return <Claim claim={claimOrAppeal} />;
 };
+
+HighlightedClaimAppeal.propTypes = {
+  claimOrAppeal: PropTypes.object.isRequired,
+  name: PropTypes.string,
+};
+
 export default HighlightedClaimAppeal;

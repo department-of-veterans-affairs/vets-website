@@ -26,112 +26,94 @@ const mockStore = {
   dispatch: () => {},
 };
 
-const canAutofillAddress = true;
-const errorSchema = {
-  city: { __errors: ['Please provide a response'] },
-  postalCode: { __errors: ['Please provide a response'] },
-  state: { __errors: ['Please provide a response'] },
-  street: { __errors: ['Please provide a response'] },
-  street2: { __errors: [] },
-  'view:autofill': { __errors: [] },
-};
-const idSchema = {
-  $id: 'root_primaryAddress',
-  city: { $id: 'root_primaryAddress_city' },
-  postalCode: { $id: 'root_primaryAddress_postalCode' },
-  state: { $id: 'root_primaryAddress_state' },
-  street: { $id: 'root_primaryAddress_street' },
-  street2: { $id: 'root_primaryAddress_street2' },
-  'view:autofill': { $id: 'root_primaryAddress_view:autofill' },
-};
-const onChange = () => {};
-const schema = address;
-const formData = {
-  street: '1350 I St. NW',
-  street2: 'Suite 550',
-  city: 'Washington',
-  state: 'DC',
-  postalCode: '20005',
-  'view:autofill': false,
-};
-
 describe('CG <AddressWithAutofill>', () => {
-  it('should render AddressWithAutofill component as a form with checkbox and inputs', () => {
-    const formContext = { reviewMode: false, submitted: undefined };
-    const view = render(
-      <Provider store={mockStore}>
-        <AddressWithAutofill
-          canAutofillAddress={canAutofillAddress}
-          errorSchema={errorSchema}
-          idSchema={idSchema}
-          onChange={onChange}
-          schema={schema}
-          formContext={formContext}
-          formData={formData}
-        />
-      </Provider>,
-    );
+  const defaultProps = {
+    formContext: { reviewMode: false, submitted: undefined },
+    formData: {
+      street: '1350 I St. NW',
+      street2: 'Suite 550',
+      city: 'Washington',
+      state: 'DC',
+      postalCode: '20005',
+      'view:autofill': false,
+    },
+    errorSchema: {
+      city: { __errors: ['Please provide a response'] },
+      postalCode: { __errors: ['Please provide a response'] },
+      state: { __errors: ['Please provide a response'] },
+      street: { __errors: ['Please provide a response'] },
+      street2: { __errors: [] },
+      'view:autofill': { __errors: [] },
+    },
+    idSchema: {
+      $id: 'root_primaryAddress',
+      city: { $id: 'root_primaryAddress_city' },
+      postalCode: { $id: 'root_primaryAddress_postalCode' },
+      state: { $id: 'root_primaryAddress_state' },
+      street: { $id: 'root_primaryAddress_street' },
+      street2: { $id: 'root_primaryAddress_street2' },
+      'view:autofill': { $id: 'root_primaryAddress_view:autofill' },
+    },
+    schema: address,
+    onChange: () => {},
+  };
 
-    expect(
-      view.container.querySelector('va-checkbox#root_primaryAddress_autofill'),
-    ).to.exist;
-    expect(
-      view.container.querySelector('va-text-input#root_primaryAddress_street'),
-    ).to.exist;
-    expect(
-      view.container.querySelector('va-text-input#root_primaryAddress_street2'),
-    ).to.exist;
-    expect(
-      view.container.querySelector('va-text-input#root_primaryAddress_city'),
-    ).to.exist;
-    expect(view.container.querySelector('va-select#root_primaryAddress_state'))
-      .to.exist;
-    expect(
-      view.container.querySelector(
-        'va-text-input#root_primaryAddress_postalCode',
-      ),
-    ).to.exist;
+  describe('when review mode is `false`', () => {
+    it('should render the form', () => {
+      const view = render(
+        <Provider store={mockStore}>
+          <AddressWithAutofill {...defaultProps} />
+        </Provider>,
+      );
+      const selectors = {
+        fieldset: view.container.querySelector('.cg-address-with-autofill'),
+        inputs: view.container.querySelectorAll(
+          'va-checkbox, va-text-input, va-select',
+        ),
+      };
+      expect(selectors.fieldset).to.exist;
+      expect(selectors.fieldset).to.not.be.empty;
+      expect(selectors.inputs).to.have.lengthOf(6);
+    });
   });
 
-  it('should render AddressWithAutofill component as a review field', () => {
-    const formContext = { reviewMode: true, submitted: undefined };
-    const view = render(
-      <Provider store={mockStore}>
-        <AddressWithAutofill
-          canAutofillAddress={canAutofillAddress}
-          errorSchema={errorSchema}
-          idSchema={idSchema}
-          onChange={onChange}
-          schema={schema}
-          formContext={formContext}
-          formData={formData}
-        />
-      </Provider>,
-    );
+  describe('when review mode is `true`', () => {
+    it('should render the just the address fields when autofill is `false`', () => {
+      const props = {
+        ...defaultProps,
+        formContext: {
+          ...defaultProps.formContext,
+          reviewMode: true,
+        },
+      };
+      const view = render(
+        <Provider store={mockStore}>
+          <AddressWithAutofill {...props} />
+        </Provider>,
+      );
+      const selector = view.container.querySelectorAll('.review-row');
+      expect(selector).to.have.lengthOf(5);
+    });
 
-    // street
-    expect(
-      view.container.querySelector('[data-testid="cg-address-street"]'),
-    ).to.contain.text('1350 I St. NW');
-
-    // street2
-    expect(
-      view.container.querySelector('[data-testid="cg-address-street2"]'),
-    ).to.contain.text('Suite 550');
-
-    // city
-    expect(
-      view.container.querySelector('[data-testid="cg-address-city"]'),
-    ).to.contain.text('Washington');
-
-    // state
-    expect(
-      view.container.querySelector('[data-testid="cg-address-state"]'),
-    ).to.contain.text('District Of Columbia');
-
-    // zip
-    expect(
-      view.container.querySelector('[data-testid="cg-address-postalcode"]'),
-    ).to.contain.text('20005');
+    it('should render the address fields and autofill description when autofill is `true`', () => {
+      const props = {
+        ...defaultProps,
+        formContext: {
+          ...defaultProps.formContext,
+          reviewMode: true,
+        },
+        formData: {
+          ...defaultProps.formData,
+          'view:autofill': true,
+        },
+      };
+      const view = render(
+        <Provider store={mockStore}>
+          <AddressWithAutofill {...props} />
+        </Provider>,
+      );
+      const selector = view.container.querySelectorAll('.review-row');
+      expect(selector).to.have.lengthOf(6);
+    });
   });
 });

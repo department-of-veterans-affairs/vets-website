@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export const defaultFailureMessage = (
   <span>
@@ -11,7 +10,13 @@ export const defaultFailureMessage = (
 // alert with headline and body text that is shown for more 'global' failures
 export default function LoadFail() {
   return (
-    <va-alert status="warning" visible data-testid="service-is-down-banner">
+    <va-alert
+      status="warning"
+      visible
+      data-testid="service-is-down-banner"
+      uswds
+      class="vads-u-margin-bottom--2"
+    >
       <h2 slot="headline">This page isn't available right now.</h2>
       <p>
         We’re sorry. Something went wrong on our end. Refresh this page or try
@@ -20,10 +25,6 @@ export default function LoadFail() {
     </va-alert>
   );
 }
-
-LoadFail.propTypes = {
-  information: PropTypes.string.isRequired,
-};
 
 // Helper function to determine which message to render
 // If no props are passed, return the default failure message
@@ -50,7 +51,12 @@ const renderSingleFieldFailMessage = (sectionName, children) => {
 export const SingleFieldLoadFailAlert = ({ sectionName, children }) => {
   const message = renderSingleFieldFailMessage(sectionName, children);
   return (
-    <va-alert status="warning" background-only show-icon>
+    <va-alert
+      status="warning"
+      background-only
+      uswds
+      class="vads-u-margin-bottom--2"
+    >
       {message}
     </va-alert>
   );

@@ -1,0 +1,54 @@
+{
+  "data": {
+    "authorizerType": "nonVeteran",
+    "authorizerFullName": {
+      "first": "Jack",
+      "middle": "",
+      "last": "Authorizer"
+    },
+    "authorizerAddress": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "authorizerPhone": "5555555555",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "2000-01-01",
+    "veteranSSN": "111223333",
+    "thirdPartyType": "organization",
+    "personFullName": {
+      "first": "Joe",
+      "middle": "",
+      "last": "Person"
+    },
+    "personAddress": {
+      "country": "USA",
+      "street": "124 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12346"
+    },
+    "organizationName": "ACME Org",
+    "organizationRepresentative": "Joe Rep",
+    "organizationAddress": {
+      "country": "USA",
+      "street": "125 Any St",
+      "city": "Anycity",
+      "state": "CA",
+      "postalCode": "12347"
+    },
+    "informationScope": "limited",
+    "limitedInformationItems": "Status of pending claim or appeal",
+    "limitedInformationOther": "My favorite color",
+    "releaseDuration": "untilDate",
+    "releaseEndDate": "2033-06-16",
+    "securityQuestion": "motherBirthplace",
+    "securityAnswer": "Las Vegas, NV"
+  }
+}

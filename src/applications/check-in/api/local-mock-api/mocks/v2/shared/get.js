@@ -1,5 +1,6 @@
+/* istanbul ignore file */
 const dateFns = require('date-fns');
-const { utcToZonedTime, format } = require('date-fns-tz');
+const { utcToZonedTime, zonedTimeToUtc, format } = require('date-fns-tz');
 const {
   singleAppointment,
 } = require('../../../../../tests/unit/mocks/mock-appointments');
@@ -7,11 +8,15 @@ const {
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
-// check in UUIDS
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+
+// check in UUIDS
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
+
+// travel-claim UUIDS
+const multiOHAppointmentsUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
 
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
@@ -95,7 +100,6 @@ const getAppointmentStartTime = (
 const createAppointment = ({
   facility = singleAppointment[0].facility,
   eligibility = singleAppointment[0].eligibility,
-  facilityId = singleAppointment[0].facilityId,
   appointmentIen = Math.floor(Math.random() * 100000),
   clinicFriendlyName = 'HEART CLINIC 1',
   clinicName = singleAppointment[0].clinicName,
@@ -166,7 +170,6 @@ const createAppointment = ({
     appointmentIen,
     startTime: formattedStartTime,
     eligibility,
-    facilityId,
     checkInWindowStart: formattedCheckInWindowStart,
     checkInWindowEnd: formattedCheckInWindowEnd,
     checkedInTime: '',
@@ -196,7 +199,6 @@ const createAppointments = (
   let appointments = [
     createAppointment({
       eligibility: 'ELIGIBLE',
-      facilityId: 'ABC_123',
       clinicIen: '0001',
       appointmentIen: `0001`,
       clinicFriendlyName: `HEART CLINIC-1`,
@@ -209,7 +211,6 @@ const createAppointments = (
     appointments = [
       createAppointment({
         eligibility: 'INELIGIBLE_TOO_LATE',
-        facilityId: 'ABC_123',
         clinicIen: '0001',
         appointmentIen: '0000',
         clinicFriendlyName: `HEART CLINIC-1`,
@@ -219,7 +220,6 @@ const createAppointments = (
       appointments.push(
         createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'ABC_123',
           clinicIen: '0001',
           appointmentIen: `000${i + 1}`,
           clinicFriendlyName: `HEART CLINIC-${i}`,
@@ -230,11 +230,19 @@ const createAppointments = (
     }
     appointments.push(
       createAppointment({
+        eligibility: 'ELIGIBLE',
+        clinicIen: '0001',
+        appointmentIen: `0060`,
+        clinicFriendlyName: `HEART CLINIC-CVT`,
+        kind: 'cvt',
+      }),
+    );
+    appointments.push(
+      createAppointment({
         eligibility: 'INELIGIBLE_TOO_EARLY',
-        facilityId: 'ABC_123',
         clinicIen: '0001',
         appointmentIen: `0050`,
-        clinicFriendlyName: `HEART CLINIC-E`,
+        clinicFriendlyName: `HEART CLINIC`,
       }),
     );
   }
@@ -252,6 +260,7 @@ const createAppointments = (
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       },
+      setECheckinStartedCalled: true,
     },
   };
 };
@@ -271,13 +280,80 @@ const createMockNotFoundResponse = () => {
     ],
   };
 };
+const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+const createAppointmentOH = ({
+  appointmentIen = '1111',
+  type = 'Endoscopy',
+  clinicPhoneNumber = '555-555-5555',
+  facility = 'Example Veterans Hospital',
+  facilityAddress = {
+    street1: '12345 Main St',
+    street2: 'Suite 100',
+    street3: 'Box #3',
+    city: 'Washington',
+    state: 'DC',
+    zip: '20002',
+  },
+  stationNo = '500',
+  clinicIen = '32216049',
+  clinicLocation = '',
+  doctorName = 'Dr. Smith',
+  kind = 'clinic',
+  startTime = new Date().toISOString(),
+  status = 'Confirmed',
+  timezone = 'America/Los_Angeles',
+} = {}) => {
+  return {
+    facility,
+    kind,
+    clinicPhoneNumber,
+    clinicFriendlyName: type,
+    clinicName: type,
+    appointmentIen,
+    startTime: zonedTimeToUtc(startTime, browserTimezone),
+    status,
+    stationNo,
+    clinicLocation,
+    clinicStopCodeName: type,
+    doctorName,
+    clinicIen,
+    facilityAddress,
+    timezone,
+  };
+};
+
+const createAppointmentsOH = (token = defaultUUID) => {
+  const appointments = [createAppointmentOH()];
+
+  if (token === multiOHAppointmentsUUID) {
+    appointments.push(
+      createAppointmentOH({
+        appointmentIen: '2222',
+        startTime: dateFns.addHours(new Date(), 1).toISOString(),
+        type: 'Mental Health',
+        stationNo: '500',
+      }),
+    );
+  }
+
+  return {
+    id: token,
+    payload: {
+      appointments,
+      address: '1166 6th Avenue\n22\nNew York, NY 23423\nUS',
+    },
+  };
+};
 
 module.exports = {
   aboutToExpireUUID,
   createAppointments,
+  createAppointmentsOH,
   createAppointment,
   defaultUUID,
   mockDemographics,
   createMockFailedResponse,
   createMockNotFoundResponse,
+  multiOHAppointmentsUUID,
 };

@@ -5,8 +5,8 @@ const alertContent = (
   <>
     {bddAlertBegin}
     <p>
-      When you upload your Separation Health Assessment, select this for
-      document type: <strong>Disability Benefits Questionnaire</strong>
+      When you upload your Separation Health Assessment, select this for file
+      type: <strong>Disability Benefits Questionnaire</strong>
     </p>
   </>
 );
@@ -17,7 +17,7 @@ export const selfAssessmentHeadline =
 export const selfAssessmentAlert = () => {
   return (
     <>
-      <va-alert status="warning">
+      <va-alert status="warning" uswds>
         <h3 slot="headline">{selfAssessmentHeadline}</h3>
         {alertContent}
       </va-alert>

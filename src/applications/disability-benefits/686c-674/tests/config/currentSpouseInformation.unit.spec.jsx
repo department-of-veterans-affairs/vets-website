@@ -95,7 +95,7 @@ describe('686 current spouse information', () => {
     changeDropdown(form, 'select#root_spouseInformation_birthDateDay', 1);
     fillData(form, 'input#root_spouseInformation_birthDateYear', '1991');
     selectRadio(form, 'root_spouseInformation_isVeteran', 'Y');
-    fillData(form, 'input#root_spouseInformation_vaFileNumber', '123455');
+    fillData(form, 'input#root_spouseInformation_vaFileNumber', '12345678');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

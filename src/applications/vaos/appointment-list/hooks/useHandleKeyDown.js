@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
-import { SPACE_BAR } from '../../utils/constants';
 
 export default function useHandleKeyDown({ link, idClickable }) {
   const history = useHistory();
@@ -10,7 +9,7 @@ export default function useHandleKeyDown({ link, idClickable }) {
   return useCallback(
     () => {
       return event => {
-        if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
+        if (event.key === 'Space' || event.code === 'Space') {
           focusElement(`#${idClickable}`);
           history.push(link);
         }

@@ -61,8 +61,8 @@ const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
     .find('.signature-checkbox')
     .shadow()
-    .find('[type="checkbox"]')
-    .check();
+    .find('label')
+    .click();
 };
 
 const testSecondaryTwo = createTestConfig(
@@ -98,14 +98,19 @@ const testSecondaryTwo = createTestConfig(
             .click();
         });
       },
-      'vet-3-api': ({ afterHook }) => {
+      'select-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.wait('@getFacilities');
-          cy.get('#root_veteranPreferredFacility_plannedClinic')
+          cy.get('va-text-input')
             .shadow()
-            .find('select')
-            .select('675');
+            .find('input')
+            .type('33880');
+          cy.get('[data-testid="caregivers-search-btn"]').click();
+          cy.wait('@getFacilities');
+          cy.get('#root_plannedClinic_plannedClinic')
+            .should('be.visible')
+            .first()
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -114,60 +119,8 @@ const testSecondaryTwo = createTestConfig(
           cy.fillPage();
           cy.get('#root_primaryAddress_autofill')
             .shadow()
-            .find('[type="checkbox"]')
-            .check();
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'secondary-one-3': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('#root_secondaryOneAddress_street')
-            .shadow()
-            .find('input')
-            .type('1375 E Buena Vista Dr');
-          cy.get('#root_secondaryOneAddress_street2')
-            .shadow()
-            .find('input')
-            .type('Apt 1');
-          cy.get('#root_secondaryOneAddress_city')
-            .shadow()
-            .find('input')
-            .type('Orlando');
-          cy.get('#root_secondaryOneAddress_state')
-            .shadow()
-            .find('select')
-            .select('Florida');
-          cy.get('#root_secondaryOneAddress_postalCode')
-            .shadow()
-            .find('input')
-            .type('32830');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'secondary-two-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          cy.get('#root_secondaryTwoAddress_street')
-            .shadow()
-            .find('input')
-            .type('1375 E Buena Vista Dr');
-          cy.get('#root_secondaryTwoAddress_street2')
-            .shadow()
-            .find('input')
-            .type('Apt 1');
-          cy.get('#root_secondaryTwoAddress_city')
-            .shadow()
-            .find('input')
-            .type('Orlando');
-          cy.get('#root_secondaryTwoAddress_state')
-            .shadow()
-            .find('select')
-            .select('Florida');
-          cy.get('#root_secondaryTwoAddress_postalCode')
-            .shadow()
-            .find('input')
-            .type('32830');
+            .find('label')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -11,8 +9,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   authorizationLabel,
   authorizationAlertContent,
+  authorizationHeader,
   authorizationInfo,
 } from '../content/evidencePrivateRecordsAuthorization';
+
+import { customPageProps995 } from '../../shared/props';
 
 const EvidencePrivateRecordsAuthorization = ({
   data = {},
@@ -80,11 +81,11 @@ const EvidencePrivateRecordsAuthorization = ({
 
   return (
     <>
-      <form>
-        <va-alert status="error" visible={hasError}>
+      <form onSubmit={handlers.onSubmit}>
+        <va-alert status="error" visible={hasError} uswds>
           {hasError && authorizationAlertContent(handlers.onAnchorClick)}
         </va-alert>
-        {authorizationInfo}
+        {authorizationHeader}
         <VaCheckbox
           id="privacy-agreement"
           label={authorizationLabel}
@@ -93,7 +94,10 @@ const EvidencePrivateRecordsAuthorization = ({
           aria-describedby="authorize-text"
           required
           enable-analytics
-        />
+          uswds
+        >
+          <div slot="description">{authorizationInfo}</div>
+        </VaCheckbox>
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
           <FormNavButtons goBack={goBack} goForward={handlers.onGoForward} />
@@ -104,15 +108,6 @@ const EvidencePrivateRecordsAuthorization = ({
   );
 };
 
-EvidencePrivateRecordsAuthorization.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    privacyAgreementAccepted: PropTypes.bool,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-};
+EvidencePrivateRecordsAuthorization.propTypes = customPageProps995;
 
 export default EvidencePrivateRecordsAuthorization;

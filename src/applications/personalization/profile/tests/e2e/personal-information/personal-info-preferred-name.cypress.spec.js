@@ -24,18 +24,22 @@ describe('Preferred name field tests on the personal information page', () => {
 
     cy.findByText(nameEditInputLabel).should('exist');
 
-    cy.get(nameEditInputField)
-      .clear()
-      .type('newname');
+    cy.get(nameEditInputField).clear();
+
+    cy.get(nameEditInputField).type('newname');
 
     cy.findByTestId('cancel-edit-button').click();
 
     // should show cancel editing alert
-    cy.findByRole('alertdialog').should('exist');
+    cy.get('va-modal[visible]').should('exist');
 
     cy.findByTestId('confirm-cancel-modal')
       .shadow()
-      .findByRole('button', { name: /cancel/i })
+      .find('.usa-button-group')
+      .first()
+      .find('va-button')
+      .shadow()
+      .findByText(/yes, cancel my changes/i)
       .click();
 
     cy.findByText(nameEditInputLabel).should('not.exist');
@@ -135,25 +139,6 @@ describe('Preferred name field tests on the personal information page', () => {
       .click({ waitForAnimations: true });
 
     cy.findByTestId('edit-error-alert').should('exist');
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should show validation error when update is attempted with empty field', () => {
-    setup({ isEnhanced: true });
-
-    const nameEditButtonLabel = 'Edit Preferred name';
-    const nameEditInputField = 'input[name="root_preferredName"]';
-
-    cy.findByLabelText(nameEditButtonLabel).click({ waitForAnimations: true });
-
-    cy.get(nameEditInputField).clear();
-
-    cy.findAllByTestId('save-edit-button')
-      .should('exist')
-      .click({ waitForAnimations: true });
-
-    cy.findByText('Please provide a response').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

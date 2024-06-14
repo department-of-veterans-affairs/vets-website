@@ -1,5 +1,5 @@
 import React from 'react';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 export default function ErrorText() {
   return (

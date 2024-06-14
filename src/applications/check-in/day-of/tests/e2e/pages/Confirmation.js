@@ -7,12 +7,6 @@ class Confirmation {
       .and('include.text', 'checked in');
   };
 
-  validateBtsssIssue = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', "But we couldn't file your travel claim.");
-  };
-
   validatePageLoadedWithNoBtsssClaim = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
@@ -78,8 +72,8 @@ class Confirmation {
     }
   };
 
-  validateConfirmationAlert = () => {
-    cy.get('[data-testid="confirmation-alert"]')
+  validateConfirmationMessage = () => {
+    cy.get('[data-testid="confirmation-message"]')
       .invoke('text')
       .should('have.length.gt', 0);
   };
@@ -95,12 +89,6 @@ class Confirmation {
         'contain',
         '/resources/how-to-file-a-va-travel-reimbursement-claim-online/',
       );
-  };
-
-  validateExtraFooterMessage = () => {
-    cy.get('div[data-testid="day-of-travel-extra-message"]').should(
-      'be.visible',
-    );
   };
 
   attemptGoBackToAppointments = () => {

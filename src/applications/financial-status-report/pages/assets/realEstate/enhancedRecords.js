@@ -1,18 +1,35 @@
-import { validateCurrency } from '../../../utils/validations';
+import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
+import {
+  validateCurrency,
+  validateRealEstateRecordAssetsLimits,
+} from '../../../utils/validations';
 
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your real estate assets</h3>
+      </legend>
+    </>
+  ),
   assets: {
     realEstateValue: {
       'ui:title': 'What is the estimated value of all your properties?',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         classNames: 'schemaform-currency-input',
-        widgetClassNames: 'input-size-3',
+        width: 'md',
       },
+
       'ui:errorMessages': {
         required: 'Please enter the value of all your properties.',
       },
-      'ui:validations': [validateCurrency],
+      'ui:validations': [
+        validateCurrency,
+        validateRealEstateRecordAssetsLimits,
+      ],
     },
   },
 };

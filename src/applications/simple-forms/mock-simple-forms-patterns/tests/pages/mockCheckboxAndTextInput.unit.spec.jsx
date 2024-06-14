@@ -1,7 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
@@ -13,7 +11,7 @@ const {
 
 const pageTitle = 'mock checkbox and text input';
 
-const expectedNumberOfWebComponentFields = 8;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,29 +20,11 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 6;
+const expectedNumberOfWebComponentErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
-
-const expectedNumberOfFields = 4;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-);
-
-const expectedNumberOfErrors = 3;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
   pageTitle,
 );

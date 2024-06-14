@@ -14,7 +14,7 @@ const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
   return (
     <a
       href={`${manifest.rootUrl}/introduction`}
-      className="usa-button-primary va-button-primary"
+      className="vads-c-action-link--green"
       onClick={event => {
         event.preventDefault();
         setWizardStatus(WIZARD_STATUS_COMPLETE);

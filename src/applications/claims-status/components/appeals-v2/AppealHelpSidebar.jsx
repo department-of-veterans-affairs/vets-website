@@ -1,10 +1,10 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
-import AskVAQuestions from '../AskVAQuestions';
+import NeedHelp from '../NeedHelp';
 
 const vhaVersion = (
   <>
@@ -21,11 +21,10 @@ const vhaVersion = (
 const AppealHelpSidebar = ({ aoj }) => {
   switch (aoj) {
     case AOJS.vba:
-      return <AskVAQuestions />;
+      return <NeedHelp />;
     case AOJS.vha:
       return vhaVersion;
     case AOJS.nca:
-      return null; // nca version (coming soon to a sidebar near you!)
     case AOJS.other:
       return null;
     default:

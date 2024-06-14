@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
+import { createMemoryHistory } from 'history';
+import { spy } from 'sinon';
 import { getSearchQueryChanged, updateUrlParams } from '../../selectors/search';
 import { getDefaultState } from '../helpers';
-import { createMemoryHistory } from 'history';
 import { TABS } from '../../constants';
-import { spy } from 'sinon';
 
 const defaultState = getDefaultState();
 

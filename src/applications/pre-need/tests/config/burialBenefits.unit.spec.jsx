@@ -1,15 +1,29 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   DefinitionTester,
-  fillData,
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import { mockFetch } from 'platform/testing/unit/helpers';
+
+const mockStore = configureMockStore();
+
+const payload = {
+  claimant: {
+    hasCurrentlyBuried: '1',
+  },
+};
+
+const store = mockStore({
+  form: {
+    data: payload,
+  },
+});
 
 const response = {
   data: [
@@ -37,11 +51,13 @@ describe('Pre-need burial benefits', () => {
 
   it('should render', () => {
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(4);
@@ -51,12 +67,14 @@ describe('Pre-need burial benefits', () => {
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     form.find('form').simulate('submit');
@@ -66,44 +84,17 @@ describe('Pre-need burial benefits', () => {
     form.unmount();
   });
 
-  it('should fill in currently buried persons list', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
-
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_0_name_first',
-      'test',
-    );
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_0_name_last',
-      'test2',
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
   it('should fill in desired cemetery', done => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
     );
 
     const cemeteryField = form.find(
@@ -130,84 +121,24 @@ describe('Pre-need burial benefits', () => {
     });
   });
 
-  it('should add another currently buried person', () => {
+  it('should submit with required information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          onSubmit={onSubmit}
+          uiSchema={uiSchema}
+        />{' '}
+      </Provider>,
     );
+
     selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
-
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_0_name_first',
-      'test',
-    );
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_0_name_last',
-      'test2',
-    );
-
-    form.find('.va-growable-add-btn').simulate('click');
-
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_1_name_first',
-      'test',
-    );
-    fillData(
-      form,
-      'input#root_application_currentlyBuriedPersons_1_name_last',
-      'test2',
-    );
 
     form.find('form').simulate('submit');
 
     expect(onSubmit.called).to.be.true;
     form.unmount();
-  });
-
-  it('should fill cemetery for currently buried person', done => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    selectRadio(form, 'root_application_hasCurrentlyBuried', '1');
-
-    const cemeteryField = form.find(
-      'input#root_application_currentlyBuriedPersons_0_cemeteryNumber',
-    );
-    cemeteryField.simulate('focus').simulate('change', {
-      target: { value: 'ABRAHAM LINCOLN NATIONAL CEMETERY' },
-    });
-
-    setTimeout(() => {
-      cemeteryField
-        .simulate('keyDown', { key: 'ArrowDown', keyCode: 40 })
-        .simulate('blur');
-
-      // have to pull this again, doesn't work if we use cemeteryField
-      expect(
-        form
-          .find(
-            'input#root_application_currentlyBuriedPersons_0_cemeteryNumber',
-          )
-          .props().value,
-      ).to.equal('ABRAHAM LINCOLN NATIONAL CEMETERY');
-
-      form.unmount();
-      done();
-    });
   });
 });

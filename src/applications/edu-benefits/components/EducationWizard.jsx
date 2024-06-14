@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
       case '1990E':
-        if (this?.props['showMebDgi40Feature']) {
+        if (this?.props.showMebDgi40Feature) {
           url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
           break;
         }
@@ -75,8 +75,8 @@ class EducationWizard extends React.Component {
     return (
       <a
         id="apply-now-link"
+        className="vads-c-action-link--green"
         href={url}
-        className="usa-button va-button-primary"
         onClick={() => this.recordWizardValues()}
       >
         Apply now
@@ -165,9 +165,7 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.open,
-    });
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',
@@ -227,7 +225,7 @@ class EducationWizard extends React.Component {
           className={buttonClasses}
           onClick={() => this.setState({ open: !this.state.open })}
         >
-          Find your education benefits form
+          Apply for education benefits
         </button>
         <div className={contentClasses} id="wizardOptions">
           <div className="wizard-content-inner">

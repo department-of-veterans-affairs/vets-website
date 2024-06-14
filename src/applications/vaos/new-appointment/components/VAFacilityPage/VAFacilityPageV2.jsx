@@ -13,7 +13,6 @@ import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import FacilitiesNotShown from './FacilitiesNotShown';
 import SingleFacilityAvailable from './SingleFacilityAvailable';
 import { lowerCase } from '../../../utils/formatters';
@@ -25,6 +24,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -46,6 +46,8 @@ const sortOptions = [
 ];
 
 export default function VAFacilityPageV2() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -83,24 +85,19 @@ export default function VAFacilityPageV2() {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  let pageTitle;
-  if (singleValidVALocation) {
-    pageTitle = 'Your appointment location';
-  } else {
-    pageTitle = 'Choose a VA location';
-  }
+
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = 'select';
   const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
     dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
   }, []);
 
   useEffect(
     () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
     },
     [isLoading],
@@ -143,6 +140,15 @@ export default function VAFacilityPageV2() {
   if (isLoading) {
     return (
       <va-loading-indicator message="Finding available locations for your appointment..." />
+    );
+  }
+  if (loadingEligibility) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
     );
   }
 
@@ -276,13 +282,6 @@ export default function VAFacilityPageV2() {
             />
           </SchemaForm>
         )}
-
-      <LoadingOverlay
-        show={loadingEligibility}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
 
       {showEligibilityModal && (
         <EligibilityModal

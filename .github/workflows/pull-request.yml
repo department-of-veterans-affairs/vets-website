@@ -9,12 +9,52 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
-  check-cross-app-imports:
-    name: Check Cross App Imports
+  fetch-unit-tests-allow-list:
+    name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
+  check-cross-app-imports:
+    name: Check Cross App Imports
+    needs: [fetch-unit-tests-allow-list]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -26,8 +66,16 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Download Unit Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-test-allow-list
+          path: .
+
       - name: Check for cross app imports in allowlist apps
         run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
+        env:
+          TEST_TYPE: unit_test
 
   eslint-disable-check:
     name: ESLint Disable Check
@@ -35,26 +83,26 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Get Node version
         id: get-node-version
         run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -91,26 +139,26 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Get Node version
         id: get-node-version
         run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -128,7 +176,7 @@ jobs:
       - name: Run PR check script
         run: yarn pr-check
         env:
-          CODE_PATTERN: (<i )|(<i$)
+          CODE_PATTERN: (<i )|(<i$)|(<va-icon)
           LINE_COMMENT: icon found
           OVERALL_REVIEW_COMMENT: >
             # Icon found
@@ -142,32 +190,36 @@ jobs:
             Review the markup and see if the icon provides information that isn't
             represented textually, or wait for a VSP review.
 
+            ## Note:
+
+            Font Awesome is deprecated. Please use va-icon instead. For more information, visit the migration documentation: [Migrate from font awesome to va-icon](https://design.va.gov/about/developers/using-web-components#how-to-migrate-from-font-awesome-to-va-icon)
+
   sentry-check:
     name: Sentry Check
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Get Node version
         id: get-node-version
         run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
@@ -204,14 +256,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Get Node version
         id: get-node-version
         run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
@@ -236,7 +288,11 @@ jobs:
         id: get-lint-files
         run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
 
-      - name: Annotate ESLint results
+      - name: Annotate ESLint results for all files if eslint config has been modified
+        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
+        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
+
+      - name: Annotate ESLint results for modified files
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
       - name: Run Stylelint

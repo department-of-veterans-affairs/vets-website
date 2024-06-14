@@ -29,9 +29,9 @@ export const App = ({ show }) => {
 
       <p>
         <strong>Note:</strong> You can also get this form from a VA regional
-        office. Or, you can call us at <va-telephone contact="800-827-1000" />{' '}
-        to request a form. We’re here Monday through Friday, 8:00 a.m. to 9:00
-        p.m. ET.
+        office. Or, you can call us at <va-telephone contact="8008271000" /> to
+        request a form. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        ET.
       </p>
 
       <p>Send the completed form to this address:</p>
@@ -73,9 +73,9 @@ export const App = ({ show }) => {
 
       <p>
         <strong>Note:</strong> You can also get this form from a VA regional
-        office. Or, you can call us at <va-telephone contact="800-827-1000" />{' '}
-        to request a form. We’re here Monday through Friday, 8:00 a.m. to 9:00
-        p.m. ET.
+        office. Or, you can call us at <va-telephone contact="8008271000" /> to
+        request a form. We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        ET.
       </p>
 
       <p>Send the completed form to this address:</p>

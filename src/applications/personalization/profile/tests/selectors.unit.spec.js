@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 import * as selectors from '../selectors';
 
-import mockPersonalInformationSuccessEnhanced from './fixtures/personal-information-success-enhanced.json';
-
-const personalInformation =
-  mockPersonalInformationSuccessEnhanced.data.attributes;
-
 const getDirectDepositInfoError = {
   errors: [
     {
@@ -100,35 +95,28 @@ describe('profile selectors', () => {
     });
   });
 
-  describe('cnpDirectDepositAddressIsSetUp selector', () => {
+  describe('cnpDirectDepositIsEligible selector', () => {
     let state;
+
     beforeEach(() => {
       state = {
         vaProfile: {
           cnpPaymentInformation: {
-            paymentAddress: {
-              addressOne: '123 Main',
-              city: 'San Francisco',
-              stateCode: 'CA',
+            controlInformation: {
+              canUpdateDirectDeposit: true,
             },
           },
         },
       };
     });
-    it('returns `true` if there is a street, city, and state set on the payment info payment address', () => {
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.true;
+
+    it('returns `true` if control info canUpdateDirectDeposit is true', () => {
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.true;
     });
-    it('returns `false` if the street address is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.addressOne = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
-    });
-    it('returns `false` if the city is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.city = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
-    });
-    it('returns `false` if the state is missing', () => {
-      state.vaProfile.cnpPaymentInformation.paymentAddress.stateCode = '';
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+
+    it('returns `false` if control info canUpdateDirectDeposit is false', () => {
+      state.vaProfile.cnpPaymentInformation.controlInformation.canUpdateDirectDeposit = false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
 
     it('returns `false` when the payment info endpoint failed to get data', () => {
@@ -139,11 +127,11 @@ describe('profile selectors', () => {
           },
         },
       };
-      expect(selectors.cnpDirectDepositAddressIsSetUp(state)).to.be.false;
+      expect(selectors.cnpDirectDepositIsEligible(state)).to.be.false;
     });
   });
 
-  describe('cnpDirectDepositIsBlocked', () => {
+  describe('selectIsBlocked', () => {
     it('returns `false` if the isCompetentIndicator, noFiduciaryAssignedIndicator, and notDeceasedIndicator flags are all `true`', () => {
       const state = {
         vaProfile: {
@@ -156,7 +144,7 @@ describe('profile selectors', () => {
           },
         },
       };
-      expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.false;
+      expect(selectors.selectIsBlocked(state)).to.be.false;
     });
     it('returns `false` if the control information is not set', () => {
       const state = {
@@ -164,43 +152,43 @@ describe('profile selectors', () => {
           cnpPaymentInformation: {},
         },
       };
-      expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.false;
+      expect(selectors.selectIsBlocked(state)).to.be.false;
     });
-    it('returns `true` if the `isCompetentIndicator` is not true', () => {
+    it('returns `true` if the `isCompetent` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              isCompetentIndicator: false,
+              isCompetent: false,
             },
           },
         },
       };
-      expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.true;
+      expect(selectors.selectIsBlocked(state)).to.be.true;
     });
-    it('returns `true` if the `noFiduciaryAssignedIndicator` is not true', () => {
+    it('returns `true` if the `hasNoFiduciaryAssigned` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              noFiduciaryAssignedIndicator: false,
+              hasNoFiduciaryAssigned: false,
             },
           },
         },
       };
-      expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.true;
+      expect(selectors.selectIsBlocked(state)).to.be.true;
     });
-    it('returns `true` if the `notDeceasedIndicator` is not true', () => {
+    it('returns `true` if the `isNotDeceased` is not true', () => {
       const state = {
         vaProfile: {
           cnpPaymentInformation: {
             controlInformation: {
-              notDeceasedIndicator: false,
+              isNotDeceased: false,
             },
           },
         },
       };
-      expect(selectors.cnpDirectDepositIsBlocked(state)).to.be.true;
+      expect(selectors.selectIsBlocked(state)).to.be.true;
     });
   });
 
@@ -447,50 +435,6 @@ describe('profile selectors', () => {
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
       state = { vaProfile: {} };
       expect(selectors.militaryInformationLoadError(state)).to.be.undefined;
-    });
-  });
-});
-
-describe('selectVAProfilePersonalInformation selector', () => {
-  let state;
-  beforeEach(() => {
-    state = {
-      vaProfile: {
-        personalInformation,
-      },
-    };
-  });
-  it('returns preferredName', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'preferredName'),
-    ).to.deep.equal({
-      preferredName: 'WES',
-    });
-  });
-
-  it('returns genderIdentity', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'genderIdentity'),
-    ).to.deep.equal({
-      genderIdentity: { code: 'M', name: 'Male' },
-    });
-  });
-
-  it('returns pronouns and pronounsNotListedText', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'pronouns'),
-    ).to.deep.equal({
-      pronouns: ['heHimHis', 'theyThemTheirs'],
-      pronounsNotListedText: 'Other/pronouns/here',
-    });
-  });
-
-  it('returns sexualOrientation and sexualOrientationNotListedText', () => {
-    expect(
-      selectors.selectVAProfilePersonalInformation(state, 'sexualOrientation'),
-    ).to.deep.equal({
-      sexualOrientation: ['straightOrHeterosexual'],
-      sexualOrientationNotListedText: 'Some other orientation',
     });
   });
 });

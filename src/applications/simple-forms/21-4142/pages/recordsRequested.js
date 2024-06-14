@@ -83,11 +83,34 @@ export default {
           'ui:required': () => true,
           'ui:errorMessages': {
             required: 'Please list at least one condition',
+            maxLength: 'Please limit your answer to no more than 75 characters',
+          },
+          'ui:options': {
+            updateSchema: () => ({
+              type: 'string',
+              maxLength: 75,
+            }),
           },
         },
         [providerFacilityFields.treatmentDateRange]: {
-          from: dateUI('First treatment date (you can estimate)'),
-          to: dateUI('Last treatment date (you can estimate)'),
+          from: {
+            ...dateUI('First treatment date (you can estimate)'),
+            'ui:errorMessages': {
+              required:
+                'Select a month and day. And enter a valid 4-digit year.',
+              pattern:
+                'Select a month and day. And enter a valid 4-digit year.',
+            },
+          },
+          to: {
+            ...dateUI('Last treatment date (you can estimate)'),
+            'ui:errorMessages': {
+              required:
+                'Select a month and day. And enter a valid 4-digit year.',
+              pattern:
+                'Select a month and day. And enter a valid 4-digit year.',
+            },
+          },
         },
         'ui:validations': [
           (errors, field) => {

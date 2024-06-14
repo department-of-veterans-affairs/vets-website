@@ -7,6 +7,8 @@ import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import GetFormHelp from './GetFormHelp';
 
 export const ConfirmationPageView = ({
+  formType = 'application',
+  submitterHeader = 'Applicant',
   submitterName,
   submitDate,
   confirmationNumber,
@@ -38,15 +40,19 @@ export const ConfirmationPageView = ({
           width="300"
         />
       </div>
-      <va-alert status="success" ref={alertRef}>
+      <va-alert uswds status="success" ref={alertRef}>
         <h2 slot="headline">{headlineText}</h2>
-        <p>{nextStepsText}</p>
+        {typeof nextStepsText === 'string' ? (
+          <p>{nextStepsText}</p>
+        ) : (
+          nextStepsText
+        )}
       </va-alert>
       <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your application information</h3>
+        <h3 className="vads-u-margin-top--0">Your {formType} information</h3>
         {first && last ? (
           <>
-            <h4>Applicant</h4>
+            <h4>{submitterHeader}</h4>
             <p>
               {first} {middle ? `${middle} ` : ''}
               {last}
@@ -71,13 +77,11 @@ export const ConfirmationPageView = ({
 
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records</p>
-        <button
-          type="button"
+        <va-button
           className="usa-button vads-u-margin-top--0 screen-only"
           onClick={window.print}
-        >
-          Print this page
-        </button>
+          text="Print this page"
+        />
       </div>
       {childContent || null}
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">

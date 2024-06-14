@@ -1,0 +1,34 @@
+{
+  "data": {
+    "id": "2708329",
+    "type": "messages",
+    "attributes": {
+      "messageId": 2708329,
+      "category": "OTHER",
+      "subject": "Test",
+      "body": "Message to patient\r\n\r\nhttps://vajira.max.gov/browse/MHV-19810",
+      "attachment": false,
+      "sentDate": "2023-03-17T19:57:15.000Z",
+      "senderId": 694294,
+      "senderName": "TZVETANOV, DIMITAR  A",
+      "recipientId": 406227,
+      "recipientName": "MHVTP, SAFARI ",
+      "readReceipt": "READ",
+      "triageGroupName": "Dimitar's TG",
+      "proxySenderName": null
+    },
+    "relationships": {
+      "attachments": {
+        "data": []
+      }
+    },
+    "links": {
+      "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2708329"
+    }
+  }
+}
+
+
+
+
+

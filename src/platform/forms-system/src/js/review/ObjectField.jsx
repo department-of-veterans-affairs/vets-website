@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { flow, groupBy } from 'lodash';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
 
 import {
   getDefaultFormState,
@@ -12,7 +10,9 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { showReviewField } from '../helpers';
-import { isReactComponent } from 'platform/utilities/ui';
+import { isReactComponent } from '../../../../utilities/ui';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -20,16 +20,6 @@ import { isReactComponent } from 'platform/utilities/ui';
  */
 
 class ObjectField extends React.Component {
-  static defaultProps = {
-    uiSchema: {},
-    errorSchema: {},
-    idSchema: {},
-    registry: getDefaultRegistry(),
-    required: false,
-    disabled: false,
-    readonly: false,
-  };
-
   constructor() {
     super();
     this.isRequired = this.isRequired.bind(this);
@@ -76,13 +66,13 @@ class ObjectField extends React.Component {
     };
   }
 
-  getStateFromProps(props) {
-    const { schema, formData, registry } = props;
+  getStateFromProps() {
+    const { schema, formData, registry } = this.props;
     return getDefaultFormState(schema, formData, registry.definitions) || {};
   }
 
   isRequired(name) {
-    const schema = this.props.schema;
+    const { schema } = this.props;
     return (
       Array.isArray(schema.required) && schema.required.indexOf(name) !== -1
     );
@@ -90,7 +80,7 @@ class ObjectField extends React.Component {
 
   render() {
     const { uiSchema, errorSchema, idSchema, schema, formContext } = this.props;
-    const SchemaField = this.props.registry.fields.SchemaField;
+    const { SchemaField } = this.props.registry.fields || {};
 
     const properties = Object.keys(schema.properties);
     const isRoot = idSchema.$id === 'root';
@@ -150,11 +140,13 @@ class ObjectField extends React.Component {
       },
     );
 
-    let title = formContext?.pageTitle;
-    if (!formContext?.hideTitle && typeof title === 'function') {
+    let title;
+    if (typeof formContext?.pageTitle === 'function') {
       // the `formData` is local to the object, not the page.
       // A page would have access to properties that a child object wouldn't
-      title = isRoot && title(formData, formContext);
+      title = isRoot && formContext?.pageTitle(formData, formContext);
+    } else {
+      title = formContext?.pageTitle;
     }
     const uiOptions = uiSchema['ui:options'] || {};
     const ariaLabel = uiOptions.itemAriaLabel;
@@ -172,14 +164,7 @@ class ObjectField extends React.Component {
       onEdit = formContext?.onEdit,
       text = 'Edit',
     } = {}) => (
-      <button
-        type="button"
-        className="edit-btn primary-outline"
-        aria-label={label}
-        onClick={onEdit}
-      >
-        {text}
-      </button>
+      <va-button secondary label={label} onClick={onEdit} text={text} uswds />
     );
 
     if (isReactComponent(ObjectViewField)) {
@@ -187,26 +172,33 @@ class ObjectField extends React.Component {
         <ObjectViewField
           {...this.props}
           renderedProperties={renderedProperties}
-          title={title}
+          title={!formContext?.hideTitle ? title : ''}
           defaultEditButton={defaultEditButton}
         />
       );
     }
 
+    const titleString = typeof title === 'string';
     return isRoot ? (
       <>
         {!formContext?.hideHeaderRow && (
           <div className="form-review-panel-page-header-row">
-            {title?.trim() &&
-              !formContext?.hideTitle && (
-                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-                  {title}
-                </h4>
-              )}
-            {defaultEditButton()}
+            {((titleString && title.trim()) || !titleString) &&
+            !formContext?.hideTitle ? (
+              <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                {title}
+              </h4>
+            ) : (
+              <div className="form-review-panel-page-header" />
+            )}
+            <div className="vads-u-justify-content--flex-end">
+              {defaultEditButton()}
+            </div>
           </div>
         )}
-        <Tag className="review">{renderedProperties}</Tag>
+        <Tag className="review" style={{ margin: '16px auto' }}>
+          {renderedProperties}
+        </Tag>
       </>
     ) : (
       <>{renderedProperties}</>
@@ -214,23 +206,42 @@ class ObjectField extends React.Component {
   }
 }
 
+ObjectField.defaultProps = {
+  uiSchema: {},
+  errorSchema: {},
+  idSchema: {},
+  registry: getDefaultRegistry(),
+  required: false,
+  disabled: false,
+  readonly: false,
+};
+
 ObjectField.propTypes = {
   schema: PropTypes.object.isRequired,
-  uiSchema: PropTypes.object,
-  errorSchema: PropTypes.object,
-  idSchema: PropTypes.object,
-  formData: PropTypes.object,
-  required: PropTypes.bool,
   disabled: PropTypes.bool,
+  errorSchema: PropTypes.object,
+  formContext: PropTypes.shape({
+    hideHeaderRow: PropTypes.bool,
+    hideTitle: PropTypes.bool,
+    onEdit: PropTypes.func,
+    pageTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    reviewMode: PropTypes.bool,
+  }),
+  formData: PropTypes.object,
+  idSchema: PropTypes.object,
   readonly: PropTypes.bool,
   registry: PropTypes.shape({
+    definitions: PropTypes.object.isRequired,
+    fields: PropTypes.objectOf(PropTypes.func).isRequired,
+    formContext: PropTypes.shape({}).isRequired,
     widgets: PropTypes.objectOf(
       PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     ).isRequired,
-    fields: PropTypes.objectOf(PropTypes.func).isRequired,
-    definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
   }),
+  required: PropTypes.bool,
+  uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 export default ObjectField;

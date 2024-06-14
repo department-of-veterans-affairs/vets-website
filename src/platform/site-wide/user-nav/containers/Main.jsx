@@ -17,7 +17,6 @@ import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
 import {
   signInServiceName as signInServiceNameSelector,
-  transitionMHVAccount,
   isAuthenticatedWithOAuth,
   signInServiceEnabled,
 } from 'platform/user/authentication/selectors';
@@ -26,7 +25,6 @@ import {
   isProfileLoading,
   isLOA3,
   selectUser,
-  mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
@@ -287,14 +285,12 @@ export const mapStateToProps = state => {
     isLOA3: isLOA3(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    mhvTransition: mhvTransitionEnabled(state),
     mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
-    canTransferMHVAccount: transitionMHVAccount(state),
     ...state.navigation,
   };
 };
@@ -316,17 +312,14 @@ export default connect(
 )(Main);
 
 Main.propTypes = {
-  // From mapDispatchToProps.
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
-  showNavLogin: PropTypes.bool,
   toggleAccountTransitionModal: PropTypes.func.isRequired,
   toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
-  // From mapStateToProps.
   authenticatedWithOAuth: PropTypes.bool,
   canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
@@ -340,7 +333,12 @@ Main.propTypes = {
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
+  showNavLogin: PropTypes.bool,
   useSignInService: PropTypes.bool,
-  userGreeting: PropTypes.array,
+  userGreeting: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.node),
+  ]),
   utilitiesMenuIsOpen: PropTypes.object,
 };

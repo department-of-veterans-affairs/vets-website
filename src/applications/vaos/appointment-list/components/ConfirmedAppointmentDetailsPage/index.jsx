@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams, useRouteMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -11,13 +11,18 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
-import { selectFeatureVaosV2Next } from '../../../redux/selectors';
+import {
+  selectFeatureAppointmentDetailsRedesign,
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureVaosV2Next,
+} from '../../../redux/selectors';
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
+import VideoLayout from '../../../components/layout/VideoLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
-  const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
@@ -29,14 +34,21 @@ export default function ConfirmedAppointmentDetailsPage() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
   const isVideo = appointment?.vaos?.isVideo;
-  const isCommunityCare = !!match.path.includes('cc');
+  const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
+  const isPhone = appointment?.vaos?.isPhoneAppointment;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
@@ -51,14 +63,17 @@ export default function ConfirmedAppointmentDetailsPage() {
   useEffect(
     () => {
       const pageTitle = isCommunityCare ? 'Community care' : 'VA';
+      const pageTitleSuffix = featureBreadcrumbUrlUpdate
+        ? ' | Veterans Affairs'
+        : '';
       if (appointment && appointmentDate) {
         document.title = `${pageTitle} appointment on ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
-        )}`;
+        )}${pageTitleSuffix}`;
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDate, isCommunityCare],
+    // [appointment, appointmentDate, isCommunityCare, featureBreadcrumbUrlUpdateæ],
   );
 
   useEffect(
@@ -78,9 +93,9 @@ export default function ConfirmedAppointmentDetailsPage() {
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
   ) {
     return (
-      <FullWidthLayout>
+      <PageLayout showBreadcrumbs showNeedHelp>
         <ErrorMessage level={1} />
-      </FullWidthLayout>
+      </PageLayout>
     );
   }
 
@@ -92,8 +107,32 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
+  if (featureAppointmentDetailsRedesign) {
+    return (
+      <PageLayout showNeedHelp>
+        {isPhone && <PhoneLayout data={appointment} />}
+        {isVA &&
+          !isPhone && (
+            <DetailsVA
+              appointment={appointment}
+              facilityData={facilityData}
+              useV2={useV2}
+            />
+          )}
+        {isCommunityCare && (
+          <DetailsCC
+            appointment={appointment}
+            useV2={useV2}
+            featureVaosV2Next={featureVaosV2Next}
+          />
+        )}
+        {isVideo && <VideoLayout data={appointment} />}
+      </PageLayout>
+    );
+  }
+
   return (
-    <PageLayout>
+    <PageLayout showNeedHelp={featureAppointmentDetailsRedesign}>
       {isVideo && (
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}

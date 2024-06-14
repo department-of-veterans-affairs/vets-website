@@ -29,6 +29,7 @@ export default function EligibilityModal({
               name={facilityDetails.name}
               facility={facilityDetails}
               showCovidPhone
+              level={2}
             />
           </>
         )}
@@ -45,8 +46,10 @@ export default function EligibilityModal({
       onCloseEvent={onClose}
       hideCloseButton={status === FETCH_STATUS.loading}
       modalTitle={title}
+      ariaLabel={title}
       data-testid="eligibilityModal"
       role="alertdialog"
+      uswds
     >
       <div aria-atomic="true" aria-live="assertive">
         {content}

@@ -1,16 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
-import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
 
 const getData = ({
   loggedIn = true,
@@ -39,11 +40,14 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
+          dob: '2000-01-01',
+          claims: { appeals: true },
           // need to have a saved form or else form will redirect to v2
           savedForms: [
             // {
             //   form: VA_FORM_IDS.FORM_20_0996,
-            //   metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+            //   metadata: { lastUpdated: 3000, expiresAt: unix time + 2000 },
             // },
           ],
           prefillsAvailable: [],
@@ -79,37 +83,21 @@ const getData = ({
         },
         pageList: [],
       },
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
   },
 });
 
-const globalWin = {
-  location: {
-    pathname: '/introduction',
-    replace: () => {},
-  },
-};
-
 describe('IntroductionPage', () => {
-  let oldWindow;
-  let gaData;
-
-  beforeEach(() => {
-    oldWindow = global.window;
-    global.window = Object.create(global.window);
-    Object.assign(global.window, globalWin);
-    global.window.dataLayer = [];
-    gaData = global.window.dataLayer;
-  });
-  afterEach(() => {
-    global.window = oldWindow;
-    removeHlrWizardStatus();
-  });
-
   it('should render', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -121,11 +109,10 @@ describe('IntroductionPage', () => {
     );
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.exist;
+    expect($('va-alert[status="info"]', container)).to.exist;
   });
 
   it('should render start action links', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -135,29 +122,7 @@ describe('IntroductionPage', () => {
     expect($$('.vads-c-action-link--green', container).length).to.equal(2);
   });
 
-  it('should render alert showing a server error', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const error = 'We can’t load your issues';
-    const { props, mockStore } = getData({
-      loggedIn: false,
-      status: '',
-      error,
-    });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} delay={0} />
-      </Provider>,
-    );
-
-    const alert = $('va-alert', container);
-    expect(alert.innerHTML).to.include(error);
-    const recordedEvent = gaData[gaData.length - 1];
-    expect(recordedEvent.event).to.equal('visible-alert-box');
-    expect(recordedEvent['alert-box-heading']).to.include(error);
-  });
-
-  it('should show verify your account alert', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
+  it('should render verify identity alert', () => {
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -165,23 +130,20 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    const verifyAlert = $('va-alert[status="warning"]', container);
-    expect(verifyAlert.innerHTML).to.contain('href="/verify?');
+    expect($('va-alert[status="continue"]', container)).to.exist;
   });
 
-  it('should show contestable issue loading indicator', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const { props, mockStore } = getData({ status: '' });
+  it('should record analytics for form restart', () => {
+    global.window.dataLayer = [];
+    const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
 
-    const loading = $('va-loading-indicator', container);
-    expect(loading).to.exist;
-    expect(loading.getAttribute('message')).to.eq(
-      'Loading your previous decisions...',
-    );
+    fireEvent.click($('a[href$="/start"]', container));
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({ event: 'howToWizard-start-over' });
   });
 });

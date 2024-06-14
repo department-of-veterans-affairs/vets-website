@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import omit from 'platform/utilities/data/omit';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
   benefitsServices,
@@ -119,8 +121,6 @@ const SearchControls = props => {
     });
 
     onSubmit();
-
-    setSelectedServiceType(null);
   };
 
   const handleGeolocationButtonClick = e => {
@@ -162,11 +162,7 @@ const SearchControls = props => {
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="autorenew" size={3} />
               <span aria-live="assertive">Finding your location...</span>
             </div>
           ) : (
@@ -175,11 +171,7 @@ const SearchControls = props => {
               type="button"
               className="use-my-location-link"
             >
-              <i
-                className="use-my-location-button"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="near_me" size={3} />
               Use my location
             </button>
           )}
@@ -239,35 +231,29 @@ const SearchControls = props => {
 
     return (
       <div
-        className={classNames('input-clear', 'vads-u-margin--0', {
-          'usa-input-error': showError,
-        })}
-      >
-        <label htmlFor="facility-type-dropdown">
-          Facility type <span className="form-required-span">(*Required)</span>
-        </label>
-        {showError && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span>
-            Please choose a facility type.
-          </span>
+        className={classNames(
+          'input-clear',
+          'vads-u-margin--0',
+          `facility-type-dropdown-val-${facilityType || 'none'}`,
         )}
-        <select
+      >
+        <VaSelect
+          uswds
+          required
           id="facility-type-dropdown"
-          aria-label="Choose a facility type"
+          className={showError ? 'vads-u-padding-left--1p5' : null}
+          label="Facility Type"
           value={facilityType || ''}
-          className="bor-rad"
-          onChange={handleFacilityTypeChange}
-          style={{ fontWeight: 'bold' }}
+          onVaSelect={e => handleFacilityTypeChange(e)}
+          error={showError ? 'Please choose a facility type.' : null}
         >
           {options}
-        </select>
+        </VaSelect>
       </div>
     );
   };
 
   const renderServiceTypeDropdown = () => {
-    const { searchCovid19Vaccine } = props;
     const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
       LocationType.HEALTH,
@@ -278,12 +264,8 @@ const SearchControls = props => {
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
+    const filteredHealthServices = healthServices;
 
-    let filteredHealthServices = healthServices;
-
-    if (!searchCovid19Vaccine) {
-      filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
-    }
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
@@ -301,11 +283,13 @@ const SearchControls = props => {
         break;
       case LocationType.CC_PROVIDER:
         return (
-          <ServiceTypeAhead
-            handleServiceTypeChange={handleServiceTypeChange}
-            initialSelectedServiceType={serviceType}
-            showError={showError}
-          />
+          <div className="typeahead">
+            <ServiceTypeAhead
+              handleServiceTypeChange={handleServiceTypeChange}
+              initialSelectedServiceType={serviceType}
+              showError={showError}
+            />
+          </div>
         );
       default:
         services = {};
@@ -319,15 +303,13 @@ const SearchControls = props => {
     ));
 
     return (
-      <span>
+      <span className="service-type-dropdown-container">
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
           disabled={disabled || !facilityType}
           value={serviceType || ''}
-          className="bor-rad"
           onChange={handleServiceTypeChange}
-          style={{ fontWeight: 'bold' }}
         >
           {options}
         </select>
@@ -379,6 +361,7 @@ const SearchControls = props => {
   return (
     <div className="search-controls-container clearfix">
       <VaModal
+        uswds
         modalTitle={
           currentQuery.geocodeError === 1
             ? 'We need to use your location'

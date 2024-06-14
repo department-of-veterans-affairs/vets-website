@@ -6,6 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel mileage display', () => {
@@ -31,6 +32,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -42,10 +45,6 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      TravelPages.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -55,6 +54,7 @@ describe('Check In Experience', () => {
     it('renders the travel mileage page with content', () => {
       TravelPages.validatePageLoaded('mileage');
       TravelPages.validateContent('mileage');
+      TravelPages.validateHelpSection();
       TravelPages.validateBackButton('mileage');
       cy.injectAxeThenAxeCheck();
     });

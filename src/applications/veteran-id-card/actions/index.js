@@ -10,6 +10,7 @@ export const VIC_EMAIL_CAPTURING = 'VIC_EMAIL_CAPTURING';
 export const VIC_EMAIL_CAPTURE_SUCCESS = 'VIC_EMAIL_CAPTURE_SUCCESS';
 export const VIC_EMAIL_CAPTURE_FAILURE = 'VIC_EMAIL_CAPTURE_FAILURE';
 export const VIC_SET_EMAIL = 'VIC_SET_EMAIL';
+export const VIC_SET_DIRTY = 'VIC_SET_DIRTY';
 
 export function initiateIdRequest() {
   recordEvent({ event: 'vic-submit-started' });
@@ -42,7 +43,13 @@ export function timeoutRedirect() {
 export function setEmail(email) {
   return {
     type: VIC_SET_EMAIL,
-    email,
+    email: email.target.value,
+  };
+}
+
+export function setDirty() {
+  return {
+    type: VIC_SET_DIRTY,
   };
 }
 

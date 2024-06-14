@@ -1,0 +1,27 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.btsss-portal-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btsss-portal-link va-icon {
+  margin-left: 4px;
+}
+
+.btsss-claims-order-container {
+  min-width: fit-content;
+  max-width: 67%;
+}
+
+.btsss-claims-order-select-container {
+  display: flex;
+  align-items: flex-end;
+  column-gap: 20px;
+}

@@ -163,6 +163,7 @@ export const SubTask = props => {
         ref={formRef}
         onSubmit={e => e.preventDefault()}
         data-page={currentPage.name}
+        className="vads-u-margin-bottom--2"
       >
         <div className="subtask-content">
           <Page

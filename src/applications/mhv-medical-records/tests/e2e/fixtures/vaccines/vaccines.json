@@ -1,0 +1,1365 @@
+{
+    "id": "f98427aa-7aaa-4dcc-8a90-a2ae26c8a068",
+    "meta": {
+        "lastUpdated": "2023-12-01T13:44:56.278-05:00"
+    },
+    "type": "searchset",
+    "total": 12,
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization?_count=9999&patient=4103"
+        }
+    ],
+    "entry": [
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8261",
+            "resource": {
+                "id": "8261",
+                "meta": {
+                    "versionId": "23",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP MEDICATION",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125317"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "91312",
+                            "display": "SARSCOV2 VAC BVL 30MCG/0.3ML"
+                        }
+                    ],
+                    "text": "COVID-19 (PFIZER), MRNA, LNP-S, BIVALENT, PF, 30 MCG/0.3 ML DOSE"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2023-11-27T10:43:00-05:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "completed series"
+                    },
+                    {
+                        "text": "some side effects"
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "BOOSTER",
+                        "doseNumberString": "B"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8253",
+            "resource": {
+                "id": "8253",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "23 HOUR OBSERVATION",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "KHAN,MUAZZAM"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125308"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90651",
+                            "display": "9VHPV VACCINE 2/3 DOSE IM"
+                        }
+                    ],
+                    "text": "HPV9"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2023-10-31T13:16:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Entered Booster as series "
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "BOOSTER",
+                        "doseNumberString": "B"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8254",
+            "resource": {
+                "id": "8254",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP BURNETT",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125310"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90619",
+                            "display": "MENACWY-TT VACCINE IM"
+                        }
+                    ],
+                    "text": "MENINGOCOCCAL CONJUGATE QUADRIVALENT, MENACWY-TT (MCV4)"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2023-10-27T10:00:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "MENINGOCOCCAL CONJUGATE QUADRIVALENT, MENACWY-TT (MCV4) TEST"
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "SERIES 1",
+                        "doseNumberString": "1"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8255",
+            "resource": {
+                "id": "8255",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "AUDIOLOGY FELLOW (PM)",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "KHAN,MUAZZAM"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125286"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90750",
+                            "display": "HZV VACC RECOMBINANT IM"
+                        }
+                    ],
+                    "text": "ZOSTER RECOMBINANT"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2023-10-13T11:15:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "test series 1"
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "SERIES 1",
+                        "doseNumberString": "1"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8256",
+            "resource": {
+                "id": "8256",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADULT DAY HEALTH CARE",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "KHAN,MUAZZAM"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125285"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90717",
+                            "display": "YELLOW FEVER VACCINE SUBQ"
+                        }
+                    ],
+                    "text": "YELLOW FEVER"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2023-10-13T10:49:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Yellow "
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "COMPLETE",
+                        "doseNumberString": "C"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8259",
+            "resource": {
+                "id": "8259",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "552"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTON",
+                        "resourceType": "Organization"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.124696"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90707",
+                            "display": "MMR VACCINE SC"
+                        }
+                    ],
+                    "text": "MMR"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2022-08-18T16:29:23-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8258",
+            "resource": {
+                "id": "8258",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "552"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTON",
+                        "resourceType": "Organization"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.124695"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "text": "DENGUE FEVER TETRAVALENT"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2022-08-18T16:29:23-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8257",
+            "resource": {
+                "id": "8257",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "552"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTON",
+                        "resourceType": "Organization"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.124694"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "text": "COVID-19 (MODERNA), MRNA, LNP-S, PF, 100 MCG/0.5ML DOSE OR 50 MCG/0.25ML DOSE"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2022-08-18T16:29:23-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8260",
+            "resource": {
+                "id": "8260",
+                "meta": {
+                    "versionId": "31",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADMISSIONS (LOC)",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "552"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTON",
+                        "resourceType": "Organization"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.124697"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "text": "HEP B, ADULT"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2022-08-18T16:29:23-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8263",
+            "resource": {
+                "id": "8263",
+                "meta": {
+                    "versionId": "23",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP ARRAHEEM",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125315"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90662",
+                            "display": "IIV NO PRSV INCREASED AG IM"
+                        }
+                    ],
+                    "text": "INFLUENZA, HIGH-DOSE, QUADRIVALENT"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2021-07-01T10:25:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Ordered by Khan, Muazzam Dosage: 2 "
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "COMPLETE",
+                        "doseNumberString": "C"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8262",
+            "resource": {
+                "id": "8262",
+                "meta": {
+                    "versionId": "23",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP ARRAHEEM",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125314"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90636",
+                            "display": "HEP A/HEP B VACC ADULT IM"
+                        }
+                    ],
+                    "text": "HEP A-HEP B"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2021-07-01T10:25:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "Ordered and administered by, ahmed,maruf"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8264",
+            "resource": {
+                "id": "8264",
+                "meta": {
+                    "versionId": "23",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP ARRAHEEM",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125316"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "90648",
+                            "display": "HIB PRP-T VACCINE 4 DOSE IM"
+                        }
+                    ],
+                    "text": "HIB (PRP-T)"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2021-07-01T10:25:00-04:00",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "COMPLETE",
+                        "doseNumberString": "C"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        },
+        {
+            "fullUrl": "https://mhv-sysb-api.myhealth.va.gov/fhir/Immunization/8265",
+            "resource": {
+                "id": "8265",
+                "meta": {
+                    "versionId": "23",
+                    "lastUpdated": "2023-12-01T13:43:54.686-05:00",
+                    "source": "#aUFUKS5s0BXzXO4P",
+                    "profile": [
+                        "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.immunization"
+                    ]
+                },
+                "contained": [
+                    {
+                        "id": "Location-0",
+                        "name": "ADTP MEDICATION",
+                        "resourceType": "Location"
+                    },
+                    {
+                        "id": "Organization-0",
+                        "meta": {
+                            "profile": [
+                                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                            ]
+                        },
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "type": {
+                                    "text": "L"
+                                },
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "984"
+                            }
+                        ],
+                        "active": true,
+                        "name": "DAYTSHR TEST LAB",
+                        "resourceType": "Organization"
+                    },
+                    {
+                        "id": "Provider-0",
+                        "identifier": [
+                            {
+                                "use": "usual",
+                                "system": "urn:oid:2.16.840.1.113883.4.349",
+                                "value": "0"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "text": "AHMED,MARUF"
+                            }
+                        ],
+                        "resourceType": "Practitioner"
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "usual",
+                        "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+                        "value": "ImmunizationTO.125317"
+                    }
+                ],
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://www.ama-assn.org/go/cpt",
+                            "code": "91312",
+                            "display": "SARSCOV2 VAC BVL 30MCG/0.3ML"
+                        }
+                    ],
+                    "text": "COVID-19 (PFIZER), MRNA, LNP-S, BIVALENT, PF, 30 MCG/0.3 ML DOSE - YEAR ONLY"
+                },
+                "patient": {
+                    "reference": "Patient/4103"
+                },
+                "occurrenceDateTime": "2024",
+                "location": {
+                    "reference": "#Location-0"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "#Organization-0"
+                        }
+                    },
+                    {
+                        "function": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0443",
+                                    "code": "AP"
+                                }
+                            ]
+                        },
+                        "actor": {
+                            "reference": "#Provider-0"
+                        }
+                    }
+                ],
+                "note": [
+                    {
+                        "text": "completed series"
+                    },
+                    {
+                        "text": "some side effects"
+                    }
+                ],
+                "protocolApplied": [
+                    {
+                        "series": "BOOSTER",
+                        "doseNumberString": "B"
+                    }
+                ],
+                "resourceType": "Immunization"
+            },
+            "search": {
+                "mode": "match"
+            }
+        }
+    ],
+    "resourceType": "Bundle"
+}

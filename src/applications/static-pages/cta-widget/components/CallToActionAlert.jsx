@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CallToActionAlert({
   heading,
-  headerLevel,
+  headerLevel = 3,
   alertText,
   primaryButtonText,
   primaryButtonHandler,
@@ -12,23 +12,20 @@ export default function CallToActionAlert({
   ariaLabel = null,
   ariaDescribedby = null,
 }) {
-  const buttonClass =
-    status === 'continue' ? 'va-button-primary' : 'usa-button-primary';
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
-    <va-alert visible status={status}>
+    <va-alert visible status={status} uswds>
       <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
         {alertText}
         {primaryButtonText && (
-          <button
-            className={buttonClass}
+          <va-button
             onClick={primaryButtonHandler}
+            text={primaryButtonText}
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedby}
-          >
-            {primaryButtonText}
-          </button>
+            uswds
+          />
         )}
         {secondaryButtonText && (
           <button

@@ -6,7 +6,8 @@ import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 chai.use(chaiAsPromised);
 
@@ -167,7 +168,7 @@ export function setFetchBlobFailure(stub, error) {
 /**
  * Resets the fetch mock set with mockFetch
  */
-export function resetFetch() {
+function resetFetch() {
   if (global.fetch.isSinonProxy) {
     global.fetch.restore();
   }
@@ -189,7 +190,7 @@ const getApiRequestObject = returnVal => ({
  * @param {} returnVal The value to return from the json promise
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
-export function mockApiRequest(returnVal, shouldResolve = true) {
+function mockApiRequest(returnVal, shouldResolve = true) {
   const returnObj = getApiRequestObject(returnVal);
   mockFetch(returnObj, shouldResolve);
 }
@@ -201,7 +202,7 @@ export function mockApiRequest(returnVal, shouldResolve = true) {
  * ---
  * @param {Response[]} responses - An array of responses which subsequent fetch calls should return
  */
-export function mockMultipleApiRequests(responses) {
+function mockMultipleApiRequests(responses) {
   mockFetch();
   responses.forEach((res, index) => {
     const { response, shouldResolve } = res;
@@ -258,12 +259,50 @@ const createTestHistory = (path = '/') => {
   return history;
 };
 
+/**
+ * Input a string value into a va-text-input component.
+ * @param {any} container - React Testing Library container
+ * @param {string} value - string value to enter in the input field
+ * @param {string} selector - string containing selector to match
+ */
+const inputVaTextInput = (container, value, selector = 'va-text-input') => {
+  const vaTextInput = $(selector, container);
+  vaTextInput.value = value;
+
+  const event = new CustomEvent('input', {
+    bubbles: true,
+    detail: { value },
+  });
+  vaTextInput.dispatchEvent(event);
+};
+
+/**
+ * Select a checkbox within a given group
+ * @param {object} checkboxGroup - element containing the group
+ * @param {string} keyName - unique key
+ */
+const checkVaCheckbox = (checkboxGroup, keyName) => {
+  checkboxGroup.__events.vaChange({
+    target: {
+      checked: true,
+      dataset: { key: keyName },
+    },
+    detail: { checked: true },
+  });
+};
+
 export {
   chai,
+  checkVaCheckbox,
   createTestHistory,
   expect,
   fillDate,
+  inputVaTextInput,
+  mockFetch,
+  mockApiRequest,
+  mockMultipleApiRequests,
   mockEventListeners,
+  resetFetch,
   wrapWithContext,
   wrapWithRouterContext,
 };

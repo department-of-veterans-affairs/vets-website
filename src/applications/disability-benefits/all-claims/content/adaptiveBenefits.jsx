@@ -2,10 +2,10 @@ import React from 'react';
 
 export const benefitDescription = (
   <p>
-    We can help service members and Veterans with certain service-connected
-    disabilities buy a specially equipped vehicle or modify their car or home to
-    make it more accessible. Typically, you can receive the automobile allowance
-    only once in your lifetime.
+    If you have certain service-connected conditions or disabilities, you may be
+    eligible for help buying a specially equipped vehicle or modifying your car
+    or home to make it more accessible. Typically, you can receive the
+    automobile allowance only once in your lifetime.
   </p>
 );
 
@@ -36,5 +36,7 @@ const doubleAllowanceAlertContent = (
 );
 
 export const doubleAllowanceAlert = (
-  <va-alert status="warning">{doubleAllowanceAlertContent}</va-alert>
+  <va-alert status="warning" uswds>
+    {doubleAllowanceAlertContent}
+  </va-alert>
 );

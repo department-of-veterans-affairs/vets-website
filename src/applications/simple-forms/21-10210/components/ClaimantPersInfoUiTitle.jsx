@@ -7,9 +7,9 @@ const ClaimantPersInfoUiTitle = props => {
 
   if (formData.claimOwnership === CLAIM_OWNERSHIPS.THIRD_PARTY) {
     return (
-      <span className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
+      <legend className="vads-u-font-family--serif vads-u-font-size--h5 vads-u-font-weight--bold">
         Tell us about the person who has the existing claim
-      </span>
+      </legend>
     );
   }
 

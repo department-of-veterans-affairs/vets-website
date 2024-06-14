@@ -2,5 +2,5 @@
   "appName": "Income Limits",
   "entryFile": "./income-limits-entry.jsx",
   "entryName": "income-limits",
-  "rootUrl": "/health-care/income-limits-temp"
+  "rootUrl": "/health-care/income-limits"
 }

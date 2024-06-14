@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const Explainer = (
   <va-additional-info trigger="Why do I need to provide this information?">
@@ -21,21 +25,30 @@ const RealEstateDescription = (
   </p>
 );
 
+const title = 'Do you currently own any property?';
+
 export const uiSchema = {
-  'ui:title': 'Your real estate assets',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your real estate assets</h3>
+      </legend>
+    </>
+  ),
   'ui:options': {
     hideOnReview: true,
   },
   questions: {
-    hasRealEstate: {
-      'ui:title': 'Do you currently own any property?',
-      'ui:description': RealEstateDescription,
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    hasRealEstate: yesNoUI({
+      title,
+      description: RealEstateDescription,
+      enableAnalytics: true,
+      uswds: true,
+      required: () => true,
+      errorMessages: {
         required: 'Please enter your real estate information.',
       },
-    },
+    }),
   },
   'view:components': {
     'view:realEstateAdditionalInfo': {
@@ -50,18 +63,16 @@ export const schema = {
     questions: {
       type: 'object',
       properties: {
-        hasRealEstate: {
-          type: 'boolean',
-        },
+        hasRealEstate: yesNoSchema,
       },
     },
-    'view:components': {
-      type: 'object',
-      properties: {
-        'view:realEstateAdditionalInfo': {
-          type: 'object',
-          properties: {},
-        },
+  },
+  'view:components': {
+    type: 'object',
+    properties: {
+      'view:realEstateAdditionalInfo': {
+        type: 'object',
+        properties: {},
       },
     },
   },

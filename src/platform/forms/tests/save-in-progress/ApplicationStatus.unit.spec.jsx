@@ -3,7 +3,7 @@ import moment from 'moment';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -30,7 +30,7 @@ describe('schemaform <ApplicationStatus>', () => {
 
     expect(tree.subTree('va-loading-indicator')).to.not.be.false;
   });
-  it('should render apply button', () => {
+  it('should render apply link', () => {
     const tree = SkinDeep.shallowRender(
       <ApplicationStatus
         formId="21P-527EZ"
@@ -47,7 +47,7 @@ describe('schemaform <ApplicationStatus>', () => {
       />,
     );
 
-    expect(tree.subTree('.usa-button-primary').text()).to.equal(
+    expect(tree.subTree('.vads-c-action-link--green').text()).to.equal(
       'Apply for benefit',
     );
   });
@@ -121,7 +121,14 @@ describe('schemaform <ApplicationStatus>', () => {
   it('should clear wizard status when starting a new application', () => {
     const wizardStatus = 'testKey';
     const fetchSpy = sinon.stub();
-    const tree = render(
+
+    // delete/revert in issue #82798
+    const initialState = {
+      featureToggles: {
+        myVaEnableNewSipConfig: true,
+      },
+    };
+    const wrapper = renderInReduxProvider(
       <ApplicationStatus
         formId="21P-527EZ"
         wizardStatus={wizardStatus}
@@ -146,20 +153,28 @@ describe('schemaform <ApplicationStatus>', () => {
         }}
         formConfig={formConfigDefaultData}
       />,
+      initialState,
     );
 
-    tree.container.querySelector('.usa-button-secondary').click(); // open modal
+    wrapper.container.querySelector('.usa-button-secondary').click(); // open modal
 
-    expect(tree.container.querySelector('.va-modal-body')).to.not.be.null;
+    expect(wrapper.container.querySelector('.va-modal-body')).to.not.be.null;
 
-    tree.getByText('Start a new application').click();
+    wrapper.getByText('Start a new application').click();
 
     // remove form & reset wizard
     expect(sessionStorage.getItem(wizardStatus)).to.be.null;
   });
 
   it('should render expired form', () => {
-    const tree = SkinDeep.shallowRender(
+    // delete/revert in issue #82798
+    const initialState = {
+      featureToggles: {
+        myVaEnableNewSipConfig: true,
+      },
+    };
+
+    const wrapper = renderInReduxProvider(
       <ApplicationStatus
         formId="21P-527EZ"
         login={{
@@ -182,9 +197,11 @@ describe('schemaform <ApplicationStatus>', () => {
         }}
         formConfig={formConfigDefaultData}
       />,
+      initialState,
     );
-    expect(tree.subTree('.usa-alert-warning')).to.not.be.false;
-    expect(tree.text()).to.include('start a new application');
+    expect(wrapper.getByText(/Your application has expired/));
+    expect(wrapper.getByRole('button', { name: /Start a new application/ })).to
+      .not.be.null;
   });
   it('should render saved form from ids', () => {
     const tree = SkinDeep.shallowRender(

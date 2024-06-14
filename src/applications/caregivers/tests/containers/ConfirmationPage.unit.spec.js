@@ -2,51 +2,57 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import moment from 'moment';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('hca <ConfirmationPage>', () => {
-  it('should render Confirmation page', () => {
-    const timestamp = 1666887649663;
-    const mockStore = {
-      getState: () => ({
-        form: {
-          submission: {
-            response: {
-              id: '60740',
-              type: 'saved_claim_caregivers_assistance_claims',
-            },
-            timestamp,
+describe('CG <ConfirmationPage>', () => {
+  const mockStore = {
+    getState: () => ({
+      form: {
+        submission: {
+          response: {
+            id: '60740',
+            type: 'saved_claim_caregivers_assistance_claims',
           },
-          data: {
-            veteranFullName: {
-              first: 'John',
-              middle: 'Marjorie',
-              last: 'Smith',
-              suffix: 'Sr.',
-            },
+          timestamp: 1666887649663,
+        },
+        data: {
+          veteranFullName: {
+            first: 'John',
+            middle: 'Marjorie',
+            last: 'Smith',
+            suffix: 'Sr.',
           },
         },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
 
+  it('should render with Veterans name and the submission timestamp', () => {
     const view = render(
       <Provider store={mockStore}>
         <ConfirmationPage />
       </Provider>,
     );
+    const selectors = {
+      wrapper: view.container.querySelector('.caregiver-confirmation'),
+      name: view.container.querySelector('[data-testid="cg-veteranfullname"]'),
+      timestamp: view.container.querySelector('[data-testid="cg-timestamp"]'),
+    };
+    expect(selectors.wrapper).to.not.be.empty;
+    expect(selectors.name).to.contain.text('John Marjorie Smith Sr.');
+    expect(selectors.timestamp).to.contain.text('Oct. 27, 2022');
+  });
 
-    expect(
-      view.container.querySelector('[data-testid="cg-veteranfullname"]'),
-    ).to.contain.text('John Marjorie Smith Sr.');
-    expect(
-      view.container.querySelector('[data-testid="cg-timestamp"]'),
-    ).to.contain.text(moment(timestamp).format('MMM D, YYYY'));
-    expect(
-      view.container.querySelector('[data-testid="cg-timestamp"]'),
-    ).to.contain.text('Oct. 27, 2022');
+  it('should contain sections that will not be displayed in print view', () => {
+    const view = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    const selector = view.container.querySelectorAll('.no-print');
+    expect(selector).to.have.lengthOf(3);
   });
 });

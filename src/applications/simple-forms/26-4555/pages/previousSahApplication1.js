@@ -1,7 +1,10 @@
-import React from 'react';
 import { intersection, pick } from 'lodash';
 
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
+import {
+  titleUI,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { previousSahApplicationFields } from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
@@ -13,16 +16,15 @@ const pageFields = [previousSahApplicationFields.hasPreviousSahApplication];
 export default {
   uiSchema: {
     [previousSahApplicationFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          Specially adapted housing grant applications
-        </h3>
-      ),
-      [previousSahApplicationFields.hasPreviousSahApplication]: {
-        'ui:title':
+      ...titleUI('Specially adapted housing grant applications'),
+      [previousSahApplicationFields.hasPreviousSahApplication]: yesNoUI({
+        title:
           'Have you applied for a specially adapted housing (SAH) grant before?',
-        'ui:widget': 'yesNo',
-      },
+        errorMessages: {
+          required:
+            'Select yes if you have applied for a specially adapted housing (SAH) grant before',
+        },
+      }),
     },
   },
   schema: {

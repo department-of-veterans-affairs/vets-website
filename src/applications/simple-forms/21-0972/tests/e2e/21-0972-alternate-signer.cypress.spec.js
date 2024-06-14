@@ -1,43 +1,87 @@
 import path from 'path';
+import cloneDeep from 'lodash/cloneDeep';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
+import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
+import {
+  fillAddressWebComponentPattern,
+  reviewAndSubmitPageFlow,
+} from '../../../shared/tests/e2e/helpers';
+
 import formConfig from '../../config/form';
-import manifest from '../../reducers';
+import manifest from '../../manifest.json';
+
+import pagePaths from './pagePaths';
+
+// Disable formConfig props that were meant for local-dev only.
+const testFormConfig = cloneDeep(formConfig);
+testFormConfig.dev = {};
+testFormConfig.chapters.preparerPersonalInformationChapter.pages.preparerPersonalInformation.initialData = {
+  data: {},
+};
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
-
-    dataDir: path.join(__dirname, 'data'),
-
-    // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
-
+    dataSets: ['minimal-test', 'maximal-test'],
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
-            .click();
+          cy.findByText(/^start the alternate signer application/i, {
+            selector: 'a',
+          }).click();
+        });
+      },
+      [pagePaths.preparerAddress]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'preparerAddress',
+              data.preparerAddress,
+            );
+
+            cy.injectAxeThenAxeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.claimantAddress]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'claimantAddress',
+              data.claimantAddress,
+            );
+
+            cy.injectAxeThenAxeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const signerName = data.preparerFullName;
+            reviewAndSubmitPageFlow(signerName, 'Submit form');
+          });
         });
       },
     },
-
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
 
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.login(user);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
   },
   manifest,
-  formConfig,
+  testFormConfig,
 );
 
 testForm(testConfig);

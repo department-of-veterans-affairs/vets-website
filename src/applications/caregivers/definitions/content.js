@@ -1,3 +1,10 @@
+export const appTitle =
+  'Apply for the Program of Comprehensive Assistance for Family Caregivers';
+export const appSubtitle =
+  'Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)';
+export const appIntro =
+  'We recognize the important role of family caregivers in supporting the health and wellness of Veterans.';
+
 export const downloadErrorsByCode = {
   '5':
     'We’re sorry. VA.gov is down right now. If you need help right now, please call the VA Help Desk at 800-698-2411. If you have hearing loss, call TTY:711.',

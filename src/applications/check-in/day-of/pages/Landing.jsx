@@ -9,10 +9,11 @@ import {
 } from '../../utils/navigation/day-of';
 
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { isUUID, SCOPES } from '../../utils/token-format-validator';
 
@@ -29,12 +30,12 @@ const Landing = props => {
   const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const {
-    clearCurrentSession,
+    clearCurrentStorage,
     setShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,
     setCurrentToken,
     setCheckinComplete,
-  } = useSessionStorage(false);
+  } = useStorage(APP_NAMES.CHECK_IN);
   const dispatch = useDispatch();
 
   const initForm = useCallback(
@@ -71,7 +72,7 @@ const Landing = props => {
           })
           .then(session => {
             if (session.errors || session.error) {
-              clearCurrentSession(window);
+              clearCurrentStorage(window);
               updateError('session-error');
             } else {
               // if session with read.full exists, go to check in page
@@ -91,7 +92,7 @@ const Landing = props => {
             }
           })
           .catch(e => {
-            clearCurrentSession(window);
+            clearCurrentStorage(window);
             if (e.errors && e.errors[0]?.status === '404') {
               updateError('uuid-not-found');
             } else {
@@ -102,7 +103,7 @@ const Landing = props => {
     },
     [
       location,
-      clearCurrentSession,
+      clearCurrentStorage,
       setCurrentToken,
       jumpToPage,
       updateError,

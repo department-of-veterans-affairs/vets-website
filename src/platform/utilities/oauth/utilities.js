@@ -14,11 +14,13 @@ import { externalApplicationsConfig } from 'platform/user/authentication/usip-co
 import {
   ALL_STATE_AND_VERIFIERS,
   API_SIGN_IN_SERVICE_URL,
+  APPROVED_OAUTH_APPS,
   CLIENT_IDS,
   COOKIES,
   OAUTH_ALLOWED_PARAMS,
   OAUTH_ENDPOINTS,
   OAUTH_KEYS,
+  OPERATIONS,
 } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -97,7 +99,9 @@ export async function createOAuthRequest({
   acr,
 }) {
   const isDefaultOAuth =
-    !application || [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
+    APPROVED_OAUTH_APPS.includes(application) ||
+    !application ||
+    [CLIENT_IDS.VAWEB, CLIENT_IDS.VAMOCK].includes(clientId);
   const isMobileOAuth =
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
       application,
@@ -128,11 +132,7 @@ export async function createOAuthRequest({
   // Build the authorization URL query params from config
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(usedClientId),
-    [OAUTH_KEYS.ACR]:
-      acr ||
-      (passedOptions.isSignup
-        ? oAuthOptions.acrSignup[type]
-        : oAuthOptions.acr[type]),
+    [OAUTH_KEYS.ACR]: acr ?? oAuthOptions.acr[type],
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
@@ -140,6 +140,10 @@ export async function createOAuthRequest({
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
+    ...(passedOptions.isSignup &&
+      type.includes('idme') && {
+        [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
+      }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
@@ -292,16 +296,21 @@ export const checkOrSetSessionExpiration = response => {
   return false;
 };
 
-export const logoutUrlSiS = () => {
+export const logoutUrlSiS = ({ queryParams = {} } = {}) => {
   const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
   const clientId = sessionStorage.getItem(COOKIES.CI);
+  const { searchParams } = url;
 
-  url.searchParams.append(
+  searchParams.append(
     OAUTH_KEYS.CLIENT_ID,
     clientId && Object.values(CLIENT_IDS).includes(clientId)
       ? clientId
       : CLIENT_IDS.VAWEB,
   );
+
+  Object.entries(queryParams).forEach(([key, value]) => {
+    searchParams.append(key, value);
+  });
 
   return url.href;
 };

@@ -11,10 +11,14 @@ const StatementOfTruth = ({ content }) => {
       </legend>
 
       {text.map((copy, idx) => {
-        return <p key={`${label}-${idx}`}>{copy}</p>;
+        return (
+          <p key={`${label}-${idx}`} data-testid="cg-statement-copy">
+            {copy}
+          </p>
+        );
       })}
 
-      <p>
+      <p data-testid="cg-privacy-copy">
         I have read and accept the{' '}
         <a
           href={links.privacyPolicy.link}

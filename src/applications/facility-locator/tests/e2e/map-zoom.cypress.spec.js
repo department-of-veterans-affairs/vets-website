@@ -56,14 +56,17 @@ it('handles map zooming correctly', () => {
   cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
   cy.intercept('GET', '/v0/maintenance_windows', []);
   cy.intercept(
-    'GET',
-    '/facilities_api/v1/**',
+    'POST',
+    '/facilities_api/v2/**',
     mockFacilitiesSearchResultsV1,
   ).as('searchFacilitiesVA');
   cy.visit('/find-locations');
 
   cy.get('#street-city-state-zip').type('Austin, TX');
-  cy.get('#facility-type-dropdown').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('#facility-search')
     .click({ force: true })
     .then(() => {

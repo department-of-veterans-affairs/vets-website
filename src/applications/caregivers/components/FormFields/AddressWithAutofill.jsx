@@ -17,7 +17,6 @@ import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofil
 
 const PrimaryAddressWithAutofill = props => {
   const {
-    canAutofillAddress,
     errorSchema,
     formContext,
     formData,
@@ -32,7 +31,7 @@ const PrimaryAddressWithAutofill = props => {
 
   // define our custom error messages
   const errorMessages = {
-    street: { required: 'Please enter a street address' },
+    street: { required: 'Please enter a home address' },
     city: { required: 'Please enter a city' },
     state: { required: 'Please enter a state' },
     postalCode: {
@@ -119,7 +118,6 @@ const PrimaryAddressWithAutofill = props => {
 
   return reviewMode ? (
     <AddressWithAutofillReviewField
-      canAutofillAddress={canAutofillAddress}
       formData={formData}
       inputLabel={inputLabelMap[props.name]}
     />
@@ -131,33 +129,36 @@ const PrimaryAddressWithAutofill = props => {
 
       <VaCheckbox
         id="root_primaryAddress_autofill"
+        name="root_primaryAddress_autofill"
         checked={formData['view:autofill']}
         label="Use the same address as the Veteran"
-        className="vads-u-margin-left--neg3"
-        style={{ marginLeft: '-24px' }}
         onVaChange={handleCheck}
+        uswds
       />
 
       <VaTextInput
         id={idSchema.street.$id}
         name={idSchema.street.$id}
         value={formData.street}
-        label={`${inputLabelMap[props.name]} current street address`}
+        label={`${inputLabelMap[props.name]} current home address`}
+        hint="This is the address where the Caregiver lives"
         className="cg-address-input"
         error={showError('street') || null}
-        required
         onInput={handleChange}
         onBlur={handleBlur}
+        required
+        uswds
       />
 
       <VaTextInput
         id={idSchema.street2.$id}
         name={idSchema.street2.$id}
         value={formData.street2}
-        label="Street address line 2"
+        label="Home address line 2"
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
+        uswds
       />
 
       <VaTextInput
@@ -167,9 +168,10 @@ const PrimaryAddressWithAutofill = props => {
         label="City"
         className="cg-address-input"
         error={showError('city') || null}
-        required
         onInput={handleChange}
         onBlur={handleBlur}
+        required
+        uswds
       />
 
       <VaSelect
@@ -179,11 +181,11 @@ const PrimaryAddressWithAutofill = props => {
         label="State"
         className="cg-address-select"
         error={showError('state') || null}
-        required
         onVaSelect={handleChange}
         onBlur={handleBlur}
+        required
+        uswds
       >
-        <option value=""> </option>
         {constants.states.USA.map(state => (
           <option key={state.value} value={state.value}>
             {state.label}
@@ -199,16 +201,16 @@ const PrimaryAddressWithAutofill = props => {
         className="cg-address-input cg-input-size-medium"
         error={showError('postalCode') || null}
         pattern={schemaProps.postalCode.pattern}
-        required
         onInput={handleChange}
         onBlur={handleBlur}
+        required
+        uswds
       />
     </fieldset>
   );
 };
 
 PrimaryAddressWithAutofill.propTypes = {
-  canAutofillAddress: PropTypes.bool,
   errorSchema: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.object,

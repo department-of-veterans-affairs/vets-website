@@ -7,39 +7,42 @@ const DisabilityConfirmation = props => {
 
   return (
     <va-alert
-      class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
       status="info"
-      background-only
+      class="vads-u-margin-x--neg2p5 vads-u-margin-top--2p5"
+      uswds
     >
-      <h3 className="vads-u-margin-top--0">
+      <h3 slot="headline">
         Confirm that you don’t want to provide your household financial
         information
       </h3>
       <p>
-        If you’re not eligible for VA health care based on enhanced eligibility
-        status, we need your financial information to decide if you’re eligible
-        based on your income.
+        <strong>
+          If you’re not eligible for VA health care based on enhanced
+          eligibility status,
+        </strong>{' '}
+        we need your financial information to decide if you’re eligible based on
+        your income.
       </p>
       <p>
-        If you’re eligible based on enhanced eligibility status, you don’t have
-        to share your financial information for eligibility. But if you don’t
-        share this information, we may not be able to decide if you qualify for
-        no copays, free medications, or travel reimbursement.
+        <strong>
+          If you’re eligible based on enhanced eligibility status,
+        </strong>{' '}
+        you don’t have to share your financial information for eligibility. But
+        if you don’t share this information, we may not be able to decide if you
+        qualify for no copays, free medications, or travel reimbursement.
       </p>
       <div className="row form-progress-buttons schemaform-buttons">
         <div className="small-5 medium-4 columns">
-          {goBack && (
-            <ProgressButton
-              buttonClass="hca-progress-button usa-button-secondary"
-              onButtonClick={goBack}
-              buttonText="Back"
-              beforeText="«"
-            />
-          )}
+          <ProgressButton
+            buttonClass="hca-button-progress usa-button-secondary"
+            onButtonClick={goBack}
+            buttonText="Back"
+            beforeText="«"
+          />
         </div>
         <div className="small-5 medium-4 end columns">
           <ProgressButton
-            buttonClass="hca-progress-button usa-button-primary"
+            buttonClass="hca-button-progress usa-button-primary"
             onButtonClick={goForward}
             buttonText="Confirm"
             afterText="»"

@@ -1,0 +1,26 @@
+{
+  "data": {
+    "status": "isVeteran",
+    "claimantAddress": {
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "1019 Robin Cir",
+      "street2": "NA",
+      "city": "Arroyo Grande",
+      "state": "CA",
+      "postalCode": "93420"
+    },
+    "claimantPhoneNumber": "2146866521",
+    "claimantEmailAddress": "johndoe@test.com",
+    "claimantConfirmEmailAddress": "johndoe@test.com",
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "ssn": "370947141",
+    "dateOfBirth": "1979-03-04",
+    "veteranInformation": {
+      "fullName": {}
+    }
+  }
+}

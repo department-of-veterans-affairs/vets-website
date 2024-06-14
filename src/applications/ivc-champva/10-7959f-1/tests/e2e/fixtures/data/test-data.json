@@ -1,0 +1,33 @@
+{
+  "data": 
+    {
+      "veteranPhoneNumber": "2058797651",
+      "veteranEmailAddress": "reiting@gmail.com",
+      "veteranAddress": {
+          "country": "USA",
+          "street": "6 main",
+          "city": "canton",
+          "state": "NH",
+          "postalCode": "13617"
+      },
+      "physicalAddress": {
+          "country": "USA",
+          "street": "1 main ",
+          "city": "canton",
+          "state": "NE",
+          "postalCode": "13617"
+      },
+      "veteranSocialSecurityNumber": {
+          "ssn": "589631236"
+      },
+      "veteranFullName": {
+          "first": "Jane",
+          "middle": "B",
+          "last": "Smith",
+          "Suffix": "Jr."
+      },
+      "veteranDateOfBirth": "1999-02-05",
+      "statementOfTruthSignature": "Jane B Smith",
+      "statementOfTruthCertified": true
+  }
+}

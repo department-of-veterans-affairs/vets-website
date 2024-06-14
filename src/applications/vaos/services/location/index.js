@@ -6,21 +6,9 @@
  * a FHIR resource request
  */
 
-import {
-  getDirectBookingEligibilityCriteria,
-  getRequestEligibilityCriteria,
-  getCommunityCareFacilities,
-  getCommunityCareFacility,
-  getParentFacilities,
-} from '../var';
+import { getCommunityCareFacilities } from '../var';
 import { mapToFHIRErrors } from '../utils';
-import {
-  setSupportedSchedulingMethods,
-  transformCommunityProvider,
-  transformCommunityProviders,
-  transformSettings,
-  transformParentFacilities,
-} from './transformers';
+
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
 import {
@@ -33,7 +21,9 @@ import {
   transformFacilitiesV2,
   transformSettingsV2,
   transformFacilityV2,
-} from './transformers.v2';
+  setSupportedSchedulingMethods,
+  transformCommunityProviders,
+} from './transformers';
 import { getRealFacilityId } from '../../utils/appointment';
 
 /**
@@ -91,22 +81,12 @@ export async function getLocation({ facilityId }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
- * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get location settings
  * @returns {Array<FacilitySettings>} An array of facility settings
  */
-export async function getLocationSettings({ siteIds, useV2 = false }) {
+export async function getLocationSettings({ siteIds }) {
   try {
-    if (useV2) {
-      const settings = await getSchedulingConfigurations(siteIds);
-      return transformSettingsV2(settings);
-    }
-
-    const settings = await Promise.all([
-      getRequestEligibilityCriteria(siteIds),
-      getDirectBookingEligibilityCriteria(siteIds),
-    ]);
-
-    return transformSettings(settings);
+    const settings = await getSchedulingConfigurations(siteIds);
+    return transformSettingsV2(settings);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -124,45 +104,22 @@ export async function getLocationSettings({ siteIds, useV2 = false }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
- * @param {boolean} params.useV2 Use the VAOS v2 endpoints to get location info
  * @returns {Array<Location>} An array of Locations with settings included
  */
-export async function getLocationsByTypeOfCareAndSiteIds({
-  siteIds,
-  useV2 = false,
-}) {
+export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
   try {
     let locations = [];
     let settings = [];
 
-    if (useV2) {
-      locations = await getLocations({
-        facilityIds: siteIds,
-        children: true,
-      });
+    locations = await getLocations({
+      facilityIds: siteIds,
+      children: true,
+    });
 
-      const uniqueIds = locations.map(location => location.id);
-      settings = await getLocationSettings({
-        siteIds: uniqueIds,
-        useV2,
-      });
-    } else {
-      settings = await getLocationSettings({
-        siteIds,
-        useV2,
-      });
-
-      const uniqueIds = settings.map(setting => setting.id);
-
-      // The above API calls only return the ids. Make an additional
-      // call to getLocations so we can get additional details such
-      // as name, address, coordinates, etc.
-      if (uniqueIds.length) {
-        locations = await getLocations({
-          facilityIds: uniqueIds,
-        });
-      }
-    }
+    const uniqueIds = locations.map(location => location.id);
+    settings = await getLocationSettings({
+      siteIds: uniqueIds,
+    });
 
     locations = locations?.map(location =>
       setSupportedSchedulingMethods({
@@ -273,30 +230,6 @@ export async function getCommunityProvidersByTypeOfCare({
 }
 
 /**
- * Fetch a single location associated with the given VistA site id that are
- * marked as VAST parent locations
- *
- * @export
- * @async
- * @param {string} id VistA site id
- * @returns {Object<Location>} A FHIR Location resources
- */
-
-// Possibly no longer needed - the facilities call isn't needed in cc appointments flow
-export async function getCommunityProvider(id) {
-  try {
-    const facility = await getCommunityCareFacility(id);
-    return transformCommunityProvider(facility);
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
-    }
-
-    throw e;
-  }
-}
-
-/**
  * Fetch the locations associated with the given VistA site ids that are
  * marked as VAST parent locations
  *
@@ -306,7 +239,7 @@ export async function getCommunityProvider(id) {
  * @param {Array<string>} params.siteIds A list of three digit VistA site ids
  * @returns {Array<Location>} A list of parent Locations
  */
-export async function fetchParentLocations({ siteIds, useV2 }) {
+export async function fetchParentLocations({ siteIds }) {
   try {
     const sortFacilitiesMethod = (a, b) => {
       // a.name comes 1st
@@ -317,16 +250,8 @@ export async function fetchParentLocations({ siteIds, useV2 }) {
       return 0;
     };
 
-    if (useV2) {
-      const facilities = await getFacilities(siteIds, true);
-      return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
-    }
-
-    const parentFacilities = await getParentFacilities(siteIds);
-
-    return transformParentFacilities(parentFacilities).sort(
-      sortFacilitiesMethod,
-    );
+    const facilities = await getFacilities(siteIds, true);
+    return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

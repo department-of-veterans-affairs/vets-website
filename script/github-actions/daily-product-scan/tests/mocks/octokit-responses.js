@@ -58,7 +58,7 @@ const octokitResponses = {
         has_contract_tests: false,
         testrail_project_id: '',
         package_dependencies:
-          'append-query,react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/component-library/Telephone,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,@department-of-veterans-affairs/react-components/LoadingIndicator,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,@sentry/browser',
+          'append-query,react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,@sentry/browser',
         loa: 1,
         cross_product_dependencies:
           '/src/applications/personalization/dashboard/components/DashboardAlert',
@@ -98,7 +98,7 @@ const octokitResponses = {
         has_contract_tests: false,
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,@department-of-veterans-affairs/component-library/Telephone,moment,vets-json-schema/dist/28-1900-schema.json,react-router,@department-of-veterans-affairs/component-library/OMBInfo,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,vets-json-schema/dist/28-1900-schema.json,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies:
           '/src/applications/vre/28-1900/components/PreSubmitInfo,/src/applications/vre/components/GetFormHelp,/src/applications/static-pages/wizard,/src/applications/vre/28-1900/wizard/pages,/src/applications/vre/28-1900/orientation/OrientationApp,/src/applications/vre/28-1900/constants',
@@ -138,7 +138,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,moment,lodash/merge,@department-of-veterans-affairs/component-library/Telephone,vets-json-schema/dist/28-8832-schema.json,@department-of-veterans-affairs/component-library/OMBInfo,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/28-8832-schema.json,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies: '/src/applications/static-pages/wizard',
         endpoints_provided: '',
@@ -206,7 +206,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/component-library/Telephone,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,@department-of-veterans-affairs/react-components/LoadingIndicator,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,chai,sinon,skin-deep,enzyme,react-dom,react-dom/test-utils,fs,path,jsonschema,@sentry/browser',
+          'react,prop-types,@department-of-veterans-affairs/react-components/AlertBox,classnames,react-redux,@department-of-veterans-affairs/react-components/Modal,@department-of-veterans-affairs/react-components/AdditionalInfo,moment,lodash/merge,vets-json-schema/dist/10-10EZ-schema.json,lodash/pick,lodash/mapValues,vets-json-schema/dist/vaMedicalFacilities.json,chai,sinon,skin-deep,enzyme,react-dom,react-dom/test-utils,fs,path,jsonschema,@sentry/browser',
         loa: 1,
         cross_product_dependencies:
           'src/applications/personalization/dashboard/components/DashboardAlert,src/applications/facility-locator/manifest.json',
@@ -245,7 +245,7 @@ const octokitResponses = {
         has_contract_tests: 'TRUE',
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,moment,lodash/merge,@department-of-veterans-affairs/component-library/Telephone,vets-json-schema/dist/28-8832-schema.json,@department-of-veterans-affairs/component-library/OMBInfo,chai,enzyme,sinon,path,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,lodash/merge,vets-json-schema/dist/28-8832-schema.json,chai,enzyme,sinon,path,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies: 'src/applications/static-pages/wizard',
         endpoints_provided: '',
@@ -283,7 +283,7 @@ const octokitResponses = {
         has_contract_tests: false,
         testrail_project_id: '',
         package_dependencies:
-          'react,react-redux,@department-of-veterans-affairs/component-library/Telephone,moment,vets-json-schema/dist/28-1900-schema.json,react-router,@department-of-veterans-affairs/component-library/OMBInfo,chai,sinon,enzyme,path,@department-of-veterans-affairs/react-components/RadioButtons',
+          'react,react-redux,moment,vets-json-schema/dist/28-1900-schema.json,react-router,chai,sinon,enzyme,path,@department-of-veterans-affairs/react-components/RadioButtons',
         loa: '',
         cross_product_dependencies: 'src/applications/static-pages/wizard',
         endpoints_provided: '',

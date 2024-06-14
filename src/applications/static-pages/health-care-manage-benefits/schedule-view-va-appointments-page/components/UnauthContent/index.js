@@ -2,12 +2,16 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 
 export const UnauthContent = () => (
   <>
-    <CallToActionWidget appId="view-appointments" setFocus={false} />
+    <CallToActionWidget
+      appId="view-appointments"
+      setFocus={false}
+      headerLevel={2}
+    />
     <p data-testid="non-cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
       contact the facility as soon as you can to reschedule or cancel.
@@ -142,26 +146,14 @@ export const UnauthContent = () => (
     </p>
     <h3>For questions about the VA appointments tool</h3>
     <p>
-      Please call{' '}
-      <a href="tel: 18774705947" aria-label="8 7 7. 4 7 0. 5 9 4 7.">
-        877-470-5947
-      </a>{' '}
-      (
-      <a href="tel:711" aria-label="TTY. 7 1 1.">
-        TTY: 711
-      </a>
+      Please call <va-telephone contact="8774705947" /> (
+      <va-telephone contact="711" />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
     <h3>For questions about joining a VA Video Connect appointment</h3>
     <p>
-      Please call{' '}
-      <a href="tel: 18666513180" aria-label="8 6 6. 6 5 1. 3 1 8 0.">
-        866-651-3180
-      </a>{' '}
-      (
-      <a href="tel:711" aria-label="TTY. 7 1 1.">
-        TTY: 711
-      </a>
+      Please call <va-telephone contact="8666513180" /> (
+      <va-telephone contact="711" />
       ). We’re here 24/7.
     </p>
     <MoreInfoAboutBenefits />

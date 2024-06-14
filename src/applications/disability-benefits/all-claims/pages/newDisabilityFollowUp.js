@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
 
-import { capitalizeEachWord, isBDD } from '../utils';
-import disabilityLabels from '../content/disabilityLabels';
-
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { validateLength } from 'platform/forms/validations';
+import { capitalizeEachWord, isBDD } from '../utils';
+import { getDisabilityLabels } from '../content/disabilityLabels';
+
 import {
   disabilityNameTitle,
   ServiceConnectedDisabilityDescription,
 } from '../content/newDisabilityFollowUp';
-
-import { validateLength } from 'platform/forms/validations';
 
 import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
 
@@ -64,18 +63,18 @@ export const uiSchema = {
         itemAriaLabel: data => `${data.condition} followup questions`,
       },
       cause: {
-        'ui:title': 'What caused this service-connected disability?',
+        'ui:title': 'What caused your condition?',
         'ui:widget': 'radio',
         'ui:options': {
           labels: {
             NEW:
-              'My disability was caused by an injury or exposure during my military service.',
+              'My condition was caused by an injury or exposure during my military service.',
             SECONDARY:
-              'My disability was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
+              'My condition was caused by another service-connected disability I already have. (For example, I have a limp that caused lower-back problems.)',
             WORSENED:
-              'My disability or condition existed before I served in the military, but it got worse because of my military service.',
+              'My condition existed before I served in the military, but it got worse because of my military service.',
             VA:
-              'My disability was caused by an injury or event that happened when I was receiving VA care.',
+              'My condition was caused by an injury or event that happened when I was receiving VA care.',
           },
           updateSchema: (formData, causeSchema, causeUISchema, index) => ({
             enum: getDisabilitiesList(formData, index).length
@@ -109,7 +108,7 @@ export const uiSchema = {
             formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
-            labels: disabilityLabels,
+            labels: getDisabilityLabels(),
             updateSchema: (formData, primarySchema, primaryUISchema, index) => {
               const disabilitiesList = getDisabilitiesList(formData, index);
               if (!disabilitiesList.length) {

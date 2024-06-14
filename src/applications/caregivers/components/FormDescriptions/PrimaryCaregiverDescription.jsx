@@ -21,12 +21,16 @@ const PrimaryCaregiverDescription = ({
       {!!pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
       {showPageIntro && (
-        <p className="vads-u-margin-top--2">{primaryPageIntro}</p>
+        <p className="vads-u-margin-top--2" data-testid="cg-page-intro">
+          {primaryPageIntro}
+        </p>
       )}
 
       {showContactIntro && (
         <>
-          <p className="vads-u-margin-top--2">{primaryContactIntro}</p>
+          <p className="vads-u-margin-top--2" data-testid="cg-contact-intro">
+            {primaryContactIntro}
+          </p>
           <p className="vads-u-font-size--h4 vads-u-margin-bottom--1">
             <strong>Veteran address</strong>
           </p>
@@ -44,6 +48,7 @@ const PrimaryCaregiverDescription = ({
         <va-additional-info
           trigger="Learn more about who qualifies as a Primary Family Caregiver"
           class="vads-u-margin-y--2p5"
+          uswds
         >
           <p className="vads-u-margin-top--0">
             Family caregivers are approved and designated by VA as Primary

@@ -1,15 +1,11 @@
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import {
-  selectAvailableServices,
-  selectVAPContactInfo,
-} from 'platform/user/selectors';
+import { set } from 'lodash';
+import backendServices from '../constants/backendServices';
+
+import { selectAvailableServices, selectVAPContactInfo } from '../../selectors';
 
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,
   INIT_VAP_SERVICE_ID,
-  FIELD_NAMES,
 } from './constants';
 
 import { isVAProfileServiceConfigured } from './util/local-vapsvc';
@@ -22,7 +18,7 @@ export function selectIsVAProfileServiceAvailableForUser(state) {
 }
 
 export function selectVAPContactInfoField(state, fieldName) {
-  return selectVAPContactInfo(state)[fieldName];
+  return selectVAPContactInfo(state)?.[fieldName];
 }
 
 export function selectVAPServiceTransaction(state, fieldName) {
@@ -165,10 +161,24 @@ export const selectTransactionIntervalId = state => {
   return state?.transactionsIntervalId;
 };
 
-export const selectUseInformationEditViewVAFSC = (state, fieldName) => {
-  const fieldsToUseVAFSC = [FIELD_NAMES.HOME_PHONE];
-  return (
-    toggleValues(state)?.[FEATURE_FLAG_NAMES.profileUseVAFSC] &&
-    fieldsToUseVAFSC.includes(fieldName)
-  );
-};
+export const hasBadAddress = state =>
+  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
+
+export function selectVAProfilePersonalInformation(state, fieldName) {
+  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+
+  const notListedKeySuffix = 'NotListedText';
+
+  const notListedTextKey = `${fieldName}${notListedKeySuffix}`;
+
+  const notListedTextValue =
+    state?.vaProfile?.personalInformation?.[notListedTextKey];
+
+  if (!fieldValue && !notListedTextValue) return null;
+
+  const result = set({}, fieldName, fieldValue);
+
+  return notListedTextValue
+    ? set(result, notListedTextKey, notListedTextValue)
+    : result;
+}

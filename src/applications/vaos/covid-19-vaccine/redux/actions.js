@@ -3,14 +3,14 @@ import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-} from 'platform/user/selectors';
+} from '@department-of-veterans-affairs/platform-user/exports';
 import moment from 'moment';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import {
   selectFeatureFacilitiesServiceV2,
-  selectFeatureVAOSServiceVAAppointments,
   selectSystemIds,
-  selectFeatureAcheronService,
+  selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -29,15 +29,12 @@ import {
   recordItemsRetrieved,
   resetDataLayer,
 } from '../../utils/events';
-import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
 import {
   selectCovid19VaccineNewBooking,
   selectCovid19VaccineFormData,
 } from './selectors';
 import { getSlots } from '../../services/slot';
-import { transformFormToAppointment } from './helpers/formSubmitTransformers';
-import { submitAppointment } from '../../services/var';
 import {
   VACCINE_FORM_SUBMIT_SUCCEEDED,
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -386,12 +383,10 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
       getState(),
     );
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      getState(),
-    );
+
     dispatch({
       type: FORM_SUBMIT,
     });
@@ -407,15 +402,9 @@ export function confirmAppointment(history) {
     });
 
     try {
-      if (featureVAOSServiceVAAppointments) {
-        await createAppointment({
-          appointment: transformFormToVAOSAppointment(getState()),
-          useAcheron: featureAcheronVAOSServiceRequests,
-        });
-      } else {
-        const appointmentBody = transformFormToAppointment(getState());
-        await submitAppointment(appointmentBody);
-      }
+      const appointment = await createAppointment({
+        appointment: transformFormToVAOSAppointment(getState()),
+      });
 
       const data = selectCovid19VaccineFormData(getState());
       const facilityID = {
@@ -433,7 +422,11 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push('/new-covid-19-vaccine-appointment/confirmation');
+      history.push(
+        featureBreadcrumbUrlUpdate
+          ? `/${appointment.id}?confirmMsg=true`
+          : '/new-covid-19-vaccine-appointment/confirmation',
+      );
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({
@@ -447,48 +440,6 @@ export function confirmAppointment(history) {
         ...additionalEventData,
       });
       resetDataLayer();
-    }
-  };
-}
-export function routeToPageInFlow(flow, history, current, action, data) {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FORM_PAGE_CHANGE_STARTED,
-      pageKey: current,
-      data,
-    });
-
-    let nextPage;
-    let nextStateKey;
-
-    if (action === 'next') {
-      const nextAction = flow[current][action];
-      if (typeof nextAction === 'string') {
-        nextPage = flow[nextAction];
-        nextStateKey = nextAction;
-      } else {
-        nextStateKey = await nextAction(getState(), dispatch);
-        nextPage = flow[nextStateKey];
-      }
-    } else {
-      const state = getState();
-      const previousPage =
-        state.covid19Vaccine.newBooking.previousPages[current];
-      nextPage = flow[previousPage];
-    }
-
-    if (nextPage?.url) {
-      dispatch({
-        type: FORM_PAGE_CHANGE_COMPLETED,
-        pageKey: current,
-        pageKeyNext: nextStateKey,
-        direction: action,
-      });
-      history.push(nextPage.url);
-    } else if (nextPage) {
-      throw new Error(`Tried to route to a page without a url: ${nextPage}`);
-    } else {
-      throw new Error('Tried to route to page that does not exist');
     }
   };
 }
@@ -539,10 +490,46 @@ export function openContactFacilitiesPage() {
     }
   };
 }
-export function routeToNextAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'next', data);
+
+export function getVAFacilityNextPage() {
+  return async (state, dispatch) => {
+    const formData = selectCovid19VaccineFormData(state);
+    let clinics = selectCovid19VaccineNewBooking(state).clinics?.[
+      formData.vaFacility
+    ];
+    if (!clinics) {
+      clinics = await dispatch(
+        getClinics({
+          facilityId: formData.vaFacility,
+          showModal: true,
+        }),
+      );
+    }
+
+    if (!clinics?.length) {
+      dispatch(showEligibilityModal());
+      return 'vaFacility';
+    }
+
+    if (clinics.length === 1) {
+      return 'selectDate1';
+    }
+    return 'clinicChoice';
+  };
 }
 
-export function routeToPreviousAppointmentPage(history, current, data) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'previous', data);
+export function getReceivedDoseScreenerNextPage() {
+  return async state => {
+    const formData = selectCovid19VaccineFormData(state);
+    if (formData.hasReceivedDose) {
+      recordEvent({
+        event: `${GA_PREFIX}-covid19-screener-yes`,
+      });
+      return 'contactFacilities';
+    }
+    recordEvent({
+      event: `${GA_PREFIX}-covid19-screener-no`,
+    });
+    return 'vaFacility';
+  };
 }

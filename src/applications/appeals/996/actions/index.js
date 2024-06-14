@@ -6,11 +6,11 @@ import {
   CONTESTABLE_ISSUES_API,
 } from '../constants';
 
-export const FETCH_CONTESTABLE_ISSUES_INIT = 'FETCH_CONTESTABLE_ISSUES_INIT';
-export const FETCH_CONTESTABLE_ISSUES_SUCCEEDED =
-  'FETCH_CONTESTABLE_ISSUES_SUCCEEDED';
-export const FETCH_CONTESTABLE_ISSUES_FAILED =
-  'FETCH_CONTESTABLE_ISSUES_FAILED';
+import {
+  FETCH_CONTESTABLE_ISSUES_INIT,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../shared/actions';
 
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
@@ -24,7 +24,7 @@ export const getContestableIssues = props => {
     if (!foundBenefitType || !foundBenefitType?.isSupported) {
       return Promise.reject({
         error: 'invalidBenefitType',
-        type: foundBenefitType?.label || benefitType || 'Unknown',
+        type: foundBenefitType?.label || benefitType,
       }).catch(errors =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_FAILED,

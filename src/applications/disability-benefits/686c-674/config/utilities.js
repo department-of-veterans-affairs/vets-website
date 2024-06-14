@@ -37,7 +37,7 @@ const validateName = (errors, pageData) => {
 /**
  * Mostly copied from the platform provided stringifyFormReplacer, with the removal of the address check. We don't need it here for our location use.
  */
-const customFormReplacer = (key, value) => {
+export const customFormReplacer = (key, value) => {
   // clean up empty objects, which we have no reason to send
   if (typeof value === 'object') {
     const fields = Object.keys(value);

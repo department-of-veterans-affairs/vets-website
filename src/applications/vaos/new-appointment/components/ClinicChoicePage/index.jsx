@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -9,6 +9,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  startDirectScheduleFlow,
 } from '../../redux/actions';
 
 import {
@@ -20,6 +21,7 @@ import {
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import { selectFeatureClinicFilter } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -33,19 +35,10 @@ function vowelCheck(givenString) {
   return /^[aeiou]$/i.test(givenString.charAt(0));
 }
 
-function getPageTitle(schema, typeOfCare, usingPastClinics) {
-  const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
-  let pageTitle = 'Choose a VA clinic';
-  if (schema?.properties.clinicId.enum.length === 2 && usingPastClinics) {
-    pageTitle = `Make ${
-      vowelCheck(typeOfCareLabel) ? 'an' : 'a'
-    } ${typeOfCareLabel} appointment at your last clinic`;
-  }
-  return pageTitle;
-}
-
 const pageKey = 'clinicChoice';
 export default function ClinicChoicePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const featureClinicFilter = useSelector(state =>
     selectFeatureClinicFilter(state),
   );
@@ -75,20 +68,15 @@ export default function ClinicChoicePage() {
 
   useEffect(() => {
     scrollAndFocus();
-    document.title = `${getPageTitle(
-      schema,
-      typeOfCare,
-      usingPastClinics,
-    )} | Veterans Affairs`;
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
   return (
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <>Your last {typeOfCareLabel} appointment was at </>
           )}
@@ -107,9 +95,7 @@ export default function ClinicChoicePage() {
       )}
       {schema.properties.clinicId.enum.length > 2 && (
         <>
-          <h1 className="vads-u-font-size--h2">
-            {getPageTitle(schema, typeOfCare)}
-          </h1>
+          <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
             <p>
               In the last {pastMonths} months you’ve had{' '}

@@ -26,7 +26,7 @@ const verifyLink = data => {
     rel: 'noopener noreferrer',
   });
   expect(wrapper.find('a').text()).to.equal(
-    'Get directions on Google Mapsto Austin VA Clinic',
+    'Get directions on Google Maps to Austin VA Clinic',
   );
   expect(wrapper.find('.sr-only').text()).to.equal('to Austin VA Clinic');
 

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function IndividualsInvolvedCard({ formData }) {
@@ -16,3 +17,12 @@ export default function IndividualsInvolvedCard({ formData }) {
     </h3>
   );
 }
+
+IndividualsInvolvedCard.propTypes = {
+  formData: PropTypes.shape({
+    name: PropTypes.shape({
+      first: PropTypes.string,
+      last: PropTypes.string,
+    }),
+  }),
+};
