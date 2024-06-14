@@ -16,7 +16,7 @@ export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
     <>
       {formData['view:autofill'] && (
         <div className="review-row" data-testid="cg-address-autofill">
-          <dt>{content['form-address-same-as-review-label']}</dt>
+          <dt>{content['caregiver-address-same-as-vet-label']}</dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="data value">
             Yes
           </dd>
