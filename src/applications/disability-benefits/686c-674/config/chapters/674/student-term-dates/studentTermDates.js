@@ -48,8 +48,7 @@ export const schema = {
 
 export const uiSchema = {
   agencyOrProgram: {
-    'ui:title':
-      'Agency or program paying paying tuition or education allowance',
+    'ui:title': 'Agency or program paying tuition or education allowance',
     'ui:order': ['agencyName', 'typeOfProgramOrBenefit', 'datePaymentsBegan'],
     'ui:options': {
       hideIf: form =>
@@ -61,7 +60,7 @@ export const uiSchema = {
         formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       'ui:errorMessages': {
         required:
-          'Enter the goverment agency or program paying tuition or education allowance',
+          'Enter the Government agency or program paying tuition or education allowance',
       },
       'ui:options': {
         hideIf: form =>
