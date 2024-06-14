@@ -46,6 +46,16 @@
       "city": "City",
       "state": "CA",
       "postalCode": "12345"
-    }
+    },
+    "militaryServiceExperiences": [
+      {
+        "serviceBranch": "Army",
+        "serviceDateRange": {
+          "from": "2000-01-01",
+          "to": "2004-12-31"
+        },
+        "characterOfDischarge": "Honorable"
+      }
+    ]
   }
 }

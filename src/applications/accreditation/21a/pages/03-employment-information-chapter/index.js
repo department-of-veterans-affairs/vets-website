@@ -1,7 +1,9 @@
-import employersPages from './employersPages';
+import yourEmployers from './yourEmployers';
 
 /** @type {PageSchema} */
 export default {
   title: 'Employment information',
-  pages: employersPages,
+  pages: {
+    yourEmployers,
+  },
 };
