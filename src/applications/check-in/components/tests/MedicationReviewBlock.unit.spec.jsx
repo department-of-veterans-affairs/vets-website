@@ -13,27 +13,31 @@ describe('MedicationReviewBlock', () => {
   afterEach(() => {
     teardownI18n();
   });
-  it('renders correctly on details view', () => {
+  it('renders correctly on details page', () => {
     const component = render(
       <CheckInProvider>
         <MedicationReviewBlock page="details" />
       </CheckInProvider>,
     );
 
-    expect(component.getByTestId('medication-review-container')).to.exist;
+    expect(component.getByTestId('medication-review-container')).to.have.class(
+      'vads-u-margin-bottom--1',
+    );
     expect(component.getByTestId('medication-review-header')).to.have.class(
       'vads-u-font-size--sm',
     );
     expect(component.getByTestId('medication-review-what-to-share')).to.exist;
   });
-  it('renders correctly on other views', () => {
+  it('renders correctly on complete page', () => {
     const component = render(
       <CheckInProvider>
         <MedicationReviewBlock page="complete" />
       </CheckInProvider>,
     );
 
-    expect(component.getByTestId('medication-review-container')).to.exist;
+    expect(component.getByTestId('medication-review-container')).to.have.class(
+      'vads-u-margin-bottom--4',
+    );
     expect(component.getByTestId('medication-review-header')).to.not.have.class(
       'vads-u-font-size--sm',
     );
