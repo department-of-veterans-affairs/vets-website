@@ -57,6 +57,9 @@ export const dateFormatInterpolators = {
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });
   },
+  dayWithTime: (value, _format, _lng, locale) => {
+    return formatDate(value, 'MMMM dd, yyyy, h:mm aaaa', { locale });
+  },
 };
 
 const i18nOptions = {
