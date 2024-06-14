@@ -103,6 +103,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have another military service experience?',
+        labelHeaderLevel: 'p',
       },
     ),
   },

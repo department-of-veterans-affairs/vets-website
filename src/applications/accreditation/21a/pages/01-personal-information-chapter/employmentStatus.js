@@ -32,9 +32,9 @@ export default {
       'ui:options': {
         hideIf: formData =>
           !requiresDescription.includes(formData.employmentStatus),
-        'ui:required': formData =>
-          requiresDescription.includes(formData.employmentStatus),
       },
+      'ui:required': formData =>
+        requiresDescription.includes(formData.employmentStatus),
     },
   },
   schema: {
