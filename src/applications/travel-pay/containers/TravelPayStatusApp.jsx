@@ -85,10 +85,6 @@ export default function App({ children }) {
     }
   };
 
-  const isChecked = statusName => {
-    return checkedStatuses.includes(statusName);
-  };
-
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -216,31 +212,39 @@ export default function App({ children }) {
                           <h2>Filter your results</h2>
                         </legend>
                         <div className="filter-your-results">
-                          <fieldset id="status-filters">
-                            <p>Travel claim status</p>
-                            {statusesToFilterBy.map(status => (
-                              <VaCheckbox
-                                checked={isChecked(status)}
-                                key={status}
-                                label={status}
-                                onVaChange={e => statusFilterChange(e, status)}
-                              />
-                            ))}
-                            <div className="modal-button-wrapper">
-                              <va-button
-                                onClick={applyFilters}
-                                data-testid="Apply filters"
-                                text="Apply filters"
-                                label="Apply filters"
-                              />
-                              <va-button
-                                onClick={resetSearch}
-                                data-testid="Reset search"
-                                text="Reset search"
-                                label="Reset search"
-                              />
+                          <fieldset>
+                            <div className="vads-l-grid-container">
+                              <p>Travel claim status</p>
+                              <div className="vads-l-row">
+                                {statusesToFilterBy.map((status, index) => (
+                                  <div className="vads-l-col" key={index}>
+                                    <VaCheckbox
+                                      checked={checkedStatuses.includes(status)}
+                                      key={status}
+                                      label={status}
+                                      onVaChange={e =>
+                                        statusFilterChange(e, status)
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           </fieldset>
+                          <div className="modal-button-wrapper vads-u-margin-top--3">
+                            <va-button
+                              onClick={applyFilters}
+                              data-testid="Apply filters"
+                              text="Apply filters"
+                              label="Apply filters"
+                            />
+                            <va-button
+                              onClick={resetSearch}
+                              data-testid="Reset search"
+                              text="Reset search"
+                              label="Reset search"
+                            />
+                          </div>
                         </div>
                       </va-accordion-item>
                     </va-accordion>
