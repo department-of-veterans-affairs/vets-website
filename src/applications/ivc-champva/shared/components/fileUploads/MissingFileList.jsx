@@ -83,8 +83,7 @@ export default function MissingFileList({
           entry?.missingUploads.filter(f => f.required === subset).length === 0
         )
           return <></>;
-        const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
-          ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
+        const entryName = `${entry[nameKey].first || ''}`;
         return (
           <div key={`${entryName}-${subset}`}>
             {showNameHeader ? <strong>{entryName}</strong> : null}
@@ -104,10 +103,11 @@ export default function MissingFileList({
                     {!disableLinks ? (
                       <>
                         {showFileBullets ? fn : null}
+                        <br />
                         {alertOrLink(file, entryName, idx, fileNameMap)}
                       </>
                     ) : (
-                      fn
+                      `${entryName}’s ${fn}`
                     )}
                   </li>
                 ) : null;
