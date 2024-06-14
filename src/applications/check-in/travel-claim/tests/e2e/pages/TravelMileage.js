@@ -8,10 +8,10 @@ class TravelMileage {
 
   validateContext = {
     singleFacility: () => {
-      cy.get(`[data-testid="single-fac-context"]`).should('be.visible');
+      cy.get(`[data-testid="single-appointment-context"]`).should('be.visible');
     },
     multiFacility: () => {
-      cy.get(`[data-testid="multi-fac-context"]`).should('be.visible');
+      cy.get(`[data-testid="multi-appointment-context"]`).should('be.visible');
     },
   };
 
@@ -21,24 +21,23 @@ class TravelMileage {
     });
   };
 
-  selectFacility = stationNo => {
-    cy.get(`[data-testid="checkbox-${stationNo}"]`)
-      .shadow()
-      .find('.usa-checkbox')
+  selectAppointment = appointmentId => {
+    cy.get(`[data-testid="radio-${appointmentId}"]`)
+      .find('.usa-radio__label')
       .click();
   };
 
-  validateFacilityCount = expectedCount => {
-    cy.get('[data-testid="checkbox-group"] [data-testid^="checkbox-"]').should(
+  validateAppointmentCount = expectedCount => {
+    cy.get('[data-testid="radio-set"] [data-testid^="radio-"]').should(
       'have.length',
       expectedCount,
     );
   };
 
   checkForValidationError = () => {
-    cy.get('va-checkbox')
+    cy.get('[data-testid="radio-set"]')
       .shadow()
-      .find('#checkbox-error-message');
+      .find('.usa-error-message');
   };
 }
 

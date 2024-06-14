@@ -17,7 +17,7 @@ import { dateFormat } from '../util/helpers';
 import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
+import { DD_ACTIONS_PAGE_TYPE } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -116,11 +116,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   };
 
   const categorizePrescriptions = ([refillable, renewable], rx) => {
-    if (
-      (rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
-      (rx.dispStatus === dispStatusObj.activeParked &&
-        (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-    ) {
+    if (rx.isRefillable) {
       return [[...refillable, rx], renewable];
     }
     return [refillable, [...renewable, rx]];
