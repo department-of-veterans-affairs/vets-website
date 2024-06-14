@@ -129,11 +129,6 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 </p>
                 {prescription?.trackingList?.[0]?.completeDateTime && (
                   <p data-testid={`medications-last-shipped-${idx}`}>
-                    {/* <va-icon
-                        size={4}
-                        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                        className="vads-u-margin-right--1p5"
-                      /> */}
                     {`Last refill shipped on ${dateFormat(
                       prescription.trackingList[0].completeDateTime,
                       'MMMM D, YYYY',
