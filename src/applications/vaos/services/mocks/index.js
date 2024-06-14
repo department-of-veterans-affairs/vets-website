@@ -32,8 +32,8 @@ const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.js
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
-// const confirmedV2 = require('./v2/confirmed.json');
-const confirmedV2 = require('./v2/confirmed_null_states.json');
+const confirmedV2 = require('./v2/confirmed.json');
+const confirmedV2NullStates = require('./v2/confirmed_null_states.json');
 
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
@@ -284,7 +284,11 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
-    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+    const appointments = confirmedV2.data.concat(
+      confirmedV2NullStates.data,
+      requestsV2.data,
+      mockAppts,
+    );
     const filteredAppointments = appointments.filter(appointment => {
       return req.query.statuses.some(status => {
         if (appointment.attributes.status === status) {
