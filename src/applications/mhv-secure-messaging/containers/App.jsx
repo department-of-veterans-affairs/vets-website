@@ -31,21 +31,13 @@ const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
-  const {
-    featureTogglesLoading,
-    appEnabled,
-    uniqueUserTrackingEnabled,
-  } = useSelector(
+  const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
         appEnabled:
           state.featureToggles[
             FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease
-          ],
-        uniqueUserTrackingEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingUniqueUserLoggingEnabled
           ],
       };
     },
@@ -125,11 +117,9 @@ const App = ({ isPilot }) => {
   useDatadogRum(datadogRumConfig);
   useEffect(
     () => {
-      if (uniqueUserTrackingEnabled) {
-        setDatadogRumUser({ id: user?.profile?.accountUuid });
-      }
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
-    [user, uniqueUserTrackingEnabled],
+    [user],
   );
 
   if (featureTogglesLoading) {
