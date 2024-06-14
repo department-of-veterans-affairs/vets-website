@@ -167,11 +167,15 @@ const interceptNetworkCalls = () => {
   fetchStub.callsFake(() => {
     return Promise.resolve(200, {});
   });
+  // This adds a flag to allow us to check if it was 
+  // later overridden in a test by mockFetch().
   fetchStub.isIntercepted = true;
 };
 
 const checkForNetworkCalls = mochaContext => {
   try {
+    // If fetch was not explicitly mocked in the test, check for 
+    // network calls and throw an error if any are found.
     if (fetch.isIntercepted) {
       const networkCall = fetch.getCall(0);
       if (networkCall && networkCall.args[0]) {

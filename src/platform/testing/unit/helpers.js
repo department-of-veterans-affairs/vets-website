@@ -110,6 +110,7 @@ export function changeDropdown(form, selector, value) {
  */
 function mockFetch(returnVal, shouldResolve = true) {
   let fetchStub = fetch;
+  // Check if fetch has already been wrapped by interceptNetworkCalls in the mocha setup.
   if (!fetch.isSinonProxy) {
     fetchStub = sinon.stub(global, 'fetch');
   }
