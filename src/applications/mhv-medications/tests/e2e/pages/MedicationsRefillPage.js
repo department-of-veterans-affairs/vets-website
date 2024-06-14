@@ -329,7 +329,7 @@ class MedicationsRefillPage {
     });
   };
 
-  clickPrescriptionRefillCheckboxForSuccessFulRequest = prescription => {
+  clickPrescriptionRefillCheckboxForSuccessfulRequest = prescription => {
     cy.intercept(
       'PATCH',
       '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
