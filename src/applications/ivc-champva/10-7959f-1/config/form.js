@@ -2,8 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { cloneDeep } from 'lodash';
 
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -27,6 +26,10 @@ import GetFormHelp from '../../shared/components/GetFormHelp';
 import PrefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import {
+  ssnOrVaFileNumberCustomUI,
+  CustomSSNReviewPage,
+} from '../helpers/CustomSSN';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -119,16 +122,17 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
+          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },

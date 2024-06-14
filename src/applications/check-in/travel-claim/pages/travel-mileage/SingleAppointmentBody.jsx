@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const SingleFacilityBody = ({ facility, appointments }) => {
+const SingleAppointmentBody = ({ appointments }) => {
   const { t } = useTranslation();
   const formatAppointment = appointment => {
     const appointmentLabel = appointment.clinicStopCodeName
@@ -15,27 +15,28 @@ const SingleFacilityBody = ({ facility, appointments }) => {
   return (
     <div
       className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-padding-y--1 vads-u-margin-y--4 vads-u-border-color--gray-light"
-      data-testid="single-fac-context"
+      data-testid="single-appointment-context"
     >
-      <span className="vads-u-font-weight--bold">{facility}</span>
+      <span className="vads-u-font-weight--bold">
+        {appointments[0].facility}
+      </span>
       <div className="vads-u-margin-y--1">
-        {appointments.map(appointment => (
-          <p
-            className="vads-u-margin--0"
-            key={appointment.appointmentIen}
-            data-testid={`appointment-list-item-${appointment.appointmentIen}`}
-          >
-            {formatAppointment(appointment)}
-          </p>
-        ))}
+        <p
+          className="vads-u-margin--0"
+          key={appointments[0].appointmentIen}
+          data-testid={`appointment-list-item-${
+            appointments[0].appointmentIen
+          }`}
+        >
+          {formatAppointment(appointments[0])}
+        </p>
       </div>
     </div>
   );
 };
 
-SingleFacilityBody.propTypes = {
+SingleAppointmentBody.propTypes = {
   appointments: PropTypes.array.isRequired,
-  facility: PropTypes.string.isRequired,
 };
 
-export default SingleFacilityBody;
+export default SingleAppointmentBody;

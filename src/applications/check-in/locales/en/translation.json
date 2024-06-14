@@ -224,7 +224,7 @@
   "the-staff-can-call-you-back-anytime": "The staff can call you back anytime now that you’ve completed check-in.",
   "the-staff-can-call-you-back-anytime-see-staff": "The staff can call you back anytime now that you’ve completed check-in. See a staff member when you arrive in the waiting room.",
   "this-appointment-isnt-eligible-check-in-with-a-staff-member": "This appointment isn’t eligible for online check-in. Check-in with a staff member.",
-  "this-claim-is-for-your-appointment": "$t(this-claim-is-for-your-appointment-claims, {\"count\": {{claims}} }) for your $t(this-claim-is-for-your-appointment-appointments, {\"count\": {{appointments}} }) on {{date, long}} at",
+  "this-claim-is-for-your-appointment": "$t(this-claim-is-for-your-appointment-claims, {\"count\": {{claims}} }) for your $t(this-claim-is-for-your-appointment-appointments, {\"count\": {{appointments}} }) on {{date, long}}.",
   "this-claim-is-for-your-appointment-appointments": "appointment",
   "this-claim-is-for-your-appointment-appointments_other": "appointments",
   "this-claim-is-for-your-appointment-claims": "This claim is",

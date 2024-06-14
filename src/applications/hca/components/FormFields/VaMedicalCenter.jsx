@@ -132,7 +132,7 @@ const VaMedicalCenter = props => {
             ) {
               setLocalData({ ...localData, vaMedicalFacility: undefined });
             }
-            setFacilities(data);
+            setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
             isLoading(false);
           })
           .catch(err => {
