@@ -140,7 +140,7 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const { claim, message, trackedItem } = this.props;
+      const { message, trackedItem } = this.props;
       const is5103Notice =
         trackedItem.displayName === 'Automated 5103 Notice Response';
 
@@ -159,7 +159,7 @@ class DocumentRequestPage extends React.Component {
           <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
             <Toggler.Enabled>
               {is5103Notice ? (
-                <Automated5103Notice claimId={claim.id} item={trackedItem} />
+                <Automated5103Notice item={trackedItem} />
               ) : (
                 <>{this.getDefaultPage()}</>
               )}
