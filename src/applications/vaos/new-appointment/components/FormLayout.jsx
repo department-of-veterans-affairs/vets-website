@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
@@ -12,6 +12,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
 import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
+import { routeToPreviousAppointmentPage } from '../redux/actions';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -29,12 +30,10 @@ function Title() {
 }
 
 function Nav({ pageTitle }) {
+  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
-  function handleRouteChange() {
-    history.goBack();
-  }
+  const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
 
   if (location.pathname === '/schedule/type-of-care')
     return (
@@ -55,7 +54,10 @@ function Nav({ pageTitle }) {
           aria-label="Back link"
           to="#"
           className=""
-          onClick={handleRouteChange}
+          onClick={e => {
+            e.preventDefault();
+            dispatch(routeToPreviousAppointmentPage(history, pageKey));
+          }}
         >
           Back
         </NavLink>
