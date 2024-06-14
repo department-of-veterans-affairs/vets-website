@@ -1,9 +1,8 @@
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
-  addressNoMilitarySchema,
-  addressNoMilitaryUI,
+  addressSchema,
+  addressUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -17,6 +16,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import EmployersInformationTitle from '../../components/EmployersInformationTitle';
 import YourEmployersDescription from '../../components/YourEmployersDescription';
 
 /** @type {ArrayBuilderOptions} */
@@ -26,17 +26,17 @@ const options = {
   nounPlural: 'employers',
   required: true,
   isItemIncomplete: item =>
-    !item?.employerName ||
-    !item?.employerPositionTitle ||
-    !item.employerSupervisorName ||
-    !item.employerAddress ||
-    !item.employerPhoneNumber ||
-    !item.employerDateRange,
+    !item?.name ||
+    !item?.positionTitle ||
+    !item.supervisorName ||
+    !item.address ||
+    !item.phone ||
+    !item.dateRange,
   text: {
-    getItemName: item => item.employerName,
+    getItemName: item => item.name,
     cardDescription: item =>
-      `${formatReviewDate(item?.employerDateRange?.from)} - ${formatReviewDate(
-        item?.employerDateRange?.to,
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
       )}`,
   },
 };
@@ -56,25 +56,21 @@ const introPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Employer and position information',
+      title: EmployersInformationTitle,
       nounSingular: options.nounSingular,
     }),
-    employerName: textUI('Name of employer'),
-    employerPositionTitle: textUI('Position title'),
-    employerSupervisorName: textUI('Supervisor name'),
+    name: textUI('Name of employer'),
+    positionTitle: textUI('Position title'),
+    supervisorName: textUI('Supervisor name'),
   },
   schema: {
     type: 'object',
     properties: {
-      employerName: textSchema,
-      employerPositionTitle: textSchema,
-      employerSupervisorName: textSchema,
+      name: textSchema,
+      positionTitle: textSchema,
+      supervisorName: textSchema,
     },
-    required: [
-      'employerName',
-      'employerPositionTitle',
-      'employerSupervisorName',
-    ],
+    required: ['name', 'positionTitle', 'supervisorName'],
   },
 };
 
@@ -83,33 +79,30 @@ const addressAndPhoneNumberPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.employerName
-          ? `${formData.employerName} address and phone number`
+        formData?.name
+          ? `${formData.name} address and phone number`
           : 'Address and phone number',
     ),
-    employerAddress: addressNoMilitaryUI({
+    address: addressUI({
       omit: ['street3'],
     }),
-    employerPhoneNumber: phoneUI(),
-    employerPhoneExtension: {
-      'ui:title': 'Extension',
-      'ui:webComponentField': VaTextInputField,
-    },
+    phone: phoneUI(),
+    extension: textUI('Extension'),
   },
   schema: {
     type: 'object',
     properties: {
-      employerAddress: addressNoMilitarySchema({
+      address: addressSchema({
         omit: ['street3'],
       }),
-      employerPhoneNumber: phoneSchema,
-      employerPhoneExtension: {
+      phone: phoneSchema,
+      extension: {
         type: 'string',
         pattern: '^[a-zA-Z0-9]{1,10}$',
         maxLength: 10,
       },
     },
-    required: ['employerAddress', 'employerPhoneNumber'],
+    required: ['address', 'phone'],
   },
 };
 
@@ -118,11 +111,11 @@ const dateRangePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.employerName
-          ? `Dates you were employed at ${formData.employerName}`
+        formData?.name
+          ? `Dates you were employed at ${formData.name}`
           : 'Dates you were employed',
     ),
-    employerDateRange: currentOrPastDateRangeUI(
+    dateRange: currentOrPastDateRangeUI(
       'Employment start date',
       'Employment end date',
     ),
@@ -130,9 +123,9 @@ const dateRangePage = {
   schema: {
     type: 'object',
     properties: {
-      employerDateRange: currentOrPastDateRangeSchema,
+      dateRange: currentOrPastDateRangeSchema,
     },
-    required: ['employerDateRange'],
+    required: ['dateRange'],
   },
 };
 
