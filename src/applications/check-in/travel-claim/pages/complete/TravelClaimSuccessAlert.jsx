@@ -1,20 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { getUniqueFacilies } from '../../../utils/appointment';
-import { formatList } from '../../../utils/formatters';
 
-const TravelClaimSuccessAlert = props => {
-  const { claims } = props;
-  const facilities = getUniqueFacilies(claims);
+const TravelClaimSuccessAlert = () => {
   const { t } = useTranslation();
-
-  let appointmentCount = claims.length;
-
-  if (claims.length === 1) {
-    appointmentCount = claims[0].appointmentCount;
-  }
   return (
     <div className="vads-u-margin-y--4">
       <va-alert
@@ -23,36 +12,21 @@ const TravelClaimSuccessAlert = props => {
         status="success"
         uswds
       >
-        <h2 slot="headline">
-          {t('claim-submitted', { count: facilities.length })}
-        </h2>
+        <h2 slot="headline">{t('claim-submitted', { count: 1 })}</h2>
         <p
           className="vads-u-margin-top--0"
-          data-testid={`travel-pay-${
-            facilities.length > 1 ? 'multi' : 'single'
-          }-claim-${
-            appointmentCount > 1 ? 'multi' : 'single'
-          }-appointment-submitted`}
+          data-testid="travel-pay--claim--submitted"
         >
           {`${t('this-claim-is-for-your-appointment', {
             date: format(new Date(), 'MMMM dd, yyyy'),
-            claims: facilities.length,
-            appointments: appointmentCount,
-          })} ${formatList([...facilities], t('and'))} ${t(
-            'well-send-you-a-text-to-let-you-know',
-            {
-              count: facilities.length,
-            },
-          )}`}
+            claims: 1,
+            appointments: 1,
+          })} ${t('well-send-you-a-text-to-let-you-know', { count: 1 })}`}
         </p>
         <p>{t('you-dont-need-to-do-anything-else')}</p>
       </va-alert>
     </div>
   );
-};
-
-TravelClaimSuccessAlert.propTypes = {
-  claims: PropTypes.array.isRequired,
 };
 
 export default TravelClaimSuccessAlert;
