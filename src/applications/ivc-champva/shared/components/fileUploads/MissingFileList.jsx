@@ -99,7 +99,10 @@ export default function MissingFileList({
                   fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
                 return file.required === subset &&
                   (disableLinks ? file.uploaded === false : true) ? (
-                  <li key={file.name + file.uploaded + index}>
+                  <li
+                    key={file.name + file.uploaded + index}
+                    className="vads-u-margin-y--1"
+                  >
                     {!disableLinks ? (
                       <>
                         {showFileBullets ? fn : null}
