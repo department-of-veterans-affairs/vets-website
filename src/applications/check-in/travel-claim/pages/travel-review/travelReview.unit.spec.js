@@ -28,7 +28,7 @@ describe('travel-review', () => {
       );
       expect(component.getByTestId('review-body')).to.exist;
       expect(component.getByTestId('claim-info')).to.contain.text(
-        'Mileage-only reimbursement for  Endoscopy at 2021-08-19T13:56:31',
+        'Mileage-only reimbursement for your  Endoscopy appointment on August 19, 2021, 8:56 p.m.',
       );
     });
   });
