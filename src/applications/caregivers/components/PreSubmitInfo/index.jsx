@@ -46,20 +46,14 @@ const PreSubmitCheckboxGroup = props => {
 
     // takes in labels and renames to what schema expects
     const getKeyName = key => {
-      switch (key) {
-        case content['vet-input-label']:
-          return 'veteran';
-        case content['representative-signature-label']:
-          return 'veteran';
-        case content['primary-signature-label']:
-          return 'primary';
-        case content['secondary-one-signature-label']:
-          return 'secondaryOne';
-        case content['secondary-two-signature-label']:
-          return 'secondaryTwo';
-        default:
-          return null;
-      }
+      const keyMap = {
+        [content['vet-input-label']]: 'veteran',
+        [content['representative-signature-label']]: 'veteran',
+        [content['primary-signature-label']]: 'primary',
+        [content['secondary-one-signature-label']]: 'secondaryOne',
+        [content['secondary-two-signature-label']]: 'secondaryTwo',
+      };
+      return keyMap[key] || null;
     };
 
     // iterates through all keys and normalizes them using getKeyName

@@ -61,7 +61,7 @@ const ConfirmationPage = ({ form }) => {
         <p className="no-print">
           <a
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noreferrer noopener"
             href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
           >
             Find your local Caregiver Support Coordinator

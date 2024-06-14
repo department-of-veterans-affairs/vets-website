@@ -51,7 +51,7 @@ export const submitTransform = (formConfig, form) => {
         return acc;
       }
 
-      // otherwise just remove the prefix from key and populate data
+      // otherwise just populate form data
       acc[keyWithoutPrefix] = formData[key];
       return acc;
     }, {});

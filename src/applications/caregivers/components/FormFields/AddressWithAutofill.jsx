@@ -71,9 +71,9 @@ const PrimaryAddressWithAutofill = props => {
 
   // define our non-checkbox input change event
   const handleChange = useCallback(
-    ({ target: { name, value } }) => {
-      const fieldName = name.split('_').pop();
-      formData[fieldName] = value;
+    event => {
+      const fieldName = event.target.name.split('_').pop();
+      formData[fieldName] = event.target.value;
       // uncheck autofill since we have modified the input value
       if (formData['view:autofill']) formData['view:autofill'] = false;
       // send updated date to the form
@@ -85,8 +85,8 @@ const PrimaryAddressWithAutofill = props => {
 
   // define our non-checkbox input blur event
   const handleBlur = useCallback(
-    ({ target: { name } }) => {
-      const fieldName = name.split('_').pop();
+    event => {
+      const fieldName = event.target.name.split('_').pop();
       addDirtyField(fieldName);
     },
     [addDirtyField],
