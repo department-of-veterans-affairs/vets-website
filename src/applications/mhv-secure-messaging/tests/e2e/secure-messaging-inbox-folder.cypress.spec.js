@@ -1,22 +1,20 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
+import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('secure Messaging Sent Folder checks', () => {
+describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    FolderLoadPage.loadFolders();
-    FolderLoadPage.loadSentMessages();
   });
 
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Sent');
+    PatientMessagesSentPage.verifyFolderHeaderText('Inbox');
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 
@@ -42,6 +40,6 @@ describe('secure Messaging Sent Folder checks', () => {
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
     FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
     FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
-    FolderLoadPage.verifyBreadCrumbText(3, 'Sent');
+    FolderLoadPage.verifyBreadCrumbText(3, 'Inbox');
   });
 });

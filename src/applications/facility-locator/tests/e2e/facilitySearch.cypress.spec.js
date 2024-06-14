@@ -164,7 +164,7 @@ describe('Facility VA search', () => {
         cy.get('.facility-result a').should('exist');
         cy.intercept(
           'GET',
-          '/v1/facilities/va/vha_674BY',
+          '/facilities_api/v2/va/vha_674BY',
           mockFacilitiesSearchResultsV1,
         ).as('fetchFacility');
 
