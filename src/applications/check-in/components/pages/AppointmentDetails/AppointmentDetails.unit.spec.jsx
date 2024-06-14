@@ -168,6 +168,17 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('appointment-details--facility-info')).to.exist;
         });
+        it('renders medical review block', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentOneRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('medication-review-container')).to.exist;
+        });
       });
       describe('In person pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
@@ -339,6 +350,19 @@ describe('check-in experience', () => {
           expect(queryByTestId('appointment-details--phone')).to.not.exist;
         });
       });
+      describe('Day-of check-in', () => {
+        it('does not render the MedicationReviewBlock', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={appointmentThreeRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('medication-review-container')).to.not.exist;
+        });
+      });
       describe('Day-of check-in eligible appointment', () => {
         it('Renders the check-in button and no message', () => {
           const { getByTestId, queryByTestId } = render(
@@ -354,7 +378,7 @@ describe('check-in experience', () => {
         });
       });
       describe('Day-of check-in ineligible appointment', () => {
-        it('Renders the check-in button and no message', () => {
+        it('Renders the message but not the check in button', () => {
           const { getByTestId, queryByTestId } = render(
             <CheckInProvider
               store={dayOfCheckInStore}
