@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.date.pages.date;
 
 const pageTitle = 'mock date inputs';
 
-const expectedNumberOfWebComponentFields = 1;
+const expectedNumberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -19,7 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 1;
+const expectedNumberOfWebComponentErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
@@ -28,7 +28,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
 );
 
-const expectedNumberOfFields = 3;
+const expectedNumberOfFields = 0;
 testNumberOfFields(
   formConfig,
   schema,
@@ -37,7 +37,7 @@ testNumberOfFields(
   pageTitle,
 );
 
-const expectedNumberOfErrors = 1;
+const expectedNumberOfErrors = 0;
 testNumberOfErrorsOnSubmit(
   formConfig,
   schema,

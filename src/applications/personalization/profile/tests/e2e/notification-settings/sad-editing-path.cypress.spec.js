@@ -18,6 +18,8 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
+const HEARING_REMINDER_NOTIFICATION_TEXT = `Board of Veterans' Appeals hearing reminder`;
+
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
@@ -43,29 +45,29 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      //
-      cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by text/i,
-      }).should('be.checked');
+      cy.findByText(HEARING_REMINDER_NOTIFICATION_TEXT)
+        .closest('fieldset')
+        .find('va-checkbox')
+        .as('hearingCheckbox');
 
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('not.be.checked')
-        .click()
-        .should('be.checked')
-        .should('be.disabled');
+      cy.get('@hearingCheckbox')
+        .shadow()
+        .find('input')
+        .as('hearingCheckboxInput');
+
+      cy.get('@hearingCheckbox').should('exist');
+      cy.get('@hearingCheckboxInput').should('be.checked');
+      cy.get('@hearingCheckbox').click();
 
       // we should now see a saving indicator
       cy.findByText(/^Saving/).should('exist');
       // after the POST call fails:
       cy.findByText(/^Saving/).should('not.exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('not.be.checked')
-        .should('not.be.disabled');
+
+      // the checkbox should still be checked after failure
+      cy.get('@hearingCheckboxInput').should('be.checked');
+
       cy.injectAxeThenAxeCheck();
     });
 
@@ -75,16 +77,19 @@ describe('Updating Notification Settings', () => {
 
       // the "notify me" radio button will start off checked because of the
       // mocked response from mockCommunicationPreferences
-      cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by text/i,
-      }).should('be.checked');
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('not.be.checked')
-        .click()
-        .should('be.checked')
-        .should('be.disabled');
+      cy.findByText(HEARING_REMINDER_NOTIFICATION_TEXT)
+        .closest('fieldset')
+        .find('va-checkbox')
+        .as('hearingCheckbox');
+
+      cy.get('@hearingCheckbox')
+        .shadow()
+        .find('input')
+        .as('hearingCheckboxInput');
+
+      cy.get('@hearingCheckbox').should('exist');
+      cy.get('@hearingCheckboxInput').should('be.checked');
+      cy.get('@hearingCheckbox').click();
 
       // we should now see a saving indicator
       cy.findByText(/^Saving.../).should('exist');
@@ -92,16 +97,10 @@ describe('Updating Notification Settings', () => {
       cy.findByText(/^Saving/).should('not.exist');
       cy.findByText(/update saved/i).should('not.exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
-      cy.findByRole('radio', {
-        name: /^notify me of.*hearing reminder.*by text/i,
-      })
-        .should('be.checked')
-        .should('not.be.disabled');
-      cy.findByRole('radio', {
-        name: /^do not notify me of.*hearing reminder.*by text/i,
-      })
-        .should('not.be.checked')
-        .should('not.be.disabled');
+
+      // the checkbox should still be checked after failure
+      cy.get('@hearingCheckboxInput').should('be.checked');
+
       cy.injectAxeThenAxeCheck();
     });
   });

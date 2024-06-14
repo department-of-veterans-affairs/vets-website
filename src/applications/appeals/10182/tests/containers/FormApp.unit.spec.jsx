@@ -11,20 +11,28 @@ import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
-import { SELECTED, CONTESTABLE_ISSUES_API } from '../../constants';
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
-import { contestableIssuesResponse } from '../fixtures/mocks/contestable-issues.json';
+import {
+  CONTESTABLE_ISSUES_API,
+  SHOW_PART3,
+  SHOW_PART3_REDIRECT,
+} from '../../constants';
+
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
+import { SELECTED } from '../../../shared/constants';
+import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
 const getData = ({
-  showNod = true,
+  part3 = true,
   isLoading = false,
   loggedIn = true,
   formData = {},
   contestableIssues = { status: '' },
+  returnUrl = '/veteran-details',
+  isStartingOver = false,
 } = {}) => ({
   props: {
     loggedIn,
-    showNod,
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
     // formData,
@@ -33,8 +41,9 @@ const getData = ({
   data: {
     featureToggles: {
       loading: isLoading,
-      // eslint-disable-next-line camelcase
-      form10182_nod: showNod,
+      /* eslint-disable camelcase */
+      nod_part3_update: part3,
+      /* eslint-enable camelcase */
     },
     user: {
       login: {
@@ -50,11 +59,17 @@ const getData = ({
       loadedStatus: 'success',
       savedStatus: '',
       loadedData: {
-        metadata: {},
+        metadata: {
+          returnUrl,
+        },
       },
-      data: formData,
+      data: {
+        ...formData,
+        [SHOW_PART3]: part3,
+      },
     },
     contestableIssues,
+    isStartingOver,
   },
 });
 
@@ -89,24 +104,10 @@ describe('FormApp', () => {
       $('va-loading-indicator', container).getAttribute('message'),
     ).to.contain('Loading application');
   });
-  it('should render WIP alert', () => {
-    const { props, data } = getData({ showNod: false });
-    const { container } = render(
-      <Provider store={mockStore(data)}>
-        <FormApp {...props} />
-      </Provider>,
-    );
-
-    // FormTitle rendered separately in WIP page
-    expect($('h1', container).textContent).to.contain('Board Appeal');
-    expect($('va-alert', container).innerHTML).to.contain(
-      'still working on this feature',
-    );
-  });
 
   it('should call API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({ formData: { internalTesting: true } });
     render(
       <Provider store={mockStore(data)}>
         <FormApp {...props} />
@@ -135,7 +136,9 @@ describe('FormApp', () => {
 
   it('should call API when logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData();
+    const { props, data } = getData({
+      formData: { internalTesting: true },
+    });
     render(
       <Provider store={mockStore(data)}>
         <FormApp {...props} />
@@ -154,7 +157,7 @@ describe('FormApp', () => {
         type: 'contestableIssue',
         attributes: {
           ratingIssueSubjectText: 'test1',
-          approxDecisionDate: '2023-06-06',
+          approxDecisionDate: getRandomDate(),
         },
         [SELECTED]: true,
       },
@@ -165,8 +168,8 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestableIssues: [],
-        areaOfDisagreement: [],
+        contestedIssues: [],
+        areaOfDisagreement: [{}],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
     });
@@ -179,9 +182,12 @@ describe('FormApp', () => {
     );
 
     await waitFor(() => {
-      const action = store.getActions()[0];
+      // Here, we are checking the second action, which is dispatched within the
+      // second `useEffect` in `FormApp`. This second `useEffect` is the one that
+      // manages contestable issues.
+      const action = store.getActions()[1];
       expect(action.type).to.eq(SET_DATA);
-      expect(action.data.contestableIssues.length).to.eq(1);
+      expect(action.data.contestedIssues.length).to.eq(1);
     });
   });
 
@@ -202,7 +208,7 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestableIssues: issues,
+        contestedIssues: issues,
         areaOfDisagreement: [],
         additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
@@ -219,6 +225,112 @@ describe('FormApp', () => {
       const action = store.getActions()[0];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.areaOfDisagreement.length).to.eq(2);
+    });
+  });
+
+  describe('test part3 useEffect', () => {
+    const testData = {
+      contestableIssues: {
+        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+        issues: [],
+      },
+      formData: {
+        contestedIssues: [],
+        areaOfDisagreement: [],
+        additionalIssues: [],
+      },
+    };
+    it('should not redirect if part3 is false', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: false,
+      });
+      const store = mockStore(data);
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions();
+        expect(action.length).to.eq(0);
+      });
+    });
+    it('should update part3 flag in formData', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: false,
+      });
+      const store = mockStore({
+        ...data,
+        /* eslint-disable camelcase */
+        featureToggles: { nod_part3_update: true },
+        /* eslint-enable camelcase */
+      });
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions();
+        expect(action[1].type).to.eq(SET_DATA);
+        expect(action[1].data[SHOW_PART3]).to.be.true;
+      });
+    });
+    it('should not redirect if on page before part3 questions', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: true,
+      });
+      const store = mockStore(data);
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions()[0];
+        expect(action.type).to.eq(SET_DATA);
+        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
+      });
+    });
+    it('should not redirect if starting over', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: true,
+        isStartingOver: true,
+      });
+      const store = mockStore(data);
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions()[0];
+        expect(action.type).to.eq(SET_DATA);
+        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('not-needed');
+      });
+    });
+
+    it('should redirect if on page after part3 questions', async () => {
+      const { props, data } = getData({
+        ...testData,
+        part3: true,
+        returnUrl: '/contested-issues',
+      });
+      const store = mockStore(data);
+      render(
+        <Provider store={store}>
+          <FormApp {...props} />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const action = store.getActions()[0];
+        expect(action.type).to.eq(SET_DATA);
+        expect(action.data[SHOW_PART3_REDIRECT]).to.eq('redirected');
+      });
     });
   });
 });

@@ -1,5 +1,25 @@
 import React from 'react';
-import moment from 'moment';
+import { format, isValid, parseISO } from 'date-fns';
+
+export const isValidDate = dateString => {
+  const parsedDate = parseISO(dateString);
+
+  return isValid(parsedDate);
+};
+
+export const formatDate = dateString => {
+  const formatString = 'MMMM d, yyyy';
+
+  // We only care about the date portion of the string here.
+  // Including the time portion can lead to off-by-one issues
+  // depending on the users time zone
+  const [datePart] = dateString.split('T');
+  const parsedDate = parseISO(datePart);
+
+  return isValid(parsedDate)
+    ? format(parsedDate, formatString)
+    : 'Invalid date';
+};
 
 export const paymentsReceivedFields = [
   {
@@ -107,15 +127,15 @@ export const reformatReturnPaymentDates = payments => {
   return payments.map(payment => {
     return {
       ...payment,
-      returnedCheckCancelDt: moment(payment.returnedCheckCancelDt).isValid() ? (
-        moment(payment.returnedCheckCancelDt).format('MMM D, YYYY')
+      returnedCheckCancelDt: isValidDate(payment.returnedCheckCancelDt) ? (
+        formatDate(payment.returnedCheckCancelDt)
       ) : (
         <span className="all-lower" aria-label="not available">
           n/a
         </span>
       ),
-      returnedCheckIssueDt: moment(payment.returnedCheckIssueDt).isValid() ? (
-        moment(payment.returnedCheckIssueDt).format('MMM D, YYYY')
+      returnedCheckIssueDt: isValidDate(payment.returnedCheckIssueDt) ? (
+        formatDate(payment.returnedCheckIssueDt)
       ) : (
         <span className="all-lower" aria-label="not available">
           n/a
@@ -129,8 +149,8 @@ export const reformatPaymentDates = payments => {
   return payments.map(payment => {
     return {
       ...payment,
-      payCheckDt: moment(payment.payCheckDt).isValid() ? (
-        moment(payment.payCheckDt).format('MMM D, YYYY')
+      payCheckDt: isValidDate(payment.payCheckDt) ? (
+        formatDate(payment.payCheckDt)
       ) : (
         <span className="all-lower" aria-label="Not available">
           n/a

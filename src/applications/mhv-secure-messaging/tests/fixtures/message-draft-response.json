@@ -1,0 +1,16 @@
+{
+  "id": 7171715,
+  "messageId": 7171715,
+  "category": "COVID",
+  "subject": "Covid-Inquiry",
+  "body": "Hello,\n\nThis is a message that you have received from your healthcare team.\n\nThese are some details about the topic pertaining to your situation. Here are the actions you should take to progress in your treatment. Additional info test test test.\n\nIf you do not achieve the results you hope for, we will perform additional tasks.\n\nDr. Doctor",
+  "attachment": false,
+  "sentDate": "",
+  "senderId": 6820911,
+  "senderName": "ECSTEN, THOMAS ",
+  "recipientId": 6832726,
+  "recipientName": "###PQR TRIAGE_TEAM 747###",
+  "readReceipt": null,
+  "triageGroupName": "###PQR TRIAGE_TEAM 747###",
+  "proxySenderName": null
+}

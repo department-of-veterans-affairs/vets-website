@@ -3,7 +3,7 @@
 .va-growable-background {
   padding: 1em;
   margin-bottom: 1em;
-  background-color: $color-gray-lightest;
+  background-color: var(--vads-color-base-lightest);
 }
 
 .progress-box .va-growable button {
@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-primary-darkest;
+  color: var(--vads-color-base-darker);
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -45,8 +45,8 @@ fieldset {
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
-    padding-left: 2rem - 0.9375rem;
-    padding-right: 2rem - 0.9375rem;
+    padding-left: 1.25rem - 0.5859375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
 }
 
@@ -73,7 +73,7 @@ legend,
 
 .form-error-date .input-date-label {
   font-weight: bold;
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   font-weight: 700;
 }
 
@@ -82,8 +82,8 @@ dl.review {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
-    padding: 1.5rem;
+    border-top: 1px solid var(--vads-color-base-light);
+    padding: 0.9375rem;
     padding-left: 0;
     > dd {
       font-weight: bold;
@@ -105,7 +105,39 @@ dl.review {
       }
     }
   }
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
+}
+// MBMS-51921 remove this and update dl.review when the prod flag removal story is ready
+dl.review-auto-margin {
+  margin: 16px auto;
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-top: 1px solid var(--vads-color-base-light);
+    padding: 0.9375rem;
+    padding-left: 0;
+    > dd {
+      font-weight: bold;
+      text-align: right;
+    }
+    > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    @media (min-width: $small-screen) {
+      flex-direction: row;
+      > dd {
+        padding-left: 5px;
+        min-width: 100px;
+      }
+      > dt {
+        max-width: 60%;
+        min-width: 40%;
+      }
+    }
+  }
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 form.rjsf {
@@ -147,7 +179,7 @@ label {
 }
 
 .schemaform-back-buttons {
-  margin-bottom: 7rem !important;
+  margin-bottom: 4.375rem !important;
 }
 
 .schemaform-block {
@@ -165,12 +197,12 @@ label {
 }
 
 .schemaform-chapter-progress {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
-    padding-left: 2rem - 0.9375rem;
-    padding-right: 2rem - 0.9375rem;
+    padding-left: 1.25rem - 0.5859375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
   > h4 {
     padding-bottom: 0 !important;
@@ -186,19 +218,19 @@ label {
     padding-right: 10px;
   }
   > .schemaform-subtitle {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
-  margin-bottom: 3rem;
+  margin-bottom: 1.85rem;
 }
 
 .schemaform-required-span {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   margin: 0 0.35em;
 }
 
 .schemaform-intro {
-  padding-bottom: 1rem;
-  margin-bottom: 7rem;
+  padding-bottom: 0.625rem;
+  margin-bottom: 4.375rem;
 }
 
 // Align the process ol with the title
@@ -234,10 +266,10 @@ label {
 }
 .schemaform-block-title {
   font-family: $font-serif;
-  font-size: 1.8rem;
+  font-size: 1.125rem;
 }
 .schemaform-block-subtitle {
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
@@ -253,12 +285,12 @@ legend.schemaform-label {
   font-size: inherit;
   color: inherit;
   line-height: inherit;
-  max-width: 46rem;
+  max-width: 28.75rem;
   padding-bottom: 0;
 }
 
 fieldset.schemaform-field-template {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
   &.schemaform-first-field {
     margin-top: 0;
   }
@@ -314,7 +346,7 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
@@ -326,7 +358,7 @@ fieldset.schemaform-field-template {
 
 //duplicated/renamed from claims-status.scss
 .help-heading {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
   margin: 0.3em 0;
   font-size: 1.35em;
   line-height: 1.5;
@@ -341,7 +373,7 @@ fieldset.schemaform-field-template {
   list-style: none;
   padding-left: 0;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   > li {
     list-style: none;
   }
@@ -402,12 +434,12 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-array-readonly-header {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.9375rem;
 }
 
 .schemaform-prefill-message {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
   min-height: auto;
 }
 
@@ -419,13 +451,9 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
 }
 
-.schemaform-sip-alert-title {
-  padding-bottom: 16px;
-}
-
 .schemaform-label-no-top-margin {
   > .schemaform-label {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
   }
 }
 
@@ -442,12 +470,22 @@ legend.schemaform-label.schemaform-file-label {
   outline: none;
 }
 
+.form-review-panel-page-header {
+  padding-right: 0.625rem;
+  padding-top: 0.625rem;
+  line-height: 1.5625rem;
+}
+.form-review-panel-page-header-row {
+  align-items: flex-start;
+  justify-content: flex-end; /* ensures edit is on right side */
+}
+
 .schemaform-review-array-error {
   margin: -1em -0.8em 0;
-  border: 2px solid $color-gold-lightest;
+  border: 2px solid var(--vads-color-gold-lightest);
   > .form-review-panel-page-header-row {
     padding: 1em 0.8em;
-    background-color: $color-gold-lightest;
+    background-color: var(--vads-color-gold-lightest);
   }
   > .va-growable-review {
     padding: 0 1em 1em 1em;
@@ -464,10 +502,11 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1em 5rem;
+  margin-bottom: 3.125rem;
   .form-review-panel-page-header-row {
-    padding: 1em 1em;
-    background-color: var(--color-secondary-lightest);
+    padding: 1em 0.5em;
+    margin: -1em -1.2em 0 -1.2em;
+    background-color: var(--vads-color-error-lighter);
     &:before {
       display: block;
       content: " ";
@@ -477,6 +516,7 @@ legend.schemaform-label.schemaform-file-label {
       height: 1.3em;
       background-size: 2em;
       margin-right: 0.5em;
+      margin-top: 0.625rem;
     }
   }
   dl.review {
@@ -491,46 +531,14 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.form-review-panel .accordion-header > button.usa-button-unstyled {
-  padding: 2.5rem 4.5rem 2.5rem 2.5rem;
-  line-height: 2.2rem;
-}
-
-.schemaform-review-chapter-error {
-  .schemaform-chapter-accordion-header {
-    position: relative;
-    margin-bottom: 0;
-    border-bottom: 0.5rem solid var(--color-secondary-lightest);
-    > button.usa-button-unstyled {
-      padding-left: 5rem;
-      background-color: $color-secondary-lightest;
-    }
-    .schemaform-review-chapter-error-icon {
-      position: absolute;
-      top: calc(50% - 0.6em);
-      left: 1.5rem;
-      display: block;
-      background-image: url("~uswds/dist/img/alerts/error.png");
-      background-image: url("~uswds/dist/img/alerts/error.svg");
-      width: 2em;
-      height: 1.2em;
-      background-size: 1.8em;
-      margin-right: 1em;
-    }
+/* Highlight accordion item with content that needs attention */
+va-accordion-item[data-unviewed-pages="true"] {
+  &::part(accordion-header) {
+    background-color: #{var(--vads-color-error-lighter)};
   }
-  .schemaform-chapter-accordion-content {
-    border-right-color: $color-secondary-lightest;
-    border-left-color: $color-secondary-lightest;
-    border-bottom-color: $color-secondary-lightest;
+  &::part(accordion-content) {
+    border-color: #{var(--vads-color-error-lighter)};
   }
-}
-
-#content .panel.saved-success-container {
-  background-color: $color-green-lightest;
-}
-
-.saved-success-icon {
-  margin: 0 0.5em 0 0;
 }
 
 .usa-alert-no-color {
@@ -539,10 +547,10 @@ legend.schemaform-label.schemaform-file-label {
 .usa-alert-mini {
   margin-top: 0;
   margin-bottom: 1em;
-  background-size: 3rem;
-  background-position: 1rem 2.2rem;
+  background-size: 1.875rem;
+  background-position: 0.625rem 1.375rem;
   > .usa-alert-body {
-    padding-left: 3rem;
+    padding-left: 1.875rem;
   }
   &::before {
     display: none;
@@ -591,15 +599,15 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .autosuggest-list {
-  background: $color-white;
-  border: 1px solid $color-gray;
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
-    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
-  margin-top: -0.5rem;
-  max-width: 46rem;
-  max-height: 46rem;
+  margin-top: -0.3125rem;
+  max-width: 28.75rem;
+  max-height: 28.75rem;
   overflow: auto;
   padding: 0;
   position: absolute;
@@ -609,7 +617,7 @@ legend.schemaform-label.schemaform-file-label {
   z-index: 1;
 
   @include media-maxwidth($small-screen) {
-    font-size: 1.3rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -617,15 +625,15 @@ legend.schemaform-label.schemaform-file-label {
   > .schemaform-widget-wrapper
   > .autosuggest-container
   > .autosuggest-list {
-  width: calc(100% + 1.9rem);
+  width: calc(100% + 1.1875rem);
 }
 
 .autosuggest-item {
-  padding: 0.5rem 1rem;
+  padding: 0.3125rem 0.625rem;
   list-style-type: none;
 
   &-highlighted {
-    background-color: $color-primary-alt-light;
+    background-color: var(--vads-color-primary-alt-light);
     cursor: pointer;
   }
   &-selected {
@@ -650,7 +658,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-title-underline {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
 }
 
 .schemaform-downtime-after-steps {
@@ -664,12 +672,12 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid $color-gold-light;
+  outline: 2px solid var(--vads-color-action-focus-on-light);
   outline-offset: 2px;
 }
 
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
-  line-height: 2.4rem;
+  line-height: 1.5rem;
 }
 
 .form-checkbox > input[type="checkbox"] + label:before {
@@ -691,7 +699,7 @@ textarea:focus {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -700,5 +708,53 @@ textarea:focus {
 }
 
 select:disabled {
-  background-color: $color-gray-lighter;
+  background-color: var(--vads-color-base-lighter);
+}
+
+// To be removed after SoT is added to DS
+i.fa-arrow-up-right-from-square {
+  display: inline-block;
+  color: var(--color-link-default);
+  font-size: 0.75rem;
+  margin: 0.3125rem;
+}
+
+i.fa-arrow-up-right-from-square::before {
+  content: "\f35d";
+}
+
+// To be removed after button pair is added
+i.fa-angles-left::before {
+  content: "\F100";
+  margin-right: 8px;
+}
+
+i.fa-angles-right::before {
+  content: "\F101";
+  margin-left: 8px;
+}
+
+va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
+  max-width: 100%;
+}
+
+.action-bar-arrow {
+  position: relative;
+}
+
+.action-bar-arrow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 0;
+  height: 0;
+  border-top: 24px solid transparent;
+  border-bottom: 24px solid transparent;
+  border-left: 24px solid var(--vads-color-primary);
+}
+
+/* Add space above */
+.rjsf-web-component-field[error]:not([error=""]) {
+  margin-top: 1.5rem;
 }

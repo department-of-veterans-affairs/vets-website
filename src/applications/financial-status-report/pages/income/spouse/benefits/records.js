@@ -1,37 +1,54 @@
-import { validateCurrency } from '../../../../utils/validations';
+import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
+  validateCurrency,
+  validateSpouseBenefitsVaCompensationimits,
+  validateSpouseBenefitsVaEducationLimits,
+} from '../../../../utils/validations';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        <h3 className="vads-u-margin--0">Your spouse information</h3>
+      </legend>
+    </>
+  ),
   benefits: {
     spouseBenefits: {
-      'ui:options': {
-        classNames: 'max-width-400',
-      },
       compensationAndPension: {
         'ui:title':
           'How much does your spouse get each month for disability compensation and pension benefits?',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           classNames: 'schemaform-currency-input',
-          widgetClassNames: 'input-size-3',
+          width: 'md',
         },
         'ui:errorMessages': {
           required:
             'Please enter your spouse’s VA compensation and pension benefits information.',
         },
-        'ui:validations': [validateCurrency],
+        'ui:validations': [
+          validateCurrency,
+          validateSpouseBenefitsVaCompensationimits,
+        ],
       },
       education: {
         'ui:title':
           'How much does your spouse get each month for education benefits?',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           classNames: 'schemaform-currency-input',
-          widgetClassNames: 'input-size-3',
+          width: 'md',
         },
         'ui:errorMessages': {
           required:
             'Please enter your spouse’s VA education benefits information.',
         },
-        'ui:validations': [validateCurrency],
+        'ui:validations': [
+          validateCurrency,
+          validateSpouseBenefitsVaEducationLimits,
+        ],
       },
     },
   },

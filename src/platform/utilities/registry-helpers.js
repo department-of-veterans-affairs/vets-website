@@ -7,7 +7,6 @@
 export const getAppUrl = entryName => {
   // Global app registry defined in the Webpack config
   const appRegistry = __REGISTRY__;
-
   // Return empty string when registry is empty or not defined
   if (!appRegistry.length) return '';
 
@@ -15,7 +14,7 @@ export const getAppUrl = entryName => {
 
   if (!app) {
     throw new Error(
-      `An app with the entry name '${entryName}' does not exist in the registry.`,
+      `An app with the entry name '${entryName}' does not exist in the registry. Please make sure your content-build repository is up to date.`,
     );
   }
 

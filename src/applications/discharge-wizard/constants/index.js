@@ -94,3 +94,99 @@ export const prevApplicationYearCutoff = {
   3: 2011,
   4: 2017,
 };
+
+// v2 constants
+import { SHORT_NAME_MAP } from './question-data-map';
+
+export const DUW_VIEWED_INTRO_PAGE =
+  'discharge-upgrade-wizard/DUW_VIEWED_INTRO_PAGE';
+export const DUW_UPDATE_FORM_STORE =
+  'discharge-upgrade-wizard/DUW_UPDATE_FORM_STORE';
+export const DUW_UPDATE_SERVICE_BRANCH =
+  'discharge-upgrade-wizard/DUW_UPDATE_SERVICE_BRANCH';
+export const DUW_UPDATE_DISCHARGE_YEAR =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_YEAR';
+export const DUW_UPDATE_DISCHARGE_MONTH =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_MONTH';
+export const DUW_UPDATE_REASON = 'discharge-upgrade-wizard/DUW_UPDATE_REASON';
+export const DUW_UPDATE_DISCHARGE_TYPE =
+  'discharge-upgrade-wizard/DUW_UPDATE_DISCHARGE_TYPE';
+export const DUW_UPDATE_COURT_MARTIAL =
+  'discharge-upgrade-wizard/DUW_UPDATE_COURT_MARTIAL';
+export const DUW_UPDATE_INTENTION =
+  'discharge-upgrade-wizard/DUW_UPDATE_INTENTION';
+export const DUW_UPDATE_PREV_APPLICATION =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION';
+export const DUW_UPDATE_PREV_APPLICATION_TYPE =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_TYPE';
+export const DUW_UPDATE_PREV_APPLICATION_YEAR =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_YEAR';
+export const DUW_UPDATE_PRIOR_SERVICE =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
+export const DUW_UPDATE_FAILURE_TO_EXHAUST =
+  'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
+
+export const ROUTES = Object.freeze({
+  HOME: 'introduction',
+  SERVICE_BRANCH: 'service-branch',
+  DISCHARGE_YEAR: 'discharge-year',
+  DISCHARGE_MONTH: 'discharge-month',
+  REASON: 'reason',
+  DISCHARGE_TYPE: 'discharge-type',
+  COURT_MARTIAL: 'court-martial',
+  INTENTION: 'intention',
+  PREV_APPLICATION: 'prev-application',
+  PREV_APPLICATION_TYPE: 'prev-application-type',
+  PREV_APPLICATION_YEAR: 'prev-application-year',
+  PRIOR_SERVICE: 'prior-service',
+  FAILURE_TO_EXHAUST: 'failure-to-exhaust',
+  REVIEW: 'review',
+  RESULT: 'result',
+});
+
+export const questionsToClearMap = Object.freeze({
+  SERVICE_BRANCH: [],
+  DISCHARGE_YEAR: [SHORT_NAME_MAP.DISCHARGE_MONTH],
+  DISCHARGE_MONTH: [],
+  REASON: [
+    SHORT_NAME_MAP.DISCHARGE_TYPE,
+    SHORT_NAME_MAP.COURT_MARTIAL,
+    SHORT_NAME_MAP.INTENTION,
+    SHORT_NAME_MAP.PREV_APPLICATION,
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+  ],
+  DISCHARGE_TYPE: [],
+  COURT_MARTIAL: [],
+  INTENTION: [],
+  PREV_APPLICATION: [
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+  ],
+  PREV_APPLICATION_TYPE: [
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+  ],
+  PREV_APPLICATION_YEAR: [
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+  ],
+  PRIOR_SERVICE: [],
+  FAILURE_TO_EXHAUST: [],
+});
+
+export const errorTextMap = Object.freeze({
+  SERVICE_BRANCH: 'Select a branch.',
+  DISCHARGE_YEAR: 'Select a year.',
+  DISCHARGE_MONTH: 'Select a month.',
+  REASON: 'Select a reason.',
+});
+
+export const labelTextMap = Object.freeze({
+  DISCHARGE_YEAR: 'Year',
+  DISCHARGE_MONTH: 'Month',
+});

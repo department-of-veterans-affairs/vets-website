@@ -1,0 +1,26 @@
+{
+  "preparerIdentification": "THIRD_PARTY_VETERAN",
+  "thirdPartyPreparerFullName": {
+    "first": "Third",
+    "last": "Veteran"
+  },
+  "thirdPartyPreparerRole": "fiduciary",
+  "benefitSelection": {
+    "compensation": true
+  },
+  "veteranFullName": {
+    "first": "Veteran",
+    "last": "Eteranvay"
+  },
+  "veteranDateOfBirth": "1962-01-21",
+  "veteranId": {
+    "ssn": "246813579"
+  },
+  "veteranMailingAddress": {
+    "country": "CAN",
+    "street": "867 Five St",
+    "city": "Threeoh",
+    "postalCode": "A9A 9A9"
+  },
+  "veteranPhone": "1122334455"
+}

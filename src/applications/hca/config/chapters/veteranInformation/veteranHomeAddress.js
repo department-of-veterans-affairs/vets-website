@@ -1,32 +1,24 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from 'platform/forms/definitions/address';
-
+} from '~/platform/forms/definitions/address';
 import { HomeAddressDescription } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
-import { isShortFormEligible } from '../../../utils/helpers';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
+
+const { veteranHomeAddress: address } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'view:homeAddressShortFormMessage': {
       'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: formData => !isShortFormEligible(formData),
-      },
+      'ui:options': { hideIf: notShortFormEligible },
     },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': {
-        hideIf: formData => !formData['view:isLoggedIn'],
-      },
-    },
-    veteranHomeAddress: merge({}, addressUI('Home address', true), {
-      'ui:description': HomeAddressDescription,
+    veteranHomeAddress: merge({}, addressUI(null, true), {
+      'ui:title': HomeAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -39,9 +31,11 @@ export default {
           pattern: 'Please provide a valid city. Must be at least 1 character.',
         },
       },
-      'ui:options': {
-        // TODO: is this being used?
-        'ui:title': 'Street',
+      state: {
+        'ui:title': 'State/Province/Region',
+        'ui:errorMessages': {
+          required: 'Please enter a state/province/region',
+        },
       },
     }),
   },
@@ -49,28 +43,18 @@ export default {
     type: 'object',
     properties: {
       'view:homeAddressShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
-      veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
-        properties: {
-          street: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street2: {
-            minLength: 1,
-            maxLength: 30,
-          },
-          street3: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 30,
-          },
-          city: {
-            minLength: 1,
-            maxLength: 30,
+      veteranHomeAddress: merge(
+        {},
+        addressSchema({ definitions: { address } }, true),
+        {
+          properties: {
+            city: {
+              minLength: 1,
+              maxLength: 30,
+            },
           },
         },
-      }),
+      ),
     },
   },
 };

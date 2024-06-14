@@ -1,42 +1,43 @@
-import moment from 'moment';
+import { startOfToday, subYears, isBefore } from 'date-fns';
 
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { errorMessages } from '../constants';
+import sharedErrorMessages from '../../shared/content/errorMessages';
+import { MAX_YEARS_PAST } from '../../shared/constants';
+import {
+  createScreenReaderErrorMsg,
+  createDateObject,
+} from '../../shared/validations/date';
 
-import { fixDateFormat } from '../utils/replace';
-import { errorMessages, FORMAT_YMD, MAX_YEARS_PAST } from '../constants';
+// substract max years in the past
+export const minDate = subYears(startOfToday(), MAX_YEARS_PAST);
 
-export const minDate = moment()
-  .subtract(MAX_YEARS_PAST, 'year')
-  .startOf('day');
+export const validateDate = (errors, rawDateString = '', fullData) => {
+  const date = createDateObject(rawDateString);
+  const error =
+    (fullData?.dateType || 'decisions') === 'decisions'
+      ? sharedErrorMessages.decisions
+      : errorMessages.evidence;
 
-const maxDate = moment().startOf('day');
-
-export const validateDate = (errors, rawString = '', fullData) => {
-  const dateString = fixDateFormat(rawString);
-  const { day, month, year } = parseISODate(dateString);
-  const date = moment(rawString, FORMAT_YMD);
-  const dateType = fullData?.dateType || 'decisions';
-
-  if (
-    !year ||
-    year === '' ||
-    !day ||
-    day === '0' ||
-    !month ||
-    month === '0' ||
-    dateString?.length < FORMAT_YMD.length
-  ) {
+  if (date.isInvalid) {
     // The va-memorable-date component currently overrides the error message
     // when the value is blank
-    errors.addError(errorMessages[dateType].missingDate);
-  } else if (!date.isValid()) {
-    errors.addError(errorMessages.invalidDate);
-  } else if (date.isSameOrAfter(maxDate)) {
+    errors.addError(error.blankDate);
+    date.errors.other = true; // other part error
+  } else if (date.hasErrors) {
+    errors.addError(sharedErrorMessages.invalidDate);
+    date.errors.other = true; // other part error
+  } else if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(errorMessages[dateType].pastDate);
-  } else if (date.isBefore(minDate)) {
-    errors.addError(errorMessages[dateType].newerDate);
+    errors.addError(error.pastDate);
+    date.errors.year = true; // only the year is invalid at this point
+  } else if (isBefore(date.dateObj, minDate)) {
+    errors.addError(error.newerDate);
+    date.errors.year = true; // only the year is invalid at this point
   }
+
+  // add second error message containing the part of the date with an error;
+  // used to add `aria-invalid` to the specific input
+  createScreenReaderErrorMsg(errors, date.errors);
 };
 
 /**

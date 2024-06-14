@@ -21,13 +21,6 @@ const template = (props, title, content, submissionMessage, messageType) => {
     ? 'Benefits Delivery at Discharge Claim'
     : 'Disability Compensation Claim';
 
-  const renderableContent =
-    typeof content === 'string' && content !== '' ? (
-      <p className="vads-u-font-size--base vads-u-margin-top--0">{content}</p>
-    ) : (
-      content
-    );
-
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
       <div className="small-6 usa-width-one-half columns">
@@ -39,9 +32,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
   if (messageType === 'error') {
     return (
       <>
-        <va-alert visible status={messageType}>
+        <va-alert visible status={messageType} uswds>
           <h2 slot="headline">{title}</h2>
-          {renderableContent}
+          {content}
         </va-alert>
         {isSubmittingBDD && <BddConfirmationAlert />}
         {backButtonContent}
@@ -60,9 +53,9 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2>{pageTitle}</h2>
       </div>
 
-      <va-alert visible status={messageType}>
+      <va-alert visible status={messageType} uswds>
         <h2 slot="headline">{title}</h2>
-        {renderableContent}
+        {content}
       </va-alert>
       {isSubmittingBDD && <BddConfirmationAlert />}
 
@@ -121,8 +114,7 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <ul>
           <li>The type of claim you filed</li>
           <li>
-            How many injuries or disabilities you claimed and how complex they
-            are
+            How many injuries or conditions you claimed and how complex they are
           </li>
           <li>
             How long it takes us to collect the evidence needed to decide your
@@ -254,7 +246,7 @@ export const successfulSubmitContent = props =>
   template(
     props,
     'Your claim has successfully been submitted.',
-    '',
+    <></>,
     successMessage(props.claimId),
     'success',
   );

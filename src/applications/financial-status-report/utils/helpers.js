@@ -1,9 +1,9 @@
 import moment from 'moment';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
-import { get } from 'lodash';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
+import { ignoreFields } from '../constants/ignoreFields';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -15,13 +15,27 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
-export const combinedFSRFeatureToggle = state => {
-  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
-};
-
 export const enhancedFSRFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
+};
+
+export const streamlinedWaiverFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiver
+  ];
+};
+
+export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
+  ];
+};
+
+export const reviewPageNavigationFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation
   ];
 };
 
@@ -29,6 +43,11 @@ export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
 export const allEqual = arr => arr.every(val => val === arr[0]);
+
+export const isNumber = value => {
+  const pattern = /^\d*$/; // This pattern ensures only whole numbers
+  return pattern.test(value);
+};
 
 export const dateFormatter = date => {
   if (!date) return undefined;
@@ -120,6 +139,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+// safeNumber will return 0 if input is null, undefined, or NaN
+export const safeNumber = input => {
+  if (!input) return 0;
+  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
+  return Number.isNaN(num) ? 0 : num;
+};
+
 export const fsrReasonDisplay = resolutionOption => {
   switch (resolutionOption) {
     case 'monthly':
@@ -133,35 +159,23 @@ export const fsrReasonDisplay = resolutionOption => {
   }
 };
 
-export const getFsrReason = (debts, combinedFSR) => {
-  const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
-    : debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = debts => {
+  const reasons = debts.map(({ resolutionOption }) =>
+    fsrReasonDisplay(resolutionOption),
+  );
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
 };
 
-export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
-  return combinedFSR
-    ? debts
-        .filter(item => item.resolutionComment !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : debts
-        .filter(item => item.resolution.offerToPay !== undefined)
-        .reduce(
-          (acc, debt) =>
-            acc +
-            Number(
-              debt.resolution?.offerToPay?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-            ),
-          0,
-        );
+export const getAmountCanBePaidTowardDebt = debts => {
+  return debts
+    .filter(item => item.resolutionComment !== undefined)
+    .reduce(
+      (acc, debt) =>
+        acc + Number(debt.resolutionComment?.replaceAll(/[^0-9.-]/g, '') ?? 0),
+      0,
+    );
 };
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
@@ -172,157 +186,25 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
   const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
 
   return individualExpenses
-    ? `${additionalComments}\n${individualExpensesStr}`
+    ? `${
+        additionalComments !== undefined ? additionalComments : ''
+      }\n${individualExpensesStr}`
     : additionalComments;
 };
 
-export const getMonthlyIncome = ({
-  additionalIncome: {
-    addlIncRecords,
-    spouse: { spAddlIncome },
-  },
-  personalData: {
-    employmentHistory: {
-      veteran: { employmentRecords = [] },
-    },
-  },
-  socialSecurity,
-  benefits,
-  currEmployment,
-  spCurrEmployment,
-  income,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
-  // deduction filters
-  const taxFilters = ['State tax', 'Federal tax', 'Local tax'];
-  const retirementFilters = ['401K', 'IRA', 'Pension'];
-  const socialSecFilters = ['FICA (Social Security and Medicare)'];
-  const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
-
-  // veteran
-  const vetGrossSalary = enhancedFSRActive
-    ? sumValues(employmentRecords, 'grossMonthlyIncome')
-    : sumValues(currEmployment, 'veteranGrossSalary');
-  const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = !enhancedFSRActive
-    ? Number(socialSecurity.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0)
-    : 0;
-  const vetComp = sumValues(income, 'compensationAndPension');
-  const vetEdu = sumValues(income, 'education');
-  const vetBenefits = vetComp + vetEdu;
-  const vetDeductions = enhancedFSRActive
-    ? employmentRecords
-        ?.filter(emp => emp.isCurrent)
-        .map(emp => emp.deductions)
-        .flat() ?? 0
-    : currEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const vetTaxes = filterReduceByName(vetDeductions, taxFilters);
-  const vetRetirement = filterReduceByName(vetDeductions, retirementFilters);
-  const vetSocialSec = filterReduceByName(vetDeductions, socialSecFilters);
-  const vetOther = otherDeductionsAmt(vetDeductions, allFilters);
-  const vetTotDeductions = vetTaxes + vetRetirement + vetSocialSec + vetOther;
-  const vetOtherIncome = vetAddlInc + vetBenefits + vetSocSecAmt;
-  const vetNetIncome = vetGrossSalary - vetTotDeductions;
-
-  // spouse
-  const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
-  const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = !enhancedFSRActive
-    ? Number(
-        socialSecurity.spouse?.socialSecAmt?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-      )
-    : 0;
-  const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replaceAll(
-      /[^0-9.-]/g,
-      '',
-    ) ?? 0,
-  );
-  const spEdu = Number(
-    benefits.spouseBenefits.education?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
-  const spBenefits = spComp + spEdu;
-  const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
-  const spTaxes = filterReduceByName(spDeductions, taxFilters);
-  const spRetirement = filterReduceByName(spDeductions, retirementFilters);
-  const spSocialSec = filterReduceByName(spDeductions, socialSecFilters);
-  const spOtherAmt = otherDeductionsAmt(spDeductions, allFilters);
-  const spTotDeductions = spTaxes + spRetirement + spSocialSec + spOtherAmt;
-  const spOtherIncome = spAddlInc + spBenefits + spSocialSecAmt;
-  const spNetIncome = spGrossSalary - spTotDeductions;
-
-  return vetNetIncome + vetOtherIncome + spNetIncome + spOtherIncome;
-};
-
-export const getMonthlyExpenses = ({
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
-}) => {
-  const utilities = enhancedFSRActive
-    ? sumValues(utilityRecords, 'amount')
-    : sumValues(utilityRecords, 'monthlyUtilityAmount');
-  const installments = sumValues(installmentContracts, 'amountDueMonthly');
-  const otherExp = sumValues(otherExpenses, 'amount');
-  const creditCardBills = sumValues(
-    expenses.creditCardBills,
-    'amountDueMonthly',
-  );
-
-  // efsr note: food is included in otherExpenses
-  const food = Number(get(expenses, 'food', 0));
-  // efsr note: Rent & Mortgage is included in expenseRecords
-  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
-
-  const calculatedExpenseRecords =
-    expenses?.expenseRecords?.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    ) ?? 0;
-
-  return (
-    utilities +
-    installments +
-    otherExp +
-    calculatedExpenseRecords +
-    food +
-    rentOrMortgage +
-    creditCardBills
-  );
-};
-
-export const getTotalAssets = ({
-  assets,
-  realEstateRecords,
-  questions,
-  'view:combinedFinancialStatusReport': combinedFSRActive,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
-  const formattedREValue = Number(
-    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+export const getTotalAssets = ({ assets, questions }) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = !combinedFSRActive
-    ? sumValues(assets.recVehicles, 'recVehicleAmount')
-    : Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0);
+  const totRecVehicles = Number(
+    assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
-  const realEstate = !enhancedFSRActive
-    ? sumValues(realEstateRecords, 'realEstateAmount')
-    : formattedREValue;
-  const totAssets = !enhancedFSRActive
-    ? Object.values(assets)
-        .filter(item => item && !Array.isArray(item))
-        .reduce(
-          (acc, amount) =>
-            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : sumValues(assets.monetaryAssets, 'amount');
+  const realEstate = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
+
+  const totAssets = sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
@@ -364,8 +246,8 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   }
 
   if (questions.spouseIsEmployed) {
-    const { employmentRecords } = employmentHistory.spouse;
-    const spouseEmploymentHistory = employmentRecords.map(employment => ({
+    const { spEmploymentRecords } = employmentHistory.spouse;
+    const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       occupationName: employment.type,
@@ -398,6 +280,69 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const getCurrentEmploymentHistoryObject = () => {
-  return null;
+export const dateTemplate = 'YYYY-MM-DD';
+
+export const maxDate = moment().add(100, 'year');
+export const getDate = date => moment(date, dateTemplate);
+export const isDateComplete = date => date?.length === dateTemplate.length;
+export const isDateInFuture = date => date?.diff(moment()) > 0;
+export const isDateBeyondMax = date => moment(date).isAfter(maxDate);
+
+export const isValidFromDate = date => {
+  if (date && isDateComplete(date)) {
+    const dateObj = getDate(date);
+    return !isDateInFuture(dateObj) && !isDateBeyondMax(dateObj);
+  }
+  return false;
+};
+
+export const isValidToDate = (fromDate, toDate) => {
+  if (
+    fromDate &&
+    toDate &&
+    isDateComplete(fromDate) &&
+    isDateComplete(toDate)
+  ) {
+    const fromDateObj = getDate(fromDate);
+    const toDateObj = getDate(toDate);
+
+    return (
+      !isDateInFuture(toDateObj) &&
+      !moment(toDateObj).isBefore(fromDateObj) &&
+      !isDateBeyondMax(toDateObj)
+    );
+  }
+  return false;
+};
+
+/**
+ * Generates a unique key based on the given data fields and an optional index.
+ * @example
+ * const keyFieldsForCreditCard = ['amountDueMonthly', 'amountPastDue', 'unpaidBalance'];
+ * key={generateUniqueKey(bills, keyFieldsForCreditCard, index)}
+ * Output: "200-50-1000-2"
+ */
+
+export const generateUniqueKey = (data, fields, index = null) => {
+  if (data === null || !fields.length) {
+    return `default-key-${index}`;
+  }
+  const keyParts = fields.map(field => data[field] ?? 'undefined');
+  if (index !== null) {
+    keyParts.push(index);
+  }
+  return keyParts.join('-');
+};
+
+export const firstLetterLowerCase = str => {
+  if (!str || str.length === 0) return '';
+  // Check if the string is in the ignoreFields array
+  if (ignoreFields.includes(str)) {
+    return str;
+  }
+  return str.charAt(0).toLowerCase() + str.slice(1);
+};
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | FSR (VA Form 5655) | Veterans Affairs`;
 };

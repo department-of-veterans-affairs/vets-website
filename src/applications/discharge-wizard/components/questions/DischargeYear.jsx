@@ -9,7 +9,7 @@ import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
 
-const DischargeYearQuestion = ({
+const DischargeYear = ({
   formValues,
   handleKeyDown,
   scrollToLast,
@@ -43,37 +43,34 @@ const DischargeYearQuestion = ({
     </option>,
   );
 
-  yearOptions.unshift(
-    <option key="-1" value="">
-      {' '}
-    </option>,
-  );
-
   return (
-    <fieldset className="fieldset-input dischargeYear" key={key}>
-      <Element name={key} />
-      <VaSelect
-        autocomplete="false"
-        label="What year were you discharged from the military?"
-        name={key}
-        vaKeyDown={handleKeyDown}
-        value={{ value: dischargeYear }}
-        onVaSelect={update => {
-          updateField(key, update.detail.value);
-          scrollToLast();
-        }}
-      >
-        {yearOptions}
-      </VaSelect>
-    </fieldset>
+    <div className="vads-u-margin-top--6">
+      <fieldset className="fieldset-input dischargeYear" key={key}>
+        <Element name={key} />
+        <VaSelect
+          autocomplete="false"
+          label="What year were you discharged from the military?"
+          name={key}
+          vaKeyDown={handleKeyDown}
+          value={{ value: dischargeYear }}
+          onVaSelect={update => {
+            updateField(key, update.detail.value);
+            scrollToLast();
+          }}
+          uswds
+        >
+          {yearOptions}
+        </VaSelect>
+      </fieldset>
+    </div>
   );
 };
 
-DischargeYearQuestion.propTypes = {
+DischargeYear.propTypes = {
   formValues: PropTypes.object.isRequired,
   handleKeyDown: PropTypes.func,
   scrollToLast: PropTypes.func,
   updateField: PropTypes.func,
 };
 
-export default DischargeYearQuestion;
+export default DischargeYear;

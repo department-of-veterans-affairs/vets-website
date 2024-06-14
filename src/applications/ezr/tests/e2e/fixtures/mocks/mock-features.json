@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "ezrProdEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaSigiEnabled",
+        "value": false
+      },
+      {
+        "name": "ezrTeraEnabled",
+        "value": false
+      }
+    ]
+  }
+}

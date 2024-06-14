@@ -17,7 +17,7 @@ const Ineligible = () => (
       <StatusAlert.Ineligible />
       <h2>Can I get a VA home loan COE?</h2>
       <p>
-        You may be able to get a COE if you didn’t receive a dishonorable
+        You may be able to get a COE if you didn’t receive a dishonorable
         discharge and you meet the minimum service requirement based on when you
         served.
         <br />
@@ -42,8 +42,8 @@ const Ineligible = () => (
       <p>
         To request a COE by mail, fill out a Request for a Certificate of
         Eligibility (VA Form 26-1880) and mail it to the address listed on the
-        form. Please keep in mind that this may take longer than requesting a
-        COE online or through our WebLGY system.
+        form. Keep in mind that this may take longer than requesting a COE
+        online or through our WebLGY system.
       </p>
       <va-link
         download

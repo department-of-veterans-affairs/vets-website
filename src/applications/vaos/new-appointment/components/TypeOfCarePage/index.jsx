@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
@@ -14,6 +14,7 @@ import {
   hidePodiatryAppointmentUnavailableModal,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
@@ -21,11 +22,13 @@ import { resetDataLayer } from '../../../utils/events';
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'typeOfCare';
-const pageTitle = 'Choose the type of care you need';
 
 export default function TypeOfCarePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const dispatch = useDispatch();
   const {
     addressLine1,
@@ -35,12 +38,18 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
-    useAcheron,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
-  const showUpdateAddressAlert =
-    !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
+  const showUpdateAddressAlert = useMemo(
+    () => {
+      return (
+        !hideUpdateAddressAlert &&
+        (!addressLine1 || addressLine1.match(/^PO Box/))
+      );
+    },
+    [addressLine1, hideUpdateAddressAlert],
+  );
 
   useEffect(
     () => {
@@ -52,8 +61,10 @@ export default function TypeOfCarePage() {
           event: 'vaos-update-address-alert-displayed',
         });
       }
+
+      dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
     },
-    [showUpdateAddressAlert],
+    [showUpdateAddressAlert, dispatch],
   );
 
   const { data, schema, setData, uiSchema } = useFormState({
@@ -116,7 +127,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(useAcheron);
+              getLongTermAppointmentHistoryV2();
             }
 
             setData(newData);

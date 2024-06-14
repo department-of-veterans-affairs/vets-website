@@ -26,7 +26,7 @@ const CalendarCell = ({
   const buttonRef = useRef(null);
   const optionsHeightRef = useRef(null);
   const inSelectedArray = selectedDates?.some(selectedDate =>
-    selectedDate.startsWith(date),
+    selectedDate?.startsWith(date),
   );
 
   useEffect(

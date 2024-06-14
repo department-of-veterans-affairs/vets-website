@@ -32,6 +32,8 @@ export const ADDRESS_POU = {
   RESIDENCE: 'RESIDENCE/CHOICE',
 };
 
+export const MILITARY_BASE_DATA = 'view:livesOnMilitaryBase';
+
 // address props that are primarily used for comparing two addresses
 export const ADDRESS_PROPS = [
   'addressLine1',
@@ -51,21 +53,10 @@ export const USA = {
   COUNTRY_ISO3_CODE: 'USA',
 };
 
-// TODO: After https://github.com/department-of-veterans-affairs/va.gov-team/issues/19858
-// is completed and is live on prod, we can update this object to remove the
-// `Vet360` instances:
-//
-// PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
-// EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
-// ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
-//
 export const TRANSACTION_CATEGORY_TYPES = {
-  PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
-  EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
-  ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction',
-  VAP_PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
-  VAP_EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
-  VAP_ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
+  PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
+  EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
+  ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
 };
 
 export const TRANSACTION_STATUS = {
@@ -97,7 +88,7 @@ export const FIELD_NAMES = {
   RESIDENTIAL_ADDRESS: 'residentialAddress',
 };
 
-export const FIELD_TITLES = {
+export const FIELD_TITLES = Object.freeze({
   [FIELD_NAMES.PREFERRED_NAME]: 'Preferred name',
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
@@ -108,7 +99,7 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.EMAIL]: 'Contact email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
-};
+});
 
 // optional 'hint text' to display below field titles
 export const FIELD_TITLE_DESCRIPTIONS = {
@@ -190,3 +181,5 @@ export const COPY_ADDRESS_MODAL_STATUS = {
   SUCCESS: 'success',
   FAILURE: 'failure',
 };
+
+export const NOT_SET_TEXT = 'This information is not available right now.';

@@ -11,6 +11,7 @@ import {
   distancesToNearbyVetCenters,
 } from '../../../facility-locator/utils/facilityDistance';
 import { getFeaturesFromAddress } from '../../../facility-locator/utils/mapbox';
+import buildFacility from './buildFacility';
 
 const NEARBY_VET_CENTER_RADIUS_MILES = 120;
 
@@ -22,12 +23,17 @@ const NearByVetCenters = props => {
   );
   const dispatch = useDispatch();
 
-  const fetchVetCenters = query => {
+  const fetchVetCenters = body => {
     dispatch(fetchFacilityStarted());
-    apiRequest(query, {
-      apiVersion: 'v1',
+    apiRequest('/va', {
+      apiVersion: 'facilities_api/v2',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
     }).then(res => {
-      dispatch(fetchFacilitySuccess());
+      dispatch(fetchFacilitySuccess(res.data));
       setFetchedVetCenters(res.data);
     });
   };
@@ -50,17 +56,18 @@ const NearByVetCenters = props => {
         coordinates[0],
         NEARBY_VET_CENTER_RADIUS_MILES,
       );
-      const params = [
-        'type=vet_center',
-        'page=1',
-        'per_page=5',
-        'mobile=false',
-        `radius=${NEARBY_VET_CENTER_RADIUS_MILES}`,
-        `latitude=${coordinates[1]}`,
-        `longitude=${coordinates[0]}`,
-        ...boundingBox.map(c => `bbox[]=${c}`),
-      ].join('&');
-      fetchVetCenters(`/facilities/va/?${params}`);
+      const params = {
+        type: 'vet_center',
+        page: 1,
+        // eslint-disable-next-line camelcase
+        per_page: 5,
+        mobile: false,
+        radius: NEARBY_VET_CENTER_RADIUS_MILES,
+        lat: coordinates[1],
+        long: coordinates[0],
+        bbox: boundingBox,
+      };
+      fetchVetCenters(params);
     }
   };
 
@@ -168,46 +175,40 @@ const NearByVetCenters = props => {
 
       centerDistance = vetCenterDistance.distance;
     }
-
-    return {
-      id: vc.id,
-      entityBundle: vc.attributes.facilityType,
-      fieldPhoneNumber: vc.attributes.phone.main,
-      distance: centerDistance,
-      title: vc.attributes.name,
-      fieldAddress: {
-        addressLine1: vc.attributes.address.physical.address1,
-        administrativeArea: vc.attributes.address.physical.state,
-        locality: vc.attributes.address.physical.city,
-        postalCode: vc.attributes.address.physical.zip,
-      },
-      fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
-      fieldOperatingStatusMoreInfo:
-        vc.attributes.operatingStatus?.additionalInfo,
-    };
+    return buildFacility(vc, centerDistance);
   };
 
   const normalizeFetchedVetCenters = vcs => {
     return vcs
       .map(vc => normalizeFetchedVetCenterProperties(vc))
-      .filter(center => center.distance < NEARBY_VET_CENTER_RADIUS_MILES)
-      .sort((a, b) => (a.distance < b.distance ? 1 : -1));
+      .sort((a, b) => a.distance - b.distance);
   };
 
-  const renderNearbyVetCenterContainer = sortedVetCenters => (
-    <div>
-      <h2
-        className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+  const renderNearbyVetCenterContainer = sortedVetCenters => {
+    // Filter here so we can choose to use the sorted list if there are no Vet centers within the birds-eye radius
+    const filteredByDistance = sortedVetCenters.filter(
+      vc => vc.distance < NEARBY_VET_CENTER_RADIUS_MILES,
+    );
+
+    // Distance is calculated using the driving distance not birds-eye distance so all results may be outside the radius
+    const useSorted = filteredByDistance.length === 0;
+
+    return (
+      <div>
+        <h2
+          className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
                   medium-screen:vads-u-margin-bottom--3"
-        id="other-near-locations"
-      >
-        Other nearby Vet Centers
-      </h2>
-      {sortedVetCenters.map(vc =>
-        renderVetCenter(vc, props.mainVetCenterPhone),
-      )}
-    </div>
-  );
+          id="other-near-locations"
+        >
+          Other nearby Vet Centers
+        </h2>
+
+        {(useSorted ? sortedVetCenters : filteredByDistance).map(vc => {
+          return renderVetCenter(vc, props.mainVetCenterPhone);
+        })}
+      </div>
+    );
+  };
 
   const filteredVetCenters = fetchedVetCenters.filter(
     vc =>
@@ -215,9 +216,11 @@ const NearByVetCenters = props => {
       !(props.satteliteVetCenters || []).includes(vc.id),
   );
   if (filteredVetCenters.length > 0) {
-    return renderNearbyVetCenterContainer(
-      normalizeFetchedVetCenters(filteredVetCenters),
+    // only render the section if there are some facilities within the birds-eye radius
+    const normalizedFetchedVetCenters = normalizeFetchedVetCenters(
+      filteredVetCenters,
     );
+    return renderNearbyVetCenterContainer(normalizedFetchedVetCenters);
   }
   return null;
 };

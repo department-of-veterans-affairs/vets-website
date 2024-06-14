@@ -1,19 +1,40 @@
 import React from 'react';
 
-const OMBInfo = () => (
-  <>
-    <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={30}>
+const OMBInfo = () => {
+  const expDate = '06/30/2024';
+  const ombNum = '2900-0091';
+  const resBurden = '35';
+  return (
+    <va-omb-info
+      class="vads-u-margin-top--4"
+      exp-date={expDate}
+      omb-number={ombNum}
+      res-burden={resBurden}
+    >
       <p>
-        <strong>The Paperwork Reduction Act</strong> of 1995 requires us to
-        notify you that this information collection is in accordance with the
-        clearance requirements of Section 3507 of the Paperwork Reduction Act of
-        1995. We may not conduct or sponsor, and you are not required to respond
-        to, a collection of information unless it displays a valid OMB number.
-        We anticipate that the time expended by all individuals who must
-        complete this form will average 30 minutes. This includes the time it
-        will take to read instructions, gather the necessary facts and fill out
-        the form.
+        <strong>Public Burden Statement:</strong> An agency may not conduct or
+        sponsor, and a person is not required to respond to, a collection of
+        information unless it displays a currently valid OMB control number. The
+        OMB control number for this project is {ombNum}, and it expires{' '}
+        {expDate}. Public reporting burden for this collection of information is
+        estimated to average {resBurden} minutes per respondent, per year,
+        including the time for reviewing instructions, searching existing data
+        sources, gathering and maintaining the data needed, and completing and
+        reviewing the collection of information. Send comments regarding this
+        burden estimate and any other aspect of this collection of information,
+        including suggestions for reducing this burden, to VA Reports Clearance
+        Officer at{' '}
+        <a
+          href="mailto:VACOPaperworkReduAct@va.gov"
+          target="_blank"
+          rel="noreferrer"
+        >
+          VACOPaperworkReduAct@va.gov
+        </a>
+        . Please refer to OMB Control No. {ombNum} in any correspondence. Do not
+        send your completed VA Form 10-10EZ to this email address.
       </p>
+
       <p>
         <strong>Privacy Act information:</strong> VA is asking you to provide
         the information on this form under 38 U.S.C. Sections 1705,1710, 1712,
@@ -34,7 +55,7 @@ const OMBInfo = () => (
         required by law.
       </p>
     </va-omb-info>
-  </>
-);
+  );
+};
 
 export default OMBInfo;

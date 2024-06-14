@@ -2,7 +2,6 @@ import { Link } from 'react-router';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import React, { useEffect } from 'react';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -126,7 +125,11 @@ const IntroductionPage = props => {
         startText="Apply for Veteran Readiness and Employment"
       />
       <div className="omb-info--container vads-u-margin-top--1p5 vads-u-padding-left--0">
-        <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2022" />
+        <va-omb-info
+          res-burden={15}
+          omb-number="2900-009"
+          exp-date="11/30/2022"
+        />
       </div>
       <h2 className="vads-u-font-size--h3">To apply by mail</h2>
       <p>

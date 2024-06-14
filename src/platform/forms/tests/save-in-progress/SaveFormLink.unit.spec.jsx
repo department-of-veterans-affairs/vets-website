@@ -161,6 +161,56 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(saveAndRedirectToReturnUrl.args[0][3]).to.eq('/testing2');
   });
 
+  it('should call pageConfig and formConfig onFormExit callbacks before redirecting', () => {
+    const saveAndRedirectToReturnUrl = sinon.spy();
+    const exitSpy = sinon.spy();
+    const exitCallback = data => {
+      const alteredData = { ...data, testIndex: data.testIndex + 1 };
+      exitSpy(alteredData);
+      return alteredData;
+    };
+    const route = {
+      pageConfig: {
+        pageKey: 'testPage',
+        schema: {},
+        uiSchema: {},
+        errorMessages: {},
+        title: '',
+        returnUrl: '/testing2',
+        onFormExit: exitCallback,
+      },
+      pageList: [
+        {
+          path: 'testing',
+        },
+      ],
+    };
+    const tree = ReactTestUtils.renderIntoDocument(
+      <div>
+        <SaveFormLink
+          user={loggedInUser}
+          form={{ data: { testIndex: 0 } }}
+          route={route}
+          saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+          toggleLoginModal={toggleLoginModalSpy}
+          formConfig={{ ...formConfig, onFormExit: exitCallback }}
+        />
+      </div>,
+    );
+    const findDOM = findDOMNode(tree);
+
+    // "Save" the form
+    findDOM.querySelector('.schemaform-sip-save-link').click();
+
+    expect(exitSpy.firstCall.args[0]).to.deep.equal({ testIndex: 1 });
+    expect(exitSpy.secondCall.args[0]).to.deep.equal({ testIndex: 2 });
+
+    expect(saveAndRedirectToReturnUrl.called);
+    expect(saveAndRedirectToReturnUrl.args[0][1]).to.deep.equal({
+      testIndex: 2,
+    });
+  });
+
   it.skip('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(

@@ -1,50 +1,63 @@
-// single fields
+export const getPagePaths = formConfig => {
+  // For testing v3-web-component pages.
+  // Returns an flat object of page-paths, keyed by page-keys in formConfig.
+  const { chapters } = formConfig;
+  const pagePaths = {};
+
+  Object.keys(chapters).forEach(chapter => {
+    const { pages } = chapters[chapter];
+    Object.keys(pages).forEach(page => {
+      pagePaths[page] = pages[page].path;
+    });
+  });
+
+  return pagePaths;
+};
+
 export const fillTextWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-text-input[name="root_${fieldName}"]`)
-      .shadow()
-      .find('input')
-      .type(value);
-  }
+  cy.fillVaTextInput(`root_${fieldName}`, value);
 };
 
 export const fillTextAreaWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-textarea[name="root_${fieldName}"]`)
-      .shadow()
-      .find('textarea')
-      .type(value);
-  }
+  cy.fillVaTextarea(`root_${fieldName}`, value);
 };
 
 export const selectRadioWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(
-      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
-    ).click();
-  }
+  cy.selectVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectYesNoWebComponent = (fieldName, value) => {
-  const selection = value ? 'Y' : 'N';
-  selectRadioWebComponent(fieldName, selection);
+  cy.selectYesNoVaRadioOption(`root_${fieldName}`, value);
 };
 
 export const selectDropdownWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-select[name="root_${fieldName}"]`)
-      .shadow()
-      .find('select')
-      .select(value);
-  }
+  cy.selectVaSelect(`root_${fieldName}`, value);
 };
 
 export const selectCheckboxWebComponent = (fieldName, condition) => {
-  if (condition) {
-    cy.get(`va-checkbox[name="root_${fieldName}"]`)
+  cy.selectVaCheckbox(`root_${fieldName}`, condition);
+};
+
+export const selectGroupCheckboxWidget = label => {
+  if (label) {
+    cy.get(`va-checkbox[label="${label}"]`)
       .shadow()
-      .find('input')
-      .check();
+      .get('#checkbox-element')
+      .first()
+      .click();
+  }
+};
+
+export const selectCheckboxGroupWebComponent = data => {
+  if (data && typeof data === 'object') {
+    const truthyKeys = Object.keys(data).filter(key => data[key]);
+
+    truthyKeys.forEach(truthyKey => {
+      cy.get(`va-checkbox[data-key="${truthyKey}"]`)
+        .shadow()
+        .find('label')
+        .click();
+    });
   }
 };
 
@@ -125,26 +138,53 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
   }
 };
 
+export const selectRelationshipToVeteranPattern = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    selectRadioWebComponent(
+      `${fieldName}_relationshipToVeteran`,
+      value?.relationshipToVeteran,
+    );
+    if (value?.relationshipToVeteran === 'other') {
+      cy.get(
+        `va-text-input[name="root_${fieldName}_otherRelationshipToVeteran"]`,
+      )
+        .shadow()
+        .find('input')
+        .type(value?.otherRelationshipToVeteran);
+    }
+  }
+};
+
 // page test definitions
 
 export const introductionPageFlow = () => {
-  cy.findAllByText(/start/i, { selector: 'button' });
+  cy.get('va-button[text*="start"]');
   cy.findAllByText(/without signing in/i)
     .first()
     .click({ force: true });
 };
 
-export const reviewAndSubmitPageFlow = signerName => {
+export const reviewAndSubmitPageFlow = (
+  signerName,
+  submitButtonText = 'Submit application',
+) => {
+  let veteranSignature = signerName;
+
+  if (typeof veteranSignature === 'object') {
+    veteranSignature = signerName.middle
+      ? `${signerName.first} ${signerName.middle} ${signerName.last}`
+      : `${signerName.first} ${signerName.last}`;
+  }
+
   cy.get('#veteran-signature')
     .shadow()
     .get('#inputField')
-    .type(
-      signerName.middle
-        ? `${signerName.first} ${signerName.middle} ${signerName.last}`
-        : `${signerName.first} ${signerName.last}`,
-    );
-  cy.get(`input[name="veteran-certify"]`).check();
-  cy.findAllByText(/Submit application/i, {
+    .type(veteranSignature);
+  cy.get(`va-checkbox[name="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
+  cy.findByText(submitButtonText, {
     selector: 'button',
   }).click();
 };

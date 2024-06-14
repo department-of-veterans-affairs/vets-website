@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { getTimezoneAbbrByFacilityId, stripDST } from '../../utils/timezone';
 
-describe('timezone util', () => {
+describe('VAOS Utils: timezone', () => {
   it('should return the correct abbreviation', () => {
     const abbr = getTimezoneAbbrByFacilityId(605);
     expect(abbr).to.equal('PT');
@@ -14,13 +14,11 @@ describe('timezone util', () => {
 
   describe('stripDST', () => {
     it('should convert lower-48 tz to two chars', () => {
-      const tz = stripDST('MST');
+      let tz = stripDST('MST');
       expect(tz).to.equal('MT');
-    });
 
-    it('should skip 4 digit timezones', () => {
-      const tz = stripDST('AKST');
-      expect(tz).to.equal('AKST');
+      tz = stripDST('AKST');
+      expect(tz).to.equal('AKT');
     });
   });
 });

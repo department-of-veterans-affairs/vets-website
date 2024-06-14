@@ -1,4 +1,4 @@
-const moment = require('moment');
+const fns = require('date-fns');
 
 const createSuccessPayment = (hasRecentPayment = false) => {
   return {
@@ -10,8 +10,8 @@ const createSuccessPayment = (hasRecentPayment = false) => {
           {
             payCheckAmount: '$1561.92',
             payCheckDt: hasRecentPayment
-              ? moment().subtract(3, 'days')
-              : moment().subtract(32, 'days'),
+              ? fns.sub(Date.now(), { days: 3 })
+              : fns.sub(Date.now(), { days: 32 }),
             payCheckId: '001',
             payCheckReturnFiche: 'C',
             payCheckType: 'Compensation & Pension - Recurring',

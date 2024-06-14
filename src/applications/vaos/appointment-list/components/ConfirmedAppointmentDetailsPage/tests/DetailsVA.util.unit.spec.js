@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { formatHeader } from '../DetailsVA.util';
 
-describe('appointment-list / components / ConfirmedAppointmenDetailsPage / DetailsVA.util', () => {
+describe('appointment-list / components / ConfirmedAppointmentDetailsPage / DetailsVA.util', () => {
   it('should return appointment type header as COVID-19 vaccine', () => {
     const appointment = {
       vaos: {
@@ -20,7 +20,7 @@ describe('appointment-list / components / ConfirmedAppointmenDetailsPage / Detai
     const header = formatHeader(appointment);
     expect(header).to.equal('VA appointment over the phone');
   });
-  it('should return appointment type header as Compensation and pension exam for past c&p appoinment', () => {
+  it('should return appointment type header as Claim exam for past c&p appointment', () => {
     const appointment = {
       status: 'booked',
       vaos: {
@@ -29,9 +29,9 @@ describe('appointment-list / components / ConfirmedAppointmenDetailsPage / Detai
       },
     };
     const header = formatHeader(appointment);
-    expect(header).to.equal('Compensation and pension exam');
+    expect(header).to.equal('Claim exam');
   });
-  it('should return appointment type header as Compensation and pension exam for cancelled c&p appoinment', () => {
+  it('should return appointment type header as Claim exam for cancelled c&p appointment', () => {
     const appointment = {
       status: 'cancelled',
       vaos: {
@@ -40,7 +40,7 @@ describe('appointment-list / components / ConfirmedAppointmenDetailsPage / Detai
       },
     };
     const header = formatHeader(appointment);
-    expect(header).to.equal('Compensation and pension exam');
+    expect(header).to.equal('Claim exam');
   });
   it('should return appointment type header as VA appointment', () => {
     const appointment = {

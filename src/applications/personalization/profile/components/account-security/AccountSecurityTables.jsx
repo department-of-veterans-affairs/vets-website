@@ -4,9 +4,9 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { mfa } from '~/platform/user/authentication/utilities';
 import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 
-import EmailAddressNotification from '../contact-information/email-addresses/EmailAddressNotification';
-import { ConditionalProcessList as List } from './ConditionalProcessList';
+import SignInServiceUpdateLink from '../contact-information/email-addresses/SignInServiceUpdateLink';
 import { ProfileInfoCard } from '../ProfileInfoCard';
+import { useSignInServiceProvider } from '../../hooks';
 
 const mfaHandler = () => {
   recordEvent({ event: AUTH_EVENTS.MFA });
@@ -14,49 +14,51 @@ const mfaHandler = () => {
 };
 
 const AccountSetupList = ({ isIdentityVerified, isMultifactorEnabled }) => {
+  const { label } = useSignInServiceProvider();
   return (
-    <List>
-      <List.Item complete={isIdentityVerified}>
-        <List.HeadingComplete>Verify your identity</List.HeadingComplete>
-
-        <List.ContentComplete>
-          We’ve verified your identity.
-        </List.ContentComplete>
-
-        <List.HeadingIncomplete>
-          <a href="/verify">Verify your identity</a>
-        </List.HeadingIncomplete>
-
-        <List.ContentIncomplete>
-          Verify your identity to view your complete profile.
-        </List.ContentIncomplete>
-      </List.Item>
-
-      <List.Item complete={isMultifactorEnabled}>
-        <List.HeadingComplete>Add 2-factor authentication</List.HeadingComplete>
-
-        <List.ContentComplete>
-          You’ve added an extra layer of security to your account with 2-factor
-          authentication.
-        </List.ContentComplete>
-
-        <List.HeadingIncomplete>
-          <button
-            onClick={mfaHandler}
-            className="va-button-link vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--h4"
-            type="button"
-          >
-            Add 2-factor authentication
-          </button>
-        </List.HeadingIncomplete>
-
-        <List.ContentIncomplete>
-          Add an extra layer of security (called 2-factor authentication). This
-          helps to make sure only you can access your account—even if someone
-          gets your password.
-        </List.ContentIncomplete>
-      </List.Item>
-    </List>
+    <va-process-list>
+      <va-process-list-item
+        active={!isIdentityVerified}
+        checkmark={isIdentityVerified}
+        header="Verify your identity"
+      >
+        {isIdentityVerified ? (
+          <p>We’ve verified your identity.</p>
+        ) : (
+          <>
+            <p>
+              We’ll need to verify your identity so that you can securely access
+              your complete profile.
+            </p>
+            <a href="/verify">Verify your identity</a>
+          </>
+        )}
+      </va-process-list-item>
+      <va-process-list-item
+        active={!isMultifactorEnabled}
+        checkmark={isMultifactorEnabled}
+        header="Add multifactor authentication"
+      >
+        {isMultifactorEnabled ? (
+          <p>
+            You’ve added an extra layer of security to your account with
+            2-factor authentication.
+          </p>
+        ) : (
+          <>
+            <p>
+              Add an extra layer of protection called multifactor authentication
+              (or 2-factor authentication). This helps to make sure only you can
+              access your account—even if someone gets your password.
+            </p>
+            <va-button
+              onClick={mfaHandler}
+              text={`Sign in again through ${label} to get started`}
+            />
+          </>
+        )}
+      </va-process-list-item>
+    </va-process-list>
   );
 };
 
@@ -66,7 +68,6 @@ AccountSetupList.propTypes = {
 };
 
 export const AccountSecurityTables = ({
-  signInServiceName,
   isIdentityVerified,
   isMultifactorEnabled,
 }) => {
@@ -80,12 +81,11 @@ export const AccountSecurityTables = ({
   );
   return (
     <>
-      {/* legacy toble view for email address table */}
       <ProfileInfoCard
-        title="Sign in information"
+        title="Sign-in information"
         level={2}
         data={
-          <EmailAddressNotification signInServiceName={signInServiceName} />
+          <SignInServiceUpdateLink isIdentityVerified={isIdentityVerified} />
         }
         className="vads-u-margin-bottom--2"
       />
@@ -98,5 +98,4 @@ export const AccountSecurityTables = ({
 AccountSecurityTables.propTypes = {
   isIdentityVerified: PropTypes.bool.isRequired,
   isMultifactorEnabled: PropTypes.bool.isRequired,
-  signInServiceName: PropTypes.string.isRequired,
 };

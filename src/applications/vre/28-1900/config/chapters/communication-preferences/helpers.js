@@ -21,24 +21,14 @@ export const VreCommunicationInformation = (
       </li>
     </ul>
     <p>
-      Please let us know which options work best for you and we’ll call or email
-      you with more details.
-    </p>
-  </section>
-);
-
-export const AppointmentPreferencesInformation = (
-  <section>
-    <p id="appointment-time-desc">
-      Please tell us the time you prefer to meet with your counselor. We’ll make
-      every effort to assign a counselor who is available to meet during your
-      preferred hours.
+      Let us know which options work best for you and we’ll call or email you
+      with more details.
     </p>
   </section>
 );
 
 export const validateAtLeastOneSelected = (errors, fieldData) => {
   if (!Object.values(fieldData).some(val => val === true)) {
-    errors.addError('Please select at least one option');
+    errors.addError('Select at least one option');
   }
 };

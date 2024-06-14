@@ -21,9 +21,9 @@ function LocationDirectionsLink({ location, from }) {
         }&daddr=${address}`}
         rel="noopener noreferrer"
       >
-        {from === 'FacilityDetail' && <i className="fa fa-road" />}
-        Get directions on Google Maps
-        <span className="sr-only">to {location.attributes.name}</span>
+        {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
+        Get directions on Google Maps{' '}
+        <span className="sr-only">{`to ${location.attributes.name}`}</span>
       </a>
     </div>
   );

@@ -1,0 +1,16 @@
+{
+  "signatureEnabled": {
+    "signature": {
+      "signatureName": "Name",
+      "includeSignature": true,
+      "signatureTitle": "Title"
+    }
+  },
+  "signatureDisabled": {
+    "signature": {
+      "signatureName": "Name",
+      "includeSignature": false,
+      "signatureTitle": "Title"
+    }
+  }
+}

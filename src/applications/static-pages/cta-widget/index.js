@@ -2,22 +2,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { fetchMHVAccount } from 'platform/user/profile/actions';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
+import recordEvent from '~/platform/monitoring/record-event';
+import { fetchMHVAccount } from '~/platform/user/profile/actions';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import {
   logout as IAMLogout,
   mfa,
-} from 'platform/user/authentication/utilities';
-import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+} from '~/platform/user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -75,8 +75,11 @@ export class CallToActionWidget extends Component {
     this._requiredServices = ctaWidget?.requiredServices;
     this._serviceDescription = ctaWidget?.serviceDescription;
     this._mhvToolName = ctaWidget?.mhvToolName;
+    this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
+    this._featureToggle = ctaWidget?.featureToggle;
+    this._headerLevel = ctaWidget?.headerLevel || props.headerLevel;
   }
 
   componentDidMount() {
@@ -133,13 +136,27 @@ export class CallToActionWidget extends Component {
     */
   }
 
+  updateReturnUrl = () => {
+    const { url, redirect } = this._toolDetails;
+    if (url?.length > 0 && url?.startsWith('/') && redirect) {
+      // fix the internal link
+      sessionStorage.setItem(
+        'authReturnUrl',
+        `${window.location.origin}${url}`,
+      );
+    } else {
+      sessionStorage.removeItem('authReturnUrl');
+    }
+  };
+
   getContent = () => {
     if (!this.props.isLoggedIn) {
+      this.updateReturnUrl();
       if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={this.openLoginModal}
-            headerLevel={this.props.headerLevel}
+            headerLevel={this._headerLevel}
             ariaLabel={this.props.ariaLabel}
             ariaDescribedby={this.props.ariaDescribedby}
           />
@@ -149,7 +166,7 @@ export class CallToActionWidget extends Component {
         <SignIn
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
-          headerLevel={this.props.headerLevel}
+          headerLevel={this._headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
         />
@@ -166,6 +183,7 @@ export class CallToActionWidget extends Component {
         <Verify
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.verifyHandler}
+          headerLevel={this._headerLevel}
         />
       );
     }
@@ -175,13 +193,7 @@ export class CallToActionWidget extends Component {
         return this.getMviErrorContent();
       }
 
-      return (
-        <VAOnlineScheduling
-          isCommunityCareEnabled={
-            this.props.featureToggles.vaOnlineSchedulingCommunityCare
-          }
-        />
-      );
+      return <VAOnlineScheduling featureToggles={this.props.featureToggles} />;
     }
 
     if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
@@ -312,6 +324,7 @@ export class CallToActionWidget extends Component {
           <Verify
             serviceDescription={this._serviceDescription}
             primaryButtonHandler={this.verifyHandler}
+            headerLevel={this._headerLevel}
           />
         );
 
@@ -481,6 +494,11 @@ export class CallToActionWidget extends Component {
     // Derive the CTA widget.
     const ctaWidget = ctaWidgetsLookup?.[appId];
 
+    // Render nothing if feature toggle is off.
+    if (!!this._featureToggle && !featureToggles[this._featureToggle]) {
+      return null;
+    }
+
     // Derive the CTA URL.
     const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;
     this._toolUrl = url;
@@ -494,19 +512,20 @@ export class CallToActionWidget extends Component {
 
     // Derive anchor tag properties.
     const isInternalLink = this._toolUrl.startsWith('/');
-    const buttonClass = isInternalLink
-      ? classNames('usa-button-primary', 'va-button-primary')
-      : '';
     const target = isInternalLink ? '_self' : '_blank';
-    const buttonText = [
+    const linkText = [
       this._serviceDescription[0].toUpperCase(),
       this._serviceDescription.slice(1),
     ].join('');
 
     // Show the CTA link.
     return (
-      <a className={buttonClass} href={this._toolUrl} target={target}>
-        {buttonText}
+      <a
+        className="vads-c-action-link--green"
+        href={this._toolUrl}
+        target={target}
+      >
+        {linkText}
       </a>
     );
   }

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const NotInMPIError = ({ className }) => {
   return (
-    <div className={className}>
-      <va-alert status="warning">
+    <div className={className} data-testid="not-in-mpi">
+      <va-alert status="warning" uswds>
         <h2 slot="headline">
           We can’t match your information with our Veteran records
         </h2>

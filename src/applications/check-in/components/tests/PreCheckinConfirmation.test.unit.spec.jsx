@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import {
   singleAppointment,
@@ -18,9 +20,24 @@ describe('pre-check-in', () => {
   const mockstore = {
     app: 'preCheckIn',
   };
+  const featureStore = {
+    app: 'preCheckIn',
+    features: {
+      // eslint-disable-next-line camelcase
+      check_in_experience_45_minute_reminder: true,
+    },
+  };
+
   const mockRouter = {
     currentPage: '/health-care/appointment-pre-check-in',
   };
+
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
 
   describe('Confirmation page', () => {
     describe('appointment without friendly name', () => {
@@ -58,6 +75,25 @@ describe('pre-check-in', () => {
         screen.getAllByTestId('in-person-msg-confirmation').forEach(message => {
           expect(message).to.have.text(
             'Please bring your insurance cards with you to your appointment.',
+          );
+        });
+      });
+
+      it('renders page with new help text', () => {
+        const screen = render(
+          <CheckInProvider store={featureStore} router={mockRouter}>
+            <PreCheckinConfirmation
+              appointments={appointments}
+              formData={formData}
+              isLoading={false}
+              router={mockRouter}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('confirmation-wrapper')).to.exist;
+        screen.getAllByTestId('in-person-msg-confirmation').forEach(message => {
+          expect(message).to.have.text(
+            'Remember to bring your insurance cards with you. On the day of the appointment, we’ll send you a text when it’s time to check in.',
           );
         });
       });

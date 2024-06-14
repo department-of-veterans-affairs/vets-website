@@ -9,7 +9,7 @@ import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
   isValidSSN,
   isValidYear,
-  isValidPartialDate,
+  isValidVAFileNumber,
   isValidCurrentOrPastDate,
   isValidCurrentOrPastYear,
   isValidCurrentOrFutureDate,
@@ -18,6 +18,8 @@ import {
   isValidRoutingNumber,
   isValidPartialMonthYear,
   isValidPartialMonthYearInPast,
+  isValidDate,
+  isValidPartialDate,
 } from './utilities/validations';
 
 /*
@@ -28,16 +30,16 @@ import {
  * Override the default messages for these json schema error types
  */
 const defaultMessages = {
-  required: 'Please provide a response',
-  enum: 'Please select a valid option',
+  required: 'You must provide a response',
+  enum: 'You must select a valid option',
   maxLength: max => `This field should be less than ${max} characters`,
   minLength: min => `This field should be at least ${min} character(s)`,
   format: type => {
     if (type === 'email') {
-      return 'Please enter a valid email address';
+      return 'You must enter a valid email address';
     }
 
-    return 'Please enter a valid value';
+    return 'You must enter a valid value';
   },
 };
 
@@ -345,6 +347,12 @@ export function validateSSN(errors, ssn) {
   }
 }
 
+export function validateVAFileNumber(errors, vaFileNumber) {
+  if (vaFileNumber && !isValidVAFileNumber(vaFileNumber)) {
+    errors.addError('VA file number must be 8 or 9 digits (dashes allowed)');
+  }
+}
+
 export function validateDate(
   errors,
   dateString,
@@ -362,6 +370,8 @@ export function validateDate(
       `Please enter a year between ${customMinYear} and ${customMaxYear}`,
     );
   } else if (!isValidPartialDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
+  } else if (day && month && year && !isValidDate(day, month, year)) {
     errors.addError('Please provide a valid date');
   }
 }
@@ -536,7 +546,7 @@ export function validateDateRange(
   formData,
   schema,
   errorMessages,
-  allowSameMonth = false,
+  allowSameMonth = false, // This is actually only allowing the same date
 ) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);
@@ -559,18 +569,24 @@ export function validateDateRangeAllowSameMonth(
   validateDateRange(errors, dateRange, formData, schema, errorMessages, true);
 }
 
+export const UPLOADING_FILE = 'Uploading file...';
+export const NOT_UPLOADED = 'We couldn’t upload your file';
+export const MISSING_PASSWORD_ERROR = 'Missing password';
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;
   }
   if (file.uploading) {
-    return 'Uploading file...';
+    return UPLOADING_FILE;
   }
-  if (file.isEncrypted && !file.password) {
-    return null; // still awaiting password entry
+  // Awaiting password entry, but we need to set an error so that using the form
+  // continue button blocks progression through the form; look in FileField code
+  // to see that we prevent error message rendering for this particular error
+  if (file.isEncrypted && !file.confirmationCode && !file.password) {
+    return MISSING_PASSWORD_ERROR;
   }
   if (!file.confirmationCode) {
-    return 'We couldn’t upload your file';
+    return NOT_UPLOADED;
   }
 
   return null;

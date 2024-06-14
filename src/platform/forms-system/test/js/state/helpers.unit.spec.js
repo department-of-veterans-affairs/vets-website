@@ -461,9 +461,18 @@ describe('Schemaform formState:', () => {
       expect(newData[0]).to.eql({ field: 'test' });
     });
   });
+
   describe('updateUiSchema', () => {
     describe('if no updateUiSchema are set', () => {
       it('should return the input uiSchema', () => {
+        const schema = {
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string',
+            },
+          },
+        };
         const data = {
           first: 'Pat',
         };
@@ -472,14 +481,171 @@ describe('Schemaform formState:', () => {
             'ui:title': 'First Name',
           },
         };
-        const newUiSchema = updateUiSchema(uiSchema, data);
-        expect(newUiSchema).to.deep.equal(uiSchema);
+        const newUiSchema = updateUiSchema(schema, uiSchema, data);
+        expect(newUiSchema).to.equal(uiSchema); // same object
       });
     });
+
+    describe('if using updateUiSchema for a object of fields', () => {
+      it('should be able to be used for multiple fields with deep replace', () => {
+        const schema = {
+          type: 'object',
+          properties: {
+            fullName: {
+              type: 'object',
+              properties: {
+                first: {
+                  type: 'string',
+                },
+                last: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        };
+        const formData = {
+          fullName: {
+            first: 'Pat',
+            last: 'Smith',
+          },
+        };
+        const updateUiSchemaFn = () => {
+          return {
+            first: {
+              'ui:title': `Updated First Name`,
+              'ui:options': {
+                charcount: 20,
+              },
+            },
+          };
+        };
+        const uiSchema = {
+          fullName: {
+            first: {
+              'ui:title': 'First Name',
+              'ui:options': {
+                hint: 'This is a hint',
+                charcount: 30,
+              },
+            },
+            last: {
+              'ui:title': 'Last Name',
+            },
+            'ui:options': {
+              updateUiSchema: updateUiSchemaFn,
+            },
+          },
+        };
+        const expectedUpdatedUiSchema = {
+          fullName: {
+            first: {
+              'ui:title': `Updated First Name`,
+              'ui:options': {
+                hint: 'This is a hint',
+                charcount: 20,
+              },
+            },
+            last: {
+              'ui:title': 'Last Name',
+            },
+            'ui:options': {
+              updateUiSchema: updateUiSchemaFn,
+            },
+          },
+        };
+        const newUiSchema = updateUiSchema(schema, uiSchema, formData);
+        expect(newUiSchema).to.deep.equal(expectedUpdatedUiSchema); // new object
+
+        const expectedUiSchema = newUiSchema;
+        const sameUiSchema = updateUiSchema(schema, newUiSchema, formData);
+        expect(sameUiSchema).to.equal(expectedUiSchema); // same object
+      });
+    });
+
+    describe('if using updateUiSchema for an individual field', () => {
+      it('should be able to replace given properties', () => {
+        const schema = {
+          type: 'object',
+          properties: {
+            fullName: {
+              type: 'object',
+              properties: {
+                first: {
+                  type: 'string',
+                },
+                last: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        };
+        const formData = {
+          fullName: {
+            first: 'Pat',
+            last: 'Smith',
+          },
+        };
+        const updateUiSchemaFn = () => {
+          return {
+            'ui:title': `Updated First Name`,
+            'ui:options': {
+              charcount: 20,
+            },
+          };
+        };
+        const uiSchema = {
+          fullName: {
+            first: {
+              'ui:title': 'First Name',
+              'ui:options': {
+                hint: 'This is a hint',
+                charcount: 30,
+                updateUiSchema: updateUiSchemaFn,
+              },
+            },
+            last: {
+              'ui:title': 'Last Name',
+            },
+          },
+        };
+        const expectedUpdatedUiSchema = {
+          fullName: {
+            first: {
+              'ui:title': `Updated First Name`,
+              'ui:options': {
+                hint: 'This is a hint',
+                charcount: 20,
+                updateUiSchema: updateUiSchemaFn,
+              },
+            },
+            last: {
+              'ui:title': 'Last Name',
+            },
+          },
+        };
+        const newUiSchema = updateUiSchema(schema, uiSchema, formData);
+        expect(newUiSchema).to.deep.equal(expectedUpdatedUiSchema); // new object
+
+        const expectedUiSchema = newUiSchema;
+        const sameUiSchema = updateUiSchema(schema, newUiSchema, formData);
+        expect(sameUiSchema).to.equal(expectedUiSchema); // same object
+      });
+    });
+
     describe('if a ui:options.updateUiSchema is set', () => {
       const updateUiSchemaStub = sinon
         .stub()
         .callsFake(() => ({ 'ui:title': 'FIRST NAME' }));
+      const schema = {
+        type: 'object',
+        properties: {
+          first: {
+            type: 'string',
+          },
+        },
+      };
       const data = {
         first: 'Pat',
       };
@@ -493,7 +659,7 @@ describe('Schemaform formState:', () => {
       };
       let newUiSchema;
       beforeEach(() => {
-        newUiSchema = updateUiSchema(uiSchema, data);
+        newUiSchema = updateUiSchema(schema, uiSchema, data);
       });
       it('should call the updateUiSchema function', () => {
         expect(updateUiSchemaStub.called).to.be.true;

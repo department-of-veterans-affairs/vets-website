@@ -6,6 +6,8 @@ const {
 } = require('../shared/get');
 
 const phoneApptUUID = '258d753c-262a-4ab2-b618-64b645884daf';
+const cvtApptUUID = 'f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b';
+const vvcApptUUID = 'cc8bd49c-5ac8-4ad2-880a-b96645cdea64';
 
 const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 
@@ -114,6 +116,12 @@ const createMockSuccessResponse = (
   ) {
     apptKind = 'phone';
     location = '';
+  }
+  if (token === cvtApptUUID) {
+    apptKind = 'cvt';
+  }
+  if (token === vvcApptUUID) {
+    apptKind = 'vvc';
   }
   if (token === noFacilityAddressUUID) {
     facilityAddress = {};

@@ -9,6 +9,10 @@ import {
 describe('makeSchemaForNewDisabilities', () => {
   it('should return schema with downcased keynames', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
       newDisabilities: [
         {
           condition: 'Ptsd personal trauma',
@@ -27,6 +31,10 @@ describe('makeSchemaForNewDisabilities', () => {
 
   it('should return correct schema when periods used', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': false,
+        'view:claimingNew': true,
+      },
       newDisabilities: [
         {
           condition: 'period. Period.',
@@ -47,6 +55,10 @@ describe('makeSchemaForNewDisabilities', () => {
 describe('makeSchemaForRatedDisabilities', () => {
   it('should return schema for selected disabilities only', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': false,
+      },
       ratedDisabilities: [
         {
           name: 'Ptsd personal trauma',
@@ -72,6 +84,10 @@ describe('makeSchemaForRatedDisabilities', () => {
 describe('makeSchemaForAllDisabilities', () => {
   it('should return schema for all (selected) disabilities', () => {
     const formData = {
+      'view:claimType': {
+        'view:claimingIncrease': true,
+        'view:claimingNew': true,
+      },
       ratedDisabilities: [
         {
           name: 'Ptsd personal trauma',

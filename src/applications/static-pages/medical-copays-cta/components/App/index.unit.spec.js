@@ -39,7 +39,7 @@ describe('Medical Copays CTA <App>', () => {
     expect(wrapper.text()).includes('Download your copay statements');
     expect(wrapper.text()).includes('Find the right repayment option for you');
     expect(wrapper.find('a.vads-c-action-link--blue')).to.have.lengthOf(0);
-    expect(wrapper.find('button.va-button-primary')).to.have.lengthOf(1);
+    expect(wrapper.find('va-button')).to.have.lengthOf(1);
     wrapper.unmount();
   });
 
@@ -60,7 +60,7 @@ describe('Medical Copays CTA <App>', () => {
     expect(wrapper.text()).includes('Download your copay statements');
     expect(wrapper.text()).includes('Find the right repayment option for you');
     expect(wrapper.find('a.vads-c-action-link--blue')).to.have.lengthOf(1);
-    expect(wrapper.find('button.va-button-primary')).to.have.lengthOf(0);
+    expect(wrapper.find('va-button')).to.have.lengthOf(0);
     wrapper.unmount();
   });
 });

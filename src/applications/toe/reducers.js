@@ -32,14 +32,27 @@ const handleDirectDepositApi = action => {
     return {};
   }
 
+  const accountNumber = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.accountNumber
+    : action?.response?.data?.attributes?.accountNumber;
+  const originalRoutingNumber = action?.response?.data?.attributes
+    ?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+  const routingNumber = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+
+  const accountType = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.accountType
+    : action?.response?.data?.attributes?.accountType;
+
   return {
-    ...action?.response?.data?.attributes,
-    [formFields.originalAccountNumber]:
-      action?.response?.data?.attributes?.accountNumber,
-    [formFields.originalRoutingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    [formFields.routingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.originalAccountNumber]: accountNumber,
+    [formFields.originalRoutingNumber]: originalRoutingNumber,
+    [formFields.accountNumber]: accountNumber,
+    [formFields.routingNumber]: routingNumber,
+    [formFields.accountType]: accountType?.toLowerCase(),
   };
 };
 
@@ -53,9 +66,31 @@ export default {
           personalInfoFetchInProgress: true,
         };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
+        return {
+          ...state,
+          isPersonalInfoFetchFailed: false, // Set to false since the fetch was successful
+          personalInfoFetchComplete: true,
+          personalInfoFetchInProgress: false,
+          fetchedSponsorsComplete: true,
+          formData: action?.response || {},
+          sponsors: {
+            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
+              sponsor => {
+                return {
+                  ...sponsor,
+                  id: `${sponsor?.sponsorVaId}`,
+                  name: [sponsor.firstName, sponsor.lastName].join(' '),
+                  relationship: sponsor.sponsorRelationship,
+                };
+              },
+            ),
+            someoneNotListed: false,
+          },
+        };
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          isPersonalInfoFetchFailed: true,
           personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},

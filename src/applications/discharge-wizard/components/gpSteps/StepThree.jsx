@@ -6,7 +6,7 @@ import moment from 'moment';
 // Relative imports
 import { board, branchOfService, venueAddress } from '../../helpers';
 
-const StepThree = ({ formValues, handlePrint }) => {
+const StepThree = ({ formValues }) => {
   const reasonCode = formValues['4_reason'];
   const noPrevApp = formValues['8_prevApplication'] === '2';
   const prevAppType = formValues['10_prevApplicationType'];
@@ -75,12 +75,23 @@ const StepThree = ({ formValues, handlePrint }) => {
     boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(
       formValues['1_branchOfService'],
     )}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
-  } else if (boardToSubmit.abbr === 'DRB') {
-    boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(
+  } else if (boardToSubmit.abbr === 'DRB' || boardToSubmit.abbr === 'AFDRB') {
+    const boardName =
+      boardToSubmit.abbr === 'DRB'
+        ? 'Discharge Review Board (DRB)'
+        : 'Air Force Review Boards Agency (AFDRB)';
+
+    boardExplanation = `the ${boardName} for the ${branchOfService(
       formValues['1_branchOfService'],
-    )}. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
+    )}. The ${
+      boardToSubmit.abbr
+    } is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the ${
+      boardToSubmit.abbr
+    } is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
       prevAppType === '1'
-        ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.'
+        ? `Because your application was rejected by the ${
+            boardToSubmit.abbr
+          } on Documentary Review, you must apply for a Personal Appearance Review.`
         : ''
     }`;
   }
@@ -108,42 +119,42 @@ const StepThree = ({ formValues, handlePrint }) => {
     );
   }
 
+  const handlePrint = () => {
+    if (window.print) {
+      window.print();
+    }
+  };
+
   return (
-    <li className="list-group-item">
-      <div>
-        <h4>Mail your completed form and all supporting materials</h4>
+    <va-process-list-item header="Mail your completed form and all supporting materials">
+      <p>
+        There are a number of different boards that handle discharge upgrades
+        and corrections. Based on your answers on the previous page, you need to
+        apply to {boardExplanation}
+      </p>
+      {prevAppYear === '1' &&
+      ['BCNR', 'BCMR'].includes(board(formValues).abbr) ? (
         <p>
-          There are a number of different boards that handle discharge upgrades
-          and corrections. Based on your answers on the previous page, you need
-          to apply to {boardExplanation}
+          Your last application was made before the release of DoD guidance
+          related to discharges like yours. As a result, the Board may treat
+          your application as a new case. If possible, review the new policies
+          and state in your application how the change in policy is relevant to
+          your case.
         </p>
-        {prevAppYear === '1' &&
-        ['BCNR', 'BCMR'].includes(board(formValues).abbr) ? (
-          <p>
-            Your last application was made before the release of DoD guidance
-            related to discharges like yours. As a result, the Board may treat
-            your application as a new case. If possible, review the new policies
-            and state in your application how the change in policy is relevant
-            to your case.
-          </p>
-        ) : null}
-        <p>
-          Mail your completed form and all supporting documents to the{' '}
-          {boardToSubmit.abbr} at:
-        </p>
-        {venueAddress(formValues)}
-        {onlineSubmissionMsg}
-        <a href="#" onClick={handlePrint}>
-          Print this page
-        </a>
-      </div>
-    </li>
+      ) : null}
+      <p>
+        Mail your completed form and all supporting documents to the{' '}
+        {boardToSubmit.abbr} at:
+      </p>
+      {venueAddress(formValues)}
+      {onlineSubmissionMsg}
+      <va-button onClick={handlePrint} text="Print this page" />
+    </va-process-list-item>
   );
 };
 
 StepThree.propTypes = {
   formValues: PropTypes.object.isRequired,
-  handlePrint: PropTypes.func.isRequired,
 };
 
 export default StepThree;

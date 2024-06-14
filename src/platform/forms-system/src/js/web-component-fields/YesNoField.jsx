@@ -2,13 +2,28 @@ import React from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaRadioFieldMapping from './vaRadioFieldMapping';
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Use yes no pattern instead.
+ *
+ * Examples:
+ * ```
+ * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
+ * hasHealthInsurance: yesNoUI({
+ *    title: 'Do you have health insurance coverage?'
+ *    labels: {
+ *      Y: 'Yes, I have health insurance',
+ *      N: 'No, I do not have health insurance',
+ *    },
+ * })
+ * ```
+ * @param {WebComponentFieldProps} props
+ */
 export default function YesNoField(props) {
   const mappedProps = vaRadioFieldMapping(props);
 
-  const labels = mappedProps.uiOptions?.labels || {};
+  const labels = props.uiOptions?.labels || {};
 
-  const yesNoReverse = mappedProps.uiOptions?.yesNoReverse || false;
+  const yesNoReverse = props.uiOptions?.yesNoReverse || false;
 
   const values = {
     Y: !yesNoReverse,

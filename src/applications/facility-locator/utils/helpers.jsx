@@ -164,8 +164,10 @@ export const validateIdString = (urlObj, urlPrefixString) => {
  */
 export const formatOperatingHours = operatingHours => {
   if (!operatingHours) return operatingHours;
-  // Remove all whitespace.
-  const sanitizedOperatingHours = operatingHours.replace(/ /g, '');
+  // Remove all whitespace and sanitize dashes.
+  const sanitizedOperatingHours = operatingHours
+    .replace(/ /g, '')
+    .replace(/[–—]/g, '-'); // Replace en and em dashes with hyphens.
 
   if (sanitizedOperatingHours.search(/AM-PM/i) === 0) {
     return operatingHours;

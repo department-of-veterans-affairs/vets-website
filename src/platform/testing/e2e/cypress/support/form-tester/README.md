@@ -1,5 +1,5 @@
 ----
-# We're moving our docs! 
+# We're moving our docs!
 ### Find [the latest version of this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/Cypress-Form-Tester.1870331957.html) on the Platform website.
 ### Still can't find what you're looking for? Reach out to [#vfs-platform-support](https://dsva.slack.com/archives/CBU0KDSB1) on Slack.
 
@@ -64,9 +64,9 @@ The test config has settings or properties that are summarized by this typedef:
     test data. For example, if the test data looks like
     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
 
-@property {string} dataDir - Path to test data directory.
+@property {string|null} dataDir - Path to test data directory. Use null if dataSets are being passed as objects.
 
-@property {string[]} dataSets - Test data file paths relative to dataDir.
+@property {string[]|{ title: string; data: Object}[]} dataSets - Test data file paths relative to dataDir for string. Test title and data object data sets for objects.
     A test is generated for each data set and uses that data to fill out fields.
 
 @property {Object.<function>} [pageHooks] - Functions (hooks) that override
@@ -254,6 +254,9 @@ pageHooks: {
   // http://localhost:3001/some-form-app-url/some/path
   'some/path': () => { ... },
 
+  // http://localhost:3001/some-form-app-url/array/1
+  'array/:index': () => { ... },
+
   // http://localhost:3001/some-form-app-url/path
   '/some-form-app-url/path': () => { ... },
 
@@ -262,11 +265,13 @@ pageHooks: {
 },
 ```
 
-The functions **all have access to a context object as a first argument**, which currently provides two things:
+The functions **all have access to a context object as a first argument**, which currently provides three things:
 
 1. `pathname`: a convenient reference to the full pathname that got matched for this page hook.
 
-2. `afterHook`: a helper function that takes a function and uses it to **override the usual end-of-page behavior**.
+2. `index`: index of the page from the array data. This value is obtained from the pathname, e.g. `array-page/1` would set the index to `1`.
+
+3. `afterHook`: a helper function that takes a function and uses it to **override the usual end-of-page behavior**.
 
    Typically, the standard flow for processing a page follows these steps:
 
@@ -298,7 +303,7 @@ The functions **all have access to a context object as a first argument**, which
       });
     },
 
-    'some-other-page': ({ afterHook, pathname }) => {
+    'some-other-page': ({ afterHook, pathname, index }) => {
       // Do whatever you need to in the "main body" of the hook,
       // which replaces the default autofilling behavior.
       cy.log(`Look, I'm on ${pathname}!`);
@@ -536,7 +541,7 @@ const testConfig = createTestConfig(
       // '/some-form-app-url/introduction'. Either format can be used.
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.get('va-button[text*="start"]')
             .first()
             .click();
         });

@@ -11,9 +11,12 @@ export default function FacilityAddress({
   facility,
   showDirectionsLink,
   clinicName,
+  clinicPhysicalLocation,
   showPhone = true,
   level = 4,
   showCovidPhone,
+  isPhone,
+  phoneHeading,
 }) {
   const address = facility?.address;
   const phone =
@@ -51,7 +54,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      <div className={extraInfoClasses}>
+      <div className={extraInfoClasses} data-dd-privacy="mask">
         {!!clinicName && (
           <>
             <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
@@ -60,11 +63,25 @@ export default function FacilityAddress({
             {clinicName}
           </>
         )}
+        {!!clinicPhysicalLocation &&
+          !isPhone && (
+            <>
+              <br />
+              <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+                Location:
+              </HeadingSub>{' '}
+              {clinicPhysicalLocation}
+            </>
+          )}
         {showPhone &&
           !!phone && (
             <>
               {!!clinicName && <br />}
-              <FacilityPhone contact={phone} level={level + 1} />
+              <FacilityPhone
+                contact={phone}
+                level={level + 1}
+                heading={phoneHeading}
+              />
             </>
           )}
       </div>
@@ -75,8 +92,11 @@ export default function FacilityAddress({
 FacilityAddress.propTypes = {
   facility: PropTypes.object.isRequired,
   clinicName: PropTypes.string,
+  clinicPhysicalLocation: PropTypes.string,
+  isPhone: PropTypes.bool,
   level: PropTypes.number,
   name: PropTypes.string,
+  phoneHeading: PropTypes.string,
   showCovidPhone: PropTypes.bool,
   showDirectionsLink: PropTypes.bool,
   showPhone: PropTypes.bool,

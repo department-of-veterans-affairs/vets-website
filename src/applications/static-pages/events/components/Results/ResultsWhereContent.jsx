@@ -2,20 +2,60 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { deriveEventLocations } from '../../helpers';
 
-const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
-  if (fieldType === 'online') return 'This is an online event.';
+const WhereContent = ({
+  event,
+  fieldLocation,
+  fieldType,
+  derivedLocations,
+}) => {
+  if (fieldType === 'online') {
+    return 'This is an online event.';
+  }
+
+  const locationAddress = derivedLocations?.length
+    ? derivedLocations.join(' ')
+    : '';
+
   return (
     <>
-      <a href={fieldLocation?.entity?.entityUrl.path}>
-        {fieldLocation?.entity?.title}
-      </a>
+      <va-link
+        data-testid="event-fieldLocationTitle"
+        href={fieldLocation?.entity?.entityUrl.path}
+        text={fieldLocation?.entity?.title}
+      />
+      {event?.fieldLocationHumanreadable && (
+        <p
+          className="vads-u-margin--0"
+          data-testid="event-fieldLocationHumanReadable"
+          key={event?.fieldLocationHumanreadable}
+        >
+          {event?.fieldLocationHumanreadable}
+        </p>
+      )}
       {derivedLocations?.length > 0 && (
         <div>
           {derivedLocations?.map(location => (
-            <p className="vads-u-margin--0" key={location}>
+            <p
+              className="vads-u-margin--0"
+              data-testid="event-location"
+              key={location}
+            >
               {location}
             </p>
           ))}
+          <a
+            href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Get directions on Google Maps{' '}
+            <span
+              className="sr-only"
+              data-testid="event-sr-fieldLocationHumanReadable"
+            >
+              to {event?.fieldLocationHumanreadable}
+            </span>
+          </a>
         </div>
       )}
     </>
@@ -26,6 +66,7 @@ export const ResultsWhereContent = ({ event }) => {
   const fieldFacilityLocation = event?.fieldFacilityLocation;
   const fieldLocationType = event?.fieldLocationType;
   const locations = deriveEventLocations(event);
+
   if (
     fieldFacilityLocation === null &&
     fieldLocationType !== 'online' &&
@@ -39,13 +80,14 @@ export const ResultsWhereContent = ({ event }) => {
         <strong>Where:</strong>
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <p className="vads-u-margin--0">
+        <div className="vads-u-margin--0" data-testid="events-where-content">
           <WhereContent
+            event={event}
             fieldLocation={fieldFacilityLocation}
             fieldType={fieldLocationType}
             derivedLocations={locations}
           />
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -56,9 +98,10 @@ ResultsWhereContent.propTypes = {
 };
 
 WhereContent.propTypes = {
-  derivedLocations: PropTypes.object,
+  derivedLocations: PropTypes.array,
+  event: PropTypes.object,
   fieldLocation: PropTypes.object,
-  fieldType: PropTypes.object,
+  fieldType: PropTypes.string,
 };
 
 export default ResultsWhereContent;

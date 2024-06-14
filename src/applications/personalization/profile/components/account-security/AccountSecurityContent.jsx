@@ -1,29 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
   hasMPIConnectionError as hasMPIConnectionErrorSelector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
-import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
-import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { AccountSecurityTables } from './AccountSecurityTables';
-import { selectIsBlocked } from '../../selectors';
+import {
+  selectIsBlocked,
+  selectShowCredRetirementMessaging,
+} from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
-import { recordCustomProfileEvent } from '../../util';
+import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+
+const IdNotVerifiedContent = () => {
+  const signInService = useSelector(signInServiceName);
+  const showCredRetirementMessaging = useSelector(
+    selectShowCredRetirementMessaging,
+  );
+  return showCredRetirementMessaging ? (
+    <AccountSecurityLoa1CredAlert />
+  ) : (
+    <IdentityNotVerified signInService={signInService} />
+  );
+};
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
   isMultifactorEnabled,
   showMPIConnectionError,
   showNotInMPIError,
-  signInServiceName,
   isBlocked,
 }) => {
   return (
@@ -31,7 +46,7 @@ export const AccountSecurityContent = ({
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isIdentityVerified && <IdNotVerifiedContent />}
       {showMPIConnectionError && (
         <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
@@ -39,7 +54,6 @@ export const AccountSecurityContent = ({
         <NotInMPIError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}
       <AccountSecurityTables
-        signInServiceName={signInServiceName}
         isIdentityVerified={isIdentityVerified}
         isMultifactorEnabled={isMultifactorEnabled}
       />
@@ -54,7 +68,6 @@ AccountSecurityContent.propTypes = {
   showMPIConnectionError: PropTypes.bool.isRequired,
   showNotInMPIError: PropTypes.bool.isRequired,
   showWeHaveVerifiedYourID: PropTypes.bool.isRequired,
-  signInServiceName: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = state => {
@@ -74,7 +87,6 @@ export const mapStateToProps = state => {
     showMPIConnectionError,
     showNotInMPIError,
     showWeHaveVerifiedYourID,
-    signInServiceName: signInServiceNameSelector(state),
   };
 };
 

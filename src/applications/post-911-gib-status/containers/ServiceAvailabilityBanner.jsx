@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 import { getServiceAvailability } from '../actions/post-911-gib-status';
@@ -23,7 +24,7 @@ export class ServiceAvailabilityBanner extends React.Component {
       }
       case SERVICE_AVAILABILITY_STATES.pending: {
         content = (
-          <LoadingIndicator message="Please wait while we check if the tool is available." />
+          <va-loading-indicator message="Please wait while we check if the tool is available." />
         );
         break;
       }
@@ -43,12 +44,15 @@ export class ServiceAvailabilityBanner extends React.Component {
       case SERVICE_AVAILABILITY_STATES.down:
       default: {
         content = (
-          <AlertBox
-            headline="The Post-9/11 GI Bill Benefits tool is down for maintenance"
-            content="We’re sorry the tool isn’t available right now. The tool will be available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during that time."
-            isVisible
-            status="error"
-          />
+          <VaAlert visible status="error">
+            <h3 slot="headline">
+              The Post-9/11 GI Bill Benefits tool is down for maintenance
+            </h3>
+            We’re sorry the tool isn’t available right now. The tool will be
+            available again Sunday through Friday, 6:00 a.m. to 10:00 p.m. ET,
+            and Saturday 6:00 a.m. to 7:00 p.m. ET. Please check back during
+            that time.
+          </VaAlert>
         );
       }
     }

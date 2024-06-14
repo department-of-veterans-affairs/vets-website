@@ -1,0 +1,1482 @@
+[
+    {
+      "countryName": "Afghanistan",
+      "countryCodeISO2": "AF",
+      "countryCodeISO3": "AFG",
+      "countryCodeFIPS": "AF"
+    },
+    {
+      "countryName": "Aland Islands (autonomous area of Finland)",
+      "countryCodeISO2": "AX",
+      "countryCodeISO3": "ALA"
+    },
+    {
+      "countryName": "Albania",
+      "countryCodeISO2": "AL",
+      "countryCodeISO3": "ALB",
+      "countryCodeFIPS": "AL"
+    },
+    {
+      "countryName": "Algeria",
+      "countryCodeISO2": "DZ",
+      "countryCodeISO3": "DZA",
+      "countryCodeFIPS": "AG"
+    },
+    {
+      "countryName": "American Samoa",
+      "countryCodeISO2": "AS",
+      "countryCodeISO3": "ASM",
+      "countryCodeFIPS": "AQ"
+    },
+    {
+      "countryName": "Andorra",
+      "countryCodeISO2": "AD",
+      "countryCodeISO3": "AND",
+      "countryCodeFIPS": "AN"
+    },
+    {
+      "countryName": "Angola",
+      "countryCodeISO2": "AO",
+      "countryCodeISO3": "AGO",
+      "countryCodeFIPS": "AO"
+    },
+    {
+      "countryName": "Anguilla",
+      "countryCodeISO2": "AI",
+      "countryCodeISO3": "AIA",
+      "countryCodeFIPS": "AV"
+    },
+    {
+      "countryName": "Antarctica",
+      "countryCodeISO2": "AQ",
+      "countryCodeISO3": "ATA",
+      "countryCodeFIPS": "AY"
+    },
+    {
+      "countryName": "Antigua and Barbuda",
+      "countryCodeISO2": "AG",
+      "countryCodeISO3": "ATG",
+      "countryCodeFIPS": "AC"
+    },
+    {
+      "countryName": "Argentina",
+      "countryCodeISO2": "AR",
+      "countryCodeISO3": "ARG",
+      "countryCodeFIPS": "AR"
+    },
+    {
+      "countryName": "Armenia",
+      "countryCodeISO2": "AM",
+      "countryCodeISO3": "ARM",
+      "countryCodeFIPS": "AM"
+    },
+    {
+      "countryName": "Aruba",
+      "countryCodeISO2": "AW",
+      "countryCodeISO3": "ABW",
+      "countryCodeFIPS": "AA"
+    },
+    {
+      "countryName": "Australia",
+      "countryCodeISO2": "AU",
+      "countryCodeISO3": "AUS",
+      "countryCodeFIPS": "AS"
+    },
+    {
+      "countryName": "Austria",
+      "countryCodeISO2": "AT",
+      "countryCodeISO3": "AUT",
+      "countryCodeFIPS": "AU"
+    },
+    {
+      "countryName": "Azerbaijan",
+      "countryCodeISO2": "AZ",
+      "countryCodeISO3": "AZE",
+      "countryCodeFIPS": "AJ"
+    },
+    {
+      "countryName": "Bahamas",
+      "countryCodeISO2": "BS",
+      "countryCodeISO3": "BHS",
+      "countryCodeFIPS": "BF"
+    },
+    {
+      "countryName": "Bahrain",
+      "countryCodeISO2": "BH",
+      "countryCodeISO3": "BHR",
+      "countryCodeFIPS": "BA"
+    },
+    {
+      "countryName": "Bangladesh",
+      "countryCodeISO2": "BD",
+      "countryCodeISO3": "BGD",
+      "countryCodeFIPS": "BG"
+    },
+    {
+      "countryName": "Barbados",
+      "countryCodeISO2": "BB",
+      "countryCodeISO3": "BRB",
+      "countryCodeFIPS": "BB"
+    },
+    {
+      "countryName": "Belarus",
+      "countryCodeISO2": "BY",
+      "countryCodeISO3": "BLR",
+      "countryCodeFIPS": "BO"
+    },
+    {
+      "countryName": "Belgium",
+      "countryCodeISO2": "BE",
+      "countryCodeISO3": "BEL",
+      "countryCodeFIPS": "BE"
+    },
+    {
+      "countryName": "Belize",
+      "countryCodeISO2": "BZ",
+      "countryCodeISO3": "BLZ",
+      "countryCodeFIPS": "BH"
+    },
+    {
+      "countryName": "Benin",
+      "countryCodeISO2": "BJ",
+      "countryCodeISO3": "BEN",
+      "countryCodeFIPS": "BN"
+    },
+    {
+      "countryName": "Bermuda",
+      "countryCodeISO2": "BM",
+      "countryCodeISO3": "BMU",
+      "countryCodeFIPS": "BD"
+    },
+    {
+      "countryName": "Bhutan",
+      "countryCodeISO2": "BT",
+      "countryCodeISO3": "BTN",
+      "countryCodeFIPS": "BT"
+    },
+    {
+      "countryName": "Bolivia",
+      "countryCodeISO2": "BO",
+      "countryCodeISO3": "BOL",
+      "countryCodeFIPS": "BL"
+    },
+    {
+      "countryName": "Bosnia and Herzegovina",
+      "countryCodeISO2": "BA",
+      "countryCodeISO3": "BIH",
+      "countryCodeFIPS": "BK"
+    },
+    {
+      "countryName": "Botswana",
+      "countryCodeISO2": "BW",
+      "countryCodeISO3": "BWA",
+      "countryCodeFIPS": "BC"
+    },
+    {
+      "countryName": "Bouvet Island",
+      "countryCodeISO2": "BV",
+      "countryCodeISO3": "BVT"
+    },
+    {
+      "countryName": "Brazil",
+      "countryCodeISO2": "BR",
+      "countryCodeISO3": "BRA",
+      "countryCodeFIPS": "BR"
+    },
+    {
+      "countryName": "British Indian Ocean Territory",
+      "countryCodeISO2": "IO",
+      "countryCodeISO3": "IOT"
+    },
+    {
+      "countryName": "British Virgin Islands",
+      "countryCodeISO2": "VI",
+      "countryCodeISO3": "VGB",
+      "countryCodeFIPS": "VG"
+    },
+    {
+      "countryName": "Brunei Darussalam",
+      "countryCodeISO2": "BN",
+      "countryCodeISO3": "BRN",
+      "countryCodeFIPS": "BX"
+    },
+    {
+      "countryName": "Bulgaria",
+      "countryCodeISO2": "BG",
+      "countryCodeISO3": "BGR",
+      "countryCodeFIPS": "BU"
+    },
+    {
+      "countryName": "Burkina Faso",
+      "countryCodeISO2": "BF",
+      "countryCodeISO3": "BFA",
+      "countryCodeFIPS": "UV"
+    },
+    {
+      "countryName": "Burundi",
+      "countryCodeISO2": "BI",
+      "countryCodeISO3": "BDI",
+      "countryCodeFIPS": "BY"
+    },
+    {
+      "countryName": "Cambodia",
+      "countryCodeISO2": "KH",
+      "countryCodeISO3": "KHM",
+      "countryCodeFIPS": "CB"
+    },
+    {
+      "countryName": "Cameroon",
+      "countryCodeISO2": "CM",
+      "countryCodeISO3": "CMR",
+      "countryCodeFIPS": "CM"
+    },
+    {
+      "countryName": "Canada",
+      "countryCodeISO2": "CA",
+      "countryCodeISO3": "CAN",
+      "countryCodeFIPS": "CA"
+    },
+    {
+      "countryName": "Cape Verde",
+      "countryCodeISO2": "CV",
+      "countryCodeISO3": "CPV",
+      "countryCodeFIPS": "CV"
+    },
+    {
+      "countryName": "Cayman Islands",
+      "countryCodeISO2": "KY",
+      "countryCodeISO3": "CYM",
+      "countryCodeFIPS": "CJ"
+    },
+    {
+      "countryName": "Central African Republic",
+      "countryCodeISO2": "CF",
+      "countryCodeISO3": "CAF",
+      "countryCodeFIPS": "CT"
+    },
+    {
+      "countryName": "Chad",
+      "countryCodeISO2": "TD",
+      "countryCodeISO3": "TCD",
+      "countryCodeFIPS": "CD"
+    },
+    {
+      "countryName": "Chile",
+      "countryCodeISO2": "CL",
+      "countryCodeISO3": "CHL",
+      "countryCodeFIPS": "CI"
+    },
+    {
+      "countryName": "China",
+      "countryCodeISO2": "CN",
+      "countryCodeISO3": "CHN",
+      "countryCodeFIPS": "CH"
+    },
+    {
+      "countryName": "Christmas Island",
+      "countryCodeISO2": "CX",
+      "countryCodeISO3": "CXR",
+      "countryCodeFIPS": "KT"
+    },
+    {
+      "countryName": "Cocos (Keeling) Islands",
+      "countryCodeISO2": "CC",
+      "countryCodeISO3": "CCK",
+      "countryCodeFIPS": "CK"
+    },
+    {
+      "countryName": "Colombia",
+      "countryCodeISO2": "CO",
+      "countryCodeISO3": "COL",
+      "countryCodeFIPS": "CO"
+    },
+    {
+      "countryName": "Comoros",
+      "countryCodeISO2": "KM",
+      "countryCodeISO3": "COM",
+      "countryCodeFIPS": "CN"
+    },
+    {
+      "countryName": "Congo Dem. Rep of the",
+      "countryCodeISO2": "CD",
+      "countryCodeISO3": "COD",
+      "countryCodeFIPS": "CG"
+    },
+    {
+      "countryName": "Congo, Republic of",
+      "countryCodeISO2": "CG",
+      "countryCodeISO3": "COG",
+      "countryCodeFIPS": "CF"
+    },
+    {
+      "countryName": "Cook Islands",
+      "countryCodeISO2": "CK",
+      "countryCodeISO3": "COK",
+      "countryCodeFIPS": "CW"
+    },
+    {
+      "countryName": "Costa Rica",
+      "countryCodeISO2": "CR",
+      "countryCodeISO3": "CRI",
+      "countryCodeFIPS": "CS"
+    },
+    {
+      "countryName": "Cote D'Ivoire",
+      "countryCodeISO2": "CI",
+      "countryCodeISO3": "CIV",
+      "countryCodeFIPS": "IV"
+    },
+    {
+      "countryName": "Croatia\/Hrvatska",
+      "countryCodeISO2": "HR",
+      "countryCodeISO3": "HRV",
+      "countryCodeFIPS": "HR"
+    },
+    {
+      "countryName": "Cuba",
+      "countryCodeISO2": "CU",
+      "countryCodeISO3": "CUB",
+      "countryCodeFIPS": "CU"
+    },
+    {
+      "countryName": "Cyprus",
+      "countryCodeISO2": "CY",
+      "countryCodeISO3": "CYP",
+      "countryCodeFIPS": "CY"
+    },
+    {
+      "countryName": "Czech Republic",
+      "countryCodeISO2": "CZ",
+      "countryCodeISO3": "CZE",
+      "countryCodeFIPS": "EZ"
+    },
+    {
+      "countryName": "Denmark",
+      "countryCodeISO2": "DK",
+      "countryCodeISO3": "DNK",
+      "countryCodeFIPS": "DA"
+    },
+    {
+      "countryName": "Djibouti",
+      "countryCodeISO2": "DJ",
+      "countryCodeISO3": "DJI",
+      "countryCodeFIPS": "DJ"
+    },
+    {
+      "countryName": "Dominica",
+      "countryCodeISO2": "DM",
+      "countryCodeISO3": "DMA",
+      "countryCodeFIPS": "DO"
+    },
+    {
+      "countryName": "Dominican Republic",
+      "countryCodeISO2": "DO",
+      "countryCodeISO3": "DOM",
+      "countryCodeFIPS": "DR"
+    },
+    {
+      "countryName": "Ecuador",
+      "countryCodeISO2": "EC",
+      "countryCodeISO3": "ECU",
+      "countryCodeFIPS": "EC"
+    },
+    {
+      "countryName": "Egypt",
+      "countryCodeISO2": "EG",
+      "countryCodeISO3": "EGY",
+      "countryCodeFIPS": "EG"
+    },
+    {
+      "countryName": "El Salvador",
+      "countryCodeISO2": "SV",
+      "countryCodeISO3": "SLV",
+      "countryCodeFIPS": "ES"
+    },
+    {
+      "countryName": "Equatorial Guinea",
+      "countryCodeISO2": "GQ",
+      "countryCodeISO3": "GNQ",
+      "countryCodeFIPS": "EK"
+    },
+    {
+      "countryName": "Eritrea",
+      "countryCodeISO2": "ER",
+      "countryCodeISO3": "ERI",
+      "countryCodeFIPS": "ER"
+    },
+    {
+      "countryName": "Estonia",
+      "countryCodeISO2": "EE",
+      "countryCodeISO3": "EST",
+      "countryCodeFIPS": "EN"
+    },
+    {
+      "countryName": "Ethiopia",
+      "countryCodeISO2": "ET",
+      "countryCodeISO3": "ETH",
+      "countryCodeFIPS": "ET"
+    },
+    {
+      "countryName": "Falkland Islands (Malvinas)",
+      "countryCodeISO2": "FK",
+      "countryCodeISO3": "FLK",
+      "countryCodeFIPS": "FK"
+    },
+    {
+      "countryName": "Faroe Islands",
+      "countryCodeISO2": "FO",
+      "countryCodeISO3": "FRO",
+      "countryCodeFIPS": "FO"
+    },
+    {
+      "countryName": "Fiji",
+      "countryCodeISO2": "FJ",
+      "countryCodeISO3": "FJI",
+      "countryCodeFIPS": "FJ"
+    },
+    {
+      "countryName": "Finland",
+      "countryCodeISO2": "FI",
+      "countryCodeISO3": "FIN",
+      "countryCodeFIPS": "FI"
+    },
+    {
+      "countryName": "France",
+      "countryCodeISO2": "FR",
+      "countryCodeISO3": "FRA",
+      "countryCodeFIPS": "FR"
+    },
+    {
+      "countryName": "French Guiana",
+      "countryCodeISO2": "GF",
+      "countryCodeISO3": "GUF",
+      "countryCodeFIPS": "FG"
+    },
+    {
+      "countryName": "French Polynesia",
+      "countryCodeISO2": "PF",
+      "countryCodeISO3": "PYF",
+      "countryCodeFIPS": "FP"
+    },
+    {
+      "countryName": "French Southern Territories",
+      "countryCodeISO2": "TF",
+      "countryCodeISO3": "ATF",
+      "countryCodeFIPS": "FS"
+    },
+    {
+      "countryName": "Gabon",
+      "countryCodeISO2": "GA",
+      "countryCodeISO3": "GAB",
+      "countryCodeFIPS": "GB"
+    },
+    {
+      "countryName": "Gambia",
+      "countryCodeISO2": "GM",
+      "countryCodeISO3": "GMB",
+      "countryCodeFIPS": "GA"
+    },
+    {
+      "countryName": "Georgia",
+      "countryCodeISO2": "GE",
+      "countryCodeISO3": "GEO",
+      "countryCodeFIPS": "GG"
+    },
+    {
+      "countryName": "Germany",
+      "countryCodeISO2": "DE",
+      "countryCodeISO3": "DEU",
+      "countryCodeFIPS": "GM"
+    },
+    {
+      "countryName": "Ghana",
+      "countryCodeISO2": "GH",
+      "countryCodeISO3": "GHA",
+      "countryCodeFIPS": "GH"
+    },
+    {
+      "countryName": "Gibraltar",
+      "countryCodeISO2": "GI",
+      "countryCodeISO3": "GIB",
+      "countryCodeFIPS": "GI"
+    },
+    {
+      "countryName": "Greece",
+      "countryCodeISO2": "GR",
+      "countryCodeISO3": "GRC",
+      "countryCodeFIPS": "GR"
+    },
+    {
+      "countryName": "Greenland",
+      "countryCodeISO2": "GL",
+      "countryCodeISO3": "GRL",
+      "countryCodeFIPS": "GL"
+    },
+    {
+      "countryName": "Grenada",
+      "countryCodeISO2": "GD",
+      "countryCodeISO3": "GRD",
+      "countryCodeFIPS": "GJ"
+    },
+    {
+      "countryName": "Guadeloupe",
+      "countryCodeISO2": "GP",
+      "countryCodeISO3": "GLP",
+      "countryCodeFIPS": "GP"
+    },
+    {
+      "countryName": "Guam",
+      "countryCodeISO2": "GU",
+      "countryCodeISO3": "GUM",
+      "countryCodeFIPS": "GQ"
+    },
+    {
+      "countryName": "Guatemala",
+      "countryCodeISO2": "GT",
+      "countryCodeISO3": "GTM",
+      "countryCodeFIPS": "GT"
+    },
+    {
+      "countryName": "Guernsey",
+      "countryCodeISO2": "GG",
+      "countryCodeISO3": "GGY"
+    },
+    {
+      "countryName": "Guinea",
+      "countryCodeISO2": "GN",
+      "countryCodeISO3": "GIN",
+      "countryCodeFIPS": "GV"
+    },
+    {
+      "countryName": "Guinea-Bissau",
+      "countryCodeISO2": "GW",
+      "countryCodeISO3": "GNB",
+      "countryCodeFIPS": "PU"
+    },
+    {
+      "countryName": "Guyana",
+      "countryCodeISO2": "GY",
+      "countryCodeISO3": "GUY",
+      "countryCodeFIPS": "GY"
+    },
+    {
+      "countryName": "Haiti",
+      "countryCodeISO2": "HT",
+      "countryCodeISO3": "HTI",
+      "countryCodeFIPS": "HA"
+    },
+    {
+      "countryName": "Heard and Mcdonald Islands",
+      "countryCodeISO2": "HM",
+      "countryCodeISO3": "HMD"
+    },
+    {
+      "countryName": "Honduras",
+      "countryCodeISO2": "HN",
+      "countryCodeISO3": "HND",
+      "countryCodeFIPS": "HO"
+    },
+    {
+      "countryName": "Hong Kong",
+      "countryCodeISO2": "HK",
+      "countryCodeISO3": "HKG",
+      "countryCodeFIPS": "HK"
+    },
+    {
+      "countryName": "Hungary",
+      "countryCodeISO2": "HU",
+      "countryCodeISO3": "HUN",
+      "countryCodeFIPS": "HU"
+    },
+    {
+      "countryName": "Iceland",
+      "countryCodeISO2": "IS",
+      "countryCodeISO3": "ISL",
+      "countryCodeFIPS": "IC"
+    },
+    {
+      "countryName": "India",
+      "countryCodeISO2": "IN",
+      "countryCodeISO3": "IND",
+      "countryCodeFIPS": "IN"
+    },
+    {
+      "countryName": "Indonesia",
+      "countryCodeISO2": "ID",
+      "countryCodeISO3": "IDN",
+      "countryCodeFIPS": "ID"
+    },
+    {
+      "countryName": "Iran (Islamic Republic of)",
+      "countryCodeISO2": "IR",
+      "countryCodeISO3": "IRN",
+      "countryCodeFIPS": "IR"
+    },
+    {
+      "countryName": "Iraq",
+      "countryCodeISO2": "IQ",
+      "countryCodeISO3": "IRQ",
+      "countryCodeFIPS": "IZ"
+    },
+    {
+      "countryName": "Ireland",
+      "countryCodeISO2": "IE",
+      "countryCodeISO3": "IRL",
+      "countryCodeFIPS": "EI"
+    },
+    {
+      "countryName": "Isle of Man",
+      "countryCodeISO2": "IM",
+      "countryCodeISO3": "IMN"
+    },
+    {
+      "countryName": "Israel",
+      "countryCodeISO2": "IL",
+      "countryCodeISO3": "ISR",
+      "countryCodeFIPS": "IS"
+    },
+    {
+      "countryName": "Italy",
+      "countryCodeISO2": "IT",
+      "countryCodeISO3": "ITA",
+      "countryCodeFIPS": "IT"
+    },
+    {
+      "countryName": "Jamaica",
+      "countryCodeISO2": "JM",
+      "countryCodeISO3": "JAM",
+      "countryCodeFIPS": "JM"
+    },
+    {
+      "countryName": "Japan",
+      "countryCodeISO2": "JP",
+      "countryCodeISO3": "JPN",
+      "countryCodeFIPS": "JA"
+    },
+    {
+      "countryName": "Jersey",
+      "countryCodeISO2": "JE",
+      "countryCodeISO3": "JEY"
+    },
+    {
+      "countryName": "Jordan",
+      "countryCodeISO2": "JO",
+      "countryCodeISO3": "JOR",
+      "countryCodeFIPS": "JO"
+    },
+    {
+      "countryName": "Kazakhstan",
+      "countryCodeISO2": "KZ",
+      "countryCodeISO3": "KAZ",
+      "countryCodeFIPS": "KZ"
+    },
+    {
+      "countryName": "Kenya",
+      "countryCodeISO2": "KE",
+      "countryCodeISO3": "KEN",
+      "countryCodeFIPS": "KE"
+    },
+    {
+      "countryName": "Kiribati",
+      "countryCodeISO2": "KI",
+      "countryCodeISO3": "KIR",
+      "countryCodeFIPS": "KR"
+    },
+    {
+      "countryName": "Korea, DPR",
+      "countryCodeISO2": "KP",
+      "countryCodeISO3": "PRK",
+      "countryCodeFIPS": "KN"
+    },
+    {
+      "countryName": "Korea, Republic of",
+      "countryCodeISO2": "KR",
+      "countryCodeISO3": "KOR",
+      "countryCodeFIPS": "KS"
+    },
+    {
+      "countryName": "Kuwait",
+      "countryCodeISO2": "KW",
+      "countryCodeISO3": "KWT",
+      "countryCodeFIPS": "KU"
+    },
+    {
+      "countryName": "Kyrgyzstan",
+      "countryCodeISO2": "KG",
+      "countryCodeISO3": "KGZ",
+      "countryCodeFIPS": "KG"
+    },
+    {
+      "countryName": "Lao, PDR",
+      "countryCodeISO2": "LA",
+      "countryCodeISO3": "LAO",
+      "countryCodeFIPS": "LA"
+    },
+    {
+      "countryName": "Latvia",
+      "countryCodeISO2": "LV",
+      "countryCodeISO3": "LVA",
+      "countryCodeFIPS": "LG"
+    },
+    {
+      "countryName": "Lebanon",
+      "countryCodeISO2": "LB",
+      "countryCodeISO3": "LBN",
+      "countryCodeFIPS": "LE"
+    },
+    {
+      "countryName": "Lesotho",
+      "countryCodeISO2": "LS",
+      "countryCodeISO3": "LSO",
+      "countryCodeFIPS": "LT"
+    },
+    {
+      "countryName": "Liberia",
+      "countryCodeISO2": "LR",
+      "countryCodeISO3": "LBR",
+      "countryCodeFIPS": "LI"
+    },
+    {
+      "countryName": "Libya",
+      "countryCodeISO2": "LY",
+      "countryCodeISO3": "LBY",
+      "countryCodeFIPS": "LY"
+    },
+    {
+      "countryName": "Liechtenstein",
+      "countryCodeISO2": "LI",
+      "countryCodeISO3": "LIE",
+      "countryCodeFIPS": "LS"
+    },
+    {
+      "countryName": "Lithuania",
+      "countryCodeISO2": "LT",
+      "countryCodeISO3": "LTU",
+      "countryCodeFIPS": "LH"
+    },
+    {
+      "countryName": "Luxembourg",
+      "countryCodeISO2": "LU",
+      "countryCodeISO3": "LUX",
+      "countryCodeFIPS": "LU"
+    },
+    {
+      "countryName": "Macau",
+      "countryCodeISO2": "MO",
+      "countryCodeISO3": "MAC",
+      "countryCodeFIPS": "MC"
+    },
+    {
+      "countryName": "Macedonia",
+      "countryCodeISO2": "MK",
+      "countryCodeISO3": "MKD",
+      "countryCodeFIPS": "MK"
+    },
+    {
+      "countryName": "Madagascar",
+      "countryCodeISO2": "MG",
+      "countryCodeISO3": "MDG",
+      "countryCodeFIPS": "MA"
+    },
+    {
+      "countryName": "Malawi",
+      "countryCodeISO2": "MW",
+      "countryCodeISO3": "MWI",
+      "countryCodeFIPS": "MI"
+    },
+    {
+      "countryName": "Malaysia",
+      "countryCodeISO2": "MY",
+      "countryCodeISO3": "MYS",
+      "countryCodeFIPS": "MY"
+    },
+    {
+      "countryName": "Maldives",
+      "countryCodeISO2": "MV",
+      "countryCodeISO3": "MDV",
+      "countryCodeFIPS": "MV"
+    },
+    {
+      "countryName": "Mali",
+      "countryCodeISO2": "ML",
+      "countryCodeISO3": "MLI",
+      "countryCodeFIPS": "ML"
+    },
+    {
+      "countryName": "Malta",
+      "countryCodeISO2": "MT",
+      "countryCodeISO3": "MLT",
+      "countryCodeFIPS": "MT"
+    },
+    {
+      "countryName": "Marshall Islands",
+      "countryCodeISO2": "MH",
+      "countryCodeISO3": "MHL",
+      "countryCodeFIPS": "RM"
+    },
+    {
+      "countryName": "Martinique",
+      "countryCodeISO2": "MQ",
+      "countryCodeISO3": "MTQ",
+      "countryCodeFIPS": "MB"
+    },
+    {
+      "countryName": "Mauritania",
+      "countryCodeISO2": "MR",
+      "countryCodeISO3": "MRT",
+      "countryCodeFIPS": "MR"
+    },
+    {
+      "countryName": "Mauritius",
+      "countryCodeISO2": "MU",
+      "countryCodeISO3": "MUS",
+      "countryCodeFIPS": "MP"
+    },
+    {
+      "countryName": "Mayotte",
+      "countryCodeISO2": "YT",
+      "countryCodeISO3": "MYT",
+      "countryCodeFIPS": "MF"
+    },
+    {
+      "countryName": "Mexico",
+      "countryCodeISO2": "MX",
+      "countryCodeISO3": "MEX",
+      "countryCodeFIPS": "MX"
+    },
+    {
+      "countryName": "Micronesia, Fed. States of",
+      "countryCodeISO2": "FM",
+      "countryCodeISO3": "FSM",
+      "countryCodeFIPS": "FM"
+    },
+    {
+      "countryName": "Moldova, Republic of",
+      "countryCodeISO2": "MD",
+      "countryCodeISO3": "MDA",
+      "countryCodeFIPS": "MD"
+    },
+    {
+      "countryName": "Monaco",
+      "countryCodeISO2": "MC",
+      "countryCodeISO3": "MCO",
+      "countryCodeFIPS": "MN"
+    },
+    {
+      "countryName": "Mongolia",
+      "countryCodeISO2": "MN",
+      "countryCodeISO3": "MNG",
+      "countryCodeFIPS": "MG"
+    },
+    {
+      "countryName": "Montenegro",
+      "countryCodeISO2": "ME",
+      "countryCodeISO3": "MNE",
+      "countryCodeFIPS": "MW"
+    },
+    {
+      "countryName": "Montserrat",
+      "countryCodeISO2": "MS",
+      "countryCodeISO3": "MSR",
+      "countryCodeFIPS": "MJ"
+    },
+    {
+      "countryName": "Morocco",
+      "countryCodeISO2": "MA",
+      "countryCodeISO3": "MAR",
+      "countryCodeFIPS": "MO"
+    },
+    {
+      "countryName": "Mozambique",
+      "countryCodeISO2": "MZ",
+      "countryCodeISO3": "MOZ",
+      "countryCodeFIPS": "MZ"
+    },
+    {
+      "countryName": "Myanmar",
+      "countryCodeISO2": "MM",
+      "countryCodeISO3": "MMR",
+      "countryCodeFIPS": "BM"
+    },
+    {
+      "countryName": "Namibia",
+      "countryCodeISO2": "NA",
+      "countryCodeISO3": "NAM",
+      "countryCodeFIPS": "WA"
+    },
+    {
+      "countryName": "Nauru",
+      "countryCodeISO2": "NR",
+      "countryCodeISO3": "NRU",
+      "countryCodeFIPS": "NR"
+    },
+    {
+      "countryName": "Nepal",
+      "countryCodeISO2": "NP",
+      "countryCodeISO3": "NPL",
+      "countryCodeFIPS": "NP"
+    },
+    {
+      "countryName": "Netherlands",
+      "countryCodeISO2": "NL",
+      "countryCodeISO3": "NLD",
+      "countryCodeFIPS": "NL"
+    },
+    {
+      "countryName": "Netherlands Antilles",
+      "countryCodeISO2": "AN",
+      "countryCodeISO3": "ANT",
+      "countryCodeFIPS": "NT"
+    },
+    {
+      "countryName": "New Caledonia",
+      "countryCodeISO2": "NC",
+      "countryCodeISO3": "NCL",
+      "countryCodeFIPS": "NC"
+    },
+    {
+      "countryName": "New Zealand",
+      "countryCodeISO2": "NZ",
+      "countryCodeISO3": "NZL",
+      "countryCodeFIPS": "NZ"
+    },
+    {
+      "countryName": "Nicaragua",
+      "countryCodeISO2": "NI",
+      "countryCodeISO3": "NIC",
+      "countryCodeFIPS": "NU"
+    },
+    {
+      "countryName": "Niger",
+      "countryCodeISO2": "NE",
+      "countryCodeISO3": "NER",
+      "countryCodeFIPS": "NG"
+    },
+    {
+      "countryName": "Nigeria",
+      "countryCodeISO2": "NG",
+      "countryCodeISO3": "NGA",
+      "countryCodeFIPS": "NI"
+    },
+    {
+      "countryName": "Niue",
+      "countryCodeISO2": "NU",
+      "countryCodeISO3": "NIU",
+      "countryCodeFIPS": "NE"
+    },
+    {
+      "countryName": "Norfolk Island",
+      "countryCodeISO2": "NF",
+      "countryCodeISO3": "NFK",
+      "countryCodeFIPS": "NF"
+    },
+    {
+      "countryName": "Northern Mariana Islands",
+      "countryCodeISO2": "MP",
+      "countryCodeISO3": "MNP",
+      "countryCodeFIPS": "CQ"
+    },
+    {
+      "countryName": "Norway",
+      "countryCodeISO2": "NO",
+      "countryCodeISO3": "NOR",
+      "countryCodeFIPS": "NO"
+    },
+    {
+      "countryName": "Oman",
+      "countryCodeISO2": "OM",
+      "countryCodeISO3": "OMN",
+      "countryCodeFIPS": "MU"
+    },
+    {
+      "countryName": "Pakistan",
+      "countryCodeISO2": "PK",
+      "countryCodeISO3": "PAK",
+      "countryCodeFIPS": "PK"
+    },
+    {
+      "countryName": "Palau",
+      "countryCodeISO2": "PW",
+      "countryCodeISO3": "PLW",
+      "countryCodeFIPS": "PS"
+    },
+    {
+      "countryName": "Palestinian territories",
+      "countryCodeISO2": "PS",
+      "countryCodeISO3": "PSE",
+      "countryCodeFIPS": "GZ"
+    },
+    {
+      "countryName": "Panama",
+      "countryCodeISO2": "PA",
+      "countryCodeISO3": "PAN",
+      "countryCodeFIPS": "PM"
+    },
+    {
+      "countryName": "Papua New Guinea",
+      "countryCodeISO2": "PG",
+      "countryCodeISO3": "PNG",
+      "countryCodeFIPS": "PP"
+    },
+    {
+      "countryName": "Paraguay",
+      "countryCodeISO2": "PY",
+      "countryCodeISO3": "PRY",
+      "countryCodeFIPS": "PA"
+    },
+    {
+      "countryName": "Peru",
+      "countryCodeISO2": "PE",
+      "countryCodeISO3": "PER",
+      "countryCodeFIPS": "PE"
+    },
+    {
+      "countryName": "Philippines",
+      "countryCodeISO2": "PH",
+      "countryCodeISO3": "PHL",
+      "countryCodeFIPS": "RP"
+    },
+    {
+      "countryName": "Pitcairn Island",
+      "countryCodeISO2": "PN",
+      "countryCodeISO3": "PCN",
+      "countryCodeFIPS": "PC"
+    },
+    {
+      "countryName": "Poland",
+      "countryCodeISO2": "PL",
+      "countryCodeISO3": "POL",
+      "countryCodeFIPS": "PL"
+    },
+    {
+      "countryName": "Portugal",
+      "countryCodeISO2": "PT",
+      "countryCodeISO3": "PRT",
+      "countryCodeFIPS": "PO"
+    },
+    {
+      "countryName": "Puerto Rico",
+      "countryCodeISO2": "PR",
+      "countryCodeISO3": "PRI",
+      "countryCodeFIPS": "RQ"
+    },
+    {
+      "countryName": "Qatar",
+      "countryCodeISO2": "QA",
+      "countryCodeISO3": "QAT",
+      "countryCodeFIPS": "QA"
+    },
+    {
+      "countryName": "R\u00E9union",
+      "countryCodeISO2": "RE",
+      "countryCodeISO3": "REU",
+      "countryCodeFIPS": "RE"
+    },
+    {
+      "countryName": "Romania",
+      "countryCodeISO2": "RO",
+      "countryCodeISO3": "ROU",
+      "countryCodeFIPS": "RO"
+    },
+    {
+      "countryName": "Russian Federation",
+      "countryCodeISO2": "RU",
+      "countryCodeISO3": "RUS",
+      "countryCodeFIPS": "RS"
+    },
+    {
+      "countryName": "Rwanda",
+      "countryCodeISO2": "RW",
+      "countryCodeISO3": "RWA",
+      "countryCodeFIPS": "RW"
+    },
+    {
+      "countryName": "Saint Helena",
+      "countryCodeISO2": "SH",
+      "countryCodeISO3": "SHN",
+      "countryCodeFIPS": "SH"
+    },
+    {
+      "countryName": "Saint Kitts and Nevis",
+      "countryCodeISO2": "KN",
+      "countryCodeISO3": "KNA",
+      "countryCodeFIPS": "SC"
+    },
+    {
+      "countryName": "Saint Lucia",
+      "countryCodeISO2": "LC",
+      "countryCodeISO3": "LCA",
+      "countryCodeFIPS": "ST"
+    },
+    {
+      "countryName": "Saint Pierre and Miquelon",
+      "countryCodeISO2": "PM",
+      "countryCodeISO3": "SPM",
+      "countryCodeFIPS": "SB"
+    },
+    {
+      "countryName": "Saint Vincent and the Grenadines",
+      "countryCodeISO2": "VC",
+      "countryCodeISO3": "VCT",
+      "countryCodeFIPS": "VC"
+    },
+    {
+      "countryName": "Saint-Martin (French part)",
+      "countryCodeISO2": "MF",
+      "countryCodeISO3": "MAF"
+    },
+    {
+      "countryName": "Samoa",
+      "countryCodeISO2": "WS",
+      "countryCodeISO3": "WSM",
+      "countryCodeFIPS": "WS"
+    },
+    {
+      "countryName": "San Marino",
+      "countryCodeISO2": "SM",
+      "countryCodeISO3": "SMR",
+      "countryCodeFIPS": "SM"
+    },
+    {
+      "countryName": "Sao Tome and Principe",
+      "countryCodeISO2": "ST",
+      "countryCodeISO3": "STP",
+      "countryCodeFIPS": "TP"
+    },
+    {
+      "countryName": "Saudi Arabia",
+      "countryCodeISO2": "SA",
+      "countryCodeISO3": "SAU",
+      "countryCodeFIPS": "SA"
+    },
+    {
+      "countryName": "Senegal",
+      "countryCodeISO2": "SN",
+      "countryCodeISO3": "SEN",
+      "countryCodeFIPS": "SG"
+    },
+    {
+      "countryName": "Serbia",
+      "countryCodeISO2": "RS",
+      "countryCodeISO3": "SRB",
+      "countryCodeFIPS": "RI"
+    },
+    {
+      "countryName": "Seychelles",
+      "countryCodeISO2": "SC",
+      "countryCodeISO3": "SYC",
+      "countryCodeFIPS": "SE"
+    },
+    {
+      "countryName": "Sierra Leone",
+      "countryCodeISO2": "SL",
+      "countryCodeISO3": "SLE",
+      "countryCodeFIPS": "SL"
+    },
+    {
+      "countryName": "Singapore",
+      "countryCodeISO2": "SG",
+      "countryCodeISO3": "SGP",
+      "countryCodeFIPS": "SN"
+    },
+    {
+      "countryName": "Slovakia (Slovak Rep.)",
+      "countryCodeISO2": "SK",
+      "countryCodeISO3": "SVK",
+      "countryCodeFIPS": "LO"
+    },
+    {
+      "countryName": "Slovenia",
+      "countryCodeISO2": "SI",
+      "countryCodeISO3": "SVN",
+      "countryCodeFIPS": "SI"
+    },
+    {
+      "countryName": "Solomon Islands",
+      "countryCodeISO2": "SB",
+      "countryCodeISO3": "SLB",
+      "countryCodeFIPS": "BP"
+    },
+    {
+      "countryName": "Somalia",
+      "countryCodeISO2": "SO",
+      "countryCodeISO3": "SOM",
+      "countryCodeFIPS": "SO"
+    },
+    {
+      "countryName": "South Africa",
+      "countryCodeISO2": "ZA",
+      "countryCodeISO3": "ZAF",
+      "countryCodeFIPS": "SF"
+    },
+    {
+      "countryName": "South Georgia and South Sandwich Islands",
+      "countryCodeISO2": "GS",
+      "countryCodeISO3": "SGS",
+      "countryCodeFIPS": "SX"
+    },
+    {
+      "countryName": "South Sudan",
+      "countryCodeISO2": "SS",
+      "countryCodeISO3": "SSD",
+      "countryCodeFIPS": "OD"
+    },
+    {
+      "countryName": "Spain",
+      "countryCodeISO2": "ES",
+      "countryCodeISO3": "ESP",
+      "countryCodeFIPS": "SP"
+    },
+    {
+      "countryName": "Sri Lanka",
+      "countryCodeISO2": "LK",
+      "countryCodeISO3": "LKA",
+      "countryCodeFIPS": "CE"
+    },
+    {
+      "countryName": "Sudan",
+      "countryCodeISO2": "SD",
+      "countryCodeISO3": "SDN",
+      "countryCodeFIPS": "SU"
+    },
+    {
+      "countryName": "Suriname",
+      "countryCodeISO2": "SR",
+      "countryCodeISO3": "SUR",
+      "countryCodeFIPS": "NS"
+    },
+    {
+      "countryName": "Svalbard and Jan Mayen",
+      "countryCodeISO2": "SJ",
+      "countryCodeISO3": "SJM",
+      "countryCodeFIPS": "SV"
+    },
+    {
+      "countryName": "Swaziland",
+      "countryCodeISO2": "SZ",
+      "countryCodeISO3": "SWZ",
+      "countryCodeFIPS": "WZ"
+    },
+    {
+      "countryName": "Sweden",
+      "countryCodeISO2": "SE",
+      "countryCodeISO3": "SWE",
+      "countryCodeFIPS": "SW"
+    },
+    {
+      "countryName": "Switzerland",
+      "countryCodeISO2": "CH",
+      "countryCodeISO3": "CHE",
+      "countryCodeFIPS": "SZ"
+    },
+    {
+      "countryName": "Syrian Arab Republic",
+      "countryCodeISO2": "SY",
+      "countryCodeISO3": "SYR",
+      "countryCodeFIPS": "SY"
+    },
+    {
+      "countryName": "Taiwan, Republic of China",
+      "countryCodeISO2": "TW",
+      "countryCodeISO3": "TWN",
+      "countryCodeFIPS": "TW"
+    },
+    {
+      "countryName": "Tajikistan",
+      "countryCodeISO2": "TJ",
+      "countryCodeISO3": "TJK",
+      "countryCodeFIPS": "TI"
+    },
+    {
+      "countryName": "Tanzania",
+      "countryCodeISO2": "TZ",
+      "countryCodeISO3": "TZA",
+      "countryCodeFIPS": "TZ"
+    },
+    {
+      "countryName": "Thailand",
+      "countryCodeISO2": "TH",
+      "countryCodeISO3": "THA",
+      "countryCodeFIPS": "TH"
+    },
+    {
+      "countryName": "Timor-Leste (East Timor)",
+      "countryCodeISO2": "TL",
+      "countryCodeISO3": "TLS",
+      "countryCodeFIPS": "TT"
+    },
+    {
+      "countryName": "Togo",
+      "countryCodeISO2": "TG",
+      "countryCodeISO3": "TGO",
+      "countryCodeFIPS": "TO"
+    },
+    {
+      "countryName": "Tokelau",
+      "countryCodeISO2": "TK",
+      "countryCodeISO3": "TKL",
+      "countryCodeFIPS": "TL"
+    },
+    {
+      "countryName": "Tonga",
+      "countryCodeISO2": "TO",
+      "countryCodeISO3": "TON",
+      "countryCodeFIPS": "TN"
+    },
+    {
+      "countryName": "Trinidad and Tobago",
+      "countryCodeISO2": "TT",
+      "countryCodeISO3": "TTO",
+      "countryCodeFIPS": "TD"
+    },
+    {
+      "countryName": "Tunisia",
+      "countryCodeISO2": "TN",
+      "countryCodeISO3": "TUN",
+      "countryCodeFIPS": "TS"
+    },
+    {
+      "countryName": "Turkey",
+      "countryCodeISO2": "TR",
+      "countryCodeISO3": "TUR",
+      "countryCodeFIPS": "TU"
+    },
+    {
+      "countryName": "Turkmenistan",
+      "countryCodeISO2": "TM",
+      "countryCodeISO3": "TKM",
+      "countryCodeFIPS": "TX"
+    },
+    {
+      "countryName": "Turks and Caicos Islands",
+      "countryCodeISO2": "TC",
+      "countryCodeISO3": "TCA",
+      "countryCodeFIPS": "TK"
+    },
+    {
+      "countryName": "Tuvalu",
+      "countryCodeISO2": "TV",
+      "countryCodeISO3": "TUV",
+      "countryCodeFIPS": "TV"
+    },
+    {
+      "countryName": "Uganda",
+      "countryCodeISO2": "UG",
+      "countryCodeISO3": "UGA",
+      "countryCodeFIPS": "UG"
+    },
+    {
+      "countryName": "Ukraine",
+      "countryCodeISO2": "UA",
+      "countryCodeISO3": "UKR",
+      "countryCodeFIPS": "UP"
+    },
+    {
+      "countryName": "United Arab Emirates",
+      "countryCodeISO2": "AE",
+      "countryCodeISO3": "ARE",
+      "countryCodeFIPS": "AE"
+    },
+    {
+      "countryName": "United Kingdom",
+      "countryCodeISO2": "GB",
+      "countryCodeISO3": "GBR",
+      "countryCodeFIPS": "UK"
+    },
+    {
+      "countryName": "United States",
+      "countryCodeISO2": "US",
+      "countryCodeISO3": "USA",
+      "countryCodeFIPS": "US"
+    },
+    {
+      "countryName": "Uruguay",
+      "countryCodeISO2": "UY",
+      "countryCodeISO3": "URY",
+      "countryCodeFIPS": "UY"
+    },
+    {
+      "countryName": "US Minor Outlying Islands",
+      "countryCodeISO2": "UM",
+      "countryCodeISO3": "UMI"
+    },
+    {
+      "countryName": "Uzbekistan",
+      "countryCodeISO2": "UZ",
+      "countryCodeISO3": "UZB",
+      "countryCodeFIPS": "UZ"
+    },
+    {
+      "countryName": "Vanuatu",
+      "countryCodeISO2": "VU",
+      "countryCodeISO3": "VUT",
+      "countryCodeFIPS": "NH"
+    },
+    {
+      "countryName": "Vatican City State",
+      "countryCodeISO2": "VA",
+      "countryCodeISO3": "VAT",
+      "countryCodeFIPS": "VT"
+    },
+    {
+      "countryName": "Venezuela",
+      "countryCodeISO2": "VE",
+      "countryCodeISO3": "VEN",
+      "countryCodeFIPS": "VE"
+    },
+    {
+      "countryName": "Vietnam (Viet Nam)",
+      "countryCodeISO2": "VN",
+      "countryCodeISO3": "VNM",
+      "countryCodeFIPS": "VM"
+    },
+    {
+      "countryName": "Virgin Islands (U.S.)",
+      "countryCodeISO2": "VI",
+      "countryCodeISO3": "VIR",
+      "countryCodeFIPS": "VQ"
+    },
+    {
+      "countryName": "Wallis and Futuna Islands",
+      "countryCodeISO2": "WF",
+      "countryCodeISO3": "WLF",
+      "countryCodeFIPS": "WF"
+    },
+    {
+      "countryName": "Western Sahara",
+      "countryCodeISO2": "EH",
+      "countryCodeISO3": "ESH",
+      "countryCodeFIPS": "WI"
+    },
+    {
+      "countryName": "Yemen",
+      "countryCodeISO2": "YE",
+      "countryCodeISO3": "YEM",
+      "countryCodeFIPS": "YM"
+    },
+    {
+      "countryName": "Zambia",
+      "countryCodeISO2": "ZM",
+      "countryCodeISO3": "ZMB",
+      "countryCodeFIPS": "ZA"
+    },
+    {
+      "countryName": "Zimbabwe",
+      "countryCodeISO2": "ZW",
+      "countryCodeISO3": "ZWE",
+      "countryCodeFIPS": "ZI"
+    },
+    {
+      "countryName": "Saint Maarten",
+      "countryCodeISO2": "NN",
+      "countryCodeISO3": "SXM",
+      "countryCodeFIPS": "SX"
+    },
+    {
+      "countryName": "Saint Barthelemy",
+      "countryCodeISO2": "BL",
+      "countryCodeISO3": "BLM",
+      "countryCodeFIPS": "TB"
+    }
+  ]
+  

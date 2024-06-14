@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import { getAppData } from '../selectors';
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
@@ -16,6 +16,7 @@ function FirstSponsorRadioGroup({
   firstSponsor,
   formData,
   setFormData,
+  showMebEnhancements08,
   sponsors,
 }) {
   const setSelectedFirstSponsor = useCallback(
@@ -41,23 +42,24 @@ function FirstSponsorRadioGroup({
             : [],
       )
     : [];
-  if (sponsors.someoneNotListed) {
-    const sponsorName = [
-      formData.sponsorFullName.first,
-      formData.sponsorFullName.middle,
-      formData.sponsorFullName.last,
-      formData.sponsorFullName.suffix,
-    ].join(' ');
-
+  if (!showMebEnhancements08) {
+    if (sponsors.someoneNotListed) {
+      const sponsorName = [
+        formData.sponsorFullName.first,
+        formData.sponsorFullName.middle,
+        formData.sponsorFullName.last,
+        formData.sponsorFullName.suffix,
+      ].join(' ');
+      options.push({
+        label: `Sponsor that I’ve added: ${sponsorName}`,
+        value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+      });
+    }
     options.push({
-      label: `Sponsor that I’ve added: ${sponsorName}`,
-      value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+      label: IM_NOT_SURE_LABEL,
+      value: `sponsor-${IM_NOT_SURE_VALUE}`,
     });
   }
-  options.push({
-    label: IM_NOT_SURE_LABEL,
-    value: `sponsor-${IM_NOT_SURE_VALUE}`,
-  });
 
   const VaRadioOptions = options.map((option, index) => {
     return (
@@ -83,12 +85,14 @@ FirstSponsorRadioGroup.propTypes = {
   firstSponsor: PropTypes.string,
   formData: PropTypes.object,
   setFormData: PropTypes.func,
+  showMebEnhancements08: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
 };
 
 const mapStateToProps = state => ({
   firstSponsor: state.form?.data?.firstSponsor,
   formData: state.form?.data || {},
+  ...getAppData(state),
   sponsors: state.form?.data?.sponsors,
 });
 

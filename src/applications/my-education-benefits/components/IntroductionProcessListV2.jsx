@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 function IntroductionProcessListV2() {
   return (
-    <va-process-list>
+    <va-process-list uswds="false">
       <li>
         <h3>Check your eligibility</h3>
         <p>Make sure you meet our eligibility requirements before you apply.</p>

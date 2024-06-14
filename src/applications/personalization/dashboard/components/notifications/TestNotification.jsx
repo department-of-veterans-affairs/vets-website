@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { VaNotification } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { dismissNotificationById } from '../../../common/actions/notifications';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import { dismissNotificationById } from '../../actions/notifications';
+
+/*
+ * This component uses the va-notification web component 
+ * and is more updated than DebtNotificationAlert
+ */
 
 export const TestNotification = ({ notification, dismissNotification }) => {
   const [visible, setVisible] = useState(true);
 
-  const createdAtFormatted = moment(notification.attributes.createdAt).format(
-    'dddd, MMM DD, YYYY',
+  const createdAtFormatted = format(
+    new Date(notification.attributes.createdAt),
+    'EEEE, MMM dd, yyyy',
   );
 
   const closeNotification = () => {
@@ -20,32 +26,22 @@ export const TestNotification = ({ notification, dismissNotification }) => {
 
   return (
     <DashboardWidgetWrapper>
-      {visible && (
-        <VaNotification
-          data-testid="onsite-notification-card"
-          closeBtnAriaLabel="Close notification"
-          closeable
-          onCloseEvent={closeNotification}
-          has-border
-          has-close-text
-          headline="You have new debt."
-          headline-level="3"
-          href="/manage-va-debt/your-debt"
-          symbol="action-required"
-          text="Manage your VA debt"
-          visible
-          class="vads-u-margin-bottom--1p5"
-        >
-          <time
-            slot="date"
-            dateTime={moment(notification.attributes.createdAt).format(
-              'YYYY-MM-DD HH:mm:ss',
-            )}
-          >
-            {createdAtFormatted}
-          </time>
-        </VaNotification>
-      )}
+      <VaNotification
+        data-testid="onsite-notification-card"
+        closeBtnAriaLabel="Close notification"
+        closeable
+        onCloseEvent={closeNotification}
+        has-border
+        has-close-text
+        headline="You have new debt."
+        headline-level="3"
+        date-time={createdAtFormatted}
+        href="/manage-va-debt/summary/debt-balances"
+        symbol="action-required"
+        text="Manage your VA debt"
+        visible={visible}
+        class="vads-u-margin-bottom--1p5"
+      />
     </DashboardWidgetWrapper>
   );
 };

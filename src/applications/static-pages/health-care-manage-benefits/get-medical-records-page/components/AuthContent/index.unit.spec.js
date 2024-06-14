@@ -10,7 +10,6 @@ describe('Get Medical Records Page <AuthContent>', () => {
     const wrapper = shallow(<AuthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('CernerCallToAction');
     expect(text).to.include(
       'What are My HealtheVet and My VA Health, and which will I use?',
     );

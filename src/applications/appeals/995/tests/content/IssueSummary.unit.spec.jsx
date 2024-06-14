@@ -5,7 +5,8 @@ import { render } from '@testing-library/react';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import IssueSummary from '../../content/IssueSummary';
-import { SELECTED } from '../../constants';
+import { SELECTED } from '../../../shared/constants';
+import { NO_ISSUES_SELECTED } from '../../constants';
 
 // Already selected issues
 const data = {
@@ -71,5 +72,27 @@ describe('IssueSummary', () => {
     expect(list[2].textContent).to.contain('Decision date: February 1, 2021');
     expect(list[3].textContent).to.contain('Issue 4');
     expect(list[3].textContent).to.contain('Decision date: February 2, 2021');
+    expect($$('.dd-privacy-hidden', container).length).to.eq(8);
+  });
+  it('should render empty issue names & dates', () => {
+    const noIssuesValueData = { contestedIssues: [{ [SELECTED]: true }] };
+    const { container } = render(<IssueSummary formData={noIssuesValueData} />);
+
+    expect($('ul', container)).to.exist;
+    expect($$('h4', container).length).to.eq(1);
+    expect($('h4', container).textContent).to.eq('');
+    expect(
+      $('span[data-dd-action-name="rated issue decision date"]', container)
+        .textContent,
+    ).to.eq('');
+  });
+  it('should render no issues selected', () => {
+    const noIssuesData = { contestedIssues: [], additionalIssues: [] };
+    const { container } = render(<IssueSummary formData={noIssuesData} />);
+    expect($('ul', container)).to.exist;
+    expect($$('li', container).length).to.eq(1);
+    expect($('h3', container)).to.exist;
+    expect($$('h4', container).length).to.eq(0);
+    expect($('strong', container).textContent).to.eq(NO_ISSUES_SELECTED);
   });
 });

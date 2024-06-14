@@ -34,6 +34,7 @@ const PrevApplication = ({
     name: key,
     label:
       'Have you previously applied for and been denied a discharge upgrade for this period of service?',
+    'label-header-level': '2',
     hint:
       'Note: You can still apply. Your answer to this question simply changes where you send your application.',
     key,
@@ -50,7 +51,7 @@ const PrevApplication = ({
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}

@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { makeSelectApp } from '../selectors';
 import { api } from '../api';
-import { useSessionStorage } from './useSessionStorage';
+import { useStorage } from './useStorage';
 import { useDemographicsFlags } from './useDemographicsFlags';
 
 const useSendDemographicsFlags = () => {
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
-  } = useSessionStorage(false);
+  } = useStorage(app);
   const {
     demographicsData,
     demographicsFlagsSent,

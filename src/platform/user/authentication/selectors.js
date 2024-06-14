@@ -18,8 +18,8 @@ export const isAuthenticatedWithOAuth = state =>
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
 
-export const transitionMHVAccount = state =>
-  selectProfile(state)?.mhvTransitionEligible;
-
 export const signInServiceEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];
+
+export const termsOfUseEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];

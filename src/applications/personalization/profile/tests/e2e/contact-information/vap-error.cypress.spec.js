@@ -6,7 +6,6 @@ import mockServiceHistory from '@@profile/tests/fixtures/service-history-success
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
-import { checkForLegacyLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import { mockFeatureToggles } from '../helpers';
 
 const setup = () => {
@@ -18,8 +17,6 @@ const setup = () => {
   cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   mockFeatureToggles();
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
-
-  checkForLegacyLoadingIndicator();
 };
 
 describe('When there is a known issue connecting to VA Profile', () => {

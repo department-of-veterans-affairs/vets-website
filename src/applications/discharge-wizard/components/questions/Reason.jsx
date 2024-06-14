@@ -36,6 +36,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
     name: key,
     label:
       'Which of the following best describes why you want to change your discharge paperwork? Choose the one that’s closest to your situation.',
+    'label-header-level': '2',
     hint:
       'Note: If more than one of these fits your situation, choose the one that started the events leading to your discharge. For example, if you experienced sexual assault and have posttraumatic stress disorder (PTSD) resulting from that experience, choose sexual assault.',
     key,
@@ -52,7 +53,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}

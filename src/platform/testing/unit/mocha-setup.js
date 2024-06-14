@@ -17,6 +17,8 @@ import sinon from 'sinon';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
+const isStressTest = process.env.IS_STRESS_TEST || 'false';
+const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
   autoSessionTracking: false,
   dsn: 'http://one@fake/dsn/0',
@@ -29,8 +31,6 @@ global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 global.__REGISTRY__ = [];
-
-let fetchStub;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
@@ -59,10 +59,6 @@ function resetFetch() {
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
 function setupJSDom() {
-  // if (global.document || global.window) {
-  //   throw new Error('Refusing to override existing document and window.');
-  // }
-
   // Prevent warnings from displaying
   /* eslint-disable no-console */
   if (process.env.LOG_LEVEL === 'debug') {
@@ -91,53 +87,20 @@ function setupJSDom() {
 
   const { window } = dom;
 
+  /* sets up `global` for testing */
   global.dom = dom;
   global.window = window;
   global.document = window.document;
   global.navigator = { userAgent: 'node.js' };
-
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
-
   global.cancelAnimationFrame = function(id) {
     clearTimeout(id);
   };
-
   global.Blob = window.Blob;
-  window.dataLayer = [];
-  window.matchMedia = () => ({
-    matches: false,
-    addListener: f => f,
-    removeListener: f => f,
-  });
-  window.scrollTo = () => {};
 
-  window.VetsGov = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
-  };
-
-  window.Forms = {
-    scroll: {
-      duration: 0,
-      delay: 0,
-      smooth: false,
-    },
-  };
-
-  window.getSelection = () => '';
-
-  window.Mocha = true;
-
-  copyProps(window, global);
-
-  // The following properties provided by JSDom are read-only by default.
-  // Some tests rely on modifying them, so set them to writable to enable that.
-
+  /* Overwrites JSDOM global defaults from read-only to configurable */
   Object.defineProperty(global, 'window', {
     value: global.window,
     configurable: true,
@@ -159,6 +122,22 @@ function setupJSDom() {
     writable: true,
   });
 
+  /* sets up `window` for testing */
+  const scroll = { duration: 0, delay: 0, smooth: false };
+  window.dataLayer = [];
+  window.matchMedia = () => ({
+    matches: false,
+    addListener: f => f,
+    removeListener: f => f,
+  });
+  window.scrollTo = () => {};
+  window.VetsGov = { scroll };
+  window.Forms = { scroll };
+  window.getSelection = () => '';
+  window.Mocha = true;
+
+  copyProps(window, global);
+
   Object.defineProperty(window, 'location', {
     value: window.location,
     configurable: true,
@@ -166,29 +145,42 @@ function setupJSDom() {
     writable: true,
   });
 }
+/* eslint-disable no-console */
 
 setupJSDom();
-
+const checkAllowList = testContext => {
+  const file = testContext.currentTest.file.slice(
+    testContext.currentTest.file.indexOf('src'),
+  );
+  if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
+    /* eslint-disable-next-line no-console */
+    console.log('Test skipped due to flakiness: ', file);
+    testContext.skip();
+  }
+};
 // This needs to be after JSDom has been setup, otherwise
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
 
 const interceptNetworkCalls = () => {
-  fetchStub = sinon.stub(global, 'fetch');
+  const fetchStub = sinon.stub(global, 'fetch');
   fetchStub.callsFake(() => {
     return Promise.resolve(200, {});
   });
+  fetchStub.isIntercepted = true;
 };
 
 const checkForNetworkCalls = mochaContext => {
   try {
-    const networkCall = fetchStub.getCall(0);
-    if (networkCall && networkCall.args[0]) {
-      throw new Error(
-        `Network call made to ${
-          networkCall.args[0]
-        }. Please mock this call with mockFetch.`,
-      );
+    if (fetch.isIntercepted) {
+      const networkCall = fetch.getCall(0);
+      if (networkCall && networkCall.args[0]) {
+        throw new Error(
+          `Network call made to ${
+            networkCall.args[0]
+          }. Please mock this call with mockFetch.`,
+        );
+      }
     }
   } catch (err) {
     mochaContext.test.error(err);

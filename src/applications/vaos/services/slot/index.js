@@ -4,7 +4,7 @@
 import moment from 'moment';
 import { getAvailableV2Slots } from '../vaos';
 import { mapToFHIRErrors } from '../utils';
-import { transformV2Slots } from './transformers.v2';
+import { transformV2Slots } from './transformers';
 
 /**
  * @summary

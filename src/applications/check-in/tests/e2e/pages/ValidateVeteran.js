@@ -27,6 +27,10 @@ class ValidateVeteran {
     preCheckIn: (language = 'en') => {
       this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
+    travelClaim: () => {
+      cy.get('[data-testid="travelClaim-validate-page"]').should('be.visible');
+      cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
+    },
   };
 
   validateVeteran = (
@@ -104,7 +108,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-month')
+      .find('.usa-form-group--month-input')
       .shadow()
       .find('[name="date-of-birthMonth"]');
   };
@@ -113,7 +117,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-day')
+      .find('.usa-form-group--day-input')
       .shadow()
       .find('[name="date-of-birthDay"]');
   };
@@ -122,7 +126,7 @@ class ValidateVeteran {
     return cy
       .get('[label="Date of birth"]')
       .shadow()
-      .find('.input-year')
+      .find('.usa-form-group--year-input')
       .shadow()
       .find('[name="date-of-birthYear"]');
   };
@@ -169,8 +173,8 @@ class ValidateVeteran {
 
   validateAutocorrectDisabled = () => {
     cy.get('[label="Your last name"]')
-      .should('have.attr', 'autocorrect', 'false')
-      .should('have.attr', 'spellcheck', 'false');
+      .should('have.attr', 'auto-correct', 'false')
+      .should('have.attr', 'spell-check', 'false');
   };
 
   getLastNameError = () => {

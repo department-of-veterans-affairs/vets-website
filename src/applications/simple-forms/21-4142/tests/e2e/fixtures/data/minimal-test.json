@@ -13,12 +13,20 @@
       "fullName": { "first": "veteran", "last": "name" }
     },
     "preparerIdentification": {
-      "relationshipToVeteran": "I am the service member/Veteran"
+      "relationshipToVeteran": "I am the Veteran",
+      "preparerFullName": {},
+      "preparerAddress": {
+        "country": "USA"
+      }
     },
     "providerFacility": [
       {
         "providerFacilityName": "Hospital 1",
-        "treatmentDateRange": { "from": "2000-01-01", "to": "2000-01-02" },
+        "treatmentDateRange": {
+          "from": "2000-01-01",
+          "to": "2000-01-02"
+        },
+        "conditionsTreated": "- condition 1\n- condition two\n- condition x & y",
         "providerFacilityAddress": {
           "street": "2 Health St",
           "city": "City",

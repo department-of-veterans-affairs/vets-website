@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 class OMBInfo extends React.Component {
   constructor(props) {
@@ -62,8 +62,9 @@ class OMBInfo extends React.Component {
         <a href="www.reginfo.gov/public/do/PRAMain">
           www.reginfo.gov/public/do/PRAMain
         </a>
-        . If desired, you can call <Telephone contact="8008271000" /> to get
-        information on where to send comments or suggestions about this form.
+        . If desired, you can call{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> to get information on
+        where to send comments or suggestions about this form.
       </p>
     </div>
   );
@@ -95,17 +96,17 @@ class OMBInfo extends React.Component {
           </button>
         </div>
 
-        <Modal
-          cssClass="va-modal-large"
-          contents={
-            this.props.children
-              ? this.props.children
-              : this.modalContents(resBurden)
-          }
+        <VaModal
+          large
           id="omb-modal"
           visible={this.state.modalOpen}
-          onClose={this.closeModal}
-        />
+          onCloseEvent={this.closeModal}
+          uswds
+        >
+          {this.props.children
+            ? this.props.children
+            : this.modalContents(resBurden)}
+        </VaModal>
       </div>
     );
   }

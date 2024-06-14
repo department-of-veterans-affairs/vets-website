@@ -8,7 +8,7 @@ import {
 import moment from 'moment';
 import { getSlots } from '../../../services/slot';
 
-describe('VAOS Slot service', () => {
+describe('VAOS Services: Slot ', () => {
   describe('getSlots', () => {
     beforeEach(() => {
       mockFetch();

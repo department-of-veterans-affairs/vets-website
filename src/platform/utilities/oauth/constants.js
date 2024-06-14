@@ -10,7 +10,7 @@ export const ALL_STATE_AND_VERIFIERS = [
   'logingov_signup_code_verifier',
 ];
 
-export const SIS_API_VERSION = 'v0';
+const SIS_API_VERSION = 'v0';
 export const OAUTH_ENDPOINTS = {
   TOKEN: 'token',
   AUTHORIZE: 'authorize',
@@ -29,6 +29,9 @@ export const CLIENT_IDS = {
   VAWEB: 'vaweb',
   VAMOBILE: 'vamobile',
   VAMOCK: 'vamock',
+  // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value for
+  // the ARP frontend on localhost calling the ARP backend on localhost.
+  ARP: 'arp',
 };
 
 export const COOKIES = {
@@ -49,10 +52,15 @@ export const OAUTH_KEYS = {
   ACR: 'acr',
 };
 
+export const OPERATIONS = {
+  SIGNUP: 'sign_up',
+};
+
 export const OAUTH_ALLOWED_PARAMS = {
   CODE: 'code',
   S256: 'S256',
   AUTH_CODE: 'authorization_code',
+  OPERATION: 'operation',
 };
 
 const generateOAuthKeysWithout = array =>
@@ -115,10 +123,4 @@ export const OAUTH_ERROR_RESPONSES = {
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
 };
 
-export const TOKEN_KEYS = generateOAuthKeysWithout([
-  'SCOPE',
-  'RESPONSE_TYPE',
-  'STATE',
-  'CODE_CHALLENGE_METHOD',
-  'CODE_CHALLENGE',
-]);
+export const APPROVED_OAUTH_APPS = ['arp'];

@@ -1,0 +1,52 @@
+{
+  "data": {
+    "veteran": {
+      "ssnLastFour": "9876",
+      "vaFileLastFour": "8765",
+      "address": {
+        "addressType": "DOMESTIC",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Suite #1200",
+        "addressLine3": "Box 4",
+        "city": "New York",
+        "countryName": "United States",
+        "countryCodeISO2": "US",
+        "stateCode": "NY",
+        "zipCode": "30012"
+      },
+      "phone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8001111",
+        "phoneNumberExt": "2"
+      },
+      "email": "user@example.com"
+    },
+    "homeless": false,
+    "boardReviewOption": "direct_review",
+    "socOptIn": false,
+    "view:additionalEvidence": false,
+
+    "contestedIssues": [],
+    "additionalIssues": [
+      {
+        "issue": "left arm",
+        "decisionDate": "2021-06-07",
+        "view:selected": true
+      }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "fatigue"
+        },
+        "disagreementOptions": {
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      }
+    ],
+    "evidence": []
+  }
+}

@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import {
   capitalizeEachWord,
+  isBDD,
+  isClaimingIncrease,
+  isClaimingNew,
   isDisabilityPtsd,
   DISABILITY_SHARED_CONFIG,
-  isClaimingNew,
 } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import { NULL_CONDITION_STRING } from '../constants';
@@ -58,16 +61,17 @@ const getRedirectLink = formData => {
 
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
-  const ratedDisabilityNames = ratedDisabilities
-    ? ratedDisabilities
-        .filter(disability => disability['view:selected'])
-        .map(
-          disability =>
-            typeof disability.name === 'string'
-              ? capitalizeEachWord(disability.name)
-              : NULL_CONDITION_STRING,
-        )
-    : [];
+  const ratedDisabilityNames =
+    ratedDisabilities && isClaimingIncrease(formData) && !isBDD(formData)
+      ? ratedDisabilities
+          .filter(disability => disability['view:selected'])
+          .map(
+            disability =>
+              typeof disability.name === 'string'
+                ? capitalizeEachWord(disability.name)
+                : NULL_CONDITION_STRING,
+          )
+      : [];
   const newDisabilityNames =
     newDisabilities && isClaimingNew(formData)
       ? newDisabilities.map(
@@ -86,10 +90,17 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   return (
     <>
       <p>
-        Below is the list of disabilities you’re claiming in this application.
-        If a disability is missing from the list, please {showLink}.
+        This is a list of the conditions you’re claiming in this application. If
+        a condition is missing, please {showLink}.
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>
   );
+};
+
+SummaryOfDisabilitiesDescription.propTypes = {
+  formData: PropTypes.shape({
+    newDisabilities: PropTypes.arrayOf(PropTypes.object),
+    ratedDisabilities: PropTypes.arrayOf(PropTypes.object),
+  }),
 };

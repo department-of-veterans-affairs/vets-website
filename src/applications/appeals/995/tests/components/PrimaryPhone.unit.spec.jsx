@@ -3,11 +3,14 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { PrimaryPhone } from '../../components/PrimaryPhone';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
-
-import { $, $$ } from '../../utils/ui';
 
 describe('<PrimaryPhone>', () => {
   const setup = ({
@@ -44,6 +47,11 @@ describe('<PrimaryPhone>', () => {
     expect($$('va-radio-option', container).length).to.eq(2);
   });
 
+  it('should render with no data', () => {
+    const { container } = render(setup({ data: null }));
+    expect($$('va-radio-option', container).length).to.eq(2);
+  });
+
   it('should capture google analytics', async () => {
     global.window.dataLayer = [];
     const { container } = render(setup({ data: { veteran } }));
@@ -60,6 +68,19 @@ describe('<PrimaryPhone>', () => {
       'radio-button-optionLabel': 'Home phone number',
       'radio-button-required': false,
     });
+  });
+
+  it('should not capture google analytics', async () => {
+    global.window.dataLayer = [];
+    const { container } = render(setup({ data: { veteran } }));
+
+    const changeEvent = new CustomEvent('selected', {
+      detail: undefined,
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
+
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.be.undefined;
   });
 
   it('should prevent submission when empty', () => {

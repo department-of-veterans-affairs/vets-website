@@ -1,12 +1,11 @@
 /* eslint-disable no-prototype-builtins */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
-  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
 import {
@@ -14,8 +13,6 @@ import {
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceVAAppointments,
-  selectFeatureFacilitiesServiceV2,
-  selectFeatureAcheronService,
 } from '../../redux/selectors';
 
 import {
@@ -144,9 +141,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      getState(),
-    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
@@ -175,7 +169,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
-          useAcheron: featureAcheronVAOSServiceRequests,
         }),
       ];
       if (includeRequests) {
@@ -188,7 +181,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
-            useAcheron: featureAcheronVAOSServiceRequests,
           })
             .then(requests => {
               dispatch({
@@ -306,9 +298,6 @@ export function fetchPendingAppointments() {
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
-      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-        state,
-      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
@@ -317,7 +306,6 @@ export function fetchPendingAppointments() {
         endDate: moment()
           .add(featureVAOSServiceRequests ? 1 : 0, 'days')
           .format('YYYY-MM-DD'),
-        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       const data = pendingAppointments?.filter(
@@ -372,9 +360,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      getState(),
-    );
 
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
@@ -389,7 +374,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       const results = await fetchAppointments({
         startDate,
         endDate,
-        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
@@ -446,9 +430,6 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
-      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-        state,
-      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -465,7 +446,6 @@ export function fetchRequestDetails(id) {
       if (!request) {
         request = await fetchRequestById({
           id,
-          useAcheron: featureAcheronVAOSServiceRequests,
         });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
@@ -505,20 +485,20 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
         state,
       );
-      const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-        state,
-      );
       const useV2 =
         type === 'cc'
           ? featureVAOSServiceCCAppointments
           : featureVAOSServiceVAAppointments;
+
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
           : APPOINTMENT_TYPES.vaAppointment,
       ]);
+
       let facilityId = getVAAppointmentLocationId(appointment);
       let facility = state.appointments.facilityData?.[facilityId];
+
       if (!appointment || (facilityId && !facility)) {
         dispatch({
           type: FETCH_CONFIRMED_DETAILS,
@@ -530,7 +510,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
           id,
           type,
           useV2,
-          useAcheron: featureAcheronVAOSServiceRequests,
         });
       }
 
@@ -594,15 +573,6 @@ export function startAppointmentCancel(appointment) {
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
-    );
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
-    );
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      getState(),
-    );
 
     try {
       dispatch({
@@ -611,12 +581,6 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
-        useV2:
-          (featureVAOSServiceRequests &&
-            appointment.status === APPOINTMENT_STATUS.proposed) ||
-          (featureVAOSServiceVAAppointments &&
-            appointment.status !== APPOINTMENT_STATUS.proposed),
-        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       dispatch({
@@ -654,9 +618,6 @@ export function startNewVaccineFlow() {
 
 export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
-    const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-      getState(),
-    );
     dispatch({
       type: FETCH_FACILITY_SETTINGS,
     });
@@ -667,7 +628,6 @@ export function fetchFacilitySettings() {
 
       const settings = await getLocationSettings({
         siteIds,
-        useV2: featureFacilitiesServiceV2,
       });
 
       dispatch({

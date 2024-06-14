@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordCustomProfileEvent } from '../../../util/analytics';
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
+import { useProfileRouteMetaData } from '../../../hooks';
 
 const handlers = {
-  recordView() {
-    recordCustomProfileEvent({
-      title: 'Personal Info',
-      status: 'BAI Views',
-    });
+  recordView(pageName) {
+    return () =>
+      recordCustomProfileEvent({
+        title: pageName,
+        status: 'BAI Views',
+      });
   },
-  recordLinkClick(linkText) {
+  recordLinkClick(linkText, pageName) {
     return () => {
       recordCustomProfileEvent({
-        title: 'Personal Info',
+        title: pageName,
         status: 'BAI Link Click',
         primaryButtonText: linkText,
       });
@@ -21,18 +24,20 @@ const handlers = {
   },
 };
 
-export default function ProfileAlert() {
+export default function ProfileAlert({ className = 'vads-u-margin-top--4' }) {
   const heading = 'Review your mailing address';
-  const linkText = 'Go to your contact information to review your address';
+  const linkText = 'Review the mailing address in your profile';
+  const pageName = useProfileRouteMetaData().name;
 
   return (
     <VaAlert
       status="warning"
       data-testid="bad-address-profile-alert"
-      onVa-component-did-load={handlers.recordView}
-      className="vads-u-margin-top--4"
+      onVa-component-did-load={handlers.recordView(pageName)}
+      className={className}
       role="alert"
       aria-live="polite"
+      uswds
     >
       <h2
         slot="headline"
@@ -45,14 +50,17 @@ export default function ProfileAlert() {
       <p id="bai-alert-body">
         The mailing address we have on file for you may not be correct.
       </p>
-      <p>
-        <Link
-          to="contact-information/#mailing-address"
-          onClick={handlers.recordLinkClick(linkText)}
-        >
-          {linkText}
-        </Link>
-      </p>
+
+      <Link
+        to="/profile/contact-information/#mailing-address"
+        onClick={handlers.recordLinkClick(linkText, pageName)}
+      >
+        {linkText}
+      </Link>
     </VaAlert>
   );
 }
+
+ProfileAlert.propTypes = {
+  className: PropTypes.string,
+};

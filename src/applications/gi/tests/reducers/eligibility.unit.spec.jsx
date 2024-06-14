@@ -20,17 +20,18 @@ describe('eligibility reducer', () => {
       {
         ...initialState,
         militaryStatus: 'spouse',
-        spouseActiveDuty: 'yes',
+        spouseActiveDuty: 'no',
       },
       {
         type: 'ELIGIBILITY_CHANGED',
-        field: 'militaryStatus',
-        value: 'veteran',
+        payload: {
+          militaryStatus: 'veteran',
+        },
       },
     );
 
-    expect(state.militaryStatus).to.eql('spouse');
-    expect(state.spouseActiveDuty).to.eql('yes');
+    expect(state.militaryStatus).to.eql('veteran');
+    expect(state.spouseActiveDuty).to.eql('no');
   });
 
   it('should reset fields after choosing GI Bill', () => {
@@ -42,12 +43,14 @@ describe('eligibility reducer', () => {
       },
       {
         type: 'ELIGIBILITY_CHANGED',
-        field: 'giBillChapter',
-        value: '30',
+        payload: {
+          giBillChapter: '33',
+        },
       },
     );
 
     delete state.timestamp;
-    expect(state).to.eql({ ...initialState, giBillChapter: '30' });
+    expect(state.giBillChapter).to.eql('33');
+    expect(state.eligForPostGiBill).to.eql('no');
   });
 });

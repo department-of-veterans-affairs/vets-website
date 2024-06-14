@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
+
 import {
   openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+import { getPageTitle } from '../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -48,9 +50,10 @@ const uiSchema = {
 };
 
 const pageKey = 'preferredDate';
-const pageTitle = 'When do you want to schedule this appointment?';
 
 export default function PreferredDatePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getPreferredDate(state, pageKey),

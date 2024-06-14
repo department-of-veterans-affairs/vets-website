@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 
 import { makeSelectForm } from '../selectors';
 
-import { useSessionStorage } from '../hooks/useSessionStorage';
+import { useStorage } from '../hooks/useStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 import { useUpdateError } from '../hooks/useUpdateError';
 
@@ -12,12 +12,12 @@ import { URLS } from '../utils/navigation';
 
 const withForm = (Component, options = {}) => {
   const WrappedComponent = props => {
-    const { isPreCheckIn } = options;
+    const { appName } = options;
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
     const { jumpToPage } = useFormRouting(router);
-    const { getCurrentToken } = useSessionStorage(isPreCheckIn);
+    const { getCurrentToken } = useStorage(appName);
     const { updateError } = useUpdateError();
 
     useEffect(

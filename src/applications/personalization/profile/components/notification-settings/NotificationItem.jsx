@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import { selectItemById } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
@@ -9,69 +9,113 @@ import {
   NOTIFICATION_CHANNEL_IDS,
 } from '@@profile/constants';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+  selectVAPEmailAddress,
+  selectVAPMobilePhone,
+} from '~/platform/user/selectors';
 
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
+import { LOADING_STATES } from '~/applications/personalization/common/constants';
 
-const NotificationItem = ({ channelIds, itemName, description }) => {
-  // using the Mhv Notification Settings feature toggle to determine if we should show the email channel,
-  // since the email channel is not yet supported and all Mhv notifications are email based for now
+const getChannelsByItemId = (itemId, channelEntities) => {
+  return Object.values(channelEntities).filter(
+    channel => channel.parentItem === itemId,
+  );
+};
+
+const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const allEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
+  const emailNotificationsEnabled = useToggleValue(
+    TOGGLE_NAMES.profileShowEmailNotificationSettings,
   );
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
   const filteredChannels = useMemo(
     () => {
       return channelIds.filter(channelId => {
-        return allEnabled
+        return emailNotificationsEnabled
           ? channelId
           : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
       });
     },
-    [channelIds, allEnabled],
+    [channelIds, emailNotificationsEnabled],
+  );
+
+  const channelsByItemId = useSelector(state =>
+    getChannelsByItemId(
+      itemId,
+      state?.communicationPreferences?.channels?.entities,
+    ),
+  );
+
+  const userHasAtLeastOneChannelContactInfo = useSelector(state => {
+    const setUpChannels = [
+      ...(selectVAPEmailAddress(state)
+        ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)]
+        : []),
+      ...(selectVAPMobilePhone(state)
+        ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)]
+        : []),
+    ];
+
+    return channelsByItemId.some(({ channelType }) => {
+      return setUpChannels.includes(channelType);
+    });
+  });
+
+  // used for reflecting some ui state on a whole item level
+  // for checkboxes this is important for allowing checkboxes
+  // to be disabled when there are pending updates
+  const itemStatusIndicators = useMemo(
+    () => {
+      return {
+        hasSomeSuccessUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.loaded,
+        ),
+        hasSomeErrorUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.error,
+        ),
+        hasSomePendingUpdates: channelsByItemId.some(
+          channel => channel.ui.updateStatus === LOADING_STATES.pending,
+        ),
+      };
+    },
+    [channelsByItemId],
   );
 
   return (
     <>
-      <Toggler
-        toggleName={
-          Toggler.TOGGLE_NAMES.profileUseNotificationSettingsCheckboxes
-        }
-      >
-        <Toggler.Enabled>
-          <NotificationChannelCheckboxesFieldset
-            itemName={itemName}
-            description={description}
-          >
-            {filteredChannels.map(channelId => (
-              <NotificationChannel channelId={channelId} key={channelId} />
-            ))}
-          </NotificationChannelCheckboxesFieldset>
-        </Toggler.Enabled>
-
-        <Toggler.Disabled>
-          {filteredChannels.map(channelId => (
+      {userHasAtLeastOneChannelContactInfo ? (
+        <NotificationChannelCheckboxesFieldset
+          itemName={itemName}
+          description={description}
+          channels={filteredChannels}
+          itemId={itemId}
+          hasSomeErrorUpdates={itemStatusIndicators.hasSomeErrorUpdates}
+          hasSomePendingUpdates={itemStatusIndicators.hasSomePendingUpdates}
+          hasSomeSuccessUpdates={itemStatusIndicators.hasSomeSuccessUpdates}
+        >
+          {filteredChannels.map((channelId, index) => (
             <NotificationChannel
               channelId={channelId}
               key={channelId}
-              description={description}
+              disabledForCheckbox={itemStatusIndicators.hasSomePendingUpdates}
+              last={index === filteredChannels.length - 1}
+              itemName={itemName}
             />
           ))}
-        </Toggler.Disabled>
-      </Toggler>
+        </NotificationChannelCheckboxesFieldset>
+      ) : null}
     </>
   );
 };
 
 NotificationItem.propTypes = {
   channelIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  itemId: PropTypes.string.isRequired,
   description: PropTypes.string,
   itemName: PropTypes.string,
 };

@@ -7,6 +7,7 @@ const INITIAL_STATE = Object.freeze({
   cumulativeService: '1.0',
   onlineClasses: 'no',
   spouseActiveDuty: 'no',
+  areYouActiveDuty: 'no',
   enlistmentService: '3',
   consecutiveService: '0.8',
   eligForPostGiBill: 'no',

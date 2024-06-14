@@ -1,33 +1,40 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import React from 'react';
 import {
-  currentOrPastDateUI as currentOrPastDateUIWC,
+  currentOrPastDateUI,
   currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns/datePatterns';
-import {
-  inlineTitleSchema,
-  inlineTitleUI,
-  titleSchema,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    rjsf: titleUI('RJSF'),
-    dateDefault: currentOrPastDateUI('RJSF - Date of birth'),
-    wcv3: inlineTitleUI('V3 web components'),
-    dateWCV3: currentOrPastDateUIWC('WC V3 - Date of birth'),
+    ...titleUI('Date web components'),
+    dateWCV3: currentOrPastDateUI('Web component - Generic'),
+    dateOfBirthWCV3: dateOfBirthUI('Web component - Date of birth'),
+    'view:dateSubTitle': {
+      'ui:description': <h4>Date range pattern</h4>,
+    },
+    dateRange: currentOrPastDateRangeUI(
+      'Start date',
+      'End date',
+      'End date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      rjsf: titleSchema,
-      dateDefault: {
-        $ref: '#/definitions/date',
-      },
-      wcv3: inlineTitleSchema,
       dateWCV3: currentOrPastDateSchema,
+      dateOfBirthWCV3: dateOfBirthSchema,
+      'view:dateSubTitle': {
+        type: 'object',
+        properties: {},
+      },
+      dateRange: currentOrPastDateRangeSchema,
     },
-    required: ['dateDefault', 'dateWCV3'],
+    required: ['dateWCV3'],
   },
 };

@@ -889,6 +889,7 @@ function CalculateYourBenefitsForm({
               onBlur={handlers.onZipBlur}
               maxlength="5"
               error={errorMessageCheck}
+              charcount
             />
           </div>
         );

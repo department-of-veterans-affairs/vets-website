@@ -10,8 +10,8 @@ describe('Google Analytics FL Events', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept(
-      'GET',
-      '/facilities_api/v1/va?type=**',
+      'POST',
+      '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
     cy.visit('/find-locations');
@@ -19,7 +19,10 @@ describe('Google Analytics FL Events', () => {
     cy.window().then(win => {
       // Search
       cy.get('#street-city-state-zip').type('Austin, TX');
-      cy.get('#facility-type-dropdown').select('VA health');
+      cy.get('#facility-type-dropdown')
+        .shadow()
+        .find('select')
+        .select('VA health');
       cy.get('#facility-search').click();
       cy.injectAxe();
       cy.axeCheck();

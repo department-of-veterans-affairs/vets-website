@@ -6,7 +6,6 @@ module.exports = {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'combined_financial_status_report', value: true },
         { name: 'combined_financial_status_report_enhancements', value: true },
         { name: 'show_financial_status_report', value: true },
         { name: 'show_financial_status_report_wizard', value: true },
@@ -1425,7 +1424,7 @@ module.exports = {
       },
     ],
   },
-  'POST /v0/financial_status_reports': {
+  'POST /debts_api/v0/financial_status_reports': {
     content: '',
   },
   'PUT /v0/in_progress_forms/5655': {

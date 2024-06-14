@@ -66,9 +66,21 @@ export default `
             <div class="va-crisis-line-inner">
               <span class="va-crisis-line-icon" aria-hidden="true"></span>
               <span class="va-crisis-line-text">Talk to the <strong>Veterans Crisis Line</strong> now</span>
-              <img class="va-crisis-line-arrow" src="${replaceWithStagingDomain(
-                'https://www.va.gov/img/arrow-right-white.svg',
-              )}" aria-hidden="true"></img>
+              <svg
+                aria-hidden="true"
+                className="vads-u-margin-left--1"
+                focusable="false"
+                width="18"
+                viewBox="7 3 17 17"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="#fff"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"
+                />
+              </svg>
             </div>
           </button>
         </div>

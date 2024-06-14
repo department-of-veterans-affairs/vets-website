@@ -22,7 +22,17 @@ class SaveFormLink extends React.Component {
   handleSave = event => {
     event.preventDefault();
     const { route = {}, form, locationPathname } = this.props;
-    const { formId, version, data, submission } = form;
+    const { formId, version, submission } = form;
+    let { data } = form;
+
+    // Save form on a specific page form exit callback
+    if (typeof route.pageConfig?.onFormExit === 'function') {
+      data = route.pageConfig.onFormExit(data);
+    }
+    // Save form global form exit callback
+    if (typeof this.props.formConfig?.onFormExit === 'function') {
+      data = this.props.formConfig.onFormExit(data);
+    }
 
     const returnUrl = route.pageConfig?.returnUrl || locationPathname;
     this.props.saveAndRedirectToReturnUrl(
@@ -45,7 +55,11 @@ class SaveFormLink extends React.Component {
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
     return (
-      <div className={this.props.children ? 'vads-u-display--inline' : ''}>
+      <div
+        className={`schemaform-save-container${
+          this.props.children ? ' vads-u-display--inline' : ''
+        }`}
+      >
         <Element name="saveFormLinkTop" />
         {saveErrors.has(savedStatus) && (
           <div
@@ -107,6 +121,7 @@ SaveFormLink.propTypes = {
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
+    onFormExit: PropTypes.func,
   }),
   route: PropTypes.shape({
     pageConfig: PropTypes.shape({

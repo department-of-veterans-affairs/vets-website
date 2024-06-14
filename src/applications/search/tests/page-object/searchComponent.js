@@ -12,19 +12,14 @@ class SearchComponent {
 
   /** Enables the dropdown component on the page */
   enableDropdownComponent = () => {
-    cy.route({
-      method: 'GET',
-      status: 200,
-      url: '/v0/feature_toggles*',
-      response: {
-        data: {
-          features: [
-            {
-              name: 'search_dropdown_component_enabled',
-              value: true,
-            },
-          ],
-        },
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'search_dropdown_component_enabled',
+            value: true,
+          },
+        ],
       },
     });
   };
@@ -42,30 +37,21 @@ class SearchComponent {
 
   /** Mocks the query typeahead suggestions */
   mockFetchSuggestions = () => {
-    cy.route({
-      method: 'GET',
-      status: 200,
-      url: 'v0/search_typeahead?query=benefits',
-      response: [
-        'benefits response 1',
-        'benefits response 2',
-        'benefits response 3',
-        'benefits response 4',
-        'benefits response 5',
-      ],
-    });
-    cy.route({
-      method: 'GET',
-      status: 200,
-      url: 'v0/search_typeahead?query=health',
-      response: [
-        'health response 1',
-        'health response 2',
-        'health response 3',
-        'health response 4',
-        'health response 5',
-      ],
-    });
+    cy.intercept('GET', 'v0/search_typeahead?query=benefits', [
+      'benefits response 1',
+      'benefits response 2',
+      'benefits response 3',
+      'benefits response 4',
+      'benefits response 5',
+    ]);
+
+    cy.intercept('GET', 'v0/search_typeahead?query=health', [
+      'health response 1',
+      'health response 2',
+      'health response 3',
+      'health response 4',
+      'health response 5',
+    ]);
   };
 
   /** Opens the dropdown and checks its length is 5 */
@@ -78,11 +64,10 @@ class SearchComponent {
 
   /** Gets the input field dropdown, moves down three items, and presses Enter */
   navigateSearchSuggestions = () => {
-    cy.get('#search-header-dropdown-input-field')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{downarrow}')
-      .type('{enter}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
+    cy.get('#search-header-dropdown-input-field').type('{enter}');
   };
 
   /** Focuses on the Search button and checks that the listbox disappears */

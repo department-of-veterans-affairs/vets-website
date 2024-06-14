@@ -13,6 +13,7 @@ import {
   MILITARY_STATES,
   ADDRESS_TYPES_ALTERNATE,
   ADDRESS_PROPS,
+  FIELD_NAMES,
 } from '../constants';
 
 /**
@@ -158,4 +159,13 @@ export const validateAsciiCharacters = (errors, field) => {
       'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',
     );
   }
+};
+
+// checks for basic field data or data for nested object like gender identity
+export const isFieldEmpty = (data, fieldName) => {
+  // checks whether data is available and in the case of gender identity if there is a code present
+  return (
+    !data ||
+    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
+  );
 };

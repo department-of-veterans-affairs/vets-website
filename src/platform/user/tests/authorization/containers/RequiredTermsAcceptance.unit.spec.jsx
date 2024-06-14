@@ -43,7 +43,7 @@ describe('<RequiredTermsAcceptanceView>', () => {
       <RequiredTermsAcceptanceView {...props} />,
     );
 
-    expect(tree.subTree('LoadingIndicator')).to.be.ok;
+    expect(tree.subTree('va-loading-indicator')).to.be.ok;
   });
 
   it('should properly render children if terms accepted', () => {

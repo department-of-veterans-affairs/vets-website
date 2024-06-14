@@ -1,9 +1,9 @@
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
-
 import { disabilitiesExplanation } from '../content/contestableIssues';
 
-import { selectionRequired, maxIssues } from '../validations/issues';
-import { SELECTED } from '../constants';
+import { SELECTED } from '../../shared/constants';
+import { hasSomeSelected } from '../../shared/utils/issues';
+import { selectionRequired, maxIssues } from '../../shared/validations/issues';
 
 /**
  * contestable issues with add issue link (list loop)
@@ -19,6 +19,7 @@ const contestableIssues = {
       'ui:title': ' ',
       'ui:field': 'StringField',
       'ui:widget': ContestableIssuesWidget,
+      'ui:required': formData => !hasSomeSelected(formData),
       'ui:options': {
         forceDivWrapper: true,
         keepInPageOnReview: true,

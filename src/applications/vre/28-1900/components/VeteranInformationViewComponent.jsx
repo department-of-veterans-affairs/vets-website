@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import moment from 'moment';
 
 const VeteranInformationViewComponent = props => {
@@ -40,12 +38,14 @@ const VeteranInformationViewComponent = props => {
       {profile?.userFullName?.first && profile?.userFullName?.last ? (
         <div>
           <p>This is the personal information we have on file for you.</p>
-          <va-alert status="info">{alertContent}</va-alert>
+          <va-alert status="info" uswds="false">
+            {alertContent}
+          </va-alert>
           <p>
             <strong>Note:</strong> If you need to update your personal
-            information, please call Veterans Benefits Assistance at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m. and
-            9:00 p.m. ET Monday through Friday.
+            information, call Veterans Benefits Assistance at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m.{' '}
+            and 9:00 p.m. ET Monday through Friday.
           </p>
         </div>
       ) : (

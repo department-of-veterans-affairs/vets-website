@@ -2,7 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-export const DevModeNavLinks = ({ pageList }) => (
+const CollapsibleWrapper = ({ children }) => {
+  return (
+    <va-additional-info
+      disable-border
+      disable-analytics
+      trigger="Routes (dev only)"
+      uswds
+    >
+      {children}
+    </va-additional-info>
+  );
+};
+
+const NavLinks = ({ pageList }) => (
   <span>
     {pageList.map(({ path }) => {
       return (
@@ -14,10 +27,28 @@ export const DevModeNavLinks = ({ pageList }) => (
   </span>
 );
 
-DevModeNavLinks.propTypes = {
+export const DevModeNavLinks = ({ pageList, collapsible }) =>
+  collapsible ? (
+    <CollapsibleWrapper>
+      <NavLinks pageList={pageList} />
+    </CollapsibleWrapper>
+  ) : (
+    <NavLinks pageList={pageList} />
+  );
+
+CollapsibleWrapper.propTypes = {
+  children: PropTypes.node,
+};
+
+NavLinks.propTypes = {
   pageList: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string.isRequired,
     }),
   ),
+};
+
+DevModeNavLinks.propTypes = {
+  collapsible: PropTypes.bool,
+  pageList: NavLinks.propTypes.pageList,
 };

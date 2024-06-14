@@ -47,8 +47,6 @@ describe('Pre-Check In Experience ', () => {
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-    Introduction.expandAccordion();
-    cy.createScreenshots('Pre-check-in--Introduction');
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
@@ -88,12 +86,6 @@ describe('Pre-Check In Experience ', () => {
       .should('equal', 200);
 
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Pre-check-in--Confirmation-answer-yes-to-all--default-accordions',
-    );
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--Confirmation-answer-yes-to-all--expanded-accordions',
-    );
+    cy.createScreenshots('Pre-check-in--Confirmation-answer-yes-to-all');
   });
 });

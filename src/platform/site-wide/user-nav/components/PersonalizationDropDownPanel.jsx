@@ -45,6 +45,7 @@ export default class PersonalizationDropDownPanel extends React.Component {
           aria-expanded={this.props.isOpen}
           disabled={this.props.disabled}
           onClick={this.toggleDropDown}
+          type="button"
         >
           <span>
             {this.props.icon}
@@ -67,7 +68,8 @@ PersonalizationDropDownPanel.propTypes = {
   /**
    * The text of the drop down button.
    */
-  buttonText: PropTypes.string.isRequired,
+  buttonText: PropTypes.oneOfType([PropTypes.node, PropTypes.string])
+    .isRequired,
 
   /**
    * A function called when the drop down button is clicked. This is often used
@@ -77,9 +79,27 @@ PersonalizationDropDownPanel.propTypes = {
   clickHandler: PropTypes.func.isRequired,
 
   /**
+   * Whether the drop down panel is open.
+   */
+  isOpen: PropTypes.bool.isRequired,
+
+  /**
+   * The children of the drop down panel.
+   */
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+
+  /**
    * Any CSS classes to apply to the button itself.
    */
   cssClass: PropTypes.string,
+
+  /**
+   * The disabled state of the drop down button.
+   */
+  disabled: PropTypes.bool,
 
   /**
    * The string of classnames for the dropdown panel container.
@@ -95,16 +115,6 @@ PersonalizationDropDownPanel.propTypes = {
    * The ID of the <div> surrounding the children.
    */
   id: PropTypes.string,
-
-  /**
-   * Whether the drop down panel is open.
-   */
-  isOpen: PropTypes.bool.isRequired,
-
-  /**
-   * The disabled state of the drop down button.
-   */
-  disabled: PropTypes.bool,
 };
 
 PersonalizationDropDownPanel.defaultProps = {

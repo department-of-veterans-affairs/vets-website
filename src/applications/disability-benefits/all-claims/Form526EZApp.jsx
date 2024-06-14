@@ -3,46 +3,48 @@ import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from 'platform/user/profile/constants/backendServices';
+import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTING,
-} from 'platform/site-wide/wizard';
+} from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
-import {
-  MissingServices,
-  MissingId,
-  MissingDob,
-} from './containers/MissingServices';
-
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
-  WIZARD_STATUS,
-  SHOW_8940_4192,
-  PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
+  PAGE_TITLE_SUFFIX,
+  SHOW_8940_4192,
+  SHOW_REVISED_ADD_DISABILITIES_PAGE,
+  WIZARD_STATUS,
 } from './constants';
 import {
-  show526Wizard,
   isBDD,
   getPageTitle,
+  isExpired,
+  show526Wizard,
   showSubform8940And4192,
   wrapWithBreadcrumb,
-  isExpired,
 } from './utils';
 import {
-  getBranches,
-  fetchBranches,
   clearBranches,
+  fetchBranches,
+  getBranches,
 } from './utils/serviceBranches';
+import { Missing526Identifiers } from './containers/Missing526Identifiers';
+import {
+  MissingDob,
+  MissingId,
+  MissingServices,
+} from './containers/MissingServices';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -64,6 +66,21 @@ export const hasRequiredId = profile =>
 
 export const hasRequiredDob = profile => !!profile.dob;
 
+const listMissingIdentifiers = profile => {
+  // claims.form526RequiredIdentifierPresence is included in the profile when the form_526_required_identifiers_in_user_object feature flag is enabled on the back end
+  // We simply check for the presence of it here instead of toggling a feature flag on the front end as well
+  const identiferDetail = profile?.claims?.form526RequiredIdentifierPresence;
+
+  // If we do have this information, are any of the identifiers marked false, meaning we are missing that identifer on the back end?
+  if (identiferDetail && typeof identiferDetail === 'object') {
+    return Object.values(identiferDetail).some(
+      idPresence => idPresence === false,
+    );
+  }
+
+  return false;
+};
+
 export const isIntroPage = ({ pathname = '' } = {}) =>
   pathname.endsWith('/introduction');
 
@@ -82,7 +99,10 @@ export const Form526Entry = ({
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showRevisedNewDisabilitiesPage = useToggleValue(
+    TOGGLE_NAMES.disability526ImprovedAutosuggestionsAddDisabilitiesPage,
+  );
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
@@ -125,7 +145,17 @@ export const Form526Entry = ({
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
     },
-    [showSubforms, wizardStatus, inProgressFormId, profile, location],
+    [inProgressFormId, location, profile, showSubforms, wizardStatus],
+  );
+
+  useEffect(
+    () => {
+      window.sessionStorage.setItem(
+        SHOW_REVISED_ADD_DISABILITIES_PAGE,
+        showRevisedNewDisabilitiesPage,
+      );
+    },
+    [showRevisedNewDisabilitiesPage],
   );
 
   useEffect(
@@ -192,15 +222,31 @@ export const Form526Entry = ({
   // RequiredLoginView will handle unverified users by showing the
   // appropriate link
   if (profile.verified) {
+    if (listMissingIdentifiers(profile)) {
+      // Render more descriptive Missing526Identifiers component which will replace the misleading MissingDob, MissingId and MissingServices components
+      const identifiers = profile.claims.form526RequiredIdentifierPresence;
+
+      return wrapWithBreadcrumb(
+        title,
+        <Missing526Identifiers
+          title={title}
+          form526RequiredIdentifers={identifiers}
+        />,
+      );
+    }
+
     // EVSS requires user DOB for submission - see #27374
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredDob(profile)) {
       return wrapWithBreadcrumb(title, <MissingDob title={title} />);
     }
     // User is missing either their SSN, EDIPI, or BIRLS ID
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredId(profile)) {
       return wrapWithBreadcrumb(title, <MissingId title={title} />);
     }
     // User doesn't have the required services. Show an alert
+    // To be deprecated in favor of more descriptive Missing526Identifiers component
     if (!hasRequiredServices(profile)) {
       return wrapWithBreadcrumb(title, <MissingServices title={title} />);
     }

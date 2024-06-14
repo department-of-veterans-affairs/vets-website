@@ -39,7 +39,7 @@ export const uiSchema = {
         'ui:required': (formData, index) =>
           formData.veteranMarriageHistory[`${index}`].reasonMarriageEnded ===
           'Other',
-        'ui:title': 'Please give a brief explanation',
+        'ui:title': 'Give a brief explanation',
         'ui:options': {
           expandUnder: 'reasonMarriageEnded',
           expandUnderCondition: 'Other',

@@ -6,8 +6,8 @@ import ConfirmablePage from '../ConfirmablePage';
 export default function EmergencyContactDisplay({
   emergencyContact = {},
   eyebrow = '',
-  yesAction = () => {},
-  noAction = () => {},
+  yesAction,
+  noAction,
   router,
 }) {
   const { t } = useTranslation();
@@ -51,9 +51,9 @@ export default function EmergencyContactDisplay({
 }
 
 EmergencyContactDisplay.propTypes = {
+  noAction: PropTypes.func.isRequired,
+  yesAction: PropTypes.func.isRequired,
   emergencyContact: PropTypes.object,
   eyebrow: PropTypes.string,
-  noAction: PropTypes.func,
   router: PropTypes.object,
-  yesAction: PropTypes.func,
 };

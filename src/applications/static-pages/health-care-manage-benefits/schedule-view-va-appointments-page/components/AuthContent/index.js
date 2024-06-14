@@ -1,8 +1,10 @@
 // Node modules.
 import React from 'react';
+import PropTypes from 'prop-types';
 // Relative imports.
-import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
+import { getCernerURL } from 'platform/utilities/cerner';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import { connect } from 'react-redux';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import {
@@ -11,12 +13,15 @@ import {
   otherFacilitiesPropType,
   useSingleLogoutPropType,
 } from '../../../propTypes';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 
 export const AuthContent = ({
   cernerFacilities,
   otherFacilities,
   ehrDataByVhaId,
   useSingleLogout,
+  widgetType,
+  featureBreadcrumbUrlUpdate,
 }) => (
   <>
     <CernerCallToAction
@@ -24,11 +29,16 @@ export const AuthContent = ({
       otherFacilities={otherFacilities}
       ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Manage appointments at:"
-      myHealtheVetLink={appointmentsToolLink}
+      myHealtheVetLink={
+        featureBreadcrumbUrlUpdate
+          ? '/my-health/appointments'
+          : '/health-care/schedule-view-va-appointments/appointments'
+      }
       myVAHealthLink={getCernerURL(
         '/pages/scheduling/upcoming',
         useSingleLogout,
       )}
+      widgetType={widgetType}
     />
     <p data-testid="cerner-content">
       <strong>Note:</strong> If you can’t keep an existing appointment, please
@@ -182,10 +192,20 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
+  widgetType: PropTypes.string.isRequired,
   cernerFacilities: cernerFacilitiesPropType,
   ehrDataByVhaId: ehrDataByVhaIdPropType,
+  featureBreadcrumbUrlUpdate: PropTypes.bool,
   otherFacilities: otherFacilitiesPropType,
   useSingleLogout: useSingleLogoutPropType,
 };
 
-export default AuthContent;
+const mapStateToProps = state => {
+  const featureBreadcrumbUrlUpdate = toggleValues(state)
+    .vaOnlineSchedulingBreadcrumbUrlUpdate;
+  return {
+    featureBreadcrumbUrlUpdate,
+  };
+};
+
+export default connect(mapStateToProps)(AuthContent);

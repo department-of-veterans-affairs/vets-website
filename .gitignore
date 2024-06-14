@@ -15,6 +15,7 @@ src/site/tests/html/
 .env
 npm-debug.log
 *.log
+*.swp 
 
 config/config.proxy.js
 
@@ -43,6 +44,7 @@ dump.rdb
 all-links.csv
 .tern-port
 *.iml
+.ignore
 
 # Track shared IDE config
 !.vscode/extensions.json

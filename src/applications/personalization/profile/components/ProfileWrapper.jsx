@@ -1,32 +1,41 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
-import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
-import { EditContainer } from './edit/EditContainer';
-import { routesForNav } from '../routesForNav';
+import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
+import { getRoutesForNav } from '../routesForNav';
+import { normalizePath } from '../../common/helpers';
+import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
-// default layout includes the subnavs
-// edit layout is a full-width layout
 const LAYOUTS = {
-  DEFAULT: 'default',
-  EDIT: 'edit',
+  SIDEBAR: 'sidebar',
+  FULL_WIDTH: 'full-width',
 };
 
-// we want to use a different layout for the edit page
-// since the profile wrapper is getting passed in the router as children
-// we can really scope a layout to just the edit page in a more 'react router' way
-const getLayout = currentPathname => {
-  return currentPathname === PROFILE_PATHS.EDIT
-    ? LAYOUTS.EDIT
-    : LAYOUTS.DEFAULT;
+// we want to use a different layout for the specific routes
+// the profile hub and edit page are full width, while the others
+// include a sidebar navigation
+const getLayout = ({ currentPathname }) => {
+  const path = normalizePath(currentPathname);
+
+  const fullWidthPaths = [PROFILE_PATHS.EDIT, PROFILE_PATHS.PROFILE_ROOT];
+
+  // if the current path is in the list of full width paths, use that layout
+  if (fullWidthPaths.includes(path)) {
+    return LAYOUTS.FULL_WIDTH;
+  }
+
+  // fallback to the sidebar layout
+  return LAYOUTS.SIDEBAR;
 };
 
 const ProfileWrapper = ({
@@ -38,7 +47,26 @@ const ProfileWrapper = ({
   showNameTag,
 }) => {
   const location = useLocation();
-  const layout = getLayout(location.pathname);
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
+  const profileShowDirectDepositSingleFormToggle = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleForm,
+  );
+
+  const routesForNav = getRoutesForNav({
+    profileContacts: profileContactsToggle,
+    profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
+  });
+
+  const layout = useMemo(
+    () => {
+      return getLayout({
+        currentPathname: location.pathname,
+      });
+    },
+    [location.pathname],
+  );
 
   return (
     <>
@@ -49,7 +77,7 @@ const ProfileWrapper = ({
         />
       )}
 
-      {layout === LAYOUTS.DEFAULT && (
+      {layout === LAYOUTS.SIDEBAR && (
         <>
           <div className="medium-screen:vads-u-display--none">
             <ProfileMobileSubNav
@@ -60,6 +88,10 @@ const ProfileWrapper = ({
           </div>
 
           <div className="vads-l-grid-container vads-u-padding-x--0">
+            <ProfileBreadcrumbs
+              className={`medium-screen:vads-u-padding-left--2 vads-u-padding-left--1 ${isLOA3 &&
+                'vads-u-margin-top--neg2'} vads-u-margin-bottom--neg2`}
+            />
             <div className="vads-l-row">
               <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--3 vads-u-padding-left--2">
                 <ProfileSubNav
@@ -77,7 +109,9 @@ const ProfileWrapper = ({
         </>
       )}
 
-      {layout === LAYOUTS.EDIT && <EditContainer>{children}</EditContainer>}
+      {layout === LAYOUTS.FULL_WIDTH && (
+        <ProfileFullWidthContainer>{children}</ProfileFullWidthContainer>
+      )}
     </>
   );
 };

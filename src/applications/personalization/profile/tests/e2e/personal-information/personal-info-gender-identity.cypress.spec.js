@@ -30,11 +30,15 @@ describe('Gender identity field tests on the personal information page', () => {
     cy.findByTestId('cancel-edit-button').click();
 
     // should show cancel editing alert
-    cy.findByRole('alertdialog').should('exist');
+    cy.get('va-modal[visible]').should('exist');
 
     cy.findByTestId('confirm-cancel-modal')
       .shadow()
-      .findByRole('button', { name: /cancel/i })
+      .find('.usa-button-group')
+      .first()
+      .find('va-button')
+      .shadow()
+      .findByText(/yes, cancel my changes/i)
       .click();
 
     cy.findByText(genderEditInputLabel).should('not.exist');

@@ -1,23 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
-import ExpandableOperatingStatus from './ExpandableOperatingStatus';
 import { buildOperatingStatusProps } from '../buildOperatingStatusProps';
+import VAFacilityAddress from './VAFacilityAddress';
+import VAFacilityTitle from './VAFacilityTitle';
+import VAFacilityPhone from './VAFacilityPhone';
 
 function VetCenterInfoSection(props) {
-  const addressDirections = `${props.vetCenter.fieldAddress.addressLine1}, ${
-    props.vetCenter.fieldAddress.locality
-  }, ${props.vetCenter.fieldAddress.administrativeArea}, ${
-    props.vetCenter.fieldAddress.postalCode
-  }`;
-
   const attrs = {
     opStatus: props.vetCenter.fieldOperatingStatusFacility,
     opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
   };
-
   const opStatusConfig = buildOperatingStatusProps(attrs);
-
   const renderPhone = phoneNumber => {
     if (!phoneNumber) return null;
     return (
@@ -25,24 +18,38 @@ function VetCenterInfoSection(props) {
         <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
           Phone
         </h4>
-        <div className="main-phone">
-          <strong />
-          <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
-        </div>
+        <VAFacilityPhone phoneNumber={phoneNumber} />
       </>
     );
   };
 
   return (
     <>
-      {props.vetCenter.title && (
-        <h3 className="vads-u-margin-bottom--1 vads-u-margin-top--0 vads-u-font-size--md vads-u-font-size--lg">
-          {props.vetCenter.title}
-        </h3>
-      )}
+      <VAFacilityTitle vaFacility={props.vetCenter} />
       {opStatusConfig && (
         <div className="vads-u-margin-bottom--1">
-          <ExpandableOperatingStatus {...opStatusConfig} />
+          <va-alert-expandable
+            id={`operating-status-alert-${
+              props.vetCenter.fieldFacilityLocatorApiId
+            }`}
+            data-testid={`operating-status-alert-${
+              props.vetCenter.fieldFacilityLocatorApiId
+            }`}
+            status={opStatusConfig.statusType}
+            trigger={opStatusConfig.statusLabel}
+            class="vads-u-margin-y--0 vamc-facility-expandable-alert"
+            style={{ maxWidth: '303px' }}
+          >
+            <div>
+              {(opStatusConfig.extraInfo || '').split('\n').map((line, i) => (
+                <p
+                  key={`${props.vetCenter.fieldFacilityLocatorApiId}-line-${i}`}
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+          </va-alert-expandable>
         </div>
       )}
       <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
@@ -50,31 +57,8 @@ function VetCenterInfoSection(props) {
           ? 'Located at'
           : 'Address'}
       </h4>
-      <div className="vads-u-margin-bottom--3">
-        <address className="vads-u-margin-bottom--0">
-          <div>{props.vetCenter.fieldAddress.organization}</div>
-          <div>{props.vetCenter.fieldAddress.addressLine1}</div>
-          <div>
-            {props.vetCenter.fieldAddress.locality}
-            {', '}
-            {props.vetCenter.fieldAddress.administrativeArea}{' '}
-            {props.vetCenter.fieldAddress.postalCode}
-          </div>
-        </address>
-        <div>
-          <a
-            onClick={() => {
-              recordEvent({
-                event: 'directions-link-click',
-                'vet-center-facility-name': props.vetCenter.title,
-              });
-            }}
-            href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
-            aria-label={`Directions to ${props.vetCenter.title} on Google Maps`}
-          >
-            Directions on Google Maps
-          </a>
-        </div>
+      <div className="vads-u-margin-bottom--2">
+        <VAFacilityAddress vaFacility={props.vetCenter} />
       </div>
       {props.vetCenter.entityBundle === 'vet_center_cap'
         ? renderPhone(props.mainVetCenterPhone)
@@ -84,8 +68,8 @@ function VetCenterInfoSection(props) {
 }
 
 VetCenterInfoSection.propTypes = {
-  vetCenter: PropTypes.object,
   mainVetCenterPhone: PropTypes.string,
+  vetCenter: PropTypes.object,
 };
 
 export default VetCenterInfoSection;

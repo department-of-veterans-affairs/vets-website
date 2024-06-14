@@ -12,6 +12,7 @@ import { setup, pageHooks } from './cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
+    useWebComponentFields: true,
 
     // 'full-781-781a-8940-test.json' moved to long-ptsd.cypress.spec.js
     // to help balance out CI

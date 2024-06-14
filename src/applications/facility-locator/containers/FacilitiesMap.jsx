@@ -8,6 +8,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchText,
@@ -26,7 +27,6 @@ import {
   facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
-  facilityLocatorLighthouseCovidVaccineQuery,
 } from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -347,7 +347,7 @@ const FacilitiesMap = props => {
     <>
       <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
-      <map
+      <div
         id={mapboxGlContainer}
         role="application"
         aria-label="Find VA locations on an interactive map"
@@ -363,7 +363,7 @@ const FacilitiesMap = props => {
             query={props.currentQuery}
           />
         )}
-      </map>
+      </div>
     </>
   );
 
@@ -433,17 +433,22 @@ const FacilitiesMap = props => {
           suppressPPMS={props.suppressPPMS}
           suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
-          searchCovid19Vaccine={props.searchCovid19Vaccine}
           clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-          <div id="search-result-emergency-care-info">
-            <p className="search-result-emergency-care-subheader">
-              <strong>Note:</strong> If you think your life or health is in
-              danger, call <va-telephone contact="911" /> or go to the nearest
-              emergency department right away.
-            </p>
-          </div>
+          <VaAlert
+            slim
+            uswds
+            fullWidth
+            status="info"
+            className="vads-u-margin-top--1"
+            data-testid="emergency-care-info-note"
+            id="emergency-care-info-note"
+          >
+            <strong>Note:</strong> If you think your life or health is in
+            danger, call <va-telephone contact="911" /> or go to the nearest
+            emergency department right away.
+          </VaAlert>
         )}
         <div id="search-results-title" ref={searchResultTitleRef}>
           {!searchError && (
@@ -664,7 +669,6 @@ const mapStateToProps = state => ({
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
-  searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,

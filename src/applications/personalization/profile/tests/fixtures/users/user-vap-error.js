@@ -87,7 +87,7 @@ export const mockUser = {
   meta: {
     errors: [
       {
-        externalService: 'Vet360',
+        externalService: 'VAProfile',
         startTime: '2020-11-19T17:32:54Z',
         endTime: null,
         description:

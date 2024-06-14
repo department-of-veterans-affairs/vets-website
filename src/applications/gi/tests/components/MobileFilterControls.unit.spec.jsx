@@ -10,4 +10,26 @@ describe('<MobileFilterControls/>', () => {
     expect(wrapper.html()).to.not.be.undefined;
     wrapper.unmount();
   });
+
+  it('should add class modal-open to body when filterClick button click', async () => {
+    const wrapper = shallow(<MobileFilterControls />);
+    const btn = wrapper.find('button.usa-button-secondary').last();
+    expect(btn.text()).to.equal('Filter your results');
+    btn.simulate('click');
+    const hasClass = document.body.classList.contains('modal-open');
+    expect(hasClass).to.be.true;
+    // });
+
+    wrapper.unmount();
+  });
+
+  it('should add class modal-open to body when tuitionAndHousingEstimatesClick button click', async () => {
+    const wrapper = shallow(<MobileFilterControls />);
+    const btn = wrapper.find('button.usa-button-secondary').first();
+    expect(btn.text()).to.equal('Update tuition and housing estimates');
+    btn.simulate('click');
+    const hasClass = document.body.classList.contains('modal-open');
+    expect(hasClass).to.be.true;
+    wrapper.unmount();
+  });
 });

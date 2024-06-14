@@ -1,12 +1,13 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 
 import Main from './Main';
 
@@ -33,8 +34,13 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div>{view}</div>;
+  return <div className="row">{view}</div>;
 }
+
+AppContent.propTypes = {
+  children: PropTypes.node,
+  isDataAvailable: PropTypes.bool,
+};
 
 function Post911GIBStatusApp({ user, children }) {
   return (
@@ -48,12 +54,17 @@ function Post911GIBStatusApp({ user, children }) {
         dependencies={[externalServices.evss]}
       >
         <AppContent>
-          <Main>{children}</Main>
+          <Main apiVersion={{ apiVersion: 'v1' }}>{children}</Main>
         </AppContent>
       </DowntimeNotification>
     </RequiredLoginView>
   );
 }
+
+Post911GIBStatusApp.propTypes = {
+  children: PropTypes.node,
+  user: PropTypes.object,
+};
 
 function mapStateToProps(state) {
   return { user: state.user };

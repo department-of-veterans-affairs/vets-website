@@ -9,8 +9,9 @@ import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectVeteranData } from '../../selectors';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -25,7 +26,7 @@ const EmergencyContact = props => {
     goToPreviousPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useSessionStorage(false);
+  const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-emergency-contact-information',

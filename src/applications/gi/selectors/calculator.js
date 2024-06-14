@@ -15,7 +15,7 @@ const getInstitution = state => state.profile.attributes;
 
 const getFormInputs = state => state.calculator;
 
-const getInstitutionType = institution =>
+export const getInstitutionType = institution =>
   institution.type
     ? institution.type.toLowerCase()
     : institution.institutionTypeName.toLowerCase();
@@ -875,6 +875,9 @@ const getDerivedValues = createSelector(
     } else {
       monthlyRateDisplay = housingAllowTerm1 / termLength;
     }
+    // if FryScholarship and areYouActiveDuty is yes. Monthly Rate should be zero.
+    monthlyRateDisplay =
+      eligibility.areYouActiveDuty === 'yes' ? 0 : monthlyRateDisplay;
 
     return {
       tier,

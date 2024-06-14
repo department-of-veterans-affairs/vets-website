@@ -12,7 +12,8 @@ export default function ReviewPausedInfo({
       status="warning"
       trigger="If you submit this verification, we’ll pause your monthly education payments"
     >
-      <div>
+      {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
+      <div tabIndex="0">
         {skippedAheadIncorrectMonth && (
           <p>
             We skipped you ahead to the review step because you selected “No,

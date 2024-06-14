@@ -5,6 +5,7 @@ import validateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('Next of kin Page', () => {
@@ -25,6 +26,8 @@ describe('Check In Experience', () => {
       cy.visitWithUUID();
       validateVeteran.validateVeteran();
       validateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.attemptToGoToNextPage();
@@ -34,12 +37,12 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('next of kin display', () => {
-      NextOfKin.validatePageLoaded(
-        'Check-In Is this your current next of kin information?',
-      );
+    it('renders its children', () => {
+      NextOfKin.validatePage.dayOf();
       NextOfKin.validateNextOfKinFields();
       NextOfKin.validateNextOfKinData();
+      NextOfKin.validateHelpText();
+      NextOfKin.validateAdditionalInfo.dayOf();
       cy.injectAxeThenAxeCheck();
     });
   });

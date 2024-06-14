@@ -1,38 +1,39 @@
-import moment from 'moment';
+import { startOfDay } from 'date-fns';
 import { expect } from 'chai';
-
-import { SELECTED, LEGACY_TYPE } from '../../constants';
-import { getDate } from '../../utils/dates';
 
 import {
   getEligibleContestableIssues,
-  getLegacyAppealsLength,
   mayHaveLegacyAppeals,
   isVersion1Data,
-  someSelected,
-  hasSomeSelected,
-  getSelected,
-  getSelectedCount,
-  getIssueName,
-  getIssueDate,
-  getIssueNameAndDate,
-  hasDuplicates,
-  isEmptyObject,
-  processContestableIssues,
-  readableList,
-  returnPhoneObject,
-  checkContestableIssueError,
 } from '../../utils/helpers';
 
+import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import {
+  isEmptyObject,
+  returnPhoneObject,
+} from '../../../shared/utils/helpers';
+import {
+  getIssueDate,
+  getIssueName,
+  getIssueNameAndDate,
+  getLegacyAppealsLength,
+  getSelected,
+  getSelectedCount,
+  hasDuplicates,
+  hasSomeSelected,
+  someSelected,
+} from '../../../shared/utils/issues';
+
 describe('getEligibleContestableIssues', () => {
-  const date = moment().startOf('day');
+  const date = startOfDay(new Date());
 
   const eligibleIssue = {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: '',
-      approxDecisionDate: getDate({ date, offset: { months: -10 } }),
+      approxDecisionDate: parseDateWithOffset({ months: -10 }, date),
     },
   };
   const ineligibleIssue = [
@@ -41,7 +42,7 @@ describe('getEligibleContestableIssues', () => {
       attributes: {
         ratingIssueSubjectText: 'Issue 1',
         description: '',
-        approxDecisionDate: getDate({ date, offset: { years: -2 } }),
+        approxDecisionDate: parseDateWithOffset({ years: -2 }, date),
       },
     },
   ];
@@ -50,7 +51,7 @@ describe('getEligibleContestableIssues', () => {
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: 'this is a deferred issue',
-      approxDecisionDate: getDate({ date, offset: { months: -1 } }),
+      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
     },
   };
 
@@ -341,60 +342,6 @@ describe('isEmptyObject', () => {
   });
 });
 
-describe('processContestableIssues', () => {
-  const getIssues = dates =>
-    dates.map(date => ({
-      attributes: { ratingIssueSubjectText: 'a', approxDecisionDate: date },
-    }));
-  const getDates = dates =>
-    dates.map(date => date.attributes.approxDecisionDate);
-
-  it('should return an empty array with undefined issues', () => {
-    expect(getDates(processContestableIssues())).to.deep.equal([]);
-  });
-  it('should filter out issues missing a title', () => {
-    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-01-01']);
-    issues[0].attributes.ratingIssueSubjectText = '';
-    const result = processContestableIssues(issues);
-    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
-  });
-  it('should sort issues spanning months with newest date first', () => {
-    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2020-03-01',
-      '2020-02-01',
-      '2020-01-01',
-    ]);
-  });
-  it('should sort issues spanning a year & months with newest date first', () => {
-    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
-    const result = processContestableIssues(getIssues(dates));
-    expect(getDates(result)).to.deep.equal([
-      '2021-02-02',
-      '2021-02-01',
-      '2021-01-31',
-      '2020-12-01',
-    ]);
-  });
-});
-
-describe('readableList', () => {
-  it('should return an empty string', () => {
-    expect(readableList([])).to.eq('');
-    expect(readableList(['', null, 0])).to.eq('');
-  });
-  it('should return a combined list with commas with "and" for the last item', () => {
-    expect(readableList(['one'])).to.eq('one');
-    expect(readableList(['', 'one', null])).to.eq('one');
-    expect(readableList(['one', 'two'])).to.eq('one and two');
-    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
-    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
-      'v, w, x, y and z',
-    );
-  });
-});
-
 describe('returnPhoneObject', () => {
   const emptyPhone = {
     countryCode: '',
@@ -416,21 +363,5 @@ describe('returnPhoneObject', () => {
       phoneNumber: '5551212',
       phoneNumberExt: '',
     });
-  });
-});
-
-describe('checkContestableIssueError', () => {
-  it('should return false if no error', () => {
-    expect(checkContestableIssueError()).to.be.false;
-  });
-  it('should return false if 404 error', () => {
-    expect(checkContestableIssueError({ errors: [{ status: '404' }] })).to.be
-      .false;
-  });
-  it('should return true', () => {
-    expect(checkContestableIssueError({})).to.be.true;
-    expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
-    expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
-      .true;
   });
 });

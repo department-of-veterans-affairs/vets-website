@@ -1,4 +1,4 @@
-const moment = require('moment');
+const fns = require('date-fns');
 
 const MOCK_CC_APPOINTMENTS = {
   data: [
@@ -18,9 +18,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '32826',
         },
         instructionsToVeteran: 'Date test',
-        appointmentTime: moment()
-          .add(1, 'minutes')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { minutes: 1 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '-06:00 MDT',
       },
     },
@@ -40,9 +41,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '32826',
         },
         instructionsToVeteran: 'Please arrive 15 minutes ahead of appointment.',
-        appointmentTime: moment()
-          .add(10, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 10 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '+08:00 WITA',
       },
     },
@@ -62,9 +64,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '20151',
         },
         instructionsToVeteran: 'Bring your glasses',
-        appointmentTime: moment()
-          .add(25, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 25 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: 'UTC',
       },
     },
@@ -85,9 +88,10 @@ const MOCK_CC_APPOINTMENTS = {
         },
         instructionsToVeteran:
           'Please arrive 20 minutes before the start of your appointment',
-        appointmentTime: moment()
-          .add(31, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 31 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '-09:00 AKST',
       },
     },
@@ -107,9 +111,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '45404',
         },
         instructionsToVeteran: 'Please arrive 20 min early',
-        appointmentTime: moment()
-          .add(60, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 60 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '-04:00 EDT',
       },
     },
@@ -129,9 +134,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '20874',
         },
         instructionsToVeteran: 'Come on time appt',
-        appointmentTime: moment()
-          .add(80, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 80 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '-04:00 EDT',
       },
     },
@@ -151,9 +157,10 @@ const MOCK_CC_APPOINTMENTS = {
           zipCode: '33625',
         },
         instructionsToVeteran: 'Test Account',
-        appointmentTime: moment()
-          .add(100, 'days')
-          .format('MM/DD/YYYY hh:mm:ss'),
+        appointmentTime: fns.format(
+          fns.add(Date.now(), { days: 100 }),
+          'MM/dd/yyyy hh:mm:ss',
+        ),
         timeZone: '-06:00 MDT',
       },
     },

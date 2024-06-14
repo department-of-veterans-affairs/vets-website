@@ -11,7 +11,6 @@ import { formatOperatingHours } from '../utils/helpers';
 const LocationHours = ({ location, showHoursSpecialInstructions }) => {
   // Derive the formatted hours info.
   const hoursInfo = get(location, 'attributes.hours');
-
   // Derive the time ranges for each day.
   const sunday = formatOperatingHours(get(hoursInfo, 'sunday'));
   const monday = formatOperatingHours(get(hoursInfo, 'monday'));

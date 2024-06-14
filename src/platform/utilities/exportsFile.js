@@ -18,16 +18,7 @@ export {
 export { fetchAndUpdateSessionExpiration, apiRequest } from './api/index';
 
 /* cerner */
-export {
-  CERNER_FACILITY_IDS,
-  CERNER_RX_BLOCKLIST,
-  CERNER_MESSAGING_BLOCKLIST,
-  CERNER_APPOINTMENTS_BLOCKLIST,
-  CERNER_MEDICAL_RECORDS_BLOCKLIST,
-  CERNER_TEST_RESULTS_BLOCKLIST,
-  getCernerURL,
-  appointmentsToolLink,
-} from './cerner/index';
+export { getCernerURL, appointmentsToolLink } from './cerner/index';
 
 /* data */
 export { default as objectKeysToCamelCase } from './data/camelCaseObjectKeys';
@@ -109,6 +100,7 @@ export {
   removeLoginAttempted,
 } from './sso/loginAttempted';
 export { default as mockKeepAliveSSO } from './sso/mockKeepAliveSSO';
+export { logoutUrlSiS } from './oauth/utilities';
 
 /* storage */
 export { default as getLocalStorage } from './storage/localStorage';

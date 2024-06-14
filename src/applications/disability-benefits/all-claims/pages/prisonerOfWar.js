@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
 import { claimingNew, formatDate } from '../utils';
@@ -44,8 +45,9 @@ export const uiSchema = {
     },
     powDisabilities: {
       'ui:title': ' ',
+      'ui:webComponentField': VaCheckboxGroupField,
       'ui:description':
-        'Which of your new conditions was caused or affected by your POW experience?',
+        'Which of your conditions is connected to your POW experience?',
       'ui:options': {
         hideIf: formData => !claimingNew(formData),
         updateSchema: makeSchemaForNewDisabilities,

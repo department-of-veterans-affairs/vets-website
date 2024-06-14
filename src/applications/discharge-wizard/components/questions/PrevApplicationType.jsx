@@ -50,6 +50,7 @@ const PrevApplicationType = ({
     name: key,
     label:
       'What type of application did you make to upgrade your discharge previously?',
+    'label-header-level': '2',
     key,
     value: formValues[key],
     onVaValueChange: e => {
@@ -64,7 +65,7 @@ const PrevApplicationType = ({
   return (
     <div className="vads-u-margin-top--6">
       <Element name={key} />
-      <VaRadio {...radioButtonProps}>
+      <VaRadio {...radioButtonProps} uswds>
         {options.map((option, index) => (
           <va-radio-option
             key={index}

@@ -1,7 +1,7 @@
 /* eslint-disable deprecate/import */
 import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+// eslint-disable-next-line deprecate/import
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import CustomReviewField from '../../../components/CustomReviewField';
 
@@ -9,7 +9,7 @@ const { vaPensionType } = fullSchemaHca.properties;
 
 const PensionInfo = () => (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
-    <AdditionalInfo triggerText="Why we ask for this information">
+    <va-additional-info trigger="Why we ask for this information">
       <p>We use this information to help us decide these 3 things:</p>
       <ul>
         <li className="vads-u-margin-left--3 vads-u-margin-bottom--2 bullet-disc">
@@ -27,7 +27,7 @@ const PensionInfo = () => (
         If you have a Veterans Pension, you may pay a lower copay, or no copay,
         for certain types of care and services.
       </p>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 

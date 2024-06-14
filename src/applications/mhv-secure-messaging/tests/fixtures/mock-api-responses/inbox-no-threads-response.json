@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Operation failed",
+      "detail": "No messages in the requested folder",
+      "code": "VA900",
+      "status": "400"
+    }
+  ]
+}

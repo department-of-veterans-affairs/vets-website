@@ -1,7 +1,7 @@
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import get from '~/platform/utilities/data/get';
+import omit from '~/platform/utilities/data/omit';
+import set from '~/platform/utilities/data/set';
+import unset from '~/platform/utilities/data/unset';
 
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place
@@ -78,6 +78,7 @@ export default [
 
     return { formData, metadata: newMetadata };
   },
+  // 3 -> 4, we need to ensure the correct compensation type is selected
   ({ formData, metadata }) => {
     const {
       compensableVaServiceConnected = null,
@@ -158,7 +159,7 @@ export default [
         : set('returnUrl', '/va-benefits/basic-information', metadata),
     };
   },
-  // required strings can not pass validation with only spaces
+  // 4 -> 5, we need to ensure required strings cannot pass validation with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
     let newMetaData = metadata || {};
@@ -173,14 +174,6 @@ export default [
         selector: 'veteranAddress.street',
         returnUrl: 'veteran-information/veteran-address',
       },
-      {
-        selector: 'veteranFullName.last',
-        returnUrl: 'veteran-information/personal-information',
-      },
-      {
-        selector: 'veteranFullName.first',
-        returnUrl: 'veteran-information/personal-information',
-      },
     ].forEach(({ selector, returnUrl }) => {
       if (!notBlankStringPattern.test(get(selector, newFormData))) {
         newFormData = unset(selector, newFormData);
@@ -193,7 +186,7 @@ export default [
       metadata: newMetaData,
     };
   },
-  // 5 > 6, move user back to fields with only spaces
+  // 5 -> 6, send user back to fields with only spaces
   ({ formData, metadata }) => {
     let newFormData = formData;
     let newMetaData = metadata || {};
@@ -231,5 +224,31 @@ export default [
       formData: newFormData,
       metadata: newMetaData,
     };
+  },
+  // 6 -> 7, we fully adopted a revised household section and need update the URLs from
+  // the to remove the `v2` reference
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url.includes('household-information-v2')) {
+      const returnUrl = url.replace(
+        /household-information-v2/,
+        'household-information',
+      );
+
+      newMetadata = set('returnUrl', returnUrl, newMetadata);
+    }
+
+    return { formData, metadata: newMetadata };
+  },
+  // 7 -> 8, with the addition of the Toxic Exposure questions, we need to ensure all
+  // users go through these, so we will send users back to the start of the form
+  ({ formData, metadata }) => {
+    /**
+     * This original migration was reverted due to only needing to update the return
+     * URL for a 60-day window while current SIP forms were allowed to expire.
+     */
+    return { formData, metadata };
   },
 ];

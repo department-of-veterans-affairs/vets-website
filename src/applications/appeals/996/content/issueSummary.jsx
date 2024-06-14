@@ -2,18 +2,19 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { getSelected } from '../utils/helpers';
-import { ShowIssuesList } from '../components/ShowIssuesList';
-import { CONTESTABLE_ISSUES_PATH } from '../constants';
+import ShowIssuesList from '../../shared/components/ShowIssuesList';
+
+import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { getSelected } from '../../shared/utils/issues';
 
 export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);
 
   return (
     <>
-      <p className="vads-u-margin-top--0">
-        These are the issues you’re asking to get a Higher-Level Review.
-      </p>
+      <h3 className="vads-u-margin-top--0">
+        You’re requesting a Higher-Level Review for these issues:
+      </h3>
       {ShowIssuesList({ issues })}
       <p>
         If an issue is missing, please{' '}

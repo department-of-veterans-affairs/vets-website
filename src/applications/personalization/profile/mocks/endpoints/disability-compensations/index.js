@@ -59,12 +59,18 @@ const isDeceased = _.set(
 );
 setInstitutionName(isDeceased, 'TEST DECEASED FLAG - DISABILITY COMPENSATIONS');
 
-const notEnrolled = _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
+const isEligible = _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
   name: null,
   accountType: null,
   accountNumber: null,
   routingNumber: null,
 });
+
+const isNotEligible = _.set(
+  _.cloneDeep(isEligible),
+  'data.attributes.controlInformation.canUpdateDirectDeposit',
+  false,
+);
 
 // used as the base for other errors via createError
 const unspecifiedError = {
@@ -95,7 +101,7 @@ const errors = {
   generic: createError({
     code: 'cnp.payment.generic.error',
   }),
-  accoundNumberFlagged: createError({
+  accountNumberFlagged: createError({
     code: 'cnp.payment.account.number.fraud',
   }),
   routingNumberFlagged: createError({
@@ -138,7 +144,8 @@ module.exports = {
   isDeceased,
   isFiduciary,
   isNotCompetent,
-  notEnrolled,
+  isEligible,
+  isNotEligible,
   updates: {
     success: _.set(_.cloneDeep(base), 'data.attributes.paymentAccount', {
       name: 'TEST UPDATE SUCCESS - DISABILITY COMPENSATIONS',

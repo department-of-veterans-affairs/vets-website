@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -63,7 +66,10 @@ const uiSchema = {
 const pageKey = 'typeOfEyeCare';
 const pageTitle = 'Choose the type of eye care you need';
 
-export default function TypeOfEyeCarePage() {
+export default function TypeOfEyeCarePage({ changeCrumb }) {
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -74,6 +80,9 @@ export default function TypeOfEyeCarePage() {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
+    if (featureBreadcrumbUrlUpdate) {
+      changeCrumb(pageTitle);
+    }
   }, []);
 
   return (
@@ -105,3 +114,7 @@ export default function TypeOfEyeCarePage() {
     </div>
   );
 }
+
+TypeOfEyeCarePage.propTypes = {
+  changeCrumb: PropTypes.func,
+};

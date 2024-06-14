@@ -1,4 +1,5 @@
 import React from 'react';
+import { APP_URLS, LAST_YEAR } from '../../utils/constants';
 
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
@@ -20,6 +21,7 @@ export const BirthSexDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-y--2"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -69,18 +71,26 @@ export const DemographicInfoDescription = (
 );
 
 export const HomeAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Home address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const MailingAddressDescription = (
-  <p className="vads-u-line-height--6 vads-u-margin-bottom--4">
-    We’ll send any important information about your application to this address.
-    Any updates you make here to your address will apply only to this
-    application.
-  </p>
+  <>
+    Mailing address
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
+      We’ll send any important information about your application to this
+      address. Any updates you make here to your address will apply only to this
+      application.
+    </div>
+  </>
 );
 
 export const SIGIGenderDescription = (
@@ -88,6 +98,7 @@ export const SIGIGenderDescription = (
     <va-additional-info
       trigger="What to know before you decide to share your gender identity"
       class="vads-u-margin-top--2"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -114,17 +125,7 @@ export const SIGIGenderDescription = (
   </>
 );
 
-/** CHAPTER 2: Military Service */
-export const ServiceHistoryTitle = (
-  <>
-    Service history
-    <span className="vads-u-display--block vads-u-margin-y--2 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-color--base">
-      Check all that apply to you.
-    </span>
-  </>
-);
-
-/** CHAPTER 3: VA Benefits */
+/** CHAPTER 2: VA Benefits */
 export const CompensationInfoDescription = (
   <p className="vads-u-margin-bottom-4">
     VA disability compensation (pay) provides monthly payments to Veterans with
@@ -139,6 +140,7 @@ export const CompensationTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -181,6 +183,7 @@ export const PensionTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -208,152 +211,163 @@ export const PensionTypeDescription = (
   </va-additional-info>
 );
 
-/** CHAPTER 4: Household Information */
-export const DeductibleExpensesDescription = (
-  <>
-    <p>
-      Tell us a bit about your expenses this past calendar year. Enter
-      information for any expenses that apply to you.
-    </p>
-
-    <va-additional-info
-      trigger="What if my expenses are higher than my annual income?"
-      class="vads-u-margin-y--2"
-    >
-      We understand in some cases your expenses might be higher than your
-      income. If your expenses exceed your income, we’ll adjust them to be equal
-      to your income. This won’t affect your application or benefits.
-    </va-additional-info>
-  </>
+/** CHAPTER 3: Military Service */
+export const ServiceDateRangeDescription = (
+  <div className="vads-u-color--gray-medium">
+    If you don’t know the exact date, enter your best guess
+  </div>
 );
 
-export const DependentDescription = () => {
-  const date = new Date();
-  return (
-    <va-additional-info
-      trigger="Who we consider a dependent"
-      class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+export const OtherToxicExposureDescription = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+    <a
+      target="_blank"
+      rel="noreferrer"
+      href="https://www.publichealth.va.gov/exposures/index.asp"
     >
-      <div>
-        <p className="vads-u-margin-top--0">
-          <strong>Here’s who we consider to be a dependent:</strong>
-        </p>
-        <ul>
-          <li>A spouse (we recognize same-sex and common law marriages)</li>
-          <li>
-            An unmarried child (including adopted children or stepchildren)
-          </li>
-        </ul>
-        <p>
-          <strong>
-            If your dependent is an unmarried child, one of these descriptions
-            must be true:
-          </strong>
-        </p>
-        <ul>
-          <li>
-            They’re under 18 years old, <strong>or</strong>
-          </li>
-          <li>
-            They’re between the ages of 18 and 23 years old and were attending
-            high school, college, or vocational school full-time or part-time
-            enrolled as a full time student in {date.getFullYear() - 1},{' '}
-            <strong>or</strong>
-          </li>
-          <li>
-            They’re living with a permanent disability that happened before they
-            turned 18
-          </li>
-        </ul>
-      </div>
-    </va-additional-info>
-  );
-};
+      Learn more about exposures on our Public Health website (opens in new tab)
+    </a>
+  </div>
+);
+
+export const OtherToxicExposureHint = (
+  <div className="vads-u-color--gray-medium">
+    If you’re listing multiple toxins or hazards, list them without commas or
+    any other special characters
+  </div>
+);
+
+/** CHAPTER 4: Household Information */
+export const DeductibleExpensesDescription = () => (
+  <legend className="schemaform-block-title">
+    Deductible expenses from {LAST_YEAR}
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+      These deductible expenses will lower the amount of money we count as your
+      income.
+    </div>
+  </legend>
+);
+
+export const DependentDescription = () => (
+  <va-additional-info
+    trigger="Who we consider a dependent"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        <strong>Here’s who we consider to be a dependent:</strong>
+      </p>
+      <ul>
+        <li>A spouse (we recognize same-sex and common law marriages)</li>
+        <li>An unmarried child (including adopted children or stepchildren)</li>
+      </ul>
+      <p>
+        <strong>
+          If your dependent is an unmarried child, one of these descriptions
+          must be true:
+        </strong>
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>
+          They’re under 18 years old, <strong>or</strong>
+        </li>
+        <li>
+          They’re between the ages of 18 and 23 years old and were enrolled as a
+          full-time or part-time student in high school, college, or vocational
+          school in {LAST_YEAR}, <strong>or</strong>
+        </li>
+        <li>
+          They’re living with a permanent disability that happened before they
+          turned 18 years old
+        </li>
+      </ul>
+    </div>
+  </va-additional-info>
+);
+
+export const DependentEducationExpensesDescription = (
+  <div className="vads-u-color--gray-medium">
+    Only enter an amount if they had gross income to report to the IRS in{' '}
+    {LAST_YEAR}. This income is the minimum amount of gross income the IRS
+    requires to file a federal income tax return.
+  </div>
+);
 
 export const DependentSupportDescription = (
-  <p className="vads-u-color--gray-medium vads-u-margin-top--1 vads-u-margin-bottom--3">
-    Please count all support contributions even if they weren’t paid in regular
-    and set amounts. Support can include tuition or medical bill payments
-  </p>
+  <va-additional-info
+    trigger="What we consider financial support for a dependent"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We consider any payments, even if they aren’t regular or the same
+        amount, to be financial support.
+      </p>
+      <p className="vads-u-font-weight--bold">
+        Financial Support includes payments for these types of expenses:
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Tuition or medical bills</li>
+        <li>Monthly child support</li>
+        <li>One-time payment financial support</li>
+      </ul>
+    </div>
+  </va-additional-info>
 );
 
 export const EducationalExpensesDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    This includes tuition, books, fees, and course materials.
-  </div>
-);
-
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
-export const FinancialDisclosureDescription = (
-  <>
-    <p>
-      Next, we’ll ask you to provide your financial information from the most
-      recent tax year, which we’ll verify with the IRS. We use this information
-      to figure out if you:
-    </p>
-
-    <ol>
-      <li>
-        Are eligible for health care even if you don’t have one of the
-        qualifying factors
-      </li>
-      <li>
-        Are eligible for added benefits, like reimbusement for travel costs or
-        cost-free medications
-      </li>
-      <li>Should be charged for copays or medication</li>
-    </ol>
-
-    <va-alert class="vads-u-margin-top--2p5" status="info">
-      <strong>Note:</strong> You don’t have to provide your financial
-      information. But if you don’t have a qualifying eligibility factor, this
-      information is the only other way for us to see if you can get VA health
-      care benefits--including added benefits like waived copays.
-    </va-alert>
-
-    <p>Qualifying factors:</p>
-    <ul>
-      <li>Former Prisoner of War</li>
-      <li>Received a Purple Heart</li>
-      <li>Recently discharged combat Veteran</li>
-      <li>
-        Discharged for a disability that resulted from your service or got worse
-        in the line of duty
-      </li>
-      <li>Getting VA service-connected disability compensation</li>
-      <li>Getting a VA pension</li>
-      <li>Receiving Medicaid benefits</li>
-      <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
-      <li>
-        Served in Southwest Asia during the Gulf War between August 2, 1990, and
-        November 11, 1998
-      </li>
-      <li>
-        Served at least 30 days at Camp Lejeune between August 1, 1953, and
-        December 31, 1987
-      </li>
-    </ul>
-
-    <p className="vads-u-margin-bottom--4">
-      <a
-        href="https://www.va.gov/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Learn more
-      </a>{' '}
-      about our income thresholds (also called income limits) and copayments.
-    </p>
-  </>
+  <va-additional-info
+    trigger="What we consider college or vocational expenses"
+    class="vads-u-margin-y--1"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        College and vocational expenses include payments for these expenses
+        related to your own education:
+      </p>
+      <ul>
+        <li>Tuition</li>
+        <li>Books</li>
+        <li>Fees</li>
+        <li>Course materials</li>
+      </ul>
+      <p className="vads-u-margin-bottom--0">
+        Only include expenses for your own education (not your dependents’
+        education).
+      </p>
+    </div>
+  </va-additional-info>
 );
 
 export const GrossIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Gross income is your income before any taxes, and other deductions are
-    subtracted. This includes any employment wages, bonuses, severance pay, and
-    tips. Include your dependent’s income if it could have been used to pay
-    household expenses.
-  </div>
+  <>
+    <div className="vads-u-margin-y--1">
+      Gross income is income before taxes and any other deductions are
+      subtracted.
+    </div>
+
+    <va-additional-info
+      trigger="What we consider gross annual income"
+      class="vads-u-margin-y--1"
+      uswds
+    >
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+          Gross income includes these types of income from a job:
+        </p>
+        <ul className="vads-u-margin-bottom--0">
+          <li>Wages</li>
+          <li>Bonuses</li>
+          <li>Tips</li>
+          <li>Severance pay</li>
+        </ul>
+      </div>
+    </va-additional-info>
+  </>
 );
 
 export const IncomeDescription = (
@@ -386,31 +400,11 @@ export const IncomeDescription = (
   </>
 );
 
-// NOTE: for household v1 only -- remove when v2 is fully-adopted
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
-  >
-    <div>
-      <p className="vads-u-margin-top--0">
-        We want to make sure we understand your household’s financial situation.
-      </p>
-
-      <p className="vads-u-margin-bottom--0">
-        We’ll ask about your income. If you’re married, we also need to
-        understand your spouse’s financial situation. This allows us to make a
-        more informed decision about your application.
-      </p>
-    </div>
-  </va-additional-info>
-);
-
-// NOTE: for household v2 only -- rename when v2 is fully-adopted
-export const MaritalStatusV2Description = (
-  <va-additional-info
-    trigger="Why we ask for this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -423,44 +417,119 @@ export const MaritalStatusV2Description = (
   </va-additional-info>
 );
 
-export const SpouseAdditionalInformation = () => {
-  const date = new Date();
-  return (
-    <>
-      <p>
-        Fill this out to the best of your knowledge. The more accurate your
-        responses, the faster we can process your application.
+export const MedicalExpensesDescription = (
+  <va-additional-info
+    trigger="What we consider non-reimbursable medical expenses"
+    class="vads-u-margin-y--1"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        Non-reimbursable medical expenses include costs you or your spouse paid
+        for these types of health care for yourselves, your dependents, or
+        others you have the moral obligation to support:
       </p>
-
-      <va-additional-info
-        trigger="Why we ask for this information"
-        class="vads-u-margin-top--2 vads-u-margin-bottom--4"
-      >
-        <div>
-          <p className="vads-u-margin-top--0">
-            This information helps us determine if your spouse was your
-            dependent in {date.getFullYear() - 1}.
-          </p>
-        </div>
-      </va-additional-info>
-    </>
-  );
-};
-
-export const NetIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    Net income is your income after any taxes and other deductions are
-    subtracted.
-  </div>
+      <ul>
+        <li>Doctor or dentist appointments</li>
+        <li>Medications</li>
+        <li>Medicare or health insurance</li>
+        <li>Inpatient hospital care</li>
+        <li>Nursing home care</li>
+      </ul>
+      <p className="vads-u-margin-bottom--0">
+        We only consider expenses non-reimbursable if your health insurance
+        doesn’t pay you back for the cost.
+      </p>
+    </div>
+  </va-additional-info>
 );
 
 export const OtherIncomeDescription = (
-  <div className="vads-u-color--gray-medium vads-u-margin-y--1">
-    This includes any income from Social Security, unemployment, retirement and
-    pension, compensation benefits such as VA disability, and any interest or
-    dividends including, tax-exempt earnings from Individual Retirement Accounts
-    (IRAs) or annuities.
-  </div>
+  <>
+    <div className="vads-u-margin-y--1">
+      Other income is additional income that doesn’t come from a job.
+    </div>
+
+    <va-additional-info
+      trigger="What we consider other annual income"
+      class="vads-u-margin-y--1"
+      uswds
+    >
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+          Other income includes things like this:
+        </p>
+        <ul className="vads-u-margin-bottom--0">
+          <li>Retirement benefits</li>
+          <li>Unemployment</li>
+          <li>VA benefit compensation</li>
+          <li>Money from the sale of a house</li>
+          <li>Interest from investments</li>
+        </ul>
+      </div>
+    </va-additional-info>
+  </>
+);
+
+export const SpouseBasicInformationDescription = (
+  <>
+    Spouse’s personal information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationTitle = (
+  <>
+    Spouse’s additional information
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2">
+      Fill this out to the best of your knowledge. The more accurate your
+      responses, the faster we can process your application.
+    </div>
+  </>
+);
+
+export const SpouseAdditionalInformationDescription = () => (
+  <va-additional-info
+    trigger="Why we ask for this information"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        This information helps us determine if your spouse was your dependent in{' '}
+        {LAST_YEAR}.
+      </p>
+    </div>
+  </va-additional-info>
+);
+
+export const SpouseFinancialSupportDescription = (
+  <va-additional-info
+    trigger="What we consider financial support for a spouse"
+    class="vads-u-margin-y--2"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        We consider any payments, even if they aren’t regular or the same
+        amount, to be financial support.
+      </p>
+      <p>
+        <strong>
+          Financial support includes payments for these types of payments:
+        </strong>
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>Monthly spousal support</li>
+        <li>One-time payment financial support</li>
+      </ul>
+    </div>
+  </va-additional-info>
 );
 
 /** CHAPTER 5: Insurance Information */
@@ -468,6 +537,7 @@ export const EssentialCoverageDescription = (
   <va-additional-info
     trigger="Learn more about minimum essential coverage."
     class="vads-u-margin-y--2 vads-u-margin-left--4"
+    uswds
   >
     To avoid the penalty for not having insurance, you must be enrolled in a
     health plan that qualifies as minimum essential coverage. Being signed up
@@ -480,7 +550,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+      <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>
@@ -529,6 +599,7 @@ export const HealthInsuranceCoverageDescription = (
   <va-additional-info
     trigger="Why we ask this information"
     class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
   >
     <div>
       <p className="vads-u-margin-top--0">
@@ -582,6 +653,7 @@ export const MedicareClaimNumberDescription = (
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+      uswds
     >
       <div>
         <p className="vads-u-margin-top--0">
@@ -648,7 +720,7 @@ export const PolicyOrGroupDescription = (
 );
 
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?">
+  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your

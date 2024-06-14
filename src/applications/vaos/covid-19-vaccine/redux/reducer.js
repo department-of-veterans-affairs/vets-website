@@ -1,6 +1,6 @@
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
-  updateSchemaAndData,
+  updateSchemasAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
@@ -65,7 +65,7 @@ const initialState = {
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
-  return updateSchemaAndData(
+  return updateSchemasAndData(
     schemaWithItemsCorrected,
     uiSchema,
     getDefaultFormState(schemaWithItemsCorrected, data, {}),
@@ -75,7 +75,7 @@ function setupFormData(data, schema, uiSchema) {
 export default function covid19VaccineReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
-      const newBooking = state.newBooking;
+      const { newBooking } = state;
       const { data, schema } = setupFormData(
         newBooking.data,
         action.schema,
@@ -95,8 +95,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
-      const newBooking = state.newBooking;
-      const { data, schema } = updateSchemaAndData(
+      const { newBooking } = state;
+      const { data, schema } = updateSchemasAndData(
         newBooking.pages[action.page],
         action.uiSchema,
         action.data,
@@ -169,8 +169,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
-      let facilities = action.facilities;
-      const address = action.address;
+      let { facilities } = action;
+      const { address } = action;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       let sortMethod = state.newBooking.facilityPageSortMethod;
@@ -206,7 +206,7 @@ export default function covid19VaccineReducer(state = initialState, action) {
           facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
       );
 
-      let data = state.newBooking.data;
+      let { data } = state.newBooking;
       if (typeOfCareFacilities.length === 1) {
         data = {
           ...data,
@@ -300,10 +300,10 @@ export default function covid19VaccineReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
-      const sortMethod = action.sortMethod;
-      const location = action.location;
-      let facilities = state.newBooking.facilities;
-      let requestLocationStatus = state.newBooking.requestLocationStatus;
+      const { sortMethod } = action;
+      const { location } = action;
+      let { facilities } = state.newBooking;
+      let { requestLocationStatus } = state.newBooking;
 
       if (location && facilities?.length) {
         const { coords } = location;
@@ -398,7 +398,7 @@ export default function covid19VaccineReducer(state = initialState, action) {
       };
     }
     case FORM_PREFILL_CONTACT_INFO: {
-      const data = state.newBooking.data;
+      const { data } = state.newBooking;
       return {
         ...state,
         newBooking: {
@@ -475,8 +475,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED: {
-      let facilities = action.facilities;
-      const address = action.address;
+      let { facilities } = action;
+      const { address } = action;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       const sortMethod = hasResidentialCoordinates

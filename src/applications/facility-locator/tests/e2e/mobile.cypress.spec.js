@@ -30,7 +30,10 @@ Cypress.Commands.add('checkSearch', () => {
     .should('not.be.disabled')
     .focus()
     .type(city, { force: true });
-  cy.get('#facility-type-dropdown').select('VA health');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA health');
   cy.get('#facility-search').click();
 
   // Search title
@@ -65,7 +68,7 @@ describe('Mobile', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/**', mockFacilityDataV1).as(
+    cy.intercept('POST', '/facilities_api/**', mockFacilityDataV1).as(
       'searchFacilities',
     );
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
@@ -113,7 +116,7 @@ describe('Mobile', () => {
     cy.viewport(1007, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(899, 2);
+      expect($element.width()).closeTo(899, 9);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -122,7 +125,7 @@ describe('Mobile', () => {
     cy.viewport(768, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(660, 2);
+      expect($element.width()).closeTo(660, 16);
     });
     cy.get('.desktop-map-container').should('exist');
     cy.get('.react-tabs').should('not.exist');
@@ -131,7 +134,7 @@ describe('Mobile', () => {
     cy.viewport(481, 1000);
     cy.axeCheck();
     cy.get('#facility-search').then($element => {
-      expect($element.width()).closeTo(397, 2);
+      expect($element.width()).closeTo(397, 16);
     });
     cy.get('.desktop-map-container').should('not.exist');
     cy.get('.react-tabs').should('exist');

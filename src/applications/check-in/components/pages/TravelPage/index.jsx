@@ -1,26 +1,34 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 import { URLS } from '../../../utils/navigation';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 const TravelPage = ({
   header,
   eyebrow,
   bodyText,
   helpText,
+  additionalInfoItems,
   pageType,
   router,
+  yesButtonText,
+  yesFunction,
+  noButtonText,
+  noFunction,
+  testID = 'travel-page',
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -30,19 +38,35 @@ const TravelPage = ({
     jumpToPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
   const onClick = event => {
-    const answer = event.target.value;
+    const answer = event.target.attributes.value.value;
     recordEvent({
-      event: createAnalyticsSlug(`${answer}-to-${pageType}-clicked`, 'nav'),
+      event: createAnalyticsSlug(
+        `${answer}-to-${pageType}${
+          setECheckinStartedCalled || app !== APP_NAMES.CHECK_IN ? '' : '-45MR'
+        }-clicked`,
+        'nav',
+        app,
+      ),
     });
     dispatch(recordAnswer({ [pageType]: answer }));
-    if (answer === 'no') {
+    if (answer === 'no' && noFunction) {
+      noFunction();
+    } else if (answer === 'no') {
       jumpToPage(URLS.DETAILS);
+    } else if (yesFunction) {
+      yesFunction();
     } else {
       goToNextPage();
     }
   };
-  const { getCheckinComplete } = useSessionStorage(false);
+  const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
       jumpToPage(URLS.DETAILS);
@@ -60,47 +84,55 @@ const TravelPage = ({
         classNames="travel-page"
         eyebrow={eyebrow}
         withBackButton
+        testID={testID}
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}
+        {additionalInfoItems &&
+          additionalInfoItems.map((infoData, index) => (
+            <div className="vads-u-margin-bottom--2" key={index}>
+              <va-additional-info uswds trigger={infoData.trigger}>
+                {infoData.info}
+              </va-additional-info>
+            </div>
+          ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
             <va-alert
-              background-only
               show-icon
               status="info"
               data-testid="help-message"
+              uswds
+              slim
             >
               <div>{helpText}</div>
             </va-alert>
           </div>
         )}
-        <>
-          <button
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+          <va-button
+            uswds
+            big
             onClick={onClick}
-            className="usa-button-primary usa-button-big"
+            text={yesButtonText || t('yes')}
             data-testid="yes-button"
-            type="button"
+            class="vads-u-margin-top--2"
             value="yes"
-          >
-            {t('yes')}
-          </button>
-          <button
+          />
+          <va-button
+            uswds
+            big
             onClick={onClick}
-            className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
+            text={noButtonText || t('no')}
             data-testid="no-button"
-            type="button"
+            secondary
+            class="vads-u-margin-top--2"
             value="no"
-          >
-            {t('no')}
-          </button>
-        </>
+          />
+        </div>
       </Wrapper>
     </>
   );
@@ -109,8 +141,14 @@ TravelPage.propTypes = {
   header: PropTypes.string.isRequired,
   pageType: PropTypes.string.isRequired,
   router: PropTypes.object.isRequired,
+  additionalInfoItems: PropTypes.arrayOf(PropTypes.object),
   bodyText: PropTypes.node,
   eyebrow: PropTypes.string,
   helpText: PropTypes.node,
+  noButtonText: PropTypes.string,
+  noFunction: PropTypes.func,
+  testID: PropTypes.string,
+  yesButtonText: PropTypes.string,
+  yesFunction: PropTypes.func,
 };
 export default TravelPage;

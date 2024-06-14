@@ -11,7 +11,7 @@ import ContactDMC from '../components/Contacts';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 import { fsrFeatureToggle } from '../../utils/helpers';
 
-import { MaintenanceAlert } from '../../components/Alerts';
+import { MaintenanceAlert } from '../../components/alerts/Alerts';
 
 const StartForm = ({ setWizardStatus }) => {
   const label = 'Start your request now';
@@ -44,7 +44,7 @@ const Submit = ({ showFSR, setWizardStatus }) => {
     <DelayedLiveRegion>
       <DowntimeNotification
         appTitle="VA Form 5655"
-        dependencies={[externalServices.dmc]}
+        dependencies={[externalServices.dmc, externalServices.vbs]}
         render={({ status }) => {
           if (!showFSR || status === externalServiceStatus.down) {
             return <MaintenanceAlert />;

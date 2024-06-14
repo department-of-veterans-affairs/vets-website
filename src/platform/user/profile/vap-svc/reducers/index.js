@@ -19,7 +19,7 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
-  VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
+  VAP_SERVICE_NO_CHANGES_DETECTED,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
@@ -130,14 +130,17 @@ export default function vapService(state = initialState, action) {
       };
     }
 
-    case VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED: {
+    case VAP_SERVICE_NO_CHANGES_DETECTED: {
       return {
         ...state,
-        modal: null,
         mostRecentlySavedField: action.fieldName,
         fieldTransactionMap: {
           ...state.fieldTransactionMap,
-          [action.fieldName]: null,
+          [action.fieldName]: {
+            ...state.fieldTransactionMap[action.fieldName],
+            isPending: false,
+            transactionId: action?.transaction?.data?.attributes?.transactionId,
+          },
         },
         initialFormFields: {},
         hasUnsavedEdits: false,
@@ -173,7 +176,7 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         metadata,
-        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== updatedTransactionId,
         ),
         transactions: state.transactions.map(
@@ -190,7 +193,7 @@ export default function vapService(state = initialState, action) {
       const { transactionId } = action.transaction.data.attributes;
       return {
         ...state,
-        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate.filter(
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
           tid => tid !== transactionId,
         ),
       };
@@ -249,8 +252,11 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         metadata,
-        transactions: state.transactions.filter(
+        transactions: state.transactions?.filter(
           t => t.data.attributes.transactionId !== finishedTransactionId,
+        ),
+        transactionsAwaitingUpdate: state.transactionsAwaitingUpdate?.filter(
+          tid => tid !== finishedTransactionId,
         ),
         modal: null,
         fieldTransactionMap,
@@ -281,8 +287,8 @@ export default function vapService(state = initialState, action) {
         ? formFields
         : state.initialFormFields;
 
-      const modalName = state?.modal;
-      let formFieldValues = formFields[modalName]?.value;
+      const fieldName = state?.modal;
+      let formFieldValues = formFields[fieldName]?.value;
 
       // Initial form fields does not have 'view' properties, those get added to formFields
       // After editing a field. So we need to strip of those 'view' fields to be able to compare
@@ -293,7 +299,7 @@ export default function vapService(state = initialState, action) {
       );
 
       const initialFormFieldValues = pickBy(
-        state.initialFormFields[modalName]?.value,
+        state.initialFormFields[fieldName]?.value,
         (value, key) => !key.startsWith('view:'),
       );
 

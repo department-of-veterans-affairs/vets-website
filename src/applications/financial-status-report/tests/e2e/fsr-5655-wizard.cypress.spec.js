@@ -34,7 +34,9 @@ describe('Financial Status Report (Wizard)', () => {
     cy.get('va-radio-option[value="request"]').click();
     cy.get('va-radio-option[value="recipients"]').click();
     cy.get('va-radio-option[value="veteran"]').click();
-    cy.get('.usa-button-primary').click();
+    cy.get('.vads-c-action-link--green')
+      .first()
+      .click();
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.axeCheck();
   });

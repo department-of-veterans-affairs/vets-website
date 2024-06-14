@@ -1,54 +1,39 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
-import EnrollmentStatusWarning from './Warning';
+import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
+import ServerErrorAlert from '../../FormAlerts/ServerErrorAlert';
+import WarningHeadline from './Warning/WarningHeadline';
+import WarningStatus from './Warning/WarningStatus';
+import WarningExplanation from './Warning/WarningExplanation';
+import ReapplyButton from './Warning/ReapplyButton';
 import EnrollmentStatusFAQ from './FAQ';
 
-const EnrollmentStatus = props => {
-  const { route, enrollmentStatus, getEnrollmentStatus } = props;
+const EnrollmentStatus = ({ route }) => {
+  const { isEnrolledInESR, hasServerError } = useSelector(
+    selectEnrollmentStatus,
+  );
+  const alertStatus = isEnrolledInESR ? 'continue' : 'warning';
 
-  useEffect(() => {
-    getEnrollmentStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return enrollmentStatus ? (
+  return !hasServerError ? (
     <>
-      <EnrollmentStatusWarning {...props} />
-      <EnrollmentStatusFAQ enrollmentStatus={enrollmentStatus} route={route} />
+      <va-alert status={alertStatus} data-testid="hca-enrollment-alert" uswds>
+        <WarningHeadline />
+        <WarningStatus />
+        <WarningExplanation />
+        <ReapplyButton route={route} />
+      </va-alert>
+
+      <EnrollmentStatusFAQ />
     </>
-  ) : null;
+  ) : (
+    <ServerErrorAlert />
+  );
 };
 
 EnrollmentStatus.propTypes = {
-  enrollmentStatus: PropTypes.string,
-  getEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  const {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  } = state.hcaEnrollmentStatus;
-  return {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  };
-};
-
-const mapDispatchToProps = {
-  getEnrollmentStatus: getEnrollmentStatusAction,
-};
-
-export { EnrollmentStatus };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EnrollmentStatus);
+export default EnrollmentStatus;

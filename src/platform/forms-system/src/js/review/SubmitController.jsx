@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { statementOfTruthFullName } from 'platform/forms/components/review/PreSubmitSection';
-import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+import recordEvent from '~/platform/monitoring/record-event';
+import {
+  fullNameReducer,
+  statementOfTruthFullName,
+} from '~/platform/forms/components/review/PreSubmitSection';
+import { autoSaveForm } from '~/platform/forms/save-in-progress/actions';
 import SubmitButtons from './SubmitButtons';
 import { isValidForm } from '../validation';
 import { createPageListByChapter, getActiveExpandedPages } from '../helpers';
@@ -66,8 +69,13 @@ class SubmitController extends Component {
       (preSubmit.required && !form.data[preSubmit.field]) ||
       (statementOfTruth &&
         (!form.data.statementOfTruthCertified ||
-          form.data.statementOfTruthSignature !==
-            statementOfTruthFullName(form.data, statementOfTruth.fullNamePath)))
+          fullNameReducer(form.data.statementOfTruthSignature) !==
+            fullNameReducer(
+              statementOfTruthFullName(
+                form.data,
+                statementOfTruth.fullNamePath,
+              ),
+            )))
     ) {
       this.props.setSubmission('hasAttemptedSubmit', true);
       this.props.setSubmission('timestamp', now);
@@ -98,6 +106,7 @@ class SubmitController extends Component {
       recordEvent({
         event: `${trackingPrefix}-validation-failed`,
       });
+      // Sentry
       Sentry.setUser({ id: user.profile.accountUuid });
       Sentry.withScope(scope => {
         scope.setExtra('rawErrors', errors);
@@ -108,6 +117,20 @@ class SubmitController extends Component {
       });
       this.props.setSubmission('status', 'validationError');
       this.props.setSubmission('hasAttemptedSubmit', true);
+
+      // DataDog - must be initialized within the app
+      if (window.DD_LOGS) {
+        window.DD_LOGS.logger.error(
+          'Validation issue not displayed',
+          {
+            errors: processedErrors,
+            rawErrors: errors,
+            inProgressFormId,
+            userId: user.profile.accountUuid,
+          },
+          'validationError',
+        );
+      }
 
       if (isLoggedIn && formConfig.prefillEnabled) {
         // Update save-in-progress with failed submit
@@ -183,16 +206,17 @@ SubmitController.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
-  pagesByChapter: PropTypes.object.isRequired,
   pageList: PropTypes.array.isRequired,
+  pagesByChapter: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
   setFormErrors: PropTypes.func.isRequired,
   setPreSubmit: PropTypes.func.isRequired,
   setSubmission: PropTypes.func.isRequired,
-  submitForm: PropTypes.func.isRequired,
   submission: PropTypes.object.isRequired,
+  submitForm: PropTypes.func.isRequired,
   trackingPrefix: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+  formErrors: PropTypes.shape({}),
 };
 
 export default withRouter(

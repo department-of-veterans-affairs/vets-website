@@ -8,6 +8,15 @@ const success = {
       },
     },
   },
+  serviceConnected0: {
+    data: {
+      id: '',
+      type: 'evss_disability_compensation_form_rating_info_responses',
+      attributes: {
+        userPercentOfDisability: 0,
+      },
+    },
+  },
 };
 
 const error = {

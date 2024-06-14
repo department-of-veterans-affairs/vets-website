@@ -1,26 +1,32 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
-import uniqueId from 'lodash/uniqueId';
+import { withRouter } from 'react-router';
+import { Element } from 'react-scroll';
 import classNames from 'classnames';
-import { getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
+import {
+  ERROR_ELEMENTS,
+  FOCUSABLE_ELEMENTS,
+  SCROLL_ELEMENT_SUFFIX,
+} from '../../../../utilities/constants';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusOnChange, getFocusableElements } from '../utilities/ui';
+import {
+  focusOnChange,
+  getFocusableElements,
+  fixSelector,
+} from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
+import { getPreviousPagePath, checkValidPagePath } from '../routing';
 
+import { focusableWebComponentList } from '../web-component-fields/webComponentList';
 import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
-
-const { Element, scroller } = Scroll;
-const scrollOffset = -40;
-
 /*
  * Displays all the pages in a chapter on the review page
  */
@@ -30,18 +36,46 @@ class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillMount() {
-    this.id = uniqueId();
-  }
-
   handleEdit(key, editing, index = null) {
-    this.props.onEdit(key, editing, index);
-    this.scrollToPage(`${key}${index === null ? '' : index}`);
-    if (editing) {
-      // pressing "Update page" will call handleSubmit, which moves focus from
-      // the edit button to the this target
-      this.focusOnPage(`${key}${index === null ? '' : index}`);
+    if (editing || !this.hasValidationError(key, index)) {
+      this.props.onEdit(key, editing, index);
+      const name = fixSelector(key);
+
+      // Wait for edit view to render
+      setTimeout(() => {
+        const scrollElement = document.querySelector(
+          `[name="${name}${SCROLL_ELEMENT_SUFFIX}"]`,
+        );
+
+        if (scrollElement && scrollElement?.nextElementSibling) {
+          const [target] = getFocusableElements(
+            scrollElement.nextElementSibling,
+            {
+              returnWebComponent: true,
+              focusableWebComponents: focusableWebComponentList,
+            },
+          );
+
+          if (target) {
+            let selector = target.tagName;
+            // File upload pages may only show a delete va-button (form 10182)
+            const shadowSelector = selector.startsWith('VA-')
+              ? [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(',')
+              : null;
+
+            // Sets focus on the first focusable error or element
+            if (target.id) {
+              // id may include a colon, e.g. #root_view:foo
+              selector = `#${target.id}`;
+            } else if (target.className) {
+              selector = `${target.tagName}.${target.className
+                .split(' ')
+                .join('.')}`;
+            }
+            focusOnChange(name, fixSelector(selector), shadowSelector);
+          }
+        }
+      }, 100);
     }
   }
 
@@ -54,6 +88,11 @@ class ReviewCollapsibleChapter extends React.Component {
   }
 
   handleSubmit = (formData, key, path = null, index = null) => {
+    // recheck _all_ validations after the user clicks the
+    // update page button - needed to dynamically update
+    // accordion headers
+    const hasError = this.hasValidationError(key, index);
+
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (path) {
@@ -61,20 +100,59 @@ class ReviewCollapsibleChapter extends React.Component {
       this.props.setData(newData);
     }
 
-    this.handleEdit(key, false, index);
+    if (!hasError) {
+      this.handleEdit(key, false, index);
+    }
+  };
+
+  goToPath = (customPath, options = {}) => {
+    const { form, pageList, location } = this.props;
+    const { force } = options;
+
+    const path =
+      customPath &&
+      (force || checkValidPagePath(pageList, this.props.form.data, customPath))
+        ? customPath
+        : getPreviousPagePath(pageList, form.data, location.pathname);
+
+    this.props.router.push(path);
   };
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
+    typeof pageTitle === 'string' &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
-  checkValidation = () => {
+  hasValidationError = (key, index) => {
     const { form, pageList, reviewErrors = {} } = this.props;
+    const scrollElementKey = `${key}${index ?? ''}`;
+
+    // Update form errors & rawErrors in redux state
     const { errors } = isValidForm(form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
     this.props.setFormErrors({
       rawErrors: errors,
-      errors: reduceErrors(errors, pageList, reviewErrors),
+      errors: cleanedErrors,
     });
+
+    // check if current page has any errors; reviewErrors override needed for
+    // custom pages
+    const pageKey = reviewErrors?.__override?.(key) || key;
+    const hasErrors = cleanedErrors.some(error => {
+      const errorPageKey =
+        reviewErrors?.__override?.(error.pageKey) || error.pageKey;
+      return errorPageKey === pageKey;
+    });
+
+    if (hasErrors) {
+      // Focus on first error message on page
+      focusOnChange(scrollElementKey, ERROR_ELEMENTS.join(','));
+    } else {
+      // no error, focus on page edit button after page switches back to review
+      // mode
+      focusOnChange(scrollElementKey, 'va-button', 'button');
+    }
+    return hasErrors;
   };
 
   getChapterTitle = chapterFormConfig => {
@@ -95,7 +173,21 @@ class ReviewCollapsibleChapter extends React.Component {
     if (chapterFormConfig.reviewTitle) {
       chapterTitle = chapterFormConfig.reviewTitle;
     }
-    return chapterTitle;
+
+    return chapterTitle || '';
+  };
+
+  getPageTitle = rawPageTitle => {
+    const { form } = this.props;
+    const formData = form.data;
+
+    let pageTitle = rawPageTitle;
+
+    if (typeof rawPageTitle === 'function') {
+      pageTitle = rawPageTitle({ formData });
+    }
+
+    return pageTitle;
   };
 
   getSchemaformPageContent = (page, props, editing) => {
@@ -108,11 +200,11 @@ class ReviewCollapsibleChapter extends React.Component {
     } = props;
 
     const pageState = form.pages[page.pageKey];
+    const fullPageKey = `${page.pageKey}${page.index ?? ''}`;
     let pageSchema;
     let pageUiSchema;
     let pageData;
     let arrayFields;
-    let fullPageKey;
 
     if (page.showPagePerItem) {
       pageSchema =
@@ -120,7 +212,6 @@ class ReviewCollapsibleChapter extends React.Component {
       pageUiSchema = pageState.uiSchema[page.arrayPath].items;
       pageData = get([page.arrayPath, page.index], form.data);
       arrayFields = [];
-      fullPageKey = `${page.pageKey}${page.index}`;
     } else {
       // TODO: support array fields inside of an array page?
       // Our pattern is to separate out array fields (growable tables) from
@@ -136,11 +227,14 @@ class ReviewCollapsibleChapter extends React.Component {
       pageSchema = pageSchemaObjects.schema;
       pageUiSchema = pageSchemaObjects.uiSchema;
       pageData = form.data;
-      fullPageKey = page.pageKey;
     }
 
+    const hasError = props.form.formErrors?.errors?.some(
+      err => fullPageKey === err.pageKey,
+    );
+
     const classes = classNames('form-review-panel-page', {
-      'schemaform-review-page-error': !viewedPages.has(fullPageKey),
+      'schemaform-review-page-error': hasError || !viewedPages.has(fullPageKey),
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
@@ -167,7 +261,7 @@ class ReviewCollapsibleChapter extends React.Component {
 
     return (
       <div key={`${fullPageKey}`} className={classes}>
-        <Element name={`${fullPageKey}ScrollElement`} />
+        <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
         <SchemaForm
           name={page.pageKey}
           title={title}
@@ -180,7 +274,7 @@ class ReviewCollapsibleChapter extends React.Component {
           hideTitle={this.shouldHideExpandedPageTitle(
             expandedPages,
             this.getChapterTitle(chapterFormConfig),
-            title,
+            this.getPageTitle(title),
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
@@ -216,12 +310,15 @@ class ReviewCollapsibleChapter extends React.Component {
                 // recheck _all_ validations after the user clicks the
                 // update page button - needed to dynamically update
                 // accordion headers
-                this.checkValidation();
-                focusOnChange(
-                  `${page.pageKey}${
-                    typeof page.index === 'number' ? page.index : ''
-                  }`,
-                );
+                if (!this.hasValidationError(page.pageKey, page.index)) {
+                  focusOnChange(
+                    `${page.pageKey}${
+                      typeof page.index === 'number' ? page.index : ''
+                    }`,
+                    'va-button',
+                    'button',
+                  );
+                }
               }}
               buttonText="Update page"
               buttonClass="usa-button-primary"
@@ -259,31 +356,71 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   getCustomPageContent = (page, props, editing) => {
+    const pageState = props.form.pages[page.pageKey];
+    let pageSchema;
+    let pageUiSchema;
+
+    if (page.showPagePerItem) {
+      pageSchema =
+        pageState.schema.properties[page.arrayPath].items[page.index];
+      pageUiSchema = pageState.uiSchema[page.arrayPath].items;
+    } else {
+      const pageSchemaObjects = getNonArraySchema(
+        pageState.schema,
+        pageState.uiSchema,
+      );
+      pageSchema = pageSchemaObjects.schema;
+      pageUiSchema = pageSchemaObjects.uiSchema;
+    }
+
+    const fullPageKey = `${page.pageKey}${page.index ?? ''}`;
+
     if (editing) {
+      // noop defined as a function for unit tests
+      const noop = function noop() {};
       return (
-        <page.CustomPage
-          key={page.pageKey}
-          name={page.pageKey}
-          title={page.title}
-          trackingPrefix={props.form.trackingPrefix}
-          uploadFile={props.uploadFile}
-          onReviewPage
-          setFormData={props.setData}
-          data={props.form.data}
-          updatePage={() => this.handleEdit(page.pageKey, false, page.index)}
-          pagePerItemIndex={page.index}
-        />
+        <React.Fragment key={fullPageKey}>
+          <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
+          <div>
+            <page.CustomPage
+              name={page.pageKey}
+              title={page.title}
+              trackingPrefix={props.form.trackingPrefix}
+              uploadFile={props.uploadFile}
+              onReviewPage
+              setFormData={props.setData}
+              data={props.form.data}
+              updatePage={() =>
+                this.handleEdit(page.pageKey, false, page.index)
+              }
+              pagePerItemIndex={page.index}
+              schema={pageSchema}
+              uiSchema={pageUiSchema}
+              // noop for navigation to prevent JS error
+              goBack={noop}
+              goForward={noop}
+              goToPath={this.goToPath}
+            />
+          </div>
+        </React.Fragment>
       );
     }
+
     return (
-      <page.CustomPageReview
-        key={`${page.pageKey}Review`}
-        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
-        name={page.pageKey}
-        title={page.title}
-        data={props.form.data}
-        pagePerItemIndex={page.index}
-      />
+      <React.Fragment key={fullPageKey}>
+        <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
+        <div>
+          <page.CustomPageReview
+            key={`${page.pageKey}Review${page.index ?? ''}`}
+            editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
+            name={page.pageKey}
+            title={page.title}
+            data={props.form.data}
+            pagePerItemIndex={page.index}
+            goToPath={this.goToPath}
+          />
+        </div>
+      </React.Fragment>
     );
   };
 
@@ -297,10 +434,7 @@ class ReviewCollapsibleChapter extends React.Component {
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
     return (
-      <div
-        className="usa-accordion-content schemaform-chapter-accordion-content"
-        aria-hidden="false"
-      >
+      <div data-testid="accordion-item-content">
         {ChapterDescription && (
           <ChapterDescription
             viewedPages={viewedPages}
@@ -310,7 +444,7 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => {
+        {expandedPages?.map(page => {
           const pageConfig = form.pages[page.pageKey];
           const editing = pageConfig.showPagePerItem
             ? pageConfig.editMode[page.index]
@@ -323,106 +457,40 @@ class ReviewCollapsibleChapter extends React.Component {
           return showCustomPage
             ? this.getCustomPageContent(page, props, editing)
             : this.getSchemaformPageContent(page, props, editing);
-        })}
+        }) ?? null}
       </div>
-    );
-  };
-
-  /**
-   * Focuses on the first focusable element
-   * @param {string} key - The specific page key used to find the element to focus on
-   */
-  focusOnPage = key => {
-    const name = `${key.replace(/:/g, '\\:')}`;
-
-    // Wait for edit view to render
-    setTimeout(() => {
-      const scrollElement = document.querySelector(
-        `[name="${name}ScrollElement"]`,
-      );
-
-      if (scrollElement && scrollElement.parentElement) {
-        const focusableElements = getFocusableElements(
-          scrollElement.parentElement,
-        );
-
-        // Sets focus on the first focusable element
-        focusOnChange(name, `[id="${focusableElements[0].id}"]`);
-      }
-    }, 0);
-  };
-
-  scrollToPage = key => {
-    scroller.scrollTo(
-      `${key}ScrollElement`,
-      getScrollOptions({ offset: scrollOffset }),
     );
   };
 
   render() {
-    let pageContent = null;
-
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
-
-    if (this.props.open) {
-      pageContent = this.getChapterContent(this.props);
-    }
-
-    const classes = classNames('usa-accordion-bordered', 'form-review-panel', {
-      'schemaform-review-chapter-error': this.props.hasUnviewedPages,
-    });
-
-    const headerClasses = classNames(
-      'accordion-header',
-      'clearfix',
-      'schemaform-chapter-accordion-header',
-      'vads-u-font-size--h4',
-      'vads-u-margin-top--0',
-    );
+    const subHeader = 'Some information has changed. Please review.';
 
     return (
-      <div
-        id={`${this.id}-collapsiblePanel`}
-        className={classes}
-        data-chapter={this.props.chapterKey}
-      >
-        <Element name={`chapter${this.props.chapterKey}ScrollElement`} />
-        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-        <ul className="usa-unstyled-list" role="list">
-          <li>
-            <h3 className={headerClasses}>
-              {this.props.hasUnviewedPages && (
-                <span
-                  aria-describedby={`collapsibleButton${this.id}`}
-                  className="schemaform-review-chapter-error-icon"
-                />
-              )}
-              <button
-                className="usa-button-unstyled"
-                aria-expanded={this.props.open ? 'true' : 'false'}
-                aria-controls={`collapsible-${this.id}`}
-                onClick={this.props.toggleButtonClicked}
-                id={`collapsibleButton${this.id}`}
-                type="button"
-              >
-                {chapterTitle || ''}
-              </button>
-            </h3>
-            {this.props.hasUnviewedPages && (
-              <va-alert
-                role="alert"
-                status="error"
-                background-only
-                aria-describedby={`collapsibleButton${this.id}`}
-              >
-                <span className="sr-only">Error</span>
-                {chapterTitle} needs to be updated
-              </va-alert>
-            )}
-            <div id={`collapsible-${this.id}`}>{pageContent}</div>
-          </li>
-        </ul>
-      </div>
+      <>
+        <Element
+          name={`chapter${this.props.chapterKey}${SCROLL_ELEMENT_SUFFIX}`}
+        />
+        <va-accordion-item
+          data-chapter={this.props.chapterKey}
+          header={chapterTitle}
+          level={3}
+          subHeader={this.props.hasUnviewedPages ? subHeader : ''}
+          data-unviewed-pages={this.props.hasUnviewedPages}
+          open={this.props.open}
+          bordered
+          uswds
+        >
+          {this.props.hasUnviewedPages && (
+            <i
+              aria-hidden="true"
+              className="fas fa-exclamation-circle vads-u-color--secondary"
+              slot="subheader-icon"
+            />
+          )}
+          {this.getChapterContent(this.props)}
+        </va-accordion-item>
+      </>
     );
   }
 }
@@ -436,17 +504,31 @@ const mapDispatchToProps = {
 // TODO: refactor to pass form.data instead of the entire form object
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
+  chapterKey: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  hasUnviewedPages: PropTypes.bool.isRequired,
   pageList: PropTypes.array.isRequired,
+  setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  open: PropTypes.bool,
   reviewErrors: PropTypes.shape({}),
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  uploadFile: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewCollapsibleChapter);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(ReviewCollapsibleChapter),
+);
 
 // for tests
 export { ReviewCollapsibleChapter };

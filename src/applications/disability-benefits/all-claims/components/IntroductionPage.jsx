@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -13,7 +12,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 import { itfNotice } from '../content/introductionPage';
-import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
+import {
+  show526Wizard,
+  show526MaxRating,
+  isBDD,
+  getPageTitle,
+  getStartText,
+} from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -21,12 +26,17 @@ import {
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
   DBQ_URL,
+  OMB_CONTROL,
 } from '../constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('h1');
     scrollToTop();
+    window.sessionStorage.setItem(
+      'showDisability526MaximumRating',
+      this.props.showMaxRating,
+    );
   }
 
   render() {
@@ -83,8 +93,8 @@ class IntroductionPage extends React.Component {
           </>
         ) : (
           <p>
-            Equal to VA Form 21-526EZ (Application for Disability Compensation
-            and Related Compensation Benefits).
+            VA Form 21-526EZ (Application for Disability Compensation and
+            Related Compensation Benefits).
           </p>
         )}
         <SaveInProgressIntro {...sipProps} />
@@ -127,6 +137,7 @@ class IntroductionPage extends React.Component {
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
+                      (opens in new tab)
                     </a>
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
@@ -161,12 +172,12 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               {isBDDForm ? (
-                <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--4">
-                  <strong className="usa-alert-body">
+                <va-summary-box class="vads-u-margin-bottom--1" uswds>
+                  <strong>
                     Please be aware that you’ll need to be available for 45 days
                     after you file a BDD claim to complete a VA exam.
                   </strong>
-                </div>
+                </va-summary-box>
               ) : (
                 <>
                   <p>
@@ -205,27 +216,20 @@ class IntroductionPage extends React.Component {
                 .
               </p>
               {!isBDDForm && (
-                <div>
-                  <div className="usa-alert usa-alert-info">
-                    <div className="usa-alert-body">
-                      <h4 className="vads-u-font-size--h6">
-                        Disability ratings
-                      </h4>
-                      <p>
-                        For each disability we assign a rating from 0% to 100%.
-                        We base this rating on the evidence you turn in with
-                        your claim. In some cases we may also ask you to have an
-                        exam to help us rate your disability.
-                      </p>
-                      <p>
-                        Before filing a claim for increase, you might want to
-                        check to see if you’re already receiving the maximum
-                        disability rating for your condition.
-                      </p>
-                    </div>
-                  </div>
-                  <br />
-                </div>
+                <va-alert slim status="info" uswds>
+                  <h4 className="vads-u-font-size--h6">Disability ratings</h4>
+                  <p>
+                    For each disability, we assign a rating from 0% to 100%. We
+                    base this rating on the evidence you turn in with your
+                    claim. In some cases we may also ask you to have an exam to
+                    help us rate your disability.
+                  </p>
+                  <p className="vads-u-margin-y--0">
+                    Before filing a claim for increase, you might want to check
+                    to see if you’re already receiving the maximum disability
+                    rating for your condition.
+                  </p>
+                </va-alert>
               )}
             </li>
             <li className="process-step list-two">
@@ -274,9 +278,11 @@ class IntroductionPage extends React.Component {
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
-        <div className="omb-info--container">
-          <OMBInfo resBurden={25} ombNumber="2900-0747" expDate="03/31/2021" />
-        </div>
+        <va-omb-info
+          res-burden={25}
+          omb-number={OMB_CONTROL}
+          exp-date="03/31/2021"
+        />
       </div>
     );
   }
@@ -287,6 +293,7 @@ const mapStateToProps = state => ({
   isBDDForm: isBDD(state?.form?.data),
   loggedIn: isLoggedIn(state),
   showWizard: show526Wizard(state),
+  showMaxRating: show526MaxRating(state),
 });
 
 IntroductionPage.propTypes = {
@@ -304,6 +311,7 @@ IntroductionPage.propTypes = {
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   showWizard: PropTypes.bool,
+  showMaxRating: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

@@ -41,4 +41,35 @@ const toCamelCase = str => {
     .join('');
 };
 
-export { formatPhone, formatDemographicString, toCamelCase };
+/**
+ * @param {string} str
+ */
+
+const removeTimezoneOffset = str => {
+  return str.replace(/(T.*)(Z|[+-](\d{2}:?\d{2}$)|([+-]\d{2}$))/, '$1Z');
+};
+
+/**
+ * @param {string} items
+ * @param {string} conjuction
+ * @param {boolean} addPeriod
+ * @returns {string}
+ */
+
+const formatList = (items, conjuction, addPeriod = true) => {
+  if (items.length === 1) {
+    return `${items[0]}${addPeriod ? '.' : ''}`;
+  }
+  const lastItem = items.pop();
+  return `${items.join(', ')}, ${conjuction} ${lastItem}${
+    addPeriod ? '.' : ''
+  }`;
+};
+
+export {
+  formatPhone,
+  formatDemographicString,
+  toCamelCase,
+  removeTimezoneOffset,
+  formatList,
+};

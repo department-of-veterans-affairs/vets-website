@@ -22,6 +22,9 @@ describe('Render as a logged in user <InboxPage />', () => {
         TOEClaimStatusFetchInProgress: false,
         TOEClaimStatusFetchComplete: true,
       },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
+      },
       getClaimStatus: () => {},
       user: {
         login: {
@@ -52,6 +55,9 @@ describe('Render as a logged in user <InboxPage />', () => {
         MEBClaimStatusFetchComplete: true,
         TOEClaimStatusFetchInProgress: false,
         TOEClaimStatusFetchComplete: true,
+      },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
       },
       getClaimStatus: () => {},
       user: {
@@ -87,6 +93,9 @@ describe('Render as a logged in user <InboxPage />', () => {
         MEBClaimStatusFetchComplete: null,
         TOEClaimStatusFetchInProgress: true,
         TOEClaimStatusFetchComplete: null,
+      },
+      featureToggles: {
+        showMebLettersMaintenanceAlert: false,
       },
       getClaimStatus: () => {},
       user: {

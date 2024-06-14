@@ -1,3 +1,5 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as BUCKETS from 'site/constants/buckets';
 import fs from 'fs';
 
 const knownFonts = {
@@ -7,6 +9,7 @@ const knownFonts = {
   'SourceSansPro-Italic': 'sourcesanspro-italic-webfont.ttf',
   'SourceSansPro-Light': 'sourcesanspro-light-webfont.ttf',
   'SourceSansPro-Regular': 'sourcesanspro-regular-webfont.ttf',
+  'RobotoMono-Regular': 'robotomono-regular.ttf',
 };
 
 const registerLocalFont = (doc, font) => {
@@ -21,7 +24,10 @@ const registerLocalFont = (doc, font) => {
 };
 
 const downloadAndRegisterFont = async (doc, font) => {
-  const request = await fetch(`/generated/${knownFonts[font]}`);
+  const bucket = environment.isLocalhost()
+    ? ''
+    : BUCKETS[environment.BUILDTYPE];
+  const request = await fetch(`${bucket}/generated/${knownFonts[font]}`);
   const binaryFont = await request.arrayBuffer();
   const encodedFont = Buffer.from(binaryFont).toString('base64');
   fs.writeFileSync(knownFonts[font], encodedFont);

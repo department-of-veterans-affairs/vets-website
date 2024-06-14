@@ -1,20 +1,31 @@
 import {
-  boardReviewContent,
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  boardReviewTitle,
+  boardReviewLabels,
+  boardReviewDescriptions,
   boardReviewErrorMessage,
+  BoardReviewReviewField,
 } from '../content/boardReview';
 
 const boardReview = {
   uiSchema: {
     boardReviewOption: {
-      'ui:title': 'Please select a Board review option:',
-      'ui:widget': 'radio',
-      'ui:options': {
-        labels: boardReviewContent,
+      ...radioUI({
+        title: boardReviewTitle,
+        labelHeaderLevel: '3',
+        labels: boardReviewLabels,
+        descriptions: boardReviewDescriptions,
+        required: () => true,
         enableAnalytics: true,
-      },
-      'ui:errorMessages': {
-        required: boardReviewErrorMessage,
-      },
+        errorMessages: {
+          required: boardReviewErrorMessage,
+        },
+      }),
+      'ui:reviewField': BoardReviewReviewField,
     },
   },
 
@@ -22,10 +33,11 @@ const boardReview = {
     type: 'object',
     required: ['boardReviewOption'],
     properties: {
-      boardReviewOption: {
-        type: 'string',
-        enum: ['direct_review', 'evidence_submission', 'hearing'],
-      },
+      boardReviewOption: radioSchema([
+        'direct_review',
+        'evidence_submission',
+        'hearing',
+      ]),
     },
   },
 };

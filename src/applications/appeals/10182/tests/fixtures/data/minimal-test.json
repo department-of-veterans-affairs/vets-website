@@ -4,11 +4,13 @@
       "ssnLastFour": "9876",
       "vaFileLastFour": "8765",
       "address": {
+        "addressType": "DOMESTIC",
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
         "addressLine3": "Box 4",
         "city": "New York",
         "countryName": "United States",
+        "countryCodeIso2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },
@@ -25,8 +27,10 @@
     "hearingTypePreference": "central_office",
     "socOptIn": false,
     "view:additionalEvidence": false,
+    "requestingExtension": false,
+    "appealingVHADenial": false,
 
-    "contestableIssues": [
+    "contestedIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

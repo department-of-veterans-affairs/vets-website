@@ -10,7 +10,7 @@ const HTMLStatementLink = ({ id, statementDate }) => {
   };
 
   return (
-    <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
+    <li>
       <Link
         to={`/copay-balances/${id}/detail/statement`}
         data-testid={`balance-details-${id}-statement-view`}
@@ -18,9 +18,9 @@ const HTMLStatementLink = ({ id, statementDate }) => {
           recordEvent({ event: 'cta-link-click-copay-statement-link' });
         }}
       >
-        <span>{formattedStatementDate(statementDate)} statement </span>
+        {formattedStatementDate(statementDate)} statement
       </Link>
-    </div>
+    </li>
   );
 };
 

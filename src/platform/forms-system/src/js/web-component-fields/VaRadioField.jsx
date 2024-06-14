@@ -9,13 +9,33 @@ function optionsList(schema) {
   });
 }
 
-/** @param {WebComponentFieldProps} props */
+/**
+ * Use radio pattern instead.
+ *
+ * Usage uiSchema:
+ * ```js
+ * exampleRadio: radioUI({
+ *  title: 'Select animal',
+ *  labels: {
+ *      dog: 'Dog',
+ *      cat: 'Cat',
+ *      octopus: 'Octopus',
+ *  }
+ * })
+ * ```
+ *
+ * Usage schema:
+ * ```js
+ * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
+ * ```
+ * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
   const enumOptions =
     Array.isArray(props.childrenProps.schema.enum) &&
     optionsList(props.childrenProps.schema);
   const labels = props.uiOptions?.labels || {};
+  const descriptions = props.uiOptions.descriptions || {};
 
   const selectedValue =
     props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
@@ -28,6 +48,7 @@ export default function VaRadioField(props) {
         props.childrenProps.onChange(newVal);
       }}
     >
+      {mappedProps?.children}
       {enumOptions.map((option, index) => {
         return (
           <va-radio-option
@@ -36,6 +57,7 @@ export default function VaRadioField(props) {
             value={option.value}
             checked={selectedValue === option.value}
             label={labels[option.value] || option.label}
+            description={descriptions[option.value]}
             uswds={mappedProps?.uswds}
             tile={props.uiOptions?.tile}
           />

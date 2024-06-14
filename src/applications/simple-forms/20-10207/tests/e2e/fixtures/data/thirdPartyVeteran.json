@@ -1,0 +1,36 @@
+{
+  "data": {
+    "preparerType": "third-party-veteran",
+    "thirdPartyFullName": {
+      "first": "Joe",
+      "last": "Rep-Veteran"
+    },
+    "thirdPartyType": "representative",
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1980-01-01",
+    "veteranId": {
+      "ssn": "321540989"
+    },
+    "livingSituation": {
+      "NONE": true
+    },
+    "veteranPhone": "1234567892",
+    "view:hasReceivedMedicalTreatment": true,
+    "medicalTreatments": [
+      {
+        "facilityName": "Facility Name",
+        "facilityAddress": {
+          "country": "USA",
+          "street": "123 Any St",
+          "city": "Anytown",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "startDate": "2018-01-01"
+      }
+    ]
+  }
+}

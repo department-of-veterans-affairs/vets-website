@@ -7,7 +7,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
-    return <va-loading-indicator set-focus message="Loading..." />;
+    return <va-loading-indicator message="Loading..." />;
   }
 
   if (formEnabled) {
@@ -20,12 +20,6 @@ const App = ({ formEnabled }) => {
         >
           Submit an authorization to release medical information online
         </a>
-        <a
-          className="vads-c-action-link--green"
-          href="/find-forms/about-form-21-4142/"
-        >
-          Get VA Form 21-4142 to download
-        </a>
       </>
     );
   }
@@ -33,12 +27,6 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <p>You can submit this form by mail.</p>
-      <a
-        className="vads-c-action-link--green"
-        href="/find-forms/about-form-21-4142/"
-      >
-        Get VA Form 21-4142 to download
-      </a>
     </>
   );
 };

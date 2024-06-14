@@ -1,5 +1,4 @@
 import _ from 'platform/utilities/data';
-
 import {
   transformForSubmit,
   filterViewFields,
@@ -29,8 +28,6 @@ import {
   addForm8940,
   addFileAttachments,
 } from './utils/submit';
-
-import disabilityLabels from './content/disabilityLabels';
 
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
@@ -103,43 +100,6 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
-  // new disabilities that match a name on our mapped list need their
-  // respective classification code added
-  const addClassificationCodeToNewDisabilities = formData => {
-    const { newDisabilities } = formData;
-    if (!newDisabilities) {
-      return formData;
-    }
-
-    const flippedDisabilityLabels = {};
-    Object.entries(disabilityLabels).forEach(([code, description]) => {
-      flippedDisabilityLabels[description?.toLowerCase()] = code;
-    });
-
-    const newDisabilitiesWithClassificationCodes = newDisabilities.map(
-      disability => {
-        const { condition } = disability;
-        if (!condition) {
-          return disability;
-        }
-        const loweredDisabilityName = condition?.toLowerCase();
-        return flippedDisabilityLabels[loweredDisabilityName]
-          ? _.set(
-              'classificationCode',
-              flippedDisabilityLabels[loweredDisabilityName],
-              disability,
-            )
-          : disability;
-      },
-    );
-
-    return _.set(
-      'newDisabilities',
-      newDisabilitiesWithClassificationCodes,
-      formData,
-    );
-  };
-
   const addRequiredDescriptionsToDisabilitiesBDD = formData => {
     if (!isBDDForm || !formData.newDisabilities) {
       return formData;
@@ -171,7 +131,7 @@ export function transform(formConfig, form) {
           default:
         }
 
-        return Object.assign({}, disability, disabilityDescription);
+        return { ...disability, ...disabilityDescription };
       },
     );
 
@@ -285,7 +245,7 @@ export function transform(formConfig, form) {
   };
 
   const fullyDevelopedClaim = formData => {
-    if (isBDD) {
+    if (isBDDForm) {
       const clonedData = _.cloneDeep(formData);
       // standardClaim = false means it's a fully developed claim (FDC); but
       // this value is ignored in the BDD flow unless the submission falls out
@@ -308,7 +268,6 @@ export function transform(formConfig, form) {
     cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
-    addClassificationCodeToNewDisabilities,
     addRequiredDescriptionsToDisabilitiesBDD,
     splitNewDisabilities,
     transformSecondaryDisabilities,

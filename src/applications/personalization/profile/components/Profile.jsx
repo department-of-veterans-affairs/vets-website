@@ -7,11 +7,11 @@ import { LastLocationProvider } from 'react-router-last-location';
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
-  fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
+
 import {
   cnpDirectDepositInformation,
-  profileUseLighthouseDirectDepositEndpoint,
+  selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
 } from '@@profile/selectors';
@@ -19,6 +19,7 @@ import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
 } from '@@profile/actions/paymentInformation';
+import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
@@ -46,19 +47,21 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
-import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
 import { PROFILE_PATHS } from '../constants';
 
 import ProfileWrapper from './ProfileWrapper';
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import { canAccess } from '../../common/selectors';
+import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
 
 class Profile extends Component {
   componentDidMount() {
     const {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
+      fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
@@ -66,10 +69,10 @@ class Profile extends Component {
       isLOA3,
       isInMVI,
       shouldFetchCNPDirectDepositInformation,
+      shouldFetchDirectDeposit,
       shouldFetchTotalDisabilityRating,
       shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     connectDrupalSourceOfTruthCerner();
@@ -79,10 +82,13 @@ class Profile extends Component {
       fetchMilitaryInformation();
     }
     if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
     }
+
+    if (togglesLoaded && shouldFetchDirectDeposit) {
+      fetchDirectDeposit();
+    }
+
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
     }
@@ -95,16 +101,17 @@ class Profile extends Component {
     const {
       fetchCNPPaymentInformation,
       fetchEDUPaymentInformation,
+      fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
       shouldFetchCNPDirectDepositInformation,
+      shouldFetchDirectDeposit,
       shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
-      useLighthouseDirectDepositEndpoint,
       togglesLoaded,
     } = this.props;
     if (isLOA3 && !prevProps.isLOA3 && isInMVI) {
@@ -128,9 +135,16 @@ class Profile extends Component {
         shouldFetchCNPDirectDepositInformation &&
         !prevProps.shouldFetchCNPDirectDepositInformation)
     ) {
-      fetchCNPPaymentInformation({
-        useLighthouseDirectDepositEndpoint,
-      });
+      fetchCNPPaymentInformation({});
+    }
+
+    if (
+      (togglesLoaded && !prevProps.togglesLoaded && shouldFetchDirectDeposit) ||
+      (togglesLoaded &&
+        shouldFetchDirectDeposit &&
+        !prevProps.shouldFetchDirectDeposit)
+    ) {
+      fetchDirectDeposit();
     }
 
     if (
@@ -166,69 +180,64 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
+    const toggles = this.props.profileToggles;
+
+    const routes = getRoutes({
+      profileContacts: toggles.profileContacts,
+      profileShowDirectDepositSingleForm:
+        toggles.profileShowDirectDepositSingleForm,
+    });
+
     return (
-      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.profileUseFieldEditingPage}>
-        {useFieldEditingPage => {
-          const routes = getRoutes({ useFieldEditingPage });
-          return (
-            <BrowserRouter>
-              <LastLocationProvider>
-                <ProfileWrapper
-                  isInMVI={this.props.isInMVI}
-                  isLOA3={this.props.isLOA3}
-                  isBlocked={this.props.isBlocked}
-                >
-                  <Switch>
-                    {/* Redirect users to Account Security to upgrade their account if they need to */}
-                    {routes.map(route => {
-                      if (
-                        (route.requiresLOA3 && !this.props.isLOA3) ||
-                        (route.requiresMVI && !this.props.isInMVI) ||
-                        (route.requiresLOA3 && this.props.isBlocked)
-                      ) {
-                        return (
-                          <Redirect
-                            from={route.path}
-                            to={PROFILE_PATHS.ACCOUNT_SECURITY}
-                            key={route.path}
-                          />
-                        );
-                      }
-
-                      return (
-                        <Route
-                          component={route.component}
-                          exact
-                          key={route.path}
-                          path={route.path}
-                        />
-                      );
-                    })}
-
+      <BrowserRouter>
+        <LastLocationProvider>
+          <ProfileWrapper
+            isInMVI={this.props.isInMVI}
+            isLOA3={this.props.isLOA3}
+            isBlocked={this.props.isBlocked}
+          >
+            <Switch>
+              {/* Redirect users to Account Security to upgrade their account if they need to */}
+              {routes.map(route => {
+                if (
+                  (route.requiresLOA3 && !this.props.isLOA3) ||
+                  (route.requiresMVI && !this.props.isInMVI) ||
+                  (route.requiresLOA3 && this.props.isBlocked)
+                ) {
+                  return (
                     <Redirect
-                      exact
-                      from="/profile#contact-information"
-                      to={PROFILE_PATHS.CONTACT_INFORMATION}
+                      from={route.path}
+                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                      key={route.path}
                     />
+                  );
+                }
 
-                    <Redirect
-                      exact
-                      from={PROFILE_PATHS.PROFILE_ROOT}
-                      to={PROFILE_PATHS.PERSONAL_INFORMATION}
-                    />
+                return (
+                  <Route
+                    component={route.component}
+                    exact
+                    key={route.path}
+                    path={route.path}
+                  />
+                );
+              })}
 
-                    {/* fallback handling: redirect to root route */}
-                    {/* Should we consider making a 404 page for this instead? */}
-                    <Route path="*">
-                      <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
-                    </Route>
-                  </Switch>
-                </ProfileWrapper>
-              </LastLocationProvider>
-            </BrowserRouter>
-          );
-        }}
-      </Toggler.Hoc>
+              <Redirect
+                exact
+                from="/profile#contact-information"
+                to={PROFILE_PATHS.CONTACT_INFORMATION}
+              />
+
+              {/* fallback handling: redirect to root route */}
+              {/* Should we consider making a 404 page for this instead? */}
+              <Route path="*">
+                <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
+              </Route>
+            </Switch>
+          </ProfileWrapper>
+        </LastLocationProvider>
+      </BrowserRouter>
     );
   };
 
@@ -250,7 +259,6 @@ class Profile extends Component {
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
           dependencies={[
-            externalServices.emis,
             externalServices.evss,
             externalServices.mvi,
             externalServices.vaProfile,
@@ -267,6 +275,7 @@ Profile.propTypes = {
   connectDrupalSourceOfTruthCerner: PropTypes.func.isRequired,
   dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
+  fetchDirectDeposit: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
@@ -277,41 +286,53 @@ Profile.propTypes = {
   isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  profileToggles: PropTypes.object.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchDirectDeposit: PropTypes.bool.isRequired,
   shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
   shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   togglesLoaded: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
-  useLighthouseDirectDepositEndpoint: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   const togglesLoaded = togglesAreLoaded(state);
+  const profileToggles = selectProfileToggles(state);
   const signInServicesEligibleForDD = new Set([
     CSP_IDS.ID_ME,
     CSP_IDS.LOGIN_GOV,
   ]);
-  const isEvssAvailableSelector = createIsServiceAvailableSelector(
-    backendServices.EVSS_CLAIMS,
+  const isLighthouseAvailableSelector = createIsServiceAvailableSelector(
+    backendServices.LIGHTHOUSE,
   );
-  const isEvssAvailable = isEvssAvailableSelector(state);
+  const isLighthouseAvailable = isLighthouseAvailableSelector(state);
   const is2faEnabled = isMultifactorEnabled(state);
   const signInService = signInServiceNameSelector(state);
   const isInMVI = isInMVISelector(state);
   const isEligibleForDD =
     signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
   const shouldFetchCNPDirectDepositInformation =
-    isEligibleForDD && isEvssAvailable;
+    isEligibleForDD &&
+    isLighthouseAvailable &&
+    !profileToggles?.profileShowDirectDepositSingleForm;
   const shouldFetchEDUDirectDepositInformation = isEligibleForDD;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
+  const shouldFetchDirectDeposit =
+    isEligibleForDD &&
+    isLighthouseAvailable &&
+    profileToggles?.profileShowDirectDepositSingleForm;
 
-  // 47841 block profile access for deceased, fiduciary flagged, and incompetent veterans
+  // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
 
-  const shouldFetchTotalDisabilityRating = isLOA3 && isInMVI;
+  const shouldFetchTotalDisabilityRating = !!(
+    isLOA3 &&
+    isInMVI &&
+    canAccess(state)?.ratingInfo
+  );
 
   // this piece of state will be set if the call to load military info succeeds
   // or fails:
@@ -330,6 +351,11 @@ const mapStateToProps = state => {
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
+  const hasLoadedDirectDeposit =
+    !isInMVI ||
+    state.directDeposit?.paymentAccount ||
+    state.directDeposit?.loadError;
+
   const hasLoadedTotalDisabilityRating =
     !isInMVI || (state.totalRating && !state.totalRating.loading);
 
@@ -343,7 +369,8 @@ const mapStateToProps = state => {
         : true) &&
       (shouldFetchCNPDirectDepositInformation
         ? hasLoadedCNPPaymentInformation
-        : true));
+        : true) &&
+      (shouldFetchDirectDeposit ? hasLoadedDirectDeposit : true));
 
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);
@@ -354,16 +381,15 @@ const mapStateToProps = state => {
     isInMVI,
     isLOA3,
     shouldFetchCNPDirectDepositInformation,
+    shouldFetchDirectDeposit,
     shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
     isBlocked,
-    useLighthouseDirectDepositEndpoint: profileUseLighthouseDirectDepositEndpoint(
-      state,
-    ),
     togglesLoaded,
+    profileToggles,
   };
 };
 
@@ -371,6 +397,7 @@ const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
+  fetchDirectDeposit: fetchDirectDepositAction,
   fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,

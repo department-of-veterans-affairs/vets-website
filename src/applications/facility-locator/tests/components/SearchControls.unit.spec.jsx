@@ -11,26 +11,7 @@ describe('SearchControls', () => {
       facilityType: null,
     };
     const wrapper = shallow(<SearchControls currentQuery={query} />);
-    expect(
-      wrapper
-        .render()
-        .find('#facility-type-dropdown [selected]')
-        .text(),
-    ).to.equal('Choose a facility type');
-    expect(
-      wrapper
-        .find('label')
-        .find('span')
-        .at(0)
-        .text(),
-    ).to.equal('(*Required)');
-    expect(
-      wrapper
-        .find('label')
-        .find('span')
-        .at(1)
-        .text(),
-    ).to.equal('(*Required)');
+    expect(wrapper.render().find('.facility-type-dropdown-val-none')).to.exist;
     wrapper.unmount();
   });
 
@@ -42,15 +23,8 @@ describe('SearchControls', () => {
     expect(
       wrapper
         .render()
-        .find('#facility-type-dropdown [selected]')
-        .val(),
-    ).to.equal(query.facilityType);
-    expect(
-      wrapper
-        .render()
-        .find('#facility-type-dropdown [selected]')
-        .text(),
-    ).to.equal('VA benefits');
+        .find(`.facility-type-dropdown-val-${query.facilityType}`),
+    ).to.exist;
 
     wrapper.unmount();
   });

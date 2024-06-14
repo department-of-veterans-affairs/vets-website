@@ -1,11 +1,16 @@
 import {
   addIncludedIssues,
-  addAreaOfDisagreement,
   addUploads,
   getAddress,
+  getEmail,
+  getPart3Data,
+} from '../utils/submit';
+
+import {
+  addAreaOfDisagreement,
   getPhone,
   getTimeZone,
-} from '../utils/submit';
+} from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
@@ -19,12 +24,13 @@ export function transform(formConfig, form) {
             homeless: formData.homeless || false,
             address: getAddress(formData),
             phone: getPhone(formData),
-            emailAddressText: formData.veteran?.email || '',
+            ...getEmail(formData),
           },
           boardReviewOption: formData.boardReviewOption || '',
           hearingTypePreference: formData.hearingTypePreference || '',
           timezone: getTimeZone(),
           socOptIn: false,
+          ...getPart3Data(formData),
         },
       },
       included: addAreaOfDisagreement(addIncludedIssues(formData), formData),

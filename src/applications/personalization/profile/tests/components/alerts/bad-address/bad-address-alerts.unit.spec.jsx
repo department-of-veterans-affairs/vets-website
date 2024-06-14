@@ -1,26 +1,25 @@
 import React from 'react';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import { MemoryRouter as Router } from 'react-router-dom';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { axeCheck } from '~/platform/forms-system/test/config/helpers';
 import FormAlert from '../../../../components/alerts/bad-address/FormAlert';
 import ProfileAlert from '../../../../components/alerts/bad-address/ProfileAlert';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+import { PROFILE_PATHS } from '~/applications/personalization/profile/constants';
 
 describe('authenticated experience -- profile -- bad address alert', () => {
   describe('ProfileAlert', () => {
     it('passes axeCheck', () => {
-      axeCheck(
-        <Router>
-          <ProfileAlert />
-        </Router>,
-      );
+      const { container } = renderWithStoreAndRouter(<ProfileAlert />, {
+        path: PROFILE_PATHS.PROFILE_ROOT,
+      });
+
+      return axeCheck(<container />);
     });
     it('has accessibility considerations including alert role and aria-live', async () => {
-      const { findByRole } = render(
-        <Router>
-          <ProfileAlert />
-        </Router>,
-      );
+      const { findByRole } = renderWithStoreAndRouter(<ProfileAlert />, {
+        path: PROFILE_PATHS.PROFILE_ROOT,
+      });
+
       const alert = await findByRole('alert');
       expect(alert.getAttribute('aria-live')).to.equal('polite');
     });

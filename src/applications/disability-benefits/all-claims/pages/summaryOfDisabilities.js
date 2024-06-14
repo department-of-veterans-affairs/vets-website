@@ -1,7 +1,7 @@
 import { SummaryOfDisabilitiesDescription } from '../content/summaryOfDisabilities';
 
 export const uiSchema = {
-  'ui:title': 'Summary of disabilities',
+  'ui:title': 'Summary of conditions',
   'ui:description': SummaryOfDisabilitiesDescription,
 };
 

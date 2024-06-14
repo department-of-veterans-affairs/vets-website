@@ -24,13 +24,11 @@ describe('SIP Review Test', () => {
     cy.get('body').should('be.visible');
     cy.get('.main .usa-button-primary', { timeout: Timeouts.slow });
 
-    cy.get(
-      '.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled',
-    )
+    cy.get('va-accordion-item')
       .first()
       .click()
       .then(() => {
-        cy.get('.edit-btn')
+        cy.get("va-button[text='edit']")
           .first()
           .click();
         cy.fill('input[name="root_veteranFullName_first"]', 'Jane');

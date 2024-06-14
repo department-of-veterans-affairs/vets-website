@@ -8,11 +8,9 @@ import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
-import { ShortFormAlert } from '../../../components/FormAlerts';
-import {
-  medicalCentersByState,
-  isShortFormEligible,
-} from '../../../utils/helpers';
+import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
+import { medicalCentersByState } from '../../../utils/helpers';
+import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 const {
@@ -28,7 +26,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: formData => !isShortFormEligible(formData),
+        hideIf: notShortFormEligible,
       },
     },
     'view:vaFacilityTitle': {

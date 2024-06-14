@@ -22,9 +22,9 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Choose a date and time';
 
 function renderContent({ dispatch, isRequest, facilityId, history }) {
   // Display this content when the facility is configured to accept appointment
@@ -101,6 +101,8 @@ function goForward({ dispatch, data, history, setSubmitted }) {
 }
 
 export default function DateTimeSelectPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const {
     appointmentSlotsStatus,
     availableSlots,
@@ -256,5 +258,5 @@ export default function DateTimeSelectPage() {
 
 ErrorMessage.propTypes = {
   facilityId: PropTypes.string.isRequired,
-  history: PropTypes.objectOf.isRequired,
+  history: PropTypes.object.isRequired,
 };

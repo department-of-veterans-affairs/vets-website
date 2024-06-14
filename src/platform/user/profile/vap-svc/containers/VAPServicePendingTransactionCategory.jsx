@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { refreshTransaction } from '../actions';
 
@@ -19,18 +18,10 @@ function VAPServicePendingTransactionCategory({
   if (!hasPendingCategoryTransaction) return <div>{children}</div>;
 
   let plural = 'email';
-  // TODO: After https://github.com/department-of-veterans-affairs/va.gov-team/issues/19858
-  // is completed and is live on prod, we can remove the `.VAP_` types used
-  // below:
-  if (
-    categoryType === TRANSACTION_CATEGORY_TYPES.PHONE ||
-    categoryType === TRANSACTION_CATEGORY_TYPES.VAP_PHONE
-  ) {
+
+  if (categoryType === TRANSACTION_CATEGORY_TYPES.PHONE) {
     plural = 'phone numbers';
-  } else if (
-    categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS ||
-    categoryType === TRANSACTION_CATEGORY_TYPES.VAP_ADDRESS
-  ) {
+  } else if (categoryType === TRANSACTION_CATEGORY_TYPES.ADDRESS) {
     plural = 'addresses';
   }
 
@@ -42,13 +33,13 @@ function VAPServicePendingTransactionCategory({
 
   return (
     <VAPServiceTransactionPending refreshTransaction={refreshAllTransactions}>
-      <AlertBox isVisible status="warning">
-        <h4>We’re updating your {plural}</h4>
+      <va-alert visible status="warning" uswds>
+        <h4 slot="headline">We’re updating your {plural}</h4>
         <p>
           We’re in the process of saving your changes. We'll show your updated
           information below as soon as it’s finished saving.
         </p>
-      </AlertBox>
+      </va-alert>
     </VAPServiceTransactionPending>
   );
 }

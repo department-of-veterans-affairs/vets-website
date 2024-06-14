@@ -1,18 +1,20 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { getEnrollmentData } from '../actions/post-911-gib-status';
 import {
   backendErrorMessage,
   authenticationErrorMessage,
   genericErrorMessage,
+  serviceDowntimeErrorMessage,
 } from '../utils/helpers';
 
 export class Main extends React.Component {
   componentDidMount() {
-    this.props.getEnrollmentData();
+    this.props.getEnrollmentData(this.props.apiVersion);
   }
 
   render() {
@@ -23,7 +25,7 @@ export class Main extends React.Component {
         break;
       case 'awaitingResponse':
         appContent = (
-          <LoadingIndicator message="Please wait while we check if the tool is available for you." />
+          <va-loading-indicator message="Please wait while we check if the tool is available for you." />
         );
         break;
       case 'backendAuthenticationError':
@@ -34,6 +36,9 @@ export class Main extends React.Component {
       case 'backendServiceError':
         appContent = backendErrorMessage;
         break;
+      case 'serviceDowntimeError':
+        appContent = serviceDowntimeErrorMessage;
+        break;
       default:
         appContent = genericErrorMessage;
     }
@@ -41,6 +46,13 @@ export class Main extends React.Component {
     return <div>{appContent}</div>;
   }
 }
+
+Main.propTypes = {
+  apiVersion: PropTypes.object.isRequired,
+  getEnrollmentData: PropTypes.func.isRequired,
+  availability: PropTypes.string,
+  children: PropTypes.node,
+};
 
 function mapStateToProps(state) {
   return {

@@ -2,10 +2,12 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import { fillProviderFacility } from './helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -15,8 +17,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start/i, { selector: 'button' });
-          cy.findByText(/without signing in/i).click({ force: true });
+          cy.findByText(/start the medical release authorization/i).click({
+            force: true,
+          });
         });
       },
       'contact-information-1': ({ afterHook }) => {
@@ -86,24 +89,18 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const signerName =
-              data.preparerIdentification?.preparerFullName ??
-              data.veteran.fullName;
-            cy.get('#veteran-signature')
-              .shadow()
-              .find('input')
-              .first()
-              .type(
-                signerName.middle
-                  ? `${signerName.first} ${signerName.middle} ${
-                      signerName.last
-                    }`
-                  : `${signerName.first} ${signerName.last}`,
-              );
-            cy.get(`input[name="veteran-certify"]`).check();
-            cy.findAllByText(/Submit application/i, {
-              selector: 'button',
-            }).click();
+            let signerName = data.veteran.fullName;
+            if (
+              data.preparerIdentification?.preparerFullName &&
+              Object.keys(data.preparerIdentification?.preparerFullName)
+                .length > 0
+            ) {
+              signerName = data.preparerIdentification?.preparerFullName;
+            }
+            reviewAndSubmitPageFlow(
+              signerName,
+              'Submit medical release authorization',
+            );
           });
         });
       },
@@ -111,6 +108,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+
+      cy.login(user);
     },
     skip: false,
   },

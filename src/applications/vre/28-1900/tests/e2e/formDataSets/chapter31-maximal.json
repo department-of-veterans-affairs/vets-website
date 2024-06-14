@@ -3,7 +3,6 @@
   "useEva": false,
   "view:TeleCounselingInformation": {},
   "useTelecounseling": false,
-  "view:AppointmentPreferencesInformation": {},
   "appointmentTimePreferences": {
     "morning": true,
     "midDay": false,

@@ -11,12 +11,12 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
+import { hasBadAddress } from '../selectors';
 import {
   openModal,
   createTransaction,
@@ -192,8 +192,18 @@ class AddressValidationModal extends React.Component {
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span>{street}</span>
-            <span>{cityStateZip}</span>
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="street address"
+            >
+              {street}
+            </span>
+            <span
+              className="dd-privacy-hidden"
+              data-dd-action-name="city, state and zip code"
+            >
+              {cityStateZip}
+            </span>
             <span>{country}</span>
 
             {isAddressFromUser &&
@@ -254,6 +264,7 @@ class AddressValidationModal extends React.Component {
         id="address-validation-warning"
         onCloseEvent={resetDataAndCloseModal}
         visible
+        uswds
       >
         {error && (
           <div className="vads-u-margin-bottom--1">
@@ -264,6 +275,7 @@ class AddressValidationModal extends React.Component {
           className="vads-u-margin-bottom--1"
           status="warning"
           headline={addressValidationMessage.headline}
+          uswds
         >
           <addressValidationMessage.ModalText editFunction={this.onEditClick} />
         </VaAlert>
