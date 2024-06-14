@@ -54,13 +54,15 @@ describe('useMyHealthAccessGuard', () => {
     });
   });
 
-  describe('without a valid MHV account', async () => {
-    const initialState = stateFn({ mhvAccountState: 'NONE' });
-    setup(initialState);
+  describe('without a valid MHV account', () => {
+    it('redirects to the /my-health path', async () => {
+      const initialState = stateFn({ mhvAccountState: 'NONE' });
+      setup(initialState);
 
-    await waitFor(() => {
-      expect(window.location.replace.calledOnce).to.be.true;
-      expect(window.location.replace.calledWith('/my-health')).to.be.true;
+      await waitFor(() => {
+        expect(window.location.replace.calledOnce).to.be.true;
+        expect(window.location.replace.calledWith('/my-health')).to.be.true;
+      });
     });
   });
 });
