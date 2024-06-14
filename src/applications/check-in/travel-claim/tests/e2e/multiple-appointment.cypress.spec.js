@@ -7,8 +7,8 @@ import TravelMileage from './pages/TravelMileage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import TravelComplete from './pages/TravelComplete';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A patient with appointments at multiple facilities', () => {
+
+describe('A patient with multiple appointments', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -19,11 +19,11 @@ describe.skip('A patient with appointments at multiple facilities', () => {
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
-    initializeBtsssPost.withSuccess(2);
+    initializeBtsssPost.withSuccess();
   });
-  it('should successfully file a travel claim for a single facility', () => {
+  it('should successfully file a travel claim for a single appointment', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
+      sharedData.get.multiOHAppointmentsUUID,
     );
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
@@ -37,7 +37,7 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.selectFacility('500');
+    TravelMileage.selectAppointment('500-1111');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -59,7 +59,7 @@ describe.skip('A patient with appointments at multiple facilities', () => {
   });
   it('should successfully file a travel claim after going back by clicking start over to change the facility', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
+      sharedData.get.multiOHAppointmentsUUID,
     );
     cy.visitTravelClaimWithUUID();
 
@@ -74,8 +74,8 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('500');
+    TravelMileage.validateAppointmentCount(2);
+    TravelMileage.selectAppointment('500-1111');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -93,8 +93,7 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.selectFacility('500');
-    TravelMileage.selectFacility('530');
+    TravelMileage.selectAppointment('500-2222');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -113,138 +112,9 @@ describe.skip('A patient with appointments at multiple facilities', () => {
     TravelComplete.validatePageLoaded();
     TravelComplete.validateContent('single-claim-multi-appointment');
   });
-  it('should successfully file a travel claim for multiple facilities', () => {
+  it('should successfully file a travel claim after going back from the review page and changing the appointment', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
-    );
-    cy.visitTravelClaimWithUUID();
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.selectFacility('500');
-    TravelMileage.selectFacility('530');
-    cy.createScreenshots('Travel-claim--multiple-facilities--Mileage');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--multiple-facilities--Review');
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('multi-claim-multi-appointment');
-    cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--multiple-facilities--Complete');
-  });
-  it('should successfully file a travel claim for one facility when there are three and one other one is already filed', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
-    );
-    cy.visitTravelClaimWithUUID();
-    cy.window().then(win => {
-      // Set the value in local storage using win.localStorage.setItem()
-      win.localStorage.setItem(
-        'my.health.travel-claim.travel.pay.sent',
-        `{"530":"${new Date().toISOString()}"}`,
-      );
-    });
-
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    TravelMileage.validateContext.multiFacility();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(2);
-    TravelMileage.selectFacility('500');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('single-claim-multi-appointment');
-    cy.injectAxeThenAxeCheck();
-  });
-  it('should successfully file a travel claim for one facility when there are two and one is already filed', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptTwoFacilityUUID,
-    );
-    cy.visitTravelClaimWithUUID();
-    cy.window().then(win => {
-      // Set the value in local storage using win.localStorage.setItem()
-      win.localStorage.setItem(
-        'my.health.travel-claim.travel.pay.sent',
-        `{"530":"${new Date().toISOString()}"}`,
-      );
-    });
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    TravelMileage.validateContext.singleFacility();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelComplete.validatePageLoaded();
-    TravelComplete.validateContent('single-claim-single-appointment');
-    cy.injectAxeThenAxeCheck();
-  });
-  it('should successfully file a travel claim after going back from the review page and changing the facility', () => {
-    ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
+      sharedData.get.multiOHAppointmentsUUID,
     );
     cy.visitTravelClaimWithUUID();
 
@@ -259,8 +129,8 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('500');
+    TravelMileage.validateAppointmentCount(2);
+    TravelMileage.selectAppointment('500-1111');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -280,8 +150,8 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('530');
+    TravelMileage.validateAppointmentCount(2);
+    TravelMileage.selectAppointment('500-2222');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -303,7 +173,7 @@ describe.skip('A patient with appointments at multiple facilities', () => {
   });
   it('should successfully file a travel claim after viewing the travel agreement', () => {
     ApiInitializer.initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
+      sharedData.get.multiOHAppointmentsUUID,
     );
     cy.visitTravelClaimWithUUID();
 
@@ -318,8 +188,8 @@ describe.skip('A patient with appointments at multiple facilities', () => {
 
     TravelMileage.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
-    TravelMileage.validateFacilityCount(3);
-    TravelMileage.selectFacility('500');
+    TravelMileage.validateAppointmentCount(2);
+    TravelMileage.selectAppointment('500-1111');
     TravelMileage.attemptToGoToNextPage();
 
     TravelPages.validatePageWrapper('travel-claim-vehicle-page');
