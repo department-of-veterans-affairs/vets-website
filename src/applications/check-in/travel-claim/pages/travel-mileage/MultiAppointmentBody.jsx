@@ -5,6 +5,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useTranslation } from 'react-i18next';
+import { getApptLabel } from '../../../utils/appointment';
 
 const MultipleAppointmentBody = props => {
   const {
@@ -23,15 +24,6 @@ const MultipleAppointmentBody = props => {
     },
     [appointments, setSelectedAppointment],
   );
-  const getAppointmentsLabel = appointment => {
-    const type = appointment.clinicStopCodeName
-      ? ` ${appointment.clinicStopCodeName}`
-      : ` ${t('VA-appointment')}`;
-    const provider = appointment.doctorName
-      ? `with ${appointment.doctorName}`
-      : '';
-    return `${type} ${provider}`;
-  };
 
   return (
     <div data-testid="multi-appointment-context">
@@ -52,8 +44,8 @@ const MultipleAppointmentBody = props => {
             uswds
             value={index}
             tile
-            label={appointment.clinicFriendlyName}
-            description={getAppointmentsLabel(appointment)}
+            label={getApptLabel(appointment)}
+            description={`${t('in-person-at')} ${appointment.facility}`}
             checked={
               `${selectedAppointment?.stationNo}-${
                 selectedAppointment?.appointmentIen
