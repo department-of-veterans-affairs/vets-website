@@ -9,10 +9,7 @@ export default {
   title: 'Home address',
   path: 'home-address',
   uiSchema: {
-    ...titleUI(
-      'Home address',
-      "We'll send any important information about your form to this address.",
-    ),
+    ...titleUI('Home address'),
     homeAddress: addressUI({
       labels: {
         state: 'State/Province/Region',

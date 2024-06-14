@@ -3,8 +3,16 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
+  radioSchema,
+  radioUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+const typeOfPhoneOptions = {
+  CELL: 'Cell',
+  HOME: 'Home',
+  WORK: 'Work',
+};
 
 /** @type {PageSchema} */
 export default {
@@ -12,15 +20,20 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    personalPhone: phoneUI('Primary number'),
-    personalEmail: emailUI(),
+    phone: phoneUI('Primary number'),
+    typeOfPhone: radioUI({
+      title: 'Type of phone',
+      labels: typeOfPhoneOptions,
+    }),
+    email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      personalPhone: phoneSchema,
-      personalEmail: emailSchema,
+      phone: phoneSchema,
+      typeOfPhone: radioSchema(Object.keys(typeOfPhoneOptions)),
+      email: emailSchema,
     },
-    required: ['personalPhone'],
+    required: ['phone', 'email'],
   },
 };
