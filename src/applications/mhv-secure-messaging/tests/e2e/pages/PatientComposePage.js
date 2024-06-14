@@ -12,11 +12,11 @@ class PatientComposePage {
   messageBodyText = 'testBody';
 
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockResponse).as('message');
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
-    cy.wait(Locators.INFO.MESSAGE)
+    cy.wait('@message')
       .its('request.body')
       .then(request => {
         if (mockRequest) {
