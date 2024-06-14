@@ -43,6 +43,10 @@ export const uiSchema = {
   agencyOrProgram: {
     'ui:title':
       'Agency or program paying paying tuition or education allowance',
+    'ui:options': {
+      hideIf: form =>
+        !form?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
+    },
     agencyName: {
       'ui:title': 'Agency name',
       'ui:required': formData =>
