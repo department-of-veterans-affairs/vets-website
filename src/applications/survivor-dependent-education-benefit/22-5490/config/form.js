@@ -338,6 +338,14 @@ const formConfig = {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency?',
               ),
+              // 'ui:options': {
+              //   hideIf: formData => {
+              //     return formData?.highSchoolDiploma !== 'yes';
+              //   },
+              //   'ui:required': formData => {
+              //     return formData?.highSchoolDiploma === 'yes'
+              //   },
+              // },
             },
           },
           schema: {
