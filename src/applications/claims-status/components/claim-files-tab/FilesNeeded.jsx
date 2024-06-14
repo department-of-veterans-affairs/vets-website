@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { truncateDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 
-function FilesNeeded({ item }) {
+function FilesNeeded({ item, evidenceWaiverSubmitted5103 }) {
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -36,14 +36,18 @@ function FilesNeeded({ item }) {
   };
 
   // Hide the due date when item type is Automated 5103 Notice Response
-  const hideDueDate = item.displayName === 'Automated 5103 Notice Response';
+  const is5103Notice = item.displayName === 'Automated 5103 Notice Response';
+  // When evidenceWaiverSubmitted5103 is true and is5103Notice is true FilesNeeded should show null
+  if (evidenceWaiverSubmitted5103 && is5103Notice) {
+    return null;
+  }
 
   return (
     <va-alert class="primary-alert vads-u-margin-bottom--2" status="warning">
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>
-      {!hideDueDate && <DueDate date={item.suspenseDate} />}
+      {!is5103Notice && <DueDate date={item.suspenseDate} />}
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
@@ -61,6 +65,7 @@ function FilesNeeded({ item }) {
 
 FilesNeeded.propTypes = {
   item: PropTypes.object.isRequired,
+  evidenceWaiverSubmitted5103: PropTypes.bool,
 };
 
 export default FilesNeeded;
