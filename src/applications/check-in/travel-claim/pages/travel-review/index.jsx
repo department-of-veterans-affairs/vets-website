@@ -6,6 +6,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
+import { utcToFacilityTimeZone } from '../../../utils/appointment';
 
 const TravelReview = props => {
   const { router } = props;
@@ -50,11 +51,19 @@ const TravelReview = props => {
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
         <dd className="vads-u-margin-top--0p5">
           <span data-testid="claim-info">
-            {`${t('mileage-only-reimbursement-for')} ${
+            {`${t('mileage-only-reimbursement-for-your')} ${
               appointmentToFile.clinicStopCodeName
-                ? ` ${appointmentToFile.clinicStopCodeName}`
+                ? ` ${appointmentToFile.clinicStopCodeName} appointment`
                 : ` ${t('VA-appointment')}`
-            } at ${appointmentToFile.startTime}`}
+            } on ${utcToFacilityTimeZone(
+              appointmentToFile.startTime,
+              appointmentToFile.timezone,
+              'MMMM dd, yyyy, h:mm aaaa',
+            )}${
+              appointmentToFile.clinicFriendlyName
+                ? `, ${appointmentToFile.clinicFriendlyName}`
+                : ''
+            }`}
           </span>
         </dd>
       </dl>

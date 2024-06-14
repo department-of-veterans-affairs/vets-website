@@ -357,5 +357,6 @@
   "select-appointment-to-file-today": "Select the appointment you want to file for today",
   "select-the-appointment-you-want": "Select the appointment you want to file for",
   "mileage-reimbursement-rates": "Mileage reimbursement rates",
-  "the-payment-amount-depends-on-type" : "The payment amount you receive depends on the type of appointment. We pay round-trip mileage for your scheduled appointments. We may only pay return mileage for unscheduled visits like walk-in appointments or labs." 
+  "the-payment-amount-depends-on-type" : "The payment amount you receive depends on the type of appointment. We pay round-trip mileage for your scheduled appointments. We may only pay return mileage for unscheduled visits like walk-in appointments or labs.",
+  "mileage-only-reimbursement-for-your": "Mileage-only reimbursement for your"
 }
