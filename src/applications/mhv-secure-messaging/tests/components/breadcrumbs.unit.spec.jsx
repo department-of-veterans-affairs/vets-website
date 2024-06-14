@@ -85,7 +85,7 @@ describe('Breadcrumbs', () => {
     const { breadcrumbList } = breadcrumbs;
 
     // Validate the props
-    expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
+    expect(await breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
       Breadcrumbs.DRAFTS,
     );
   });
