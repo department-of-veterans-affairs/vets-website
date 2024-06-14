@@ -49,7 +49,7 @@ class Automated5103Notice extends React.Component {
         if (useLighthouse5103) {
           submit5103(params.id, true);
         } else {
-          submitRequest(params.id);
+          submitRequest(params.id, true);
         }
         this.goToFilesPage();
       } else {
