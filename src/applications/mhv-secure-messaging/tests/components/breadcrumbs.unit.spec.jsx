@@ -2,6 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -85,8 +86,10 @@ describe('Breadcrumbs', () => {
     const { breadcrumbList } = breadcrumbs;
 
     // Validate the props
-    expect(await breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
-      Breadcrumbs.DRAFTS,
+    await waitFor(() =>
+      expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
+        Breadcrumbs.DRAFTS,
+      ),
     );
   });
 
