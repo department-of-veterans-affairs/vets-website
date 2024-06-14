@@ -1,4 +1,4 @@
-import typeOfRole from './typeOfRole';
+import role from './role';
 import personalInformation from './personalInformation';
 import placeOfBirth from './placeOfBirth';
 import contactInformation from './contactInformation';
@@ -12,7 +12,7 @@ import otherAddress from './otherAddress';
 export default {
   title: 'Personal information',
   pages: {
-    typeOfRole,
+    role,
     personalInformation,
     placeOfBirth,
     contactInformation,

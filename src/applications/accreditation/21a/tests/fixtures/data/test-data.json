@@ -1,6 +1,6 @@
 {
   "data": {
-    "typeOfRole": "ATTORNEY",
+    "role": "ATTORNEY",
     "fullName": {
       "first": "Person",
       "middle": "Middle",
@@ -13,7 +13,7 @@
       "city": "City",
       "state": "CA"
     },
-    "phone": "345-345-3455",
+    "phone": "3453453455",
     "typeOfPhone": "HOME",
     "email": "person.name@testmail.com",
     "homeAddress": {
@@ -25,7 +25,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "employmentStatus": "EMPLOYED",
+    "employmentStatus": "UNEMPLOYED",
     "describeEmployment": "Employed at a company",
     "workAddress": {
       "view:militaryBaseDescription": {},
