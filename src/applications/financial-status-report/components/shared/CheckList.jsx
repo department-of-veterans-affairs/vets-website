@@ -40,9 +40,6 @@ const Checklist = ({
           className="checkbox-list-item"
         />
       ))}
-      {/* <div slot="form-description">
-        <p>{prompt}</p> 
-      </div> */}
     </VaCheckboxGroup>
   );
 };
