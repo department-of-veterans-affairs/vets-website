@@ -218,7 +218,7 @@ export const getClaim = (id, navigate) => {
   };
 };
 
-export function submitRequest(id) {
+export function submitRequest(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
@@ -242,13 +242,23 @@ export function submitRequest(id) {
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
+        if (cstClaimPhasesEnabled) {
+          dispatch(
+            setNotification({
+              title: 'We received your evidence waiver',
+              body:
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+            }),
+          );
+        } else {
+          dispatch(
+            setNotification({
+              title: 'Request received',
+              body:
+                'Thank you. We have your claim request and will make a decision.',
+            }),
+          );
+        }
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
