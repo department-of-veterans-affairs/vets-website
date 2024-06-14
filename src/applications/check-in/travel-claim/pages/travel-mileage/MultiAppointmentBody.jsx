@@ -24,9 +24,13 @@ const MultipleAppointmentBody = props => {
     [appointments, setSelectedAppointment],
   );
   const getAppointmentsLabel = appointment => {
-    return appointment.clinicStopCodeName
+    const type = appointment.clinicStopCodeName
       ? ` ${appointment.clinicStopCodeName}`
       : ` ${t('VA-appointment')}`;
+    const provider = appointment.doctorName
+      ? `with ${appointment.doctorName}`
+      : '';
+    return `${type} ${provider}`;
   };
 
   return (
@@ -48,9 +52,9 @@ const MultipleAppointmentBody = props => {
             key={`${appointment.stationNo}-${appointment.appointmentIen}`}
             uswds
             value={index}
-            label={`${getAppointmentsLabel(appointment)} at ${
-              appointment.startTime
-            } `}
+            tile
+            label={appointment.clinicFriendlyName}
+            description={getAppointmentsLabel(appointment)}
             checked={
               `${selectedAppointment?.stationNo}-${
                 selectedAppointment?.appointmentIen
