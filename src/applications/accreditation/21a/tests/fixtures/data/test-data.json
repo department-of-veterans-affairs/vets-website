@@ -1,6 +1,7 @@
 {
   "data": {
     "role": "ATTORNEY",
+    "barStanding": true,
     "fullName": {
       "first": "Person",
       "middle": "Middle",

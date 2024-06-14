@@ -1,4 +1,5 @@
 import role from './role';
+import barStanding from './barStanding';
 import personalInformation from './personalInformation';
 import placeOfBirth from './placeOfBirth';
 import contactInformation from './contactInformation';
@@ -13,6 +14,7 @@ export default {
   title: 'Personal information',
   pages: {
     role,
+    barStanding,
     personalInformation,
     placeOfBirth,
     contactInformation,
