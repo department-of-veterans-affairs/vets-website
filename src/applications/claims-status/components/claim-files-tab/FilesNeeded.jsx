@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { truncateDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 
-function FilesNeeded({ item, evidenceWaiverSubmitted5103 }) {
+function FilesNeeded({ item, evidenceWaiverSubmitted5103 = false }) {
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
