@@ -9,6 +9,17 @@ import { treatmentRecordsPages } from '../../simple-forms/mock-simple-forms-patt
 
 // const { } = fullSchema.definitions;
 
+const dependsOn = ({ operator, conditions }) => formData => {
+  return conditions.reduce((acc, condition) => {
+    const { field, value } = condition;
+    const isConditionSatisfied = formData[field] === value;
+
+    return operator === 'and'
+      ? acc && isConditionSatisfied
+      : acc || isConditionSatisfied;
+  }, operator === 'and');
+};
+
 export const formConfig1 = {
   rootUrl: `${manifest.rootUrl}/123-abc`,
   urlPrefix: '/123-abc/',
@@ -35,31 +46,51 @@ export const formConfig1 = {
           path: 'f1c1p1',
           title: 'Form 1 Chapter 1 Page 1',
           uiSchema: {
-            'ui:title': 'Medicaid Eligibility',
-            'ui:description': 'Medicaid',
-            isMedicaidEligible: {
-              'ui:title': 'Are you eligible for Medicaid?',
+            'ui:title': 'Eligibility',
+            'ui:description': 'Requirements',
+            isEligible1: {
+              'ui:title': 'Are you eligible for Item1?',
+              'ui:widget': 'yesNo',
+            },
+            isEligible2: {
+              'ui:title': 'Are you eligible for Item2?',
               'ui:widget': 'yesNo',
             },
           },
           schema: {
             type: 'object',
-            required: ['isMedicaidEligible'],
+            required: ['isEligible1'],
             properties: {
-              isMedicaidEligible: {
+              isEligible1: {
+                type: 'boolean',
+              },
+              isEligible2: {
                 type: 'boolean',
               },
             },
           },
         },
         f1c1p2: {
+          depends: dependsOn({
+            operator: 'or',
+            conditions: [
+              {
+                field: 'isEligible1',
+                value: true,
+              },
+              {
+                field: 'isEligible2',
+                value: true,
+              },
+            ],
+          }),
           path: 'f1c1p2',
           title: 'Form 1 Chapter 1 Page 2',
           uiSchema: {
-            'ui:title': 'Other Eligibility',
+            'ui:title': 'Conditional Page',
             'ui:description': 'Other',
             isOtherEligible: {
-              'ui:title': 'Are you eligible for ______?',
+              'ui:title': 'Are you eligible for something else?',
               'ui:widget': 'yesNo',
             },
           },
