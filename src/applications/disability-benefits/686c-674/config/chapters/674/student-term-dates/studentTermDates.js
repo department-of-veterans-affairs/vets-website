@@ -4,6 +4,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
+import { generateHelpText } from '../helpers';
 
 const agencyOrProgram = merge(
   omit(report674.properties.studentAddressMarriageTuition, [
@@ -55,12 +56,12 @@ export const uiSchema = {
         !form?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
     },
     agencyName: {
-      'ui:title': 'Agency name',
+      'ui:title':
+        'What’s the name of the school or program the student attends?',
       'ui:required': formData =>
         formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       'ui:errorMessages': {
-        required:
-          'Enter the Government agency or program paying tuition or education allowance',
+        required: 'Enter the name of the Federally funded school or program',
       },
       'ui:options': {
         hideIf: form =>
@@ -81,11 +82,13 @@ export const uiSchema = {
     },
     typeOfProgramOrBenefit: {
       'ui:title': 'Type of program or benefit',
+      'ui:description': generateHelpText(
+        '(i.e. Chapter 35, Fry Scholarship, FECA, Service Academy or Preparatory School, Federally funded Native American School, Job Corps program)',
+      ),
       'ui:required': formData =>
         formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
       'ui:errorMessages': {
-        required:
-          'Enter the program or benefit being paid for by the goverment agency or program',
+        required: 'Enter the type of program or benefit the student receives',
       },
       'ui:options': {
         hideIf: form =>
