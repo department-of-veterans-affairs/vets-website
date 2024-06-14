@@ -23,7 +23,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.verifyDigitalSignature();
     PatientComposePage.verifyDigitalSignatureRequired();
 
-    PatientComposePage.getDigitalSignatureField().type('Dusty Dump', {
+    PatientComposePage.getDigitalSignatureField().type('Dusty Dump ', {
       force: true,
     });
 

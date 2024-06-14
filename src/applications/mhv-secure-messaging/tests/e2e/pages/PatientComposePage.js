@@ -21,7 +21,7 @@ class PatientComposePage {
       .then(request => {
         if (mockRequest) {
           expect(request.body).to.eq(
-            `\n\n\nName\nTitleTest${mockRequest.body}`,
+            `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
@@ -35,7 +35,6 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
-    // cy.wait(Locators.INFO.MESSAGE);
   };
 
   clickSendMessageButton = () => {
