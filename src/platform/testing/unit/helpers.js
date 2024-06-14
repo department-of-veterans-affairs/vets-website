@@ -114,6 +114,7 @@ function mockFetch(returnVal, shouldResolve = true) {
   if (!fetch.isSinonProxy) {
     fetchStub = sinon.stub(global, 'fetch');
   }
+  fetchStub.mockFetchWasCalled = true;
 
   fetchStub.callsFake(url => {
     let response = returnVal;

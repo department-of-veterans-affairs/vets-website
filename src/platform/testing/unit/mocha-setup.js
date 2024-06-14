@@ -169,14 +169,14 @@ const interceptNetworkCalls = () => {
   });
   // This adds a flag to allow us to check if it was 
   // later overridden in a test by mockFetch().
-  fetchStub.isIntercepted = true;
+  fetchStub.mockFetchWasCalled = false;
 };
 
 const checkForNetworkCalls = mochaContext => {
   try {
     // If fetch was not explicitly mocked in the test, check for 
     // network calls and throw an error if any are found.
-    if (fetch.isIntercepted) {
+    if (fetch.mockFetchWasCalled === false) {
       const networkCall = fetch.getCall(0);
       if (networkCall && networkCall.args[0]) {
         throw new Error(
