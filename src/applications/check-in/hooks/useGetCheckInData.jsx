@@ -1,6 +1,5 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
-import { differenceInCalendarDays, parseISO } from 'date-fns';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
@@ -17,10 +16,7 @@ import {
   additionalContext,
 } from '../actions/day-of';
 
-import {
-  receivedTravelData,
-  setFilteredAppointments,
-} from '../actions/travel-claim';
+import { receivedTravelData } from '../actions/travel-claim';
 
 import {
   preCheckinExpired,
@@ -55,10 +51,6 @@ const useGetCheckInData = ({
   const { jumpToPage } = useFormRouting(router);
   const { setPreCheckinComplete } = useStorage(APP_NAMES.PRE_CHECK_IN);
   const { getTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
-  const { getTravelPaySent: getTravelPaySentTravelClaim } = useStorage(
-    APP_NAMES.TRAVEL_CLAIM,
-    true,
-  );
 
   const dispatch = useDispatch();
 
@@ -125,31 +117,9 @@ const useGetCheckInData = ({
 
   const setTravelData = useCallback(
     payload => {
-      const travelPaySent = getTravelPaySentTravelClaim(window);
-      const { appointments } = payload;
-      const filteredAppointments = {
-        alreadyFiled: [],
-        eligibleToFile: [],
-      };
-      appointments.forEach(appointment => {
-        if (
-          appointment.stationNo in travelPaySent &&
-          !differenceInCalendarDays(
-            Date.now(),
-            parseISO(travelPaySent[appointment.stationNo]),
-          )
-        ) {
-          filteredAppointments.alreadyFiled.push(appointment);
-        } else {
-          filteredAppointments.eligibleToFile.push(appointment);
-        }
-      });
-      batch(() => {
-        dispatch(receivedTravelData(payload));
-        dispatch(setFilteredAppointments(filteredAppointments));
-      });
+      dispatch(receivedTravelData(payload));
     },
-    [dispatch, getTravelPaySentTravelClaim],
+    [dispatch],
   );
   const fetchPreCheckIn = useCallback(
     () => {

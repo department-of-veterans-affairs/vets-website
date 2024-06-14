@@ -128,10 +128,10 @@ class MedicationsRefillPage {
   };
 
   verifyShippedMedicationOnRefillPage = () => {
-    cy.get('[data-testid="medications-last-shipped-3"]').should(
-      'contain',
-      'Last refill shipped on September 24, 2023',
-    );
+    cy.get('[data-testid="refill-prescription-checkbox-0"]')
+      .shadow()
+      .find('[aria-describedby="option-label"]')
+      .should('contain', 'Last filled on October 2, 2023');
   };
 
   verifyRequestRefillsButtonExistsForOneRefill = numberOfRefills => {
@@ -299,10 +299,25 @@ class MedicationsRefillPage {
   clickPrescriptionRefillCheckbox = prescription => {
     cy.intercept(
       'PATCH',
-      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
+      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22377949',
       prescription,
     );
-    cy.get('[data-testid="refill-prescription-checkbox-1"]').click({
+    cy.get('[data-testid="refill-prescription-checkbox-2"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickRequestRefillButtonForFailedRequest = (
+    prescriptionId,
+    failedRequest,
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
+      failedRequest,
+    );
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
     });
   };
@@ -310,6 +325,17 @@ class MedicationsRefillPage {
   clickRefillRequestButton = () => {
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickPrescriptionRefillCheckboxForSuccessfulRequest = prescription => {
+    cy.intercept(
+      'PATCH',
+      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
+      prescription,
+    );
+    cy.get('[data-testid="refill-prescription-checkbox-0"]').click({
       waitForAnimations: true,
     });
   };
