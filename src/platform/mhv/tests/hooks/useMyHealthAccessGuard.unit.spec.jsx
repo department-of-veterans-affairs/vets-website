@@ -36,7 +36,7 @@ describe('useMyHealthAccessGuard', () => {
   });
 
   afterEach(() => {
-    global.window.location = originalLocation;
+    window.location = originalLocation;
   });
 
   describe('with valid MHV account', () => {
