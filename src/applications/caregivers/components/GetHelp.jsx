@@ -1,6 +1,5 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { links } from '../definitions/content';
 
 const GetHelp = () => {
   return (
@@ -46,11 +45,11 @@ const GetHelp = () => {
         <strong>You can also contact a Caregiver Support Coordinator</strong>{' '}
         using our{' '}
         <a
-          href={links.caregiverSupportCoordinators.link}
           target="_blank"
           rel="noopener noreferrer"
+          href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
         >
-          {links.caregiverSupportCoordinators.label}
+          Use our online Caregiver Support Coordinator search tool
         </a>
       </p>
     </>

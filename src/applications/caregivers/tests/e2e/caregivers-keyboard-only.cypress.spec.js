@@ -90,7 +90,7 @@ describe('Caregivers-Keyboard-Only', () => {
       cy.tabToContinueForm();
 
       // Primary caregiver contact information
-      selectCheckboxWithKeyboard('[name="root_primaryAddress_autofill"]');
+      selectCheckboxWithKeyboard('[name="root_caregiverAddress_autofill"]');
       cy.typeInIfDataExists(
         '[name="root_primaryPrimaryPhoneNumber"]',
         data.primaryPrimaryPhoneNumber,

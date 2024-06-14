@@ -1,351 +1,286 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
-import {
-  veteranFields,
-  primaryCaregiverFields,
-  secondaryOneFields,
-  secondaryTwoFields,
-} from '../../definitions/constants';
-import {
-  submitTransform,
-  isSSNUnique,
-  arrayToSentenceString,
-} from '../../utils/helpers';
-
-// data
+import { submitTransform, isSsnUnique } from '../../utils/helpers';
 import requiredOnly from '../e2e/fixtures/data/requiredOnly.json';
-import secondaryTwoOnly from '../e2e/fixtures/data/secondaryOneOnly.json';
-import oneSecondaryCaregivers from '../e2e/fixtures/data/oneSecondaryCaregivers.json';
+import secondaryOneOnly from '../e2e/fixtures/data/secondaryOneOnly.json';
+import oneSecondaryCaregiver from '../e2e/fixtures/data/oneSecondaryCaregiver.json';
 import twoSecondaryCaregivers from '../e2e/fixtures/data/twoSecondaryCaregivers.json';
 import signAsRepresentativeNo from '../e2e/fixtures/data/signAsRepresentativeNo.json';
 
-describe('Caregivers helpers', () => {
-  it('should transform required parties correctly (minimal with primary)', () => {
-    const form = {
-      data: requiredOnly,
-    };
+describe('CG helpers', () => {
+  context('when `submitTransform` executes', () => {
+    it('should transform required parties correctly (minimal with primary)', () => {
+      const formData = { data: requiredOnly };
+      const transformedData = submitTransform(formConfig, formData);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const {
+        veteran,
+        primaryCaregiver,
+        secondaryCaregiverOne,
+        secondaryCaregiverTwo,
+      } = JSON.parse(caregiversAssistanceClaim.form);
 
-    const transformedData = submitTransform(formConfig, form);
-    const payloadData = JSON.parse(transformedData);
-    const payloadObject = JSON.parse(
-      payloadData.caregiversAssistanceClaim.form,
-    );
+      const veteranKeys = Object.keys(veteran);
+      const primaryKeys = Object.keys(primaryCaregiver);
 
-    const veteranKeys = Object.keys(payloadObject.veteran);
-    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
-
-    expect(veteranKeys).to.deep.equal([
-      'plannedClinic',
-      'address',
-      'primaryPhoneNumber',
-      'fullName',
-      'signature',
-      'ssnOrTin',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(primaryKeys).to.deep.equal([
-      'hasHealthInsurance',
-      'address',
-      'primaryPhoneNumber',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(payloadObject?.secondaryOne).to.equal(undefined);
-    expect(payloadObject?.secondaryOne).to.equal(undefined);
-  });
-
-  it('should transform required parties correctly (minimal with secondaryOne)', () => {
-    const form = {
-      data: secondaryTwoOnly,
-    };
-
-    const transformedData = submitTransform(formConfig, form);
-    const payloadData = JSON.parse(transformedData);
-    const payloadObject = JSON.parse(
-      payloadData.caregiversAssistanceClaim.form,
-    );
-
-    const veteranKeys = Object.keys(payloadObject.veteran);
-    const secondaryOneKeys = Object.keys(payloadObject.secondaryCaregiverOne);
-
-    expect(veteranKeys).to.deep.equal([
-      'lastTreatmentFacility',
-      'plannedClinic',
-      'address',
-      'primaryPhoneNumber',
-      'fullName',
-      'signature',
-      'ssnOrTin',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(secondaryOneKeys).to.deep.equal([
-      'address',
-      'primaryPhoneNumber',
-      'email',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(payloadObject?.secondaryOne).to.equal(undefined);
-    expect(payloadObject?.secondaryTwo).to.equal(undefined);
-  });
-
-  it('should transform required parties plus Secondary One correctly', () => {
-    const form = {
-      data: oneSecondaryCaregivers,
-    };
-
-    const transformedData = submitTransform(formConfig, form);
-    const payloadData = JSON.parse(transformedData);
-    const payloadObject = JSON.parse(
-      payloadData.caregiversAssistanceClaim.form,
-    );
-
-    const veteranKeys = Object.keys(payloadObject.veteran);
-    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
-    const secondaryOneKeys = Object.keys(payloadObject.secondaryCaregiverOne);
-
-    expect(veteranKeys).to.deep.equal([
-      'lastTreatmentFacility',
-      'plannedClinic',
-      'address',
-      'primaryPhoneNumber',
-      'fullName',
-      'signature',
-      'ssnOrTin',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(primaryKeys).to.deep.equal([
-      'hasHealthInsurance',
-      'address',
-      'primaryPhoneNumber',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(secondaryOneKeys).to.deep.equal([
-      'address',
-      'primaryPhoneNumber',
-      'email',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(payloadObject?.secondaryTwo).to.equal(undefined);
-  });
-
-  it('should transform all parties correctly', () => {
-    const form = {
-      data: twoSecondaryCaregivers,
-    };
-
-    const transformedData = submitTransform(formConfig, form);
-    const payloadData = JSON.parse(transformedData);
-    const payloadObject = JSON.parse(
-      payloadData.caregiversAssistanceClaim.form,
-    );
-
-    const veteranKeys = Object.keys(payloadObject.veteran);
-    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
-    const secondaryOneKeys = Object.keys(payloadObject.secondaryCaregiverOne);
-    const secondaryTwoKeys = Object.keys(payloadObject.secondaryCaregiverTwo);
-
-    expect(veteranKeys).to.deep.equal([
-      'lastTreatmentFacility',
-      'plannedClinic',
-      'address',
-      'primaryPhoneNumber',
-      'fullName',
-      'signature',
-      'ssnOrTin',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(primaryKeys).to.deep.equal([
-      'hasHealthInsurance',
-      'address',
-      'primaryPhoneNumber',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(secondaryOneKeys).to.deep.equal([
-      'address',
-      'primaryPhoneNumber',
-      'email',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-    ]);
-    expect(secondaryTwoKeys).to.deep.equal([
-      'address',
-      'primaryPhoneNumber',
-      'email',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-  });
-
-  it('should remove POA ID if yes/no/no is no', () => {
-    const form = {
-      data: signAsRepresentativeNo,
-    };
-
-    const transformedData = submitTransform(formConfig, form);
-    const payloadData = JSON.parse(transformedData);
-    const payloadObject = JSON.parse(
-      payloadData.caregiversAssistanceClaim.form,
-    );
-
-    const veteranKeys = Object.keys(payloadObject.veteran);
-    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
-
-    expect(veteranKeys).to.deep.equal([
-      'plannedClinic',
-      'address',
-      'primaryPhoneNumber',
-      'fullName',
-      'signature',
-      'ssnOrTin',
-      'dateOfBirth',
-      'gender',
-    ]);
-    expect(primaryKeys).to.deep.equal([
-      'hasHealthInsurance',
-      'address',
-      'primaryPhoneNumber',
-      'vetRelationship',
-      'fullName',
-      'signature',
-      'dateOfBirth',
-      'gender',
-    ]);
-
-    expect(payloadObject.poaAttachmentId).to.be.undefined;
-  });
-
-  it('isSSNUnique should not count a party that is not present', () => {
-    const formData = {
-      [veteranFields.ssn]: '222332222',
-      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
-      [primaryCaregiverFields.ssn]: '111332356',
-      [primaryCaregiverFields.hasSecondaryCaregiverOne]: false,
-      [secondaryOneFields.ssn]: '222332222',
-      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
-      [secondaryTwoFields.ssn]: '222332221',
-    };
-
-    const areSSNsUnique = isSSNUnique(formData);
-
-    expect(areSSNsUnique).to.be.true;
-  });
-
-  it('isSSNUnique should return false if a SSN is the same and both are present', () => {
-    const formData = {
-      [veteranFields.ssn]: '222332222',
-      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
-      [primaryCaregiverFields.ssn]: '111332356',
-      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
-      [secondaryOneFields.ssn]: '444332111',
-      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
-      [secondaryTwoFields.ssn]: '222332222',
-    };
-
-    const areSSNsUnique = isSSNUnique(formData);
-
-    expect(areSSNsUnique).to.be.false;
-  });
-
-  it('isSSNUnique should return true if all SSNs are different', () => {
-    const formData = {
-      [veteranFields.ssn]: '222332222',
-      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
-      [primaryCaregiverFields.ssn]: '111332356',
-      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
-      [secondaryOneFields.ssn]: '444332111',
-      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
-      [secondaryTwoFields.ssn]: '222332245',
-    };
-
-    const areSSNsUnique = isSSNUnique(formData);
-
-    expect(areSSNsUnique).to.be.true;
-  });
-
-  it('isSSNUnique should return true and not count SSNs if they are undefined', () => {
-    const formData = {
-      [veteranFields.ssn]: '222332222',
-      [primaryCaregiverFields.hasPrimaryCaregiver]: true,
-      [primaryCaregiverFields.ssn]: '111332356',
-      [primaryCaregiverFields.hasSecondaryCaregiverOne]: true,
-      [secondaryOneFields.ssn]: undefined,
-      [secondaryOneFields.hasSecondaryCaregiverTwo]: true,
-      [secondaryTwoFields.ssn]: undefined,
-    };
-
-    const areSSNsUnique = isSSNUnique(formData);
-
-    expect(areSSNsUnique).to.be.true;
-  });
-
-  describe('arrayToSentenceString', () => {
-    it('should return empty string when not an array', () => {
-      const sentence = arrayToSentenceString('array', 'or');
-
-      expect(sentence).to.equal('');
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(primaryKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(secondaryCaregiverOne).to.be.undefined;
+      expect(secondaryCaregiverTwo).to.be.undefined;
     });
 
-    it('should return empty string when array is empty', () => {
-      const sentence = arrayToSentenceString([], 'or');
+    it('should transform required parties correctly (minimal with secondaryOne)', () => {
+      const formData = { data: secondaryOneOnly };
+      const transformedData = submitTransform(formConfig, formData);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const {
+        veteran,
+        primaryCaregiver,
+        secondaryCaregiverOne,
+        secondaryCaregiverTwo,
+      } = JSON.parse(caregiversAssistanceClaim.form);
 
-      expect(sentence).to.equal('');
+      const veteranKeys = Object.keys(veteran);
+      const secondaryOneKeys = Object.keys(secondaryCaregiverOne);
+
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(secondaryOneKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'email',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(primaryCaregiver).to.be.undefined;
+      expect(secondaryCaregiverTwo).to.be.undefined;
     });
 
-    it('should return item unformatted when array constains only one item', () => {
-      const onlyItem = 'MyOnlyItem';
-      const sentence = arrayToSentenceString([onlyItem], 'or');
+    it('should transform required parties plus Secondary One correctly', () => {
+      const formData = { data: oneSecondaryCaregiver };
+      const transformedData = submitTransform(formConfig, formData);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const {
+        veteran,
+        primaryCaregiver,
+        secondaryCaregiverOne,
+        secondaryCaregiverTwo,
+      } = JSON.parse(caregiversAssistanceClaim.form);
 
-      expect(sentence).to.equal(onlyItem);
+      const veteranKeys = Object.keys(veteran);
+      const primaryKeys = Object.keys(primaryCaregiver);
+      const secondaryOneKeys = Object.keys(secondaryCaregiverOne);
+
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(primaryKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(secondaryOneKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'email',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(secondaryCaregiverTwo).to.be.undefined;
     });
 
-    it('should return item transformed without conjunction when array constains only one item', () => {
-      const transform = value => `(${value})`;
-      const sentence = arrayToSentenceString(['MyOnlyItem'], 'or', transform);
+    it('should transform all parties correctly', () => {
+      const form = { data: twoSecondaryCaregivers };
+      const transformedData = submitTransform(formConfig, form);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const {
+        veteran,
+        primaryCaregiver,
+        secondaryCaregiverOne,
+        secondaryCaregiverTwo,
+      } = JSON.parse(caregiversAssistanceClaim.form);
 
-      expect(sentence).to.equal('(MyOnlyItem)');
+      const veteranKeys = Object.keys(veteran);
+      const primaryKeys = Object.keys(primaryCaregiver);
+      const secondaryOneKeys = Object.keys(secondaryCaregiverOne);
+      const secondaryTwoKeys = Object.keys(secondaryCaregiverTwo);
+
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(primaryKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(secondaryOneKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'email',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+      ]);
+      expect(secondaryTwoKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'email',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
     });
 
-    it('should return formated string with conjunction without transform function', () => {
-      const inputArray = ['Ed', 'Edd', 'Eddy'];
-      const sentence = arrayToSentenceString(inputArray, 'and');
+    it('should remove POA ID if yes/no/no is no', () => {
+      const formData = { data: signAsRepresentativeNo };
+      const transformedData = submitTransform(formConfig, formData);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const { veteran, primaryCaregiver, poaAttachmentId } = JSON.parse(
+        caregiversAssistanceClaim.form,
+      );
 
-      expect(sentence).to.equal('Ed, Edd, and Eddy');
+      const veteranKeys = Object.keys(veteran);
+      const primaryKeys = Object.keys(primaryCaregiver);
+
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(primaryKeys).to.deep.equal([
+        'address',
+        'mailingAddress',
+        'primaryPhoneNumber',
+        'vetRelationship',
+        'fullName',
+        'signature',
+        'dateOfBirth',
+        'gender',
+      ]);
+
+      expect(poaAttachmentId).to.be.undefined;
+    });
+  });
+
+  context('when `isSsnUnique` executes', () => {
+    it(' should not count a party that is not present', () => {
+      const formData = {
+        veteranSsnOrTin: '222332222',
+        'view:hasPrimaryCaregiver': true,
+        primarySsnOrTin: '111332356',
+        'view:hasSecondaryCaregiverOne': false,
+        secondaryOneSsnOrTin: '222332222',
+        'view:hasSecondaryCaregiverTwo': true,
+        secondaryTwoSsnOrTin: '222332221',
+      };
+      expect(isSsnUnique(formData)).to.be.true;
     });
 
-    it('should return formated string with conjunction with transform function', () => {
-      const transform = value => `(${value})`;
-      const inputArray = ['*.*', '^.^', 'O.O'];
-      const sentence = arrayToSentenceString(inputArray, 'and', transform);
+    it('should return `false` if SSN is the same and both are present', () => {
+      const formData = {
+        veteranSsnOrTin: '222332222',
+        'view:hasPrimaryCaregiver': true,
+        primarySsnOrTin: '111332356',
+        'view:hasSecondaryCaregiverOne': true,
+        secondaryOneSsnOrTin: '444332111',
+        'view:hasSecondaryCaregiverTwo': true,
+        secondaryTwoSsnOrTin: '222332222',
+      };
+      expect(isSsnUnique(formData)).to.be.false;
+    });
 
-      expect(sentence).to.equal('(*.*), (^.^), and (O.O)');
+    it('should return `true` if all SSNs are different', () => {
+      const formData = {
+        veteranSsnOrTin: '222332222',
+        'view:hasPrimaryCaregiver': true,
+        primarySsnOrTin: '111332356',
+        'view:hasSecondaryCaregiverOne': true,
+        secondaryOneSsnOrTin: '444332111',
+        'view:hasSecondaryCaregiverTwo': true,
+        secondaryTwoSsnOrTin: '222332245',
+      };
+      expect(isSsnUnique(formData)).to.be.true;
+    });
+
+    it('should return `true` and not count SSNs if they are undefined', () => {
+      const formData = {
+        veteranSsnOrTin: '222332222',
+        'view:hasPrimaryCaregiver': true,
+        primarySsnOrTin: '111332356',
+        'view:hasSecondaryCaregiverOne': true,
+        secondaryOneSsnOrTin: undefined,
+        'view:hasSecondaryCaregiverTwo': true,
+        secondaryTwoSsnOrTin: undefined,
+      };
+      expect(isSsnUnique(formData)).to.be.true;
     });
   });
 });

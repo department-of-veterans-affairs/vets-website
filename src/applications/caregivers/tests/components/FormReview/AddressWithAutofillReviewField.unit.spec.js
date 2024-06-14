@@ -68,7 +68,7 @@ describe('CG <AddressWithAutofillReviewField>', () => {
     expect(selectors.autofill.querySelector('dt')).to.contain.text(
       'Use the same address as the Veteran',
     );
-    expect(selectors.autofill.querySelector('dd')).to.contain.text('Selected');
+    expect(selectors.autofill.querySelector('dd')).to.contain.text('Yes');
   });
 
   it('renders empty when no address form data is passed', () => {

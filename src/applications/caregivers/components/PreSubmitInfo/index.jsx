@@ -4,29 +4,20 @@ import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  veteranSignatureContent,
-  primaryCaregiverContent,
-  secondaryCaregiverContent,
-  signatureBoxNoteContent,
-  representativeSignatureContent,
-  veteranLabel,
-  primaryLabel,
-  representativeLabel,
-  secondaryOneLabel,
-  secondaryTwoLabel,
-} from '../../definitions/content';
+import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../utils/constants';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
+import content from '../../locales/en/content.json';
 
-const PreSubmitCheckboxGroup = ({
-  onSectionComplete,
-  formData,
-  showError,
-  submission,
-  setFormData,
-}) => {
+const PreSubmitCheckboxGroup = props => {
+  const {
+    onSectionComplete,
+    formData,
+    showError,
+    submission,
+    setFormData,
+  } = props;
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
@@ -35,7 +26,9 @@ const PreSubmitCheckboxGroup = ({
     formData.signAsRepresentativeYesNo === 'yes';
 
   const [signatures, setSignatures] = useState({
-    [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
+    [showRepresentativeSignatureBox
+      ? content['representative-signature-label']
+      : content['vet-input-label']]: '',
   });
 
   const unSignedLength = Object.values(signatures).filter(
@@ -54,15 +47,15 @@ const PreSubmitCheckboxGroup = ({
     // takes in labels and renames to what schema expects
     const getKeyName = key => {
       switch (key) {
-        case veteranLabel:
+        case content['vet-input-label']:
           return 'veteran';
-        case representativeLabel:
+        case content['representative-signature-label']:
           return 'veteran';
-        case primaryLabel:
+        case content['primary-signature-label']:
           return 'primary';
-        case secondaryOneLabel:
+        case content['secondary-one-signature-label']:
           return 'secondaryOne';
-        case secondaryTwoLabel:
+        case content['secondary-two-signature-label']:
           return 'secondaryTwo';
         default:
           return null;
@@ -125,11 +118,23 @@ const PreSubmitCheckboxGroup = ({
   // remove party signature box if yes/no question is answered falsy
   useEffect(
     () => {
-      removePartyIfFalsy(hasPrimary, primaryLabel);
-      removePartyIfFalsy(hasSecondaryOne, secondaryOneLabel);
-      removePartyIfFalsy(hasSecondaryTwo, secondaryTwoLabel);
-      removePartyIfFalsy(showRepresentativeSignatureBox, representativeLabel);
-      removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
+      removePartyIfFalsy(hasPrimary, content['primary-signature-label']);
+      removePartyIfFalsy(
+        hasSecondaryOne,
+        content['secondary-one-signature-label'],
+      );
+      removePartyIfFalsy(
+        hasSecondaryTwo,
+        content['secondary-two-signature-label'],
+      );
+      removePartyIfFalsy(
+        showRepresentativeSignatureBox,
+        content['representative-signature-label'],
+      );
+      removePartyIfFalsy(
+        !showRepresentativeSignatureBox,
+        content['vet-input-label'],
+      );
     },
     [
       hasPrimary,
@@ -156,7 +161,7 @@ const PreSubmitCheckboxGroup = ({
       {showRepresentativeSignatureBox ? (
         <SignatureCheckbox
           fullName={formData.veteranFullName}
-          label={representativeLabel}
+          label={content['representative-signature-label']}
           signatures={signatures}
           setSignatures={setSignatures}
           showError={showError}
@@ -166,15 +171,15 @@ const PreSubmitCheckboxGroup = ({
         >
           <StatementOfTruth
             content={{
-              label: representativeLabel,
-              text: representativeSignatureContent,
+              label: content['representative-signature-label'],
+              text: SIGNATURE_CERTIFICATION_STATEMENTS.representative,
             }}
           />
         </SignatureCheckbox>
       ) : (
         <SignatureCheckbox
           fullName={formData.veteranFullName}
-          label={veteranLabel}
+          label={content['vet-input-label']}
           signatures={signatures}
           setSignatures={setSignatures}
           showError={showError}
@@ -183,8 +188,8 @@ const PreSubmitCheckboxGroup = ({
         >
           <StatementOfTruth
             content={{
-              label: veteranLabel,
-              text: veteranSignatureContent,
+              label: content['vet-input-label'],
+              text: SIGNATURE_CERTIFICATION_STATEMENTS.veteran,
             }}
           />
         </SignatureCheckbox>
@@ -193,7 +198,7 @@ const PreSubmitCheckboxGroup = ({
       {hasPrimary && (
         <SignatureCheckbox
           fullName={formData.primaryFullName}
-          label={primaryLabel}
+          label={content['primary-signature-label']}
           signatures={signatures}
           setSignatures={setSignatures}
           showError={showError}
@@ -202,8 +207,8 @@ const PreSubmitCheckboxGroup = ({
         >
           <StatementOfTruth
             content={{
-              label: primaryLabel,
-              text: primaryCaregiverContent,
+              label: content['primary-signature-label'],
+              text: SIGNATURE_CERTIFICATION_STATEMENTS.primary,
             }}
           />
         </SignatureCheckbox>
@@ -212,7 +217,7 @@ const PreSubmitCheckboxGroup = ({
       {hasSecondaryOne && (
         <SignatureCheckbox
           fullName={formData.secondaryOneFullName}
-          label={secondaryOneLabel}
+          label={content['secondary-one-signature-label']}
           signatures={signatures}
           setSignatures={setSignatures}
           showError={showError}
@@ -221,8 +226,8 @@ const PreSubmitCheckboxGroup = ({
         >
           <StatementOfTruth
             content={{
-              label: secondaryOneLabel,
-              text: secondaryCaregiverContent,
+              label: content['secondary-one-signature-label'],
+              text: SIGNATURE_CERTIFICATION_STATEMENTS.secondary,
             }}
           />
         </SignatureCheckbox>
@@ -231,7 +236,7 @@ const PreSubmitCheckboxGroup = ({
       {hasSecondaryTwo && (
         <SignatureCheckbox
           fullName={formData.secondaryTwoFullName}
-          label={secondaryTwoLabel}
+          label={content['secondary-two-signature-label']}
           signatures={signatures}
           setSignatures={setSignatures}
           showError={showError}
@@ -240,15 +245,15 @@ const PreSubmitCheckboxGroup = ({
         >
           <StatementOfTruth
             content={{
-              label: secondaryTwoLabel,
-              text: secondaryCaregiverContent,
+              label: content['secondary-two-signature-label'],
+              text: SIGNATURE_CERTIFICATION_STATEMENTS.secondary,
             }}
           />
         </SignatureCheckbox>
       )}
 
       <p className="vads-u-margin-bottom--6">
-        <strong>Note:</strong> {signatureBoxNoteContent}
+        <strong>Note:</strong> {content['certification-signature-note']}
       </p>
 
       <div aria-live="polite">

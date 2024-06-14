@@ -1,31 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import constants from 'vets-json-schema/dist/constants.json';
+import { states } from 'platform/forms/address';
 
 export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
-  const stateLabel = constants.states.USA.find(
-    state => state.value === formData.state,
-  )?.label;
+  const { street, street2, city, state, postalCode, county } = formData;
+  const stateLabel = states.USA.find(s => s.value === state)?.label;
 
   return (
     <>
       {formData['view:autofill'] && (
         <div className="review-row" data-testid="cg-address-autofill">
           <dt>Use the same address as the Veteran</dt>
-          <dd>Selected</dd>
+          <dd>Yes</dd>
         </div>
       )}
       <div className="review-row">
-        <dt>{inputLabel} current street address</dt>
-        <dd data-testid="cg-address-street">{formData.street}</dd>
+        <dt>{inputLabel} street address</dt>
+        <dd data-testid="cg-address-street">{street}</dd>
       </div>
       <div className="review-row">
         <dt>Street address line 2</dt>
-        <dd data-testid="cg-address-street2">{formData.street2}</dd>
+        <dd data-testid="cg-address-street2">{street2}</dd>
       </div>
       <div className="review-row">
         <dt>City</dt>
-        <dd data-testid="cg-address-city">{formData.city}</dd>
+        <dd data-testid="cg-address-city">{city}</dd>
       </div>
       <div className="review-row">
         <dt>State</dt>
@@ -33,7 +32,11 @@ export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
       </div>
       <div className="review-row">
         <dt>Postal code</dt>
-        <dd data-testid="cg-address-postalcode">{formData.postalCode}</dd>
+        <dd data-testid="cg-address-postalcode">{postalCode}</dd>
+      </div>
+      <div className="review-row">
+        <dt>County</dt>
+        <dd data-testid="cg-address-county">{county}</dd>
       </div>
     </>
   );
