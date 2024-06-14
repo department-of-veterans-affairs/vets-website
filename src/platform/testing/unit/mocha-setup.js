@@ -187,14 +187,32 @@ const checkForNetworkCalls = mochaContext => {
   }
 };
 
+const cleanupStorage = () => {
+  localStorage.clear();
+  sessionStorage.clear();
+};
+
+function flushPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}
+
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
+    cleanupStorage();
+    if (isStressTest == 'false') {
+      checkAllowList(this);
+    }
+    console.log(
+      'running: ',
+      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
+    );
     interceptNetworkCalls();
   },
   afterEach() {
     checkForNetworkCalls(this);
-    localStorage.clear();
+    cleanupStorage();
+    flushPromises();
   },
 };
