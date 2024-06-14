@@ -8,7 +8,7 @@ import {
   selectRadioWithKeyboard,
   selectDropdownWithKeyboard,
   selectCheckboxWithKeyboard,
-} from './utils';
+} from './utils/keyboard-only';
 
 describe('Caregivers-Keyboard-Only', () => {
   // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
