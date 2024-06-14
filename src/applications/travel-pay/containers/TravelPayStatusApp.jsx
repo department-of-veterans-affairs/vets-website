@@ -206,6 +206,7 @@ export default function App({ children }) {
                     <va-accordion bordered open-single>
                       <va-accordion-item
                         bordered="true"
+                        data-testid="filters-accordion"
                         header="Filter travel claims"
                       >
                         <legend>
@@ -220,6 +221,8 @@ export default function App({ children }) {
                                   <div className="vads-l-col" key={index}>
                                     <VaCheckbox
                                       checked={checkedStatuses.includes(status)}
+                                      data-testid="status-filter"
+                                      name={`${status}_checkbox`}
                                       key={status}
                                       label={status}
                                       onVaChange={e =>
@@ -234,13 +237,13 @@ export default function App({ children }) {
                           <div className="modal-button-wrapper vads-u-margin-top--3">
                             <va-button
                               onClick={applyFilters}
-                              data-testid="Apply filters"
+                              data-testid="apply_filters"
                               text="Apply filters"
                               label="Apply filters"
                             />
                             <va-button
                               onClick={resetSearch}
-                              data-testid="Reset search"
+                              data-testid="reset_search"
                               text="Reset search"
                               label="Reset search"
                             />

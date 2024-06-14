@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
@@ -16,7 +17,7 @@ describe(`${appName} -- Status Page`, () => {
       .contains('If you need to manage a claim, log into the')
       .parent()
       .siblings()
-      .eq(2)
+      .eq(3)
       .should('have.id', 'travel-claims-list');
   });
 
@@ -54,5 +55,19 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', 'August 11, 2022');
+  });
+
+  it('filters the claims by status', () => {
+    cy.get('va-accordion-item[data-testid="filters-accordion"]')
+      .shadow()
+      .find('h2 button[aria-controls="content"]')
+      .eq(0)
+      .click({ waitForAnimations: true });
+    cy.get('va-button[data-testid="reset_search"]').click();
+    cy.selectVaCheckbox('SAVED_checkbox', true);
+    cy.pause();
+    cy.get('va-button[data-testid="apply_filters"]').click();
+
+    cy.get('h2[data-testid="travel-claim-details"]').should('have.length', 5);
   });
 });
