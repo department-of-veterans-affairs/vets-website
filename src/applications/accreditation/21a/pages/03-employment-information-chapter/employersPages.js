@@ -44,7 +44,7 @@ const options = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI(`Your employers`, YourEmployersDescription),
+    ...titleUI('Your employers', YourEmployersDescription),
   },
   schema: {
     type: 'object',
