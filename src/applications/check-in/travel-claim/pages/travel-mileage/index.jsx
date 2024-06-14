@@ -68,7 +68,7 @@ const TravelMileage = props => {
     count: 1,
   });
   if (multipleAppointments) {
-    header = t('select-appointments-to-file-today');
+    header = t('select-appointment-to-file-today');
   }
   return (
     <>
@@ -85,6 +85,13 @@ const TravelMileage = props => {
       >
         {/* Setting state value here for testing purposes. Could not mock hook with our test setup. */}
         <div data-testid={JSON.stringify(selectedAppointment)}>
+          <va-alert-expandable
+            status="info"
+            trigger={t('mileage-reimbursement-rates')}
+            class="vads-u-margin-y--4"
+          >
+            <p>{t('the-payment-amount-depends-on-type')}</p>
+          </va-alert-expandable>
           {multipleAppointments ? (
             <>
               <MultipleAppointmentBody
@@ -95,7 +102,7 @@ const TravelMileage = props => {
               />
             </>
           ) : (
-            <SingleAppointmentBody appointments={sortedAppointments} />
+            <SingleAppointmentBody appointment={sortedAppointments[0]} />
           )}
           <va-additional-info
             trigger={t('if-you-have-other-expenses-to-claim')}

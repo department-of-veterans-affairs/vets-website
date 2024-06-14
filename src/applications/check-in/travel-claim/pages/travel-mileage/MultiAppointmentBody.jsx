@@ -35,13 +35,12 @@ const MultipleAppointmentBody = props => {
 
   return (
     <div data-testid="multi-appointment-context">
-      <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
       <VaRadio
         data-testid="radio-set"
         error={error ? t('select-at-least-one-appointment') : ''}
         uswds
         class="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        label={t('select-the-appointments-you-want')}
+        label={t('select-the-appointment-you-want')}
         onVaValueChange={onCheck}
       >
         {appointments.map((appointment, index) => (
