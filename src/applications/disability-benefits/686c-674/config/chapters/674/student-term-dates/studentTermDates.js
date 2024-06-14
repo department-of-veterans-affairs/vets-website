@@ -5,14 +5,21 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
-const agencyOrProgram = omit(
-  report674.properties.studentAddressMarriageTuition,
-  [
+const agencyOrProgram = merge(
+  omit(report674.properties.studentAddressMarriageTuition, [
     'properties.address',
     'properties.marriageDate',
     'properties.tuitionIsPaidByGovAgency',
     'properties.wasMarried',
-  ],
+  ]),
+  {
+    type: 'object',
+    properties: {
+      typeOfProgramOrBenefit: {
+        type: 'string',
+      },
+    },
+  },
 );
 
 merge(report674.properties.studentTermDates.properties.currentTermDates, {
@@ -43,6 +50,7 @@ export const uiSchema = {
   agencyOrProgram: {
     'ui:title':
       'Agency or program paying paying tuition or education allowance',
+    'ui:order': ['agencyName', 'typeOfProgramOrBenefit', 'datePaymentsBegan'],
     'ui:options': {
       hideIf: form =>
         !form?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
@@ -66,6 +74,19 @@ export const uiSchema = {
       ...{
         'ui:required': formData =>
           formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
+      },
+      'ui:options': {
+        hideIf: form =>
+          !form?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
+      },
+    },
+    typeOfProgramOrBenefit: {
+      'ui:title': 'Type of program or benefit',
+      'ui:required': formData =>
+        formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
+      'ui:errorMessages': {
+        required:
+          'Enter the program or benefit being paid for by the goverment agency or program',
       },
       'ui:options': {
         hideIf: form =>
