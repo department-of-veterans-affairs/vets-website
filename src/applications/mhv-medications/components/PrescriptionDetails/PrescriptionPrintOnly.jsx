@@ -142,7 +142,10 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
               {phoneNumber ? (
-                <va-telephone contact={phoneNumber} not-clickable />
+                <>
+                  <va-telephone contact={phoneNumber} not-clickable /> (
+                  <va-telephone tty contact="711" not-clickable />)
+                </>
               ) : (
                 'None noted'
               )}

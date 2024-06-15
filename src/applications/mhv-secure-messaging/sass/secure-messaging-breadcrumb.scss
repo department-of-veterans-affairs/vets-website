@@ -17,11 +17,18 @@
     display: none;
   }
 
+  .breadcrumbs ul {
+    padding-left: 0;
+  }
+
+  .sm-breadcrumb-list-item {
+    list-style-type: none;
+  }
+
   .sm-breadcrumb-list-item::before {
     content: "\2039  ";
     color: var(--vads-color-link);
   }
-
 }
 
 .breadcrumbs--hidden {
