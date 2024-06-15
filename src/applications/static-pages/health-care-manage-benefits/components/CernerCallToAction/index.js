@@ -12,6 +12,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
@@ -397,11 +398,10 @@ CernerCallToAction.propTypes = {
 const mapStateToProps = state => {
   const featureStaticLandingPage = toggleValues(state)
     .vaOnlineSchedulingStaticLandingPage;
-  const useV2FacApi = toggleValues(state).useFacilitiesApiV2ForCernerCTA;
-  return {
-    featureStaticLandingPage,
-    useV2FacApi,
-  };
+  const useV2FacApi = toggleValues(state)[
+    FEATURE_FLAG_NAMES.useFacilitiesApiV2ForCernerCTA
+  ];
+  return { featureStaticLandingPage, useV2FacApi };
 };
 
 export default connect(mapStateToProps)(CernerCallToAction);
