@@ -71,6 +71,7 @@ export class CernerCallToAction extends Component {
     try {
       // Fetch facilities and store them in state.
       let response = null;
+      // when toggle removed, remove this check and always use v2
       if (this.props.useV2FacApi) {
         response = await apiRequest('/va', {
           apiVersion: 'facilities_api/v2',
