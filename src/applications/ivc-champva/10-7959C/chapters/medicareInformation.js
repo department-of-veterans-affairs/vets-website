@@ -251,7 +251,8 @@ export const applicantMedicareABUploadSchema = {
         label: 'Upload Medicare card',
       }),
       'ui:errorMessages': {
-        minItems: 'You must add at least two items (front and back).',
+        minItems:
+          'You must add both the front and back of your card as separate files.',
       },
     },
   },
@@ -361,7 +362,8 @@ export const applicantMedicareDUploadSchema = {
         label: 'Upload Medicare Part D card',
       }),
       'ui:errorMessages': {
-        minItems: 'You must add at least two items (front and back).',
+        minItems:
+          'You must add both the front and back of your card as separate files.',
       },
     },
   },
