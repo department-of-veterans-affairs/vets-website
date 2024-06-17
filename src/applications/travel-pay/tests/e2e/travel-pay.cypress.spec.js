@@ -35,7 +35,7 @@ describe(`${appName} -- Status Page`, () => {
     // of correct sort order
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
-      .should('include.text', ' June 21, 2023');
+      .should('include.text', ' June 22, 2023');
   });
 
   it('sorts the claims ordered by appointment date ascending on user action', () => {

@@ -4,16 +4,14 @@ import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  VaCheckbox,
-  VaPagination,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
+import TravelPayFilters from '../components/TravelPayFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 
@@ -203,47 +201,13 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    <va-accordion bordered open-single>
-                      <va-accordion-item
-                        bordered="true"
-                        data-testid="filters-accordion"
-                        header="Filter travel claims"
-                      >
-                        <div className="filter-your-results">
-                          <fieldset>
-                            <p>Travel claim status</p>
-                            {statusesToFilterBy.map((status, index) => (
-                              <div key={index}>
-                                <VaCheckbox
-                                  checked={checkedStatuses.includes(status)}
-                                  data-testid="status-filter"
-                                  name={`${status}_checkbox`}
-                                  key={status}
-                                  label={status}
-                                  onVaChange={e =>
-                                    statusFilterChange(e, status)
-                                  }
-                                />
-                              </div>
-                            ))}
-                          </fieldset>
-                          <div className="modal-button-wrapper vads-u-margin-top--3">
-                            <va-button
-                              onClick={applyFilters}
-                              data-testid="apply_filters"
-                              text="Apply filters"
-                              label="Apply filters"
-                            />
-                            <va-button
-                              onClick={resetSearch}
-                              data-testid="reset_search"
-                              text="Reset search"
-                              label="Reset search"
-                            />
-                          </div>
-                        </div>
-                      </va-accordion-item>
-                    </va-accordion>
+                    <TravelPayFilters
+                      statusesToFilterBy={statusesToFilterBy}
+                      checkedStatuses={checkedStatuses}
+                      statusFilterChange={statusFilterChange}
+                      applyFilters={applyFilters}
+                      resetSearch={resetSearch}
+                    />
                     <div id="travel-claims-list">
                       {displayedClaims.map(travelClaim =>
                         TravelClaimCard(travelClaim),
