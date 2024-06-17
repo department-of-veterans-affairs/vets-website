@@ -104,6 +104,7 @@ const responses = {
             profileShowDirectDepositSingleFormUAT: false,
             profileShowDirectDepositSingleFormAlert: true,
             profileShowDirectDepositSingleFormEduDowntime: true,
+            profileShowPrivacyPolicy: true,
           }),
         ),
       secondsOfDelay,

@@ -60,7 +60,12 @@ const MedicalRecordsCard = ({ href }) => {
         medical records in the previous version of My HealtheVet.
       </p>
       <p>
-        <a href={href}>Go back to the previous version of My HealtheVet</a>
+        <a
+          data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
+          href={href}
+        >
+          Go back to the previous version of My HealtheVet
+        </a>
       </p>
     </div>
   );
