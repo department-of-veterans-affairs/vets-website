@@ -15,7 +15,7 @@ describe('hca <VaMedicalCenter>', () => {
     {
       id: 'vha_528A4',
       uniqueId: '528A4',
-      name: 'Batavia VA Medical Center',
+      name: 'ZBatavia VA Medical Center',
     },
     {
       id: 'vha_528A5',
@@ -126,6 +126,7 @@ describe('hca <VaMedicalCenter>', () => {
     });
 
     it('should not render the loading indicator', async () => {
+      mockApiRequest(mockData);
       const { container } = render(
         <Provider store={mockStore}>
           <VaMedicalCenter {...props} />
@@ -138,6 +139,7 @@ describe('hca <VaMedicalCenter>', () => {
     });
 
     it('should not render the select input', async () => {
+      mockApiRequest(mockData);
       const { container } = render(
         <Provider store={mockStore}>
           <VaMedicalCenter {...props} />
@@ -164,7 +166,7 @@ describe('hca <VaMedicalCenter>', () => {
   });
 
   context('when the user selects a facility state', () => {
-    it('should render the correct number of options if API call succeeds', async () => {
+    it('should render the correct number of options, resorted in alphabetical order by name, if API call succeeds', async () => {
       mockApiRequest(mockData);
       const { mockStore, props } = getData({
         formData: { 'view:facilityState': 'NY' },
@@ -182,7 +184,8 @@ describe('hca <VaMedicalCenter>', () => {
         const alert = container.querySelector('va-alert');
 
         expect(options).to.have.lengthOf(mockData.length);
-        expect(options[0]).to.have.attr('value', mockData[0].uniqueId);
+        expect(options[0]).to.have.attr('value', mockData[1].uniqueId);
+        expect(options[1]).to.have.attr('value', mockData[0].uniqueId);
         expect(alert).to.not.exist;
       });
     });

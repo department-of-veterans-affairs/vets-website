@@ -73,6 +73,7 @@
   "facilityLocatorShowCommunityCares": "facility_locator_show_community_cares",
   "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
+  "fsrServerSideTransform": "fsr_5655_server_side_transform",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
   "financialStatusReportStreamlinedWaiver": "financial_status_report_streamlined_waiver",
@@ -117,7 +118,7 @@
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
-  "mhvSecureMessagingUniqueUserLoggingEnabled":"mhv_secure_messaging_unique_user_logging_enabled",
+  "mhvSecureMessagingUniqueUserLoggingEnabled": "mhv_secure_messaging_unique_user_logging_enabled",
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
   "mhvMedicalRecordsDisplayConditions": "mhv_medical_records_display_conditions",
   "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
@@ -253,10 +254,12 @@
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
   "virtualAgentVoice": "virtual_agent_voice",
+  "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
   "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
   "toggleVyeAddressDirectDepositForms": "toggle_vye_address_direct_deposit_forms",
   "toggleVyeAddressDirectDepositFormsInProfile": "toggle_vye_address_direct_deposit_forms_in_profile",
-  "vyeLoginWidget":"vye_login_widget"
+  "vyeLoginWidget": "vye_login_widget",
+  "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta"
 }

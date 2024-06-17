@@ -3,8 +3,8 @@ import '../../../tests/e2e/commands';
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import Error from './pages/Error';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A patient that attempts to log in with an incorrect last name and dob ', () => {
+
+describe('A patient that attempts to log in with an incorrect last name and dob ', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();

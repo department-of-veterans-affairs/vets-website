@@ -274,19 +274,6 @@ export const pageHooks = (cy, testOptions = {}) => ({
       .click();
   },
 
-  'review-veteran-details/military-service-history': () => {
-    cy.get('@testData').then(data => {
-      cy.fillPage();
-      if (data['view:isBddData']) {
-        cy.get('select[name$="_dateRange_toMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="_dateRange_toYear"]')
-          .clear()
-          .type(todayPlus120[0]);
-      }
-    });
-  },
-
   'review-veteran-details/military-service-history/federal-orders': () => {
     cy.get('@testData').then(data => {
       cy.fillPage();

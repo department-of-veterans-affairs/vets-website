@@ -7,7 +7,7 @@ describe('Medications Refill Page Request Some Refills', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const numberOfCheckboxes = 4;
-    const totalRxCount = 6;
+    const totalRxCount = 7;
     const numberOfRefills = 3;
     site.login();
     refillPage.loadRefillPage(prescriptions);
