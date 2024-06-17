@@ -18,7 +18,7 @@
       "suffix": "IV"
     },
     "applicantDOB": "2009-01-02",
-    "statementOfTruthSignature": "Applicant Jones",
-    "statementOfTruthCertified": true
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
   }
 }
