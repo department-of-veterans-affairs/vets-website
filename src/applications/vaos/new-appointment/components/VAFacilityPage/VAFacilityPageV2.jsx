@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import recordEvent from 'platform/monitoring/record-event';
@@ -45,7 +46,7 @@ const sortOptions = [
   { value: 'alphabetical', label: 'Alphabetically' },
 ];
 
-export default function VAFacilityPageV2() {
+export default function VAFacilityPageV2({ changeCrumb }) {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const history = useHistory();
@@ -98,6 +99,8 @@ export default function VAFacilityPageV2() {
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
+      changeCrumb(pageKey);
+
       scrollAndFocus();
     },
     [isLoading],
@@ -294,3 +297,7 @@ export default function VAFacilityPageV2() {
     </div>
   );
 }
+
+VAFacilityPageV2.propTypes = {
+  changeCrumb: PropTypes.func,
+};

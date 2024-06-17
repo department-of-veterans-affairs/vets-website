@@ -15,6 +15,7 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+import { getPageTitle } from '../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -64,12 +65,12 @@ const uiSchema = {
 };
 
 const pageKey = 'typeOfEyeCare';
-const pageTitle = 'Choose the type of eye care you need';
 
 export default function TypeOfEyeCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -81,7 +82,7 @@ export default function TypeOfEyeCarePage({ changeCrumb }) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
+      changeCrumb(pageKey);
     }
   }, []);
 

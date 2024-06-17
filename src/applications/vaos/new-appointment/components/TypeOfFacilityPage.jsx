@@ -78,7 +78,7 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
+      changeCrumb(pageKey);
     }
 
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));

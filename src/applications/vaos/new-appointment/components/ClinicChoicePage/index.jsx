@@ -36,7 +36,7 @@ function vowelCheck(givenString) {
 }
 
 const pageKey = 'clinicChoice';
-export default function ClinicChoicePage() {
+export default function ClinicChoicePage({ changeCrumb }) {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const featureClinicFilter = useSelector(state =>
@@ -69,6 +69,7 @@ export default function ClinicChoicePage() {
   useEffect(() => {
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
+    changeCrumb(pageKey);
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
