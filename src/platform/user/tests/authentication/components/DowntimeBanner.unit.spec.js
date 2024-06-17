@@ -55,7 +55,7 @@ describe('DowntimeBanner', () => {
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
-  const apiURL = `${environment.API_URL}/v0${'backend_statuses'}`;
+  const apiURL = `${environment.API_URL}/v0${'/backend_statuses'}`;
   let server;
 
   before(() => {
