@@ -52,7 +52,6 @@ describe(`${appName} -- Status Page`, () => {
     // Using fifth element to be less susceptible to
     // pagination changes and more confident in terms
     // of correct sort order
-    cy.screenshot({ capture: 'viewport' });
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', 'August 11, 2022');
