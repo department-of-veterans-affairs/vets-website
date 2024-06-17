@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { parseISO } from 'date-fns';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -58,11 +57,10 @@ const TravelReview = props => {
                 appointment: appointmentToFile.clinicStopCodeName
                   ? ` ${appointmentToFile.clinicStopCodeName} appointment`
                   : ` ${t('VA-appointment')}`,
-                date: parseISO(
-                  utcToFacilityTimeZone(
-                    appointmentToFile.startTime,
-                    appointmentToFile.timezone,
-                  ),
+                date: utcToFacilityTimeZone(
+                  appointmentToFile.startTime,
+                  appointmentToFile.timezone,
+                  'MMMM dd, yyyy, h:mm aaaa',
                 ),
               },
             )}${

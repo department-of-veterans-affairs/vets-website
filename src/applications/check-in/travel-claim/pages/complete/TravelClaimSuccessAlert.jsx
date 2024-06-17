@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { parseISO } from 'date-fns';
 import { makeSelectForm } from '../../../selectors';
 import { utcToFacilityTimeZone } from '../../../utils/appointment';
 
@@ -27,11 +26,10 @@ const TravelClaimSuccessAlert = () => {
             appointment: appointmentToFile.clinicStopCodeName
               ? ` ${appointmentToFile.clinicStopCodeName} appointment`
               : ` ${t('VA-appointment')}`,
-            date: parseISO(
-              utcToFacilityTimeZone(
-                appointmentToFile.startTime,
-                appointmentToFile.timezone,
-              ),
+            date: utcToFacilityTimeZone(
+              appointmentToFile.startTime,
+              appointmentToFile.timezone,
+              'MMMM dd, yyyy, h:mm aaaa',
             ),
           })}${
             appointmentToFile.clinicFriendlyName
