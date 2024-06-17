@@ -18,6 +18,7 @@ describe('travel-review', () => {
         stationNo: '555',
         startTime: '2021-08-19T13:56:31',
         clinicStopCodeName: 'Endoscopy',
+        timezone: 'America/Los_Angeles',
       },
     };
     it('renders page details', () => {

@@ -20,6 +20,7 @@ describe('Check-in experience', () => {
         startTime: '2021-08-19T13:56:31',
         clinicStopCodeName: 'Endoscopy',
         clinicFriendlyName: 'Endoscopy clinic',
+        timezone: 'America/Los_Angeles',
       },
     };
     describe('TravelClaimSuccessAlert', () => {
