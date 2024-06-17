@@ -12,7 +12,7 @@ export const getMobileFooterHtml = footerData => {
   return `
     <footer class="footer">
       <div class="footer-inner">
-        <div class="usa-grid-full flex-container usa-grid-flex-mobile">
+        <div class="usa-grid-full flex-container">
           <ul class="usa-accordion">
             <li>
               <div class="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
@@ -36,7 +36,7 @@ export const getMobileFooterHtml = footerData => {
               </div>
             </li>
             <li>
-              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-contact" itemprop="name" aria-expanded="false">Contact us</button>
+              <button class="usa-accordion-button va-footer-button" aria-controls="veteran-contact" itemprop="name" aria-expanded="false">Contact us</button>
               <div class="usa-accordion-content va-footer-accordion-content" id="veteran-contact" aria-hidden="true">
                 <h2 class="va-footer-linkgroup-title vads-u-padding-bottom--1">Get answers</h2>
                 <ul class="va-footer-links">
@@ -45,7 +45,7 @@ export const getMobileFooterHtml = footerData => {
               </div>
             </li>
             <li>
-              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="footer-veteran-programs" itemprop="name" aria-expanded="false">Veteran programs and services</button>
+              <button class="usa-accordion-button va-footer-button" aria-controls="footer-veteran-programs" itemprop="name" aria-expanded="false">Veteran programs and services</button>
               <div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-veteran-programs">
                 <ul class="va-footer-links">
                   ${buildColumn(columns, 1)}
@@ -53,7 +53,7 @@ export const getMobileFooterHtml = footerData => {
               </div>
             </li>
             <li>
-              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-resources" itemprop="name" aria-expanded="false">More VA resources</button>
+              <button class="usa-accordion-button va-footer-button" aria-controls="veteran-resources" itemprop="name" aria-expanded="false">More VA resources</button>
               <div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="veteran-resources">
                 <ul class="va-footer-links">
                   ${buildColumn(columns, 2)}
@@ -61,7 +61,7 @@ export const getMobileFooterHtml = footerData => {
               </div>
             </li>
             <li>
-              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-connect" itemprop="name" aria-expanded="false">Get VA updates</button>
+              <button class="usa-accordion-button va-footer-button" aria-controls="veteran-connect" itemprop="name" aria-expanded="false">Get VA updates</button>
               <div class="usa-accordion-content va-footer-accordion-content" id="veteran-connect" aria-hidden="true">
                 <ul class="va-footer-links">
                   ${buildColumn(columns, 3)}
@@ -70,7 +70,7 @@ export const getMobileFooterHtml = footerData => {
             </li>
             <li>
             <h2 class="va-footer-linkgroup-title">
-              <button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-language-support" itemprop="name" aria-expanded="false">Language assistance</button>
+              <button class="usa-accordion-button va-footer-button" aria-controls="veteran-language-support" itemprop="name" aria-expanded="false">Language assistance</button>
             </h2>
             <div class="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5" id="veteran-language-support" aria-hidden="true">
               <div class="usa-grid usa-grid-full va-footer-links-bottom">

@@ -46,7 +46,7 @@ export const buildLevelOneLinks = (sectionData, index) => {
 export const makeMegaMenu = megaMenuData => {
   return `
     <div class="usa-grid usa-grid-full">
-      <div class="menu-rule usa-one-whole"></div>
+      <div class="menu-rule"></div>
       <div id="mega-menu">
         <div class="hidden-header login-container">
           <div class="row vads-u-display--flex">

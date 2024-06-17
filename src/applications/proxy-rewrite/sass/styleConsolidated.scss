@@ -551,15 +551,7 @@
     display: inline-block;
     height: 1rem;
     width: 1rem;
-    margin-left: 0;
-  }
-
-  .usa-banner-button[aria-expanded=false]:hover::after {
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAnElEQVR42u2OuwmAQBAFTa8Ac23CFrQAq7pM7MwO7MJM94GbCJoMa7QPJrgPzDS5XM7XzetglB88Ra7n5WKcxma0gfL2dpxy+mXVheMRwXKn6mHX4SUiUi52PY7G8RYRKD/k9k/TV0SQfPJ/IILLQQSXgwgupxFcziO4nEdwOY+Ach4B5TwCyFEEl/MILucRXM4jmJxH9KLJ5XJgF2CZqaBiUPLsAAAAAElFTkSuQmCC);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 284.929 284.929'%3e%3cpath d='M282.082 76.51L267.808 62.24c-1.902-1.906-4.093-2.856-6.57-2.856-2.47 0-4.66.95-6.563 2.856L142.465 174.44 30.263 62.24c-1.903-1.905-4.093-2.855-6.567-2.855-2.475 0-4.665.95-6.567 2.856L2.856 76.516C.95 78.417 0 80.607 0 83.082c0 2.473.953 4.663 2.856 6.565L135.9 222.693c1.9 1.903 4.092 2.854 6.566 2.854s4.66-.95 6.562-2.854L282.082 89.647c1.902-1.903 2.847-4.093 2.847-6.565 0-2.475-.946-4.665-2.848-6.57z' fill='%23205493'/%3e%3c/svg%3e")
-  }
-
-  .usa-banner-button[aria-expanded=false]::after {
+    margin-left: 4px;
     background-position-y: 1px
   }
 
@@ -575,7 +567,7 @@
     display: inline-block;
     height: 1.3rem;
     width: 1.3rem;
-    margin-left: 0;
+    margin-left: 4px;
   }
 
   @media screen and (min-width: 481px) {
@@ -594,11 +586,6 @@
       height: 1rem;
       width: 1rem;
       margin-left: 0;
-    }
-
-    .usa-banner-button[aria-expanded=true]:hover::after {
-      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAApUlEQVR42u3OMQqDQBCF4WlzADvBFXKGXCHpdS5lIejqxXIDb2Fn8sDGxuZHbObBwMIW32+xWIys8lzrbsGTz5/U5lWn9134pgMRHAcRHIcRHOcRHP/qQATDnz4WOhDBcNsHIjgOIjgOIjhOIzjOIzjOIzjOI1KT3wBHEbLt/1gATiMWq5qpAziKkG1aaqfhBL8kQubhs/bxVXr/sIsnQ5bFYrF9P7lfqkTHYpJCAAAAAElFTkSuQmCC);
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 284.929 284.929'%3e%3cpath d='M282.082 195.285L149.028 62.24c-1.9-1.903-4.088-2.856-6.562-2.856s-4.665.953-6.567 2.856L2.855 195.285C.95 197.19 0 199.378 0 201.853c0 2.474.953 4.664 2.856 6.566l14.272 14.27c1.903 1.903 4.093 2.854 6.567 2.854s4.664-.95 6.567-2.854l112.204-112.202 112.208 112.21c1.902 1.902 4.093 2.847 6.563 2.847 2.478 0 4.668-.95 6.57-2.848l14.274-14.277c1.903-1.902 2.848-4.093 2.848-6.566 0-2.476-.944-4.666-2.846-6.57z' fill='%23205493'/%3e%3c/svg%3e");
     }
 
     .usa-banner-button[aria-expanded=true]::after {
@@ -626,10 +613,6 @@
     .usa-banner-button[aria-expanded=true] .usa-banner-button-text {
       display: inline;
     }
-  }
-
-  .small-12 {
-    width: 100%;
   }
 
   .usa-banner-icon {
@@ -1274,7 +1257,6 @@
     display: inline-block;
   }
 
-  // START: vcl-overlay ------------------------------------------------------
   .vcl-overlay {
     background: rgba(61, 69, 81, 0.8);
     height: 100%;
@@ -1308,8 +1290,6 @@
     perspective: 1200px;
     padding: 1em 1em
   }
-
-  // END: vcl-overlay ------------------------------------------------------
 
   @media (max-width: 481px) {
     h1 {
@@ -1363,8 +1343,6 @@
 
   @media screen and (min-width: 481px) {
 
-    .usa-button,
-    .usa-button:visited,
     button,
     [type=button],
     [type=submit] {
@@ -1372,37 +1350,21 @@
     }
   }
 
-  .usa-button:hover,
-  .usa-button.usa-button-hover,
-  .usa-button:visited:hover,
-  .usa-button:visited.usa-button-hover,
   button:hover,
-  button.usa-button-hover,
   [type=button]:hover,
-  [type=button].usa-button-hover,
-  [type=submit]:hover,
-  [type=submit].usa-button-hover {
+  [type=submit]:hover {
     background-color: #1a4480;
     border-bottom: 0;
     color: #fff;
     text-decoration: none;
   }
 
-  .usa-button:active,
-  .usa-button.usa-button-active,
-  .usa-button:visited:active,
-  .usa-button:visited.usa-button-active,
   button:active,
-  button.usa-button-active,
   [type=button]:active,
-  [type=button].usa-button-active,
-  [type=submit]:active,
-  [type=submit].usa-button-active {
+  [type=submit]:active {
     background-color: #162e51;
   }
 
-  .usa-button,
-  .usa-button:visited,
   button,
   [type=button],
   [type=submit] {
@@ -1466,6 +1428,21 @@
       height: 43px;
     }
   }
+
+  .vads-u-visibility--screen-reader {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important;
+  }
+
 
   .login button {
     display: flex;
@@ -1622,7 +1599,6 @@
     }
   }
 
-  // START: VA Crisis Line modal/button -----------------------------------------------------
   .vcl-crisis-line-container {
     position: relative;
     margin: auto;
@@ -1757,8 +1733,6 @@
     max-height: 100%;
   }
 
-  // END: VA Crisis Line modal/button -----------------------------------------------------
-
   .va-modal {
     z-index: 400 !important;
   }
@@ -1784,7 +1758,6 @@
     height: 100%;
   }
 
-  // START: #vet-nav -------------------------------------------------
   #vetnav,
   [role="menu"] [role="menu"] {
     min-height: calc(100vh - 153.16px);
@@ -1922,9 +1895,6 @@
     }
   }
 
-  // END: #vet-nav -------------------------------------------------
-
-  // START: .vet-nav -------------------------------------------------
   @media screen and (min-width: 768px) {
     a.vetnav-level1:hover {
       background-color: #005ea2;
@@ -2008,7 +1978,6 @@
     color: inherit;
   }
 
-  // START: .vetnav-level2 -------------------------------------------------
   .vetnav-level2 {
     font-size: 16px;
     background: #162e51 url(/img/arrow-right-white.svg) right 30px center no-repeat;
@@ -2071,8 +2040,6 @@
     }
   }
 
-  // END: .vetnav-level2 -------------------------------------------------
-
   .vetnav-panel a {
     font-size: 16px;
     background-image: none;
@@ -2125,8 +2092,6 @@
       width: 310px;
     }
   }
-
-  // END: .vet-nav -------------------------------------------------
 
   #login-root {
     align-items: center;

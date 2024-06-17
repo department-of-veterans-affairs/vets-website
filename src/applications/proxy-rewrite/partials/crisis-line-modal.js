@@ -77,7 +77,6 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              class="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -94,7 +93,7 @@ export default `
               <a href="tel:711" aria-label="7 1 1">For TTY, call <strong>711 then 988</strong></a>
             </p>
           </li>
-        </ul>Get more resources at <a class="no-external-icon" href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
+        </ul>Get more resources at <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
       </div>
     </div>
   </div>

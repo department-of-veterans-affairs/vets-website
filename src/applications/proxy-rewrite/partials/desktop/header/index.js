@@ -31,7 +31,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
                     </p>
                   </div>
                 </div>
-                <div class="usa-banner-guidance-ssl usa-width-one-half">
+                <div class="usa-width-one-half">
                   <img class="usa-banner-icon usa-media_block-img" src="https://www.va.gov/img/icon-https.svg" alt="SSL">
                   <div class="usa-media_block-body">
                     <p>
@@ -76,14 +76,14 @@ export const getDesktopHeaderHtml = megaMenuData => {
             <img src="https://www.va.gov/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" />
           </a>
         </div>
-        <div id="login-root" class="vet-toolbar">
+        <div id="login-root">
           <div class="profile-nav-container">
             <div id="desktop-nav-container"></div>
             <div class="hidden-header vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
               
               <!-- start Search -->
               <div class="va-dropdown">
-                <button id="search-dropdown-button" class="va-btn-withicon va-btn-withicon va-dropdown-trigger" aria-controls="search" aria-expanded="false">
+                <button id="search-dropdown-button" class="va-btn-withicon va-dropdown-trigger" aria-controls="search" aria-expanded="false">
                   <span>
                     <svg aria-hidden="true" class="vads-u-margin-right--0p5" focusable="false" width="24" viewBox="2 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fill-rule="evenodd" clip-rule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"></path></svg>
                     Search
