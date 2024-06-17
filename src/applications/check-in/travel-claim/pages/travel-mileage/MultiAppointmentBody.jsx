@@ -45,7 +45,10 @@ const MultipleAppointmentBody = props => {
             value={index}
             tile
             label={getApptLabel(appointment)}
-            description={`${t('in-person-at')} ${appointment.facility}`}
+            description={`${t('in-person-at')} ${
+              appointment.facility
+            }${appointment.doctorName &&
+              ` ${t('with')} ${appointment.doctorName}`}`}
             checked={
               `${selectedAppointment?.stationNo}-${
                 selectedAppointment?.appointmentIen

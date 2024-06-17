@@ -20,6 +20,7 @@ const SingleAppointmentBody = ({ appointment }) => {
           data-testid={`appointment-list-item-${appointment.appointmentIen}`}
         >
           {t('in-person-at')} {appointment.facility}
+          {appointment.doctorName && ` ${t('with')} ${appointment.doctorName}`}
         </p>
       </div>
     </div>
