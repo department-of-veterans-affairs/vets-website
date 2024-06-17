@@ -775,14 +775,6 @@
         "value": true
       },
       {
-        "name": "financialStatusReportStreamlinedWaiver",
-        "value": true
-      },
-      {
-        "name": "financial_status_report_streamlined_waiver",
-        "value": true
-      },
-      {
         "name": "form526Legacy",
         "value": true
       },
