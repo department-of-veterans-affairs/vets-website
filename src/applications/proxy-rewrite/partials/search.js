@@ -104,15 +104,22 @@ class SearchDropdownComponent extends React.Component {
 
     if (isMobile) {
       return (
-        <div className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5">
+        <div
+          id="search-header-dropdown-component"
+          className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5"
+        >
           <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column full-width-suggestions vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0 vads-u-padding-bottom--2 vads-u-margin--0 search-input-container">
             <span
+              id="search-header-dropdown-a11y-status-message"
               role="status"
               className="vads-u-visibility--screen-reader"
               aria-live="assertive"
               aria-relevant="additions text"
             />
-            <span className="vads-u-visibility--screen-reader">
+            <span
+              id="search-header-dropdown-assistive-hint"
+              className="vads-u-visibility--screen-reader"
+            >
               Use up and down arrows to review autocomplete results and enter to
               search. Touch device users, explore by touch or with swipe
               gestures.
@@ -133,7 +140,9 @@ class SearchDropdownComponent extends React.Component {
           </div>
           <button
             type="submit"
-            className="search-button vads-u-margin-right--1 vads-u-font-size--base vads-u-padding-left--1p5"
+            className="search-button search-dropdown-submit-button vads-u-margin-right--1 vads-u-font-size--base vads-u-padding-left--1p5"
+            data-e2e-id="search-header-dropdown-submit-button"
+            id="search-header-dropdown-submit-button"
             tabIndex="0"
             onClick={this.onInputSubmit}
             onKeyDown={this.handleButtonShift}
@@ -158,7 +167,10 @@ class SearchDropdownComponent extends React.Component {
     }
     // Desktop
     return (
-      <div className="search-dropdown-component vads-u-display--flex vads-u-width--full">
+      <div
+        id="search-header-dropdown-component"
+        className="search-dropdown-component vads-u-display--flex vads-u-width--full"
+      >
         <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0">
           <input
             aria-autocomplete="none"

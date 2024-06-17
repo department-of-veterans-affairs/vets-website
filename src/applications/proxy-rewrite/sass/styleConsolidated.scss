@@ -875,8 +875,10 @@
     max-width: 264px;
     height: auto;
 
-    @media screen and (max-width: 767px) {
-      display: none;
+    &.va-header-logo-desktop {
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
     }
   }
 
@@ -924,6 +926,19 @@
     -webkit-font-smoothing: inherit;
     -moz-osx-font-smoothing: inherit;
     background-color: #005ea2;
+  }
+
+  button[type=button].va-modal-close {
+    background-color: transparent;
+    color: #005ea2;
+    font-size: 22px;
+    padding: 0;
+    position: absolute;
+    margin: 1rem;
+    right: 6px;
+    top: 8px;
+    width: auto;
+    z-index: 9;
   }
 
   .va-btn-withicon > span {

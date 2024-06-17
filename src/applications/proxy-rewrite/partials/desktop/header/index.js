@@ -72,7 +72,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
 
       <div class="vads-u-padding-top--3 vads-u-display--flex usa-grid vads-u-font-size--base" id="va-header-logo-menu">
         <div class="va-header-logo-wrapper">
-          <a href="https://www.va.gov" class="va-header-logo">
+          <a href="https://www.va.gov" class="va-header-logo-desktop">
             <img src="https://www.va.gov/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" />
           </a>
         </div>
