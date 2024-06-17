@@ -2,11 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
-import { utcToFacilityTimeZone } from '../../../utils/appointment';
 
 const TravelReview = props => {
   const { router } = props;
@@ -57,11 +57,13 @@ const TravelReview = props => {
                 appointment: appointmentToFile.clinicStopCodeName
                   ? ` ${appointmentToFile.clinicStopCodeName} appointment`
                   : ` ${t('VA-appointment')}`,
-                date: utcToFacilityTimeZone(
-                  appointmentToFile.startTime,
-                  appointmentToFile.timezone,
-                  'MMMM dd, yyyy, h:mm aaaa',
-                ),
+                date: {
+                  date: utcToZonedTime(
+                    appointmentToFile.startTime,
+                    appointmentToFile.timezone,
+                  ),
+                  timezone: appointmentToFile.timezone,
+                },
               },
             )}${
               appointmentToFile.clinicFriendlyName

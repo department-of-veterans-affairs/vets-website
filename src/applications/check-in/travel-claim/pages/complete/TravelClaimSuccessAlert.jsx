@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { utcToZonedTime } from 'date-fns-tz';
 import { makeSelectForm } from '../../../selectors';
-import { utcToFacilityTimeZone } from '../../../utils/appointment';
 
 const TravelClaimSuccessAlert = () => {
   const selectForm = useMemo(makeSelectForm, []);
@@ -26,11 +26,13 @@ const TravelClaimSuccessAlert = () => {
             appointment: appointmentToFile.clinicStopCodeName
               ? ` ${appointmentToFile.clinicStopCodeName} appointment`
               : ` ${t('VA-appointment')}`,
-            date: utcToFacilityTimeZone(
-              appointmentToFile.startTime,
-              appointmentToFile.timezone,
-              'MMMM dd, yyyy, h:mm aaaa',
-            ),
+            date: {
+              date: utcToZonedTime(
+                appointmentToFile.startTime,
+                appointmentToFile.timezone,
+              ),
+              timezone: appointmentToFile.timezone,
+            },
           })}${
             appointmentToFile.clinicFriendlyName
               ? `, ${appointmentToFile.clinicFriendlyName}`
