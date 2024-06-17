@@ -16,6 +16,7 @@ import claimantInformation from './chapters/02-claimant-information';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submitUrl: 'form0969',
   submit,
   trackingPrefix: 'income-and-asset-statement-',
   v3SegmentedProgressBar: true,
