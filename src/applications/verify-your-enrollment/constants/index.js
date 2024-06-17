@@ -5,7 +5,7 @@ import Alert from '../components/Alert';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
-export const VERIFICATION_REVIEW_URL_SEGMENT = 'verification-review';
+export const VERIFICATION_REVIEW_URL_SEGMENT = 'verify-information';
 export const VERIFICATION_PROFILE_URL = BASE_URL;
 export const VERIFICATION_RELATIVE_URL = `/`;
 
@@ -88,9 +88,9 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   <p>
     We currently do not show a claim pending. If you recently submitted your
     claim, Verify Your Enrollment may not have been updated yet. Please allow
-    for mail time plus 3 - 5 business days. Check back periodically. If you have
-    had a claim pending, but it is no longer reflected on this page, it may have
-    been recently completed.
+    for mail time plus 4 to 6 business days. Check back periodically. If you
+    have had a claim pending, but it is no longer reflected on this page, it may
+    have been recently completed.
   </p>
 );
 

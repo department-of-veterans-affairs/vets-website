@@ -16,7 +16,6 @@ import DetailPageLayout, {
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
@@ -35,9 +34,6 @@ export default function ClaimExamLayout({ data: appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
-  );
 
   if (!appointment) return null;
 
@@ -48,15 +44,16 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status && (
-        <Section heading="How to prepare for this exam">
-          <span>
-            This appointment is for disability rating purposes only. It doesn’t
-            include treatment. If you have medical evidence to support your
-            claim, bring copies to this appointment.
-          </span>
-        </Section>
-      )}
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="How to prepare for this exam">
+            <span>
+              This appointment is for disability rating purposes only. It
+              doesn’t include treatment. If you have medical evidence to support
+              your claim, bring copies to this appointment.
+            </span>
+          </Section>
+        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
@@ -75,7 +72,9 @@ export default function ClaimExamLayout({ data: appointment }) {
       <What>{typeOfCareName || 'Type of care information not available'}</What>
       <Where
         heading={
-          APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
+          APPOINTMENT_STATUS.booked === status && !isPastAppointment
+            ? 'Where to attend'
+            : 'Where'
         }
       >
         {!!facility === false && (
@@ -102,27 +101,53 @@ export default function ClaimExamLayout({ data: appointment }) {
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {featurePhysicalLocation && (
-          <>
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-            <br />
-          </>
-        )}
+        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
+        <br />
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
       </Where>
-      {APPOINTMENT_STATUS.booked !== status && (
-        <Section heading="Scheduling facility" />
+      {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
+        APPOINTMENT_STATUS.cancelled === status) && (
+        <Section heading="Scheduling facility">
+          {!!facility === false && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+          {!!facility && (
+            <>
+              {facility.name}
+              <br />
+              {facilityPhone && (
+                <FacilityPhone heading="Phone:" contact={facilityPhone} />
+              )}
+              {!facilityPhone && <>Not available</>}
+            </>
+          )}
+        </Section>
       )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">
-            Contact this facility if you need to reschedule or cancel your
-            appointment.
+            Contact this facility compensation and pension office if you need to
+            reschedule or cancel your appointment.
             <br />
-            <br />
-            <span>Phone:</span>
+            {!!facility && (
+              <>
+                <br />
+                {facilityPhone && (
+                  <FacilityPhone heading="Phone:" contact={facilityPhone} />
+                )}
+                {!facilityPhone && <>Not available</>}
+              </>
+            )}
           </Section>
         )}
     </DetailPageLayout>

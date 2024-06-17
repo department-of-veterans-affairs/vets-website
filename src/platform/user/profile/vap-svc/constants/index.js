@@ -53,21 +53,10 @@ export const USA = {
   COUNTRY_ISO3_CODE: 'USA',
 };
 
-// TODO: After https://github.com/department-of-veterans-affairs/va.gov-team/issues/19858
-// is completed and is live on prod, we can update this object to remove the
-// `Vet360` instances:
-//
-// PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
-// EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
-// ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
-//
 export const TRANSACTION_CATEGORY_TYPES = {
-  PHONE: 'AsyncTransaction::Vet360::PhoneTransaction',
-  EMAIL: 'AsyncTransaction::Vet360::EmailTransaction',
-  ADDRESS: 'AsyncTransaction::Vet360::AddressTransaction',
-  VAP_PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
-  VAP_EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
-  VAP_ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
+  PHONE: 'AsyncTransaction::VAProfile::PhoneTransaction',
+  EMAIL: 'AsyncTransaction::VAProfile::EmailTransaction',
+  ADDRESS: 'AsyncTransaction::VAProfile::AddressTransaction',
 };
 
 export const TRANSACTION_STATUS = {

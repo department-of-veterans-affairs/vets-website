@@ -17,7 +17,7 @@ const ADDRESS_FORM_VALUES = {
 
 const STREET_LINE_MAX_LENGTH = 20;
 
-export const getFormSchema = (defaultVeteranName, formData = {}) => {
+export const getFormSchema = (formData = {}) => {
   const defaultCountry = countries.find(
     country => country.countryCodeISO3 === formData?.countryCodeIso3,
   )?.countryCodeISO3;
@@ -31,12 +31,6 @@ export const getFormSchema = (defaultVeteranName, formData = {}) => {
         type: 'object',
         properties: {},
         default: !formData['view:livesOnMilitaryBas'],
-      },
-      fullName: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 100,
-        default: defaultVeteranName,
       },
       countryCodeIso3: {
         type: 'string',
@@ -119,17 +113,17 @@ export const getUiSchema = () => {
       ),
     },
     fullName: {
-      'ui:title': "Veteran's full name",
+      'ui:title': "Veteran's full name ",
       'ui:errorMessages': {
         required: "Please enter the Veteran's Full Name",
       },
     },
     countryCodeIso3: {
-      'ui:title': 'Country',
+      'ui:title': 'Country ',
       'ui:autocomplete': 'country',
     },
     addressLine1: {
-      'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum)`,
+      'ui:title': `Street address (${STREET_LINE_MAX_LENGTH} characters maximum) `,
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Street address is required',
@@ -170,7 +164,7 @@ export const getUiSchema = () => {
       'ui:validations': [validateAsciiCharacters],
     },
     stateCode: {
-      'ui:title': 'State',
+      'ui:title': 'State ',
       'ui:autocomplete': 'address-level1',
       'ui:errorMessages': {
         required: 'State is required',
@@ -186,7 +180,7 @@ export const getUiSchema = () => {
       'ui:validations': [validateAsciiCharacters],
     },
     zipCode: {
-      'ui:title': 'Zip code',
+      'ui:title': 'Zip code ',
       'ui:autocomplete': 'postal-code',
       'ui:errorMessages': {
         required: 'Zip code is required',

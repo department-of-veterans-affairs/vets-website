@@ -10,6 +10,13 @@ export const isProductionOfTestProdEnv = automatedTest => {
   );
 };
 
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
+};
+
 export const directDepositMethod = (formData, automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? formData.bankAccountChange

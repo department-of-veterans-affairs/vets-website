@@ -8,12 +8,21 @@ import happyPath from './data/users/gregUserData.json';
 import noTempAddress from './data/users/markUserData.json';
 import noBatteries from './data/users/jerryUserData.json';
 import noAccessories from './data/users/eddieUserData.json';
+import USTerritory from './data/users/johnUserData.json';
+import foreignAddress from './data/users/consuelaUserData.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
 
-    dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
+    dataSets: [
+      'happyPath',
+      'noTempAddress',
+      'noBatteries',
+      'noAccessories',
+      'USTerritory',
+      'foreignAddress',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
@@ -31,24 +40,52 @@ const testConfig = createTestConfig(
       address: () => {
         cy.get('@testKey').then(testKey => {
           if (testKey === 'noTempAddress') {
-            cy.findByText('Add a temporary address', {
-              selector: 'button',
-            }).click({ force: true });
-            cy.findByLabelText(/Country/i).select('Canada');
-            cy.findAllByLabelText(/Street address/i)
-              .first()
-              .type('205 Test Lane');
-            cy.findByLabelText(/City/i).type('Calgary');
-            cy.findByLabelText(/Province/i).type('Alberta');
-            cy.findByLabelText(/International Postal Code/i).type('T7N');
+            cy.get('select[name="root_temporaryAddress_country"]').select(
+              'CAN',
+            );
+            cy.get('input[name="root_temporaryAddress_street"]').clear();
+            cy.get('input[name="root_temporaryAddress_street"]').type(
+              '205 Test Lane',
+            );
+            cy.get('input[name="root_temporaryAddress_city"]').clear();
+            cy.get('input[name="root_temporaryAddress_city"]').type('Calgary');
+            cy.get('select[name="root_temporaryAddress_state"]').select(
+              'Alberta',
+            );
+            cy.get('input[name="root_temporaryAddress_postalCode"]').clear();
+            cy.get('input[name="root_temporaryAddress_postalCode"]').type(
+              'T1X0L4',
+            );
             cy.findByText(/Save temporary address/i).click();
+          } else if (testKey === 'foreignAddress') {
+            // Don't modify the address for this order.
           } else {
+            cy.get('input#permanentAddress').should('be.checked');
             cy.findByText('Edit permanent address', {
               selector: 'button',
             }).click({ force: true });
-            cy.findByLabelText(/Country/i).select('Canada');
-            cy.findByLabelText(/Province/i).type('Alberta');
-            cy.findByLabelText(/International Postal Code/i).type('T7N');
+            cy.get('select[name="root_permanentAddress_country"]').select(
+              'USA',
+            );
+            cy.get('input[name="root_permanentAddress_street"]').clear();
+            cy.get('input[name="root_permanentAddress_street"]').type(
+              '103 Subbase Rd',
+            );
+            cy.get('input[name="root_permanentAddress_street2"]').clear();
+            cy.get('input[name="root_permanentAddress_street2"]').type(
+              'St Thomas',
+            );
+            cy.get('input[name="root_permanentAddress_city"]').clear();
+            cy.get('input[name="root_permanentAddress_city"]').type(
+              'Charlotte Amalie West',
+            );
+            cy.get('select[name="root_permanentAddress_state"]').select(
+              'Virgin Islands',
+            );
+            cy.get('input[name="root_permanentAddress_postalCode"]').clear();
+            cy.get('input[name="root_permanentAddress_postalCode"]').type(
+              '00802',
+            );
             cy.findByText(/Save permanent address/i).click();
           }
         });
@@ -100,6 +137,44 @@ const testConfig = createTestConfig(
           ];
         } else if (testKey === 'noTempAddress') {
           cy.intercept('GET', '/v0/user', noTempAddress);
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'USTerritory') {
+          cy.intercept('GET', '/v0/user', USTerritory);
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'foreignAddress') {
+          cy.intercept('GET', '/v0/user', foreignAddress);
           postData = [
             {
               status: 'Order Processed',

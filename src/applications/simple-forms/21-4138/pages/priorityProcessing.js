@@ -12,7 +12,10 @@ import {
   PRIORITY_PROCESSING_NOT_QUALIFIED,
   PRIORITY_PROCESSING_QUALIFIED,
 } from '../config/constants';
-import { validateCheckboxSelection } from '../helpers';
+import {
+  validateLivingSituationSelection,
+  validateOtherReasonsSelection,
+} from '../helpers';
 
 /** @type {PageSchema} */
 export const aboutPriorityProcessingPage = {
@@ -61,7 +64,7 @@ export const housingRisksPage = {
         required: 'Select the appropriate living situation',
       },
     }),
-    'ui:validations': [validateCheckboxSelection],
+    'ui:validations': [validateLivingSituationSelection],
   },
   schema: {
     type: 'object',
@@ -116,7 +119,7 @@ export const hardshipsPage = {
         required: 'Select at least one description',
       },
     }),
-    'ui:validations': [validateCheckboxSelection],
+    'ui:validations': [validateOtherReasonsSelection],
   },
   schema: {
     type: 'object',

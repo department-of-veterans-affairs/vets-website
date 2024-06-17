@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -113,9 +114,11 @@ const LandingPage = () => {
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification errorType="access" content="medications" />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
             </section>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
@@ -187,7 +190,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0">
               What to know as you try out this tool
@@ -569,7 +572,7 @@ const LandingPage = () => {
                   <a
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
-                      'health-history',
+                      'va-allergies-adverse-reactions',
                     )}
                     rel="noreferrer"
                     data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${

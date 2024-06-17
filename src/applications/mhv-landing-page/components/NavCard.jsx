@@ -4,7 +4,12 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 export const externalLinkText = '(opens in new tab)';
 
-const NavCard = ({ icon = null, title, links }) => {
+const NavCard = ({
+  icon = null,
+  iconClasses = 'vads-u-margin-right--1p5',
+  title,
+  links,
+}) => {
   const listItems = links.map(({ ariaLabel, href, text, isExternal }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
@@ -26,20 +31,23 @@ const NavCard = ({ icon = null, title, links }) => {
         >
           {text} {isExternal && externalLinkText}
         </span>
-        {!isExternal && <i aria-hidden="true" />}
+        {!isExternal && (
+          <va-icon
+            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+            icon="navigate_next"
+            size={4}
+          />
+        )}
       </a>
     </li>
   ));
   const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
     <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
-      <div className="vads-u-display--flex vads-u-align-items--start">
+      <div className="vads-u-display--flex vads-u-align-items--center">
         {icon && (
-          <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
-            <div
-              aria-hidden="true"
-              className={`fas fa-${icon} vads-u-font-size--h2`}
-            />
+          <div className={`vads-u-flex--auto ${iconClasses}`}>
+            <va-icon icon={icon} size={4} />
           </div>
         )}
         <div className="vads-u-flex--fill">
@@ -57,13 +65,14 @@ const NavCard = ({ icon = null, title, links }) => {
 
 NavCard.propTypes = {
   icon: PropTypes.oneOf([
-    'calendar',
-    'comments',
-    'deaf',
-    'dollar-sign',
-    'file-medical',
-    'prescription-bottle',
+    'attach_money',
+    'calendar_today',
+    'forum',
+    'medical_services',
+    'note_add',
+    'pill',
   ]),
+  iconClasses: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),

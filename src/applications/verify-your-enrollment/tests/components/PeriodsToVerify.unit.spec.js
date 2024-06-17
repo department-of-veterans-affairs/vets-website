@@ -127,8 +127,7 @@ describe('<PeriodsToVerify />', () => {
   });
   it('renders the pending enrollments when there are awards and pending verifications', () => {
     const props = {
-      loggedInEnenrollmentData: UPDATED_USER_MOCK_DATA,
-      isUserLoggedIn: false,
+      enrollmentData: UPDATED_USER_MOCK_DATA['vye::UserInfo'],
       link: () => {},
       toggleEnrollmentSuccess: false,
       verifyEnrollment: { error: '' },
@@ -167,7 +166,9 @@ describe('<PeriodsToVerify />', () => {
       wrapper.update();
 
       const alert = wrapper.find('va-alert');
-      expect(alert.at(0).text()).to.include('Oops Something went wrong');
+      expect(alert.at(0).text()).to.include(
+        ' We’re sorry. Something went wrong on our end. Please try again',
+      );
       wrapper.unmount();
     });
   });

@@ -17,7 +17,6 @@ import DetailPageLayout, {
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
@@ -36,9 +35,6 @@ export default function InPersonLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
   );
 
   if (!appointment) return null;
@@ -99,12 +95,8 @@ export default function InPersonLayout({ data: appointment }) {
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {featurePhysicalLocation && (
-          <>
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-            <br />
-          </>
-        )}
+        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
+        <br />
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
