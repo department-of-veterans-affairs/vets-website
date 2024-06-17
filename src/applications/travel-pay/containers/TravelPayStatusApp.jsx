@@ -209,30 +209,23 @@ export default function App({ children }) {
                         data-testid="filters-accordion"
                         header="Filter travel claims"
                       >
-                        <legend>
-                          <h2>Filter your results</h2>
-                        </legend>
                         <div className="filter-your-results">
                           <fieldset>
-                            <div className="vads-l-grid-container">
-                              <p>Travel claim status</p>
-                              <div className="vads-l-row">
-                                {statusesToFilterBy.map((status, index) => (
-                                  <div className="vads-l-col" key={index}>
-                                    <VaCheckbox
-                                      checked={checkedStatuses.includes(status)}
-                                      data-testid="status-filter"
-                                      name={`${status}_checkbox`}
-                                      key={status}
-                                      label={status}
-                                      onVaChange={e =>
-                                        statusFilterChange(e, status)
-                                      }
-                                    />
-                                  </div>
-                                ))}
+                            <p>Travel claim status</p>
+                            {statusesToFilterBy.map((status, index) => (
+                              <div key={index}>
+                                <VaCheckbox
+                                  checked={checkedStatuses.includes(status)}
+                                  data-testid="status-filter"
+                                  name={`${status}_checkbox`}
+                                  key={status}
+                                  label={status}
+                                  onVaChange={e =>
+                                    statusFilterChange(e, status)
+                                  }
+                                />
                               </div>
-                            </div>
+                            ))}
                           </fieldset>
                           <div className="modal-button-wrapper vads-u-margin-top--3">
                             <va-button
