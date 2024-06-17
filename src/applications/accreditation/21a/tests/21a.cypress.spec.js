@@ -101,6 +101,18 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'employers/0/address-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.employers[0].address.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
