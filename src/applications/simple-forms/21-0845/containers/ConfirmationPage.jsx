@@ -18,15 +18,7 @@ const content = {
           1-800-827-1000
         </a>{' '}
         or contact VA online at{' '}
-        <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
-          Ask VA
-          <i
-            className="fas fa-arrow-up-right-from-square"
-            aria-hidden="true"
-            role="img"
-          />
-        </a>
-        .
+        <va-link href="https://ask.va.gov" text="Ask VA" />.
       </p>
       <p>
         Upon notification from you VA will no longer give out benefit or claim
