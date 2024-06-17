@@ -28,10 +28,11 @@ import {
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
 } from '../../constants';
-import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
+import VACheckboxGroupGi from '../../components/VaCheckboxGroupGi';
+
 // import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
@@ -253,7 +254,7 @@ export function FilterBeforeResults({
 
     return (
       <div className="filter-your-results">
-        <CheckboxGroup
+        <VACheckboxGroupGi
           className="about-school-checkbox"
           label={
             <h3
@@ -313,21 +314,18 @@ export function FilterBeforeResults({
     ];
 
     return (
-      <CheckboxGroup
+      <VACheckboxGroupGi
         // setIsCleared={setIsCleared}
-        className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
+        className="about-school-checkbox"
         label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
+          <h3 className="about-school-label" aria-level={2}>
             About the school
           </h3>
         }
         onChange={onChangeCheckbox}
         options={options}
         row={!smallScreen}
-        colNum="4p5"
+        colNum="1p5"
       />
     );
   };
@@ -335,13 +333,10 @@ export function FilterBeforeResults({
   const vetTecOJT = () => {
     const options = etTecOJTOptions(employers, vettec);
     return (
-      <CheckboxGroup
-        className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
+      <VACheckboxGroupGi
+        className="other-checkbox"
         label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
+          <h3 className="about-school-label" aria-level={2}>
             Other
           </h3>
         }
@@ -527,9 +522,9 @@ export function FilterBeforeResults({
               }
             />
           )}
-          <CheckboxGroup
+          <VACheckboxGroupGi
             class="vads-u-margin-y--4"
-            className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
+            className="my-filters-margin"
             onChange={onChangeCheckbox}
             options={sortedOptions}
             // setIsCleared={setIsCleared}
