@@ -618,6 +618,10 @@ canvas.mapboxgl-canvas:focus {
   }
 }
 
+.clear-button va-icon {
+  color: var(--vads-color-black);
+}
+
 #street-city-state-zip {
   padding-right: 36px !important;
 }
