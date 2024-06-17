@@ -27,7 +27,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
       <div className="main maintenance-page vads-u-padding-top--4" role="main">
         <div className="primary">
           <div className="row">
-            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto">
+            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">
               <h1 id="sorry--we-cant-find-that-page">{notFoundHeading}</h1>
               <p>Try the search box or one of the common questions below.</p>
               <div className="feature vads-u-display--flex vads-u-align-items--center">
