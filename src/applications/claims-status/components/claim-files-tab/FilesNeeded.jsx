@@ -43,7 +43,11 @@ function FilesNeeded({ item, evidenceWaiverSubmitted5103 = false }) {
   }
 
   return (
-    <va-alert class="primary-alert vads-u-margin-bottom--2" status="warning">
+    <va-alert
+      data-testid={`item-${item.id}`}
+      class="primary-alert vads-u-margin-bottom--2"
+      status="warning"
+    >
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>
