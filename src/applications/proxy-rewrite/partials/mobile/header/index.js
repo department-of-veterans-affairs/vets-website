@@ -19,7 +19,7 @@ export const getMobileHeaderHtml = megaMenuData => {
               An official website of the United States government.
               <svg
                 aria-hidden="true"
-                className="vads-u-margin-left--0p5"
+                class="vads-u-margin-left--0p5"
                 focusable="false"
                 id="govt-banner-icon"
                 width="12"
@@ -58,7 +58,7 @@ export const getMobileHeaderHtml = megaMenuData => {
         <button class="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open">Talk to the <strong>Veterans Crisis Line</strong> now
           <svg
             aria-hidden="true"
-            className="vads-u-margin-left--1"
+            class="vads-u-margin-left--1"
             focusable="false"
             width="16"
             viewBox="7 1 17 17"
@@ -111,7 +111,7 @@ export const getMobileHeaderHtml = megaMenuData => {
                 <span class="vads-u-margin-right--0p5">Menu</span>
                 <svg
                   aria-hidden="true"
-                  className="vads-u-margin-left--0p5"
+                  class="vads-u-margin-left--0p5"
                   focusable="false"
                   viewBox="1 2 16 16"
                   width="16"
@@ -127,7 +127,7 @@ export const getMobileHeaderHtml = megaMenuData => {
                 <span class="vads-u-margin-right--0p5">Close</span>
                 <svg
                   aria-hidden="true"
-                  className="vads-u-margin-left--0p5"
+                  class="vads-u-margin-left--0p5"
                   focusable="false"
                   viewBox="3 3 16 16"
                   width="15"

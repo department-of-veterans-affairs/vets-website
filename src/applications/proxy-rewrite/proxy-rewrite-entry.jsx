@@ -132,7 +132,7 @@ function renderFooter(footerData, footerContainer = null) {
           <div class="usa-grid">
             <div class="col-md-3"></div>
             <div class="col-md-9">
-              Last updated: ${lastUpdatedDate}
+              <p class="vads-u-margin--0 vads-u-padding--0 vads-u-font-size--lg">Last updated: ${lastUpdatedDate}</p>
             </div>
           </div>
         </div>

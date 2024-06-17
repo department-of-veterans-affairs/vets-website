@@ -23,11 +23,11 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="vcl-crisis-panel-icon"
+              class="vcl-crisis-panel-icon vads-u-display--inline-block"
               focusable="false"
               style={{ transform: 'rotate(270deg)' }}
               viewBox="0 0 23 23"
-              width="26"
+              width="30"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -42,7 +42,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="vcl-crisis-panel-icon"
+              class="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -59,7 +59,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="vcl-crisis-panel-icon"
+              class="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -77,7 +77,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              className="vcl-crisis-panel-icon"
+              class="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
