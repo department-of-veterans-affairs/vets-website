@@ -5,7 +5,7 @@ import { addressSchema } from '../../../definitions/sharedSchema';
 import content from '../../../locales/en/content.json';
 import fullSchema from '../../10-10CG-schema.json';
 
-const { address } = fullSchema.definitions;
+const { mailingAddress } = fullSchema.definitions;
 const inputLabel = content['primary-input-label'];
 
 const primaryMailingAddress = {
@@ -19,7 +19,7 @@ const primaryMailingAddress = {
   schema: {
     type: 'object',
     properties: {
-      primaryMailingAddress: addressSchema(address),
+      primaryMailingAddress: addressSchema(mailingAddress),
     },
   },
 };

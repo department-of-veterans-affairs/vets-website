@@ -5,7 +5,7 @@ import { addressSchema } from '../../../definitions/sharedSchema';
 import content from '../../../locales/en/content.json';
 import fullSchema from '../../10-10CG-schema.json';
 
-const { address } = fullSchema.definitions;
+const { mailingAddress } = fullSchema.definitions;
 const inputLabel = content['secondary-one-input-label'];
 
 const secondaryOneMailingAddress = {
@@ -19,7 +19,7 @@ const secondaryOneMailingAddress = {
   schema: {
     type: 'object',
     properties: {
-      secondaryOneMailingAddress: addressSchema(address),
+      secondaryOneMailingAddress: addressSchema(mailingAddress),
     },
   },
 };

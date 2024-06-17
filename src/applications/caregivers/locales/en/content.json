@@ -82,6 +82,8 @@
   "sign-as-rep-yes-text": "I\u2019m a representative with legal authority signing on behalf of the Veteran",
   "sign-as-rep-on-behalf-text": "on behalf of %s",
   "sign-as-rep-document-description": "We can only accept a document that proves you have legal authority to make decisions for the Veteran. Or we\u2019ll accept a document that proves you have authority to fill out or sign applications on behalf of the Veteran.",
+  "signature-checkbox-label": "I certify the information above is correct and true to the best of my knowledge and belief.",
+  "signature-on-behalf-text": "On behalf of",
   "upload-doc-label": "Upload supporting document:",
   "vet-address-description": "Any updates the Veteran makes here to their address will only apply to this application.",
   "vet-address-street-label": "%s street address",
@@ -103,6 +105,7 @@
   "validation-address--postalCode-pattern": "Enter a valid 5- or 9-digit postal code (dashes allowed)",
   "validation-address--county-required": "Enter a county",
   "validation-default-required": "Please provide a response",
+  "validation-signature-required": "Must certify by checking box",
   "validation-ssn-general": "Enter a valid Social Security or tax identification number",
   "validation-ssn-unique": "We\u2019re sorry. You\u2019ve already entered this number elsewhere. Please check your data and try again."
 }

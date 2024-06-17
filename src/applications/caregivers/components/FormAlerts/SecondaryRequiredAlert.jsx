@@ -8,7 +8,7 @@ const SecondaryRequiredAlert = () => {
 
   return (
     <div className="caregiver-error-message">
-      <va-alert status="error" uswds>
+      <va-alert status="error">
         <h3 slot="headline">You need to add or change a Family Caregiver</h3>
         <p>
           You didn’t add or change a Primary or Secondary Family Caregiver in

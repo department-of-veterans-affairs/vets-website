@@ -113,7 +113,7 @@ const ProcessTimeline = () => (
       </va-process-list-item>
 
       {/* Start your application */}
-      <va-process-list-item header="Next steps" uswds>
+      <va-process-list-item header="Next steps">
         <p className="vads-u-margin-top--2">
           We’ll take you through each step of the process. It should take about
           15 minutes.

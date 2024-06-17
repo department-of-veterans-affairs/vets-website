@@ -21,10 +21,7 @@ const ApplicationSignatureDescription = (
       upload a document that proves you have this authority.
     </p>
 
-    <va-additional-info
-      trigger="Learn more about the types of documents we can and can’t accept"
-      uswds
-    >
+    <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
       <div>
         <p>{content['sign-as-rep-document-description']}</p>
         {DocumentTypeDescription}

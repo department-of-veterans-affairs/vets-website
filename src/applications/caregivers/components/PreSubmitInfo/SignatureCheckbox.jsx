@@ -72,7 +72,7 @@ const SignatureCheckbox = props => {
 
       {isRepresentative && (
         <p className="signature-box--representative" id={representativeLabelId}>
-          On behalf of
+          {content['signature-on-behalf-text']}
           <strong className="vads-u-font-size--lg">{normalizedFullName}</strong>
         </p>
       )}
@@ -81,9 +81,8 @@ const SignatureCheckbox = props => {
         required={isRequired}
         onVaChange={handleCheck}
         class="signature-checkbox"
-        error={hasError ? 'Must certify by checking box' : undefined}
-        label="I certify the information above is correct and true to the best of my knowledge and belief."
-        uswds
+        error={hasError ? content['validation-signature-required'] : undefined}
+        label={content['signature-checkbox-label']}
       />
     </fieldset>
   );
