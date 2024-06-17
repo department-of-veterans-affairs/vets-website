@@ -468,20 +468,28 @@ export function applicantInsuranceCardSchema(isPrimary) {
         },
       ),
       ...fileUploadBlurb,
-      [keyname]: fileUploadUI({
-        label: 'Upload health insurance card',
-      }),
+      [keyname]: {
+        ...fileUploadUI({
+          label: 'Upload health insurance card',
+        }),
+        'ui:errorMessages': {
+          minItems: 'You must add at least two items (front and back).',
+        },
+      },
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema([
-          `Front of ${val} insurance card`,
-          `Back of ${val} insurance card`,
-          `Other ${val} insurance supporting document`,
-        ]),
+        [keyname]: fileWithMetadataSchema(
+          [
+            `Front of ${val} insurance card`,
+            `Back of ${val} insurance card`,
+            `Other ${val} insurance supporting document`,
+          ],
+          2,
+        ),
       },
     },
   };
