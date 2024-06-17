@@ -552,5 +552,14 @@ class MedicationsListPage {
   verifyPrintAllMedicationsFromDropDownOnListPage = () => {
     cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
   };
+
+  verifyPharmacyPhoneNumberOnListPage = phoneNumber => {
+    cy.get(
+      '[data-testid="active-onHold"] > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+19832720905"]')
+      .should('contain', phoneNumber);
+  };
 }
 export default MedicationsListPage;
