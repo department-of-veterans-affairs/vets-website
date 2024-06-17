@@ -27,10 +27,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });

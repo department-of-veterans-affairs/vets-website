@@ -76,7 +76,6 @@
   "fsrServerSideTransform": "fsr_5655_server_side_transform",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
-  "financialStatusReportStreamlinedWaiverAssets": "financial_status_report_streamlined_waiver_assets",
   "financialStatusReportReviewPageNavigation": "financial_status_report_review_page_navigation",
   "findARepresentativeEnableFrontend": "find_a_representative_enable_frontend",
   "form2010206": "form2010206",
