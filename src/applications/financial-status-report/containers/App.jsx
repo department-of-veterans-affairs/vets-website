@@ -24,7 +24,6 @@ import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
-  enhancedFSRFeatureToggle,
   streamlinedWaiverFeatureToggle,
   streamlinedWaiverAssetUpdateFeatureToggle,
   reviewPageNavigationFeatureToggle,
@@ -239,7 +238,6 @@ App.propTypes = {
   }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
   showStreamlinedWaiver: PropTypes.bool,
@@ -255,7 +253,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
-  showEnhancedFSR: enhancedFSRFeatureToggle(state),
   showStreamlinedWaiver: streamlinedWaiverFeatureToggle(state),
   showStreamlinedWaiverAssetUpdate: streamlinedWaiverAssetUpdateFeatureToggle(
     state,

@@ -275,14 +275,6 @@
         "value": true
       },
       {
-        "name": "combinedFinancialStatusReportEnhancements",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report_enhancements",
-        "value": true
-      },
-      {
         "name": "communicationPreferences",
         "value": true
       },
