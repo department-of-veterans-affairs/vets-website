@@ -7,7 +7,7 @@ import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
   formatAddress,
-  hasFormChanged,
+  hasAddressFormChanged,
   prepareAddressData,
   scrollToElement,
 } from '../helper';
@@ -192,7 +192,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   };
   const onCancleButtonClicked = () => {
     if (
-      (hasFormChanged(formData) && !goBackToEdit) ||
+      (hasAddressFormChanged(formData) && !goBackToEdit) ||
       (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
     ) {
       setShowModal(true);

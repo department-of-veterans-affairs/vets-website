@@ -8,7 +8,10 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
-import { DATE_FORMATS } from '../constants';
+import {
+  DATE_FORMATS,
+  disabilityCompensationClaimTypeCodes,
+} from '../constants';
 
 // Adding !! so that we convert this to a boolean
 export const claimAvailable = claim =>
@@ -95,6 +98,10 @@ const statusDescriptionMap = {
 
 export function getClaimStatusDescription(status) {
   return statusDescriptionMap[status];
+}
+
+export function isDisabilityCompensationClaim(claimTypeCode) {
+  return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
 }
 
 export function isClaimOpen(status, closeDate) {

@@ -11,6 +11,7 @@ import {
   officeAddress,
   officeFaxNum,
 } from '../config/constants';
+import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
 
@@ -52,7 +53,7 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
-    fileNameMap: { ...requiredFiles },
+    fileNameMap: prefixFileNames(data, requiredFiles),
     requiredFiles,
     nonListNameKey: 'applicantName',
     mailingAddress: officeAddress,

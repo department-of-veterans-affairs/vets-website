@@ -1,9 +1,9 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsRefillPage from './pages/MedicationsRefillPage';
-import prescription from './fixtures/active-prescriptions-with-refills.json';
+import prescription from './fixtures/parked-prescription-details.json';
 import prescriptions from './fixtures/listOfPrescriptions.json';
 import partialsuccessRequest from './fixtures/refill-partial-success.json';
-import failedprescription from './fixtures/parked-prescription-details.json';
+import failedprescription from './fixtures/failed-request-prescription.json';
 
 describe('Medications Refill Submit  PartialSuccess Message Refill Page', () => {
   it('visits Partial Success Message on Refill page', () => {

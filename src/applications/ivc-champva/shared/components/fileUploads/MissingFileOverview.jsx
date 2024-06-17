@@ -70,7 +70,8 @@ const mailInfo = (showOpt = true, address, officeName, faxNum) => (
     </address>
     Or fax your documents here:
     <br />
-    {officeName ?? ''},<br />
+    {officeName ? `${officeName},` : ''}
+    <br />
     <VaTelephone
       contact={JSON.stringify({
         phoneNumber: faxNum ?? '3033317809',
@@ -354,6 +355,7 @@ export default function MissingFileOverview({
               data={sponsorMiss}
               nameKey="name"
               title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
@@ -366,6 +368,7 @@ export default function MissingFileOverview({
               data={apps}
               nameKey="applicantName"
               title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
