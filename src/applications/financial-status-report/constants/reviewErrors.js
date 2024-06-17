@@ -16,6 +16,11 @@ export default {
       index + 1,
     )} selected debt`;
   },
+  resolutionWaiverCheck: index => {
+    return `Please select whether you agree to the waiver for the ${numberToWords(
+      index + 1,
+    )} selected debt`;
+  },
   _override: error => {
     if (error === 'questions') {
       return {
