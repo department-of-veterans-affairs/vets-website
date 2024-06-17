@@ -127,7 +127,7 @@ export const applicantMedicarePharmacySchema = {
             )} Medicare plan provide pharmacy benefits?`,
             'ui:options': {
               hint:
-                'You can find this information ont he front of your Medicare card.',
+                'You can find this information on the front of your Medicare card.',
             },
           };
         },
@@ -235,7 +235,6 @@ export const applicantMedicareABUploadSchema = {
               </li>
               <li>Medicare PACE card</li>
             </ul>
-            <br />
             You can also upload any other supporting documents you may have for
             this Medicare plan.
             <br />
@@ -350,7 +349,7 @@ export const applicantMedicareDUploadSchema = {
     }),
     ...fileUploadBlurb,
     applicantMedicarePartDCard: fileUploadUI({
-      label: 'Upload Medicare card',
+      label: 'Upload Medicare Part D card',
     }),
   },
   schema: {

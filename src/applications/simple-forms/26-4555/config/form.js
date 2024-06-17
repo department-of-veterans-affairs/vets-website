@@ -71,6 +71,7 @@ const formConfig = {
   version: 0,
   migrations: [],
   prefillEnabled: true,
+  hideUnauthedStartLink: true,
   prefillTransformer,
   title: 'Apply for an adapted housing grant',
   subTitle:
