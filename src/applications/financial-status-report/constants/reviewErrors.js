@@ -21,7 +21,7 @@ export default {
       index + 1,
     )} selected debt`;
   },
-  _override: error => {
+  _override: (error, fullError) => {
     if (error === 'questions') {
       return {
         chapterKey: 'bankruptcyAttestationChapter',
@@ -32,6 +32,12 @@ export default {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionOption',
+      };
+    }
+    if (fullError.__errors.some(str => str.includes('resolution amount'))) {
+      return {
+        chapterKey: 'resolutionOptionsChapter',
+        pageKey: 'resolutionComment',
       };
     }
     // always return null for non-matches

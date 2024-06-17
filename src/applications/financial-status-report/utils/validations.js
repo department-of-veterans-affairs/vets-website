@@ -130,12 +130,11 @@ export const validateResolutionAmount = (errors, fieldData) => {
   // not required for waiver
   if (resolutionOption === 'waiver') return;
 
-  if (!resolutionComment) {
-    errors.addError('Please enter a valid dollar amount.');
-  }
-
-  if (!isValidCurrency(resolutionComment)) {
-    errors.addError('Please enter a valid dollar amount.');
+  if (!resolutionComment || !isValidCurrency(resolutionComment)) {
+    errors.addError(
+      'Please enter a valid dollar amount for the resolution amount.',
+    );
+    return;
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
