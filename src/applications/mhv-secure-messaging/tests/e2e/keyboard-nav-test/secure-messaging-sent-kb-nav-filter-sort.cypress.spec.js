@@ -4,6 +4,7 @@ import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import FolderLoadPage from '../pages/FolderLoadPage';
 
 describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   const site = new SecureMessagingSite();
@@ -15,8 +16,8 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
 
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageSentPage.loadMessages();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
+    FolderLoadPage.loadSentMessages(mockSentMessages);
   });
 
   it('Verify filter works correctly', () => {
