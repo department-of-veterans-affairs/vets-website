@@ -5,6 +5,8 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
+  textareaSchema,
+  textareaUI,
   textSchema,
   textUI,
   titleUI,
@@ -23,9 +25,8 @@ const options = {
   isItemIncomplete: item =>
     !item?.name ||
     !item.dateRange ||
-    !item.receivedDegree ||
     (item.receivedDegree && !item.degree) ||
-    (!item.receivedDegree && !item.reasonDidNotReceiveDegree) ||
+    (item.receivedDegree === false && !item.reasonForNotReceivingDegree) ||
     !item.major,
   text: {
     getItemName: item => item.name,
@@ -65,13 +66,13 @@ const educationalInstitutionPage = {
       },
       'ui:required': formData => !formData.receivedDegree,
     },
-    reasonDidNotReceiveDegree: {
-      ...textUI('Reason not received'),
+    reasonForNotReceivingDegree: {
+      ...textareaUI('Reason for not receiving degree'),
       'ui:options': {
         expandUnder: 'receivedDegree',
         expandUnderCondition: false,
       },
-      'ui:required': formData => formData.receivedDegree,
+      'ui:required': formData => formData.receivedDegree === false,
     },
     major: textUI('Major'),
   },
@@ -82,7 +83,7 @@ const educationalInstitutionPage = {
       dateRange: currentOrPastDateRangeSchema,
       receivedDegree: yesNoSchema,
       degree: textSchema,
-      reasonDidNotReceiveDegree: textSchema,
+      reasonForNotReceivingDegree: textareaSchema,
       major: textSchema,
     },
     required: ['name', 'dateRange', 'receivedDegree', 'major'],

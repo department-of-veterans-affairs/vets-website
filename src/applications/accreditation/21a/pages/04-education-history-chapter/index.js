@@ -1,7 +1,7 @@
-import educationalInstitutions from './educationalInstitutions';
+import educationalInstitutionsPages from './educationalInstitutionsPages';
 
 /** @type {PageSchema} */
 export default {
   title: 'Education history',
-  pages: educationalInstitutions,
+  pages: educationalInstitutionsPages,
 };
