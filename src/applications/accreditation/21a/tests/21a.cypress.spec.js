@@ -85,7 +85,7 @@ const testConfig = createTestConfig(
       cy.intercept('POST', formConfig.submitUrl);
     },
 
-    // Remove this skip when the form has a content page in prod
+    // TODO: Remove this skip when the form has a content page in prod
     skip: Cypress.env('CI'),
   },
   manifest,
