@@ -73,6 +73,7 @@
   "facilityLocatorShowCommunityCares": "facility_locator_show_community_cares",
   "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
+  "fsrServerSideTransform": "fsr_5655_server_side_transform",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
   "financialStatusReportStreamlinedWaiver": "financial_status_report_streamlined_waiver",
