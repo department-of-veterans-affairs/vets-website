@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
@@ -50,28 +51,11 @@ describe('SM main page', () => {
   });
 
   it('verify breadcrumbs', () => {
-    cy.get('[data-testid="sm-breadcrumb"]')
-      .shadow()
-      .find('a')
-      .should('have.length', 3);
+    FolderLoadPage.verifyBreadCrumbsLength(3);
 
-    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
-      cy.get('a')
-        .eq(0)
-        .should('have.attr', 'href', '/');
-    });
-
-    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
-      cy.get('a')
-        .eq(1)
-        .should('have.attr', 'href', '/my-health');
-    });
-
-    cy.get('[data-testid="sm-breadcrumb"]').within(() => {
-      cy.get('a')
-        .eq(2)
-        .should('have.attr', 'href', '#content');
-    });
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
   });
 });
 

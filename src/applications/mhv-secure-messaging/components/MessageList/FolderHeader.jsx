@@ -17,6 +17,7 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
+import InnerNavigation from '../InnerNavigation';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -116,6 +117,9 @@ const FolderHeader = props => {
           (!noAssociations && !allTriageGroupsBlocked) && (
             <ComposeMessageButton />
           )}
+
+        {folder.folderId === Folders.INBOX.id && <InnerNavigation />}
+
         <ManageFolderButtons folder={folder} />
         {threadCount > 0 && (
           <SearchForm
