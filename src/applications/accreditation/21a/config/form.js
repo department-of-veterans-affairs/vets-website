@@ -6,11 +6,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 import personalInformationChapter from '../pages/01-personal-information-chapter';
-import employmentInformationChapter from '../pages/02-employment-information-chapter';
-import educationHistoryChapter from '../pages/03-education-history-chapter';
-import lawPracticeInformationChapter from '../pages/04-law-practice-information-chapter';
-import backgroundInformationChapter from '../pages/05-background-information-chapter';
-import characterReferencesChapter from '../pages/06-character-references-chapter';
+import militaryServiceChapter from '../pages/02-military-service-chapter';
+import employmentInformationChapter from '../pages/03-employment-information-chapter';
+import educationHistoryChapter from '../pages/04-education-history-chapter';
+import lawPracticeInformationChapter from '../pages/05-law-practice-information-chapter';
+import backgroundInformationChapter from '../pages/06-background-information-chapter';
+import characterReferencesChapter from '../pages/07-character-references-chapter';
 
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,
@@ -48,6 +49,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter,
+    militaryServiceChapter,
     employmentInformationChapter,
     educationHistoryChapter,
     lawPracticeInformationChapter,
