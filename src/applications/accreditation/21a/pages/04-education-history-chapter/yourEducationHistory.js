@@ -1,7 +1,4 @@
-import {
-  descriptionUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YourEducationHistoryDescription from '../../components/YourEducationHistoryDescription';
 
@@ -10,8 +7,7 @@ export default {
   title: 'Your education history',
   path: 'your-education-history',
   uiSchema: {
-    ...titleUI('Your education history'),
-    ...descriptionUI(YourEducationHistoryDescription),
+    ...titleUI('Your education history', YourEducationHistoryDescription),
   },
   schema: {
     type: 'object',
