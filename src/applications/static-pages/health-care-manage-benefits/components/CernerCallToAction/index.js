@@ -12,6 +12,8 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
@@ -70,6 +72,7 @@ export class CernerCallToAction extends Component {
     try {
       // Fetch facilities and store them in state.
       let response = null;
+      // when toggle removed, remove this check and always use v2
       if (this.props.useV2FacApi) {
         response = await apiRequest('/va', {
           apiVersion: 'facilities_api/v2',
@@ -397,11 +400,10 @@ CernerCallToAction.propTypes = {
 const mapStateToProps = state => {
   const featureStaticLandingPage = toggleValues(state)
     .vaOnlineSchedulingStaticLandingPage;
-  const useV2FacApi = toggleValues(state).useFacilitiesApiV2ForCernerCTA;
-  return {
-    featureStaticLandingPage,
-    useV2FacApi,
-  };
+  const useV2FacApi = toggleValues(state)[
+    FEATURE_FLAG_NAMES.useFacilitiesApiV2ForCernerCTA
+  ];
+  return { featureStaticLandingPage, useV2FacApi };
 };
 
 export default connect(mapStateToProps)(CernerCallToAction);
