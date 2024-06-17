@@ -53,7 +53,7 @@ const IntroductionPage = props => {
 
   const handleSearchByReferenceNumber = () => {
     // const url = `${
-    //   environment.API_URL
+    //   envUrl
     // }/inquiries/${searchReferenceNumber}/status`;
     // getApiData(url);
     const mockResponse = {

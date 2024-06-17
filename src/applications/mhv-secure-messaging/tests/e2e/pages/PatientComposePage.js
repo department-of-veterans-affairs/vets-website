@@ -320,9 +320,6 @@ class PatientComposePage {
   };
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
-    // cy.get('[data-testid=compose-category-radio-button]')
-    //   .should('have.value', 'OTHER')
-    //   .and('have.attr', 'checked');
     cy.get(Locators.FIELDS.MESS_SUBJECT).should(
       'have.value',
       this.messageSubjectText,

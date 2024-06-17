@@ -59,7 +59,7 @@ const LandingPage = () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
-        location.pathname.includes('/accordion-renew-rx') &&
+        location.hash.includes('accordion-renew-rx') &&
         !featureTogglesLoading &&
         !isPrescriptionsLoading
       ) {
@@ -70,12 +70,7 @@ const LandingPage = () => {
         }
       }
     },
-    [
-      location.pathname,
-      featureTogglesLoading,
-      appEnabled,
-      isPrescriptionsLoading,
-    ],
+    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
   );
 
   useEffect(

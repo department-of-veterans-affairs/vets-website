@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 
 import {
-  VaBreadcrumbs,
-  VaButton,
+  VaButtonPair,
   VaFileInput,
-  VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-  getBreadcrumbList,
-  getFormNumber,
-  getFormUploadContent,
-  handleRouteChange,
-  uploadScannedForm,
-} from '../helpers';
+import { getFormNumber, uploadScannedForm } from '../helpers';
+import FormPage from './FormPage';
 
 const UploadPage = () => {
   const history = useHistory();
@@ -24,8 +17,6 @@ const UploadPage = () => {
 
   const location = useLocation();
   const formNumber = getFormNumber(location);
-  const formUploadContent = getFormUploadContent(formNumber);
-  const breadcrumbList = getBreadcrumbList(formNumber);
 
   const onClickContinue = () => {
     if (Object.keys(file).length === 0) {
@@ -34,7 +25,6 @@ const UploadPage = () => {
       history.push(`/${formNumber}/review`, { file });
     }
   };
-  const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
   const onFileUploaded = uploadedFile => {
     if (uploadedFile.confirmationCode) {
       setFileInputError('');
@@ -45,22 +35,8 @@ const UploadPage = () => {
     dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <VaBreadcrumbs
-        breadcrumbList={breadcrumbList}
-        onRouteChange={onRouteChange}
-      />
-      <h1>{`Upload VA Form ${formNumber}`}</h1>
-      <p>{formUploadContent}</p>
-      <div>
-        <VaSegmentedProgressBar
-          current={1}
-          total={3}
-          labels="Upload your file;Review your information;Submit your form"
-        />
-      </div>
-      <h3>Upload your file</h3>
-      <p>
+    <FormPage currentLocation={1} pageTitle="Upload your file">
+      <p className="vads-u-margin-top--0">
         You’ll need to scan your document onto the device you’re using to submit
         this application, such as your computer, tablet, or mobile phone. You
         can upload your document from there.
@@ -79,29 +55,19 @@ const UploadPage = () => {
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
         onVaChange={onVaChange}
+        className="vads-u-margin-bottom--5"
         required
         uswds
       />
-      <span>
-        <VaButton secondary text="<< Back" onClick={history.goBack} />
-        <VaButton
-          primary
-          text="Continue >>"
-          onClick={onClickContinue}
-          data-testid="continue-button"
-        />
-      </span>
-      <div className="need-help-footer">
-        <h2 className="vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-          Need help?
-        </h2>
-        <p>
-          You can call us at <va-telephone contact="8772228387" /> (
-          <va-telephone contact="8008778339" tty />
-          ). We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET.
-        </p>
-      </div>
-    </div>
+      <VaButtonPair
+        class="vads-u-margin-top--0"
+        data-testid="upload-button-pair"
+        continue
+        onPrimaryClick={onClickContinue}
+        onSecondaryClick={history.goBack}
+        uswds
+      />
+    </FormPage>
   );
 };
 

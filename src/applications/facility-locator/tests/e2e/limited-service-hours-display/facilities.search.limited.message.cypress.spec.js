@@ -4,7 +4,7 @@ describe('Facility VA search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', 'facilities_api/v1/va*', data).as('mockedData');
+    cy.intercept('POST', 'facilities_api/v2/va*', data).as('mockedData');
   });
 
   it('does a simple search and finds a result on the list', () => {

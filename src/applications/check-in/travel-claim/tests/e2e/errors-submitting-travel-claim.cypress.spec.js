@@ -7,8 +7,8 @@ import TravelMileage from './pages/TravelMileage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 import Error from './pages/Error';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A Patient that encounters an error when submitting for a travel claim', () => {
+
+describe('A Patient that encounters an error when submitting for a travel claim', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -55,59 +55,5 @@ describe.skip('A Patient that encounters an error when submitting for a travel c
     Error.validateErrorAlert('completing-travel-submission');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Travel-claim--error-completing-travel-submission');
-  });
-});
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A Patient that encounters an error and a success when submitting multiple travel claims', () => {
-  beforeEach(() => {
-    const {
-      initializeFeatureToggle,
-      initializeSessionGet,
-      initializeSessionPost,
-      initializeCheckInDataGetOH,
-      initializeBtsssPost,
-    } = ApiInitializer;
-    initializeFeatureToggle.withCurrentFeatures();
-    initializeSessionGet.withSuccessfulNewSession();
-    initializeSessionPost.withSuccess();
-    initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
-    );
-    initializeBtsssPost.withSuccess(1);
-    initializeBtsssPost.withFailure(1);
-  });
-  it('should see the correct error page', () => {
-    cy.visitTravelClaimWithUUID();
-    ValidateVeteran.validatePage.travelClaim();
-    cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validateVeteran();
-    ValidateVeteran.attemptToGoToNextPage();
-
-    TravelIntro.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelIntro.attemptToGoToNextPage();
-
-    TravelMileage.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
-    TravelMileage.selectFacility('530');
-    TravelMileage.selectFacility('500');
-    TravelMileage.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-vehicle-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-address-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.attemptToGoToNextPage();
-
-    TravelPages.validatePageWrapper('travel-claim-review-page');
-    cy.injectAxeThenAxeCheck();
-    TravelPages.acceptTerms();
-    TravelPages.attemptToGoToNextPage();
-
-    Error.validatePageLoaded();
-    Error.validateErrorAlert('completing-travel-submission');
-    cy.injectAxeThenAxeCheck();
   });
 });
