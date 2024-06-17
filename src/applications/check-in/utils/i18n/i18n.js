@@ -55,14 +55,14 @@ export const dateFormatInterpolators = {
   dayOfWeek: (value, _format, _lng, locale) => {
     return formatDate(value, 'eeee', { locale });
   },
-  default: (value, format, _lng, locale) => {
-    return formatDate(value, format, { locale });
-  },
   dayWithTime: (value, _format, _lng, locale) => {
     return formatDate(value.date, 'MMMM dd, yyyy, h:mm aaaa', {
       locale,
       timeZone: value.timezone,
     });
+  },
+  default: (value, format, _lng, locale) => {
+    return formatDate(value, format, { locale });
   },
 };
 

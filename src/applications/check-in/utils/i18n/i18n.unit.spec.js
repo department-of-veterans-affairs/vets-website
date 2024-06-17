@@ -49,7 +49,17 @@ describe('Date formatting interpolators', () => {
           const date = new Date(correctedDateString);
           const utcDate = zonedTimeToUtc(date, process.env.TZ);
           const locale = locales[lng];
-          const actual = interpolator(utcDate, format, lng, locale);
+          let actual;
+          if (format !== 'dayWithTime') {
+            actual = interpolator(utcDate, format, lng, locale);
+          } else {
+            actual = interpolator(
+              { date: utcDate, timezone: process.env.TZ },
+              format,
+              lng,
+              locale,
+            );
+          }
           if (format === 'longAtTime' && lng === 'es') {
             expected = `${expected}${formatDate(now, 'O', process.env.TZ)}`;
           }
