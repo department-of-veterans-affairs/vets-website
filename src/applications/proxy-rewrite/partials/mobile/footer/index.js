@@ -99,8 +99,8 @@ export const getMobileFooterHtml = footerData => {
         <ul>
           ${buildBottomRail(bottomRail)}
         </ul>
-        ${VeteransCrisisLineModal}
       </div>
+      ${VeteransCrisisLineModal}
     </footer>
   `;
 };

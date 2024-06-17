@@ -71,8 +71,8 @@ export const getDesktopFooterHtml = footerData => {
             ${buildBottomRail(bottomRail)}
           </ul>
         </div>
+        </div>
         ${VeteransCrisisLineModal}
-      </div>
     </footer>
   `;
 };

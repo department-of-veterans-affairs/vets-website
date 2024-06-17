@@ -107,6 +107,7 @@ export const addHeaderEventListeners = () => {
     const correspondingUl = document.querySelectorAll('#header-nav-items ul')[
       index
     ];
+
     const buttonIcons = btn.querySelectorAll('.mobile-benhub');
 
     btn.addEventListener('click', () =>
@@ -121,6 +122,7 @@ export const addHeaderEventListeners = () => {
 
   levelTwoButtons.forEach(menuBtn => {
     const mainNav = document.getElementById('header-nav-items');
+    const searchBar = document.getElementById('mobile-search-container');
     const id = menuBtn.getAttribute('aria-controls');
     const menu = document.getElementById(id);
     const backButtons = document.querySelectorAll('button#header-back-to-menu');
@@ -128,6 +130,7 @@ export const addHeaderEventListeners = () => {
     menuBtn.addEventListener('click', () => {
       menu.removeAttribute('hidden');
       mainNav.setAttribute('hidden', true);
+      searchBar.setAttribute('hidden', true);
       menuBtn.setAttribute('aria-expanded', 'true');
 
       backButtons.forEach(backBtn => {
@@ -135,6 +138,7 @@ export const addHeaderEventListeners = () => {
 
         backBtn.addEventListener('click', () => {
           mainNav.removeAttribute('hidden');
+          searchBar.removeAttribute('hidden');
           menu.setAttribute('hidden', true);
           menuBtn.setAttribute('aria-expanded', 'false');
           menuBtn.focus();

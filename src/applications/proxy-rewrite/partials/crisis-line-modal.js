@@ -77,6 +77,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
+              class="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"

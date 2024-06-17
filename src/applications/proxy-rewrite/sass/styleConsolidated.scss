@@ -799,6 +799,7 @@
   }
 
   header {
+    position: relative;
     background: #162e51;
     clear: both;
     padding: 0;
@@ -806,19 +807,6 @@
     text-align: left;
     width: 100%;
     margin: auto;
-  }
-
-  @media screen and (min-width: 481px) {
-    header {
-      min-height: 167.19px;
-    }
-  }
-
-  @media screen and (min-width: 768px) {
-    header {
-      position: relative;
-      min-height: 159px;
-    }
   }
 
   header .login-container {
@@ -875,7 +863,7 @@
     max-width: 264px;
     height: auto;
 
-    &.va-header-logo-desktop {
+    &.desktop {
       @media screen and (max-width: 767px) {
         display: none;
       }

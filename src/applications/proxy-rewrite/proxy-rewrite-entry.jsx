@@ -85,7 +85,12 @@ function renderHeader(megaMenuData, headerContainer = null) {
     }
   }
 
+  console.log('adding event listeners');
   addHeaderEventListeners();
+
+    // Start Veteran Crisis Line modal functionality.
+    addFocusBehaviorToCrisisLineModal();
+    // addOverlayTriggers();
 
   const searchParentElement = isMobile
     ? 'mobile-search-container'
@@ -226,10 +231,6 @@ function activateInjectedAssets() {
         'resize',
         debounce(() => renderFooter(headerFooterData.footerData), 200),
       );
-
-      // Start Veteran Crisis Line modal functionality.
-      addFocusBehaviorToCrisisLineModal();
-      addOverlayTriggers();
     });
 }
 
