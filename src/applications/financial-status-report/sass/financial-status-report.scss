@@ -393,3 +393,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     }
   }
 }
+
+va-checkbox {
+  &::part(checkbox) {
+    max-width: fit-content;
+  }
+}

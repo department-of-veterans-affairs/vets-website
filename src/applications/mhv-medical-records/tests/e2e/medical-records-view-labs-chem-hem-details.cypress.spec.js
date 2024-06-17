@@ -1,14 +1,15 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records View Labs And Tests', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
-
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[0]);
     ChemHemDetailsPage.verifyLabName(
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
     );

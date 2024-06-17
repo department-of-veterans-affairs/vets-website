@@ -1,11 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/21A-schema.json';
-
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -13,16 +5,18 @@ import GetFormHelp from '../components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
-
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
+import personalInformationChapter from '../pages/01-personal-information-chapter';
+import employmentInformationChapter from '../pages/02-employment-information-chapter';
+import educationHistoryChapter from '../pages/03-education-history-chapter';
+import lawPracticeInformationChapter from '../pages/04-law-practice-information-chapter';
+import backgroundInformationChapter from '../pages/05-background-information-chapter';
+import characterReferencesChapter from '../pages/06-character-references-chapter';
 
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21a-',
@@ -51,37 +45,14 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application to become a VA accredited attorney or claims agent.',
   },
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-    },
-  },
   defaultDefinitions: {},
   chapters: {
-    personalInformation: {
-      title: 'Personal information',
-      pages: {
-        personalInformation: {
-          title: 'Personal information',
-          path: 'personal-information',
-          uiSchema: {
-            fullName: fullNameUI(),
-            dateOfBirth: dateOfBirthUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['dateOfBirth'],
-            properties: {
-              fullName: fullNameSchema,
-              dateOfBirth: dateOfBirthSchema,
-            },
-          },
-        },
-      },
-    },
+    personalInformationChapter,
+    employmentInformationChapter,
+    educationHistoryChapter,
+    lawPracticeInformationChapter,
+    backgroundInformationChapter,
+    characterReferencesChapter,
   },
 };
 
