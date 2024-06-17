@@ -473,7 +473,8 @@ export function applicantInsuranceCardSchema(isPrimary) {
           label: 'Upload health insurance card',
         }),
         'ui:errorMessages': {
-          minItems: 'You must add at least two items (front and back).',
+          minItems:
+            'You must add both the front and back of your card as separate files.',
         },
       },
     },
