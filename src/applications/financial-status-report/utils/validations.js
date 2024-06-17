@@ -132,7 +132,7 @@ export const validateResolutionAmount = (errors, fieldData) => {
 
   if (!resolutionComment || !isValidCurrency(resolutionComment)) {
     errors.addError(
-      'Please enter a valid dollar amount for the resolution amount.',
+      'Please enter a valid dollar amount for the resolution amount',
     );
     return;
   }
