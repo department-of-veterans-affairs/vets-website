@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   isProfileLoading,
   isLoggedIn,
@@ -26,6 +27,7 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
+  console.log(profileLoading, userLoggedIn, isLoading, travelClaims); // eslint-disable-line no-console
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -60,11 +62,11 @@ export default function App({ children }) {
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && travelClaims.length === 0) {
         dispatch(getTravelClaims());
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -116,6 +118,9 @@ export default function App({ children }) {
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <HelpText />
+              <Link to="/what-does-my-status-mean">
+                What does my claim status mean?
+              </Link>
               {isLoading && (
                 <va-loading-indicator
                   label="Loading"

@@ -4,7 +4,7 @@ export default function HelpText() {
   const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
 
   return (
-    <div slot="content">
+    <div>
       <p>
         If you need to manage a claim, log into the{' '}
         <a className="btsss-portal-link" href={BTSSS_PORTAL_URL}>
