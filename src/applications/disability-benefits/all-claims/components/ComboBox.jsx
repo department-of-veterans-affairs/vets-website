@@ -120,10 +120,16 @@ export class ComboBox extends React.Component {
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
       case 'ArrowUp':
-        index = this.decrementIndex(index);
-        this.scrollIntoView(index);
-        this.setState({ highlightedIndex: index });
-        this.optionFocus(index);
+        // if user is in first item of the list and arrows up, should return to input field
+        if (index === 0) {
+          this.sendFocusToInput(this.inputRef);
+          this.setState({ highlightedIndex: -1 });
+        } else {
+          index = this.decrementIndex(index);
+          this.scrollIntoView(index);
+          this.setState({ highlightedIndex: index });
+          this.optionFocus(index);
+        }
         e.preventDefault();
         break;
       case 'ArrowDown':
@@ -294,7 +300,7 @@ export class ComboBox extends React.Component {
         onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected="false"
+        aria-selected={this.state.highlightedIndex === 0 ? 'true' : 'false'}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -307,7 +313,7 @@ export class ComboBox extends React.Component {
     return (
       <div
         role="combobox"
-        aria-expanded={filteredOptions.length > 0}
+        aria-expanded={filteredOptions.length > 0 ? 'true' : 'false'}
         className="cc-combobox"
         aria-haspopup="listbox"
         aria-controls="combobox-list"
@@ -344,7 +350,7 @@ export class ComboBox extends React.Component {
               ? `option-${this.state.highlightedIndex}`
               : null
           }
-          tabIndex={0}
+          tabIndex={-1}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -369,7 +375,11 @@ export class ComboBox extends React.Component {
                   onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected="false"
+                  aria-selected={
+                    optionIndex === this.state.highlightedIndex
+                      ? 'true'
+                      : 'false'
+                  }
                   id={`option-${optionIndex}`}
                 >
                   {option}
