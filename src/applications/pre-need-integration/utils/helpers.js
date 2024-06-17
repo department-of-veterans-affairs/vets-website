@@ -1087,6 +1087,45 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
   }
 };
 
+const formatDate = dateString => {
+  const [year, month, day] = dateString.split('-');
+  return `${month}/${day}/${year}`;
+};
+
+const confirmRemoveDisplayFields = item => {
+  const serviceBranch = item?.serviceBranch
+    ? serviceLabels[item.serviceBranch]
+    : null;
+  const dateRangeFrom = item?.dateRange?.from;
+  const dateRangeTo = item?.dateRange?.to;
+
+  let range = '';
+
+  if (dateRangeFrom) {
+    range += formatDate(dateRangeFrom);
+  }
+
+  if (dateRangeFrom && dateRangeTo) {
+    range += ' - ';
+  }
+
+  if (dateRangeTo) {
+    range += formatDate(dateRangeTo);
+  }
+
+  let finalString = null;
+  if (serviceBranch) {
+    if (range !== '') {
+      finalString = `${serviceBranch}, ${range}`;
+    } else finalString = serviceBranch;
+  } else if (range !== '') finalString = range;
+  if (finalString)
+    return (
+      <strong>{`We’ll remove this service period for ${finalString}`}</strong>
+    );
+  return null;
+};
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1094,6 +1133,10 @@ export const selfServiceRecordsUI = {
     itemName: 'Service period',
     keepInPageOnReview: true,
     useDlWrap: true,
+    confirmRemove: true,
+    confirmRemoveDisplayFields,
+    modalPrimaryButtonText: 'Yes, remove this',
+    modalSecondaryButtonText: 'No, keep this',
   },
   'ui:validations': [validateMilitaryHistory],
   items: {
