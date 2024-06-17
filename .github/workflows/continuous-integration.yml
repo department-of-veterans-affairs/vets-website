@@ -748,6 +748,7 @@ jobs:
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
+          ref: cypress-13
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
           path: |
