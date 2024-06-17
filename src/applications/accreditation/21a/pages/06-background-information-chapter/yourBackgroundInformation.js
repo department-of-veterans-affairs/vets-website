@@ -1,7 +1,4 @@
-import {
-  descriptionUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YourBackgroundInformationDescription from '../../components/YourBackgroundInformationDescription';
 
@@ -10,8 +7,10 @@ export default {
   title: 'Your background information',
   path: 'your-background-information',
   uiSchema: {
-    ...titleUI('Your background information'),
-    ...descriptionUI(YourBackgroundInformationDescription),
+    ...titleUI(
+      'Your background information',
+      YourBackgroundInformationDescription,
+    ),
   },
   schema: {
     type: 'object',
