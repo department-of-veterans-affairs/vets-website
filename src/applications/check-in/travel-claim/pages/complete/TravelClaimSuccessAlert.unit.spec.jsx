@@ -17,7 +17,7 @@ describe('Check-in experience', () => {
     const mockData = {
       appointmentToFile: {
         stationNo: '555',
-        startTime: '2021-08-19T13:56:31',
+        startTime: '2021-08-19T13:56:31Z',
         clinicStopCodeName: 'Endoscopy',
         clinicFriendlyName: 'Endoscopy clinic',
         timezone: 'America/Los_Angeles',
@@ -32,7 +32,7 @@ describe('Check-in experience', () => {
         );
         expect(getByTestId('travel-pay-message')).to.exist;
         expect(getByTestId('travel-pay--claim--submitted')).to.contain.text(
-          `August 19, 2021, 8:56 p.m.`,
+          `August 19, 2021, 6:56 a.m.`,
         );
       });
     });

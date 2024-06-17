@@ -55,7 +55,6 @@ describe('travel-mileage', () => {
         appointmentToFile: {
           stationNo: '500',
           startTime: '2024-03-21T22:19:12.099Z',
-          timezone: 'America/Los_Angeles',
         },
       };
       const expectedStateValue = {
@@ -105,7 +104,6 @@ describe('travel-mileage', () => {
         appointmentToFile: {
           stationNo: '500',
           startTime: '2024-03-21T22:19:12.099Z',
-          timezone: 'America/Los_Angeles',
         },
       };
       const expectedStateValue = {

@@ -16,7 +16,7 @@ describe('travel-review', () => {
     const mockData = {
       appointmentToFile: {
         stationNo: '555',
-        startTime: '2021-08-19T13:56:31',
+        startTime: '2021-08-19T13:56:31Z',
         clinicStopCodeName: 'Endoscopy',
         timezone: 'America/Los_Angeles',
       },
@@ -29,7 +29,7 @@ describe('travel-review', () => {
       );
       expect(component.getByTestId('review-body')).to.exist;
       expect(component.getByTestId('claim-info')).to.contain.text(
-        'Mileage-only reimbursement for your  Endoscopy appointment on August 19, 2021, 8:56 p.m.',
+        'Mileage-only reimbursement for your  Endoscopy appointment on August 19, 2021, 6:56 a.m.',
       );
     });
   });
