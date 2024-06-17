@@ -15,7 +15,7 @@ import {
 import YourEducationHistoryDescription from '../../components/YourEducationHistoryDescription';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+const arrayBuilderOptions = {
   arrayPath: 'educationalInstitutions',
   nounSingular: 'educational institution',
   nounPlural: 'educational institutions',
@@ -85,7 +85,7 @@ const educationalInstitutionPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(options),
+    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(arrayBuilderOptions),
   },
   schema: {
     type: 'object',
@@ -97,7 +97,7 @@ const summaryPage = {
 };
 
 const educationalInstitutionsPages = arrayBuilderPages(
-  options,
+  arrayBuilderOptions,
   pageBuilder => ({
     educationalInstitutions: pageBuilder.introPage({
       title: 'educational institutions',
