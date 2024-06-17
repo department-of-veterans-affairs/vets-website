@@ -2,6 +2,9 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
+import { setupServer } from 'msw/node';
+import environment from '~/platform/utilities/environment';
+import { rest } from 'msw';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
 import { statuses, maintenanceWindows } from './fixtures/mock-downtime';
@@ -52,6 +55,24 @@ describe('DowntimeBanner', () => {
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
+  const apiURL = `${environment.API_URL}/v0${'backend_statuses'}`;
+  let server;
+
+  before(() => {
+    server = setupServer(
+      rest.get(apiURL, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(statuses));
+      }),
+    );
+
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  after(() => server.close());
 
   // it('should display banner if API is down', () => {
   //   const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
@@ -66,6 +87,11 @@ describe('DowntimeBanner', () => {
   // });
 
   it('should NOT display banner if statuses are active', () => {
+    server.use(
+      rest.get(apiURL, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(statuses));
+      }),
+    );
     const screen = renderInReduxProvider(<DowntimeBanners />, {
       initialState: generateState({ serviceDown: false }),
     });
@@ -79,6 +105,11 @@ describe('DowntimeBanner', () => {
 
   downtimeBannersWithoutMultipleOrMaint.forEach(key => {
     it(`should display banner if ${key} service is down`, () => {
+      server.use(
+        rest.get(apiURL, (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json(statuses));
+        }),
+      );
       const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
         initialState: generateState({
           serviceDown: true,
@@ -93,6 +124,11 @@ describe('DowntimeBanner', () => {
   });
 
   it('should display banner if multipleServices are down', () => {
+    server.use(
+      rest.get(apiURL, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(statuses));
+      }),
+    );
     const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
       initialState: generateState({
         isMultipleServices: true,
