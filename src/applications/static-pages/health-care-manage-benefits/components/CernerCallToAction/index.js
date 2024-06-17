@@ -11,12 +11,12 @@ import { getButtonType } from 'applications/static-pages/analytics/addButtonLink
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
 } from '../../propTypes';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import widgetTypes from '../../../widgetTypes';
 
 function ListItem({ facilities, ehrDataByVhaId }) {
@@ -69,9 +69,23 @@ export class CernerCallToAction extends Component {
 
     try {
       // Fetch facilities and store them in state.
-      const response = await apiRequest(
-        `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(',')}`,
-      );
+      let response = null;
+      if (this.props.useV2FacApi) {
+        response = await apiRequest('/va', {
+          apiVersion: 'facilities_api/v2',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ids: facilityIDs.join(',') }),
+        });
+      } else {
+        response = await apiRequest(
+          `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(
+            ',',
+          )}`,
+        );
+      }
       this.setState({ facilities: response?.data, fetching: false });
 
       // Log any API errors.
@@ -377,13 +391,16 @@ CernerCallToAction.propTypes = {
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   featureStaticLandingPage: PropTypes.bool,
   otherFacilities: otherFacilitiesPropType,
+  useV2FacApi: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   const featureStaticLandingPage = toggleValues(state)
     .vaOnlineSchedulingStaticLandingPage;
+  const useV2FacApi = toggleValues(state).useFacilitiesApiV2ForCernerCTA;
   return {
     featureStaticLandingPage,
+    useV2FacApi,
   };
 };
 

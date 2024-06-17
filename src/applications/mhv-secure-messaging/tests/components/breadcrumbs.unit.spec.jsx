@@ -1,15 +1,32 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
-import * as Constants from '../../util/constants';
+import { Breadcrumbs } from '../../util/constants';
 
 let initialState;
 describe('Breadcrumbs', () => {
+  const defaultCrumbs = [
+    {
+      href: '/',
+      label: 'VA.gov',
+    },
+    {
+      href: Breadcrumbs.MYHEALTH.href,
+      label: Breadcrumbs.MYHEALTH.label,
+    },
+    {
+      href: Breadcrumbs.MESSAGES.href,
+      label: Breadcrumbs.MESSAGES.label,
+      isRouterLink: true,
+    },
+  ];
+
   initialState = {
     sm: {
       messageDetails: { message: messageResponse },
@@ -23,24 +40,12 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/`,
     });
-    await waitFor(() => {
-      expect(screen.getByTestId('sm-breadcrumb')).to.have.attribute(
-        'sm-crumb-label',
-        'My HealtheVet',
-      );
-    });
-  });
 
-  it('finds parent breadcrumb that displays the label "Back to messages"', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: `${Constants.Breadcrumbs.INBOX.path}`,
-    });
-    const breadcrumb = await screen.findByText('Back to messages', {
-      exact: true,
-    });
-    expect(breadcrumb);
+    const breadcrumbs = $('va-breadcrumbs', screen.container);
+    const { breadcrumbList } = breadcrumbs;
+
+    // Validate the props
+    expect(breadcrumbList).to.deep.equal(defaultCrumbs);
   });
 
   it('on Message Details renders without errors', async () => {
@@ -52,17 +57,51 @@ describe('Breadcrumbs', () => {
     expect(await screen.findByText('Back to inbox', { exact: true }));
   });
 
-  it('on Compose renders without errors', async () => {
+  it('on Drafts page, renders Drafts as last link in breadcrumb list', async () => {
+    const initialStateDrafts = {
+      sm: {
+        messageDetails: { message: messageResponse },
+        folders: {
+          folder: {
+            folderId: -2,
+            name: 'Drafts',
+            count: 49,
+            unreadCount: 49,
+            systemFolder: true,
+          },
+        },
+        breadcrumbs: {
+          list: [],
+          crumbsList: [...defaultCrumbs, Breadcrumbs.DRAFTS],
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialStateDrafts,
+      reducers: reducer,
+      path: Breadcrumbs.DRAFTS.href,
+    });
+
+    const breadcrumbs = $('va-breadcrumbs', screen.container);
+    const { breadcrumbList } = breadcrumbs;
+
+    // Validate the props
+    await waitFor(() =>
+      expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
+        Breadcrumbs.DRAFTS,
+      ),
+    );
+  });
+
+  it('on Compose renders as back link only', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: Constants.Breadcrumbs.COMPOSE.path,
+      path: Breadcrumbs.COMPOSE.href,
     });
-    expect(
-      await screen.findByText('Back to inbox', {
-        exact: true,
-      }),
-    );
+
+    const breadcrumb = await screen.findByText('Back', { exact: true });
+    expect(breadcrumb).to.have.attribute('href', '/new-message/');
   });
 
   it('on Drafts Folder renders without errors', async () => {
@@ -80,7 +119,7 @@ describe('Breadcrumbs', () => {
         },
         breadcrumbs: {
           list: [],
-          location: {},
+          crumbsList: [...defaultCrumbs, Breadcrumbs.DRAFTS],
         },
       },
     };
@@ -111,7 +150,7 @@ describe('Breadcrumbs', () => {
         },
         breadcrumbs: {
           list: [],
-          location: {},
+          crumbsList: [...defaultCrumbs, Breadcrumbs.SENT],
         },
       },
     };
@@ -142,7 +181,7 @@ describe('Breadcrumbs', () => {
         },
         breadcrumbs: {
           list: [],
-          location: {},
+          crumbsList: [...defaultCrumbs, Breadcrumbs.TRASH],
         },
       },
     };

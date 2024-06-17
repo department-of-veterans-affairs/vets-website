@@ -9,6 +9,7 @@ import { Alerts } from '../../../util/constants';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -40,15 +41,9 @@ class PatientMessageDraftsPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       this.mockDraftMessages,
     ).as('draftsResponse');
-    cy.get(Locators.FOLDERS.DRAFTS).click();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+
+    FolderLoadPage.loadFolders();
+    cy.get('[data-testid="Drafts"]>a').click({ force: true });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');
   };
@@ -294,7 +289,6 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {

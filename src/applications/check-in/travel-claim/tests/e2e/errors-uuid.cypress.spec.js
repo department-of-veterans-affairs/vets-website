@@ -2,8 +2,8 @@ import '../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import Error from './pages/Error';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A patient that visits a url with a UUID that is not found', () => {
+
+describe('A patient that visits a url with a UUID that is not found', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
