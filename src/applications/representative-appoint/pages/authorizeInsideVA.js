@@ -1,26 +1,27 @@
 import React from 'react';
+import { VaRadioField } from '~/platform/forms-system/src/js/web-component-fields';
 import { authorizationNote } from '../content/authorizeMedical';
 import { saveYourApplication } from '../content/saveYourApplication';
+import { representativeTypeMap } from '../utilities/helpers';
 
 export const uiSchema = {
   'view:saveYourApplication': {
     'ui:description': saveYourApplication,
   },
-  'view:authorizeInsideVA': {
-    'ui:description': formData => {
-      return (
-        <>
-          <h3>Authorization for access through VA’s sytems</h3>
-          <p>
-            This accredited{' '}
-            {formData.repTypeRadio || `Veterans Service Organization (VSO)`} may
-            work with their team to help you file a claim or request a decision
-            review. Some of their team members may need to access your records
-            through VA’s information technology systems.
-          </p>
-        </>
-      );
-    },
+  'ui:description': ({ formData }) => {
+    return (
+      <>
+        <p>We’ll save your application after every change.</p>
+        <h3>Authorization for access through VA’s sytems</h3>
+        <p>
+          This accredited{' '}
+          {representativeTypeMap[formData.repTypeRadio] || `representative`} may
+          work with their team to help you file a claim or request a decision
+          review. Some of their team members may need to access your records
+          through VA’s information technology systems.
+        </p>
+      </>
+    );
   },
   'view:insideVAAuthorizationPolicy': {
     'ui:description': () => {
@@ -47,8 +48,8 @@ export const uiSchema = {
     },
   },
   authorizeInsideVARadio: {
-    'ui:title': `Do you authorize this accredited [attorney, claims agent]'s team to access your records through VA’s information systems?`,
-    'ui:widget': 'radio',
+    'ui:title': `Do you authorize this accredited representative's team to access your records through VA's information technology systems?`,
+    'ui:webComponentField': VaRadioField,
     'ui:options': {
       widgetProps: {
         'Yes inside access': { 'data-info': 'yes_inside_access' },
@@ -73,10 +74,6 @@ export const schema = {
   type: 'object',
   properties: {
     'view:saveYourApplication': {
-      type: 'object',
-      properties: {},
-    },
-    'view:authorizeInsideVA': {
       type: 'object',
       properties: {},
     },
