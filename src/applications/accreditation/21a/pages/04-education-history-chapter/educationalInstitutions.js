@@ -5,11 +5,11 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
-  selectSchema,
-  selectUI,
   textSchema,
   textUI,
   titleUI,
+  yesNoSchema,
+  yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import YourEducationHistoryDescription from '../../components/YourEducationHistoryDescription';
@@ -21,7 +21,12 @@ const options = {
   nounPlural: 'educational institutions',
   required: true,
   isItemIncomplete: item =>
-    !item?.name || !item.dateRange || !item.typeOfDegree || !item.major,
+    !item?.name ||
+    !item.dateRange ||
+    !item.receivedDegree ||
+    (item.receivedDegree && !item.degree) ||
+    (!item.receivedDegree && !item.reasonDidNotReceiveDegree) ||
+    !item.major,
   text: {
     getItemName: item => item.name,
     cardDescription: item =>
@@ -42,17 +47,6 @@ const introPage = {
   },
 };
 
-const degreeOptions = [
-  'Did not receive a degree',
-  'Associate of Arts',
-  'Bachelor of Arts',
-  'Bachelor of Science',
-  'Master of Science',
-  'Master of Arts',
-  'Juris Doctor',
-  'Other',
-];
-
 /** @returns {PageSchema} */
 const educationalInstitutionPage = {
   uiSchema: {
@@ -62,7 +56,23 @@ const educationalInstitutionPage = {
     ),
     name: textUI('Name of institution'),
     dateRange: currentOrPastDateRangeUI('Start date', 'End date'),
-    typeOfDegree: selectUI('Type of degree received'),
+    receivedDegree: yesNoUI('Did you receive a degree?'),
+    degree: {
+      ...textUI('Type of degree received'),
+      'ui:options': {
+        expandUnder: 'receivedDegree',
+        expandUnderCondition: true,
+      },
+      'ui:required': formData => !formData.receivedDegree,
+    },
+    reasonDidNotReceiveDegree: {
+      ...textUI('Reason not received'),
+      'ui:options': {
+        expandUnder: 'receivedDegree',
+        expandUnderCondition: false,
+      },
+      'ui:required': formData => formData.receivedDegree,
+    },
     major: textUI('Major'),
   },
   schema: {
@@ -70,10 +80,12 @@ const educationalInstitutionPage = {
     properties: {
       name: textSchema,
       dateRange: currentOrPastDateRangeSchema,
-      typeOfDegree: selectSchema(degreeOptions),
+      receivedDegree: yesNoSchema,
+      degree: textSchema,
+      reasonDidNotReceiveDegree: textSchema,
       major: textSchema,
     },
-    required: ['name', 'dateRange', 'typeOfDegree', 'major'],
+    required: ['name', 'dateRange', 'receivedDegree', 'major'],
   },
 };
 
