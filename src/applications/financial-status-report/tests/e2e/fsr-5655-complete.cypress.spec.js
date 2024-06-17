@@ -310,23 +310,33 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
           cy.get('@testData').then(testData => {
             const monetaryAssetChecklistLength = testData[
               'view:streamlinedWaiverAssetUpdate'
             ]
               ? 5
               : 8;
-            cy.get('[type=checkbox]')
+            cy.get('va-checkbox')
+              .shadow()
+              .find('input[type=checkbox]')
               .as('checklist')
               .should('have.length', monetaryAssetChecklistLength);
           });
-          cy.get('@checklist')
+
+          // Check specific checkboxes
+          cy.get('va-checkbox')
             .eq(0)
-            .click();
-          cy.get('@checklist')
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+
+          cy.get('va-checkbox')
             .eq(1)
-            .click();
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+
+          // Proceed with form submission
           cy.get('.usa-button-primary').click();
         });
       },
@@ -476,7 +486,10 @@ const testConfig = createTestConfig(
       // ==============================================================
       'household-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#Rent0').check();
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .should('exist');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -642,7 +655,7 @@ const testConfig = createTestConfig(
       },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
+          // Check the length of checkboxes based on the feature flag
           cy.get('@testData').then(testData => {
             const otherExpenseChecklistLength = testData[
               'view:showUpdatedExpensePages'
@@ -650,11 +663,22 @@ const testConfig = createTestConfig(
               ? otherLivingExpensesList.length
               : otherLivingExpensesOptions.length;
 
-            cy.get('[type=checkbox]')
+            cy.get('va-checkbox')
+              .shadow()
+              .find('input[type=checkbox]')
               .as('checklist')
               .should('have.length', otherExpenseChecklistLength);
           });
-          fillChecklist(otherExpenses);
+
+          // Iterate through otherExpenses and check each checkbox
+          otherExpenses.forEach(expense => {
+            cy.get(`va-checkbox[name="${expense.name}"]`)
+              .shadow()
+              .find('input[type="checkbox"]')
+              .check({ force: true });
+          });
+
+          // Click the primary button to proceed
           cy.get('.usa-button-primary').click();
         });
       },
