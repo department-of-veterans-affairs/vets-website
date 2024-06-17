@@ -69,6 +69,7 @@ const formConfig = {
         },
       },
     },
+
     authorization: {
       title: 'Accredited representative authorizations',
       pages: {
@@ -99,7 +100,7 @@ const formConfig = {
         authorizeInsideVA: {
           path: 'authorize-inside-va',
           depends: formData => {
-            return formData.repTypeRadio === 'Attorney/Claims Agent (21-22a)';
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
           },
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
