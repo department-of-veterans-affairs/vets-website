@@ -17,7 +17,10 @@ export function removeDoubleBars(string) {
   return string.replace('| Veterans Affairs', '');
 }
 
-export function isSearchStrInvalid(str) {
-  const formattedStr = str.trim();
-  return !formattedStr.length || formattedStr.length > 255;
-}
+export const isSearchTermValid = term => {
+  if (!term) {
+    return false;
+  }
+
+  return term.trim().length <= 255;
+};
