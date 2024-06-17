@@ -24,9 +24,11 @@ export const addOverlayTriggers = () => {
     document.body.classList.remove('va-pos-fixed');
   };
 
-  Array.from(vclModalTriggers).forEach(trigger => {
-    trigger.addEventListener('click', openModal);
-  });
+  if (vclModalTriggers?.length) {
+    Array.from(vclModalTriggers).forEach(trigger => {
+      trigger.addEventListener('click', openModal);
+    });
+  }
 
   if (vclModalClose) {
     vclModalClose.addEventListener('click', closeModal);

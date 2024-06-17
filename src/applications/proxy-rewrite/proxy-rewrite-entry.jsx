@@ -85,12 +85,7 @@ function renderHeader(megaMenuData, headerContainer = null) {
     }
   }
 
-  console.log('adding event listeners');
   addHeaderEventListeners();
-
-    // Start Veteran Crisis Line modal functionality.
-    addFocusBehaviorToCrisisLineModal();
-    // addOverlayTriggers();
 
   const searchParentElement = isMobile
     ? 'mobile-search-container'
@@ -198,6 +193,11 @@ function removeCurrentHeaderFooter() {
   });
 }
 
+const startVCLModal = () => {
+  addFocusBehaviorToCrisisLineModal();
+  addOverlayTriggers();
+};
+
 function activateInjectedAssets() {
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
@@ -225,12 +225,23 @@ function activateInjectedAssets() {
 
       window.addEventListener(
         'resize',
-        debounce(() => renderHeader(headerFooterData.megaMenuData), 200),
+        debounce(() => {
+          renderHeader(headerFooterData.megaMenuData);
+          startVCLModal();
+        }),
+        200,
       );
+
       window.addEventListener(
         'resize',
-        debounce(() => renderFooter(headerFooterData.footerData), 200),
+        debounce(() => {
+          renderFooter(headerFooterData.footerData);
+          startVCLModal();
+        }),
+        200,
       );
+
+      startVCLModal();
     });
 }
 
