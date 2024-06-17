@@ -45,14 +45,6 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application to become a VA accredited attorney or claims agent.',
   },
-  preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-    },
-  },
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter,
