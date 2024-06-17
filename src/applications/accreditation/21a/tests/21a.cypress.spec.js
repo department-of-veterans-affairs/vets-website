@@ -3,6 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import { selectDropdownWebComponent } from './helpers';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { selectDropdownWebComponent, selectYesNoWebComponent } from './helpers';
@@ -69,6 +70,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+<<<<<<< arf-83873-form-21a-step-2
       'military-service-experiences/0/experience': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -101,6 +103,8 @@ const testConfig = createTestConfig(
           });
         });
       },
+=======
+>>>>>>> main
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
