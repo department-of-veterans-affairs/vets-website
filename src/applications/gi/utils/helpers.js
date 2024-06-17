@@ -464,8 +464,9 @@ export const managePushHistory = (history, url) => {
   }
 };
 export function showSchoolContentBasedOnType(type) {
-  if (type !== 'FLIGHT') {
-    return true;
-  }
-  return false;
+  const validateTypes = {
+    FLIGHT: false,
+    CORRESPONDENCE: false,
+  };
+  return !(type in validateTypes);
 }
