@@ -37,7 +37,7 @@ const IconCTALink = ({
     >
       <span className="vads-u-display--flex">
         <span className="vads-u-margin-x--1 vads-u-margin-top--0p5">
-          <va-icon icon={`${icon}`} size={2} srtext={`${icon}`} />
+          <va-icon icon={icon} size={2} srtext={icon} />
         </span>
 
         <span>
