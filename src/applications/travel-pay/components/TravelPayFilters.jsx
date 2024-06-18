@@ -6,7 +6,7 @@ export default function TravelPayFilters(props) {
   const {
     statusesToFilterBy,
     checkedStatuses,
-    statusFilterChange,
+    onStatusFilterChange,
     applyFilters,
     resetSearch,
   } = props;
@@ -22,7 +22,7 @@ export default function TravelPayFilters(props) {
           <TravelPayStatusFilters
             statusesToFilterBy={statusesToFilterBy}
             checkedStatuses={checkedStatuses}
-            statusFilterChange={statusFilterChange}
+            onStatusFilterChange={onStatusFilterChange}
           />
           <div className="modal-button-wrapper vads-u-margin-top--3">
             <va-button
@@ -48,6 +48,6 @@ TravelPayFilters.propTypes = {
   applyFilters: PropTypes.func,
   checkedStatuses: PropTypes.array,
   resetSearch: PropTypes.func,
-  statusFilterChange: PropTypes.func,
   statusesToFilterBy: PropTypes.array,
+  onStatusFilterChange: PropTypes.func,
 };

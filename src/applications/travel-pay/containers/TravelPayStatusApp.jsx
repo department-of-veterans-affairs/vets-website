@@ -73,7 +73,7 @@ export default function App({ children }) {
     setAppliedStatuses(checkedStatuses);
   };
 
-  const statusFilterChange = (e, statusName) => {
+  const onStatusFilterChange = (e, statusName) => {
     if (e.currentTarget.checked) {
       setCheckedStatuses([...checkedStatuses, statusName]);
     } else {
@@ -204,7 +204,7 @@ export default function App({ children }) {
                     <TravelPayFilters
                       statusesToFilterBy={statusesToFilterBy}
                       checkedStatuses={checkedStatuses}
-                      statusFilterChange={statusFilterChange}
+                      onStatusFilterChange={onStatusFilterChange}
                       applyFilters={applyFilters}
                       resetSearch={resetSearch}
                     />

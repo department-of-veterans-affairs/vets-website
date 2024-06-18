@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function TravelPayStatusFilters(props) {
-  const { statusesToFilterBy, checkedStatuses, statusFilterChange } = props;
+  const { statusesToFilterBy, checkedStatuses, onStatusFilterChange } = props;
 
   return (
     <fieldset>
@@ -16,7 +16,7 @@ export default function TravelPayStatusFilters(props) {
             name={`${status}_checkbox`}
             key={status}
             label={status}
-            onVaChange={e => statusFilterChange(e, status)}
+            onVaChange={e => onStatusFilterChange(e, status)}
           />
         </div>
       ))}
@@ -26,6 +26,6 @@ export default function TravelPayStatusFilters(props) {
 
 TravelPayStatusFilters.propTypes = {
   checkedStatuses: PropTypes.array,
-  statusFilterChange: PropTypes.func,
   statusesToFilterBy: PropTypes.array,
+  onStatusFilterChange: PropTypes.func,
 };
