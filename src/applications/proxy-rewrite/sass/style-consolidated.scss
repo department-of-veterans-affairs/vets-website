@@ -123,6 +123,16 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
+  // hardcoded svg icon path for injected header
+  .va-dropdown-trigger {
+    background: transparent url("/img/arrow-down-white.svg") no-repeat;
+    background-position: right 8px center;
+    background-size: 10px 10px;
+    border-radius: 0;
+    border-top: 3px solid transparent;
+    margin: 0;
+    padding: 9px 25px 8px 8px;
+  }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-additional-info";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mobile-typography";
