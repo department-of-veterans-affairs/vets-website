@@ -90,7 +90,7 @@ export const footerColumnData = {
       href: '/ogc/accreditation.asp',
       order: 3,
       target: null,
-      title: 'Accredited claims representatives',
+      title: 'Get help from an accredited representative or VSO',
     },
     {
       column: 2,
@@ -431,7 +431,7 @@ export const headerFooterData = {
       href: '/ogc/accreditation.asp',
       order: 3,
       target: null,
-      title: 'Accredited claims representatives',
+      title: 'Get help from an accredited representative or VSO',
     },
     {
       column: 2,
