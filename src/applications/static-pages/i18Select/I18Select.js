@@ -20,17 +20,22 @@ const I18Select = ({ baseUrls, languageCode }) => {
           }
           return (
             <span key={i}>
-              <va-link
-                className={`vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
-                  languageConfig.code === languageCode
-                    ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
-                    : ''
-                }`}
-                href={baseUrls[languageConfig.code]}
-                hrefLang={languageConfig.code}
-                lang={languageConfig.code}
-                text={languageConfig.label}
-              />
+              {languageConfig.code === languageCode ? (
+                <p
+                  className="vads-u-display--inline-block vads-u-margin--0 vads-u-font-family--sans vads-u-padding-bottom-0p5 vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
+                  lang={languageConfig.code}
+                >
+                  {languageConfig.label}
+                </p>
+              ) : (
+                <va-link
+                  className="vads-u-font-family--sans vads-u-padding-bottom-0p5"
+                  href={baseUrls[languageConfig.code]}
+                  hrefLang={languageConfig.code}
+                  lang={languageConfig.code}
+                  text={languageConfig.label}
+                />
+              )}
               {i !== Object.keys(baseUrls).length - 1 && (
                 <span
                   className=" vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray
