@@ -109,7 +109,7 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('[name="root_countryCodeIso3"]')
+    cy.get('select[name="root_countryCodeIso3"]')
       .first()
       .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
