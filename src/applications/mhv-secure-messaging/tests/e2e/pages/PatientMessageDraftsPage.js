@@ -276,13 +276,26 @@ class PatientMessageDraftsPage {
     }
   };
 
-  deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
-      data: mockResponse,
-    }).as('deletedDraftResponse');
+  deleteDraft = (mockResponse, reducedMockResponse) => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[0].attributes.messageId
+      }`,
+      mockResponse.data[0],
+    ).as('deletedDraftResponse');
 
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
-    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
+    // intercept get updates messages thread api call
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[2].attributes.messageId
+      }/thread?*`,
+      reducedMockResponse,
+    ).as('updatedThreadResponse');
+
+    // confirm delete draft
+    cy.get('#delete-draft').click({ force: true });
   };
 
   // method below could be deleted after refactoring associated specs
