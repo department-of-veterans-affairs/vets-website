@@ -1,4 +1,96 @@
 {
   "data": {
+    "role": "ATTORNEY",
+    "barStanding": true,
+    "fullName": {
+      "first": "Person",
+      "middle": "Middle",
+      "last": "LastName",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1995-01-09",
+    "placeOfBirthAddress": {
+      "country": "USA",
+      "city": "City",
+      "state": "CA"
+    },
+    "phone": "3453453455",
+    "typeOfPhone": "HOME",
+    "email": "person.name@testmail.com",
+    "homeAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "employmentStatus": "UNEMPLOYED",
+    "describeEmployment": "Employed at a company",
+    "workAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "communicationAddress": "OTHER",
+    "otherAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "militaryServiceExperiences": [
+      {
+        "serviceBranch": "Army",
+        "serviceDateRange": {
+          "from": "2000-01-01",
+          "to": "2004-12-31"
+        },
+        "characterOfDischarge": "Honorable"
+      }
+    ],
+    "employers": [
+      {
+        "name": "Company",
+        "positionTitle": "Manager",
+        "supervisorName": "Supervisor",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "phone": "3453453455",
+        "extension": "1234",
+        "dateRange": {
+          "from": "2000-01-01",
+          "to": "2004-12-31"
+        }
+      }
+    ],
+    "view:hasEmployers": false,
+    "educationalInstitutions": [
+      {
+        "name": "University of California, Berkeley",
+        "dateRange": {
+          "from": "2010-01-01",
+          "to": "2014-12-31"
+        },
+        "degree": "Bachelor of Science",
+        "major": "Computer Science"
+      }
+    ],
+    "view:hasEducationalInstitutions": false
   }
 }
