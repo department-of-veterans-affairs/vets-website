@@ -233,13 +233,13 @@ export const CHAPTER_1 = {
 export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
-    PATH: 'question-1',
+    PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select who your question is about:',
   },
   PAGE_2: {
-    PATH: 'question-2',
+    PATH: 'reason-you-contacted-us',
     TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select the reason you contacted us today:',
@@ -359,7 +359,7 @@ export const CHAPTER_3 = {
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  YOUR_ADDRESS: {
+  YOUR_MAILING_ADDRESS: {
     TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },

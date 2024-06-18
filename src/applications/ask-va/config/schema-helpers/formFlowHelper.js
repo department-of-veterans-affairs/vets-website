@@ -5,11 +5,11 @@ import { CHAPTER_3 } from '../../constants';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
+import aboutYourselfRelationshipFamilyMemberPage from '../chapters/personalInformation/aboutYourselfRelationshipFamilyMember';
 import addressValidationPage from '../chapters/personalInformation/addressValidation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
 import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
 import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
-import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
@@ -23,13 +23,34 @@ import theirRelationshipToVeteranPage from '../chapters/personalInformation/thei
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
-import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
+import yourMailingAddressPage from '../chapters/personalInformation/yourMailingAddress';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
+
+export const flowPaths = {
+  aboutMyselfRelationshipVeteran: 'about-myself-relationship-veteran',
+  aboutMyselfRelationshipFamilyMember:
+    'about-myself-relationship-family-member',
+  aboutSomeoneElseRelationshipVeteran:
+    'about-someone-else-relationship-veteran',
+  aboutSomeoneElseRelationshipFamilyMember:
+    'about-someone-else-relationship-family-member',
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteran:
+    'about-someone-else-relationship-family-member-about-veteran',
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember:
+    'about-someone-else-relationship-family-member-about-family-member',
+  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation:
+    'about-someone-else-relationship-veteran-or-family-member-education',
+  aboutSomeoneElseRelationshipConnectedThroughWork:
+    'about-someone-else-relationship-connected-through-work',
+  aboutSomeoneElseRelationshipConnectedThroughWorkEducation:
+    'about-someone-else-relationship-connected-through-work-education',
+  general: 'general-question',
+};
 
 const ch3Pages = {
   yourRole: {
@@ -85,15 +106,35 @@ const ch3Pages = {
     schema: yourPostalCodePage.schema,
     depends: form => form.contactPreference !== 'US_MAIL',
   },
-  whoThisIsAbout: {
+  isQuestionAboutVeteranOrSomeoneElse: {
     title: CHAPTER_3.WHO_QUES_IS_ABOUT.TITLE,
     uiSchema: whoQuestionAboutPage.uiSchema,
     schema: whoQuestionAboutPage.schema,
+    onNavForward: ({ formData, goPath }) => {
+      if (formData.whoQuestionAbout === 'VETERAN') {
+        goPath(
+          `/${
+            flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran
+          }-1`,
+        );
+      } else {
+        goPath(
+          `/${
+            flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember
+          }-1`,
+        );
+      }
+    },
   },
   aboutYourself: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
+  },
+  aboutYourselfRelationshipFamilyMember: {
+    title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
+    uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
+    schema: aboutYourselfRelationshipFamilyMemberPage.schema,
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -134,21 +175,16 @@ const ch3Pages = {
     uiSchema: yourContactInformationPage.uiSchema,
     schema: yourContactInformationPage.schema,
   },
-  howToContact: {
-    title: CHAPTER_3.CONTACT_PREF.TITLE,
-    uiSchema: howToContactPage.uiSchema,
-    schema: howToContactPage.schema,
-  },
   yourCountry: {
     title: CHAPTER_3.YOUR_COUNTRY.TITLE,
     uiSchema: yourCountryPage.uiSchema,
     schema: yourCountryPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
-  yourAddress: {
-    title: CHAPTER_3.YOUR_ADDRESS.TITLE,
-    uiSchema: yourAddressPage.uiSchema,
-    schema: yourAddressPage.schema,
+  yourMailingAddress: {
+    title: CHAPTER_3.YOUR_MAILING_ADDRESS.TITLE,
+    uiSchema: yourMailingAddressPage.uiSchema,
+    schema: yourMailingAddressPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
   addressValidation: {
@@ -167,7 +203,7 @@ const ch3Pages = {
     uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
     schema: aboutYourRelationshipToFamilyMemberPage.schema,
   },
-  aboutTheirRelationshipToVeteran: {
+  theirRelationshipToVeteran: {
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: theirRelationshipToVeteranPage.uiSchema,
     schema: theirRelationshipToVeteranPage.schema,
@@ -184,16 +220,6 @@ const ch3Pages = {
   },
 };
 
-export const flowPaths = {
-  myOwnBenVet: 'veteran-my-benefits',
-  myOwnBenFam: 'family-my-benefits',
-  someoneElseBenVet: 'veteran-someones-benefits',
-  someoneElseBenFam: 'family-someones-benefits',
-  someoneElseBen3rdParty: 'third-party-someones-benefits',
-  someoneElseBen3rdPartyEducation: 'third-party-someones-benefits-education',
-  general: 'general-question',
-};
-
 export const flowPages = (obj, list, path) => {
   const pages = _.cloneDeep(obj);
   const flowGroup = {};
@@ -204,163 +230,172 @@ export const flowPages = (obj, list, path) => {
 
     if (list.length === index + 1) {
       flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath('/review-then-submit');
+        goPath('/reason-you-contacted-us');
     }
 
     if (index === 0) {
-      flowGroup[key].onNavBack = ({ goPath }) => goPath('/question-3');
+      flowGroup[key].onNavBack = ({ goPath }) =>
+        goPath('/who-is-your-question-about');
     }
   });
   return flowGroup;
 };
 
 // Form flows
-const myOwnBenVet = [
+const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
   'searchVAMedicalCenter',
-  'searchSchools',
-  'schoolStOrResidency',
-  'stateOrFacility',
-  'stateOfSchool',
-  'useThisSchool',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
+  'yourMailingAddress',
   'addressValidation',
+  'yourLocationOfResidence',
   'yourPostalCode',
-  'veteransLocationOfResidence',
 ];
-export const myOwnBenVetPages = flowPages(
+export const aboutMyselfRelationshipVeteranPages = flowPages(
   ch3Pages,
-  myOwnBenVet,
-  flowPaths.myOwnBenVet,
+  aboutMyselfRelationshipVeteran,
+  flowPaths.aboutMyselfRelationshipVeteran,
 );
 
-const myOwnBenFam = [
+const aboutMyselfRelationshipFamilyMember = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransPostalCode',
-  'aboutYourself',
+  'aboutYourselfRelationshipFamilyMember',
   'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
+  'yourMailingAddress',
   'addressValidation',
-];
-export const myOwnBenFamPages = flowPages(
-  ch3Pages,
-  myOwnBenFam,
-  flowPaths.myOwnBenFam,
-);
-
-const someoneElseBenVet = [
-  'aboutYourself',
-  'yourContactInformation',
-  'howToContact',
-  'yourAddress',
-  'addressValidation',
+  'yourLocationOfResidence',
   'yourPostalCode',
-  'aboutYourFamilyMember',
-  'aboutYourRelationshipToFamilyMember',
-  'aboutTheirRelationshipToVeteran',
-  'searchVAMedicalCenter',
 ];
-export const someoneElseBenVetPages = flowPages(
+export const aboutMyselfRelationshipFamilyMemberPages = flowPages(
   ch3Pages,
-  someoneElseBenVet,
-  flowPaths.someoneElseBenVet,
+  aboutMyselfRelationshipFamilyMember,
+  flowPaths.aboutMyselfRelationshipFamilyMember,
 );
 
-const someoneElseBenFam = [
-  'moreAboutYourRelationshipToVeteran',
-  'aboutTheVeteran',
-  'veteranDeceased',
-  'dateOfDeath',
-  'veteransPostalCode',
-  'whoThisIsAbout',
-  'searchVAMedicalCenter',
-  'aboutYourFamilyMember',
+const aboutSomeoneElseRelationshipVeteran = [
   'aboutYourRelationshipToFamilyMember',
-  'yourContactInformation',
-  'searchVAMedicalCenter',
-  'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
-  'addressValidation',
+  'aboutYourFamilyMember',
   'familyMembersLocationOfResidence',
-  'aboutYourFamilyMember',
   'familyMembersPostalCode',
+  'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'aboutYourself',
+  'yourContactInformation',
+  'yourMailingAddress',
+  'addressValidation',
 ];
-export const someoneElseBenFamPages = flowPages(
+export const aboutSomeoneElseRelationshipVeteranPages = flowPages(
   ch3Pages,
-  someoneElseBenFam,
-  flowPaths.someoneElseBenFam,
+  aboutSomeoneElseRelationshipVeteran,
+  flowPaths.aboutSomeoneElseRelationshipVeteran,
 );
-someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward = ({
-  formData,
-  goPath,
-}) => {
-  if (formData.whoQuestionAbout === 'ABOUT_VETERAN') {
-    goPath('/review-then-submit');
-  } else {
-    goPath(`${flowPaths.someoneElseBenFam}-19`);
-  }
-};
 
-const someoneElseBen3rdParty = [
+const aboutSomeoneElseRelationshipFamilyMember = [
+  'isQuestionAboutVeteranOrSomeoneElse',
+  'aboutTheVeteran', // Needed for list, should not render
+];
+export const aboutSomeoneElseRelationshipFamilyMemberPages = flowPages(
+  ch3Pages,
+  aboutSomeoneElseRelationshipFamilyMember,
+  flowPaths.aboutSomeoneElseRelationshipFamilyMember,
+);
+
+const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'veteransLocationOfResidence',
+  'veteransPostalCode',
+  'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'aboutYourselfRelationshipFamilyMember',
+  'yourContactInformation',
+  'yourMailingAddress',
+  'addressValidation',
+];
+export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages = flowPages(
+  ch3Pages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteran,
+  flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran,
+);
+
+const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
+  'theirRelationshipToVeteran',
+  'aboutYourFamilyMember',
+  'familyMembersLocationOfResidence',
+  'familyMembersPostalCode',
+  'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
+  'yourContactInformation',
+  'yourMailingAddress',
+  'addressValidation',
+];
+export const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages = flowPages(
+  ch3Pages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember,
+  flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember,
+);
+
+const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation = [
+  'schoolStOrResidency',
+  'aboutYourself',
+  'yourContactInformation',
+];
+export const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages = flowPages(
+  ch3Pages,
+  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation,
+  flowPaths.aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation,
+);
+
+const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
+  'veteransLocationOfResidence',
   'veteransPostalCode',
   'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'aboutYourself',
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
+  'yourMailingAddress',
   'addressValidation',
-  'yourLocationOfResidence',
 ];
-export const someoneElseBen3rdPartyPages = flowPages(
+export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
   ch3Pages,
-  someoneElseBen3rdParty,
-  flowPaths.someoneElseBen3rdParty,
+  aboutSomeoneElseRelationshipConnectedThroughWork,
+  flowPaths.aboutSomeoneElseRelationshipConnectedThroughWork,
 );
 
-const someoneElseBen3rdPartyEducation = [
-  'yourRoleEducation',
-  'aboutTheVeteran',
-  'veteranDeceased',
-  'dateOfDeath',
-  'veteransPostalCode',
-  'searchVAMedicalCenter',
+const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
+  'yourRole',
+  'searchSchools',
   'aboutYourself',
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
-  'addressValidation',
 ];
-export const someoneElseBen3rdPartyEducationPages = flowPages(
+export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = flowPages(
   ch3Pages,
-  someoneElseBen3rdPartyEducation,
-  flowPaths.someoneElseBen3rdPartyEducation,
+  aboutSomeoneElseRelationshipConnectedThroughWorkEducation,
+  flowPaths.aboutSomeoneElseRelationshipConnectedThroughWorkEducation,
 );
 
 const generalQuestion = [
   'aboutYourself',
   'searchVAMedicalCenter',
+  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
+  'yourMailingAddress',
   'addressValidation',
+  'yourLocationOfResidence',
   'yourPostalCode',
 ];
 export const generalQuestionPages = flowPages(
@@ -368,18 +403,3 @@ export const generalQuestionPages = flowPages(
   generalQuestion,
   flowPaths.general,
 );
-
-generalQuestionPages.addressValidation_generalquestion.onNavForward = ({
-  goPath,
-}) => goPath('/review-then-submit');
-
-generalQuestionPages.yourAddress_generalquestion.onNavForward = ({
-  formData,
-  goPath,
-}) => {
-  if (formData.onBaseOutsideUS) {
-    goPath('/review-then-submit');
-  } else {
-    goPath(`${flowPaths.general}-8`);
-  }
-};

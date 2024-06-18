@@ -160,6 +160,40 @@ export const personalInformationFormSchemas = {
 //   properties: { genderIdentity: { type: 'string', enum: genderOptions } },
 // },
 
+export const aboutYourselfRelationshipFamilyMemberSchema = {
+  first: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  middle: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
+  preferredName: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  socialNum: ssnSchema,
+  branchOfService: selectSchema(branchesOfService),
+  dateOfBirth: dateOfBirthSchema,
+  pronouns: {
+    type: 'object',
+    properties: {
+      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
+      ...{ pronounsNotListedText: { type: 'string' } },
+    },
+    required: [],
+  },
+};
+
 export const personalInformationUiSchemas = {
   first: {
     'ui:title': 'First name',
@@ -221,7 +255,7 @@ export const personalInformationUiSchemas = {
   dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
   pronouns: {
     'ui:title': pronounInfo,
-    'ui:validations': [validateGroup],
+    // 'ui:validations': [validateGroup],
     'ui:options': { showFieldLabel: true },
     ...createUiTitlePropertiesFromOptions(pronounsLabels),
     pronounsNotListedText: {
@@ -363,6 +397,17 @@ export const personalInformationAboutYourselfUiSchemas = {
         formData.questionAbout === 'GENERAL',
     },
   },
+  pronouns: {
+    'ui:title': pronounInfo,
+    'ui:required': () => false,
+    // 'ui:validations': [validateGroup],
+    'ui:options': { showFieldLabel: true },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    },
+  },
 };
 // dob: {
 //   ...currentOrPastDateUI('Date of birth'),
@@ -373,17 +418,7 @@ export const personalInformationAboutYourselfUiSchemas = {
 //       formData.personalRelationship === 'WORK',
 //   },
 // },
-// pronouns: {
-//   'ui:title': pronounInfo,
-//   'ui:required': () => true,
-//   'ui:validations': [validateGroup],
-//   'ui:options': { showFieldLabel: true },
-//   ...createUiTitlePropertiesFromOptions(pronounsLabels),
-//   pronounsNotListedText: {
-//     'ui:title':
-//       'If not listed, please provide your preferred pronouns (255 characters maximum)',
-//   },
-// },
+
 // genderIdentity: {
 //   'ui:title': 'Gender identity',
 //   'ui:description': genderInfo,

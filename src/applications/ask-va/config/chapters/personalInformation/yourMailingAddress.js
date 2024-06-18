@@ -1,13 +1,12 @@
 import React from 'react';
+import CountrySelect from '../../../components/FormFields/CountrySelect';
+import { CHAPTER_3 } from '../../../constants';
 import {
   addressPageSchema,
   addressPageUISchema,
 } from '../../schema-helpers/addressHelper';
-import CountrySelect from '../../../components/FormFields/CountrySelect';
-import ProfileLink from '../../../components/ProfileLink';
-import { CHAPTER_3 } from '../../../constants';
 
-const title = <h3>{CHAPTER_3.YOUR_ADDRESS.TITLE}</h3>;
+const title = <h3>{CHAPTER_3.YOUR_MAILING_ADDRESS.TITLE}</h3>;
 
 const MilitaryBaseInfo = () => (
   <div className="">
@@ -20,10 +19,9 @@ const MilitaryBaseInfo = () => (
   </div>
 );
 
-const yourAddressPage = {
+const yourMailingAddressPage = {
   uiSchema: {
     'ui:title': title,
-    'ui:description': ProfileLink,
     onBaseOutsideUS: {
       'ui:title':
         'I live on a U.S. military base outside of the United States.',
@@ -69,4 +67,4 @@ const yourAddressPage = {
   },
 };
 
-export default yourAddressPage;
+export default yourMailingAddressPage;

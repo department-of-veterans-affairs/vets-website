@@ -1,14 +1,11 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 import {
+  aboutYourselfRelationshipFamilyMemberSchema,
   personalInformationAboutYourselfUiSchemas,
-  personalInformationFormSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const aboutYourselfFormSchema = { ...personalInformationFormSchemas };
-delete aboutYourselfFormSchema.pronouns;
-
-const aboutYourselfPage = {
+const aboutYourselfRelationshipFamilyMemberPage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.ABOUT_YOURSELF.TITLE),
     aboutYourself: personalInformationAboutYourselfUiSchemas,
@@ -19,10 +16,10 @@ const aboutYourselfPage = {
     properties: {
       aboutYourself: {
         type: 'object',
-        properties: aboutYourselfFormSchema,
+        properties: aboutYourselfRelationshipFamilyMemberSchema,
       },
     },
   },
 };
 
-export default aboutYourselfPage;
+export default aboutYourselfRelationshipFamilyMemberPage;
