@@ -22,14 +22,14 @@ const I18Select = ({ baseUrls, languageCode }) => {
             <span key={i}>
               {languageConfig.code === languageCode ? (
                 <p
-                  className="vads-u-display--inline-block vads-u-margin--0 vads-u-font-family--sans vads-u-padding-bottom-0p5 vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
+                  className="vads-u-display--inline-block vads-u-margin--0 vads-u-font-family--sans vads-u-padding-bottom--0p5 vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none"
                   lang={languageConfig.code}
                 >
                   {languageConfig.label}
                 </p>
               ) : (
                 <va-link
-                  className="vads-u-font-family--sans vads-u-padding-bottom-0p5"
+                  className="vads-u-font-family--sans vads-u-padding-bottom--0p5"
                   href={baseUrls[languageConfig.code]}
                   hrefLang={languageConfig.code}
                   lang={languageConfig.code}
