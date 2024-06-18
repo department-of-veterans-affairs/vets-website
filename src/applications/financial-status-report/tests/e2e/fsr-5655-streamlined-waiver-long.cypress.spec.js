@@ -124,9 +124,10 @@ const testConfig = createTestConfig(
       },
       'additional-income-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Social Security"]')
+            .shadow()
+            .find('input')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -162,15 +163,20 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
             .as('checklist')
             .should('have.length', 5);
+
           cy.get('@checklist')
             .eq(0)
-            .click();
+            .check({ force: true });
+
           cy.get('@checklist')
             .eq(1)
-            .click();
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },
@@ -200,9 +206,11 @@ const testConfig = createTestConfig(
       },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Clothing"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Clothing"]')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },
