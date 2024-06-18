@@ -53,10 +53,6 @@ const DocumentTypeDescription = (
       </li>
     </ul>
     <p>
-      If you’ve already completed any of these VA forms, submit the decision
-      letter.
-    </p>
-    <p>
       We can’t accept a marriage certificate, driver’s license, or release of
       information form. Uploading a document that we can’t accept may delay the
       application process.

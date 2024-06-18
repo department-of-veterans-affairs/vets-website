@@ -84,7 +84,7 @@
   "sign-as-rep-document-description": "We can only accept a document that proves you have legal authority to make decisions for the Veteran. Or we\u2019ll accept a document that proves you have authority to fill out or sign applications on behalf of the Veteran.",
   "signature-checkbox-label": "I certify the information above is correct and true to the best of my knowledge and belief.",
   "signature-on-behalf-text": "On behalf of",
-  "upload-doc-label": "Upload supporting document:",
+  "upload-doc-label": "Upload supporting document",
   "vet-address-description": "Any updates the Veteran makes here to their address will only apply to this application.",
   "vet-address-street-label": "%s street address",
   "vet-address-street-hint": "Enter the address where the Veteran lives. This address can\u2019t be a PO Box.",
