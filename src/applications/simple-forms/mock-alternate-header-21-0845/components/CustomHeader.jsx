@@ -55,9 +55,9 @@ const CustomHeader = ({ formData, formConfig, currentLocation }) => {
           </div>
           <div className="rjsf-form-custom-header vads-u-display--flex vads-u-justify-content--space-between small-screen:vads-u-justify-content--flex-start">
             <span>
-              <i
-                aria-hidden="true"
-                className="fas fa-arrow-left va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
+              <va-icon
+                icon="arrow_back"
+                class="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
               />
               <Link
                 to={previousPage}

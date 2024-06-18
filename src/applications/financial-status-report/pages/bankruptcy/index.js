@@ -4,6 +4,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['hasBeenAdjudicatedBankrupt'],
       properties: {
         hasBeenAdjudicatedBankrupt: {
           type: 'boolean',

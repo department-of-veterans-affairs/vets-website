@@ -30,21 +30,6 @@
       }
     }
   }
-
-  .find-forms-alert-message {
-    i {
-      font-family: "Font Awesome 5 Free";
-      font-style: normal;
-      font-weight: 900;
-    }
-
-    i::before {
-      content: "\F05A";
-      display: flex;
-      margin-right: 1rem;
-      font-size: 1.25rem;
-    }
-  }
 }
 
 @media (min-width: $medium-screen) {

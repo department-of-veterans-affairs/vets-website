@@ -7,21 +7,31 @@ import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
-function App({ location, children }) {
-  const subTitle = useSelector(state => state.flow.subTitle);
+function App({ location, children, formData }) {
+  const subTitle = useSelector(() => {
+    switch (formData.repTypeRadio) {
+      case 'Veterans Service Organization (VSO)':
+        return 'VA Form 21-22';
+      case 'Attorney':
+      case 'Claims Agent':
+        return 'VA Form 21-22a';
+      default:
+        return 'VA Forms 21-22 and 21-22a';
+    }
+  });
   const { pathname } = location || {};
-  const [formUseState, setFormUseState] = useState({ ...formConfig });
+  const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
   useEffect(
     () => {
       configService.setFormConfig({ subTitle });
-      setFormUseState(configService.getFormConfig());
+      setUpdatedFormConfig(configService.getFormConfig());
     },
     [subTitle],
   );
 
   const content = (
-    <RoutedSavableApp formConfig={formUseState} currentLocation={location}>
+    <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
@@ -44,9 +54,9 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     flow: state.flow,
+    formData: state.form?.data || {},
   };
 }
-
 export default connect(
   mapStateToProps,
   null,
