@@ -16,10 +16,12 @@ describe('Secure Messaging Delete Draft', () => {
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftsPage.clickDeleteButton();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDraftMessageBannerTextHasFocus();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

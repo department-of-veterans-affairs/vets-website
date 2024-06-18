@@ -7,5 +7,10 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .upload-button-label {
-    margin-top: 8px;
+  margin-top: 8px;
+}
+
+va-accordion-item[data-chapter="fileUpload"] {
+  display: none;
+  visibility: hidden;
 }
