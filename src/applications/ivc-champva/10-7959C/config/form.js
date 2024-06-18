@@ -42,7 +42,9 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import { formSignatureSchema } from '../chapters/formSignature';
+import CustomAttestation from '../components/CustomAttestation';
+
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
@@ -83,14 +85,8 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.certifierRole ? 'certifierName' : 'applicantName',
-    },
+    required: true,
+    CustomComponent: signatureProps => CustomAttestation(signatureProps),
   },
   saveInProgress: {
     messages: {
@@ -449,6 +445,16 @@ const formConfig = {
             },
           },
           schema: blankSchema,
+        },
+      },
+    },
+    formSignature: {
+      title: 'Form signature',
+      pages: {
+        formSignature: {
+          path: 'form-signature',
+          title: 'Form signature',
+          ...formSignatureSchema,
         },
       },
     },
