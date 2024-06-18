@@ -188,11 +188,7 @@ const ProfilePageHeader = ({
               {'   '}
               {_.capitalize(lowerType)} school
             </IconWithInfo>
-            <IconWithInfo
-              icon="award"
-              present={accreditationType}
-              variant="fontawesome"
-            >
+            <IconWithInfo icon="bookmark" present={accreditationType}>
               {'   '}
               <LearnMoreLabel
                 text={<>{_.capitalize(accreditationType)} Accreditation</>}
