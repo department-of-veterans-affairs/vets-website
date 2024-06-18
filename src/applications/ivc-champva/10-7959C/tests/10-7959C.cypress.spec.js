@@ -7,7 +7,6 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
   getAllPages,
   verifyAllDataWasSubmitted,
@@ -77,8 +76,17 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name = data.applicantName;
-            reviewAndSubmitPageFlow(name);
+            cy.get('va-text-input')
+              .shadow()
+              .get('#inputField')
+              .type(data.signature);
+            cy.get(`va-checkbox`)
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.findByText('Submit application', {
+              selector: 'button',
+            }).click();
           });
         });
       },
