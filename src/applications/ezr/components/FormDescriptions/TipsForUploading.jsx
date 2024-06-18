@@ -7,7 +7,7 @@ const TipsForUploading = () => (
     uswds
   >
     <ul>
-      <li>Use a .jpg, .png, .doc, or .rtf file format.</li>
+      <li>Use a .jpg, .png, .doc, or .rtf file format</li>
       <li>Upload one file at a time</li>
       <li>Upload files that add up to no more than 10MB or less</li>
       <li>
