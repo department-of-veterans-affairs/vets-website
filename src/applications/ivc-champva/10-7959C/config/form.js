@@ -229,7 +229,7 @@ const formConfig = {
       },
     },
     healthcareInformation: {
-      title: 'Healthcare information',
+      title: 'Health insurance information',
       pages: {
         hasPrimaryHealthInsurance: {
           path: 'insurance-status',
