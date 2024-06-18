@@ -181,14 +181,26 @@ export const arrayBuilderYesNoUI = (
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
-  const customHint =
-    typeof yesNoOptionsMore?.hint === 'function'
-      ? yesNoOptionsMore?.hint
-      : () => yesNoOptionsMore?.hint;
-  const customMoreHint =
-    typeof yesNoOptions?.hint === 'function'
-      ? yesNoOptions?.hint
-      : () => yesNoOptions?.hint;
+  const hasCustomMoreHint = Object.hasOwnProperty.bind(
+    yesNoOptionsMore,
+    'hint',
+  );
+  const hasCustomHint = Object.hasOwnProperty.bind(yesNoOptions, 'hint');
+
+  let customHint = null;
+  if (hasCustomMoreHint) {
+    customHint =
+      typeof yesNoOptionsMore?.hint === 'function'
+        ? yesNoOptionsMore?.hint
+        : () => yesNoOptionsMore?.hint;
+  }
+  let customMoreHint = null;
+  if (hasCustomHint) {
+    customMoreHint =
+      typeof yesNoOptions?.hint === 'function'
+        ? yesNoOptions?.hint
+        : () => yesNoOptions?.hint;
+  }
 
   return {
     ...yesNoUI({
@@ -203,15 +215,14 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint: yesNoOptionsMore?.hideHint
-                  ? null
-                  : customHint({
+                hint: hasCustomHint
+                  ? customHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
                       maxItems,
-                    }) ||
-                    maxItemsHint({
+                    })
+                  : maxItemsHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
@@ -232,15 +243,14 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint: yesNoOptions?.hideHint
-                  ? null
-                  : customMoreHint({
+                hint: hasCustomMoreHint
+                  ? customMoreHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
                       maxItems,
-                    }) ||
-                    `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
+                    })
+                  : `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
                       {
                         arrayData,
                         nounSingular,

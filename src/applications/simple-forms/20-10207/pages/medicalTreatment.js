@@ -23,7 +23,7 @@ const options = {
     !item?.facilityName || !item.facilityAddress || !item.startDate,
   maxItems: 4,
   text: {
-    getItemName: item => item.facilityName,
+    getItemName: item => item?.facilityName,
     cardDescription: item => `${formatReviewDate(item?.startDate)}`,
   },
 };
@@ -97,7 +97,7 @@ const summaryPage = {
       {
         title:
           'Have you received medical treatment for any medical issues related to this request?',
-        hideHint: true,
+        hint: () => '',
         labels: {
           Y: 'Yes, I have received medical treatment',
           N: 'No, I have not received medical treatment',
@@ -105,6 +105,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have another medical treatment to add?',
+        hint: () => '',
         labels: {
           Y: 'Yes',
           N: 'No',

@@ -207,7 +207,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     arrayPath,
     nounSingular,
     nounPlural,
-    getItemName = DEFAULT_ARRAY_BUILDER_TEXT.getItemName,
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
@@ -215,6 +214,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     reviewPath = 'review-and-submit',
     required: userRequired,
   } = options;
+
+  const getItemName =
+    options.getItemName ||
+    options.text?.getItemName ||
+    DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
 
   const getText = initGetText({
     getItemName,
