@@ -5,7 +5,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
-const defaultHighlightedIndex = 0;
+const defaultHighlightedIndex = -1;
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (searchTerm, value, numResults) => {
   let results = numResults;
@@ -42,7 +42,6 @@ export class ComboBox extends React.Component {
     };
     this.inputRef = React.createRef();
     this.listRef = React.createRef();
-    this.firstOptionRef = React.createRef();
   }
 
   componentDidMount() {
@@ -52,14 +51,6 @@ export class ComboBox extends React.Component {
   // Triggers updates to the list of items on state change
   componentDidUpdate(prevProps, prevState) {
     this.updateFilterOptions(prevState);
-    if (
-      prevState.filteredOptions !== this.state.filteredOptions &&
-      this.state.filteredOptions.length > 0
-    ) {
-      // eslint-disable-next-line no-console
-      console.log(this.firstOptionRef.current);
-      this.firstOptionRef.current.focus();
-    }
   }
 
   componentWillUnmount() {
@@ -84,6 +75,7 @@ export class ComboBox extends React.Component {
   handleSearchChange = e => {
     const { bump } = this.state;
     const newTextValue = e.target.value;
+    // this.filterOptions();
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
@@ -173,7 +165,9 @@ export class ComboBox extends React.Component {
         console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
-        this.setState({ highlightedIndex: defaultHighlightedIndex });
+        this.setState({
+          highlightedIndex: defaultHighlightedIndex,
+        });
         break;
     }
   };
@@ -310,7 +304,6 @@ export class ComboBox extends React.Component {
         label="new-condition-option"
         role="option"
         aria-selected={this.state.highlightedIndex === 0 ? 'true' : 'false'}
-        ref={this.state.highlightedIndex === 0 ? this.firstOptionRef : null}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -320,6 +313,7 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
+
     return (
       <div
         role="combobox"
@@ -372,7 +366,7 @@ export class ComboBox extends React.Component {
               }
               return (
                 <li
-                  key={index}
+                  key={optionIndex}
                   className={classNameStr}
                   onClick={() => {
                     this.selectOption(option);
