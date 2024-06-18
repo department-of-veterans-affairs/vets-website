@@ -14,13 +14,18 @@ import {
 import { genderLabels } from 'platform/static-data/labels';
 import { validateSsnIsUnique } from '../utils/validation';
 import { replaceStrValues } from '../utils/helpers';
-import AddressCountyDescription from '../components/FormDescriptions/AddressCountyDescription';
 import AddressWithAutofill from '../components/FormFields/AddressWithAutofill';
 import CustomReviewField from '../components/FormReview/CustomReviewField';
 import content from '../locales/en/content.json';
 
-export const addressUI = ({ label, hint }) =>
-  merge({}, platformAddressUI({ omit: ['isMilitary'] }), {
+export const addressUI = props => {
+  const {
+    label,
+    hint = null,
+    requireCounty = false,
+    countyDescription = null,
+  } = props;
+  return merge({}, platformAddressUI({ omit: ['isMilitary', 'street3'] }), {
     country: {
       'ui:options': {
         hideOnReview: true,
@@ -45,11 +50,13 @@ export const addressUI = ({ label, hint }) =>
     },
     county: {
       'ui:title': content['vet-address-county-label'],
-      'ui:description': AddressCountyDescription,
+      'ui:description': countyDescription,
       'ui:webComponentField': VaTextInputField,
       'ui:reviewField': CustomReviewField,
+      'ui:required': () => requireCounty,
     },
   });
+};
 
 export const addressWithAutofillUI = () => ({
   'ui:field': AddressWithAutofill,

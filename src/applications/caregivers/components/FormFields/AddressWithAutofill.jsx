@@ -8,7 +8,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
-import AddressCountyDescription from '../FormDescriptions/AddressCountyDescription';
+import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
 import content from '../../locales/en/content.json';
 import { replaceStrValues } from '../../utils/helpers';
 
@@ -218,7 +218,7 @@ const PrimaryAddressWithAutofill = props => {
         onBlur={handleBlur}
         required
       >
-        <AddressCountyDescription />
+        <CaregiverCountyDescription />
       </VaTextInput>
     </fieldset>
   );

@@ -1,6 +1,5 @@
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase, isEmpty, omit } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import omit from 'platform/utilities/data/omit';
 
 // transforms form data to match fullSchema structure for backend submission
 export const submitTransform = (formConfig, form) => {
@@ -38,8 +37,8 @@ export const submitTransform = (formConfig, form) => {
       if (key.includes('HomeSameAsMailingAddress')) {
         if (formData[key]) {
           acc.mailingAddress = omit(
-            ['country'],
             formData[`${dataPrefix}Address`],
+            'country',
           );
         }
         return acc;
@@ -47,7 +46,7 @@ export const submitTransform = (formConfig, form) => {
 
       // omit country from address fields, if applicable
       if (key.endsWith('Address')) {
-        acc[keyWithoutPrefix] = omit(['country'], formData[key]);
+        acc[keyWithoutPrefix] = omit(formData[key], 'country');
         return acc;
       }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import SecondaryCaregiverDescription from './SecondaryCaregiverDescription';
 
-const SecondayCaregiverOneIntro = (
+export const SecondayCaregiverOneIntro = (
   <>
     <p>
       You can use this application to apply for benefits for a Secondary Family
@@ -15,11 +15,9 @@ const SecondayCaregiverOneIntro = (
   </>
 );
 
-const SecondayCaregiverTwoIntro = (
+export const SecondayCaregiverTwoIntro = (
   <>
     <p>You can have up to 2 Secondary Family Caregivers at any one time.</p>
     {SecondaryCaregiverDescription}
   </>
 );
-
-export { SecondayCaregiverOneIntro, SecondayCaregiverTwoIntro };

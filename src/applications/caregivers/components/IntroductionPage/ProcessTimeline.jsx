@@ -44,7 +44,9 @@ const ProcessTimeline = () => (
           And if you’re a representative signing this application on behalf the
           Veteran, you’ll need to submit a document showing you have legal
           authority to make decisions for the Veteran (like a valid power of
-          attorney, legal guardianship order, or other legal document).
+          attorney, legal guardianship order, or other legal document). Or
+          you’ll need to upload a document showing you have authority to fill
+          out and sign applications on behalf of the Veteran.
         </p>
 
         <p className="vads-u-margin-bottom--4">

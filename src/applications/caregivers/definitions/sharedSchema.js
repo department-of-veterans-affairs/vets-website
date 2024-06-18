@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge, omit } from 'lodash';
 import {
   yesNoSchema,
   addressNoMilitarySchema,
@@ -7,7 +7,11 @@ import {
 
 // declare schema for use with non-autofill address definitions
 export const addressSchema = definition =>
-  merge({}, addressNoMilitarySchema({ omit: ['street3'] }), definition);
+  merge(
+    {},
+    addressNoMilitarySchema({ omit: ['street3'] }),
+    omit(definition, ['additionalProperties', 'required']),
+  );
 
 // declare schema for use with autofill address definitions
 export const addressWithAutofillSchema = definition =>
