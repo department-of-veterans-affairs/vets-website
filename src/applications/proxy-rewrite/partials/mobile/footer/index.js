@@ -90,12 +90,12 @@ export const getMobileFooterHtml = footerData => {
           </li>
         </ul>
       </div>
-      <div class="usa-grid usa-grid-full vads-u-padding-bottom--3 vads-u-padding-top--2 vads-u-padding-x--0p5">
+      <div class="usa-grid usa-grid-full vads-u-padding-bottom--4 vads-u-padding-top--2 vads-u-padding-x--0p5">
         <a href="https://www.va.gov" title="Go to VA.gov">
           <img src="https://www.va.gov/img/homepage/va-logo-white.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" width="200" class="vads-u-height--auto">
         </a>
       </div>
-      <div class="usa-grid usa-grid-full va-footer-links-bottom">
+      <div class="usa-grid usa-grid-full vads-u-margin-bottom--2 va-footer-links-bottom">
         <ul>
           ${buildBottomRail(bottomRail)}
         </ul>
