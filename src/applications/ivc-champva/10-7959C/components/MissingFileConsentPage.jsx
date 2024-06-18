@@ -8,7 +8,6 @@ import {
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
-import { nameWording } from '../helpers/utilities';
 
 /**
  * Adds applicant's name to front of all user-friendly file descriptions and
@@ -21,11 +20,10 @@ import { nameWording } from '../helpers/utilities';
  */
 export function prefixFileNames(formData, fileNames) {
   const prefixed = {};
-  const appName = nameWording(formData, true, false, true);
   const pi = 'Primary health insurance';
   const si = 'Secondary health insurance';
   Object.keys(fileNames).forEach(key => {
-    prefixed[key] = `${appName} ${fileNames[key]}`
+    prefixed[key] = `${fileNames[key]}`
       .replace(pi, formData?.applicantPrimaryProvider ?? pi)
       .replace(si, formData?.applicantSecondaryProvider ?? si);
   });

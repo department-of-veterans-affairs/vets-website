@@ -45,6 +45,8 @@
     "applicantSecondaryInsuranceType": "medigap",
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
+    "certifierRole": "other",
+    "signature": "Certifier Jones",
     "consentToMailMissingRequiredFiles": true
   }
 }
