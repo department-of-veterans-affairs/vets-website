@@ -223,7 +223,6 @@
   "the-staff-can-call-you-back-anytime": "The staff can call you back anytime now that you’ve completed check-in.",
   "the-staff-can-call-you-back-anytime-see-staff": "The staff can call you back anytime now that you’ve completed check-in. See a staff member when you arrive in the waiting room.",
   "this-appointment-isnt-eligible-check-in-with-a-staff-member": "This appointment isn’t eligible for online check-in. Check-in with a staff member.",
-  "this-claim-is-for-your-appointment": "This claim is for your",
   "this-helps-us-keep-information-about-your-next-of-kin-up-to-date": "This helps us keep information about your next of kin up to date.",
   "this-link-has-expired": "This link has expired",
   "this-must-be-true-youre-traveling-for-care": "<0>This must be true:</0> You’re traveling for care at a VA health facility or for VA-approved care at a non-VA health facility in your community. <0>And at least one of these must also be true:</0>",
@@ -351,6 +350,6 @@
   "select-the-appointment-you-want": "Select the appointment you want to file for",
   "mileage-reimbursement-rates": "Mileage reimbursement rates",
   "the-payment-amount-depends-on-type" : "The payment amount you receive depends on the type of appointment. We pay round-trip mileage for your scheduled appointments. We may only pay return mileage for unscheduled visits like walk-in appointments or labs.",
-  "mileage-only-reimbursement-for-your": "Mileage-only reimbursement for your",
-  "appointment-on": "{{appointment}} on {{date, dayWithTime}}"
+  "mileage-only-reimbursement-for-your": "Mileage-only reimbursement for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}",
+  "this-claim-is-for-your": "This claim is for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}"
 }

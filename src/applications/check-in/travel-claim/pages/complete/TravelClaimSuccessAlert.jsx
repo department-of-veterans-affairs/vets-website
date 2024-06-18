@@ -22,10 +22,11 @@ const TravelClaimSuccessAlert = () => {
           className="vads-u-margin-top--0"
           data-testid="travel-pay--claim--submitted"
         >
-          {`${t('this-claim-is-for-your-appointment')} ${t('appointment-on', {
-            appointment: appointmentToFile.clinicStopCodeName
-              ? ` ${appointmentToFile.clinicStopCodeName} appointment`
-              : ` ${t('VA-appointment')}`,
+          {`${t('this-claim-is-for-your', {
+            facility: appointmentToFile.facility,
+            provider: appointmentToFile.doctorName
+              ? ` ${'with'} ${appointmentToFile.doctorName}`
+              : '',
             date: {
               date: utcToZonedTime(
                 appointmentToFile.startTime,

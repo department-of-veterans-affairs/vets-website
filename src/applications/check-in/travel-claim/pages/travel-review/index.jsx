@@ -51,21 +51,19 @@ const TravelReview = props => {
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
         <dd className="vads-u-margin-top--0p5">
           <span data-testid="claim-info">
-            {`${t('mileage-only-reimbursement-for-your')} ${t(
-              'appointment-on',
-              {
-                appointment: appointmentToFile.clinicStopCodeName
-                  ? ` ${appointmentToFile.clinicStopCodeName} appointment`
-                  : ` ${t('VA-appointment')}`,
-                date: {
-                  date: utcToZonedTime(
-                    appointmentToFile.startTime,
-                    appointmentToFile.timezone,
-                  ),
-                  timezone: appointmentToFile.timezone,
-                },
+            {`${t('mileage-only-reimbursement-for-your', {
+              facility: appointmentToFile.facility,
+              provider: appointmentToFile.doctorName
+                ? ` ${'with'} ${appointmentToFile.doctorName}`
+                : '',
+              date: {
+                date: utcToZonedTime(
+                  appointmentToFile.startTime,
+                  appointmentToFile.timezone,
+                ),
+                timezone: appointmentToFile.timezone,
               },
-            )}${
+            })}${
               appointmentToFile.clinicFriendlyName
                 ? `, ${appointmentToFile.clinicFriendlyName}`
                 : ''
