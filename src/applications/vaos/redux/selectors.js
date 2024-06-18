@@ -108,3 +108,6 @@ export const selectFeatureCCDirectScheduling = state =>
 
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
+
+export const selectFeatureMhvSecondaryNavigationEnabled = state =>
+  toggleValues(state).mhv_secondary_navigation_enabled;
