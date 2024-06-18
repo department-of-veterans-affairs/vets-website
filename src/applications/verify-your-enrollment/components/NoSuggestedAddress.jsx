@@ -26,8 +26,10 @@ const NoSuggestedAddress = ({
         deliveryPointValidation !== 'CONFIRMED' && (
           <>
             {errorAddressAlert(deliveryPointValidation)}
-            <div className="usa-radio vads-u-margin-top--2p5 12px vads-u-margin-bottom--2">
-              <span className="vads-u-font-weight--bold">You entered:</span>
+            <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2p5">
+              <span className="vads-u-font-weight--bold">
+                Entered Addresses:
+              </span>
               <label
                 className="usa-radio__label vads-u-margin-top--1"
                 htmlFor="entered-address"
