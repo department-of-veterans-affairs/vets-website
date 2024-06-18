@@ -133,10 +133,7 @@ const SipsDevModal = props => {
                 ))}
             </VaSelect>
             <p />
-            <a href={docsPage}>
-              <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}
-              How to use this menu
-            </a>
+            <va-link href={docsPage} text="How to use this menu" />
             <p />
             <div className="row">
               <div className="small-6 columns">
@@ -171,8 +168,7 @@ const SipsDevModal = props => {
         className="va-button-link vads-u-margin-left--2"
         onClick={handlers.openSipsModal}
       >
-        <i aria-hidden="true" className="fas fa-cog" role="img" /> Open
-        save-in-progress menu
+        <va-icon icon="settings" /> Open save-in-progress menu
       </button>
     </>
   );
