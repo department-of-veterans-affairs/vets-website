@@ -48,7 +48,7 @@ describe('directline', () => {
   describe('useDirectLine', () => {
     it('should call local directline when USE_LOCAL_DIRECTLINE is true', () => {
       const createDirectLineFn = sandbox.spy();
-      stubUseLocalDirectline('true');
+      stubUseLocalDirectline(true);
 
       renderHook(() => useDirectLine(createDirectLineFn, token, false));
 
@@ -57,7 +57,7 @@ describe('directline', () => {
     });
     it('should call public directline when USE_LOCAL_DIRECTLINE is false', () => {
       const createDirectLineFn = sandbox.spy();
-      stubUseLocalDirectline('false');
+      stubUseLocalDirectline(false);
 
       renderHook(() => useDirectLine(createDirectLineFn, token, false));
 

@@ -240,7 +240,7 @@ createBurialsV2HowDoIApplyWidget(
   store,
   widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET,
 );
-createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN);
+createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 // Create the My VA Login widget only on the homepage.

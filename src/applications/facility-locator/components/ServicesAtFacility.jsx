@@ -53,11 +53,7 @@ class ServicesAtFacility extends Component {
       },
     } = this.props;
 
-    if (
-      !services.benefits ||
-      services.benefits.length === 0 ||
-      (services.benefits.standard && services.benefits.standard.length === 0)
-    ) {
+    if (!services || !services.benefits || services.benefits.length === 0) {
       return null;
     }
 

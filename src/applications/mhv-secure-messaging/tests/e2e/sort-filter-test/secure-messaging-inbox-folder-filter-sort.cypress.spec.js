@@ -3,7 +3,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 
-describe('Secure Messaging Inbox Folder checks', () => {
+describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   const site = new SecureMessagingSite();
 
   const {
@@ -15,7 +15,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
 
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
   it('Verify filter works correctly', () => {
@@ -36,7 +36,14 @@ describe('Secure Messaging Inbox Folder checks', () => {
   });
 
   it('Check sorting works properly', () => {
-    PatientInboxPage.verifySorting();
+    const sortedResponse = {
+      ...mockMessages,
+      data: [...mockMessages.data].sort(
+        (a, b) =>
+          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
+      ),
+    };
+    PatientInboxPage.verifySorting('Oldest to newest', sortedResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
