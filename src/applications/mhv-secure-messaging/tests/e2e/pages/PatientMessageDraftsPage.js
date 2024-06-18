@@ -276,16 +276,15 @@ class PatientMessageDraftsPage {
     }
   };
 
-  deleteDraft = (mockResponse, reducedMockResponse) => {
+  deleteDraft = (mockResponse, reducedMockResponse, index = 0) => {
     cy.intercept(
       'DELETE',
       `${Paths.INTERCEPT.MESSAGES}/${
-        mockResponse.data[0].attributes.messageId
+        mockResponse.data[index].attributes.messageId
       }`,
-      mockResponse.data[0],
+      mockResponse.data[index],
     ).as('deletedDraftResponse');
 
-    // intercept get updates messages thread api call
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGES}/${
@@ -294,8 +293,7 @@ class PatientMessageDraftsPage {
       reducedMockResponse,
     ).as('updatedThreadResponse');
 
-    // confirm delete draft
-    cy.get('#delete-draft').click({ force: true });
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
   // method below could be deleted after refactoring associated specs
