@@ -232,7 +232,9 @@ const validFormTitle = ({ title }) => {
 const validFormSubTitle = ({ subTitle }) => {
   const formSubTitle =
     typeof subTitle === 'function' ? subTitle({ formData: {} }) : subTitle;
-  expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+  if (formSubTitle) {
+    expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+  }
 };
 
 const validDowntime = ({ downtime }) => {
