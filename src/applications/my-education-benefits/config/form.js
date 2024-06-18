@@ -746,8 +746,8 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[formFields.email]?.downcase() !==
-                    field[formFields.confirmEmail]?.downcase()
+                    field[formFields.email]?.toLowerCase() !==
+                    field[formFields.confirmEmail]?.toLowerCase()
                   ) {
                     errors.confirmEmail.addError(
                       'Sorry, your emails must match',
