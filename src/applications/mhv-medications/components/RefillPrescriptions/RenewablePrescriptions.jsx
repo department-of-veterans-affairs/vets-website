@@ -59,15 +59,16 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       </h2>
       <div className="vads-u-margin-y--3">
         <p className="vads-u-margin-y--0">You may need to renew it.</p>
-        <va-link
+        <Link
           class="vads-u-margin-y--0"
-          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-          text="Learn how to renew prescriptions"
+          to={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
           data-testid="learn-to-renew-prescriptions-link"
           data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
             DD_ACTIONS_PAGE_TYPE.REFILL
           } - Renew Section`}
-        />
+        >
+          Learn how to renew prescriptions
+        </Link>
       </div>
       <div>
         <p className="vads-u-margin-y--0">
