@@ -156,8 +156,9 @@ export function FilterBeforeResults({
     });
   };
 
-  const handleVetTechPreferredProviderChange = e => {
-    const { checked, name } = e.target;
+  const handleVetTechPreferredProviderChange = (e, currentName) => {
+    const { checked } = e.target;
+    const name = currentName || e.target.name;
     if (checked && name === 'vettec') {
       dispatchFilterChange({
         ...filters,
@@ -210,13 +211,14 @@ export function FilterBeforeResults({
     }
   };
 
-  const onChangeCheckbox = e => {
+  const onChangeCheckbox = (e, currentName) => {
+    const name = currentName || e.target.name;
     recordCheckboxEvent(e);
     recordCheckboxHomeEvent(e);
-    updateInstitutionFilters(e.target.name, e.target.checked);
+    updateInstitutionFilters(name, e.target.checked);
   };
 
-  const handleIncludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = (e, currentName) => {
     // The filter consumes these as exclusions
     /* 
       if schools boolean is false, no matter what school type filter
@@ -228,7 +230,8 @@ export function FilterBeforeResults({
       makes it true if any of the school types filters
       are checked.
     */
-    const { name } = e.target;
+    // const { name } = e.target;
+    const name = currentName || e.target.name;
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);

@@ -31,7 +31,7 @@ const VACheckboxGroupGi = ({
   const renderOptions = () => {
     const displayOptions = Array.isArray(options) ? options : [];
     return displayOptions.map((option, index) => {
-      const { checked, optionLabel, name, learnMore } = option;
+      const { checked, optionLabel, name, learnMore, dataTestId } = option;
 
       return (
         <div key={index} className={`${checkBoxStyleCol} ${className}`}>
@@ -39,6 +39,7 @@ const VACheckboxGroupGi = ({
             key={optionLabel}
             data-index={index}
             label={optionLabel}
+            data-testid={dataTestId}
             label-header-level="3"
             checked={checked}
             onFocus={() => onFocus(`${inputId}-${index}`)}
