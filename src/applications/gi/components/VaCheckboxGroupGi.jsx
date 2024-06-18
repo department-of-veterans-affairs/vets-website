@@ -33,8 +33,6 @@ const VACheckboxGroupGi = ({
     return displayOptions.map((option, index) => {
       const { checked, optionLabel, name, learnMore } = option;
 
-      // eslint-disable-next-line no-console
-      console.log(`------------optionLabel=${optionLabel}`);
       return (
         <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <VaCheckbox
