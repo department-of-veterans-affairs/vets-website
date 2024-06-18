@@ -5,7 +5,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { NoFormPage } from '../components/NoFormPage';
+import { NoFormPage } from '../../components/NoFormPage';
 
 const mockStore = configureStore([]);
 
