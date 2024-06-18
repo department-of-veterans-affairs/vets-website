@@ -1,5 +1,15 @@
 /* eslint-disable camelcase */
 const responses = {
+  'GET /v0/backend_statuses/gibs': {
+    data: {
+      id: 'string',
+      type: 'string',
+      attributes: {
+        isAvailable: true,
+        name: 'gibs',
+      },
+    },
+  },
   'GET /v1/post911_gi_bill_status': {
     data: {
       attributes: {
