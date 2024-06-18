@@ -29,7 +29,7 @@ export const buildBottomRail = bottomRailData => {
         `<li><a href=${updateLinkDomain(link.href)}>${link.title}</a></li>`,
     )
     .join()
-    .replaceAll(',', '');
+    .replaceAll('</li>,', '</li>');
 };
 
 /**

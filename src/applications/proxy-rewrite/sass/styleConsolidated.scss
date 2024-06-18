@@ -361,17 +361,6 @@
     }
   }
 
-  .usa-accordion {
-    margin-top: 0;
-    margin-bottom: 0;
-    list-style-type: none;
-    padding-left: 0;
-    color: #1b1b1b;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-
   .usa-media_block-img {
     float: left;
     margin-right: 1rem;
@@ -2676,8 +2665,6 @@
 
   .usa-accordion,
   .usa-accordion-bordered {
-    margin-top: 0;
-    margin-bottom: 0;
     list-style-type: none;
     padding-left: 0;
     color: #1b1b1b;
@@ -2686,6 +2673,7 @@
     width: 100%;
 
     > li {
+      margin-bottom: 6px !important;
       background-color: #162e51;
     }
   }
@@ -2867,7 +2855,7 @@
 
   .va-footer-links-bottom ul li:not(:last-child):after {
     content: "|";
-    padding: 0 1rem;
+    padding: 0 0.625rem;
     color: #fff;
   }
 
