@@ -13,10 +13,10 @@ export const uiSchema = {
           <h3>Authorization to change your address</h3>
           <p>
             This accredited{' '}
-            {formData.repType || `Veterans Service Organization (VSO)`} can help
-            you change the address on your VA records. If the address on your VA
-            records is incorrect or outdated, it may take us longer to contact
-            you and process your benefit claims.
+            {formData.repTypeRadio || `Veterans Service Organization (VSO)`} can
+            help you change the address on your VA records. If the address on
+            your VA records is incorrect or outdated, it may take us longer to
+            contact you and process your benefit claims.
           </p>
         </>
       );
@@ -60,6 +60,9 @@ export const uiSchema = {
       selectedProps: {
         'Yes address change': { 'aria-describedby': 'yes_address_change' },
         'No address change': { 'aria-describedby': 'no_address_change' },
+      },
+      'ui:errorMessages': {
+        required: 'Field is required',
       },
     },
   },
