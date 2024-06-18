@@ -491,6 +491,8 @@ class TrackClaimsPageV2 {
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
+  x;
+
   submitEvidenceWaiver() {
     cy.get('va-checkbox')
       .shadow()

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import {
@@ -20,106 +20,101 @@ import { setUpPage } from '../../utils/page';
 
 import withRouter from '../../utils/withRouter';
 
-class Automated5103Notice extends React.Component {
-  constructor() {
-    super();
-    this.state = { addedEvidence: false, checkboxErrorMessage: undefined };
-  }
+function Automated5103Notice({
+  item,
+  navigate,
+  params,
+  submit5103,
+  submitRequest,
+  useLighthouse5103,
+}) {
+  const [addedEvidence, setAddedEvidence] = useState(false);
+  const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
 
-  componentDidMount() {
+  useEffect(() => {
     setDocumentTitle('Automated 5103 Notice - Document Request Page');
     setUpPage();
-  }
+  }, []);
 
-  goToFilesPage() {
-    this.props.navigate('../files');
-  }
+  const goToFilesPage = () => {
+    navigate('../files');
+  };
 
-  render() {
-    const {
-      params,
-      submit5103,
-      submitRequest,
-      useLighthouse5103,
-      item,
-    } = this.props;
-
-    const submit = () => {
-      if (this.state.addedEvidence) {
-        if (useLighthouse5103) {
-          submit5103(params.id, true);
-        } else {
-          submitRequest(params.id, true);
-        }
-        this.goToFilesPage();
+  const submit = () => {
+    if (addedEvidence) {
+      if (useLighthouse5103) {
+        submit5103(params.id, true);
       } else {
-        this.setState({
-          checkboxErrorMessage: `You must confirm you’re done adding evidence before submitting the evidence waiver`,
-        });
+        submitRequest(params.id, true);
       }
-    };
-    const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-    if (item.displayName !== 'Automated 5103 Notice Response') {
-      return null;
+      goToFilesPage();
+    } else {
+      setCheckboxErrorMessage(
+        `You must confirm you’re done adding evidence before submitting the evidence waiver`,
+      );
     }
-    return (
-      <div id="automated-5103-notice-page">
-        <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Review the list of evidence we need
-        </h1>
-        <p>
-          We sent you a “5103 notice” letter that lists the types of evidence we
-          may need to decide your claim.
-        </p>
-        <Link className="active-va-link" to="/your-claim-letters">
-          Go to claim letters
-          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
-        </Link>
-        <p>
-          You don’t need to do anything on this page. We’ll wait until{' '}
-          <strong>{formattedDueDate}</strong>, to move your claim to the next
-          step.
-        </p>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-          If you have more evidence to submit
-        </h2>
-        <p>
-          <strong>Note:</strong> You can add evidence at any time. But if you
-          add evidence later in the process, your claim will move back to this
-          step. So we encourage you to add all your evidence now.
-        </p>
-        <Link data-testid="upload-evidence-link" to="../files">
-          Upload your evidence here
-        </Link>
-        <p>
-          If you finish adding evidence before that date,{' '}
-          <strong>
-            you can submit the 5103 notice response waiver attached to the
-            letter.
-          </strong>{' '}
-          This might help speed up the claim process.
-        </p>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
-          If you don’t have more evidence to submit
-        </h2>
-        <p>
-          If you’re finished adding evidence, submit the evidence waiver. We’ll
-          move your claim to the next step as soon as possible.
-        </p>
-        <VaCheckbox
-          label="I’m finished adding evidence to support my claim."
-          className="vads-u-margin-y--3"
-          checked={this.state.addedEvidence}
-          error={this.state.checkboxErrorMessage}
-          onVaChange={event => {
-            this.setState({ addedEvidence: event.detail.checked });
-          }}
-        />
-        <VaButton id="submit" text="Submit evidence waiver" onClick={submit} />
-      </div>
-    );
+  };
+  const formattedDueDate = buildDateFormatter()(item.suspenseDate);
+  if (item.displayName !== 'Automated 5103 Notice Response') {
+    return null;
   }
+  return (
+    <div id="automated-5103-notice-page">
+      <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+        Review the list of evidence we need
+      </h1>
+      <p>
+        We sent you a “5103 notice” letter that lists the types of evidence we
+        may need to decide your claim.
+      </p>
+      <Link className="active-va-link" to="/your-claim-letters">
+        Go to claim letters
+        <va-icon icon="chevron_right" size={3} aria-hidden="true" />
+      </Link>
+      <p>
+        You don’t need to do anything on this page. We’ll wait until{' '}
+        <strong>{formattedDueDate}</strong>, to move your claim to the next
+        step.
+      </p>
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+        If you have more evidence to submit
+      </h2>
+      <p>
+        <strong>Note:</strong> You can add evidence at any time. But if you add
+        evidence later in the process, your claim will move back to this step.
+        So we encourage you to add all your evidence now.
+      </p>
+      <Link data-testid="upload-evidence-link" to="../files">
+        Upload your evidence here
+      </Link>
+      <p>
+        If you finish adding evidence before that date,{' '}
+        <strong>
+          you can submit the 5103 notice response waiver attached to the letter.
+        </strong>{' '}
+        This might help speed up the claim process.
+      </p>
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
+        If you don’t have more evidence to submit
+      </h2>
+      <p>
+        If you’re finished adding evidence, submit the evidence waiver. We’ll
+        move your claim to the next step as soon as possible.
+      </p>
+      <VaCheckbox
+        label="I’m finished adding evidence to support my claim."
+        className="vads-u-margin-y--3"
+        checked={addedEvidence}
+        error={checkboxErrorMessage}
+        onVaChange={event => {
+          setAddedEvidence(event.detail.checked);
+        }}
+      />
+      <VaButton id="submit" text="Submit evidence waiver" onClick={submit} />
+    </div>
+  );
 }
+// }
 
 function mapStateToProps(state) {
   return {
