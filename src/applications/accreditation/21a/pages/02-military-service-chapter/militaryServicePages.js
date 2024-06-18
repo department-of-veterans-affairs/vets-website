@@ -13,7 +13,7 @@ import {
 import MilitaryServiceExperienceNote from '../../components/MilitaryServiceExperienceNote';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
@@ -96,7 +96,7 @@ const militaryServiceExperiencePage = {
 const summaryPage = {
   uiSchema: {
     'view:isAVeteran': arrayBuilderYesNoUI(
-      options,
+      arrayBuilderOptions,
       {
         title: 'Have you ever served in the military?',
         labelHeaderLevel: 'p',
@@ -117,7 +117,7 @@ const summaryPage = {
 };
 
 const militaryServiceExperiencesPages = arrayBuilderPages(
-  options,
+  arrayBuilderOptions,
   pageBuilder => ({
     militaryServicesExperiences: pageBuilder.introPage({
       title: 'Military service experiences',

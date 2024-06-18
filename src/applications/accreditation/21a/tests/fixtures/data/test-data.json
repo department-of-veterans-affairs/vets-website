@@ -79,6 +79,18 @@
         }
       }
     ],
-    "view:hasEmployers": false
+    "view:hasEmployers": false,
+    "educationalInstitutions": [
+      {
+        "name": "University of California, Berkeley",
+        "dateRange": {
+          "from": "2010-01-01",
+          "to": "2014-12-31"
+        },
+        "degree": "Bachelor of Science",
+        "major": "Computer Science"
+      }
+    ],
+    "view:hasEducationalInstitutions": false
   }
 }
