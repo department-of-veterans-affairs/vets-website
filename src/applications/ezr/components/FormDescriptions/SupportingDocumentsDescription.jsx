@@ -4,35 +4,36 @@ import TipsForUploading from './TipsForUploading';
 const ToxicExposureDescription = (
   <>
     <p>
-      Upload any supporting documents related to any toxic exposures or hazards
-      that you’ve been exposed to.
+      We recommend uploading supporting documents related to any toxins or other
+      hazards you may have been exposed to.
     </p>
     <p>
-      We recommend you uploading supporting documents with information like:
+      It’s your choice whether you want to upload any supporting documents. But
+      they may help us confirm certain details about your service history and
+      process your form faster.
     </p>
+    <h4>Documents you can upload</h4>
+    <p>
+      Upload a document with information about what you may have been exposed
+      to, the type of activity you were engaged in when you were exposed (like
+      basic training), and where and when you may have been exposed (including
+      the month and year).
+    </p>
+    <p>You can upload copies of any of these types of documents:</p>
     <ul>
+      <li>Your DD214, DD215, or other separation documents</li>
+      <li>Any other service records</li>
+      <li>Military orders or unit histories</li>
       <li>
-        What you were exposed to, where you were exposed, and when (month and
-        year)
+        A written statement (like a personal statement or a buddy statement)
       </li>
       <li>
-        Type of activity you were in engaged in during exposure, such as basic
-        training
+        Photos, journal entries, or news articles related to any toxins or other
+        hazards you may have been exposed to
       </li>
-      <li>
-        Written statements, such as a personal statement or a buddy statement
-      </li>
-      <li>Unit histories</li>
-      <li>News articles</li>
-      <li>Additional evidence, like photos, a personal journal, diary</li>
-      <li>Any discharge papers, such as DD214 or DD215</li>
-      <li>Military orders</li>
-      <li>Service records</li>
     </ul>
-    <p>
-      Uploading these documents may help speed up your form processing time.
-    </p>
     <TipsForUploading />
+    <p>Upload supporting document</p>
   </>
 );
 

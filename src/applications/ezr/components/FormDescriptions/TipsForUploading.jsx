@@ -2,16 +2,16 @@ import React from 'react';
 
 const TipsForUploading = () => (
   <va-additional-info
-    trigger="Tips for uploading"
+    trigger="How to upload files"
     class="vads-u-margin-bottom--3"
     uswds
   >
     <ul>
-      <li>Accepted file types: .jpg, .png, .pdf, .doc, .rtf</li>
+      <li>Use a .jpg, .png, .doc, or .rtf file format.</li>
       <li>Upload one file at a time</li>
-      <li>Upload files that add up to no more than 10 MB total</li>
+      <li>Upload files that add up to no more than 10MB or less</li>
       <li>
-        Scan or take a photo of a document if you don’t have a digital copy
+        If you only have a paper copy, scan or take a photo and upload the image
       </li>
     </ul>
   </va-additional-info>
