@@ -1,4 +1,5 @@
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
+import environment from 'platform/utilities/environment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { DEBT_TYPES } from '../constants';
 import {
@@ -49,6 +50,7 @@ export const buildEventData = ({
 const submitForm = (form, formConfig) => {
   // Destructure the formConfig object to get the URL and tracking prefix
   const { submitUrl, trackingPrefix } = formConfig;
+  const { serverSideTransform = false } = form.data?.flippers;
 
   // Transform the form data for submission
   const body = formConfig.transformForSubmit
@@ -65,8 +67,13 @@ const submitForm = (form, formConfig) => {
     isStreamlinedLong,
   });
 
+  // adjusting the submitUrl based on feature flag
+  const newSubmitUrl = serverSideTransform
+    ? `${environment.API_URL}/debts_api/v0/financial_status_reports/new`
+    : submitUrl;
+
   // Submit the form data to the specified URL, with the tracking prefix and eventData
-  return submitToUrl(body, submitUrl, trackingPrefix, eventData);
+  return submitToUrl(body, newSubmitUrl, trackingPrefix, eventData);
 };
 
 export default submitForm;
