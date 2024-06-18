@@ -3,9 +3,9 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import { selectDropdownWebComponent } from './helpers';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import { selectDropdownWebComponent, selectYesNoWebComponent } from './helpers';
 
 const testConfig = createTestConfig(
   {
@@ -64,6 +64,50 @@ const testConfig = createTestConfig(
             selectDropdownWebComponent(
               'otherAddress_state',
               data.otherAddress.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'military-service-experiences/0/experience': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'serviceBranch',
+              data.militaryServiceExperiences[0].serviceBranch,
+            );
+            selectDropdownWebComponent(
+              'characterOfDischarge',
+              data.militaryServiceExperiences[0].characterOfDischarge,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'military-service-experiences-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-legend').then($el => {
+            const text = $el.text();
+            if (text.includes('Have you ever served in the military?')) {
+              selectYesNoWebComponent('view:isAVeteran', true);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            } else if (
+              text.includes('Do you have another military service experience?')
+            ) {
+              selectYesNoWebComponent('view:isAVeteran', false);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            }
+          });
+        });
+      },
+      'employers/0/address-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.employers[0].address.state,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
