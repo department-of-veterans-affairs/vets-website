@@ -4,7 +4,10 @@ import {
   MILITARY_CITY_CODES,
   MILITARY_STATE_CODES,
   VALIDATION_LIMITS,
+  DEBT_TYPES,
 } from '../constants';
+import { deductionCodes } from '../constants/deduction-codes';
+import { currency } from './helpers';
 
 export const pathWithIndex = (path, index) => path.replace(':index', index);
 
@@ -106,7 +109,17 @@ export const validateResolutionOption = (errors, fieldData) => {
       fieldData.resolutionOption !== 'compromise' &&
       fieldData.resolutionOption !== 'monthly')
   ) {
-    errors.addError('Please select a resolution option');
+    errors.addError(
+      `Please select a resolution option for the selected ${
+        fieldData.debtType === DEBT_TYPES.DEBT
+          ? `${currency(fieldData.currentAr)} debt for ${
+              deductionCodes[fieldData.deductionCode]
+            }` || fieldData.benefitType
+          : `${currency(fieldData.pHAmtDue)} copay debt  ${
+              fieldData.station ? `for ${fieldData.station.facilityName}` : ''
+            }`
+      }`,
+    );
   }
 };
 
@@ -117,12 +130,11 @@ export const validateResolutionAmount = (errors, fieldData) => {
   // not required for waiver
   if (resolutionOption === 'waiver') return;
 
-  if (!resolutionComment) {
-    errors.addError('Please enter a valid dollar amount.');
-  }
-
-  if (!isValidCurrency(resolutionComment)) {
-    errors.addError('Please enter a valid dollar amount.');
+  if (!resolutionComment || !isValidCurrency(resolutionComment)) {
+    errors.addError(
+      'Please enter a valid dollar amount for the resolution amount',
+    );
+    return;
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
