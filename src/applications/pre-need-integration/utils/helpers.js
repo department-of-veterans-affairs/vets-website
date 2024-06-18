@@ -1084,6 +1084,12 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
         );
       }
     }
+    // dob validation
+    if (
+      serviceRecord.dateRange.from < formData.application.claimant.dateOfBirth
+    ) {
+      errors[index].dateRange.from.addError('Error Message');
+    }
   }
 };
 
