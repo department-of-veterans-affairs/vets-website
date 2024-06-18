@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isSearchTermValid } from '../../utils';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
 const Keycodes = {
   Backspace: 8,

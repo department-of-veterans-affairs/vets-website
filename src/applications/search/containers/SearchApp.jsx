@@ -19,11 +19,11 @@ import DowntimeNotification, {
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 import {
   formatResponseString,
   truncateResponseString,
   removeDoubleBars,
-  isSearchTermValid,
 } from '../utils';
 import { fetchSearchResults } from '../actions';
 
