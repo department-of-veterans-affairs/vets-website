@@ -58,7 +58,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         If you can’t find the prescription you’re looking for
       </h2>
       <div className="vads-u-margin-y--3">
-        <p className="vads-u-margin-y--0">
+        <p
+          className="vads-u-margin-y--0"
+          data-testid="renew-section-description"
+        >
           You may have already requested a refill for that prescription. To
           review your recent refill requests, go to your medications list and
           find medications with a status of <strong>Active: Submitted</strong>{' '}
