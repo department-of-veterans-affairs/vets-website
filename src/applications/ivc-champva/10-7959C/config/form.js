@@ -451,7 +451,7 @@ const formConfig = {
     formSignature: {
       title: 'Form signature',
       pages: {
-        supportingFilesReview: {
+        formSignature: {
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,

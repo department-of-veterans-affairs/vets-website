@@ -15,7 +15,7 @@ export const formSignatureSchema = {
         labels: {
           applicant: 'The beneficiary',
           spouse: 'The spouse of the beneficiary',
-          parentOrGuardian: 'The parent or legal guardian of the beneficiary',
+          parentOrGuardian: 'The parent of the beneficiary',
           other:
             'A representative with legal authority to make decisions for the beneficiary who is not also the parent, legal guardian or spouse',
         },
