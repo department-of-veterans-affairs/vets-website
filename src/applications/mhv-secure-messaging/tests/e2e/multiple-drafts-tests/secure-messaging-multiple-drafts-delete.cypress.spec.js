@@ -27,7 +27,10 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     reducedMultiDraftResponse.data.splice(0, 1);
 
     draftPage.clickDeleteButton();
-    draftPage.deleteDraft(updatedMultiDraftResponse, reducedMultiDraftResponse);
+    draftPage.deleteMultipleDraft(
+      updatedMultiDraftResponse,
+      reducedMultiDraftResponse,
+    );
     draftPage.verifyDeleteConfirmationMessage();
 
     cy.injectAxe();
@@ -43,7 +46,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     cy.get('[text="Edit draft 1"]').click();
 
     draftPage.clickDeleteButton();
-    draftPage.deleteDraft(
+    draftPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
       1,
@@ -64,11 +67,14 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     noDraftsResponse.data.splice(0, 2);
 
     draftPage.clickDeleteButton();
-    draftPage.deleteDraft(updatedMultiDraftResponse, reducedMultiDraftResponse);
+    draftPage.deleteMultipleDraft(
+      updatedMultiDraftResponse,
+      reducedMultiDraftResponse,
+    );
     draftPage.verifyDeleteConfirmationMessage();
 
     draftPage.clickDeleteButton();
-    draftPage.deleteDraft(reducedMultiDraftResponse, noDraftsResponse);
+    draftPage.deleteMultipleDraft(reducedMultiDraftResponse, noDraftsResponse);
     draftPage.verifyDeleteConfirmationMessage();
 
     cy.get(Locators.BUTTONS.DELETE_DRAFT).should('not.exist');
