@@ -58,7 +58,24 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         If you can’t find the prescription you’re looking for
       </h2>
       <div className="vads-u-margin-y--3">
-        <p className="vads-u-margin-y--0">You may need to renew it.</p>
+        <p className="vads-u-margin-y--0">
+          You may have already requested a refill for that prescription. To
+          review your recent refill requests, go to your medications list and
+          find medications with a status of <strong>Active: Submitted</strong>{' '}
+          or <strong>Active: Refill in process.</strong>
+        </p>
+      </div>
+      <div className="vads-u-margin-y--0">
+        <Link
+          data-testid="medications-page-link"
+          to="/"
+          data-dd-action-name={`Go To Your Medications List Action Link - ${
+            DD_ACTIONS_PAGE_TYPE.REFILL
+          } - Renew Section`}
+        >
+          Go to your medications list
+        </Link>
+        <p>Or you may need to renew your prescription to get more refills.</p>
         <va-link
           class="vads-u-margin-y--0"
           href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
@@ -69,23 +86,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           } - Renew Section`}
         />
       </div>
-      <div>
-        <p className="vads-u-margin-y--0">
-          <strong>Note:</strong> If your prescription isn’t listed here, find it
-          in your medications list.{' '}
-        </p>
-        <p className="vads-u-margin-y--0">
-          <Link
-            data-testid="medications-page-link"
-            to="/"
-            data-dd-action-name={`Go To Your Medications List Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            } - Renew Section`}
-          >
-            Go to your medications list
-          </Link>
-        </p>
-      </div>
+
       {renewablePrescriptionsList.length > 0 && (
         <>
           <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
