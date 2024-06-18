@@ -203,6 +203,7 @@ class ClaimStatusPage extends React.Component {
 
     const {
       claimPhaseDates,
+      claimTypeCode,
       closeDate,
       decisionLetterSent,
       documentsNeeded,
@@ -225,6 +226,7 @@ class ClaimStatusPage extends React.Component {
                 <WhatYouNeedToDo claim={claim} useLighthouse />
                 <WhatWeAreDoing
                   claimPhaseType={claimPhaseType}
+                  claimTypeCode={claimTypeCode}
                   phaseChangeDate={claimPhaseDates.phaseChangeDate}
                   status={status}
                 />
