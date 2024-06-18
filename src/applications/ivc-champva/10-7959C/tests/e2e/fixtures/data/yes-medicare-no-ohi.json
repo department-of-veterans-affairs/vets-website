@@ -18,7 +18,7 @@
       "suffix": "II"
     },
     "applicantDOB": "1950-08-02",
-    "statementOfTruthSignature": "Applicant Jones",
-    "statementOfTruthCertified": true
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
   }
 }
