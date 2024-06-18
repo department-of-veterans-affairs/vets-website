@@ -98,6 +98,7 @@ const summaryPage = {
       {
         title:
           'Has the Veteran received medical treatment for any medical issues related to this request?',
+        hideHint: true,
         labels: {
           Y: 'Yes, the Veteran has received medical treatment',
           N: 'No, the Veteran has not received medical treatment',

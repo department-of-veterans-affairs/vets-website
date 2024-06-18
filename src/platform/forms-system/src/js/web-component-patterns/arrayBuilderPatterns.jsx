@@ -114,6 +114,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  * @typedef {{
  *   title?: UISchemaOptions['ui:title'],
  *   labels?: {Y?: string, N?: string},
+ *   hideHint?: boolean,
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
@@ -202,19 +203,20 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint:
-                  customHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }) ||
-                  maxItemsHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }),
+                hint: yesNoOptionsMore?.hideHint
+                  ? null
+                  : customHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    }) ||
+                    maxItemsHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    }),
                 labels: {
                   Y: yesNoOptionsMore?.labels?.Y || 'Yes',
                   N: yesNoOptionsMore?.labels?.N || 'No',
@@ -230,21 +232,22 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint:
-                  customMoreHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }) ||
-                  `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
-                    {
+                hint: yesNoOptions?.hideHint
+                  ? null
+                  : customMoreHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
                       maxItems,
-                    },
-                  )}`,
+                    }) ||
+                    `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
+                      {
+                        arrayData,
+                        nounSingular,
+                        nounPlural,
+                        maxItems,
+                      },
+                    )}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',

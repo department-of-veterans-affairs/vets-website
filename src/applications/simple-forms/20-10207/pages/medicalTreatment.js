@@ -97,6 +97,7 @@ const summaryPage = {
       {
         title:
           'Have you received medical treatment for any medical issues related to this request?',
+        hideHint: true,
         labels: {
           Y: 'Yes, I have received medical treatment',
           N: 'No, I have not received medical treatment',
