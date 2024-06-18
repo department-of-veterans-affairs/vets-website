@@ -334,13 +334,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-describe('fullNamePath', () => {
-  it('should be "applicantName"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
-    expect(v).to.equal('applicantName');
-  });
-});
-
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
     const ffw = FileFieldWrapped({});
