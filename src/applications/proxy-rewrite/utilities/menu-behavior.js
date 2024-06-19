@@ -148,33 +148,40 @@ export const addHeaderEventListeners = () => {
   });
 
   // [MOBILE] Menu button ----------------------------------------------
-  const mobileMenuButtons = [
-    document.getElementById('mobile-menu-button'),
-    document.getElementById('mobile-close-button'),
-  ];
-  const parent = document.getElementById('header-menu-button');
+  const mobileMenuButton = document.getElementById('header-menu-button');
+  const mobileMenuText = document.querySelector('#header-menu-button > span');
+  const mobileMegaMenu = document.getElementById('mobile-mega-menu');
+  const menuIcon = document.querySelector('#mobile-header-menu-icon');
+  const closeIcon = document.querySelector('#mobile-header-close-icon');
+  const overlay = document.querySelector('.header-menu-button-overlay');
 
-  if (mobileMenuButtons && parent) {
-    mobileMenuButtons.forEach(button =>
-      button.addEventListener('click', () => {
-        const menuExpanded = parent.getAttribute('aria-expanded');
-        const mobileMegaMenu = document.getElementById('mobile-mega-menu');
-        const menuText = document.getElementById('mobile-menu-button');
-        const closeText = document.getElementById('mobile-close-button');
-        const overlay = document.querySelector('.header-menu-button-overlay');
+  if (mobileMenuButton && mobileMegaMenu) {
+    const openCloseMenu = () => {
+      const menuExpanded = mobileMenuButton.getAttribute('aria-expanded');
 
-        if (mobileMegaMenu) {
-          mobileMegaMenu.toggleAttribute('hidden');
-          parent.setAttribute(
-            'aria-expanded',
-            menuExpanded === 'true' ? 'false' : 'true',
-          );
+      mobileMegaMenu.toggleAttribute('hidden');
+      mobileMenuButton.setAttribute(
+        'aria-expanded',
+        menuExpanded === 'true' ? 'false' : 'true',
+      );
 
-          menuText.toggleAttribute('hidden');
-          closeText.toggleAttribute('hidden');
-          overlay.toggleAttribute('hidden');
-        }
-      }),
-    );
+      menuIcon.toggleAttribute('hidden');
+      closeIcon.toggleAttribute('hidden');
+
+      if (menuExpanded === 'false') {
+        mobileMenuText.innerHTML = 'Close';
+      } else {
+        mobileMenuText.innerHTML = 'Menu';
+      }
+      overlay.toggleAttribute('hidden');
+    };
+
+    mobileMenuButton.addEventListener('click', openCloseMenu);
+    mobileMenuButton.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        openCloseMenu();
+      }
+    });
   }
 };
