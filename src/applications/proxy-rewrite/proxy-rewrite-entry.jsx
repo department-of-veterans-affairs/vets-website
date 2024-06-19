@@ -282,7 +282,7 @@ const scriptPaths = [
   '/generated/proxy-rewrite.entry.js',
 ];
 
-const linkPaths = ['/generated/styleConsolidated.css'];
+const linkPaths = ['/generated/style-consolidated.css'];
 
 function removeInjectedHeaderFooter(docHead = document.head) {
   Array.from(

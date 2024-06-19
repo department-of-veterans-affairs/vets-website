@@ -5,7 +5,7 @@
   ],
   "ignoreFiles": [
     ".git/**",
-    "src/applications/proxy-rewrite/sass/styleConsolidated.scss",
+    "src/applications/proxy-rewrite/sass/style-consolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
     "mochawesome-report/**/*.css"
   ],

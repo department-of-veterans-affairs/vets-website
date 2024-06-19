@@ -146,7 +146,7 @@ if [ -n "$ASSET_DEST" ] ; then
         --include '*.xml' \
         --include '*.ttf' \
         --include '*.svg' \
-        --exclude generated/styleConsolidated.css \
+        --exclude generated/style-consolidated.css \
         --exclude generated/polyfills.entry.js \
         --exclude generated/vendor.entry.js \
         --exclude generated/proxy-rewrite.entry.js \
@@ -161,7 +161,7 @@ if [ -n "$ASSET_DEST" ] ; then
         --content-encoding gzip \
         --cache-control "public, no-cache" \
         --exclude '*' \
-        --include generated/styleConsolidated.css \
+        --include generated/style-consolidated.css \
         --include generated/polyfills.entry.js \
         --include generated/vendor.entry.js \
         --include generated/proxy-rewrite.entry.js \

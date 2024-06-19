@@ -55,7 +55,7 @@ const globalEntryFiles = {
     'src/platform/site-wide/sass/va-medallia-style.scss',
   ),
   styleConsolidated: getAbsolutePath(
-    'src/applications/proxy-rewrite/sass/styleConsolidated.scss',
+    'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
