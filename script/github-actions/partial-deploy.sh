@@ -111,7 +111,7 @@ rsync -a \
     --exclude 'generated/polyfills*' \
     --exclude 'generated/shared-modules.*' \
     --exclude 'generated/style.*' \
-    --exclude 'generated/style-consolidated.*' \
+    --exclude 'generated/styleConsolidated.*' \
     --exclude 'generated/va-medallia-styles.*' \
     --exclude 'generated/vendor*' \
     --exclude 'generated/web-components.*' \
