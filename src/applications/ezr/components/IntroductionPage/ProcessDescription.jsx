@@ -56,7 +56,7 @@ const ProcessDescription = () => (
       <li>
         <strong>Military service history information.</strong> This includes
         details about exposure to any toxins or other hazards. And you can also
-        submit supporting documents with more information about this exposure.
+        submit supporting documents with more information about this exposure.{' '}
         <a
           href="https://www.va.gov/health-care/update-health-information/#what-supporting-documents-can-"
           target="_blank"
