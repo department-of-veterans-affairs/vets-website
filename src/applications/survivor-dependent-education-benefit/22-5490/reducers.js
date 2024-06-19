@@ -36,19 +36,6 @@ export default {
           personalInfoFetchInProgress: false,
           fetchedSponsorsComplete: true,
           formData: action?.response || {},
-          sponsors: {
-            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
-              sponsor => {
-                return {
-                  ...sponsor,
-                  id: `${sponsor?.sponsorVaId}`,
-                  name: [sponsor.firstName, sponsor.lastName].join(' '),
-                  relationship: sponsor.sponsorRelationship,
-                };
-              },
-            ),
-            someoneNotListed: false,
-          },
         };
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
@@ -58,19 +45,6 @@ export default {
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
           fetchedSponsorsComplete: true,
-          sponsors: {
-            sponsors: action?.response?.data?.attributes?.toeSponsors?.transferOfEntitlements?.map(
-              sponsor => {
-                return {
-                  ...sponsor,
-                  id: `${sponsor?.sponsorVaId}`,
-                  name: [sponsor.firstName, sponsor.lastName].join(' '),
-                  relationship: sponsor.sponsorRelationship,
-                };
-              },
-            ),
-            someoneNotListed: false,
-          },
         };
       default:
         return state;

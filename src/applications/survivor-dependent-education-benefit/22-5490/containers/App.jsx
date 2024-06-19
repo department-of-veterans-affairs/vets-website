@@ -6,7 +6,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
 
-import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
+import { fetchPersonalInformation } from '../actions';
 
 function App({
   location,
@@ -47,6 +47,11 @@ function App({
       setFormData,
     ],
   );
+
+  // useEffect(() =>{
+  //   console.log(formData, 'formData in useEffect')
+  // })
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
@@ -63,7 +68,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
 };

@@ -34,6 +34,8 @@ import directDeposit from '../pages/directDeposit';
 // import serviceHistory from '../pages/serviceHistory';
 // import { uiSchema } from '../../../edu-benefits/1990s/pages/directDeposit';
 
+import { prefillTransformer } from '../helpers';
+
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 const formConfig = {
@@ -55,6 +57,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound:
       'Please start over to apply for DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS .',
