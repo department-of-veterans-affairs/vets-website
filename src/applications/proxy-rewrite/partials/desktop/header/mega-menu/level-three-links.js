@@ -44,9 +44,9 @@ export const buildImageColumn = (
   marketingClass = '',
 ) => {
   if (!column) {
-    return ``;
+    return `<div class="vads-u-display--block vetnav-panel vetnav-panel--submenu column-three"></div>`;
   }
-  
+
   const imageSource = updateLinkDomain(column.img.src);
 
   return `
