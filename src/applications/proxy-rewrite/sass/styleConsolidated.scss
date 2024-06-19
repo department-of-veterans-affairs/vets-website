@@ -945,10 +945,9 @@
 
     .panel-bottom-link {
       position: absolute;
-      margin: 0 10px 3px;
-      height: 60px;
-      width: 657px;
+      margin: 0 10px 3px 0;
       left: 28rem;
+      width: 468px;
       border-bottom: 1px solid #d0d0d0;
       z-index: 3;
       top: 0;
@@ -956,7 +955,7 @@
       a {
         font-weight: bold;
         background-size: 13px;
-        padding: 20px 25px 20px;
+        padding: 20px 0 16px;
         display: inline-block;
 
         svg {
@@ -2108,10 +2107,6 @@
 
   #login-root p {
     margin: 0;
-  }
-
-  #login-root [href^="tel"] {
-    text-decoration: none;
   }
 
   #login-root ul {
