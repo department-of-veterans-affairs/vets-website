@@ -30,8 +30,6 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
-
-    cy.get('.is-active').click();
     messageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
