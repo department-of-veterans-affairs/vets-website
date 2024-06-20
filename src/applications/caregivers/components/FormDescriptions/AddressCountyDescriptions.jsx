@@ -5,7 +5,7 @@ export const CaregiverCountyDescription = () => (
     trigger="Why we ask for this information"
     class="vads-u-margin-y--1p5"
   >
-    <p className="vads-u-margin-y--0">
+    <p>
       Providing the county helps the Caregiver Support Team connect caregivers
       with community resources that offer supportive programs and services.
     </p>
@@ -17,7 +17,7 @@ export const VeteranCountyDescription = () => (
     trigger="Why we ask for this information"
     class="vads-u-margin-y--1p5"
   >
-    <p className="vads-u-margin-y--0">
+    <p>
       Providing the county where the Veteran lives helps us determine the
       Caregiver Support Team.
     </p>

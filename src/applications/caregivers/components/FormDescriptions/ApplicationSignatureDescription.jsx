@@ -23,7 +23,9 @@ const ApplicationSignatureDescription = (
 
     <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
       <div>
-        <p>{content['sign-as-rep-document-description']}</p>
+        <p className="vads-u-margin-top--0">
+          {content['sign-as-rep-document-description']}
+        </p>
         {DocumentTypeDescription}
       </div>
     </va-additional-info>

@@ -52,7 +52,7 @@ const DocumentTypeDescription = (
         </a>
       </li>
     </ul>
-    <p>
+    <p className="vads-u-margin-bottom--0">
       We can’t accept a marriage certificate, driver’s license, or release of
       information form. Uploading a document that we can’t accept may delay the
       application process.
