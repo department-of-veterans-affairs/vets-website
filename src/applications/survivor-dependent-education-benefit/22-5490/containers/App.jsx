@@ -48,10 +48,6 @@ function App({
     ],
   );
 
-  // useEffect(() =>{
-  //   console.log(formData, 'formData in useEffect')
-  // })
-
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
@@ -59,13 +55,15 @@ function App({
   );
 }
 
-const mapStateToProps = state => ({
-  // ...getAppData(state),
-  formData: state.form?.data || {},
-  claimant: state.data?.formData?.data?.attributes?.claimant,
-  // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    // ...getAppData(state),
+    formData: state.form?.data || {},
+    claimant: state.data?.formData?.data?.attributes?.claimant,
+    // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,

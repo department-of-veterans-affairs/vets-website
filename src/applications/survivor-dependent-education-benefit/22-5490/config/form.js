@@ -21,7 +21,7 @@ import {
 // import fullSchema from '../22-5490-schema.json';
 
 import manifest from '../manifest.json';
-
+import PersonalInformation from '../components/PersonalInformation';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -310,21 +310,7 @@ const formConfig = {
               ),
             },
             'view:personalInformation': {
-              'ui:description': (
-                <>
-                  <div className="usa-alert background-color-only personal-info-header">
-                    <h5>Your Personal Information</h5>
-                  </div>
-                  <div className="personal-info-border personal-info-text">
-                    <div>
-                      <h6>Hector Oliver Stanley Jr.</h6>
-                      <p>
-                        <strong>Date of birth:</strong> July 7th, 1992
-                      </p>
-                    </div>
-                  </div>
-                </>
-              ),
+              'ui:description': <PersonalInformation />,
             },
             highSchoolDiploma: {
               'ui:title':
