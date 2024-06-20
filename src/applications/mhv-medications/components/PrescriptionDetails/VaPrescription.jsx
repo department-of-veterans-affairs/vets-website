@@ -101,7 +101,10 @@ const VaPrescription = prescription => {
             </h3>
             <div className="no-print">
               {phoneNumber ? (
-                <va-telephone contact={phoneNumber} />
+                <>
+                  <va-telephone contact={phoneNumber} /> (
+                  <va-telephone tty contact="711" />)
+                </>
               ) : (
                 'None noted'
               )}

@@ -439,12 +439,12 @@ const formConfig = {
         },
         page9: {
           path: 'sponsor-status-date',
-          title: 'Sponsor status (continued)',
+          title: 'Sponsor status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
           uiSchema: {
-            sponsorInfoTitle: titleUI('Sponsor status (continued)'),
+            sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor die during active military service?',
@@ -635,7 +635,7 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} mailing address`,
+          title: item => `${applicantWording(item)} address selection`,
           // Only show if we have addresses to pull from:
           depends: (formData, index) =>
             (index && index > 0) || // We will have app0's address
@@ -657,8 +657,7 @@ const formConfig = {
           path: 'applicant-mailing-address/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} mailing address (continued)`,
+          title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -769,8 +768,7 @@ const formConfig = {
           path: 'applicant-child-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} relationship to sponsor (continued)`,
+          title: item => `${applicantWording(item)} dependent status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1176,7 +1174,8 @@ const formConfig = {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare status`,
+          title: item =>
+            `${applicantWording(item)} Medicare Part A and B status`,
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1198,8 +1197,7 @@ const formConfig = {
           path: 'applicant-medicare-continued/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} Medicare status (continued)`,
+          title: item => `${applicantWording(item)} Medicare Part D status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1230,7 +1228,7 @@ const formConfig = {
           path: 'applicant-medicare-ab-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} medicare card (parts A/B)`,
+          title: item => `${applicantWording(item)} Medicare Part A and B card`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1256,7 +1254,7 @@ const formConfig = {
           path: 'applicant-medicare-d-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} medicare card (part D)`,
+          title: item => `${applicantWording(item)} Medicare Part D card`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

@@ -47,7 +47,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  @import "iconography";
   @import "modules/m-right-rail";
 
   section.usa-grid {
@@ -161,10 +160,6 @@ $medium-phone-screen: 375px;
       .hub-main-icon {
         vertical-align: top;
         margin-top: 8px;
-
-        > .icon-large {
-          margin-right: 10px;
-        }
       }
     }
   }

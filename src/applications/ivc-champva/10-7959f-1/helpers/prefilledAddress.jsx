@@ -10,7 +10,7 @@ const PrefilledAddress = props => {
         Any updates you make here to the contact information will only apply to
         this form. If you want to update your contact information for all your
         VA accounts,{' '}
-        <a href="https://va.gov/profile/contact-information">
+        <a href="/profile/contact-information">
           please go to your profile page.
         </a>
       </p>
