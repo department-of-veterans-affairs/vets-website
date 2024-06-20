@@ -11,7 +11,8 @@ function mockPrescription(n = 0, attrs = {}) {
     dialCmopDivisionPhone = '5555555555',
   } = attrs;
   const prescriptionName = `Fake ${n}`;
-
+  const newCmopNdcNumber =
+    n % 3 === 0 && !cmopNdcNumber ? `000${n}000000` : cmopNdcNumber;
   return {
     id: `fake-${n}`,
     type: 'prescriptions',
@@ -35,7 +36,7 @@ function mockPrescription(n = 0, attrs = {}) {
       cmopDivisionPhone,
       inCernerTransition: null,
       notRefillableDisplayMessage: 'You cannot refill this!',
-      cmopNdcNumber: null,
+      cmopNdcNumber: newCmopNdcNumber ?? null,
       userId: null,
       providerFirstName: 'ProviderFirst',
       providerLastName: 'ProviderLast',
@@ -75,7 +76,7 @@ function mockPrescription(n = 0, attrs = {}) {
           color: 'WHITE',
           frontImprint: '9,3',
           backImprint: '72,14',
-          cmopNdcNumber,
+          cmopNdcNumber: newCmopNdcNumber ?? null,
           cmopDivisionPhone,
           dialCmopDivisionPhone,
           prescriptionName,

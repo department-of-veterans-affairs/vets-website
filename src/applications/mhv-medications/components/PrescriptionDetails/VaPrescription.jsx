@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   validateField,
   getImageUri,
@@ -17,6 +18,17 @@ import VaPharmacyText from '../shared/VaPharmacyText';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const { isDisplayingDocumentation } = useSelector(
+    state => {
+      return {
+        isDisplayingDocumentation:
+          state.featureToggles[
+            FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+          ],
+      };
+    },
+    state => state.featureToggles,
+  );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
   refillHistory.push(originalFill);
@@ -128,23 +140,27 @@ const VaPrescription = prescription => {
             </h3>
             <p>{validateField(prescription.quantity)}</p>
           </div>
-          {prescription.cmopNdcNumber && (
-            <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
-              <h2 className="vads-u-margin-top--3" data-testid="refill-History">
-                Documentation
-              </h2>
-              <Link
-                to={`/prescription/${
-                  prescription.prescriptionId
-                }/documentation?ndc=${prescription.cmopNdcNumber}`}
-                data-testid="va-prescription-documentation-link"
-                className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
-                data-dd-action-name="Rx Documentation Link - Details Page"
-              >
-                Learn more about {prescription.prescriptionName}
-              </Link>
-            </div>
-          )}
+          {isDisplayingDocumentation &&
+            prescription.cmopNdcNumber && (
+              <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
+                <h2
+                  className="vads-u-margin-top--3"
+                  data-testid="refill-History"
+                >
+                  Documentation
+                </h2>
+                <Link
+                  to={`/prescription/${
+                    prescription.prescriptionId
+                  }/documentation?ndc=${prescription.cmopNdcNumber}`}
+                  data-testid="va-prescription-documentation-link"
+                  className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
+                  data-dd-action-name="Rx Documentation Link - Details Page"
+                >
+                  Learn more about {prescription.prescriptionName}
+                </Link>
+              </div>
+            )}
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
