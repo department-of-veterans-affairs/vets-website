@@ -81,65 +81,118 @@ describe('Actions', () => {
 
     after(() => server.close());
 
-    it('should submit request', done => {
-      const ID = 5;
-      server.use(
-        rest.post(
-          `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
-          (req, res, ctx) =>
-            res(
-              ctx.status(200),
-              ctx.json({
-                // eslint-disable-next-line camelcase
-                job_id: ID,
-              }),
-            ),
-        ),
-      );
+    context('when cstClaimPhasesEnabled is true', () => {
+      it('should submit request and set notification', done => {
+        const ID = 5;
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
+            (req, res, ctx) =>
+              res(
+                ctx.status(200),
+                ctx.json({
+                  // eslint-disable-next-line camelcase
+                  job_id: ID,
+                }),
+              ),
+          ),
+        );
 
-      const thunk = submit5103(ID);
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 3) {
-          expect(expectedUrl).to.contain('5/submit5103');
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST,
-          });
-          expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_DECISION_REQUESTED,
-          });
-          expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
-          done();
-        }
-      };
+        const thunk = submit5103(ID, true);
+        const dispatchSpy = sinon.spy();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 3) {
+            expect(expectedUrl).to.contain('5/submit5103');
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0]).to.eql({
+              type: SET_DECISION_REQUESTED,
+            });
+            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+            expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+              'We received your evidence waiver',
+            );
+            expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+              'Thank you. We’ll move your claim to the next step as soon as possible.',
+            );
+            done();
+          }
+        };
 
-      thunk(dispatch);
+        thunk(dispatch);
+      });
     });
-    it('should fail on error', done => {
-      const ID = 5;
-      server.use(
-        rest.post(
-          `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
-          (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
-        ),
-      );
-      const thunk = submitRequest(ID);
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST,
-          });
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(
-            SET_DECISION_REQUEST_ERROR,
-          );
-          done();
-        }
-      };
 
-      thunk(dispatch);
+    context('when cstClaimPhasesEnabled is false', () => {
+      it('should submit request and set notification', done => {
+        const ID = 5;
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
+            (req, res, ctx) =>
+              res(
+                ctx.status(200),
+                ctx.json({
+                  // eslint-disable-next-line camelcase
+                  job_id: ID,
+                }),
+              ),
+          ),
+        );
+
+        const thunk = submit5103(ID);
+        const dispatchSpy = sinon.spy();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 3) {
+            expect(expectedUrl).to.contain('5/submit5103');
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0]).to.eql({
+              type: SET_DECISION_REQUESTED,
+            });
+            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+            expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+              'Request received',
+            );
+            expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+              'Thank you. We have your claim request and will make a decision.',
+            );
+            done();
+          }
+        };
+
+        thunk(dispatch);
+      });
+
+      it('should fail on error', done => {
+        const ID = 5;
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
+            (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
+          ),
+        );
+        const thunk = submit5103(ID);
+        const dispatchSpy = sinon.spy();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 2) {
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0].type).to.eql(
+              SET_DECISION_REQUEST_ERROR,
+            );
+            done();
+          }
+        };
+
+        thunk(dispatch);
+      });
     });
   });
   describe('getClaim', () => {
@@ -380,23 +433,46 @@ describe('Actions', () => {
     });
   });
   describe('submitRequest', () => {
-    it('should submit request with canUseMocks true', done => {
-      const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
+    context('when cstClaimPhasesEnabled is false', () => {
+      it('should submit request with canUseMocks true', done => {
+        const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
 
-      const thunk = submitRequest(5);
-      const dispatch = sinon.spy();
+        const thunk = submitRequest(5);
+        const dispatch = sinon.spy();
 
-      thunk(dispatch)
-        .then(() => {
-          expect(dispatch.firstCall.args[0].type).to.equal(
-            SUBMIT_DECISION_REQUEST,
-          );
-          expect(dispatch.secondCall.args[0].type).to.equal(
-            SET_DECISION_REQUESTED,
-          );
-        })
-        .then(() => useMocksStub.restore())
-        .then(done, done);
+        thunk(dispatch)
+          .then(() => {
+            expect(dispatch.firstCall.args[0].type).to.equal(
+              SUBMIT_DECISION_REQUEST,
+            );
+            expect(dispatch.secondCall.args[0].type).to.equal(
+              SET_DECISION_REQUESTED,
+            );
+          })
+          .then(() => useMocksStub.restore())
+          .then(done, done);
+      });
+    });
+
+    context('when cstClaimPhasesEnabled is true', () => {
+      it('should submit request with canUseMocks true', done => {
+        const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
+
+        const thunk = submitRequest(5, true);
+        const dispatch = sinon.spy();
+
+        thunk(dispatch)
+          .then(() => {
+            expect(dispatch.firstCall.args[0].type).to.equal(
+              SUBMIT_DECISION_REQUEST,
+            );
+            expect(dispatch.secondCall.args[0].type).to.equal(
+              SET_DECISION_REQUESTED,
+            );
+          })
+          .then(() => useMocksStub.restore())
+          .then(done, done);
+      });
     });
 
     context('', () => {
@@ -417,65 +493,148 @@ describe('Actions', () => {
 
       after(() => server.close());
 
-      it('should submit request', done => {
-        const ID = 5;
-        server.use(
-          rest.post(
-            `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-            (req, res, ctx) =>
-              res(
-                ctx.status(200),
-                ctx.json({
-                  // eslint-disable-next-line camelcase
-                  job_id: ID,
-                }),
-              ),
-          ),
-        );
+      context('when cstClaimPhasesEnabled is false', () => {
+        it('should submit request', done => {
+          const ID = 5;
+          server.use(
+            rest.post(
+              `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+              (req, res, ctx) =>
+                res(
+                  ctx.status(200),
+                  ctx.json({
+                    // eslint-disable-next-line camelcase
+                    job_id: ID,
+                  }),
+                ),
+            ),
+          );
 
-        const thunk = submitRequest(ID);
-        const dispatchSpy = sinon.spy();
-        const dispatch = action => {
-          dispatchSpy(action);
-          if (dispatchSpy.callCount === 3) {
-            expect(expectedUrl).to.contain('5/request_decision');
-            expect(dispatchSpy.firstCall.args[0]).to.eql({
-              type: SUBMIT_DECISION_REQUEST,
-            });
-            expect(dispatchSpy.secondCall.args[0]).to.eql({
-              type: SET_DECISION_REQUESTED,
-            });
-            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
-            done();
-          }
-        };
+          const thunk = submitRequest(ID);
+          const dispatchSpy = sinon.spy();
+          const dispatch = action => {
+            dispatchSpy(action);
+            if (dispatchSpy.callCount === 3) {
+              expect(expectedUrl).to.contain('5/request_decision');
+              expect(dispatchSpy.firstCall.args[0]).to.eql({
+                type: SUBMIT_DECISION_REQUEST,
+              });
+              expect(dispatchSpy.secondCall.args[0]).to.eql({
+                type: SET_DECISION_REQUESTED,
+              });
+              expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+                SET_NOTIFICATION,
+              );
+              expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+                'Request received',
+              );
+              expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+                'Thank you. We have your claim request and will make a decision.',
+              );
+              done();
+            }
+          };
 
-        thunk(dispatch);
+          thunk(dispatch);
+        });
+        it('should fail on error', done => {
+          const ID = 5;
+          server.use(
+            rest.post(
+              `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+              (req, res, ctx) =>
+                res(ctx.status(400), ctx.json({ status: 400 })),
+            ),
+          );
+          const thunk = submitRequest(ID);
+          const dispatchSpy = sinon.spy();
+          const dispatch = action => {
+            dispatchSpy(action);
+            if (dispatchSpy.callCount === 2) {
+              expect(dispatchSpy.firstCall.args[0]).to.eql({
+                type: SUBMIT_DECISION_REQUEST,
+              });
+              expect(dispatchSpy.secondCall.args[0].type).to.eql(
+                SET_DECISION_REQUEST_ERROR,
+              );
+              done();
+            }
+          };
+
+          thunk(dispatch);
+        });
       });
-      it('should fail on error', done => {
-        const ID = 5;
-        server.use(
-          rest.post(
-            `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-            (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
-          ),
-        );
-        const thunk = submitRequest(ID);
-        const dispatchSpy = sinon.spy();
-        const dispatch = action => {
-          dispatchSpy(action);
-          if (dispatchSpy.callCount === 2) {
-            expect(dispatchSpy.firstCall.args[0]).to.eql({
-              type: SUBMIT_DECISION_REQUEST,
-            });
-            expect(dispatchSpy.secondCall.args[0].type).to.eql(
-              SET_DECISION_REQUEST_ERROR,
-            );
-            done();
-          }
-        };
 
-        thunk(dispatch);
+      context('when cstClaimPhasesEnabled is true', () => {
+        it('should submit request', done => {
+          const ID = 5;
+          server.use(
+            rest.post(
+              `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+              (req, res, ctx) =>
+                res(
+                  ctx.status(200),
+                  ctx.json({
+                    // eslint-disable-next-line camelcase
+                    job_id: ID,
+                  }),
+                ),
+            ),
+          );
+
+          const thunk = submitRequest(ID, true);
+          const dispatchSpy = sinon.spy();
+          const dispatch = action => {
+            dispatchSpy(action);
+            if (dispatchSpy.callCount === 3) {
+              expect(expectedUrl).to.contain('5/request_decision');
+              expect(dispatchSpy.firstCall.args[0]).to.eql({
+                type: SUBMIT_DECISION_REQUEST,
+              });
+              expect(dispatchSpy.secondCall.args[0]).to.eql({
+                type: SET_DECISION_REQUESTED,
+              });
+              expect(dispatchSpy.thirdCall.args[0].type).to.eql(
+                SET_NOTIFICATION,
+              );
+              expect(dispatchSpy.thirdCall.args[0].message.title).to.eql(
+                'We received your evidence waiver',
+              );
+              expect(dispatchSpy.thirdCall.args[0].message.body).to.eql(
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+              );
+              done();
+            }
+          };
+
+          thunk(dispatch);
+        });
+        it('should fail on error', done => {
+          const ID = 5;
+          server.use(
+            rest.post(
+              `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+              (req, res, ctx) =>
+                res(ctx.status(400), ctx.json({ status: 400 })),
+            ),
+          );
+          const thunk = submitRequest(ID);
+          const dispatchSpy = sinon.spy();
+          const dispatch = action => {
+            dispatchSpy(action);
+            if (dispatchSpy.callCount === 2) {
+              expect(dispatchSpy.firstCall.args[0]).to.eql({
+                type: SUBMIT_DECISION_REQUEST,
+              });
+              expect(dispatchSpy.secondCall.args[0].type).to.eql(
+                SET_DECISION_REQUEST_ERROR,
+              );
+              done();
+            }
+          };
+
+          thunk(dispatch);
+        });
       });
     });
   });

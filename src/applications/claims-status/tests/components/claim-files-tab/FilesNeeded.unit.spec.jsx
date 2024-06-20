@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
 
@@ -25,21 +26,33 @@ describe('<FilesNeeded>', () => {
       description: 'This is a alert',
       suspenseDate: '2024-12-01',
     };
-    it('should render va-alert with item data and hide DueDate', () => {
-      const { queryByText, getByText } = renderWithRouter(
-        <FilesNeeded item={item5103} />,
-      );
+    context('when evidenceWaiverSubmitted5103 is false', () => {
+      it('should render va-alert with item data and hide DueDate', () => {
+        const { queryByText, getByText } = renderWithRouter(
+          <FilesNeeded item={item5103} />,
+        );
 
-      expect(queryByText('December 1, 2024')).to.not.exist;
-      expect(queryByText(item5103.description)).to.not.exist;
-      getByText(item5103.displayName);
-      getByText(
-        `We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.`,
-      );
-      getByText(
-        `Upload the waiver attached to the letter if you’re finished adding evidence.`,
-      );
-      getByText('Details');
+        expect(queryByText('December 1, 2024')).to.not.exist;
+        expect(queryByText(item5103.description)).to.not.exist;
+        getByText(item5103.displayName);
+        getByText(
+          `We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.`,
+        );
+        getByText(
+          `Upload the waiver attached to the letter if you’re finished adding evidence.`,
+        );
+        getByText('Details');
+      });
+    });
+
+    context('when evidenceWaiverSubmitted5103 is true', () => {
+      it('should not render va-alert', () => {
+        const { container } = renderWithRouter(
+          <FilesNeeded item={item5103} evidenceWaiverSubmitted5103 />,
+        );
+
+        expect($('va-alert', container)).to.not.exist;
+      });
     });
   });
 });

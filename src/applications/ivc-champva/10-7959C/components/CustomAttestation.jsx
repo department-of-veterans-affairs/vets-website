@@ -47,6 +47,7 @@ export default function CustomAttestation(signatureProps) {
       I have read and accept the{' '}
       <a target="_blank" href="/privacy-policy/">
         privacy policy
+        <va-icon icon="launch" size={3} />
       </a>
     </span>
   );
