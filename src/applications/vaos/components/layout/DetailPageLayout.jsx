@@ -97,8 +97,7 @@ function CancelButton({ appointment }) {
   )
     return button;
 
-  if (APPOINTMENT_STATUS.proposed === status && !isPastAppointment)
-    return button;
+  if (APPOINTMENT_STATUS.proposed === status) return button;
 
   return null;
 }
@@ -121,11 +120,12 @@ export default function DetailPageLayout({
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
         <StatusAlert appointment={appointment} facility={facility} />
-        {isPastAppointment && (
-          <Section heading="After visit summary">
-            <AfterVisitSummary data={appointment} />
-          </Section>
-        )}
+        {isPastAppointment &&
+          APPOINTMENT_STATUS.booked === appointment.status && (
+            <Section heading="After visit summary">
+              <AfterVisitSummary data={appointment} />
+            </Section>
+          )}
         {children}
         <div
           className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
