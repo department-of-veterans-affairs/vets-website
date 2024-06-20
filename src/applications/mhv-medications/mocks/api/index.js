@@ -68,4 +68,4 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': allergiesFixture,
 };
 
-module.exports = delay(responses, 0); // TODO: change delay to 1000
+module.exports = delay(responses, 1000);
