@@ -73,9 +73,6 @@ const routes = (
       <Route>
         <PageNotFound />
       </Route>
-      <Route>
-        <PageNotFound />
-      </Route>
     </Switch>
   </AccessGuardWrapper>
 );
