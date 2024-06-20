@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const DigitalSignature = ({ error, onInput }) => {
   return (
-    <va-card background>
+    <va-card background class="vads-u-margin-bottom--5">
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
         Digital signature
       </h2>

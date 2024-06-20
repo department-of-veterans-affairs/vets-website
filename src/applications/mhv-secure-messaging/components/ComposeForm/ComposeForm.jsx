@@ -136,30 +136,33 @@ const ComposeForm = props => {
     [signature],
   );
 
-  const setUnsavedNavigationError = typeOfError => {
-    if (typeOfError === null) {
-      setNavigationError(null);
-    }
-    if (
-      typeOfError ===
-      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
-    ) {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
-      });
-    }
-    if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
-      setNavigationError({
-        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
-      });
-    }
-  };
+  const setUnsavedNavigationError = useCallback(
+    typeOfError => {
+      if (typeOfError === null) {
+        setNavigationError(null);
+      }
+      if (
+        typeOfError ===
+        ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR
+      ) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+          confirmButtonText:
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+          cancelButtonText:
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+        });
+      }
+      if (typeOfError === ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+          confirmButtonText: 'Continue editing',
+          cancelButtonText: 'Delete draft',
+        });
+      }
+    },
+    [setNavigationError],
+  );
 
   useEffect(
     () => {
@@ -362,15 +365,34 @@ const ComposeForm = props => {
             ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
           );
 
-        if (attachments.length > 0) {
-          setSaveError(
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-          );
-          setNavigationError({
-            ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-            confirmButtonText: 'Continue editing',
-            cancelButtonText: 'Delete draft',
-          });
+        let errorType = null;
+        if (
+          attachments.length > 0 &&
+          isSignatureRequired &&
+          digitalSignature !== ''
+        ) {
+          errorType =
+            ErrorMessages.ComposeForm
+              .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
+        } else if (attachments.length > 0) {
+          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
+        } else if (isSignatureRequired && digitalSignature !== '') {
+          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+        }
+
+        if (errorType) {
+          setSaveError(errorType);
+
+          if (
+            errorType.title !==
+            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
+          ) {
+            setNavigationError({
+              ...errorType,
+              confirmButtonText: 'Continue editing',
+              cancelButtonText: 'Delete draft',
+            });
+          }
         }
       }
 
@@ -622,10 +644,23 @@ const ComposeForm = props => {
           >
             <p>{saveError.p1}</p>
             {saveError.p2 && <p>{saveError.p2}</p>}
-            <va-button
-              text="Continue editing"
-              onClick={() => setSaveError(null)}
-            />
+            {saveError?.editDraft && (
+              <va-button
+                text={saveError.editDraft}
+                onClick={() => setSaveError(null)}
+              />
+            )}
+            {saveError?.saveDraft && (
+              <va-button
+                secondary
+                class="vads-u-margin-y--1p5"
+                text={saveError.saveDraft}
+                onClick={() => {
+                  saveDraftHandler('manual');
+                  setSaveError(null);
+                }}
+              />
+            )}
           </VaModal>
         )}
         <RouteLeavingGuard

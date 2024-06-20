@@ -112,7 +112,7 @@ const RecipientsSelect = ({
       {alertDisplayed && (
         <VaAlert
           ref={alertRef}
-          class="vads-u-margin-y--4"
+          class="vads-u-margin-y--2"
           closeBtnAriaLabel="Close notification"
           closeable
           onCloseEvent={() => {

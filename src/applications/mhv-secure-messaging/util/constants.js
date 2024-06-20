@@ -68,6 +68,16 @@ export const ErrorMessages = {
       saveDraft: 'Save draft without attachments',
       editDraft: 'Keep editing',
     },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
+      title: "We can't save your signature or attachments in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature or attachments',
+    },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
+      title: "We can't save your signature in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature',
+    },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
@@ -105,6 +115,9 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       'unable to save draft with attachment error',
     UNABLE_TO_SAVE_ERROR: 'no attachments and navigating away',
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR: 'unable to save draft with signature',
+    UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
+      'unable to save draft with attachment and signature',
   },
 };
 
