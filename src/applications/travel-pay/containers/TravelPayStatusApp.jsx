@@ -4,7 +4,10 @@ import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaBackToTop,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -108,13 +111,13 @@ export default function App({ children }) {
       <main>
         <article className="row vads-u-padding-bottom--0">
           <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-u-padding-x--2p5">
+            <div className="vads-l-col--8 vads-u-padding-x--2p5">
               <BreadCrumbs />
               <h1 tabIndex="-1" data-testid="header">
                 Check your travel reimbursement claim status
               </h1>
             </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <div className="vads-l-col--8 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
               <HelpText />
               {isLoading && (
                 <va-loading-indicator
@@ -136,10 +139,6 @@ export default function App({ children }) {
                 !isLoading &&
                 travelClaims.length > 0 && (
                   <>
-                    <p id="pagination-info">
-                      Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
-                      events
-                    </p>
                     <div className="btsss-claims-order-container">
                       <p className="vads-u-margin-bottom--0">
                         Show appointments in this order
@@ -165,6 +164,11 @@ export default function App({ children }) {
                       </div>
                     </div>
                     <div id="travel-claims-list">
+                      <p id="pagination-info">
+                        Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
+                        events
+                      </p>
+
                       {displayedClaims.map(travelClaim =>
                         TravelClaimCard(travelClaim),
                       )}
@@ -184,12 +188,8 @@ export default function App({ children }) {
                 travelClaims.length === 0 && <p>No travel claims to show.</p>}
             </div>
           </div>
+          <VaBackToTop />
         </article>
-        <div className="row vads-u-margin-bottom--3">
-          <hr />
-          {/* TODO: determine functionality of this button */}
-          <va-button class="float-right" text="Feedback" />
-        </div>
       </main>
 
       {children}
