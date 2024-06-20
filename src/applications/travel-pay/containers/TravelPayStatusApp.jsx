@@ -108,89 +108,85 @@ export default function App({ children }) {
 
   return (
     <div>
-      <main>
-        <article className="vads-l-row vads-u-padding-bottom--0">
-          <div className="vads-l-col--9 vads-u-margin-x--neg2p5">
-            <div className="vads-u-padding-x--2p5">
-              <BreadCrumbs />
-              <h1 tabIndex="-1" data-testid="header">
-                Check your travel reimbursement claim status
-              </h1>
-            </div>
-            <div className="vads-u-padding-x--2p5">
-              <HelpText />
-              {isLoading && (
-                <va-loading-indicator
-                  label="Loading"
-                  message="Loading Travel Claims..."
+      <article className="vads-l-col--9 vads-u-margin-x--auto vads-u-padding-bottom--0">
+        <BreadCrumbs />
+        <h1 tabIndex="-1" data-testid="header">
+          Check your travel reimbursement claim status
+        </h1>
+        <HelpText />
+        {isLoading && (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading Travel Claims..."
+          />
+        )}
+        {!userLoggedIn && (
+          <>
+            <p>Log in to view your travel claims</p>
+            <va-button
+              text="Sign in"
+              onClick={() => dispatch(toggleLoginModal(true))}
+            />
+          </>
+        )}
+        {error && <p>Error fetching travel claims.</p>}
+        {userLoggedIn &&
+          !isLoading &&
+          travelClaims.length > 0 && (
+            <>
+              <div className="btsss-claims-order-container">
+                <label
+                  htmlFor="claimsOrder"
+                  className="vads-u-margin-bottom--0"
+                >
+                  Show appointments in this order
+                </label>
+                <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                  <select
+                    className="vads-u-margin-bottom--0"
+                    hint={null}
+                    title="Show appointments in this order"
+                    name="claimsOrder"
+                    id="claimsOrder"
+                    value={selectedClaimsOrder}
+                    onChange={e => setSelectedClaimsOrder(e.target.value)}
+                  >
+                    <option value="mostRecent">Most Recent</option>
+                    <option value="oldest">Oldest</option>
+                  </select>
+                  <va-button
+                    onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                    data-testid="Sort travel claims"
+                    text="Sort"
+                    label="Sort"
+                  />
+                </div>
+              </div>
+              <div id="travel-claims-list">
+                <p id="pagination-info">
+                  Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
+                  events
+                </p>
+
+                {displayedClaims.map(travelClaim =>
+                  TravelClaimCard(travelClaim),
+                )}
+              </div>
+              {shouldPaginate && (
+                <VaPagination
+                  onPageSelect={e => onPageSelect(e.detail.page)}
+                  page={currentPage}
+                  pages={numPages}
                 />
               )}
-              {!userLoggedIn && (
-                <>
-                  <p>Log in to view your travel claims</p>
-                  <va-button
-                    text="Sign in"
-                    onClick={() => dispatch(toggleLoginModal(true))}
-                  />
-                </>
-              )}
-              {error && <p>Error fetching travel claims.</p>}
-              {userLoggedIn &&
-                !isLoading &&
-                travelClaims.length > 0 && (
-                  <>
-                    <div className="btsss-claims-order-container">
-                      <p className="vads-u-margin-bottom--0">
-                        Show appointments in this order
-                      </p>
-                      <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                        <select
-                          className="vads-u-margin-bottom--0"
-                          hint={null}
-                          title="claimsOrder"
-                          name="claimsOrder"
-                          value={selectedClaimsOrder}
-                          onChange={e => setSelectedClaimsOrder(e.target.value)}
-                        >
-                          <option value="mostRecent">Most Recent</option>
-                          <option value="oldest">Oldest</option>
-                        </select>
-                        <va-button
-                          onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
-                          data-testid="Sort travel claims"
-                          text="Sort"
-                          label="Sort"
-                        />
-                      </div>
-                    </div>
-                    <div id="travel-claims-list">
-                      <p id="pagination-info">
-                        Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
-                        events
-                      </p>
-
-                      {displayedClaims.map(travelClaim =>
-                        TravelClaimCard(travelClaim),
-                      )}
-                    </div>
-                    {shouldPaginate && (
-                      <VaPagination
-                        onPageSelect={e => onPageSelect(e.detail.page)}
-                        page={currentPage}
-                        pages={numPages}
-                      />
-                    )}
-                  </>
-                )}
-              {userLoggedIn &&
-                !isLoading &&
-                !error &&
-                travelClaims.length === 0 && <p>No travel claims to show.</p>}
-            </div>
-          </div>
-          <VaBackToTop />
-        </article>
-      </main>
+            </>
+          )}
+        {userLoggedIn &&
+          !isLoading &&
+          !error &&
+          travelClaims.length === 0 && <p>No travel claims to show.</p>}
+        <VaBackToTop />
+      </article>
 
       {children}
     </div>
