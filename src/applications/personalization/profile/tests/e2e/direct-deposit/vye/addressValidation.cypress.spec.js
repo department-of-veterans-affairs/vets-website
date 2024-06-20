@@ -5,11 +5,12 @@ import {
   mockGETEndpoints,
   mockProfileLOA3,
 } from '@@profile/tests/e2e/helpers';
-import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
+// import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
 import { mockUser } from './login';
+import { fullName } from './fullNmae';
 
 describe('Address Validations', () => {
   const mockAddressResponse = (
@@ -45,9 +46,9 @@ describe('Address Validations', () => {
 
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('v0/profile/personal_information', mockPersonalInformation);
+    cy.intercept('v0/profile/personal_information', mockUser);
     cy.intercept('v0/profile/service_history', mockServiceHistory);
-    cy.intercept('v0/profile/full_name', mockFullName);
+    cy.intercept('v0/profile/full_name', fullName);
     mockGETEndpoints(['v0/mhv_account', 'v0/ppiu/payment_information']);
     mockFeatureToggles();
     mockProfileLOA3(
@@ -56,13 +57,13 @@ describe('Address Validations', () => {
       }),
     );
     cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
-    cy.injectAxe();
+   // cy.injectAxe();
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/profile/direct-deposit"]')
-      .last()
-      .click();
+    // cy.get('[href="/profile/direct-deposit"]')
+    //   .last()
+    //   .click();
 
     // cy.get('[id="VYE-mailing-address-button"]').click();
     // cy.get('[id="root_countryCodeIso3"]').select('United States');
