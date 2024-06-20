@@ -9,7 +9,7 @@ describe('POARequestsPage', () => {
 
   it('renders heading', () => {
     const { getByTestId } = getPOARequestsPage();
-    expect(getByTestId('poa-requests-heading').textContent).to.equal(
+    expect(getByTestId('poa-requests-heading').textContent).to.eq(
       'Power of attorney requests',
     );
   });

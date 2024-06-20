@@ -5,14 +5,11 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { RESPONSE_PAGE } from '../../../constants';
+import { RESPONSE_PAGE, envUrl } from '../../../constants';
 import ResponseInboxPage from '../../../containers/ResponseInboxPage';
 
 describe('<ResponseInboxPage>', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/inquiries/123`;
+  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries/123`;
 
   describe('when the api server succeeds', () => {
     let server = null;

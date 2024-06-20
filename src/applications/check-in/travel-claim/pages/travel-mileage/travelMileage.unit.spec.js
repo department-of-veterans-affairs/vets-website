@@ -14,9 +14,9 @@ describe('travel-mileage', () => {
     teardownI18n();
   });
   describe('Mileage page', () => {
-    it('displays single facility context', () => {
+    it('displays single appointment context', () => {
       const store = {
-        eligibleToFile: [
+        appointments: [
           {
             stationNo: '500',
             startTime: '2021-08-19T13:56:31',
@@ -28,11 +28,11 @@ describe('travel-mileage', () => {
           <TravelMileage />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('single-fac-context')).to.exist;
+      expect(component.getByTestId('single-appointment-context')).to.exist;
     });
     it('displays multiple facility context', () => {
       const store = {
-        eligibleToFile: [
+        appointments: [
           {
             stationNo: '500',
             startTime: '2021-08-19T13:56:31',
@@ -48,25 +48,19 @@ describe('travel-mileage', () => {
           <TravelMileage />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('multi-fac-context')).to.exist;
+      expect(component.getByTestId('multi-appointment-context')).to.exist;
     });
-    it('auto selects facility if single facility', () => {
+    it('auto selects appointment if single appointment', () => {
       const store = {
-        eligibleToFile: [
-          {
-            stationNo: '500',
-            startTime: '2024-03-21T22:19:12.099Z',
-            timezone: 'America/Los_Angeles',
-          },
-        ],
-      };
-      const expectedStateValue = [
-        {
+        appointmentToFile: {
           stationNo: '500',
-          startTime: '2024-03-21T15:19:12.099-07:00',
-          appointmentCount: 1,
+          startTime: '2024-03-21T22:19:12.099Z',
         },
-      ];
+      };
+      const expectedStateValue = {
+        stationNo: '500',
+        startTime: '2024-03-21T22:19:12.099Z',
+      };
       const component = render(
         <CheckInProvider store={store}>
           <TravelMileage />
@@ -75,18 +69,16 @@ describe('travel-mileage', () => {
       expect(component.getByTestId(JSON.stringify(expectedStateValue))).to
         .exist;
     });
-    it('does not select any facility when multi and nothing in redux', () => {
+    it('does not select any appointment when multi and nothing in redux', () => {
       const store = {
-        eligibleToFile: [
+        appointments: [
           {
             stationNo: '500',
             startTime: '2024-03-21T22:19:12.099Z',
-            timezone: 'America/Los_Angeles',
           },
           {
             stationNo: '600',
             startTime: '2024-03-21T20:19:12.099Z',
-            timezone: 'America/Los_Angeles',
           },
         ],
       };
@@ -95,37 +87,29 @@ describe('travel-mileage', () => {
           <TravelMileage />
         </CheckInProvider>,
       );
-      expect(component.getByTestId('[]')).to.exist;
+      expect(component.getByTestId('null')).to.exist;
     });
-    it('auto selects facilities based on redux value', () => {
+    it('auto selects appointment based on redux value', () => {
       const store = {
-        eligibleToFile: [
+        appointments: [
           {
             stationNo: '500',
             startTime: '2024-03-21T22:19:12.099Z',
-            timezone: 'America/Los_Angeles',
           },
           {
             stationNo: '600',
             startTime: '2024-03-21T21:19:12.099Z',
-            timezone: 'America/Los_Angeles',
           },
         ],
-        facilitiesToFile: [
-          {
-            stationNo: '500',
-            startTime: '2024-03-21T15:19:12.099-07:00',
-            appoinmentCount: 1,
-          },
-        ],
-      };
-      const expectedStateValue = [
-        {
+        appointmentToFile: {
           stationNo: '500',
-          startTime: '2024-03-21T15:19:12.099-07:00',
-          appoinmentCount: 1,
+          startTime: '2024-03-21T22:19:12.099Z',
         },
-      ];
+      };
+      const expectedStateValue = {
+        stationNo: '500',
+        startTime: '2024-03-21T22:19:12.099Z',
+      };
       const component = render(
         <CheckInProvider store={store}>
           <TravelMileage />
@@ -138,7 +122,7 @@ describe('travel-mileage', () => {
       it('continues to the next page with a selection', () => {
         const store = {
           formPages: ['travel-info', 'travel-mileage', 'travel-vehicle'],
-          eligibleToFile: [
+          appointments: [
             {
               stationNo: '500',
               startTime: '2024-03-21T22:19:12.099Z',
@@ -166,7 +150,7 @@ describe('travel-mileage', () => {
       it('sets error state if continue clicked with no selection', () => {
         const store = {
           formPages: ['travel-info', 'travel-mileage', 'travel-vehicle'],
-          eligibleToFile: [
+          appointments: [
             {
               stationNo: '500',
               startTime: '2024-03-21T22:19:12.099Z',
@@ -200,7 +184,7 @@ describe('travel-mileage', () => {
     describe('formatAppointment', () => {
       it('formats string with values', () => {
         const store = {
-          eligibleToFile: [
+          appointments: [
             {
               stationNo: '500',
               appointmentIen: '111',
@@ -208,6 +192,7 @@ describe('travel-mileage', () => {
               doctorName: 'Dr. Face',
               startTime: '2024-03-21T22:19:12.099Z',
               timezone: 'America/Los_Angeles',
+              facility: 'Test Facility',
             },
           ],
         };
@@ -218,11 +203,11 @@ describe('travel-mileage', () => {
         );
         expect(
           component.getByTestId('appointment-list-item-111'),
-        ).to.contain.text('Dermatology appointment with Dr. Face');
+        ).to.contain.text('In person at Test Facility');
       });
       it('formats string with missing values', () => {
         const store = {
-          eligibleToFile: [
+          appointments: [
             {
               stationNo: '500',
               appointmentIen: '111',
@@ -254,15 +239,9 @@ describe('travel-mileage', () => {
             <TravelMileage />
           </CheckInProvider>,
         );
-        expect(
-          component.getByTestId('appointment-list-item-111'),
-        ).to.contain.text('VA appointment with Dr. Face');
-        expect(
-          component.getByTestId('appointment-list-item-222'),
-        ).to.contain.text('VA appointment');
-        expect(
-          component.getByTestId('appointment-list-item-333'),
-        ).to.contain.text('Dermatology appointment');
+        expect(component.getByTestId('radio-500-111')).to.exist;
+        expect(component.getByTestId('radio-500-222')).to.exist;
+        expect(component.getByTestId('radio-500-333')).to.exist;
       });
     });
   });

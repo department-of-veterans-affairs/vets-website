@@ -76,9 +76,6 @@ export const selectFeatureVaosV2Next = state =>
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
 
-export const selectFeatureRequestFlowUpdate = state =>
-  toggleValues(state).vaOnlineSchedulingRequestFlowUpdate;
-
 export const selectFeaturePocTypeOfCare = state =>
   toggleValues(state).vaOnlineSchedulingPocTypeOfCare;
 
@@ -91,17 +88,11 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
-export const selectFeatureGA4Migration = state =>
-  toggleValues(state).vaOnlineSchedulingGA4Migration;
-
 export const selectFeatureAfterVisitSummary = state =>
   toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
 
 export const selectFeatureStartSchedulingLink = state =>
   toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
-
-export const selectFeaturePhysicalLocation = state =>
-  toggleValues(state).vaOnlineSchedulingPhysicalLocation;
 
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
@@ -111,3 +102,9 @@ export const selectFeatureDatadogRum = state =>
 
 export const selectFeatureAppointmentDetailsRedesign = state =>
   toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;
+
+export const selectFeatureCCDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
+
+export const selectFeatureRecentLocationsFilter = state =>
+  toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;

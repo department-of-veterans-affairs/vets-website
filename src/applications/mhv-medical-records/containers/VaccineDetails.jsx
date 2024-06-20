@@ -36,6 +36,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -52,6 +53,8 @@ const VaccineDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

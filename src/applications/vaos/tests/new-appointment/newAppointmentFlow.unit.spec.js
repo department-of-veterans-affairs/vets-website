@@ -13,16 +13,14 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { mockParentSites } from '../mocks/helpers';
-import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
-import { getParentSiteMock } from '../mocks/v0';
+import { mockFacilitiesFetch } from '../mocks/fetch';
 import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
-} from '../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../mocks/v2';
-import { createMockFacilityByVersion } from '../mocks/data';
+} from '../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../mocks/mock';
+import { createMockFacility } from '../mocks/data';
 
 const userState = {
   user: {
@@ -46,16 +44,15 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
-        mockFacilitiesFetchByVersion({
+        mockFacilitiesFetch({
           children: true,
           ids: ['983'],
           facilities: [
-            createMockFacilityByVersion({
+            createMockFacility({
               id: '983',
             }),
           ],
         });
-        mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
         mockSchedulingConfigurations(
           [
             getSchedulingConfigurationMock({
@@ -160,7 +157,7 @@ describe('VAOS newAppointmentFlow', () => {
         mockVAOSParentSites(
           siteIds,
           [
-            createMockFacilityByVersion({
+            createMockFacility({
               id: '983',
               name: 'Cheyenne VA Medical Center',
               isParent: true,
@@ -168,11 +165,11 @@ describe('VAOS newAppointmentFlow', () => {
           ],
           true,
         );
-        mockFacilitiesFetchByVersion({
+        mockFacilitiesFetch({
           children: true,
           ids: ['983', '984'],
           facilities: [
-            createMockFacilityByVersion({
+            createMockFacility({
               id: '983',
             }),
           ],
@@ -225,11 +222,11 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be ccRequestDateTime if CC support and typeOfCare is podiatry', async () => {
         mockFetch();
-        mockFacilitiesFetchByVersion({
+        mockFacilitiesFetch({
           children: true,
           ids: ['983', '984'],
           facilities: [
-            createMockFacilityByVersion({
+            createMockFacility({
               id: '983',
             }),
           ],
@@ -298,11 +295,11 @@ describe('VAOS newAppointmentFlow', () => {
 
       it('should be typeOfFacility page if site has CC support', async () => {
         mockFetch();
-        mockFacilitiesFetchByVersion({
+        mockFacilitiesFetch({
           children: true,
           ids: ['983', '984'],
           facilities: [
-            createMockFacilityByVersion({
+            createMockFacility({
               id: '983',
             }),
           ],
@@ -652,11 +649,11 @@ describe('VAOS newAppointmentFlow', () => {
 
     it('should be typeOfFacility page when optometry selected', async () => {
       mockFetch();
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
           }),
         ],

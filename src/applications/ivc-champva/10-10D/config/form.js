@@ -32,6 +32,7 @@ import { customRelationshipSchema } from '../components/CustomRelationshipPatter
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
+import prefillTransformer from './prefillTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
@@ -132,6 +133,21 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded
+function showFileOverviewPage(formData) {
+  try {
+    return (
+      hasReq(formData.applicants, true, true) ||
+      hasReq(formData.applicants, false, true) ||
+      hasReq(formData, true, true) ||
+      hasReq(formData, false, true)
+    );
+  } catch {
+    return false;
+  }
+}
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -170,6 +186,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for CHAMPVA benefits.',
     noAuth:
@@ -312,7 +329,10 @@ const formConfig = {
                 updateSchema: (formData, formSchema) => {
                   const fs = formSchema;
                   if (
-                    formData.certifierRelationship.relationshipToVeteran.other
+                    get(
+                      'certifierRelationship.relationshipToVeteran.other',
+                      formData,
+                    )
                   )
                     fs.properties.otherRelationshipToVeteran[
                       'ui:collapsed'
@@ -419,12 +439,12 @@ const formConfig = {
         },
         page9: {
           path: 'sponsor-status-date',
-          title: 'Sponsor status (continued)',
+          title: 'Sponsor status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
             get('sponsorIsDeceased', formData),
           uiSchema: {
-            sponsorInfoTitle: titleUI('Sponsor status (continued)'),
+            sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor die during active military service?',
@@ -615,8 +635,12 @@ const formConfig = {
           arrayPath: 'applicants',
           showPagePerItem: true,
           keepInPageOnReview: false,
-          title: item => `${applicantWording(item)} mailing address`,
-          depends: (formData, index) => index && index > 0,
+          title: item => `${applicantWording(item)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: (formData, index) =>
+            (index && index > 0) || // We will have app0's address
+            (get('street', formData?.certifierAddress) ||
+              get('street', formData?.sponsorAddress)),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
@@ -633,8 +657,7 @@ const formConfig = {
           path: 'applicant-mailing-address/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} mailing address (continued)`,
+          title: item => `${applicantWording(item)} mailing address`,
           uiSchema: {
             applicants: {
               'ui:options': { viewField: ApplicantField },
@@ -697,7 +720,7 @@ const formConfig = {
           path: 'applicant-gender/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} gender`,
+          title: item => `${applicantWording(item)} sex listed at birth`,
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
@@ -745,8 +768,7 @@ const formConfig = {
           path: 'applicant-child-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} relationship to sponsor (continued)`,
+          title: item => `${applicantWording(item)} dependent status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -899,7 +921,7 @@ const formConfig = {
                   'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
-                otherStatus: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1039,7 +1061,7 @@ const formConfig = {
         },
         // Applicant separated from sponsor before sponsor's death
         page18f6: {
-          path: 'applicant-information/:index/married-separated-dates',
+          path: 'applicant-information/married-separated-dates/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
@@ -1152,7 +1174,8 @@ const formConfig = {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare status`,
+          title: item =>
+            `${applicantWording(item)} Medicare Part A and B status`,
           CustomPage: ApplicantMedicareStatusPage,
           CustomPageReview: ApplicantMedicareStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1160,7 +1183,7 @@ const formConfig = {
               type: 'object',
               properties: {
                 eligibility: { type: 'string' },
-                otherIneligible: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1174,8 +1197,7 @@ const formConfig = {
           path: 'applicant-medicare-continued/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} Medicare status (continued)`,
+          title: item => `${applicantWording(item)} Medicare Part D status`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1206,7 +1228,7 @@ const formConfig = {
           path: 'applicant-medicare-ab-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} medicare card (parts A/B)`,
+          title: item => `${applicantWording(item)} Medicare Part A and B card`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1232,7 +1254,7 @@ const formConfig = {
           path: 'applicant-medicare-d-file/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} medicare card (part D)`,
+          title: item => `${applicantWording(item)} Medicare Part D card`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -1272,7 +1294,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) !== 'enrolled' &&
+              ) === 'ineligible' &&
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
@@ -1371,6 +1393,7 @@ const formConfig = {
         page23: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -1383,18 +1406,7 @@ const formConfig = {
         page24: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

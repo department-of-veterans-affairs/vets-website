@@ -80,23 +80,24 @@ export default function ArrayBuilderSummaryPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
-    const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
+    const {
+      index: updateItemIndex,
+      nounSingular: updatedNounSingular,
+    } = getUpdatedItemFromPath();
+    const arrayData = get(arrayPath, props.data);
+    const updatedItemData =
+      updatedNounSingular === nounSingular.toLowerCase() &&
+      updateItemIndex != null
+        ? arrayData?.[updateItemIndex]
+        : null;
+
+    const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const arrayData = get(arrayPath, props.data);
-    const {
-      index: updateItemIndex,
-      nounSingular: updatedNounSingular,
-    } = getUpdatedItemFromPath();
-    const updatedItemData =
-      updatedNounSingular === nounSingular.toLowerCase() &&
-      updateItemIndex != null
-        ? arrayData?.[updateItemIndex]
-        : null;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
@@ -125,7 +126,7 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         if (updatedNounSingular === nounSingular.toLowerCase()) {
-          setShowUpdatedAlert(updateItemIndex != null);
+          setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
       [updatedNounSingular, updateItemIndex, nounSingular],
@@ -169,6 +170,19 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
+    function forceRerender(data = props.data) {
+      // This is a hacky workaround to rerender the page
+      // due to the way SchemaForm interacts with CustomPage
+      // here in order to hide/show alerts correctly.
+      props.setData({
+        ...data,
+        _metadata: {
+          ...data._metadata,
+          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
+        },
+      });
+    }
+
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
@@ -192,6 +206,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -205,6 +220,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      forceRerender();
     }
 
     function onRemoveItem(index, item) {
@@ -278,7 +294,7 @@ export default function ArrayBuilderSummaryPage({
     };
 
     const Cards = () => (
-      <>
+      <div>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
@@ -293,8 +309,9 @@ export default function ArrayBuilderSummaryPage({
           onRemoveAll={onRemoveAllItems}
           onRemove={onRemoveItem}
           isReview={isReviewPage}
+          forceRerender={forceRerender}
         />
-      </>
+      </div>
     );
 
     if (isReviewPage) {
@@ -354,6 +371,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
+      // ensure new reference to trigger re-render
       uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;

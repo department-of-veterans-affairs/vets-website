@@ -5,3 +5,12 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+.upload-button-label {
+  margin-top: 8px;
+}
+
+va-accordion-item[data-chapter="fileUpload"] {
+  display: none;
+  visibility: hidden;
+}

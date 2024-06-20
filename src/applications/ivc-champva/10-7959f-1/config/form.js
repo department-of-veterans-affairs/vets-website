@@ -2,8 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { cloneDeep } from 'lodash';
 
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -16,14 +15,9 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  getNextPagePath,
-  checkValidPagePath,
-} from '@department-of-veterans-affairs/platform-forms-system/routing';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefillTransformer';
@@ -31,8 +25,13 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import PrefilledAddress from '../helpers/prefilledAddress';
 
-// import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import {
+  ssnOrVaFileNumberCustomUI,
+  CustomSSNReviewPage,
+} from '../helpers/CustomSSN';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -53,38 +52,13 @@ const formConfig = {
   customText: {
     appType: 'form',
   },
-  // This is here temporarily to allow us to log SIP/Prefill data on staging
-  onFormLoaded: props => {
-    // TODO: Remove all this when we've verified we're getting the right data.
-    const { formData, returnUrl } = props;
-    // Check valid return URL; copied from RoutedSavableApp
-    const isValidReturnUrl = checkValidPagePath(
-      props.routes[props.routes.length - 1].pageList,
-      formData,
-      returnUrl,
-    );
-    if (isValidReturnUrl) {
-      props.router.push(returnUrl);
-    } else {
-      const nextPagePath = getNextPagePath(
-        props.routes[props.routes.length - 1].pageList,
-        formData,
-        '/introduction',
-      );
-      props.router.push(nextPagePath);
-    }
-    // Show whatever formData we have at this time, which should include data
-    // produced by the prefill transformer
-    // eslint-disable-next-line no-console
-    console.log('Form loaded - data: ', formData);
-  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'fullName',
+      fullNamePath: 'veteranFullName',
     },
   },
   formId: '10-7959F-1',
@@ -150,23 +124,24 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
+          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },
     mailingAddress: {
       title: 'Mailing Address',
       pages: {
-        page: {
+        page3: {
           path: 'mailing-address',
           title: "Veteran's Mailing address",
           uiSchema: {
@@ -177,23 +152,45 @@ const formConfig = {
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
             veteranAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
               required: {
                 state: () => true,
               },
             }),
+            'view:prefilledAddress': {
+              'ui:description': PrefilledAddress,
+            },
           },
           schema: {
             type: 'object',
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              veteranAddress: addressSchema(),
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        page3a: {
+          path: 'same-as-mailing-address',
+          uiSchema: {
+            ...titleUI('Mailing address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your mailing address the same as your home address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
             },
           },
         },
@@ -205,6 +202,7 @@ const formConfig = {
         page4: {
           path: 'home-address',
           title: "Veteran's Home address",
+          depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
               'Home Address',
@@ -212,18 +210,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
-            // matchAddress: checkboxGroupUI({
-            //   title: ' ',
-            //   required: () => false,
-            //   labels: {
-            //     yes: 'Same as Mailing Address',
-            //   },
-            // }),
             physicalAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -234,10 +221,7 @@ const formConfig = {
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              // matchAddress: checkboxGroupSchema(['yes']),
-              physicalAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              physicalAddress: addressSchema({}),
             },
           },
         },

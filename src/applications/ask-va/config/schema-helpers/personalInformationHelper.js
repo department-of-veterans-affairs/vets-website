@@ -34,18 +34,18 @@ const branchesOfService = [
   'Marine Corps',
 ];
 
-// const pronounInfo = (
-//   <>
-//     <p className="vads-u-font-weight--bold vads-u-font-family--serif">
-//       Pronouns
-//     </p>
-//     <p className="vads-u-color--gray-medium vads-u-margin-bottom--2">
-//       Share this information if you’d like to help us understand the best way to
-//       address you.
-//     </p>
-//     <span>Select all of the Veteran’s pronouns</span>
-//   </>
-// );
+const pronounInfo = (
+  <>
+    <h4 className="vads-u-font-weight--bold vads-u-font-family--serif vads-u-font-size--h6">
+      Pronouns
+    </h4>
+    <p className="vads-u-color--gray-medium vads-u-margin-bottom--2">
+      Share this information if you’d like to help us understand the best way to
+      address you.
+    </p>
+    <span>Select all of the Veteran’s pronouns</span>
+  </>
+);
 
 // const genderInfo = (
 //   <va-additional-info
@@ -94,13 +94,13 @@ const validateGroup = (errors, values) => {
   }
 };
 
-// const pronounsLabels = {
-//   heHimHis: 'He/him/his',
-//   sheHerHers: 'She/her/hers',
-//   theyThemTheirs: 'They/them/theirs',
-//   zeZirZirs: 'Ze/zir/zirs',
-//   useMyPreferredName: 'Use my preferred name',
-// };
+const pronounsLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
+};
 
 // const genderLabels = {
 //   M: 'Man',
@@ -146,15 +146,15 @@ export const personalInformationFormSchemas = {
   socialNum: ssnSchema,
   branchOfService: selectSchema(branchesOfService),
   dateOfBirth: dateOfBirthSchema,
+  pronouns: {
+    type: 'object',
+    properties: {
+      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
+      ...{ pronounsNotListedText: { type: 'string' } },
+    },
+    required: [],
+  },
 };
-// pronouns: {
-//   type: 'object',
-//   properties: {
-//     ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
-//     ...{ pronounsNotListedText: { type: 'string' } },
-//   },
-//   required: [],
-// },
 // genderIdentity: {
 //   type: 'object',
 //   properties: { genderIdentity: { type: 'string', enum: genderOptions } },
@@ -219,19 +219,18 @@ export const personalInformationUiSchemas = {
     },
   },
   dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
+  pronouns: {
+    'ui:title': pronounInfo,
+    'ui:validations': [validateGroup],
+    'ui:options': { showFieldLabel: true },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    },
+  },
 };
 // dob: { ...currentOrPastDateUI('Date of birth'), 'ui:required': () => true },
-// pronouns: {
-//   'ui:title': pronounInfo,
-//   'ui:required': () => true,
-//   'ui:validations': [validateGroup],
-//   'ui:options': { showFieldLabel: true },
-//   ...createUiTitlePropertiesFromOptions(pronounsLabels),
-//   pronounsNotListedText: {
-//     'ui:title':
-//       'If not listed, please provide your preferred pronouns (255 characters maximum)',
-//   },
-// },
 // genderIdentity: {
 //   'ui:title': 'Gender identity',
 //   'ui:description': genderInfo,

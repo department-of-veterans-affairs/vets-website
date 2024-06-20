@@ -28,6 +28,24 @@ export const showLegacyHeader = () => {
   }
 };
 
+/**
+ * Shows or hides the minimal header and does
+ * the opposite for the default header simultaneously.
+ *
+ * @param {boolean} show
+ */
+export const toggleMinimalHeader = show => {
+  const minimalHeader = document.getElementById('header-minimal');
+  const defaultHeader = document.getElementById('header-default');
+
+  if (!minimalHeader || !defaultHeader) {
+    return;
+  }
+
+  minimalHeader.classList.toggle('vads-u-display--none', !show);
+  defaultHeader.classList.toggle('vads-u-display--none', show);
+};
+
 export const fetchSearchSuggestions = async searchTerm => {
   try {
     // Attempt to fetch suggestions.

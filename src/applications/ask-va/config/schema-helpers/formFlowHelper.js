@@ -5,8 +5,10 @@ import { CHAPTER_3 } from '../../constants';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
-import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
+import addressValidationPage from '../chapters/personalInformation/addressValidation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
+import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
+import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
 import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
@@ -17,15 +19,17 @@ import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
-import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
+import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
+import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
+import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
-import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 
 const ch3Pages = {
   yourRole: {
@@ -60,10 +64,20 @@ const ch3Pages = {
     schema: deathDatePage.schema,
     depends: form => form.isVeteranDeceased === 'YES',
   },
-  veteransAddressZip: {
-    title: CHAPTER_3.VET_POSTAL_CODE.TITLE,
-    uiSchema: veteransAddressZipPage.uiSchema,
-    schema: veteransAddressZipPage.schema,
+  veteransPostalCode: {
+    title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
+    uiSchema: veteransPostalCodePage.uiSchema,
+    schema: veteransPostalCodePage.schema,
+  },
+  veteransLocationOfResidence: {
+    title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: veteransLocationOfResidencePage.uiSchema,
+    schema: veteransLocationOfResidencePage.schema,
+  },
+  familyMembersPostalCode: {
+    title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
+    uiSchema: familyMembersPostalCodePage.uiSchema,
+    schema: familyMembersPostalCodePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -137,10 +151,10 @@ const ch3Pages = {
     schema: yourAddressPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
-  yourAddressConfirmation: {
+  addressValidation: {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
-    uiSchema: addressConfirmationPage.uiSchema,
-    schema: addressConfirmationPage.schema,
+    uiSchema: addressValidationPage.uiSchema,
+    schema: addressValidationPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
   },
   aboutYourFamilyMember: {
@@ -157,6 +171,16 @@ const ch3Pages = {
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: theirRelationshipToVeteranPage.uiSchema,
     schema: theirRelationshipToVeteranPage.schema,
+  },
+  familyMembersLocationOfResidence: {
+    title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: familyMembersLocationOfResidencePage.uiSchema,
+    schema: familyMembersLocationOfResidencePage.schema,
+  },
+  yourLocationOfResidence: {
+    title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: yourLocationOfResidencePage.uiSchema,
+    schema: yourLocationOfResidencePage.schema,
   },
 };
 
@@ -203,8 +227,9 @@ const myOwnBenVet = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
+  'veteransLocationOfResidence',
 ];
 export const myOwnBenVetPages = flowPages(
   ch3Pages,
@@ -217,14 +242,14 @@ const myOwnBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const myOwnBenFamPages = flowPages(
   ch3Pages,
@@ -236,9 +261,8 @@ const someoneElseBenVet = [
   'aboutYourself',
   'yourContactInformation',
   'howToContact',
-  'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
@@ -256,20 +280,21 @@ const someoneElseBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'whoThisIsAbout',
   'searchVAMedicalCenter',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
   'yourContactInformation',
   'searchVAMedicalCenter',
-  'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
+  'familyMembersLocationOfResidence',
   'aboutYourFamilyMember',
+  'familyMembersPostalCode',
 ];
 export const someoneElseBenFamPages = flowPages(
   ch3Pages,
@@ -292,14 +317,15 @@ const someoneElseBen3rdParty = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
+  'yourLocationOfResidence',
 ];
 export const someoneElseBen3rdPartyPages = flowPages(
   ch3Pages,
@@ -312,14 +338,14 @@ const someoneElseBen3rdPartyEducation = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
 ];
 export const someoneElseBen3rdPartyEducationPages = flowPages(
   ch3Pages,
@@ -334,7 +360,7 @@ const generalQuestion = [
   'howToContact',
   'yourCountry',
   'yourAddress',
-  'yourAddressConfirmation',
+  'addressValidation',
   'yourPostalCode',
 ];
 export const generalQuestionPages = flowPages(
@@ -343,7 +369,7 @@ export const generalQuestionPages = flowPages(
   flowPaths.general,
 );
 
-generalQuestionPages.yourAddressConfirmation_generalquestion.onNavForward = ({
+generalQuestionPages.addressValidation_generalquestion.onNavForward = ({
   goPath,
 }) => goPath('/review-then-submit');
 
