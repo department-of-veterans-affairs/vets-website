@@ -2,40 +2,47 @@ import React from 'react';
 
 import moment from 'moment';
 
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  getScrollOptions,
+  focusElement,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
-export function getInitialData({ mockData, environment }) {
-  return !!mockData && environment.isLocalhost() && !window.Cypress
+export function trackNoAuthStartLinkClick() {
+  recordEvent({ event: 'no-login-start-form' });
+}
+
+export function getInitialData({ mockData, environment: env }) {
+  return !!mockData && env.isLocalhost() && !window.Cypress
     ? mockData
     : undefined;
 }
 
+export const pageFocusScroll = () => {
+  const focusSelector =
+    'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  const scrollToName = 'v3SegmentedProgressBar';
+  return () => {
+    waitForRenderThenFocus(focusSelector);
+    setTimeout(() => {
+      scrollTo(scrollToName, getScrollOptions({ offset: 0 }));
+    }, 100);
+  };
+};
+
 export const supportingDocsDescription = (
-  <>
-    <p>
-      We don’t require that you submit anything with this form. But to speed up
-      the process, we encourage you to submit military records or discharge
-      documents if they’re available.
-    </p>
-    <p className="hideOnReviewPage">
-      To be eligible for a Presidential Memorial Certificate, the deceased
-      Veteran or Reservist must meet eligibility requirements for burial in a VA
-      national cemetery.
-    </p>
-    <p className="hideOnReviewPage">
-      Not sure if the Veteran or Reservist is eligible?
-    </p>
-    <p className="hideOnReviewPage">
-      <a href="/burials-memorials/eligibility/">
-        Check eligibility requirements for burial in a VA national cemetary
-        (opens in new tab)
-      </a>
-    </p>
-    <p className="vads-u-margin-bottom--4 hideOnReviewPage">
-      We prefer that you upload the Veteran’s or Reservist’s DD214.
-    </p>
-  </>
+  <div className="supp-docs-description">
+    <p>We prefer that you upload the Veteran’s or Reservist’s DD214.</p>
+    <p>Guidelines for uploading a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, .jpg, or .png file</li>
+      <li>Your file should be no larger than 20MB</li>
+    </ul>
+  </div>
 );
 
 export const createPayload = (file, formId, password) => {
@@ -72,12 +79,21 @@ export function parseResponse({ data }) {
 
 export function dateOfDeathValidation(errors, fields) {
   const { veteranDateOfBirth, veteranDateOfDeath } = fields;
+  // dob = date of birth | dod = date of death
   const dob = moment(veteranDateOfBirth);
   const dod = moment(veteranDateOfDeath);
 
+  // Check if the dates entered are after the date of birth
   if (dod.isBefore(dob)) {
     errors.veteranDateOfDeath.addError(
       'Provide a date that is after the date of birth',
+    );
+  }
+
+  // Check if dates have 16 or more years between them
+  if (!environment.isProduction() && dod.diff(dob, 'years') < 16) {
+    errors.veteranDateOfDeath.addError(
+      'From date of birth to date of death must be at least 16 years.',
     );
   }
 }

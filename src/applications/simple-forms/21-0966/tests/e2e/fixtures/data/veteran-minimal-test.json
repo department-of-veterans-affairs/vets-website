@@ -1,7 +1,7 @@
 {
   "preparerIdentification": "VETERAN",
   "benefitSelection": {
-    "COMPENSATION": true
+    "compensation": true
   },
   "veteranFullName": {
     "first": "Veteran",
@@ -15,7 +15,7 @@
     "country": "CAN",
     "street": "867 Five St",
     "city": "Threeoh",
-    "postalCode": "99999"
+    "postalCode": "A9A 9A9"
   },
   "veteranPhone": "1122334455"
 }

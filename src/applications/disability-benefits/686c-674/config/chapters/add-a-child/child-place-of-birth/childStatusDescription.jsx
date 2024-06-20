@@ -10,7 +10,10 @@ export const childStatusDescription = (
       or if you don’t live in the U.S. or a territory of the U.S., we require
       additional evidence to establish a dependent.
     </p>
-    <va-additional-info trigger="What are some examples of additional evidence?">
+    <va-additional-info
+      trigger="What are some examples of additional evidence?"
+      uswds="false"
+    >
       <p className="vads-u-margin-bottom--4">
         If you <strong>don’t live in the U.S.</strong> or a territory of the
         U.S., you’ll need to provide a copy of each child’s birth certificate

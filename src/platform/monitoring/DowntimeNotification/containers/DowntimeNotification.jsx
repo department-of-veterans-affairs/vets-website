@@ -99,6 +99,7 @@ class DowntimeNotification extends React.Component {
     if (this.props.render) {
       return this.props.render(
         {
+          appTitle: this.props.appTitle,
           externalService: this.props.externalService,
           status: this.props.status,
           startTime: this.props.startTime,
@@ -114,7 +115,7 @@ class DowntimeNotification extends React.Component {
     }
 
     if (this.props.status === externalServiceStatus.down) {
-      return <Down {...this.props} />;
+      return <Down {...this.props} appType={appType} headerLevel={2} />;
     }
 
     return children;

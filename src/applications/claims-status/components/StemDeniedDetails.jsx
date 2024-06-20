@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 const StemDeniedDetails = ({
   deniedAt,
@@ -190,6 +190,7 @@ const StemDeniedDetails = ({
           More resources about VA benefits
         </h3>
         <a
+          data-testid="edith-north-rodgers-stem-link"
           href="https://www.va.gov/education/other-va-education-benefits/stem-scholarship/"
           onClick={() => {
             recordResourceLinkClick(
@@ -205,6 +206,7 @@ const StemDeniedDetails = ({
           Learn more about eligibility and how to apply for this scholarship.
         </p>
         <a
+          data-testid="find-va-form-link"
           href="https://www.va.gov/vaforms"
           onClick={() => {
             recordResourceLinkClick('Find a VA Form', 'Search for a VA form.');
@@ -217,6 +219,7 @@ const StemDeniedDetails = ({
           Search for a VA form.
         </p>
         <a
+          data-testid="gi-bill-comp-tool-link"
           href="https://www.va.gov/education/gi-bill-comparison-tool"
           onClick={() => {
             recordResourceLinkClick(

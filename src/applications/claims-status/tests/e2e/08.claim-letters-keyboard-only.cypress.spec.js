@@ -3,45 +3,47 @@ import claimLetters from './fixtures/mocks/claim-letters/list.json';
 
 describe('Claim Letters Page', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/claim_letters', claimLetters.data);
+    cy.intercept('GET', '/v0/claim_letters', claimLetters.data).as(
+      'claimLetters',
+    );
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
       'featureToggleEnabled',
     );
 
     cy.login();
-    cy.visit('track-claims/your-claim-letters');
-    // adds .focus() so tests are able to work with the va-loading-indicator web component
-    // cy.get('.va-header-logo').focus();
-    // TO DO: remove this comment block, as it is not needed.
-    cy.injectAxe();
   });
 
   it('Can tab to download link and pagination', () => {
-    cy.tabToElement('va-link').should('exist');
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
+    cy.tabToElement('#claim-letter-list va-link').should('exist');
     cy.tabToElement('va-pagination').should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Pagination buttons work properly', () => {
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
+
     // 'Prev' button should not show on first page
     cy.contains(/Previous/i).should('not.exist');
 
     // Click 'Next' button
-    cy.tabToElement('.pagination-next li .button-next').realPress('Enter');
+    cy.tabToElement('.usa-pagination__next-page').realPress('Enter');
 
     // Now on second page
     // 'Previous' button should now be shown
     cy.contains(/Previous/i).should('exist');
 
     // Click 'Prev' button
-    cy.tabToElement('.pagination-prev li .button-prev', false, true) // had to use forward = false parameter to avoid a timeout error
+    cy.tabToElement('.usa-pagination__previous-page', false, true) // had to use forward = false parameter to avoid a timeout error
       .realPress('Enter');
 
     // Back on first page
     // 'Prev' button should not show
     cy.contains(/Previous/i).should('not.exist');
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Downloads a file successfully when link is focused and enter key is pressed', () => {
@@ -59,8 +61,10 @@ describe('Claim Letters Page', () => {
       fixture:
         'applications/claims-status/tests/e2e/fixtures/mocks/claim-letters/letter.txt',
     }).as('downloadFile');
+    cy.visit('track-claims/your-claim-letters');
+    cy.wait(['@claimLetters']);
 
-    cy.tabToElement('va-link').realPress('Enter');
+    cy.tabToElement('#claim-letter-list va-link').realPress('Enter');
 
     cy.wait('@downloadFile')
       .its('response.statusCode')
@@ -71,6 +75,6 @@ describe('Claim Letters Page', () => {
       'Test claim letter',
     );
 
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

@@ -2,6 +2,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { isActivePage, isInProgressPath } from '../helpers';
+import {
+  VA_FORM_IDS,
+  getAllFormLinks,
+  memoizedGetFormLink,
+} from '../constants';
 
 describe('Helpers unit tests', () => {
   describe('isInProgress', () => {
@@ -85,6 +90,51 @@ describe('Helpers unit tests', () => {
       const result = isActivePage(page, data);
 
       expect(result).to.be.true;
+    });
+  });
+
+  describe('getAllFormLinks', () => {
+    it('constructs form links correctly', () => {
+      const mockGetAppUrl = sinon.stub().returns('testUrl');
+      const formLinks = getAllFormLinks(mockGetAppUrl);
+
+      expect(formLinks[VA_FORM_IDS.FORM_10_10EZ]).to.equal('testUrl/');
+    });
+
+    it('throws an error if getAppUrlImpl is not provided', () => {
+      expect(() => getAllFormLinks()).to.throw(
+        'getAppUrlImpl is required as an argument of getAllFormLinks()',
+      );
+    });
+  });
+
+  describe('memoizedGetFormLink', () => {
+    it('returns the correct link for a form ID', () => {
+      const getFormLink = memoizedGetFormLink(sinon.stub().returns('testUrl'));
+      const link = getFormLink(VA_FORM_IDS.FORM_10_10EZ);
+
+      expect(link).to.equal('testUrl/');
+    });
+
+    it('memoizes the form links', () => {
+      const mockGetAppUrl = sinon.stub().returns('testUrl');
+      const getFormLink = memoizedGetFormLink(mockGetAppUrl);
+
+      getFormLink(VA_FORM_IDS.FORM_10_10EZ);
+
+      const firstCallCount = mockGetAppUrl.callCount;
+
+      getFormLink(VA_FORM_IDS.FORM_10_10EZ);
+
+      // shouldn't have called getAppUrlImpl again
+      expect(mockGetAppUrl.callCount === firstCallCount).to.be.true;
+    });
+
+    it('returns null for an unknown form ID', () => {
+      const getFormLink = memoizedGetFormLink(sinon.stub().returnsArg(0));
+      const link = getFormLink('unknown-form-id');
+
+      expect(link).to.be.null;
     });
   });
 });

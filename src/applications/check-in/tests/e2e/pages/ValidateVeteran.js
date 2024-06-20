@@ -27,6 +27,10 @@ class ValidateVeteran {
     preCheckIn: (language = 'en') => {
       this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
+    travelClaim: () => {
+      cy.get('[data-testid="travelClaim-validate-page"]').should('be.visible');
+      cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
+    },
   };
 
   validateVeteran = (
@@ -169,8 +173,8 @@ class ValidateVeteran {
 
   validateAutocorrectDisabled = () => {
     cy.get('[label="Your last name"]')
-      .should('have.attr', 'autocorrect', 'false')
-      .should('have.attr', 'spellcheck', 'false');
+      .should('have.attr', 'auto-correct', 'false')
+      .should('have.attr', 'spell-check', 'false');
   };
 
   getLastNameError = () => {

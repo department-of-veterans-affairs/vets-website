@@ -16,7 +16,6 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import InfoAlert from '../../../components/InfoAlert';
 import useFormState from '../../../hooks/useFormState';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
@@ -55,7 +54,7 @@ function VAFacilityPage({
 
   const pageTitle = singleValidVALocation
     ? 'Your appointment location'
-    : 'Choose a location';
+    : 'Choose a VA location';
 
   useEffect(() => {
     if (featureBreadcrumbUrlUpdate) {
@@ -146,6 +145,15 @@ function VAFacilityPage({
       <div>
         <va-loading-indicator message="Finding locations" />
       </div>
+    );
+  }
+  if (loadingClinics) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
     );
   }
 
@@ -317,13 +325,6 @@ function VAFacilityPage({
             />
           </SchemaForm>
         )}
-
-      <LoadingOverlay
-        show={loadingClinics}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
 
       {showEligibilityModal && (
         <EligibilityModal

@@ -143,6 +143,26 @@ async function getScaffoldAssets() {
   return Object.fromEntries(loadedAssets);
 }
 
+const templateLayoutToDevTemplate = {
+  'accredited-representative-portal.html':
+    'src/platform/landing-pages/arp-dev-template.ejs',
+};
+
+/**
+ * Retrieves the development template path for a given content-build layout
+ *
+ * @param {String} templateLayout - The content-build layout file that the
+ * development template is simulating
+ * @return {String} - The path to the development template. Falls back to the
+ * default development template if no specific alternative template is found.
+ */
+function getDevTemplate(templateLayout) {
+  return (
+    templateLayoutToDevTemplate[templateLayout] ||
+    'src/platform/landing-pages/dev-template.ejs'
+  );
+}
+
 /**
  * Generates HTML files for each app and widget.
  *
@@ -210,7 +230,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      template: 'src/platform/landing-pages/dev-template.ejs',
+      template: getDevTemplate(template.layout),
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
@@ -301,6 +321,18 @@ module.exports = async (env = {}) => {
               // Also see .babelrc
             },
           },
+        },
+        {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'babel-loader',
+            },
+            {
+              loader: 'ts-loader',
+            },
+          ],
+          exclude: /node_modules/,
         },
         {
           test: /\.(sa|sc|c)ss$/,
@@ -395,7 +427,7 @@ module.exports = async (env = {}) => {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
       },
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
         fs: false,
         assert: require.resolve('assert/'),
@@ -405,6 +437,7 @@ module.exports = async (env = {}) => {
         stream: require.resolve('readable-stream'),
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
+        'process/browser': require.resolve('process/browser'),
       },
       symlinks: false,
     },
@@ -448,6 +481,8 @@ module.exports = async (env = {}) => {
         'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
           process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
+        'process.env.USE_LOCAL_DIRECTLINE':
+          process.env.USE_LOCAL_DIRECTLINE || false,
       }),
 
       new webpack.ProvidePlugin({
@@ -478,6 +513,11 @@ module.exports = async (env = {}) => {
           {
             from: 'src/site/assets',
             to: buildPath,
+          },
+          {
+            from:
+              'node_modules/@department-of-veterans-affairs/component-library/dist/img/',
+            to: `${buildPath}/img/`,
           },
         ],
       }),

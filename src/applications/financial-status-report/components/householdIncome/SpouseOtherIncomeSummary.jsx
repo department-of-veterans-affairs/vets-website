@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -13,8 +13,8 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-
 import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const keyFieldsSpouseOtherIncome = ['amount', 'name'];
 
@@ -26,35 +26,49 @@ const SpouseOtherIncomeSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome } = data;
+  const {
+    additionalIncome,
+    gmtData,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { spouse } = additionalIncome;
   const { spAddlIncome = [] } = spouse;
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = reviewNavigation
+    ? 'Continue to review page'
+    : 'Continue';
 
   // useEffect to set incomeBelowGmt if income records changes
-  useEffect(
-    () => {
+  // Calculate income properties as necessary
+  useEffect(() => {
+    const calculateIncome = async () => {
       if (!gmtData?.isEligibleForStreamlined) return;
 
-      const calculatedIncome = calculateTotalAnnualIncome(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-          incomeBelowOneFiftyGmt:
-            calculatedIncome < gmtData?.incomeUpperThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      spAddlIncome,
-      gmtData?.isEligibleForStreamlined,
-      gmtData?.gmtThreshold,
-      gmtData?.incomeUpperThreshold,
-    ],
-  );
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in SpouseOtherIncomeSummary: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -85,6 +99,18 @@ const SpouseOtherIncomeSummary = ({
     return goToPath('/spouse-additional-income-values');
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (showReviewNavigation && reviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const cardBody = text => (
     <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
@@ -93,10 +119,10 @@ const SpouseOtherIncomeSummary = ({
   const emptyPrompt = `Select the ‘add other income’ link to add other income. Select the continue button to move on to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
-          id="added-income-summary"
+          id="spouse-added-income-summary"
           className="schemaform-block-title"
           name="addedIncomeSummary"
         >
@@ -137,7 +163,20 @@ const SpouseOtherIncomeSummary = ({
             Add additional other income
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: continueButtonText,
+                onClick: onSubmit,
+                isSubmitting: true, // If this button submits a form
+              },
+            ]}
+          />
           {contentAfterButtons}
         </div>
         {isModalOpen ? (
@@ -169,6 +208,8 @@ SpouseOtherIncomeSummary.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       incomeUpperThreshold: PropTypes.number,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goForward: PropTypes.func,
   goToPath: PropTypes.func,

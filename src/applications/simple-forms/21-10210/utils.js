@@ -1,3 +1,5 @@
+import { defaultFocusSelector } from 'platform/utilities/ui/focus';
+
 import {
   CLAIM_OWNERSHIPS,
   CLAIMANT_TYPES,
@@ -31,11 +33,11 @@ export const witnessHasOtherRelationship = formData => {
 };
 
 export const getFocusSelectorFromPath = pathname => {
-  let focusSelector = '#nav-form-header';
+  let focusSelector = defaultFocusSelector;
 
   if (
-    pathname.includes('claim-ownership') ||
-    pathname.includes('claimant-type')
+    pathname.endsWith('/claim-ownership') ||
+    pathname.endsWith('/claimant-type')
   ) {
     focusSelector = '#main .schemaform-first-field legend';
   }

@@ -27,7 +27,7 @@ describe('check in utils', () => {
       expect(
         isInPilot({
           appointment: nonFeaturedStation,
-          pilotFeature: 'fileTravelClaim',
+          pilotFeature: 'exampleFeature',
         }),
       ).to.be.false;
     });
@@ -35,7 +35,7 @@ describe('check in utils', () => {
       expect(
         isInPilot({
           appointment: nonFeaturedClinic,
-          pilotFeature: 'fileTravelClaim',
+          pilotFeature: 'exampleFeature',
         }),
       ).to.be.false;
     });
@@ -43,16 +43,16 @@ describe('check in utils', () => {
       expect(
         isInPilot({
           appointment: featuredAppointment,
-          pilotFeature: 'fileTravelClaim',
+          pilotFeature: 'exampleFeature',
         }),
       ).to.be.true;
     });
-    it('should return tru if only station is listed', () => {
+    it('should return true if only station is listed', () => {
       const appointment = {
         stationNo: '500',
         clinicIen: '3003',
       };
-      expect(isInPilot({ appointment, pilotFeature: 'fileTravelClaim' })).to.be
+      expect(isInPilot({ appointment, pilotFeature: 'exampleFeature' })).to.be
         .true;
     });
   });

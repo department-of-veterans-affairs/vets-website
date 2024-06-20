@@ -1,37 +1,31 @@
 import React, { useEffect, useCallback } from 'react';
-import { Prompt } from 'react-router-dom';
-import { useLastLocation } from 'react-router-last-location';
+import { Prompt, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { openModal } from '@@vap-svc/actions';
 
-import {
-  hasBadAddress,
-  personalInformationLoadError,
-} from '@@profile/selectors';
+import { openModal, clearMostRecentlySavedField } from '@@vap-svc/actions';
+import { personalInformationLoadError } from '@@profile/selectors';
 
-import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
-
 import PersonalInformationContent from './PersonalInformationContent';
-
-import { PROFILE_PATHS } from '../../constants';
-
-import BadAddressAlert from '../alerts/bad-address/ProfileAlert';
+import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
   const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
   return document.querySelector(hashWithoutLeadingEdit);
 };
-
+/**
+ *
+ *
+ * @return {*}
+ */
 const PersonalInformation = () => {
-  const lastLocation = useLastLocation();
+  const location = useLocation();
 
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
@@ -40,8 +34,6 @@ const PersonalInformation = () => {
   const hasPersonalInformationServiceError = !!useSelector(
     personalInformationLoadError,
   );
-
-  const userHasBadAddress = useSelector(hasBadAddress);
 
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
@@ -64,27 +56,15 @@ const PersonalInformation = () => {
 
   useEffect(
     () => {
-      // Set the focus on the page's focus target _unless_ one of the following
-      // is true:
-      // - there is a hash in the URL and there is a named-anchor that matches
-      //   the hash
-      // - the user just came to this route via the root profile route. If a
-      //   user got to the Profile via a link to /profile or /profile/ we want
-      //   to focus on the "Profile" sub-nav H1, not the H2 on this page, for
-      //   a11y reasons
-      const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
-      if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
-        return;
-      }
-      if (window.location.hash) {
+      if (location.hash) {
         // We will always attempt to focus on the element that matches the
         // location.hash
-        const focusTarget = document.querySelector(window.location.hash);
+        const focusTarget = document.querySelector(location.hash);
         // But if the hash starts with `edit` we will scroll a different
         // element to the top of the viewport
-        const scrollTarget = getScrollTarget(window.location.hash);
+        const scrollTarget = getScrollTarget(location.hash);
         if (scrollTarget) {
-          scrollTarget.scrollIntoView();
+          scrollTarget.scrollIntoView?.();
         }
         if (focusTarget) {
           focusElement(focusTarget);
@@ -94,7 +74,7 @@ const PersonalInformation = () => {
 
       focusElement('[data-focus-target]');
     },
-    [lastLocation],
+    [location],
   );
 
   useEffect(
@@ -125,11 +105,6 @@ const PersonalInformation = () => {
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      {userHasBadAddress && (
-        <>
-          <BadAddressAlert />
-        </>
-      )}
 
       <Headline>Personal information</Headline>
 

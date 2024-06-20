@@ -24,11 +24,17 @@ describe('Avs: Your Appointment', () => {
     expect(screen.getByTestId('diagnoses-list').children[1]).to.have.text(
       'Dyslipidemia',
     );
-    expect(screen.getByTestId('vitals').children[4]).to.have.text(
-      'Pulse OximetryResult: 100',
+    expect(screen.getByTestId('vitals').children[1].children[3]).to.have.text(
+      'Pulse OximetryResult: 100 (Room Air)',
     );
-    expect(screen.getByTestId('clinic-medications').children[2].nodeName).to.eq(
-      'VA-ADDITIONAL-INFO',
+    expect(screen.getByTestId('vitals').children[1].children[4]).to.have.text(
+      'HeightResult: 66 in',
+    );
+    expect(screen.getByTestId('procedure-list').children[1]).to.have.text(
+      'SARSCOV2 VAC 5X1010VP/.5MLIM',
+    );
+    expect(screen.getByTestId('clinic-medications')).to.contain.text(
+      'Ketorolac Tromethamine Inj',
     );
   });
 
@@ -36,15 +42,31 @@ describe('Avs: Your Appointment', () => {
     const avs = replacementFunctions.cloneDeep(avsData);
     delete avs.reasonForVisit;
     delete avs.diagnoses;
-    delete avs.vitals;
+    avs.providers = null;
+    avs.vitals = [];
     delete avs.procedures;
+    delete avs.clinicMedications;
     delete avs.vaMedications;
     const props = { avs };
     const screen = render(<YourAppointment {...props} />);
     expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
     expect(screen.queryByTestId('diagnoses-list')).to.not.exist;
+    expect(screen.queryByTestId('provider-list')).to.not.exist;
     expect(screen.queryByTestId('vitals')).to.not.exist;
     expect(screen.queryByTestId('procedures')).to.not.exist;
     expect(screen.queryByTestId('clinic-medications')).to.not.exist;
+  });
+
+  it('Reason for visit section is not shown when it contains only empty values', async () => {
+    const avs = replacementFunctions.cloneDeep(avsData);
+    avs.reasonForVisit = [
+      {
+        diagnosis: null,
+        code: null,
+      },
+    ];
+    const props = { avs };
+    const screen = render(<YourAppointment {...props} />);
+    expect(screen.queryByTestId('reason-for-appt-list')).to.not.exist;
   });
 });

@@ -2,7 +2,6 @@ import user from '@@profile/mocks/endpoints/user';
 import commPrefs from '@@profile/mocks/endpoints/communication-preferences';
 import { mockProfileLOA3, registerCypressHelpers } from '../helpers';
 
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import { PROFILE_PATHS } from '../../../constants';
 
 registerCypressHelpers();
@@ -21,13 +20,11 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForWebComponentLoadingIndicator();
-
-      cy.injectAxeThenAxeCheck();
-
       cy.findByRole('link', { name: /Back to/i }).click();
 
       cy.url().should('contain', '/profile/notifications');
+
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should allow the form cancel button to send user back to notification settings page', () => {
@@ -37,13 +34,11 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForWebComponentLoadingIndicator();
-
-      cy.injectAxeThenAxeCheck();
-
-      cy.findByTestId('cancel-edit-button').click();
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.url().should('contain', '/profile/notifications');
+
+      cy.injectAxeThenAxeCheck();
     });
   });
 
@@ -55,27 +50,24 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForWebComponentLoadingIndicator();
-
-      cy.injectAxeThenAxeCheck();
-
-      cy.findByLabelText(/Mobile phone number/i)
-        .clear()
-        .type('970-867-5309');
+      cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
 
       cy.findByRole('link', { name: /Back to/i }).click();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('.usa-button-group va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');
 
-      cy.url().should('contain', '/profile/notifications');
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should show modal when the form cancel button is clicked and allow user to cancel edit and return to notification settings page', () => {
@@ -85,22 +77,21 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForWebComponentLoadingIndicator();
+      cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
+
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.injectAxeThenAxeCheck();
-
-      cy.findByLabelText(/Mobile phone number/i)
-        .clear()
-        .type('970-867-5309');
-
-      cy.findByTestId('cancel-edit-button').click();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');
@@ -113,22 +104,22 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      checkForWebComponentLoadingIndicator();
+      cy.fillVaTextInput('root_inputPhoneNumber', ' ');
+      cy.realPress('Tab');
+
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.injectAxeThenAxeCheck();
-
-      cy.findByLabelText(/Mobile phone number/i)
-        .type('{backspace}')
-        .tab();
-
-      cy.findByTestId('cancel-edit-button').click();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');
@@ -161,10 +152,6 @@ describe('Edit page', () => {
         commPrefs.maximalSetOfPreferences,
       );
 
-      checkForWebComponentLoadingIndicator();
-
-      cy.injectAxeThenAxeCheck();
-
       cy.findByTestId('save-edit-button').click();
 
       cy.url().should('contain', '/profile/notifications');
@@ -172,6 +159,8 @@ describe('Edit page', () => {
       cy.findByText(
         'We saved your mobile phone number to your profile.',
       ).should('exist');
+
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

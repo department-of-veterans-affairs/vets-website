@@ -41,7 +41,7 @@ export const DebtNotificationAlert = ({
             </span>
             <CTALink
               text="Manage your VA debt"
-              href="/manage-va-debt/your-debt"
+              href="/manage-va-debt/summary/debt-balances"
               onClick={() =>
                 recordEvent({
                   event: 'dashboard-navigation',

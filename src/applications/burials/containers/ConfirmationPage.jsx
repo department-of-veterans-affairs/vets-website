@@ -7,38 +7,25 @@ import { focusElement } from 'platform/utilities/ui';
 import { benefitsLabels } from '../labels';
 
 class ConfirmationPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isExpanded: false };
-  }
-
   componentDidMount() {
     focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }
 
-  toggleExpanded = e => {
-    e.preventDefault();
-    this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
   render() {
     const { form } = this.props;
-    const response = form.submission.response ? form.submission.response : {};
+    const response = form?.submission?.response ?? {};
     const {
       'view:claimedBenefits': benefits,
       claimantFullName: claimantName,
       veteranFullName: veteranName,
-    } = form.data;
+    } = form?.data;
     const hasDocuments =
-      form.data.deathCertificate || form.data.transportationReceipts;
+      form?.data?.deathCertificate || form?.data?.transportationReceipts;
     const { deathCertificate, transportationReceipts } = form.data;
 
     const submittedAt = moment(form.submission.submittedAt);
     const offset = submittedAt.isDST() ? '-0500' : '-0600';
-    const handlers = {
-      print: () => window.print(),
-    };
 
     return (
       <div>
@@ -89,7 +76,7 @@ class ConfirmationPage extends React.Component {
             </li>
             <li>
               <h4>Benefits claimed</h4>
-              <ul>
+              <ul className="benefits-claimed">
                 {Object.entries(benefits).map(([benefitName, isRequested]) => {
                   const label = benefitsLabels[benefitName];
                   return isRequested && label ? (
@@ -120,13 +107,12 @@ class ConfirmationPage extends React.Component {
               </address>
             </li>
           </ul>
-          <button
-            type="button"
+          <va-button
             className="usa-button screen-only"
-            onClick={handlers.print}
-          >
-            Print for your records
-          </button>
+            onClick={() => window.print()}
+            text="Print for your records"
+            uswds="false"
+          />
         </div>
         <div className="confirmation-guidance-container">
           <h3 className="confirmation-guidance-heading">Need help?</h3>

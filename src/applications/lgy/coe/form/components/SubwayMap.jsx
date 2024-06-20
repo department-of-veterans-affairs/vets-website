@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SubwayMap = () => (
-  <va-process-list class="vads-u-padding-bottom--0">
+  <va-process-list class="vads-u-padding-bottom--0" uswds="false">
     <li>
       <h3>Check your service requirements</h3>
       <p>
@@ -71,7 +71,10 @@ const SubwayMap = () => (
           of your honorable service.
         </li>
       </ul>
-      <va-additional-info trigger="What’s a statement of service?">
+      <va-additional-info
+        trigger="What’s a statement of service?"
+        uswds="false"
+      >
         <p>
           A statement of service—signed by your commander, adjutant, or
           personnel officer—is a letter showing this information:
@@ -93,7 +96,10 @@ const SubwayMap = () => (
         Complete the form to request a VA home loan Certificate of Eligibility.
         It should take about 15 minutes.
       </p>
-      <va-additional-info trigger="What happens after I request a COE?">
+      <va-additional-info
+        trigger="What happens after I request a COE?"
+        uswds="false"
+      >
         <p className="vads-u-margin-bottom--0p5">
           After submitting your request, you’ll get a confirmation message. It
           will include details about your next steps. We may contact you if we

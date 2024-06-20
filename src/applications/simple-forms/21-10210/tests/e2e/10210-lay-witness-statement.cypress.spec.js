@@ -8,8 +8,13 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import { getSignerFullName } from './helpers';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
-import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
+import {
+  getPagePaths,
+  fillAddressWebComponentPattern,
+  reviewAndSubmitPageFlow,
+} from '../../../shared/tests/e2e/helpers';
 
+const pagePaths = getPagePaths(formConfig);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -21,7 +26,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start/i, { selector: 'button' });
+          cy.get('va-button[text*="start"]');
           cy.findByText(/without signing in/i).click({ force: true });
         });
       },
@@ -40,12 +45,40 @@ const testConfig = createTestConfig(
               .shadow()
               .get('#checkbox-element')
               .first()
-              .click()
+              .click({ force: true })
               .then(() => {
                 cy.findByText('Continue')
                   .first()
                   .click();
               });
+          });
+        });
+      },
+      [pagePaths.veteranMailingAddressInfo1]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'veteranMailingAddress',
+              data.veteranMailingAddress,
+            );
+
+            cy.axeCheck('.form-panel');
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [pagePaths.claimantAddrInfoPage]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            if (data.claimantMailingAddress) {
+              fillAddressWebComponentPattern(
+                'claimantMailingAddress',
+                data.claimantMailingAddress,
+              );
+
+              cy.axeCheck('.form-panel');
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            }
           });
         });
       },
@@ -64,7 +97,7 @@ const testConfig = createTestConfig(
               .shadow()
               .get('#checkbox-element')
               .first()
-              .click()
+              .click({ force: true })
               .then(() => {
                 cy.findByText('Continue')
                   .first()

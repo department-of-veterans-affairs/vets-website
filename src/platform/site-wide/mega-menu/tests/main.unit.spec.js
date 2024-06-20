@@ -5,33 +5,57 @@ import {
   getAuthorizedLinkData,
 } from '../containers/Main';
 
+import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
+import MY_VA_LINK from '../constants/MY_VA_LINK';
+
 describe('mega-menu', () => {
   describe('Main.jsx', () => {
-    describe('flagCurrentPageIntopLevelLinks', () => {
-      it('should return object with currentPage: true when path name matches href', () => {
-        const pathName = '/test';
-        const links = [
-          {
-            href: '/test',
-          },
-          {
-            href: 'not',
-          },
-        ];
-        const expectedResult = [
-          {
-            href: '/test',
-            currentPage: true,
-          },
-          {
-            href: 'not',
-          },
-        ];
-        const actualResult = flagCurrentPageInTopLevelLinks(links, pathName);
+    const links = [MY_VA_LINK, MY_HEALTH_LINK];
 
-        expect(actualResult).to.eql(expectedResult);
+    describe('link constants', () => {
+      links.forEach(({ href }) => {
+        it(`${href} must end with a forward-slash`, () => {
+          expect(href.endsWith('/')).to.be.true;
+        });
       });
     });
+
+    describe('flagCurrentPageInTopLevelLinks', () => {
+      ['/my-va', '/my-va/', '/my-va/abc', '/my-va/abc/'].forEach(path => {
+        it(`sets currentPage on the myVA link object for ${path} path`, () => {
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
+          expect(myVa.currentPage).to.be.true;
+          expect(myHealth.currentPage).to.be.undefined;
+        });
+      });
+
+      [
+        '/my-health',
+        '/my-health/',
+        '/my-health/messages',
+        '/my-health/messages/',
+      ].forEach(path => {
+        it(`sets currentPage on the myHealth link object for ${path} path`, () => {
+          const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(links, path);
+          expect(myVa.currentPage).to.be.undefined;
+          expect(myHealth.currentPage).to.be.true;
+        });
+      });
+
+      ['/', '/no', '', 'asdf', '/my-healthcare', '/my-va-benefits'].forEach(
+        path => {
+          it(`does not set currentPage for ${path} path`, () => {
+            const [myVa, myHealth] = flagCurrentPageInTopLevelLinks(
+              links,
+              path,
+            );
+            expect(myVa.currentPage).to.be.undefined;
+            expect(myHealth.currentPage).to.be.undefined;
+          });
+        },
+      );
+    });
+
     describe('maybeMergeAuthorizedLinkData', () => {
       it('should merge Authorized links when loggedIn is true', () => {
         const AuthorizedLinks = ['test2', 'test3'];

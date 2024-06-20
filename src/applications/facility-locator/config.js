@@ -21,9 +21,9 @@ const apiSettings = {
 };
 
 const railsEngineApi = {
-  baseUrl: `${environment.API_URL}/facilities_api/v1`,
-  url: `${environment.API_URL}/facilities_api/v1/va`,
-  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  baseUrl: `${environment.API_URL}/facilities_api/v2`,
+  url: `${environment.API_URL}/facilities_api/v2/va`,
+  ccUrl: `${environment.API_URL}/facilities_api/v2/ccp`,
   settings: apiSettings,
 };
 
@@ -58,7 +58,7 @@ export const resolveParamsWithUrl = ({
 
   let facility;
   let service;
-  let url = api.url;
+  let { url } = api;
   let roundRadius;
   const perPage = 10;
   let communityServiceType = false;
@@ -134,6 +134,36 @@ export const resolveParamsWithUrl = ({
     ];
   }
 
+  const postLocationParams = {};
+  locationParams.forEach(param => {
+    if (param === null) return;
+    const arr = param.split('=');
+
+    if (arr[0] === 'bbox[]') {
+      if (!('bbox' in postLocationParams)) {
+        postLocationParams.bbox = [];
+      }
+      postLocationParams.bbox.push(param.split('=')[1]);
+    } else {
+      postLocationParams[arr[0]] = arr[1];
+    }
+  });
+
+  const postParamsObj = {
+    type: facility && !communityServiceType ? facility : null,
+    services:
+      filterableLocations.includes(facility) && service ? [service] : null,
+    page,
+    // eslint-disable-next-line camelcase
+    per_page: perPage,
+    mobile:
+      facility === LocationType.VET_CENTER || facility === LocationType.HEALTH
+        ? false
+        : null,
+    radius: roundRadius || null,
+    ...postLocationParams,
+  };
+
   return {
     url,
     params: compact([
@@ -148,6 +178,9 @@ export const resolveParamsWithUrl = ({
       roundRadius ? `radius=${roundRadius}` : null,
       ...locationParams,
     ]).join('&'),
+    postParams: Object.fromEntries(
+      Object.entries(postParamsObj).filter(([_, v]) => v != null),
+    ),
   };
 };
 
@@ -229,7 +262,7 @@ export const benefitsServices = {
   TransitionAssistance: 'Transition help',
   UpdatingDirectDepositInformation: 'Updating direct deposit information',
   VocationalRehabilitationAndEmploymentAssistance:
-    'Vocational rehabilitation and employment help',
+    'Veteran Readiness and Employment help',
 };
 
 export const vetCenterServices = [

@@ -206,6 +206,13 @@ function isValidEmail(value) {
   );
 }
 
+// Checks for a zipcode of valid length; use isValidUSZipCode if you need to
+// include the zipcode + 4
+function isValidZipcode(value) {
+  const stripped = (value || '').replace(/[^\d]/g, '');
+  return stripped.length === 5;
+}
+
 // Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
 function isValidRoutingNumber(value) {
   if (/^\d{9}$/.test(value)) {
@@ -223,7 +230,7 @@ function isValidRoutingNumber(value) {
 // validator to prevent users from entering just whitespace on required fields
 function validateWhiteSpace(errors, input) {
   if (typeof input !== 'undefined' && !/\S/.test(input)) {
-    errors.addError('Please provide a response');
+    errors.addError('You must provide a response');
   }
 }
 
@@ -278,6 +285,7 @@ export {
   isValidRequiredField,
   isValidSSN,
   isValidValue,
+  isValidZipcode,
   validateCustomFormComponent,
   validateDateOfBirth,
   validateIfDirty,

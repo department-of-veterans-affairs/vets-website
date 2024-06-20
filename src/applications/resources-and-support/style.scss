@@ -9,7 +9,7 @@
 
 .medium-screen-va-background-color--white {
   @media (min-width: $medium-screen) {
-    background-color: $color-white !important;
+    background-color: var(--vads-color-white) !important;
   }
 }
 
@@ -27,4 +27,8 @@
   .va-hide-on-print-view {
     display: none;
   }
+}
+
+#resources-support-search.usa-input-error {
+  right: unset;
 }

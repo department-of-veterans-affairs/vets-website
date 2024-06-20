@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import ApplicationInProgress from '../../../components/apply-for-benefits/ApplicationInProgress';
+import ApplicationInProgress from '../../../components/benefit-application-drafts/ApplicationInProgress';
 
 describe('ApplicationInProgress component', () => {
   const defaultProps = () => {
@@ -10,7 +10,7 @@ describe('ApplicationInProgress component', () => {
       continueUrl: 'application-url/resume',
       formId: '1234',
       formTitle: 'form title',
-      lastOpenedDate: 'Jan 1, 2019',
+      lastSavedDate: 'Jan 1, 2019',
       presentableFormId: 'Form 1234',
     };
   };
@@ -25,7 +25,9 @@ describe('ApplicationInProgress component', () => {
     let view;
 
     beforeEach(() => {
-      view = render(<ApplicationInProgress {...props} />);
+      view = renderWithStoreAndRouter(<ApplicationInProgress {...props} />, {
+        initialState: {},
+      });
     });
 
     it('renders the correct presentable form ID', () => {
@@ -42,8 +44,8 @@ describe('ApplicationInProgress component', () => {
       ).to.exist;
     });
 
-    it('renders the last opened date', () => {
-      expect(view.getByText(new RegExp(`opened.*${props.lastOpenedDate}`, 'i')))
+    it('renders the last saved date', () => {
+      expect(view.getByText(new RegExp(`saved.*${props.lastSavedDate}`, 'i')))
         .to.exist;
     });
 

@@ -20,7 +20,7 @@ describe('ezr <InsuranceCoverageField>', () => {
     },
   });
 
-  context('when a no default value is provided', () => {
+  context('when no default value is provided', () => {
     it('should render radio inputs without checked attribute', () => {
       const { props } = getData({});
       const { container } = render(<InsuranceCoverageField {...props} />);

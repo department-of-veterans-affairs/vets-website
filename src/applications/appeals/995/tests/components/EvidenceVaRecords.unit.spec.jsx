@@ -9,10 +9,21 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
-import { errorMessages, EVIDENCE_VA_PATH } from '../../constants';
-import { getDate } from '../../utils/dates';
+import {
+  errorMessages,
+  EVIDENCE_VA_PATH,
+  NO_ISSUES_SELECTED,
+} from '../../constants';
 
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
+import { clickAddAnother, clickBack, clickContinue } from './helpers';
+
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import {
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+  SELECTED,
+} from '../../../shared/constants';
+import sharedErrorMessage from '../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -22,7 +33,7 @@ import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidenceVaRecords>', () => {
-  const validDate = getDate({ offset: { months: -2 } });
+  const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
       {
@@ -92,20 +103,62 @@ describe('<EvidenceVaRecords>', () => {
     ).to.eq(2);
   });
 
-  const clickEvent = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
+  it('should update location name', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({ setFormData: setDataSpy });
+    const { container } = render(page);
+
+    const input = $('va-text-input', container);
+    input.value = 'location 99';
+    fireEvent.input(input, { target: { name: 'name' } });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      locationAndName: input.value,
+      issues: [],
+      evidenceDates: { from: '', to: '' },
+    });
   });
 
-  const clickContinue = container => {
-    const pair = $('va-button-pair', container);
-    pair.__events.primaryClick(clickEvent);
-  };
+  it('should add newly selected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, locations: [mockLocation] },
+    });
+    const { container } = render(page);
 
-  const clickBack = container => {
-    const pair = $('va-button-pair', container);
-    pair.__events.secondaryClick(clickEvent);
-  };
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, label: 'test 2' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      ...mockLocation,
+      issues: ['test 1', 'test 2'],
+    });
+  });
+
+  it('should remove unselected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, locations: [mockLocation] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: false, label: 'test 1' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].locations[0]).to.deep.equal({
+      ...mockLocation,
+      issues: [],
+    });
+  });
 
   // *** VALID DATA ***
   describe('valid data navigation', () => {
@@ -161,7 +214,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -183,7 +236,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -306,7 +359,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -314,11 +367,27 @@ describe('<EvidenceVaRecords>', () => {
         getAndTestAllErrors(container);
       });
     });
+
+    it('should cancel navigation', async () => {
+      const goSpy = sinon.spy();
+      const index = 0;
+      const page = setup({ index, goBack: goSpy, goToPath: goSpy });
+      const { container } = render(page);
+
+      // back
+      clickBack(container);
+
+      const event = new CustomEvent('closeEvent');
+      await $('va-modal', container).__events.closeEvent(event);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
+      });
+    });
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total, event) => {
-      expect(getErrorElements(container).length).to.eq(total);
+    const testAndCloseModal = async (container, event) => {
       // modal visible
       await waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
@@ -376,7 +445,13 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
-      await testAndCloseModal(container, 3, 'secondaryButtonClick');
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
+      await testAndCloseModal(container, 'secondaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.true;
@@ -404,8 +479,14 @@ describe('<EvidenceVaRecords>', () => {
 
       // back
       clickBack(container);
+
+      // This check is super-flaky in CI
+      await waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+      });
+
       // keep partial entry
-      await testAndCloseModal(container, 3, 'primaryButtonClick');
+      await testAndCloseModal(container, 'primaryButtonClick');
 
       await waitFor(() => {
         expect(setDataSpy.called).to.be.false; // no data change
@@ -430,7 +511,7 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
@@ -464,7 +545,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show error when start treatment date is in the future', async () => {
-      const from = getDate({ offset: { years: +1 } });
+      const from = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
@@ -485,7 +566,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show error when last treatment date is in the future', async () => {
-      const to = getDate({ offset: { years: +1 } });
+      const to = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
@@ -506,7 +587,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the start treament date is too far in the past', async () => {
-      const from = getDate({ offset: { years: -101 } });
+      const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
@@ -527,7 +608,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = getDate({ offset: { years: -101 } });
+      const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
@@ -548,8 +629,8 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the last treatment date is before the start', async () => {
-      const from = getDate({ offset: { years: -5 } });
-      const to = getDate({ offset: { years: -10 } });
+      const from = parseDateWithOffset({ years: -5 });
+      const to = parseDateWithOffset({ years: -10 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from, to } }],
@@ -562,7 +643,7 @@ describe('<EvidenceVaRecords>', () => {
       $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
-        expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.error).to.contain(sharedErrorMessage.endDateBeforeStart);
       });
     });
 
@@ -577,6 +658,14 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect(input.error).to.contain(errorMessages.evidence.uniqueVA);
       });
+    });
+
+    it('should show no contestable issues were selected message', () => {
+      const data = { data: { contestedIssues: [], additionalIssues: [] } };
+      const { container } = render(setup(data));
+      expect($('va-checkbox-group', container).textContent).to.contain(
+        NO_ISSUES_SELECTED,
+      );
     });
   });
 });

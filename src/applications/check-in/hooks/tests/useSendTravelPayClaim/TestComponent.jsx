@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import React from 'react';
-import useSendTravelPayClaim from '../../useSendTravelPayClaim';
+import { useSendTravelPayClaim } from '../../useSendTravelPayClaim';
 
 export default function TestComponent() {
   useSendTravelPayClaim({

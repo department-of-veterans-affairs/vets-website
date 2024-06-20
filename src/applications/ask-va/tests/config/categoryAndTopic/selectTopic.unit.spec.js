@@ -1,14 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { envUrl } from '../../../constants';
 
 import formConfig from '../../../config/form';
 
@@ -18,9 +17,7 @@ const {
 } = formConfig.chapters.categoryAndTopic.pages.selectTopic;
 
 describe('selectTopic config', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/categories/2/topics`;
+  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/categories/2/topics`;
 
   let server = null;
 
@@ -90,9 +87,7 @@ describe('selectTopic config', () => {
     );
 
     await waitFor(() => {
-      expect($('h3', container).textContent).to.eq(
-        'Which topic best describes your question?',
-      );
+      expect($('h2', container).textContent).to.eq('Topic');
     });
   });
 });

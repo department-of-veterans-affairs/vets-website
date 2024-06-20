@@ -17,7 +17,7 @@ export default {
   address1: {
     title: 'Street address',
     value: data => get('propertyAddress.propertyAddress1', data, ''),
-    error: 'Please enter a street address',
+    error: 'Enter a street address',
   },
   address2: {
     title: 'Street address line 2',
@@ -26,26 +26,26 @@ export default {
   city: {
     title: 'City',
     value: data => get('propertyAddress.propertyCity', data, ''),
-    error: 'Please enter a city',
+    error: 'Enter a city',
   },
   state: {
     title: 'State',
     value: data => get('propertyAddress.propertyState', data, ''),
-    error: 'Please enter a state',
+    error: 'Enter a state',
   },
   postal: {
     title: 'Postal code',
     value: data => get('propertyAddress.propertyZip', data, ''),
-    error: 'Please enter a postal code',
-    pattern: 'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+    error: 'Enter a postal code',
+    pattern: 'Enter a valid 5- or 9-digit postal code (dashes allowed)',
   },
   loanNumber: {
     title: 'VA loan number',
     description: 'This number has 12 digits.',
     value: data => get('vaLoanNumber', data, ''),
-    pattern: 'Please enter numbers only (dashes allowed)',
+    pattern: 'Enter numbers only (dashes allowed)',
     lengthError: 'Make sure you include 12 digits.',
-    unique: 'Please enter a unique loan number',
+    unique: 'Enter a unique loan number',
   },
   owned: {
     title: 'Do you still own this property?',

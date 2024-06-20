@@ -45,11 +45,8 @@ describe('Profile', () => {
       location: {
         pathname: '/profile/personal-information',
       },
-      useLighthouseDirectDepositEndpoint: false,
       togglesLoaded: true,
-      profileToggles: {
-        profileUseFieldEditingPage: true,
-      },
+      profileToggles: {},
     };
   });
 
@@ -174,7 +171,7 @@ describe('mapStateToProps', () => {
   const makeDefaultProfileState = () => ({
     multifactor: true,
     status: 'OK',
-    services: ['evss-claims'],
+    services: ['lighthouse'],
     mhvAccount: {
       accountState: 'needs_terms_acceptance',
       errors: null,
@@ -285,11 +282,11 @@ describe('mapStateToProps', () => {
       'isInMVI',
       'isLOA3',
       'shouldFetchCNPDirectDepositInformation',
+      'shouldFetchDirectDeposit',
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
       'isBlocked',
-      'useLighthouseDirectDepositEndpoint',
       'togglesLoaded',
       'profileToggles',
     ];

@@ -483,14 +483,33 @@ class ApiInitializer {
   };
 
   initializeBtsssPost = {
-    withSuccess: () => {
-      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
+    withSuccess: (times = 1) => {
+      cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
         req.reply(202, btsss.post.createMockSuccessResponse());
+      }).as('btsssPostSuccess');
+    },
+    withFailure: (times = 1) => {
+      cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
+        req.reply(500, btsss.post.createMockFailedResponse());
+      }).as('btsssPostFailure');
+    },
+  };
+
+  initializeCheckInDataGetOH = {
+    withSuccess: token => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointmentsOH(token);
+        req.reply(rv);
       });
     },
-    withFailure: () => {
-      cy.intercept('POST', `/check_in/v0/travel_claims/`, req => {
-        req.reply(500, btsss.post.createMockFailedResponse());
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
+      });
+    },
+    withUuidNotFound: () => {
+      cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
+        req.reply(404, sharedData.get.createMockNotFoundResponse());
       });
     },
   };

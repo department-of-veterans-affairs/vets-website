@@ -80,11 +80,10 @@ const ReviewPage = ({
 
         const messageText = {
           DEPENDENTS:
-            'Your information couldn’t go through. Please enter a number of dependents between 0 and 100.',
-          YEAR:
-            'Your information couldn’t go through. Please select a year again.',
+            'Your information couldn’t go through. Enter a number of dependents between 0 and 100.',
+          YEAR: 'Your information couldn’t go through. Select a year again.',
           ZIP:
-            'Your information couldn’t go through. Please enter a valid 5 digit zip code.',
+            'Your information couldn’t go through. Enter a valid 5 digit zip code.',
         };
 
         const checkMessage = value => {
@@ -179,6 +178,7 @@ const ReviewPage = ({
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}
           continue
+          uswds
         />
       )}
       {submitting && (

@@ -59,6 +59,10 @@ article[data-location="review-then-submit2"] {
   .form-progress-buttons {
     display: none;
   }
+  /* hide when reviewing content. Shows when editing */
+  dt .hide-on-review, dd .hide-on-review {
+    display: none;
+  }
 }
 
 .issue-title {

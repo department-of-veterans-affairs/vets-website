@@ -16,17 +16,18 @@ import { recalculateSchemaAndData } from './helpers';
 
 export default {
   [OPEN_REVIEW_CHAPTER]: (state, action) => {
-    const openChapters = [
+    const openChapters = {
       ...state.reviewPageView.openChapters,
-      action.openedChapter,
-    ];
+      [action.openedChapter]: true,
+    };
 
     return set('reviewPageView.openChapters', openChapters, state);
   },
   [CLOSE_REVIEW_CHAPTER]: (state, action) => {
-    const openChapters = state.reviewPageView.openChapters.filter(
-      value => value !== action.closedChapter,
-    );
+    const openChapters = {
+      ...state.reviewPageView.openChapters,
+      [action.closedChapter]: false,
+    };
 
     const newState = set('reviewPageView.openChapters', openChapters, state);
 

@@ -4,7 +4,7 @@
  * @module services/Appointment
  */
 import moment from 'moment-timezone';
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   getAppointment,
   getAppointments,
@@ -28,6 +28,7 @@ import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
+  getTimezoneAbbrFromApi,
   getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
@@ -80,19 +81,15 @@ function apptRequestSort(a, b) {
  * @param {Boolean} useV2CC Toggle fetching CC appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function fetchAppointments({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function fetchAppointments({ startDate, endDate }) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(
-      startDate,
-      endDate,
-      ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      useAcheron,
-    );
+    const allAppointments = await getAppointments(startDate, endDate, [
+      'booked',
+      'arrived',
+      'fulfilled',
+      'cancelled',
+    ]);
 
     const filteredAppointments = allAppointments.data.filter(appt => {
       return !appt.requestedPeriods;
@@ -121,18 +118,12 @@ export async function fetchAppointments({
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({
-  startDate,
-  endDate,
-  useAcheron = false,
-}) {
+export async function getAppointmentRequests({ startDate, endDate }) {
   try {
-    const appointments = await getAppointments(
-      startDate,
-      endDate,
-      ['proposed', 'cancelled'],
-      useAcheron,
-    );
+    const appointments = await getAppointments(startDate, endDate, [
+      'proposed',
+      'cancelled',
+    ]);
 
     const requestsWithoutAppointments = appointments.data.filter(
       appt => !!appt.requestedPeriods,
@@ -166,9 +157,9 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id, useAcheron }) {
+export async function fetchRequestById({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
 
     return transformVAOSAppointment(appointment);
   } catch (e) {
@@ -188,9 +179,9 @@ export async function fetchRequestById({ id, useAcheron }) {
  * @param {Boolean} useV2 Toggle fetching VA or CC appointment via VAOS api services version 2
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, useAcheron = false }) {
+export async function fetchBookedAppointment({ id }) {
   try {
-    const appointment = await getAppointment(id, useAcheron);
+    const appointment = await getAppointment(id);
     return transformVAOSAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -225,6 +216,37 @@ export function isClinicVideoAppointment(appointment) {
     appointment?.videoData.kind === VIDEO_TYPES.clinic ||
     appointment?.videoData.kind === VIDEO_TYPES.storeForward
   );
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran uses a VA furnished device
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment that uses a VA furnished device
+ */
+export function isGfeVideoAppointment(appointment) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+
+  return (
+    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment?.videoData.isAtlas && patientHasMobileGfe)
+  );
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * at an ATLAS location
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment at ATLAS location
+ */
+export function isAtlasVideoAppointment(appointment) {
+  return appointment?.videoData.isAtlas;
 }
 
 /**
@@ -384,41 +406,6 @@ export function isUpcomingAppointment(appt) {
 }
 
 /**
- * Returns true if the given Appointment is a canceled confirmed appointment
- *
- * @export
- * @param {Appointment} appt The FHIR Appointment to check
- * @returns {boolean} Whether or not the appointment is a canceled
- *  appointment
- */
-export function isCanceledConfirmed(appt) {
-  const today = moment();
-
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos?.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
-    return (
-      appt.status === APPOINTMENT_STATUS.cancelled &&
-      apptDateTime.isValid() &&
-      apptDateTime.isAfter(
-        today
-          .clone()
-          .startOf('day')
-          .subtract(30, 'days'),
-      ) &&
-      apptDateTime.isBefore(
-        today
-          .clone()
-          .endOf('day')
-          .add(395, 'days'),
-      )
-    );
-  }
-
-  return false;
-}
-
-/**
  * Sort method for past appointments
  * @param {Appointment} a A FHIR appointment resource
  * @param {Appointment} b A FHIR appointment resource
@@ -547,8 +534,8 @@ export function groupAppointmentsByMonth(appointments) {
  * @param {VAOSAppointment} params.appointment The appointment to send
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment, useAcheron = false }) {
-  const result = await postAppointment(appointment, useAcheron);
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
 
   return transformVAOSAppointment(result);
 }
@@ -563,31 +550,24 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @param {Appointment} params.appointment The appointment to cancel
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment, useAcheron = false }) {
+export async function cancelAppointment({ appointment }) {
   const additionalEventData = {
-    custom_string_1:
+    appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
-        ? 'appointmentType: pending'
-        : 'appointmentType: confirmed',
-    custom_string_2: appointment.vaos?.isCommunityCare
-      ? 'facilityType: cc'
-      : 'facilityType: va',
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
   };
 
   recordEvent({
-    event: 'interaction',
-    action: eventPrefix,
+    event: eventPrefix,
     ...additionalEventData,
   });
 
   try {
-    const updatedAppointment = await putAppointment(
-      appointment.id,
-      {
-        status: APPOINTMENT_STATUS.cancelled,
-      },
-      useAcheron,
-    );
+    const updatedAppointment = await putAppointment(appointment.id, {
+      status: APPOINTMENT_STATUS.cancelled,
+    });
 
     recordEvent({
       event: `${eventPrefix}-successful`,
@@ -753,29 +733,26 @@ export function getCalendarData({ appointment, facility }) {
  *   - description: The written out description (e.g. Eastern time)
  */
 export function getAppointmentTimezone(appointment) {
-  // Most VA appointments will use this, since they're associated with a facility
-  if (appointment.location.vistaId) {
+  // Appointments with timezone included in api
+  if (appointment?.timezone) {
+    const abbreviation = getTimezoneAbbrFromApi(appointment);
+
+    return {
+      identifier: appointment.timezone,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+  // Fallback to getting Timezone from facility Id and hardcoded timezone Json.
+  if (appointment?.location?.vistaId) {
     const locationId =
-      appointment.location.stationId || appointment.location.vistaId;
+      appointment?.location.stationId || appointment?.location.vistaId;
     const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
       identifier: moment.tz
         .zone(getTimezoneByFacilityId(locationId))
-        ?.abbr(appointment.start),
-      abbreviation,
-      description: getTimezoneNameFromAbbr(abbreviation),
-    };
-  }
-
-  // Community Care appointments with timezone included
-  if (appointment.vaos.timeZone) {
-    const abbreviation = stripDST(
-      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
-    );
-
-    return {
-      identifier: null,
+        ?.abbr(appointment?.start),
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
@@ -862,25 +839,15 @@ export function groupAppointmentByDay(appointments) {
   }, {});
 }
 
-export function getLink({
-  featureBreadcrumbUrlUpdate,
-  featureStatusImprovement,
-  appointment,
-}) {
+export function getLink({ featureBreadcrumbUrlUpdate, appointment }) {
   const { isCommunityCare, isPastAppointment } = appointment.vaos;
 
   if (!featureBreadcrumbUrlUpdate) {
     return isCommunityCare
-      ? `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/cc/${
-          appointment.id
-        }`
-      : `${featureStatusImprovement && isPastAppointment ? '/past' : ''}/va/${
-          appointment.id
-        }`;
+      ? `${isPastAppointment ? '/past' : ''}/cc/${appointment.id}`
+      : `${isPastAppointment ? '/past' : ''}/va/${appointment.id}`;
   }
-  return `${featureStatusImprovement && isPastAppointment ? 'past' : ''}/${
-    appointment.id
-  }`;
+  return `${isPastAppointment ? 'past' : ''}/${appointment.id}`;
 }
 
 export function getPractitionerName(appointment) {

@@ -2,10 +2,17 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import Footer from '../Footer';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Footer', () => {
     it('Renders day-of check-in footer', () => {
       const component = render(
@@ -27,19 +34,7 @@ describe('check-in', () => {
       const heading = component.getByTestId('heading');
       expect(heading).to.exist;
       expect(heading).to.contain.text('Need help?');
-      expect(component.queryByTestId('intro-extra-message')).to.not.exist;
       expect(component.getByTestId('check-in-message')).to.exist;
-    });
-    it('Render extra message on the intro page for pre-check-in', () => {
-      const component = render(
-        <CheckInProvider
-          store={{ app: 'preCheckIn' }}
-          router={{ currentPage: '/introduction' }}
-        >
-          <Footer isPreCheckIn />
-        </CheckInProvider>,
-      );
-      expect(component.getByTestId('intro-extra-message')).to.exist;
     });
     it('Renders HelpBlock for travel-pay page', () => {
       const component = render(
@@ -70,18 +65,6 @@ describe('check-in', () => {
         <CheckInProvider
           store={{ app: 'dayOf' }}
           router={{ currentPage: 'travel-address' }}
-        >
-          <Footer isPreCheckIn={false} />
-        </CheckInProvider>,
-      );
-      expect(component.getByTestId('help-block')).to.exist;
-      expect(component.getByTestId('for-questions-about-filing')).to.exist;
-    });
-    it('Renders HelpBlock for complete page pre-check and travel section', () => {
-      const component = render(
-        <CheckInProvider
-          store={{ app: 'preCheckIn' }}
-          router={{ currentPage: 'complete' }}
         >
           <Footer isPreCheckIn={false} />
         </CheckInProvider>,

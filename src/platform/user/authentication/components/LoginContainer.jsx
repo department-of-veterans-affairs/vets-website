@@ -10,7 +10,7 @@ import environment from 'platform/utilities/environment';
 const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-export const LoginContainer = props => {
+const LoginContainer = props => {
   const { externalApplication, isUnifiedSignIn, loggedOut } = props;
 
   return (
@@ -20,7 +20,11 @@ export const LoginContainer = props => {
           <div className="row">
             <div className="columns">
               <div className="logo">
-                <img alt="VA.gov" className="va-header-logo" src={logoSrc} />
+                <img
+                  alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+                  className="va-header-logo"
+                  src={logoSrc}
+                />
               </div>
             </div>
           </div>

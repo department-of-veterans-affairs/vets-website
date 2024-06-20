@@ -11,11 +11,12 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import authTypeVet from '../e2e/fixtures/data/authTypeVet.json';
+import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
 import { THIRD_PARTY_TYPES } from '../../definitions/constants';
 import { getFullNameString } from '../e2e/helpers';
 
 const mockDataPerson3rdParty = cloneDeep(authTypeVet.data);
-const mockDataOrganization3rdParty = cloneDeep(authTypeVet.data);
+const mockDataOrganization3rdParty = cloneDeep(authTypeNonVet.data);
 
 const {
   defaultDefinitions,
@@ -75,8 +76,8 @@ describe(`${pageTitle} - custom-field-label`, () => {
       />,
     );
 
-    expect(
-      screen.container.querySelector('#root_securityQuestion-label > h3'),
-    ).to.include.text(mockDataOrganization3rdParty.organizationName);
+    expect(screen.container.querySelector('legend h3')).to.include.text(
+      mockDataOrganization3rdParty.organizationName,
+    );
   });
 });

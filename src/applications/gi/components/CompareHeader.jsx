@@ -20,7 +20,6 @@ export default function({
 }) {
   useEffect(() => {
     focusElement('.compare-page-description-label');
-    document.title = `Compare institutions: GI Bill® Comparison Tool | Veterans Affairs`;
   }, []);
 
   const empties = [];
@@ -73,11 +72,7 @@ export default function({
             <Checkbox
               checked={showDifferences}
               label={
-                <span>
-                  <i
-                    className="fas fa-asterisk"
-                    aria-label="An * indicates the information is different between your selected institutions."
-                  />{' '}
+                <span aria-label="A highlighted row indicates the information is different between your selected institutions.">
                   Highlight differences
                 </span>
               }

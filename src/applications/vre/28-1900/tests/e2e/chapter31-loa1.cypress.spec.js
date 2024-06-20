@@ -1,4 +1,4 @@
-import mockLOA1User from '~/applications/personalization/profile/tests/fixtures/users/user-loa1.json';
+import mockLOA1User from '../fixtures/test-user-loa1.json';
 import { CHAPTER_31_ROOT_URL } from '../../constants';
 
 describe('Chapter 31 LOA1 authentication gate', () => {

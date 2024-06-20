@@ -1,7 +1,28 @@
 import { expect } from 'chai';
-import renameContestedIssues from '../../migrations/01-rename-contested-issues.js';
+import renameContestedIssues from '../../migrations/01-rename-contested-issues';
 
 describe('NOD rename contestedIsuses migration', () => {
+  it('should return contestedIssues empty array', () => {
+    const savedData = { formData: {}, metadata: { version: 1 } };
+    const result = {
+      formData: { contestedIssues: [] },
+      metadata: { version: 1 },
+    };
+    expect(renameContestedIssues(savedData)).to.deep.equal(result);
+  });
+  it('should return unaltered saved data', () => {
+    const data = {
+      formData: {
+        other: {},
+        bool: true,
+        contestedIssues: [],
+      },
+      metadata: {
+        version: 1,
+      },
+    };
+    expect(renameContestedIssues(data)).to.deep.equal(data);
+  });
   it('should return migrated data', () => {
     const issues = [
       {

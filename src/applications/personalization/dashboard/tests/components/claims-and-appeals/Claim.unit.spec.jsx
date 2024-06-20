@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { daysAgo } from '@@profile/tests/helpers';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Claim from '../../../components/claims-and-appeals/Claim';
 
@@ -41,9 +41,15 @@ describe('<Claim />', () => {
   it('should render', () => {
     const claim = makeClaimObject({ updateDate: daysAgo(15) });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
-    expect(tree.getByText(/Compensation claim received/)).to.exist;
+    expect(
+      tree.getByRole('heading', {
+        name: /Compensation claim received January 21, 2021/,
+      }),
+    ).to.exist;
     expect(tree.getByText(/Review details/)).to.exist;
   });
 
@@ -53,7 +59,9 @@ describe('<Claim />', () => {
       decisionLetterSent: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/We sent you a decision letter/)).to.exist;
   });
@@ -64,7 +72,9 @@ describe('<Claim />', () => {
       developmentLetterSent: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/We sent you a development letter/)).to.exist;
   });
@@ -75,7 +85,9 @@ describe('<Claim />', () => {
       documentsNeeded: true,
     });
 
-    const tree = render(<Claim claim={claim} />);
+    const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
+      initialState: {},
+    });
 
     expect(tree.getByText(/Items need attention/)).to.exist;
   });

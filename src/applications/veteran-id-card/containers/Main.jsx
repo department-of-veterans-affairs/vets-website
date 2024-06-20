@@ -42,22 +42,11 @@ class Main extends React.Component {
   renderButton() {
     if ((this.props.fetching || this.props.vicUrl) && !this.props.vicError) {
       return (
-        <button
-          className="usa-button-primary va-button-primary"
-          onClick={this.handleSubmit}
-          disabled="true"
-        >
-          Redirecting...
-        </button>
+        <va-button disabled onClick={this.handleSubmit} text="Redirecting..." />
       );
     }
     return (
-      <button
-        className="usa-button-primary va-button-primary"
-        onClick={this.handleSubmit}
-      >
-        Request a Veteran ID card
-      </button>
+      <va-button onClick={this.handleSubmit} text="Request a Veteran ID card" />
     );
   }
 

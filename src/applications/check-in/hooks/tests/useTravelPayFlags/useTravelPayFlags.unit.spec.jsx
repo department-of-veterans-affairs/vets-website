@@ -82,6 +82,7 @@ describe('check-in', () => {
                 'travel-address': 'yes',
                 'travel-mileage': 'yes',
                 'travel-vehicle': 'yes',
+                'travel-review': 'yes',
               },
               pages: [],
             },
@@ -101,7 +102,7 @@ describe('check-in', () => {
         expect(component.getByTestId('travelPayVehicle')).to.have.text('yes');
         expect(component.getByTestId('travelPayEligible')).to.have.text('yes');
         expect(component.getByTestId('travelPayData')).to.have.text(
-          '2022-08-12',
+          '2022-08-12T15:15:00Z',
         );
       });
     });
@@ -113,10 +114,6 @@ describe('check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         const initState = {
-          featureToggles: {
-            // eslint-disable-next-line camelcase
-            check_in_experience_travel_logic: true,
-          },
           checkInData: {
             context: {
               token: 123,
@@ -130,6 +127,7 @@ describe('check-in', () => {
                 'travel-address': 'yes',
                 'travel-mileage': 'yes',
                 'travel-vehicle': 'yes',
+                'travel-review': 'yes',
               },
               pages: [],
             },

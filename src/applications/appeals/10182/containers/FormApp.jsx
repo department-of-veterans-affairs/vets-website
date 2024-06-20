@@ -20,9 +20,11 @@ import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 import { checkRedirect } from '../utils/redirect';
 
+import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 export const FormApp = ({
   isLoading,
@@ -35,7 +37,10 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
   returnUrlFromSIPForm,
+  isStartingOver,
 }) => {
+  const { pathname } = location || {};
+
   useEffect(
     () => {
       if (loggedIn) {
@@ -71,7 +76,13 @@ export const FormApp = ({
         return;
       }
 
-      if (!contestableIssues?.status) {
+      if (
+        !contestableIssues?.status &&
+        // internalTesting is used to test the get contestable issues API call
+        // in unit tests; Setting up the unit test to get RoutedSavableApp to
+        // work properly is overly complicated
+        (!isOutsideForm(pathname) || formData.internalTesting)
+      ) {
         getContestableIssues();
       } else if (
         // Checks if the API has returned contestable issues not already reflected
@@ -102,7 +113,13 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
+    [
+      loggedIn,
+      contestableIssues,
+      showPart3,
+      formData.contestedIssues,
+      pathname,
+    ],
   );
 
   useEffect(
@@ -131,7 +148,8 @@ export const FormApp = ({
         setFormData({
           ...formData,
           // Setting 'redirected' to indicate that we are about to redirect them.
-          [SHOW_PART3_REDIRECT]: needsRedirect ? 'redirected' : 'not-needed',
+          [SHOW_PART3_REDIRECT]:
+            !isStartingOver && needsRedirect ? 'redirected' : 'not-needed',
         });
       }
       // Add feature flag to form data to be used within the form
@@ -168,10 +186,11 @@ export const FormApp = ({
     service: DATA_DOG_SERVICE,
   });
 
-  return (
-    <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
+  return wrapWithBreadcrumb(
+    'nod',
+    <article id="form-10182" data-location={`${pathname?.slice(1)}`}>
       {content}
-    </article>
+    </article>,
   );
 };
 
@@ -184,10 +203,12 @@ FormApp.propTypes = {
   formData: PropTypes.shape({
     areaOfDisagreement: PropTypes.array,
     contestedIssues: PropTypes.array,
+    internalTesting: PropTypes.bool,
     [SHOW_PART3]: PropTypes.bool,
   }),
   getContestableIssues: PropTypes.func,
   isLoading: PropTypes.bool,
+  isStartingOver: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
@@ -207,6 +228,7 @@ const mapStateToProps = state => ({
   isLoading: state.featureToggles?.loading,
   loggedIn: isLoggedIn(state),
   returnUrlFromSIPForm: state.form?.loadedData?.metadata?.returnUrl,
+  isStartingOver: state.form.isStartingOver,
 });
 
 const mapDispatchToProps = {

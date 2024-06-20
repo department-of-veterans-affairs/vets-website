@@ -60,19 +60,6 @@ function validateAddress(errors, address, formData, currentSchema) {
     errors.state.addError('Please select a state or province');
   }
 
-  const hasAddressInfo =
-    countriesWithStateCodes.has(address.country) &&
-    !currentSchema.required.length &&
-    typeof address.street !== 'undefined' &&
-    typeof address.city !== 'undefined' &&
-    typeof address.postalCode !== 'undefined';
-
-  if (hasAddressInfo && typeof address.state === 'undefined') {
-    errors.state.addError(
-      'Please enter a state or province, or remove other address information.',
-    );
-  }
-
   validatePostalCodes(errors, address);
   if (currentSchema.required.length) {
     const requiredArray = currentSchema.required;
@@ -282,6 +269,7 @@ export function uiSchema(
     'ui:title': label,
     'ui:validations': [validateAddress],
     'ui:options': {
+      useHeaderStyling: true,
       updateSchema: (formData, addressSchema, addressUiSchema, index, path) => {
         let currentSchema = addressSchema;
 

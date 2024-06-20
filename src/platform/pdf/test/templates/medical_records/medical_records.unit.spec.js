@@ -14,16 +14,16 @@ describe('Medical records PDF template', () => {
     navigator.platform = originalPlatform;
   });
 
-  const generatePdf = async data => {
+  const generatePdf = async (data, config) => {
     const template = require('../../../templates/medical_records');
 
-    const doc = await template.generate(data);
+    const doc = await template.generate(data, config);
     doc.end();
     return getStream.buffer(doc);
   };
 
-  const generateAndParsePdf = async data => {
-    const pdfData = await generatePdf(data);
+  const generateAndParsePdf = async (data, config) => {
+    const pdfData = await generatePdf(data, config);
     const pdf = await pdfjs.getDocument(pdfData).promise;
     const metadata = await pdf.getMetadata();
 
@@ -93,14 +93,14 @@ describe('Medical records PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the second test result header
+      expect(content.items[37].tag).to.eq('H3');
+      expect(content.items[39].str).to.eq('RBC');
 
-      expect(artifactCount).to.eq(10);
+      // The two items before it should be the start and end of the Artifact tag.
+      expect(content.items[35].type).to.eq('beginMarkedContent');
+      expect(content.items[35].tag).to.eq('Artifact');
+      expect(content.items[36].type).to.eq('endMarkedContent');
     });
 
     it('Horizontal rules below result sections may be suppressed', async () => {
@@ -113,14 +113,13 @@ describe('Medical records PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      let artifactCount = 0;
-      for (const item of content.items) {
-        if (item.tag === 'Artifact') {
-          artifactCount += 1;
-        }
-      }
+      // This is the second test result header
+      expect(content.items[35].tag).to.eq('H3');
+      expect(content.items[37].str).to.eq('RBC');
 
-      expect(artifactCount).to.eq(4);
+      // The item before it should be the end of the last result header.
+      expect(content.items[33].str).to.eq('None noted');
+      expect(content.items[34].type).to.eq('endMarkedContent');
     });
 
     it('Outputs document sections in the correct order', async () => {
@@ -218,6 +217,98 @@ describe('Medical records PDF template', () => {
       expect(metadata.info.Author).to.equal(data.author);
       expect(metadata.info.Subject).to.equal(data.subject);
       expect(metadata.info.Title).to.equal(data.title);
+    });
+
+    it('Can opt for results to be in monospace font', async () => {
+      const data = require('./fixtures/monospace_result.json');
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // This code represents the font in the content items
+      // It is something like g_d3_f5
+      const monospaceFontCode = Object.keys(content.styles).find(
+        key => content.styles[key].fontFamily === 'monospace',
+      );
+
+      const monospaceStartItemIndex = 81;
+      const monospaceEndItemIndex = 162;
+      const monospaceItems = content.items.slice(
+        monospaceStartItemIndex,
+        monospaceEndItemIndex + 1,
+      );
+      const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
+        item => item.fontName === monospaceFontCode,
+      );
+
+      expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);
+    });
+
+    it('Can opt for results to be in monospace font but fallback to text font if no monospace font specified', async () => {
+      const config = {
+        margins: {
+          top: 40,
+          bottom: 40,
+          left: 20,
+          right: 20,
+        },
+        headings: {
+          H1: {
+            font: 'Bitter-Bold',
+            size: 24,
+          },
+          H2: {
+            font: 'Bitter-Bold',
+            size: 18,
+          },
+          H3: {
+            font: 'Bitter-Bold',
+            size: 16,
+          },
+        },
+        subHeading: {
+          font: 'Bitter-Regular',
+          size: 12,
+        },
+        text: {
+          boldFont: 'SourceSansPro-Bold',
+          font: 'SourceSansPro-Regular',
+          size: 12,
+        },
+      };
+
+      const data = require('./fixtures/monospace_result.json');
+      const { pdf } = await generateAndParsePdf(data, config);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+
+      // This code represents the font in the content items
+      // It is something like g_d3_f5
+      const textFontCode = Object.keys(content.styles).find(
+        key => content.styles[key].fontFamily === 'sans-serif',
+      );
+
+      // The number of indexes is less for the this font than the monospace font test above
+      // because the use of the monospace font breaks the text up into more content items.
+      const monospaceStartItemIndex = 81;
+      const monospaceEndItemIndex = 98;
+      const monospaceItems = content.items.slice(
+        monospaceStartItemIndex,
+        monospaceEndItemIndex + 1,
+      );
+      const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
+        item => item.fontName === textFontCode,
+      );
+
+      expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);
     });
   });
 });

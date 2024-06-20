@@ -52,6 +52,7 @@ export default function FacilitiesNotShown({
         <va-additional-info
           data-testid="facility-not-listed"
           trigger="Why isn't my facility listed?"
+          uswds
         >
           <p id="vaos-unsupported-label">
             The facilities below don’t offer online scheduling for this care.

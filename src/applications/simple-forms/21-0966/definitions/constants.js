@@ -6,17 +6,10 @@ export const preparerIdentifications = {
 };
 
 export const veteranBenefits = {
-  compensation: 'COMPENSATION',
-  pension: 'PENSION',
+  COMPENSATION: 'compensation',
+  PENSION: 'pension',
 };
 
 export const survivingDependentBenefits = {
-  survivors: 'SURVIVORS',
-};
-
-export const benefitPhrases = {
-  compensation: 'disability compensation claim',
-  pension: 'pension claim',
-  survivors: 'pension claim for survivors',
-  compensationAndPension: 'disability compensation and pension claims',
+  SURVIVOR: 'survivor',
 };

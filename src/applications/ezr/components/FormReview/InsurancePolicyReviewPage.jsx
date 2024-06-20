@@ -8,7 +8,7 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
     const { insuranceName, insurancePolicyHolderName } = item;
     return (
       <div key={index} className="review-row">
-        <dt>
+        <dt className="dd-privacy-mask" data-dd-action-name="Insurance policy">
           <strong>{insuranceName}</strong>, {insurancePolicyHolderName}
         </dt>
         <dd>&nbsp;</dd>
@@ -25,14 +25,13 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
               <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 {content['insurance-review-header-title']}
               </h4>
-              <button
-                type="button"
+              <va-button
+                text={content['button-edit']}
+                label={content['insurance-edit-button-aria-label']}
                 onClick={editPage}
-                className="edit-btn primary-outline"
-                aria-label={content['insurance-edit-button-aria-label']}
-              >
-                {content['button-edit']}
-              </button>
+                secondary
+                uswds
+              />
             </div>
             <dl className="review">{reviewRows}</dl>
           </>
@@ -46,7 +45,7 @@ const InsurancePolicyReviewPage = ({ data, editPage }) => {
             <dl className="review">
               <div className="review-row">
                 <dt>{content['insurance-coverage-question']}</dt>
-                <dd>{content['insurance-review-coverage-answer']}</dd>
+                <dd>{content['review-answer-no']}</dd>
               </div>
             </dl>
           </>

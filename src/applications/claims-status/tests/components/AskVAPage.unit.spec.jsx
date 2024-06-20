@@ -1,12 +1,15 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { render } from '@testing-library/react';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { AskVAPage } from '../../containers/AskVAPage';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const getRouter = () => ({ push: sinon.spy() });
 
@@ -15,26 +18,28 @@ const store = createStore(() => ({
 }));
 
 describe('<AskVAPage>', () => {
-  it('should render disabled button', () => {
+  it('should render disabled submit button when va-checkbox not checked', () => {
     const router = getRouter();
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
         router={router}
       />,
     );
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
+    expect($('va-checkbox', container).getAttribute('checked')).to.equal(
+      'false',
+    );
+    expect($('.button-primary', container).getAttribute('disabled')).to.exist;
     expect(router.push.called).to.be.false;
   });
 
-  // Disabling this test because it is not compatible with the va-checkbox web component yet.
-  it.skip('should render enabled button', () => {
+  it('should render enabled submit button when va-checkbox checked', () => {
     const router = getRouter();
     const submitRequest = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+    const { container, rerender } = renderWithRouter(
       <AskVAPage
         decisionRequestError={null}
         params={{ id: 1 }}
@@ -43,17 +48,34 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    tree.subTree('Checkbox').props.onValueChange(true);
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.null;
+    expect($('.button-primary', container).getAttribute('disabled')).to.exist;
+
+    // Check the checkbox
+    $('va-checkbox', container).__events.vaChange({
+      detail: { checked: true },
+    });
+
+    rerenderWithRouter(
+      rerender,
+      <AskVAPage
+        decisionRequestError={null}
+        params={{ id: 1 }}
+        submitRequest={submitRequest}
+        router={router}
+      />,
+    );
+
+    expect($('.button-primary', container).getAttribute('disabled')).to.not
+      .exist;
   });
 
-  it('should render disabled submitting button', () => {
+  it('should render disabled submit button when submitting', () => {
     const router = {
       push: sinon.spy(),
     };
     const submitRequest = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
+    const { container } = renderWithRouter(
       <AskVAPage
         loadingDecisionRequest
         decisionRequestError={null}
@@ -63,51 +85,34 @@ describe('<AskVAPage>', () => {
       />,
     );
 
-    expect(tree.everySubTree('button')[0].props.disabled).to.be.true;
-    expect(tree.everySubTree('button')[0].text()).to.equal('Submitting...');
-  });
-
-  // Disabling this test because it is not compatible with the va-checkbox web component yet.
-  it.skip('should submit request', () => {
-    const router = getRouter();
-    const submitRequest = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        submitRequest={submitRequest}
-        router={router}
-      />,
+    expect($('.button-primary', container).getAttribute('disabled')).to.exist;
+    expect($('.button-primary', container).getAttribute('text')).to.equal(
+      'Submitting...',
     );
-
-    tree.subTree('Checkbox').props.onValueChange(true);
-    tree.subTree('button').props.onClick();
-    expect(submitRequest.called).to.be.true;
   });
 
   it('should update claims and redirect after success', () => {
-    const router = getRouter();
+    const navigate = sinon.spy();
     const submitRequest = sinon.spy();
-    const getClaimEVSS = sinon.spy();
+    const getClaim = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <AskVAPage
         params={{ id: 1 }}
         submitRequest={submitRequest}
-        router={router}
+        navigate={navigate}
       />,
     );
     tree.getMountedInstance().UNSAFE_componentWillReceiveProps({
       decisionRequested: true,
-      getClaimEVSS,
+      getClaim,
     });
-    expect(getClaimEVSS.calledWith(1)).to.be.true;
-    expect(router.push.calledWith('your-claims/1')).to.be.true;
+    expect(getClaim.calledWith(1)).to.be.true;
+    expect(navigate.calledWith('../status')).to.be.true;
   });
 
   // START lighthouse_migration
-  context('cst_use_lighthouse feature toggle', () => {
+  context('cst_use_lighthouse_5103 feature toggle', () => {
     const params = { id: 1 };
 
     const props = {
@@ -116,87 +121,57 @@ describe('<AskVAPage>', () => {
       router: getRouter(),
     };
 
-    it('calls getClaimLighthouse when enabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouseShow = true;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(
-        <Provider store={store}>
-          <AskVAPage {...props} decisionRequested />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.false;
-      expect(props.getClaimLighthouse.called).to.be.true;
-    });
-
-    it('calls getClaimEVSS when disabled', () => {
-      // Reset sinon spies / set up props
-      props.getClaimEVSS = sinon.spy();
-      props.getClaimLighthouse = sinon.spy();
-      props.useLighthouseShow = false;
-
-      const { rerender } = render(
-        <Provider store={store}>
-          <AskVAPage {...props} />
-        </Provider>,
-      );
-
-      // We want to trigger the 'UNSAFE_componentWillReceiveProps' method
-      // which requires rerendering
-      rerender(
-        <Provider store={store}>
-          <AskVAPage {...props} decisionRequested />
-        </Provider>,
-      );
-
-      expect(props.getClaimEVSS.called).to.be.true;
-      expect(props.getClaimLighthouse.called).to.be.false;
-    });
-
-    // Disabling this test because it is not compatible with the va-checkbox web component yet.
-    it.skip('calls submitRequest when disabled', () => {
+    it('calls submitRequest when disabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
       props.useLighthouse5103 = false;
 
-      const screen = render(
+      const { container, rerender } = renderWithRouter(
         <Provider store={store}>
           <AskVAPage {...props} />
         </Provider>,
       );
+      // Check the checkbox
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
 
-      screen.getByRole('checkbox').click();
-      screen.getByText('Submit').click();
+      rerenderWithRouter(
+        rerender,
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+      // Click submit button
+      fireEvent.click($('.button-primary', container));
 
       expect(props.submitRequest.called).to.be.true;
       expect(props.submit5103.called).to.be.false;
     });
 
-    // Disabling this test because it is not compatible with the va-checkbox web component yet.
-    it.skip('calls submit5103 when enabled', () => {
+    it('calls submit5103 when enabled', () => {
       props.submitRequest = sinon.spy();
       props.submit5103 = sinon.spy();
       props.useLighthouse5103 = true;
 
-      const screen = render(
+      const { container, rerender } = renderWithRouter(
         <Provider store={store}>
           <AskVAPage {...props} />
         </Provider>,
       );
+      // Check the checkbox
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
 
-      screen.getByRole('checkbox').click();
-      screen.getByText('Submit').click();
+      rerenderWithRouter(
+        rerender,
+        <Provider store={store}>
+          <AskVAPage {...props} />
+        </Provider>,
+      );
+      // Click submit button
+      fireEvent.click($('.button-primary', container));
 
       expect(props.submitRequest.called).to.be.false;
       expect(props.submit5103.called).to.be.true;

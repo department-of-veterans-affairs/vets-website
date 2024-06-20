@@ -15,21 +15,16 @@ const HealthCareCTA = ({
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? '/my-health/appointments'
-    : '/health-care/schedule-view-va-appointments/appointments';
+  // viewMhvLink will be true if toggle is on
+  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
 
   return (
     <>
-      <h3 className="sr-only">Popular actions for Health Care</h3>
       {(!isVAPatient || isLOA1) && (
         <IconCTALink
           text="Apply for VA health care"
           icon="file-medical"
-          href="/health-care/apply/application/introduction"
+          href="/health-care/apply-for-health-care-form-10-10ez/"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({
@@ -40,6 +35,22 @@ const HealthCareCTA = ({
           }
         />
       )}
+      {!isLOA1 &&
+        viewMhvLink && (
+          <IconCTALink
+            text="Visit My HealtheVet on VA.gov"
+            icon="briefcase-medical"
+            href="/my-health"
+            testId="visit-mhv-on-va-gov"
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Visit MHV on Va.gov',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        )}
       {isVAPatient &&
         !isLOA1 && (
           <>
@@ -47,7 +58,10 @@ const HealthCareCTA = ({
               text="Go to your inbox"
               icon="comments"
               dotIndicator={unreadMessagesCount > 0}
-              ariaLabel={unreadMessagesCount > 0 && 'Unread messages.'}
+              ariaLabel={
+                unreadMessagesCount > 0 &&
+                'You have unread messages. Go to your inbox.'
+              }
               href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
               testId="view-your-messages-link-from-cta"
               onClick={() =>
@@ -61,7 +75,7 @@ const HealthCareCTA = ({
             {!hasUpcomingAppointment &&
               !hasAppointmentsError && (
                 <IconCTALink
-                  href={apptLink}
+                  href="/my-health/appointments"
                   icon="calendar"
                   text="Schedule and manage your appointments"
                   testId="view-manage-appointments-link-from-cta"

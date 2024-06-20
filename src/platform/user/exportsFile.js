@@ -22,7 +22,6 @@ export {
   selectVAPResidentialAddress,
   selectVAPMailingAddress,
   createIsServiceAvailableSelector,
-  mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from './selectors';
 
@@ -52,7 +51,6 @@ export {
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
-export { default as FedWarning } from './authentication/components/FedWarning';
 export { default as IDMeSVG } from './authentication/components/IDMeSVG';
 export {
   default as LoginActions,
@@ -63,7 +61,7 @@ export {
 } from './authentication/components/LoginButton';
 export {
   logoSrc,
-  LoginContainer,
+  default as LoginContainer,
 } from './authentication/components/LoginContainer';
 export {
   default as LoginGovSVG,
@@ -128,8 +126,8 @@ export {
   hasCheckedKeepAlive,
   signInServiceName,
   isAuthenticatedWithSSOe,
+  isAuthenticatedWithOAuth,
   ssoeTransactionId,
-  transitionMHVAccount,
   termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';

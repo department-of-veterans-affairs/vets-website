@@ -1,3 +1,6 @@
+import omit from 'platform/utilities/data/omit';
+import { MILITARY_CITIES } from '../constants';
+
 /**
  * Map address object to match the key names in the schema
  * @param {Array} address - an array of arrays that defines the keys/values to map
@@ -15,6 +18,7 @@ export function sanitizeAddress(address) {
     countryCodeIso3,
   } = address;
   return {
+    isMilitary: MILITARY_CITIES.includes(city),
     street: addressLine1,
     street2: addressLine2 || undefined,
     street3: addressLine3 || undefined,
@@ -49,8 +53,32 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const parsedAddressMatch =
     veteranAddress && veteranHomeAddress ? doesAddressMatch : undefined;
 
+  // omit data values that belong in a viewfield
+  const withoutViewFields = omit(
+    [
+      'email',
+      'homePhone',
+      'maritalStatus',
+      'isMedicaidEligible',
+      'isEnrolledMedicarePartA',
+    ],
+    formData,
+  );
+
+  const {
+    email = '',
+    homePhone = '',
+    maritalStatus = '',
+    isMedicaidEligible = undefined,
+    isEnrolledMedicarePartA = undefined,
+  } = formData;
+
   let newData = {
-    ...formData,
+    ...withoutViewFields,
+    'view:contactInformation': { email, homePhone },
+    'view:maritalStatus': { maritalStatus },
+    'view:isMedicaidEligible': { isMedicaidEligible },
+    'view:isEnrolledMedicarePartA': { isEnrolledMedicarePartA },
     'view:doesMailingMatchHomeAddress': parsedAddressMatch,
   };
 

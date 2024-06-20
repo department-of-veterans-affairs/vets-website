@@ -10,14 +10,15 @@
         "form-save-in-progress",
         "form-prefill",
         "evss-claims",
-        "original-claims",
-        "add-person",
+        "lighthouse",
+        "form526",
         "user-profile",
         "appeals-status",
-        "identity-proofed"
+        "identity-proofed",
+        "vet360"
       ],
       "account": {
-        "accountUuid": "dd53a002-6680-425d-abac-9cbbd57963f0"
+        "accountUuid": "cea23b3b-1a55-452c-b0c2-528054f755c1"
       },
       "profile": {
         "email": "vets.gov.user+14@gmail.com",
@@ -26,8 +27,8 @@
         "lastName": "BROOKS",
         "birthDate": "1947-09-25",
         "gender": "M",
-        "zip": null,
-        "lastSignedIn": "2020-06-18T22:28:33.491Z",
+        "zip": "10451-2100",
+        "lastSignedIn": "2024-02-08T21:06:12.078Z",
         "loa": {
           "current": 3,
           "highest": 3
@@ -36,9 +37,23 @@
         "verified": true,
         "signIn": {
           "serviceName": "idme",
-          "accountType": "N/A"
+          "accountType": "N/A",
+          "authBroker": "iam"
         },
-        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+        "inheritedProofVerified": false,
+        "claims": {
+          "appeals": true,
+          "ch33BankAccounts": true,
+          "coe": true,
+          "communicationPreferences": true,
+          "connectedApps": true,
+          "medicalCopays": true,
+          "militaryHistory": true,
+          "paymentHistory": true,
+          "personalInformation": true,
+          "ratingInfo": true
+        }
       },
       "vaProfile": {
         "status": "OK",
@@ -51,45 +66,58 @@
         ],
         "isCernerPatient": false,
         "facilities": [],
-        "vaPatient": false,
+        "vaPatient": true,
         "mhvAccountState": "NONE"
       },
-      "veteranStatus": null,
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
       "inProgressForms": [],
       "prefillsAvailable": [
         "21-686C",
         "40-10007",
+        "0873",
         "22-1990",
         "22-1990N",
         "22-1990E",
+        "22-1990EMEB",
         "22-1995",
-        "22-1995S",
         "22-5490",
+        "22-5490E",
         "22-5495",
         "22-0993",
         "22-0994",
         "FEEDBACK-TOOL",
         "22-10203",
+        "22-1990S",
+        "22-1990EZ",
         "21-526EZ",
         "1010ez",
+        "10-10EZR",
         "21P-530",
         "21P-527EZ",
         "686C-674",
+        "20-0995",
         "20-0996",
-        "MDOT"
+        "10182",
+        "MDOT",
+        "5655",
+        "28-8832",
+        "28-1900",
+        "26-1880",
+        "26-4555"
       ],
-      "vet360ContactInformation": {}
+      "vet360ContactInformation": {},
+      "session": {
+        "authBroker": "iam",
+        "ssoe": true,
+        "transactionid": "hr82MP1a0iYNEH0mytNswBT359m6SB657o4pFu6EDy0="
+      }
     }
   },
   "meta": {
-    "errors": [
-      {
-        "externalService": "EMIS",
-        "startTime": "2020-06-18T22:28:43Z",
-        "endTime": null,
-        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
-        "status": 503
-      }
-    ]
+    "errors": null
   }
 }

@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
@@ -11,9 +11,8 @@ const {
 
 const pageTitle = 'Limited information';
 
-// displayed checkbox-inputs actually feed one single text-input
-const expectedNumberOfFields = 1;
-testNumberOfFields(
+const expectedNumberOfFields = 7;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -22,7 +21,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

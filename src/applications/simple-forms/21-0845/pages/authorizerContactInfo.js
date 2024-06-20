@@ -15,7 +15,6 @@ export default {
       'ui:title': 'Email address',
       'ui:widget': 'email',
       'ui:errorMessages': {
-        required: 'Please enter an email address.',
         format:
           'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
       },
@@ -23,7 +22,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['authorizerPhone', 'authorizerEmail'],
+    required: ['authorizerPhone'],
     properties: {
       authorizerPhone: definitions.phone,
       authorizerEmail: definitions.email,

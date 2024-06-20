@@ -1,9 +1,9 @@
 import { cloneDeep } from 'lodash';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import { pdfFullNameNoSuffixSchema } from '../../shared/definitions/pdfFullNameNoSuffix';
 
-const authorizerFullNameUI = cloneDeep(fullNameUI);
+const authorizerFullNameUI = cloneDeep(fullNameDeprecatedUI);
 
 authorizerFullNameUI.middle['ui:title'] = 'Middle initial';
 

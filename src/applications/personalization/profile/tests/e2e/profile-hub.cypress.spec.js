@@ -1,5 +1,4 @@
 import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -7,22 +6,24 @@ import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 import user from '../../mocks/endpoints/user';
 
 describe('Profile - Hub page', () => {
-  // visits the profile page with useProfileHub toggled on and off
-  // and checks that the correct content is rendered
-
   beforeEach(() => {
     cy.login(mockUser);
-    mockProfileLOA3();
+    mockProfileLOA3(
+      generateFeatureToggles({
+        profileContacts: true,
+      }),
+    );
   });
 
-  it('should render the correct content with toggle ON', () => {
+  it('should render the correct content', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
 
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
     cy.findByText('Personal information', { selector: 'h2' }).should('exist');
     cy.findByText('Contact information', { selector: 'h2' }).should('exist');
+    cy.findByText('Personal health care contacts', { selector: 'h2' }).should(
+      'exist',
+    );
     cy.findByText('Military information', { selector: 'h2' }).should('exist');
     cy.findByText('Direct deposit information', { selector: 'h2' }).should(
       'exist',
@@ -41,17 +42,13 @@ describe('Profile - Hub page', () => {
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-    checkForWebComponentLoadingIndicator();
-
     cy.findByText('Profile', { selector: 'h1' }).should('exist');
 
     // heading of the bad address indicator alert
     cy.findByText('Review your mailing address').should('exist');
 
     // link text for the bad address indicator alert
-    cy.findByText(
-      'Go to your contact information to review your address',
-    ).should('exist');
+    cy.findByText('Review the mailing address in your profile').should('exist');
 
     cy.url().should('not.include', 'personal-information');
 
@@ -62,7 +59,6 @@ describe('Profile - Hub page', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
-        profileUseHubPage: true,
         profileLighthouseDirectDeposit: true,
       }),
     );
@@ -74,34 +70,9 @@ describe('Profile - Hub page', () => {
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-    checkForWebComponentLoadingIndicator();
-
     cy.findByText('We can’t show your information').should('exist');
 
     cy.url().should('include', 'profile/account-security');
-
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('should render the personal information page as the profile root route when toggle is OFF', () => {
-    cy.intercept(
-      'v0/feature_toggles*',
-      generateFeatureToggles({
-        profileUseHubPage: false,
-      }),
-    );
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    checkForWebComponentLoadingIndicator();
-
-    // renders personal information page
-    cy.findByText('Legal name').should('exist');
-    cy.findByText('Date of birth').should('exist');
-    cy.findByText('Preferred name').should('exist');
-    cy.findByText('Gender identity').should('exist');
-    cy.findByText('Disability rating').should('exist');
-
-    cy.url().should('include', 'profile/personal-information');
 
     cy.injectAxeThenAxeCheck();
   });

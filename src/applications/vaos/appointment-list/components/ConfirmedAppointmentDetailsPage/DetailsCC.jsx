@@ -1,32 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
-import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
+import CCLayout from '../../../components/layout/CCLayout';
 
-export default function DetailsCC({
-  appointment,
-  useV2 = false,
-  featureVaosV2Next = false,
-}) {
+export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
+
   const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
   const { treatmentSpecialty } = facility;
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const showBackLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingDescriptiveBackLink,
-  );
   const ShowTypeOfCare = () => {
     if (useV2 && typeOfCare) {
       return (
@@ -58,21 +55,13 @@ export default function DetailsCC({
     return null;
   };
 
+  if (featureAppointmentDetailsRedesign) {
+    return <CCLayout data={appointment} />;
+  }
+
   return (
     <>
-      {showBackLink ? (
-        <BackLink appointment={appointment} />
-      ) : (
-        <Breadcrumbs>
-          <a
-            href={`/health-care/schedule-view-va-appointments/appointments/va/${
-              appointment.id
-            }`}
-          >
-            Appointment detail
-          </a>
-        </Breadcrumbs>
-      )}
+      <BackLink appointment={appointment} />
       <h1 className="vads-u-margin-y--2p5">
         <AppointmentDateTime appointment={appointment} />
       </h1>
@@ -86,7 +75,6 @@ export default function DetailsCC({
         showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
-
       <CCInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
@@ -99,4 +87,8 @@ DetailsCC.propTypes = {
   appointment: PropTypes.object.isRequired,
   featureVaosV2Next: PropTypes.bool,
   useV2: PropTypes.bool,
+};
+DetailsCC.defaultProps = {
+  featureVaosV2Next: false,
+  useV2: false,
 };

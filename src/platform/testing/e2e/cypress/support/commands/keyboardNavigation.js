@@ -89,7 +89,10 @@ Cypress.Commands.add('chooseSelectOptionByTyping', text => {
  * This command types in the focused input or textarea.
  * */
 Cypress.Commands.add('typeInFocused', text => {
-  cy.get(':focus').type(text, { delay: timeoutDuration });
+  // cy.get(':focus') returns 2 elements when focused on a web component
+  cy.get(':focus')
+    .first()
+    .type(text, { delay: timeoutDuration });
 });
 
 /**
@@ -115,8 +118,13 @@ Cypress.Commands.add(
 
     cy.realPress(key, { pressDelay: timeoutDuration }).then(() => {
       cy.get(':focus').then($el => {
-        if (!$el.is(selector)) {
-          cy.tabToElement(selector, forward, false);
+        if ($el && !$el.is(selector)) {
+          cy.tabToElement(
+            selector,
+            // reverse direction if we get into the header or footer
+            $el.is('#footerNav a, header a') ? !forward : forward,
+            false,
+          );
         }
       });
     });
@@ -135,8 +143,7 @@ Cypress.Commands.add(
 // Target & use the "Start" form button on the Introduction page
 Cypress.Commands.add('tabToStartForm', () => {
   // Same button selector as tabToSubmitForm, or action link
-  const buttonSelector =
-    'va-button, button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green';
+  const buttonSelector = "a[href='#start']";
   cy.get(buttonSelector, { timeout: 10000 }).then(button => {
     if (button[0].tagName === 'VA-BUTTON') {
       cy.get('va-button')
@@ -159,10 +166,17 @@ Cypress.Commands.add('tabToContinueForm', () => {
   cy.realPress('Space');
 });
 
+// Target & use the "Continue" button on a form page wit a simulated {enter}
+// press
+Cypress.Commands.add('tabToContinueFormSimulatedEnter', () => {
+  cy.tabToElement('button[type="submit"]');
+  cy.get(':focus').type('{enter}');
+});
+
 // Target & use the "Back" form button on a form page
 Cypress.Commands.add('tabToGoBack', (forward = true) => {
   cy.tabToElement('#1-continueButton', forward);
-  cy.realPress('Space');
+  cy.get(':focus').type('{enter}');
 });
 
 // Target & use the "Submit" form button on the review & submit page

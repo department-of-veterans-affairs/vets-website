@@ -1,15 +1,40 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import {
+  VaAlert,
+  VaButton,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import {
+  isLoggedIn,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, profile } = props;
-  const { formConfig, pageList } = route;
+  const { route, loggedIn, toggleLoginModal } = props;
+  const { formConfig, pageList, pathname, formData } = route;
+  const [inquiryData, setInquiryData] = useState(false);
+  const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
+  const [hasError, setHasError] = useState(false);
+
+  const getStartPage = () => {
+    const data = formData || {};
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'askVA');
+  };
 
   useEffect(
     () => {
@@ -18,78 +43,289 @@ const IntroductionPage = props => {
     [props],
   );
 
-  return (
-    <article className="schemaform-intro">
-      <FormTitle title="Ask VA" subtitle="Equal to VA Form XX-230 (Ask VA)" />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the Application"
-      >
-        Please complete the XX-230 form to apply for ask the va test.
-      </SaveInProgressIntro>
-      <DashboardCards />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        {loggedIn ? profile.userFullName.first : 'Hello'}, follow the steps
-        below to apply for ask the va test.
-      </h2>
-      <va-process-list>
-        <li>
-          <h3>Prepare</h3>
-          <h4>To fill out this application, you’ll need your:</h4>
-          <ul>
-            <li>Social Security number (required)</li>
-          </ul>
+  // const getApiData = url => {
+  //   return apiRequest(url)
+  //     .then(() => {
+  //       setInquiryData(res);
+  //     })
+  //     .catch(() => setHasError(true));
+  // };
+
+  const handleSearchByReferenceNumber = () => {
+    // const url = `${
+    //   envUrl
+    // }/inquiries/${searchReferenceNumber}/status`;
+    // getApiData(url);
+    const mockResponse = {
+      id: 12345,
+      type: 'inquiryStatus',
+      attributes: {
+        status: 'New',
+        levelOfAuthentication: '12389467687',
+      },
+    };
+    setHasError(false);
+    setInquiryData(mockResponse);
+  };
+
+  const handleSearchInputChange = async e => {
+    const searchInputValue = e.target.value;
+    setSearchReferenceNumber(searchInputValue);
+  };
+
+  const questionStatus = () => {
+    if (hasError) {
+      return (
+        <>
           <p>
-            <strong>What if I need help filling out my application?</strong> An
-            accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your claim.{' '}
-            <a href="/disability-benefits/apply/help/index.html">
-              Get help filing your claim
+            We didn’t find a question with reference number "
+            <span className="vads-u-font-weight--bold">
+              {searchReferenceNumber}
+            </span>
+            ." Check your reference number and try again.
+          </p>
+          <p>
+            If it still doesn’t work, ask the same question again and include
+            your original reference number.
+          </p>
+        </>
+      );
+    }
+
+    if (inquiryData.id && searchReferenceNumber) {
+      const { status, levelOfAuthentication } = inquiryData.attributes;
+      return (
+        <>
+          <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
+            Showing the status for reference number "
+            <span className="vads-u-font-weight--bold">
+              {searchReferenceNumber}
+            </span>
+            "
+          </h3>
+          <p>
+            <span className="vads-u-font-weight--bold">Status: </span> {status}{' '}
+            {status === 'Solved' && successIcon}
+            {status === 'New' && newIcon}
+            {status === 'In progress' && inProgressOrReopenedIcon}
+            {status === 'Reopened' && inProgressOrReopenedIcon}
+          </p>
+          <div className="vads-u-border-left--5px vads-u-border-color--green-light vads-u-padding--0p5">
+            {status === 'Solved' && (
+              <p className="vads-u-margin-left--2">
+                We either answered your question or didn’t have enough
+                information to answer your question. If you need more help, ask
+                a new question.
+              </p>
+            )}
+            {status === 'New' && (
+              <p className="vads-u-margin-left--2">
+                We received your question. We’ll review it soon.
+              </p>
+            )}
+            {status === 'In progress' && (
+              <p className="vads-u-margin-left--2">
+                We’re reviewing your question.
+              </p>
+            )}
+            {status === 'Reopened' && (
+              <p className="vads-u-margin-left--2">
+                We received your reply. We’ll respond soon.
+              </p>
+            )}
+          </div>
+          {levelOfAuthentication !== 'Unauthenticated' && (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a
+              role="button"
+              className="vads-c-action-link--green vads-u-margin-top--2"
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              onClick={showSignInModal}
+            >
+              Sign in to check your application status{' '}
             </a>
+          )}
+        </>
+      );
+    }
+
+    return null;
+  };
+
+  const unAuthenticatedUI = (
+    <>
+      <h2 className="vads-u-margin-top--4">How to start</h2>
+      <p className="">
+        You can use Ask VA to ask a question online. You can ask about
+        education, disability compensation, health care and many other topics.
+      </p>
+      <p>
+        We will review your information and reply back in up to{' '}
+        <span className="vads-u-font-weight--bold">7 business days.</span>
+      </p>
+
+      <h3 className="vads-u-margin-top--1">
+        If you need personalized information
+      </h3>
+      <p className="vads-u-margin-bottom--1">
+        You need to sign in to ask a question about yourself, your family member
+        or another Veteran. Your question can be about many VA-related topics,
+        including education benefits, disability compensation, debt, health care
+        and more.
+      </p>
+
+      <VaAlert
+        close-btn-aria-label="Close notification"
+        status="continue"
+        visible
+        uswds
+      >
+        <h3 slot="headline">Sign in to ask a question</h3>
+        <div>
+          <p className="vads-u-margin-top--0">
+            You’ll need to sign in with a verified{' '}
+            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account or a
+            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
+            or{' '}
+            <span className="vads-u-font-weight--bold">
+              My HealtheVet account.
+            </span>{' '}
+            If you don’t have any of those accounts, you can create a free{' '}
+            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account now.
           </p>
+          <VaButton
+            text="Sign in or create an account"
+            onClick={showSignInModal}
+          />
+        </div>
+      </VaAlert>
+
+      <h3 className="vads-u-margin-top--6">If you need general information</h3>
+      <p className="vads-u-margin-bottom--1">
+        We recommend that you use the{' '}
+        <Link href="https://www.va.gov/contact-us/virtual-agent/">chatbot</Link>{' '}
+        or review <Link href="https://www.va.gov/resources/">FAQs</Link> to find
+        general information quickly. Otherwise, you can ask us a question and
+        you may not need to sign in.
+      </p>
+      <Link className="vads-c-action-link--blue" to={getStartPage}>
+        Start your question without signing in
+      </Link>
+
+      <h2 slot="headline">Only use Ask VA for non-urgent needs</h2>
+      <h3 className="vads-u-margin-top--3">
+        If you need help now, use one of these urgen communication options
+      </h3>
+      <ul>
+        <li>
+          <strong>If you’re in crisis or having thoughts of suicide,</strong>{' '}
+          connect with our Veterans Crisis Line. We offer confidential support
+          anytime, day or night.{' '}
+          <div className="vads-u-margin-top--1 vads-u-margin-bottom--1">
+            <va-button
+              secondary="true"
+              text="Connect with the Veterans Crisis Line"
+              href="https://www.veteranscrisisline.net/"
+            />
+          </div>
         </li>
         <li>
-          <h3>Apply</h3>
-          <p>Complete this ask the va test form.</p>
-          <p>
-            After submitting the form, you’ll get a confirmation message. You
-            can print this for your records.
-          </p>
+          <strong>If you think your life or health is in danger,</strong> call{' '}
+          <va-telephone
+            contact="911"
+            message-aria-describedby="Emergency care contact number"
+          />{' '}
+          or go to the nearest emergency room.
         </li>
-        <li>
-          <h3>VA Review</h3>
-          <p>
-            We process claims within a week. If more than a week has passed
-            since you submitted your application and you haven’t heard back,
-            please don’t apply again. Call us at.
-          </p>
-        </li>
-        <li>
-          <h3>Decision</h3>
-          <p>
-            Once we’ve processed your claim, you’ll get a notice in the mail
-            with our decision.
-          </p>
-        </li>
-      </va-process-list>
-      <SaveInProgressIntro
-        buttonOnly
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the Application"
+      </ul>
+
+      <h2>Check the status of your question</h2>
+      <p className="vads-u-margin--0">Reference number</p>
+      <VaSearchInput
+        label="Reference number"
+        value={searchReferenceNumber}
+        onInput={handleSearchInputChange}
+        onSubmit={handleSearchByReferenceNumber}
+        uswds
       />
-      <p />
-      <va-omb-info res-burden={30} omb-number="XX3344" exp-date="12/31/24" />
-    </article>
+      {questionStatus()}
+    </>
+  );
+
+  const authenticatedUI = (
+    <>
+      <Link className="vads-c-action-link--green" to={getStartPage}>
+        Ask a new question
+      </Link>
+      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
+        <va-accordion
+          disable-analytics={{
+            value: 'false',
+          }}
+          open-single
+          section-heading={{
+            value: 'null',
+          }}
+          uswds={{
+            value: 'true',
+          }}
+        >
+          <va-accordion-item
+            header="Only use Ask VA for non-urgent questions"
+            id="first"
+          >
+            <p>
+              It can take up to
+              <strong>7 business days</strong> to get a response.
+            </p>
+            <p>
+              If you need help now, use one of these urgent communication
+              options:
+            </p>
+            <ul>
+              <li>
+                <strong>
+                  If you’re in crisis or having thoughts of suicide,
+                </strong>{' '}
+                connect with our Veterans Crisis Line. We offer confidential
+                support anytime, day or night.{' '}
+                <a href="https://www.veteranscrisisline.net">
+                  Connect with Veterans Crisis Line
+                </a>
+              </li>
+              <li>
+                <strong>If you think your life or health is in danger,</strong>{' '}
+                call{' '}
+                <va-telephone
+                  contact="911"
+                  message-aria-describedby="Emergency care contact number"
+                />
+                , or go to the nearest emergency room.
+              </li>
+            </ul>
+          </va-accordion-item>
+        </va-accordion>
+      </div>
+
+      <DashboardCards />
+    </>
+  );
+
+  return (
+    <div className="schemaform-intro">
+      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+
+      {loggedIn ? authenticatedUI : unAuthenticatedUI}
+    </div>
   );
 };
 
 IntroductionPage.propTypes = {
+  toggleLoginModal: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool,
   profile: PropTypes.shape({
     userFullName: PropTypes.shape({
       first: PropTypes.string,
@@ -99,14 +335,36 @@ IntroductionPage.propTypes = {
     dob: PropTypes.string,
     gender: PropTypes.string,
   }),
-  loggedIn: PropTypes.bool,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      formId: PropTypes.string,
+      title: PropTypes.string,
+      subTitle: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+      downtime: PropTypes.shape({}),
+    }),
+    formData: PropTypes.object,
+    setFormData: PropTypes.func,
+    pathname: PropTypes.string,
+    pageList: PropTypes.array,
+  }),
 };
 
 function mapStateToProps(state) {
   return {
+    formData: state.form?.data || {},
     loggedIn: isLoggedIn(state),
     profile: selectProfile(state),
   };
 }
 
-export default connect(mapStateToProps)(IntroductionPage);
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+  setFormData: setData,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(IntroductionPage);

@@ -1,7 +1,5 @@
-// Dependencies.
 import URLSearchParams from 'url-search-params';
-// Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import { fetchFormsApi } from '../api';
 import { MAX_PAGE_LIST_LENGTH } from '../containers/SearchResults';
 import {

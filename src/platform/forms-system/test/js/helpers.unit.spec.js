@@ -13,6 +13,8 @@ import {
   expandArrayPages,
   omitRequired,
   showReviewField,
+  stringifyUrlParams,
+  getUrlPathIndex,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -439,6 +441,7 @@ describe('Schemaform helpers:', () => {
         anotherField: 'testing3',
       });
     });
+
     it('should remove empty addresses', () => {
       const formConfig = {
         chapters: {
@@ -461,6 +464,34 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address).to.be.undefined;
     });
+
+    it('should not remove empty addresses if allowPartialAddress is true', () => {
+      const formConfig = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: {},
+            },
+          },
+        },
+      };
+      const formData = {
+        data: {
+          address: {
+            country: 'testing',
+          },
+        },
+      };
+
+      const output = JSON.parse(
+        transformForSubmit(formConfig, formData, {
+          allowPartialAddress: true,
+        }),
+      );
+
+      expect(output.address.country).to.eql('testing');
+    });
+
     it('should remove empty objects', () => {
       const formConfig = {
         chapters: {
@@ -1237,5 +1268,35 @@ describe('Schemaform helpers:', () => {
         ),
       ).to.eql(false);
     });
+  });
+});
+
+describe('stringifyUrlParams ', () => {
+  it('should convert an object to a url query string', () => {
+    expect(stringifyUrlParams(null)).to.eql('');
+    expect(stringifyUrlParams({})).to.eql('');
+    expect(
+      stringifyUrlParams({
+        add: true,
+      }),
+    ).to.eql('?add=true');
+    expect(
+      stringifyUrlParams({
+        time: '123',
+        rate: 24,
+      }),
+    ).to.eql('?time=123&rate=24');
+  });
+});
+
+describe('getUrlPathIndex', () => {
+  it('should return the index of a url path', () => {
+    expect(getUrlPathIndex(null)).to.eql(undefined);
+    expect(getUrlPathIndex('/form-1/path-2')).to.eql(undefined);
+    expect(getUrlPathIndex('form-1/path-2/0')).to.eql(0);
+    expect(getUrlPathIndex('/form-1/path-2/3')).to.eql(3);
+    expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
+    expect(getUrlPathIndex('/form-1/path-2/0/the-page?add')).to.eql(0);
+    expect(getUrlPathIndex('/form-1/path-2/1/page-3')).to.eql(1);
   });
 });

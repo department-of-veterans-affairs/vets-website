@@ -1,36 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState, createRef } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
   updateAutocompleteName,
+  setError,
+  filterBeforeResultFlag,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
   dispatchFetchNameAutocompleteSuggestions,
   dispatchFetchSearchByNameResults,
   dispatchUpdateAutocompleteName,
+  dispatchError,
   filters,
   preview,
   search,
   smallScreen,
+  errorReducer,
+  filterBeforeResultsReducer,
+  dispatchShowFiltersBeforeResult,
+  focusSearchReducer,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
-  const [error, setError] = useState(null);
+  // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  const { showFiltersBeforeResult } = filterBeforeResultsReducer;
+  const [isClearButtonClicked, setIsButtonClicked] = useState(false);
+  // const [error, setError] = useState(null);
+  const { error } = errorReducer;
+  const { focusOnSearch } = focusSearchReducer;
+  const dispatch = useDispatch();
   const history = useHistory();
-
+  const inputRef = createRef();
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, 1, filters, version);
+    const searchName = value || search.query.name;
+    dispatchFetchSearchByNameResults(searchName, 1, filters, version);
     const clonedFilters = filters;
     clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
       exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
@@ -41,7 +59,7 @@ export function NameSearchForm({
       search.tab,
       {
         ...search.query,
-        name: value,
+        name: searchName,
       },
       clonedFilters,
       version,
@@ -52,10 +70,12 @@ export function NameSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
+
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(name || search?.query?.name);
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
       }
     },
     [filters.search],
@@ -73,47 +93,48 @@ export function NameSearchForm({
     },
     [search.loadFromUrl],
   );
+  // This effect runs to focus on search when Reset Search button is clicked.
+  useEffect(
+    () => {
+      if (focusOnSearch) {
+        inputRef.current.focus();
+        dispatch({ type: 'RESET_FOCUS' });
+      }
+    },
+    [focusOnSearch, inputRef, dispatch],
+  );
 
-  const validateSearchTerm = searchTerm => {
-    const empty = searchTerm.trim() === '';
-    if (empty) {
-      setError('Please fill in a school, employer, or training provider.');
-    } else if (
-      filters.schools === false &&
-      filters.excludeCautionFlags === false &&
-      filters.accredited === false &&
-      filters.studentVeteran === false &&
-      filters.yellowRibbonScholarship === false &&
-      filters.employers === false &&
-      filters.vettec === false &&
-      filters.preferredProvider === false &&
-      filters.specialMissionHbcu === false &&
-      filters.specialMissionMenonly === false &&
-      filters.specialMissionWomenonly === false &&
-      filters.specialMissionRelaffil === false &&
-      filters.specialMissionHSI === false &&
-      filters.specialMissionNANTI === false &&
-      filters.specialMissionANNHI === false &&
-      filters.specialMissionAANAPII === false &&
-      filters.specialMissionPBI === false &&
-      filters.specialMissionTRIBAL === false
-    ) {
-      setError('Please select at least one filter.');
-    } else if (error !== null) {
-      setError(null);
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
+  const onApplyFilterClick = () => {
+    if (name.length === 0) {
+      inputRef.current.focus();
     }
-    return !empty;
+  };
+  const onCearFilterClick = () => {
+    inputRef.current.focus();
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name)) {
+    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
+      dispatchShowFiltersBeforeResult();
       doSearch(name);
+    }
+    onApplyFilterClick();
+  };
+  const onKeyEnter = event => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -133,13 +154,14 @@ export function NameSearchForm({
   };
 
   return (
-    <div>
+    <div className="search-form-container">
       <form onSubmit={handleSubmit}>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
+              inputRef={inputRef}
+              isClearButtonClicked={isClearButtonClicked}
               className="name-search"
-              error={error}
               inputValue={name}
               label="School, employer, or training provider"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
@@ -147,19 +169,22 @@ export function NameSearchForm({
               onSelection={s => setName(s.label)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
-              validateSearchTerm={validateSearchTerm}
+              type="name"
+              filters={filters}
               version={version}
             />
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
             <button
-              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
+              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
+              onKeyPress={onKeyEnter}
             >
-              <i
+              <va-icon
+                size={3}
+                icon="search"
                 aria-hidden="true"
-                className="fas fa-search vads-u-margin-right--0p5"
-                role="presentation"
+                className="vads-u-margin-right--0p5"
               />
               Search
             </button>
@@ -167,9 +192,15 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        isProductionOrTestProdEnv() &&
+        JSON.parse(sessionStorage.getItem('show')) && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              setIsButtonClicked={setIsButtonClicked}
+              nameVal={name}
+              searchType="name"
+              onApplyFilterClick={onCearFilterClick}
+            />
           </div>
         )}
     </div>
@@ -181,12 +212,17 @@ const mapStateToProps = state => ({
   filters: state.filters,
   preview: state.preview,
   search: state.search,
+  errorReducer: state.errorReducer,
+  filterBeforeResultsReducer: state.filterBeforeResultsReducer,
+  focusSearchReducer: state.focusSearchReducer,
 });
 
 const mapDispatchToProps = {
   dispatchFetchNameAutocompleteSuggestions: fetchNameAutocompleteSuggestions,
   dispatchUpdateAutocompleteName: updateAutocompleteName,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchError: setError,
+  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
 };
 
 export default connect(

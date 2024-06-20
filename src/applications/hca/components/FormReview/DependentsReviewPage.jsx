@@ -9,7 +9,7 @@ const DependentsReviewPage = ({ data, editPage }) => {
     const dependentName = normalizeFullName(fullName);
     return (
       <div key={index} className="review-row">
-        <dt>
+        <dt className="dd-privacy-hidden" data-dd-action-name="dependent">
           <strong>{dependentName}</strong>, {dependentRelation}
         </dt>
         <dd>&nbsp;</dd>
@@ -26,14 +26,13 @@ const DependentsReviewPage = ({ data, editPage }) => {
               <h4 className="form-review-panel-page-header vads-u-font-size--h5">
                 Your Dependents
               </h4>
-              <button
-                type="button"
+              <va-button
+                text="Edit"
+                label="Edit your dependents"
                 onClick={editPage}
-                className="edit-btn primary-outline"
-                aria-label="Edit your dependents"
-              >
-                Edit
-              </button>
+                secondary
+                uswds
+              />
             </div>
             <dl className="review">{reviewRows}</dl>
           </>
@@ -47,7 +46,12 @@ const DependentsReviewPage = ({ data, editPage }) => {
             <dl className="review">
               <div className="review-row">
                 <dt>Do you have any dependents to report?</dt>
-                <dd>No</dd>
+                <dd
+                  className="dd-privacy-hidden"
+                  data-dd-action-name="data value"
+                >
+                  No
+                </dd>
               </div>
             </dl>
           </>

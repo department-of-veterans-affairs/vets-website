@@ -1,10 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -14,52 +13,37 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = submission.timestamp;
-    const { fullName } = data;
+    const { submission, data } = form;
+
+    const contactOption = data?.contactPreference || 'email';
+    const referenceID = submission?.id || 'A-123456-7890';
 
     return (
       <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Ask VA Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          className="vads-u-margin-bottom--2"
+          status="success"
+          visible
+          uswds
+        >
+          <p className="vads-u-margin-y--0">
+            Your question was submitted successfully.
+          </p>
+        </va-alert>
+        <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+          Thank you for submitting a question to the U.S. Department of Veteran
+          Affairs. Your reference number is{' '}
+          <span className="vads-u-font-weight--bold">{referenceID}</span>
+        </p>
+        <p className="vads-u-margin-bottom--3">
+          You will also receive an email confirmation.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          You should receive a reply by {contactOption} within 7 business days.
+          If we need more information to answer your question, we'll contact
+          you.
+        </p>
       </div>
     );
   }

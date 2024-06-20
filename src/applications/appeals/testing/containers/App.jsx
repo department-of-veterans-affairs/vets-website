@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import formConfig from '../config/form';
 
 import { setupPages } from '../utils/taskListPages';
-import GetFormHelp from '../content/GetFormHelp';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 
 export default function App(props) {
   const { location, children } = props;

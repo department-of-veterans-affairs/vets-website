@@ -1,6 +1,6 @@
-import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -24,6 +24,6 @@ describe('yourQuestionPage', () => {
       />,
     );
 
-    expect($('h3', container).textContent).to.eq('Tell us your question');
+    expect($('h2', container).textContent).to.eq('Your question');
   });
 });

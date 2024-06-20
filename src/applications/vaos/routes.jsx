@@ -1,8 +1,7 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Switch } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import asyncLoader from '@department-of-veterans-affairs/platform-utilities/asyncLoader';
-import { connectDrupalSourceOfTruthCerner } from 'platform/utilities/cerner/dsot';
 import VAOSApp from './components/VAOSApp';
 import ErrorBoundary from './components/ErrorBoundary';
 import { captureError } from './utils/error';
@@ -14,7 +13,7 @@ import EnrolledRoute from './components/EnrolledRoute';
 
 // Handles errors loading components by doing one page reload and showing
 // an error message otherwise
-function handleLoadError(err) {
+export function handleLoadError(err) {
   if (window.location.search?.includes('retry=1')) {
     captureError(new Error(`vaos_lazy_loading: ${err.message}`));
     return () => (
@@ -54,20 +53,8 @@ export default function createRoutesWithStore(store) {
             component={asyncLoader(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
                 .then(({ NewAppointment, reducer }) => {
-                  connectDrupalSourceOfTruthCerner(store.dispatch);
                   store.injectReducer('newAppointment', reducer);
                   return NewAppointment;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <Route
-            path="/new-unenrolled-covid-19-vaccine-booking"
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "unenrolled-vaccine" */ './unenrolled-vaccine')
-                .then(({ UnenrolledVaccineSection, reducer }) => {
-                  store.injectReducer('unenrolledVaccine', reducer);
-                  return UnenrolledVaccineSection;
                 })
                 .catch(handleLoadError),
             )}

@@ -1,5 +1,10 @@
 import React from 'react';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
+export const title = 'Do you own any trailers, campers, or boats?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -9,14 +14,15 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    hasRecreationalVehicle: {
-      'ui:title': 'Do you own any trailers, campers, or boats?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
-      'ui:errorMessages': {
-        required: 'Please enter your trailer, camper, or boat information.',
+    hasRecreationalVehicle: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      required: () => true,
+      errorMessages: {
+        required: 'Please enter your trailers, campers, and boats information.',
       },
-    },
+    }),
   },
 };
 
@@ -26,9 +32,7 @@ export const schema = {
     questions: {
       type: 'object',
       properties: {
-        hasRecreationalVehicle: {
-          type: 'boolean',
-        },
+        hasRecreationalVehicle: yesNoSchema,
       },
     },
   },

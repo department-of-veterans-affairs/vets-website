@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { getJobIndex } from '../../utils/session';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const PayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -20,12 +24,14 @@ const PayrollDeductionInputList = props => {
 
   const formData = useSelector(state => state.form.data);
 
+  const MAXIMUM_DEDUCTION_AMOUNT = 40000;
+
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -53,18 +59,36 @@ const PayrollDeductionInputList = props => {
     const { target } = event;
     const updatedDeductions = mapDeductions(target);
     setSelectedDeductions(updatedDeductions);
-    if (!isValidCurrency(target.value)) {
+    if (
+      !isValidCurrency(target.value) ||
+      target.value > MAXIMUM_DEDUCTION_AMOUNT
+    ) {
       setErrors([...errors, target.name]);
     } else {
       setErrors(errors.filter(error => error !== target.name));
     }
   };
 
+  const getContinueButtonText = () => {
+    if (getJobButton() === jobButtonConstants.FIRST_JOB) {
+      return 'Continue';
+    }
+
+    if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+      return 'Update employment record';
+    }
+    return 'Add employment record';
+  };
+
   const updateFormData = e => {
     e.preventDefault();
 
     const errorList = selectedDeductions
-      .filter(item => !isValidCurrency(item.amount))
+      .filter(
+        item =>
+          !isValidCurrency(item.amount) ||
+          item.amount > MAXIMUM_DEDUCTION_AMOUNT,
+      )
       .map(item => item.name);
 
     setErrors(errorList);
@@ -119,8 +143,22 @@ const PayrollDeductionInputList = props => {
     goToPath(`/employment-history`);
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
+  const navButtons = (
+    <ButtonGroup
+      buttons={[
+        {
+          label: 'Back',
+          onClick: goBack, // Define this function based on page-specific logic
+          isSecondary: true,
+        },
+        {
+          label: getContinueButtonText(),
+          onClick: updateFormData,
+          isSubmitting: true, // If this button submits a form
+        },
+      ]}
+    />
+  );
 
   return (
     <form onSubmit={updateFormData}>
@@ -143,9 +181,11 @@ const PayrollDeductionInputList = props => {
               required
               currency
               width="md"
+              min={0}
+              max={MAXIMUM_DEDUCTION_AMOUNT}
               error={
                 errors.includes(deduction.name)
-                  ? 'Enter a valid dollar amount.'
+                  ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
             />
@@ -154,7 +194,6 @@ const PayrollDeductionInputList = props => {
         <va-additional-info
           trigger="How to calculate your monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your pay stub. Then follow
@@ -181,7 +220,7 @@ const PayrollDeductionInputList = props => {
           </ol>
         </va-additional-info>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

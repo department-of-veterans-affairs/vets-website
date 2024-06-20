@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { isValid, format } from 'date-fns';
 import { Link } from 'react-router';
 
 import { replaceDescriptionContent } from '../utils/replace';
-import { FORMAT_YMD, FORMAT_READABLE, SELECTED } from '../constants';
+import {
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+  SELECTED,
+} from '../constants';
+import { parseDateToDateObj } from '../utils/dates';
 import '../definitions';
 
 // It would be better to validate the date based on the app's requirements
@@ -31,16 +36,18 @@ export const IssueCardContent = ({
   // May need to throw an error to Sentry if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
-  // If moment is passed an undefined it returns todays date
-  const date = moment(approxDecisionDate || decisionDate || null, FORMAT_YMD);
+  const date = parseDateToDateObj(
+    approxDecisionDate || decisionDate || null,
+    FORMAT_YMD_DATE_FNS,
+  );
 
   // const dateMessage = isValidDate(date) ? (
-  const dateMessage = date.isValid() ? (
+  const dateMessage = isValid(date) ? (
     <strong
       className="dd-privacy-hidden"
       data-dd-action-name="rated issue decision date"
     >
-      {date.format(FORMAT_READABLE)}
+      {format(date, FORMAT_READABLE_DATE_FNS)}
     </strong>
   ) : (
     <span className="usa-input-error-message vads-u-display--inline">
@@ -133,6 +140,7 @@ export const IssueCard = ({
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',
+    'overflow-wrap-word',
   ].join(' ');
 
   const removeButtonClass = [
@@ -169,6 +177,7 @@ export const IssueCard = ({
           label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
+          uswds
         />
       </div>
     ) : null;
@@ -181,7 +190,10 @@ export const IssueCard = ({
     <li id={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
-          <div className="widget-checkbox-wrap">
+          <div
+            className="widget-checkbox-wrap"
+            data-dd-action-name="Issue name"
+          >
             <input
               type="checkbox"
               id={elementId}
@@ -190,8 +202,13 @@ export const IssueCard = ({
               onChange={handlers.onChange}
               aria-describedby={`issue-${index}-description`}
               aria-labelledby={`issue-${index}-title`}
+              data-dd-action-name="Issue Name"
             />
-            <label className="schemaform-label" htmlFor={elementId}>
+            <label
+              className="schemaform-label"
+              htmlFor={elementId}
+              data-dd-action-name="Contestable Issue Name"
+            >
               {' '}
             </label>
           </div>
@@ -205,7 +222,7 @@ export const IssueCard = ({
           <Header
             id={`issue-${index}-title`}
             className={titleClass}
-            data-dd-action-name="issue name"
+            data-dd-action-name="contestable issue name"
           >
             {issueName}
           </Header>

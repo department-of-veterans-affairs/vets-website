@@ -1,10 +1,9 @@
-// Node modules.
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-// Relative imports.
-import environment from 'platform/utilities/environment';
-import recordEvent from 'platform/monitoring/record-event';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import environment from '~/platform/utilities/environment';
+import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
 import {
   FORM_MOMENT_PRESENTATION_DATE_FORMAT,
@@ -12,7 +11,6 @@ import {
 } from '../constants';
 import FormTitle from './FormTitle';
 
-// Helper to derive the download link props.
 const deriveLinkPropsFromFormURL = url => {
   const linkProps = {};
   if (!url) return linkProps;
@@ -21,11 +19,10 @@ const deriveLinkPropsFromFormURL = url => {
   const isPDF = url.toLowerCase().includes('.pdf');
 
   if (!isSameOrigin || !isPDF) {
-    // Just open in a new tab if we'd otherwise hit a CORS issue or if the form URL isn't a PDF.
     linkProps.target = '_blank';
   } else {
-    // Use HTML5 `download` attribute.
     linkProps.download = true;
+
     if (isPDF) linkProps.type = 'application/pdf';
   }
 
@@ -36,12 +33,10 @@ const deriveLinkPropsFromFormURL = url => {
 const regulateURL = url => {
   if (!url) return '';
 
-  // On prod, give back the raw URL.
   if (environment.isProduction()) {
     return url;
   }
 
-  // Derive the current hostname.
   const currentHostname = url.substring(0, url.indexOf('/find-forms'));
 
   // On non-prod envs, we need to swap the hostname of the URL.
@@ -117,7 +112,10 @@ const deriveRelatedTo = ({
     relatedTo = (
       <>
         A non-VA form. For other government agency forms, go to the{' '}
-        <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+        <va-link
+          href="https://www.gsa.gov/reference/forms"
+          text="GSA forms library"
+        />
       </>
     );
   }
@@ -141,11 +139,9 @@ const deriveRelatedTo = ({
 const SearchResult = ({
   form,
   formMetaInfo,
-  showPDFInfoVersionOne,
   toggleModalState,
   setPrevFocusedLink,
 }) => {
-  // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
   }
@@ -166,11 +162,10 @@ const SearchResult = ({
     },
     id,
   } = form;
-
-  // Derive the download link props.
+  const relativeFormToolUrl = formToolUrl
+    ? replaceWithStagingDomain(formToolUrl)
+    : formToolUrl;
   const linkProps = deriveLinkPropsFromFormURL(url);
-
-  // Derive labels.
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
@@ -185,16 +180,14 @@ const SearchResult = ({
 
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
-    if (showPDFInfoVersionOne) {
-      recordEvent({
-        event: 'int-modal-click',
-        'modal-status': 'opened',
-        'modal-title': 'Download this PDF and open it in Acrobat Reader',
-      });
-      toggleModalState(formName, url, pdfLabel);
-    } else {
-      recordGAEvent(`Download VA form ${formName} ${pdfLabel}`, url, 'pdf');
-    }
+
+    recordEvent({
+      event: 'int-modal-click',
+      'modal-status': 'opened',
+      'modal-title': 'Download this PDF and open it in Acrobat Reader',
+    });
+
+    toggleModalState(formName, url, pdfLabel);
   };
 
   return (
@@ -213,55 +206,46 @@ const SearchResult = ({
       </div>
 
       {relatedTo}
-      {formToolUrl ? (
+      {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
-          <a
-            className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
-            href={formToolUrl}
+          <va-link
+            className="vads-c-action-link--green"
+            disable-analytics
+            href={relativeFormToolUrl}
+            lang={language}
             onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
             }
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-              role="presentation"
-            />
-            <span
-              lang={language}
-              className="vads-u-text-decoration--underline vads-u-font-weight--bold"
-            >
-              {deriveLanguageTranslation(language, 'goToOnlineTool', formName)}
-            </span>
-          </a>
+            text={deriveLanguageTranslation(
+              language,
+              'goToOnlineTool',
+              formName,
+            )}
+          />
         </div>
       ) : null}
       <div className="vads-u-margin-y--0">
-        <a
-          className="find-forms-max-content vads-u-text-decoration--none"
+        <button
+          className="va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
-          rel="noreferrer noopener"
-          href={showPDFInfoVersionOne ? null : url}
           tabIndex="0"
           onKeyDown={event => {
-            if (event.keyCode === 13) {
+            if (event === 13) {
               pdfDownloadHandler();
             }
           }}
-          onClick={() => pdfDownloadHandler()}
+          onClick={pdfDownloadHandler}
           {...linkProps}
         >
-          <i
-            aria-hidden="true"
-            className="fas fa-download fa-lg vads-u-margin-right--1"
-            role="presentation"
-          />
-
-          <span lang={language} className="vads-u-text-decoration--underline">
+          <va-icon icon="file_download" size="3" />
+          <span
+            lang={language}
+            className="vads-u-text-decoration--underline vads-u-margin-left--0p5"
+          >
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
-        </a>
+        </button>
       </div>
     </li>
   );
@@ -270,7 +254,7 @@ const SearchResult = ({
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
-  showPDFInfoVersionOne: PropTypes.bool,
+  setPrevFocusedLink: PropTypes.func,
   toggleModalState: PropTypes.func,
 };
 

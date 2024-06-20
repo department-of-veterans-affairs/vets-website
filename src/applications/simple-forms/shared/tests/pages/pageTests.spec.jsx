@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -10,6 +11,20 @@ const expectedFieldTypesWebComponents =
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
+const getProps = () => {
+  return {
+    mockStore: {
+      getState: () => ({
+        form: { data: {} },
+      }),
+      subscribe: () => {},
+      dispatch: () => ({
+        setFormData: () => {},
+      }),
+    },
+  };
+};
+
 export const testNumberOfFields = (
   formConfig,
   schema,
@@ -20,14 +35,18 @@ export const testNumberOfFields = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should have appropriate number of fields', () => {
+      const { mockStore } = getProps();
+
       const { container } = render(
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={data}
-          formData={{}}
-        />,
+        <Provider store={mockStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </Provider>,
       );
 
       expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
@@ -47,14 +66,18 @@ export const testNumberOfErrorsOnSubmit = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should show the correct number of errors on submit', () => {
+      const { mockStore } = getProps();
+
       const { getByRole, queryAllByRole } = render(
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={data}
-          formData={{}}
-        />,
+        <Provider store={mockStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </Provider>,
       );
 
       getByRole('button', { name: /submit/i }).click();
@@ -74,14 +97,18 @@ export const testNumberOfWebComponentFields = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should have appropriate number of web components', () => {
+      const { mockStore } = getProps();
+
       const { container } = render(
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={data}
-          formData={{}}
-        />,
+        <Provider store={mockStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </Provider>,
       );
 
       expect(
@@ -101,14 +128,18 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should show the correct number of errors on submit for web components', () => {
+      const { mockStore } = getProps();
+
       const { container, getByRole } = render(
-        <DefinitionTester
-          definitions={formConfig.defaultDefinitions}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={data}
-          formData={{}}
-        />,
+        <Provider store={mockStore}>
+          <DefinitionTester
+            definitions={formConfig.defaultDefinitions}
+            schema={schema}
+            uiSchema={uiSchema}
+            data={data}
+            formData={{}}
+          />
+        </Provider>,
       );
 
       getByRole('button', { name: /submit/i }).click();

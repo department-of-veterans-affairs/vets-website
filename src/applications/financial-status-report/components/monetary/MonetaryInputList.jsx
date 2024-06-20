@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import InputList from '../shared/InputList';
+import { VALIDATION_LIMITS } from '../../constants';
 // import { safeNumber } from '../../utils/calculateIncome';
 
 const MonetaryInputList = props => {
@@ -69,9 +70,10 @@ const MonetaryInputList = props => {
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
-  const adjustedAssetList = adjustForStreamlined
-    ? streamlinedList
-    : monetaryAssets;
+  const adjustedAssetList =
+    adjustForStreamlined || data['view:reviewPageNavigationToggle']
+      ? streamlinedList
+      : monetaryAssets;
 
   return (
     <InputList
@@ -81,6 +83,8 @@ const MonetaryInputList = props => {
       prompt={prompt}
       submitted={submitted}
       onChange={event => onChange(event)}
+      min={VALIDATION_LIMITS.MONETARY_ASSET_MIN}
+      max={VALIDATION_LIMITS.MONETARY_ASSET_MAX}
     />
   );
 };

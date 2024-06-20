@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
+
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
 export const defaultFocusSelector =
   '.nav-header > h2, va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
@@ -12,32 +15,43 @@ export const defaultFocusSelector =
  *  on elements inside of shadow dom
  */
 export function focusElement(selectorOrElement, options, root) {
-  const el =
-    typeof selectorOrElement === 'string'
-      ? (root || document).querySelector(selectorOrElement)
-      : selectorOrElement;
-  if (el) {
-    // Use getAttribute to grab the "tabindex" attribute (returns string), not
-    // the "tabIndex" property (returns number). Focusable elements will
-    // automatically have a tabIndex of zero, otherwise it's -1.
-    const tabindex = el.getAttribute('tabindex');
-    // No need to add, or remove a tabindex="0"
-    if (el.tabIndex !== 0) {
-      el.setAttribute('tabindex', '-1');
-      if (typeof tabindex === 'undefined' || tabindex === null) {
-        // Remove tabindex on blur. If a web-component is focused using a -1
-        // tabindex and is not removed on blur, the shadow elements inside will
-        // not be focusable
-        el.addEventListener(
-          'blur',
-          () => {
-            el.removeAttribute('tabindex');
-          },
-          { once: true },
-        );
+  function applyFocus(el) {
+    if (el) {
+      // Use getAttribute to grab the "tabindex" attribute (returns string), not
+      // the "tabIndex" property (returns number). Focusable elements will
+      // automatically have a tabIndex of zero, otherwise it's -1.
+      const tabindex = el.getAttribute('tabindex');
+      // No need to add, or remove a tabindex="0"
+      if (el.tabIndex !== 0) {
+        el.setAttribute('tabindex', '-1');
+        if (typeof tabindex === 'undefined' || tabindex === null) {
+          // Remove tabindex on blur. If a web-component is focused using a -1
+          // tabindex and is not removed on blur, the shadow elements inside will
+          // not be focusable
+          el.addEventListener(
+            'blur',
+            () => {
+              el.removeAttribute('tabindex');
+            },
+            { once: true },
+          );
+        }
       }
+
+      el.focus(options);
     }
-    el.focus(options);
+  }
+
+  if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
+    querySelectorWithShadowRoot(selectorOrElement, root).then(
+      elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
+    );
+  } else {
+    const el =
+      typeof selectorOrElement === 'string'
+        ? (root || document).querySelector(selectorOrElement)
+        : selectorOrElement;
+    applyFocus(el); // synchronous code
   }
 }
 
@@ -47,21 +61,33 @@ export function focusElement(selectorOrElement, options, root) {
  * iterations, then fall back to the default selector (step _ of _ h2)
  * Discussion: https://dsva.slack.com/archives/CBU0KDSB1/p1676479946812439
  * @param {String} selector - focus target selector
- * @param {Element} root - starting element of the querySelector; may be a
- *  shadowRoot
+ * @param {Element} root - starting element of the querySelector
+ * @param {Number} timeInterval - time in milliseconds to delay
+ * @param {String} internalSelector - selector pointing to an element inside the
+ *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
 export function waitForRenderThenFocus(
   selector,
   root = document,
   timeInterval = 250,
+  // added because we first need to wait for a component to be rendered, then we
+  // need to target an element inside the component (in regular or in a web
+  // component's shadow DOM)
+  internalSelector,
 ) {
   const maxIterations = 6; // 1.5 seconds
   let count = 0;
+
   const interval = setInterval(() => {
-    if ((root || document).querySelector(selector)) {
+    const el = (root || document).querySelector(selector);
+    if (el) {
       clearInterval(interval);
-      focusElement(selector, {}, root);
+      if (internalSelector) {
+        focusElement(internalSelector, {}, el);
+      } else {
+        focusElement(el);
+      }
     } else if (count >= maxIterations) {
       clearInterval(interval);
       focusElement(defaultFocusSelector); // fallback to breadcrumbs

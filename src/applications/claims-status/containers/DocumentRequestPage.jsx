@@ -1,52 +1,56 @@
 import React from 'react';
 import Scroll from 'react-scroll';
-import _ from 'lodash';
-import { withRouter, Link } from 'react-router';
+import { merge } from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
-import DocumentRequestPageContent from '../components/evss/DocumentRequestPageContent';
-import AddFilesForm from '../components/AddFilesForm';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import DueDate from '../components/DueDate';
 import Notification from '../components/Notification';
+import DefaultPage from '../components/claim-document-request-pages/DefaultPage';
 import {
   addFile,
   removeFile,
   submitFiles,
+  // START lighthouse_migration
+  submitFilesLighthouse,
+  // END lighthouse_migration
   resetUploads,
   updateField,
   cancelUpload,
   // START lighthouse_migration
   getClaim as getClaimAction,
-  getClaimDetail as getClaimEVSSAction,
   // END lighthouse_migration
   setFieldsDirty,
   clearNotification,
 } from '../actions';
-import { scrubDescription } from '../utils/helpers';
-import { setPageFocus, setUpPage } from '../utils/page';
 // START lighthouse_migration
-import { cstUseLighthouse } from '../selectors';
+import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
+import { setDocumentTitle } from '../utils/helpers';
+import { setPageFocus, setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
+import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
 
 const scrollToError = () => {
-  const options = _.merge({}, window.VetsGov.scroll, { offset: -25 });
+  const options = merge({}, window.VetsGov.scroll, { offset: -25 });
   scrollTo('uploadError', options);
 };
 const { Element } = Scroll;
+
+const filesPath = '../files';
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     if (this.props.trackedItem) {
-      document.title = `Request for ${this.props.trackedItem.displayName}`;
+      setDocumentTitle(`Request for ${this.props.trackedItem.displayName}`);
     } else {
-      document.title = 'Document Request';
+      setDocumentTitle('Document Request');
     }
     if (!this.props.loading) {
       setUpPage();
@@ -58,7 +62,9 @@ class DocumentRequestPage extends React.Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (!props.loading && !props.trackedItem) {
-      this.props.router.replace(`/your-claims/${this.props.params.id}/status`);
+      this.props.navigate(`../status`, {
+        replace: true,
+      });
     }
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -81,46 +87,50 @@ class DocumentRequestPage extends React.Component {
     }
   }
 
-  getPageContent() {
-    const { trackedItem, useLighthouse } = this.props;
-    if (!useLighthouse) {
-      return <DocumentRequestPageContent trackedItem={trackedItem} />;
-    }
-
+  getDefaultPage() {
     return (
       <>
-        <h1 className="claims-header">{trackedItem.displayName}</h1>
-        {trackedItem.status === 'NEEDED_FROM_YOU' ? (
-          <DueDate date={trackedItem.suspenseDate} />
-        ) : null}
-        {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
-          <div className="optional-upload">
-            <p>
-              <strong>Optional</strong> - We’ve asked others to send this to us,
-              but you may upload it if you have it.
-            </p>
-          </div>
-        ) : null}
-        <p>{scrubDescription(trackedItem.description)}</p>
+        <DefaultPage
+          backUrl={this.props.lastPage ? `/${this.props.lastPage}` : filesPath}
+          field={this.props.uploadField}
+          files={this.props.files}
+          item={this.props.trackedItem}
+          onAddFile={this.props.addFile}
+          onCancel={this.props.cancelUpload}
+          onDirtyFields={this.props.setFieldsDirty}
+          onFieldChange={this.props.updateField}
+          onSubmit={() => {
+            // START lighthouse_migration
+            if (this.props.documentsUseLighthouse) {
+              this.props.submitFilesLighthouse(
+                this.props.claim.id,
+                this.props.trackedItem,
+                this.props.files,
+              );
+            } else {
+              this.props.submitFiles(
+                this.props.claim.id,
+                this.props.trackedItem,
+                this.props.files,
+              );
+            }
+            // END lighthouse_migration
+          }}
+          onRemoveFile={this.props.removeFile}
+          progress={this.props.progress}
+          uploading={this.props.uploading}
+        />
       </>
     );
   }
 
   goToFilesPage() {
-    // START lighthouse_migration
-    if (this.props.useLighthouse) {
-      this.props.getClaimLighthouse(this.props.claim.id);
-    } else {
-      this.props.getClaimEVSS(this.props.claim.id);
-    }
-    // END lighthouse_migration
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+    this.props.getClaim(this.props.claim.id);
+    this.props.navigate(filesPath);
   }
 
   render() {
     let content;
-    const filesPath = `your-claims/${this.props.params.id}/files`;
-    const { trackedItem } = this.props;
 
     if (this.props.loading) {
       content = (
@@ -130,7 +140,9 @@ class DocumentRequestPage extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { message, trackedItem } = this.props;
+      const is5103Notice =
+        trackedItem.displayName === 'Automated 5103 Notice Response';
 
       content = (
         <>
@@ -144,41 +156,34 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
-          {this.getPageContent()}
-          <AddFilesForm
-            field={this.props.uploadField}
-            progress={this.props.progress}
-            uploading={this.props.uploading}
-            files={this.props.files}
-            backUrl={this.props.lastPage || filesPath}
-            onSubmit={() =>
-              this.props.submitFiles(
-                this.props.claim.id,
-                this.props.trackedItem,
-                this.props.files,
-              )
-            }
-            onAddFile={this.props.addFile}
-            onRemoveFile={this.props.removeFile}
-            onFieldChange={this.props.updateField}
-            onCancel={this.props.cancelUpload}
-            onDirtyFields={this.props.setFieldsDirty}
-          />
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+            <Toggler.Enabled>
+              {is5103Notice ? (
+                <Automated5103Notice item={trackedItem} />
+              ) : (
+                <>{this.getDefaultPage()}</>
+              )}
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <>{this.getDefaultPage()}</>
+            </Toggler.Disabled>
+          </Toggler>
         </>
       );
     }
 
-    const docRequest = this.props.loading ? (
-      <span>Document request</span>
-    ) : (
-      <Link
-        to={`your-claims/${this.props.params.id}/document-request/${
-          trackedItem.id
-        }`}
-      >
-        Document request
-      </Link>
-    );
+    const crumbs = [
+      {
+        href: filesPath,
+        label: 'Status details',
+        isRouterLink: true,
+      },
+      {
+        href: `../document-request/${this.props.params.trackedItemId}`,
+        label: 'Document request',
+        isRouterLink: true,
+      },
+    ];
 
     return (
       <div>
@@ -186,18 +191,17 @@ class DocumentRequestPage extends React.Component {
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={filesPath}>Status details</Link>
-                {docRequest}
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={crumbs} />
+            </div>
+          </div>
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 vads-u-padding-bottom--4 medium-screen:vads-l-col--8">
+              {content}
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              {content}
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 help-sidebar">
-              <AskVAQuestions />
+              <NeedHelp />
             </div>
           </div>
         </div>
@@ -209,24 +213,14 @@ class DocumentRequestPage extends React.Component {
 function mapStateToProps(state, ownProps) {
   const claimsState = state.disability.status;
   const { claimDetail, uploads } = claimsState;
-  const useLighthouse = cstUseLighthouse(state, 'show');
 
-  let trackedItems = [];
   let trackedItem = null;
   if (claimDetail.detail) {
-    const { attributes } = claimDetail.detail;
+    const { trackedItems } = claimDetail.detail.attributes;
     const { trackedItemId } = ownProps.params;
-    if (useLighthouse) {
-      trackedItems = attributes.trackedItems;
-      [trackedItem] = trackedItems.filter(
-        event => event.id === parseInt(trackedItemId, 10),
-      );
-    } else {
-      trackedItems = attributes.eventsTimeline;
-      [trackedItem] = trackedItems.filter(
-        event => event.trackedItemId === parseInt(trackedItemId, 10),
-      );
-    }
+    [trackedItem] = trackedItems.filter(
+      item => item.id === parseInt(trackedItemId, 10),
+    );
   }
 
   return {
@@ -242,7 +236,7 @@ function mapStateToProps(state, ownProps) {
     lastPage: claimsState.routing.lastPage,
     message: claimsState.notifications.message,
     // START lighthouse_migration
-    useLighthouse,
+    documentsUseLighthouse: benefitsDocumentsUseLighthouse(state),
     // END lighthouse_migration
   };
 }
@@ -253,9 +247,9 @@ const mapDispatchToProps = {
   submitFiles,
   updateField,
   cancelUpload,
+  getClaim: getClaimAction,
   // START lighthouse_migration
-  getClaimEVSS: getClaimEVSSAction,
-  getClaimLighthouse: getClaimAction,
+  submitFilesLighthouse,
   // END lighthouse_migration
   setFieldsDirty,
   resetUploads,
@@ -274,27 +268,29 @@ DocumentRequestPage.propTypes = {
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
-  files: PropTypes.array,
   // START lighthouse_migration
-  getClaimEVSS: PropTypes.func,
-  getClaimLighthouse: PropTypes.func,
+  documentsUseLighthouse: PropTypes.bool,
   // END lighthouse_migration
+  files: PropTypes.array,
+  getClaim: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
+  navigate: PropTypes.func,
   params: PropTypes.object,
+  progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
+  // START lighthouse_migration
+  submitFilesLighthouse: PropTypes.func,
+  // END lighthouse_migration
   trackedItem: PropTypes.object,
   updateField: PropTypes.func,
   uploadComplete: PropTypes.bool,
+  uploadField: PropTypes.object,
   uploading: PropTypes.bool,
-  // START lighthouse_migration
-  useLighthouse: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export { DocumentRequestPage };

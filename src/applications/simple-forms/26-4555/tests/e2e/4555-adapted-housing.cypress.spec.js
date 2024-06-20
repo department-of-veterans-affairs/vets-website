@@ -5,41 +5,56 @@ import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-tog
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
+import {
+  fillAddressWebComponentPattern,
+  reviewAndSubmitPageFlow,
+} from '../../../shared/tests/e2e/helpers';
+import user from './fixtures/mocks/user.json';
+import sipPut from './fixtures/mocks/sip-put.json';
+import sipGet from './fixtures/mocks/sip-get.json';
+
+// mock logged in LOA3 user
+const userLOA3 = {
+  ...user,
+  data: {
+    ...user.data,
+    attributes: {
+      ...user.data.attributes,
+      login: {
+        currentlyLoggedIn: true,
+      },
+      profile: {
+        ...user.data.attributes.profile,
+        loa: {
+          current: 3,
+        },
+      },
+    },
+  },
+};
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: ['minimal-test', 'maximal-test'],
+    useWebComponentFields: true,
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start/i, { selector: 'button' });
-          cy.findByText(/without signing in/i).click({ force: true });
+          cy.findAllByText(/^Start/, { selector: 'a[href="#start"]' })
+            .last()
+            .click();
         });
       },
       'contact-information-1': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.fillPage();
-            // fillPage doesn't catch state select, so select state manually
-            cy.get('select#root_veteran_address_state').select(
-              data.veteran.address.state,
+            fillAddressWebComponentPattern(
+              'veteran_address',
+              data.veteran.address,
             );
-            if (data.veteran.address.city) {
-              if (data.veteran.address.isMilitary) {
-                // there is a select dropdown instead when military is checked
-                cy.get('select#root_veteran_address_city').select(
-                  data.veteran.address.city,
-                );
-              } else {
-                cy.get('#root_veteran_address_city').type(
-                  data.veteran.address.city,
-                );
-              }
-            }
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -54,8 +69,12 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('/v0/api', { status: 200 });
+      cy.intercept('/v0/feature_toggles', featureToggles);
+      cy.intercept('PUT', '/v0/in_progress_forms/26-4555', sipPut);
+      cy.intercept('GET', '/v0/in_progress_forms/26-4555', sipGet);
+      cy.intercept(formConfig.submitUrl, mockSubmit);
+      cy.login(userLOA3);
     },
     skip: false,
   },

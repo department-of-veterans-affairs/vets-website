@@ -15,21 +15,30 @@ export const App = ({ show }) => {
         </p>
         <p>
           <strong>
-            If you’re trying to apply by the September 30th special enrollment
-            deadline for certain combat Veterans
+            If you’re trying to apply based on our expansion of health care
+            benefits starting on March 5, 2024
           </strong>
-          , you can also apply in other ways. Call us at{' '}
-          <va-telephone contact={CONTACTS['222_VETS']} />. We’re here Friday,
-          September 29, 7:00 a.m. to 9:00 p.m.{' '}
-          <dfn>
-            <abbr title="Central Time">CT</abbr>
-          </dfn>
-          , and Saturday, September 30, 7:00 a.m. to 11:59 p.m.{' '}
-          <dfn>
-            <abbr title="Central Time">CT</abbr>
-          </dfn>
-          . Mail us an application postmarked by September 30, 2023. Or bring
-          your application in person to your nearest VA health facility.
+          , you can also apply in other ways:
+        </p>
+        <ul>
+          <li>
+            Call us at <va-telephone contact={CONTACTS['222_VETS']} />, Monday
+            through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+            <dfn>
+              <abbr title="Eastern Time">ET</abbr>
+            </dfn>
+          </li>
+          <li>Mail us an application.</li>
+          <li>
+            Or bring your application in person to your nearest VA health
+            facility.
+          </li>
+        </ul>
+        <p>
+          <va-link
+            href="/health-care/how-to-apply/#you-can-also-apply-in-any-of-t"
+            text="Learn more about how to apply by phone, mail, or in person"
+          />
         </p>
       </div>
     </va-alert>

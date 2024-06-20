@@ -55,6 +55,8 @@ function ActionButtons(props) {
             onClick={handleClick(history, dispatch, requestDateTime)}
             text="Request an earlier appointment"
             secondary
+            uswds
+            data-testid="earlier-request-btn"
           />
           <span className="vads-u-display--inline-block vads-u-margin-x--2p5 vads-u-font-weight--bold">
             OR

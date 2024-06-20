@@ -5,7 +5,7 @@ import { SHOW_PART3_REDIRECT } from '../constants';
 
 const title = 'Request an extension';
 
-const ShowAlert = () => {
+export const ShowAlert = () => {
   // Show info alert after redirect
   const part3Redirect = useSelector(
     state => state.form?.data?.[SHOW_PART3_REDIRECT],
@@ -16,6 +16,7 @@ const ShowAlert = () => {
       status="info"
       class="vads-u-margin-y--1"
       role="alert"
+      uswds
     >
       <p>
         We updated the Board Appeal with new questions. Your previous responses
@@ -27,14 +28,14 @@ const ShowAlert = () => {
 };
 
 export const content = {
-  title: <ShowAlert />,
-  description: (
+  title: (
     <>
+      <ShowAlert />
       <h3 className="vads-u-margin-top--0">{title}</h3>
-      <p className="vads-u-margin-top--0">
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-size--md vads-u-font-weight--normal">
         If you request an extension (extra time) to file VA Form 10182 for good
         cause, you’ll need to tell us why you have good cause.
-      </p>
+      </div>
     </>
   ),
   label: 'Are you requesting an extension?',

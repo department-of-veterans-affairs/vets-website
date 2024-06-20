@@ -24,11 +24,17 @@ function enrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
       loading: true,
     }),
     [FETCH_ENROLLMENT_STATUS_SUCCEEDED]: () => {
-      const { parsedStatus } = response;
+      const {
+        canSubmitFinancialInfo,
+        parsedStatus,
+        preferredFacility,
+      } = response;
       return {
         ...state,
         hasServerError: false,
         loading: false,
+        canSubmitFinancialInfo,
+        preferredFacility,
         parsedStatus,
       };
     },

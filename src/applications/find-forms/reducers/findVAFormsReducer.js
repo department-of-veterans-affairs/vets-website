@@ -1,7 +1,4 @@
-// Dependencies
 import cloneDeep from 'lodash/cloneDeep';
-
-// Relative imports.
 import { sortTheResults } from '../helpers';
 import {
   FETCH_FORMS,
@@ -14,7 +11,7 @@ import {
   UPDATE_RESULTS,
 } from '../constants';
 
-const initialState = {
+export const initialState = {
   error: '',
   fetching: false,
   page: 1,
@@ -36,6 +33,7 @@ export default (state = initialState, action) => {
     }
     case FETCH_FORMS_SUCCESS: {
       const clonedResults = cloneDeep(action.results);
+
       return {
         ...state,
         fetching: false,
@@ -54,6 +52,7 @@ export default (state = initialState, action) => {
     }
     case UPDATE_RESULTS: {
       const clonedResults = cloneDeep(action.results);
+
       return {
         ...state,
         results:

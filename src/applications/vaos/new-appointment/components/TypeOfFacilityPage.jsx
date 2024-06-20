@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
 import { getFormPageInfo } from '../redux/selectors';
@@ -12,6 +12,7 @@ import {
   openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  startDirectScheduleFlow,
   updateFormData,
 } from '../redux/actions';
 
@@ -79,6 +80,8 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
     if (featureBreadcrumbUrlUpdate) {
       changeCrumb(pageTitle);
     }
+
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
   return (

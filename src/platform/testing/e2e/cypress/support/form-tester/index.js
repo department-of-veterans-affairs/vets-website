@@ -237,7 +237,7 @@ const defaultPostHook = pathname => {
 };
 
 // Look for "/#" or "/#/" in the path
-const REGEXP_PATH_INDEX = /\/\d+\/?/;
+const REGEXP_PATH_INDEX = /\/\d+(?:\/|$)/;
 const REGEXP_REMOVE_END_SLASH = /\/$/;
 
 /**
@@ -561,7 +561,7 @@ const testForm = testConfig => {
     _13647Exception = false,
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
-    useWebComponentFields = false,
+    useWebComponentFields = true,
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
@@ -570,10 +570,19 @@ const testForm = testConfig => {
     skippedTests.has?.(testKey)
       ? context.skip(testKey, callback)
       : context(testKey, callback);
+  const getTestTitle = testKey =>
+    typeof testKey === 'object' ? testKey.title : testKey;
+  const getTestData = testKey =>
+    typeof testKey === 'object'
+      ? cy.wrap(testKey.data)
+      : cy.fixture(`${dataDir || fixtures.data}/${testKey}`);
 
   testSuite(appName, () => {
     before(() => {
-      if (!dataDir && !fixtures.data) {
+      if (
+        typeof dataDir === 'undefined' &&
+        typeof fixtures.data === 'undefined'
+      ) {
         throw new Error('Required data directory is undefined.');
       }
 
@@ -605,11 +614,12 @@ const testForm = testConfig => {
 
     const extractTestData = testData => get(dataPrefix, testData, testData);
 
-    const createTestCase = testKey =>
-      testCase(testKey, () => {
+    const createTestCase = testKey => {
+      const title = getTestTitle(testKey);
+      testCase(title, () => {
         beforeEach(() => {
-          cy.wrap(testKey).as('testKey');
-          cy.fixture(`${dataDir || fixtures.data}/${testKey}`)
+          cy.wrap(title).as('testKey');
+          getTestData(testKey)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
@@ -623,6 +633,7 @@ const testForm = testConfig => {
             .then(() => processPage({ _13647Exception }));
         });
       });
+    };
 
     dataSets.forEach(createTestCase);
   });

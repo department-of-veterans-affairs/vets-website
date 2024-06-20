@@ -1,12 +1,12 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import formConfig from '../../config/form';
-import manifest from '../../manifest.json';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -37,7 +37,7 @@ const form = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.get('va-button[text*="start"]')
             .first()
             .click();
         });

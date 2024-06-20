@@ -1,25 +1,14 @@
-import { RESPONSES } from '../constants/question-data-map';
+// Determines which results page to display
+
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
-import { BATCH_MAP } from '../constants/question-batch-map';
 import { NONE } from '../constants/display-conditions/results-screens';
 import {
+  filterForYesResponses,
+  getQuestionBatch,
   getServicePeriodResponse,
   printErrorMessage,
   pushToRoute,
 } from './shared';
-
-/** ================================================================
- * Find batch (category) for question SHORT_NAME
- */
-export const getQuestionBatch = shortName => {
-  for (const batch of Object.keys(BATCH_MAP)) {
-    if (BATCH_MAP[batch]?.includes(shortName)) {
-      return batch;
-    }
-  }
-
-  return null;
-};
 
 /** ================================================================
  * Compares all "Yes" responses in the form flow to the requirements for each results
@@ -60,17 +49,6 @@ export const responsesMatchResultsDCs = (yesShortNames, pageDCsForFlow) => {
   }
 
   return false;
-};
-
-/** ================================================================
- * Removes all answers in the store that are not "Yes"
- *
- * @param {object} formResponses - all answers in the store
- */
-export const filterForYesResponses = formResponses => {
-  return Object.keys(
-    Object.filter(formResponses, response => response === RESPONSES.YES),
-  );
 };
 
 /** ================================================================

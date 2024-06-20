@@ -1,0 +1,28 @@
+{
+  "data": {
+    "id": "",
+    "type": "hashes",
+    "attributes": {
+      "controlInformation": {
+        "canUpdateDirectDeposit": true,
+        "isCorpAvailable": true,
+        "isEduClaimAvailable": true,
+        "isCorpRecFound": true,
+        "hasNoBdnPayments": true,
+        "hasIdentity": true,
+        "hasIndex": true,
+        "isCompetent": true,
+        "hasMailingAddress": true,
+        "hasNoFiduciaryAssigned": true,
+        "isNotDeceased": true,
+        "hasPaymentAddress": true
+      },
+      "paymentAccount": {
+        "name": "BASE TEST - DIRECT DEPOSIT",
+        "accountType": "Checking",
+        "accountNumber": "*******5487",
+        "routingNumber": "*****1533"
+      }
+    }
+  }
+}

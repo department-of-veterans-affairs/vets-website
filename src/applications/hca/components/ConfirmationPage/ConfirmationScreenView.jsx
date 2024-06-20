@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
+import scrollToTop from '~/platform/utilities/ui/scrollToTop';
 
 const ConfirmationScreenView = ({ name, timestamp }) => {
   useEffect(() => {
@@ -14,7 +14,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
   return (
     <>
       <div className="hca-success-message vads-u-margin-bottom--4">
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h2 slot="headline" className="vads-u-font-size--h3">
             Thank you for completing your application for health care
           </h2>
@@ -25,47 +25,41 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-          Your application information
-        </h2>
-        <dl>
-          <div className="vads-u-margin-bottom--2">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Veteran’s name
-            </dt>
-            <dd
-              className="hca-veteran-fullname dd-privacy-mask"
-              data-dd-action-name="Veteran name"
+      <va-summary-box class="vads-u-margin-bottom--4" uswds>
+        <h3 slot="headline">Your application information</h3>
+
+        <h4>For Veteran</h4>
+        <p
+          className="hca-veteran-fullname dd-privacy-mask"
+          data-dd-action-name="Veteran name"
+        >
+          {name}
+        </p>
+
+        {timestamp ? (
+          <>
+            <h4>Date you applied</h4>
+            <p
+              className="hca-application-date dd-privacy-mask"
+              data-dd-action-name="application date"
             >
-              {name}
-            </dd>
-          </div>
-          {!!timestamp && (
-            <div className="hca-application-date vads-u-margin-bottom--2">
-              <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-                Date you applied
-              </dt>
-              <dd
-                className="dd-privacy-mask"
-                data-dd-action-name="Applied date"
-              >
-                {moment(timestamp).format('MMM D, YYYY')}
-              </dd>
-            </div>
-          )}
-          <div>
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Confirmation for your records
-            </dt>
-            <dd>You can print this confirmation page for your records.</dd>
-          </div>
-        </dl>
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
+            </p>
+          </>
+        ) : null}
+
+        <h4>Confirmation for your records</h4>
+        <p>You can print this confirmation page for your records.</p>
 
         <div className="vads-u-margin-top--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text="Print this page"
+            onClick={() => window.print()}
+            data-testid="hca-print-button"
+            uswds
+          />
         </div>
-      </va-alert>
+      </va-summary-box>
     </>
   );
 };

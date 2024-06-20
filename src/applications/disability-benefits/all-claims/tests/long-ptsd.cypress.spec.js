@@ -12,6 +12,7 @@ import { setup, pageHooks } from './cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
+    useWebComponentFields: true,
 
     // This longest running test gets separated out; also as of 1/2023 forms
     // 8940 & 4192 are not released to production
@@ -27,7 +28,7 @@ const testConfig = createTestConfig(
       setup(cy);
     },
 
-    // skip: [],
+    skip: [],
   },
   manifest,
   formConfig,

@@ -6,12 +6,17 @@ import AppointmentMessage from '../AppointmentMessage';
 
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 
 describe('check-in', () => {
-  afterEach(() => {
-    MockDate.reset();
+  beforeEach(() => {
+    setupI18n();
   });
 
+  afterEach(() => {
+    teardownI18n();
+    MockDate.reset();
+  });
   describe('AppointmentMessage', () => {
     it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
       const action = render(
@@ -145,7 +150,7 @@ describe('check-in', () => {
       expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
-      ).to.have.text('You’re checked in.');
+      ).to.have.text('You’re checked in');
     });
 
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and an invalid date time', () => {
@@ -164,7 +169,7 @@ describe('check-in', () => {
       expect(action.getByTestId('already-checked-in-no-time-message')).to.exist;
       expect(
         action.getByTestId('already-checked-in-no-time-message'),
-      ).to.have.text('You’re checked in.');
+      ).to.have.text('You’re checked in');
     });
   });
 });

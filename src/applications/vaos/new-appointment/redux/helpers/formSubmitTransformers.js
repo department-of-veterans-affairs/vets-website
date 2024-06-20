@@ -1,5 +1,5 @@
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';

@@ -19,18 +19,11 @@ export const claimantIdentificationDisplayOptions = Object.freeze({
   [claimantIdentificationKeys[3]]: 'Veteran’s child',
 });
 
-export const preparerQualificationsOptions = Object.freeze({
-  COURT_APPOINTED_REP: 'Court-appointed representative',
-  ATTORNEY: 'Attorney in fact or agent',
-  CAREGIVER: 'Caregiver',
-  MANAGER: 'Manager or Principal Officer',
-});
-
 export const preparerSigningReasonOptions = Object.freeze({
-  UNDER18: 'They’re under 18 years old.',
-  MENTALLY_INCAPABLE:
+  under18: 'They’re under 18 years old.',
+  mentallyIncapable:
     'They have an illness, injury, or other health condition that prevents them from being able to make decisions for themselves or provide the information needed to complete forms.',
-  PHYSICALLY_INCAPABLE: 'They can’t physically sign the forms.',
+  physicallyIncapable: 'They can’t physically sign the forms.',
 });
 
 export const workInProgressContent = Object.freeze({

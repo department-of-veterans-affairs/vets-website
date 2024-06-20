@@ -1,7 +1,6 @@
-import moment from 'moment';
 import { expect } from 'chai';
+import { startOfToday } from 'date-fns';
 
-import { getDate } from '../../utils/dates';
 import {
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
@@ -9,6 +8,7 @@ import {
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   appStateSelector,
   calculateIndexOffset,
@@ -24,15 +24,15 @@ import {
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
-  const date = moment().startOf('day');
+  const date = startOfToday();
 
-  const getIssue = (text, description = '', dateOffset) => ({
+  const getIssue = (text, description = '', dateOffset = 0) => ({
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: text,
       description,
       approxDecisionDate: dateOffset
-        ? getDate({ date, offset: { months: dateOffset } })
+        ? parseDateWithOffset({ months: dateOffset }, date)
         : '',
     },
   });

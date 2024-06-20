@@ -8,7 +8,7 @@ import content from '../../../locales/en/content.json';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
 describe('ezr IntroductionPage', () => {
-  const getData = ({ showLoader }) => ({
+  const getData = ({ showLoader, loggedIn = false, userLOA = null }) => ({
     props: {
       route: {
         formConfig,
@@ -33,10 +33,10 @@ describe('ezr IntroductionPage', () => {
           prefillTransformer: null,
         },
         user: {
-          login: { currentlyLoggedIn: false },
+          login: { currentlyLoggedIn: loggedIn },
           profile: {
             loading: showLoader,
-            loa: { current: null },
+            loa: { current: userLOA },
             savedForms: [],
             prefillsAvailable: [],
           },
@@ -54,12 +54,105 @@ describe('ezr IntroductionPage', () => {
     },
   });
 
-  describe('when the page renders', () => {
+  context('when the user is logged out', () => {
+    const { props, mockStore } = getData({
+      showLoader: false,
+    });
+
+    it('should render the page content, login alert & OMB info', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selectors = {
+        title: container.querySelector('[data-testid="form-title"]'),
+        sipInfo: container.querySelector('[data-testid="ezr-login-alert"]'),
+        ombInfo: container.querySelector('va-omb-info'),
+      };
+      expect(selectors.title).to.exist;
+      expect(selectors.sipInfo).to.exist;
+      expect(selectors.ombInfo).to.exist;
+    });
+
+    it('should not render the identity verification alert', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector(
+        '[data-testid="ezr-identity-alert"]',
+      );
+      expect(selector).to.not.exist;
+    });
+
+    it('should not render the start form button', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('[href="#start"]');
+      expect(selector).to.not.exist;
+    });
+  });
+
+  context('when the user is logged in but not verified (LOA1)', () => {
+    const { props, mockStore } = getData({
+      showLoader: false,
+      loggedIn: true,
+      userLOA: 1,
+    });
+
+    it('should render the page content, identity alert & omb info', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selectors = {
+        title: container.querySelector('[data-testid="form-title"]'),
+        sipInfo: container.querySelector('[data-testid="ezr-identity-alert"]'),
+        ombInfo: container.querySelector('va-omb-info'),
+      };
+      expect(selectors.title).to.exist;
+      expect(selectors.sipInfo).to.exist;
+      expect(selectors.ombInfo).to.exist;
+    });
+
+    it('should not render the login alert', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector(
+        '[data-testid="ezr-login-alert"]',
+      );
+      expect(selector).to.not.exist;
+    });
+
+    it('should not render the start form button', () => {
+      const { container } = render(
+        <Provider store={mockStore}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      const selector = container.querySelector('[href="#start"]');
+      expect(selector).to.not.exist;
+    });
+  });
+
+  context('when the user is logged in and verified (LOA3)', () => {
     context('when enrollment status is loading', () => {
+      const { props, mockStore } = getData({
+        showLoader: true,
+        loggedIn: true,
+        userLOA: 3,
+      });
+
       it('should render `va-loading-indicator` with correct message', () => {
-        const { props, mockStore } = getData({
-          showLoader: true,
-        });
         const { container } = render(
           <Provider store={mockStore}>
             <IntroductionPage {...props} />
@@ -72,13 +165,8 @@ describe('ezr IntroductionPage', () => {
           content['load-enrollment-status'],
         );
       });
-    });
 
-    context('when enrollment status has finished loading', () => {
-      it('should render page contents', () => {
-        const { props, mockStore } = getData({
-          showLoader: false,
-        });
+      it('should not render page content, start button or OMB info', () => {
         const { container } = render(
           <Provider store={mockStore}>
             <IntroductionPage {...props} />
@@ -86,12 +174,48 @@ describe('ezr IntroductionPage', () => {
         );
         const selectors = {
           title: container.querySelector('[data-testid="form-title"]'),
-          sipInfo: container.querySelector('[data-testid="ezr-login-alert"]'),
+          sipInfo: container.querySelector('[href="#start"]'),
+          ombInfo: container.querySelector('va-omb-info'),
+        };
+        expect(selectors.title).to.not.exist;
+        expect(selectors.sipInfo).to.not.exist;
+        expect(selectors.ombInfo).to.not.exist;
+      });
+    });
+
+    context('when enrollment status has finished loading', () => {
+      const { props, mockStore } = getData({
+        showLoader: false,
+        loggedIn: true,
+        userLOA: 3,
+      });
+
+      it('should render page content, enrollment status alert & OMB info', () => {
+        const { container } = render(
+          <Provider store={mockStore}>
+            <IntroductionPage {...props} />
+          </Provider>,
+        );
+        const selectors = {
+          title: container.querySelector('[data-testid="form-title"]'),
+          sipInfo: container.querySelector(
+            '[data-testid="ezr-enrollment-status-alert"]',
+          ),
           ombInfo: container.querySelector('va-omb-info'),
         };
         expect(selectors.title).to.exist;
         expect(selectors.sipInfo).to.exist;
         expect(selectors.ombInfo).to.exist;
+      });
+
+      it('should not render `va-loading-indicator`', () => {
+        const { container } = render(
+          <Provider store={mockStore}>
+            <IntroductionPage {...props} />
+          </Provider>,
+        );
+        const selector = container.querySelector('va-loading-indicator');
+        expect(selector).to.not.exist;
       });
     });
   });

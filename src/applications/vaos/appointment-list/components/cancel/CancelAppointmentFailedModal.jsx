@@ -21,6 +21,7 @@ export default function CancelAppointmentFailedModal({
       modalTitle={`We couldn’t cancel your ${typeText}`}
       data-testid={`cancel-${typeText}-SuccessModal`}
       role="alertdialog"
+      uswds
     >
       {isBadRequest ? (
         <p>

@@ -39,34 +39,42 @@ export const DebtsCard = ({ debts }) => {
     );
   }
 
+  const content = (
+    <>
+      <h3 className="vads-u-margin-top--0" data-testid="debt-total-header">
+        {debtsCount} overpayment debt
+        {debtsCount > 1 ? 's' : ''}
+      </h3>
+      <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+        Updated on {formattedLastUpdatedDate}
+      </p>
+      <CTALink
+        text="Manage your VA debt"
+        href="/manage-va-debt/summary/debt-balances"
+        showArrow
+        className="vads-u-font-weight--bold"
+        onClick={() =>
+          recordEvent({
+            event: 'dashboard-navigation',
+            'dashboard-action': 'view-link',
+            'dashboard-product': 'view-manage-va-debt',
+          })
+        }
+        testId="manage-va-debt-link"
+      />
+    </>
+  );
+
   return (
-    <div className="vads-u-display--flex vads-u-margin-bottom--3">
-      <div
-        className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5"
-        data-testid="debt-card"
-      >
-        <h3 className="vads-u-margin-top--0" data-testid="debt-total-header">
-          {debtsCount} overpayment debt
-          {debtsCount > 1 ? 's' : ''}
-        </h3>
-        <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Updated on {formattedLastUpdatedDate}
-        </p>
-        <CTALink
-          text="Manage your VA debt"
-          href="/manage-va-debt/your-debt"
-          showArrow
-          className="vads-u-font-weight--bold"
-          onClick={() =>
-            recordEvent({
-              event: 'dashboard-navigation',
-              'dashboard-action': 'view-link',
-              'dashboard-product': 'view-manage-va-debt',
-            })
-          }
-          testId="manage-va-debt-link"
-        />
-      </div>
+    <div className="vads-u-margin-bottom--3">
+      <va-card>
+        <div
+          className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-padding--1"
+          data-testid="debt-card"
+        >
+          {content}
+        </div>
+      </va-card>
     </div>
   );
 };

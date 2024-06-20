@@ -16,7 +16,6 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
           linkText: 'Add an email address to your profile',
           linkTarget: generateContactInfoLink({
             fieldName: FIELD_NAMES.EMAIL,
-            focusOnEditButton: true,
             returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
           }),
           linkTestId: 'add-email-address-link',
@@ -25,7 +24,6 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
           linkText: 'Add a phone number to your profile',
           linkTarget: generateContactInfoLink({
             fieldName: FIELD_NAMES.MOBILE_PHONE,
-            focusOnEditButton: true,
             returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
           }),
           linkTestId: 'add-mobile-phone-link',

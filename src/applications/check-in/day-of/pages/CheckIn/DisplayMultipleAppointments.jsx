@@ -6,12 +6,15 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useTranslation, Trans } from 'react-i18next';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
-
+import { APP_NAMES } from '../../../utils/appConstants';
 import BackButton from '../../../components/BackButton';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { useStorage } from '../../../hooks/useStorage';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
+import TravelWarningAlert from '../../../components/TravelWarningAlert';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
@@ -24,16 +27,18 @@ const DisplayMultipleAppointments = props => {
   const { appointments, router } = props;
   const { t } = useTranslation();
 
-  const { getCheckinComplete } = useStorage(false);
+  const { getCheckinComplete } = useStorage(APP_NAMES.CHECK_IN);
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { shouldRefresh } = context;
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
     {
       refreshNeeded: shouldRefresh,
       appointmentsOnly: true,
-      isPreCheckIn: false,
+      app: APP_NAMES.CHECK_IN,
     },
   );
 
@@ -113,6 +118,7 @@ const DisplayMultipleAppointments = props => {
         eyebrow={t('check-in')}
         withBackButton
       >
+        {!isTravelReimbursementEnabled && <TravelWarningAlert />}
         <AppointmentBlock
           router={router}
           appointments={appointments}
@@ -125,16 +131,19 @@ const DisplayMultipleAppointments = props => {
             values={{ date: new Date() }}
           />
         </p>
-        <p data-testid="refresh-link">
-          <button
-            className="usa-button-secondary"
+        <div
+          data-testid="refresh-link"
+          className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column"
+        >
+          <va-button
+            secondary
+            uswds
+            big
             onClick={handleClick}
             data-testid="refresh-appointments-button"
-            type="button"
-          >
-            {t('refresh')}
-          </button>
-        </p>
+            text={t('refresh')}
+          />
+        </div>
       </Wrapper>
     </>
   );

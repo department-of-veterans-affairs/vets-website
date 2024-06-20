@@ -40,12 +40,8 @@ export const NotificationCheckbox = ({
       <NotificationStatusMessage
         id={errorSpanId}
         classes="vads-u-background-color--secondary-lightest vads-u-font-weight--bold"
-        alert
       >
-        <i
-          className="fas fa-exclamation-circle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
+        <va-icon icon="error" size={3} class="vads-u-margin-right--1" />{' '}
         <span className="sr-only">Error</span> {errorMessage}
       </NotificationStatusMessage>
     );
@@ -59,7 +55,6 @@ export const NotificationCheckbox = ({
       <NotificationStatusMessage
         id={loadingSpanId}
         classes="vads-u-font-weight--normal"
-        alert
       >
         <i
           className="fas fa-spinner fa-spin vads-u-margin-right--1"
@@ -78,9 +73,8 @@ export const NotificationCheckbox = ({
       <NotificationStatusMessage
         id={successSpanId}
         classes="vads-u-background-color--green-lightest vads-u-font-weight--bold"
-        alert
       >
-        <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
+        <va-icon icon="check" size={3} class="vads-u-margin-right--1" />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </NotificationStatusMessage>
     );
@@ -96,16 +90,27 @@ export const NotificationCheckbox = ({
       {!loadingMessage && !successMessage && errorSpan}
       {!loadingMessage && !errorMessage && successSpan}
       {!errorMessage && !successMessage && loadingSpan}
-      <VaCheckbox
-        checked={checked}
-        label={label}
-        onVaChange={handleChange}
-        data-testid={checkboxId}
-        id={checkboxId}
-        disabled={disabled}
-        uswds
-        className={className}
-      />{' '}
+      {disabled ? (
+        <VaCheckbox
+          checked={checked}
+          label={label}
+          data-testid={checkboxId}
+          id={checkboxId}
+          disabled
+          uswds
+          className={className}
+        />
+      ) : (
+        <VaCheckbox
+          checked={checked}
+          label={label}
+          onVaChange={handleChange}
+          data-testid={checkboxId}
+          id={checkboxId}
+          uswds
+          className={className}
+        />
+      )}{' '}
     </div>
   );
 };

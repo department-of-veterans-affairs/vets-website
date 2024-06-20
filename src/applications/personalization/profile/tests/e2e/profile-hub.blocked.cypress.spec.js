@@ -1,5 +1,4 @@
 import disabilityComps from '@@profile/mocks/endpoints/disability-compensations';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 import mockUser from '../fixtures/users/user-36.json';
 import { PROFILE_PATHS } from '../../constants';
 import { mockProfileLOA3 } from './helpers';
@@ -8,27 +7,18 @@ import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 const checkForAccountSecurityAsRedirect = () => {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
-  checkForWebComponentLoadingIndicator();
-
   cy.findByText('We can’t show your information').should('exist');
 
   cy.url().should('include', 'profile/account-security');
 };
 
 describe('Profile - Hub page', () => {
-  // visits the profile page with useProfileHub toggled on and off
-  // and checks that the correct content is rendered
-
   beforeEach(() => {
     cy.login(mockUser);
 
-    mockProfileLOA3();
-
-    cy.intercept(
-      'v0/feature_toggles*',
+    mockProfileLOA3(
       generateFeatureToggles({
-        profileUseHubPage: true,
-        profileLighthouseDirectDeposit: true,
+        profileContacts: true,
       }),
     );
   });

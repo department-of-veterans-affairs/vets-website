@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -10,53 +11,82 @@ const AdditionalIncomeCheckList = ({
   data,
   goBack,
   goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, additionalIncome, questions } = data;
+  const {
+    gmtData,
+    additionalIncome,
+    questions,
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
   // Calculate income properties as necessary
-  const updateStreamlinedValues = () => {
-    if (
-      questions?.isMarried ||
-      addlIncRecords?.length ||
-      !gmtData?.isEligibleForStreamlined
-    )
-      return;
+  useEffect(() => {
+    const calculateIncome = async () => {
+      if (
+        questions?.isMarried ||
+        addlIncRecords?.length ||
+        !gmtData?.isEligibleForStreamlined
+      )
+        return;
 
-    const calculatedIncome = calculateTotalAnnualIncome(data);
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in AdditionalIncomeChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
+
+  const onChange = ({ name, checked }) => {
     setFormData({
       ...data,
-      gmtData: {
-        ...gmtData,
-        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGmt:
-          calculatedIncome < gmtData?.incomeUpperThreshold,
+      additionalIncome: {
+        ...additionalIncome,
+        addlIncRecords: checked
+          ? [...addlIncRecords, { name, amount: '' }]
+          : addlIncRecords.filter(source => source.name !== name),
       },
     });
   };
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: addlIncRecords.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
-          },
-        });
+  const onSubmit = event => {
+    event.preventDefault();
+    if (
+      showReviewNavigation &&
+      !questions?.isMarried &&
+      !addlIncRecords?.length &&
+      reviewNavigation
+    ) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
   };
 
   const isBoxChecked = option => {
@@ -67,12 +97,7 @@ const AdditionalIncomeCheckList = ({
   const prompt = 'Select any additional income you receive:';
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        goForward(data);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
@@ -81,11 +106,12 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}
@@ -112,9 +138,11 @@ AdditionalIncomeCheckList.propTypes = {
     questions: PropTypes.shape({
       isMarried: PropTypes.bool,
     }),
+    reviewNavigation: PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 

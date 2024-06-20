@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { format } from 'date-fns';
-import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { oneDayAgo } from '@@profile/tests/helpers';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import PaymentsCard from '../../../components/benefit-payments/PaymentsCard';
 
 describe('<PaymentsCard />', () => {
@@ -19,7 +19,10 @@ describe('<PaymentsCard />', () => {
   };
 
   it('should render the payment card', () => {
-    const view = render(<PaymentsCard lastPayment={payment} />);
+    const view = renderWithStoreAndRouter(
+      <PaymentsCard lastPayment={payment} />,
+      { initialState: {} },
+    );
 
     expect(view.getByTestId('payment-card')).to.exist;
 
@@ -36,7 +39,9 @@ describe('<PaymentsCard />', () => {
 
   it('should render the check mailed text', () => {
     const pmt = { ...payment, paymentMethod: 'Paper Check' };
-    const view = render(<PaymentsCard lastPayment={pmt} />);
+    const view = renderWithStoreAndRouter(<PaymentsCard lastPayment={pmt} />, {
+      initialState: {},
+    });
 
     const mailedOn = `Check mailed on ${format(
       payment.payCheckDt,

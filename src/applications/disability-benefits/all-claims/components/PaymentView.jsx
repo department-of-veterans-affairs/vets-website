@@ -1,9 +1,15 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { isEqual, isEmpty } from 'lodash';
+import { isEqual } from 'lodash';
 
 import { accountTitleLabels } from '../constants';
 import { srSubstitute, viewifyFields } from '../utils';
+import {
+  viewAccountAlert,
+  viewAccountAlertForModifiedPrefill,
+  viewAccountAlertForNoPrefill,
+} from '../content/paymentInformation';
 
 const mask = (string, unmaskedLength) => {
   // If no string is given, tell the screen reader users the account or routing number is blank
@@ -23,23 +29,6 @@ const mask = (string, unmaskedLength) => {
     </span>
   );
 };
-
-function accountsDifferContent(originalDataIsEmpty) {
-  return (
-    <p className="vads-u-font-size--base vads-u-margin-top--0">
-      We’ll add this new bank account to your disability application.{' '}
-      <strong>
-        This new account won’t be updated in all VA systems right away.
-      </strong>{' '}
-      {!originalDataIsEmpty && (
-        <>
-          Your current payments will continue to be deposited into the previous
-          account we showed.
-        </>
-      )}
-    </p>
-  );
-}
 
 export const PaymentView = ({ formData = {}, originalData = {} }) => {
   const getBankData = name =>
@@ -62,12 +51,13 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
     originalData,
   );
 
-  const originalDataIsEmpty = isEmpty(originalData);
+  const hasPrefill = formData?.['view:hasPrefilledBank'];
+  const hasNewData = formData?.bankName;
 
   return (
     <>
       {!dataChanged && (
-        <p>We’re currently paying your compensation to this account</p>
+        <p>We’re currently paying your compensation to this account.</p>
       )}
       <div className="blue-bar-block">
         <p>
@@ -79,13 +69,17 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
         <p>Bank routing number: {mask(bankRoutingNumber, 4)}</p>
         <p>Bank name: {bankName || srSubstitute('', 'is blank')}</p>
       </div>
-      {dataChanged && (
-        <va-alert visible status="warning">
-          {accountsDifferContent(originalDataIsEmpty)}
-        </va-alert>
-      )}
+
+      {!dataChanged && viewAccountAlert}
+      {!hasPrefill && hasNewData && viewAccountAlertForNoPrefill}
+      {hasPrefill && hasNewData && viewAccountAlertForModifiedPrefill}
     </>
   );
+};
+
+PaymentView.propTypes = {
+  formData: PropTypes.object,
+  originalData: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

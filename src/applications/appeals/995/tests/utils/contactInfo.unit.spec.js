@@ -12,16 +12,17 @@ const getPhone = ({
   country = '1',
   area = '800',
   number = '5551212',
+  ext = '',
 } = {}) => ({
   countryCode: country,
   areaCode: area,
   phoneNumber: number,
-  phoneNumberExt: '',
+  extension: ext,
 });
 
 describe('getPhoneString', () => {
-  const phone = getPhone();
   it('should return a full phone number', () => {
+    const phone = getPhone();
     expect(getPhoneString(phone)).to.eq(phone.areaCode + phone.phoneNumber);
   });
   it('should return a partial phone number', () => {
@@ -44,6 +45,10 @@ describe('getFormattedPhone', () => {
   });
   it('should return a formatted phone number', () => {
     expect(getFormattedPhone(getPhone())).to.eq('(800) 555-1212');
+  });
+  it('should return a formatted phone number with extension', () => {
+    const phone = getPhone({ ext: '54321' });
+    expect(getFormattedPhone(phone)).to.eq('(800) 555-1212, ext. 54321');
   });
 });
 

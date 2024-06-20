@@ -1,5 +1,6 @@
 import React from 'react';
 import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
 export default function vaTextareaFieldMapping(props) {
@@ -12,12 +13,21 @@ export default function vaTextareaFieldMapping(props) {
     childrenProps,
   } = props;
 
+  const commonFieldProps = commonFieldMapping(props);
+  const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
+    props,
+  );
+
   return {
-    ...commonFieldMapping(props),
+    ...commonFieldProps,
+    ...formsPatternProps,
     value:
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
+    messageAriaDescribedby:
+      commonFieldProps.messageAriaDescribedby || textDescription || undefined,
+    charcount: uiOptions?.charcount,
     onInput: (event, value) => {
       // redux value or input value
       let newVal = value || event.target.value;
@@ -29,6 +39,7 @@ export default function vaTextareaFieldMapping(props) {
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <>
+        {formDescriptionSlot}
         {textDescription && <p>{textDescription}</p>}
         {DescriptionField && (
           <DescriptionField options={uiOptions} index={index} />

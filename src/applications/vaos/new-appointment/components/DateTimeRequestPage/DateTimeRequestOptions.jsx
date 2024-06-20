@@ -30,12 +30,12 @@ export default function DateTimeRequestOptions({
   const options = [
     {
       value: `${currentlySelectedDate}T00:00:00.000`,
-      label: 'AM',
+      label: 'A.M.',
       secondaryLabel: 'Before noon',
     },
     {
       value: `${currentlySelectedDate}T12:00:00.000`,
-      label: 'PM',
+      label: 'P.M.',
       secondaryLabel: 'Noon or later',
     },
   ];

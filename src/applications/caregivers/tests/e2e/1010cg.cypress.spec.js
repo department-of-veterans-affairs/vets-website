@@ -14,16 +14,6 @@ import {
   representativeLabel,
   representativeSignatureContent,
 } from '../../definitions/content';
-import {
-  veteranFields,
-  primaryCaregiverFields,
-  secondaryOneFields,
-  secondaryTwoFields,
-} from '../../definitions/constants';
-import {
-  fillAddressWithoutAutofill,
-  fillDateWebComponentPattern,
-} from '../helpers';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockFacilities from './fixtures/mocks/mock-facilities.json';
@@ -71,8 +61,8 @@ const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
     .find('.signature-checkbox')
     .shadow()
-    .find('[type="checkbox"]')
-    .check();
+    .find('label')
+    .click();
 };
 
 const testSecondaryTwo = createTestConfig(
@@ -108,39 +98,20 @@ const testSecondaryTwo = createTestConfig(
             .click();
         });
       },
-      'vet-1': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              veteranFields.dateOfBirth,
-              data.veteranDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'vet-3-api': ({ afterHook }) => {
+      'select-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.wait('@getFacilities');
-          cy.get('#root_veteranPreferredFacility_plannedClinic')
+          cy.get('va-text-input')
             .shadow()
-            .find('select')
-            .select('675');
+            .find('input')
+            .type('33880');
+          cy.get('[data-testid="caregivers-search-btn"]').click();
+          cy.wait('@getFacilities');
+          cy.get('#root_plannedClinic_plannedClinic')
+            .should('be.visible')
+            .first()
+            .click();
           cy.get('.usa-button-primary').click();
-        });
-      },
-      'primary-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              primaryCaregiverFields.dateOfBirth,
-              data.primaryDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
         });
       },
       'primary-3': ({ afterHook }) => {
@@ -148,57 +119,9 @@ const testSecondaryTwo = createTestConfig(
           cy.fillPage();
           cy.get('#root_primaryAddress_autofill')
             .shadow()
-            .find('[type="checkbox"]')
-            .check();
+            .find('label')
+            .click();
           cy.get('.usa-button-primary').click();
-        });
-      },
-      'secondary-one-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              secondaryOneFields.dateOfBirth,
-              data.secondaryOneDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-one-3': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillAddressWithoutAutofill(
-              secondaryOneFields.address,
-              data.secondaryOneAddress,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-two-1': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              secondaryTwoFields.dateOfBirth,
-              data.secondaryTwoDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-two-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillAddressWithoutAutofill(
-              secondaryTwoFields.address,
-              data.secondaryTwoAddress,
-            );
-            cy.get('.usa-button-primary').click();
-          });
         });
       },
       'review-and-submit': () => {

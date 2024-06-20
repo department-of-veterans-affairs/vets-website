@@ -5,8 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
-    checkInExperienceTravelLogic = false,
-    checkInExperience45MinuteReminder = false,
+    checkInExperience45MinuteReminder = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
     checkInExperienceUnifiedLandingPage = false,
@@ -35,10 +34,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_travel_reimbursement',
           value: checkInExperienceTravelReimbursement,
-        },
-        {
-          name: 'check_in_experience_travel_logic',
-          value: checkInExperienceTravelLogic,
         },
         {
           name: 'check_in_experience_45_minute_reminder',

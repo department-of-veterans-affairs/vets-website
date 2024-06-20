@@ -1,9 +1,13 @@
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as Sentry from '@sentry/browser';
 import {
   sumValues,
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
   filterReduceByName,
+  safeNumber,
 } from './helpers';
 
 // default income object
@@ -38,14 +42,6 @@ const retirementFilters = [
 ];
 const socialSecFilters = ['FICA (Social Security and Medicare)'];
 const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
-
-// safeNumber will return 0 if input is null, undefined, or NaN
-const safeNumber = input => {
-  if (!input) return 0;
-  if (typeof input === 'number') return input;
-  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
-  return Number.isNaN(num) ? 0 : num;
-};
 
 /**
  * Calculate the monthly income of a 'veteran' or 'spouse'
@@ -199,6 +195,34 @@ const getMonthlyIncome = formData => {
     spIncome,
     totalMonthlyNetIncome,
   };
+};
+
+export const getCalculatedMonthlyIncomeApi = async formData => {
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_monthly_income`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `calculate_monthly_income request handler failed: ${error}`,
+      );
+    });
+    return null;
+  }
 };
 
 export { calculateIncome, getMonthlyIncome, safeNumber };

@@ -18,12 +18,8 @@ export const OptInDescription = () => (
   </>
 );
 
-export const OptInLabel = (
-  <span className="opt-in-title">
-    I understand that if I want any issues reviewed that are currently in the
-    old appeals process, I’m opting them in to the new decision review process.
-  </span>
-);
+export const OptInLabel =
+  'I understand that if I want any issues reviewed that are currently in the old appeals process, I’m opting them in to the new decision review process.';
 
 export const OptInSelections = {
   true: 'Yes, I choose to opt in to the new process',

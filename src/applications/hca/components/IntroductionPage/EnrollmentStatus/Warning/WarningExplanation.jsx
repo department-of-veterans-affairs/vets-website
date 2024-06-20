@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
 import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
-const WarningExplanation = ({ enrollmentStatus }) => {
+const WarningExplanation = () => {
+  const { statusCode } = useSelector(selectEnrollmentStatus);
+
   // Declare content blocks for use
   const {
     explainBlock1,
@@ -18,8 +20,6 @@ const WarningExplanation = ({ enrollmentStatus }) => {
     explainBlock9,
     explainBlock10,
     explainBlock11,
-    explainBlock12,
-    explainBlock13,
   } = WarningExplainations;
 
   // Declare content block dictionary
@@ -42,37 +42,33 @@ const WarningExplanation = ({ enrollmentStatus }) => {
         HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts,
       ],
     ],
+    [explainBlock7, [HCA_ENROLLMENT_STATUSES.deceased]],
+    [explainBlock8, [HCA_ENROLLMENT_STATUSES.pendingMt]],
     [
-      explainBlock7,
-      [
-        HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
-        HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
-        HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
-      ],
-    ],
-    [explainBlock8, [HCA_ENROLLMENT_STATUSES.deceased]],
-    [explainBlock9, [HCA_ENROLLMENT_STATUSES.closed]],
-    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingMt]],
-    [
-      explainBlock11,
+      explainBlock9,
       [
         HCA_ENROLLMENT_STATUSES.pendingOther,
         HCA_ENROLLMENT_STATUSES.pendingUnverified,
       ],
     ],
-    [explainBlock12, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
-    [explainBlock13, [HCA_ENROLLMENT_STATUSES.canceledDeclined]],
+    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
+    [
+      explainBlock11,
+      [
+        HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+        HCA_ENROLLMENT_STATUSES.canceledDeclined,
+        HCA_ENROLLMENT_STATUSES.closed,
+      ],
+    ],
   ];
 
   // Reduce content dictionary to object literal
   const contentMap = createLiteralMap(contentDictionary);
 
   // Render based on enrollment status
-  return contentMap[enrollmentStatus] || null;
-};
-
-WarningExplanation.propTypes = {
-  enrollmentStatus: PropTypes.string,
+  return contentMap[statusCode] || null;
 };
 
 export default WarningExplanation;

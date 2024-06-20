@@ -1,35 +1,15 @@
-import features from '../../../../utilities/tests/header-footer/mocks/features';
-import * as footerLinks from './footer-links';
-import * as staticFooterData from '~/platform/landing-pages/header-footer-data.json';
+import features from '~/platform/utilities/tests/header-footer/mocks/features';
+import * as h from '~/platform/utilities/tests/header-footer/utilities/helpers';
+import * as mockHeaderFooterData from '~/platform/landing-pages/header-footer-data.json';
+import { languageLinks } from '../../components/LanguageSupport';
 
-// IMPORTANT: These tests verify the accuracy of the VA.gov footer against production (as of the time of writing this test)
-// and against header-footer-data.json, which is used to populate the footer in local dev when content-build is not running.
-// It is important that both of these stay in parity with what is in production.
-const staticFooterLinks = staticFooterData.footerData;
+const footerLinks = mockHeaderFooterData.footerData;
+
+const bottomRailLinks = footerLinks.filter(
+  link => link.column === 'bottom_rail',
+);
 
 describe('global footer', () => {
-  const verifyElement = selector =>
-    cy
-      .get(selector)
-      .should('exist')
-      .should('be.visible');
-
-  const verifyText = (selector, text) =>
-    cy
-      .get(selector)
-      .should('exist')
-      .should('be.visible')
-      .contains(text);
-
-  const verifyLink = (index, linkText, href) =>
-    cy
-      .get('a')
-      .eq(index)
-      .should('be.visible')
-      .should('contain.text', linkText)
-      .should('have.attr', 'href')
-      .and('include', href);
-
   Cypress.config({
     includeShadowDom: true,
     waitForAnimations: true,
@@ -46,77 +26,130 @@ describe('global footer', () => {
     );
   });
 
-  it('should correctly load all of the footer elements', () => {
-    cy.visit('/');
-    cy.injectAxeThenAxeCheck();
+  describe('desktop footer', () => {
+    it('should correctly load all of the footer elements', () => {
+      cy.visit('/');
+      cy.injectAxeThenAxeCheck();
 
-    verifyElement('.footer');
+      const footer = () => cy.get('.footer');
 
-    const footer = () => cy.get('.footer');
+      footer()
+        .scrollIntoView()
+        .within(() => {
+          h.verifyElement('[data-show="#modal-crisisline"]');
 
-    footer()
-      .scrollIntoView()
-      .within(() => {
-        verifyElement('[data-show="#modal-crisisline"]');
-
-        for (const [index, link] of footerLinks.topRail.entries()) {
-          const matchingLink = staticFooterLinks.filter(
-            footerLink => footerLink.title === link.text,
+          const topRailLinks = footerLinks.filter(
+            link => link.column !== 'bottom_rail',
           );
 
-          if (!matchingLink.length) {
-            throw new Error(
-              `Update the header-footer-data.json file; this link was not found: ${
-                link.text
-              }`,
-            );
+          for (const [index, link] of topRailLinks.entries()) {
+            h.verifyLinkWithoutSelector(index, link.title, link.href);
           }
 
-          verifyLink(index, link.text, link.href);
-        }
+          // Language section
+          h.verifyElement('.va-footer-links-bottom').eq(1);
 
-        // Language section
-        verifyElement('.va-footer-links-bottom').eq(1);
+          const languageSection = () => cy.get('.va-footer-links-bottom').eq(1);
 
-        const languageSection = () => cy.get('.va-footer-links-bottom').eq(1);
+          languageSection()
+            .scrollIntoView()
+            .within(() => {
+              h.verifyText('.va-footer-linkgroup-title', 'Language assistance');
 
-        languageSection()
-          .scrollIntoView()
-          .within(() => {
-            verifyText('.va-footer-linkgroup-title', 'Language assistance');
-
-            for (const [index, link] of footerLinks.language.entries()) {
-              verifyLink(index, link.text, link.href);
-            }
-          });
-
-        // Logo section (footer)
-        verifyElement('.footer-banner');
-
-        // Bottom rail (footer)
-        verifyElement('.va-footer-links-bottom').eq(1);
-
-        const bottomRail = () => cy.get('.va-footer-links-bottom').eq(2);
-
-        bottomRail()
-          .scrollIntoView()
-          .within(() => {
-            for (const [index, link] of footerLinks.bottomRail.entries()) {
-              const matchingLink = staticFooterLinks.filter(
-                footerLink => footerLink.title === link.text,
-              );
-
-              if (!matchingLink.length) {
-                throw new Error(
-                  `Make sure header-footer-data.json and footer-links.js match; this link was not found: ${
-                    link.text
-                  }`,
-                );
+              for (const [index, link] of languageLinks.entries()) {
+                h.verifyLinkWithoutSelector(index, link.label, link.href);
               }
+            });
 
-              verifyLink(index, link.text, link.href);
-            }
-          });
-      });
+          // Logo section (footer)
+          h.verifyElement('.footer-banner');
+
+          // Bottom rail (footer)
+          h.verifyElement('.va-footer-links-bottom').eq(1);
+
+          const bottomRail = () => cy.get('.va-footer-links-bottom').eq(2);
+
+          bottomRail()
+            .scrollIntoView()
+            .within(() => {
+              for (const [index, link] of bottomRailLinks.entries()) {
+                h.verifyLinkWithoutSelector(index, link.title, link.href);
+              }
+            });
+        });
+    });
+  });
+
+  describe('mobile footer', () => {
+    it('should correctly load all of the footer elements', () => {
+      cy.viewport('iphone-4');
+      cy.visit('/');
+      cy.injectAxeThenAxeCheck();
+
+      const footerAccordion = () => cy.get('.va-footer-accordion');
+
+      footerAccordion()
+        .scrollIntoView()
+        .within(() => {
+          h.verifyElement('#footer-crisis-line');
+
+          const footerSections = [
+            { title: 'Contact us', column: 4 },
+            { title: 'Veteran programs and services', column: 1 },
+            { title: 'More VA resources', column: 2 },
+            { title: 'Get VA updates', column: 3 },
+            { title: 'Language assistance' },
+          ];
+
+          for (const [index, section] of footerSections.entries()) {
+            const button = () => cy.get('.va-footer-button').eq(index);
+
+            cy.get('.va-footer-button')
+              .eq(index)
+              .should('exist')
+              .should('be.visible')
+              .contains(section.title);
+
+            const accordionContent = () =>
+              cy.get('.va-footer-accordion-content').eq(index);
+
+            button().click();
+
+            accordionContent()
+              .scrollIntoView()
+              .within(() => {
+                if (section.title === 'Language assistance') {
+                  for (const [languageIndex, link] of languageLinks.entries()) {
+                    h.verifyLinkWithoutSelector(
+                      languageIndex,
+                      link.label,
+                      link.href,
+                    );
+                  }
+                }
+
+                const links = footerLinks.filter(
+                  link => link.column === section.column,
+                );
+
+                for (const [linkIndex, link] of links.entries()) {
+                  h.verifyLinkWithoutSelector(linkIndex, link.title, link.href);
+                }
+              });
+          }
+        });
+
+      h.verifyElement('[title="Go to VA.gov"]');
+
+      const bottomRailContainer = () => cy.get('.va-footer-links-bottom').eq(1);
+
+      bottomRailContainer()
+        .scrollIntoView()
+        .within(() => {
+          for (const [index, link] of bottomRailLinks.entries()) {
+            h.verifyLinkWithoutSelector(index, link.title, link.href);
+          }
+        });
+    });
   });
 });

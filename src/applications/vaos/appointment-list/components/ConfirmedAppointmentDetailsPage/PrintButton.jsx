@@ -13,17 +13,15 @@ export default function PrintButton() {
   return (
     <div className="vaos-hide-for-print">
       <button
-        className="tertiary-button"
+        className="tertiary-button vads-u-display--flex vads-u-align-items--center"
         onClick={handleClick()}
         type="button"
         aria-label="print list"
         id="print-list"
       >
-        <i
-          aria-hidden="true"
-          className="fas fa-print"
-          style={{ paddingRight: '6px' }}
-        />
+        <span className="vads-u-margin-right--0p5">
+          <va-icon icon="print" size="3" aria-hidden="true" />
+        </span>
         PRINT
       </button>
     </div>

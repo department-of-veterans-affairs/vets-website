@@ -10,6 +10,7 @@ import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { isUUID } from '../../../utils/token-format-validator';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import {
   makeSelectCurrentContext,
@@ -20,7 +21,9 @@ import {
 const Confirmation = props => {
   const { router } = props;
   const [isLoading, setIsLoading] = useState(true);
-  const { getPreCheckinComplete, setPreCheckinComplete } = useStorage();
+  const { getPreCheckinComplete, setPreCheckinComplete } = useStorage(
+    APP_NAMES.PRE_CHECK_IN,
+  );
 
   const { updateError } = useUpdateError();
 

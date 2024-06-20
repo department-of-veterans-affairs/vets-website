@@ -1,11 +1,28 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as recordEventModule from 'platform/monitoring/record-event';
 
 import {
+  trackNoAuthStartLinkClick,
   createPayload,
   getInitialData,
   dateOfDeathValidation,
   parseResponse,
 } from '../../helpers';
+
+describe('trackNoAuthStartLinkClick', () => {
+  it('should call recordEvent with correct argument', () => {
+    const recordEventStub = sinon.stub(recordEventModule, 'default');
+
+    trackNoAuthStartLinkClick();
+
+    expect(recordEventStub.calledWith({ event: 'no-login-start-form' })).to.be
+      .true;
+
+    recordEventStub.restore();
+  });
+});
 
 describe('getInitialData', () => {
   it('returns mockData if environment is localhost and Cypress is not running', () => {
@@ -99,7 +116,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(2);
   });
 
   it('should not add an error if date of death is after date of birth', () => {
@@ -109,7 +126,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 
   it('should not add an error if date of death is the same as date of birth', () => {
@@ -119,6 +136,6 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 });

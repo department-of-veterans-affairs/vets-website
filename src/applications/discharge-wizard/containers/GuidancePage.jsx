@@ -1,8 +1,7 @@
 // Dependencies
 import { connect } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 // Relative imports
@@ -21,10 +20,6 @@ import { applyAirForcePortalLink } from '../helpers/selectors';
 
 export const GuidancePage = ({ formValues, showNewAirForcePortal, router }) => {
   const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
-  const [accordionQuestionsState, setAccordionQuestionsState] = useState({
-    q1: false,
-    q2: false,
-  });
 
   useEffect(() => {
     // Redirect to the discharge wizard homepage if there isn't any form values in state.
@@ -43,23 +38,6 @@ export const GuidancePage = ({ formValues, showNewAirForcePortal, router }) => {
     [formValues],
   );
 
-  const handleFAQToggle = e => {
-    e.preventDefault();
-    recordEvent({ event: 'discharge-upgrade-faq-toggle' });
-    setAccordionQuestionsState({
-      ...accordionQuestionsState,
-      [e.target.name]: !accordionQuestionsState[e.target.name],
-    });
-  };
-
-  const handlePrint = e => {
-    e.preventDefault();
-    recordEvent({ event: 'discharge-upgrade-print' });
-    if (window.print) {
-      window.print();
-    }
-  };
-
   if (formValues?.questions?.length > 1) {
     return (
       <article className="dw-guidance">
@@ -74,22 +52,15 @@ export const GuidancePage = ({ formValues, showNewAirForcePortal, router }) => {
               <Warnings formValues={formValues} />
               <OptionalStep formValues={formValues} />
               <section>
-                <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
+                <va-process-list uswds>
                   <StepOne formValues={formValues} />
                   <StepTwo formValues={formValues} />
-                  <StepThree
-                    formValues={formValues}
-                    handlePrint={handlePrint}
-                  />
-                </ul>
+                  <StepThree formValues={formValues} />
+                </va-process-list>
               </section>
             </>
           )}
-          <AdditionalInstructions
-            formValues={formValues}
-            handleFAQToggle={handleFAQToggle}
-            parentState={accordionQuestionsState}
-          />
+          <AdditionalInstructions formValues={formValues} />
         </div>
       </article>
     );

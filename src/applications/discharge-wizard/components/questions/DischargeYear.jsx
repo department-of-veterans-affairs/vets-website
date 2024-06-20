@@ -9,7 +9,7 @@ import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
 
-const DischargeYearQuestion = ({
+const DischargeYear = ({
   formValues,
   handleKeyDown,
   scrollToLast,
@@ -43,12 +43,6 @@ const DischargeYearQuestion = ({
     </option>,
   );
 
-  yearOptions.unshift(
-    <option key="-1" value="">
-      {' '}
-    </option>,
-  );
-
   return (
     <div className="vads-u-margin-top--6">
       <fieldset className="fieldset-input dischargeYear" key={key}>
@@ -63,6 +57,7 @@ const DischargeYearQuestion = ({
             updateField(key, update.detail.value);
             scrollToLast();
           }}
+          uswds
         >
           {yearOptions}
         </VaSelect>
@@ -71,11 +66,11 @@ const DischargeYearQuestion = ({
   );
 };
 
-DischargeYearQuestion.propTypes = {
+DischargeYear.propTypes = {
   formValues: PropTypes.object.isRequired,
   handleKeyDown: PropTypes.func,
   scrollToLast: PropTypes.func,
   updateField: PropTypes.func,
 };
 
-export default DischargeYearQuestion;
+export default DischargeYear;

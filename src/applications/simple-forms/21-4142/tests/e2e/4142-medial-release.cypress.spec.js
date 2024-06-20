@@ -2,6 +2,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -16,8 +17,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findByText(/start/i, { selector: 'button' });
-          cy.findByText(/without signing in/i).click({ force: true });
+          cy.findByText(/start the medical release authorization/i).click({
+            force: true,
+          });
         });
       },
       'contact-information-1': ({ afterHook }) => {
@@ -95,7 +97,10 @@ const testConfig = createTestConfig(
             ) {
               signerName = data.preparerIdentification?.preparerFullName;
             }
-            reviewAndSubmitPageFlow(signerName);
+            reviewAndSubmitPageFlow(
+              signerName,
+              'Submit medical release authorization',
+            );
           });
         });
       },
@@ -103,6 +108,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+
+      cy.login(user);
     },
     skip: false,
   },

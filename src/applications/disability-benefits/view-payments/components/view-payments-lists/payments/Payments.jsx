@@ -26,6 +26,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
   // updated
   const totalPages = useRef(0);
   const paginatedData = useRef([]);
+
   useEffect(() => {
     paginatedData.current = paginateData(data);
     setCurrentData(paginatedData.current[currentPage - 1]);
@@ -37,14 +38,14 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
     setCurrentPage(page);
   };
 
-  const fromToNums = getFromToNums(currentPage, data.length);
+  const [from, to] = getFromToNums(currentPage, data.length);
 
   if (currentData) {
     return (
       <>
         {textContent}
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
-          Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
+          Displaying {from} - {to} of {data.length}
         </p>
         <va-table>
           <va-table-row slot="headers">

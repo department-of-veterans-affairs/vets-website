@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { format, fromUnixTime } from 'date-fns';
 import {
   oneDayAgo,
   oneDayFromNow,
@@ -8,8 +9,8 @@ import {
 } from '@@profile/tests/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import ApplicationsInProgress from '../../../components/apply-for-benefits/ApplicationsInProgress';
 import reducers from '~/applications/personalization/dashboard/reducers';
+import ApplicationsInProgress from '../../../components/benefit-application-drafts/ApplicationsInProgress';
 
 const savedForms = [
   {
@@ -69,6 +70,25 @@ const savedForms = [
     },
     lastUpdated: oneDayAgo() / 1000,
   },
+  {
+    // non-existent form
+    form: '33333',
+    metadata: {
+      version: 1,
+      returnUrl: '/example',
+      savedAt: oneDayAgo(),
+      submission: {
+        status: false,
+        errorMessage: false,
+        id: false,
+        hasAttemptedSubmit: false,
+      },
+      expiresAt: oneYearFromNow() / 1000,
+      lastUpdated: oneDayAgo() / 1000,
+      inProgressFormId: 5179,
+    },
+    lastUpdated: oneDayAgo() / 1000,
+  },
 ];
 
 describe('ApplicationsInProgress component', () => {
@@ -107,8 +127,40 @@ describe('ApplicationsInProgress component', () => {
 
     expect(applicationsInProgress.length).to.equal(3);
     expect(applicationsInProgress[0]).to.contain.text('FORM 21-526EZ');
+    expect(applicationsInProgress[0]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[0]).to.contain.text(
+      format(fromUnixTime(oneDayFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[0]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[0]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
+
     expect(applicationsInProgress[1]).to.contain.text('FORM 686C-674');
+    expect(applicationsInProgress[1]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[1]).to.contain.text(
+      format(fromUnixTime(oneWeekFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[1]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[1]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
+
     expect(applicationsInProgress[2]).to.contain.text('FORM 10-10EZ');
+    expect(applicationsInProgress[2]).to.contain.text(
+      'Application expires on: ',
+    );
+    expect(applicationsInProgress[2]).to.contain.text(
+      format(fromUnixTime(oneYearFromNow() / 1000), 'MMMM d, yyyy'),
+    );
+    expect(applicationsInProgress[2]).to.contain.text('Last saved on: ');
+    expect(applicationsInProgress[2]).to.contain.text(
+      format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+    );
   });
 
   it('renders correctly when there are no active saved forms', () => {

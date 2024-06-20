@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import * as Sentry from '@sentry/browser';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -13,7 +13,10 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateDiscretionaryIncome } from '../../utils/streamlinedDepends';
+import { isStreamlinedLongForm } from '../../utils/streamlinedDepends';
+import ButtonGroup from '../shared/ButtonGroup';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
+import { getMonthlyExpensesAPI } from '../../utils/calculateExpenses';
 
 export const keyFieldsForOtherExpenses = ['name', 'amount'];
 
@@ -25,31 +28,63 @@ const OtherExpensesSummary = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { gmtData, otherExpenses = [] } = data;
+  const {
+    gmtData,
+    otherExpenses = [],
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
+  } = data;
+  // only going back to review if reviewnav and not streamlined
+  const returnToReview =
+    reviewNavigation && !isStreamlinedLongForm(data) && showReviewNavigation;
 
-  useEffect(
-    () => {
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText = returnToReview
+    ? 'Continue to review page'
+    : 'Continue';
+
+  useEffect(() => {
+    const calculateExpenses = async () => {
       if (!gmtData?.isEligibleForStreamlined) return;
 
-      const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          discretionaryBelow:
-            calculatedDiscretionaryIncome <
-            gmtData?.discretionaryIncomeThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      otherExpenses,
-      gmtData?.isEligibleForStreamlined,
-      gmtData?.discretionaryIncomeThreshold,
-    ],
-  );
+      try {
+        const response = await getMonthlyExpensesAPI(data);
+
+        if (!response)
+          throw new Error('No response from getMonthlyExpensesAPI');
+
+        const { calculatedMonthlyExpenses } = response;
+
+        if (!calculatedMonthlyExpenses)
+          throw new Error(
+            'No value destructured in response from getMonthlyExpensesAPI',
+          );
+
+        const { totalMonthlyNetIncome } = getMonthlyIncome(data);
+        const calculatedDiscretionaryIncome =
+          totalMonthlyNetIncome - calculatedMonthlyExpenses;
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            discretionaryBelow:
+              calculatedDiscretionaryIncome <
+              gmtData?.discretionaryIncomeThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculate_monthly_expenses failed in OtherExpensesSummary: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateExpenses();
+  }, []);
 
   const onDelete = deleteIndex => {
     const newExpenses = otherExpenses.filter(
@@ -76,6 +111,18 @@ const OtherExpensesSummary = ({
     return goToPath('/other-expenses-values');
   };
 
+  const onSubmit = event => {
+    event.preventDefault();
+    if (returnToReview) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return goToPath('/review-and-submit');
+    }
+    return goForward(data);
+  };
+
   const cardBody = text => (
     <p className="vads-u-margin--0">
       Monthly amount: <b>{currencyFormatter(text)}</b>
@@ -84,7 +131,7 @@ const OtherExpensesSummary = ({
   const emptyPrompt = `Select the 'Add additional living expenses' link to add another living expense. Select the 'Continue' button to proceed to the next question.`;
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <fieldset className="vads-u-margin-y--2">
         <legend
           id="added-other-living-expenses-summary"
@@ -125,7 +172,20 @@ const OtherExpensesSummary = ({
             Add additional living expenses
           </Link>
           {contentBeforeButtons}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Back',
+                onClick: goBack, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: continueButtonText,
+                onClick: onSubmit,
+                isSubmitting: true, // If this button submits a form
+              },
+            ]}
+          />
           {contentAfterButtons}
         </div>
         {isModalOpen ? (
@@ -150,6 +210,8 @@ OtherExpensesSummary.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       discretionaryIncomeThreshold: PropTypes.number,
     }),
+    reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

@@ -1,5 +1,10 @@
 import React from 'react';
-import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
+import {
+  createId,
+  formatCurrency,
+  formatNumber,
+  showSchoolContentBasedOnType,
+} from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 
@@ -51,6 +56,7 @@ export default function VeteranProgramsAndSupport({
   const available = Object.keys(programs).filter(
     key => !!institution[key] === true,
   );
+  const { type } = institution;
 
   const programLabel = programKey => {
     const program = programs[programKey];
@@ -73,8 +79,8 @@ export default function VeteranProgramsAndSupport({
       '';
 
     return (
-      <div key={programKey}>
-        <i className={'fa fa-check vads-u-color--green'} />
+      <div className="veteran-programs" key={programKey}>
+        <va-icon icon="check" size={3} class="vads-u-color--green" />
         &nbsp;
         <strong>
           <LearnMoreLabel
@@ -110,27 +116,25 @@ export default function VeteranProgramsAndSupport({
     <div className="usa-width-one-half medium-6 columns">
       <div className="historical-information table">
         <h3>Historical Information</h3>
-        <table className={'vads-u-margin-top--0'}>
-          <thead>
-            <tr>
-              <th>Benefit</th>
-              <th>Recipients</th>
-              <th>Total paid (FY {constants.FISCALYEAR})</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th>Post-9/11 GI Bill</th>
-              <td>{formatNumber(institution.p911Recipients)}</td>
-              <td>{formatCurrency(institution.p911TuitionFees)}</td>
-            </tr>
-            <tr>
-              <th>Yellow Ribbon</th>
-              <td>{formatNumber(institution.p911YrRecipients)}</td>
-              <td>{formatCurrency(institution.p911YellowRibbon)}</td>
-            </tr>
-          </tbody>
-        </table>
+        <va-table class="vads-u-margin-top--0">
+          <va-table-row slot="headers">
+            <span>Benefit</span>
+            <span>Recipients</span>
+            <span>Total paid (FY {constants.FISCALYEAR})</span>
+          </va-table-row>
+          <va-table-row>
+            <span>Post-9/11 GI Bill</span>
+            <span>{formatNumber(institution.p911Recipients)}</span>
+            <span>{formatCurrency(institution.p911TuitionFees)}</span>
+          </va-table-row>
+          {showSchoolContentBasedOnType(type) && (
+            <va-table-row>
+              <span>Yellow Ribbon</span>
+              <span>{formatNumber(institution.p911YrRecipients)}</span>
+              <span>{formatCurrency(institution.p911YellowRibbon)}</span>
+            </va-table-row>
+          )}
+        </va-table>
       </div>
     </div>
   );

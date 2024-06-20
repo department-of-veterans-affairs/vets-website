@@ -406,6 +406,12 @@ describe('OAuth - Utilities', () => {
       expect(url).to.include(`client_id=vaweb`);
       storage.clear();
     });
+    it('should set query parameters when passed in', () => {
+      const url = oAuthUtils.logoutUrlSiS({
+        queryParams: { [`agreements_declined`]: true },
+      });
+      expect(url).to.include('&agreements_declined=true');
+    });
   });
 
   describe('signupOrVerify (OAuth)', () => {

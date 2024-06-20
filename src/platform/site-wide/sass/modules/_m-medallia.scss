@@ -1,268 +1,285 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/component-library/dist/main.css";
 
-/* Fonts */
-#liveForm .ng-binding,
-#liveForm div > span,
-#liveForm textarea,
-/* https://css-tricks.com/override-inline-styles-with-css/ */
-.ng-scope span[style],
-.ng-scope span,
-.ng-scope textarea {
+/************************************/
+/* Beginning of Medallia 2.0 styles */
+/************************************/
+
+/* form styles */
+
+// a11y fix to overwrite in-line style width to make content viewable beyond 300% zoom
+#survey-wrapper[style] {
+  width: auto !important;
+  max-width: 448px !important;
+  overflow: auto !important;
+}
+
+.TKB4VqaXyyt6uMNVvoLdN main {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.TKB4VqaXyyt6uMNVvoLdN footer {
+  padding-right: 20px !important;
+}
+
+.TKB4VqaXyyt6uMNVvoLdN input:not([disabled]):focus, select:not([disabled]):focus, textarea:not([disabled]):focus, button:not([disabled]):focus, a:focus {
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0 !important;
+}
+
+/*** Crisis header ***/
+
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.omb_heading {
+  padding-bottom: 0 !important;
+}
+
+/* omb_intro */
+._2x6S50Ozibu2fOMgF5qDzt > p > span {
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--vads-color-base-darker) !important;
+  box-sizing: inherit;
   font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 16px;
 }
 
-/* Radio buttons background color */
-.neb-content md-radio-group div.radio md-radio-button ._md-on {
-  background-color: $color-blue !important;
+/* omb_crisis */
+._1BI5B2xY6xMD9hHPCMgWgM > div > ul {
+  padding: 0 0 0 1.5em !important;
+  list-style: square !important
 }
 
-/* 150px-wide container div for "Very Dissatisfied" and "Very Satisfied" spans */
-.ng-scope .edge-labels {
+._1BI5B2xY6xMD9hHPCMgWgM > div > ul > li {
+  line-height: 1.5 !important;
+  margin-bottom: 0.5em !important
+}
+
+._2x6S50Ozibu2fOMgF5qDzt a {
+  color: --vads-color-link;
+ }
+
+/*** form main body ***/
+
+.Bd0kav7yJm1LMydxzQxl,
+.kZ-XEf4gwEwGXI371wgSZ,
+._1wOydBgObqX6N_H4ZxO4E5,
+._3qavF1mE7wQGkoUgHE1D75,
+._2x6S50Ozibu2fOMgF5qDzt,
+._2x6S50Ozibu2fOMgF5qDzt > p,
+.smallSurvey input {
+  font-family: "Source Sans Pro", sans-serif !important;
+  color: var(--vads-color-base-darker) !important;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Specific Styles for question h2s*/
+._3qavF1mE7wQGkoUgHE1D75 {
+    display: inline-block;
+    font-weight: bold !important;
+    margin-bottom: 5px;
+    text-align: left !important;
+}
+
+/* empty header & close button */
+._1SPV2GZjz0ekDKiu5qBJ16 {
+    padding: 8px 0px !important;
+    display: flex;
+    justify-content: flex-end;
+}
+
+._1wOydBgObqX6N_H4ZxO4E5, ._1BI5B2xY6xMD9hHPCMgWgM {
+  padding-bottom: 0 !important;
+}
+
+/* div above each component*/
+._1BI5B2xY6xMD9hHPCMgWgM {
+    margin-bottom: 25px !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
+
+/* textbox, text area */
+._3VgxUzppbTclqye69HSxig, ._3LJt9oCN0ZNp9W7qDxV4Pb {
+  border-radius: 0px !important;
+}
+
+/* muli options*/
+._2BCbSBZTAy3NNEkchW4JAl {
+  border: none !important;
+}
+
+/* Base styles for interactive elements */
+._2BCbSBZTAy3NNEkchW4JAl, .d2_RCwrIYw0j7I65dMyHx {
+  cursor: pointer !important;
+  position: relative;
+}
+
+/* Hover styles */
+._2BCbSBZTAy3NNEkchW4JAl:hover, .d2_RCwrIYw0j7I65dMyHx:hover,
+._2BCbSBZTAy3NNEkchW4JAl:focus, .d2_RCwrIYw0j7I65dMyHx {
+  z-index: 1;
+  box-shadow: 0 0 0 0 !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
+  outline-offset: 2px;
+}
+
+/* Enhanced focus styles for various form elements */
+.smallSurvey input:not([disabled]):focus,
+select:not([disabled]):focus,
+textarea:not([disabled]):focus,
+button:not([disabled]):focus {
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 4px var(--vads-color-primary) !important;
+}
+/* coloring input checkboxes*/
+._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3gm0DTvejOVCp2Ui6X30hr:before {
+  background-color: var(--vads-color-primary);
+  box-shadow: 0 0 0 2px  var(--vads-color-white), 0 0 0 4px var(--vads-color-primary);
+}
+
+._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3vIIqCsHxivLQpx8AfcIkO:after {
+  background-color: var(--vads-color-primary) !important;
+}
+
+/* rating scale*/
+._2tHW0cyET9DNu6CMvxGOlL {
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
 }
 
-/* "Very Dissatisfied" label below "1 of 5" rating element */
-.ng-scope #leftEdge {
-  padding-right: 25px;
+._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:focus, ._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:hover {
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 0 !important;
+}
+
+._1_7PScJ_jiqe-TBSrlCh24 ._3_foUkwcSeMY2vBraukrvR:hover{
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
+  border-color: transparent;
+}
+
+._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN {
+  background-color: var(--vads-color-primary);
+}
+
+/* Rating Label */
+.ratingMinLabel, .ratingMaxLabel {
   text-align: left;
   width: 75px;
 }
 
-/* "Very Satisfied" label below "5 of 5" rating element */
-.ng-scope #rightEdge {
-  text-align: right;
-  width: 50px;
-  color: $color-gray-dark !important;
+.ratingMaxLabel {
+  padding-left: 45px !important;
+  padding-right: 20px !important;
+  text-align: right !important;
+  width: 80px !important;
 }
 
-/* CSS Overrides for the 3-question survey on /find-locations */
-
-/* An excessively specific selector is needed to override !important and inline styles */
-/* The `ng-hide` class only seems to be used in mobile browsers/emulators, but not laptop browsers */
-#liveForm > div > div.row.neb-form-close-btn-container.ng-hide {
-  /* `display: block !important;` is necessary because the `ng-hide` class applies `display: none !important` */
-  display: block !important;
-  /* `margin-top: 0px !important;` is necessary because this element has an inline style of `margin-top: -50px;` */
-  margin-top: 0px !important;
-  /* `font-size: 14px !important;` is necessary because this element has an inline style of `font-size: 35px;` */
-  font-size: 14px !important;
-
-  /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
-  position: relative;
+.ratingMinLabel {
+  padding-right: 25px;
 }
 
-/* Very specific override that fixes an issue where the modal is unreadable because it is constrained to the width of col-sm-1 on tablet screens */
-@media (min-width: 576px) {
-  #liveForm>div>div.row.neb-form-close-btn-container.ng-hide>div.col-sm-offset-11.col-sm-1 {
-    max-width: 100% !important;
-  }
+/*** footer ***/
+
+/*omb legal*/
+#survey-wrapper > form > main > div._1BI5B2xY6xMD9hHPCMgWgM.pra_footer > div._2x6S50Ozibu2fOMgF5qDzt > p:nth-child(2) {
+  padding-top: 20px;
 }
 
-/* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
-/* style the focus-circles on radio buttons for the survey page */
-.neb-component
-  .neb-content
-  .neb-native-radio
-  input[type="radio"].wcag-radio-border:focus {
-  border: 2px solid rgb(249, 198, 66) !important;
-  padding: 1px !important;
-}
-
-/* style the focus-box on the invitation page */
-.neb-wcag:focus {
-  outline: 2px solid rgb(249, 198, 66) !important;
-  outline-offset: 2px !important;
-  transition: none !important;
-}
-
-/* style the focus-box on the survey & thank you page */
-.form-outline-wcag,
-#liveForm .kpl_builder.neb-form-wcag *:focus,
-#liveForm .kpl_builder.neb-form-wcag * md-checkbox:focus ._md-container,
-#liveForm .kpl_builder.neb-form-wcag:focus {
-  outline: 2px solid rgb(249, 198, 66) !important;
-  outline-offset: 2px !important;
-  transition: none !important;
-}
-
-/* style the focus-circles on the survey page */
-.neb-form-wcag neb-rating .neb-rating.numbersCircle .neb-rating-value.on-focus,
-.neb-form-wcag neb-rating .neb-rating.numbers .neb-rating-value.on-focus,
-.neb-form-wcag neb-rating .neb-rating.emoticons .neb-rating-value.on-focus,
-.neb-form-wcag neb-rating .neb-rating.smilies .neb-rating-value.on-focus {
-  border: 2px solid rgb(249, 198, 66) !important;
-  padding: 1px !important;
-}
-
-// add padding between 1-5 rating labels
-.neb-rating-value {
-  margin-right: 4px;
-}
-
-/**
-  Any on-screen element that someone can click, touch, or otherwise interact with should be large enough for reliable interaction.
-  Consider making sure these elements have a width and height of at least 48dp (48px).
-  Source: https://support.google.com/accessibility/android/answer/7101858?hl=en
-*/
-.panel-footer-web .btn {
-  height: 48px;
-}
-
-// adjust the ‘X’ close button position
-.neb-form-close-btn {
-  position: relative;
-  top: 40px !important;
-  right: 12px !important;
-  z-index: 9999999;
-  color: $color-gray-light !important;
-}
-
-/* override to constrain modal width  */
-#liveForm .kpl_builder[style] {
-  width: auto !important;
-  max-width: 28rem !important;
-}
-
-/* helper text under textarea */
-#liveForm .kpl_builder.neb-form-wcag .description.help-block {
-  color: $color-gray-dark !important;
-  font-size: 16px !important;
-}
-
-/* yes or no option label*/
-.neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
-  color: $color-gray-dark !important;
-  font-size: 16px !important;
-}
-
-/* labels for all questions */
-.control-label {
-  color: $color-gray-dark !important;
-  font-size: 16px !important;
-  font-weight: bold !important;
-}
-
-/* submit and close buttons */
-.footer-right-buttons {
+/* submit cancel btns div*/
+._207sw0FPxzBQQBPqaDdUpd {
   float: left !important;
   margin-right: 10px;
 }
 
-#liveForm .kpl_builder .panel-footer .btn.submit-btn {
- margin-right: 10px;
+/* swap button positioning */
+._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) {
+    order: 1;
+}
+._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(1) {
+    order: 2;
 }
 
-#liveForm .kpl_builder .panel-footer .btn.cancel-btn {
-  float: right;
-}
-
-/* Very specific selectors to move 'do not inclide PII'helper text before the textarea */
-#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
-  display: flex;
-  flex-direction: column;
-}
-
-#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>label {
-  order: 1;
-}
-
-#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>p {
-  order: 2;
-}
-
-#liveForm>div>div>div>div>div>div>div.neb-component.neb-web-component.neb-textArea.kplFormHolder>.neb-content.neb-wcag {
-  order: 3;
-}
-
-/* thank you page to align elements left */
-.thankYouPageLogoPreviewImage {
-  text-align: left !important;
-}
-
-.thankYouPageLogoPreviewText>div>p>span>span>span[style] {
-  text-align: left !important;
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.thankYouPageLogoPreviewText>div>p {
-  text-align: left !important;
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.btn-close-wrapper {
-  text-align: left !important;
-}
-
-/* checkboxes labels on VAMC surveys */
-._md-label {
-  color: $color-gray-dark !important;
-  font-size: 16px !important;
-}
-
-/* space between checkboxes on VAMC surveys */
-.neb-content .checkbox {
-  margin-bottom: 10px !important;
-}
-
-/*  next button on VAMC muli-page surveys in-line style override*/
-.form-next-btn[style] {
-  background-color: $color-blue !important;
-  margin-right: 10px !important
-}
-
-.modal-live-form a {
+._207sw0FPxzBQQBPqaDdUpd button {
+  appearance: none;
+  border: 0px;
+  border-radius: 5px;
+  color: var(--vads-color-white);
   cursor: pointer;
-  color: $color-link-default!important;
-  text-decoration: underline !important;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
-  transition-property: color, background-color, border-color;
+  display: inline-block;
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 48px;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  align-items: center;
+  background-color: var(--vads-color-primary);
+  border-radius: 5px;
+  color: var(--vads-color-white);
+  display: flex;
+  justify-content: center;
+  margin: 0.5em 0.5em 0.5em 0px;
+  line-height: 1.42857143;
+  padding: 6px 12px;
+  color: var(--vads-color-white);
 }
 
-.modal-live-form {
-  color: $color-gray-dark !important;
+._1De-hWu2XrYnO5hnFIWYwJ {
+  width: none;
+}
+._1De-hWu2XrYnO5hnFIWYwJ .surveyBtn .surveyBtn_submit {
+  appearance: none;
+  border: 0px;
+  border-radius: 5px;
+  color: var(--vads-color-white);
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Source Sans Pro", sans-serif !important;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  align-items: center;
+  background-color: var(--vads-color-primary) !important;
+  border-radius: 5px;
+  color: var(--vads-color-white);
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  margin: 0.5em 0.5em 0.5em 0px;
+  line-height: 1 !important;
+  padding: 6px 12px;
+  color: var(--vads-color-white);
+  width: 139px !important;
 }
 
-.omb_heading h2 {
-  color: $color-gray-dark !important;
-  font-weight: 700 !important;
+#survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div:nth-child(2) > button {
+  width: 150px !important;
+  height: 48px !important;
+  font-size: 16px
+}
+#survey-wrapper > form > footer > div._207sw0FPxzBQQBPqaDdUpd._1wsMeNP_TDIxNDJlja6xcv > div._1RyEnl1pfp8YClxLIzLFFu > button {
+  width: 70px !important;
+  height: 48px !important;
+  font-size: 16px
 }
 
-/* Unordered list styling for crisis header */
-.omb_crises>div>p>ul {
-  padding: 0 0 0 1.5em !important;
-  list-style: square !important;
+#survey-wrapper > form > main > fieldset._1BI5B2xY6xMD9hHPCMgWgM.pra_footer > div > p:nth-child(1) {
+  margin-bottom: 25px !important;
 }
 
-.omb_crises>div>p>ul>li {
-  line-height: 1.5 !important;
-  margin-bottom: 0.5em !important;
-}
-
-.modal-live-form strong {
-  font-weight: bold !important;
-}
-
-/* temp styles until VSignals team can change */
-.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(3) {
-  font-weight: 400 !important;
-}
-
-.omb_crises>div>p>ul>li:nth-child(1)>span>strong:nth-child(2)>a {
-  font-weight: 400 !important;
-}
-
-.omb_crises>div>p>ul>li:nth-child(2)>span>strong:nth-child(2) > a {
-  font-weight: 400 !important;
-}
-/* end temp styles */
-
-.powered-by-link {
-  color: $color-gray-dark !important;
-  text-decoration: none !important;
+/* powered by div */
+._10o3Ogtkx0b1R7N7tOe-dr {
+  padding-top: 80px !important
 }

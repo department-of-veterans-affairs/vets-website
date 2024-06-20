@@ -23,9 +23,35 @@ describe('<CompareScroller>', () => {
       />,
     );
     expect(tree.type()).to.not.equal(null);
-    tree.find('.right-arrow i').simulate('click');
+    tree.find('.right-arrow va-icon').simulate('click');
     expect(clickHandler.called).to.be.true;
     expect(clickHandler.args[0][0]).to.eq(50);
     tree.unmount();
+  });
+  it('renders the component with the correct structure', () => {
+    const divisions = 3;
+    const divisionWidth = 100;
+    const currentScroll = 50;
+
+    const wrapper = shallow(
+      <CompareScroller
+        divisions={divisions}
+        divisionWidth={divisionWidth}
+        currentScroll={currentScroll}
+      />,
+    );
+
+    expect(wrapper.find('.compare-scroller')).to.have.lengthOf(1);
+    expect(wrapper.find('.scroll-controls')).to.have.lengthOf(1);
+    expect(wrapper.find('.left-arrow')).to.have.lengthOf(1);
+    expect(wrapper.find('.circles')).to.have.lengthOf(1);
+    expect(wrapper.find('.right-arrow')).to.have.lengthOf(1);
+    expect(wrapper.find('.circles i')).to.have.lengthOf(divisions);
+
+    const leftArrow = wrapper.find('.left-arrow');
+    leftArrow.find('va-icon').simulate('click');
+    const rightArrow = wrapper.find('.right-arrow');
+    rightArrow.find('va-icon').simulate('click');
+    wrapper.unmount();
   });
 });

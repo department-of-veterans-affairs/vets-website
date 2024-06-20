@@ -34,7 +34,7 @@ const SignIn = ({
 SignIn.propTypes = {
   serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
-  headerLevel: PropTypes.number,
+  headerLevel: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   ariaLabel: PropTypes.string,
   ariaDescribedby: PropTypes.string,
 };

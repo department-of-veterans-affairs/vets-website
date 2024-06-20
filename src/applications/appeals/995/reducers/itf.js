@@ -30,7 +30,7 @@ function findLastITF(itfList) {
   )[0];
 }
 
-export default (state = initialState, action) => {
+export default (state = initialState, action = {}) => {
   switch (action.type) {
     case ITF_FETCH_INITIATED:
       return set('fetchCallState', requestStates.pending, state);

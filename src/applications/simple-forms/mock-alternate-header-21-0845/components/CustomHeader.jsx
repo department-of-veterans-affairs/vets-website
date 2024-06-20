@@ -55,9 +55,9 @@ const CustomHeader = ({ formData, formConfig, currentLocation }) => {
           </div>
           <div className="rjsf-form-custom-header vads-u-display--flex vads-u-justify-content--space-between small-screen:vads-u-justify-content--flex-start">
             <span>
-              <i
-                aria-hidden="true"
-                className="fas fa-arrow-left va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
+              <va-icon
+                icon="arrow_back"
+                class="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--0p5 vads-u-color--gray-medium"
               />
               <Link
                 to={previousPage}
@@ -77,7 +77,7 @@ const CustomHeader = ({ formData, formConfig, currentLocation }) => {
     // With this custom header, breadcrumbs should not appear on the form pages.
     // However we still want to show them on the introduction page and review page.
     // Static breadcrumbs from content-build cannot be used with this custom header
-    <va-breadcrumbs label="Breadcrumb">
+    <va-breadcrumbs uswds="false" label="Breadcrumb">
       <a href="/">Home</a>
       <a href="/authorization-to-disclose-alternate/">
         Authorize VA to release your information to a third-party source

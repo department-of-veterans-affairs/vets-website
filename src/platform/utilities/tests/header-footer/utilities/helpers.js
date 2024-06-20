@@ -1,6 +1,6 @@
-import * as staticHeaderData from '~/platform/landing-pages/header-footer-data.json';
+import * as headerFooterData from '~/platform/landing-pages/header-footer-data.json';
 
-const headerData = staticHeaderData.megaMenuData;
+const headerData = headerFooterData.megaMenuData;
 export const ABOUT_VA = 'About VA';
 
 export const verifyElement = selector =>
@@ -29,159 +29,145 @@ export const verifyLink = (id, linkText, href) => {
     .and('include', href);
 };
 
-// Verify given Benefit Hub category exists inside VA Benefits and Health Care (i.e. Health care, Disability)
-const getStaticMenuCategory = (
-  staticSectionData,
-  categoryName,
-  sectionName,
-) => {
-  const staticMenuCategory = staticSectionData?.menuSections?.filter(
-    category => category.title === categoryName,
-  );
+export const verifyLinkWithoutSelector = (index, text, href) =>
+  cy
+    .get('a')
+    .eq(index)
+    .should('be.visible')
+    .should('contain.text', text)
+    .should('have.attr', 'href')
+    .and('include', href);
 
-  if (!staticMenuCategory?.length || staticMenuCategory.length > 1) {
-    throw new Error(
-      `Update the header-footer-data.json file; the ${sectionName} menu has zero or multiple of this category: ${categoryName}`,
-    );
-  }
-
-  return staticMenuCategory[0];
-};
+export const verifyHeaderWithoutSelector = (index, text) =>
+  cy
+    .get('h3')
+    .eq(index)
+    .should('be.visible')
+    .should('contain.text', text);
 
 // Verify section exists (i.e. VA Benefits and Health Care)
-const getStaticSectionData = sectionName => {
-  const staticSectionData = headerData?.filter(
-    section => section.title === sectionName,
-  );
-
-  if (!staticSectionData?.length || staticSectionData.length > 1) {
-    throw new Error(
-      `Update the header-footer-data.json file; this section has zero or multiple matches: ${sectionName}`,
-    );
-  }
-
-  return staticSectionData[0];
+const getSectionData = sectionName => {
+  return headerData?.filter(section => section.title === sectionName)[0];
 };
 
-// Verify view all link exists and is correct
-export const verifyStaticSeeAllLink = (staticMenuCategory, viewAll) => {
-  if (staticMenuCategory?.links?.seeAllLink) {
-    const staticSeeAllData = staticMenuCategory.links.seeAllLink;
+// Verify given Benefit Hub category exists inside VA Benefits and Health Care (i.e. Health care, Disability)
+export const getMenuCategoryData = categoryName => {
+  const sectionData = getSectionData('VA Benefits and Health Care');
 
-    if (
-      staticSeeAllData.text !== viewAll.text ||
-      !staticSeeAllData.href.includes(viewAll.href)
-    ) {
-      throw new Error(
-        `Update the header-footer-data.json file; the data for this viewAll link does not match prod: ${
-          viewAll.text
-        }`,
-      );
-    }
-  } else {
-    throw new Error(
-      `Update the header-footer-data.json file; the data for this viewAll link does not match prod: ${
-        viewAll.text
-      }`,
-    );
-  }
+  return sectionData?.menuSections?.filter(
+    category => category.title === categoryName,
+  )?.[0];
 };
 
 // Get all column data for About VA
-export const getStaticColumnsDataForAboutVA = () => {
+export const getColumnsDataForAboutVA = () => {
   const aboutVAInfo = headerData.filter(
     section => section.title === ABOUT_VA,
   )[0];
-
-  if (!aboutVAInfo) {
-    throw new Error(
-      `Unable to find match for About VA section in header-footer-data.json`,
-    );
-  }
 
   return Object.values(aboutVAInfo.menuSections).filter(
     group => group?.links?.length,
   );
 };
 
-// Get all links for VA Benefits and Health Care
-const getStaticColumnLinksForBHLinks = (staticMenuCategory, categoryName) => {
-  const columnLinks = [];
-  const columns = Object.keys(staticMenuCategory.links).filter(
+const getColumns = menuCategory =>
+  Object.keys(menuCategory.links).filter(
     group => group.includes('column') || group.includes('Column'),
   );
 
+export const getColumnHeadersForBH = menuCategory => {
+  const columnHeaders = [];
+  const columns = getColumns(menuCategory);
+
   for (const column of columns) {
-    if (staticMenuCategory.links?.[column]?.links?.length) {
-      columnLinks.push(...staticMenuCategory.links?.[column]?.links);
+    if (menuCategory.links?.[column]?.title) {
+      columnHeaders.push(menuCategory.links?.[column]?.title);
     }
   }
 
-  if (!columnLinks?.length) {
-    throw new Error(
-      `Update the header-footer-data.json file; the column data for ${categoryName} does not match prod`,
-    );
+  return columnHeaders;
+};
+
+// Get all links for VA Benefits and Health Care
+export const getColumnLinksForBHLinks = menuCategory => {
+  const columnLinks = [];
+  const columns = getColumns(menuCategory);
+
+  for (const column of columns) {
+    if (menuCategory.links?.[column]?.links?.length) {
+      columnLinks.push(...menuCategory.links?.[column]?.links);
+    }
   }
 
   return columnLinks;
 };
 
-export const verifyMenuItems = (
+export const verifyMenuItemsForMobile = (menuLinkButton, columnLinks) => {
+  // Click category button (i.e. Health care, disability)
+  menuLinkButton().click();
+
+  const backToMenuButton = () => cy.get('#header-back-to-menu');
+  verifyElement('#header-back-to-menu');
+
+  verifyElement(backToMenuButton);
+
+  const headerMenu = () => cy.get('.header-menu');
+
+  headerMenu()
+    .scrollIntoView()
+    .within(() => {
+      for (const [index, link] of columnLinks.entries()) {
+        // index + 1 skips over the View All link since that has already been verified
+        verifyLinkWithoutSelector(index + 1, link.text, link.href);
+      }
+    });
+};
+
+export const verifyMenuItemsForDesktop = (
   menuLinkButton,
-  menuHeadings,
-  menuLinks,
-  viewAll,
-  categoryName,
+  viewAllSelector,
+  columnLinks,
+  columnHeaders,
 ) => {
-  const SECTION_NAME = 'VA Benefits and Health Care';
+  const submenuContainer = () => cy.get('#vetnav-va-benefits-and-health-care');
+  verifyElement(submenuContainer);
+
   // Click category button (i.e. Health care, disability)
   verifyElement(menuLinkButton);
   clickButton(menuLinkButton);
 
-  const staticSectionData = getStaticSectionData(SECTION_NAME);
-  const staticMenuCategory = getStaticMenuCategory(
-    staticSectionData,
-    categoryName,
-    SECTION_NAME,
-  );
+  submenuContainer()
+    .scrollIntoView()
+    .within(() => {
+      // Verify view all link exists and is correct
+      verifyText(viewAllSelector, 'View all');
 
-  // Verify view all link exists and is correct
-  verifyLink(`[data-e2e-id*="${viewAll.id}"]`, viewAll.text, viewAll.href);
-  verifyStaticSeeAllLink(staticMenuCategory, viewAll);
+      for (const [index, link] of columnLinks.entries()) {
+        // index + 1 skips over the View All link since that has already been verified
+        verifyLinkWithoutSelector(index + 1, link.text, link.href);
+      }
 
-  const columnLinks = getStaticColumnLinksForBHLinks(
-    staticMenuCategory,
-    categoryName,
-  );
+      for (const [index, header] of columnHeaders.entries()) {
+        verifyHeaderWithoutSelector(index, header);
+      }
+    });
+};
 
-  if (menuLinks?.length !== columnLinks?.length) {
-    throw new Error(
-      `Mismatch of number of links between header-footer-data.json and ${categoryName} links`,
-    );
-  }
+export const clickBenefitsAndHealthcareButton = () => {
+  const vaBenefitsAndHealthCareButton =
+    '[data-e2e-id="va-benefits-and-health-care-0"]';
+  verifyElement(vaBenefitsAndHealthCareButton);
+  clickButton(vaBenefitsAndHealthCareButton);
+};
 
-  for (const [index, link] of menuLinks.entries()) {
-    const staticLink = columnLinks?.[index];
+export const clickBenefitsAndHealthcareButtonMobile = () => {
+  const vaBenefitsAndHealthCareButton = () =>
+    cy.get('.header-menu-item-button').eq(0);
+  vaBenefitsAndHealthCareButton().click();
+};
 
-    if (!staticLink) {
-      throw new Error(
-        `No matching link found in header-footer-data.json for ${link.text}`,
-      );
-    }
-
-    if (
-      staticLink?.text !== link.text ||
-      !staticLink?.href.includes(link.href)
-    ) {
-      throw new Error(
-        `No matching link found in header-footer-data.json for ${link}`,
-      );
-    }
-
-    verifyLink(`[data-e2e-id*="${link.id}"]`, link.text, link.href);
-  }
-
-  for (const heading of menuHeadings) {
-    verifyText(heading.id, heading.text);
-  }
+export const clickMenuButton = () => {
+  const menuSelector = '.header-menu-button';
+  verifyElement(menuSelector);
+  clickButton(menuSelector);
 };

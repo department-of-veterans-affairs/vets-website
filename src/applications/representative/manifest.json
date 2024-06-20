@@ -1,7 +1,0 @@
-{
-  "appName": "Find a Local Representative",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "representative-app",
-  "rootUrl": "/representative",
-  "productId": "decb6c85-abcd-44b5-b722-550905f48dd7"
-}

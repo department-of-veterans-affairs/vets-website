@@ -9,7 +9,7 @@ const DeductionSampleTable = () => {
         and Retirement Accounts.
       </p>
       <div aria-hidden="true">
-        <va-table class="usa-table usa-table--borderless" uswds>
+        <va-table class="usa-table usa-table--borderless">
           <va-table-row slot="headers">
             <span className="vads-u-padding-y--0 medium-screen:vads-u-padding-y--1 vads-u-margin-y--0p5 medium-screen:vads-u-margin-y--0 vads-u-border--0 vads-u-border-bottom--1px vads-u-background-color--white vads-u-border-color--gray-medium vads-u-padding-x--0">
               Deduction

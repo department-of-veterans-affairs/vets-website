@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
-import ResponsiveTable from '../ResponsiveTable';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { getCalculatedBenefits } from '../../selectors/calculator';
+import { locationInfo } from '../../utils/helpers';
 
 export default function SchoolLocations({
   calculator,
@@ -136,11 +135,12 @@ export default function SchoolLocations({
   };
 
   const createRow = (inst, type, name = inst.institution) => {
-    const month = (
-      <React.Fragment key="months">
+    const estimatedHousing = (
+      <div key="months">
+        <span>{estimatedHousingValue(inst)}</span>
         <span className="sr-only">per month</span>
         <span aria-hidden="true">/mo</span>
-      </React.Fragment>
+      </div>
     );
     const {
       facilityCode,
@@ -149,36 +149,25 @@ export default function SchoolLocations({
       physicalCountry,
       physicalZip,
     } = inst;
-    const nameLabel = institutionIsBeingViewed(facilityCode) ? (
+    const schoolName = institutionIsBeingViewed(facilityCode) ? (
       <p className="school-name">{name}</p>
     ) : (
       name
     );
 
-    const schoolName =
-      type === 'main'
-        ? nameLabel
-        : {
-            value: nameLabel,
-            mobileHeader: upperCaseFirstLetterOnly(type),
-          };
+    const location = schoolLocationTableInfo(
+      physicalCity,
+      physicalState,
+      physicalCountry,
+      physicalZip,
+    );
 
     return {
       key: `${facilityCode}-${type}`,
       rowClassName: `${type}-row`,
-      'School name': schoolName,
-      Location: schoolLocationTableInfo(
-        physicalCity,
-        physicalState,
-        physicalCountry,
-        physicalZip,
-      ),
-      'Estimated housing': (
-        <>
-          {estimatedHousingValue(inst)}
-          {month}
-        </>
-      ),
+      schoolName,
+      location,
+      estimatedHousing,
     };
   };
 
@@ -229,20 +218,25 @@ export default function SchoolLocations({
   };
 
   const renderFacilityTable = mainMap => {
-    const maxRows = viewableRowCount;
-
-    const fields = ['School name', 'Location', 'Estimated housing'];
-
     const data = Array.of(createMainRow(mainMap.institution)).concat(
-      createBranchesAndExtensionsRows(mainMap, maxRows),
+      createBranchesAndExtensionsRows(mainMap, viewableRowCount),
     );
 
     return (
-      <ResponsiveTable
-        columns={fields}
-        tableClass="school-locations"
-        data={data}
-      />
+      <va-table class="school-locations">
+        <va-table-row slot="headers" key="header">
+          <span>School name</span>
+          <span>Location</span>
+          <span>Estimated housing</span>
+        </va-table-row>
+        {data.map(row => (
+          <va-table-row key={row.key} class={row.rowClassName}>
+            <span>{row.schoolName}</span>
+            <span>{row.location}</span>
+            <span>{row.estimatedHousing}</span>
+          </va-table-row>
+        ))}
+      </va-table>
     );
   };
 
@@ -316,7 +310,7 @@ export default function SchoolLocations({
           </span>
         )}
       </span>
-      {renderFacilityTable(main)}
+      <Router>{renderFacilityTable(main)}</Router>
       {renderViewCount()}
       {renderViewButtons()}
     </div>

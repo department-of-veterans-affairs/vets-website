@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
+import { recordCustomProfileEvent } from '@@vap-svc/util/analytics';
 import {
   isLOA3 as isLOA3Selector,
   isInMPI as isInMPISelector,
@@ -9,13 +10,29 @@ import {
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
 
+import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
-import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { AccountSecurityTables } from './AccountSecurityTables';
-import { selectIsBlocked } from '../../selectors';
+import {
+  selectIsBlocked,
+  selectShowCredRetirementMessaging,
+} from '../../selectors';
 import { AccountBlocked } from '../alerts/AccountBlocked';
-import { recordCustomProfileEvent } from '../../util';
+import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+
+const IdNotVerifiedContent = () => {
+  const signInService = useSelector(signInServiceName);
+  const showCredRetirementMessaging = useSelector(
+    selectShowCredRetirementMessaging,
+  );
+  return showCredRetirementMessaging ? (
+    <AccountSecurityLoa1CredAlert />
+  ) : (
+    <IdentityNotVerified signInService={signInService} />
+  );
+};
 
 export const AccountSecurityContent = ({
   isIdentityVerified,
@@ -29,7 +46,7 @@ export const AccountSecurityContent = ({
       {isBlocked && (
         <AccountBlocked recordCustomProfileEvent={recordCustomProfileEvent} />
       )}
-      {!isIdentityVerified && <IdentityNotVerified />}
+      {!isIdentityVerified && <IdNotVerifiedContent />}
       {showMPIConnectionError && (
         <MPIConnectionError className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4" />
       )}

@@ -11,11 +11,11 @@ import {
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
-  errorMessages,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
 } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 describe('<EvidencePrivateRecordsRequest>', () => {
   it('should render', () => {
@@ -63,6 +63,21 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     const radio = $('va-radio', container);
     expect(radio.getAttribute('error')).to.eq(errorMessages.requiredYesNo);
     expect(goSpy.called).to.be.false;
+  });
+
+  it('should submit page', () => {
+    const goSpy = sinon.spy();
+    const data = { [EVIDENCE_PRIVATE]: true };
+    const { container } = render(
+      <div>
+        <EvidencePrivateRecordsRequest data={data} goForward={goSpy} />
+      </div>,
+    );
+
+    fireEvent.click($('button.usa-button-primary', container));
+    const radio = $('va-radio', container);
+    expect(radio.getAttribute('error')).to.be.null;
+    expect(goSpy.called).to.be.true;
   });
 
   it('should allow setting va-radio-option', () => {

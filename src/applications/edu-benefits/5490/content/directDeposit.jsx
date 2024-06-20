@@ -2,7 +2,7 @@ import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
 import merge from 'lodash/merge';
 
-const gaBankInfoHelpText = () => {
+export const gaBankInfoHelpText = () => {
   window.dataLayer.push({
     event: 'edu-5490--form-help-text-clicked',
     'help-text-label': 'What if I don’t have a bank account?',
@@ -49,7 +49,7 @@ const directDepositDescription = (
   </div>
 );
 
-function validateRoutingNumber(
+export function validateRoutingNumber(
   errors,
   routingNumber,
   formData,

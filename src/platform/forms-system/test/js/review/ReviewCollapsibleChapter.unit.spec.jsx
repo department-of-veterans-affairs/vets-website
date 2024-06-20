@@ -10,10 +10,13 @@ import { ReviewCollapsibleChapter } from '../../../src/js/review/ReviewCollapsib
 
 describe('<ReviewCollapsibleChapter>', () => {
   it('should add a data-attribute with the chapterKey', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
-        pageKey: 'test2',
+        pageKey: 'test',
       },
     ];
     const chapterKey = 'chapterX';
@@ -26,6 +29,7 @@ describe('<ReviewCollapsibleChapter>', () => {
             properties: {},
           },
           uiSchema: {},
+          editMode: false,
         },
       },
       data: {},
@@ -34,20 +38,27 @@ describe('<ReviewCollapsibleChapter>', () => {
     const wrapper = mount(
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
+        onEdit={onEdit}
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
-    const accordion = wrapper.find('.usa-accordion-bordered');
+    const accordion = wrapper.find('va-accordion-item');
     expect(accordion.length).to.equal(1);
     expect(accordion.props()['data-chapter']).to.equal('chapterX');
     wrapper.unmount();
   });
   it('should handle editing', () => {
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
@@ -78,6 +89,10 @@ describe('<ReviewCollapsibleChapter>', () => {
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -88,6 +103,8 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should handle editing array page', () => {
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const chapterKey = 'test';
     const chapter = {};
     const form = {
@@ -107,6 +124,12 @@ describe('<ReviewCollapsibleChapter>', () => {
         testing: [{}],
       },
     };
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test',
+      },
+    ];
 
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
@@ -115,6 +138,10 @@ describe('<ReviewCollapsibleChapter>', () => {
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -125,6 +152,8 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should handle editing of view:keys', () => {
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
@@ -155,6 +184,10 @@ describe('<ReviewCollapsibleChapter>', () => {
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -165,6 +198,8 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   it('should display a page for each item for an array page', () => {
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
@@ -219,11 +254,14 @@ describe('<ReviewCollapsibleChapter>', () => {
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -231,6 +269,9 @@ describe('<ReviewCollapsibleChapter>', () => {
   });
 
   it('should not display conditional pages with unfulfilled conditions', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test1',
@@ -283,13 +324,16 @@ describe('<ReviewCollapsibleChapter>', () => {
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
-        onEdit={() => {}}
-        open
+        onEdit={onEdit}
         pageKeys={['test1', 'test2', 'test3']}
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -297,6 +341,9 @@ describe('<ReviewCollapsibleChapter>', () => {
   });
 
   it('should display condition pages with fulfilled conditions', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test1',
@@ -353,12 +400,15 @@ describe('<ReviewCollapsibleChapter>', () => {
     const tree = SkinDeep.shallowRender(
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
-        onEdit={() => {}}
-        open
+        onEdit={onEdit}
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -366,6 +416,8 @@ describe('<ReviewCollapsibleChapter>', () => {
   });
   it('should mark chapter and page as unviewed', () => {
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test',
@@ -402,22 +454,26 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         hasUnviewedPages
         form={form}
+        pageList={pages}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
-    expect(wrapper.find('.schemaform-review-chapter-error').length).to.equal(1);
-    expect(wrapper.find('.schemaform-review-page-error').length).to.equal(1);
+    expect(wrapper.find('va-accordion-item').props().subHeader).to.equal(
+      'Some information has changed. Please review.',
+    );
     wrapper.unmount();
   });
   it('should handle submitting array page', () => {
     const onEdit = sinon.spy();
     const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
@@ -433,7 +489,11 @@ describe('<ReviewCollapsibleChapter>', () => {
           arrayPath: 'testing',
           title: '',
           schema: {
-            properties: {},
+            properties: {
+              testing: {
+                items: {},
+              },
+            },
           },
           uiSchema: {},
           editMode: [false],
@@ -453,6 +513,9 @@ describe('<ReviewCollapsibleChapter>', () => {
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -473,6 +536,8 @@ describe('<ReviewCollapsibleChapter>', () => {
     const testChapterTitle = 'test chapter title';
 
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test',
@@ -507,15 +572,20 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
+      testChapterTitle,
+    );
 
     const titleDiv = wrapper.find('h4.form-review-panel-page-header');
     expect(titleDiv.length).to.equal(1);
@@ -529,6 +599,8 @@ describe('<ReviewCollapsibleChapter>', () => {
     const testChapterTitle = 'test chapter title';
 
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test',
@@ -563,19 +635,27 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(testChapterTitle);
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
+      testChapterTitle,
+    );
 
     const titleDiv = wrapper.find('.form-review-panel-page-header');
     // Title is not rendered if it contains an empty string
-    expect(titleDiv.length).to.equal(0);
+    expect(titleDiv.length).to.equal(1); // not a header
+    expect(titleDiv.html()).to.contain(
+      '<div class="form-review-panel-page-header',
+    );
 
     wrapper.unmount();
   });
@@ -585,6 +665,8 @@ describe('<ReviewCollapsibleChapter>', () => {
     const testChapterTitleFromFunction = `${testChapterTitle} [from function]`;
 
     const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test',
@@ -625,15 +707,18 @@ describe('<ReviewCollapsibleChapter>', () => {
         setPagesViewed={setPagesViewed}
         viewedPages={new Set()}
         onEdit={onEdit}
-        open
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
-    expect(wrapper.find('h3.accordion-header').text()).to.equal(
+    expect(wrapper.find('va-accordion-item').props().header).to.equal(
       testChapterTitleFromFunction,
     );
 
@@ -641,6 +726,9 @@ describe('<ReviewCollapsibleChapter>', () => {
   });
 
   it('does not display page if all fields are hidden on review', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         pageKey: 'test1',
@@ -701,12 +789,15 @@ describe('<ReviewCollapsibleChapter>', () => {
     const tree = shallow(
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
-        onEdit={() => {}}
-        open
+        onEdit={onEdit}
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        pageList={pages}
+        hasUnviewedPages={false}
+        setData={setData}
+        setFormErrors={setFormErrors}
       />,
     );
 
@@ -715,47 +806,119 @@ describe('<ReviewCollapsibleChapter>', () => {
     tree.unmount();
   });
 
-  it('should render a collapsible button with a unique id attribute', () => {
+  it('should add error class to pages with form errors', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
     const pages = [
       {
         title: '',
-        pageKey: 'test2',
+        pageKey: 'test',
       },
     ];
-    const chapterKey = 'chapterX';
-    const chapter = {};
+    const chapterKey = 'test';
+    const chapter = {
+      title: '',
+    };
     const form = {
       pages: {
         test: {
           title: '',
           schema: {
-            properties: {},
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
           },
           uiSchema: {},
+          editMode: true,
         },
       },
       data: {},
+      formErrors: {
+        errors: [{ pageKey: 'test' }],
+      },
     };
 
-    const wrapper = mount(
+    const tree = shallow(
       <ReviewCollapsibleChapter
         viewedPages={new Set()}
+        pageList={pages}
+        onEdit={onEdit}
+        setFormErrors={setFormErrors}
         expandedPages={pages}
         chapterKey={chapterKey}
         chapterFormConfig={chapter}
         form={form}
+        hasUnviewedPages={false}
+        setData={setData}
       />,
     );
 
-    const button = wrapper.find('.usa-button-unstyled');
-    expect(button.props().id).to.contain('collapsibleButton');
+    const pageWithErrorClass = tree.find('schemaform-review-page-error');
+    expect(pageWithErrorClass).to.exist;
 
-    wrapper.unmount();
+    tree.unmount();
+  });
+
+  it('should add error class to pages with unviewed pages', () => {
+    const onEdit = sinon.spy();
+    const setData = sinon.spy();
+    const setFormErrors = sinon.spy();
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test',
+      },
+    ];
+    const chapterKey = 'test';
+    const chapter = {
+      title: '',
+    };
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            type: 'object',
+            properties: {
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+          editMode: true,
+        },
+      },
+      data: {},
+      viewedPages: [],
+    };
+
+    const tree = shallow(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        pageList={pages}
+        onEdit={onEdit}
+        setFormErrors={setFormErrors}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+        hasUnviewedPages={false}
+        setData={setData}
+      />,
+    );
+
+    const pageWithErrorClass = tree.find('schemaform-review-page-error');
+    expect(pageWithErrorClass).to.exist;
+
+    tree.unmount();
   });
 
   describe('updateFormData', () => {
     it('should be called on normal pages', () => {
+      const onEdit = sinon.spy();
       const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const pages = [
         {
           title: '',
@@ -787,13 +950,15 @@ describe('<ReviewCollapsibleChapter>', () => {
       const tree = shallow(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
-          onEdit={() => {}}
+          onEdit={onEdit}
           setData={setData}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
+          pageList={pages}
+          hasUnviewedPages={false}
+          setFormErrors={setFormErrors}
         />,
       );
 
@@ -804,7 +969,9 @@ describe('<ReviewCollapsibleChapter>', () => {
       tree.unmount();
     });
     it('should be called on normal pages and pass an index', () => {
+      const onEdit = sinon.spy();
       const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const pages = [
         {
           title: '',
@@ -841,13 +1008,15 @@ describe('<ReviewCollapsibleChapter>', () => {
       const tree = shallow(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
-          onEdit={() => {}}
+          onEdit={onEdit}
           setData={setData}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
+          pageList={pages}
+          hasUnviewedPages={false}
+          setFormErrors={setFormErrors}
         />,
       );
 
@@ -859,7 +1028,9 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
 
     it('should be called on array pages', () => {
+      const onEdit = sinon.spy();
       const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const pages = [
         {
           title: '',
@@ -896,13 +1067,15 @@ describe('<ReviewCollapsibleChapter>', () => {
       const tree = shallow(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
-          onEdit={() => {}}
+          onEdit={onEdit}
           setData={setData}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
+          pageList={pages}
+          hasUnviewedPages={false}
+          setFormErrors={setFormErrors}
         />,
       );
 
@@ -917,7 +1090,9 @@ describe('<ReviewCollapsibleChapter>', () => {
     });
 
     it('should be called on array pages and pass an index', () => {
+      const onEdit = sinon.spy();
       const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const pages = [
         {
           title: '',
@@ -959,13 +1134,15 @@ describe('<ReviewCollapsibleChapter>', () => {
       const tree = shallow(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
-          onEdit={() => {}}
+          onEdit={onEdit}
           setData={setData}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
+          pageList={pages}
+          hasUnviewedPages={false}
+          setFormErrors={setFormErrors}
         />,
       );
 
@@ -982,6 +1159,8 @@ describe('<ReviewCollapsibleChapter>', () => {
 
   describe('update page', () => {
     it('should validate page upon updating', () => {
+      const onEdit = sinon.spy();
+      const setData = sinon.spy();
       const setFormErrors = sinon.spy();
       const pages = [
         {
@@ -1014,13 +1193,14 @@ describe('<ReviewCollapsibleChapter>', () => {
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
           pageList={pages}
-          onEdit={() => {}}
+          onEdit={onEdit}
           setFormErrors={setFormErrors}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
+          hasUnviewedPages={false}
+          setData={setData}
         />,
       );
 
@@ -1078,7 +1258,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1096,12 +1275,97 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
       expect(queryByTestId('custom-page')).to.exist;
       expect(queryByTestId('custom-page-review')).not.to.exist;
+    });
+
+    it('should render array of CustomPage in edit mode', () => {
+      const onEdit = sinon.spy();
+      const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
+      const { chapterKey, chapter } = getProps();
+      // Can't check array `key` so we're checking the index instead
+      const CustomPage = ({ pagePerItemIndex }) => (
+        <div data-testid={`custom-page${pagePerItemIndex}`} />
+      );
+      const CustomPageReview = ({ pagePerItemIndex }) => (
+        <div data-testid={`custom-page-review${pagePerItemIndex}`} />
+      );
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          path: 'path/0',
+          index: 0,
+          CustomPage,
+          CustomPageReview,
+        },
+        {
+          title: '',
+          pageKey: 'test',
+          showPagePerItem: true,
+          arrayPath: 'testing',
+          path: 'path/1',
+          index: 1,
+          CustomPage,
+          CustomPageReview,
+        },
+      ];
+      const itemSchema = {
+        type: 'object',
+        properties: { foo: { type: 'string' } },
+      };
+      const form = {
+        pages: {
+          test: {
+            showPagePerItem: true,
+            arrayPath: 'testing',
+            title: '',
+            CustomPage,
+            CustomPageReview,
+            schema: {
+              type: 'object',
+              properties: {
+                testing: {
+                  items: [itemSchema, itemSchema],
+                },
+              },
+            },
+            uiSchema: {
+              testing: {
+                items: {},
+              },
+            },
+            editMode: [true, true],
+          },
+        },
+        data: {
+          testing: [{}, {}],
+        },
+      };
+      const { queryByTestId } = render(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={onEdit}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          pageList={pages}
+          hasUnviewedPages={false}
+          setData={setData}
+          setFormErrors={setFormErrors}
+        />,
+      );
+
+      expect(queryByTestId('custom-page0')).to.exist;
+      expect(queryByTestId('custom-page1')).to.exist;
+      expect(queryByTestId('custom-page-review0')).not.to.exist;
     });
 
     it('should include schema & uiSchema to CustomPage in edit mode', () => {
@@ -1155,7 +1419,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1183,7 +1446,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1194,19 +1456,18 @@ describe('<ReviewCollapsibleChapter>', () => {
       const { pages, chapterKey, chapter, form } = getProps();
       pages[0].CustomPageReview = null;
       form.pages.test.CustomPageReview = null;
-      const { container } = render(
+      const { queryByTestId } = render(
         <ReviewCollapsibleChapter
           viewedPages={new Set()}
           expandedPages={pages}
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
-      expect(
-        container.querySelector('.usa-accordion-content').children.length,
-      ).to.equal(0);
+      expect(queryByTestId('accordion-item-content').children.length).to.equal(
+        0,
+      );
     });
 
     it('should render SchemaForm in the chapter when CustomPageReview is null but the schema properties are not empty', () => {
@@ -1223,7 +1484,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
       expect(container.querySelector('form.rjsf')).to.exist;
@@ -1232,11 +1492,13 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     it('should pass the edit button function to the custom review component', () => {
       const onEdit = sinon.spy();
+      const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const CustomPageReview = ({ editPage }) => (
         <div data-testid="custom-page-review">
-          <button onClick={editPage} data-testid="edit-button">
+          <va-button onClick={editPage} data-testid="edit-button">
             Edit
-          </button>
+          </va-button>
         </div>
       );
       const { pages, chapterKey, chapter, form } = getProps();
@@ -1249,8 +1511,11 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           onEdit={onEdit}
+          pageList={pages}
+          hasUnviewedPages={false}
+          setData={setData}
+          setFormErrors={setFormErrors}
         />,
       );
       // Poke the edit button
@@ -1260,11 +1525,13 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     it('should pass the update button function to the custom page component', () => {
       const onEdit = sinon.spy();
+      const setData = sinon.spy();
+      const setFormErrors = sinon.spy();
       const CustomPage = ({ updatePage }) => (
         <div data-testid="custom-page-review">
-          <button onClick={updatePage} data-testid="update-button">
+          <va-button onClick={updatePage} data-testid="update-button">
             Update page
-          </button>
+          </va-button>
         </div>
       );
       const { pages, chapterKey, chapter, form } = getProps();
@@ -1278,8 +1545,11 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           onEdit={onEdit}
+          pageList={pages}
+          hasUnviewedPages={false}
+          setData={setData}
+          setFormErrors={setFormErrors}
         />,
       );
 
@@ -1304,7 +1574,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1329,7 +1598,6 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
         />,
       );
 
@@ -1338,15 +1606,17 @@ describe('<ReviewCollapsibleChapter>', () => {
 
     it('should pass the setFormData function to the custom page component', () => {
       const onSetData = sinon.spy();
+      const onEdit = sinon.spy();
+      const setFormErrors = sinon.spy();
       const CustomPage = ({ setFormData }) => (
         <div data-testid="custom-page-review">
-          <button
+          <va-button
             type="button"
             onClick={setFormData}
             data-testid="set-form-data-button"
           >
             setFormData
-          </button>
+          </va-button>
         </div>
       );
       const { pages, chapterKey, chapter, form } = getProps();
@@ -1360,8 +1630,11 @@ describe('<ReviewCollapsibleChapter>', () => {
           chapterKey={chapterKey}
           chapterFormConfig={chapter}
           form={form}
-          open
           setData={onSetData}
+          onEdit={onEdit}
+          pageList={pages}
+          hasUnviewedPages={false}
+          setFormErrors={setFormErrors}
         />,
       );
 

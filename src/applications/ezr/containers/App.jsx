@@ -1,18 +1,53 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const { children, features, formData, location, setFormData, user } = props;
+  const {
+    children,
+    features,
+    fetchEnrollmentStatus,
+    formData,
+    location,
+    setFormData,
+    user,
+  } = props;
   const { veteranFullName } = formData;
-  const { loading, isSigiEnabled } = features;
-  const { dob: veteranDateOfBirth, gender: veteranGender } = user;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isTeraEnabled,
+  } = features;
+  const {
+    dob: veteranDateOfBirth,
+    gender: veteranGender,
+    loading: isLoadingProfile,
+  } = user;
+  const isAppLoading = isLoadingFeatures || isLoadingProfile;
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
+  const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+
+  useEffect(
+    () => {
+      if (isUserLOA3) {
+        fetchEnrollmentStatus();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [isUserLOA3],
+  );
 
   /**
    * Set default view fields in the form data
@@ -26,11 +61,16 @@ const App = props => {
    */
   useEffect(
     () => {
-      if (!loading) {
+      if (!isAppLoading) {
         const defaultViewFields = {
-          'view:userGender': veteranGender,
-          'view:userDob': veteranDateOfBirth,
+          'view:userGender': parseVeteranGender(veteranGender),
+          'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
+          'view:isTeraEnabled': isTeraEnabled,
+          'view:householdEnabled':
+            canSubmitFinancialInfo === undefined
+              ? true
+              : canSubmitFinancialInfo,
         };
 
         setFormData({
@@ -40,11 +80,18 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isSigiEnabled, loading, veteranFullName, veteranDateOfBirth],
+    [isAppLoading, canSubmitFinancialInfo, veteranFullName, isTeraEnabled],
   );
 
-  return loading ? (
-    <va-loading-indicator message={content['load-app']} set-focus />
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
+
+  return isAppLoading || !isProdEnabled ? (
+    <va-loading-indicator
+      message={content['load-app']}
+      class="vads-u-margin-y--4"
+      set-focus
+    />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
@@ -58,6 +105,7 @@ App.propTypes = {
     PropTypes.node,
   ]),
   features: PropTypes.object,
+  fetchEnrollmentStatus: PropTypes.func,
   formData: PropTypes.object,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -67,7 +115,9 @@ App.propTypes = {
 const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
+    isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isTeraEnabled: state.featureToggles.ezrTeraEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
@@ -75,6 +125,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
+  fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
 export default connect(

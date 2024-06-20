@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
   return (
@@ -26,30 +26,26 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
 
       <hr className="vads-u-margin-y--4" />
 
-      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-        Your application information
-      </h2>
-      <dl className="vads-u-margin-bottom--0">
-        <div className="vads-u-margin-bottom--2">
-          <dt
-            className="vads-u-font-family--serif vads-u-font-weight--bold"
-            data-dd-action-name="Veteran name"
+      <h3 className="vads-u-margin-top--0">Your application information</h3>
+      <h4>For Veteran</h4>
+      <p
+        className="hca-veteran-fullname dd-privacy-mask"
+        data-dd-action-name="Veteran name"
+      >
+        {name}
+      </p>
+
+      {timestamp ? (
+        <>
+          <h4>Date you applied</h4>
+          <p
+            className="hca-application-date dd-privacy-mask vads-u-margin-bottom--0"
+            data-dd-action-name="application date"
           >
-            Veteran’s name
-          </dt>
-          <dd className="hca-veteran-fullname dd-privacy-mask">{name}</dd>
-        </div>
-        {!!timestamp && (
-          <div className="hca-application-date">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Date you applied
-            </dt>
-            <dd className="dd-privacy-mask" data-dd-action-name="Applied date">
-              {moment(timestamp).format('MMM D, YYYY')}
-            </dd>
-          </div>
-        )}
-      </dl>
+            {format(new Date(timestamp), 'MMM. d, yyyy')}
+          </p>
+        </>
+      ) : null}
 
       <hr className="vads-u-margin-top--4 vads-u-margin-bottom--0" />
     </>

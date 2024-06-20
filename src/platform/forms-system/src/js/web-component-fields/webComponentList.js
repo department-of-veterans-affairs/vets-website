@@ -16,3 +16,23 @@ export const webComponentList = [
   'va-text-input',
   'va-textarea',
 ];
+
+// Commented out components are wrappers that have an open shadow DOM
+export const focusableWebComponentList = [
+  'va-accordion-item',
+  // 'va-accordion',
+  'va-alert',
+  // 'va-breadcrumbs',
+  // 'va-button-pair',
+  'va-button',
+  // 'va-checkbox-group',
+  'va-checkbox',
+  // 'va-memorable-date',
+  'va-number-input',
+  // 'va-privacy-agreement',
+  'va-radio-option',
+  // 'va-radio',
+  'va-select',
+  'va-text-input',
+  'va-textarea',
+];

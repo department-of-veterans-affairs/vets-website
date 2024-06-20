@@ -3,6 +3,7 @@ import { stateList } from './stateList';
 const APP_NAMES = Object.freeze({
   CHECK_IN: 'dayOf',
   PRE_CHECK_IN: 'preCheckIn',
+  TRAVEL_CLAIM: 'travelClaim',
 });
 
 // Taken from https://dsva.slack.com/archives/C022AC2STBM/p1631650347300600?thread_ts=1631210248.227300&cid=C022AC2STBM

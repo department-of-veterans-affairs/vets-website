@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import commonFieldMapping from './commonFieldMapping';
+import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 // Combines schema, uiSchema, and formData together
 // for each checkbox for easier access
@@ -60,18 +61,24 @@ export default function VaCheckboxGroupField(props) {
     props.childrenProps.onChange(newVal);
   };
 
+  const { formsPatternProps, formDescriptionSlot } = formsPatternFieldMapping(
+    props,
+  );
+
   return (
     <VaCheckboxGroup
       {...commonFieldMapping(props)}
+      {...formsPatternProps}
       label={props.label}
       labelHeaderLevel={props.uiOptions?.labelHeaderLevel}
-      uswds
       onVaChange={onGroupChange}
+      uswds={props.uiOptions?.uswds ?? true}
       // onBlur={} // it seems this is not necessary.
       // prefer to show error on trying to continue instead.
     >
       <>
         <>
+          {formDescriptionSlot}
           {/* known a11y issue: this will not be read out */}
           {props.textDescription && <p>{props.textDescription}</p>}
           {props.DescriptionField && (
@@ -92,11 +99,13 @@ export default function VaCheckboxGroupField(props) {
                 data-key={key}
                 name={`${props.childrenProps.idSchema.$id}_${key}`}
                 key={key}
-                uswds
-                label={uiSchema['ui:title']}
+                uswds={props.uiOptions?.uswds ?? true}
+                label={uiSchema?.['ui:title'] || schema.title}
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}
-                checkbox-description={uiSchema['ui:description']}
+                checkbox-description={
+                  uiSchema?.['ui:description'] || schema.description
+                }
               />
             );
           })}

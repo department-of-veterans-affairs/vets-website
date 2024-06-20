@@ -33,13 +33,13 @@ export function statementOfTruthFullName(formData, fullNamePath) {
       : fullNamePath || 'veteran.fullName',
   );
 
-  let fullNameString = fullName.first || '';
+  let fullNameString = fullName?.first || '';
 
-  if (fullName.middle) {
-    fullNameString += ` ${fullName.middle}`;
+  if (fullName?.middle) {
+    fullNameString += ` ${fullName?.middle}`;
   }
 
-  fullNameString += ` ${fullName.last || ''}`;
+  fullNameString += ` ${fullName?.last || ''}`;
 
   return fullNameString;
 }
@@ -141,20 +141,7 @@ export function PreSubmitSection(props) {
             {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
             <p>
               I have read and accept the{' '}
-              <a
-                href="/privacy-policy/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                privacy policy
-                <span className="sr-only">opens in a new window</span>
-                <i
-                  className="fas fa-arrow-up-right-from-square"
-                  aria-hidden="true"
-                  role="img"
-                />
-              </a>
-              .
+              <va-link href="/privacy-policy/" text="privacy policy" />.
             </p>
             <VaTextInput
               id="veteran-signature"
@@ -173,12 +160,12 @@ export function PreSubmitSection(props) {
                   fullNameReducer(
                     statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth.fullNamePath,
+                      statementOfTruth?.fullNamePath,
                     ),
                   )
                   ? `Please enter your name exactly as it appears on your application: ${statementOfTruthFullName(
                       form?.data,
-                      statementOfTruth.fullNamePath,
+                      statementOfTruth?.fullNamePath,
                     )}`
                   : undefined
               }
@@ -204,6 +191,7 @@ export function PreSubmitSection(props) {
                   ? 'You must certify by checking the box'
                   : undefined
               }
+              className="statement-of-truth-va-checkbox"
               required
             />
           </article>
@@ -225,6 +213,7 @@ export function PreSubmitSection(props) {
                 onVaChange={event =>
                   setPreSubmit(preSubmit?.field, event.target.checked)
                 }
+                uswds
               />
             ) : (
               <VaCheckbox

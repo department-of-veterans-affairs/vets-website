@@ -15,7 +15,7 @@ class Introduction {
       const window = $elements[0].ownerDocument.defaultView;
       const before = window.getComputedStyle($elements[0], 'before');
       const elementColor = before.getPropertyValue('color');
-      expect(elementColor).to.eq('rgb(46, 133, 64)');
+      expect(elementColor).to.eq('rgb(0, 136, 23)');
     });
   };
 
@@ -98,13 +98,6 @@ class Introduction {
   attemptToGoToNextPage = () => {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
       .eq(0)
-      .click();
-  };
-
-  expandAccordion = () => {
-    cy.get('[data-testid="intro-accordion-item"]')
-      .shadow()
-      .find('button[aria-controls="content"]')
       .click();
   };
 

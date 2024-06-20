@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
+import { NULL_CONDITION_STRING } from '../../constants.js';
 
 describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
   const {
@@ -150,9 +151,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .find('p')
         .last()
         .text(),
-    ).to.equal(
-      'You’re already at the maximum rating for post traumatic stress disorder.',
-    );
+    ).to.equal('You’re already at the maximum rating for this disability.');
     expect(
       labels
         .at(1)
@@ -160,7 +159,56 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .last()
         .text(),
     ).to.equal('Current rating: 0%');
+    expect(
+      labels
+        .at(2)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('You’re already at the maximum rating for this disability.');
     form.unmount();
     window.sessionStorage.removeItem('showDisability526MaximumRating');
+  });
+
+  it('renders and submits when unknown condition', () => {
+    window.sessionStorage.setItem('showDisability526MaximumRating', true);
+    const testData = JSON.parse(JSON.stringify(initialData));
+    testData.ratedDisabilities[0].name = undefined;
+
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={testData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+
+    const labels = form.find('input[type="checkbox"] + label');
+    expect(
+      labels
+        .at(0)
+        .find('h3')
+        .text(),
+    ).to.equal(NULL_CONDITION_STRING);
+    expect(
+      labels
+        .at(0)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal(`You’re already at the maximum rating for this disability.`);
+
+    // Simulating a click event doesn't trigger onChange, so we have to call it explicitly
+    form
+      .find('input#root_ratedDisabilities_0')
+      .props()
+      .onChange({ target: { checked: true } });
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    window.sessionStorage.removeItem('showDisability526MaximumRating');
+    form.unmount();
   });
 });

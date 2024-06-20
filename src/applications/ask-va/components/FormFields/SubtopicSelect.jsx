@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL } from '../../constants';
+import { URL, envUrl } from '../../constants';
 
 const SubtopicSelect = props => {
   const { id, onChange, value, loggedIn, topicID } = props;
@@ -49,7 +48,7 @@ const SubtopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${URL.GET_SUBTOPICS}/${topicID}/subtopics`,
+        `${envUrl}${URL.GET_SUBTOPICS}/${topicID}/subtopics?mock=true`,
       );
     },
     [loggedIn],
@@ -67,10 +66,10 @@ const SubtopicSelect = props => {
       id={id}
       name={id}
       value={value}
-      label="Select a topic"
       error={showError() || null}
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      uswds
     >
       <option value="">&nbsp;</option>
       {apiData.map(subTopic => (

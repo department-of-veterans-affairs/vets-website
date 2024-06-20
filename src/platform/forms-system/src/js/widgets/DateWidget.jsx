@@ -30,6 +30,7 @@ export default class DateWidget extends React.Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.state = getEmptyState(this.props.value);
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillReceiveProps(newProps) {
     if (
@@ -83,7 +84,7 @@ export default class DateWidget extends React.Component {
     const { month, day, year } = this.state.value;
     let daysForSelectedMonth;
 
-    const monthYear = options.monthYear;
+    const { monthYear } = options;
     if (month) {
       daysForSelectedMonth = days[month];
     }

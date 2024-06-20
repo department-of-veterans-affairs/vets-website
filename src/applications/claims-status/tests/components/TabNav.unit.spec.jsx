@@ -1,16 +1,41 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
+import { createStore } from 'redux';
 
 import TabNav from '../../components/TabNav';
+import { renderWithRouter } from '../utils';
+
+const getStore = (cstUseClaimDetailsV2Enabled = false) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
+    },
+  }));
 
 describe('<TabNav>', () => {
-  it('should render three tabs', () => {
-    const tree = SkinDeep.shallowRender(<TabNav id={1} />);
+  context('cstUseClaimDetailsV2 feature toggle false', () => {
+    it('should render three tabs', () => {
+      const screen = renderWithRouter(
+        <Provider store={getStore()}>
+          <TabNav id={1} />
+        </Provider>,
+      );
 
-    expect(tree.subTree('.va-tabs').props.children.length).to.equal(3);
-    expect(tree.subTree('.va-tabs').props.children[0].props.shortcut).to.equal(
-      1,
-    );
+      expect(screen.getAllByRole('listitem').length).to.equal(3);
+    });
+  });
+
+  context('cstUseClaimDetailsV2 feature toggle true', () => {
+    it('should render three tabs', () => {
+      const screen = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <TabNav id={1} />
+        </Provider>,
+      );
+
+      expect(screen.getAllByRole('listitem').length).to.equal(3);
+    });
   });
 });

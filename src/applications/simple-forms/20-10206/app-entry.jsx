@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/10206-foia.scss';
+import './sass/10206-pa.scss';
 
 import startApp from 'platform/startup';
 
@@ -8,6 +8,7 @@ import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

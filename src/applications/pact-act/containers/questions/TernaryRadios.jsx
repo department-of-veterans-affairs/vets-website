@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -6,12 +6,15 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   navigateBackward,
   navigateForward,
 } from '../../utilities/page-navigation';
 import { updateFormStore } from '../../actions';
 import { cleanUpAnswers } from '../../utilities/answer-cleanup';
+import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import { applyFocus } from '../../utilities/page-setup';
 
 /**
  * Produces a set of 3 radio options
@@ -34,10 +37,13 @@ const TernaryRadios = ({
   valueSetter,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const [headerHasFocused, setHeaderHasFocused] = useState(false);
+  const radioRef = useRef(null);
 
   const onContinueClick = () => {
     if (!formValue) {
       setFormError(true);
+      focusElement(radioRef.current);
     } else {
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
@@ -53,14 +59,7 @@ const TernaryRadios = ({
     navigateBackward(shortName, formResponses, router);
   };
 
-  const onBlurInput = () => {
-    if (formValue) {
-      setFormError(false);
-    }
-  };
-
-  const onValueChange = event => {
-    const { value } = event?.detail;
+  const onValueChange = value => {
     valueSetter(value);
 
     if (formValue) {
@@ -72,43 +71,67 @@ const TernaryRadios = ({
     }
   };
 
+  const renderRadioOptions = () => {
+    return responses.map((response, index) => {
+      return (
+        <VaRadioOption
+          key={index}
+          checked={formValue === response}
+          data-testid="va-radio-option"
+          label={response}
+          name="group"
+          value={response}
+          uswds
+        />
+      );
+    });
+  };
+
   return (
     <>
       <VaRadio
         data-testid={testId}
-        onBlur={onBlurInput}
-        className="vads-u-margin-bottom--3"
-        error={(formError && 'Select a response.') || null}
-        hint=""
-        label={h1}
-        label-header-level="1"
-        onVaValueChange={onValueChange}
+        form-heading={h1}
+        form-heading-level={1}
+        error={formError ? 'Select a response.' : null}
+        id="paw-radio"
+        onVaValueChange={e => onValueChange(e.detail.value)}
+        onLoad={applyFocus('paw-radio', headerHasFocused, setHeaderHasFocused)}
+        ref={radioRef}
+        use-forms-pattern="single"
+        uswds
       >
-        {locationList}
-        <VaRadioOption
-          checked={formValue === responses[0]}
-          label={responses[0]}
-          name={shortName}
-          value={responses[0]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[1]}
-          label={responses[1]}
-          name={shortName}
-          value={responses[1]}
-        />
-        <VaRadioOption
-          checked={formValue === responses[2]}
-          label={responses[2]}
-          name={shortName}
-          value={responses[2]}
-        />
+        {renderRadioOptions()}
+        <div slot="form-description">
+          {shortName === SHORT_NAME_MAP.ORANGE_2_2_2 && (
+            <div id="paw-orange-2-2-2-info" data-testid="paw-orange-2-2-2-info">
+              <va-additional-info
+                trigger="Learn more about C-123 airplanes"
+                uswds
+              >
+                <p className="vads-u-margin-top--0">
+                  The U.S. Air Force used C-123 planes to spray Agent Orange to
+                  clear jungles that provided enemy cover in Vietnam. After
+                  1971, the Air Force reassigned the remaining C-123 planes to
+                  Air Force Reserve units in the U.S. for routine cargo and
+                  medical evacuation missions. Veterans, including some
+                  Reservists, who flew, trained, or worked on C-123 planes
+                  anytime from 1969 to 1986 may have had exposure to Agent
+                  Orange.
+                </p>
+              </va-additional-info>
+            </div>
+          )}
+          {locationList}
+        </div>
       </VaRadio>
       <VaButtonPair
+        class="vads-u-margin-top--3"
         data-testid="paw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
+        uswds
       />
     </>
   );

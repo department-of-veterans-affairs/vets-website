@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+
+import { defaultFocusSelector } from 'platform/utilities/ui';
+
 import {
   CLAIM_OWNERSHIPS,
   CLAIMANT_TYPES,
@@ -8,7 +11,7 @@ import {
   getFullNamePath,
   witnessHasOtherRelationship,
   getFocusSelectorFromPath,
-} from '../utils.js';
+} from '../utils';
 
 describe('getFullNamePath for statement of truth', () => {
   it("is a claimant if it's for themselves but not a veteran", () => {
@@ -48,16 +51,16 @@ describe('witnessHasOtherRelationship', () => {
 
 describe('getFocusSelectorFromPath', () => {
   it('should use custom path for claim-ownership or claimant-type', () => {
-    const pathname = 'claim-ownership';
+    const pathname = '/claim-ownership';
     expect(getFocusSelectorFromPath(pathname)).to.deep.equal(
       '#main .schemaform-first-field legend',
     );
   });
 
   it('should use default selector for other cases', () => {
-    const pathname = 'something-else';
+    const pathname = '/something-else';
     expect(getFocusSelectorFromPath(pathname)).to.deep.equal(
-      '#nav-form-header',
+      defaultFocusSelector,
     );
   });
 });

@@ -1,7 +1,8 @@
 import environment from 'platform/utilities/environment';
-import PreSubmitInfo from '../containers/PreSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
@@ -9,10 +10,9 @@ import ErrorText from '../../components/ErrorText';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import submitForm from '../submitForm';
+import submitForm from './submitForm';
 import { prefillTransformer } from '../prefill-transformer';
 import { transform } from '../submit-transformer';
-import fullSchema from 'vets-json-schema/dist/22-0994-schema.json';
 import migrations from '../migrations';
 import captureEvents from '../analytics-functions';
 

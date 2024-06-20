@@ -7,13 +7,19 @@ import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
+import PreferredFacilityAlert from '../FormAlerts/PreferredFacilityAlert';
+import FinancialMeansTestWarning from '../FormAlerts/FinancialStatusWarning';
+import UpdatedFormAlertDescription from '../FormDescriptions/UpdatedFormAlertDescription';
 import content from '../../locales/en/content.json';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
-  const { isEnrolledinESR, hasServerError } = useSelector(
-    selectEnrollmentStatus,
-  );
+  const {
+    canSubmitFinancialInfo,
+    hasPreferredFacility,
+    isValidEnrollmentStatus,
+    hasServerError,
+  } = useSelector(selectEnrollmentStatus);
   const {
     downtime,
     prefillEnabled,
@@ -34,42 +40,61 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     prefillEnabled,
     downtime,
     pageList,
+    devOnly: { forceShowFormControls: true },
   };
 
-  // set the correct alert to render based on enrollment status
-  const LoggedInAlertToRender = isEnrolledinESR ? (
-    <SaveInProgressIntro {...sipProps} />
-  ) : (
-    <EnrollmentStatusAlert showError={hasServerError} />
+  const sipIntro = (
+    <SaveInProgressIntro {...sipProps}>
+      <UpdatedFormAlertDescription />
+    </SaveInProgressIntro>
   );
+
+  // set the correct alert to render based on enrollment status
+  const LoggedInAlertToRender = () => {
+    if (!isValidEnrollmentStatus)
+      return <EnrollmentStatusAlert showError={hasServerError} />;
+    if (!hasPreferredFacility) return <PreferredFacilityAlert />;
+    if (!canSubmitFinancialInfo)
+      return (
+        <>
+          <FinancialMeansTestWarning />
+          {sipIntro}
+        </>
+      );
+    return sipIntro;
+  };
 
   return isLoggedOut ? (
     <>
-      <va-alert status="info" data-testid="ezr-login-alert" uswds>
+      <va-alert
+        status="info"
+        class="vads-u-margin-y--4"
+        data-testid="ezr-login-alert"
+        uswds
+      >
         <h3 slot="headline">{content['sip-alert-title']}</h3>
         <div>
-          <ul className="vads-u-margin-top--0">
+          <ul>
             <li>
               We can fill in some of your information for you to save you time.
             </li>
             <li>
               You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your application to come back and
-              finish it.
+              you start or make updates to your form to come back and finish it.
             </li>
           </ul>
-          <SaveInProgressIntro {...sipProps} />
+          {sipIntro}
         </div>
       </va-alert>
     </>
   ) : (
-    <>{LoggedInAlertToRender}</>
+    <div className="vads-u-margin-y--4">{LoggedInAlertToRender()}</div>
   );
 };
 
 SaveInProgressInfo.propTypes = {
   formConfig: PropTypes.object,
-  pageList: PropTypes.object,
+  pageList: PropTypes.array,
 };
 
 export default SaveInProgressInfo;

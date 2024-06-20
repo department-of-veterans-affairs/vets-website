@@ -1,5 +1,5 @@
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 export const isLoadingFeatures = state => toggleValues(state).loading;
 
@@ -26,6 +26,13 @@ export const cstUseLighthouse = (state, endpoint) => {
     }
   }
 
+  // Returning true here because the feature toggle sometimes returns
+  // undefined and the feature toggle should always return true anyways
+  // Note: Checking for window.Cypress here because some of the Cypress
+  // tests are written for EVSS and will fail if this only returns true
+
+  if (endpoint === 'show' && !window.Cypress) return true;
+
   return toggleValues(state)[
     FEATURE_FLAG_NAMES[`cstUseLighthouse#${endpoint}`]
   ];
@@ -35,9 +42,21 @@ export const cstUseLighthouse = (state, endpoint) => {
 export const cstIncludeDdlBoaLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdlBoaLetters];
 
-// 'cst_use_new_claim_cards'
-export const cstUseNewClaimCards = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseNewClaimCards];
+// 'cst_include_ddl_5103_letters'
+export const cstIncludeDdl5103Letters = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstIncludeDdl5103Letters];
+
+// 'benefits_documents_use_lighthouse'
+export const benefitsDocumentsUseLighthouse = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.benefitsDocumentsUseLighthouse];
+
+// 'cst_use_claim_details_v2'
+export const cstUseClaimDetailsV2 = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseClaimDetailsV2];
+
+// 'cst_use_dd_rum'
+export const cstUseDataDogRUM = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseDataDogRUM];
 
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;

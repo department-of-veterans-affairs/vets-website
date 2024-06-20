@@ -2,5 +2,5 @@
   "appName": "PACT Act",
   "entryFile": "./pact-act-entry.jsx",
   "entryName": "pact-act",
-  "rootUrl": "/pact-act-wizard-test"
+  "rootUrl": "/pact-act-eligibility"
 }

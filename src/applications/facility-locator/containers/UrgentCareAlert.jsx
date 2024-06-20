@@ -18,10 +18,8 @@ export default function UrgentCareAlert() {
           </dd>
           <a
             className="usa-button-primary vads-u-margin-y--0"
-            href={
-              'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
-            }
-            target={'_/blank'}
+            href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
+            target="_/blank"
             onClick={() => {
               // Record event
               recordEvent({ event: 'cta-primary-button-click' });

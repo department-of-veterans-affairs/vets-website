@@ -12,7 +12,7 @@ Alert.Error = () => (
     status="error"
     data-testid="error-alert"
   >
-    <h2 slot="headline" className="vads-u-font-size--h3">
+    <h2 slot="headline">
       We can’t access your current copay balances right now
     </h2>
     <p>
@@ -52,9 +52,7 @@ Alert.PastDue = ({ copay }) => {
       status="info"
       data-testid="past-due-balance-alert"
     >
-      <h2 slot="headline" className="vads-u-font-size--h3">
-        Your balance may be overdue
-      </h2>
+      <h2 slot="headline">Your balance may be overdue</h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Your balance on
         <time dateTime={statementDate} className="vads-u-margin-x--0p5">
@@ -95,9 +93,7 @@ Alert.ZeroBalance = ({ copay }) => {
       status="info"
       data-testid="zero-balance-alert"
     >
-      <h2 slot="headline" className="vads-u-font-size--h3">
-        You don’t need to make a payment at this time
-      </h2>
+      <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         Your balance is $0 and was updated on
         <time dateTime={statementDate} className="vads-u-margin-x--0p5">
@@ -133,9 +129,7 @@ Alert.NoHealthcare = () => (
     status="warning"
     data-testid="no-healthcare-alert"
   >
-    <h2 slot="headline" className="vads-u-font-size--h3">
-      You’re not enrolled in VA health care
-    </h2>
+    <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
@@ -163,7 +157,7 @@ Alert.NoHistory = () => (
     status="info"
     data-testid="no-history-alert"
   >
-    <h2 slot="headline" className="vads-u-font-size--h3">
+    <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
     </h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -205,19 +199,17 @@ Alert.Status = ({ copay }) => (
       </a>
     </p>
     <p>
-      <div>
-        <a
-          aria-label="Request help with your debt"
-          className="vads-c-action-link--blue"
-          data-testid="link-request-help"
-          href="/manage-va-debt/request-debt-help-form-5655"
-          onClick={() => {
-            recordEvent({ event: 'cta-link-click-debt-request-help' });
-          }}
-        >
-          Request help with your bill
-        </a>
-      </div>
+      <a
+        aria-label="Request help with your debt"
+        className="vads-c-action-link--blue"
+        data-testid="link-request-help"
+        href="/manage-va-debt/request-debt-help-form-5655"
+        onClick={() => {
+          recordEvent({ event: 'cta-link-click-debt-request-help' });
+        }}
+      >
+        Request help with your bill
+      </a>
     </p>
     <h3 className="vads-u-font-size--h4">
       What if I’ve already requested financial help with my bill?

@@ -12,8 +12,12 @@
   },
   "preparerPhone": "9876054321",
   "claimantIdentification": "VETERAN",
-  "preparerQualifications": "Court-appointed representative",
-  "preparerSigningReason": "They’re under 18 years old.",
+  "preparerQualifications": {
+    "courtAppointedRep": true
+  },
+  "preparerSigningReason": {
+    "under18": true
+  },
   "veteranFullName": {
     "first": "Alex",
     "last": "Veteran"

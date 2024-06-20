@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -11,6 +9,8 @@ import {
 } from 'platform/utilities/ui';
 
 import { Notice5103Description, content } from '../content/notice5103';
+
+import { customPageProps995 } from '../../shared/props';
 
 const Notice5103 = ({
   data = {},
@@ -60,15 +60,17 @@ const Notice5103 = ({
         checked={data.form5103Acknowledged}
         required
         enable-analytics
+        uswds
       >
         <div slot="description">{content.descriptionInCheckbox}</div>
       </VaCheckbox>
-      <div className="form-nav-buttons vads-u-margin-top--4">
+      <div className="form-nav-buttons vads-u-margin-y--4">
         {onReviewPage && (
           <va-button
             onClick={handlers.onGoForward}
             label={content.updateLabel}
             text={content.update}
+            uswds
           />
         )}
         {!onReviewPage && (
@@ -83,17 +85,6 @@ const Notice5103 = ({
   );
 };
 
-Notice5103.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    form5103Acknowledged: PropTypes.bool,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+Notice5103.propTypes = customPageProps995;
 
 export default Notice5103;

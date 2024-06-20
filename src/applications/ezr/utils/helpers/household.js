@@ -1,38 +1,5 @@
 import moment from 'moment';
-import { HIGH_DISABILITY_MINIMUM } from '../constants';
-
-/**
- * Helper that determines if the form data contains values that allow users
- * to fill out the form using the short form flow
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the total disability rating is greater than or equal
- * to the minimum percetage OR the user self-declares they receive compensation equal to
- * that of a high-disability-rated Veteran.
- */
-export function isShortFormEligible(formData) {
-  const {
-    'view:totalDisabilityRating': disabilityRating,
-    vaCompensationType,
-  } = formData;
-  const hasHighRating = disabilityRating >= HIGH_DISABILITY_MINIMUM;
-  const hasHighCompensation = vaCompensationType === 'highDisability';
-  return hasHighRating || hasHighCompensation;
-}
-
-/**
- * Helper that determines if the form data contains values that require users
- * to fill out spousal information
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user declares they would like to provide their
- * financial data & have a marital status of 'married' or 'separated'.
- */
-export function includeSpousalInformation(formData) {
-  const { discloseFinancialInformation, maritalStatus } = formData;
-  const hasSpouseToDeclare =
-    maritalStatus?.toLowerCase() === 'married' ||
-    maritalStatus?.toLowerCase() === 'separated';
-  return discloseFinancialInformation && hasSpouseToDeclare;
-}
+import isPlainObject from 'react-redux/lib/utils/isPlainObject';
 
 /**
  * Helper that determines if the a dependent is of the declared college
@@ -47,6 +14,10 @@ export function isOfCollegeAge(birthdate, testdate = new Date()) {
   return age >= 18 && age <= 23;
 }
 
+export function hasGrossIncome(income) {
+  return income >= 1;
+}
+
 /**
  * Helper that builds the list of active pages for use in the dependent
  * information add/edit form
@@ -57,12 +28,31 @@ export function isOfCollegeAge(birthdate, testdate = new Date()) {
 export function getDependentPageList(pages, formData = {}) {
   return pages.reduce((acc, page) => {
     if ('depends' in page) {
-      const { key, value } = page.depends;
-      if (value instanceof Function) {
-        if (value(formData[key])) {
-          acc.push(page);
+      /*
+      Some pages can depend on more than one key/value pair, so we'll compare the amount of
+      truthy conditionals to the total length of the 'depends' array.
+      */
+      let truthyConditionalCount = 0;
+
+      for (const depends of page.depends) {
+        /*
+          Some values are objects themselves. In those cases, we need to grab the value of the
+          first key in the object
+        */
+        const formDataValue = isPlainObject(formData[depends.key])
+          ? Object.values(formData[depends.key])[0]
+          : formData[depends.key];
+
+        if (depends.value instanceof Function) {
+          if (depends.value(formDataValue)) {
+            truthyConditionalCount += 1;
+          }
+        } else if (formDataValue === depends.value) {
+          truthyConditionalCount += 1;
         }
-      } else if (formData[key] === value) {
+      }
+      // Compare the conditional count to the 'depends' array length
+      if (truthyConditionalCount === page.depends.length) {
         acc.push(page);
       }
     } else {

@@ -1,12 +1,17 @@
 import React from 'react';
-import moment from 'moment';
 
 import { getIssueName, getIssueDate } from '../utils/issues';
-import { FORMAT_YMD, FORMAT_READABLE, DISAGREEMENT_TYPES } from '../constants';
+import {
+  DISAGREEMENT_TYPES,
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+} from '../constants';
+
+import { parseDate } from '../utils/dates';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
-  missingDisagreement: 'Choose or enter a reason for disagreement',
+  missingDisagreement: 'You must select or enter a reason for disagreement',
 };
 
 export const content = {
@@ -28,15 +33,21 @@ export const getIssueTitle = (data = {}, { plainText } = {}) => {
   const prefix = 'Disagreement with ';
   const joiner = ' decision on ';
   const name = getIssueName(data);
-  const date = moment(getIssueDate(data) || undefined, FORMAT_YMD);
-  const formattedDate = date.isValid() ? date.format(FORMAT_READABLE) : '';
+  const formattedDate = parseDate(
+    getIssueDate(data),
+    FORMAT_READABLE_DATE_FNS,
+    FORMAT_YMD_DATE_FNS,
+  );
 
   return plainText === true ? (
     [prefix, name, joiner, formattedDate].join('')
   ) : (
     <>
       {prefix}
-      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <span
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {name}
       </span>
       {joiner}

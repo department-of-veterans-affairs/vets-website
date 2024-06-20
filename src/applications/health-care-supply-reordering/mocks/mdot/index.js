@@ -10,16 +10,16 @@ const suppliesResponse = {
       street2: 'APT 2',
       city: 'KANSAS CITY',
       state: 'MO',
-      country: 'United States',
+      country: 'UNITED STATES',
       postalCode: '64117',
     },
     temporaryAddress: {
-      street: '17250 W COLFAX AVE',
-      street2: 'A-204',
-      city: 'GOLDEN',
-      state: 'CO',
-      country: 'United States',
-      postalCode: '80401',
+      street: 'PSC 1234 BOX 12345',
+      street2: ', ',
+      city: 'APO',
+      state: 'AE',
+      country: 'ARMED FORCES AF,EU,ME,CA',
+      postalCode: '09324',
     },
     ssnLastFour: '1200',
     gender: 'M',
@@ -75,4 +75,42 @@ const suppliesResponse = {
   },
 };
 
-module.exports = { suppliesResponse };
+// Source: https://github.com/department-of-veterans-affairs/vets-api/blob/f6a4f2fb76739e63a8cbaaa87d5de12db9096bba/config/locales/exceptions.en.yml#L2327
+// This manifests as a 404 on the FE.
+const veteranNotFoundResponse = {
+  status: 404,
+  data: {
+    errors: [
+      {
+        title: 'Veteran Not Found',
+        detail: 'The veteran could not be found',
+        code: 'MDOT_invalid',
+        source: 'MDOT::Client',
+        status: '401',
+      },
+    ],
+  },
+};
+
+// Source: https://github.com/department-of-veterans-affairs/vets-api/blob/f6a4f2fb76739e63a8cbaaa87d5de12db9096bba/config/locales/exceptions.en.yml#L2290
+// Seems like this should be status: 500, but just going with what's in the vets-api code.
+const internalServerError = {
+  status: 500,
+  data: {
+    errors: [
+      {
+        title: 'Internal Server Error',
+        detail: 'The upstream server returned an error code that is unmapped',
+        code: 'unmapped_service_exception',
+        source: 'MDOT::Client',
+        status: '400',
+      },
+    ],
+  },
+};
+
+module.exports = {
+  suppliesResponse,
+  veteranNotFoundResponse,
+  internalServerError,
+};

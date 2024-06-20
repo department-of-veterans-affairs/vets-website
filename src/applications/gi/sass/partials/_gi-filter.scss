@@ -20,7 +20,7 @@
     }
   }
 
-  .vads-l-grid-container{
+  .vads-l-grid-container {
     padding-right: 0%;
     padding-left: 0%;
   }
@@ -33,11 +33,11 @@
     }
   }
 
-  .apply-filter-button{
+  .apply-filter-button {
     margin-left: 0% !important;
   }
 
-  .clear-filters-button{
+  .clear-filters-button {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     margin-top: 1em;
@@ -46,21 +46,33 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: $color-blue;
+    color: var(--vads-color-primary);
     background-color: transparent;
     cursor: pointer;
     display: inline-block;
     font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
       "Arial", sans-serif;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1;
-    padding: 1rem 2rem;
+    padding: 0.625rem 1.25rem;
     text-align: center;
     text-decoration: underline;
   }
 
-  .mobile-clear-filter-button{
+  .mobile-clear-filter-button {
     margin-left: 0% !important;
   }
+  .my-filters-margin {
+    margin-top: -1.875rem;
+  }
+}
+.about-school-label {
+  margin-top: 0px;
+}
+.about-school-checkbox {
+  margin-top: -15px;
+}
+.other-checkbox {
+  margin-top: -15px;
 }

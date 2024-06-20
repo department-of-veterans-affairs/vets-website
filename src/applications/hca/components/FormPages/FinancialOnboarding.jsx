@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import EnhancedEligibilityDescription from '../FormDescriptions/EnhancedEligibilityDescription';
+import { LAST_YEAR } from '../../utils/constants';
 
 const HouseholdFinancialOnboarding = props => {
   const {
@@ -9,15 +11,13 @@ const HouseholdFinancialOnboarding = props => {
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
-  const date = new Date();
-  const lastYear = date.getFullYear() - 1;
 
   return (
     <>
       <p>
         Next we’ll ask about your household financial information from{' '}
-        {lastYear}. We’ll ask about income and expenses for you, your spouse (if
-        you’re married), and any dependents you may have.
+        {LAST_YEAR}. We’ll ask about income and expenses for you, your spouse
+        (if you’re married), and any dependents you may have.
       </p>
 
       <h3 data-testid="hca-custom-page-title">
@@ -61,36 +61,7 @@ const HouseholdFinancialOnboarding = props => {
         with the Internal Revenue Service (IRS).
       </p>
 
-      <va-additional-info trigger="Learn more about enhanced eligibility status for VA health care">
-        <div>
-          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-            You may qualify for enhanced eligibility status if you receive any
-            of these benefits:
-          </p>
-          <ul>
-            <li>VA pension</li>
-            <li>A service-connected disability compensation</li>
-            <li>Medicaid benefits</li>
-          </ul>
-          <p className="vads-u-font-weight--bold">
-            You may also qualify for enhanced eligibility status if you fit one
-            of these descriptions:
-          </p>
-          <ul className="vads-u-margin-bottom--0">
-            <li>You’re a former Prisoner of War (POW)</li>
-            <li>You received a Purple Heart</li>
-            <li>You received a Medal of Honor</li>
-            <li>
-              You served in Southwest Asia during the Gulf War between August 2,
-              1990, and November 11, 1998
-            </li>
-            <li>
-              You served at least 30 days at Camp Lejeune between August 1,
-              1953, and December 31, 1987.
-            </li>
-          </ul>
-        </div>
-      </va-additional-info>
+      <EnhancedEligibilityDescription />
 
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />

@@ -30,7 +30,7 @@ const BuildPage = ({ title, goToPath }) => {
     <form className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <h1 ref={headerRef}>{title}</h1>
       <p>This page has not been implemented</p>
-      <va-button onClick={handlers.returnToContactInfo} text="Return" />
+      <va-button onClick={handlers.returnToContactInfo} text="Return" uswds />
     </form>
   );
 };

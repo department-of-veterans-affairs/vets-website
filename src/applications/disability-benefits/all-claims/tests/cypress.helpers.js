@@ -1,6 +1,4 @@
-import moment from 'moment';
-
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { add, format, formatISO } from 'date-fns';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -18,13 +16,17 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
+import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
-const todayPlus120 = moment()
-  .add(120, 'days')
-  .format('YYYY-M-D')
-  .split('-');
+const todayPlus120 = format(add(new Date(), { days: 120 }), 'yyyy-M-d').split(
+  '-',
+);
 
-export const mockItf = {
+export const mockItf = (
+  offset = { days: 1 },
+  status = 'active',
+  type = 'compensation',
+) => ({
   data: {
     id: '',
     type: 'evss_intent_to_file_intent_to_files_responses',
@@ -33,13 +35,11 @@ export const mockItf = {
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: moment()
-            .add(1, 'd')
-            .format(),
+          expirationDate: formatISO(add(new Date(), offset)),
           participantId: 1,
           source: 'EBN',
-          status: 'active',
-          type: 'compensation',
+          status,
+          type,
         },
         {
           id: '1',
@@ -80,14 +80,64 @@ export const mockItf = {
       ],
     },
   },
-};
+});
 
-export const setup = cy => {
+export const errorItf = () => ({
+  errors: [
+    {
+      title: 'Bad Request',
+      detail: 'Received a bad request response from the upstream server',
+      code: 'EVSS400',
+      source: 'EVSS::DisabilityCompensationForm::Service',
+      status: '400',
+      meta: {},
+    },
+  ],
+});
+
+export const postItf = () => ({
+  data: {
+    attributes: {
+      intentToFile: {
+        id: '1',
+        creationDate: '2018-01-21T19:53:45.810+00:00',
+        expirationDate: formatISO(add(new Date(), { years: 1 })),
+        participantId: 1,
+        source: 'EBN',
+        status: 'active',
+        type: 'compensation',
+      },
+    },
+    id: {},
+    type: 'evss_intent_to_file_intent_to_files_responses',
+  },
+});
+
+/**
+ * Get the toggle value within a given list of toggles and for a given a name
+ * @param {object} toggles - feature toggles object, based on api response
+ * @param {string} name - unique name for the toggle
+ * @returns {boolean} true if the toggle is enabled, false otherwise
+ */
+function getToggleValue(toggles, name) {
+  return toggles.data.features.find(item => item.name === name)?.value;
+}
+
+/**
+ * Setup for the e2e test, including any cleanup and mocking api responses
+ * @param {object} cy
+ * @param {object} testOptions - object with optional prefill data or toggles
+ */
+export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
-  window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+  window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
-  cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  cy.intercept(
+    'GET',
+    '/v0/feature_toggles*',
+    testOptions?.toggles || mockFeatureToggles,
+  );
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -131,20 +181,63 @@ export const setup = cy => {
       ({ 'view:selected': _, ...obj }) => obj,
     );
 
+    const formData = {
+      ...mockPrefill.formData,
+      disabilities: sanitizedRatedDisabilities,
+      servicePeriods: data.serviceInformation.servicePeriods,
+      reservesNationalGuardService:
+        data.serviceInformation.reservesNationalGuardService,
+    };
+
+    if (testOptions?.prefillData?.includeToxicExposure === true) {
+      formData.includeToxicExposure = true;
+    }
+
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-      formData: {
-        ...mockPrefill.formData,
-        disabilities: sanitizedRatedDisabilities,
-        servicePeriods: data.serviceInformation.servicePeriods,
-        reservesNationalGuardService:
-          data.serviceInformation.reservesNationalGuardService,
-      },
+      formData,
       metadata: mockPrefill.metadata,
     });
   });
 };
 
-export const pageHooks = cy => ({
+/**
+ * Build a list of unreleased pages using the given toggles
+ *
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
+ * @returns {string[]} - list of paths for unreleased pages
+ */
+function getUnreleasedPages(testOptions) {
+  // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
+  if (testOptions?.prefillData?.includeToxicExposure !== true) {
+    return Object.keys(toxicExposurePages).map(page => {
+      return toxicExposurePages[page].path;
+    });
+  }
+
+  return [];
+}
+
+/**
+ * For each unreleased page, create the page hook to throw an error if the page loads
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
+ * @returns {object} object with page hook for each unreleased page
+ */
+function makeUnreleasedPageHooks(testOptions) {
+  const pages = getUnreleasedPages(testOptions);
+
+  return Object.assign(
+    {},
+    ...pages.map(path => {
+      return {
+        [path]: () => {
+          throw new Error(`Unexpectedly showing unreleased page [${path}]`);
+        },
+      };
+    }),
+  );
+}
+
+export const pageHooks = (cy, testOptions = {}) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -181,19 +274,6 @@ export const pageHooks = cy => ({
       .click();
   },
 
-  'review-veteran-details/military-service-history': () => {
-    cy.get('@testData').then(data => {
-      cy.fillPage();
-      if (data['view:isBddData']) {
-        cy.get('select[name$="_dateRange_toMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="_dateRange_toYear"]')
-          .clear()
-          .type(todayPlus120[0]);
-      }
-    });
-  },
-
   'review-veteran-details/military-service-history/federal-orders': () => {
     cy.get('@testData').then(data => {
       cy.fillPage();
@@ -220,6 +300,38 @@ export const pageHooks = cy => ({
     });
   },
 
+  'new-disabilities-revised/add': () => {
+    cy.get('@testData').then(data => {
+      data.newDisabilities.forEach((disability, index) => {
+        if (
+          getToggleValue(
+            testOptions.toggles,
+            'disability_526_improved_autosuggestions_add_disabilities_page',
+          ) !== true
+        ) {
+          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
+        }
+
+        // if not first index
+        // click the add another condition button
+        if (index > 0) {
+          cy.findByText(/add another condition/i).click();
+        }
+
+        // click on input and enter data
+        // enterData() condition name into input
+        cy.get('#root_newDisabilities_0_condition')
+          .shadow()
+          .find('#inputField')
+          .type(disability.condition, { force: true });
+        // select the first option from the autosuggestions list
+        cy.get('.cc-combobox__option.cc-combobox__option--free').click();
+        // click save
+        cy.findByText(/save/i, { selector: 'button' }).click();
+      });
+    });
+  },
+
   'disabilities/rated-disabilities': () => {
     cy.get('@testData').then(data => {
       data.ratedDisabilities.forEach((disability, index) => {
@@ -243,4 +355,5 @@ export const pageHooks = cy => ({
       }
     });
   },
+  ...makeUnreleasedPageHooks(testOptions),
 });

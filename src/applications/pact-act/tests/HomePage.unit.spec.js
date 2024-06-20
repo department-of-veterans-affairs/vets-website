@@ -5,13 +5,13 @@ import { expect } from 'chai';
 
 import HomePage from '../containers/HomePage';
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => {},
   subscribe: () => {},
   dispatch: () => {},
 };
 
-const propsStandard = {
+const props = {
   setIntroPageViewed: () => {},
   router: {
     push: () => {},
@@ -19,10 +19,10 @@ const propsStandard = {
 };
 
 describe('Home Page', () => {
-  it('should correctly load the home page in the standard flow', () => {
+  it('should correctly load the home page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <HomePage {...propsStandard} />
+      <Provider store={mockStore}>
+        <HomePage {...props} />
       </Provider>,
     );
 

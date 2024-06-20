@@ -2,7 +2,6 @@ import React from 'react';
 
 export const YellowRibbonModalContent = () => (
   <div>
-    <h3>Yellow Ribbon Program</h3>
     <p>
       The Yellow Ribbon Program can help you pay for out-of-state, private
       school, or graduate school tuition that the Post-9/11 GI Bill doesn’t

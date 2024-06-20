@@ -29,6 +29,7 @@ export const MiniSummaryCard = ({
       data-testid="mini-summary-card"
       aria-label={ariaLabel}
       class="vads-u-margin-y--3"
+      uswds
     >
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <h4 className="vads-u-margin-y--0">{heading}</h4>

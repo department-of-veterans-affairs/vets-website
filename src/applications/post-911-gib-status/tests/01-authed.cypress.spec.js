@@ -5,7 +5,7 @@ import backendStatus from './fixtures/mocks/backendStatus.json';
 describe('Gibs Test', () => {
   it('Fills the form', () => {
     cy.login();
-    cy.intercept('GET', '/v0/post911_gi_bill_status', enrollmentData).as(
+    cy.intercept('GET', '/v1/post911_gi_bill_status', enrollmentData).as(
       'enrollmentData',
     );
     cy.intercept('GET', '/v0/backend_statuses/gibs', backendStatus).as(
@@ -20,7 +20,7 @@ describe('Gibs Test', () => {
     cy.visit('/education/gi-bill/post-9-11/ch-33-benefit');
     cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
-    cy.get('.usa-button-primary.va-button-primary', {
+    cy.get('a[href="/education/gi-bill/post-9-11/ch-33-benefit/status"]', {
       timeout: Timeouts.slow,
     }).click();
 

@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 
 import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
-import TOGGLE_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { PersonalizationDropdown } from 'platform/site-wide/user-nav/components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
@@ -23,9 +22,7 @@ describe('<PersonalizationDropdown>', () => {
     const middleware = [];
     const mockStore = configureStore(middleware);
     const initState = {
-      featureToggles: {
-        [TOGGLE_NAMES.showAuthenticatedMenuEnhancements]: true,
-      },
+      featureToggles: {},
       user: {},
     };
     store = mockStore(initState);
@@ -77,7 +74,7 @@ describe('<PersonalizationDropdown>', () => {
     wrapper.unmount();
   });
 
-  it('should render menu enhancements if feature toggle is on, and fire GA event for link clicks', () => {
+  it('should report analytics when clicking Dependents', () => {
     const wrapper = mount(
       <Provider store={store}>
         <PersonalizationDropdown />
@@ -92,11 +89,21 @@ describe('<PersonalizationDropdown>', () => {
     expect(recordedDependentsEvent.event).to.equal('nav-user');
     expect(recordedDependentsEvent['nav-user-section']).to.equal('dependents');
 
+    wrapper.unmount();
+  });
+
+  it('should report analytics when clicking Letters', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown />
+      </Provider>,
+    );
+
     const lettersLink = wrapper.find({ children: 'Letters' }).at(0);
     expect(lettersLink.length).to.equal(1);
     lettersLink.simulate('click');
 
-    const recordedLettersEvent = global.window.dataLayer[1];
+    const recordedLettersEvent = global.window.dataLayer[0];
     expect(recordedLettersEvent.event).to.equal('nav-user');
     expect(recordedLettersEvent['nav-user-section']).to.equal('letters');
 

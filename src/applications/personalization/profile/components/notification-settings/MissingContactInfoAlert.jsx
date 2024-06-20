@@ -71,7 +71,7 @@ const MissingContactInfoAlert = ({
   if (content) {
     return (
       <div data-testid="missing-contact-info-alert">
-        <va-alert status="warning">
+        <va-alert status="warning" uswds>
           <h2 slot="headline">{title}</h2>
           {content}
         </va-alert>

@@ -82,13 +82,21 @@ export function getInactivePages(pages, data) {
 }
 
 export function createFormPageList(formConfig) {
-  return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
-    const chapterTitle = formConfig.chapters[chapter].title;
-    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
-      ...formConfig.chapters[chapter].pages[page],
+  if (!formConfig?.chapters) return [];
+
+  return Object.keys(formConfig.chapters).reduce((pageList, chapterKey) => {
+    const chapter = formConfig.chapters[chapterKey];
+
+    if (!chapter?.pages) return pageList;
+
+    const chapterTitle = chapter?.title ?? formConfig.title;
+    const hideOnReviewPage = chapter?.hideOnReviewPage || false;
+    const pages = Object.keys(chapter.pages).map(pageKey => ({
+      ...chapter.pages[pageKey],
       chapterTitle,
-      chapterKey: chapter,
-      pageKey: page,
+      chapterKey,
+      hideOnReviewPage,
+      pageKey,
     }));
     return pageList.concat(pages);
   }, []);
@@ -132,6 +140,23 @@ export function createPageList(formConfig, formPages) {
     .map(page =>
       set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
     );
+}
+
+export function hideFormTitle(formConfig, pathName) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const page = pageList.find(p => p.path === pathName);
+
+  if (!page || !page.chapterKey) return false;
+
+  return formConfig.chapters[page.chapterKey]?.hideFormTitle ?? false;
 }
 
 function formatDayMonth(val) {
@@ -246,46 +271,62 @@ export function filterInactivePageData(inactivePages, activePages, form) {
   );
 }
 
-export function stringifyFormReplacer(key, value) {
-  // an object with country is an address
-  if (
-    value &&
-    typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
-  ) {
-    return undefined;
-  }
+function isPartialAddress(data) {
+  return (
+    data &&
+    typeof data.country !== 'undefined' &&
+    (!data.street || !data.city || (!data.postalCode && !data.zipcode))
+  );
+}
 
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
+/**
+ * Create a replacer function for JSON.stringify
+ * A replacer function is the second argument to JSON.stringify
+ *
+ * @param {{
+ *  allowPartialAddress?: boolean,
+ * }} [options] - Options for the replacer
+ */
+export function createStringifyFormReplacer(options) {
+  const replacerFn = (key, value) => {
+    if (!options?.allowPartialAddress && isPartialAddress(value)) {
       return undefined;
     }
 
-    // autosuggest widgets save value and label info, but we should just return the value
-    if (value.widget === 'autosuggest') {
-      return value.id;
+    if (typeof value === 'object') {
+      const fields = Object.keys(value);
+      if (
+        fields.length === 0 ||
+        fields.every(field => value[field] === undefined)
+      ) {
+        return undefined;
+      }
+
+      // autosuggest widgets save value and label info, but we should just return the value
+      if (value.widget === 'autosuggest') {
+        return value.id;
+      }
+
+      // Exclude file data
+      if (value.confirmationCode && value.file) {
+        return omit('file', value);
+      }
     }
 
-    // Exclude file data
-    if (value.confirmationCode && value.file) {
-      return omit('file', value);
+    // Clean up empty objects in arrays
+    if (Array.isArray(value)) {
+      const newValues = value.filter(v => !!replacerFn(key, v));
+      // If every item in the array is cleared, remove the whole array
+      return newValues.length > 0 ? newValues : undefined;
     }
-  }
 
-  // Clean up empty objects in arrays
-  if (Array.isArray(value)) {
-    const newValues = value.filter(v => !!stringifyFormReplacer(key, v));
-    // If every item in the array is cleared, remove the whole array
-    return newValues.length > 0 ? newValues : undefined;
-  }
+    return value;
+  };
 
-  return value;
+  return replacerFn;
 }
+
+export const stringifyFormReplacer = createStringifyFormReplacer();
 
 export function isInProgress(pathName) {
   const trimmedPathname = pathName.replace(/\/$/, '');
@@ -528,7 +569,15 @@ export function createUSAStateLabels(states) {
  * for each item in an array
  */
 function generateArrayPages(arrayPages, data) {
-  const items = get(arrayPages[0].arrayPath, data) || [];
+  let items = get(arrayPages[0].arrayPath, data) || [];
+
+  if (!items.length && arrayPages[0].allowPathWithNoItems) {
+    // Add one item for the /0 path with empty data. The number
+    // of items is used to determine the number of pages to
+    // generate and the data isn't actually important
+    items = [{}];
+  }
+
   return (
     items
       .reduce(
@@ -645,8 +694,10 @@ export function getActiveChapters(formConfig, formData) {
 
   return uniq(
     expandedPageList
-      .map(p => p.chapterKey)
-      .filter(key => !!key && key !== 'review'),
+      .filter(
+        p => !p.hideOnReviewPage && p.chapterKey && p.chapterKey !== 'review',
+      )
+      .map(p => p.chapterKey),
   );
 }
 
@@ -669,14 +720,18 @@ export function omitRequired(schema) {
   return newSchema;
 }
 
-/*
- * Normal transform for schemaform data
+/**
+ * @param formConfig
+ * @param form
+ * @param [options] {{
+ *  allowPartialAddress?: boolean,
+ * } | (key, val) => any | any[] } An object of options for the transform, or a JSON.stringify replacer argument
  */
-export function transformForSubmit(
-  formConfig,
-  form,
-  replacer = stringifyFormReplacer,
-) {
+export function transformForSubmit(formConfig, form, options) {
+  const replacer =
+    typeof options === 'function' || Array.isArray(options)
+      ? options
+      : createStringifyFormReplacer(options);
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
     form.data,
@@ -740,4 +795,47 @@ export function usePreviousValue(value) {
     ref.current = value;
   });
   return ref.current;
+}
+
+/**
+ * Convert urlParams object to string such as `'?key1=value1&key2=value2'`
+ * @param {Object} urlParams - object of url params
+ */
+export function stringifyUrlParams(urlParams) {
+  let urlParamsString = '';
+
+  if (
+    urlParams &&
+    typeof urlParams === 'object' &&
+    Object.keys(urlParams).length
+  ) {
+    urlParamsString = Object.keys(urlParams)
+      .map(key => `${key}=${urlParams[key]}`)
+      .join('&');
+    urlParamsString = `?${urlParamsString}`;
+  }
+
+  return urlParamsString;
+}
+
+/**
+ * Returns the index of the url path
+ *
+ * Tip: use `window.location.pathname` to get the current url path index
+ *
+ * Example: Returns `1` if url is `'current-form/1'`
+ * Example: Returns `1` if url is `'current-form/1?edit=true'`
+ * Example: Returns `0` if URL is `'current-form/0/page-name'`
+ * @returns {number | undefined}
+ */
+export function getUrlPathIndex(url) {
+  if (!url) {
+    return undefined;
+  }
+  const urlParts = url.split('/');
+  const indexString = urlParts
+    .map(part => part.replace(/\?.*/, ''))
+    .reverse()
+    .find(part => !Number.isNaN(Number(part)));
+  return indexString ? Number(indexString) : undefined;
 }

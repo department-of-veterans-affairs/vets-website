@@ -7,6 +7,9 @@ import Introduction from '../pages/Introduction';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
     const {
       initializeFeatureToggle,
       initializeSessionGet,

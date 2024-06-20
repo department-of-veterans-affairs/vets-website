@@ -2,10 +2,12 @@ import AccountSecurity from './components/account-security/AccountSecurity';
 import ContactInformation from './components/contact-information/ContactInformation';
 import PersonalInformation from './components/personal-information/PersonalInformation';
 import MilitaryInformation from './components/military-information/MilitaryInformation';
-import DirectDeposit from './components/direct-deposit/DirectDeposit';
+import DirectDeposit from './components/direct-deposit/legacy/DirectDeposit';
+import { DirectDeposit as DirectDepositNew } from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
+import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -22,6 +24,13 @@ export const routesForNav = [
     component: ContactInformation,
     name: PROFILE_PATH_NAMES.CONTACT_INFORMATION,
     path: PROFILE_PATHS.CONTACT_INFORMATION,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: PersonalHealthCareContacts,
+    name: PROFILE_PATH_NAMES.CONTACTS,
+    path: PROFILE_PATHS.CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
   },
@@ -61,3 +70,29 @@ export const routesForNav = [
     requiresMVI: true,
   },
 ];
+
+export const getRoutesForNav = (
+  { profileContacts = false, profileShowDirectDepositSingleForm = false } = {
+    profileContacts: false,
+    profileShowDirectDepositSingleForm: false,
+  },
+) => {
+  return routesForNav.reduce((acc, route) => {
+    // don't include the contacts route if the profileContacts flag is false
+    if (!profileContacts && route.name === PROFILE_PATH_NAMES.CONTACTS) {
+      return acc;
+    }
+
+    // use the new direct deposit root route component if profileShowDirectDepositSingleForm flag is true
+    if (
+      profileShowDirectDepositSingleForm &&
+      route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT
+    ) {
+      acc.push({ ...route, component: DirectDepositNew });
+      return acc;
+    }
+
+    acc.push(route);
+    return acc;
+  }, []);
+};

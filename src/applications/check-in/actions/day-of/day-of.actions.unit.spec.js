@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import {
   receivedMultipleAppointmentDetails,
   RECEIVED_APPOINTMENT_DETAILS,
@@ -9,6 +8,8 @@ import {
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   seeStaffMessageUpdated,
+  additionalContext,
+  ADDITIONAL_CONTEXT,
 } from './index';
 
 describe('check in actions', () => {
@@ -56,6 +57,16 @@ describe('check in actions', () => {
       it('should return correct structure', () => {
         const action = seeStaffMessageUpdated('test');
         expect(action.payload.seeStaffMessage).to.equal('test');
+      });
+    });
+    describe('additionalContext', () => {
+      it('should return correct action', () => {
+        const action = additionalContext();
+        expect(action.type).to.equal(ADDITIONAL_CONTEXT);
+      });
+      it('should return correct structure', () => {
+        const action = additionalContext({ newContext: true });
+        expect(action.payload.context.newContext).to.equal(true);
       });
     });
   });

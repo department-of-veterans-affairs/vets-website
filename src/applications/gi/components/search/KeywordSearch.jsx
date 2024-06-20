@@ -4,12 +4,16 @@ import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
-import { handleScrollOnInputFocus } from '../../utils/helpers';
+import {
+  handleScrollOnInputFocus,
+  validateSearchTerm,
+} from '../../utils/helpers';
+import { setError } from '../../actions';
 
 export function KeywordSearch({
   className,
-  error,
   inputValue,
   label,
   labelAdditional,
@@ -19,12 +23,17 @@ export function KeywordSearch({
   onPressEnter,
   required,
   suggestions,
-  validateSearchTerm,
   version,
+  filters,
+  dispatchError,
+  errorReducer,
+  type,
+  inputRef,
 }) {
   const fetchSuggestion = () => {
     onFetchAutocompleteSuggestions(inputValue, version);
   };
+  const { error } = errorReducer;
 
   const debouncedFetchSuggestion = useCallback(
     debounce(fetchSuggestion, WAIT_INTERVAL),
@@ -64,6 +73,9 @@ export function KeywordSearch({
         onSelection(inputValue);
       }
     }
+    if (e.key === 'Enter' && inputRef) {
+      inputRef.current.focus();
+    }
   };
 
   const handleFocus = () => {
@@ -83,7 +95,7 @@ export function KeywordSearch({
         debouncedFetchSuggestion(value);
       }
       if (validateSearchTerm) {
-        validateSearchTerm(value);
+        validateSearchTerm(value, dispatchError, error, filters, type);
       }
     }
   };
@@ -106,8 +118,8 @@ export function KeywordSearch({
             htmlFor="institution-search"
           >
             {label}
+            <span className="form-required-span">(*Required)</span>
           </label>
-          {required && <span className="form-required-span">(*Required)</span>}
         </div>
       )}
       {error && (
@@ -142,7 +154,7 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <div className="input-container">
+            <div className="input-container input-container-width">
               <input
                 aria-controls="ctKeywordSearch"
                 className={classNames('input-box-margin', className)}
@@ -155,15 +167,16 @@ export function KeywordSearch({
                   'aria-labelledby':
                     'search-error-message institution-search-label',
                 })}
+                ref={inputRef}
               />
               {/* eslint-disable-next-line no-nested-ternary */}
               {inputValue &&
                 inputValue.length > 0 && (
-                  <button
-                    aria-label={`Clear your ${label}`}
-                    type="button"
+                  <va-icon
+                    size={3}
+                    icon="cancel"
                     id="clear-input"
-                    className="fas fa-times-circle clear-button"
+                    class="vads-u-display--flex vads-u-align-items--center"
                     onClick={handleClearInput}
                   />
                 )}
@@ -197,15 +210,25 @@ export function KeywordSearch({
     </div>
   );
 }
+const mapStateToProps = state => ({
+  errorReducer: state.errorReducer,
+});
+const mapDispatchToProps = {
+  dispatchError: setError,
+};
 
 KeywordSearch.propTypes = {
   className: PropTypes.string,
+  dispatchError: PropTypes.func,
+  errorReducer: PropTypes.object,
   error: PropTypes.string,
   inputValue: PropTypes.string,
+  inputRef: PropTypes.object,
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,
   suggestions: PropTypes.array,
+  type: PropTypes.string,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,
@@ -214,4 +237,7 @@ KeywordSearch.propTypes = {
   onUpdateAutocompleteSearchTerm: PropTypes.func,
 };
 
-export default KeywordSearch;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(KeywordSearch);

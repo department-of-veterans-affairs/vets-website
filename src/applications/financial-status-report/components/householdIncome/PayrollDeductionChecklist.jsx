@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { payrollDeductionOptions } from '../../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { payrollDeductionOptions } from '../../constants/checkboxSelections';
 import { getJobIndex } from '../../utils/session';
 import Checklist from '../shared/CheckList';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 
 const PayrollDeductionChecklist = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -22,9 +22,9 @@ const PayrollDeductionChecklist = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -40,9 +40,7 @@ const PayrollDeductionChecklist = props => {
     return selectedDeductions.some(incomeValue => incomeValue.name === option);
   };
 
-  const onChange = ({ target }) => {
-    const { name, checked } = target;
-
+  const onChange = ({ name, checked }) => {
     if (checked) {
       setSelectedDeductions([...selectedDeductions, { name, amount: '' }]);
     } else {
@@ -122,7 +120,6 @@ const PayrollDeductionChecklist = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   const title = `Your job at ${employerName}`;
   const prompt = 'Which of these payroll deductions do you pay for?';
@@ -136,13 +133,13 @@ const PayrollDeductionChecklist = props => {
         onChange={event => onChange(event)}
         isBoxChecked={isBoxChecked}
       />
-      <va-additional-info trigger="How to find your monthly deductions" uswds>
+      <va-additional-info trigger="How to find your monthly deductions">
         <p className="vads-u-padding-bottom--1">
           On your most recent pay stub, find <strong>Deductions</strong>. Select
           the deductions that apply to you.
         </p>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

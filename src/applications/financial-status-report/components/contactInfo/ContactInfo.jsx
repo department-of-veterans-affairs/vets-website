@@ -17,13 +17,6 @@ import {
 import { content } from '../../pages/veteran/contactInformationContent';
 import { REVIEW_CONTACT } from '../../constants';
 
-// Used by form config to not focus on the H3 the contact info was edited
-export const customContactFocus = () => {
-  if (!getReturnState()) {
-    focusElement('#main h3');
-  }
-};
-
 const ContactInfo = ({
   data,
   goBack,
@@ -66,6 +59,7 @@ const ContactInfo = ({
       if (missingInfo.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         goForward(data);
       }
     },
@@ -92,6 +86,9 @@ const ContactInfo = ({
           scrollTo('topScrollElement');
           focusElement(target);
         });
+      } else {
+        scrollTo('h3');
+        focusElement('topScrollElement');
       }
     },
     [editState],

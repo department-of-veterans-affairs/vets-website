@@ -1,49 +1,32 @@
-import environment from 'platform/utilities/environment';
-import fileUiSchema from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-
-import {
-  SUPPORTED_UPLOAD_TYPES,
-  MAX_FILE_SIZE_BYTES,
-} from '../../shared/constants';
-
+import environment from '~/platform/utilities/environment';
+import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
 import {
   EvidenceUploadLabel,
   EvidenceUploadDescription,
 } from '../content/EvidenceUpload';
 
-import { createPayload } from '../../shared/utils/upload';
-
-const focusFileCard = name => {
-  const target = $$('.schemaform-file-list li').find(entry =>
-    entry.textContent?.trim().includes(name),
-  );
-  if (target) {
-    focusElement(target);
-  }
-};
+import {
+  SUPPORTED_UPLOAD_TYPES,
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
+} from '../../shared/constants';
+import FileField from '../../shared/components/FileField';
+import { createPayload, parseResponse } from '../../shared/utils/upload';
 
 export const evidenceUploadUI = {
   ...fileUiSchema(EvidenceUploadLabel, {
     fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
-    addAnotherLabel: 'Add another document',
-    buttonText: 'Upload',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
+    maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
     minSize: 1024,
     createPayload,
-    parseResponse: (response, { name }) => {
-      setTimeout(() => {
-        focusFileCard(name);
-      });
-      return {
-        name,
-        confirmationCode: response.data.attributes.guid,
-      };
-    },
-    classNames: '',
+    parseResponse,
+    showFieldLabel: true,
+    keepInPageOnReview: true,
     attachmentName: false,
+    classNames: '',
   }),
+  'ui:field': FileField,
   'ui:description': EvidenceUploadDescription,
 };

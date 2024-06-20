@@ -1,6 +1,13 @@
 import _ from 'platform/utilities/data';
 import { isValidPhone, isValidEmail } from 'platform/forms/validations';
-import { MILITARY_CITY_CODES, MILITARY_STATE_CODES } from '../constants';
+import {
+  MILITARY_CITY_CODES,
+  MILITARY_STATE_CODES,
+  VALIDATION_LIMITS,
+  DEBT_TYPES,
+} from '../constants';
+import { deductionCodes } from '../constants/deduction-codes';
+import { currency } from './helpers';
 
 export const pathWithIndex = (path, index) => path.replace(':index', index);
 
@@ -102,7 +109,17 @@ export const validateResolutionOption = (errors, fieldData) => {
       fieldData.resolutionOption !== 'compromise' &&
       fieldData.resolutionOption !== 'monthly')
   ) {
-    errors.addError('Please select a resolution option');
+    errors.addError(
+      `Please select a resolution option for the selected ${
+        fieldData.debtType === DEBT_TYPES.DEBT
+          ? `${currency(fieldData.currentAr)} debt for ${
+              deductionCodes[fieldData.deductionCode]
+            }` || fieldData.benefitType
+          : `${currency(fieldData.pHAmtDue)} copay debt  ${
+              fieldData.station ? `for ${fieldData.station.facilityName}` : ''
+            }`
+      }`,
+    );
   }
 };
 
@@ -113,8 +130,11 @@ export const validateResolutionAmount = (errors, fieldData) => {
   // not required for waiver
   if (resolutionOption === 'waiver') return;
 
-  if (!resolutionComment) {
-    errors.addError('Please enter a valid dollar amount.');
+  if (!resolutionComment || !isValidCurrency(resolutionComment)) {
+    errors.addError(
+      'Please enter a valid dollar amount for the resolution amount',
+    );
+    return;
   }
 
   // Checking compromise/monthly resolution amount against remaining debt amount
@@ -159,4 +179,156 @@ export const validateIsNumber = (errors, value) => {
   if (!pattern.test(value)) {
     errors.addError('Please enter a valid number.');
   }
+};
+
+export const validateMonetaryAssetCurrencyArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.MONETARY_ASSET_MAX ||
+        income.amount < VALIDATION_LIMITS.MONETARY_ASSET_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateAdditionalIncomeArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.ADDITIONAL_INCOME_MAX ||
+        income.amount < VALIDATION_LIMITS.ADDITIONAL_INCOME_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateSpouseAdditionalIncomeArrayLimits = (
+  errors,
+  fieldData,
+) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.SPOUSE_ADDITIONAL_INCOME_MAX ||
+        income.amount < VALIDATION_LIMITS.SPOUSE_ADDITIONAL_INCOME_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateOtherAssetsArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.OTHER_ASSETS_MAX ||
+        income.amount < VALIDATION_LIMITS.OTHER_ASSETS_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateHouseholdExpensesArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.HOUSEHOLD_EXPENSES_MAX ||
+        income.amount < VALIDATION_LIMITS.HOUSEHOLD_EXPENSES_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateUtilityBillsArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.UTILITY_BILL_MAX ||
+        income.amount < VALIDATION_LIMITS.UTILITY_BILL_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateOtherExpensesArrayLimits = (errors, fieldData) => {
+  if (fieldData) {
+    fieldData.map(income => {
+      if (
+        income.amount > VALIDATION_LIMITS.OTHER_EXPENSE_MAX ||
+        income.amount < VALIDATION_LIMITS.OTHER_EXPENSE_MIN
+      ) {
+        return errors.addError(income.name);
+      }
+
+      return null;
+    });
+  }
+};
+
+export const validateSpouseBenefitsVaCompensationimits = (errors, amount) => {
+  if (
+    amount &&
+    (amount > VALIDATION_LIMITS.SPOUSE_BENEFIT_MAX ||
+      amount < VALIDATION_LIMITS.SPOUSE_BENEFIT_MIN)
+  ) {
+    return errors.addError('Please enter a value up to $12,000');
+  }
+  return null;
+};
+
+export const validateSpouseBenefitsVaEducationLimits = (errors, amount) => {
+  if (
+    amount &&
+    (amount > VALIDATION_LIMITS.SPOUSE_BENEFIT_MAX ||
+      amount < VALIDATION_LIMITS.SPOUSE_BENEFIT_MIN)
+  ) {
+    return errors.addError('Please enter a value up to $12,000');
+  }
+  return null;
+};
+
+export const validateRealEstateRecordAssetsLimits = (errors, amount) => {
+  if (
+    amount &&
+    (amount > VALIDATION_LIMITS.REAL_ESTATE_ASSETS_MAX ||
+      amount < VALIDATION_LIMITS.REAL_ESTATE_ASSETS_MIN)
+  ) {
+    return errors.addError('Please enter a value up to $100,000,000');
+  }
+  return null;
+};
+
+export const validateRecreationalVechicleAssetsLimits = (errors, amount) => {
+  if (
+    amount &&
+    (amount > VALIDATION_LIMITS.RECREATIONAL_VEHICLE_ASSETS_MAX ||
+      amount < VALIDATION_LIMITS.RECREATIONAL_VEHICLE_ASSETS_MIN)
+  ) {
+    return errors.addError('Please enter a value up to $1,000,000');
+  }
+  return null;
 };

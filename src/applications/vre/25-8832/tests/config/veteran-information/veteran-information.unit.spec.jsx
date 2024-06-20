@@ -13,6 +13,7 @@ describe('Chapter 36 Veteran Information', () => {
   const {
     schema,
     uiSchema,
+    depends,
   } = formConfig.chapters.veteranInformation.pages.veteranInformation;
 
   const formData = {
@@ -28,6 +29,19 @@ describe('Chapter 36 Veteran Information', () => {
       />,
     );
     expect(form.find('input').length).to.equal(4);
+    form.unmount();
+  });
+
+  it('should return true if dependent', () => {
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+      />,
+    );
+    expect(depends(formData)).to.be.true;
     form.unmount();
   });
 

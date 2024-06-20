@@ -4,6 +4,7 @@ import React from 'react';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import environment from 'platform/utilities/environment';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
@@ -11,13 +12,17 @@ import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
-import { convertRatingToStars } from '../../utils/helpers';
+import {
+  convertRatingToStars,
+  showSchoolContentBasedOnType,
+} from '../../utils/helpers';
 import SchoolRatings from './schoolRatings/SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import GettingStartedWithBenefits from './GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
+import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 
 export default function InstitutionProfile({
   institution,
@@ -35,6 +40,8 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
+
+  const { type } = institution;
 
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
@@ -89,16 +96,32 @@ export default function InstitutionProfile({
       >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
+          {type === 'FLIGHT' && (
+            <p>
+              For information about VA flight benefits, visit{' '}
+              <VaLink
+                text="here."
+                href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/"
+              />
+              <span className="vads-u-display--inline-block">
+                Please contact a School Certifying Official listed under the
+                Contact information at the bottom of this page to discuss
+                benefits available.
+              </span>
+            </p>
+          )}
         </div>
 
         <div className="usa-width-one-fourth">
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          <JumpLink
-            label="Calculate your benefits"
-            jumpToId="calculate-your-benefits"
-          />
+          {showSchoolContentBasedOnType(type) && (
+            <JumpLink
+              label="Calculate your benefits"
+              jumpToId="calculate-your-benefits"
+            />
+          )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
@@ -127,16 +150,17 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-
-      <ProfileSection
-        label="Calculate your benefits"
-        id="calculate-your-benefits"
-      >
-        <CalculateYourBenefits
-          gibctEybBottomSheet={gibctEybBottomSheet}
-          isOJT={isOJT}
-        />
-      </ProfileSection>
+      {showSchoolContentBasedOnType(type) && (
+        <ProfileSection
+          label="Calculate your benefits"
+          id="calculate-your-benefits"
+        >
+          <CalculateYourBenefits
+            gibctEybBottomSheet={gibctEybBottomSheet}
+            isOJT={isOJT}
+          />
+        </ProfileSection>
+      )}
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
@@ -162,6 +186,7 @@ export default function InstitutionProfile({
         label="Cautionary information"
         id="cautionary-information"
       >
+        <CautionaryInformationLearMore />
         <CautionaryInformation
           institution={institution}
           showModal={showModal}

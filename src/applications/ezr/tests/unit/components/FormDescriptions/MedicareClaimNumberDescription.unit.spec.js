@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import MedicareClaimNumberDescription from '../../../../components/FormDescriptions/MedicareClaimNumberDescription';
 
 describe('ezr <MedicareClaimNumberDescription>', () => {
-  describe('when the component renders', () => {
+  context('when the component renders', () => {
     it('should render with content', () => {
       const { container } = render(MedicareClaimNumberDescription);
       expect(container).to.not.be.empty;

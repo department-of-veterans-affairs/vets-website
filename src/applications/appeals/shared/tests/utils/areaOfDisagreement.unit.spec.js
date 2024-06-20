@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   copyAreaOfDisagreementOptions,
   calculateOtherMaxLength,
+  disagreeWith,
 } from '../../utils/areaOfDisagreement';
 
 import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../../constants';
@@ -99,5 +100,69 @@ describe('calculateOtherMaxLength', () => {
     const data = [true, true, true];
     const length = calcLength(data);
     expect(calculateOtherMaxLength(getData(data))).to.eq(length);
+  });
+});
+
+describe('disagreeWith', () => {
+  const getData = (
+    serviceConnection,
+    effectiveDate,
+    evaluation,
+    otherEntry,
+  ) => ({
+    disagreementOptions: {
+      serviceConnection,
+      effectiveDate,
+      evaluation,
+    },
+    otherEntry,
+  });
+  it('should return an empty list', () => {
+    expect(disagreeWith()).to.eq('Disagree with ');
+    expect(disagreeWith({})).to.eq('Disagree with ');
+    expect(disagreeWith(getData())).to.eq('Disagree with ');
+  });
+  it('should return a list of selected disagreements', () => {
+    expect(disagreeWith(getData(true))).to.eq(
+      'Disagree with the service connection',
+    );
+    expect(disagreeWith(getData(false, true))).to.eq(
+      'Disagree with the effective date of award',
+    );
+    expect(disagreeWith(getData(false, false, true))).to.eq(
+      'Disagree with your evaluation of my condition',
+    );
+    expect(disagreeWith(getData(true, true))).to.eq(
+      'Disagree with the service connection and the effective date of award',
+    );
+    expect(disagreeWith(getData(true, true, true))).to.eq(
+      'Disagree with the service connection, the effective date of award, and your evaluation of my condition',
+    );
+    expect(disagreeWith(getData(true, false, true))).to.eq(
+      'Disagree with the service connection and your evaluation of my condition',
+    );
+    expect(disagreeWith(getData(false, true, true))).to.eq(
+      'Disagree with the effective date of award and your evaluation of my condition',
+    );
+  });
+  it('should return a list of selected disagreements & other text', () => {
+    expect(disagreeWith(getData(false, false, false, 'test 1'))).to.eq(
+      'Disagree with test 1',
+    );
+    expect(disagreeWith(getData(true, false, false, 'test 2'))).to.eq(
+      'Disagree with the service connection and test 2',
+    );
+    expect(disagreeWith(getData(false, true, false, 'test 3'))).to.eq(
+      'Disagree with the effective date of award and test 3',
+    );
+    expect(disagreeWith(getData(false, false, true, 'test 4'))).to.eq(
+      'Disagree with your evaluation of my condition and test 4',
+    );
+    expect(disagreeWith(getData(true, true, false, 'test 5'))).to.eq(
+      'Disagree with the service connection, the effective date of award, and test 5',
+    );
+    expect(disagreeWith(getData(true, true, true, 'test 6'))).to.eq(
+      'Disagree with the service connection, the effective date of award, your evaluation of my condition, and test 6',
+    );
   });
 });

@@ -1,5 +1,4 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-import { isInPilot } from '../pilotFeatures';
 
 const isWithInDays = (days, pageLastUpdated) => {
   const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
@@ -11,9 +10,7 @@ const updateFormPages = (
   pages,
   URLS,
   isTravelReimbursementEnabled = false,
-  appointments = [],
-  isTravelLogicEnabled = false,
-  travelPaySent = {},
+  travelPaySent = '',
 ) => {
   const skippedPages = [];
   const {
@@ -60,26 +57,13 @@ const updateFormPages = (
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
     URLS.TRAVEL_MILEAGE,
+    URLS.TRAVEL_REVIEW,
   ];
 
-  // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
-  // The allowlist currently only looks at the first appointment in the array, if we support multiple appointments later, this will need to get updated to a loop.
-  let skipLogic = appointments.length > 1;
-
-  if (isTravelLogicEnabled) {
-    const { stationNo } = appointments[0];
-    skipLogic =
-      stationNo in travelPaySent &&
-      !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
-  }
-  if (
-    !isTravelReimbursementEnabled ||
-    skipLogic ||
-    !isInPilot({
-      appointment: appointments[0],
-      pilotFeature: 'fileTravelClaim',
-    })
-  ) {
+  const skipLogic =
+    travelPaySent &&
+    !differenceInCalendarDays(Date.now(), parseISO(travelPaySent));
+  if (!isTravelReimbursementEnabled || skipLogic) {
     skippedPages.push(...travelPayPages);
   }
   return pages.filter(page => !skippedPages.includes(page));
@@ -99,11 +83,15 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_AGREEMENT: 'travel-agreement',
+  TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
+  TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  ARRIVED: 'arrived',
 });
 
 export { updateFormPages, URLS };

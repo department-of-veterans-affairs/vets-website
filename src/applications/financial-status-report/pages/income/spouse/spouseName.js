@@ -1,4 +1,5 @@
 import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 export const uiSchema = {
   'ui:title': () => (
@@ -12,18 +13,20 @@ export const uiSchema = {
     spouseFullName: {
       first: {
         'ui:title': 'What’s your spouse’s first name?',
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
         'ui:required': () => true,
         'ui:errorMessages': {
           required: "Please enter your spouse's first name.",
         },
+        'ui:webComponentField': VaTextInputField,
+        'ui:options': {
+          width: 'xl',
+        },
       },
       last: {
         'ui:title': 'What’s your spouse’s last name?',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
-          widgetClassNames: 'input-size-3',
+          width: 'xl',
         },
       },
     },

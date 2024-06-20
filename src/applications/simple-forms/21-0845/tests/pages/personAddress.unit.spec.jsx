@@ -6,16 +6,16 @@ import { cloneDeep } from 'lodash';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import authTypeVet from '../e2e/fixtures/data/authTypeVet.json';
 
 const data = cloneDeep(authTypeVet.data);
 data.thirdPartyType = 'person';
+const { defaultDefinitions } = formConfig;
 const {
-  defaultDefinitions,
   schema,
   uiSchema,
 } = formConfig.chapters.disclosureInfoChapter.pages.personAddressPage;
@@ -23,7 +23,7 @@ const {
 const pageTitle = 'Person’s address';
 
 const expectedNumberOfFields = 6;
-testNumberOfFields(
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -32,7 +32,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 4;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
@@ -46,15 +46,16 @@ describe(`${pageTitle} - custom-street2-label`, () => {
       <DefinitionTester
         definitions={defaultDefinitions}
         schema={schema}
-        data={data}
-        formData={data}
+        data={authTypeVet.data}
+        formData={authTypeVet.data}
         uiSchema={uiSchema}
       />,
     );
-
-    expect(screen.queryAllByText('Street address line 2')).to.have.lengthOf(0);
-    expect(screen.queryAllByText('Apartment or unit number')).to.have.lengthOf(
-      1,
+    const street2Input = screen.container.querySelector(
+      'va-text-input[name="root_personAddress_street2"]',
     );
+    const street2InputLabel = street2Input.getAttribute('label');
+
+    expect(street2InputLabel).to.equal('Apartment or unit number');
   });
 });

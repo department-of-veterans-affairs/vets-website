@@ -32,6 +32,7 @@ describe('onFormLoaded', () => {
     showPart3 = true,
     redirect = 'not-needed',
     returnUrl,
+    startOver = false,
     pushSpy = () => {},
   }) => ({
     formData: {
@@ -39,6 +40,7 @@ describe('onFormLoaded', () => {
       [SHOW_PART3_REDIRECT]: redirect,
     },
     returnUrl,
+    isStartingOver: startOver,
     routes: [
       {
         pageList: [
@@ -104,6 +106,17 @@ describe('onFormLoaded', () => {
     it('should redirect to vet info page when return URL is invalid & showPart3 is true', () => {
       const pushSpy = sinon.spy();
       const props = getProps({ pushSpy, returnUrl: '/blah' });
+      onFormLoaded(props);
+      expect(pushSpy.args[0][0]).to.eq(pagesBeforePart3[0]);
+    });
+    it('should not redirect if showPart3 is true & starting over', () => {
+      const pushSpy = sinon.spy();
+      const props = getProps({
+        pushSpy,
+        redirect: 'redirected',
+        returnUrl: pagesBeforePart3[0],
+        startOver: true,
+      });
       onFormLoaded(props);
       expect(pushSpy.args[0][0]).to.eq(pagesBeforePart3[0]);
     });

@@ -22,7 +22,7 @@
 }
 
 .autosuggest-list {
-  max-height: 17rem;
+  max-height: 10.625rem;
 }
 
 h3.name-of-deceased-text {
@@ -33,27 +33,61 @@ h3.name-of-deceased-text {
 
 .mail-or-fax-message,
 .mail-or-fax-steps {
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
   margin-top: 0;
 }
 
 .mail-or-fax-steps {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 0.625rem;
 }
 
 .mail-or-fax-step {
-  margin-bottom: 0.75rem;
-  padding-left: 1rem;
+  margin-bottom: 0.46875rem;
+  padding-left: 0.625rem;
 }
 
 .mail-fax-address {
-  border-left: 3px solid $color-primary;
-  padding-left: 1rem;
+  border-left: 3px solid var(--vads-color-primary);
+  padding-left: 0.625rem;
 }
 
-article#pre-need[data-location="applicant-demographics"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: 0em !important;
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+  .schemaform-field-template {
+    margin-top: 1em;
+  }
+
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -2em;
+    }
+    margin-bottom: -2em;
+    padding-bottom: 2em;
+  }
+}
+
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
+  fieldset.schemaform-field-template.usa-input-error {
+    fieldset.vads-u-margin-y--2.rjsf-object-field {
+      div {
+        margin-top: 1.875em;
+      }
+    }
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
   }
 }
 
@@ -61,6 +95,26 @@ article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
   }
+  fieldset.schemaform-field-template.schemaform-first-field {
+    margin-top: 0.8em;
+    margin-bottom: 0em;
+  }
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -3em;
+    }
+    margin-bottom: 1em;
+    padding-bottom: 2em;
+  }
+
+  fieldset > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: -0.9em;
+  }
+  fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: 0.9em;
+  }
+
 }
 
 dl.review + dl.review .review-row {
@@ -108,19 +162,44 @@ fieldset.schemaform-field-template.schemaform-first-field {
   font-weight: normal;
 }
 
-.applicantDetailsSubHeader {
+.applicantDetailsSubHeader,
+.sponsorDetailsSubHeader {
   margin-bottom: -1em;
 }
 
-.applicantDemographicsDescription {
-  padding-bottom: 1em;
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  p {
+    margin-bottom: -2em;
+  }
+  margin-bottom: 2em;
+  padding-bottom: 2em;
 }
 
 .ApplicantDescriptionWrapper {
   padding-bottom: 1em;
 }
 
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
 
 .militaryDetailsSubHeader {
   margin-bottom: -1em;
+}
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 11.25rem;
+  }
 }

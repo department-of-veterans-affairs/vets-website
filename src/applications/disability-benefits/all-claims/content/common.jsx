@@ -53,8 +53,7 @@ export const bddAlertBegin = (
     <p className="vads-u-font-size--base">
       You’ll need to upload your completed{' '}
       <a href={DBQ_URL} target="_blank" rel="noreferrer">
-        Separation Health Assessment - Part A Self-Assessment (opens in a new
-        tab)
+        Separation Health Assessment - Part A Self-Assessment (opens in new tab)
       </a>{' '}
       so we can request your VA exams. Use a desktop computer or laptop to
       download and fill out the form.

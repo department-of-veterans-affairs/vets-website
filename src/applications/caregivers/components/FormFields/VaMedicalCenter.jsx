@@ -7,7 +7,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { GeneralErrorAlert } from '../FormAlerts';
+import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
 
 const apiRequestWithUrl = `${
   environment.API_URL
@@ -86,9 +86,7 @@ const VaMedicalCenter = props => {
 
   // render the static facility name on review page
   if (reviewMode) {
-    return (
-      <span data-testid="cg-facility-reviewmode">{getFacilityName(value)}</span>
-    );
+    return <span data-testid="cg-facility-name">{getFacilityName(value)}</span>;
   }
 
   // render loading indicator while we fetch
@@ -109,11 +107,11 @@ const VaMedicalCenter = props => {
       value={value}
       label="VA medical center"
       error={showError() || null}
-      required
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      required
+      uswds
     >
-      <option value="">&nbsp;</option>
       {facilities.map(f => (
         <option key={f.id} value={f.id.split('_').pop()}>
           {f.name}

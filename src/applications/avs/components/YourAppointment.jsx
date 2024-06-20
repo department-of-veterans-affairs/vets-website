@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 
+import ItemsBlock from './ItemsBlock';
+import ListBlock from './ListBlock';
 import MedicationTerms from './MedicationTerms';
 
 const clinicsVisited = avs => {
@@ -35,112 +37,42 @@ const clinicsVisited = avs => {
   return <div>{clinics}</div>;
 };
 
-const providers = avs => {
-  const providerListItems = avs.providers.map((provider, idx) => (
-    <li key={`provider-${idx}`}>{provider}</li>
-  ));
+const renderVitalSign = vitalSignItem => {
   return (
-    <div>
-      <h3>Providers</h3>
-      <ul data-testid="provider-list">{providerListItems}</ul>
-    </div>
+    <p>
+      {vitalSignItem.type}
+      <br />
+      Result: {vitalSignItem.value}
+      {vitalSignItem.qualifiers && ` (${vitalSignItem.qualifiers})`}
+    </p>
   );
 };
 
-const reasonForAppointment = avs => {
-  if (avs.reasonForVisit?.length > 0) {
-    const reasonForVisitListItems = avs.reasonForVisit.map(reason => (
-      <li key={reason.code}>{reason.diagnosis}</li>
-    ));
-
-    return (
-      <div>
-        <h3>Reason for appointment</h3>
-        <ul data-testid="reason-for-appt-list">{reasonForVisitListItems}</ul>
-      </div>
-    );
-  }
-
-  return null;
+const clinicMedsIntro = avs => {
+  return (
+    <>
+      <p>
+        Medications ordered for administration during your visit to a VA clinic
+        or emergency department.
+      </p>
+      <MedicationTerms avs={avs} />
+    </>
+  );
 };
 
-const youWereDiagnosedWith = avs => {
-  if (avs.diagnoses?.length > 0) {
-    const diagnosisListItems = avs.diagnoses.map(diagnosis => (
-      <li key={diagnosis.code}>{diagnosis.diagnosis}</li>
-    ));
-
-    return (
-      <div>
-        <h3>You were diagnosed with</h3>
-        <ul className="bulleted-list" data-testid="diagnoses-list">
-          {diagnosisListItems}
-        </ul>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const vitalSigns = avs => {
-  if (avs.vitals?.length > 0) {
-    const vitalSignItems = avs.vitals.map((vitalSign, idx) => (
-      <div key={`vital-${idx}`}>
-        <p>
-          {vitalSign.type}
-          <br />
-          Result: {vitalSign.value}
-        </p>
-        <hr />
-      </div>
-    ));
-
-    return (
-      <div data-testid="vitals">
-        <h3>Vitals as of this appointment</h3>
-        {/* TODO: Check semantics and spacing */}
-        {vitalSignItems}
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const procedures = avs => {
-  if (avs.procedures?.length > 0) {
-    // TODO: get procedures and add test case.
-
-    return (
-      <div>
-        <h3>Procedures</h3>
-
-        {/* TODO: use bulleted list. */}
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const clinicMedications = avs => {
-  if (avs.vaMedications?.length > 0) {
-    // TODO: get clinic meds.
-
-    return (
-      <div data-testid="clinic-medications">
-        <h3>Medications ordered for administration in clinic</h3>
-        <p>
-          Medications ordered for administration during your visit to a VA
-          clinic or emergency department.
-        </p>
-        <MedicationTerms />
-      </div>
-    );
-  }
-
-  return null;
+const renderClinicMedication = medication => {
+  return (
+    <>
+      <p>
+        <strong>{medication.name}</strong>
+        <br />
+        {medication.sig}
+        <br />
+        Status: {medication.status}
+        <br />
+      </p>
+    </>
+  );
 };
 
 const YourAppointment = props => {
@@ -149,12 +81,47 @@ const YourAppointment = props => {
   return (
     <div className="avs-accordion-item">
       {clinicsVisited(avs)}
-      {providers(avs)}
-      {reasonForAppointment(avs)}
-      {youWereDiagnosedWith(avs)}
-      {vitalSigns(avs)}
-      {procedures(avs)}
-      {clinicMedications(avs)}
+      <ListBlock
+        heading="Providers"
+        itemType="provider-list"
+        items={avs.providers}
+      />
+      <ListBlock
+        heading="Reason for appointment"
+        itemType="reason-for-appt-list"
+        items={avs.reasonForVisit}
+        itemName="diagnosis"
+        keyName="code"
+      />
+      <ListBlock
+        heading="You were diagnosed with"
+        itemType="diagnoses-list"
+        items={avs.diagnoses}
+        itemName="diagnosis"
+        keyName="code"
+      />
+      <ItemsBlock
+        heading="Vitals as of this appointment"
+        items={avs.vitals}
+        itemType="vitals"
+        renderItem={renderVitalSign}
+        showSeparators
+      />
+      <ListBlock
+        heading="Procedures"
+        itemName="name"
+        items={avs.procedures}
+        itemType="procedure-list"
+        keyName="code"
+      />
+      <ItemsBlock
+        heading="Medications ordered for administration in clinic"
+        intro={clinicMedsIntro(avs)}
+        itemType="clinic-medications"
+        items={avs.clinicMedications}
+        renderItem={renderClinicMedication}
+        showSeparators
+      />
     </div>
   );
 };

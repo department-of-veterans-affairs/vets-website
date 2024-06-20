@@ -6,7 +6,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { getDate } from '../utils/dates';
+import { parseDate } from '../../shared/utils/dates';
 
 import {
   EVIDENCE_VA_PATH,
@@ -17,7 +17,10 @@ import {
   LIMITATION_KEY,
 } from '../constants';
 
-import { FORMAT_COMPACT } from '../../shared/constants';
+import {
+  FORMAT_COMPACT_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -41,10 +44,10 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = date => {
-  const result = getDate({ date, pattern: FORMAT_COMPACT });
-  return result.includes(',') ? result : '';
-};
+const formatDate = (date = '') =>
+  // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
+  // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
 
 /**
  * Changing header levels :(
@@ -86,7 +89,7 @@ export const VaContent = ({
   return list?.length ? (
     <>
       <Header5>{content.vaTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
           const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
@@ -107,14 +110,14 @@ export const VaContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="VA location treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -128,7 +131,7 @@ export const VaContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
@@ -147,6 +150,7 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -191,7 +195,7 @@ export const PrivateContent = ({
   return list?.length ? (
     <>
       <Header5>{content.privateTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -225,14 +229,14 @@ export const PrivateContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="Private facility name"
                   >
                     {providerFacilityName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="Private facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -247,7 +251,7 @@ export const PrivateContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       id={`edit-private-${index}`}
                       className="edit-item"
@@ -265,6 +269,7 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -274,9 +279,9 @@ export const PrivateContent = ({
         })}
         <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
-          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
+          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
-            <div>
+            <div className="vads-u-margin-top--1p5">
               <Link
                 id="edit-limitation"
                 className="edit-item"
@@ -294,6 +299,7 @@ export const PrivateContent = ({
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               ) : null}
             </div>
@@ -335,40 +341,57 @@ export const UploadContent = ({
   return list?.length ? (
     <>
       <Header5>{content.otherTitle}</Header5>
-      <ul className="evidence-summary">
-        {list.map((upload, index) => (
-          <li key={upload.name + index} className={listClassNames}>
-            <Header6
-              className="dd-privacy-hidden"
-              data-dd-action-name="Uploaded document file name"
+      <ul className="evidence-summary remove-bullets">
+        {list.map((upload, index) => {
+          const errors = {
+            attachmentId: upload.attachmentId
+              ? ''
+              : content.missing.attachmentId,
+          };
+          const hasErrors = Object.values(errors).join('');
+
+          return (
+            <li
+              key={upload.name + index}
+              className={hasErrors ? errorClassNames : listClassNames}
             >
-              {upload.name}
-            </Header6>
-            <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
-            {!reviewMode && (
+              <Header6
+                className="dd-privacy-hidden overflow-wrap-word"
+                data-dd-action-name="Uploaded document file name"
+              >
+                {upload.name}
+              </Header6>
               <div>
-                <Link
-                  id={`edit-upload-${index}`}
-                  className="edit-item"
-                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
-                  aria-label={`${content.editLinkAria} ${upload.name}`}
-                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-                >
-                  {content.edit}
-                </Link>
-                <va-button
-                  data-index={index}
-                  data-type="upload"
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${upload.name}`}
-                  text={content.remove}
-                  secondary
-                />
+                {errors.attachmentId ||
+                  ATTACHMENTS_OTHER[upload.attachmentId] ||
+                  ''}
               </div>
-            )}
-          </li>
-        ))}
+              {!reviewMode && (
+                <div className="vads-u-margin-top--1p5">
+                  <Link
+                    id={`edit-upload-${index}`}
+                    className="edit-item"
+                    to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    aria-label={`${content.editLinkAria} ${upload.name}`}
+                    data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    data-type="upload"
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.delete} ${upload.name}`}
+                    text={content.delete}
+                    secondary
+                    uswds
+                  />
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   ) : null;

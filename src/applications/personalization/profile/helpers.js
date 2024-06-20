@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
-import { FIELD_IDS } from '@@vap-svc/constants';
 import { PROFILE_PATHS, USA_MILITARY_BRANCHES } from './constants';
 
 /**
@@ -19,6 +19,27 @@ export const getServiceBranchDisplayName = serviceBranch => {
     return `United States ${serviceBranch}`;
   }
   return serviceBranch;
+};
+
+const VALID_PERIOD_OF_SERVICE_TYPES = ['A', 'V'];
+
+const ServicePeriodText = ({
+  periodOfServiceTypeCode,
+  periodOfServiceTypeText,
+}) => {
+  if (
+    periodOfServiceTypeCode &&
+    periodOfServiceTypeText &&
+    VALID_PERIOD_OF_SERVICE_TYPES.includes(periodOfServiceTypeCode)
+  ) {
+    return <p className="vads-u-margin-y--0">{periodOfServiceTypeText}</p>;
+  }
+  return null;
+};
+
+ServicePeriodText.propTypes = {
+  periodOfServiceTypeCode: PropTypes.string,
+  periodOfServiceTypeText: PropTypes.string,
 };
 
 /**
@@ -50,6 +71,10 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
     ),
     value: (
       <>
+        <ServicePeriodText
+          periodOfServiceTypeCode={entry?.periodOfServiceTypeCode}
+          periodOfServiceTypeText={entry?.periodOfServiceTypeText}
+        />
         <dfn className="sr-only">Dates of service: </dfn>
         {dateRange}
       </>
@@ -57,15 +82,5 @@ export const transformServiceHistoryEntryIntoTableRow = entry => {
   };
 };
 
-export const getContactInfoDeepLinkURL = (
-  fieldName,
-  focusOnEditButton = false,
-  useUniqueEditPageURL = false,
-) => {
-  const targetId = FIELD_IDS[fieldName];
-  const fragment = focusOnEditButton ? `edit-${targetId}` : targetId;
-  if (useUniqueEditPageURL) {
-    return `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;
-  }
-  return `${PROFILE_PATHS.CONTACT_INFORMATION}#${fragment}`;
-};
+export const getContactEditLinkURL = fieldName =>
+  `${PROFILE_PATHS.EDIT}?fieldName=${fieldName}`;

@@ -1,0 +1,13 @@
+.vital-records-list {
+  list-style: none;
+
+  li {
+    @media print {
+      break-inside: avoid;
+    }
+  }
+}
+
+va-pagination {
+  border-top: 0;
+}
