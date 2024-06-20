@@ -12,6 +12,7 @@ import {
   authorizeMedicalSelect,
   authorizeAddress,
   authorizeInsideVA,
+  authorizeOutsideVA,
   formToggle,
 } from '../pages';
 
@@ -105,6 +106,15 @@ const formConfig = {
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
           schema: authorizeInsideVA.schema,
+        },
+        authorizeOutsideVA: {
+          path: 'authorize-outside-va',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside VA Systems',
+          uiSchema: authorizeOutsideVA.uiSchema,
+          schema: authorizeOutsideVA.schema,
         },
       },
     },
