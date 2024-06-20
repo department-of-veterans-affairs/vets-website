@@ -9,6 +9,8 @@
 // const defaultProps = {
 //   featureTogglesLoaded: true,
 //   route: '/education/apply-for-benefits-form-22-1990/introduction',
+//   showMebDgi40Features: true,
+//   showUnverifiedUserAlert: true,
 // };
 
 // describe.skip('Introduction Page', () => {
