@@ -37,6 +37,7 @@
       "state": "AL",
       "postalCode": "12312"
     },
+    "applicantNewAddress": "yes",
     "applicantSsn": "123123123",
     "applicantName": {
       "first": "Applicant",

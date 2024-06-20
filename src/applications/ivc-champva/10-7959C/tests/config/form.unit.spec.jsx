@@ -71,7 +71,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  8,
+  9,
   'Applicant address info',
   { ...mockData.data },
 );
