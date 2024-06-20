@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import { getAppData } from '../selectors/selectors';
 
-function TextNotificationsDisclaimer() {
+function TextNotificationsDisclaimer({ showMebDgi40Features }) {
+  if (!showMebDgi40Features) {
+    return <></>;
+  }
+
   return (
     <>
       <h4>What to know about text notifications</h4>
@@ -37,6 +43,10 @@ function TextNotificationsDisclaimer() {
     </>
   );
 }
+
+TextNotificationsDisclaimer.propTypes = {
+  showMebDgi40Features: PropTypes.bool,
+};
 
 const mapStateToProps = state => getAppData(state);
 

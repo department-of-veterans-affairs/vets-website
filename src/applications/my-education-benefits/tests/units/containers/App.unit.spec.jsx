@@ -22,6 +22,8 @@
 //   isLOA3: true,
 //   location: {},
 //   setFormData: () => {},
+//   showMebDgi40Features: true,
+//   showUnverifiedUserAlert: true,
 // };
 //
 // describe('App', () => {
