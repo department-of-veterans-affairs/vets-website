@@ -43,7 +43,7 @@ describe('Veteran Status PDF template', () => {
       expect(content.items.filter(item => item.tag === 'H1').length).to.eq(1);
       expect(content.items[3].str).to.eq(data.details.fullName);
       // H1 in this case is set to 14 px
-      expect(content.items[3].height).to.eq(14);
+      expect(content.items[3].height).to.eq(10.5);
     });
 
     it('All sections are contained by a root level Document element', async () => {

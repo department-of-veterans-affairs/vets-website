@@ -12,6 +12,7 @@ const Alert = ({ status, title, message }) => {
         dispatch({ type: 'RESET_ERROR' });
         dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
         dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
+        dispatch({ type: 'RESET_ENROLLMENT_ERROR' });
       }, 15000);
       return () => clearTimeout(timer);
     },

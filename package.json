@@ -268,6 +268,7 @@
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
+    "@reduxjs/toolkit": "^2.2.5",
     "blob-polyfill": "^5.0.20210201",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
@@ -331,7 +332,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#70557e02ecd63b9cc10dca138fdfcb17e176e09a"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

@@ -87,6 +87,7 @@ class DetailsPage extends React.Component {
                     key={index}
                     className="claim-detail-list-item"
                     data-dd-privacy="mask"
+                    data-dd-action-name="contention name"
                   >
                     {contention.name}
                   </li>

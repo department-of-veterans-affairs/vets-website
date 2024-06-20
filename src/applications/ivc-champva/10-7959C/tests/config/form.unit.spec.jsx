@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mockData from '../e2e/fixtures/data/test-data.json';
+import maxData from '../e2e/fixtures/data/maximal-test.json';
 import FileFieldWrapped from '../../components/FileUploadWrapper';
 
 // Call the depends() function for any page that relies on it
@@ -70,7 +71,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  8,
+  9,
   'Applicant address info',
   { ...mockData.data },
 );
@@ -131,15 +132,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
-  formConfig.chapters.medicareInformation.pages.advantagePlan.uiSchema,
-  1,
-  'Applicant medicare advantage benefits',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
   formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
   1,
@@ -194,7 +186,7 @@ describe('Healthcare Medigap screens depends functions', () => {
     const depRes = formConfig.chapters.healthcareInformation.pages.primaryMedigap.depends(
       {
         applicantHasPrimary: true,
-        applicantPrimaryInsuranceType: { medigap: true },
+        applicantPrimaryInsuranceType: 'medigap',
       },
     );
     expect(depRes).to.be.true;
@@ -204,7 +196,7 @@ describe('Healthcare Medigap screens depends functions', () => {
     const depRes = formConfig.chapters.healthcareInformation.pages.secondaryMedigap.depends(
       {
         applicantHasSecondary: true,
-        applicantSecondaryInsuranceType: { medigap: true },
+        applicantSecondaryInsuranceType: 'medigap',
       },
     );
     expect(depRes).to.be.true;
@@ -274,7 +266,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.healthcareInformation.pages.primaryType.schema,
   formConfig.chapters.healthcareInformation.pages.primaryType.uiSchema,
-  6,
+  1,
   'Applicant primary insurance type',
   { ...mockData.data },
 );
@@ -283,9 +275,9 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.healthcareInformation.pages.secondaryType.schema,
   formConfig.chapters.healthcareInformation.pages.secondaryType.uiSchema,
-  6,
+  1,
   'Applicant secondary insurance type',
-  { ...mockData.data },
+  { ...maxData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -341,13 +333,6 @@ testNumberOfWebComponentFields(
   'Applicant secondary card',
   { ...mockData.data },
 );
-
-describe('fullNamePath', () => {
-  it('should be "applicantName"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
-    expect(v).to.equal('applicantName');
-  });
-});
 
 describe('FileFieldWrapped', () => {
   it('should be called', () => {

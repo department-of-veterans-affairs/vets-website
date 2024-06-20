@@ -18,15 +18,16 @@ import {
 } from '../chapters/applicantInformation';
 
 import {
-  applicantHasMedicareABSchema,
+  applicantHasMedicareSchema,
+  applicantMedicareClassSchema,
   applicantMedicarePartACarrierSchema,
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePharmacySchema,
-  applicantMedicareAdvantageSchema,
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
+  // applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -41,11 +42,15 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import { formSignatureSchema } from '../chapters/formSignature';
+import CustomAttestation from '../components/CustomAttestation';
+
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
+
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any files have not been uploaded. Defaults to false (hide the page)
@@ -56,6 +61,11 @@ function showFileOverviewPage(formData) {
   } catch {
     return false;
   }
+}
+
+// (First Name Posessive);
+function fnp(formData) {
+  return nameWording(formData, undefined, undefined, true);
 }
 
 /** @type {PageSchema} */
@@ -77,14 +87,8 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.certifierRole ? 'certifierName' : 'applicantName',
-    },
+    required: true,
+    CustomComponent: signatureProps => CustomAttestation(signatureProps),
   },
   saveInProgress: {
     messages: {
@@ -106,37 +110,27 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: '10-7959C CHAMPVA Other Health Insurance Certification form',
+  title: 'File for CHAMPVA Other Health Insurance Certification',
+  subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
       title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
+          // initialData: mockdata.data,
           path: 'applicant-info',
           title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
-          title: formData =>
-            `${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} identification information`,
+          title: formData => `${fnp(formData)} identification information`,
           ...applicantSsnSchema,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData =>
-            `${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} mailing address`,
+          title: formData => `${fnp(formData)} mailing address`,
           ...applicantAddressInfoSchema,
         },
 
@@ -148,24 +142,12 @@ const formConfig = {
         // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData =>
-            `${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} contact information`,
+          title: formData => `${fnp(formData)} contact information`,
           ...applicantContactInfoSchema,
         },
         applicantGender: {
           path: 'applicant-gender',
-          title: formData =>
-            `${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} sex listed at birth`,
+          title: formData => `${fnp(formData)} sex listed at birth`,
           ...applicantGenderSchema,
         },
       },
@@ -175,38 +157,41 @@ const formConfig = {
       pages: {
         hasMedicareAB: {
           path: 'medicare-ab-status',
-          title: formData => `${nameWording(formData)} Medicare status`,
-          ...applicantHasMedicareABSchema,
+          title: formData => `${fnp(formData)} Medicare status`,
+          ...applicantHasMedicareSchema,
+        },
+        medicareClass: {
+          path: 'medicare-class',
+          title: formData => `${fnp(formData)} Medicare coverage`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          ...applicantMedicareClassSchema,
+        },
+        pharmacyBenefits: {
+          path: 'medicare-pharmacy',
+          title: formData => `${fnp(formData)} Medicare pharmacy benefits`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            ['advantage', 'other'].includes(
+              get('applicantMedicareClass', formData),
+            ),
+          ...applicantMedicarePharmacySchema,
         },
         // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part A carrier`,
+          title: formData => `${fnp(formData)} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartACarrierSchema,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part B carrier`,
+          title: formData => `${fnp(formData)} Medicare Part B carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartBCarrierSchema,
         },
-        pharmacyBenefits: {
-          path: 'medicare-pharmacy',
-          title: formData =>
-            `${nameWording(formData)} Medicare pharmacy benefits`,
-          depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePharmacySchema,
-        },
-        advantagePlan: {
-          path: 'medicare-coverage',
-          title: formData => `${nameWording(formData)} Medicare coverage`,
-          depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareAdvantageSchema,
-        },
         medicareABCards: {
           path: 'medicare-ab-upload',
-          title: formData => `${nameWording(formData)} Medicare card (A/B)`,
+          title: 'Medicare card for hospital and medical coverage',
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
@@ -214,13 +199,13 @@ const formConfig = {
         },
         hasMedicareD: {
           path: 'medicare-d-status',
-          title: formData => `${nameWording(formData)} Medicare status`,
+          title: formData => `${fnp(formData)} Medicare Part D status`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantHasMedicareDSchema,
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part D carrier`,
+          title: formData => `${fnp(formData)} Medicare Part D carrier`,
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
@@ -228,7 +213,7 @@ const formConfig = {
         },
         medicareDCards: {
           path: 'medicare-d-upload',
-          title: formData => `${nameWording(formData)} Medicare card (D)`,
+          title: 'Medicare Part D card',
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
@@ -237,29 +222,33 @@ const formConfig = {
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
         },
+        // medicareComments: {
+        //   path: 'medicare-comments',
+        //   title: 'Medicare additional comments',
+        //   depends: formData => get('applicantMedicareStatus', formData),
+        //   ...applicantMedicareAdditionalCommentsSchema,
+        // },
       },
     },
     healthcareInformation: {
-      title: 'Healthcare information',
+      title: 'Health insurance information',
       pages: {
         hasPrimaryHealthInsurance: {
           path: 'insurance-status',
-          title: formData =>
-            `${nameWording(formData)} primary health insurance`,
+          title: formData => `${fnp(formData)} primary health insurance`,
           ...applicantHasInsuranceSchema(true),
         },
         primaryProvider: {
           path: 'insurance-info',
           depends: formData => get('applicantHasPrimary', formData),
-          title: formData =>
-            `${nameWording(formData)} health insurance information`,
+          title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(true),
         },
         primaryThroughEmployer: {
           path: 'insurance-type',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } type of insurance`,
           ...applicantInsuranceThroughEmployerSchema(true),
@@ -268,7 +257,7 @@ const formConfig = {
           path: 'insurance-prescription',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData, undefined, undefined, true)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
@@ -279,7 +268,7 @@ const formConfig = {
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData),
           title: formData =>
-            `${nameWording(formData, undefined, undefined, true)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
@@ -291,7 +280,7 @@ const formConfig = {
             get('applicantPrimaryHasPrescription', formData) &&
             !get('applicantPrimaryEOB', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } schedule of benefits`,
           CustomPage: FileFieldWrapped,
@@ -302,7 +291,7 @@ const formConfig = {
           path: 'insurance-plan',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } insurance plan`,
           ...applicantInsuranceTypeSchema(true),
@@ -311,9 +300,9 @@ const formConfig = {
           path: 'insurance-medigap',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
-            get('applicantPrimaryInsuranceType.medigap', formData),
+            get('applicantPrimaryInsuranceType', formData) === 'medigap',
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } Medigap information`,
           ...applicantMedigapSchema(true),
@@ -322,7 +311,7 @@ const formConfig = {
           path: 'insurance-comments',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(true),
@@ -330,30 +319,29 @@ const formConfig = {
         primaryCard: {
           path: 'insurance-upload',
           depends: formData => get('applicantHasPrimary', formData),
-          title: formData =>
-            `${nameWording(formData)} primary health insurance card`,
+          title: formData => `${fnp(formData)} primary health insurance card`,
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceCardSchema(true),
         },
         hasSecondaryHealthInsurance: {
           path: 'secondary-insurance',
-          title: formData =>
-            `${nameWording(formData)} secondary health insurance`,
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData => `${fnp(formData)} secondary health insurance`,
           ...applicantHasInsuranceSchema(false),
         },
         secondaryProvider: {
           path: 'secondary-insurance-info',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} secondary health insurance information`,
+            `${fnp(formData)} secondary health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {
           path: 'secondary-insurance-type',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } secondary type of insurance`,
           ...applicantInsuranceThroughEmployerSchema(false),
@@ -362,7 +350,7 @@ const formConfig = {
           path: 'secondary-insurance-prescription',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData, undefined, undefined, true)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(false),
@@ -373,7 +361,7 @@ const formConfig = {
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
           title: formData =>
-            `${nameWording(formData, undefined, undefined, true)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
@@ -385,7 +373,7 @@ const formConfig = {
             get('applicantSecondaryHasPrescription', formData) &&
             !get('applicantSecondaryEOB', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } schedule of benefits`,
           CustomPage: FileFieldWrapped,
@@ -396,7 +384,7 @@ const formConfig = {
           path: 'secondary-insurance-plan',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } insurance plan`,
           ...applicantInsuranceTypeSchema(false),
@@ -405,9 +393,9 @@ const formConfig = {
           path: 'secondary-insurance-medigap',
           depends: formData =>
             get('applicantHasSecondary', formData) &&
-            get('applicantSecondaryInsuranceType.medigap', formData),
+            get('applicantSecondaryInsuranceType', formData) === 'medigap',
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } Medigap information`,
           ...applicantMedigapSchema(false),
@@ -416,7 +404,7 @@ const formConfig = {
           path: 'secondary-insurance-comments',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(false),
@@ -424,8 +412,7 @@ const formConfig = {
         secondaryCard: {
           path: 'secondary-insurance-card-upload',
           depends: formData => get('applicantHasSecondary', formData),
-          title: formData =>
-            `${nameWording(formData)} secondary health insurance card`,
+          title: formData => `${fnp(formData)} secondary health insurance card`,
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceCardSchema(false),
@@ -460,6 +447,16 @@ const formConfig = {
             },
           },
           schema: blankSchema,
+        },
+      },
+    },
+    formSignature: {
+      title: 'Form signature',
+      pages: {
+        formSignature: {
+          path: 'form-signature',
+          title: 'Form signature',
+          ...formSignatureSchema,
         },
       },
     },

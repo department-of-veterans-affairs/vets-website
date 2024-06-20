@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -28,17 +29,20 @@ export default function App({ children }) {
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
+  const [currentPage, setCurrentPage] = useState(1);
 
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
-        (a, b) => Date.parse(b.appointmentDate) - Date.parse(a.appointmentDate),
+        (a, b) =>
+          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
       );
       break;
     case 'oldest':
       travelClaims.sort(
-        (a, b) => Date.parse(a.appointmentDate) - Date.parse(b.appointmentDate),
+        (a, b) =>
+          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
       );
       break;
     default:
@@ -61,6 +65,25 @@ export default function App({ children }) {
       }
     },
     [dispatch, userLoggedIn],
+  );
+
+  const CLAIMS_PER_PAGE = 10;
+  let displayedClaims = travelClaims;
+  const shouldPaginate = travelClaims.length > CLAIMS_PER_PAGE;
+  const numPages = Math.ceil(travelClaims.length / CLAIMS_PER_PAGE);
+
+  const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, travelClaims.length);
+
+  if (shouldPaginate) {
+    displayedClaims = travelClaims.slice(pageStart - 1, pageEnd);
+  }
+
+  const onPageSelect = useCallback(
+    selectedPage => {
+      setCurrentPage(selectedPage);
+    },
+    [setCurrentPage],
   );
 
   if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
@@ -92,6 +115,7 @@ export default function App({ children }) {
               </h1>
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <HelpText />
               {isLoading && (
                 <va-loading-indicator
                   label="Loading"
@@ -113,7 +137,7 @@ export default function App({ children }) {
                 travelClaims.length > 0 && (
                   <>
                     <p id="pagination-info">
-                      Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
+                      Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
                       events
                     </p>
                     <div className="btsss-claims-order-container">
@@ -124,6 +148,7 @@ export default function App({ children }) {
                         <select
                           className="vads-u-margin-bottom--0"
                           hint={null}
+                          title="claimsOrder"
                           name="claimsOrder"
                           value={selectedClaimsOrder}
                           onChange={e => setSelectedClaimsOrder(e.target.value)}
@@ -139,11 +164,18 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    {travelClaims.map(travelClaim =>
-                      TravelClaimCard(travelClaim),
+                    <div id="travel-claims-list">
+                      {displayedClaims.map(travelClaim =>
+                        TravelClaimCard(travelClaim),
+                      )}
+                    </div>
+                    {shouldPaginate && (
+                      <VaPagination
+                        onPageSelect={e => onPageSelect(e.detail.page)}
+                        page={currentPage}
+                        pages={numPages}
+                      />
                     )}
-
-                    <HelpText />
                   </>
                 )}
               {userLoggedIn &&

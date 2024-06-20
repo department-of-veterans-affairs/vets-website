@@ -59,7 +59,7 @@ const LandingPage = () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
-        location.pathname.includes('/accordion-renew-rx') &&
+        location.hash.includes('accordion-renew-rx') &&
         !featureTogglesLoading &&
         !isPrescriptionsLoading
       ) {
@@ -70,12 +70,7 @@ const LandingPage = () => {
         }
       }
     },
-    [
-      location.pathname,
-      featureTogglesLoading,
-      appEnabled,
-      isPrescriptionsLoading,
-    ],
+    [location.hash, featureTogglesLoading, appEnabled, isPrescriptionsLoading],
   );
 
   useEffect(
@@ -190,7 +185,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0">
               What to know as you try out this tool
