@@ -109,15 +109,15 @@ export default function App({ children }) {
   return (
     <div>
       <main>
-        <article className="row vads-u-padding-bottom--0">
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--8 vads-u-padding-x--2p5">
+        <article className="vads-l-row vads-u-padding-bottom--0">
+          <div className="vads-l-col--9 vads-u-margin-x--neg2p5">
+            <div className="vads-u-padding-x--2p5">
               <BreadCrumbs />
               <h1 tabIndex="-1" data-testid="header">
                 Check your travel reimbursement claim status
               </h1>
             </div>
-            <div className="vads-l-col--8 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <div className="vads-u-padding-x--2p5">
               <HelpText />
               {isLoading && (
                 <va-loading-indicator
