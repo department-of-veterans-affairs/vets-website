@@ -3,7 +3,6 @@ import {
   fullNameSchema,
   ssnUI,
   ssnSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -14,9 +13,8 @@ export default {
     return formData.applicantIsVeteran === false;
   },
   uiSchema: {
-    ...titleUI('Claimant information'),
-    claimantFullName: fullNameUI(),
-    claimantSocialSecurityNumber: ssnUI(),
+    claimantFullName: fullNameUI(title => `Claimant’s ${title}`),
+    claimantSocialSecurityNumber: ssnUI('Claimants’s Social Security number'),
   },
   schema: {
     type: 'object',

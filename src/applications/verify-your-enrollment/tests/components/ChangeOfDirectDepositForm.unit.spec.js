@@ -40,7 +40,9 @@ describe('Change Of Direct Deposit Form', () => {
     const formDOM = getFormDOM(screen);
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
+    expect(
+      formDOM.querySelectorAll('.usa-input-error-message').length,
+    ).to.equal(7);
   });
 
   it('Should raise one error with the account validation', () => {

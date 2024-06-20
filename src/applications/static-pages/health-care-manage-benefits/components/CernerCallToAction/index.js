@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { isEmpty, map, replace } from 'lodash';
 import * as Sentry from '@sentry/browser';
 // Relative imports.
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
@@ -12,7 +11,6 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import {
   cernerFacilitiesPropType,
@@ -72,23 +70,15 @@ export class CernerCallToAction extends Component {
     try {
       // Fetch facilities and store them in state.
       let response = null;
-      // when toggle removed, remove this check and always use v2
-      if (this.props.useV2FacApi) {
-        response = await apiRequest('/va', {
-          apiVersion: 'facilities_api/v2',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ ids: facilityIDs.join(',') }),
-        });
-      } else {
-        response = await apiRequest(
-          `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(
-            ',',
-          )}`,
-        );
-      }
+      response = await apiRequest('/va', {
+        apiVersion: 'facilities_api/v2',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ids: facilityIDs.join(',') }),
+      });
+
       this.setState({ facilities: response?.data, fetching: false });
 
       // Log any API errors.
@@ -394,16 +384,12 @@ CernerCallToAction.propTypes = {
   ehrDataByVhaId: ehrDataByVhaIdPropType,
   featureStaticLandingPage: PropTypes.bool,
   otherFacilities: otherFacilitiesPropType,
-  useV2FacApi: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
   const featureStaticLandingPage = toggleValues(state)
     .vaOnlineSchedulingStaticLandingPage;
-  const useV2FacApi = toggleValues(state)[
-    FEATURE_FLAG_NAMES.useFacilitiesApiV2ForCernerCTA
-  ];
-  return { featureStaticLandingPage, useV2FacApi };
+  return { featureStaticLandingPage };
 };
 
 export default connect(mapStateToProps)(CernerCallToAction);
