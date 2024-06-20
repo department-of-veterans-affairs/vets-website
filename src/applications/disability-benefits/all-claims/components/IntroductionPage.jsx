@@ -120,9 +120,10 @@ class IntroductionPage extends React.Component {
               .
             </p>
           )}
-          <ol>
-            <li className="process-step list-one">
-              <h3 className="vads-u-font-size--h4">Prepare</h3>
+
+          <va-process-list uswds>
+            {/* Prepare */}
+            <va-process-list-item header="Prepare" uswds>
               {!isBDDForm && (
                 <p data-testid="process-step1-prepare">
                   When you file a disability claim, you’ll have a chance to
@@ -231,9 +232,9 @@ class IntroductionPage extends React.Component {
                   </p>
                 </va-alert>
               )}
-            </li>
-            <li className="process-step list-two">
-              <h3 className="vads-u-font-size--h4">Apply</h3>
+            </va-process-list-item>
+            <va-process-list-item header="Apply" uswds>
+              {/* Apply */}
               {isBDDForm ? (
                 <>
                   <p>
@@ -257,24 +258,24 @@ class IntroductionPage extends React.Component {
                   can print this for your records.
                 </p>
               )}
-            </li>
-            <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">VA review</h3>
+            </va-process-list-item>
+            <va-process-list-item header="VA review" uswds>
+              {/* VA review */}
               <p>
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
                 injuries or disabilities you claim and how long it takes us to
                 gather evidence needed to decide your claim.
               </p>
-            </li>
-            <li className="process-step list-four">
-              <h3 className="vads-u-font-size--h4">Decision</h3>
+            </va-process-list-item>
+            <va-process-list-item header="Decision" uswds>
+              {/* Decision */}
               <p>
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
-            </li>
-          </ol>
+            </va-process-list-item>
+          </va-process-list>
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
         {itfNotice}
