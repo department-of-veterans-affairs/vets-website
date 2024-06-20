@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { parseDate, getStatusExtractPhase } from '../../util/helpers';
+import { formatDate, getStatusExtractPhase } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
+import FeedbackEmail from './FeedbackEmail';
 
 const NewRecordsIndicator = ({
   refreshState,
@@ -50,7 +51,7 @@ const NewRecordsIndicator = ({
           status => status.extract === extractType,
         );
         if (extract?.lastSuccessfulCompleted)
-          return parseDate(extract.lastSuccessfulCompleted);
+          return formatDate(extract.lastSuccessfulCompleted);
       }
       return null;
     },
@@ -75,9 +76,11 @@ const NewRecordsIndicator = ({
             visible
             data-testid="new-records-refreshed-failed"
           >
-            <h2>We couldn't update your records</h2>
+            <h2>We couldn’t update your records</h2>
             <p>Check back later for updates.</p>
-            <p>If it still doesn't work, email us at vamhvfeedback@va.gov.</p>
+            <p>
+              If it still doesn’t work, email us at <FeedbackEmail />.
+            </p>
             <p>Last updated at {lastSuccessfulUpdate} </p>
           </va-alert>
         );
