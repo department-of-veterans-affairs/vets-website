@@ -7,11 +7,11 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Applicant information',
-  path: 'applicant/information',
+  title: 'Veteran information',
+  path: 'veteran/information',
   uiSchema: {
-    veteranFullName: fullNameUI(),
-    veteranSocialSecurityNumber: ssnUI(),
+    veteranFullName: fullNameUI(title => `Veteran’s ${title}`),
+    veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
   },
   schema: {
     type: 'object',
