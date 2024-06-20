@@ -127,6 +127,9 @@ export const refreshReducer = (state = initialState, action) => {
             extract: statusRec.extract,
             lastRequested: safeNewDate(statusRec.lastRequested),
             lastCompleted: safeNewDate(statusRec.lastCompleted),
+            lastSuccessfulCompleted: safeNewDate(
+              statusRec.lastSuccessfulCompleted,
+            ),
             phase: getPhase(statusRec, action.payload.retrievedDate),
           };
         }),

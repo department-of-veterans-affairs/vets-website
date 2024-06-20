@@ -15,9 +15,14 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.careSummariesAndNotes.updatedList,
+  );
+
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -66,6 +71,11 @@ const CareSummariesAndNotes = () => {
         providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
+      <NewRecordsIndicator
+        refreshState={refresh}
+        extractType={refreshExtractTypes.VPR}
+        newRecordsFound={Array.isArray(updatedRecordList)}
+      />
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}

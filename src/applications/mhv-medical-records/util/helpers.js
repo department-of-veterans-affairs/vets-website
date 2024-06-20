@@ -3,7 +3,12 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { EMPTY_FIELD, interpretationMap } from './constants';
+import {
+  EMPTY_FIELD,
+  interpretationMap,
+  refreshPhases,
+  VALID_REFRESH_DURATION,
+} from './constants';
 
 /**
  * @param {*} timestamp
@@ -326,4 +331,42 @@ export const parseDate = str => {
     return `${monthName}, ${year}`;
   }
   return formatDateLong(str);
+};
+
+/**
+ * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
+ *
+ * @param {Object} extractStatus the chunk of the status response for a particular extract
+ * @param {number} retrieved the timestamp (in ms) that the refresh status was retrieved
+ * @returns {string|null} the current refresh phase, or null if parameters are invalid.
+ */
+export const getStatusExtractPhase = (
+  retrievedDate,
+  phrStatus,
+  extractType,
+) => {
+  if (!retrievedDate || !phrStatus || !extractType) return null;
+  const extractStatus = phrStatus.find(
+    status => status.extract === extractType,
+  );
+  if (
+    !extractStatus?.lastRequested ||
+    !extractStatus?.lastCompleted ||
+    !extractStatus?.lastSuccessfulCompleted
+  ) {
+    return null;
+  }
+  if (retrievedDate - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
+    return refreshPhases.STALE;
+  }
+  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
+    return refreshPhases.IN_PROGRESS;
+  }
+  if (
+    extractStatus.lastCompleted.getTime() !==
+    extractStatus.lastSuccessfulCompleted.getTime()
+  ) {
+    return refreshPhases.FAILED;
+  }
+  return refreshPhases.CURRENT;
 };

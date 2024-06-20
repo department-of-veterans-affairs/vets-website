@@ -56,7 +56,7 @@ RecordListSection.propTypes = {
   accessAlertType: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   initialFhirLoad: PropTypes.bool,
-  listCurrentAsOf: PropTypes.string,
+  listCurrentAsOf: PropTypes.instanceOf(Date),
   recordCount: PropTypes.number,
   recordType: PropTypes.string,
 };
