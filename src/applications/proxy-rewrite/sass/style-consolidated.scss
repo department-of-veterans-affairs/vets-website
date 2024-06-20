@@ -120,6 +120,9 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-elements";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu";
+  #mega-menu .mm-marketing-container p { 
+    font-size: 15px;
+  }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
