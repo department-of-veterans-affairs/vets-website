@@ -91,6 +91,7 @@ const formConfigKeys = [
   'useTopBackLink',
   'v3SegmentedProgressBar',
   'formOptions',
+  'stepLabels',
 ];
 
 const validProperty = (
