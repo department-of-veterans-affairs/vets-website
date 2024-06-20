@@ -2,12 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import MedicationReviewBlock from './MedicationReviewBlock';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
@@ -56,6 +57,7 @@ const PreCheckinConfirmation = props => {
           page="confirmation"
           router={router}
         />
+        <MedicationReviewBlock page="complete" />
         <HowToLink />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">

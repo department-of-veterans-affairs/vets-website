@@ -24,6 +24,7 @@ import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import MedicationReviewBlock from '../../MedicationReviewBlock';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -258,6 +259,9 @@ const AppointmentDetails = props => {
                       event="check-in-clicked-VAOS-design"
                     />
                   </div>
+                )}
+                {app === APP_NAMES.PRE_CHECK_IN && (
+                  <MedicationReviewBlock page="details" />
                 )}
               </div>
             </div>

@@ -97,6 +97,19 @@ describe('pre-check-in', () => {
           );
         });
       });
+      it('renders medication review block', () => {
+        const screen = render(
+          <CheckInProvider store={mockstore} router={mockRouter}>
+            <PreCheckinConfirmation
+              appointments={appointments}
+              formData={formData}
+              isLoading={false}
+              router={mockRouter}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('medication-review-container')).to.exist;
+      });
     });
   });
 });

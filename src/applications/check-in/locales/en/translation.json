@@ -353,5 +353,18 @@
   "need-to-make-changes": "Need to make changes?",
   "contact-this-facility": "Contact this facility if you need to reschedule or cancel your appointment.",
   "appointments_one": "appointment",
-  "appointments_other": "appointments"
+  "appointments_other": "appointments",
+  "prepare-for-your-appointment": "Prepare for your appointment",
+  "bring-your-insurance-cards-with-you": "Bring your insurance cards with you to your appointment.",
+  "bring-a-list-of-all-your-medications": "Bring a list of all your medications and anything else you need to share with your provider.",
+  "what-to-share-with-your-provider": "What to share with your provider",
+  "share-all-medications-your-taking-now": "Share all medications you're taking now, including the doses (amounts) you take of each medication and how often you take them. Include these medications types:",
+  "prescriptions-from-va-and-non-va": "Prescriptions from VA and non-VA providers",
+  "over-the-counter-medications": "Over-the-counter medications",
+  "vitamins-supplements-and-herbal-remedies": "Vitamins, supplements, and herbal remedies",
+  "share-anything-that-might-help-your-provider": "Share anything that might help your provider work with you to make treatment decisions, including these things:",
+  "changes-in-the-medications-youre-taking": "Changes in the medications you're taking or how often you're taking them",
+  "changes-in-how-your-medications-affect-you": "Changes in how your medications affect you, including any new side effects",
+  "any-allergies-or-reactions-youve-had": "Any allergies or reactions you've had to your current or past medications",
+  "any-health-care-youre-receiving-from-other": "Any health care you're receiving from other VA facilities or from providers outside VA"
 }
