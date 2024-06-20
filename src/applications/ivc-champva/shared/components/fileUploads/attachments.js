@@ -7,7 +7,7 @@ export const fileTypes = ['jpeg', 'jpg', 'png', 'pdf'];
 export const maxSize = '20MB'; // This appears to be the current limit
 export const minSize = '1.0KB';
 
-export const fileWithMetadataSchema = possibleFiles => {
+export const fileWithMetadataSchema = (possibleFiles, minItems = 1) => {
   let enu = possibleFiles || [];
   // If we have nested elements in format [{text: 'File Name', ...}]
   // grab the content we care about rendering:
@@ -16,7 +16,7 @@ export const fileWithMetadataSchema = possibleFiles => {
   );
   return {
     type: 'array',
-    minItems: 1,
+    minItems,
     items: {
       type: 'object',
       required: ['attachmentId', 'name'],

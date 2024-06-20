@@ -28,7 +28,6 @@
       "./m-footer": "./sass/modules/m-footer.scss",
       "./m-downtime-notification": "./sass/modules/m-downtime-notification.scss",
       "./m-layers": "./sass/modules/m-layers.scss",
-      "./iconography": "./sass/modules/iconography.scss",
       "./sitemap-helpers": "./tests/sitemap/sitemap-helpers.js",
       "./actions": "./user-nav/actions/index.js",
       "./AutoSSO": "./user-nav/containers/AutoSSO.jsx",

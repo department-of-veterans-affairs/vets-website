@@ -71,7 +71,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  8,
+  9,
   'Applicant address info',
   { ...mockData.data },
 );
@@ -333,13 +333,6 @@ testNumberOfWebComponentFields(
   'Applicant secondary card',
   { ...mockData.data },
 );
-
-describe('fullNamePath', () => {
-  it('should be "applicantName"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
-    expect(v).to.equal('applicantName');
-  });
-});
 
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
