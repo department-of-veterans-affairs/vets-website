@@ -20,7 +20,7 @@ import EmployersInformationTitle from '../../components/EmployersInformationTitl
 import YourEmployersDescription from '../../components/YourEmployersDescription';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+const arrayBuilderOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
@@ -44,7 +44,7 @@ const options = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI(`Your employers`, YourEmployersDescription),
+    ...titleUI('Your employers', YourEmployersDescription),
   },
   schema: {
     type: 'object',
@@ -57,7 +57,7 @@ const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: EmployersInformationTitle,
-      nounSingular: options.nounSingular,
+      nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of employer'),
     positionTitle: textUI('Position title'),
@@ -138,7 +138,7 @@ const dateRangePage = {
 const summaryPage = {
   uiSchema: {
     'view:hasEmployers': arrayBuilderYesNoUI(
-      options,
+      arrayBuilderOptions,
       {
         title: 'Do you have any employment for the last 5 years to report?',
         labelHeaderLevel: 'p',
@@ -158,7 +158,7 @@ const summaryPage = {
   },
 };
 
-const employersPages = arrayBuilderPages(options, pageBuilder => ({
+const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
   employers: pageBuilder.introPage({
     title: 'Your employers',
     path: 'employers',

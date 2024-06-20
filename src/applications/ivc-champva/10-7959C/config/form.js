@@ -50,6 +50,8 @@ import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview'
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+
 // Control whether we show the file overview page by calling `hasReq` to
 // determine if any files have not been uploaded. Defaults to false (hide the page)
 // if anything goes sideways.
@@ -229,7 +231,7 @@ const formConfig = {
       },
     },
     healthcareInformation: {
-      title: 'Healthcare information',
+      title: 'Health insurance information',
       pages: {
         hasPrimaryHealthInsurance: {
           path: 'insurance-status',
@@ -451,7 +453,7 @@ const formConfig = {
     formSignature: {
       title: 'Form signature',
       pages: {
-        supportingFilesReview: {
+        formSignature: {
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,
