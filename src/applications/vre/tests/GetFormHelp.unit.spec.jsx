@@ -7,6 +7,6 @@ import GetFormHelp from '../components/GetFormHelp';
 describe('GetFormHelp', () => {
   it('should render', () => {
     const { container } = render(<GetFormHelp />);
-    expect($$('va-telephone', container).length).to.eql(2);
+    expect($$('a', container).length).to.eql(2);
   });
 });

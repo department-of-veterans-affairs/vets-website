@@ -30,6 +30,7 @@
       "state": "CA",
       "postalCode": "43212"
     },
+    "applicantNewAddress": "yes",
     "applicantSsn": "333221111",
     "applicantName": {
       "first": "Applicant",
