@@ -27,7 +27,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: true,
         }),
       );
     },
@@ -39,7 +38,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: false,
         }),
       );
     },
