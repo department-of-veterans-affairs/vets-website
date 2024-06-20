@@ -428,6 +428,13 @@ class MedicationsRefillPage {
       'Prescriptions you may need to renew',
     );
   };
+
+  verifyRenewableSectionDescriptionOnRefillPage = () => {
+    cy.get('[data-testid="renew-section-description"]').should(
+      'contain',
+      'find medications with a status of Active: Submitted or Active: Refill in process.',
+    );
+  };
 }
 
 export default MedicationsRefillPage;

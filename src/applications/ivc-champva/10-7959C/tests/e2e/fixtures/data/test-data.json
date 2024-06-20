@@ -13,6 +13,7 @@
       "state": "AK",
       "postalCode": "12323"
     },
+    "applicantNewAddress": "yes",
     "applicantPhone": "3331233456",
     "applicantGender": "male",
     "applicantMedicareStatus": true,
@@ -45,6 +46,8 @@
     "applicantSecondaryInsuranceType": "medigap",
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
+    "certifierRole": "other",
+    "signature": "Certifier Jones",
     "consentToMailMissingRequiredFiles": true
   }
 }

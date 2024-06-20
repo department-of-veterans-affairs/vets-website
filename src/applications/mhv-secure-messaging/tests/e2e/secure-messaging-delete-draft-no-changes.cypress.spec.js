@@ -14,7 +14,8 @@ describe('Secure Messaging Delete Draft Navigate to Inbox', () => {
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteDraft(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
-    cy.get(Locators.FOLDERS.INBOX);
+    cy.get(Locators.HEADER_FOLDER).should('have.text', 'Inbox');
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

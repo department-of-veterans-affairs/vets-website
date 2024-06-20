@@ -139,6 +139,8 @@ export const Locators = {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    CRUMB: 'ol[role="list"] > li',
+    CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
   },
   ALERTS: {
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
@@ -228,7 +230,7 @@ export const Alerts = {
 };
 
 export const Data = {
-  TEST_MESSAGE_BODY: 'Test message body',
+  TEST_MESSAGE_BODY: '\nTest message body',
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',
