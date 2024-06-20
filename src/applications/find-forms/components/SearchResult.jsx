@@ -72,6 +72,32 @@ const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {
   return languages[lang][whichNode];
 };
 
+const recordGAEventHelper = ({
+  query,
+  eventUrl,
+  eventTitle,
+  eventType,
+  currentPage,
+  currentPositionOnPage,
+  totalResultsCount,
+  totalResultsPages,
+}) =>
+  recordEvent({
+    event: 'onsite-search-results-click', // remains consistent, push this event and metadata with each search result click
+    'search-page-path': '/find-forms', // consistent for all search result clicks from this page
+    'search-query': query, // dynamically populate with the search query
+    'search-result-chosen-page-url': eventUrl, // populate with the full href of the form detail page or tool page
+    'search-result-chosen-title': eventTitle, // or 'Download VA form 10-10EZ (PDF)' or 'Go to online tool' (NOW => "Fill out VA Form {id} online")
+    'search-result-type': eventType, // populate with 'pdf' if pdf, or 'cta' if "Go to online tool" (NOW => "Fill out VA Form {id} online")
+    'search-results-pagination-current-page': currentPage, // populate with the current pagination number at time of result click
+    'search-results-position': currentPositionOnPage, // populate with position on page of result click, beginning with 1 as the first result, number in relation to total results on the page (10 being last with 10 results are shown)
+    'search-results-total-count': totalResultsCount, // populate with the total number of search results at time of click
+    'search-results-total-pages': totalResultsPages, // populate with total number of result pages at time of click
+    'search-selection': 'Find forms', // populate consistently with 'Find forms'
+    'search-results-top-recommendation': undefined, // consistently populate with undefined since there's no top recommendations surfaced here
+    'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
+  });
+
 const deriveRelatedTo = ({
   vaFormAdministration,
   formType,
@@ -110,7 +136,12 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, toggleModalState, setPrevFocusedLink }) => {
+const SearchResult = ({
+  form,
+  formMetaInfo,
+  toggleModalState,
+  setPrevFocusedLink,
+}) => {
   if (!form?.attributes) {
     return null;
   }
@@ -144,6 +175,9 @@ const SearchResult = ({ form, toggleModalState, setPrevFocusedLink }) => {
     benefitCategories,
   });
 
+  const recordGAEvent = (eventTitle, eventUrl, eventType) =>
+    recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
+
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
 
@@ -163,6 +197,7 @@ const SearchResult = ({ form, toggleModalState, setPrevFocusedLink }) => {
         formUrl={regulateURL(formDetailsUrl)}
         lang={language}
         title={title}
+        recordGAEvent={recordGAEvent}
         formName={formName}
       />
       <div className="vads-u-margin-y--1 vsa-from-last-updated">
@@ -175,8 +210,12 @@ const SearchResult = ({ form, toggleModalState, setPrevFocusedLink }) => {
         <div className="vads-u-margin-bottom--2p5">
           <va-link
             className="vads-c-action-link--green"
+            disable-analytics
             href={relativeFormToolUrl}
             lang={language}
+            onClick={() =>
+              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
+            }
             text={deriveLanguageTranslation(
               language,
               'goToOnlineTool',
@@ -214,6 +253,7 @@ const SearchResult = ({ form, toggleModalState, setPrevFocusedLink }) => {
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
+  formMetaInfo: customPropTypes.FormMetaInfo,
   setPrevFocusedLink: PropTypes.func,
   toggleModalState: PropTypes.func,
 };

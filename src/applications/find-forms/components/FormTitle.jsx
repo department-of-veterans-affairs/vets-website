@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({ id, formUrl, title, lang, formName }) => (
+const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
   <div
     className="vads-u-margin--0 vads-u-font-weight--bold"
     data-e2e-id="result-title"
@@ -18,14 +18,14 @@ const FormTitle = ({ id, formUrl, title, lang, formName }) => (
           aria-describedby={id}
           className="vads-u-font-size--base vads-u-margin--0"
         >
-          <va-link
+          <a
             href={formUrl}
             className="vads-u-font-family--serif vads-u-margin-top--1"
+            onClick={() => recordGAEvent(title, formUrl, 'title')}
             lang={lang}
-            text={title}
           >
             {title}
-          </va-link>
+          </a>
         </h3>
       </>
     ) : (
