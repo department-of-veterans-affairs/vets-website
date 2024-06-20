@@ -54,10 +54,17 @@ const responses = {
     };
     return res.json(data);
   },
+  'GET /my_health/v1/prescriptions/:id/documentation': (req, res) => {
+    // use `req.query.ndc` to get the NDC number
+    const data = {
+      data: prescriptions.mockPrescriptionDocumentation(),
+    };
+    return res.json(data);
+  },
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
   'GET /my_health/v1/medical_records/allergies': allergiesFixture,
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 0); // TODO: change delay to 1000

@@ -1,4 +1,5 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
+const { prescriptionDocumentationHtml } = require('./documentation');
 
 function mockPrescription(n = 0, attrs = {}) {
   // Generate some refillable, some not
@@ -134,7 +135,12 @@ function generateMockPrescriptions(n = 20) {
   };
 }
 
+const mockPrescriptionDocumentation = () => {
+  return prescriptionDocumentationHtml;
+};
+
 module.exports = {
   mockPrescription,
   generateMockPrescriptions,
+  mockPrescriptionDocumentation,
 };
