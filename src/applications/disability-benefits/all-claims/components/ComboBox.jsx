@@ -31,9 +31,10 @@ export class ComboBox extends React.Component {
     this.disabilitiesArr = props.uiSchema['ui:options'].listItems;
     this.state = {
       bump: false,
-      searchTerm: '',
-      input: '',
-      value: '',
+      // Autopopulate input with existing form data:
+      searchTerm: props.formData,
+      input: props.formData,
+      value: props.formData,
       highlightedIndex: 0,
       ariaLive1: '',
       ariaLive2: '',
@@ -43,11 +44,34 @@ export class ComboBox extends React.Component {
     this.listRef = React.createRef();
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutsideList, true);
+  }
+
   // Triggers updates to the list of items on state change
   componentDidUpdate(prevProps, prevState) {
     this.updateFilterOptions(prevState);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutsideList, true);
+  }
+
+  // Handler for closing the list when a user clicks outside of it
+  handleClickOutsideList = e => {
+    if (this.listRef.current && !this.listRef.current.contains(e.target)) {
+      const { searchTerm } = this.state;
+      this.setState({
+        value: searchTerm,
+        filteredOptions: [],
+      });
+      // eslint-disable-next-line no-console
+      console.log('sending focus to input from handleClickOutsideList');
+      this.sendFocusToInput(this.inputRef);
+    }
+  };
+
+  // handler for main form input
   handleSearchChange = e => {
     const { bump } = this.state;
     const newTextValue = e.target.value;
@@ -57,12 +81,87 @@ export class ComboBox extends React.Component {
       input: newTextValue,
     });
     this.props.onChange(newTextValue);
+    // send focus back to input after selection in case user wants to append something else
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from handleSearchChange');
+    this.sendFocusToInput(this.inputRef);
   };
 
-  // update highlight class
+  // Handler for the blue background highlight class.
   handleMouseEnter(e, optionIndex) {
     this.setState({ highlightedIndex: optionIndex });
   }
+
+  sendFocusToInput = ref => {
+    const { shadowRoot } = ref.current;
+    const input = shadowRoot.querySelector('input');
+    // eslint-disable-next-line no-console
+    console.log('sendFocusToInput() called. Input: ', input);
+    input.focus();
+  };
+
+  // Keyboard handling for combobox list options
+  handleKeyPress = e => {
+    const { highlightedIndex, searchTerm } = this.state;
+    const list = this.listRef.current;
+    let index = highlightedIndex;
+
+    switch (e.key) {
+      // On Tab, user input should remain as-is, list should close, focus goes to save button.
+      case 'Tab':
+        if (list.children.length) {
+          this.setState({
+            value: searchTerm,
+            searchTerm,
+            filteredOptions: [],
+            highlightedIndex: 0,
+          });
+        }
+        break;
+      // Up and Down arrow keys should navigate to the respective next item in the list.
+      case 'ArrowUp':
+        index = this.decrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
+        this.optionFocus(index);
+        e.preventDefault();
+        break;
+      case 'ArrowDown':
+        index = this.incrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
+        this.optionFocus(index);
+        e.preventDefault();
+        break;
+      // On Enter, select the highlighted option and close the list. Focus on text input.
+      case 'Enter':
+        e.preventDefault();
+        this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        break;
+      // On Escape, user input should remain as-is, list should collapse. Focus on text input.
+      case 'Escape':
+        this.setState({
+          value: searchTerm,
+          searchTerm,
+          filteredOptions: [],
+          highlightedIndex: 0,
+        });
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from escape');
+        this.sendFocusToInput(this.inputRef);
+        e.preventDefault();
+        break;
+      // All other cases treat as regular user input into the text field.
+      default:
+        // focus goes to input box by default
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from default');
+        this.sendFocusToInput(this.inputRef);
+        // highlight dynamic free text option
+        this.setState({ highlightedIndex: 0 });
+        break;
+    }
+  };
 
   // Filters list of conditions based on free-text input
   filterOptions = () => {
@@ -91,6 +190,47 @@ export class ComboBox extends React.Component {
     });
   };
 
+  // Scroll helper for keyboard arrow interactions with list items
+  scrollIntoView = index => {
+    const list = this.listRef.current;
+    const currentItem = list.children[index];
+    if (currentItem) {
+      const { scrollTop, clientHeight } = list;
+      const { offsetTop, clientHeight: itemHeight } = currentItem;
+      const isItemFullyVisible =
+        offsetTop >= scrollTop &&
+        offsetTop + itemHeight <= scrollTop + clientHeight;
+      if (!isItemFullyVisible) {
+        currentItem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      }
+    }
+  };
+
+  // Helpers for arrow key navigation
+  decrementIndex = index => {
+    if (index > 0) {
+      return index - 1;
+    }
+    return index;
+  };
+
+  incrementIndex = index => {
+    const { filteredOptions } = this.state;
+    const maxIndex = filteredOptions.length;
+    if (index < maxIndex) {
+      return index + 1;
+    }
+    return index;
+  };
+
+  optionFocus(index) {
+    const focusOption = document.getElementById(`option-${index}`);
+    focusOption.focus();
+  }
+
   // Click handler for a list item
   selectOption(option) {
     this.setState({
@@ -99,9 +239,21 @@ export class ComboBox extends React.Component {
       filteredOptions: [],
       highlightedIndex: 0,
     });
-    this.inputRef.current.focus();
     const { onChange } = this.props;
     onChange(option);
+    // Send focus to input element for additional user input.
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from selectOption');
+    this.sendFocusToInput(this.inputRef);
+  }
+
+  // Keyboard handler for a list item. Need to check index against list for selection via keyboard
+  selectOptionWithKeyboard(e, index, list, searchTerm) {
+    if (index > 0) {
+      this.selectOption(list.children[index].innerText);
+    } else if (index === 0) {
+      this.selectOption(searchTerm);
+    }
   }
 
   // Handler for updating the visible list of items when state changes
@@ -116,9 +268,9 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, searchTerm, value } = this.state;
+    const { highlightedIndex, value } = this.state;
 
-    if (option === value) {
+    if (option === value || option.length < 1) {
       return null;
     }
 
@@ -133,15 +285,16 @@ export class ComboBox extends React.Component {
         onClick={() => {
           this.selectOption(option);
         }}
+        id="option-0"
         style={{ cursor: 'pointer' }}
         tabIndex={0}
-        onMouseEnter={evt => {
-          this.handleMouseEnter(evt, 0);
+        onMouseEnter={e => {
+          this.handleMouseEnter(e, 0);
         }}
-        onKeyDown={() => null}
+        onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected={searchTerm === option}
+        aria-selected="false"
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -152,13 +305,27 @@ export class ComboBox extends React.Component {
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
-      <div className="cc-combobox">
+      <div
+        role="combobox"
+        aria-expanded={filteredOptions.length > 0}
+        className="cc-combobox"
+        aria-haspopup="listbox"
+        aria-controls="combobox-list"
+        aria-owns="combobox-list"
+        aria-autocomplete="list"
+        tabIndex={0}
+        aria-labelledby={this.props.idSchema.$id}
+        aria-label="Enter you condition"
+      >
         <VaTextInput
-          message-aria-describedby="What new condition do you want to claim?"
+          label={this.props.uiSchema['ui:title']}
+          required
           name="combobox-input"
+          id={this.props.idSchema.$id}
           value={this.state.value}
           onInput={this.handleSearchChange}
           onChange={this.handleSearchChange}
+          onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
         />
         <ul
@@ -170,6 +337,14 @@ export class ComboBox extends React.Component {
           style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }}
           role="listbox"
           ref={this.listRef}
+          aria-label="List of matching conditions"
+          id="combobox-list"
+          aria-activedescendant={
+            filteredOptions.length > 0
+              ? `option-${this.state.highlightedIndex}`
+              : null
+          }
+          tabIndex={0}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -191,10 +366,11 @@ export class ComboBox extends React.Component {
                   onMouseEnter={e => {
                     this.handleMouseEnter(e, optionIndex);
                   }}
-                  onKeyDown={() => null}
+                  onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected={this.state.input === option}
+                  aria-selected="false"
+                  id={`option-${optionIndex}`}
                 >
                   {option}
                 </li>
@@ -207,7 +383,7 @@ export class ComboBox extends React.Component {
           role="alert"
           aria-live="polite"
           aria-atomic="true"
-          id="1"
+          id={`${this.props.idSchema.$id}-live-sr-results1`}
         >
           {ariaLive1}
         </div>
@@ -216,7 +392,7 @@ export class ComboBox extends React.Component {
           role="alert"
           aria-live="polite"
           aria-atomic="true"
-          id="live_sr_results2"
+          id={`${this.props.idSchema.$id}-live-sr-results2`}
         >
           {ariaLive2}
         </div>
@@ -230,8 +406,9 @@ export class ComboBox extends React.Component {
   }
 }
 
-// TODO: flesh this out
 ComboBox.propTypes = {
-  uiSchema: PropTypes.any,
+  formData: PropTypes.string,
+  idSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
   onChange: PropTypes.func,
 };

@@ -17,10 +17,12 @@ import { dateFormat } from '../util/helpers';
 import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
+import { DD_ACTIONS_PAGE_TYPE } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import PrintOnlyPage from './PrintOnlyPage';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -114,11 +116,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   };
 
   const categorizePrescriptions = ([refillable, renewable], rx) => {
-    if (
-      (rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
-      (rx.dispStatus === dispStatusObj.activeParked &&
-        (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-    ) {
+    if (rx.isRefillable) {
       return [[...refillable, rx], renewable];
     }
     return [refillable, [...renewable, rx]];
@@ -190,12 +188,16 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           Refill prescriptions
         </h1>
         {prescriptionsApiError ? (
-          <ApiErrorNotification />
+          <>
+            <ApiErrorNotification errorType="access" content="medications" />
+            <CernerFacilityAlert className="vads-u-margin-top--2" />
+          </>
         ) : (
           <>
+            <RefillNotification refillResult={refillResult} />
             {fullRefillList?.length > 0 ? (
               <div>
-                <RefillNotification refillResult={refillResult} />
+                <CernerFacilityAlert />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -246,62 +248,39 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 )}
                 {fullRefillList.slice().map((prescription, idx) => (
                   <div key={idx} className="vads-u-margin-bottom--2">
-                    <input
+                    <VaCheckbox
+                      id={`checkbox-${prescription.prescriptionId}`}
+                      data-testid={`refill-prescription-checkbox-${idx}`}
+                      label={prescription.prescriptionName}
+                      name={prescription.prescriptionId}
+                      className="select-1-checkbox vads-u-margin-y--0"
                       data-dd-action-name={`Select Single Medication Checkbox - ${
                         DD_ACTIONS_PAGE_TYPE.REFILL
                       }`}
-                      data-testid={`refill-prescription-checkbox-${idx}`}
-                      type="checkbox"
                       checked={
                         selectedRefillList.includes(
                           prescription.prescriptionId,
                         ) || false
                       }
-                      id={`checkbox-${prescription.prescriptionId}`}
-                      name={prescription.prescriptionId}
-                      className="vads-u-margin-y--0"
-                      onChange={e =>
-                        e.type === 'change' &&
+                      onVaChange={() =>
                         onSelectPrescription(prescription.prescriptionId)
                       }
+                      uswds
+                      checkbox-description={`Prescription number: ${
+                        prescription.prescriptionNumber
+                      }
+                        ${
+                          prescription.sortedDispensedDate ||
+                          prescription.dispensedDate
+                            ? `Last filled on ${dateFormat(
+                                prescription.sortedDispensedDate ||
+                                  prescription.dispensedDate,
+                                'MMMM D, YYYY',
+                              )}`
+                            : 'Not filled yet'
+                        }
+                        ${prescription.refillRemaining} refills left`}
                     />
-                    <label
-                      htmlFor={`checkbox-${prescription.prescriptionId}`}
-                      id={`label-${prescription.prescriptionId}`}
-                      className="refillable-prescription-item"
-                    >
-                      <div>
-                        <span className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold">
-                          {prescription.prescriptionName}
-                        </span>
-                        <div
-                          id={`details-${prescription.prescriptionId}`}
-                          className="vads-u-margin-top--0"
-                          data-testid={`refill-prescription-details-${
-                            prescription.prescriptionNumber
-                          }`}
-                        >
-                          <p className="vads-u-margin--0">
-                            Prescription number:{' '}
-                            {prescription.prescriptionNumber}
-                          </p>
-                          <p
-                            className="vads-u-margin--0"
-                            data-testid={`refill-last-filled-${idx}`}
-                          >
-                            Last filled on{' '}
-                            {dateFormat(
-                              prescription.sortedDispensedDate ||
-                                prescription.dispensedDate,
-                              'MMMM D, YYYY',
-                            )}
-                          </p>
-                          <p className="vads-u-margin--0">
-                            {prescription.refillRemaining} refills left
-                          </p>
-                        </div>
-                      </div>
-                    </label>
                   </div>
                 ))}
                 <VaButton
@@ -325,27 +304,40 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 />
               </div>
             ) : (
-              <p data-testid="no-refills-message">
-                You don’t have any VA prescriptions with refills available. If
-                you need a prescription, contact your care team.
-              </p>
+              <>
+                <p data-testid="no-refills-message">
+                  You don’t have any VA prescriptions with refills available. If
+                  you need a prescription, contact your care team.
+                </p>
+                <CernerFacilityAlert className="vads-u-margin-top--2" />
+              </>
             )}
             <RenewablePrescriptions
               renewablePrescriptionsList={fullRenewList}
             />
-            <div className="print-only">
-              <AllergiesPrintOnly
-                allergies={allergies}
-                allergiesError={allergiesError}
-              />
-            </div>
           </>
         )}
       </div>
     );
   };
 
-  return <>{content()}</>;
+  return (
+    <>
+      <div>
+        <div
+          className={
+            !prescriptionsApiError && !allergiesError ? '' : 'no-print'
+          }
+        >
+          {content()}
+          <AllergiesPrintOnly allergies={allergies} />
+        </div>
+        {(prescriptionsApiError || allergiesError) && (
+          <PrintOnlyPage title="Refill prescriptions" hasError />
+        )}
+      </div>
+    </>
+  );
 };
 
 // These have been added for testing purposes only

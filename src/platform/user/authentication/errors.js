@@ -63,6 +63,10 @@ export const AUTH_ERRORS = {
     errorCode: '110',
     message: `We're having trouble provisioning your My VA Health account right now.`,
   },
+  CERNER_NOT_ELIGIBLE: {
+    errorCode: '111',
+    message: `You’re not eligible for a My VA Health account.`,
+  },
   OAUTH_DEFAULT_ERROR: {
     errorCode: '201',
     message: `Unknown OAuth Error`,

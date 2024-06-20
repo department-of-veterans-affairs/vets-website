@@ -7,7 +7,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/gulfWar2001Details';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   gulfWar2001PageTitle,
   startDateApproximate,
@@ -31,67 +31,72 @@ describe('gulfWar2001Details', () => {
     },
   };
 
-  Object.keys(GULF_WAR_2001_LOCATIONS).forEach(locationId => {
-    const pageSchema = schemas[`gulf-war-2001-location-${locationId}`];
-    it(`should render for ${locationId}`, () => {
-      const { container, getByText } = render(
-        <DefinitionTester
-          schema={pageSchema.schema}
-          uiSchema={pageSchema.uiSchema}
-          data={formData}
-        />,
-      );
-
-      getByText(gulfWar2001PageTitle);
-      getByText(dateRangeDescription);
-
-      const addlInfo = container.querySelector('va-additional-info');
-      expect(addlInfo).to.have.attribute(
-        'trigger',
-        'What if I have more than one date range?',
-      );
-
-      expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-        .to.exist;
-      expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-        .to.exist;
-
-      // Look for the text on the page and also the title used for review and submit
-      if (locationId === 'yemen') {
-        getByText(`Location 1 of 2: ${GULF_WAR_2001_LOCATIONS.yemen}`, {
-          exact: false,
-        });
-        expect(pageSchema.title(formData)).to.equal(
-          `Location 1 of 2: ${GULF_WAR_2001_LOCATIONS.yemen}`,
+  Object.keys(GULF_WAR_2001_LOCATIONS)
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
+    .forEach(locationId => {
+      const pageSchema = schemas[`gulf-war-2001-location-${locationId}`];
+      it(`should render for ${locationId}`, () => {
+        const { container, getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+          />,
         );
-      } else if (locationId === 'airspace') {
-        getByText(`Location 2 of 2: ${GULF_WAR_2001_LOCATIONS.airspace}`, {
-          exact: false,
-        });
-        expect(pageSchema.title(formData)).to.equal(
-          `Location 2 of 2: ${GULF_WAR_2001_LOCATIONS.airspace}`,
+
+        getByText(gulfWar2001PageTitle);
+        getByText(dateRangeDescriptionWithLocation);
+
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
+
+        getByText('I’m not sure of the dates I served in this location');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
         );
-      } else {
-        getByText(GULF_WAR_2001_LOCATIONS[locationId]);
-        expect(pageSchema.title(formData)).to.equal(
-          `${GULF_WAR_2001_LOCATIONS[locationId]}`,
+
+        // Look for the text on the page and also the title used for review and submit
+        if (locationId === 'yemen') {
+          getByText(`Location 1 of 2: ${GULF_WAR_2001_LOCATIONS.yemen}`, {
+            exact: false,
+          });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 1 of 2: ${GULF_WAR_2001_LOCATIONS.yemen}`,
+          );
+        } else if (locationId === 'airspace') {
+          getByText(`Location 2 of 2: ${GULF_WAR_2001_LOCATIONS.airspace}`, {
+            exact: false,
+          });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 2 of 2: ${GULF_WAR_2001_LOCATIONS.airspace}`,
+          );
+        } else {
+          getByText(GULF_WAR_2001_LOCATIONS[locationId]);
+          expect(pageSchema.title(formData)).to.equal(
+            `${GULF_WAR_2001_LOCATIONS[locationId]}`,
+          );
+        }
+      });
+
+      it(`should submit without dates for ${locationId}`, () => {
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
         );
-      }
+
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
+      });
     });
-
-    it(`should submit without dates for ${locationId}`, () => {
-      const onSubmit = sinon.spy();
-      const { getByText } = render(
-        <DefinitionTester
-          schema={pageSchema.schema}
-          uiSchema={pageSchema.uiSchema}
-          data={formData}
-          onSubmit={onSubmit}
-        />,
-      );
-
-      userEvent.click(getByText('Submit'));
-      expect(onSubmit.calledOnce).to.be.true;
-    });
-  });
 });

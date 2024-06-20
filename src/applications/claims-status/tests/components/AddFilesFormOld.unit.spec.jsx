@@ -2,7 +2,6 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
-// import { renderWithRouter } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -417,6 +416,48 @@ describe('<AddFilesFormOld>', () => {
     ]);
     expect(onAddFile.called).to.be.true;
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
+  });
+
+  it('should mask filenames of added files in DataDog (no PII)', () => {
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesFormOld
+        files={[file]}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
+      />,
+    );
+
+    expect(tree.subTree('.document-title').props['data-dd-privacy']).to.equal(
+      'mask',
+    );
   });
 
   it('should add a large PDF file', () => {

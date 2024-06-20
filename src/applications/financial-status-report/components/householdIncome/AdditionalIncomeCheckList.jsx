@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -25,45 +26,50 @@ const AdditionalIncomeCheckList = ({
   const { addlIncRecords = [] } = additionalIncome;
 
   // Calculate income properties as necessary
-  const updateStreamlinedValues = () => {
-    if (
-      questions?.isMarried ||
-      addlIncRecords?.length ||
-      !gmtData?.isEligibleForStreamlined
-    )
-      return;
+  useEffect(() => {
+    const calculateIncome = async () => {
+      if (
+        questions?.isMarried ||
+        addlIncRecords?.length ||
+        !gmtData?.isEligibleForStreamlined
+      )
+        return;
 
-    const calculatedIncome = calculateTotalAnnualIncome(data);
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGmt:
-          calculatedIncome < gmtData?.incomeUpperThreshold,
-      },
-    });
-  };
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
-      ? setFormData({
+        setFormData({
           ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: addlIncRecords.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
           },
         });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in AdditionalIncomeChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
+
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      additionalIncome: {
+        ...additionalIncome,
+        addlIncRecords: checked
+          ? [...addlIncRecords, { name, amount: '' }]
+          : addlIncRecords.filter(source => source.name !== name),
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -100,11 +106,12 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

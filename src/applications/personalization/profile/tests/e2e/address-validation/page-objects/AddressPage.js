@@ -168,7 +168,7 @@ class AddressPage {
   fillAddressForm = fields => {
     if (fields.military) {
       cy.selectVaCheckbox('root_view:livesOnMilitaryBase', true);
-      cy.selectVaSelect('root_city', 'FPO');
+      cy.selectVaRadioOption('root_city', 'FPO');
     }
 
     if (fields.country) {
@@ -191,8 +191,12 @@ class AddressPage {
       cy.fillVaTextInput('root_city', fields.city);
     }
 
-    if (fields.state) {
+    if (fields.state && !fields.military) {
       cy.selectVaSelect('root_stateCode', fields.state);
+    }
+
+    if (fields.state && fields.military) {
+      cy.selectVaRadioOption('root_stateCode', fields.state);
     }
 
     if (fields.province) {

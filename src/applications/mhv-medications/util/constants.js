@@ -21,7 +21,7 @@ export const medicationsUrls = {
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_ABOUT: '/my-health/medications/about',
   MEDICATIONS_ABOUT_ACCORDION_RENEW:
-    '/my-health/medications/about/accordion-renew-rx',
+    '/my-health/medications/about#accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
   subdirectories: {
@@ -173,6 +173,16 @@ export const PDF_TXT_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
   Success: 'PDF_GENERATE_SUCCESS',
+};
+
+export const DOWNLOAD_FORMAT = {
+  PDF: 'PDF',
+  TXT: 'TXT',
+};
+
+export const PRINT_FORMAT = {
+  PRINT: 'print',
+  PRINT_FULL_LIST: 'print-full-list',
 };
 
 export const defaultSelectedSortOption =

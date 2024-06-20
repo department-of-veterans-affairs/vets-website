@@ -4,7 +4,6 @@ import mockThreadResponse from './fixtures/thread-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Thread Details', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const date = new Date();
   const messageIdList = mockThreadResponse.data.map(
@@ -13,8 +12,8 @@ describe('Secure Messaging Thread Details', () => {
 
   it('verify expanded messages focus', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.loadSingleThread(mockThreadResponse, date);
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadSingleThread(mockThreadResponse, date);
 
     for (let i = 1; i < messageIdList.length; i += 1) {
       cy.get(

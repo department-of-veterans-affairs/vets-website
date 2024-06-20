@@ -1,0 +1,76 @@
+{
+  "description": "Is 3rd party certifier, sponsor deceased, applicant was spouse but divorced before death",
+  "data": {
+    "applicants": [
+      {
+        "dateOfMarriageToSponsor": "2001-01-01",
+        "dateOfSeparationFromSponsor": "2004-04-02",
+        "applicantPhone": "1231231234",
+        "applicantEmailAddress": "app@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 App Street",
+          "city": "Cityburg",
+          "state": "CO",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "123123123"
+        },
+        "applicantName": {
+          "first": "Applicant",
+          "last": "Jones"
+        },
+        "applicantDOB": "2001-02-02",
+        "applicantGender": {
+          "gender": "female"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "spouse"
+        },
+        "applicantSponsorMarriageDetails": {
+          "relationshipToVeteran": "marriageDissolved"
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "ineligible"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "no"
+        }
+      }
+    ],
+    "sponsorDOD": "2000-04-05",
+    "sponsorDeathConditions": true,
+    "sponsorIsDeceased": true,
+    "ssn": {
+      "ssn": "123123123"
+    },
+    "veteransFullName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "sponsorDOB": "1950-01-01",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": false,
+        "thirdParty": true
+      }
+    },
+    "certifierPhone": "1231231234",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "CertTown",
+      "state": "AK",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "certifierRole": "other",
+    "statementOfTruthSignature": "certifier jones",
+    "statementOfTruthCertified": true
+  }
+}

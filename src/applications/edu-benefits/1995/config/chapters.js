@@ -18,7 +18,7 @@ import {
   sponsorInfo,
 } from '../pages';
 
-import { isProductionOfTestProdEnv } from '../helpers';
+import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
@@ -106,6 +106,13 @@ export const directDepositField = (automatedTest = false) => {
     : createDirectDepositChangePageUpdate(fullSchema1995);
 };
 
+export const serviceHistoryTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Service history';
+  }
+  return 'Applicant service history';
+};
+
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
@@ -131,13 +138,13 @@ export const chapters = {
     },
   },
   sponsorInformation: {
-    title: 'Sponsor information',
+    title: sponsorInformationTitle(),
     pages: {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
   militaryService: {
-    title: 'Service history',
+    title: serviceHistoryTitle(),
     pages: {
       servicePeriods: {
         path: 'military/service',

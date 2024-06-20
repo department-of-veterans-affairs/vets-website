@@ -8,19 +8,18 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage);
+    const testMessage = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    PatientReplyPage.getMessageBodyField().type('Test message body', {
+    PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
     });
     cy.injectAxe();
@@ -28,6 +27,5 @@ describe('Secure Messaging Reply', () => {
     PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
-    // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

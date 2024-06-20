@@ -123,13 +123,21 @@ export default function RecentActivity({ claim }) {
                   <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
                     {requestType(item.status)}
                   </p>
-                  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+                  <p
+                    className="item-description vads-u-margin-top--0 vads-u-margin-bottom--1"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="item description"
+                  >
                     {item.description}
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
+                  <p
+                    className="item-description vads-u-margin-top--0p5 vads-u-margin-bottom--1"
+                    data-dd-privacy="mask"
+                    data-dd-action-name="item description"
+                  >
                     {item.description}
                   </p>
                 </>

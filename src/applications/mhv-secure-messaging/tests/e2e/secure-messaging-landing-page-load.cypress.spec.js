@@ -1,5 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
@@ -47,6 +48,14 @@ describe('SM main page', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
+  });
+
+  it('verify breadcrumbs', () => {
+    FolderLoadPage.verifyBreadCrumbsLength(3);
+
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
   });
 });
 
