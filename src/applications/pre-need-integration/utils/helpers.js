@@ -1085,8 +1085,6 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       }
     }
 
-    // THIS IS ONLY WORKING FOR VETERAN FLOW, BUT ON THE RIGHT TRACK
-    // Determine the date of birth and error message
     let dob;
     let errorMessage;
 
@@ -1108,19 +1106,14 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
         "Provide a valid date that is after the sponsor's date of birth";
     }
 
-    // Date of birth validation
+    // Date of birth validation against service start date and service end date
     if (serviceRecord.dateRange.from <= dob) {
       errors[index].dateRange.from.addError(errorMessage);
     }
 
-    // dob validation
-    // if (
-    //   serviceRecord.dateRange.from < formData.application.claimant.dateOfBirth
-    // ) {
-    //   errors[index].dateRange.from.addError(
-    //     'Provide a valid date that is after your date of birth',
-    //   );
-    // }
+    if (serviceRecord.dateRange.to <= dob) {
+      errors[index].dateRange.to.addError(errorMessage);
+    }
   }
 };
 
