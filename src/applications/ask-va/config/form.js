@@ -19,7 +19,6 @@ import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 
 // Your Question
 import questionAboutPage from './chapters/yourQuestion/questionAbout';
-import reasonContactPage from './chapters/yourQuestion/reasonContacting';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // // Personal Information
@@ -208,12 +207,6 @@ const formConfig = {
     yourQuestion: {
       title: CHAPTER_2.CHAPTER_TITLE,
       pages: {
-        reasonYoureContactingUs: {
-          path: CHAPTER_2.PAGE_2.PATH,
-          title: CHAPTER_2.PAGE_2.TITLE,
-          uiSchema: reasonContactPage.uiSchema,
-          schema: reasonContactPage.schema,
-        },
         tellUsYourQuestion: {
           path: CHAPTER_2.PAGE_3.PATH,
           title: CHAPTER_2.PAGE_3.TITLE,
