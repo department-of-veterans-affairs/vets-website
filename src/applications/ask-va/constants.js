@@ -208,7 +208,7 @@ export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
   PAGE_1: {
     PATH: 'category-topic-1',
-    TITLE: 'Category selected',
+    TITLE: 'Category',
     PAGE_DESCRIPTION: 'Category',
     QUESTION_1: 'Select the category that best describes your question:',
   },
