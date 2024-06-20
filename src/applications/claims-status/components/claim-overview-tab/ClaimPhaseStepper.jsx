@@ -70,8 +70,8 @@ export default function ClaimPhaseStepper({
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <Link data-testid="submit-evidence-link" to="../files">
-            Submit evidence now
+          <Link data-testid="upload-evidence-link" to="../files">
+            Upload your evidence here
           </Link>
         </>
       ),
