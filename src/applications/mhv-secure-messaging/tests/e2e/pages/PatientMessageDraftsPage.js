@@ -254,35 +254,34 @@ class PatientMessageDraftsPage {
     cy.wait('@saveDraft');
   };
 
-  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
+  confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
       `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
-    if (isNewDraftText) {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      // Wait needs to be added back in before closing PR
-      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    } else {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    }
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
-  deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
-      data: mockResponse,
-    }).as('deletedDraftResponse');
+  deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[index].attributes.messageId
+      }`,
+      mockResponse.data[index],
+    ).as('deletedDraftResponse');
 
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
-    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[2].attributes.messageId
+      }/thread?*`,
+      reducedMockResponse,
+    ).as('updatedThreadResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
   // method below could be deleted after refactoring associated specs

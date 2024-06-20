@@ -173,11 +173,6 @@ const formConfig = {
             },
           },
         },
-      },
-    },
-    sameAsMailingAddress: {
-      title: 'Mailing address',
-      pages: {
         page3a: {
           path: 'same-as-mailing-address',
           uiSchema: {
