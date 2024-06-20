@@ -156,6 +156,7 @@ class EducationWizard extends React.Component {
 
   render() {
     const {
+      applicantOverEighteen,
       newBenefit,
       serviceBenefitBasedOn,
       transferredEduBenefits,
@@ -186,6 +187,14 @@ class EducationWizard extends React.Component {
         label: `Applying for the Edith Nourse Rogers STEM Scholarship after using
             Post-9/11 GI Bill or Fry Scholarship benefits`,
         value: 'extend',
+      },
+    ];
+
+    const applicantOverEighteenOptions = [
+      { label: 'Is applicant at least 18 year old.', value: 'yes' },
+      {
+        label: 'Is applicant a minor',
+        value: 'no',
       },
     ];
 
@@ -230,238 +239,262 @@ class EducationWizard extends React.Component {
           Find your education benefits form
         </button>
         <div className={contentClasses} id="wizardOptions">
-          <div className="wizard-content-inner">
-            <VARadioButton
-              radioLabel="Are you applying for a benefit or updating your program or place of training?"
-              name="newBenefit"
-              initialValue={newBenefit}
-              options={newBenefitOptions}
-              onVaValueChange={event =>
-                handlers.onSelection(event, 'newBenefit')
-              }
-            />
-            {newBenefit === 'yes' && (
+          <VARadioButton
+            radioLabel="Are you applying for a benefit or updating your program or place of training?"
+            name="applicantOverEighteen"
+            initialValue={applicantOverEighteen}
+            options={applicantOverEighteenOptions}
+            onVaValueChange={event =>
+              handlers.onSelection(event, 'applicantOverEighteen')
+            }
+          />
+          {applicantOverEighteen === 'yes' && (
+            <div className="wizard-content-inner">
               <VARadioButton
-                radioLabel="Are you a Veteran or service member claiming a benefit based on your own service?"
-                name="serviceBenefitBasedOn"
-                initialValue={serviceBenefitBasedOn}
-                options={serviceBenefitBasedOnOptions}
+                radioLabel="Are you applying for a benefit or updating your program or place of training?"
+                name="newBenefit"
+                initialValue={newBenefit}
+                options={newBenefitOptions}
                 onVaValueChange={event =>
-                  handlers.onSelection(event, 'serviceBenefitBasedOn')
+                  handlers.onSelection(event, 'newBenefit')
                 }
               />
-            )}
-            {newBenefit === 'no' && (
-              <VARadioButton
-                radioLabel="Are you receiving education benefits transferred to you by a sponsor Veteran?"
-                name="transferredEduBenefits"
-                initialValue={transferredEduBenefits}
-                options={transferredEduBenefitsOptions}
-                onVaValueChange={event =>
-                  handlers.onSelection(event, 'transferredEduBenefits')
-                }
-              />
-            )}
-            {serviceBenefitBasedOn === 'own' && (
-              <VARadioButton
-                radioLabel={`Are you applying for Veteran Employment Through Technology
-                Education Courses (VET TEC)?`}
-                name="vetTecBenefit"
-                initialValue={vetTecBenefit}
-                options={sharedOptions}
-                onVaValueChange={event =>
-                  handlers.onSelection(event, 'vetTecBenefit')
-                }
-              />
-            )}
-            {serviceBenefitBasedOn === 'other' && (
-              <VARadioButton
-                radioLabel="Has your sponsor transferred their benefits to you?"
-                name="sponsorTransferredBenefits"
-                initialValue={sponsorTransferredBenefits}
-                options={sharedOptions}
-                onVaValueChange={event =>
-                  handlers.onSelection(event, 'sponsorTransferredBenefits')
-                }
-              />
-            )}
-            {sponsorTransferredBenefits === 'no' && (
-              <VARadioButton
-                radioLabel="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
-                name="sponsorDeceasedDisabledMIA"
-                initialValue={sponsorDeceasedDisabledMIA}
-                options={sharedOptions}
-                onVaValueChange={event =>
-                  handlers.onSelection(event, 'sponsorDeceasedDisabledMIA')
-                }
-              />
-            )}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'other' &&
-              sponsorDeceasedDisabledMIA === 'no' &&
-              sponsorTransferredBenefits === 'no' && (
-                <div className="usa-alert usa-alert-warning">
-                  <div className="usa-alert-body">
-                    <h4>
-                      Your application can't be approved until your sponsor
-                      transfers their benefits.
-                    </h4>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href="https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits"
-                    >
-                      Instructions for your sponsor to transfer education
-                      benefits.
-                    </a>
-                  </div>
-                </div>
-              )}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'own' &&
-              vetTecBenefit === 'no' && (
+              {newBenefit === 'yes' && (
                 <VARadioButton
-                  radioLabel="Are you applying for the Post-9/11 GI Bill?"
-                  name="post911GIBill"
-                  initialValue={post911GIBill}
-                  options={sharedOptions}
+                  radioLabel="Are you a Veteran or service member claiming a benefit based on your own service?"
+                  name="serviceBenefitBasedOn"
+                  initialValue={serviceBenefitBasedOn}
+                  options={serviceBenefitBasedOnOptions}
                   onVaValueChange={event =>
-                    handlers.onSelection(event, 'post911GIBill')
+                    handlers.onSelection(event, 'serviceBenefitBasedOn')
                   }
                 />
               )}
-            {newBenefit === 'extend' && (
-              <div className="wizard-edith-nourse-content">
-                <br />
-                <div>
-                  <strong>
-                    To be eligible for the{' '}
-                    <a
-                      href="/education/other-va-education-benefits/stem-scholarship/"
-                      rel="noopener noreferrer"
-                      onClick={() =>
-                        recordEvent({
-                          event: 'edu-navigation',
-                          'edu-action': 'stem-scholarship',
-                        })
-                      }
-                    >
-                      Edith Nourse Rogers STEM Scholarship
-                    </a>
-                    , you must meet all the requirements below.
-                  </strong>
-                  <ul>
-                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
-                      <b>Education benefit:</b> You're using or recently used
-                      Post-9/11 GI Bill or Fry Scholarship benefits.
-                    </li>
-                    <li>
-                      <b>STEM degree:</b>
-                      <ul className="circle-bullet vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25 vads-u-margin-bottom--neg1">
-                        <li className="li-styling">
-                          You're enrolled in a bachelor’s degree program for
-                          science, technology, engineering, or math (STEM),{' '}
-                          <b>or</b>
-                        </li>{' '}
-                        <li className="li-styling">
-                          You've already earned a STEM bachelor’s degree and are
-                          working toward a teaching certification, <b>or</b>
-                        </li>{' '}
-                        <li className="li-styling">
-                          {' '}
-                          You've already earned a STEM bachelor's or graduate
-                          degree and are pursuing a covered clinical training
-                          program for health care professionals. <br />
-                          <a
-                            aria-label="See eligible degree and clinical training programs, opening in new tab"
-                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            onClick={() =>
-                              recordEvent({
-                                event: 'edu-navigation',
-                                'edu-action': 'see-approved-stem-programs',
-                              })
-                            }
-                          >
-                            See eligible degree and clinical training programs
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
-                      <b>Remaining entitlement:</b> You've used all of your
-                      education benefits or are within 6 months of using all
-                      your benefits when you submit your application.{' '}
+              {newBenefit === 'no' && (
+                <VARadioButton
+                  radioLabel="Are you receiving education benefits transferred to you by a sponsor Veteran?"
+                  name="transferredEduBenefits"
+                  initialValue={transferredEduBenefits}
+                  options={transferredEduBenefitsOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'transferredEduBenefits')
+                  }
+                />
+              )}
+              {serviceBenefitBasedOn === 'own' && (
+                <VARadioButton
+                  radioLabel={`Are you applying for Veteran Employment Through Technology
+                Education Courses (VET TEC)?`}
+                  name="vetTecBenefit"
+                  initialValue={vetTecBenefit}
+                  options={sharedOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'vetTecBenefit')
+                  }
+                />
+              )}
+              {serviceBenefitBasedOn === 'other' && (
+                <VARadioButton
+                  radioLabel="Has your sponsor transferred their benefits to you?"
+                  name="sponsorTransferredBenefits"
+                  initialValue={sponsorTransferredBenefits}
+                  options={sharedOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'sponsorTransferredBenefits')
+                  }
+                />
+              )}
+              {sponsorTransferredBenefits === 'no' && (
+                <VARadioButton
+                  radioLabel="Is your sponsor deceased, 100% permanently disabled, MIA, or a POW?"
+                  name="sponsorDeceasedDisabledMIA"
+                  initialValue={sponsorDeceasedDisabledMIA}
+                  options={sharedOptions}
+                  onVaValueChange={event =>
+                    handlers.onSelection(event, 'sponsorDeceasedDisabledMIA')
+                  }
+                />
+              )}
+              {newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'other' &&
+                sponsorDeceasedDisabledMIA === 'no' &&
+                sponsorTransferredBenefits === 'no' && (
+                  <div className="usa-alert usa-alert-warning">
+                    <div className="usa-alert-body">
+                      <h4>
+                        Your application can't be approved until your sponsor
+                        transfers their benefits.
+                      </h4>
                       <a
-                        className="checkBenefitsLink"
-                        href="/education/gi-bill/post-9-11/ch-33-benefit/"
-                        rel="noopener noreferrer"
                         target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://milconnect.dmdc.osd.mil/milconnect/public/faq/Education_Benefits-How_to_Transfer_Benefits"
+                      >
+                        Instructions for your sponsor to transfer education
+                        benefits.
+                      </a>
+                    </div>
+                  </div>
+                )}
+              {newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'own' &&
+                vetTecBenefit === 'no' && (
+                  <VARadioButton
+                    radioLabel="Are you applying for the Post-9/11 GI Bill?"
+                    name="post911GIBill"
+                    initialValue={post911GIBill}
+                    options={sharedOptions}
+                    onVaValueChange={event =>
+                      handlers.onSelection(event, 'post911GIBill')
+                    }
+                  />
+                )}
+              {newBenefit === 'extend' && (
+                <div className="wizard-edith-nourse-content">
+                  <br />
+                  <div>
+                    <strong>
+                      To be eligible for the{' '}
+                      <a
+                        href="/education/other-va-education-benefits/stem-scholarship/"
+                        rel="noopener noreferrer"
                         onClick={() =>
                           recordEvent({
                             event: 'edu-navigation',
-                            'edu-action': 'check-remaining-benefits',
+                            'edu-action': 'stem-scholarship',
                           })
                         }
                       >
-                        Check your remaining benefits
+                        Edith Nourse Rogers STEM Scholarship
                       </a>
-                    </li>
-                  </ul>
-                </div>
+                      , you must meet all the requirements below.
+                    </strong>
+                    <ul>
+                      <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
+                        <b>Education benefit:</b> You're using or recently used
+                        Post-9/11 GI Bill or Fry Scholarship benefits.
+                      </li>
+                      <li>
+                        <b>STEM degree:</b>
+                        <ul className="circle-bullet vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25 vads-u-margin-bottom--neg1">
+                          <li className="li-styling">
+                            You're enrolled in a bachelor’s degree program for
+                            science, technology, engineering, or math (STEM),{' '}
+                            <b>or</b>
+                          </li>{' '}
+                          <li className="li-styling">
+                            You've already earned a STEM bachelor’s degree and
+                            are working toward a teaching certification,{' '}
+                            <b>or</b>
+                          </li>{' '}
+                          <li className="li-styling">
+                            {' '}
+                            You've already earned a STEM bachelor's or graduate
+                            degree and are pursuing a covered clinical training
+                            program for health care professionals. <br />
+                            <a
+                              aria-label="See eligible degree and clinical training programs, opening in new tab"
+                              href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              onClick={() =>
+                                recordEvent({
+                                  event: 'edu-navigation',
+                                  'edu-action': 'see-approved-stem-programs',
+                                })
+                              }
+                            >
+                              See eligible degree and clinical training programs
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li className="vads-u-margin-x--neg0p25 vads-u-margin-y--neg0p25">
+                        <b>Remaining entitlement:</b> You've used all of your
+                        education benefits or are within 6 months of using all
+                        your benefits when you submit your application.{' '}
+                        <a
+                          className="checkBenefitsLink"
+                          href="/education/gi-bill/post-9-11/ch-33-benefit/"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          onClick={() =>
+                            recordEvent({
+                              event: 'edu-navigation',
+                              'edu-action': 'check-remaining-benefits',
+                            })
+                          }
+                        >
+                          Check your remaining benefits
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
 
-                <VARadioButton
-                  radioLabel="Based on the eligibility requirements above, do you want to apply for this scholarship?"
-                  name="applyForScholarship"
-                  initialValue={applyForScholarship}
-                  options={sharedOptions}
-                  onVaValueChange={event =>
-                    handlers.onSelection(event, 'applyForScholarship')
-                  }
-                />
+                  <VARadioButton
+                    radioLabel="Based on the eligibility requirements above, do you want to apply for this scholarship?"
+                    name="applyForScholarship"
+                    initialValue={applyForScholarship}
+                    options={sharedOptions}
+                    onVaValueChange={event =>
+                      handlers.onSelection(event, 'applyForScholarship')
+                    }
+                  />
 
-                <div className="vads-u-padding-top--2">
-                  {(applyForScholarship === 'yes' && this.getButton('10203')) ||
-                    (applyForScholarship === 'no' && (
-                      <p>
-                        Learn what other education benefits you may be eligible
-                        for on the{' '}
-                        <a href="../eligibility/">GI Bill eligibility page</a>.
-                      </p>
-                    ))}
+                  <div className="vads-u-padding-top--2">
+                    {(applyForScholarship === 'yes' &&
+                      this.getButton('10203')) ||
+                      (applyForScholarship === 'no' && (
+                        <p>
+                          Learn what other education benefits you may be
+                          eligible for on the{' '}
+                          <a href="../eligibility/">GI Bill eligibility page</a>
+                          .
+                        </p>
+                      ))}
+                  </div>
                 </div>
-              </div>
-            )}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'own' &&
-              vetTecBenefit === 'no' &&
-              post911GIBill === 'yes' &&
-              this.getButton('22-1990')}
-            {newBenefit === 'yes' &&
-              vetTecBenefit === 'no' &&
-              post911GIBill === 'no' &&
-              this.getButton('1990')}
-            {newBenefit === 'yes' &&
-              vetTecBenefit === 'yes' &&
-              this.getButton('0994')}
-            {newBenefit === 'no' &&
-              (transferredEduBenefits === 'transferred' ||
-                transferredEduBenefits === 'own') &&
-              this.getButton('1995')}
-            {newBenefit === 'no' &&
-              transferredEduBenefits === 'fry' &&
-              this.getButton('5495')}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'other' &&
-              sponsorTransferredBenefits === 'yes' &&
-              this.getButton('1990E')}
-            {newBenefit === 'yes' &&
-              serviceBenefitBasedOn === 'other' &&
-              sponsorTransferredBenefits === 'no' &&
-              sponsorDeceasedDisabledMIA === 'yes' &&
-              this.getButton('5490')}
-          </div>
+              )}
+              {newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'own' &&
+                vetTecBenefit === 'no' &&
+                post911GIBill === 'yes' &&
+                this.getButton('22-1990')}
+              {newBenefit === 'yes' &&
+                vetTecBenefit === 'no' &&
+                post911GIBill === 'no' &&
+                this.getButton('1990')}
+              {newBenefit === 'yes' &&
+                vetTecBenefit === 'yes' &&
+                this.getButton('0994')}
+              {newBenefit === 'no' &&
+                (transferredEduBenefits === 'transferred' ||
+                  transferredEduBenefits === 'own') &&
+                this.getButton('1995')}
+              {newBenefit === 'no' &&
+                transferredEduBenefits === 'fry' &&
+                this.getButton('5495')}
+              {newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'other' &&
+                sponsorTransferredBenefits === 'yes' &&
+                this.getButton('1990E')}
+              {newBenefit === 'yes' &&
+                serviceBenefitBasedOn === 'other' &&
+                sponsorTransferredBenefits === 'no' &&
+                sponsorDeceasedDisabledMIA === 'yes' &&
+                this.getButton('5490')}
+            </div>
+          )}
+          {applicantOverEighteen === 'no' && (
+            <va-alert status="error">
+              <h1>Applicant must be at least 18 to move forward.</h1>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer
+              </p>
+            </va-alert>
+          )}
         </div>
       </div>
     );
