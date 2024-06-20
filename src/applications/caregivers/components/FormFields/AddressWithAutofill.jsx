@@ -22,7 +22,8 @@ const PrimaryAddressWithAutofill = props => {
     schema,
   } = props;
   const { reviewMode, submitted } = formContext;
-  const { properties: schemaProps, required: reqFields } = schema;
+  const { properties: schemaProps } = schema;
+  const reqFields = ['street', 'city', 'state', 'postalCode', 'county'];
   const { veteranAddress } = useSelector(state => state.form.data);
   const [dirtyFields, setDirtyFields] = useState([]);
 
