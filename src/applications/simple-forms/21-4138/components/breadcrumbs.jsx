@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Breadcrumbs = (
   <VaBreadcrumbs
-    className="form-top"
+    className="breadcrumbs-container"
     breadcrumbList={[
       {
         href: '/',

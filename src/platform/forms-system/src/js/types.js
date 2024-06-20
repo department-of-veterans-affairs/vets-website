@@ -57,7 +57,7 @@
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
  * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
- * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
+ * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2. Also accepts an object with options.
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
