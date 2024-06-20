@@ -69,7 +69,9 @@ const submitForm = (form, formConfig) => {
 
   // adjusting the submitUrl based on feature flag
   const newSubmitUrl = serverSideTransform
-    ? `${environment.API_URL}/debts_api/v0/financial_status_reports/new`
+    ? `${
+        environment.API_URL
+      }/debts_api/v0/financial_status_reports/transform_and_submit`
     : submitUrl;
 
   // Submit the form data to the specified URL, with the tracking prefix and eventData
