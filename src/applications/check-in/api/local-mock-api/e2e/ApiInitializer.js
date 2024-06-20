@@ -30,17 +30,6 @@ class ApiInitializer {
         }),
       );
     },
-    withPreCheckInActionLinkTopPlacementDisabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
-        }),
-      );
-    },
     withTravelPay: () => {
       cy.intercept(
         'GET',
