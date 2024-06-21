@@ -528,7 +528,7 @@ class SearchApp extends React.Component {
     }
 
     // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    if ((hasErrors && !loading) || !isSearchTermValid(userInput)) {
+    if (hasErrors && !loading) {
       let errorMessage;
 
       if (!userInput.trim().length) {
