@@ -1,47 +1,92 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { scrollToTop } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector, useDispatch } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { getDocumentation } from '../api/rxApi';
 import { getPrescriptionDetails } from '../actions/prescriptions';
+import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const PrescriptionDetailsDocumentation = () => {
   const prescription = useSelector(
     state => state.rx.prescriptions.prescriptionDetails,
   );
+  const isDisplayingDocumentation = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+      ],
+  );
+  const hasPrescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
+  );
   const dispatch = useDispatch();
   const [htmlContent, setHtmlContent] = useState(null);
+  const [hasDocumentationApiError, setHasDocumentationApiError] = useState(
+    false,
+  );
   const [loading, setLoading] = useState(false);
   const { prescriptionId } = useParams();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const ndcNumber = queryParams.get('ndc');
+  const isMissingPrescriptionId =
+    prescriptionId === undefined || prescriptionId === null;
   useEffect(
     () => {
-      if (prescriptionId && ndcNumber) {
+      if (!isMissingPrescriptionId && ndcNumber) {
         setLoading(true);
         getDocumentation(prescriptionId, ndcNumber)
           .then(response => {
-            scrollToTop();
             setHtmlContent(response.data);
             setLoading(false);
+            setHasDocumentationApiError(false);
           })
           .catch(() => {
             setLoading(false);
+            setHasDocumentationApiError(true);
           });
       }
     },
-    [prescriptionId, ndcNumber],
+    [prescriptionId, ndcNumber, isMissingPrescriptionId],
   );
   useEffect(
     () => {
-      if (!prescription && prescriptionId && ndcNumber)
+      if (!prescription && !isMissingPrescriptionId && ndcNumber) {
         dispatch(getPrescriptionDetails(prescriptionId));
+      }
     },
-    [prescriptionId, dispatch, prescription, ndcNumber],
+    [
+      prescriptionId,
+      dispatch,
+      prescription,
+      ndcNumber,
+      isMissingPrescriptionId,
+    ],
   );
-  if (!prescription) {
-    return null;
+
+  if (!isDisplayingDocumentation) {
+    return <PageNotFound />;
+  }
+  if (!hasPrescriptionsApiError && (isMissingPrescriptionId || !prescription)) {
+    return (
+      <va-loading-indicator
+        message="Getting medication documentation..."
+        set-focus
+        data-testid="documentation-loader"
+        class="vads-u-margin-top--4"
+      />
+    );
+  }
+  if (hasDocumentationApiError) {
+    return (
+      <div className="vads-u-margin-top--1">
+        <ApiErrorNotification
+          errorType="access"
+          content="medication documentation"
+        />
+      </div>
+    );
   }
 
   return (
@@ -55,7 +100,7 @@ const PrescriptionDetailsDocumentation = () => {
           <p className="vads-u-color--secondary vads-u-font-family--serif">
             Important: How to Use This Information
           </p>
-          <p className="vads-u-font-family--serif">
+          <p className="vads-u-font-family--serif vads-u-margin-bottom--2p5">
             This is a summary and does NOT have all possible information about
             this product. This information does not assure that this product is
             safe, effective, or appropriate for you. This information is not

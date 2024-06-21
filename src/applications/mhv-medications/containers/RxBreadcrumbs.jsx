@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
 
@@ -12,6 +13,12 @@ const RxBreadcrumbs = () => {
   );
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
+  );
+  const isDisplayingDocumentation = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+      ],
   );
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   useEffect(
@@ -26,7 +33,15 @@ const RxBreadcrumbs = () => {
   let content = null;
 
   if (
+    !isDisplayingDocumentation &&
     location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION)
+  ) {
+    return null;
+  }
+
+  if (
+    location.pathname.includes(medicationsUrls.subdirectories.DOCUMENTATION) &&
+    prescription?.prescriptionId
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
@@ -40,7 +55,8 @@ const RxBreadcrumbs = () => {
       </div>
     );
   } else if (
-    location.pathname.includes(medicationsUrls.subdirectories.DETAILS)
+    location.pathname.includes(medicationsUrls.subdirectories.DETAILS) &&
+    prescription?.prescriptionId
   ) {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">

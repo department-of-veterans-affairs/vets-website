@@ -18,16 +18,11 @@ import VaPharmacyText from '../shared/VaPharmacyText';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const { isDisplayingDocumentation } = useSelector(
-    state => {
-      return {
-        isDisplayingDocumentation:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-          ],
-      };
-    },
-    state => state.featureToggles,
+  const isDisplayingDocumentation = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+      ],
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
