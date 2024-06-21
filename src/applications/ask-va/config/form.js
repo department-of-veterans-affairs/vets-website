@@ -50,6 +50,13 @@ const review = {
 };
 
 const formConfig = {
+  // additionalRoutes: [
+  //   {
+  //     path: 'confirmation',
+  //     component: ConfirmationPage,
+  //     pageKey: 'confirmation',
+  //   },
+  // ],
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -110,11 +117,12 @@ const formConfig = {
           // Hidden - EDU Question are always 'General Question'
           depends: formData =>
             formData.selectCategory !==
-            'Education (Ch.30, 33, 35, 1606, etc. & Work Study',
+            'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.selectCategory !==
-              'Education (Ch.30, 33, 35, 1606, etc. & Work Study'
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
+              formData.questionAbout !== 'GENERAL'
             ) {
               goPath(CHAPTER_3.RELATIONSHIP_TO_VET.PATH);
             } else {
@@ -147,12 +155,16 @@ const formConfig = {
               goPath(`/${flowPaths.aboutMyselfRelationshipFamilyMember}-1`);
             } else if (
               formData.questionAbout === 'SOMEONE_ELSE' &&
-              formData.personalRelationship === 'VETERAN'
+              formData.personalRelationship === 'VETERAN' &&
+              formData.selectCategory !==
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
             ) {
               goPath(`/${flowPaths.aboutSomeoneElseRelationshipVeteran}-1`);
             } else if (
               formData.questionAbout === 'SOMEONE_ELSE' &&
-              formData.personalRelationship === 'FAMILY_MEMBER'
+              formData.personalRelationship === 'FAMILY_MEMBER' &&
+              formData.selectCategory !==
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
             ) {
               goPath(
                 `/${flowPaths.aboutSomeoneElseRelationshipFamilyMember}-1`,
@@ -188,6 +200,12 @@ const formConfig = {
                   flowPaths.aboutSomeoneElseRelationshipConnectedThroughWorkEducation
                 }-1`,
               );
+            } else if (
+              formData.questionAbout === 'GENERAL' ||
+              formData.selectCategory ===
+                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+            ) {
+              goPath(`/${flowPaths.general}-1`);
             } else {
               goPath('/review-then-submit');
             }

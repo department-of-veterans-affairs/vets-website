@@ -242,7 +242,7 @@ export const CHAPTER_2 = {
     QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
-    PATH: 'question-3',
+    PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'What is your question?',

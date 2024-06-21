@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { CHAPTER_3 } from '../../constants';
+import { CHAPTER_2, CHAPTER_3 } from '../../constants';
 
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
+import aboutYourselfGeneralPage from '../chapters/personalInformation/aboutYourselfGeneral';
 import aboutYourselfRelationshipFamilyMemberPage from '../chapters/personalInformation/aboutYourselfRelationshipFamilyMember';
 import addressValidationPage from '../chapters/personalInformation/addressValidation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
@@ -130,11 +131,19 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
+    // depends: () => hasSession(),
+  },
+  aboutYourselfGeneral: {
+    title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
+    uiSchema: aboutYourselfGeneralPage.uiSchema,
+    schema: aboutYourselfGeneralPage.schema,
+    // depends: () => hasSession(),
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
+    // depends: () => hasSession(),
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -230,7 +239,7 @@ export const flowPages = (obj, list, path) => {
 
     if (list.length === index + 1) {
       flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath('/reason-you-contacted-us');
+        goPath(CHAPTER_2.PAGE_3.PATH);
     }
 
     if (index === 0) {
@@ -389,8 +398,8 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 );
 
 const generalQuestion = [
-  'aboutYourself',
-  'searchVAMedicalCenter',
+  'aboutYourselfGeneral',
+  // 'searchVAMedicalCenter',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',
