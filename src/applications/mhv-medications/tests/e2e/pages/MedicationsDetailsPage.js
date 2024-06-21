@@ -362,5 +362,12 @@ class MedicationsDetailsPage {
   verifyFacilityInPlainLanguageOnDetailsPage = prescription => {
     cy.get('[data-testid="facility-name"]').should('contain', prescription);
   };
+
+  verifyExpiredStatusDescriptionOnDetailsPage = () => {
+    cy.get('[data-testid="expired"]').should(
+      'contain',
+      'This prescription is too old to refill',
+    );
+  };
 }
 export default MedicationsDetailsPage;

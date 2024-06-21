@@ -120,7 +120,14 @@ class AdditionalEvidencePage extends React.Component {
           {isOpen ? (
             <>
               {this.props.filesNeeded.map(item => (
-                <FilesNeeded key={item.id} id={claim.id} item={item} />
+                <FilesNeeded
+                  key={item.id}
+                  id={claim.id}
+                  item={item}
+                  evidenceWaiverSubmitted5103={
+                    claim.attributes.evidenceWaiverSubmitted5103
+                  }
+                />
               ))}
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />

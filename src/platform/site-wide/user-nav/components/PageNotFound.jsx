@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-// Cypress does not like @ imports, so import record-event with a path
+// Cypress does not like @ imports, so import with a path instead
 import recordEventFn from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
 
 export const notFoundHeading = 'Sorry — we can’t find that page';
+export const notFoundTitle = 'Page not found | Veterans Affairs';
 
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(
@@ -15,13 +17,18 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
     [recordEvent],
   );
 
+  useEffect(() => {
+    document.title = notFoundTitle;
+    focusElement('h1');
+  }, []);
+
   return (
     <>
       <div className="main maintenance-page vads-u-padding-top--4" role="main">
         <div className="primary">
           <div className="row">
-            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto">
-              <h3 id="sorry--we-cant-find-that-page">{notFoundHeading}</h3>
+            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">
+              <h1 id="sorry--we-cant-find-that-page">{notFoundHeading}</h1>
               <p>Try the search box or one of the common questions below.</p>
               <div className="feature vads-u-display--flex vads-u-align-items--center">
                 <form

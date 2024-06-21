@@ -96,6 +96,7 @@ import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -239,6 +240,7 @@ createBurialsV2HowDoIApplyWidget(
   store,
   widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET,
 );
+createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 // Create the My VA Login widget only on the homepage.

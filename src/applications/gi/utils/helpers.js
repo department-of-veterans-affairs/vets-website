@@ -463,3 +463,10 @@ export const managePushHistory = (history, url) => {
     history.push(url);
   }
 };
+export function showSchoolContentBasedOnType(type) {
+  const validateTypes = {
+    FLIGHT: false,
+    CORRESPONDENCE: false,
+  };
+  return !(type in validateTypes);
+}

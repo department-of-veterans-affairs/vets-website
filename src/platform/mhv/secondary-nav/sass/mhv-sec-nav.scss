@@ -12,12 +12,12 @@ $nav-abbr-breakpoint: 467px;
 
   a, a:visited, a:active, abbr {
     color: var(--vads-color-white);
+    border-radius: 5px;
   }
 
   a:hover {
-    color: var(--vads-color-primary-dark);
+    color: var(--vads-color-primary-darker);
     background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 5px;
   }
 
   va-icon {
@@ -45,6 +45,10 @@ $nav-abbr-breakpoint: 467px;
 
   a, a:visited, a:active, abbr {
     color: var(--vads-color-primary);
+  }
+
+  a:hover {
+    color: var(--vads-color-primary-darker);
   }
 }
 

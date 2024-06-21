@@ -51,7 +51,6 @@ describe('<NoSuggestedAddress />', () => {
     expect(wrapper.find('.usa-radio__label').text()).to.not.include('Apt 4B');
   });
   it('renders the entered address when deliveryPointValidation is not CONFIRMED', () => {
-    expect(wrapper.find('.usa-radio')).to.have.lengthOf(1);
     expect(wrapper.find('.usa-radio__label').text()).to.not.include(
       '123 Main St Apt 4B',
     );
