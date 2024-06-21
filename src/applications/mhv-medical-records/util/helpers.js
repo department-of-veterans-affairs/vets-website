@@ -318,10 +318,33 @@ export const formatDate = str => {
 };
 
 /**
+ * Returns a date formatted into two parts -- a date portion and a time portion.
+ *
+ * @param {Date} date
+ */
+export const formatDateAndTime = date => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'p.m.' : 'a.m.';
+  const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const datePart = date.toLocaleDateString('en-US', options);
+
+  return {
+    date: datePart,
+    time: timePart,
+  };
+};
+
+/**
  * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
  *
- * @param {Object} extractStatus the chunk of the status response for a particular extract
- * @param {number} retrieved the timestamp (in ms) that the refresh status was retrieved
+ * @param {*} retrievedDate the timestamp (in ms) that the refresh status was retrieved
+ * @param {*} phrStatus the list of PHR status extracts
+ * @param {*} extractType the extract for which to return the phase (e.g. 'VPR')
  * @returns {string|null} the current refresh phase, or null if parameters are invalid.
  */
 export const getStatusExtractPhase = (

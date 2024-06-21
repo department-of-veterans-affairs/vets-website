@@ -276,8 +276,8 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         careSummariesAndNotesList:
-          typeof oldList === 'undefined' ? newList : undefined,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+          typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? undefined : newList,
       };
     }
     case Actions.CareSummariesAndNotes.COPY_UPDATED_LIST: {

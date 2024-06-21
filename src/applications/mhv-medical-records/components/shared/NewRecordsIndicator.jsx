@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { formatDate, getStatusExtractPhase } from '../../util/helpers';
+import { formatDateAndTime, getStatusExtractPhase } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
 import FeedbackEmail from './FeedbackEmail';
 
@@ -51,30 +51,39 @@ const NewRecordsIndicator = ({
           status => status.extract === extractType,
         );
         if (extract?.lastSuccessfulCompleted)
-          return formatDate(extract.lastSuccessfulCompleted);
+          return formatDateAndTime(extract.lastSuccessfulCompleted);
       }
       return null;
     },
     [refreshState.status, extractType],
   );
 
+  const failedMsg = () => {
+    return (
+      <va-alert
+        status="warning"
+        visible
+        data-testid="new-records-refreshed-failed"
+      >
+        <h2>We couldn’t update your records</h2>
+        <p>Check back later for updates.</p>
+        <p>
+          If it still doesn’t work, email us at <FeedbackEmail />.
+        </p>
+        {lastSuccessfulUpdate && (
+          <p>
+            Last updated at {lastSuccessfulUpdate.time} on{' '}
+            {lastSuccessfulUpdate.date}
+          </p>
+        )}
+      </va-alert>
+    );
+  };
+
   const content = () => {
     if (refreshedOnThisPage) {
       if (refreshPhase === refreshPhases.FAILED) {
-        return (
-          <va-alert
-            status="warning"
-            visible
-            data-testid="new-records-refreshed-failed"
-          >
-            <h2>We couldn’t update your records</h2>
-            <p>Check back later for updates.</p>
-            <p>
-              If it still doesn’t work, email us at <FeedbackEmail />.
-            </p>
-            <p>Last updated at {lastSuccessfulUpdate} </p>
-          </va-alert>
-        );
+        failedMsg();
       }
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {
@@ -99,20 +108,32 @@ const NewRecordsIndicator = ({
           </va-alert>
         );
       }
+      if (!refreshState.isTimedOut) {
+        return (
+          <va-loading-indicator
+            message="We're checking our system for new records."
+            data-testid="new-records-loading-indicator"
+          />
+        );
+      }
+      return failedMsg();
+    }
+    if (lastSuccessfulUpdate) {
       return (
-        <va-loading-indicator
-          message="We're checking our system for new records."
-          data-testid="new-records-loading-indicator"
-        />
+        <va-card background data-testid="new-records-last-updated">
+          Last updated at {lastSuccessfulUpdate.time} on{' '}
+          {lastSuccessfulUpdate.date}
+        </va-card>
       );
     }
-    return (
-      <p>
-        Last updated at {lastSuccessfulUpdate} [1:47 p.m. ET on June 23, 2024]
-      </p>
-    );
+    return <></>;
   };
-  return <div id="new-records-indicator">{content()}</div>;
+
+  return (
+    <div className="vads-u-margin-y--2" id="new-records-indicator">
+      {content()}
+    </div>
+  );
 };
 
 export default NewRecordsIndicator;

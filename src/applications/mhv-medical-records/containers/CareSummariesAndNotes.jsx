@@ -71,11 +71,6 @@ const CareSummariesAndNotes = () => {
         providers sign them. This list doesn’t include care summaries from
         before 2013.
       </p>
-      <NewRecordsIndicator
-        refreshState={refresh}
-        extractType={refreshExtractTypes.VPR}
-        newRecordsFound={Array.isArray(updatedRecordList)}
-      />
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
@@ -84,6 +79,15 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(careSummariesAndNotes) &&
+            Array.isArray(updatedRecordList) &&
+            careSummariesAndNotes.length !== updatedRecordList.length
+          }
+        />
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

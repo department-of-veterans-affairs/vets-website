@@ -20,6 +20,9 @@ const initialState = {
 
   /** The final 'completed' date of the overall refresh (date from server) */
   dateCompleted: undefined,
+
+  /** TRUE if status polling times out and the phase is still stale */
+  isTimedOut: false,
 };
 
 export const safeNewDate = dateStr => {
@@ -134,6 +137,12 @@ export const refreshReducer = (state = initialState, action) => {
           };
         }),
         dateCompleted: safeNewDate(refreshCompleted(facilityExtractStatusList)),
+      };
+    }
+    case Actions.Refresh.TIMED_OUT: {
+      return {
+        ...state,
+        isTimedOut: true,
       };
     }
     default:
