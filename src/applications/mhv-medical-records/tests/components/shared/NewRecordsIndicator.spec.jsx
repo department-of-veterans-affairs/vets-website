@@ -12,20 +12,24 @@ describe('NewRecordsIndicator', () => {
     return new Date(date.getTime() - minutes * 60 * 1000);
   };
 
+  const generateState = (requested, completed, successful) => {
+    return {
+      statusDate: now,
+      status: [
+        {
+          extract: 'VPR',
+          lastRequested: minutesBefore(now, requested),
+          lastCompleted: minutesBefore(now, completed),
+          lastSuccessfulCompleted: minutesBefore(now, successful),
+        },
+      ],
+    };
+  };
+
   const renderRefreshInProgressState = () => {
     return render(
       <NewRecordsIndicator
-        refreshState={{
-          statusDate: now,
-          status: [
-            {
-              extract: 'VPR',
-              lastRequested: minutesBefore(now, 10),
-              lastCompleted: minutesBefore(now, 80),
-              lastSuccessfulCompleted: minutesBefore(now, 80),
-            },
-          ],
-        }}
+        refreshState={generateState(10, 80, 80)}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound={false}
       />,
@@ -35,17 +39,7 @@ describe('NewRecordsIndicator', () => {
   it('should display "last updated" when refresh was not run', () => {
     const screen = render(
       <NewRecordsIndicator
-        refreshState={{
-          statusDate: now,
-          status: [
-            {
-              extract: 'VPR',
-              lastRequested: minutesBefore(now, 10),
-              lastCompleted: minutesBefore(now, 5),
-              lastSuccessfulCompleted: minutesBefore(now, 5),
-            },
-          ],
-        }}
+        refreshState={generateState(10, 5, 5)}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound={false}
       />,
@@ -69,17 +63,7 @@ describe('NewRecordsIndicator', () => {
 
     rerender(
       <NewRecordsIndicator
-        refreshState={{
-          statusDate: now,
-          status: [
-            {
-              extract: 'VPR',
-              lastRequested: minutesBefore(now, 10),
-              lastCompleted: minutesBefore(now, 5),
-              lastSuccessfulCompleted: minutesBefore(now, 5),
-            },
-          ],
-        }}
+        refreshState={generateState(10, 5, 5)}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound={false}
       />,
@@ -98,17 +82,7 @@ describe('NewRecordsIndicator', () => {
 
     rerender(
       <NewRecordsIndicator
-        refreshState={{
-          statusDate: now,
-          status: [
-            {
-              extract: 'VPR',
-              lastRequested: minutesBefore(now, 10),
-              lastCompleted: minutesBefore(now, 80),
-              lastSuccessfulCompleted: minutesBefore(now, 80),
-            },
-          ],
-        }}
+        refreshState={generateState(10, 80, 80)}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound
       />,
@@ -127,17 +101,7 @@ describe('NewRecordsIndicator', () => {
 
     rerender(
       <NewRecordsIndicator
-        refreshState={{
-          statusDate: now,
-          status: [
-            {
-              extract: 'VPR',
-              lastRequested: minutesBefore(now, 10),
-              lastCompleted: minutesBefore(now, 5),
-              lastSuccessfulCompleted: minutesBefore(now, 80),
-            },
-          ],
-        }}
+        refreshState={generateState(10, 5, 80)}
         extractType={refreshExtractTypes.VPR}
         newRecordsFound
       />,

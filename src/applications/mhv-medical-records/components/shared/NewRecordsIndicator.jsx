@@ -13,7 +13,7 @@ const NewRecordsIndicator = ({
 
   const refreshPhase = useMemo(
     () => {
-      getStatusExtractPhase(
+      return getStatusExtractPhase(
         refreshState.statusDate,
         refreshState.status,
         extractType,
@@ -59,16 +59,7 @@ const NewRecordsIndicator = ({
   );
 
   const content = () => {
-    console.log('refreshedOnThisPage', refreshedOnThisPage);
     if (refreshedOnThisPage) {
-      if (!refreshPhase || refreshPhase === refreshPhases.IN_PROGRESS) {
-        return (
-          <va-loading-indicator
-            message="We're checking our system for new records."
-            data-testid="new-records-loading-indicator"
-          />
-        );
-      }
       if (refreshPhase === refreshPhases.FAILED) {
         return (
           <va-alert
@@ -85,26 +76,34 @@ const NewRecordsIndicator = ({
           </va-alert>
         );
       }
-      if (newRecordsFound) {
+      if (refreshPhase === refreshPhases.CURRENT) {
+        if (newRecordsFound) {
+          return (
+            <va-alert visible data-testid="new-records-refreshed-stale">
+              <h2>Reload to get updates</h2>
+              <p>
+                We found updates to your records. Reload this page to update
+                your list.
+              </p>
+              <va-button text="Reload page" onClick={() => {}} />
+            </va-alert>
+          );
+        }
         return (
-          <va-alert visible data-testid="new-records-refreshed-stale">
-            <h2>Reload to get updates</h2>
-            <p>
-              We found updates to your records. Reload this page to update your
-              list.
-            </p>
-            <va-button text="Reload page" onClick={() => {}} />
+          <va-alert
+            status="success"
+            visible
+            data-testid="new-records-refreshed-current"
+          >
+            Your list is up to date
           </va-alert>
         );
       }
       return (
-        <va-alert
-          status="success"
-          visible
-          data-testid="new-records-refreshed-current"
-        >
-          Your list is up to date
-        </va-alert>
+        <va-loading-indicator
+          message="We're checking our system for new records."
+          data-testid="new-records-loading-indicator"
+        />
       );
     }
     return (
