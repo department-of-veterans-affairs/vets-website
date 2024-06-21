@@ -27,6 +27,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import serviceHistory from '../pages/serviceHistory';
+import goals from '../pages/goals';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -40,7 +41,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Service History;',
+  stepLabels: 'Goals; Service History;',
   formId: 'T-QSTNR',
   saveInProgress: {
     // messages: {
@@ -66,9 +67,14 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    serviceHistoryChapter: {
-      title: 'Service History',
+    transitionQuestionnaire: {
       pages: {
+        goals: {
+          path: 'goals',
+          title: 'Goals',
+          uiSchema: goals.uiSchema,
+          schema: goals.schema,
+        },
         serviceHistory: {
           path: 'service-history',
           title: 'Service History',
