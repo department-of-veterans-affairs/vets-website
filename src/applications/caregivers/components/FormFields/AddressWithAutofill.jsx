@@ -9,8 +9,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
-import content from '../../locales/en/content.json';
 import { replaceStrValues } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
 
 const PrimaryAddressWithAutofill = props => {
   const {
