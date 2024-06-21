@@ -4,10 +4,10 @@ const { snakeCase } = require('lodash');
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPageEnabled: true,
   mhvLandingPagePersonalization: false,
-  mhvSecondaryNavigationEnabled: true,
-  mhvLandingPageEnableVaGovHealthToolsLinks: true,
-  mhvTransitionalMedicalRecordsLandingPage: true,
-  mhvHelpdeskInformationEnabled: true,
+  mhvSecondaryNavigationEnabled: false,
+  mhvLandingPageEnableVaGovHealthToolsLinks: false,
+  mhvTransitionalMedicalRecordsLandingPage: false,
+  mhvHelpdeskInformationEnabled: false,
 });
 
 const generateFeatureToggles = ({
