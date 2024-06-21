@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { renderWithProfileReducers } from '../unit-test-helpers';
+import { renderWithProfileReducers } from '../../unit-test-helpers';
 
-import MilitaryInformation from '../../components/military-information/MilitaryInformation';
+import MilitaryInformation from '../../../components/military-information/MilitaryInformation';
 
 function createBasicInitialState(toggles = {}) {
   return {
@@ -35,14 +35,16 @@ function createBasicInitialState(toggles = {}) {
               branchOfService: 'Air Force',
               beginDate: '2009-04-12',
               endDate: '2013-04-11',
-              personnelCategoryTypeCode: 'V',
+              periodOfServiceTypeCode: 'A',
+              periodOfServiceTypeText: 'Active duty member',
               characterOfDischargeCode: 'A',
             },
             {
               branchOfService: 'Air Force',
               beginDate: '2005-04-12',
               endDate: '2009-04-11',
-              personnelCategoryTypeCode: 'A',
+              periodOfServiceTypeCode: 'V',
+              periodOfServiceTypeText: 'Reserve member',
               characterOfDischargeCode: 'A',
             },
           ],
