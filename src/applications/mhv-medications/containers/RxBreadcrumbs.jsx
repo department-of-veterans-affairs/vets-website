@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
@@ -20,7 +20,8 @@ const RxBreadcrumbs = () => {
         FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
       ],
   );
-  const [breadcrumbs, setBreadcrumbs] = React.useState([]);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+
   useEffect(
     () => {
       setBreadcrumbs(
