@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -564,10 +565,15 @@ const ComposeForm = props => {
 
   const digitalSignatureHandler = e => {
     setDigitalSignature(e.target.value);
-    const regex = /^[^0-9!@#$%^&*()+<>?/]*$/;
-    if (!regex.test(e.target.value)) {
-      setSignatureError(ErrorMessages.ComposeForm.VALID_SIGNATURE_REQUIRED);
-    } else if (e.target.value) {
+
+    let validationError = null;
+    const addError = err => {
+      validationError = err;
+    };
+    validateNameSymbols({ addError }, e.target.value);
+    if (validationError !== null) {
+      setSignatureError(validationError);
+    } else {
       setSignatureError('');
     }
     setUnsavedNavigationError();
