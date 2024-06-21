@@ -11,7 +11,7 @@ export const REVIEW_ENROLLMENTS_URL_SEGMENT = 'mgib-enrollments';
 export const REVIEW_ENROLLMENTS_URL = `${BASE_URL}${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 export const REVIEW_ENROLLMENTS_RELATIVE_URL = `/${REVIEW_ENROLLMENTS_URL_SEGMENT}/`;
 
-export function EnrollmentVerificationLogin({
+export function VyeEnrollmentLoginWidget({
   toggleLoginModal,
   user,
   includedInFlipper,
@@ -108,7 +108,7 @@ const mapStateToProps = store => ({
   user: store.user || {},
   includedInFlipper: toggleValues(store)[FEATURE_FLAG_NAMES.vyeLoginWidget],
 });
-EnrollmentVerificationLogin.propTypes = {
+VyeEnrollmentLoginWidget.propTypes = {
   toggleLoginModal: PropTypes.func,
   user: PropTypes.object,
   includedInFlipper: PropTypes.bool,
@@ -121,4 +121,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EnrollmentVerificationLogin);
+)(VyeEnrollmentLoginWidget);
