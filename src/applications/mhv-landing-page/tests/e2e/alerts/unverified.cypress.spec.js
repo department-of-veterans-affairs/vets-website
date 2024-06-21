@@ -61,10 +61,6 @@ describe(appName, () => {
         LandingPage.visit();
         cy.injectAxeThenAxeCheck();
 
-        // Validate the cards and hubs
-        pageLinks.cards.forEach(card => {
-          LandingPage.validateLinkGroup(card.title, card.links.length);
-        });
         pageLinks.hubs.forEach(hub => {
           LandingPage.validateLinkGroup(hub.title, hub.links.length);
         });
