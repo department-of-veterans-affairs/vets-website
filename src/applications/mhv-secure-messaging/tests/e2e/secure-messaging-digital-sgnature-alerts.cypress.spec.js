@@ -9,9 +9,6 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     site.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
-  });
-
-  it("verify user can't send a message without digital signature", () => {
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`DS test`);
@@ -21,8 +18,10 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
     PatientComposePage.verifyDigitalSignature();
     PatientComposePage.verifyDigitalSignatureRequired();
+  });
 
-    cy.get('[data-testid="Send-Button"]').click({ force: true });
+  it("verify user can't send a message without digital signature", () => {
+    cy.get(Locators.BUTTONS.SEND).click({ force: true });
 
     cy.get('#input-error-message').should(
       'contain.text',
@@ -34,31 +33,22 @@ describe('Secure Messaging Digital Signature Error flows', () => {
   });
 
   it("verify user can't save a message with digital signature", () => {
-    PatientComposePage.selectRecipient('Record Amendment Admin');
-    PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`DS test`);
-    PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
-      force: true,
-    });
-
-    PatientComposePage.verifyDigitalSignature();
-    PatientComposePage.verifyDigitalSignatureRequired();
     PatientComposePage.getDigitalSignatureField().type('Dusty Dump ', {
       force: true,
     });
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
 
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .shadow()
       .find('h2')
       .should('contain', 'save your signature');
 
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .find('va-button')
       .first()
       .should('have.attr', 'text', 'Edit draft');
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .find('va-button')
       .last()
       .should('have.attr', 'text', 'Save draft without signature');
@@ -68,15 +58,6 @@ describe('Secure Messaging Digital Signature Error flows', () => {
   });
 
   it("verify user can't save a message with digital signature and attachment", () => {
-    PatientComposePage.selectRecipient('Record Amendment Admin');
-    PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`DS test`);
-    PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
-      force: true,
-    });
-
-    PatientComposePage.verifyDigitalSignature();
-    PatientComposePage.verifyDigitalSignatureRequired();
     PatientComposePage.getDigitalSignatureField().type('Dusty Dump ', {
       force: true,
     });
@@ -84,16 +65,16 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
 
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .shadow()
       .find('h2')
       .should('contain', 'save your signature or attachment');
 
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .find('va-button')
       .first()
       .should('have.attr', 'text', 'Edit draft');
-    cy.get('[data-testid="quit-compose-double-dare"]')
+    cy.get(Locators.ALERTS.DS_ALERT)
       .find('va-button')
       .last()
       .should(

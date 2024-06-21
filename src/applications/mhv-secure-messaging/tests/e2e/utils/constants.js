@@ -188,6 +188,7 @@ export const Locators = {
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
+    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
