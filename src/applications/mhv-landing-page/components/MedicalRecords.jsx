@@ -101,7 +101,11 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
         VA health records (Blue Button®).
       </p>
       <p>
-        <a className="vads-c-action-link--green" href={blueButtonUrl}>
+        <a
+          className="vads-c-action-link--green"
+          data-dd-action-name="Medical Records Coming Soon - Go back to the previous version of My HealtheVet"
+          href={blueButtonUrl}
+        >
           Go back to the previous version of My HealtheVet
         </a>
       </p>

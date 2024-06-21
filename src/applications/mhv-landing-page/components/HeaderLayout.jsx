@@ -107,7 +107,10 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                         We’re working to bring your medical records to VA.gov.
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}
-                        <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
+                        <a
+                          data-dd-action-name="Landing Page Intro - Go back to the previous version of My HealtheVet"
+                          href="https://www.myhealth.va.gov/mhv-portal-web/home"
+                        >
                           Go back to the previous version of My HealtheVet
                         </a>
                       </p>
