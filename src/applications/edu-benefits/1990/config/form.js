@@ -47,6 +47,7 @@ import {
   SeventeenOrOlder,
   eighteenOrOver,
   ageWarning,
+  isShowBenefitsRelinquished,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -78,6 +79,198 @@ const {
   address,
   usaPhone,
 } = fullSchema1990.definitions;
+
+const viewSelectedBenefitsSchema = () => {
+  if (isShowBenefitsRelinquished()) {
+    return {
+      type: 'object',
+      required: ['view:selectedBenefits'],
+      properties: {
+        'view:selectedBenefits': {
+          type: 'object',
+          properties: {
+            chapter33,
+            'view:chapter33ExpandedContent': {
+              type: 'object',
+              properties: {},
+            },
+            chapter30,
+            chapter1606,
+          },
+        },
+      },
+    };
+  }
+  return {
+    type: 'object',
+    required: [],
+    properties: {
+      'view:selectedBenefits': {
+        type: 'object',
+        properties: {
+          chapter33,
+          chapter30,
+          chapter1606,
+        },
+      },
+    },
+  };
+};
+/*
+const contributionsUiSchema = () => {
+  if (isShowBenefitsRelinquished()) {
+    return {
+      'ui:title': 'Contributions',
+      'ui:description': 'Select all that apply:',
+      additionalContributions: {
+        'ui:title':
+          'I made contributions (up to $600) to increase the amount of my monthly benefits.',
+      },
+      activeDutyKicker: {
+        'ui:title':
+          'I qualify for an Active Duty Kicker (sometimes called a college fund).',
+      },
+      reserveKicker: {
+        'ui:title':
+          'I qualify for a Reserve Kicker (sometimes called a college fund).',
+      },
+      'view:reserveKickerWarning': {
+        'ui:description': reserveKickerWarning,
+        'ui:options': {
+          expandUnder: 'reserveKicker',
+          hideIf: data =>
+            get(
+              'view:benefitsRelinquishedContainer.benefitsRelinquished',
+              data,
+            ) !== 'chapter30',
+        },
+      },
+      'view:activeDutyRepayingPeriod': {
+        'ui:title':
+          'I have a period of service that the Department of Defense counts toward an education loan payment.',
+        'ui:options': {
+          expandUnderClassNames: 'schemaform-expandUnder-indent',
+        },
+      },
+      activeDutyRepayingPeriod: merge(
+        {},
+        {
+          'ui:options': {
+            expandUnder: 'view:activeDutyRepayingPeriod',
+          },
+          to: {
+            'ui:required': formData =>
+              formData['view:activeDutyRepayingPeriod'],
+          },
+          from: {
+            'ui:required': formData =>
+              formData['view:activeDutyRepayingPeriod'],
+          },
+        },
+        dateRangeUI('Start date', 'End date'),
+      ),
+    };
+  }
+  return {
+    'ui:title': 'Contributions',
+    'ui:description': 'Select all that apply:',
+    additionalContributions: {
+      'ui:title':
+        'I made contributions (up to $600) to increase the amount of my monthly benefits.',
+    },
+    activeDutyKicker: {
+      'ui:title':
+        'I qualify for an Active Duty Kicker (sometimes called a college fund).',
+    },
+    reserveKicker: {
+      'ui:title':
+        'I qualify for a Reserve Kicker (sometimes called a college fund).',
+    },
+    'view:activeDutyRepayingPeriod': {
+      'ui:title':
+        'I have a period of service that the Department of Defense counts toward an education loan payment.',
+      'ui:options': {
+        expandUnderClassNames: 'schemaform-expandUnder-indent',
+      },
+    },
+    activeDutyRepayingPeriod: merge(
+      {},
+      {
+        'ui:options': {
+          expandUnder: 'view:activeDutyRepayingPeriod',
+        },
+        to: {
+          'ui:required': formData => formData['view:activeDutyRepayingPeriod'],
+        },
+        from: {
+          'ui:required': formData => formData['view:activeDutyRepayingPeriod'],
+        },
+      },
+      dateRangeUI('Start date', 'End date'),
+    ),
+  };
+};
+*/
+const viewSelectedBenefitsUiSchema = () => {
+  if (isShowBenefitsRelinquished()) {
+    return {
+      'ui:description': benefitsEligibilityBox,
+      'view:selectedBenefits': {
+        'ui:title': 'Select the benefit that is the best match for you.',
+        'ui:validations': [validateBooleanGroup],
+        'ui:errorMessages': {
+          atLeastOne: 'Please select at least one benefit',
+        },
+        'ui:options': {
+          showFieldLabel: true,
+        },
+        chapter33: {
+          'ui:title': benefitsLabels.chapter33,
+          'ui:options': {
+            expandUnderClassNames: 'schemaform-expandUnder-indent',
+          },
+        },
+        'view:chapter33ExpandedContent': {
+          'ui:description': benefitsLabels.chapter33Description,
+          'ui:options': {
+            expandUnder: 'chapter33',
+          },
+        },
+        chapter30: {
+          'ui:title': benefitsLabels.chapter30,
+        },
+        chapter1606: {
+          'ui:title': benefitsLabels.chapter1606,
+        },
+      },
+    };
+  }
+  return {
+    'ui:description': benefitsEligibilityBox,
+    'view:selectedBenefits': {
+      'ui:title': 'Select the benefit that is the best match for you.',
+      'ui:validations': [validateBooleanGroup],
+      'ui:errorMessages': {
+        atLeastOne: 'Please select at least one benefit',
+      },
+      'ui:options': {
+        showFieldLabel: true,
+      },
+      chapter33: {
+        'ui:title': benefitsLabels.chapter33,
+        'ui:options': {
+          expandUnderClassNames: 'schemaform-expandUnder-indent',
+        },
+      },
+      chapter30: {
+        'ui:title': benefitsLabels.chapter30,
+      },
+      chapter1606: {
+        'ui:title': benefitsLabels.chapter1606,
+      },
+    },
+  };
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -275,55 +468,8 @@ const formConfig = {
         benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
-          uiSchema: {
-            'ui:description': benefitsEligibilityBox,
-            'view:selectedBenefits': {
-              'ui:title': 'Select the benefit that is the best match for you.',
-              'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                atLeastOne: 'Please select at least one benefit',
-              },
-              'ui:options': {
-                showFieldLabel: true,
-              },
-              chapter33: {
-                'ui:title': benefitsLabels.chapter33,
-                'ui:options': {
-                  expandUnderClassNames: 'schemaform-expandUnder-indent',
-                },
-              },
-              'view:chapter33ExpandedContent': {
-                'ui:description': benefitsLabels.chapter33Description,
-                'ui:options': {
-                  expandUnder: 'chapter33',
-                },
-              },
-              chapter30: {
-                'ui:title': benefitsLabels.chapter30,
-              },
-              chapter1606: {
-                'ui:title': benefitsLabels.chapter1606,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:selectedBenefits'],
-            properties: {
-              'view:selectedBenefits': {
-                type: 'object',
-                properties: {
-                  chapter33,
-                  'view:chapter33ExpandedContent': {
-                    type: 'object',
-                    properties: {},
-                  },
-                  chapter30,
-                  chapter1606,
-                },
-              },
-            },
-          },
+          uiSchema: viewSelectedBenefitsUiSchema(),
+          schema: viewSelectedBenefitsSchema(),
         },
         benefitsRelinquishment: {
           title: 'Benefits relinquishment',

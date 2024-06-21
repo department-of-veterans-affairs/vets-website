@@ -2,6 +2,27 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
+
+export const isReviewInstance = () => {
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
+};
+
+export const isShowBenefitsRelinquished = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
+  return (
+    // environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() /* ||
+    environment.isLocalhost() */
+  );
+};
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {
@@ -121,7 +142,10 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
