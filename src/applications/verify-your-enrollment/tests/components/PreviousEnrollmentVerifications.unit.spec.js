@@ -130,7 +130,7 @@ describe('PreviousEnrollmentVerifications', () => {
 
     wrapper.unmount();
   });
-  it('should show "You currently have no enrollments." message is user is new', () => {
+  it('should show "You currently have no enrollments to verify." message is user is new', () => {
     const enrollmentData = {
       ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
       pendingVerifications: [],
@@ -141,7 +141,9 @@ describe('PreviousEnrollmentVerifications', () => {
         <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
       </Provider>,
     );
-    const noEnrollments = getByText('You currently have no enrollments.');
+    const noEnrollments = getByText(
+      'You currently have no enrollments to verify.',
+    );
     expect(noEnrollments).to.exist;
   });
 });

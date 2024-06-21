@@ -47,7 +47,7 @@ export function NewAppointment() {
   );
   const match = useRouteMatch();
   const location = useLocation();
-  const [crumb, setCrumb] = useState('New appointment');
+  const [crumb, setCrumb] = useState('Schedule an appointment');
 
   useManualScrollRestoration();
 
