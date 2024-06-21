@@ -22,7 +22,8 @@ const UploadPage = () => {
     if (Object.keys(file).length === 0) {
       setFileInputError(`Upload a completed form ${formNumber}`);
     } else {
-      history.push(`/${formNumber}/review`, { file });
+      const state = { file };
+      history.push(`/${formNumber}/review`, state);
     }
   };
   const onFileUploaded = uploadedFile => {

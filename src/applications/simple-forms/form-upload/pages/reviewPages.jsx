@@ -17,7 +17,26 @@ export const IdentificationInfoPage = () => {
       <p className="vads-u-margin-top--0">
         You must enter either a Social Security number or VA File number.
       </p>
-      <div className="vads-u-margin-bottom--5" />
+      <div className="vads-u-margin-bottom--5">
+        <va-text-input
+          hint={null}
+          label="Social Security number"
+          message-aria-describedby="Optional description text for screen readers"
+          name="social-security-number"
+          onBlur={function noRefCheck() {}}
+          onInput={function noRefCheck() {}}
+          required
+        />
+        <va-text-input
+          hint={null}
+          label="VA file number"
+          message-aria-describedby="Optional description text for screen readers"
+          name="va-file-number"
+          onBlur={function noRefCheck() {}}
+          onInput={function noRefCheck() {}}
+        />
+        {/* <VaTextInputField /> */}
+      </div>
       <VaButtonPair
         class="vads-u-margin-top--0"
         continue
@@ -42,7 +61,16 @@ export const ZipCodePage = () => {
         We use your zip code to send your form to the right place for
         processing.
       </p>
-      <div className="vads-u-margin-bottom--5" />
+      <div className="vads-u-margin-bottom--5">
+        <va-text-input
+          hint={null}
+          label="Zip code"
+          message-aria-describedby="Optional description text for screen readers"
+          name="zip-code"
+          onBlur={function noRefCheck() {}}
+          onInput={function noRefCheck() {}}
+        />
+      </div>
       <VaButtonPair
         class="vads-u-margin-top--0"
         continue
