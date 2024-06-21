@@ -5,17 +5,11 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Applicant information',
-  path: 'applicant/information/is-veteran',
+  title: 'Veteran information',
+  path: 'veteran/information/applicant',
   uiSchema: {
     applicantIsVeteran: yesNoUI({
-      updateUiSchema: formData => {
-        return {
-          'ui:title': `Are you ${formData.veteranFullName.first} ${
-            formData.veteranFullName.last
-          }?`,
-        };
-      },
+      title: 'Are you the Veteran?',
     }),
   },
   schema: {

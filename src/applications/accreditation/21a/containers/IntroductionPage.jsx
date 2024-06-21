@@ -48,6 +48,13 @@ const IntroductionPage = ({ route }) => {
           </p>
         </li>
         <li>
+          <h3>Military history</h3>
+          <p>
+            If you served in a military branch of service, you will need to
+            provide information about your tours.
+          </p>
+        </li>
+        <li>
           <h3>Employment information</h3>
           <p>
             You will need to enter your employment information for the past five

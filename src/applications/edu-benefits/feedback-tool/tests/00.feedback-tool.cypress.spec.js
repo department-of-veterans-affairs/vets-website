@@ -88,8 +88,6 @@ describe('Feedback Tool Test', () => {
     // checkbox to enter information manually
     cy.get('label[id="option-label"]').click();
 
-    cy.get('label[id="option-label"]').click();
-
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },

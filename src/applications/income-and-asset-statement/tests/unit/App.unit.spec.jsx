@@ -5,7 +5,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import App from '../containers/App';
+import App from '../../containers/App';
 
 const appLocation = {
   pathname: '/introduction',

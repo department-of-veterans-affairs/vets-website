@@ -1,0 +1,13 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranSocialSecurityNumber": "321654987",
+    "applicantIsVeteran": true,
+    "claimantFullName": {},
+    "claimantType": "veteran",
+    "statementOfTruthSignature": "John Doe"
+  }
+}

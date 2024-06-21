@@ -38,7 +38,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
     ...bp,
     relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     ...PROPERTY_NAMES,
-    customTitle: `${bp.applicant}'s Medicare status`,
+    customTitle: `${bp.applicant}’s Medicare Part A and B status`,
     description: prompt,
   };
 }
