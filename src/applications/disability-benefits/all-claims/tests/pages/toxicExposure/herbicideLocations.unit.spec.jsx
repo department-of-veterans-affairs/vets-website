@@ -17,6 +17,7 @@ import {
   herbicidePageTitle,
   herbicideQuestion,
   noneAndLocationError,
+  otherInvalidCharError,
 } from '../../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS } from '../../../constants';
 
@@ -143,7 +144,7 @@ describe('Herbicide Location', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    expect($('va-textarea').error.startsWith('does not match pattern'));
+    expect($('va-textarea').error).to.equal(otherInvalidCharError);
   });
 
   it('should submit with "notsure" and other locations selected', async () => {
