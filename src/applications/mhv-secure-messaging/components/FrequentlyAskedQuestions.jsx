@@ -120,7 +120,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           <p>
             Edit your preferences on{' '}
             <a href={prefLink} target="_blank" rel="noreferrer">
-              My HealtheVet (opens in a new tab)
+              My HealtheVet (opens in new tab)
             </a>
           </p>
           <p>
