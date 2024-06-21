@@ -159,13 +159,13 @@ export function ApplicantAddressCopyPage({
     pagePerItemIndex === 0 && data.certifierRole === 'applicant'
       ? 'Do you'
       : `Does ${curAppFullName}`
-  } have the same address as another person listed in this application?`;
+  } have the same mailing address as another person listed in this application?`;
 
   return (
     <>
       {
         titleUI(
-          `${applicantWording(currentApp)} mailing address`,
+          `${applicantWording(currentApp)} address selection`,
           'We’ll send any important information about your application to this address.',
         )['ui:title']
       }
