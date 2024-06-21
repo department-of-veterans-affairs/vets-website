@@ -2,8 +2,8 @@ import '../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import TravelIntro from './pages/TravelIntro';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A patent who returns to the app with a valid session ', () => {
+
+describe('A patent who returns to the app with a valid session ', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,

@@ -48,12 +48,8 @@ describe('Need To Mail Files Test', () => {
   });
 });
 
-//  On the Files tab, a user can upload a file and submit it for review
-// Skipping these since we are temporarily rolling the changes for va-file-input
-// back form V1 to V3. When this ticket -> https://github.com/department-of-veterans-affairs/va.gov-team/issues/79156
-//  is worked we will unskip these
 describe('Upload Files Test', () => {
-  it.skip('shows the user an error if no file is selected', () => {
+  it('shows the user an error if no file is selected', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
     trackClaimsPage.verifyInProgressClaim(true);
@@ -62,7 +58,7 @@ describe('Upload Files Test', () => {
     cy.axeCheck();
   });
 
-  it.skip('uploads a file', () => {
+  it('uploads a file', () => {
     const trackClaimsPage = new TrackClaimsPageV2();
     trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
     trackClaimsPage.verifyInProgressClaim(true);
