@@ -1,31 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import TravelPayStatusFilters from './TravelPayStatusCheckboxes';
 
-export default function TravelPayStatusFilters(props) {
-  const { statusesToFilterBy, checkedStatuses, onStatusFilterChange } = props;
+export default function TravelPayFilters(props) {
+  const {
+    statusesToFilterBy,
+    checkedStatusFilters,
+    onStatusFilterChange,
+    applyFilters,
+    resetSearch,
+  } = props;
 
   return (
-    <fieldset>
-      <p>Travel claim status</p>
-      {statusesToFilterBy.map((status, index) => (
-        <div key={index}>
-          <VaCheckbox
-            checked={checkedStatuses.includes(status)}
-            data-testid="status-filter"
-            name={`${status}_checkbox`}
-            key={status}
-            label={status}
-            onVaChange={e => onStatusFilterChange(e, status)}
+    <va-accordion bordered open-single>
+      <va-accordion-item
+        bordered="true"
+        data-testid="filters-accordion"
+        header="Filter travel claims"
+      >
+        <div className="filter-your-results">
+          <TravelPayStatusFilters
+            statusesToFilterBy={statusesToFilterBy}
+            checkedStatusFilters={checkedStatusFilters}
+            onStatusFilterChange={onStatusFilterChange}
           />
+          <div className="modal-button-wrapper vads-u-margin-top--3">
+            <va-button
+              onClick={applyFilters}
+              data-testid="apply_filters"
+              text="Apply filters"
+              label="Apply filters"
+            />
+            <va-button
+              onClick={resetSearch}
+              data-testid="reset_search"
+              text="Reset search"
+              label="Reset search"
+            />
+          </div>
         </div>
-      ))}
-    </fieldset>
+      </va-accordion-item>
+    </va-accordion>
   );
 }
 
-TravelPayStatusFilters.propTypes = {
-  checkedStatuses: PropTypes.array,
+TravelPayFilters.propTypes = {
+  applyFilters: PropTypes.func,
+  checkedStatusFilters: PropTypes.array,
+  resetSearch: PropTypes.func,
   statusesToFilterBy: PropTypes.array,
   onStatusFilterChange: PropTypes.func,
 };

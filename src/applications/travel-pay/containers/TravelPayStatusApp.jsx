@@ -11,7 +11,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
-import TravelPayFilters from '../components/TravelPayFilters';
+import TravelPayStatusFilters from '../components/TravelPayStatusFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 
@@ -33,8 +33,12 @@ export default function App({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
-  const [checkedStatuses, setCheckedStatuses] = useState([]);
-  const [appliedStatuses, setAppliedStatuses] = useState([]);
+  const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
+  const [appliedStatusFilters, setAppliedStatusFilters] = useState([]);
+
+  // const [datesToFilterBy, setDatesToFilterBy] = useState([]);
+  // const [checkedDateFilters, setCheckedDateFilters] = useState([]);
+  // const [appliedDateFilters, setAppliedDateFilters] = useState([]);
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
@@ -42,8 +46,8 @@ export default function App({ children }) {
       ...new Set(travelClaims.map(claim => claim.claimStatus)),
     ];
     setStatusesToFilterBy(initialStatusFilters);
-    setAppliedStatuses(initialStatusFilters);
-    setCheckedStatuses(initialStatusFilters);
+    setAppliedStatusFilters(initialStatusFilters);
+    setCheckedStatusFilters(initialStatusFilters);
   }
 
   // TODO: Move this logic to the API-side
@@ -65,20 +69,22 @@ export default function App({ children }) {
   }
 
   const resetSearch = () => {
-    setAppliedStatuses(statusesToFilterBy);
-    setCheckedStatuses(statusesToFilterBy);
+    setAppliedStatusFilters(statusesToFilterBy);
+    setCheckedStatusFilters(statusesToFilterBy);
   };
 
   const applyFilters = () => {
-    setAppliedStatuses(checkedStatuses);
+    setAppliedStatusFilters(checkedStatusFilters);
   };
 
   const onStatusFilterChange = (e, statusName) => {
     if (e.currentTarget.checked) {
-      setCheckedStatuses([...checkedStatuses, statusName]);
+      setCheckedStatusFilters([...checkedStatusFilters, statusName]);
     } else {
-      setCheckedStatuses(
-        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      setCheckedStatusFilters(
+        checkedStatusFilters.filter(
+          statusFilter => statusFilter !== statusName,
+        ),
       );
     }
   };
@@ -104,7 +110,7 @@ export default function App({ children }) {
   const CLAIMS_PER_PAGE = 10;
 
   let displayedClaims = travelClaims.filter(claim =>
-    appliedStatuses.includes(claim.claimStatus),
+    appliedStatusFilters.includes(claim.claimStatus),
   );
   const numResults = displayedClaims.length;
   const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
@@ -201,9 +207,9 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    <TravelPayFilters
+                    <TravelPayStatusFilters
                       statusesToFilterBy={statusesToFilterBy}
-                      checkedStatuses={checkedStatuses}
+                      checkedStatusFilters={checkedStatusFilters}
                       onStatusFilterChange={onStatusFilterChange}
                       applyFilters={applyFilters}
                       resetSearch={resetSearch}
