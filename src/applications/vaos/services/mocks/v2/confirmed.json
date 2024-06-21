@@ -148,7 +148,7 @@
         "start": "2024-10-13T15:00:00Z",
         "status": "booked",
         "created": "2024-11-01T00:00:00Z",
-        "cancellable": true,
+        "cancellable": false,
         "localStartTime": "2024-10-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "telehealth": null

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -50,11 +51,23 @@ const TravelReview = props => {
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
         <dd className="vads-u-margin-top--0p5">
           <span data-testid="claim-info">
-            {`${t('mileage-only-reimbursement-for')} ${
-              appointmentToFile.clinicStopCodeName
-                ? ` ${appointmentToFile.clinicStopCodeName}`
-                : ` ${t('VA-appointment')}`
-            } at ${appointmentToFile.startTime}`}
+            {`${t('mileage-only-reimbursement-for-your', {
+              facility: appointmentToFile.facility,
+              provider: appointmentToFile.doctorName
+                ? ` ${'with'} ${appointmentToFile.doctorName}`
+                : '',
+              date: {
+                date: utcToZonedTime(
+                  appointmentToFile.startTime,
+                  appointmentToFile.timezone,
+                ),
+                timezone: appointmentToFile.timezone,
+              },
+            })}${
+              appointmentToFile.clinicFriendlyName
+                ? `, ${appointmentToFile.clinicFriendlyName}`
+                : ''
+            }`}
           </span>
         </dd>
       </dl>
