@@ -7,7 +7,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 const FormUploadApp = () => {
   const user = useSelector(state => state?.user);
   useEffect(() => {
-    document.title = 'Form Upload | Veterans Affairs';
+    document.title = 'Upload VA Form 21-0779 | Veterans Affairs';
   }, []);
 
   return (

@@ -1,6 +1,29 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
+
+const testStatuses = [
+  'CLAIM_SUBMITTED',
+  'SAVED',
+  'IN_PROCESS',
+  'INCOMPLETE',
+  'APPEALED',
+  'MANUAL_REVIEW',
+  'CLOSED',
+  'ON_HOLD',
+];
+
+Cypress.Commands.add('openFiltersAndUncheckStatuses', () => {
+  cy.get('va-accordion-item[data-testid="filters-accordion"]')
+    .shadow()
+    .find('h2 button[aria-controls="content"]')
+    .eq(0)
+    .click({ waitForAnimations: true });
+  testStatuses.forEach(status => {
+    cy.selectVaCheckbox(`${status}_checkbox`, false);
+  });
+});
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
@@ -16,7 +39,7 @@ describe(`${appName} -- Status Page`, () => {
       .contains('If you need to manage a claim, log into the')
       .parent()
       .siblings()
-      .eq(2)
+      .eq(3)
       .should('have.id', 'travel-claims-list');
   });
 
@@ -54,5 +77,75 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('h2[data-testid="travel-claim-details"]')
       .eq(4)
       .should('include.text', 'August 11, 2022');
+  });
+
+  it('filters the claims by status and preserves default sort', () => {
+    cy.openFiltersAndUncheckStatuses();
+    cy.selectVaCheckbox('SAVED_checkbox', true);
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('h2[data-testid="travel-claim-details"]').should('have.length', 5);
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .first()
+      .should('include.text', 'August 16, 2023');
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .eq(4)
+      .should('include.text', 'March 27, 2022');
+  });
+
+  it('filters the claims by multiple statuses and preserves default sort', () => {
+    cy.openFiltersAndUncheckStatuses();
+    cy.selectVaCheckbox('SAVED_checkbox', true);
+    cy.selectVaCheckbox('INCOMPLETE_checkbox', true);
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
+
+    cy.get('h2[data-testid="travel-claim-details"]').should('have.length', 6);
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .first()
+      .should('include.text', 'May 15, 2024');
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .eq(5)
+      .should('include.text', 'March 27, 2022');
+  });
+
+  it('resets the filters when button is pressed', () => {
+    cy.openFiltersAndUncheckStatuses();
+    cy.selectVaCheckbox('SAVED_checkbox', true);
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
+    cy.get('va-button[data-testid="reset_search"]').click({
+      waitForAnimations: true,
+    });
+    cy.get('h2[data-testid="travel-claim-details"]').should('have.length', 10);
+    testStatuses.forEach(statusName => {
+      cy.get(`va-checkbox[name=${statusName}_checkbox]`)
+        .shadow()
+        .find('input[type="checkbox"]')
+        .should('be.checked');
+    });
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .first()
+      .should('include.text', 'May 15, 2024');
+  });
+
+  it('preserves sort order when filters are applied', () => {
+    cy.get('select[name="claimsOrder"]').select('oldest');
+    cy.get('va-button[data-testid="Sort travel claims"]').click();
+    cy.openFiltersAndUncheckStatuses();
+    cy.selectVaCheckbox('SAVED_checkbox', true);
+    cy.get('va-button[data-testid="apply_filters"]').click({
+      waitForAnimations: true,
+    });
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .first()
+      .should('include.text', 'March 27, 2022');
+    cy.get('h2[data-testid="travel-claim-details"]')
+      .eq(4)
+      .should('include.text', 'August 16, 2023');
   });
 });
