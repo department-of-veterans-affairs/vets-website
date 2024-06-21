@@ -1,8 +1,4 @@
 import moment from 'moment';
-// import 'moment/dist/locale/en';
-// import moment.locale('en');
-// import 'moment/min/locales';
-// import moment from 'moment/min/moment-with-locales';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
