@@ -44,12 +44,10 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       .find('h2')
       .should('contain', 'save your signature');
 
-    cy.get(Locators.ALERTS.DS_ALERT)
-      .find('va-button')
+    PatientComposePage.getAlertEditDraftBtn()
       .first()
       .should('have.attr', 'text', 'Edit draft');
-    cy.get(Locators.ALERTS.DS_ALERT)
-      .find('va-button')
+    PatientComposePage.getAlertEditDraftBtn()
       .last()
       .should('have.attr', 'text', 'Save draft without signature');
 
@@ -70,12 +68,10 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       .find('h2')
       .should('contain', 'save your signature or attachment');
 
-    cy.get(Locators.ALERTS.DS_ALERT)
-      .find('va-button')
+    PatientComposePage.getAlertEditDraftBtn()
       .first()
       .should('have.attr', 'text', 'Edit draft');
-    cy.get(Locators.ALERTS.DS_ALERT)
-      .find('va-button')
+    PatientComposePage.getAlertEditDraftBtn()
       .last()
       .should(
         'have.attr',

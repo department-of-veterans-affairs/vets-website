@@ -435,6 +435,10 @@ class PatientComposePage {
       .find('#input-label')
       .should('contain.text', 'Required');
   };
+
+  getAlertEditDraftBtn = () => {
+    return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
+  };
 }
 
 export default new PatientComposePage();
