@@ -330,7 +330,7 @@ class TrackClaimsPageV2 {
         .find('button')
         .click();
     } else {
-      cy.get('.additional-evidence-container va-checkbox')
+      cy.get('va-checkbox')
         .shadow()
         .find('input[type="checkbox"]')
         .check({ force: true });
