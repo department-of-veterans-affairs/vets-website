@@ -155,10 +155,10 @@ export default function ClaimPhaseStepper({
     return phase === currentPhase;
   };
   const isCurrentPhaseAndNotFinalPhase = phase => {
-    return isCurrentPhase(phase) && phase !== 8
+    return isCurrentPhase(phase) && phase !== 8;
   };
   const isPhaseComplete = phase => {
-    return phase < currentPhase || (isCurrentPhase(phase) && phase === 8)
+    return phase < currentPhase || (isCurrentPhase(phase) && phase === 8);
   };
   const phaseCanRepeat = phase => {
     return [3, 4, 5, 6].includes(phase);
@@ -171,7 +171,7 @@ export default function ClaimPhaseStepper({
       headerIconAttributes = {
         icon: 'flag',
         text: 'Current',
-        class: 'phase-current'
+        class: 'phase-current',
       };
       return true;
     }
@@ -181,13 +181,13 @@ export default function ClaimPhaseStepper({
       headerIconAttributes = {
         icon: 'check_circle',
         text: 'Completed',
-        class: 'phase-complete'
+        class: 'phase-complete',
       };
       return true;
     }
 
     return false;
-  }
+  };
 
   return (
     <div className="claim-phase-stepper">
@@ -199,7 +199,7 @@ export default function ClaimPhaseStepper({
             id={`phase${claimPhase.phase}`}
             open={isCurrentPhase(claimPhase.phase)}
           >
-            {showIcon(claimPhase.phase) &&(
+            {showIcon(claimPhase.phase) && (
               <va-icon
                 icon={headerIconAttributes.icon}
                 class={headerIconAttributes.class}
