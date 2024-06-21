@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 export default function createVYEEnrollmentWidget(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
-    import(/* webpackChunkName: "vye-enrollment-login-widget" */ './EnrollmentVerificationLogIn').then(
+    import(/* webpackChunkName: "vye-enrollment-login-widget" */ './VyeEnrollmentLoginWidget').then(
       module => {
-        const EnrollmentVerificationLogIn = module.default;
+        const VyeEnrollmentLoginWidget = module.default;
         ReactDOM.render(
           <Provider store={store}>
-            <EnrollmentVerificationLogIn />
+            <VyeEnrollmentLoginWidget />
           </Provider>,
           root,
         );
