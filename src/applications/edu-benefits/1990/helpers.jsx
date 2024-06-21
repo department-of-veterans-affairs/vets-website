@@ -17,9 +17,9 @@ export const isShowBenefitsRelinquished = (automatedTest = false) => {
   }
   return (
     // environment.isProduction() || // Comment out to send to production
-    environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() /* ||
+    environment.isStaging() ||
     environment.isLocalhost() */
   );
 };

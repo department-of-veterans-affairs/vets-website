@@ -116,7 +116,7 @@ const viewSelectedBenefitsSchema = () => {
     },
   };
 };
-/*
+
 const contributionsUiSchema = () => {
   if (isShowBenefitsRelinquished()) {
     return {
@@ -210,7 +210,7 @@ const contributionsUiSchema = () => {
     ),
   };
 };
-*/
+
 const viewSelectedBenefitsUiSchema = () => {
   if (isShowBenefitsRelinquished()) {
     return {
@@ -474,7 +474,9 @@ const formConfig = {
         benefitsRelinquishment: {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
-          depends: formData => formData['view:selectedBenefits'].chapter33,
+          depends: formData =>
+            formData['view:selectedBenefits'].chapter33 &&
+            isShowBenefitsRelinquished(),
           initialData: {
             'view:benefitsRelinquishedContainer': {
               benefitsRelinquishedDate: moment().format('YYYY-MM-DD'),
@@ -630,57 +632,7 @@ const formConfig = {
         contributions: {
           title: 'Contributions',
           path: 'military-history/contributions',
-          uiSchema: {
-            'ui:title': 'Contributions',
-            'ui:description': 'Select all that apply:',
-            additionalContributions: {
-              'ui:title':
-                'I made contributions (up to $600) to increase the amount of my monthly benefits.',
-            },
-            activeDutyKicker: {
-              'ui:title':
-                'I qualify for an Active Duty Kicker (sometimes called a college fund).',
-            },
-            reserveKicker: {
-              'ui:title':
-                'I qualify for a Reserve Kicker (sometimes called a college fund).',
-            },
-            'view:reserveKickerWarning': {
-              'ui:description': reserveKickerWarning,
-              'ui:options': {
-                expandUnder: 'reserveKicker',
-                hideIf: data =>
-                  get(
-                    'view:benefitsRelinquishedContainer.benefitsRelinquished',
-                    data,
-                  ) !== 'chapter30',
-              },
-            },
-            'view:activeDutyRepayingPeriod': {
-              'ui:title':
-                'I have a period of service that the Department of Defense counts toward an education loan payment.',
-              'ui:options': {
-                expandUnderClassNames: 'schemaform-expandUnder-indent',
-              },
-            },
-            activeDutyRepayingPeriod: merge(
-              {},
-              {
-                'ui:options': {
-                  expandUnder: 'view:activeDutyRepayingPeriod',
-                },
-                to: {
-                  'ui:required': formData =>
-                    formData['view:activeDutyRepayingPeriod'],
-                },
-                from: {
-                  'ui:required': formData =>
-                    formData['view:activeDutyRepayingPeriod'],
-                },
-              },
-              dateRangeUI('Start date', 'End date'),
-            ),
-          },
+          uiSchema: contributionsUiSchema(),
           schema: {
             type: 'object',
             properties: {
