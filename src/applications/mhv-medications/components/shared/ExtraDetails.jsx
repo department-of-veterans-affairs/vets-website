@@ -22,31 +22,41 @@ const ExtraDetails = rx => {
     >
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
-          <p>
-            We’re sorry. There’s a problem with our system. You can’t manage
-            this prescription online right now.
-          </p>
-          <p className="vads-u-margin-top--1">
-            Call your VA pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
+          <va-icon icon="warning" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            <p className="vads-u-margin-y--0">
+              We’re sorry. There’s a problem with our system. You can’t manage
+              this prescription online right now.
+            </p>
+            <p className="vads-u-margin-y--0">
+              Call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={cmopDivisionPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
-          <p data-testid="rx-refillinprocess-info">
-            We expect to fill it on {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, call your VA pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
+          <va-icon icon="acute" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            <p
+              data-testid="rx-refillinprocess-info"
+              className="vads-u-margin-y--0"
+            >
+              We expect to fill it on{' '}
+              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            </p>
+            <p className="vads-u-margin-y--0">
+              If you need it sooner, call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={cmopDivisionPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
@@ -54,9 +64,12 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          We got your request on{' '}
-          {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-          updates.
+          <va-icon icon="fast_check" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            We got your request on{' '}
+            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
+            updates.
+          </div>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
