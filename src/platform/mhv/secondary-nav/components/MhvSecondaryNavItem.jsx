@@ -31,6 +31,8 @@ const MhvSecondaryNavItem = ({
   const itemClass = classNames(
     'mhv-c-sec-nav-item',
     'vads-u-text-align--left',
+    'vads-u-display--flex',
+    'vads-u-flex-wrap--wrap',
     'vads-u-align-content--center',
     {
       'mhv-u-sec-nav-active-style': isActive,

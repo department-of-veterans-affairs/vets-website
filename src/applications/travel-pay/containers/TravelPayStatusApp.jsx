@@ -14,6 +14,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
+import TravelPayFilters from '../components/TravelPayFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 
@@ -34,6 +35,20 @@ export default function App({ children }) {
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
+  const [checkedStatuses, setCheckedStatuses] = useState([]);
+  const [appliedStatuses, setAppliedStatuses] = useState([]);
+
+  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+    // Sets initial status filters after travelClaims load
+    const initialStatusFilters = [
+      ...new Set(travelClaims.map(claim => claim.claimStatus)),
+    ];
+    setStatusesToFilterBy(initialStatusFilters);
+    setAppliedStatuses(initialStatusFilters);
+    setCheckedStatuses(initialStatusFilters);
+  }
+
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
     case 'mostRecent':
@@ -51,6 +66,25 @@ export default function App({ children }) {
     default:
       break;
   }
+
+  const resetSearch = () => {
+    setAppliedStatuses(statusesToFilterBy);
+    setCheckedStatuses(statusesToFilterBy);
+  };
+
+  const applyFilters = () => {
+    setAppliedStatuses(checkedStatuses);
+  };
+
+  const onStatusFilterChange = (e, statusName) => {
+    if (e.currentTarget.checked) {
+      setCheckedStatuses([...checkedStatuses, statusName]);
+    } else {
+      setCheckedStatuses(
+        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      );
+    }
+  };
 
   const {
     useToggleValue,
@@ -71,15 +105,19 @@ export default function App({ children }) {
   );
 
   const CLAIMS_PER_PAGE = 10;
-  let displayedClaims = travelClaims;
-  const shouldPaginate = travelClaims.length > CLAIMS_PER_PAGE;
-  const numPages = Math.ceil(travelClaims.length / CLAIMS_PER_PAGE);
+
+  let displayedClaims = travelClaims.filter(claim =>
+    appliedStatuses.includes(claim.claimStatus),
+  );
+  const numResults = displayedClaims.length;
+  const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
+  const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
 
   const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
-  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, travelClaims.length);
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, numResults);
 
   if (shouldPaginate) {
-    displayedClaims = travelClaims.slice(pageStart - 1, pageEnd);
+    displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
   }
 
   const onPageSelect = useCallback(
@@ -167,7 +205,13 @@ export default function App({ children }) {
                   Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
                   events
                 </p>
-
+                <TravelPayFilters
+                  statusesToFilterBy={statusesToFilterBy}
+                  checkedStatuses={checkedStatuses}
+                  onStatusFilterChange={onStatusFilterChange}
+                  applyFilters={applyFilters}
+                  resetSearch={resetSearch}
+                />
                 {displayedClaims.map(travelClaim =>
                   TravelClaimCard(travelClaim),
                 )}
