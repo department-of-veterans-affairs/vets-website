@@ -8,77 +8,65 @@ import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const PrescriptionDetailsDocumentation = () => {
-  const prescription = useSelector(
-    state => state.rx.prescriptions.prescriptionDetails,
-  );
-  const isDisplayingDocumentation = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
-  );
-  const hasPrescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
-  );
-  const dispatch = useDispatch();
-  const [htmlContent, setHtmlContent] = useState(null);
-  const [hasDocumentationApiError, setHasDocumentationApiError] = useState(
-    false,
-  );
-  const [loading, setLoading] = useState(false);
   const { prescriptionId } = useParams();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const ndcNumber = queryParams.get('ndc');
-  const isMissingPrescriptionId =
-    prescriptionId === undefined || prescriptionId === null;
+
+  const {
+    prescription,
+    isDisplayingDocumentation,
+    hasPrescriptionApiError,
+  } = useSelector(state => ({
+    prescription: state.rx.prescriptions.prescriptionDetails,
+    isDisplayingDocumentation:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+      ],
+    hasPrescriptionApiError: state.rx.prescriptions?.apiError,
+  }));
+
+  const dispatch = useDispatch();
+  const [htmlContent, setHtmlContent] = useState(null);
+  const [hasDocApiError, setHasDocApiError] = useState(false);
+  const [isLoadingDoc, setIsLoadingDoc] = useState(false);
+  const [isLoadingRx, setIsLoadingRx] = useState(false);
   useEffect(
     () => {
-      if (!isMissingPrescriptionId && ndcNumber) {
-        setLoading(true);
+      if (prescriptionId && ndcNumber) {
+        setIsLoadingDoc(true);
         getDocumentation(prescriptionId, ndcNumber)
           .then(response => {
             setHtmlContent(response.data);
-            setLoading(false);
-            setHasDocumentationApiError(false);
+            setHasDocApiError(false);
           })
           .catch(() => {
-            setLoading(false);
-            setHasDocumentationApiError(true);
+            setHasDocApiError(true);
+          })
+          .finally(() => {
+            setIsLoadingDoc(false);
           });
       }
     },
-    [prescriptionId, ndcNumber, isMissingPrescriptionId],
+    [prescriptionId, ndcNumber],
   );
+
   useEffect(
     () => {
-      if (!prescription && !isMissingPrescriptionId && ndcNumber) {
+      if (!prescription && prescriptionId && ndcNumber) {
+        setIsLoadingRx(true);
         dispatch(getPrescriptionDetails(prescriptionId));
+      } else if (prescription && prescriptionId && ndcNumber && isLoadingRx) {
+        setIsLoadingRx(false);
       }
     },
-    [
-      prescriptionId,
-      dispatch,
-      prescription,
-      ndcNumber,
-      isMissingPrescriptionId,
-    ],
+    [prescriptionId, ndcNumber, prescription, dispatch, isLoadingRx],
   );
 
   if (!isDisplayingDocumentation) {
     return <PageNotFound />;
   }
-  if (!hasPrescriptionsApiError && (isMissingPrescriptionId || !prescription)) {
-    return (
-      <va-loading-indicator
-        message="Getting medication documentation..."
-        set-focus
-        data-testid="documentation-loader"
-        class="vads-u-margin-top--4"
-      />
-    );
-  }
-  if (hasDocumentationApiError) {
+  if (hasDocApiError || hasPrescriptionApiError) {
     return (
       <div className="vads-u-margin-top--1">
         <ApiErrorNotification
@@ -91,7 +79,7 @@ const PrescriptionDetailsDocumentation = () => {
 
   return (
     <>
-      {loading ? (
+      {isLoadingDoc || isLoadingRx ? (
         <va-loading-indicator message="Loading documentation..." set-focus />
       ) : (
         <div>
