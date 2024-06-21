@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { formatISO } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
-import { removeTimezoneOffset } from '../utils/formatters';
 
 const useTravelPayFlags = appointment => {
   const [travelPayClaimSent, setTravelPayClaimSent] = useState();
@@ -21,9 +20,7 @@ const useTravelPayFlags = appointment => {
     'travel-review': travelReview,
   } = data;
 
-  const startDate = removeTimezoneOffset(
-    formatISO(new Date(appointment.startTime)),
-  );
+  const startDate = formatISO(new Date(appointment.startTime));
 
   let travelPayData = {
     uuid: token,
