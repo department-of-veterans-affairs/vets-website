@@ -95,7 +95,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
   const stateUser = state.user;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
+  const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
   const profile = stateUser?.profile;
   const sponsors = state.data?.formData?.attributes?.sponsors;
   let firstName;
@@ -113,11 +113,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     lastName = claimant?.lastName;
     suffix = claimant.suffix;
   }
-  // console.log(vapContactInfo, 'vapContactInfo')
-  // console.log(profile, 'profile')
-  // console.log(contactInfo, 'contactInfo')
-  // console.log(claimant, 'claimant')
-  // console.log(bankInformation, 'bankInformation')
+
   const emailAddress =
     vapContactInfo.email?.emailAddress ||
     profile?.email ||
@@ -183,16 +179,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
       street2: address?.addressLine2 || undefined,
       city: address?.city,
       state: address?.stateCode || address?.province,
-      postalCode:
-        address?.zipCode ||
-        address?.zipcode ||
-        address?.internationalPostalCode,
+      postalCode: address?.zipCode || address?.internationalPostalCode,
       country: getSchemaCountryCode(
         address?.countryCodeIso3 || address?.countryCode,
       ),
     },
-    contactMethod: formData?.contactMethod,
-    notificationMethod: formData?.notificationMethod,
+    notificationMethod: claimant?.notificationMethod || formData?.contactMethod,
     declineDirectDeposit: formData?.declineDirectDeposit,
     bankAccount: {
       ...bankInformation,
