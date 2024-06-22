@@ -1,5 +1,5 @@
 import yourBackgroundInformation from './yourBackgroundInformation';
-import yesNoPageSchema from '../../helpers/yesNoPageSchema';
+import yesNoPageSchema from '../helpers/yesNoPageSchema';
 import HasAConviction from '../../components/HasAConviction';
 import convictionDetails from './convictionDetails';
 import courtMartialDetails from './courtMartialDetails';
