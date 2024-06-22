@@ -314,7 +314,6 @@ const getSponsorInformation = form => {
   } else {
     firstSponsor = form?.data?.firstSponsor;
   }
-
   if (firstSponsor === 'IM_NOT_SURE') {
     return {
       notSureAboutSponsor: true,
@@ -329,26 +328,9 @@ const getSponsorInformation = form => {
       manualSponsor: null,
     };
   }
-  // check if august feature flag is on and if so ensure manual entry is disabled
-  if (form.data.showMebEnhancements08) {
-    return {
-      notSureAboutSponsor: true,
-      firstSponsorVaId: null,
-      manualSponsor: null, // return null for manualSponsor when the feature is disabled
-    };
-  }
-
   return {
     notSureAboutSponsor: false,
     firstSponsorVaId: null,
-    manualSponsor: {
-      firstName: form?.data?.sponsorFullName?.first,
-      middleName: form?.data?.sponsorFullName?.middle,
-      lastName: form?.data?.sponsorFullName?.last,
-      suffix: form?.data?.sponsorFullName?.suffix,
-      dateOfBirth: form?.data?.sponsorDateOfBirth,
-      relationship: form?.data?.relationshipToServiceMember,
-    },
   };
 };
 

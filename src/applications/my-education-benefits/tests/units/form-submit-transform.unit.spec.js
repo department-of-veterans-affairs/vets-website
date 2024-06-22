@@ -221,34 +221,33 @@ describe('form submit transform', () => {
     });
   });
 
-  describe('has a createRelinquishedBenefit method', () => {
-    it('should return a relinquished benefit object if relinquishment present', () => {
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
-        'CannotRelinquish',
-      );
-      expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
+  describe('createRelinquishedBenefit', () => {
+    it('returns an empty object when submissionForm is null', () => {
+      expect(createRelinquishedBenefit(null)).to.eql({});
     });
-
-    it('should return empty object if no relinquishment AND feature flag is false', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
-      mockSubmissionForm.showMebDgi40Features = false;
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
+    it('returns an empty object when submissionForm does not have viewBenefitSelection', () => {
+      const form = {}; // Redefine with a more specific or unique name if needed
+      expect(createRelinquishedBenefit(form)).to.eql({});
     });
-
-    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
-      mockSubmissionForm.showMebDgi42Features = true;
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
-        'CannotRelinquish',
-      );
+    it('returns the correct object when a benefit is relinquished with an effective date', () => {
+      const formWithDate = {
+        'view:benefitSelection': {
+          benefitRelinquished: 'Chapter30',
+        },
+        benefitEffectiveDate: '2023-01-01',
+      };
+      expect(createRelinquishedBenefit(formWithDate)).to.eql({
+        relinquishedBenefit: 'Chapter30',
+        effRelinquishDate: '2023-01-01',
+      });
+    });
+    it('returns NotEligible when benefitRelinquished is not present', () => {
+      const formNotEligible = {
+        'view:benefitSelection': {},
+      };
+      expect(createRelinquishedBenefit(formNotEligible)).to.deep.equal({
+        relinquishedBenefit: 'NotEligible',
+      });
     });
   });
 

@@ -375,31 +375,19 @@ export function createRelinquishedBenefit(submissionForm) {
   if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
     return {};
   }
-
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
       formFields.benefitRelinquished
     ];
-
   if (benefitRelinquished) {
     return {
       relinquishedBenefit: benefitRelinquished,
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
-      ? {
-          relinquishedBenefit: 'NotEligible',
-        }
-      : {};
-  }
-  return submissionForm?.showMebDgi42Features
-    ? {
-        relinquishedBenefit: 'CannotRelinquish',
-      }
-    : {};
+  return {
+    relinquishedBenefit: 'NotEligible',
+  };
 }
 
 function setAdditionalConsideration(consideration) {
@@ -485,14 +473,12 @@ function getTodayDate() {
 
 export function createComments(submissionForm) {
   if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
-    if (submissionForm.incorrectServiceHistoryExplanation) {
+    const explanation = submissionForm.incorrectServiceHistoryExplanation;
+    if (explanation && explanation.incorrectServiceHistoryText) {
       return {
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
-            ? submissionForm.incorrectServiceHistoryExplanation
-            : submissionForm.incorrectServiceHistoryExplanation
-                .incorrectServiceHistoryText,
+          comments: explanation.incorrectServiceHistoryText,
         },
         disagreeWithServicePeriod: true,
       };

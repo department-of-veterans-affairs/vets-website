@@ -9,32 +9,30 @@ import { fetchDuplicateContactInfo, updateGlobalEmail } from '../actions';
 
 function CustomEmailField(props) {
   function handleChange(event) {
-    if (props?.showMebEnhancements08) {
-      if (props.email !== event) {
-        props.setFormData({
-          ...props?.formData,
-          email: {
-            ...props?.formData?.email,
-            email: event,
-          },
-        });
-      }
+    if (props.email !== event) {
+      props.setFormData({
+        ...props?.formData,
+        email: {
+          ...props?.formData?.email,
+          email: event,
+        },
+      });
+    }
 
-      const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
-      if (event && isValidEmail(event)) {
-        props.fetchDuplicateContactInfo(
-          [{ value: event, dupe: '' }],
-          [{ value: mobilePhone, dupe: '' }],
-        );
-      } else {
-        props.setFormData({
-          ...props?.formData,
-          email: {
-            ...props?.formData?.email,
-            email: event,
-          },
-        });
-      }
+    const mobilePhone = props?.mobilePhone ? props?.mobilePhone : '';
+    if (event && isValidEmail(event)) {
+      props.fetchDuplicateContactInfo(
+        [{ value: event, dupe: '' }],
+        [{ value: mobilePhone, dupe: '' }],
+      );
+    } else {
+      props.setFormData({
+        ...props?.formData,
+        email: {
+          ...props?.formData?.email,
+          email: event,
+        },
+      });
     }
   }
 
@@ -46,16 +44,18 @@ function CustomEmailField(props) {
 }
 
 CustomEmailField.propTypes = {
-  fetchDuplicateContactInfo: PropTypes.func,
-  updateGlobalEmail: PropTypes.func,
   email: PropTypes.string,
+  fetchDuplicateContactInfo: PropTypes.func,
+  formData: PropTypes.object,
+  mobilePhone: PropTypes.string,
+  setFormData: PropTypes.func,
+  updateGlobalEmail: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
   email: state?.form?.data?.email?.email,
   duplicateEmail: state?.data?.duplicateEmail,
   mobilePhone: state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-  showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
   formData: state?.form?.data,
 });
 

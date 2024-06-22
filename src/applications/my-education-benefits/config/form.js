@@ -5,12 +5,10 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
@@ -33,7 +31,6 @@ import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
-import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
@@ -160,14 +157,6 @@ const benefits = [
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
-}
-
-function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
-}
-
-function isValidLastName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
 const isValidAccountNumber = accountNumber => {
@@ -403,7 +392,6 @@ const checkBoxValidation = {
   pattern: (errors, values, formData) => {
     if (
       !Object.keys(values).some(key => values[key]) &&
-      formData?.showMebServiceHistoryCategorizeDisagreement &&
       formData['view:serviceHistory']?.serviceHistoryIncorrect
     ) {
       errors.addError('Please check at least one of the options below');
@@ -464,31 +452,12 @@ const formConfig = {
           instructions:
             'This is the personal information we have on file for you.',
           uiSchema: {
-            'view:subHeadings': {
+            'view:applicantInformation': {
               'ui:description': (
                 <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
-                  </p>
+                  <ApplicantIdentityView />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
             },
             [formFields.formId]: {
               'ui:title': 'Form ID',
@@ -504,127 +473,9 @@ const formConfig = {
                 hideOnReview: true,
               },
             },
-            'view:applicantInformation': {
-              'ui:options': {
-                hideIf: formData => !formData.showMebEnhancements06,
-              },
-              'ui:description': (
-                <>
-                  <ApplicantIdentityView />
-                </>
-              ),
-            },
-            [formFields.viewUserFullName]: {
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
-              'ui:description': (
-                <>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your personal information, please
-                    edit the form fields below.
-                  </p>
-                </>
-              ),
-              [formFields.userFullName]: {
-                'ui:options': {
-                  hideIf: formData => formData.showMebEnhancements06,
-                },
-                'ui:required': formData => !formData?.showMebEnhancements06,
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:title': 'Your first name',
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your first name');
-                        } else if (field[0] === ' ' || field[0] === "'") {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your last name');
-                        } else if (
-                          field[0] === ' ' ||
-                          field[0] === "'" ||
-                          field[0] === '-'
-                        ) {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:title': 'Your middle name',
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your middle name');
-                        } else if (field[0] === ' ' || field[0] === "'") {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-              },
-            },
-            [formFields.dateOfBirth]: {
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
-              'ui:required': formData => !formData?.showMebEnhancements06,
-              ...currentOrPastDateUI('Your date of birth'),
-              'ui:reviewField': CustomReviewDOBField,
-            },
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
             properties: {
               [formFields.formId]: {
                 type: 'string',
@@ -632,35 +483,6 @@ const formConfig = {
               [formFields.claimantId]: {
                 type: 'integer',
               },
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewUserFullName]: {
-                // required: [formFields.userFullName],
-                type: 'object',
-                properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      first: {
-                        ...fullName.properties.first,
-                        maxLength: 20,
-                      },
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 20,
-                      },
-                      last: {
-                        ...fullName.properties.last,
-                        maxLength: 26,
-                      },
-                    },
-                  },
-                },
-              },
-              [formFields.dateOfBirth]: date,
               'view:applicantInformation': {
                 type: 'object',
                 properties: {},
@@ -670,6 +492,7 @@ const formConfig = {
         },
       },
     },
+
     contactInformationChapter: {
       title: 'Contact information',
       pages: {
@@ -846,12 +669,9 @@ const formConfig = {
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      !formData['view:mailingAddress'].livesOnMilitaryBase),
+                    !formData['view:mailingAddress']?.livesOnMilitaryBase,
                   'ui:disabled': formData =>
-                    formData.showMebDgi40Features &&
-                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                    formData['view:mailingAddress']?.livesOnMilitaryBase,
                   'ui:options': {
                     updateSchema: (formData, schema, uiSchema) => {
                       const countryUI = uiSchema;
@@ -863,10 +683,7 @@ const formConfig = {
                         ['view:mailingAddress', 'livesOnMilitaryBase'],
                         formData,
                       );
-                      if (
-                        formData.showMebDgi40Features &&
-                        livesOnMilitaryBase
-                      ) {
+                      if (livesOnMilitaryBase) {
                         countryUI['ui:disabled'] = true;
                         const USA = {
                           value: 'USA',
@@ -879,9 +696,7 @@ const formConfig = {
                           default: USA.value,
                         };
                       }
-
                       countryUI['ui:disabled'] = false;
-
                       return {
                         type: 'string',
                         enum: constants.countries.map(country => country.value),
@@ -921,7 +736,6 @@ const formConfig = {
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
-                        formData.showMebDgi40Features &&
                         formData['view:mailingAddress']?.livesOnMilitaryBase
                       ) {
                         return {
@@ -930,7 +744,6 @@ const formConfig = {
                           enum: ['APO', 'FPO'],
                         };
                       }
-
                       return {
                         type: 'string',
                         title: 'City',
@@ -940,11 +753,8 @@ const formConfig = {
                 },
                 state: {
                   'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                        formData['view:mailingAddress']?.address?.country ===
-                          'USA')),
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
@@ -961,7 +771,6 @@ const formConfig = {
                           type: 'string',
                         };
                       }
-
                       return {
                         title: 'Zip code',
                         type: 'string',
@@ -1326,9 +1135,6 @@ const formConfig = {
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
-              'ui:options': {
-                hideIf: formData => formData?.showMebDgi40Features,
-              },
             },
             'view:newSubHeading': {
               'ui:description': (
@@ -1352,9 +1158,6 @@ const formConfig = {
                   </p>
                 </>
               ),
-              'ui:options': {
-                hideIf: formData => !formData?.showMebDgi40Features,
-              },
             },
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,
@@ -1404,8 +1207,7 @@ const formConfig = {
               incorrectServiceHistoryInputs: {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
-                    true &&
-                  formData?.showMebServiceHistoryCategorizeDisagreement,
+                  true,
                 'ui:errorMessages': {
                   required: 'Please check at least one of the options below',
                 },
@@ -1423,8 +1225,6 @@ const formConfig = {
                 'ui:options': {
                   showFieldLabel: true,
                   forceDivWrapper: true,
-                  hideIf: formData =>
-                    !formData?.showMebServiceHistoryCategorizeDisagreement,
                 },
                 servicePeriodMissingForActiveDuty: {
                   'ui:title':
@@ -1516,11 +1316,7 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
-            // If the showMebEnhancements09 feature flag is turned on, show the page
-            if (formData.showMebEnhancements09) {
-              return true;
-            }
-            // If the feature flag is not turned on, check the eligibility length
+            // Now only dependent on the length of the eligibility data
             return Boolean(formData.eligibility?.length);
           },
           uiSchema: {
@@ -1572,7 +1368,11 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    aria-hidden="true"
+                  />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill

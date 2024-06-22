@@ -54,6 +54,7 @@ const ApplicantIdentityView = ({ userFullName, dateOfBirth }) => {
         <br />
         Date of birth: {formattedDateOfBirth}
       </p>
+      <br />
     </>
   );
 };

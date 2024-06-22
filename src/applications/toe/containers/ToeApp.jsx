@@ -14,6 +14,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   formData,
   getDirectDeposit,
   getPersonalInformation,
@@ -25,9 +26,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
   toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -79,30 +77,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
-  );
-
-  useEffect(
-    () => {
       if (
         showMeb1990ER6MaintenanceMessage !==
         formData.showMeb1990ER6MaintenanceMessage
@@ -118,12 +92,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
       if (
         toeLightHouseDgiDirectDeposit !==
         formData?.toeLightHouseDgiDirectDeposit
@@ -136,12 +104,19 @@ function ToeApp({
         });
       }
     },
-    [
-      formData,
-      setFormData,
-      showMebEnhancements08,
-      toeLightHouseDgiDirectDeposit,
-    ],
+    [formData, setFormData, toeLightHouseDgiDirectDeposit],
+  );
+
+  useEffect(
+    () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob, formData, setFormData],
   );
 
   useEffect(
@@ -160,6 +135,7 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
+      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
@@ -201,14 +177,14 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
+  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
@@ -219,6 +195,7 @@ ToeApp.propTypes = {
 
 const mapStateToProps = state => ({
   ...getAppData(state),
+  dob: state.user.profile?.dob,
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
