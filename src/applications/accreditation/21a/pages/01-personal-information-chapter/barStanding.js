@@ -8,10 +8,9 @@ export default {
   title: 'Bar standing',
   path: 'bar-standing',
   uiSchema: {
-    barStanding: yesNoUI({
-      title:
-        'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
-    }),
+    barStanding: yesNoUI(
+      'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
+    ),
   },
   schema: {
     type: 'object',
