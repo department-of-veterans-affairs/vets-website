@@ -24,11 +24,11 @@ export const RESOLUTION_OPTION_TYPES = Object.freeze({
 export const SCHEMA_DEFINITIONS = {
   address: {
     type: 'string',
-    pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
+    pattern: "^[-a-zA-Z0-9'.,&#]+( [-a-zA-Z0-9'.,&#]+)*$",
   },
   city: {
     type: 'string',
-    pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
+    pattern: "^[-a-zA-Z0-9'.#]+( [-a-zA-Z0-9'.#]+)*$",
   },
   postalCode: {
     type: 'string',

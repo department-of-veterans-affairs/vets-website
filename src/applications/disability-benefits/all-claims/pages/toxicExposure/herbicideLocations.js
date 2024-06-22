@@ -51,7 +51,7 @@ export const schema = {
           properties: {
             description: {
               type: 'string',
-              pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
+              pattern: "^[-a-zA-Z0-9'.,&#]+( [-a-zA-Z0-9'.,&#]+)*$",
               maxLength: 250,
             },
           },
