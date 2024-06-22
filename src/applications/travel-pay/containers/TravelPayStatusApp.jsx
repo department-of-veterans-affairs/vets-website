@@ -5,7 +5,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getMonth, getYear, isWithinInterval } from 'date-fns';
+import { parseISO, isWithinInterval } from 'date-fns';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -13,10 +13,9 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayStatusFilters from '../components/TravelPayStatusFilters';
-import TravelPayDateFilters from '../components/TravelPayDateFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
-import { getDateFilters, months } from '../util/dates';
+import { getDateFilters } from '../util/dates';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -40,8 +39,8 @@ export default function App({ children }) {
   const [appliedStatusFilters, setAppliedStatusFilters] = useState([]);
 
   const [datesToFilterBy, setDatesToFilterBy] = useState([]);
-  const [checkedDateFilters, setCheckedDateFilters] = useState([]);
-  const [appliedDateFilters, setAppliedDateFilters] = useState([]);
+  const [selectedDateFilter, setSelectedDateFilter] = useState('all');
+  const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
@@ -54,22 +53,9 @@ export default function App({ children }) {
   }
 
   const dateFilters = getDateFilters();
-  console.log(dateFilters); // eslint-disable-line no-console
+  // console.log(dateFilters); // eslint-disable-line no-console
   if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
-
-    // const initialDateFilters = [
-    //   ...new Set(
-    //     travelClaims.map(claim => {
-    //       const appointmentDate = new Date(claim.appointmentDateTime);
-    //       const appointmentMonth = months.find(
-    //         month => getMonth(appointmentDate) + 1 === month.value,
-    //       );
-    //       return `${appointmentMonth.label} ${getYear(appointmentDate)}`;
-    //     }),
-    //   ),
-    // ];
-    console.log(travelClaims); // eslint-disable-line no-console
     const initialDateFilters = dateFilters.filter(filter =>
       travelClaims.some(claim =>
         isWithinInterval(new Date(claim.appointmentDateTime), {
@@ -79,7 +65,6 @@ export default function App({ children }) {
       ),
     );
     setDatesToFilterBy(initialDateFilters);
-    // console.log(initialDateFilters); // eslint-disable-line no-console
   }
 
   // TODO: Move this logic to the API-side
@@ -103,10 +88,14 @@ export default function App({ children }) {
   const resetSearch = () => {
     setAppliedStatusFilters(statusesToFilterBy);
     setCheckedStatusFilters(statusesToFilterBy);
+    setAppliedDateFilter('all');
+    setSelectedDateFilter('all');
   };
 
   const applyFilters = () => {
+    console.log(checkedStatusFilters, selectedDateFilter); // eslint-disable-line no-console
     setAppliedStatusFilters(checkedStatusFilters);
+    setAppliedDateFilter(selectedDateFilter);
   };
 
   const onStatusFilterChange = (e, statusName) => {
@@ -119,6 +108,11 @@ export default function App({ children }) {
         ),
       );
     }
+  };
+
+  const onDateFilterChange = e => {
+    setSelectedDateFilter(e.target.value);
+    setCurrentPage(1);
   };
 
   const {
@@ -141,9 +135,26 @@ export default function App({ children }) {
 
   const CLAIMS_PER_PAGE = 10;
 
-  let displayedClaims = travelClaims.filter(claim =>
-    appliedStatusFilters.includes(claim.claimStatus),
+  const dateFilter = dateFilters.find(
+    filter => filter.label === appliedDateFilter,
   );
+
+  let displayedClaims = travelClaims.filter(claim => {
+    const statusFilterIncludesClaim = appliedStatusFilters.includes(
+      claim.claimStatus,
+    );
+
+    const daterangeIncludesClaim =
+      appliedDateFilter === 'all'
+        ? true
+        : isWithinInterval(parseISO(claim.appointmentDateTime), {
+            start: dateFilter.start,
+            end: dateFilter.end,
+          });
+
+    return statusFilterIncludesClaim && daterangeIncludesClaim;
+  });
+
   const numResults = displayedClaims.length;
   const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
   const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
@@ -245,6 +256,9 @@ export default function App({ children }) {
                       onStatusFilterChange={onStatusFilterChange}
                       applyFilters={applyFilters}
                       resetSearch={resetSearch}
+                      selectedDateFilter={selectedDateFilter}
+                      datesToFilterBy={datesToFilterBy}
+                      onDateFilterChange={onDateFilterChange}
                     />
                     <div id="travel-claims-list">
                       {displayedClaims.map(travelClaim =>
