@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TravelPayStatusFilters from './TravelPayStatusFilters';
+import TravelPayDateCheckBoxes from './TravelPayDateCheckboxes';
 
 export default function TravelPayFilters(props) {
   const {
@@ -19,7 +19,7 @@ export default function TravelPayFilters(props) {
         header="Filter travel claims"
       >
         <div className="filter-your-results">
-          <TravelPayStatusFilters
+          <TravelPayDateCheckBoxes
             statusesToFilterBy={statusesToFilterBy}
             checkedStatuses={checkedStatuses}
             onStatusFilterChange={onStatusFilterChange}

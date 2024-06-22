@@ -5,6 +5,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getMonth, getYear, isWithinInterval } from 'date-fns';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -12,8 +13,10 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayStatusFilters from '../components/TravelPayStatusFilters';
+import TravelPayDateFilters from '../components/TravelPayDateFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
+import { getDateFilters, months } from '../util/dates';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -36,9 +39,9 @@ export default function App({ children }) {
   const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
   const [appliedStatusFilters, setAppliedStatusFilters] = useState([]);
 
-  // const [datesToFilterBy, setDatesToFilterBy] = useState([]);
-  // const [checkedDateFilters, setCheckedDateFilters] = useState([]);
-  // const [appliedDateFilters, setAppliedDateFilters] = useState([]);
+  const [datesToFilterBy, setDatesToFilterBy] = useState([]);
+  const [checkedDateFilters, setCheckedDateFilters] = useState([]);
+  const [appliedDateFilters, setAppliedDateFilters] = useState([]);
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
@@ -48,6 +51,35 @@ export default function App({ children }) {
     setStatusesToFilterBy(initialStatusFilters);
     setAppliedStatusFilters(initialStatusFilters);
     setCheckedStatusFilters(initialStatusFilters);
+  }
+
+  const dateFilters = getDateFilters();
+  console.log(dateFilters); // eslint-disable-line no-console
+  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+    // Sets initial date filters after travelClaims load
+
+    // const initialDateFilters = [
+    //   ...new Set(
+    //     travelClaims.map(claim => {
+    //       const appointmentDate = new Date(claim.appointmentDateTime);
+    //       const appointmentMonth = months.find(
+    //         month => getMonth(appointmentDate) + 1 === month.value,
+    //       );
+    //       return `${appointmentMonth.label} ${getYear(appointmentDate)}`;
+    //     }),
+    //   ),
+    // ];
+    console.log(travelClaims); // eslint-disable-line no-console
+    const initialDateFilters = dateFilters.filter(filter =>
+      travelClaims.some(claim =>
+        isWithinInterval(new Date(claim.appointmentDateTime), {
+          start: filter.start,
+          end: filter.end,
+        }),
+      ),
+    );
+    setDatesToFilterBy(initialDateFilters);
+    // console.log(initialDateFilters); // eslint-disable-line no-console
   }
 
   // TODO: Move this logic to the API-side
