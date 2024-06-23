@@ -145,7 +145,7 @@ const convertMicrobiologyRecord = record => {
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -192,7 +192,7 @@ const convertEkgRecord = record => {
     name: 'Electrocardiogram (EKG)',
     type: labTypes.EKG,
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',
