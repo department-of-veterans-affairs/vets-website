@@ -85,7 +85,7 @@ const fetchedVALocationsData = [
       access: {
         health: [
           {
-            service: 'MentalHealth',
+            service: 'MentalHealthCare',
             new: 47,
             established: 2,
           },
@@ -150,7 +150,7 @@ const fetchedVALocationsData = [
       },
       services: {
         other: [],
-        health: ['MentalHealth', 'Podiatry', 'PrimaryCare'],
+        health: ['MentalHealthCare', 'Podiatry', 'PrimaryCare'],
         lastUpdated: '2024-02-25',
       },
       uniqueId: '541QB',

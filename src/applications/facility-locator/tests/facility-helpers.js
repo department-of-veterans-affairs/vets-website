@@ -50,7 +50,7 @@ const resultsData = {
               sl2: [],
             },
             {
-              sl1: ['MentalHealth'],
+              sl1: ['MentalHealthCare'],
               sl2: [],
             },
             {

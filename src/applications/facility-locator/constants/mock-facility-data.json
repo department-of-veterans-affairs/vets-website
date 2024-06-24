@@ -823,13 +823,13 @@
           "health": [
             {
               "sl1": [
-                "Dental"
+                "DentalServices"
               ],
               "sl2": []
             },
             {
               "sl1": [
-                "MentalHealth"
+                "MentalHealthCare"
               ],
               "sl2": []
             },
@@ -1002,11 +1002,11 @@
           "other": [],
           "health": [
             "Audiology",
-            "Dental",
+            "DentalServices",
             "Dermatology",
             "Gastroenterology",
             "Gynecology",
-            "MentalHealth",
+            "MentalHealthCare",
             "Nutrition",
             "Ophthalmology",
             "Optometry",

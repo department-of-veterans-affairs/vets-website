@@ -53,7 +53,7 @@ describe('facilities <FacilityAppointmentWaitTimesWidget>', () => {
       <FacilityAppointmentWaitTimesWidget
         loading={false}
         facility={mockFacilityLocatorApiResponse.data[0]}
-        service="MentalHealth"
+        service="MentalHealthCare"
       />,
     );
 
