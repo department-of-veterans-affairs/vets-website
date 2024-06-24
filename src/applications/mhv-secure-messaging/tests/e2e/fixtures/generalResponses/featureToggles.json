@@ -1707,10 +1707,6 @@
         "value": false
       },
       {
-        "name": "va_view_dependents_access",
-        "value": true
-      },
-      {
         "name": "yellowRibbonMvpEnhancement",
         "value": true
       },
