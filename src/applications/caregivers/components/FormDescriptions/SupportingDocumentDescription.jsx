@@ -12,7 +12,7 @@ const SupportingDocumentDescription = (
     <h4>How to upload files:</h4>
 
     <ul className="vads-u-margin-bottom--3">
-      <li>Use a .jpg, .png, .doc, or .rtf file format.</li>
+      <li>Use a .pdf, .jpg, .jpeg, or .png file format.</li>
       <li>
         Make sure the file is 10{' '}
         <dfn>

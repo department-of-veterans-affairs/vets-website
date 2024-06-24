@@ -50,7 +50,7 @@ const uploadPoaDocument = {
     ),
     ...descriptionUI(SupportingDocumentDescription),
     'view:uploadSuccessAlert': {
-      'ui:widget': CheckUploadWarning,
+      'ui:description': CheckUploadWarning,
       'ui:options': {
         hideIf: hideUploadWarningAlert,
       },

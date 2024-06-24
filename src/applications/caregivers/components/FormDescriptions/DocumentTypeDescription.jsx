@@ -12,44 +12,17 @@ const DocumentTypeDescription = (
       </li>
       <li>
         Another type of legal document that your state considers proof of this
-        authority
+        authority, <strong>or</strong>
       </li>
-    </ul>
-    <p>
-      Or you can fill out one of these forms and submit it with this
-      application:
-    </p>
-    <ul>
       <li>
-        Alternate Signer Certification (VA Form 21-0972), <strong>or</strong>{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="/find-forms/about-form-21-0972/"
-        >
-          Get VA Form 21-0972 to download (opens in new tab)
-        </a>
+        Alternate Signer Certification (VA Form 21-0972), <strong>or</strong>
       </li>
       <li>
         Appointment of Veterans Service Organization as Claimant’s
-        Representative (VA Form 21-22), <strong>or</strong>{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="/find-forms/about-form-21-22/"
-        >
-          Get VA Form 21-22 to download (opens in new tab)
-        </a>
+        Representative (VA Form 21-22), <strong>or</strong>
       </li>
       <li>
-        Appointment of Individual As Claimant’s Representative (VA Form 21-22a){' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="/find-forms/about-form-21-22a/"
-        >
-          Get VA Form 21-22a to download (opens in new tab)
-        </a>
+        Appointment of Individual As Claimant’s Representative (VA Form 21-22a)
       </li>
     </ul>
     <p className="vads-u-margin-bottom--0">

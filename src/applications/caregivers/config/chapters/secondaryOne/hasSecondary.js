@@ -30,7 +30,7 @@ const hasSecondaryCaregiverOne = {
       },
     ),
     'view:caregiverRequiredAlert': {
-      'ui:widget': SecondaryRequiredAlert,
+      'ui:description': SecondaryRequiredAlert,
       'ui:options': {
         hideIf: hideCaregiverRequiredAlert,
       },
