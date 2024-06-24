@@ -1247,6 +1247,7 @@ const formConfig = {
             ...applicantMedicarePartAPartBCardsConfig.schema,
             applicantMedicarePartAPartBCard: fileWithMetadataSchema(
               acceptableFiles.medicareABCert,
+              2,
             ),
           }),
         },
@@ -1277,6 +1278,7 @@ const formConfig = {
             ...applicantMedicarePartDCardsConfig.schema,
             applicantMedicarePartDCard: fileWithMetadataSchema(
               acceptableFiles.medicareDCert,
+              2,
             ),
           }),
         },
@@ -1353,6 +1355,7 @@ const formConfig = {
             ...applicantOhiCardsConfig.schema,
             applicantOhiCard: fileWithMetadataSchema(
               acceptableFiles.healthInsCert,
+              2,
             ),
           }),
         },
