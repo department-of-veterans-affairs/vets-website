@@ -91,8 +91,8 @@ ${txtLine}\n\n
 Details\n
 Date: ${record.date}\n
 Location: ${record.location}\n
-Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
+Written by: ${record.writtenBy}\n
+${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
 Signed on: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
@@ -137,15 +137,15 @@ ${record.note}`;
         </h3>
         <p data-testid="progress-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed by
+          Written by
         </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        {record.coSignedBy !== EMPTY_FIELD && (
+        <p data-testid="note-record-written-by">{record.writtenBy}</p>
+        {record.signedBy !== EMPTY_FIELD && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Co-signed by
+              Signed by
             </h3>
-            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
+            <p data-testid="note-record-signed-by">{record.signedBy}</p>
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
