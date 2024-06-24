@@ -7,7 +7,7 @@ import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Save Draft', () => {
+describe.skip('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
     const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();

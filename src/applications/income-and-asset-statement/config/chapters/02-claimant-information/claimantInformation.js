@@ -1,8 +1,10 @@
 import {
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
+  phoneUI,
+  phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -13,15 +15,17 @@ export default {
     return formData.applicantIsVeteran === false;
   },
   uiSchema: {
-    claimantFullName: fullNameUI(title => `Claimant’s ${title}`),
+    claimantFullName: fullNameNoSuffixUI(title => `Claimant’s ${title}`),
     claimantSocialSecurityNumber: ssnUI('Claimants’s Social Security number'),
+    claimantPhoneNumber: phoneUI('Claimants’s telephone number (if known)'),
   },
   schema: {
     type: 'object',
     required: ['claimantFullName', 'claimantSocialSecurityNumber'],
     properties: {
-      claimantFullName: fullNameSchema,
+      claimantFullName: fullNameNoSuffixSchema,
       claimantSocialSecurityNumber: ssnSchema,
+      claimantPhoneNumber: phoneSchema,
     },
   },
 };
