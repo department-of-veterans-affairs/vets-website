@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoggedIn } from 'platform/user/selectors';
 import {
@@ -8,19 +8,21 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import './stylesheet.scss';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-export const App = ({ formNumber, hasOnlineTool }) => {
+export const App = ({ formNumber, hasOnlineTool, shouldShow }) => {
   const dispatch = useDispatch();
 
   // TODO: Confirm this accurately detects if the user is logged in.
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const onSignInClicked = () => dispatch(toggleLoginModalAction(true));
 
-  if (hasOnlineTool === undefined) {
+  if (shouldShow && hasOnlineTool === undefined) {
     return <va-loading-indicator message="Loading..." />;
   }
 
-  if (!hasOnlineTool) {
+  if (shouldShow && !hasOnlineTool) {
     return (
       <>
         <h3>Submit completed form</h3>
@@ -59,8 +61,12 @@ export const App = ({ formNumber, hasOnlineTool }) => {
 
 App.propTypes = {
   hasOnlineTool: PropTypes.bool.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
   formNumber: PropTypes.string,
+  shouldShow: PropTypes.bool,
 };
 
-export default App;
+const mapStateToProps = state => ({
+  shouldShow: toggleValues(state)[FEATURE_FLAG_NAMES.formUploadFlow],
+});
+
+export default connect(mapStateToProps)(App);
