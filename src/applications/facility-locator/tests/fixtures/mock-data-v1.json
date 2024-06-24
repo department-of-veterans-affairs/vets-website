@@ -27,7 +27,7 @@
               "established": 2.285714
             },
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 1.612903,
               "established": 4.621164
             },
@@ -115,11 +115,11 @@
           "other": [],
           "health": [
             "Audiology",
-            "DentalServices",
+            "Dental",
             "Dermatology",
             "Gastroenterology",
             "Gynecology",
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "Ophthalmology",
             "Optometry",
@@ -143,7 +143,7 @@
         "access": {
           "health": [
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 5.75,
               "established": 6.625
             },
@@ -210,7 +210,7 @@
         "services": {
           "other": [],
           "health": [
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "PrimaryCare",
             "SpecialtyCare"
@@ -372,7 +372,7 @@
         "access": {
           "health": [
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 1.333333,
               "established": 0
             },
@@ -430,7 +430,7 @@
         "services": {
           "other": [],
           "health": [
-            "MentalHealthCare",
+            "MentalHealth",
             "PrimaryCare"
           ],
           "lastUpdated": "2020-07-27"
@@ -452,7 +452,7 @@
               "established": 5.666666
             },
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 14.983333,
               "established": 6.042507
             },
@@ -517,7 +517,7 @@
           "other": [],
           "health": [
             "Dermatology",
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "PrimaryCare",
             "SpecialtyCare"

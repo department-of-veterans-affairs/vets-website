@@ -26,7 +26,7 @@
             "established": 2.666666
           },
           {
-            "service": "MentalHealthCare",
+            "service": "MentalHealth",
             "new": 1.8,
             "established": 3.678728
           },
@@ -115,11 +115,11 @@
         "other": [],
         "health": [
           "Audiology",
-          "DentalServices",
+          "Dental",
           "Dermatology",
           "Gastroenterology",
           "Gynecology",
-          "MentalHealthCare",
+          "MentalHealth",
           "Nutrition",
           "Ophthalmology",
           "Optometry",

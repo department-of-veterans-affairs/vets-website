@@ -27,7 +27,7 @@
               "established": 10.5
             },
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 7.5,
               "established": 5.710526
             },
@@ -112,10 +112,10 @@
           "health": [
             "Audiology",
             "Cardiology",
-            "DentalServices",
+            "Dental",
             "Dermatology",
             "Gynecology",
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "Ophthalmology",
             "Optometry",
@@ -163,7 +163,7 @@
               "established": 7.87234
             },
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 8.888888,
               "established": 6.903598
             },
@@ -258,12 +258,12 @@
           "health": [
             "Audiology",
             "Cardiology",
-            "DentalServices",
+            "Dental",
             "Dermatology",
             "EmergencyCare",
             "Gastroenterology",
             "Gynecology",
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "Ophthalmology",
             "Optometry",
@@ -314,7 +314,7 @@
               "established": 14.4375
             },
             {
-              "service": "MentalHealthCare",
+              "service": "MentalHealth",
               "new": 15.866666,
               "established": 1.290827
             },
@@ -409,11 +409,11 @@
           "health": [
             "Audiology",
             "Cardiology",
-            "DentalServices",
+            "Dental",
             "Dermatology",
             "Gastroenterology",
             "Gynecology",
-            "MentalHealthCare",
+            "MentalHealth",
             "Nutrition",
             "Ophthalmology",
             "Optometry",

@@ -46,11 +46,11 @@ const resultsData = {
           lastUpdated: '2017-07-24',
           health: [
             {
-              sl1: ['DentalServices'],
+              sl1: ['Dental'],
               sl2: [],
             },
             {
-              sl1: ['MentalHealthCare'],
+              sl1: ['MentalHealth'],
               sl2: [],
             },
             {
