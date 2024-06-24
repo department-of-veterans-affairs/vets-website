@@ -12,7 +12,7 @@ const primaryMailingAddress = {
   uiSchema: {
     ...titleUI(
       content['primary-info-title--address-mailing'],
-      content['primary-address-description--mailing'],
+      content['caregiver-address-description--mailing'],
     ),
     primaryMailingAddress: addressUI({ label: inputLabel }),
   },

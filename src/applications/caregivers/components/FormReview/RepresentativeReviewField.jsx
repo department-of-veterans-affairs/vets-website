@@ -10,7 +10,9 @@ const RepresentativeReviewField = ({
   <div className="review-row">
     <dt>{uiSchema['ui:title']}</dt>
     <dd className="dd-privacy-hidden" data-dd-action-name="data value">
-      {formData || content['sign-as-rep-no-text']}
+      {formData === 'yes'
+        ? content['sign-as-rep-yes-text']
+        : content['sign-as-rep-no-text']}
     </dd>
   </div>
 );

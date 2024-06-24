@@ -12,7 +12,7 @@ import {
   ssnUI as platformSsnUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
-import { validateSsnIsUnique } from '../utils/validation';
+import { validateSsnIsUnique, requireAddressFields } from '../utils/validation';
 import { replaceStrValues } from '../utils/helpers';
 import AddressWithAutofill from '../components/FormFields/AddressWithAutofill';
 import CustomReviewField from '../components/FormReview/CustomReviewField';
@@ -60,6 +60,7 @@ export const addressUI = props => {
 
 export const addressWithAutofillUI = () => ({
   'ui:field': AddressWithAutofill,
+  'ui:validations': [requireAddressFields],
   'ui:options': {
     hideTextLabel: true,
   },
