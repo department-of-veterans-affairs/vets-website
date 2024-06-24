@@ -17,7 +17,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Welcome to the VA - we're glad you're here."
-          subtitle="Equal to VA Form NA (Veteran Transition Questionnaire)"
+          subtitle="Equal to VA Form NA (Veteran Transition Experience)"
         />
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu
