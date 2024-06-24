@@ -1,20 +1,18 @@
 import React from 'react';
+import {
+  radioSchema,
+  radioUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import PropTypes from 'prop-types';
-import { VaRadioField } from '~/platform/forms-system/src/js/web-component-fields';
 import { authorizationNote } from '../content/authorizeMedical';
-import { saveYourApplication } from '../content/saveYourApplication';
 import { representativeTypeMap } from '../utilities/helpers';
 
 export const uiSchema = {
-  'view:saveYourApplication': {
-    'ui:description': saveYourApplication,
-  },
   'ui:description': ({ formData }) => {
     return (
       <>
-        <p>We’ll save your application after every change.</p>
         <h3>Authorization for access through VA’s sytems</h3>
-        <p>
+        <p className="appoint-text">
           This accredited{' '}
           {representativeTypeMap[formData.repTypeRadio] || `representative`} may
           work with their team to help you file a claim or request a decision
@@ -47,45 +45,32 @@ export const uiSchema = {
       );
     },
   },
-  authorizeOutsideVARadio: {
-    'ui:title': `Do you authorize this accredited representative's team to access your records outside of VA's information technology systems?`,
-    'ui:webComponentField': VaRadioField,
-    'ui:options': {
-      widgetProps: {
-        'Yes outside access': { 'data-info': 'yes_outside_access' },
-        'No outside access': { 'data-info': 'no_outside_access' },
-      },
-      selectedProps: {
-        'Yes outside access': { 'aria-describedby': 'yes_outside_access' },
-        'No outside access': { 'aria-describedby': 'no_outside_access' },
-      },
-      'ui:errorMessages': {
-        required: 'Field is required',
-      },
+  authorizeOutsideVARadio: radioUI({
+    title:
+      'Do you authorize this accredited representative’s team to access your records outside of VA’s information technology systems?',
+    updateUiSchema: formData => {
+      const title = `Do you authorize this accredited ${representativeTypeMap[
+        (formData?.repTypeRadio)
+      ] ||
+        'representative'}'s team to access your records through VA's information technology systems?`;
+      return { 'ui:title': title };
     },
-  },
-
-  'view:authorizationNote': {
+  }),
+  'view:authorizationNote5': {
     'ui:description': authorizationNote,
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['authorizeOutsideVARadio'],
   properties: {
-    'view:saveYourApplication': {
-      type: 'object',
-      properties: {},
-    },
     'view:outsideVAAuthorizationPolicy': {
       type: 'object',
       properties: {},
     },
-    authorizeOutsideVARadio: {
-      type: 'string',
-      enum: [`Yes`, `No`],
-    },
-    'view:authorizationNote': {
+    authorizeOutsideVARadio: radioSchema(['Yes', 'No']),
+    'view:authorizationNote5': {
       type: 'object',
       properties: {},
     },
