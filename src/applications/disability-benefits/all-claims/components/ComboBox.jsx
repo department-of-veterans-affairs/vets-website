@@ -313,6 +313,14 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
+    const autocompleteHelperText = `
+      When autocomplete results are available use up and down arrows to
+      review and enter to select. Touch device users, explore by touch or
+      with swipe gestures.
+    `;
+    // const ariaAnnouncementForVaTextInput = `Enter your condition. ${autocompleteHelperText}`;
+    // const ariaAnnouncementForVaTextInput = `${autocompleteHelperText}`;
+    console.log('setting aria.labeledby to: ', this.props.idSchema.$id);
 
     return (
       <div
@@ -323,12 +331,14 @@ export class ComboBox extends React.Component {
         aria-controls="combobox-list"
         aria-owns="combobox-list"
         aria-autocomplete="list"
-        tabIndex={0}
+        tabIndex={-1}
         aria-labelledby={this.props.idSchema.$id}
-        aria-label="Enter you condition"
+        // aria-label="Enter you condition"
+        // aria-label={autocompleteHelperText}
       >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
+          // label=""
           required
           name="combobox-input"
           id={this.props.idSchema.$id}
@@ -337,6 +347,10 @@ export class ComboBox extends React.Component {
           onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
+          // aria-labelledby={this.props.idSchema.$id}
+          aria-labelledby={this.props.idSchema.$id}
+          // aria-labelledby=""
+          message-aria-describedby={autocompleteHelperText}
         />
         <ul
           className={
