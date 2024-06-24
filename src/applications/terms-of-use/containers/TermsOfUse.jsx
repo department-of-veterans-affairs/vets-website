@@ -25,6 +25,9 @@ export default function TermsOfUse() {
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
   const redirectLocation = new URL(window.location);
+  const hasSync =
+    redirectLocation.searchParams.has('synchronous') &&
+    JSON.parse(redirectLocation.searchParams.get('synchronous'));
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
   const redirectUrl = validateWhichRedirectUrlToUse(redirectLocation);
@@ -54,19 +57,22 @@ export default function TermsOfUse() {
   );
 
   const handleTouClick = async type => {
-    const termsCode = termsCodeExists
-      ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
-      : '';
+    const queryParams = new URLSearchParams({
+      ...(termsCodeExists && {
+        // eslint-disable-next-line camelcase
+        terms_code: redirectLocation.searchParams.get('terms_code'),
+      }),
+      ...(hasSync && { sync: true }),
+    });
+
+    const touApiUrl = `/terms_of_use_agreements/v1/${type}?${queryParams}`;
 
     try {
-      const response = await apiRequest(
-        `/terms_of_use_agreements/v1/${type}${termsCode}`,
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
+      const response = await apiRequest(touApiUrl, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
@@ -147,7 +153,7 @@ export default function TermsOfUse() {
             health care and benefits without using online services. If you need
             help or have questions, <IdentityPhone /> We’re here 24/7.
           </p>
-          <va-alert status="warning" visible>
+          <va-alert status="warning" visible uswds>
             <h3 slot="headline" id="what-happens-if-you-decline">
               What will happen if you decline
             </h3>
