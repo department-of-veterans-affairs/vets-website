@@ -118,7 +118,7 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.be.ok;
     });
 
-    it('should display default text for empty data', async () => {
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -145,8 +145,8 @@ describe('VAOS Component: PhoneLayout', () => {
       );
 
       // Assert
-      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Type of care information not available/i));
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Scheduling facility/i }),
