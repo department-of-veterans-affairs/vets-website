@@ -83,7 +83,7 @@ export default function PhoneLayout({ data: appointment }) {
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
         {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+          <FacilityPhone heading="Phone:" contact={facilityPhone} />
         )}
         {!facilityPhone && <>Not available</>}
       </Section>
