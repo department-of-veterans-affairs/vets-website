@@ -56,7 +56,9 @@ export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
   if (environment.isDev() || isTest || automatedTest) {
     return false;
   }
-  return environment.isLocalhost() || environment.isStaging();
+  return (
+    environment.isLocalhost() || environment.isStaging() || isReviewInstance()
+  );
 
   // environment.isDev() || isReviewInstance() || environment.isProduction()
   // environment.isProduction() || // Comment out to send to production
