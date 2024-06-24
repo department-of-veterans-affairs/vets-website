@@ -34,8 +34,12 @@ const PdfAlert = () => {
       <p>
         Some VA forms may not work with older versions of Acrobat Reader. You
         may also need to download a new copy of the VA form.&nbsp;
+      </p>
+      <p>
         <strong>{'Note: '}</strong> You never need to pay for special software
         to fill out VA forms.
+      </p>
+      <p>
         <va-link
           href="https://get.adobe.com/reader/"
           text="Get Acrobat Reader for free from Adobe"
