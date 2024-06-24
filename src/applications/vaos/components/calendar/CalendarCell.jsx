@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
 import debounce from 'platform/utilities/data/debounce';
@@ -121,7 +122,9 @@ const CalendarCell = ({
           renderIndicator({ date, id, selectedDates })}
         {inSelectedArray &&
           !renderIndicator && (
-            <i className="fas fa-check vads-u-color--white vaos-calendar__fa-check-position" />
+            <span className="vads-u-color--white vaos-calendar__fa-check-position">
+              <va-icon icon="check" size="3" aria-hidden="true" />
+            </span>
           )}
         {dateDay}
         {isCurrentlySelected && (
@@ -149,3 +152,22 @@ const CalendarCell = ({
 };
 
 export default CalendarCell;
+
+CalendarCell.propTypes = {
+  availableSlots: PropTypes.array,
+  currentlySelectedDate: PropTypes.string,
+  date: PropTypes.string,
+  disabled: PropTypes.bool,
+  handleSelectOption: PropTypes.func,
+  hasError: PropTypes.bool,
+  id: PropTypes.string,
+  index: PropTypes.number,
+  maxSelections: PropTypes.number,
+  renderIndicator: PropTypes.func,
+  renderOptions: PropTypes.func,
+  renderSelectedLabel: PropTypes.func,
+  selectedDates: PropTypes.array,
+  showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
+  onClick: PropTypes.func,
+};
