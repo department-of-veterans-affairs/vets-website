@@ -7,7 +7,7 @@ export const VERIFY_VA_FILE_NUMBER_SUCCEEDED =
   'VERIFY_VA_FILE_NUMBER_SUCCEEDED';
 export const VERIFY_VA_FILE_NUMBER_FAILED = 'VERIFY_VA_FILE_NUMBER_FAILED';
 
-// VA file number is required to create a valid entry in BGS
+// VA file number is required to create a valid entry in BGS.
 async function getVaFileNumber() {
   return getData('/profile/valid_va_file_number');
 }
