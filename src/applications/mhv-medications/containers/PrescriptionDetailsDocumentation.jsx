@@ -97,6 +97,7 @@ const PrescriptionDetailsDocumentation = () => {
             professional for complete information about this product and your
             specific health needs.
           </p>
+          {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: htmlContent ?? '' }} />
         </div>
