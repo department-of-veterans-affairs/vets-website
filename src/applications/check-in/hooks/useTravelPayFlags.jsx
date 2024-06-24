@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { formatISO } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useTravelPayFlags = appointment => {
@@ -20,7 +19,7 @@ const useTravelPayFlags = appointment => {
     'travel-review': travelReview,
   } = data;
 
-  const startDate = formatISO(new Date(appointment.startTime));
+  const startDate = appointment.startTime;
 
   let travelPayData = {
     uuid: token,
