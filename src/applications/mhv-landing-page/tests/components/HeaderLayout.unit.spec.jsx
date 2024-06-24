@@ -6,6 +6,7 @@ import HeaderLayout from '../../components/HeaderLayout';
 
 const mockStore = ({
   mhvLandingPageEnableVaGovHealthToolsLinks = false,
+  ssoe = false,
 } = {}) => ({
   getState: () => ({
     featureToggles: {
@@ -13,6 +14,13 @@ const mockStore = ({
       mhvLandingPageEnableVaGovHealthToolsLinks,
       // eslint-disable-next-line camelcase
       mhv_landing_page_enable_va_gov_health_tools_links: mhvLandingPageEnableVaGovHealthToolsLinks,
+    },
+    user: {
+      profile: {
+        session: {
+          ssoe,
+        },
+      },
     },
   }),
   subscribe: () => {},
@@ -33,6 +41,55 @@ describe('MHV Landing Page -- Header Layout', () => {
       await waitFor(() => {
         const result = getByText(/Welcome to the new home for My HealtheVet/);
         expect(result).to.exist;
+      });
+    });
+
+    it('renders the non-ssoe link', async () => {
+      const store = mockStore({
+        mhvLandingPageEnableVaGovHealthToolsLinks: true,
+      });
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <HeaderLayout />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const goBack1 = getByTestId('mhv-go-back-1');
+        expect(goBack1).to.have.attribute(
+          'href',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+        );
+
+        const goBack2 = getByTestId('mhv-go-back-2');
+        expect(goBack2).to.have.attribute(
+          'href',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+        );
+      });
+    });
+
+    it('renders the ssoe link', async () => {
+      const store = mockStore({
+        mhvLandingPageEnableVaGovHealthToolsLinks: true,
+        ssoe: true,
+      });
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <HeaderLayout />
+        </Provider>,
+      );
+      await waitFor(() => {
+        const goBack1 = getByTestId('mhv-go-back-1');
+        expect(goBack1).to.have.attribute(
+          'href',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+        );
+
+        const goBack2 = getByTestId('mhv-go-back-2');
+        expect(goBack2).to.have.attribute(
+          'href',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+        );
       });
     });
   });
