@@ -884,7 +884,7 @@ const formConfig = {
           }),
         },
         page18b1: {
-          path: 'applicant-child-age/:index',
+          path: 'applicant-dependent-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} status`,
