@@ -13,7 +13,8 @@ describe('mega menu - level one links', () => {
                 title: 'Get health care benefits',
                 links: [
                   {
-                    href: 'https://www.va.gov/health-care/about-va-health-benefits',
+                    href:
+                      'https://www.va.gov/health-care/about-va-health-benefits',
                     text: 'About VA health benefits',
                   },
                 ],

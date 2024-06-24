@@ -105,7 +105,9 @@ class SearchDropdownComponent extends React.Component {
     if (isMobile) {
       return (
         <>
-          <label className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5">Search</label>
+          <label className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-left--1p5">
+            Search
+          </label>
           <div
             id="search-header-dropdown-component"
             className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5"
@@ -122,8 +124,8 @@ class SearchDropdownComponent extends React.Component {
                 id="search-header-dropdown-assistive-hint"
                 className="vads-u-visibility--screen-reader"
               >
-                Use up and down arrows to review autocomplete results and enter to
-                search. Touch device users, explore by touch or with swipe
+                Use up and down arrows to review autocomplete results and enter
+                to search. Touch device users, explore by touch or with swipe
                 gestures.
               </span>
               <input

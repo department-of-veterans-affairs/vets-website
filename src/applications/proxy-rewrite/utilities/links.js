@@ -1,34 +1,25 @@
 export const updateLinkDomain = href => {
-  const local1 = 'http://localhost:3001';
-  const local2 = 'http://localhost:3002';
-  const stagingWithoutWWW = 'https://staging.va.gov';
-  const stagingWithWWW = 'https://www.staging.va.gov';
-  const prodWithoutWWW = 'https://www.va.gov';
-  const prodWithWWW = 'https://www.va.gov';
+  let newHref = href;
 
-  if (href.startsWith(local1)) {
-    return href.replace(local1, prodWithWWW);
-  }
+  const domainsNeedingUpdate = [
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'https://staging.va.gov',
+    'https://www.staging.va.gov',
+    'https://va.gov',
+  ];
 
-  if (href.startsWith(local2)) {
-    return href.replace(local2, prodWithWWW);
-  }
-
-  if (href.startsWith(stagingWithoutWWW)) {
-    return href.replace(stagingWithoutWWW, prodWithWWW);
-  }
-
-  if (href.startsWith(stagingWithWWW)) {
-    return href.replace(stagingWithWWW, prodWithWWW);
-  }
-
-  if (href.startsWith(prodWithoutWWW)) {
-    return href.replace(prodWithoutWWW, prodWithWWW);
-  }
+  const prod = 'https://www.va.gov';
 
   if (href.charAt(0) === '/') {
-    return `${prodWithWWW}${href}`;
+    return `${prod}${href}`;
   }
 
-  return href;
+  domainsNeedingUpdate.forEach(domain => {
+    if (href.includes(domain)) {
+      newHref = href.replace(domain, prod);
+    }
+  });
+
+  return newHref;
 };
