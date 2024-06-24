@@ -282,7 +282,7 @@ describe('VAOS Component: PhoneLayout', () => {
   });
 
   describe('When viewing past appointment details', () => {
-    it('should display in-person layout', async () => {
+    it('should display phone layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
