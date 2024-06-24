@@ -127,7 +127,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           .be.ok;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Clinic phone:/i));
+        expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
             'va-telephone[contact="307-778-7550"]',
@@ -237,7 +237,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           .be.ok;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Clinic phone:/i));
+        expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
             'va-telephone[contact="307-778-7550"]',
@@ -356,7 +356,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         .ok;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -476,7 +476,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
       expect(screen.getByText(/Location: CHEYENNE/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;

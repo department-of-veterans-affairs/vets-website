@@ -91,7 +91,7 @@ export default function VideoLayoutVA({ data: appointment }) {
         <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
         <br />
         {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+          <FacilityPhone heading="Phone:" contact={facilityPhone} />
         )}
         {!facilityPhone && <>Not available</>}
       </Section>

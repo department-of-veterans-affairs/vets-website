@@ -101,7 +101,7 @@ export default function ClaimExamLayout({ data: appointment }) {
         <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
         <br />
         {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+          <FacilityPhone heading="Phone:" contact={facilityPhone} />
         )}
       </Where>
       {APPOINTMENT_STATUS.booked !== status && (

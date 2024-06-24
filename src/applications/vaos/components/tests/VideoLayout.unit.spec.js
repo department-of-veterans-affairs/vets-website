@@ -124,7 +124,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -236,7 +236,7 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -355,7 +355,7 @@ describe('VAOS Component: VideoLayout', () => {
           .exist;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Clinic phone:/i));
+        expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
             'va-telephone[contact="307-778-7550"]',
@@ -477,7 +477,7 @@ describe('VAOS Component: VideoLayout', () => {
           .exist;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Clinic phone:/i));
+        expect(screen.getByText(/Phone:/i));
         expect(
           screen.container.querySelector(
             'va-telephone[contact="307-778-7550"]',
