@@ -101,7 +101,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[1]),
       },
     },
   };
@@ -110,7 +110,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[1])}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -151,7 +151,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[2]),
       },
     },
   };
@@ -160,7 +160,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[2])}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -187,12 +187,12 @@ describe('LabsAndTestsListItem component with pathology record', () => {
     expect(date).to.exist;
   });
 
-  it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE, JANE A', {
+  it('should not display who ordered the lab or test', () => {
+    const date = screen.findByText('Ordered by', {
       selector: 'div',
-      exact: true,
+      exact: false,
     });
-    expect(date).to.exist;
+    expect(Object.keys(date).length).to.eq(0);
   });
 });
 
@@ -201,7 +201,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[3]),
       },
     },
   };
@@ -210,7 +210,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[3])}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -241,7 +241,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE, JANE A', {
+    const date = screen.getByText('Ordered by DOE, JOHN A', {
       selector: 'div',
       exact: true,
     });

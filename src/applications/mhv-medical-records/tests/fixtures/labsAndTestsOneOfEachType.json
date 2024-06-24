@@ -591,71 +591,88 @@
       "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
     },
     {
-      "resourceType": "DocumentReference",
-      "id": "ex-MHV-ecg-0",
+      "resourceType": "DiagnosticReport",
+      "id": "ex-MHV-labReport-4",
       "meta": {
         "profile": [
-          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.ecg"
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labReport"
         ]
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-ecg-0\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-ecg-0&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.ecg.html\">VA MHV PHR ECG</a></p></div><p><b>identifier</b>: id: ClinicalProcedureTO.41359 (use: USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: EKG study <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#11524-6)</span></p><p><b>category</b>: Cardiology <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LP29708-2)</span>, Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Dec 14, 2000, 5:35:00 AM</p><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td>-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td>*</td><td>text/plain</td><td>UGcuIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOS8xMi8yMiAxMDoxMQogICAgICAgICAgICAgICAgICAgICAgICAgICBDT05GSURFTlRJQUwgRUNHIFJFUE9SVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAKTUhWTElTQU9ORSxST0JFUlQgTSAgICA2NjYtMTItMzQ1NiAgIE5PVCBJTlBBVElFTlQgICAgICAgICAgICAgIERPQjogQVVHIDksMTk2MgogICAgICAgICAgICAgICAgICAgICAgUFJPQ0VEVVJFIERBVEUvVElNRTogMTIvMTQvMDAgMTE6MzUKLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXQVJEL0NMSU5JQzogQ0FSRElPTE9HWSBPVVRQQVRJRU5UIChMT0MpCiAgICBBR0U6IDM4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU0VYOiAgTUFMRQogICAgSFQgSU46IDA3MSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdUIExCUzogMTU0CiAgICBCTE9PRCBQUkVTU1VSRTogICAgICAgICAgICAgICAgICAgICAgICAgVFlQRTogCgogICAgICAgICBWRU5UIFJBVEU6IDA4NiAgICAgICAgUFIgSU5URVJWQUw6IDEzMiAgICAgICBRUlMgRFVSQVRJT046IDEzMgogICAgICAgICBRVDogMzg4ICAgICAgICAgICAgICAgUVRDOiA0NjQKICAgICAgICAgUCBBWElTOiAxMTIgICAgICAgICAgIFIgQVhJUzogNzAgICAgICAgICAgICAgVCBBWElTOiAxNDgKCiAgICBJTlRFUlBSRVRBVElPTjogCgogICAgSU5TVFJVTUVOVCBEWDogIE5vcm1hbCBzaW51cyByaHl0aG0KICAgICAgICAgICAgICAgICAgICBSaWdodCBidW5kbGUgYnJhbmNoIGJsb2NrCiAgICAgICAgICAgICAgICAgICAgTGF0ZXJhbCBpbmZhcmN0ICwgYWdlIHVuZGV0ZXJtaW5lZAogICAgICAgICAgICAgICAgICAgIFBvc3NpYmxlIEluZmVyaW9yIGluZmFyY3QgKGNpdGVkIG9uIG9yIGJlZm9yZSAzMS1KVUwtMjAwMCkKICAgICAgICAgICAgICAgICAgICBBYm5vcm1hbCBFQ0cKICAgICAgICAgICAgICAgICAgICAuCiAgICAgICAgICAgICAgICAgICAgLgogICAgICAgICAgICAgICAgICAgIC4KCiAgICBDT05GSVJNQVRJT04gU1RBVFVTOiBDT05GSVJNRUQKCiAgICBDT01QQVJJU09OOiAKIAoKICAgIENPTU1FTlRTOiAKCiAgICBIRUFSVCBNRURTOgoKICAgIElOVEVSUFJFVEVEIEJZOiBHVVBUQSxTQVRZRU5EUkE=</td><td>ELECTROCARDIOGRAM</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td>-</td><td><b>Related</b></td></tr><tr><td>*</td><td><a href=\"Location-ex-MHV-location-989.html\">Location/ex-MHV-location-989</a> &quot;DAYT29 TEST LAB&quot;</td></tr></table></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Reported</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTo.SP;6999190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 2000        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 09, 2000 16:14  Resident: \nDate  completed: Aug 10, 2000        Accession #: SP 00 1982\nSubmitted by: MARK MAZUR MD          Practitioner:MARK MAZUR DPM\n-------------------------------------------------------------------------------\nSpecimen: \nOLD HARDWARE LEFT FOOT X2\nBrief Clinical History:\nThis 71 y/o wm presents with painful hardware L 1st metatarsal head. The\npins were inserted 3 years ago for a bunion procedure. The Bunionprocedure\nis well healed and pt is now wanting the pin removed. Will probably need\nk-wire driver and power for this case.\nPreoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nPostoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nGross description:\nRECEIVED UNFIXED AND LABELED &quot;OLD HARDWARE LEFT FOOT X 2&quot; CONSISTS OF TWO\n1.7 CM AND 2.5 CM LONG 1 MM WIDE METALLIC PINS.\n|TAB||NOWRAP|\nDIAGNOSIS: HARDWARE (CLINICALLY FROM LEFT FOOT)</p></div>"
       },
+      "contained": [
+        {
+          "resourceType": "Specimen",
+          "id": "ex-MHV-specimen-4",
+          "meta": {
+            "profile": [
+              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.LabSpecimen"
+            ]
+          },
+          "identifier": [
+            {
+              "use": "usual"
+            }
+          ],
+          "accessionIdentifier": {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "SP 00 1982"
+          },
+          "status": "available",
+          "type": {
+            "text": "OLD HARDWARE LEFT FOOT X2"
+          },
+          "collection": {
+            "collectedDateTime": "2000-08-09"
+          }
+        }
+      ],
       "identifier": [
         {
           "use": "usual",
           "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-          "value": "ClinicalProcedureTO.41359"
+          "value": "LabReportTo.SP;6999190"
         }
       ],
-      "status": "current",
-      "type": {
-        "coding": [
-          {
-            "system": "http://loinc.org",
-            "code": "11524-6"
-          }
-        ]
-      },
+      "status": "final",
       "category": [
         {
           "coding": [
             {
-              "system": "http://loinc.org",
-              "code": "LP29708-2"
-            }
-          ]
-        },
-        {
-          "coding": [
-            {
-              "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
-              "code": "clinical-note"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+              "code": "LAB"
             }
           ]
         }
       ],
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "60567-5"
+          }
+        ],
+        "text": "LR SURGICAL PATHOLOGY REPORT"
+      },
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "date": "2000-12-14T11:35:00-0400",
-      "content": [
+      "effectiveDateTime": "2000-08-10T15:56:00-0400",
+      "issued": "2000-08-10T15:56:00-0400",
+      "performer": [
         {
-          "attachment": {
-            "contentType": "text/plain",
-            "data": "UGcuIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOS8xMi8yMiAxMDoxMQogICAgICAgICAgICAgICAgICAgICAgICAgICBDT05GSURFTlRJQUwgRUNHIFJFUE9SVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAKTUhWTElTQU9ORSxST0JFUlQgTSAgICA2NjYtMTItMzQ1NiAgIE5PVCBJTlBBVElFTlQgICAgICAgICAgICAgIERPQjogQVVHIDksMTk2MgogICAgICAgICAgICAgICAgICAgICAgUFJPQ0VEVVJFIERBVEUvVElNRTogMTIvMTQvMDAgMTE6MzUKLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXQVJEL0NMSU5JQzogQ0FSRElPTE9HWSBPVVRQQVRJRU5UIChMT0MpCiAgICBBR0U6IDM4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU0VYOiAgTUFMRQogICAgSFQgSU46IDA3MSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdUIExCUzogMTU0CiAgICBCTE9PRCBQUkVTU1VSRTogICAgICAgICAgICAgICAgICAgICAgICAgVFlQRTogCgogICAgICAgICBWRU5UIFJBVEU6IDA4NiAgICAgICAgUFIgSU5URVJWQUw6IDEzMiAgICAgICBRUlMgRFVSQVRJT046IDEzMgogICAgICAgICBRVDogMzg4ICAgICAgICAgICAgICAgUVRDOiA0NjQKICAgICAgICAgUCBBWElTOiAxMTIgICAgICAgICAgIFIgQVhJUzogNzAgICAgICAgICAgICAgVCBBWElTOiAxNDgKCiAgICBJTlRFUlBSRVRBVElPTjogCgogICAgSU5TVFJVTUVOVCBEWDogIE5vcm1hbCBzaW51cyByaHl0aG0KICAgICAgICAgICAgICAgICAgICBSaWdodCBidW5kbGUgYnJhbmNoIGJsb2NrCiAgICAgICAgICAgICAgICAgICAgTGF0ZXJhbCBpbmZhcmN0ICwgYWdlIHVuZGV0ZXJtaW5lZAogICAgICAgICAgICAgICAgICAgIFBvc3NpYmxlIEluZmVyaW9yIGluZmFyY3QgKGNpdGVkIG9uIG9yIGJlZm9yZSAzMS1KVUwtMjAwMCkKICAgICAgICAgICAgICAgICAgICBBYm5vcm1hbCBFQ0cKICAgICAgICAgICAgICAgICAgICAuCiAgICAgICAgICAgICAgICAgICAgLgogICAgICAgICAgICAgICAgICAgIC4KCiAgICBDT05GSVJNQVRJT04gU1RBVFVTOiBDT05GSVJNRUQKCiAgICBDT01QQVJJU09OOiAKIAoKICAgIENPTU1FTlRTOiAKCiAgICBIRUFSVCBNRURTOgoKICAgIElOVEVSUFJFVEVEIEJZOiBHVVBUQSxTQVRZRU5EUkE=",
-            "title": "ELECTROCARDIOGRAM"
-          }
+          "reference": "Organization/ex-MHV-organization-989"
         }
       ],
-      "context": {
-        "related": [
-          {
-            "reference": "Location/ex-MHV-location-989"
-          }
-        ]
-      }
+      "specimen": [
+        {
+          "reference": "#ex-MHV-specimen-4"
+        }
+      ],
+      "conclusion": "Date Spec taken: Aug 09, 2000        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 09, 2000 16:14  Resident: \nDate  completed: Aug 10, 2000        Accession #: SP 00 1982\nSubmitted by: MARK MAZUR MD          Practitioner:MARK MAZUR DPM\n-------------------------------------------------------------------------------\nSpecimen: \nOLD HARDWARE LEFT FOOT X2\nBrief Clinical History:\nThis 71 y/o wm presents with painful hardware L 1st metatarsal head. The\npins were inserted 3 years ago for a bunion procedure. The Bunionprocedure\nis well healed and pt is now wanting the pin removed. Will probably need\nk-wire driver and power for this case.\nPreoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nPostoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nGross description:\nRECEIVED UNFIXED AND LABELED \"OLD HARDWARE LEFT FOOT X 2\" CONSISTS OF TWO\n1.7 CM AND 2.5 CM LONG 1 MM WIDE METALLIC PINS.\n|TAB||NOWRAP|\nDIAGNOSIS: HARDWARE (CLINICALLY FROM LEFT FOOT)"
     },
     {
       "resourceType": "DocumentReference",
@@ -758,135 +775,71 @@
       }
     },
     {
-      "resourceType": "DiagnosticReport",
-      "id": "ex-MHV-labReport-1",
+      "resourceType": "DocumentReference",
+      "id": "ex-MHV-ecg-0",
       "meta": {
         "profile": [
-          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labReport"
+          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.ecg"
         ]
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-ecg-0\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-ecg-0&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.ecg.html\">VA MHV PHR ECG</a></p></div><p><b>identifier</b>: id: ClinicalProcedureTO.41359 (use: USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: EKG study <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#11524-6)</span></p><p><b>category</b>: Cardiology <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#LP29708-2)</span>, Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Dec 14, 2000, 5:35:00 AM</p><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td>-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td>*</td><td>text/plain</td><td>UGcuIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOS8xMi8yMiAxMDoxMQogICAgICAgICAgICAgICAgICAgICAgICAgICBDT05GSURFTlRJQUwgRUNHIFJFUE9SVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAKTUhWTElTQU9ORSxST0JFUlQgTSAgICA2NjYtMTItMzQ1NiAgIE5PVCBJTlBBVElFTlQgICAgICAgICAgICAgIERPQjogQVVHIDksMTk2MgogICAgICAgICAgICAgICAgICAgICAgUFJPQ0VEVVJFIERBVEUvVElNRTogMTIvMTQvMDAgMTE6MzUKLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXQVJEL0NMSU5JQzogQ0FSRElPTE9HWSBPVVRQQVRJRU5UIChMT0MpCiAgICBBR0U6IDM4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU0VYOiAgTUFMRQogICAgSFQgSU46IDA3MSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdUIExCUzogMTU0CiAgICBCTE9PRCBQUkVTU1VSRTogICAgICAgICAgICAgICAgICAgICAgICAgVFlQRTogCgogICAgICAgICBWRU5UIFJBVEU6IDA4NiAgICAgICAgUFIgSU5URVJWQUw6IDEzMiAgICAgICBRUlMgRFVSQVRJT046IDEzMgogICAgICAgICBRVDogMzg4ICAgICAgICAgICAgICAgUVRDOiA0NjQKICAgICAgICAgUCBBWElTOiAxMTIgICAgICAgICAgIFIgQVhJUzogNzAgICAgICAgICAgICAgVCBBWElTOiAxNDgKCiAgICBJTlRFUlBSRVRBVElPTjogCgogICAgSU5TVFJVTUVOVCBEWDogIE5vcm1hbCBzaW51cyByaHl0aG0KICAgICAgICAgICAgICAgICAgICBSaWdodCBidW5kbGUgYnJhbmNoIGJsb2NrCiAgICAgICAgICAgICAgICAgICAgTGF0ZXJhbCBpbmZhcmN0ICwgYWdlIHVuZGV0ZXJtaW5lZAogICAgICAgICAgICAgICAgICAgIFBvc3NpYmxlIEluZmVyaW9yIGluZmFyY3QgKGNpdGVkIG9uIG9yIGJlZm9yZSAzMS1KVUwtMjAwMCkKICAgICAgICAgICAgICAgICAgICBBYm5vcm1hbCBFQ0cKICAgICAgICAgICAgICAgICAgICAuCiAgICAgICAgICAgICAgICAgICAgLgogICAgICAgICAgICAgICAgICAgIC4KCiAgICBDT05GSVJNQVRJT04gU1RBVFVTOiBDT05GSVJNRUQKCiAgICBDT01QQVJJU09OOiAKIAoKICAgIENPTU1FTlRTOiAKCiAgICBIRUFSVCBNRURTOgoKICAgIElOVEVSUFJFVEVEIEJZOiBHVVBUQSxTQVRZRU5EUkE=</td><td>ELECTROCARDIOGRAM</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td>-</td><td><b>Related</b></td></tr><tr><td>*</td><td><a href=\"Location-ex-MHV-location-989.html\">Location/ex-MHV-location-989</a> &quot;DAYT29 TEST LAB&quot;</td></tr></table></div>"
       },
-      "contained": [
-        {
-          "resourceType": "Observation",
-          "id": "ex-MHV-labTest-1",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labTest"
-            ]
-          },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabTestTO.MI;7049269;1"
-            }
-          ],
-          "status": "final",
-          "category": [
-            {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code": "laboratory"
-                }
-              ]
-            }
-          ],
-          "code": {
-            "text": "Parasitology Remark(s)"
-          },
-          "subject": {
-            "reference": "Patient/ex-MHV-patient-1"
-          },
-          "effectiveDateTime": "1995-08-03T14:49:00-0400",
-          "performer": [
-            {
-              "reference": "Organization/ex-MHV-organization-989"
-            }
-          ],
-          "valueString": "NO OVA OR PARASITES FOUND"
-        },
-        {
-          "resourceType": "Specimen",
-          "id": "ex-MHV-specimen-1",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.LabSpecimen"
-            ]
-          },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabSpecimenTO.6Y100"
-            }
-          ],
-          "accessionIdentifier": {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "PARAS 95 264"
-          },
-          "status": "available",
-          "type": {
-            "text": "FECES"
-          },
-          "collection": {
-            "collectedDateTime": "1995-07-30"
-          }
-        }
-      ],
       "identifier": [
         {
           "use": "usual",
           "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-          "value": "LabReportTO.MI;7049269"
+          "value": "ClinicalProcedureTO.41359"
         }
       ],
-      "status": "final",
+      "status": "current",
+      "type": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "11524-6"
+          }
+        ]
+      },
       "category": [
         {
           "coding": [
             {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code": "LAB"
+              "system": "http://loinc.org",
+              "code": "LP29708-2"
+            }
+          ]
+        },
+        {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+              "code": "clinical-note"
             }
           ]
         }
       ],
-      "code": {
-        "coding": [
-          {
-            "system": "http://loinc.org",
-            "code": "79381-0"
-          }
-        ],
-        "text": "LR MICROBIOLOGY REPORT"
-      },
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00-0400",
-      "issued": "1995-08-03T14:49:00-0400",
-      "performer": [
+      "date": "2000-12-14T11:35:00-0400",
+      "content": [
         {
-          "reference": "Organization/ex-MHV-organization-989"
+          "attachment": {
+            "contentType": "text/plain",
+            "data": "UGcuIDEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwOS8xMi8yMiAxMDoxMQogICAgICAgICAgICAgICAgICAgICAgICAgICBDT05GSURFTlRJQUwgRUNHIFJFUE9SVCAgICAgICAgICAgICAgICAgICAgICAgICAgICAKTUhWTElTQU9ORSxST0JFUlQgTSAgICA2NjYtMTItMzQ1NiAgIE5PVCBJTlBBVElFTlQgICAgICAgICAgICAgIERPQjogQVVHIDksMTk2MgogICAgICAgICAgICAgICAgICAgICAgUFJPQ0VEVVJFIERBVEUvVElNRTogMTIvMTQvMDAgMTE6MzUKLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAtIC0gLSAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBXQVJEL0NMSU5JQzogQ0FSRElPTE9HWSBPVVRQQVRJRU5UIChMT0MpCiAgICBBR0U6IDM4ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU0VYOiAgTUFMRQogICAgSFQgSU46IDA3MSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdUIExCUzogMTU0CiAgICBCTE9PRCBQUkVTU1VSRTogICAgICAgICAgICAgICAgICAgICAgICAgVFlQRTogCgogICAgICAgICBWRU5UIFJBVEU6IDA4NiAgICAgICAgUFIgSU5URVJWQUw6IDEzMiAgICAgICBRUlMgRFVSQVRJT046IDEzMgogICAgICAgICBRVDogMzg4ICAgICAgICAgICAgICAgUVRDOiA0NjQKICAgICAgICAgUCBBWElTOiAxMTIgICAgICAgICAgIFIgQVhJUzogNzAgICAgICAgICAgICAgVCBBWElTOiAxNDgKCiAgICBJTlRFUlBSRVRBVElPTjogCgogICAgSU5TVFJVTUVOVCBEWDogIE5vcm1hbCBzaW51cyByaHl0aG0KICAgICAgICAgICAgICAgICAgICBSaWdodCBidW5kbGUgYnJhbmNoIGJsb2NrCiAgICAgICAgICAgICAgICAgICAgTGF0ZXJhbCBpbmZhcmN0ICwgYWdlIHVuZGV0ZXJtaW5lZAogICAgICAgICAgICAgICAgICAgIFBvc3NpYmxlIEluZmVyaW9yIGluZmFyY3QgKGNpdGVkIG9uIG9yIGJlZm9yZSAzMS1KVUwtMjAwMCkKICAgICAgICAgICAgICAgICAgICBBYm5vcm1hbCBFQ0cKICAgICAgICAgICAgICAgICAgICAuCiAgICAgICAgICAgICAgICAgICAgLgogICAgICAgICAgICAgICAgICAgIC4KCiAgICBDT05GSVJNQVRJT04gU1RBVFVTOiBDT05GSVJNRUQKCiAgICBDT01QQVJJU09OOiAKIAoKICAgIENPTU1FTlRTOiAKCiAgICBIRUFSVCBNRURTOgoKICAgIElOVEVSUFJFVEVEIEJZOiBHVVBUQSxTQVRZRU5EUkE=",
+            "title": "ELECTROCARDIOGRAM"
+          }
         }
       ],
-      "specimen": [
-        {
-          "reference": "#ex-MHV-specimen-1"
-        }
-      ],
-      "result": [
-        {
-          "reference": "#ex-MHV-labTest-1"
-        }
-      ],
-      "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
+      "context": {
+        "related": [
+          {
+            "reference": "Location/ex-MHV-location-989"
+          }
+        ]
+      }
     }
   ]
 }
