@@ -62,6 +62,7 @@ describe('Medical Records Vitals Details Page', () => {
       defaultVitals.entry[34].resource.contained[0].name,
       'None noted',
     );
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
