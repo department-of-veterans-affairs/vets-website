@@ -58,16 +58,16 @@ describe('Device disconnection card', () => {
     });
     it('Should show modal when Disconnect is clicked', async () => {
       expect(modal).to.exist;
-      expect(modal.getAttribute('modalTitle')).to.eq('Disconnect device');
+      expect(modal.getAttribute('modal-title')).to.eq('Disconnect device');
       expect(
         screen.getByText(
           'Disconnecting your Test Vendor will stop sharing data with the VA.',
         ),
       ).to.exist;
-      expect(modal.getAttribute('primaryButtonText')).to.eq(
+      expect(modal.getAttribute('primary-button-text')).to.eq(
         'Disconnect device',
       );
-      expect(modal.getAttribute('secondaryButtonText')).to.eq('Cancel');
+      expect(modal.getAttribute('secondary-button-text')).to.eq('Cancel');
     });
     it("Should close modal when 'Cancel' button is clicked", async () => {
       const cancelBtn = modal.__events.secondaryButtonClick;

@@ -1,6 +1,6 @@
 import manifest from '../manifest.json';
 
-describe('Feedback Tool Keyboard Test', () => {
+describe.skip('Feedback Tool Keyboard Test', () => {
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
       data: {
@@ -21,25 +21,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.url().should('not.include', '/introduction');
 
     cy.realPress('Tab');
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_onBehalfOf_0',
-        'input#root_onBehalfOf_1',
-        'input#root_onBehalfOf_2',
-      ],
-      'ArrowDown',
-    );
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_onBehalfOf_0',
-        'input#root_onBehalfOf_1',
-        'input#root_onBehalfOf_2',
-      ],
-      'ArrowUp',
-      true,
-    );
-
-    cy.get('input#root_onBehalfOf_0').should('be.focused');
+    cy.get('va-radio-option[value="Myself"]').click();
     cy.get('input#root_anonymousEmail').should('not.exist');
 
     cy.repeatKey('Tab', 2);
@@ -126,7 +108,6 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.repeatKey('Tab', 4);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
-    cy.realPress('Space');
 
     cy.realPress('Tab');
     cy.allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');

@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-key */ // keys are defined, error being thrown in eslint even when key is defined
 import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
+import { v4 as uuidv4 } from 'uuid';
 import {
   BAD_UNIT_NUMBER,
   MISSING_UNIT_NUMBER,
@@ -10,6 +11,10 @@ import {
 
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
+  if (dateString === null) {
+    return 'Date unavailable';
+  }
+
   const [year, month, day] = dateString
     .split('-')
     .map(num => parseInt(num, 10));
@@ -22,6 +27,23 @@ export const translateDateIntoMonthYearFormat = dateString => {
     year: 'numeric',
     timeZone: 'UTC',
   });
+};
+
+export const toLocalISOString = date => {
+  const pad = num => num.toString().padStart(2, '0');
+
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1); // Months are zero-indexed
+  const day = pad(date.getDate());
+  const hour = pad(date.getHours());
+  const minute = pad(date.getMinutes());
+  const second = pad(date.getSeconds());
+  const ms = date
+    .getMilliseconds()
+    .toString()
+    .padStart(3, '0');
+
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}.${ms}`;
 };
 
 export const translateDateIntoMonthDayYearFormat = dateString => {
@@ -61,6 +83,7 @@ export const translateDateIntoMonthDayYearFormat = dateString => {
 
 export const translateDatePeriod = (startDateString, endDateString) => {
   // Parse the date strings into Date objects as UTC
+  const dateUnavailable = 'Date unavailable';
   const parseDateUTC = dateString => {
     const [year, month, day] = dateString
       .split('-')
@@ -68,8 +91,10 @@ export const translateDatePeriod = (startDateString, endDateString) => {
     return new Date(Date.UTC(year, month - 1, day));
   };
 
-  const date1 = parseDateUTC(startDateString);
-  const date2 = parseDateUTC(endDateString);
+  const date1 =
+    startDateString !== null ? parseDateUTC(startDateString) : dateUnavailable;
+  const date2 =
+    endDateString !== null ? parseDateUTC(endDateString) : dateUnavailable;
 
   // Function to format a date into MM/DD/YYYY in UTC
   function formatDate(date) {
@@ -78,9 +103,10 @@ export const translateDatePeriod = (startDateString, endDateString) => {
     const year = date.getUTCFullYear();
     return `${month}/${day}/${year}`;
   }
-
   // Format both dates and concatenate them
-  return `${formatDate(date1)} - ${formatDate(date2)}`;
+  return `${date1 === dateUnavailable ? date1 : formatDate(date1)} - ${
+    date2 === dateUnavailable ? date2 : formatDate(date2)
+  }`;
 };
 
 export const formatCurrency = str => {
@@ -145,22 +171,77 @@ export const remainingBenefits = remEnt => {
   return { month, day };
 };
 
+export const isSameMonth = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  return month1 === month2 && year1 === year2;
+};
+
+export const getEndOfMonth = (year, month) => {
+  return new Date(year, month, 0).getDate(); // Last day of the month
+};
+
+export const getDateRangesBetween = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  const ranges = [];
+
+  // Range for the first month
+  const endOfMonth1 = getEndOfMonth(year1, month1);
+  ranges.push(
+    `${date1} - ${year1}-${String(month1).padStart(2, '0')}-${endOfMonth1}`,
+  );
+
+  // Add ranges for full months in between
+  let currentYear = year1;
+  let currentMonth = month1 + 1;
+  while (
+    currentYear < year2 ||
+    (currentYear === year2 && currentMonth < month2)
+  ) {
+    const endOfMonth = getEndOfMonth(currentYear, currentMonth);
+    ranges.push(
+      `${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-01 - ${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-${endOfMonth}`,
+    );
+
+    if (currentMonth === 12) {
+      currentMonth = 1;
+      currentYear += 1;
+    } else {
+      currentMonth += 1;
+    }
+  }
+
+  // Range for the last month
+  ranges.push(`${year2}-${String(month2).padStart(2, '0')}-01 - ${date2}`);
+
+  return ranges;
+};
 export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
-        awardBeginDate,
-        awardEndDate,
+        actBegin,
+        actEnd,
         monthlyRate,
         numberHours,
-        id,
       } = enrollmentToBeVerified;
+      const myUUID = uuidv4();
+
       return (
         <div
           className={
             review ? 'vads-u-margin-y--2 vye-left-border' : 'vads-u-margin-y--2'
           }
-          key={`Enrollment-to-be-verified-${id}`}
+          key={`Enrollment-to-be-verified-${myUUID}`}
         >
           <p
             className={
@@ -170,7 +251,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             }
           >
             <span className="vads-u-font-weight--bold">
-              {translateDatePeriod(awardBeginDate, awardEndDate)}
+              {translateDatePeriod(actBegin, actEnd)}
             </span>
           </p>
           <p
@@ -181,9 +262,9 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             }
           >
             <span className="vads-u-font-weight--bold">
-              Total Credit Hours:
+              Total credit hours:
             </span>{' '}
-            {numberHours}
+            {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
           <p
             className={
@@ -192,8 +273,10 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
                 : 'vads-u-margin--0 vads-u-font-size--base'
             }
           >
-            <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-            {formatCurrency(monthlyRate)}
+            <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+            {monthlyRate === null
+              ? 'Rate unavailable'
+              : formatCurrency(monthlyRate)}
           </p>
         </div>
       );
@@ -202,64 +285,65 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 };
 
 export const getGroupedPreviousEnrollments = month => {
-  const {
-    verifiedDate,
-    awardBeginDate,
-    id,
-    PendingVerificationSubmitted,
-  } = month[0];
+  const { transactDate, actBegin, actEnd, id, paymentDate } = month[0];
+  const myUUID = uuidv4();
 
   return (
-    <div className="vye-top-border" key={id}>
-      {verifiedDate ? (
+    <div className="vye-top-border" key={id || myUUID}>
+      {transactDate && paymentDate ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {actBegin !== null
+                ? translateDateIntoMonthYearFormat(actBegin)
+                : translateDateIntoMonthYearFormat(actEnd)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>Payment for this month was deposited.</p>
+          <p>We processed your payment for this month.</p>
           <va-additional-info
-            trigger={`${translateDateIntoMonthYearFormat(
-              awardBeginDate,
-            )} verification details`}
+            trigger={`
+              ${
+                actBegin !== null
+                  ? translateDateIntoMonthYearFormat(actBegin)
+                  : translateDateIntoMonthYearFormat(actEnd)
+              } verification details
+            `}
             class="vads-u-margin-bottom--4"
           >
             {month.map((monthAward, index) => {
-              const { numberHours, monthlyRate, paymentDate } = monthAward;
+              const { numberHours, monthlyRate } = monthAward;
               return (
-                <div key={monthAward.id}>
+                <div key={index}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
                     {translateDatePeriod(
-                      monthAward.awardBeginDate,
-                      monthAward.awardEndDate,
+                      monthAward.actBegin,
+                      monthAward.actEnd,
                     )}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
-                      Total Credit Hours:
+                      Total credit hours:
                     </span>{' '}
-                    {numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
-                    {formatCurrency(monthlyRate)}
-                  </p>
-                  <p className="vads-u-margin--0">
-                    <span className="vads-u-font-weight--bold">
-                      Payment Deposited on:
-                    </span>{' '}
-                    {translateDateIntoMonthDayYearFormat(paymentDate)}
+                    {monthlyRate === null
+                      ? 'Rate unavailable'
+                      : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
-                      monthAward.verifiedDate,
+                      monthAward.transactDate,
                     )}
                   </div>
                   <div
@@ -274,58 +358,55 @@ export const getGroupedPreviousEnrollments = month => {
             })}
           </va-additional-info>
         </>
-      ) : PendingVerificationSubmitted ? (
+      ) : transactDate && !paymentDate ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {actBegin !== null
+                ? translateDateIntoMonthYearFormat(actBegin)
+                : translateDateIntoMonthYearFormat(actEnd)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
-              awardBeginDate,
+              actBegin,
             )} verification details`}
             class="vads-u-margin-bottom--4"
           >
             {month.map((monthAward, index) => {
               const { numberHours, monthlyRate } = monthAward;
               return (
-                <div>
+                <div key={index}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
                     {translateDatePeriod(
-                      monthAward.awardBeginDate,
-                      monthAward.awardEndDate,
+                      monthAward.actBegin,
+                      monthAward.actEnd,
                     )}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
-                      Total Credit Hours:
+                      Total credit hours:
                     </span>{' '}
-                    {numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
-                    {formatCurrency(monthlyRate)}
-                  </p>
-                  <p className="vads-u-margin--0">
-                    <span className="vads-u-font-weight--bold">
-                      Payment Deposited on:
-                    </span>{' '}
-                    Pending
+                    {monthlyRate === null
+                      ? 'Rate unavailable'
+                      : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
-                      monthAward.PendingVerificationSubmitted,
+                      monthAward.transactDate,
                     )}
                   </div>
                   <div
@@ -341,11 +422,11 @@ export const getGroupedPreviousEnrollments = month => {
           </va-additional-info>
         </>
       ) : (
-        <div key={id}>
+        <>
           <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}
+            {translateDateIntoMonthYearFormat(actBegin)}
           </h3>
-          <div key={id}>
+          <div>
             <va-alert
               background-only
               class="vads-u-margin-bottom--3"
@@ -356,120 +437,123 @@ export const getGroupedPreviousEnrollments = month => {
               visible="true"
               slim
             >
-              <p
-                key={`not-verified-${id}`}
-                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
-              >
-                This month has not yet been verified.
+              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
 };
 
 export const getSignlePreviousEnrollments = awards => {
+  const myUUID = uuidv4();
   return (
-    <div className="vye-top-border" key={awards.id}>
-      {awards.verifiedDate && (
-        <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
-            {'   '}
-            <i
-              className="fas fa-check-circle vads-u-color--green "
-              aria-hidden="true"
-            />{' '}
-            Verified
-          </h3>
-          <p>Payment for this month was deposited.</p>
-          <va-additional-info
-            trigger={`${translateDateIntoMonthYearFormat(
-              awards.awardBeginDate,
-            )} verification details`}
-            class="vads-u-margin-bottom--4"
-          >
-            <p className="vads-u-font-weight--bold">
-              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                Total Credit Hours:
+    <div className="vye-top-border" key={myUUID}>
+      {awards.transactDate &&
+        awards.paymentDate && (
+          <>
+            <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+              <span className="vads-u-display--inline-block ">
+                {awards.actBegin !== null
+                  ? translateDateIntoMonthYearFormat(awards.actBegin)
+                  : translateDateIntoMonthYearFormat(awards.actEnd)}
               </span>{' '}
-              {awards.numberHours}
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-              {formatCurrency(awards.monthlyRate)}
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
+              <va-icon
+                icon="check_circle"
+                class="icon-color"
+                aria-hidden="true"
+              />{' '}
+              <span className="vads-u-display--block">Verified</span>
+            </h3>
+            <p>We processed your payment for this month.</p>
+            <va-additional-info
+              trigger={`
+            ${
+              awards.actBegin !== null
+                ? translateDateIntoMonthYearFormat(awards.actBegin)
+                : translateDateIntoMonthYearFormat(awards.actEnd)
+            } verification details
+          `}
+              class="vads-u-margin-bottom--4"
+            >
+              <p className="vads-u-font-weight--bold">
+                {translateDatePeriod(awards.actBegin, awards.actEnd)}
+              </p>
+              <p>
+                <span className="vads-u-font-weight--bold">
+                  Total credit hours:
+                </span>{' '}
+                {awards.numberHours === null
+                  ? 'Hours unavailable'
+                  : awards.numberHours}
+              </p>
+              <p>
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+                {awards.monthlyRate === null
+                  ? 'Rate unavailable'
+                  : formatCurrency(awards.monthlyRate)}
+              </p>
+              <div className="vads-u-font-style--italic">
+                You verified on{' '}
+                {translateDateIntoMonthDayYearFormat(awards.transactDate)}
+              </div>
+            </va-additional-info>
+          </>
+        )}
+      {awards.transactDate &&
+        !awards.paymentDate && (
+          <>
+            <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+              <span className="vads-u-display--inline-block ">
+                {awards.actBegin !== null
+                  ? translateDateIntoMonthYearFormat(awards.actBegin)
+                  : translateDateIntoMonthYearFormat(awards.actEnd)}
               </span>{' '}
-              {translateDateIntoMonthDayYearFormat(awards.paymentDate)}
-            </p>
-            <div className="vads-u-font-style--italic">
-              Verified on{' '}
-              {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
-            </div>
-          </va-additional-info>
-        </>
-      )}
-      {awards.PendingVerificationSubmitted && (
-        <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
-              aria-hidden="true"
-            />{' '}
-            Verified
-          </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
-          <va-additional-info
-            trigger={`${translateDateIntoMonthYearFormat(
-              awards.awardBeginDate,
-            )} verification details`}
-            class="vads-u-margin-bottom--4"
-          >
-            <p className="vads-u-font-weight--bold">
-              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                Total Credit Hours:
-              </span>{' '}
-              {awards.numberHours}
-            </p>
-            <p>
-              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-              {formatCurrency(awards.monthlyRate)}
-            </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
-              </span>{' '}
-              Pending
-            </p>
-            <div className="vads-u-font-style--italic">
-              Verified on{' '}
-              {translateDateIntoMonthDayYearFormat(
-                awards.PendingVerificationSubmitted,
-              )}
-            </div>
-          </va-additional-info>
-        </>
-      )}
-      {!awards.verifiedDate &&
-        !awards.PendingVerificationSubmitted && (
+              <va-icon
+                icon="check_circle"
+                class="icon-color"
+                aria-hidden="true"
+              />{' '}
+              <span className="vads-u-display--block">Verified</span>
+            </h3>
+            <va-additional-info
+              trigger={`${translateDateIntoMonthYearFormat(
+                awards.actBegin,
+              )} verification details`}
+              class="vads-u-margin-bottom--4"
+            >
+              <p className="vads-u-font-weight--bold">
+                {translateDatePeriod(awards.actBegin, awards.actEnd)}
+              </p>
+              <p>
+                <span className="vads-u-font-weight--bold">
+                  Total credit hours:
+                </span>{' '}
+                {awards.numberHours === null
+                  ? 'Hours unavailable'
+                  : awards.numberHours}
+              </p>
+              <p>
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+                {awards.monthlyRate === null
+                  ? 'Rate unavailable'
+                  : formatCurrency(awards.monthlyRate)}
+              </p>
+              <div className="vads-u-font-style--italic">
+                You verified on{' '}
+                {translateDateIntoMonthDayYearFormat(awards.transactDate)}
+              </div>
+            </va-additional-info>
+          </>
+        )}
+      {!awards.transactDate &&
+        !awards.paymentDate && (
           <>
             <h3 className="vads-u-font-size--h4">
-              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+              {translateDateIntoMonthYearFormat(awards.actBegin)}
             </h3>
             <va-alert
               background-only
@@ -482,7 +566,7 @@ export const getSignlePreviousEnrollments = awards => {
               slim
             >
               <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
-                This month has not yet been verified.
+                You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
           </>
@@ -492,50 +576,64 @@ export const getSignlePreviousEnrollments = awards => {
 };
 
 export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
-  const trackEndDate = [];
-  const combineMonths = {};
+  const isArray = Array.isArray(enrollmentPeriods);
 
-  enrollmentPeriods.forEach(period => {
-    const tempMonthYear = translateDateIntoMonthYearFormat(
-      period.awardBeginDate,
-    );
-    if (trackEndDate.includes(tempMonthYear)) {
-      combineMonths[tempMonthYear].push({
-        id: period.id,
-        awardBeginDate: period.awardBeginDate,
-        awardEndDate: period.awardEndDate,
-        numberHours: period.numberHours,
-        monthlyRate: period.monthlyRate,
-        verifiedDate: period.verifiedDate,
-        PendingVerificationSubmitted: period.PendingVerificationSubmitted,
-        paymentDate: period.paymentDate,
-      });
-    } else {
-      trackEndDate.push(tempMonthYear);
-      combineMonths[tempMonthYear] = [
-        {
+  const trackDate = [];
+  const combineMonths = {};
+  const dateUnavailable = 'Date unavailable';
+
+  if (isArray) {
+    enrollmentPeriods.forEach(period => {
+      // if award begin date is null, assign value as Date unavailable
+      let tempMonthYear =
+        period.actBegin !== null
+          ? translateDateIntoMonthYearFormat(period.actBegin)
+          : dateUnavailable;
+
+      // if value is Date unavailable and there is an award end date, use the award end date instead
+      if (tempMonthYear === dateUnavailable) {
+        tempMonthYear =
+          period.actEnd !== null
+            ? translateDateIntoMonthYearFormat(period.actEnd)
+            : dateUnavailable;
+      }
+
+      if (trackDate.includes(tempMonthYear)) {
+        combineMonths[tempMonthYear].push({
           id: period.id,
-          awardBeginDate: period.awardBeginDate,
-          awardEndDate: period.awardEndDate,
+          actBegin: period.actBegin,
+          actEnd: period.actEnd,
           numberHours: period.numberHours,
           monthlyRate: period.monthlyRate,
-          verifiedDate: period.verifiedDate,
+          transactDate: period.transactDate,
           PendingVerificationSubmitted: period.PendingVerificationSubmitted,
           paymentDate: period.paymentDate,
-        },
-      ];
-    }
-  });
-  return combineMonths;
+        });
+      } else {
+        trackDate.push(tempMonthYear);
+        combineMonths[tempMonthYear] = [
+          {
+            id: period.id,
+            actBegin: period.actBegin,
+            actEnd: period.actEnd,
+            numberHours: period.numberHours,
+            monthlyRate: period.monthlyRate,
+            transactDate: period.transactDate,
+            PendingVerificationSubmitted: period.PendingVerificationSubmitted,
+            paymentDate: period.paymentDate,
+          },
+        ];
+      }
+    });
+    return combineMonths;
+  }
+  return enrollmentPeriods;
 };
 
 export const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent,
   );
-};
-export const objectHasNoUndefinedValues = obj => {
-  return Object.values(obj).every(value => value !== undefined);
 };
 export const noSuggestedAddress = deliveryPointValidation => {
   return (
@@ -576,7 +674,15 @@ export const prepareAddressData = formData => {
   }
   return addressData;
 };
+export const formatAddress = address => {
+  const city = address?.city ?? '';
+  const stateCode = address?.stateCode ?? '';
+  const zipCode = address?.zipCode ?? '';
 
+  return `${city}${
+    stateCode || zipCode ? ',' : ''
+  } ${stateCode} ${zipCode}`.trim();
+};
 export const addressLabel = address => {
   // Destructure address object for easier access
   const {
@@ -600,22 +706,136 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
+      {line1 && <>{line1} </>}
+      {line2 && <>{` ${line2}`}</>}
+      {cityState && (
         <>
-          {line1}
-          <br />
+          <br /> {cityState}
         </>
       )}
-      {line2 && (
-        <>
-          {line2}
-          <br />
-        </>
-      )}
-      {cityState && <>{cityState}</>}
       {state && <>{state}</>}
       {postalCode && (state || cityState) && ' '}
       {postalCode}
     </span>
   );
 };
+
+export const hasFormChanged = obj => {
+  const keys = Object.keys(obj ?? {});
+  for (const key of keys) {
+    const value = obj[key];
+    // Skip the specific key
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Checking if there is value that is not undefined
+    if (value !== undefined) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export function compareAddressObjects(obj1, obj2) {
+  const { hasOwnProperty } = Object.prototype;
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length === 0 && keys2.length === 0) {
+    return false;
+  }
+  for (const key of keys1) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (
+      hasOwnProperty.call(obj1, key) &&
+      hasOwnProperty.call(obj2, key) &&
+      obj1[key] !== obj2[key]
+    ) {
+      return true;
+    }
+  }
+
+  for (const key of keys2) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (
+      hasOwnProperty.call(obj2, key) &&
+      hasOwnProperty.call(obj1, key) &&
+      obj2[key] !== obj1[key]
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+
+  if (
+    typeof obj1 !== 'object' ||
+    obj1 === null ||
+    typeof obj2 !== 'object' ||
+    obj2 === null
+  ) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (
+      key === 'view:livesOnMilitaryBaseInfo' ||
+      key === 'view:livesOnMilitaryBase'
+    ) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const initialState = {
+  addressLine1: undefined,
+  addressLine2: undefined,
+  addressLine3: undefined,
+  addressLine4: undefined,
+  city: undefined,
+  countryCodeIso3: 'USA',
+  internationalPostalCode: undefined,
+  province: undefined,
+  stateCode: '- Select -',
+  'view:livesOnMilitaryBase': undefined,
+  'view:livesOnMilitaryBaseInfo': {},
+  zipCode: undefined,
+};
+
+// Function to check if the object has changed
+export function hasAddressFormChanged(currentState) {
+  const filledCurrentState = {
+    ...initialState,
+    ...currentState,
+    stateCode:
+      currentState.stateCode !== undefined
+        ? currentState.stateCode
+        : initialState.stateCode,
+  };
+  return !deepEqual(initialState, filledCurrentState);
+}

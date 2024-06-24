@@ -2,13 +2,31 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
-import { fileUploadUi as fileUploadUI } from '../File/upload';
-import { isRequiredFile } from '../../helpers/supportingDocsVerification';
+import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
+import { requiredFiles } from '../../config/requiredUploads';
 import {
   uploadWithInfoComponent,
   // acceptableFiles,
   mailOrFaxLaterMsg,
 } from '../Sponsor/sponsorFileUploads';
+
+// This file contains the ui/schemas for applicant file upload screens.
+
+/**
+ * Provide a string indicating if a file contained in a form page is in the
+ * requiredFiles object
+ * @param {object} formContext formContext object from a list loop page
+ * @returns a string, either '(Required)' or '(Optional)' depending on if the
+ * formContext contained one or more properties that intersect with the
+ * requiredFiles object
+ */
+export function isRequiredFile(formContext) {
+  return Object.keys(formContext?.schema?.properties || {}).filter(v =>
+    Object.keys(requiredFiles).includes(v),
+  ).length >= 1
+    ? '(Required)'
+    : '(Optional)';
+}
 
 export const marriageDocumentList = (
   <>
@@ -97,14 +115,10 @@ export const applicantSchoolCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a copy of a document showing proof of{' '}
-              <b>{posessive}</b> school enrollment. If{' '}
-              <b>{nonPosessive === 'you' ? 'you’re' : posessive}</b> planning to
-              enroll,{' '}
-              <b>
-                {nonPosessive === 'you' ? 'you’ll' : `${nonPosessive} will`}
-              </b>{' '}
-              need to upload a document showing information about{' '}
-              <b>{posessive}</b> plan to enroll.
+              <b>{posessive}</b> school enrollment. If <b>{posessive}</b>{' '}
+              planning to enroll, <b>{nonPosessive} will</b> need to upload a
+              document showing information about <b>{posessive}</b> plan to
+              enroll.
               <br />
               <br />
               {mailOrFaxLaterMsg}
@@ -136,9 +150,8 @@ export const applicantSchoolCertUploadUiSchema = {
                   principal)
                 </li>
               </ul>
-              If {nonPosessive === 'you' ? 'you’re' : `${nonPosessive} is`} not
-              enrolled, upload a copy of {posessive} acceptance letter from the
-              school.
+              If {nonPosessive} is not enrolled, upload a copy of {posessive}{' '}
+              acceptance letter from the school.
             </>
           );
         },
@@ -290,7 +303,7 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare cards ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part A and B card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -329,7 +342,7 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare card ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part D card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -381,16 +394,13 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           );
           return (
             <>
-              <b>{nonPosessive === 'You' ? 'You’re' : `${nonPosessive} is`}</b>{' '}
-              65 years or older and you selected that{' '}
-              <b>{nonPosessive === 'You' ? 'you’re' : 'they’re'}</b> not
-              eligible for Medicare.
+              <b>{nonPosessive}</b> is 65 years or older and you selected that{' '}
+              they’re not eligible for Medicare.
               <br />
               <br />
               You’ll need to submit a copy of a letter from the Social Security
-              Administration that confirms that{' '}
-              <b>{nonPosessive === 'You' ? 'you' : 'they'}</b> don’t qualify for
-              Medicare benefits under anyone’s Social Security number.
+              Administration that confirms that they don’t qualify for Medicare
+              benefits under anyone’s Social Security number.
               {mailOrFaxLaterMsg}
             </>
           );
@@ -479,6 +489,15 @@ export const applicantMarriageCertConfig = uploadWithInfoComponent(
   true,
 );
 
+// When in list loop, formData is just the list element's data, but when editing
+// a list item's data on review-and-submit `formData` may be the complete form
+// data object. This provides a consistent interface via formContext.
+export function getTopLevelFormData(formContext) {
+  return formContext.contentAfterButtons === undefined
+    ? formContext.data
+    : formContext.contentAfterButtons.props.form.data;
+}
+
 export const applicantMarriageCertUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
@@ -496,15 +515,17 @@ export const applicantMarriageCertUploadUiSchema = {
             false,
             formContext.pagePerItemIndex,
           );
+          // Inside list loop this lets us grab form data outside the scope of
+          // current list element:
+          const vetName = getTopLevelFormData(formContext)?.veteransFullName;
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{nonPosessive}</b> sponsor and{' '}
+              legal union between <b>{nonPosessive}</b> and{' '}
               <b>
-                {formData.veteransFullName?.first}{' '}
-                {formData.veteransFullName?.last}.
+                {vetName?.first ?? ''} {vetName?.last ?? ''}
               </b>
-              <br />
+              .<br />
               <br />
               {marriageDocumentList}
               {mailOrFaxLaterMsg}

@@ -4,15 +4,18 @@ import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
-import ClaimLetterList from '../../components/ClaimLetterList';
+import ClaimLetterList from '../../components/claim-letters/ClaimLetterList';
 import WIP from '../../components/WIP';
 import { ITEMS_PER_PAGE } from '../../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../../selectors';
 import NoLettersContent from './errorComponents/NoLettersContent';
 import ServerErrorContent from './errorComponents/ServerErrorContent';
 import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
+import { setDocumentTitle } from '../../utils/helpers';
+import { setPageFocus } from '../../utils/page';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
@@ -28,6 +31,17 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const totalPages = useRef(0);
   const paginatedItems = useRef([]);
   const requestStatus = useRef(200);
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const iscstIncludeDdlBoaLettersEnabled = useToggleValue(
+    TOGGLE_NAMES.cstIncludeDdlBoaLetters,
+  );
+  const claimLetterHeader = iscstIncludeDdlBoaLettersEnabled
+    ? 'Your VA claim and appeal letters'
+    : 'Your VA claim letters';
+
+  const claimLetterSubText = iscstIncludeDdlBoaLettersEnabled
+    ? 'You can download your claim letters and appeal decisions. We also mail these to you.'
+    : 'You can download your claim letters. We also mail you these letters.';
 
   useEffect(() => {
     getClaimLetters()
@@ -50,8 +64,12 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         setLettersLoading(false);
       });
 
-    document.title = 'Your VA Claim Letters | Veterans Affairs';
+    setDocumentTitle('Your VA Claim Letters');
   }, []);
+
+  useEffect(() => {
+    setPageFocus();
+  });
 
   /**
    * This commented code was deemed likely to be needed.
@@ -107,9 +125,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   if (showClaimLetters) {
     content = (
       <>
-        <h1>Your VA claim letters</h1>
+        <h1>{claimLetterHeader}</h1>
         <div className="vads-u-font-size--lg vads-u-padding-bottom--1">
-          You can download your claim letters. We also mail you these letters.
+          {claimLetterSubText}
         </div>
         {lettersLoading ? (
           <va-loading-indicator message="Loading your claim letters..." />
@@ -124,7 +142,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
   const crumb = {
     href: `../your-claim-letters`,
-    label: 'Your VA claim letters',
+    label: `${claimLetterHeader}`,
     isRouterLink: true,
   };
 

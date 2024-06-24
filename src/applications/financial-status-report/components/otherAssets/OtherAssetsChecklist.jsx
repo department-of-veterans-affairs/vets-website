@@ -46,23 +46,16 @@ const OtherAssetsChecklist = ({
     });
   };
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return otherAssets.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: otherAssets.filter(source => source.name !== value),
-          },
-        })
-      : setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: [...otherAssets, { name: value, amount: '' }],
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      assets: {
+        ...assets,
+        otherAssets: checked
+          ? [...otherAssets, { name, amount: '' }]
+          : otherAssets.filter(asset => asset.name !== name),
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -95,10 +88,7 @@ const OtherAssetsChecklist = ({
             prompt={prompt}
             isBoxChecked={isBoxChecked}
           />
-          <va-additional-info
-            trigger="Why do I need to provide this information?"
-            uswds
-          >
+          <va-additional-info trigger="Why do I need to provide this information?">
             We ask for details about items of value such as jewelry and art
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.

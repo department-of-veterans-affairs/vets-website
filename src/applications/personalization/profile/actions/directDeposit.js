@@ -53,7 +53,7 @@ export function fetchDirectDeposit({
 
     const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT);
 
-    if (response.error || response.errors) {
+    if (response.error || response.errors || response instanceof Error) {
       recordDirectDepositEvent({
         endpoint: DIRECT_DEPOSIT_API_ENDPOINT,
         status: API_STATUS.FAILED,

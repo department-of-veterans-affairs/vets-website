@@ -7,8 +7,9 @@ import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
 
-describe.skip('VAOS Page: ContactInfoPage', () => {
-  it('should accept email, phone, and preferred time and continue', async () => {
+describe('VAOS Page: ContactInfoPage', () => {
+  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/82968
+  it.skip('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
         profile: {
@@ -35,7 +36,9 @@ describe.skip('VAOS Page: ContactInfoPage', () => {
     userEvent.type(input, 'joe.blow@gmail.com');
 
     // it should display page heading and description
-    expect(screen.getByText('Confirm your contact information')).to.be.ok;
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
     expect(
       screen.getByText(
         /We’ll use this information if we need to contact you about this appointment. For most other VA communications, we'll use the contact information in your VA.gov profile/i,
@@ -50,9 +53,7 @@ describe.skip('VAOS Page: ContactInfoPage', () => {
     const button = await screen.findByText(/^Continue/);
 
     userEvent.click(button);
-    await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
-    });
+    expect(screen.history.push.called).to.be.true;
     expect(window.dataLayer).to.deep.include({
       event: 'vaos-contact-info-email-not-populated',
     });

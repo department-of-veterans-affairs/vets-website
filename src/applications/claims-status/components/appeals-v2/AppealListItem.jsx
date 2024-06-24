@@ -50,16 +50,6 @@ export default function AppealListItem({ appeal, name }) {
     appeal.attributes.events[appeal.attributes.events.length - 1].date;
   const programArea = programAreaMap[appeal.attributes.programArea];
 
-  // appealTitle is in the format:
-  // "Supplemental Claim for Disability Compensation Receieved March 6, 2019"
-  //
-  // If it's an appeal:
-  // "Disability Compensation Appeal Receieved March 6, 2019"
-  //
-  // programArea or requestEvent might be missing:
-  // "Appeal updated on March 6, 2019"
-  // "Disability Compensation Appeal"
-
   let appealTitle = getTypeName(appeal);
   let updatedOn = '';
 
@@ -74,7 +64,7 @@ export default function AppealListItem({ appeal, name }) {
   appealTitle = capitalizeWord(appealTitle);
   updatedOn = formatDate(updatedEventDateString);
 
-  const ariaLabel = `View details for ${appealTitle}`;
+  const ariaLabel = `Details for ${appealTitle}`;
   const href = `/appeals/${appeal.id}/status`;
 
   return (
@@ -86,10 +76,26 @@ export default function AppealListItem({ appeal, name }) {
         {appeal.attributes.description && (
           <p>
             {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
-            {isAppeal ? ' appeal' : ' review'}: {appeal.attributes.description}
+            {isAppeal ? ' appeal' : ' review'}:{' '}
+            <span
+              className="masked-issue"
+              data-dd-privacy="mask"
+              data-dd-action-name="appeal issue"
+            >
+              {appeal.attributes.description}
+            </span>
           </p>
         )}
-        <p>Status: {getStatusContents(appeal, name).title}</p>
+        <p>
+          Status:{' '}
+          <span
+            className="masked-issue"
+            data-dd-privacy="mask"
+            data-dd-action-name="appeal issue"
+          >
+            {getStatusContents(appeal, name).title}
+          </span>
+        </p>
         <p>Last updated: {updatedOn}</p>
       </div>
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

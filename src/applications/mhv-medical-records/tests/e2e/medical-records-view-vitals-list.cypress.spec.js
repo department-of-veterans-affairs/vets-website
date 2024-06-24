@@ -36,7 +36,7 @@ describe('Medical Records View Vitals', () => {
 
     VitalsListPage.verifyVitalOnListPage(
       3,
-      'Blood oxygen level (pulse oximetry)',
+      'Blood oxygen level',
       '98%',
       'October',
     );

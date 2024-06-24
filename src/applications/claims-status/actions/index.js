@@ -10,7 +10,7 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { canUseMocks } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
@@ -49,12 +49,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -224,13 +218,13 @@ export const getClaim = (id, navigate) => {
   };
 };
 
-export function submitRequest(id) {
+export function submitRequest(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       dispatch({ type: SET_DECISION_REQUESTED });
       dispatch(
         setNotification({
@@ -239,22 +233,32 @@ export function submitRequest(id) {
             'Thank you. We have your claim request and will make a decision.',
         }),
       );
-      return;
+      return Promise.resolve();
     }
 
-    makeAuthRequest(
+    return makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
+        if (cstClaimPhasesEnabled) {
+          dispatch(
+            setNotification({
+              title: 'We received your evidence waiver',
+              body:
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+            }),
+          );
+        } else {
+          dispatch(
+            setNotification({
+              title: 'Request received',
+              body:
+                'Thank you. We have your claim request and will make a decision.',
+            }),
+          );
+        }
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
@@ -263,7 +267,7 @@ export function submitRequest(id) {
   };
 }
 
-export const submit5103 = id => {
+export function submit5103(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
@@ -275,20 +279,30 @@ export const submit5103 = id => {
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
-        dispatch(
-          setNotification({
-            title: 'Request received',
-            body:
-              'Thank you. We have your claim request and will make a decision.',
-          }),
-        );
+        if (cstClaimPhasesEnabled) {
+          dispatch(
+            setNotification({
+              title: 'We received your evidence waiver',
+              body:
+                'Thank you. We’ll move your claim to the next step as soon as possible.',
+            }),
+          );
+        } else {
+          dispatch(
+            setNotification({
+              title: 'Request received',
+              body:
+                'Thank you. We have your claim request and will make a decision.',
+            }),
+          );
+        }
       },
       error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
       },
     );
   };
-};
+}
 // END lighthouse_migration
 
 export function resetUploads() {
@@ -381,7 +395,7 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
+              if (canUseMocks()) {
                 dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
@@ -466,7 +480,7 @@ export function submitFiles(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(
@@ -621,7 +635,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(
@@ -736,7 +750,7 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       return getStemClaimsMock(dispatch);
     }
 

@@ -242,6 +242,10 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pageChangeInProgress: false,
         previousPages: updatedPreviousPages,
+        currentPageKey:
+          action.direction === 'next'
+            ? action.pageKeyNext
+            : updatedPreviousPages[action.pageKey],
       };
     }
     case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
@@ -266,7 +270,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
-        data: { ...state.data, facilityType: action.facilityType },
+        data: {
+          ...state.data,
+          facilityType: action.facilityType,
+          isSingleVaFacility:
+            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
+        },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -331,7 +340,10 @@ export default function formReducer(state = initialState, action) {
       );
 
       const { data, schema } = setupFormData(
-        newData,
+        (newData = {
+          ...newData,
+          isSingleVaFacility: typeOfCareFacilities.length === 1,
+        }),
         newSchema,
         action.uiSchema,
       );

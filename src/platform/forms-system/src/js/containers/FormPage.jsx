@@ -14,7 +14,9 @@ import {
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
-import FormNavButtons from '../components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import {
@@ -254,7 +256,9 @@ class FormPage extends React.Component {
     const showNavLinks =
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
-      !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
+      !environment.isProduction() &&
+      (route.formConfig?.formOptions?.noBottomNav ||
+        route.pageConfig?.hideNavButtons);
 
     let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
     if (
@@ -270,6 +274,9 @@ class FormPage extends React.Component {
         />
       );
     }
+    const NavButtons = route.formConfig?.useTopBackLink
+      ? FormNavButtonContinue
+      : FormNavButtons;
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -337,7 +344,7 @@ class FormPage extends React.Component {
           ) : (
             <>
               {contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
@@ -397,6 +404,7 @@ FormPage.propTypes = {
         PropTypes.func,
       ]),
       customPageUsesPagePerItemData: PropTypes.bool,
+      hideNavButtons: PropTypes.bool,
       onContinue: PropTypes.func,
       onNavBack: PropTypes.func,
       onNavForward: PropTypes.func,
@@ -420,6 +428,7 @@ FormPage.propTypes = {
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
       }),
+      useTopBackLink: PropTypes.bool,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
-import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
+import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
+import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
+import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+
 import {
   buildDateFormatter,
   claimAvailable,
@@ -16,9 +20,11 @@ import {
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
+  isDisabilityCompensationClaim,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
 const STATUSES = getStatusMap();
@@ -158,7 +164,7 @@ class OverviewPage extends React.Component {
         scrollToTop();
       }
     } else {
-      setFocus('#tabPanelStatus');
+      setFocus('#tabPanelOverview');
     }
   }
 
@@ -187,17 +193,44 @@ class OverviewPage extends React.Component {
       return null;
     }
 
-    const { claimPhaseDates } = claim.attributes;
+    const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
+    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
-        <ClaimOverviewHeader />
-        <ClaimTimeline
-          id={claim.id}
-          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-          currentPhaseBack={claimPhaseDates.currentPhaseBack}
-          events={generateEventTimeline(claim)}
-        />
+        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
+          <Toggler.Enabled>
+            {isDisabilityCompensationClaim(claimTypeCode) ? (
+              <>
+                <div className="claim-phase-diagram">
+                  <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+                  <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+                </div>
+                <ClaimPhaseStepper
+                  claimDate={claimDate}
+                  currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+                  currentPhase={currentPhase}
+                />
+              </>
+            ) : (
+              <ClaimTimeline
+                id={claim.id}
+                phase={currentPhase}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            )}
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <ClaimTimeline
+              id={claim.id}
+              phase={currentPhase}
+              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              events={generateEventTimeline(claim)}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
   }

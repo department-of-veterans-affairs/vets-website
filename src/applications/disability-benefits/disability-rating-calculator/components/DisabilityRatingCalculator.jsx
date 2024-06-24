@@ -106,7 +106,7 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   handleRemoveDisability = idx => () => {
-    const disabilities = this.state.disabilities;
+    const { disabilities } = this.state;
     this.ratingInputRefs.pop();
     disabilities.splice(idx, 1);
     this.setState({ disabilities }, this.focusLastRatingInput);
@@ -130,8 +130,8 @@ export default class DisabilityRatingCalculator extends React.Component {
   };
 
   render() {
-    const disabilities = this.state.disabilities;
-    const calculatedRating = this.state.calculatedRating;
+    const { disabilities } = this.state;
+    const { calculatedRating } = this.state;
     const ratings = getRatings(disabilities);
 
     return (
@@ -192,8 +192,7 @@ export default class DisabilityRatingCalculator extends React.Component {
               onClick={this.handleAddRating}
               data-e2e="add"
             >
-              <i className="fas fa-plus-circle vads-u-padding-right--0p5" />
-              Add rating
+              <va-icon icon="add_circle" size={3} /> Add rating
             </button>
           </div>
           <div>

@@ -19,7 +19,7 @@ const getLastUpdated = claim => {
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Last updated: ${updatedOn}`;
+  return `Moved to this step on ${updatedOn}`;
 };
 
 const showPreDecisionCommunications = claim => {
@@ -33,8 +33,10 @@ const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 const CommunicationsItem = ({ children, icon }) => {
   return (
     <li className="vads-u-margin--0">
-      <i
-        className={`fa fa-${icon} vads-u-margin-right--1`}
+      <va-icon
+        icon={icon}
+        size={3}
+        class="vads-u-margin-right--1"
         aria-hidden="true"
       />
       {children}
@@ -61,7 +63,7 @@ export default function ClaimsListItem({ claim }) {
   const humanStatus = getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
-  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
 
   return (
@@ -72,12 +74,12 @@ export default function ClaimsListItem({ claim }) {
     >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             We sent you a development letter
           </CommunicationsItem>
         ) : null}
         {decisionLetterSent && (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             You have a decision letter ready
           </CommunicationsItem>
         )}

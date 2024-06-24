@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
+import errorMessages from '../content/errorMessages';
+
 const ShowPdfPassword = ({
   file,
   index,
@@ -14,8 +16,6 @@ const ShowPdfPassword = ({
   const [value, setValue] = useState(testVal);
   const [dirty, setDirty] = useState(false);
   const inputRef = useRef(null);
-
-  const errorMessage = 'Please provide a password to decrypt this file';
 
   const setFocus = () => {
     if (inputRef?.current) {
@@ -38,7 +38,7 @@ const ShowPdfPassword = ({
       <VaTextInput
         ref={inputRef}
         label="PDF password"
-        error={(dirty && !value && errorMessage) || null}
+        error={(dirty && !value && errorMessages.upload) || null}
         name={`get_password_${index}`}
         required
         value={value}

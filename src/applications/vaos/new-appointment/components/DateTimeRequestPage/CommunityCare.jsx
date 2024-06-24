@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import {
   onCalendarChange,
   routeToNextAppointmentPage,
@@ -19,10 +18,9 @@ import {
 import DateTimeRequestOptions from './DateTimeRequestOptions';
 import SelectedIndicator, { getSelectedLabel } from './SelectedIndicator';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../utils/constants';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'ccRequestDateTime';
-const pageTitle = 'When would you like an appointment?';
 
 const maxSelections = 3;
 
@@ -47,10 +45,8 @@ function goForward({ dispatch, data, history, setSubmitted }) {
   }
 }
 
-export default function CCRequest({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function CCRequest() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const { data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
@@ -68,9 +64,6 @@ export default function CCRequest({ changeCrumb }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   const { selectedDates } = data;
@@ -138,7 +131,3 @@ export default function CCRequest({ changeCrumb }) {
     </div>
   );
 }
-
-CCRequest.propTypes = {
-  changeCrumb: PropTypes.func,
-};

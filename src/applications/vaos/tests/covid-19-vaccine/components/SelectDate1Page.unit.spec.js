@@ -13,11 +13,11 @@ import {
 } from '../../mocks/setup';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
-import { getAppointmentSlotMock } from '../../mocks/v0';
+import { getAppointmentSlotMock } from '../../mocks/mock';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
-import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
-import { createMockClinicByVersion } from '../../mocks/data';
-import { mockAppointmentSlotFetch } from '../../mocks/helpers.v2';
+import { mockEligibilityFetches } from '../../mocks/fetch';
+import { createMockClinic } from '../../mocks/data';
+import { mockAppointmentSlotFetch } from '../../mocks/helpers';
 
 const initialState = {
   featureToggles: {
@@ -31,12 +31,12 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: SelectDate1Page', () => {
-  const clinic1 = createMockClinicByVersion({
+  const clinic1 = createMockClinic({
     id: '308',
     stationId: '983',
     friendlyName: 'Green team clinic',
   });
-  const clinic2 = createMockClinicByVersion({
+  const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
     friendlyName: 'Red team clinic',
@@ -48,7 +48,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should not submit form with validation error', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
@@ -96,7 +96,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
 
   it('should display error message if slots call fails', async () => {
     const preferredDate = moment();
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
@@ -141,7 +141,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should allow a user to choose available slot and fetch new slots after changing clinics', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
@@ -288,7 +288,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
   });
 
   it('should show validation error if no date selected', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
@@ -323,15 +323,17 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
+  // Test failure: https://github.com/department-of-veterans-affairs/va.gov-team/issues/86044
   it.skip('should fetch slots when moving between months', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
     });
 
-    const preferredDate = moment();
-    const slot308Date = moment()
+    const preferredDate = moment().day(15);
+    const slot308Date = preferredDate
+      .clone()
       .add(1, 'day')
       .hour(9)
       .minute(0)

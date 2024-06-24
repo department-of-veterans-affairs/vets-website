@@ -20,7 +20,7 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
+    cy.fillVaDate('from', employer.from, true);
     customButtonGroupContinue();
 
     // gross-monthly-income
@@ -33,11 +33,12 @@ const fillEmploymentInformation = employer => {
 
     // deduction-checklist
     // spouse-deduction-checklist
-    for (let i = 0; i < employer.deductions.length; i++) {
-      cy.get(
-        `input[type="checkbox"][value='${employer.deductions[i].name}']`,
-      ).check();
-    }
+    employer.deductions.forEach(deduction => {
+      cy.get(`va-checkbox[name="${deduction.name}"]`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
+    });
     cy.get('.usa-button-primary').click();
 
     // deduction-values
@@ -62,8 +63,8 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
-    cy.fillDate('to', employer.to);
+    cy.fillVaDate('from', employer.from, true);
+    cy.fillVaDate('to', employer.to, true);
     customButtonGroupContinue('Add employment record');
   }
 };

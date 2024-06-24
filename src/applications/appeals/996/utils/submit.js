@@ -5,11 +5,16 @@ import '../../shared/definitions';
 import { replaceSubmittedData } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
+const nonDigitRegex = /[^\d]/g;
+
 export const getRep = formData => {
   if (formData.informalConference !== 'rep') {
     return null;
   }
-  const phoneNumber = formData?.informalConferenceRep?.phone;
+  const phoneNumber = (formData?.informalConferenceRep?.phone || '').replace(
+    nonDigitRegex,
+    '',
+  );
   const phone = {
     countryCode: '1',
     areaCode: phoneNumber.substring(0, 3),
@@ -33,11 +38,6 @@ export const getConferenceTime = (formData = {}) => {
   const { informalConferenceTime = '' } = formData;
   return CONFERENCE_TIMES_V2[informalConferenceTime]?.submit || '';
 };
-
-export const getTimeZone = () =>
-  // supports IE11
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const getContact = ({ informalConference }) => {
   if (informalConference === 'rep') {

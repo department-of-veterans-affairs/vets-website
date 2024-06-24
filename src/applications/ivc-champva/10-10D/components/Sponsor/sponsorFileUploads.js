@@ -1,6 +1,6 @@
 import React from 'react';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { fileTypes, maxSize } from '../../config/attachments';
+import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 
 export const mailOrFaxLaterMsg =
   'If you don’t have a copy to upload now, you can send one by mail or fax.';
@@ -114,38 +114,10 @@ export function acceptableFileList(list) {
   };
 }
 
-export const fileUploadBlurb = {
-  'view:fileUploadBlurb': {
-    'ui:description': (
-      <>
-        <div className="vads-u-margin-bottom--4">
-          <b>How to upload files</b>
-          <ul>
-            <li>
-              Format the file as a .{fileTypes.slice(0, -1).join(', .')}, or .
-              {fileTypes.slice(-1)} file
-            </li>
-            <li>Make sure that file size is {maxSize} or less</li>
-            <li>
-              If you don’t have a digital copy of your document, you can scan or
-              take a photo of it and then upload the image from your computer or
-              phone
-            </li>
-          </ul>
-          <p>
-            If you don’t want to upload your supporting files now, you’ll have
-            the option to upload them again at the end of this application.
-          </p>
-        </div>
-      </>
-    ),
-  },
-};
-
 export const requiredFileUploadMessage = {
   'ui:description': (
     <p>
-      <i>This file is required for your application.</i>
+      <em>This file is required for your application.</em>
       Your application will not be considered complete until we receive this
       file.
     </p>

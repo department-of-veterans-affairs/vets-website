@@ -5,37 +5,42 @@ import {
 import {
   isLoggedIn,
   selectProfile,
+  isLOA1,
   isLOA3,
   isInMPI,
+  isProfileLoading,
+  isVAPatient,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
+import {
+  isLandingPageEnabled,
+  personalizationEnabled,
+  helpdeskInfoEnabled,
+} from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { hasHealthData } from './hasHealthData';
 import { selectHasMHVAccountState } from './hasMHVAccountState';
 import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
 
-const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData || {};
-
 export {
-  hasHealthData,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLandingPageEnabled,
   isLandingPageEnabledForUser,
+  isLOA1,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
+  isVAPatient,
   personalizationEnabled,
+  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
   selectHasMHVAccountState,
 };

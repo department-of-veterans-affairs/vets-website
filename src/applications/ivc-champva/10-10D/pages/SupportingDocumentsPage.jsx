@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 export default function SupportingDocumentsPage({
   contentAfterButtons,
@@ -17,6 +18,8 @@ export default function SupportingDocumentsPage({
     disableLinks: false,
     setFormData,
     showConsent: false,
+    fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
   return <>{OverviewComp}</>;
 }

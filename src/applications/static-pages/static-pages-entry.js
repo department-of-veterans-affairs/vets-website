@@ -42,7 +42,6 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
-import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createEZRSubmissionOptions from './ezr-submission-options';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
@@ -65,7 +64,6 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
-import createShiftedVetsBanner from './shifted-vets-banner';
 import createSupplementalClaim from './supplemental-claim';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
@@ -89,13 +87,16 @@ import create210845Access from './simple-forms/21-0845/entry';
 import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
+import create214138Access from './simple-forms/21-4138/entry';
 import create214142Access from './simple-forms/21-4142/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import create400247Access from './simple-forms/40-0247/entry';
+import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -160,7 +161,6 @@ createResourcesAndSupportSearchWidget(
 );
 createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
-createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createNearByVALocations(store);
 createFacilityListWidget();
@@ -214,7 +214,6 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createShiftedVetsBanner(store);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
@@ -231,6 +230,7 @@ create210845Access(store, widgetTypes.FORM_210845_CTA);
 create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
+create214138Access(store, widgetTypes.FORM_214138_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
@@ -240,6 +240,8 @@ createBurialsV2HowDoIApplyWidget(
   store,
   widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET,
 );
+createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
+createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

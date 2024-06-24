@@ -94,7 +94,11 @@ export default class ClaimPhase extends React.Component {
 
       case 'supporting_document':
         return (
-          <div className="claims-evidence-item">
+          <div
+            className="claims-evidence-item"
+            data-dd-privacy="mask"
+            data-dd-action-name="supporting document submission"
+          >
             You or someone else submitted {file ? `"${file}"` : 'a file'}.
           </div>
         );
@@ -129,11 +133,16 @@ export default class ClaimPhase extends React.Component {
               <h5 className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
                 {`Past updates (${activityList.length - 1})`}
               </h5>
-              <va-button
-                secondary
-                text={`${showOlder ? 'Hide' : 'Show'} past updates`}
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+              <button
+                type="button"
+                className="claim-older-updates usa-button-secondary"
+                aria-controls={`older-updates-${phase}`}
+                aria-expanded={showOlder}
                 onClick={this.showOlderActivity}
-              />
+              >
+                {`${showOlder ? 'Hide' : 'Show'} past updates`}
+              </button>
             </>
           ) : null}
           {showOlder && hasMoreActivity ? (

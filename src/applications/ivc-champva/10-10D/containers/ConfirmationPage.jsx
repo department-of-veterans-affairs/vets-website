@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
+import { ConfirmationPagePropTypes } from '../../shared/constants';
 
 const heading = (
   <>
@@ -47,6 +48,8 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
+    fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
 
   useEffect(() => {
@@ -79,29 +82,29 @@ export function ConfirmationPage(props) {
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
         </h3>
-        {data.statementOfTruthSignature ? (
+        {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
             <br />
             {data.statementOfTruthSignature}
             <br />
           </span>
-        ) : null}
+        )}
         <br />
-        {data.statementOfTruthSignature ? (
+        {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Confirmation number</strong>
             <br />
             {form.submission?.response?.confirmationNumber || ''}
           </span>
-        ) : null}
-        {isValid(submitDate) ? (
+        )}
+        {isValid(submitDate) && (
           <p className="date-submitted">
             <strong>Date submitted</strong>
             <br />
             <span>{format(submitDate, 'MMMM d, yyyy')}</span>
           </p>
-        ) : null}
+        )}
         <span className="veterans-full-name">
           <strong>Confirmation for your records</strong>
           <br />
@@ -122,27 +125,7 @@ export function ConfirmationPage(props) {
   );
 }
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    pages: PropTypes.object,
-    data: PropTypes.shape({
-      applicants: PropTypes.array,
-      statementOfTruthSignature: PropTypes.string,
-      veteransFullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
-};
+ConfirmationPage.propTypes = ConfirmationPagePropTypes;
 
 function mapStateToProps(state) {
   return {

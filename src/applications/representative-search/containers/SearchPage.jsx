@@ -8,11 +8,11 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'applications/static-pages/representative-status';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -52,13 +52,24 @@ const SearchPage = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
+  const isPostLogin = props.location?.search?.includes('postLogin=true');
+
+  const resultsArePresent =
+    (props.location?.search && props?.results?.length > 0) ||
+    isEmpty(props.location.query);
+
   const store = useStore();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const widgetEnabled = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnabled,
+  );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
 
     const queryParams = {
-      ...location.query,
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
@@ -88,36 +99,33 @@ const SearchPage = props => {
   };
 
   const handleSearchViaUrl = () => {
-    // Check for scenario when results are in the store
-    if (!!props.location.search && props.results && props.results.length > 0) {
+    const { location } = props;
+
+    if (resultsArePresent || isPostLogin) {
       return;
     }
 
-    const { location } = props;
+    setIsSearching(true);
 
-    if (!isEmpty(location.query)) {
-      setIsSearching(true);
-
-      props.updateSearchQuery({
-        id: Date.now(),
-        context: {
-          location: location.query.address,
-          repOrgName: location.query.name,
-        },
-        locationQueryString: location.query.address,
-        locationInputString: location.query.address,
-        position: {
-          latitude: location.query.lat,
-          longitude: location.query.long,
-        },
-        representativeQueryString: location.query.name,
-        representativeInputString: location.query.name,
-        representativeType: location.query.type,
-        page: location.query.page,
-        sortType: location.query.sort,
-        searchArea: location.query.distance,
-      });
-    }
+    props.updateSearchQuery({
+      id: Date.now(),
+      context: {
+        location: location.query.address,
+        repOrgName: location.query.name,
+      },
+      locationQueryString: location.query.address,
+      locationInputString: location.query.address,
+      position: {
+        latitude: location.query.lat,
+        longitude: location.query.long,
+      },
+      representativeQueryString: location.query.name,
+      representativeInputString: location.query.name,
+      representativeType: location.query.type,
+      page: location.query.page,
+      sortType: location.query.sort,
+      searchArea: location.query.distance,
+    });
   };
 
   const handleSearchOnQueryChange = () => {
@@ -308,9 +316,7 @@ const SearchPage = props => {
   // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
-    if (!environment.isProduction()) {
-      repStatusLoader(store, 'representative-status', 3);
-    }
+    repStatusLoader(store, 'representative-status', 3);
   }, []);
 
   const renderBreadcrumbs = () => {
@@ -341,10 +347,10 @@ const SearchPage = props => {
         <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
           <p>
-            An accredited attorney, claims agent, or Veterans Service Officer
-            (VSO) can help you file a claim or request a decision review. Use
-            our search tool to find one of these types of accredited
-            representatives to help you.
+            An accredited attorney, claims agent, or Veterans Service
+            Organization (VSO) representative can help you file a claim or
+            request a decision review. Use our search tool to find one of these
+            types of accredited representatives to help you.
           </p>
           <p>
             <strong>Note:</strong> You’ll need to contact the accredited
@@ -353,15 +359,12 @@ const SearchPage = props => {
           </p>
         </div>
 
-        {!environment.isProduction() && (
-          <div>
-            <h2>Check your current accredited representative</h2>
-            <p>
-              VA doesn’t automatically assign you an accredited representative.
-              But you may have appointed one in the past.{' '}
-            </p>
-            <div data-widget-type="representative-status" />
-          </div>
+        {widgetEnabled && (
+          <>
+            <div tabIndex="-1">
+              <div data-widget-type="representative-status" />
+            </div>
+          </>
         )}
 
         <SearchControls

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
@@ -42,7 +42,7 @@ Object.values(HCA_ENROLLMENT_STATUSES).forEach(status => {
         statusCode: 200,
         body: {
           formSubmissionId: '123fake-submission-id-567',
-          timestamp: moment().format('YYYY-MM-DD'),
+          timestamp: getTime(new Date()),
         },
       }).as('mockSubmit');
     });
@@ -101,7 +101,7 @@ describe('HCA-Enrollment-Status: Server Error', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });

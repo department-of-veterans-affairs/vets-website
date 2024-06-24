@@ -14,16 +14,6 @@ import {
   representativeLabel,
   representativeSignatureContent,
 } from '../../definitions/content';
-import {
-  veteranFields,
-  primaryCaregiverFields,
-  secondaryOneFields,
-  secondaryTwoFields,
-} from '../../definitions/constants';
-import {
-  fillAddressWithoutAutofill,
-  fillDateWebComponentPattern,
-} from '../helpers';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockFacilities from './fixtures/mocks/mock-facilities.json';
@@ -108,18 +98,6 @@ const testSecondaryTwo = createTestConfig(
             .click();
         });
       },
-      'vet-1': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              veteranFields.dateOfBirth,
-              data.veteranDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
       'select-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -136,18 +114,6 @@ const testSecondaryTwo = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'primary-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              primaryCaregiverFields.dateOfBirth,
-              data.primaryDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
       'primary-3': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -156,54 +122,6 @@ const testSecondaryTwo = createTestConfig(
             .find('label')
             .click();
           cy.get('.usa-button-primary').click();
-        });
-      },
-      'secondary-one-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              secondaryOneFields.dateOfBirth,
-              data.secondaryOneDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-one-3': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillAddressWithoutAutofill(
-              secondaryOneFields.address,
-              data.secondaryOneAddress,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-two-1': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillDateWebComponentPattern(
-              secondaryTwoFields.dateOfBirth,
-              data.secondaryTwoDateOfBirth,
-            );
-            cy.get('.usa-button-primary').click();
-          });
-        });
-      },
-      'secondary-two-2': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            fillAddressWithoutAutofill(
-              secondaryTwoFields.address,
-              data.secondaryTwoAddress,
-            );
-            cy.get('.usa-button-primary').click();
-          });
         });
       },
       'review-and-submit': () => {

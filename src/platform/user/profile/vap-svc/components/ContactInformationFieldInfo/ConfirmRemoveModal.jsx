@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { FIELD_NAMES } from '~/platform/user/profile/vap-svc/constants';
 
 const ConfirmRemoveModal = ({
   cancelAction,
@@ -14,7 +13,6 @@ const ConfirmRemoveModal = ({
   isLoading,
   isVisible,
   onHide,
-  error,
 }) => {
   if (!isVisible) {
     return null;
@@ -26,7 +24,7 @@ const ConfirmRemoveModal = ({
       status="warning"
       visible={isVisible}
       onCloseEvent={onHide}
-      uswds={false}
+      uswds
     >
       <div>
         This will remove your {title.toLowerCase()} across these VA benefits and
@@ -57,15 +55,6 @@ const ConfirmRemoveModal = ({
       <p className="vads-u-margin-top--1">
         {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
       </p>
-      {error && (
-        <div
-          role="alert"
-          className="vads-u-margin-bottom--2"
-          data-testid="delete-error-alert"
-        >
-          <VAPServiceEditModalErrorMessage error={error} />
-        </div>
-      )}
       <div>
         <LoadingButton
           isLoading={isLoading}
@@ -77,13 +66,11 @@ const ConfirmRemoveModal = ({
         </LoadingButton>
 
         {!isLoading && (
-          <button
-            type="button"
-            className="usa-button-secondary"
+          <va-button
+            secondary
             onClick={cancelAction}
-          >
-            No, cancel this change
-          </button>
+            text="No, cancel this change"
+          />
         )}
       </div>
     </VaModal>
@@ -99,7 +86,6 @@ ConfirmRemoveModal.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onHide: PropTypes.func.isRequired,
-  error: PropTypes.object,
 };
 
 export default ConfirmRemoveModal;

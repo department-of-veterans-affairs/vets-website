@@ -113,15 +113,15 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       expect(container.querySelector('va-loading-indicator')).to.exist;
     });
 
-    // TODO: remove 'CompAndPen' from the toggle name for use within unified direct deposit
-    it('Renders TemporaryOutage when hideDirectDepositCompAndPen is true', () => {
+    it('Renders TemporaryOutage when hideDirectDeposit is true', () => {
       const { getByRole } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
-              profileHideDirectDepositCompAndPen: true,
+              profileHideDirectDeposit: true,
+              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -130,7 +130,8 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       expect(
         getByRole('heading', {
-          name: 'Direct deposit information isn’t available right now',
+          name:
+            'You can’t manage your direct deposit information online right now',
         }),
       ).to.exist;
     });

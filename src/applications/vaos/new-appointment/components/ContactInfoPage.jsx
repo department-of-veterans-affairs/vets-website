@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
@@ -27,7 +26,7 @@ import {
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
 import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import { getPageTitle } from '../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -133,10 +132,8 @@ function Description() {
   return <ContactInformationParagraph />;
 }
 
-export default function ContactInfoPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ContactInfoPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -146,18 +143,11 @@ export default function ContactInfoPage({ changeCrumb }) {
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
-  const pageTitle =
-    FLOW_TYPES.DIRECT === flowType
-      ? 'Confirm your contact information'
-      : 'How should we contact you?';
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     recordPopulatedEvents(email, mobilePhone || homePhone);
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   const uiSchema = {
@@ -272,7 +262,3 @@ export default function ContactInfoPage({ changeCrumb }) {
     </div>
   );
 }
-
-ContactInfoPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

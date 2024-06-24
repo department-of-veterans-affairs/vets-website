@@ -57,7 +57,7 @@ export const createDateObject = rawDateString => {
 
 export const addDateErrorMessages = (errors, errorMessages, date) => {
   if (date.isInvalid) {
-    errors.addError(errorMessages.blankDecisionDate);
+    errors.addError(errorMessages.decisions.blankDate);
     // eslint-disable-next-line no-param-reassign
     date.errors.other = true; // other part error
     return true;
@@ -70,7 +70,7 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
   }
   if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
-    errors.addError(errorMessages.pastDate);
+    errors.addError(errorMessages.decisions.pastDate);
     // eslint-disable-next-line no-param-reassign
     date.errors.year = true; // only the year is invalid at this point
     return true;

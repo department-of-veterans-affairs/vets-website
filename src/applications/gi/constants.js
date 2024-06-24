@@ -62,6 +62,16 @@ export const INSTITUTION_TYPES = [
   'High school',
 ];
 
+export const INSTITUTION_TYPES_DICTIONARY = {
+  Public: 'Public',
+  'For profit': 'For-profit',
+  Private: 'Private',
+  Foreign: 'Foreign',
+  Flight: 'Flight',
+  Correspondence: 'Correspondence',
+  'High school': 'High School',
+};
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     accreditation:
@@ -157,7 +167,7 @@ export const complaintData = [
   {
     key: 'studentLoans',
     definition:
-      'The school didn’t provide you total a cost of your school loan.',
+      'The school didn’t provide you a total cost of your school loan.',
     type: 'Student Loans',
   },
   {

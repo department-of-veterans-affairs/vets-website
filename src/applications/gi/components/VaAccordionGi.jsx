@@ -9,6 +9,7 @@ const VaAccordionGi = ({ title, children, expanded, onChange }) => {
   return (
     <VaAccordion uswds openSingle>
       <VaAccordionItem
+        uswds
         open={expanded}
         onClick={e => {
           if (e.target.tagName === 'VA-ACCORDION-ITEM') {

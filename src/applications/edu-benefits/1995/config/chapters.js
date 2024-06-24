@@ -3,8 +3,7 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-// import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
-import createDirectDepositChangePageUpdate from '../../pages/directDepositUltra';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   applicantInformationUpdate,
@@ -19,7 +18,7 @@ import {
   sponsorInfo,
 } from '../pages';
 
-import { isProductionOfTestProdEnv } from '../helpers';
+import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
@@ -83,6 +82,12 @@ export const servicePeriodsSchema = (automatedTest = false) => {
     : servicePeriodsUpdate.schema;
 };
 
+export const newSchoolTitle = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? 'School, university, program, or training facility you want to attend'
+    : 'School or training facility you want to attend';
+};
+
 export const newSchoolUiSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? newSchool.uiSchema
@@ -99,6 +104,13 @@ export const directDepositField = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? createDirectDepositChangePage(fullSchema1995)
     : createDirectDepositChangePageUpdate(fullSchema1995);
+};
+
+export const serviceHistoryTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Service history';
+  }
+  return 'Applicant service history';
 };
 
 export const chapters = {
@@ -126,13 +138,13 @@ export const chapters = {
     },
   },
   sponsorInformation: {
-    title: 'Sponsor information',
+    title: sponsorInformationTitle(),
     pages: {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
   militaryService: {
-    title: 'Service history',
+    title: serviceHistoryTitle(),
     pages: {
       servicePeriods: {
         path: 'military/service',
@@ -150,12 +162,13 @@ export const chapters = {
     },
   },
   schoolSelection: {
-    title: 'School selection',
+    title: isProductionOfTestProdEnv()
+      ? 'School selection'
+      : 'School/training facility selection',
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
-        title:
-          'School, university, program, or training facility you want to attend',
+        title: newSchoolTitle(),
         initialData: {
           newSchoolAddress: {},
         },

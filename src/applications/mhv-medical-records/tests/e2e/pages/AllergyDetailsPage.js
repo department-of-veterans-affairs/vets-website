@@ -48,10 +48,15 @@ class AllergyDetailsPage extends BaseDetailsPage {
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
-    cy.get('[data-testid="breadcrumbs"]').should(
-      'contain',
-      `‹ ${breadcrumbsText}`,
-    );
+    cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
+      matchCase: false,
+    });
+  };
+
+  clickBreadcrumbs = () => {
+    cy.get('[data-testid="breadcrumbs"]')
+      .find('a')
+      .click();
   };
 
   verifySidenavHighlightAllergies = () => {

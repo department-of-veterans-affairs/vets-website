@@ -39,7 +39,8 @@ import {
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
-import { groupClaimsByDocsNeeded } from '../utils/helpers';
+import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
+import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -58,8 +59,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title =
-      'Check your claim, decision review, or appeal status | Veterans Affairs';
+    setDocumentTitle('Check your claim, decision review, or appeal status');
 
     const {
       appealsLoading,
@@ -245,6 +245,7 @@ class YourClaimsPageV2 extends React.Component {
               </div>
             </va-additional-info>
             {content}
+            <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I don’t see my appeal?

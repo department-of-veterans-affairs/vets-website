@@ -37,6 +37,7 @@ import {
 } from '../../utils/validations';
 import UploadStatus from '../UploadStatus';
 import mailMessage from '../MailMessage';
+import RemoveFileModal from './RemoveFileModal';
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -53,6 +54,9 @@ class AddFilesForm extends React.Component {
       checked: false,
       errorMessageCheckbox: null,
       canShowUploadModal: false,
+      showRemoveFileModal: false,
+      removeFileIndex: null,
+      removeFileName: null,
     };
   }
 
@@ -158,6 +162,14 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
+  removeFileConfirmation = (fileIndex, fileName) => {
+    this.setState({
+      showRemoveFileModal: true,
+      removeFileIndex: fileIndex,
+      removeFileName: fileName,
+    });
+  };
+
   render() {
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
@@ -165,15 +177,9 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--0">
-            Please only submit evidence that supports this claim. You’ll need to
-            scan your document onto the device you’re using to submit this
-            application, such as your computer, tablet, or mobile phone. You can
-            upload your document from there.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-            To submit supporting documents for a new disability claim, please
-            visit our{' '}
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
+            Please only submit evidence that supports this claim. To submit
+            supporting documents for a new disability claim, please visit our{' '}
             <a id="how-to-file-claim" href="/disability/how-to-file-claim">
               How to File a Claim
             </a>{' '}
@@ -200,7 +206,13 @@ class AddFilesForm extends React.Component {
                 <div className="document-title-row">
                   <div className="document-title-text-container">
                     <div>
-                      <span className="document-title">{file.name}</span>
+                      <span
+                        className="document-title"
+                        data-dd-privacy="mask"
+                        data-dd-action-name="document title"
+                      >
+                        {file.name}
+                      </span>
                     </div>
                     <div>{displayFileSize(file.size)}</div>
                   </div>
@@ -208,7 +220,9 @@ class AddFilesForm extends React.Component {
                     <va-button
                       secondary
                       text="Remove"
-                      onClick={() => this.props.onRemoveFile(index)}
+                      onClick={() => {
+                        this.removeFileConfirmation(index, file.name);
+                      }}
                     />
                   </div>
                 </div>
@@ -278,6 +292,20 @@ class AddFilesForm extends React.Component {
         >
           {mailMessage}
         </va-additional-info>
+        <RemoveFileModal
+          removeFile={() => {
+            this.props.onRemoveFile(this.state.removeFileIndex);
+          }}
+          showRemoveFileModal={this.state.showRemoveFileModal}
+          removeFileName={this.state.removeFileName}
+          closeModal={() => {
+            this.setState({
+              showRemoveFileModal: false,
+              removeFileIndex: null,
+              removeFileName: null,
+            });
+          }}
+        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}

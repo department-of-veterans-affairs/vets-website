@@ -19,14 +19,14 @@ const PROFILE_HREFS = [
 
 describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
-    cy.intercept(
-      'v0/feature_toggles*',
+    cy.login(mockUser);
+
+    mockProfileLOA3(
       generateFeatureToggles({
         profileContacts: true,
       }),
     );
-    cy.login(mockUser);
-    mockProfileLOA3();
+
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     const [firstHref, ...hrefs] = PROFILE_HREFS;

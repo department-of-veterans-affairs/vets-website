@@ -46,12 +46,12 @@ export default {
         depends: formData => {
           const { gmtData } = formData;
           // Also show if the new asset update is true
-          return (
+          const gmtDepends =
             (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
             (gmtData?.isEligibleForStreamlined &&
               gmtData?.incomeBelowOneFiftyGmt &&
-              formData['view:streamlinedWaiverAssetUpdate'])
-          );
+              formData['view:streamlinedWaiverAssetUpdate']);
+          return gmtDepends || formData['view:reviewPageNavigationToggle'];
         },
       },
       cashInBank: {
@@ -64,17 +64,17 @@ export default {
         depends: formData => {
           const { gmtData } = formData;
           // Only show if the new asset update is true
-          return (
+          const gmtDepends =
             gmtData?.isEligibleForStreamlined &&
             gmtData?.incomeBelowOneFiftyGmt &&
-            formData['view:streamlinedWaiverAssetUpdate']
-          );
+            formData['view:streamlinedWaiverAssetUpdate'];
+          return gmtDepends || formData['view:reviewPageNavigationToggle'];
         },
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only
         path: 'skip-questions-explainer',
-        title: ' ',
+        title: 'You can skip questions on this form',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,
         uiSchema: {},
@@ -83,19 +83,24 @@ export default {
           formData?.gmtData?.isEligibleForStreamlined &&
           isStreamlinedShortForm(formData),
       },
-
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
-        title: 'Monetary asset options',
+        title: 'Selet your monetary assets',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: MonetaryCheckList,
         CustomPageReview: null,
-        depends: formData => !isStreamlinedShortForm(formData),
+        depends: formData => {
+          return (
+            (formData['view:reviewPageNavigationToggle'] &&
+              !isStreamlinedShortForm(formData)) ||
+            !isStreamlinedShortForm(formData)
+          );
+        },
       },
       monetaryValues: {
         path: 'monetary-asset-values',
-        title: 'Monetary asset values',
+        title: 'Enter your monetary asset values',
         uiSchema: monetaryValues.uiSchema,
         schema: monetaryValues.schema,
         CustomPageReview: MonetaryAssetsSummaryReview,
@@ -110,13 +115,17 @@ export default {
           );
 
           return (
-            filteredLiquidAssets.length > 0 && !isStreamlinedShortForm(formData)
+            (filteredLiquidAssets.length > 0 &&
+              (formData['view:reviewPageNavigationToggle'] &&
+                !isStreamlinedShortForm(formData))) ||
+            (filteredLiquidAssets.length > 0 &&
+              !isStreamlinedShortForm(formData))
           );
         },
       },
       enhancedRealEstate: {
         path: 'enhanced-real-estate-assets',
-        title: 'Real estate',
+        title: 'Your real estate assets',
         uiSchema: enhancedRealEstate.uiSchema,
         schema: enhancedRealEstate.schema,
         depends: formData => !isStreamlinedShortForm(formData),
@@ -125,7 +134,7 @@ export default {
       },
       enhancedRealEstateRecords: {
         path: 'enhanced-real-estate-asset-records',
-        title: 'Real estate',
+        title: 'Real estate value',
         uiSchema: enhancedRealEstateRecords.uiSchema,
         schema: enhancedRealEstateRecords.schema,
         depends: formData =>
@@ -136,14 +145,14 @@ export default {
       },
       vehicles: {
         path: 'vehicles',
-        title: 'Vehicles',
+        title: 'Your vehicles',
         uiSchema: vehicles.uiSchema,
         schema: vehicles.schema,
         depends: formData => !isStreamlinedShortForm(formData),
       },
       enhancedVehicleRecords: {
         path: 'your-vehicle-records',
-        title: 'Vehicles',
+        title: 'Vehicle details',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -175,7 +184,7 @@ export default {
       },
       recreationalVehicleRecords: {
         path: 'recreational-vehicle-records',
-        title: 'Recreational vehicles',
+        title: 'Recreational vehicles value',
         uiSchema: recreationalVehicleRecords.recreationalVehicleUISchema,
         schema: recreationalVehicleRecords.recreationalVehicleSchema,
         depends: formData =>

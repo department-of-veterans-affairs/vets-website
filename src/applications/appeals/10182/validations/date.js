@@ -1,8 +1,8 @@
 import { isBefore, startOfDay, subYears } from 'date-fns';
 
 import { SHOW_PART3 } from '../constants';
-import { issueErrorMessages } from '../content/addIssue';
 
+import errorMessages from '../../shared/content/errorMessages';
 import { MAX_YEARS_PAST } from '../../shared/constants';
 import {
   createScreenReaderErrorMsg,
@@ -26,15 +26,15 @@ export const validateDate = (
 
   const date = createDateObject(rawDateString);
 
-  const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
+  const hasMessages = addDateErrorMessages(errors, errorMessages, date);
 
   if (!hasMessages) {
     if (!data[SHOW_PART3] && isBefore(date.dateObj, minDate1)) {
-      errors.addError(issueErrorMessages.recentDate);
+      errors.addError(errorMessages.decisions.recentDate);
       date.errors.year = true;
     } else if (isBefore(date.dateObj, minDate100)) {
       // max 1 year for old form or 100 years for newer form
-      errors.addError(issueErrorMessages.newerDate);
+      errors.addError(errorMessages.decisions.newerDate);
       date.errors.year = true; // only the year is invalid at this point
     }
   }

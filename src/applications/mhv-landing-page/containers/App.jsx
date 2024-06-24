@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import LandingPage from '../components/LandingPage';
 import {
@@ -13,10 +14,9 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
+  isVAPatient,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
-  hasHealthData,
   selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
@@ -25,11 +25,10 @@ const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const enabled = useSelector(isLandingPageEnabledForUser);
-  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
-  const userHasHealthData = useSelector(hasHealthData);
+  const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
@@ -40,18 +39,11 @@ const App = () => {
       return resolveLandingPageLinks(
         ssoe,
         featureToggles,
-        unreadMessageCount,
         unreadMessageAriaLabel,
-        userHasHealthData,
+        registered,
       );
     },
-    [
-      featureToggles,
-      ssoe,
-      unreadMessageCount,
-      unreadMessageAriaLabel,
-      userHasHealthData,
-    ],
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
   const datadogRumConfig = {
@@ -69,8 +61,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = featureToggles.loading || profile.loading;
 
   useEffect(
     () => {
@@ -84,6 +75,14 @@ const App = () => {
       }
     },
     [enabled, hasMHVAccount],
+  );
+
+  useEffect(
+    () => {
+      // For accessibility purposes.
+      focusElement('h1');
+    },
+    [loading],
   );
 
   if (loading)

@@ -238,12 +238,11 @@ const SearchResult = ({
           onClick={pdfDownloadHandler}
           {...linkProps}
         >
-          <i
-            aria-hidden="true"
-            className="fas fa-download fa-lg vads-u-margin-right--1"
-            role="presentation"
-          />
-          <span lang={language} className="vads-u-text-decoration--underline">
+          <va-icon icon="file_download" size="3" />
+          <span
+            lang={language}
+            className="vads-u-text-decoration--underline vads-u-margin-left--0p5"
+          >
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
         </button>

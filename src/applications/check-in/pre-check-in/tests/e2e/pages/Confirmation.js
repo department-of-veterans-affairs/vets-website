@@ -61,13 +61,6 @@ class Confirmation {
     );
   };
 
-  expandAllAccordions = () => {
-    cy.get('[data-testid="pre-check-in-accordions"]')
-      .shadow()
-      .find('button[aria-label="Expand all accordions"]')
-      .click();
-  };
-
   validateAppointmentType = type => {
     if (type === 'phone') {
       cy.get('[data-testid="appointment-kind-and-location"]').each(item => {

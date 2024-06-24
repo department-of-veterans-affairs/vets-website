@@ -7,11 +7,7 @@ import {
   getPeriodsToVerify,
 } from '../helpers';
 
-const EnrollmentCard = ({
-  enrollmentPeriods,
-  confirmationPage = false,
-  confirmedEnrollment = false,
-}) => {
+const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
   const getCards = () => {
     const combinedEnrollmentsObj = combineEnrollmentsWithStartMonth(
       enrollmentPeriods,
@@ -23,31 +19,20 @@ const EnrollmentCard = ({
     // if there are more than one enrollment periods that startd in the same month
     // then the records are combined into the same array
     // if else is in place to take account for arrays that have multiple objects
-    return combinedEnrollmentsValues.map(enrollment => {
+    return combinedEnrollmentsValues.map((enrollment, index) => {
       if (enrollment.length > 1) {
         return (
-          <div key={enrollment[0].id}>
+          <div key={index}>
             <div className="vads-u-margin-top--3">
               <h2 className="vye-highlighted-title-container">
-                {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
+                {translateDateIntoMonthYearFormat(enrollment[0].actBegin)}
               </h2>
             </div>
             <div className="vye-highlighted-content-container">
               {!confirmationPage &&
                 `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                  enrollment[0].awardBeginDate,
+                  enrollment[0].actBegin,
                 )}.`}
-              {confirmationPage &&
-                confirmedEnrollment && (
-                  <>
-                    <i
-                      className="fas fa-check-circle vads-u-color--green "
-                      aria-hidden="true"
-                    />{' '}
-                    You are verifying that this month’s enrollment information
-                    is correct
-                  </>
-                )}
               {enrollment.map(nestedEnrollment => {
                 {
                   /* sending true as second argument turns on left border */
@@ -59,28 +44,17 @@ const EnrollmentCard = ({
         );
       }
       return (
-        <div key={enrollment[0].id}>
+        <div key={index}>
           <div className="vads-u-margin-top--3">
             <h2 className="vye-highlighted-title-container">
-              {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
+              {translateDateIntoMonthYearFormat(enrollment[0].actBegin)}
             </h2>
           </div>
           <div className="vye-highlighted-content-container">
             {!confirmationPage &&
               `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                enrollment[0].awardBeginDate,
+                enrollment[0].actBegin,
               )}.`}
-            {confirmationPage &&
-              confirmedEnrollment && (
-                <>
-                  <i
-                    className="fas fa-check-circle vads-u-color--green "
-                    aria-hidden="true"
-                  />{' '}
-                  You are verifying that this month’s enrollment information is
-                  correct
-                </>
-              )}
             {/* sending true as second argument turns on left border */}
             {getPeriodsToVerify(enrollment, true)}
           </div>

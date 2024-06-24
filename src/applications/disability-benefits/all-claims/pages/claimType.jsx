@@ -1,4 +1,5 @@
 import React from 'react';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 const filingClaimContent = <strong>I’m filing a claim for:</strong>;
@@ -17,9 +18,11 @@ export const uiSchema = {
       required: 'Please select at least one type',
     },
     'view:claimingNew': {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': 'A new condition that’s connected to my service',
     },
     'view:claimingIncrease': {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title':
         'One or more of my rated service-connected conditions has gotten worse',
     },

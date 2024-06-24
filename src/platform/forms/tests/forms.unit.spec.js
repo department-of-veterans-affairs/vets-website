@@ -17,16 +17,16 @@ const remapFormId = {
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10_7959C,
+  VA_FORM_IDS.FORM_10_7959A,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
-  VA_FORM_IDS.FORM_21_22,
   VA_FORM_IDS.FORM_10182,
-  VA_FORM_IDS.FORM_21_22A,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_21_0966,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_4138,
   VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21A,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
@@ -41,6 +41,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_3542,
   VA_FORM_IDS.FORM_10_7959F_1,
+  VA_FORM_IDS.FORM_10_7959F_2,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -87,6 +88,7 @@ const formConfigKeys = [
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
+  'useTopBackLink',
   'v3SegmentedProgressBar',
   'formOptions',
 ];
@@ -346,6 +348,7 @@ describe('form:', () => {
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validComponentProperty(formConfig, 'CustomHeader', false);
+          validBooleanProperty(formConfig, 'useTopBackLink', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down
           // If any of the expects in the above functions fail,

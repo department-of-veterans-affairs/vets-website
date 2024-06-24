@@ -65,7 +65,7 @@ describe('VAOS App: VAOSApp', () => {
 
     expect(
       await screen.findByText(
-        /VA online scheduling application isn’t available/,
+        /We.re sorry, the appointments tool isn.t available right now/,
       ),
     ).to.exist;
     expect(screen.queryByText('Child content')).not.to.exist;
@@ -126,7 +126,7 @@ describe('VAOS App: VAOSApp', () => {
     expect(
       screen
         .queryByTestId('downtime-approaching-modal')
-        .getAttribute('secondaryButtonText'),
+        .getAttribute('secondary-button-text'),
     ).to.eq('Dismiss');
     const dismissBtn = screen.queryByTestId('downtime-approaching-modal')
       .__events.secondaryButtonClick;

@@ -5,10 +5,11 @@ import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
+import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const App = ({
   baseHeader,
@@ -21,15 +22,35 @@ export const App = ({
 
   const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
 
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const togglesLoading = useToggleLoadingValue();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
+
+  if (togglesLoading || !appEnabled) {
+    return null;
+  }
+
   return (
     <>
       {loggedIn ? (
-        <>
+        <div
+          aria-live="polite"
+          aria-atomic
+          tabIndex="-1"
+          className="poa-display"
+        >
           <Auth
             DynamicHeader={DynamicHeader}
             DynamicSubheader={DynamicSubheader}
+            useRepresentativeStatus={useRepresentativeStatus}
           />
-        </>
+        </div>
       ) : (
         <>
           <Unauth

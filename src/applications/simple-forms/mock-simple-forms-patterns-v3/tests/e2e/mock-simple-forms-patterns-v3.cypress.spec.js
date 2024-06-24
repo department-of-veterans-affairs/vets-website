@@ -34,6 +34,20 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'treatment-records/0/name-and-address': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillVaTextInput('root_name', data.treatmentRecords[0].name);
+            fillAddressWebComponentPattern(
+              'address',
+              data.treatmentRecords[0].address,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(() => {

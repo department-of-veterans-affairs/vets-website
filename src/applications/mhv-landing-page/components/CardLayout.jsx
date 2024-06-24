@@ -1,5 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import classnames from 'classnames';
+
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '../selectors';
+
 import NavCard from './NavCard';
+import MedicalRecordsCard from './MedicalRecordsCard';
+import { HEALTH_TOOL_HEADINGS } from '../constants';
 
 const layoutData = data => {
   const offset = 2;
@@ -11,20 +19,42 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
+  const { mhvTransitionalMedicalRecordsLandingPage = false } = useSelector(
+    state => state.featureToggles,
+  );
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
+
   const rowCols = layoutData(data);
   return rowCols.map((row, x) => {
     return (
       <div
+        className={classnames(
+          'vads-l-row',
+          'vads-u-justify-content--space-between',
+          'vads-u-margin-bottom--0',
+          'medium-screen:vads-u-margin-bottom--2',
+        )}
         key={`row-${x}`}
-        className="vads-l-row vads-u-justify-content--space-between vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2"
       >
         {row.map((col, y) => (
           <div
-            key={`col-${y}`}
-            className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
+            className={classnames(
+              'vads-l-col--12',
+              'medium-screen:vads-l-col',
+              'mhv-u-grid-gap',
+              'vads-u-margin-bottom--2',
+              'medium-screen:vads-u-margin-bottom--0',
+            )}
             data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
+            key={`col-${y}`}
           >
-            <NavCard title={col.title} icon={col.icon} links={col.links} />
+            {col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
+            mhvTransitionalMedicalRecordsLandingPage ? (
+              <MedicalRecordsCard href={blueButtonUrl} />
+            ) : (
+              <NavCard {...col} />
+            )}
           </div>
         ))}
       </div>

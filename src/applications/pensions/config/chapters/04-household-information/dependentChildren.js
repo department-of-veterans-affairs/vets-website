@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -40,6 +39,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,

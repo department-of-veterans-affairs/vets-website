@@ -32,7 +32,7 @@ describe('Get labs and tests api call', () => {
     mockApiRequest(mockData);
 
     return getLabsAndTests(true).then(res => {
-      expect(res.entry.length).to.equal(13);
+      expect(res.entry.length).to.equal(14);
     });
   });
 });

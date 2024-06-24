@@ -1,33 +1,41 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import React from 'react';
 import {
   titleUI,
   titleSchema,
+  textUI,
+  textSchema,
+  textareaUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { applicantListSchema } from '../config/constants';
-import { applicantWording } from '../../shared/utilities';
-import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
+import { nameWording } from '../helpers/utilities';
+import {
+  fileWithMetadataSchema,
+  fileUploadBlurb,
+} from '../../shared/components/fileUploads/attachments';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { blankSchema } from './applicantInformation';
+
+// TODO: move to /shared
+const additionalFilesHint =
+  'Depending on your response, you may need to submit additional documents with this application.';
 
 const MEDIGAP = {
-  medigapPlanA: 'Medigap Plan A',
-  medigapPlanB: 'Medigap Plan B',
-  medigapPlanC: 'Medigap Plan C',
-  medigapPlanD: 'Medigap Plan D',
-  medigapPlanF: 'Medigap Plan F',
-  medigapPlanG: 'Medigap Plan G',
-  medigapPlanK: 'Medigap Plan K',
-  medigapPlanL: 'Medigap Plan L',
-  medigapPlanM: 'Medigap Plan M',
+  A: 'Medigap Plan A',
+  B: 'Medigap Plan B',
+  C: 'Medigap Plan C',
+  D: 'Medigap Plan D',
+  F: 'Medigap Plan F',
+  G: 'Medigap Plan G',
+  K: 'Medigap Plan K',
+  L: 'Medigap Plan L',
+  M: 'Medigap Plan M',
+  N: 'Medigap Plan N',
 };
-
-function insuranceName(applicant, isPrimary) {
-  return isPrimary
-    ? applicant?.applicantPrimaryProvider
-    : applicant?.applicantSecondaryProvider;
-}
 
 /*
 Primary health insurance and secondary health insurance information use
@@ -38,107 +46,86 @@ schemas
 */
 export function applicantHasInsuranceSchema(isPrimary) {
   const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
-  const property = isPrimary ? 'hasPrimary' : 'hasSecondary';
   return {
     uiSchema: {
-      applicants: { items: {} },
-    },
-    schema: applicantListSchema([], {
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            isPrimary ? '' : 'additional'
+          } health insurance`,
+      ),
       [keyname]: {
-        type: 'object',
-        properties: {
-          [property]: { type: 'string' },
-          _unused: { type: 'string' },
-        },
+        ...yesNoUI({
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Does ${nameWording(
+                formData,
+                false,
+                undefined,
+                true,
+              )} have ${
+                isPrimary ? '' : 'any other'
+              } medical health insurance information to provide or update at this time?`,
+              'ui:options': {
+                hint: additionalFilesHint,
+              },
+            };
+          },
+        }),
       },
-    }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        [keyname]: yesNoSchema,
+      },
+    },
   };
 }
 
 export function applicantProviderSchema(isPrimary) {
-  const keyname = isPrimary
+  const keyname1 = isPrimary
     ? 'applicantPrimaryProvider'
     : 'applicantSecondaryProvider';
-  return {
-    uiSchema: {
-      applicants: {
-        'ui:options': { viewField: ApplicantField },
-        items: {
-          ...titleUI(
-            ({ formData }) =>
-              `${applicantWording(formData)} ${
-                isPrimary ? '' : 'secondary'
-              } health insurance provider’s name`,
-          ),
-          [keyname]: {
-            'ui:title': 'Provider’s name',
-            'ui:webComponentField': VaTextInputField,
-          },
-        },
-      },
-    },
-    schema: applicantListSchema([keyname], {
-      titleSchema,
-      [keyname]: { type: 'string' },
-    }),
-  };
-}
-
-export function applicantInsuranceEffectiveDateSchema(isPrimary) {
-  const keyname = isPrimary
+  const keyname2 = isPrimary
     ? 'applicantPrimaryEffectiveDate'
     : 'applicantSecondaryEffectiveDate';
-  return {
-    uiSchema: {
-      applicants: {
-        'ui:options': { viewField: ApplicantField },
-        items: {
-          ...titleUI(
-            ({ formData }) =>
-              `${applicantWording(formData)} ${insuranceName(
-                formData,
-                isPrimary,
-              )} ${
-                isPrimary ? 'primary' : 'secondary'
-              } insurance effective date`,
-          ),
-          [keyname]: currentOrPastDateUI('Health insurance effective date'),
-        },
-      },
-    },
-    schema: applicantListSchema([keyname], {
-      titleSchema,
-      [keyname]: currentOrPastDateSchema,
-    }),
-  };
-}
-
-export function applicantInsuranceExpirationDateSchema(isPrimary) {
-  const keyname = isPrimary
+  const keyname3 = isPrimary
     ? 'applicantPrimaryExpirationDate'
     : 'applicantSecondaryExpirationDate';
   return {
     uiSchema: {
-      applicants: {
-        'ui:options': { viewField: ApplicantField },
-        items: {
-          ...titleUI(
-            ({ formData }) =>
-              `${applicantWording(formData)} ${insuranceName(
-                formData,
-                isPrimary,
-              )} ${
-                isPrimary ? 'primary' : 'secondary'
-              } insurance expiration date`,
-          ),
-          [keyname]: currentOrPastDateUI('Health insurance expiration date'),
-        },
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(
+            formData,
+            undefined,
+            undefined,
+            true,
+          )} health insurance information`,
+      ),
+      [keyname1]: textUI('Name of insurance provider'),
+      [keyname2]: currentOrPastDateUI({
+        title: 'Insurance start date',
+        hint:
+          'You may find the start date on the declarations page of your insurance policy.',
+      }),
+      [keyname3]: currentOrPastDateUI({
+        title: 'Insurance termination date',
+        hint: 'Only enter this date if the policy is inactive.',
+      }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname1, keyname2],
+      properties: {
+        titleSchema,
+        [keyname1]: textSchema,
+        [keyname2]: currentOrPastDateSchema,
+        [keyname3]: currentOrPastDateSchema,
       },
     },
-    schema: applicantListSchema([keyname], {
-      titleSchema,
-      [keyname]: currentOrPastDateSchema,
-    }),
   };
 }
 
@@ -146,19 +133,43 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
   const keyname = isPrimary
     ? 'applicantPrimaryThroughEmployer'
     : 'applicantSecondaryThroughEmployer';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      applicants: { items: {} },
-    },
-    schema: applicantListSchema([keyname], {
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(
+            formData,
+            undefined,
+            undefined,
+            true,
+          )} type of insurance for ${formData[provider]}`,
+      ),
       [keyname]: {
-        type: 'object',
-        properties: {
-          throughEmployer: { type: 'string' },
-          _unused: { type: 'string' },
-        },
+        ...yesNoUI({
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Is this insurance through ${nameWording(
+                formData,
+                undefined,
+                undefined,
+                true,
+              )} employer?`,
+            };
+          },
+        }),
       },
-    }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        titleSchema,
+        [keyname]: yesNoSchema,
+      },
+    },
   };
 }
 
@@ -166,37 +177,129 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
   const keyname = isPrimary
     ? 'applicantPrimaryHasPrescription'
     : 'applicantSecondaryHasPrescription';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      applicants: { items: {} },
-    },
-    schema: applicantListSchema([keyname], {
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            formData[provider]
+          } prescription coverage`,
+      ),
       [keyname]: {
-        type: 'object',
-        properties: {
-          hasPrescription: { type: 'string' },
-          _unused: { type: 'string' },
-        },
+        ...yesNoUI({
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Does ${nameWording(
+                formData,
+                undefined,
+                undefined,
+                true,
+              )} health insurance cover prescriptions?`,
+              'ui:options': {
+                hint:
+                  'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
+              },
+            };
+          },
+        }),
       },
-    }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        titleSchema,
+        [keyname]: yesNoSchema,
+      },
+    },
   };
 }
 
 export function applicantInsuranceEOBSchema(isPrimary) {
   const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
+  const provider = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
-      applicants: { items: {} },
-    },
-    schema: applicantListSchema([keyname], {
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            formData[provider]
+          } explanation of benefits`,
+      ),
       [keyname]: {
-        type: 'object',
-        properties: {
-          providesEOB: { type: 'string' },
-          _unused: { type: 'string' },
-        },
+        ...yesNoUI({
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Does ${nameWording(
+                formData,
+                undefined,
+                undefined,
+                true,
+              )} health insurance have an explanation of benefits (EOB) for prescriptions?`,
+              'ui:options': {
+                hint:
+                  "If you're not sure, you can call the phone number listed on the back of your health insurance card.",
+              },
+            };
+          },
+        }),
       },
-    }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        titleSchema,
+        [keyname]: yesNoSchema,
+      },
+    },
+  };
+}
+
+export function applicantInsuranceSOBSchema(isPrimary) {
+  const keyname = isPrimary
+    ? 'primaryInsuranceScheduleOfBenefits'
+    : 'secondaryInsuranceScheduleOfBenefits';
+  return {
+    uiSchema: {
+      ...titleUI(
+        ({ formData }) =>
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } schedule of benefits`,
+        () => {
+          return (
+            <>
+              You’ll need to submit a copy of the card or document that shows
+              the schedule of benefits that lists your co-payments.
+              <br />
+              <br />
+              If you don’t have a copy to upload now, you can send it by mail or
+              fax.
+            </>
+          );
+        },
+      ),
+      ...fileUploadBlurb,
+      [keyname]: fileUploadUI({
+        label: 'Upload schedule of benefits document',
+      }),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:fileUploadBlurb': blankSchema,
+        [keyname]: fileWithMetadataSchema([`Schedule of benefits document`]),
+      },
+    },
   };
 }
 
@@ -206,13 +309,56 @@ export function applicantInsuranceTypeSchema(isPrimary) {
     : 'applicantSecondaryInsuranceType';
   return {
     uiSchema: {
-      applicants: { items: {} },
-    },
-    schema: applicantListSchema([], {
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            isPrimary ? '' : 'additional'
+          } insurance plan`,
+      ),
       [keyname]: {
-        type: 'string',
+        ...radioUI({
+          labels: {
+            hmo: 'Health Maintenance Organization (HMO) program',
+            ppo: 'Preferred Provider Organization (PPO) program',
+            medicaid: 'Medicaid or a State Assistance program',
+            rxDiscount: 'Prescription Discount program',
+            other:
+              'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
+            medigap: 'Medigap program',
+          },
+          required: () => true,
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Select the type of insurance plan or program ${nameWording(
+                formData,
+                false,
+                undefined,
+                true,
+              )} is enrolled in`,
+              'ui:options': {
+                hint:
+                  'You may find this information on the front of your health insurance card.',
+              },
+            };
+          },
+        }),
       },
-    }),
+    },
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        titleSchema,
+        [keyname]: radioSchema([
+          'hmo',
+          'ppo',
+          'medicaid',
+          'rxDiscount',
+          'other',
+          'medigap',
+        ]),
+      },
+    },
   };
 }
 
@@ -220,61 +366,131 @@ export function applicantMedigapSchema(isPrimary) {
   const keyname = isPrimary ? 'primaryMedigapPlan' : 'secondaryMedigapPlan';
   return {
     uiSchema: {
-      applicants: {
-        'ui:options': { viewField: ApplicantField },
-        items: {
-          ...titleUI(
-            ({ formData }) =>
-              `${applicantWording(formData)} ${
-                isPrimary
-                  ? formData?.applicantPrimaryProvider
-                  : formData?.applicantSecondaryProvider
-              } Medigap information`,
-          ),
-          [keyname]: radioUI({
-            title: 'Which type of Medigap plan is the applicant enrolled in?',
-            required: () => true,
-            labels: MEDIGAP,
-          }),
-        },
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            isPrimary ? '' : 'additional'
+          } Medigap information`,
+      ),
+      [keyname]: {
+        ...radioUI({
+          title: 'Which type of Medigap plan is the applicant enrolled in?',
+          required: () => true,
+          labels: MEDIGAP,
+          updateUiSchema: formData => {
+            return {
+              'ui:title': `Select the Medigap plan ${nameWording(
+                formData,
+                false,
+                undefined,
+                true,
+              )} is enrolled in`,
+            };
+          },
+        }),
       },
     },
-    schema: applicantListSchema([keyname], {
-      titleSchema,
-      [keyname]: radioSchema(Object.keys(MEDIGAP)),
-    }),
+    schema: {
+      type: 'object',
+      required: [keyname],
+      properties: {
+        titleSchema,
+        [keyname]: radioSchema(Object.keys(MEDIGAP)),
+      },
+    },
   };
 }
 
 export function applicantInsuranceCommentsSchema(isPrimary) {
-  const val = isPrimary ? 'primary' : 'secondary';
   const keyname = isPrimary
     ? 'primaryAdditionalComments'
     : 'secondaryAdditionalComments';
   return {
     uiSchema: {
-      applicants: {
-        'ui:options': { viewField: ApplicantField },
-        items: {
-          ...titleUI(
-            ({ formData }) =>
-              `${applicantWording(formData)} ${
-                isPrimary
-                  ? formData?.applicantPrimaryProvider
-                  : formData?.applicantSecondaryProvider
-              } ${val} health insurance additional comments`,
-          ),
-          [keyname]: {
-            'ui:title':
-              'Any additional comments about this applicant’s health insurance?',
-            'ui:webComponentField': VaTextInputField,
-          },
+      ...titleUI(
+        ({ formData }) =>
+          `${nameWording(formData, undefined, undefined, true)} ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } health insurance additional comments`,
+      ),
+      [keyname]: textareaUI({
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `Any additional comments about ${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} health insurance?`,
+          };
+        },
+      }),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        [keyname]: { type: 'string' },
+      },
+    },
+  };
+}
+
+export function applicantInsuranceCardSchema(isPrimary) {
+  const keyname = isPrimary ? 'primaryInsuranceCard' : 'secondaryInsuranceCard';
+  return {
+    uiSchema: {
+      ...titleUI(
+        ({ formData }) =>
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } health insurance card`,
+        () => {
+          return (
+            <>
+              You’ll need to submit a copy of the front and back of this health
+              insurance card.
+              <br />
+              <br />
+              You can also upload any other supporting documents you may have
+              for this health insurance.
+              <br />
+              <br />
+              If you don’t have a copy to upload now, you can send it by mail or
+              fax.
+            </>
+          );
+        },
+      ),
+      ...fileUploadBlurb,
+      [keyname]: {
+        ...fileUploadUI({
+          label: 'Upload health insurance card',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
         },
       },
     },
-    schema: applicantListSchema([], {
-      titleSchema,
-      [keyname]: { type: 'string' },
-    }),
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:fileUploadBlurb': blankSchema,
+        [keyname]: fileWithMetadataSchema(
+          [
+            `Front of insurance card`,
+            `Back of insurance card`,
+            `Other insurance supporting document`,
+          ],
+          2,
+        ),
+      },
+    },
   };
 }

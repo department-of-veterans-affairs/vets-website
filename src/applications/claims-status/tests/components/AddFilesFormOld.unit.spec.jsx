@@ -418,6 +418,48 @@ describe('<AddFilesFormOld>', () => {
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
   });
 
+  it('should mask filenames of added files in DataDog (no PII)', () => {
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const field = { value: '', dirty: false };
+    const onSubmit = sinon.spy();
+    const onAddFile = sinon.spy();
+    const onRemoveFile = sinon.spy();
+    const onFieldChange = sinon.spy();
+    const onCancel = sinon.spy();
+    const onDirtyFields = sinon.spy();
+    const mockReadAndCheckFile = () => ({
+      checkIsEncryptedPdf: false,
+      checkTypeAndExtensionMatches: true,
+    });
+
+    const tree = SkinDeep.shallowRender(
+      <AddFilesFormOld
+        files={[file]}
+        field={field}
+        onSubmit={onSubmit}
+        onAddFile={onAddFile}
+        onRemoveFile={onRemoveFile}
+        onFieldChange={onFieldChange}
+        onCancel={onCancel}
+        onDirtyFields={onDirtyFields}
+        mockReadAndCheckFile={mockReadAndCheckFile}
+      />,
+    );
+
+    expect(tree.subTree('.document-title').props['data-dd-privacy']).to.equal(
+      'mask',
+    );
+  });
+
   it('should add a large PDF file', () => {
     const files = [];
     const field = { value: '', dirty: false };
@@ -575,5 +617,26 @@ describe('<AddFilesFormOld>', () => {
 
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
+  });
+
+  it('remove files modal should not be visible', () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+      uploading: false,
+      backUrl: '../files',
+    };
+
+    const { container } = renderWithRouter(
+      <AddFilesFormOld {...fileFormProps} />,
+    );
+    expect($('#remove-file', container).visible).to.be.false;
   });
 });
