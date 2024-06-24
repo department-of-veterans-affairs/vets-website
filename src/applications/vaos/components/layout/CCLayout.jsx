@@ -90,7 +90,7 @@ export default function CCLayout({ data: appointment }) {
             {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not availble'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
         </Section>
         {APPOINTMENT_STATUS.booked === status &&
           !isPastAppointment && (
