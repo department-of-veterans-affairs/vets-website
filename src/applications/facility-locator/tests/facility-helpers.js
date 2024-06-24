@@ -46,7 +46,7 @@ const resultsData = {
           lastUpdated: '2017-07-24',
           health: [
             {
-              sl1: ['Dental'],
+              sl1: ['DentalServices'],
               sl2: [],
             },
             {
