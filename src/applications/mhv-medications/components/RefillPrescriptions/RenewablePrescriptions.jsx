@@ -79,15 +79,19 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           Go to your medications list
         </Link>
         <p>Or you may need to renew your prescription to get more refills.</p>
-        <va-link
+        <Link
           class="vads-u-margin-y--0"
-          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-          text="Learn how to renew prescriptions"
+          to={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW.replace(
+            medicationsUrls.MEDICATIONS_URL,
+            '',
+          )}
           data-testid="learn-to-renew-prescriptions-link"
           data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
             DD_ACTIONS_PAGE_TYPE.REFILL
           } - Renew Section`}
-        />
+        >
+          Learn how to renew prescriptions
+        </Link>
       </div>
 
       {renewablePrescriptionsList.length > 0 && (
