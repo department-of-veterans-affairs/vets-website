@@ -743,7 +743,7 @@ const formConfig = {
           }),
         },
         page18: {
-          path: 'applicant-sponsor-relationship/:index',
+          path: 'applicant-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} relationship to sponsor`,
@@ -959,7 +959,7 @@ const formConfig = {
           }),
         },
         page18b2: {
-          path: 'applicant-child-helpless/:index',
+          path: 'applicant-dependent-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} helpless child documents`,
@@ -1107,7 +1107,7 @@ const formConfig = {
           }),
         },
         page18f7: {
-          path: 'applicant-remarriage-file/:index',
+          path: 'applicant-remarriage-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} second marriage documents`,
