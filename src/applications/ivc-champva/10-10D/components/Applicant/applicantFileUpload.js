@@ -303,7 +303,7 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare cards ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part A and B card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -342,7 +342,7 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare card ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part D card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,

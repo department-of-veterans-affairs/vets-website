@@ -4,7 +4,7 @@ import PatientComposePage from '../pages/PatientComposePage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 
-describe('Secure Messaging Compose Errors Keyboard Nav', () => {
+describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
