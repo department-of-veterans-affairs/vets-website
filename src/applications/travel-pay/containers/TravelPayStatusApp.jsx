@@ -53,7 +53,7 @@ export default function App({ children }) {
   }
 
   const dateFilters = getDateFilters();
-  // console.log(dateFilters); // eslint-disable-line no-console
+
   if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
     const initialDateFilters = dateFilters.filter(filter =>
@@ -93,7 +93,6 @@ export default function App({ children }) {
   };
 
   const applyFilters = () => {
-    console.log(checkedStatusFilters, selectedDateFilter); // eslint-disable-line no-console
     setAppliedStatusFilters(checkedStatusFilters);
     setAppliedDateFilter(selectedDateFilter);
   };

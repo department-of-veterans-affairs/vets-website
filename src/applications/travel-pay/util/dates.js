@@ -35,12 +35,13 @@ export function formatDateTime(datetimeString) {
 
   return [formattedDate, formattedTime];
 }
+
 /**
  * Returns an array of the following date range filters:
  *  - The past 3 months from today's date
- *  - The previous full quarters (e.g. if it is Q2 2024,
+ *  - The previous full quarters (e.g. if today falls in Q2 2024,
  *  return Q1 2024, Q4 2023, and Q3 2023 )
- *  - The current year to date
+ *  - All of the current year to date
  *  - All of the previous year
  */
 export function getDateFilters() {
@@ -48,7 +49,6 @@ export function getDateFilters() {
   let quarter = getQuarter(today);
 
   const dateRanges = [];
-  const quarters = [];
 
   dateRanges.push({
     label: 'Past 3 Months',
@@ -56,21 +56,15 @@ export function getDateFilters() {
     end: today,
   });
 
+  // Calculate the last 3 complete quarters
   for (let i = 1; i < 4; i++) {
     quarter -= 1;
     if (quarter < 1) {
       quarter = 4;
     }
 
-    quarters.push({
-      quarterNumber: quarter,
-      quarterStart: startOfQuarter(subQuarters(today, i)),
-    });
-  }
-
-  quarters.forEach(({ quarterStart }) => {
+    const quarterStart = startOfQuarter(subQuarters(today, i));
     const quarterEnd = endOfQuarter(quarterStart);
-    // console.log(quarterStart + '\n', quarterEnd + '\n');
     const quarterYear = getYear(quarterStart);
 
     const startMonth = months.find(
@@ -79,8 +73,7 @@ export function getDateFilters() {
     const endMonth = months.find(
       month => month.value === getMonth(quarterEnd) + 1,
     );
-    // console.log(`Q${quarterNumber} ${quarterYear}: ${startMonth} ${quarterYear} - ${endMonth} ${quarterYear}`);
-    // console.log(quarterYear, startMonth.value);
+
     dateRanges.push({
       label: `${startMonth.label} ${quarterYear} - ${
         endMonth.label
@@ -88,8 +81,9 @@ export function getDateFilters() {
       start: new Date(quarterYear, startMonth.value - 1, 1),
       end: endOfMonth(new Date(quarterYear, endMonth.value - 1)),
     });
-  });
+  }
 
+  // Calculate the last 2 years
   for (let i = 0; i < 2; i++) {
     const previousYear = subYears(today, i);
     dateRanges.push({

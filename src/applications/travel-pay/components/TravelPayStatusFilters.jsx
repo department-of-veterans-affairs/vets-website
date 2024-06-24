@@ -14,8 +14,6 @@ export default function TravelPayFilters(props) {
     onDateFilterChange,
   } = props;
 
-  // console.log(datesToFilterBy); // eslint-disable-line no-console
-
   return (
     <va-accordion bordered open-single>
       <va-accordion-item
