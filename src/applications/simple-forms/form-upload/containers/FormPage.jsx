@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { focusByOrder } from '~/platform/utilities/ui';
 import {
   getBreadcrumbList,
   getFormNumber,
@@ -21,6 +22,32 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
+  const [index, setIndex] = useState(0);
+
+  // The goal with this is to quickly "remove" the header from the DOM, and
+  // immediately re-render the component with the header included. `currentLocation`
+  // changes when the form chapter changes, and when this happens we want to
+  // force react to remove the <h2> and re-render it. This should ensure that
+  // VoiceOver will pick up on the new <h2>
+  // https://github.com/department-of-veterans-affairs/VA.gov-team-forms/issues/1400
+  useEffect(
+    () => {
+      const selector = '.nav-header > va-segmented-progress-bar';
+
+      if (currentLocation > index + 1) {
+        setIndex(index + 1);
+      } else if (currentLocation === index) {
+        setIndex(index - 1);
+      } else {
+        focusByOrder([selector]);
+      }
+
+      return () => {
+        focusByOrder([selector]);
+      };
+    },
+    [currentLocation, index],
+  );
 
   return (
     <div className="row">
@@ -33,7 +60,7 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
         </div>
         <h1 className="vads-u-margin-bottom--1">{`Upload VA Form ${formNumber}`}</h1>
         <p className="vads-u-margin-top--0">{formUploadContent}</p>
-        <div>
+        <div className="nav-header">
           <VaSegmentedProgressBar
             current={currentLocation}
             total={3}
