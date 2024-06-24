@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import React from 'react';
@@ -247,7 +248,7 @@ export const recruitingLabel = getIssueLabel(
 
 export const studentLoansLabel = getIssueLabel(
   'Student loan',
-  'The school didn’t provide you total a cost of your school loan.',
+  'The school didn’t provide you a total cost of your school loan.',
 );
 
 export const qualityLabel = getIssueLabel(

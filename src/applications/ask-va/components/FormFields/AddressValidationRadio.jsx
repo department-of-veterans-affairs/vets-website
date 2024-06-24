@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { URL } from '../../constants';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { URL, envUrl } from '../../constants';
 import { formatAddress } from '../../helpers';
 
 const AddressValidationRadio = props => {
@@ -30,7 +29,7 @@ const AddressValidationRadio = props => {
 
     setFormData({
       ...formData,
-      addressConfirmation: addressString,
+      addressValidation: addressString,
     });
   };
 
@@ -80,7 +79,7 @@ const AddressValidationRadio = props => {
   };
 
   useEffect(() => {
-    getApiData(`${environment.API_URL}${URL.ADDRESS_VALIDATION}`);
+    getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
     focusElement('#address-validation-alert-heading');
   }, []);
 
@@ -103,6 +102,7 @@ const AddressValidationRadio = props => {
       <div key={id} className="vads-u-margin-bottom--1p5">
         {hasConfirmedSuggestions && (
           <input
+            key={id}
             type="radio"
             id={id}
             onChange={() => {
@@ -142,30 +142,44 @@ const AddressValidationRadio = props => {
     );
   }
 
-  const shouldShowSuggestions = apiData.length > 0;
+  const deliveryPointValidation =
+    apiData &&
+    apiData.length > 0 &&
+    apiData[0].addressMetaData.deliveryPointValidation;
+
+  const shouldShowSuggestions =
+    apiData && apiData.length > 0 && deliveryPointValidation === 'CONFIRMED';
 
   return (
     <>
       <div role="alert">
-        {apiData.length > 1 && (
+        {shouldShowSuggestions && (
           <VaAlert
-            className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+            className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
             status="warning"
             visible
             uswds
           >
-            <h4 id="address-validation-alert-heading" slot="headline">
+            <h4
+              id="address-validation-alert-heading"
+              slot="headline"
+              className="vads-u-font-size--h3"
+            >
               We can’t confirm the address you entered with the U.S. Postal
               Service
             </h4>
-            <p>Tell us which addresses you’d like to use.</p>
+            <p className="vads-u-margin-y--0">
+              Tell us which address you’d like to use.
+            </p>
           </VaAlert>
         )}
       </div>
       <div>
         <span className="vads-u-font-weight--bold">You entered:</span>
         {renderAddressOption(formData.address)}
-        <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
+        <span className="vads-u-font-weight--bold">
+          Suggested {apiData.length > 1 ? 'addresses' : 'address'}:
+        </span>
         {shouldShowSuggestions ? (
           apiData.map((item, index) =>
             renderAddressOption(item.address, String(index)),

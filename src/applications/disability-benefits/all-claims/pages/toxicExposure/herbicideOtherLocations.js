@@ -9,6 +9,7 @@ import {
   getOtherFieldDescription,
   getSelectedCount,
   herbicidePageTitle,
+  notSureDatesDetails,
   startDateApproximate,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
@@ -35,6 +36,9 @@ export const uiSchema = {
       endDate: currentOrPastDateUI({
         title: endDateApproximate,
       }),
+      'view:notSure': {
+        'ui:title': notSureDatesDetails,
+      },
     },
     'view:herbicideAdditionalInfo': {
       'ui:description': dateRangeAdditionalInfo,
@@ -53,6 +57,9 @@ export const schema = {
           properties: {
             startDate: currentOrPastDateSchema,
             endDate: currentOrPastDateSchema,
+            'view:notSure': {
+              type: 'boolean',
+            },
           },
         },
         'view:herbicideAdditionalInfo': {

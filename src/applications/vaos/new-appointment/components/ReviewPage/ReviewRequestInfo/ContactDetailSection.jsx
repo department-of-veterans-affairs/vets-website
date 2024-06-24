@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -124,6 +125,7 @@ export default function ContactDetailSection({ data }) {
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, pageFlow)}
+              tabindex="0"
             />
           </div>
         </div>

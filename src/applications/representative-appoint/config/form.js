@@ -1,33 +1,24 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-// Example of an imported schema:
-// import fullSchema from '../21-22-AND-21-22A-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
+import configService from '../utilities/configService';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
+import {
+  authorizeMedical,
+  authorizeMedicalSelect,
+  authorizeAddress,
+  authorizeInsideVA,
+  authorizeOutsideVA,
+  formToggle,
+} from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const formConfigFromService = configService.getFormConfig();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -40,21 +31,26 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21-22-AND-21-22A',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VA accredited representative appointment application (21-22-AND-21-22A) is in progress.',
-    //   expired: 'Your saved VA accredited representative appointment application (21-22-AND-21-22A) has expired. If you want to apply for VA accredited representative appointment, please start a new application.',
-    //   saved: 'Your VA accredited representative appointment application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your VA accredited representative appointment application (21-22-AND-21-22A) is in progress.',
+      expired:
+        'Your saved VA accredited representative appointment application (21-22-AND-21-22A) has expired. If you want to apply for VA accredited representative appointment, please start a new application.',
+      saved:
+        'Your VA accredited representative appointment application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  v3SegmentedProgressBar: true,
   savedFormMessages: {
     notFound:
       'Please start over to apply for VA accredited representative appointment.',
     noAuth:
       'Please sign in again to continue your application for VA accredited representative appointment.',
   },
-  title: 'Complex Form',
+  title: 'Fill out your form to appoint a VA accredited representative or VSO',
+  subTitle: formConfigFromService.subTitle || 'VA Forms 21-22 and 21-22a',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -63,79 +59,68 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    formToggle: {
+      title: 'Form toggle',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
-          },
+        formToggle: {
+          path: 'form-toggle',
+          title: 'Authorization for Certain Medical Records',
+          uiSchema: formToggle.uiSchema,
+          schema: formToggle.schema,
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+
+    authorization: {
+      title: 'Accredited representative authorizations',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        authorizeMedical: {
+          path: 'authorize-medical',
+          title: 'Authorization for Certain Medical Records',
+          uiSchema: authorizeMedical.uiSchema,
+          schema: authorizeMedical.schema,
         },
-      },
-    },
-    additionalInformationChapter: {
-      title: 'Additional Information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
-          uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
-            },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
+        authorizeMedicalSelect: {
+          path: 'authorize-medical/select',
+          depends: formData => {
+            return (
+              formData.authorizationRadio ===
+              'Yes, but they can only access some of these types of records'
+            );
           },
-          schema: {
-            type: 'object',
-            properties: {
-              // address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
-          },
+          title: 'Authorization for Certain Medical Records - Select',
+          uiSchema: authorizeMedicalSelect.uiSchema,
+          schema: authorizeMedicalSelect.schema,
         },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
+        authorizeAddress: {
+          path: 'authorize-address',
+          title: 'Authorization to change your address',
+          uiSchema: authorizeAddress.uiSchema,
+          schema: authorizeAddress.schema,
+        },
+        authorizeInsideVA: {
+          path: 'authorize-inside-va',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Inside VA Systems',
+          uiSchema: authorizeInsideVA.uiSchema,
+          schema: authorizeInsideVA.schema,
+        },
+        authorizeOutsideVA: {
+          path: 'authorize-outside-va',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside VA Systems',
+          uiSchema: authorizeOutsideVA.uiSchema,
+          schema: authorizeOutsideVA.schema,
         },
       },
     },
   },
 };
+
+configService.setFormConfig(formConfig);
 
 export default formConfig;

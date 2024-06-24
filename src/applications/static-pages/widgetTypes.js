@@ -82,4 +82,5 @@ export default {
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_ENROLLMENT_VERIFICATION_LOGIN: 'view-enrollment-verification-login',
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
+  VYE_ENROLLMENT_LOGIN_WIDGET: 'vye-enrollment-login-widget',
 };

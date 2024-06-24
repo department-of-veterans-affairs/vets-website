@@ -71,6 +71,7 @@ export default function ConfirmationDirectScheduleInfoV2({
             text="Schedule a new appointment"
             onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"
+            tabindex="0"
           />
         </div>
       </InfoAlert>
@@ -129,7 +130,7 @@ export default function ConfirmationDirectScheduleInfoV2({
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <va-icon icon="print" size="3" aria-hidden="true" />
         <va-button
           className="va-button-link"
           onClick={() => window.print()}

@@ -23,6 +23,37 @@
 
 .autosuggest-list {
   max-height: 10.625rem;
+  position: absolute;
+  top: 100%; /* Ensures dropdown appears right below the input */
+  left: 0;
+  right: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.autosuggest-item-highlighted,
+.autosuggest-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.relative {
+  position: relative;
+}
+
+.block {
+  display: block;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.focus\:outline-none:focus {
+  outline: none;
 }
 
 h3.name-of-deceased-text {
@@ -161,6 +192,14 @@ fieldset.schemaform-field-template.schemaform-first-field {
 
 .sponsorDetailsSummaryBox {
   margin-bottom: 1.5em;
+}
+
+.veteranApplicantDetailsSummaryBox {
+  margin-bottom: 1.5em;
+}
+
+.veteranApplicantDetailsSummaryBoxText {
+  padding-top: 0.5em;
 }
 
 .sponsorMilitaryDetailsSubHeader {

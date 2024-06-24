@@ -32,7 +32,7 @@ describe('Enrollment Verification Page Tests', () => {
       'contain',
       'Student Verification of Enrollment (VA Form 22-8979)',
     );
-    cy.url().should('include', '/verification-review');
+    cy.url().should('include', '/verify-information');
     cy.get('.vye-highlighted-content-container').should('exist');
   });
   // it('should show the submit button disabled at first', () => {
@@ -74,7 +74,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get('[text="Submit"]').click();
     cy.get('[class="vads-u-margin-y--0"]').should(
       'contain',
-      'Oops Something went wrong',
+      ' We’re sorry. Something went wrong on our end. Please try again',
     );
     cy.get(
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
@@ -114,6 +114,26 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get('a[aria-label="page 1, first page"]').click();
     cy.get('[id="vye-pagination-page-status-text"]').should('be.focused');
   });
+
+  it('Should shows You currently have no enrollments if user is not part og VYE ', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 403,
+      body: {
+        error: 'Forbidden',
+      },
+    });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get(
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+    ).should('contain', 'You currently have no enrollments.');
+  });
+
   it("Should return This page isn't available right now if there is 500 error ", () => {
     cy.injectAxeThenAxeCheck();
     cy.intercept('GET', '/vye/v1', {
@@ -129,6 +149,7 @@ describe('Enrollment Verification Page Tests', () => {
         ],
       },
     }).as('getServerError');
+
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
@@ -146,5 +167,45 @@ describe('Enrollment Verification Page Tests', () => {
       'contain',
       "This page isn't available right now.",
     );
+  });
+  it("Should return 'You currently have no enrollments to verify.' if a user is new", () => {
+    cy.injectAxeThenAxeCheck();
+    const enrollmentData = {
+      ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
+      pendingVerifications: [],
+      verifications: [],
+    };
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: enrollmentData,
+    });
+
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get(
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+    ).should('contain', 'You currently have no enrollments to verify.');
+  });
+  it("Should return 'You currently have no enrollments.' if a user is not part of VYE", () => {
+    cy.injectAxeThenAxeCheck();
+
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 403,
+      body: { error: 'Forbidden' },
+    });
+
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get(
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+    ).should('contain', 'You currently have no enrollments.');
   });
 });

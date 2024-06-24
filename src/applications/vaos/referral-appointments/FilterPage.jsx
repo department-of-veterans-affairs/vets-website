@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
@@ -14,6 +15,7 @@ import { getSelectedLabel } from '../new-appointment/components/DateTimeRequestP
 
 export default function ReviewApproved() {
   const submitted = false;
+  const history = useHistory();
 
   const minDate = moment().add(5, 'd');
   if (minDate.day() === 6) minDate.add(2, 'days');
@@ -71,38 +73,31 @@ export default function ReviewApproved() {
   // </FormLayout>
 
   return (
-    <FormLayout isReviewPage>
+    <FormLayout pageTitle="CC Filter Page" isReviewPage>
       <div>
         <h1>Filter [physical therapy] providers -- </h1>
         <hr />
-        <div>Date:</div>
         <div>
-          <CalendarWidget
-            maxSelections={2}
-            availableSlots={availableSlots}
-            maxSelectionsError="You can only choose up to 3 dates for your appointment"
-            onChange={(...args) => setSelectedDate(...args)}
-            id="dateTime"
-            additionalOptions={{
-              fieldName: 'datetime',
-              required: true,
-            }}
-            minDate={minDate.format('YYYY-MM-DD')}
-            maxDate={moment()
-              .add(120, 'days')
-              .format('YYYY-MM-DD')}
-            value={selectedDates}
-            renderSelectedLabel={getSelectedLabel}
+          <VaSelect
+            name="practice-type"
+            data-test-id="practice-type"
+            label="Practice"
             required
-            requiredMessage="Select at least one preferred timeframe for your appointment."
-            showValidation={submitted && !userSelectedSlot(selectedDates)}
-          />
+            value={[]}
+            onVaSelect={e => setSelectedFacility(e.detail.value)}
+          >
+            {sortOptions[0].map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </VaSelect>
         </div>
         <div>
           <VaSelect
-            name="type"
-            data-test-id="facility-type"
-            label="Type of facility"
+            name="location-type"
+            data-test-id="location-type"
+            label="Location"
             required
             value={[]}
             onVaSelect={e => setSelectedFacility(e.detail.value)}
@@ -128,13 +123,11 @@ export default function ReviewApproved() {
             text="Apply"
             onClick={() => {
               // Dispatch actions to update the Redux store
-
               // Log the dateTime and facility values
               // console.log('DateTime:', selectedDate);
               // console.log('Facility:', selectedFacility);
-
               // Navigate to the route
-              history.push('/choose-community-care-appointment');
+              // history.push('/choose-community-care-appointment');
             }}
             data-testid="apply-button"
             uswds

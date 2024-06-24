@@ -41,10 +41,7 @@ export const NotificationCheckbox = ({
         id={errorSpanId}
         classes="vads-u-background-color--secondary-lightest vads-u-font-weight--bold"
       >
-        <i
-          className="fas fa-exclamation-circle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
+        <va-icon icon="error" size={3} class="vads-u-margin-right--1" />{' '}
         <span className="sr-only">Error</span> {errorMessage}
       </NotificationStatusMessage>
     );
@@ -59,8 +56,10 @@ export const NotificationCheckbox = ({
         id={loadingSpanId}
         classes="vads-u-font-weight--normal"
       >
-        <i
-          className="fas fa-spinner fa-spin vads-u-margin-right--1"
+        <va-icon
+          size={4}
+          icon="see name mappings here https://design.va.gov/foundation/icons"
+          className="vads-u-margin-right--1"
           aria-hidden="true"
         />{' '}
         {loadingMessage}
@@ -77,7 +76,7 @@ export const NotificationCheckbox = ({
         id={successSpanId}
         classes="vads-u-background-color--green-lightest vads-u-font-weight--bold"
       >
-        <i className="fas fa-check vads-u-margin-right--1" aria-hidden="true" />{' '}
+        <va-icon icon="check" size={3} class="vads-u-margin-right--1" />{' '}
         <span className="sr-only">Success</span> {successMessage}
       </NotificationStatusMessage>
     );

@@ -73,6 +73,17 @@ article#pre-need[data-location="sponsor-demographics"] {
   }
 }
 
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
+  fieldset.schemaform-field-template.usa-input-error {
+    fieldset.vads-u-margin-y--2.rjsf-object-field {
+      div {
+        margin-top: 1.875em;
+      }
+    }
+  }
+}
+
 article#pre-need[data-location="sponsor-deceased"],
 article#pre-need[data-location="sponsor-date-of-death"] {
   .schemaform-first-field .schemaform-label  {
@@ -96,6 +107,14 @@ article#pre-need[data-location="review-and-submit"] {
     margin-bottom: 1em;
     padding-bottom: 2em;
   }
+
+  fieldset > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: -0.9em;
+  }
+  fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: 0.9em;
+  }
+
 }
 
 dl.review + dl.review .review-row {

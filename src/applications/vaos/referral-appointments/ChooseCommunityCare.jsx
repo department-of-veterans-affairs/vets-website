@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import FormLayout from '../new-appointment/components/FormLayout';
+import mockData from '../services/mocks/wellHive/providerServices.json';
 
 export default function ChooseCommunityCare() {
   const [providers, setProviders] = useState([
@@ -26,6 +27,7 @@ export default function ChooseCommunityCare() {
       newProviders = [...newProviders, { ...providers[0] }];
     }
 
+    // console.log("mockData", mockData);
     setProviders(newProviders);
   }, []);
 
@@ -56,6 +58,7 @@ export default function ChooseCommunityCare() {
               aria-label="Review available appointments"
               text="Review available appointments"
               data-testid="review-available-appointments-link"
+              tabindex="0"
             />
           </div>
         </va-card>
@@ -96,6 +99,7 @@ export default function ChooseCommunityCare() {
                   aria-label={provider.reviewText}
                   text={provider.reviewText}
                   data-testid="review-available-appointments-link"
+                  tabindex="0"
                 />
               </div>
               <hr />
@@ -107,6 +111,7 @@ export default function ChooseCommunityCare() {
             aria-label="More available appointments"
             text={`+${providers.length - 1} more available appointments`}
             data-testid="more-available-appointments-link"
+            tabindex="0"
           />
         </div>
       </div>

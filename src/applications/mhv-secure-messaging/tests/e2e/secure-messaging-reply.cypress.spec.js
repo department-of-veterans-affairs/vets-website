@@ -19,7 +19,7 @@ describe('Secure Messaging Reply', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    PatientReplyPage.getMessageBodyField().type('Test message body', {
+    PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
     });
     cy.injectAxe();
@@ -27,6 +27,5 @@ describe('Secure Messaging Reply', () => {
     PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
-    // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

@@ -17,10 +17,7 @@ const MedicalRecordsCard = ({ href }) => {
     >
       <div className="vads-u-display--flex vads-u-align-items--center">
         <div className="vads-u-flex--auto vads-u-margin-right--1p5 small-screen:vads-u-margin-top--0p5">
-          <div
-            aria-hidden="true"
-            className="fas fa-file-medical vads-u-font-size--h2"
-          />
+          <va-icon icon="note_add" size={4} />
         </div>
         <div className="vads-u-flex--fill">
           <h2 className="vads-u-margin--0" id={slug}>
@@ -63,7 +60,12 @@ const MedicalRecordsCard = ({ href }) => {
         medical records in the previous version of My HealtheVet.
       </p>
       <p>
-        <a href={href}>Go back to the previous version of My HealtheVet</a>
+        <a
+          data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
+          href={href}
+        >
+          Go back to the previous version of My HealtheVet
+        </a>
       </p>
     </div>
   );

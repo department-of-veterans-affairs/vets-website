@@ -821,7 +821,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -888,8 +888,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00Z",
-      "issued": "1995-08-03T14:49:00Z",
+      "effectiveDateTime": "1995-08-03T14:49:00-0400",
+      "issued": "1995-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -952,7 +952,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1019,8 +1019,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00Z",
-      "issued": "1995-08-03T14:49:00Z",
+      "effectiveDateTime": "1995-08-03T14:49:00-0400",
+      "issued": "1995-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1087,7 +1087,7 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "date": "2000-12-14T11:35:00Z",
+      "date": "2000-12-14T11:35:00-0400",
       "content": [
         {
           "attachment": {
@@ -1161,7 +1161,7 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-0"
       },
-      "date": "2004-09-24T11:25:00Z",
+      "date": "2004-09-24T11:25:00-0400",
       "author": [
         {
           "display": "GARFUNKEL,FELIX"
@@ -1184,7 +1184,7 @@
             "contentType": "text/plain",
             "data": "U1BJTkUgTFVNQk9TQUNSQUwgTUlOIDIgVklFV1MKICAgCkV4bSBEYXRlOiBTRVAgMjQsIDIwMDRAMTE6MjUKUmVxIFBoeXM6IEZFTEtMRVksS0VOTkVUSCBFICAgICAgICAgICAgICBQYXQgTG9jOiBQQ1RfTyBQQVRJTCAoRi9VKSAoUmVxJ2cgTG9jKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEltZyBMb2M6IFJBRElPTE9HWQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNlcnZpY2U6IFVua25vd24KCiAKCihDYXNlIDE1ODIgQ09NUExFVEUpIFNQSU5FIExVTUJPU0FDUkFMIE1JTiAyIFZJRVdTICAgIChSQUQgIERldGFpbGVkKSBDUFQ6NzIxMDAKICAgICBQcm9jIE1vZGlmaWVycyA6IEJJTEFURVJBTCBFWEFNCgogICAgQ2xpbmljYWwgSGlzdG9yeToKICAgICAgaGF2aW5nIDMgd2Vla3Mgb2YgYmFjayBwYWlucyBuZWVkIHRvIHJlLWV2YWwgZm9yIGFyaHJpdGlzIG9yIGFueSAKICAgICAgd29yc25laW5nIGRpc2Mgc3BhY2VzIGV0Yy4gCgogICAgUmVwb3J0IFN0YXR1czogVmVyaWZpZWQgICAgICAgICAgICAgICAgICAgRGF0ZSBSZXBvcnRlZDogU0VQIDI3LCAyMDA0CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEYXRlIFZlcmlmaWVkOiBTRVAgMjgsIDIwMDQKICAgIFZlcmlmaWVyIEUtU2lnOi9FUy9UaG9uZyBELiBOZ3V5ZW4sIE0uRC4KCiAgICBSZXBvcnQ6CiAgICAgIFRocmVlIHZpZXdzIG9mIHRoZSBsdW1ib3NhY3JhbCBzcGluZSBhcmUgY29tcGFyZWQgd2l0aCBhIHByZXZpb3VzIAogICAgICBleGFtaW5hdGlvbiBvZiA5LzIzLzAyLiAgCiAgICAgICAKICAgICAgVGhlcmUgaGFzIGJlZW4gYSBwYXJ0aWFsIGNvbGxhcHNlIG9mIEwyIHdoaWNoIGlzIHNpbWlsYXIgaW4KICAgICAgYXBwZWFyYW5jZSBhbmQgZGVncmVlIHRvIHRoZSBwcmV2aW91cyBleGFtaW5hdGlvbiBvZiBTZXB0ZW1iZXIKICAgICAgMjAwMi4gIFRoZXJlIGlzIGFsc28gY29sbGFwc2Ugb2YgdGhlIGJvZHkgb2YgVDEyIHdoaWNoIGFwcGFyZW50bHkKICAgICAgaXMgbmV3IHNpbmNlIHRoZSBwcmV2aW91cyBleGFtIGFuZCB0aGUgY29sbGFwc2UgaGFzIGJlZW4KICAgICAgZXN0aW1hdGVkIGFib3ZlIDc1IHRvIDgwJSBvZiB0aGUgaGVpZ2h0IG9mIHRoZSB2ZXJ0ZWJyYWwgYm9keS4gIAogICAgICAgCiAgICAgIFRoZXJlIGlzIG1pbGQgbWFyZ2luYWwgc3B1cnJpbmcgb2YgdGhlIHVwcGVyIGFudGVyaW9yIGFzcGVjdCBvZgogICAgICBMNC4gIFRoZXJlIGFyZSBhcnRlcmlvc2NsZXJvdGljIGNhbGNpZmljYXRpb25zIGluIHRoZSBhYmRvbWluYWwKICAgICAgYW9ydGEgYW5kIGJyYW5jaGVzLiAgCiAgICAgICAKICAgICAgVGhlIGludGVydmVydGVicmFsIGRpc2Mgc3BhY2VzIGFyZSBwcmVzZXJ2ZWQuICAKCiAgICBJbXByZXNzaW9uOgogICAgICAxLiAgT2xkIGNvbXByZXNzaW9uIGZyYWN0dXJlIG9mIEwyIHdpdGggYW50ZXJpb3IgbWFyZ2luYWwKICAgICAgc3B1cnJpbmcgYW5kIGFwcGFyZW50IGFua3lsb3NpcyBMMS1MMi4gIAogICAgICAgCiAgICAgIDIuICBDb2xsYXBzZSBvciBjb21wcmVzc2lvbiBmcmFjdHVyZSBvZiB0aGUgYm9keSBvZiBUMTIgd2hpY2ggaXMKICAgICAgbmV3IHNpbmNlIHRoZSBwcmV2aW91cyBleGFtaW5hdGlvbiBpbiAyMDAyIGFuZCBpbnZvbHZlcyBsb3NzIG9mCiAgICAgIGhlaWdodCBvZiB0aGF0IHZlcnRlYnJhbCBib2R5IGJ5IGFib3V0IDcwJS4gIEFydGVyaW9zY2xlcm90aWMKICAgICAgY2FsY2lmaWNhdGlvbnMgb2YgdGhlIGFvcnRhLiAgCgogICAgUHJpbWFyeSBEaWFnbm9zdGljIENvZGU6IAoKUHJpbWFyeSBJbnRlcnByZXRpbmcgU3RhZmY6CiAgRkVMSVggR0FSRlVOS0VMLCBTdGFmZiBQaHlzaWNpYW4KVkVSSUZJRUQgQlk6CiAgVEhPTkcgTkdVWUVOLCBSYWRpb2xvZ2lzdC9DaGllZgoKL0dFRw==",
             "title": "SPINE LUMBOSACRAL MIN 2 VIEWS",
-            "creation": "2004-09-24T11:25:00Z"
+            "creation": "2004-09-24T11:25:00-0400"
           }
         }
       ],
@@ -1250,7 +1250,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1317,8 +1317,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00Z",
-      "issued": "1995-08-03T14:49:00Z",
+      "effectiveDateTime": "1995-08-03T14:49:00-0400",
+      "issued": "1995-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1381,7 +1381,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1421,7 +1421,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1461,7 +1461,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00Z",
+          "effectiveDateTime": "1995-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1494,7 +1494,7 @@
             "text": "FECES"
           },
           "collection": {
-            "collectedDateTime": "1995-07-29T07:00:00Z"
+            "collectedDateTime": "1995-07-29T07:00:00-0400"
           }
         }
       ],
@@ -1528,8 +1528,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00Z",
-      "issued": "1995-08-03T14:49:00Z",
+      "effectiveDateTime": "1995-08-03T14:49:00-0400",
+      "issued": "1995-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1598,7 +1598,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-01T11:07:00Z",
+          "effectiveDateTime": "1995-08-01T11:07:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1638,7 +1638,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-01T11:07:00Z",
+          "effectiveDateTime": "1995-08-01T11:07:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1678,7 +1678,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-01T11:07:00Z",
+          "effectiveDateTime": "1995-08-01T11:07:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -1745,8 +1745,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-01T11:07:00Z",
-      "issued": "1995-08-01T11:07:00Z",
+      "effectiveDateTime": "1995-08-01T11:07:00-0400",
+      "issued": "1995-08-01T11:07:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1840,8 +1840,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "2000-08-10T15:56:00Z",
-      "issued": "2000-08-10T15:56:00Z",
+      "effectiveDateTime": "2000-08-10T15:56:00-0400",
+      "issued": "2000-08-10T15:56:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1924,8 +1924,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1999-09-27T13:07:00Z",
-      "issued": "1999-09-27T13:07:00Z",
+      "effectiveDateTime": "1999-09-27T13:07:00-0400",
+      "issued": "1999-09-27T13:07:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -2008,8 +2008,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1999-08-11T16:09:00Z",
-      "issued": "1999-08-11T16:09:00Z",
+      "effectiveDateTime": "1999-08-11T16:09:00-0400",
+      "issued": "1999-08-11T16:09:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -2092,8 +2092,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1997-09-09T13:13:00Z",
-      "issued": "1997-09-09T13:13:00Z",
+      "effectiveDateTime": "1997-09-09T13:13:00-0400",
+      "issued": "1997-09-09T13:13:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -2176,8 +2176,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1997-05-14T09:54:00Z",
-      "issued": "1997-05-14T09:54:00Z",
+      "effectiveDateTime": "1997-05-14T09:54:00-0400",
+      "issued": "1997-05-14T09:54:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"

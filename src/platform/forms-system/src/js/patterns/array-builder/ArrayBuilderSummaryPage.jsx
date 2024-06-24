@@ -170,6 +170,19 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
+    function forceRerender(data = props.data) {
+      // This is a hacky workaround to rerender the page
+      // due to the way SchemaForm interacts with CustomPage
+      // here in order to hide/show alerts correctly.
+      props.setData({
+        ...data,
+        _metadata: {
+          ...data._metadata,
+          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
+        },
+      });
+    }
+
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
@@ -185,7 +198,7 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(() => false);
+      setShowUpdatedAlert(false);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -193,12 +206,13 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      forceRerender();
     }
 
     function onDismissRemovedAlert() {
-      setShowRemovedAlert(() => false);
-      setRemovedItemText(() => '');
-      setRemovedItemIndex(() => null);
+      setShowRemovedAlert(false);
+      setRemovedItemText('');
+      setRemovedItemIndex(null);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -206,17 +220,18 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      forceRerender();
     }
 
     function onRemoveItem(index, item) {
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
-      setShowUpdatedAlert(() => false);
+      setShowUpdatedAlert(false);
 
-      setRemovedItemText(() => getText('alertItemDeleted', item));
-      setRemovedItemIndex(() => index);
-      setShowRemovedAlert(() => true);
+      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemIndex(index);
+      setShowRemovedAlert(true);
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
@@ -279,7 +294,7 @@ export default function ArrayBuilderSummaryPage({
     };
 
     const Cards = () => (
-      <>
+      <div>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
@@ -294,8 +309,9 @@ export default function ArrayBuilderSummaryPage({
           onRemoveAll={onRemoveAllItems}
           onRemove={onRemoveItem}
           isReview={isReviewPage}
+          forceRerender={forceRerender}
         />
-      </>
+      </div>
     );
 
     if (isReviewPage) {
@@ -355,6 +371,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
+      // ensure new reference to trigger re-render
       uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;

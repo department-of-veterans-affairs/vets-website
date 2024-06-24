@@ -411,25 +411,6 @@ export function Modals({ hideModal, modals, profile }) {
           .
         </p>
       </VaModal>
-      <VaModal
-        onCloseEvent={hideModal}
-        visible={shouldDisplayModal('vrrap')}
-        modalTitle="Veteran Rapid Retraining Assistance Program (VRRAP)"
-        large
-      >
-        <p>
-          The Veteran Rapid Retraining Assistance Program (VRRAP) offers
-          education and training for high-demand jobs to Veterans who are
-          unemployed because of the COVID-19 pandemic.
-        </p>
-        <p>
-          To learn more about this benefit and see eligibility requirements,{' '}
-          <a href="https://www.va.gov/education/other-va-education-benefits/veteran-rapid-retraining-assistance/">
-            visit the VRRAP page
-          </a>
-          .
-        </p>
-      </VaModal>
     </span>
   );
 
@@ -488,7 +469,7 @@ export function Modals({ hideModal, modals, profile }) {
 
         <p>
           <a
-            href="https://studentaid.gov/data-center/school/hcm"
+            href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
             target="_blank"
             rel="noopener noreferrer"
           >

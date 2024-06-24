@@ -10,6 +10,13 @@ export const isProductionOfTestProdEnv = automatedTest => {
   );
 };
 
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
+};
+
 export const directDepositMethod = (formData, automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? formData.bankAccountChange
@@ -71,7 +78,10 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">

@@ -177,6 +177,10 @@
   }
 }
 
+.renew-card-details > p {
+  margin: 0px;
+}
+
 .pagination {
   max-width: 500px;
   border-top: 0px;
@@ -253,6 +257,20 @@
       font-size: 30px;
     }
   }
+  a, a:visited, a:active {
+    color: inherit !important;
+  }
+  va-checkbox {
+    &.select-1-checkbox {
+      &::part(label) {
+        padding-left: 0;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media screen {
@@ -303,12 +321,28 @@
   }
 }
 
-va-checkbox.select-all-checkbox::part(label) {
-  font-weight: bold;
+va-checkbox {
+  &.select-all-checkbox,
+  &.select-1-checkbox {
+    &::part(checkbox) {
+      max-width: 100%;
+    }
 
-  &::before {
-    box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
-    margin-left: 1px;
+    &::part(label) {
+      font-weight: bold;
+
+      &::before {
+        box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
+        margin-left: 1px;
+      }
+    }
+
+    &::part(description) {
+      font-weight: normal;
+      font-size: inherit;
+      white-space: pre-line;
+      margin-top: 0;
+    }
   }
 }
 

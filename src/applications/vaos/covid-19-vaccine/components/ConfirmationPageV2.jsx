@@ -93,6 +93,7 @@ function ConfirmationPageV2({
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
+            tabindex="0"
           />
         </div>
       </InfoAlert>
@@ -138,7 +139,7 @@ function ConfirmationPageV2({
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <va-icon icon="print" size="3" aria-hidden="true" />
         <button
           type="button"
           className="va-button-link"

@@ -74,7 +74,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
               id="mobile-subnav-header-button"
             >
               <strong>Profile menu</strong>
-              <i className="fa fa-bars" aria-hidden="true" role="img" />
+              <va-icon icon="menu" size={3} aria-hidden="true" />
             </button>
           </h2>
         )}
@@ -88,7 +88,8 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
               </strong>
               <button
                 ref={closeMenuButton}
-                className="close-menu vads-u-flex--auto"
+                className="close-menu vads-u-display--flex"
+                style={{ alignItems: 'center' }}
                 type="button"
                 onClick={() => {
                   // close menu and set focus to the trigger button
@@ -97,7 +98,12 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
                 }}
               >
                 <span>Close</span>
-                <i className="fa fa-times" aria-hidden="true" role="img" />
+                <va-icon
+                  size={3}
+                  icon="close"
+                  aria-hidden="true"
+                  style={{ top: '1px', position: 'relative' }}
+                />
               </button>
             </div>
             <ProfileSubNavItems

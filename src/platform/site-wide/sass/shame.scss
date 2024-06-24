@@ -51,7 +51,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  @import "iconography";
   @import "modules/m-right-rail";
 
   section.usa-grid {
@@ -153,23 +152,6 @@ $medium-phone-screen: 375px;
     li {
       list-style: none;
       margin: 0 0 1.375em 0;
-    }
-  }
-
-  .hub-main-title {
-    width: 90%;
-  }
-
-  .usa-grid {
-    .usa-width-two-thirds {
-      .hub-main-icon {
-        vertical-align: top;
-        margin-top: 8px;
-
-        > .icon-large {
-          margin-right: 10px;
-        }
-      }
     }
   }
 
@@ -624,4 +606,8 @@ div[data-widget-type="events"] {
       display: none;
     }
   }
+}
+
+#content {
+  min-height: 150px;
 }

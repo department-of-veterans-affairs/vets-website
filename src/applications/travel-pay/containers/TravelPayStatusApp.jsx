@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
+import TravelPayFilters from '../components/TravelPayFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 
@@ -22,26 +24,64 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
+  const { isLoading, travelClaims, error } = useSelector(
+    state => state.travelPay,
+  );
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
+  const [checkedStatuses, setCheckedStatuses] = useState([]);
+  const [appliedStatuses, setAppliedStatuses] = useState([]);
+
+  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+    // Sets initial status filters after travelClaims load
+    const initialStatusFilters = [
+      ...new Set(travelClaims.map(claim => claim.claimStatus)),
+    ];
+    setStatusesToFilterBy(initialStatusFilters);
+    setAppliedStatuses(initialStatusFilters);
+    setCheckedStatuses(initialStatusFilters);
+  }
 
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
-        (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
+        (a, b) =>
+          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
       );
       break;
     case 'oldest':
       travelClaims.sort(
-        (a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate),
+        (a, b) =>
+          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
       );
       break;
     default:
       break;
   }
+
+  const resetSearch = () => {
+    setAppliedStatuses(statusesToFilterBy);
+    setCheckedStatuses(statusesToFilterBy);
+  };
+
+  const applyFilters = () => {
+    setAppliedStatuses(checkedStatuses);
+  };
+
+  const onStatusFilterChange = (e, statusName) => {
+    if (e.currentTarget.checked) {
+      setCheckedStatuses([...checkedStatuses, statusName]);
+    } else {
+      setCheckedStatuses(
+        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      );
+    }
+  };
 
   const {
     useToggleValue,
@@ -59,6 +99,29 @@ export default function App({ children }) {
       }
     },
     [dispatch, userLoggedIn],
+  );
+
+  const CLAIMS_PER_PAGE = 10;
+
+  let displayedClaims = travelClaims.filter(claim =>
+    appliedStatuses.includes(claim.claimStatus),
+  );
+  const numResults = displayedClaims.length;
+  const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
+  const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
+
+  const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, numResults);
+
+  if (shouldPaginate) {
+    displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
+  }
+
+  const onPageSelect = useCallback(
+    selectedPage => {
+      setCurrentPage(selectedPage);
+    },
+    [setCurrentPage],
   );
 
   if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
@@ -90,46 +153,14 @@ export default function App({ children }) {
               </h1>
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <HelpText />
               {isLoading && (
                 <va-loading-indicator
                   label="Loading"
                   message="Loading Travel Claims..."
                 />
               )}
-              {userLoggedIn ? (
-                <>
-                  <p id="pagination-info">
-                    Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
-                    events
-                  </p>
-                  <div className="btsss-claims-order-container">
-                    <p className="vads-u-margin-bottom--0">
-                      Show appointments in this order
-                    </p>
-                    <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                      <select
-                        className="vads-u-margin-bottom--0"
-                        hint={null}
-                        name="claimsOrder"
-                        value={selectedClaimsOrder}
-                        onChange={e => setSelectedClaimsOrder(e.target.value)}
-                      >
-                        <option value="mostRecent">Most Recent</option>
-                        <option value="oldest">Oldest</option>
-                      </select>
-                      <va-button
-                        onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
-                        text="Sort"
-                      />
-                    </div>
-                  </div>
-                  {travelClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
-
-                  <HelpText />
-                </>
-              ) : (
+              {!userLoggedIn && (
                 <>
                   <p>Log in to view your travel claims</p>
                   <va-button
@@ -138,6 +169,63 @@ export default function App({ children }) {
                   />
                 </>
               )}
+              {error && <p>Error fetching travel claims.</p>}
+              {userLoggedIn &&
+                !isLoading &&
+                travelClaims.length > 0 && (
+                  <>
+                    <p id="pagination-info">
+                      Showing {pageStart} ‒ {pageEnd} of {numResults} events
+                    </p>
+                    <div className="btsss-claims-order-container">
+                      <p className="vads-u-margin-bottom--0">
+                        Show appointments in this order
+                      </p>
+                      <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                        <select
+                          className="vads-u-margin-bottom--0"
+                          hint={null}
+                          title="claimsOrder"
+                          name="claimsOrder"
+                          value={selectedClaimsOrder}
+                          onChange={e => setSelectedClaimsOrder(e.target.value)}
+                        >
+                          <option value="mostRecent">Most Recent</option>
+                          <option value="oldest">Oldest</option>
+                        </select>
+                        <va-button
+                          onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                          data-testid="Sort travel claims"
+                          text="Sort"
+                          label="Sort"
+                        />
+                      </div>
+                    </div>
+                    <TravelPayFilters
+                      statusesToFilterBy={statusesToFilterBy}
+                      checkedStatuses={checkedStatuses}
+                      onStatusFilterChange={onStatusFilterChange}
+                      applyFilters={applyFilters}
+                      resetSearch={resetSearch}
+                    />
+                    <div id="travel-claims-list">
+                      {displayedClaims.map(travelClaim =>
+                        TravelClaimCard(travelClaim),
+                      )}
+                    </div>
+                    {shouldPaginate && (
+                      <VaPagination
+                        onPageSelect={e => onPageSelect(e.detail.page)}
+                        page={currentPage}
+                        pages={numPages}
+                      />
+                    )}
+                  </>
+                )}
+              {userLoggedIn &&
+                !isLoading &&
+                !error &&
+                travelClaims.length === 0 && <p>No travel claims to show.</p>}
             </div>
           </div>
         </article>

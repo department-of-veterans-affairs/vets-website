@@ -1,9 +1,8 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
-  dateFormat,
+  dateFormatWithoutTimezone,
   extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
@@ -74,7 +73,9 @@ const convertChemHemObservation = record => {
     }
     let standardRange;
     if (observationUnit) {
-      standardRange = `${result.referenceRange[0].text} ${observationUnit}`;
+      standardRange = isArrayAndHasItems(result.referenceRange)
+        ? `${result.referenceRange[0].text} ${observationUnit}`
+        : null;
     }
     return {
       name: result.code.text,
@@ -127,7 +128,7 @@ const convertChemHemRecord = record => {
     category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     comments: distillChemHemNotes(record.extension, 'valueString'),
@@ -149,7 +150,7 @@ const convertMicrobiologyRecord = record => {
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
     date: record.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleFrom: record.type?.text || EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
@@ -174,7 +175,7 @@ const convertPathologyRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: record.specimen?.text || EMPTY_FIELD,
     labLocation: record.labLocation || EMPTY_FIELD,
@@ -195,7 +196,7 @@ const convertEkgRecord = record => {
     category: '',
     orderedBy: 'Beth M. Smith',
     requestedBy: 'John J. Lydon',
-    date: record.date || EMPTY_FIELD,
+    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',
   };
 };
@@ -225,7 +226,7 @@ const convertRadiologyRecord = record => {
       EMPTY_FIELD,
     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
     imagingLocation: authorDisplay,
-    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
+    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     imagingProvider: record.physician || EMPTY_FIELD,
     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
       'utf-8',
@@ -296,7 +297,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         labsAndTestsList:
           recordList.entry
-            ?.map(record => convertLabsAndTestsRecord(record))
+            ?.map(record => convertLabsAndTestsRecord(record.resource))
             .filter(record => record.type !== labTypes.OTHER) || [],
       };
     }
