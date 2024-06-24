@@ -3,22 +3,21 @@ import {
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import { representativeTypeMap } from '../utilities/helpers';
 
 export const uiSchema = {
-  'view:authorizeNames': {
-    'ui:description': formData => {
-      return (
-        <>
-          <h3>Authorization for access outside of VA’s systems</h3>
-          <p className="appoint-text">
-            You’ve authorized this accredited{' '}
-            {formData.repTypeRadio || 'representative'}
-            ’s team to access your records outside of VA’s information
-            technology systems.
-          </p>
-        </>
-      );
-    },
+  'ui:description': ({ formData }) => {
+    return (
+      <>
+        <h3>Authorization for access outside of VA’s systems</h3>
+        <p className="appoint-text">
+          You’ve authorized this accredited{' '}
+          {representativeTypeMap[formData.repTypeRadio] || 'representative'}
+          ’s team to access your records outside of VA’s information technology
+          systems.
+        </p>
+      </>
+    );
   },
   authorizeNamesTextArea: {
     ...textUI({
@@ -46,10 +45,6 @@ export const schema = {
   type: 'object',
   required: ['authorizeNamesTextArea'],
   properties: {
-    'view:authorizeNames': {
-      type: 'object',
-      properties: {},
-    },
     authorizeNamesTextArea: textSchema,
     'view:unsureNote': {
       type: 'object',
