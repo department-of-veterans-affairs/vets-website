@@ -5,7 +5,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
 export const hideDesktopHeader = () => {
-  const desktopHeader = document.getElementById('desktop-header');
+  const desktopHeader = document.getElementById('legacy-header');
 
   if (!desktopHeader) {
     return;
@@ -17,7 +17,7 @@ export const hideDesktopHeader = () => {
 };
 
 export const showDesktopHeader = () => {
-  const desktopHeader = document.getElementById('desktop-header');
+  const desktopHeader = document.getElementById('legacy-header');
 
   if (!desktopHeader) {
     return;

@@ -49,7 +49,7 @@ describe('Header <App>', () => {
           data-widget-type="header"
           id="header-v2"
         ></div>
-        <div id="desktop-header" class="vads-u-display--none">
+        <div id="legacy-header" class="vads-u-display--none">
           Legacy header
         </div>
       </header>
@@ -69,7 +69,7 @@ describe('Header <App>', () => {
 
   it('renders no header if show is false', () => {
     const { queryByText, staticDom } = setupHeader({ show: false });
-    expect(staticDom.querySelector('#desktop-header')).to.have.class(
+    expect(staticDom.querySelector('#legacy-header')).to.have.class(
       'vads-u-display--none',
     );
     expect(queryByText('Mobile header')).to.not.exist;
@@ -93,7 +93,7 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-default')).to.not.have.class(
       'vads-u-display--none',
     );
-    expect(staticDom.querySelector('#desktop-header')).to.not.have.class(
+    expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
       'vads-u-display--none',
     );
     expect(queryByText('Mobile header')).to.not.exist;
@@ -120,7 +120,7 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-default')).to.not.have.class(
       'vads-u-display--none',
     );
-    expect(staticDom.querySelector('#desktop-header')).to.have.class(
+    expect(staticDom.querySelector('#legacy-header')).to.have.class(
       'vads-u-display--none',
     );
     expect(queryByText('Mobile header')).to.exist;
@@ -170,7 +170,7 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-default')).to.not.have.class(
       'vads-u-display--none',
     );
-    expect(staticDom.querySelector('#desktop-header')).to.not.have.class(
+    expect(staticDom.querySelector('#legacy-header')).to.not.have.class(
       'vads-u-display--none',
     );
     expect(queryByText('Mobile header')).to.not.exist;
@@ -201,7 +201,7 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-default')).to.not.have.class(
       'vads-u-display--none',
     );
-    expect(staticDom.querySelector('#desktop-header')).to.have.class(
+    expect(staticDom.querySelector('#legacy-header')).to.have.class(
       'vads-u-display--none',
     );
     expect(queryByText('Mobile header')).to.exist;
