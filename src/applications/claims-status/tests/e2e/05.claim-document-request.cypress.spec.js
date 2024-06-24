@@ -4,7 +4,7 @@ import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 import claimDetail from './fixtures/mocks/lighthouse/claim-detail.json';
 
-describe('When feature toggle cst_use_claim_details_v2 disabled and cst_5103_update_enabled disabled', () => {
+describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabled disabled', () => {
   context('A user can view primary alert details from the status tab', () => {
     context('when alert is a Submit Buddy Statement', () => {
       it('Shows primary alert details', () => {
@@ -96,7 +96,7 @@ describe('When feature toggle cst_use_claim_details_v2 disabled and cst_5103_upd
   });
 });
 
-describe('When feature toggle cst_claim_phases enabled, cst_5103_update enabled and cst_use_claim_details_v2 enabled', () => {
+describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabled enabled', () => {
   context('A user can view primary alert details from the status tab', () => {
     context('when alert is a Submit Buddy Statement', () => {
       it('Shows primary alert details', () => {
