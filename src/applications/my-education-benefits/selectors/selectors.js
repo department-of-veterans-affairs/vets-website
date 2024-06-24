@@ -40,10 +40,6 @@ export const getAppData = state => ({
     FEATURE_FLAG_NAMES.showMebDgi42Features
   ],
   // Add the new feature flag: showMebEnhancements
-  showMebEnhancements: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements
-  ],
-  // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06
   ],
