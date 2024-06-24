@@ -257,6 +257,20 @@
       font-size: 30px;
     }
   }
+  a, a:visited, a:active {
+    color: inherit !important;
+  }
+  va-checkbox {
+    &.select-1-checkbox {
+      &::part(label) {
+        padding-left: 0;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media screen {

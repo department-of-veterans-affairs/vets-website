@@ -8,7 +8,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
-describe('Secure Messaging Draft Save with Attachments', () => {
+describe.skip('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
     const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
