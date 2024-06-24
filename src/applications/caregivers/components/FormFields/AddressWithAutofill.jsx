@@ -9,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
+import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
@@ -23,7 +24,6 @@ const PrimaryAddressWithAutofill = props => {
   } = props;
   const { reviewMode, submitted } = formContext;
   const { properties: schemaProps } = schema;
-  const reqFields = ['street', 'city', 'state', 'postalCode', 'county'];
   const { veteranAddress } = useSelector(state => state.form.data);
   const [dirtyFields, setDirtyFields] = useState([]);
 
@@ -100,7 +100,7 @@ const PrimaryAddressWithAutofill = props => {
     // validate only if field is dirty or form has been submitted
     if ((submitted || fieldIsDirty) && errorList.length) {
       // validate required fields
-      if (reqFields.includes(field) && !formData[field]) {
+      if (REQUIRED_ADDRESS_FIELDS.includes(field) && !formData[field]) {
         return errorMessages[field].required;
       }
       // validate fields with required pattern matches

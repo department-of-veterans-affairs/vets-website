@@ -35,6 +35,14 @@ export const MED_CENTERS_BY_STATE = mapValues(facilities, val =>
   val.map(c => c.code),
 );
 
+export const REQUIRED_ADDRESS_FIELDS = [
+  'street',
+  'city',
+  'state',
+  'postalCode',
+  'county',
+];
+
 export const SIGNATURE_CERTIFICATION_STATEMENTS = {
   veteran: [content['certification-statement--vet']],
   primary: [
