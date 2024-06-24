@@ -35,7 +35,7 @@ export class ConfirmationPage extends React.Component {
         <p className="screen-only">Please print this page for your records.</p>
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Veteran Transition Questionnaire Claim{' '}
+            Veteran Transition Experience Claim{' '}
             <span className="vads-u-font-weight--normal">(Form {formId})</span>
           </h3>
           {fullName ? (

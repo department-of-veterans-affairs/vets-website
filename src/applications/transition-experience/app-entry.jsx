@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/transition-questionnaire.scss';
+import './sass/transition-experience.scss';
 
 import startApp from 'platform/startup';
 

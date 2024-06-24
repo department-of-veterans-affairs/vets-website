@@ -37,7 +37,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'transition-questionnaire-',
+  trackingPrefix: 'transition-experience-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
@@ -67,7 +67,7 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    transitionQuestionnaire: {
+    transitionExperience: {
       pages: {
         goals: {
           path: 'goals',
