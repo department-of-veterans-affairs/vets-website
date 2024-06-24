@@ -50,7 +50,8 @@ export const buildEventData = ({
 const submitForm = (form, formConfig) => {
   // Destructure the formConfig object to get the URL and tracking prefix
   const { submitUrl, trackingPrefix } = formConfig;
-  const { serverSideTransform = false } = form.data?.flippers;
+  const { flippers = {} } = form.data;
+  const { serverSideTransform = false } = flippers;
 
   // Transform the form data for submission
   const body = formConfig.transformForSubmit
