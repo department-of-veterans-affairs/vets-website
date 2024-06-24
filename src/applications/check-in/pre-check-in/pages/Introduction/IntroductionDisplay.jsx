@@ -12,7 +12,6 @@ import AppointmentBlock from '../../../components/AppointmentBlock';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
@@ -24,27 +23,17 @@ const IntroductionDisplay = props => {
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
 
   const { appointments } = useSelector(selectVeteranData);
-  const { isPreCheckInActionLinkTopPlacementEnabled } = useSelector(
-    selectFeatureToggles,
-  );
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
   // Save this useEffect for when we go back to testing action link.
-  useEffect(
-    () => {
-      const position = isPreCheckInActionLinkTopPlacementEnabled
-        ? 'top'
-        : 'bottom';
-      const slug = `pre-check-in-viewed-introduction-${position}-position`;
-      recordEvent({
-        event: createAnalyticsSlug(slug, 'nav'),
-      });
-    },
-    [isPreCheckInActionLinkTopPlacementEnabled],
-  );
+  useEffect(() => {
+    const slug = `pre-check-in-viewed-introduction`;
+    recordEvent({
+      event: createAnalyticsSlug(slug, 'nav'),
+    });
+  }, []);
   const accordionContent = [
     {
       header: t('will-va-protect-my-personal-health-information'),
@@ -84,13 +73,7 @@ const IntroductionDisplay = props => {
       if (e?.key && e.key !== ' ') {
         return;
       }
-      let slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
-
-      const position = isPreCheckInActionLinkTopPlacementEnabled
-        ? 'top'
-        : 'bottom';
-
-      slug += `-${position}-position`;
+      const slug = `pre-check-in-started-${isPhone ? 'phone' : 'in-person'}`;
 
       recordEvent({
         event: createAnalyticsSlug(slug, 'nav'),
@@ -98,7 +81,7 @@ const IntroductionDisplay = props => {
       e.preventDefault();
       goToNextPage();
     },
-    [isPhone, goToNextPage, isPreCheckInActionLinkTopPlacementEnabled],
+    [isPhone, goToNextPage],
   );
 
   const StartButton = () => (
@@ -112,9 +95,7 @@ const IntroductionDisplay = props => {
         onKeyDown={handleStart}
         onClick={handleStart}
       >
-        {isPreCheckInActionLinkTopPlacementEnabled
-          ? t('complete-pre-check-in')
-          : t('answer-questions')}
+        {t('answer-questions')}
       </a>
     </div>
   );
@@ -133,17 +114,9 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      {isPreCheckInActionLinkTopPlacementEnabled && <StartButton />}
-
       <AppointmentBlock appointments={appointments} page="intro" />
-
-      {!isPreCheckInActionLinkTopPlacementEnabled && (
-        <>
-          <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
-          <StartButton />
-        </>
-      )}
-
+      <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
+      <StartButton />
       {accordionContent && accordionContent.length ? (
         <va-accordion
           bordered
