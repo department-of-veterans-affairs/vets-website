@@ -1707,10 +1707,6 @@
         "value": false
       },
       {
-        "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
         "name": "va_view_dependents_access",
         "value": true
       },

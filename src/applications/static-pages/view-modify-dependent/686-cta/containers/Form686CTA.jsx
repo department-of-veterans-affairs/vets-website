@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import CallToActionWidget from 'applications/static-pages/cta-widget';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 const Form686CTA = props => {
   let content;
@@ -27,7 +25,7 @@ const Form686CTA = props => {
 
 const mapStateToProps = store => ({
   user: store.user,
-  showContent: toggleValues(store)[FEATURE_FLAG_NAMES.vaViewDependentsAccess],
+  showContent: true,
 });
 
 export default connect(mapStateToProps)(Form686CTA);
