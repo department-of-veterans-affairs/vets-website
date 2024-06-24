@@ -33,7 +33,7 @@ describe('VAOS Component: InPersonLayout', () => {
     },
   };
 
-  describe('When viewing upcomming appointment details', () => {
+  describe('When viewing upcoming appointment details', () => {
     it('should display in-person layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -51,6 +51,7 @@ describe('VAOS Component: InPersonLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isCancellable: true,
           apiData: {
             serviceType: 'primaryCare',
           },
@@ -207,6 +208,7 @@ describe('VAOS Component: InPersonLayout', () => {
         videoData: {},
         vaos: {
           isPastAppointment: true,
+          isCancellable: true,
           apiData: {
             localStartTime: moment()
               .subtract(1, 'day')
