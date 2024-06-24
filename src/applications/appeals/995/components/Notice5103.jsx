@@ -55,6 +55,7 @@ const Notice5103 = ({
       <Notice5103Description onReviewPage={onReviewPage} />
       <VaCheckbox
         label={content.label}
+        name="5103"
         error={hasError ? content.error : null}
         onVaChange={handlers.onChange}
         checked={data.form5103Acknowledged}
