@@ -13,7 +13,6 @@ import {
   ServerErrorAlert,
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
-// import { PAGE_TITLE } from '../config/constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
