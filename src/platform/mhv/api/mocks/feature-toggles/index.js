@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvSecureMessagingToVAGovRelease = true,
+    mhvMedicationsDisplayDocumentationContent = true,
   } = toggles;
 
   return {
@@ -30,6 +31,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_content',
           value: mhvMedicationsDisplayRefillContent,
+        },
+        {
+          name: 'mhv_medications_display_documentation_content',
+          value: mhvMedicationsDisplayDocumentationContent,
         },
         {
           name: 'mhv_secure_messaging_to_va_gov_release',
