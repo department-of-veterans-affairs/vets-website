@@ -145,9 +145,9 @@ describe('VAOS Component: CCLayout', () => {
         .exist;
 
       expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Provider name not noted/i));
-      expect(screen.getByText(/Treatment specialty not noted/i));
-      expect(screen.getByText(/Address not noted/i));
+      expect(screen.getByText(/Provider information not available/i));
+      expect(screen.getByText(/Treatment specialty not available/i));
+      expect(screen.getByText(/Address not available/i));
       expect(screen.container.querySelector('va-icon[icon="directions"]')).not
         .to.exist;
 
@@ -155,7 +155,7 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Reason: Not noted'
+            content === 'Reason: Not available'
           );
         }),
       );
@@ -163,7 +163,7 @@ describe('VAOS Component: CCLayout', () => {
         screen.getByText((content, element) => {
           return (
             element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not noted'
+            content === 'Other details: Not available'
           );
         }),
       );
