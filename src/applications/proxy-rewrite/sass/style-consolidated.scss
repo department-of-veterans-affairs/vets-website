@@ -1139,6 +1139,10 @@
 
     .mm-marketing-container .mm-marketing-text {
       padding: 20px;
+
+      p, a {
+        font-family: $font-stack;
+      }
     }
 
     .mm-marketing-container p {

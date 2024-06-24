@@ -48,7 +48,7 @@ export const addHeaderEventListeners = () => {
     const nextSibling = btn.nextElementSibling;
     const buttonIcons = btn.querySelectorAll(':scope > i');
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function() {
       const thisButtonText = this.outerText;
 
       closeNotActiveMenu([...megaMenuL1Buttons, searchButton], thisButtonText);
@@ -57,7 +57,7 @@ export const addHeaderEventListeners = () => {
   });
 
   if (searchButton) {
-    searchButton.addEventListener('click', () => {
+    searchButton.addEventListener('click', function() {
       closeNotActiveMenu([...megaMenuL1Buttons]);
     });
   }
@@ -72,7 +72,7 @@ export const addHeaderEventListeners = () => {
     const buttonIcons = btn.querySelectorAll(':scope > i');
     const expandedClass = 'vetnav-submenu--expanded';
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function() {
       const currentActiveHubLink = document.querySelectorAll(
         '.vetnav-level2[aria-expanded="true"]',
       );
