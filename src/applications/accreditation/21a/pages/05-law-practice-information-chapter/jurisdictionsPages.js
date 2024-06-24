@@ -85,8 +85,8 @@ const jurisdictionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     jurisdictions: pageBuilder.introPage({
-      title: 'Jurisdictions',
-      path: 'jurisdictions',
+      title: 'Your practicing information',
+      path: 'your-practicing-information',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
