@@ -242,6 +242,10 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pageChangeInProgress: false,
         previousPages: updatedPreviousPages,
+        currentPageKey:
+          action.direction === 'next'
+            ? action.pageKeyNext
+            : updatedPreviousPages[action.pageKey],
       };
     }
     case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {

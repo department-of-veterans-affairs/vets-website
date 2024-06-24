@@ -25,6 +25,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['resolutionOption'],
         properties: {
           resolutionOption: {
             type: 'string',

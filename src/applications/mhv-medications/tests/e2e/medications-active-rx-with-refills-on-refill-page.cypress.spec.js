@@ -20,7 +20,7 @@ describe('Medications Refill Page with Active Rx', () => {
       activeRxWithRefills.data.attributes.refillStatus,
     );
     refillPage.verifyRefillsRemainingForActiveRxOnRefillPage(
-      activeRxWithRefills.data.attributes.prescriptionNumber,
+      checkBox,
       activeRxWithRefills.data.attributes.refillRemaining,
     );
   });

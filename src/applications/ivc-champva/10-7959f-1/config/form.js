@@ -2,8 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { cloneDeep } from 'lodash';
 
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -16,6 +15,8 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -24,8 +25,13 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import PrefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import {
+  ssnOrVaFileNumberCustomUI,
+  CustomSSNReviewPage,
+} from '../helpers/CustomSSN';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -118,16 +124,17 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
+          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },
@@ -149,13 +156,41 @@ const formConfig = {
                 state: () => true,
               },
             }),
+            'view:prefilledAddress': {
+              'ui:description': PrefilledAddress,
+            },
           },
           schema: {
             type: 'object',
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema({}),
+              veteranAddress: addressSchema(),
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+        page3a: {
+          path: 'same-as-mailing-address',
+          uiSchema: {
+            ...titleUI('Mailing address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your mailing address the same as your home address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
             },
           },
         },
@@ -167,6 +202,7 @@ const formConfig = {
         page4: {
           path: 'home-address',
           title: "Veteran's Home address",
+          depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
               'Home Address',

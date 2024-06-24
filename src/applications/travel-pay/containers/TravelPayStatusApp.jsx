@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
+import TravelPayFilters from '../components/TravelPayFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 
@@ -28,6 +30,21 @@ export default function App({ children }) {
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
+  const [checkedStatuses, setCheckedStatuses] = useState([]);
+  const [appliedStatuses, setAppliedStatuses] = useState([]);
+
+  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+    // Sets initial status filters after travelClaims load
+    const initialStatusFilters = [
+      ...new Set(travelClaims.map(claim => claim.claimStatus)),
+    ];
+    setStatusesToFilterBy(initialStatusFilters);
+    setAppliedStatuses(initialStatusFilters);
+    setCheckedStatuses(initialStatusFilters);
+  }
 
   // TODO: Move this logic to the API-side
   switch (orderClaimsBy) {
@@ -47,6 +64,25 @@ export default function App({ children }) {
       break;
   }
 
+  const resetSearch = () => {
+    setAppliedStatuses(statusesToFilterBy);
+    setCheckedStatuses(statusesToFilterBy);
+  };
+
+  const applyFilters = () => {
+    setAppliedStatuses(checkedStatuses);
+  };
+
+  const onStatusFilterChange = (e, statusName) => {
+    if (e.currentTarget.checked) {
+      setCheckedStatuses([...checkedStatuses, statusName]);
+    } else {
+      setCheckedStatuses(
+        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      );
+    }
+  };
+
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -63,6 +99,29 @@ export default function App({ children }) {
       }
     },
     [dispatch, userLoggedIn],
+  );
+
+  const CLAIMS_PER_PAGE = 10;
+
+  let displayedClaims = travelClaims.filter(claim =>
+    appliedStatuses.includes(claim.claimStatus),
+  );
+  const numResults = displayedClaims.length;
+  const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
+  const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
+
+  const pageStart = (currentPage - 1) * CLAIMS_PER_PAGE + 1;
+  const pageEnd = Math.min(currentPage * CLAIMS_PER_PAGE, numResults);
+
+  if (shouldPaginate) {
+    displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
+  }
+
+  const onPageSelect = useCallback(
+    selectedPage => {
+      setCurrentPage(selectedPage);
+    },
+    [setCurrentPage],
   );
 
   if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
@@ -116,8 +175,7 @@ export default function App({ children }) {
                 travelClaims.length > 0 && (
                   <>
                     <p id="pagination-info">
-                      Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
-                      events
+                      Showing {pageStart} ‒ {pageEnd} of {numResults} events
                     </p>
                     <div className="btsss-claims-order-container">
                       <p className="vads-u-margin-bottom--0">
@@ -127,6 +185,7 @@ export default function App({ children }) {
                         <select
                           className="vads-u-margin-bottom--0"
                           hint={null}
+                          title="claimsOrder"
                           name="claimsOrder"
                           value={selectedClaimsOrder}
                           onChange={e => setSelectedClaimsOrder(e.target.value)}
@@ -142,8 +201,24 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    {travelClaims.map(travelClaim =>
-                      TravelClaimCard(travelClaim),
+                    <TravelPayFilters
+                      statusesToFilterBy={statusesToFilterBy}
+                      checkedStatuses={checkedStatuses}
+                      onStatusFilterChange={onStatusFilterChange}
+                      applyFilters={applyFilters}
+                      resetSearch={resetSearch}
+                    />
+                    <div id="travel-claims-list">
+                      {displayedClaims.map(travelClaim =>
+                        TravelClaimCard(travelClaim),
+                      )}
+                    </div>
+                    {shouldPaginate && (
+                      <VaPagination
+                        onPageSelect={e => onPageSelect(e.detail.page)}
+                        page={currentPage}
+                        pages={numPages}
+                      />
                     )}
                   </>
                 )}

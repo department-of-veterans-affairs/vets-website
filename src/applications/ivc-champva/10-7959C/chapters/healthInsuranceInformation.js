@@ -12,8 +12,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { requiredFiles } from '../config/constants';
-import { isRequiredFile, nameWording } from '../helpers/utilities';
+import { nameWording } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
   fileUploadBlurb,
@@ -445,15 +444,12 @@ export function applicantInsuranceCardSchema(isPrimary) {
   return {
     uiSchema: {
       ...titleUI(
-        ({ formData, formContext }) =>
+        ({ formData }) =>
           `Upload ${
             isPrimary
               ? formData?.applicantPrimaryProvider
               : formData?.applicantSecondaryProvider
-          } ${val} health insurance cards ${isRequiredFile(
-            formContext,
-            requiredFiles,
-          )}`,
+          } ${val} health insurance card`,
         () => {
           return (
             <>
@@ -472,20 +468,29 @@ export function applicantInsuranceCardSchema(isPrimary) {
         },
       ),
       ...fileUploadBlurb,
-      [keyname]: fileUploadUI({
-        label: 'Upload health insurance card',
-      }),
+      [keyname]: {
+        ...fileUploadUI({
+          label: 'Upload health insurance card',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
-        [keyname]: fileWithMetadataSchema([
-          `Front of ${val} insurance card`,
-          `Back of ${val} insurance card`,
-          `Other ${val} insurance supporting document`,
-        ]),
+        [keyname]: fileWithMetadataSchema(
+          [
+            `Front of ${val} insurance card`,
+            `Back of ${val} insurance card`,
+            `Other ${val} insurance supporting document`,
+          ],
+          2,
+        ),
       },
     },
   };

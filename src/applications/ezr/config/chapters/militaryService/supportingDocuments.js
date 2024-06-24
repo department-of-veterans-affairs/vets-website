@@ -4,8 +4,6 @@ import SupportingDocumentsDescription from '../../../components/FormDescriptions
 import content from '../../../locales/en/content.json';
 import { ezrAttachmentsSchema } from '../../../definitions/attachments';
 
-/** @type {PageSchema} */
-
 export default {
   uiSchema: {
     'ui:title': content['military-service-supporting-documents-title'],
@@ -14,7 +12,7 @@ export default {
       buttonText: 'Upload a document',
       addAnotherLabel: 'Upload another document',
       fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
-      fileTypes: ['jpg', 'png', 'pdf', 'doc', 'rtf'],
+      fileTypes: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'rtf'],
       maxSize: 1024 * 1024 * 10, // 10 MB max size
       hideLabelText: true,
       createPayload: file => {
@@ -27,9 +25,6 @@ export default {
         confirmationCode: response.data.attributes.guid,
         size: file.size,
       }),
-      attachmentSchema: {
-        'ui:title': 'Document type',
-      },
       attachmentName: {
         'ui:title': 'Document name',
       },
