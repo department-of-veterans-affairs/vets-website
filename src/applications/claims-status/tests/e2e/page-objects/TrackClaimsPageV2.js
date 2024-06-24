@@ -3,6 +3,7 @@
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
+import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -15,6 +16,7 @@ class TrackClaimsPageV2 {
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
     cst5103UpdateEnabled = false,
+    cst5103UpdateEnabledV2 = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
@@ -29,16 +31,25 @@ class TrackClaimsPageV2 {
     }
 
     if (cstClaimPhasesToggleEnabled) {
+      // When cst_use_claim_details_v2 and cst_claim_phases are enabled
       cy.intercept(
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
       );
     } else if (cst5103UpdateEnabled) {
+      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
       cy.intercept(
         'GET',
         '/v0/feature_toggles?*',
         featureToggle5103UpdateEnabled,
+      );
+    } else if (cst5103UpdateEnabledV2) {
+      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabledV2,
       );
     } else {
       cy.intercept(
@@ -516,8 +527,6 @@ class TrackClaimsPageV2 {
       .find('label')
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
-
-  x;
 
   submitEvidenceWaiver() {
     cy.get('va-checkbox')

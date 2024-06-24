@@ -1,12 +1,18 @@
 // START lighthouse_migration
 import featureToggleDisabled from '../fixtures/mocks/lighthouse/feature-toggle-disabled.json';
+import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPage {
-  loadPage(claimsList, mock = null, submitForm = false) {
+  loadPage(
+    claimsList,
+    mock = null,
+    submitForm = false,
+    cst5103UpdateEnabled = false,
+  ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
         body: {},
@@ -18,8 +24,16 @@ class TrackClaimsPage {
         'detailRequest',
       );
     }
-
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+    if (cst5103UpdateEnabled) {
+      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabled,
+      );
+    } else {
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+    }
     cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
@@ -297,7 +311,6 @@ class TrackClaimsPage {
       .shadow()
       .find('#error-message')
       .should('contain', 'Please select a file first');
-
     if (is5103Notice) {
       cy.get('.due-date-header').should(
         'contain',
@@ -309,6 +322,32 @@ class TrackClaimsPage {
         'Needed from you by February 4, 2022 - Due 2 years ago',
       );
     }
+  }
+
+  verifyDocRequestfor5103Notice() {
+    cy.get('#automated-5103-notice-page').should('be.visible');
+    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a[data-testid="upload-evidence-link"]').should(
+      'contain',
+      'Upload your evidence here',
+    );
+    cy.get('va-checkbox')
+      .shadow()
+      .find('label')
+      .should('contain', 'I’m finished adding evidence to support my claim.');
+  }
+
+  submitEvidenceWaiver() {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
+      .then(() => {
+        cy.get('#submit').click();
+        cy.wait('@askVA');
+      });
+    cy.url().should('contain', 'files');
+    cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
   }
 
   submitFilesForReview() {
