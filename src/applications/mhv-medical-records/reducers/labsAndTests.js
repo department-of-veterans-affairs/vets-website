@@ -73,7 +73,9 @@ const convertChemHemObservation = record => {
     }
     let standardRange;
     if (observationUnit) {
-      standardRange = `${result.referenceRange[0].text} ${observationUnit}`;
+      standardRange = isArrayAndHasItems(result.referenceRange)
+        ? `${result.referenceRange[0].text} ${observationUnit}`
+        : null;
     }
     return {
       name: result.code.text,
@@ -295,7 +297,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         labsAndTestsList:
           recordList.entry
-            ?.map(record => convertLabsAndTestsRecord(record))
+            ?.map(record => convertLabsAndTestsRecord(record.resource))
             .filter(record => record.type !== labTypes.OTHER) || [],
       };
     }
