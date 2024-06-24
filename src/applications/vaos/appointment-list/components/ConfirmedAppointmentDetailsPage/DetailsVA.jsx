@@ -223,7 +223,7 @@ DetailsVA.propTypes = {
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
       clinicPhysicalLocation: PropTypes.string,
     }),
   }),
