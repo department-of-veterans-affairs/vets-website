@@ -20,7 +20,7 @@ export const statementPage = {
     properties: {
       statement: {
         type: 'string',
-        maxLength: 5000,
+        maxLength: 3650,
       },
     },
   },

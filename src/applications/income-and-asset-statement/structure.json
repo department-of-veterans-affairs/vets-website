@@ -1,14 +1,14 @@
 [
   {
-    "title": "Applicant information",
+    "title": "Veteran information",
     "pages": [
       {
-        "title": "Applicant information",
-        "path": "applicant/information"
+        "title": "Veteran information",
+        "path": "veteran/information"
       },
       {
-        "title": "Applicant information",
-        "path": "applicant/information/is-veteran"
+        "title": "Veteran information",
+        "path": "veteran/information/applicant"
       }
     ]
   },

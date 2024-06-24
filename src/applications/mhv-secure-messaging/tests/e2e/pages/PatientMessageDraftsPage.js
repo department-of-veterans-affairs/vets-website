@@ -9,6 +9,7 @@ import { Alerts } from '../../../util/constants';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -40,15 +41,9 @@ class PatientMessageDraftsPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       this.mockDraftMessages,
     ).as('draftsResponse');
-    cy.get(Locators.FOLDERS.DRAFTS).click();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+
+    FolderLoadPage.loadFolders();
+    cy.get('[data-testid="Drafts"]>a').click({ force: true });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');
   };
@@ -259,35 +254,34 @@ class PatientMessageDraftsPage {
     cy.wait('@saveDraft');
   };
 
-  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
+  confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
       `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
-    if (isNewDraftText) {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      // Wait needs to be added back in before closing PR
-      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    } else {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    }
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
-  deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
-      data: mockResponse,
-    }).as('deletedDraftResponse');
+  deleteMultipleDraft = (mockResponse, reducedMockResponse, index = 0) => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[index].attributes.messageId
+      }`,
+      mockResponse.data[index],
+    ).as('deletedDraftResponse');
 
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
-    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGES}/${
+        mockResponse.data[2].attributes.messageId
+      }/thread?*`,
+      reducedMockResponse,
+    ).as('updatedThreadResponse');
+
+    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
   };
 
   // method below could be deleted after refactoring associated specs
@@ -313,7 +307,6 @@ class PatientMessageDraftsPage {
       draftMessage,
     ).as('deletedDraftResponse');
     cy.tabToElement('va-button[text="Delete draft"]').realPress(['Enter']);
-    // cy.wait('@deletedDraftResponse');
   };
 
   confirmDeleteReplyDraftWithEnterKey = draftMessage => {

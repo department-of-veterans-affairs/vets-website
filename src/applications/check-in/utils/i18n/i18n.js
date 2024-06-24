@@ -1,7 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { format as formatDate, isDate } from 'date-fns';
+import { isDate } from 'date-fns';
+import { format as formatDate } from 'date-fns-tz';
 import { enUS as en, es } from 'date-fns/locale';
 import { get } from 'lodash';
 import enTranslation from '../../locales/en/translation.json';
@@ -54,6 +55,12 @@ export const dateFormatInterpolators = {
   dayOfWeek: (value, _format, _lng, locale) => {
     return formatDate(value, 'eeee', { locale });
   },
+  dayWithTime: (value, _format, _lng, locale) => {
+    return formatDate(value.date, 'MMMM dd, yyyy, h:mm aaaa', {
+      locale,
+      timeZone: value.timezone,
+    });
+  },
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });
   },
@@ -70,7 +77,7 @@ const i18nOptions = {
   interpolation: {
     escapeValue: false,
     format: (value, format, lng) => {
-      if (isDate(value)) {
+      if (isDate(value) || isDate(value?.date)) {
         const locale = locales[lng];
         const interpolator = get(
           dateFormatInterpolators,
