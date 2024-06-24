@@ -7,7 +7,10 @@ import DueDateOld from './DueDateOld';
 
 function FilesNeededOld({ item }) {
   return (
-    <div className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details">
+    <div
+      data-testid={`item-${item.id}`}
+      className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details"
+    >
       <div className="item-container">
         <h3 className="file-request-title">{item.displayName}</h3>
         <p className="submission-description">
