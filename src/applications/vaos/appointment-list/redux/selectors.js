@@ -696,6 +696,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isVA,
     isVideo,
     isPhone,
+    locationId,
     phone,
     providerAddress,
     showCancelButton: selectFeatureCancel(state),
