@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { focusElement } from '~/platform/utilities/ui';
 import {
   getBreadcrumbList,
   getFormNumber,
@@ -13,14 +14,31 @@ import {
   handleRouteChange,
 } from '../helpers';
 
+const focusProgressBar = () => {
+  const el = document.querySelector('va-segmented-progress-bar');
+  focusElement(el, {}, null);
+};
+
 const FormPage = ({ children, currentLocation, pageTitle }) => {
   const history = useHistory();
-
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
+
+  // This logic focuses the progress bar for screen readers.
+  useEffect(
+    () => {
+      // Delay the focus logic to override any other focus
+      const timer = setTimeout(focusProgressBar, 300);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    },
+    [currentLocation],
+  );
 
   return (
     <div className="row">
@@ -33,7 +51,7 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
         </div>
         <h1 className="vads-u-margin-bottom--1">{`Upload VA Form ${formNumber}`}</h1>
         <p className="vads-u-margin-top--0">{formUploadContent}</p>
-        <div>
+        <div className="nav-header">
           <VaSegmentedProgressBar
             current={currentLocation}
             total={3}

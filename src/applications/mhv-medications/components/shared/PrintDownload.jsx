@@ -16,14 +16,10 @@ const PrintDownload = props => {
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
-  let menuIconClasses =
-    'fas fa-angle-down vads-u-color--primary vads-u-margin-left--0p5';
   if (menuOpen) {
     toggleMenuButtonClasses +=
       ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
-    menuIconClasses =
-      'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
 
   const handleDownload = async format => {
@@ -126,7 +122,6 @@ const PrintDownload = props => {
         >
           <span>Print or download</span>
           <va-icon
-            className={menuIconClasses}
             size={3}
             icon={!menuOpen ? 'expand_more' : 'expand_less'}
             aria-hidden="true"
