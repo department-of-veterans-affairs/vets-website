@@ -379,6 +379,114 @@
           }
         }
       }
+    },
+    {
+      "id": "nstate-video-001",
+      "type": "appointments",
+      "attributes": {
+        "id": "nstate-video-001",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+            "value": "38fc7910-fa4a-4973-8a50-c9533fb0e3c0"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1013124304V115761",
+        "locationId": "983",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "dfn-983",
+                "value": "520647363"
+              }
+            ],
+            "name": {
+              "family": "NADEAU",
+              "given": ["MARCY"]
+            },
+            "practiceName": "Cheyenne VA Medical Center"
+          }
+        ],
+        "start": "2025-02-25T19:00:00Z",
+        "end": "2025-02-25T19:20:00Z",
+        "minutesDuration": 20,
+        "created": "2024-02-29T18:22:31.642Z",
+        "cancellable": false,
+        "patientInstruction": "Medication Review\n\nAs part of your video visit, your provider will review all the medications, vitamins, herbs, and supplements you are taking\n(even items you get from a local store, another provider, or another VA clinic). Please have information about everything you\ntake available during the visit. Informing your provider about all these will help you get the best and safest care possible.\nRemember, it is your medications, your life. Play it safe by reviewing all your medications with your health care team.\n",
+        "telehealth": {
+          "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000003848@pexip.mapsandbox.net&pin=111200&aid=38fc7910-fa4a-4973-8a50-c9533fb0e3c0#",
+          "group": false,
+          "vvsKind": "ADHOC"
+        },
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [],
+          "patientHasMobileGfe": false
+        },
+        "localStartTime": "2025-02-25T12:00:00.000-07:00",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["2360 East Pershing Boulevard"],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
     }
   ]
 }
