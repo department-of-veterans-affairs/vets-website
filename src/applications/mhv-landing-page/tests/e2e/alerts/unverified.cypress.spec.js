@@ -19,12 +19,6 @@ describe(appName, () => {
 
       it(`Shows unverified identity message on ${size} screen`, () => {
         cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(
-          false,
-          [],
-          'arialLabel',
-          true,
-        );
 
         LandingPage.visit({ verified: false });
         cy.injectAxeThenAxeCheck();
@@ -37,11 +31,6 @@ describe(appName, () => {
         // Test the cards are not visible
         HEALTH_TOOL_NAMES.forEach(name => {
           cy.findByRole('heading', { name }).should('not.exist');
-        });
-
-        // Test the cards are not visible
-        pageLinks.cards.forEach(card => {
-          cy.findByRole('heading', { name: card.title }).should('not.exist');
         });
 
         // Test for the conditional heading for VA health benefits
