@@ -7,6 +7,7 @@
     "./authentication/actions": "./authentication/actions/index.js",
     "./authentication/constants": "./authentication/constants.js",
     "./authentication/selectors": "./authentication/selectors.js",
+    "./authentication/datadog/utilities": "./authentication/datadog/utilities.js",
     "./authentication/utilities": "./authentication/utilities.js",
     "./cerner-dsot/selectors": "./cerner-dsot/selectors.js",
     "./transitionModal": "./authentication/components/account-transition/TransitionModal.jsx",

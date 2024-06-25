@@ -120,6 +120,7 @@ export {
   ACCOUNT_TRANSITION_DISMISSED,
   LINK_TYPES,
   AUTH_PARAMS,
+  AUTH_BROKER,
 } from './authentication/constants';
 export { AUTH_LEVEL, AUTH_ERRORS } from './authentication/errors';
 export {
@@ -153,6 +154,18 @@ export {
   signupOrVerify,
   logoutUrl,
 } from './authentication/utilities';
+export {
+  DD_SESSION_STORAGE_KEY,
+  STATUS_TYPE,
+  LOG_NAME,
+  EVENT_TYPE,
+  AUTH_LOCATION,
+  APPLICATION,
+  LEVEL,
+  newPayload,
+  newError,
+  dataDogLog,
+} from './authentication/datadog/utilities';
 
 /* authorization */
 export {
