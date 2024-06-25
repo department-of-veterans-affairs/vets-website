@@ -15,14 +15,12 @@ const mockStore = {
 };
 
 const MockMobileHeader = () => <div>Mobile header</div>;
-
+const sandbox = sinon.createSandbox();
 describe('Header <App>', () => {
-  let sandbox;
   let showLegacyHeaderSpy;
   let hideLegacyHeaderSpy;
   let toggleMinimalHeader;
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
     showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
