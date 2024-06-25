@@ -10,7 +10,7 @@ import {
 import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
-export const conditionsPageTitle = 'Toxic Exposure';
+export const conditionsPageTitle = 'Toxic exposure';
 export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
@@ -62,6 +62,9 @@ export const noneAndLocationError =
   'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
 export const noneAndHazardError =
   'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
+
+export const otherInvalidCharError =
+  'You entered an invalid character in the text field. This field only allows letters, numbers, hyphens, apostrophes, periods, commas, ampersands (& symbol), number signs (# symbol), and spaces.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
