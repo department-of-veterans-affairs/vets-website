@@ -267,22 +267,6 @@
         "value": true
       },
       {
-        "name": "combinedFinancialStatusReport",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report",
-        "value": true
-      },
-      {
-        "name": "combinedFinancialStatusReportEnhancements",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report_enhancements",
-        "value": true
-      },
-      {
         "name": "communicationPreferences",
         "value": true
       },
@@ -780,14 +764,6 @@
       },
       {
         "name": "financial_status_report_debts_api_module",
-        "value": true
-      },
-      {
-        "name": "financialStatusReportStreamlinedWaiver",
-        "value": true
-      },
-      {
-        "name": "financial_status_report_streamlined_waiver",
         "value": true
       },
       {
