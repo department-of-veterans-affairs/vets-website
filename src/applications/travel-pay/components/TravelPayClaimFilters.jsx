@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TravelPayStatusCheckboxes from './TravelPayStatusCheckboxes';
 
-export default function TravelPayFilters(props) {
+export default function TravelPayClaimFilters(props) {
   const {
     statusesToFilterBy,
     checkedStatusFilters,
@@ -66,7 +66,7 @@ export default function TravelPayFilters(props) {
   );
 }
 
-TravelPayFilters.propTypes = {
+TravelPayClaimFilters.propTypes = {
   applyFilters: PropTypes.func,
   checkedStatusFilters: PropTypes.array,
   datesToFilterBy: PropTypes.array,

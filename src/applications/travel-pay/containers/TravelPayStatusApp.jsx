@@ -12,7 +12,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
-import TravelPayStatusFilters from '../components/TravelPayStatusFilters';
+import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
@@ -259,7 +259,7 @@ export default function App({ children }) {
                         />
                       </div>
                     </div>
-                    <TravelPayStatusFilters
+                    <TravelPayClaimFilters
                       statusesToFilterBy={statusesToFilterBy}
                       checkedStatusFilters={checkedStatusFilters}
                       onStatusFilterChange={onStatusFilterChange}
