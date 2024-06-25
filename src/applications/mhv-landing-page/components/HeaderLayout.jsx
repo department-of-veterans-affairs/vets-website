@@ -79,7 +79,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                   If you’re not ready to try the new My HealtheVet, you can use
                   the previous version anytime.{' '}
                   <a
-                    data-dd-action-name="Landing Page Intro - mhv-go-back-1 - Go back to the previous version of My HealtheVet"
+                    data-dd-action-name="Landing Page: Intro - Go back to the previous version of My HealtheVet"
                     data-testid="mhv-go-back-1"
                     href={goBackUrl}
                   >
@@ -118,7 +118,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}
                         <a
-                          data-dd-action-name="Landing Page Intro - mhv-go-back-2 - Go back to the previous version of My HealtheVet"
+                          data-dd-action-name="Landing Page: Learn More - Go back to the previous version of My HealtheVet"
                           data-testid="mhv-go-back-2"
                           href={goBackUrl}
                         >

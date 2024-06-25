@@ -103,7 +103,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
       <p>
         <a
           className="vads-c-action-link--green"
-          data-dd-action-name="Medical Records Coming Soon - Go back to the previous version of My HealtheVet"
+          data-dd-action-name="Medical Records: Coming Soon - Go back to the previous version of My HealtheVet"
           href={blueButtonUrl}
         >
           Go back to the previous version of My HealtheVet
