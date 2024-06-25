@@ -88,6 +88,7 @@ export default function App({ children }) {
     setCheckedStatusFilters([]);
     setAppliedDateFilter('all');
     setSelectedDateFilter('all');
+    setCurrentPage(1);
   };
 
   const applyFilters = () => {
@@ -109,6 +110,11 @@ export default function App({ children }) {
 
   const onDateFilterChange = e => {
     setSelectedDateFilter(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const onSortClick = () => {
+    setOrderClaimsBy(selectedClaimsOrder);
     setCurrentPage(1);
   };
 
@@ -246,7 +252,7 @@ export default function App({ children }) {
                           <option value="oldest">Oldest</option>
                         </select>
                         <va-button
-                          onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                          onClick={() => onSortClick()}
                           data-testid="Sort travel claims"
                           text="Sort"
                           label="Sort"
