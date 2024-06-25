@@ -29,13 +29,12 @@ export default {
   path: 'claimant/statement-period',
   uiSchema: {
     ...titleUI('Statement Period', Description),
-    statementDateRange: currentOrPastDateRangeUI(),
+    incomeNetWorthDateRange: currentOrPastDateRangeUI(),
   },
   schema: {
     type: 'object',
-    required: ['claimantType'],
     properties: {
-      statementDateRange: currentOrPastDateRangeSchema,
+      incomeNetWorthDateRange: currentOrPastDateRangeSchema,
     },
   },
 };
