@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { focusElement } from 'platform/utilities/ui';
 import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -13,6 +15,7 @@ import {
   ServerErrorAlert,
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
+// import { PAGE_TITLE } from '../config/constants';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -26,6 +29,7 @@ class IntroductionPage extends React.Component {
     const {
       vaFileNumber: { hasVaFileNumber, isLoading },
       user,
+      // dependentsToggle,
     } = this.props;
     let ctaState;
     let content;
@@ -121,7 +125,11 @@ class IntroductionPage extends React.Component {
 
 const mapStateToProps = state => {
   const { form, user, vaFileNumber } = state;
+  const dependentsToggle = toggleValues(state)[
+    FEATURE_FLAG_NAMES.vaViewDependentsAccess
+  ];
   return {
+    dependentsToggle,
     form,
     user,
     vaFileNumber,
