@@ -33,6 +33,53 @@ describe('VAOS Component: InPersonLayout', () => {
     },
   };
 
+  describe('When appointment information is missing', () => {
+    it('should not display heading and type of care when no type of care information is returned', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        comment: 'This is a test:Additional information',
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: null,
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <InPersonLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /In-person appointment/i,
+        }),
+      );
+
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
+    });
+  });
+
   describe('When viewing upcoming appointment details', () => {
     it('should display in-person layout', async () => {
       // Arrange
