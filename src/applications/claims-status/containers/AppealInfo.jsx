@@ -168,7 +168,7 @@ export class AppealInfo extends React.Component {
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               {!!(claimHeading && appeal) && (
                 <AppealHeader
                   heading={claimHeading}
@@ -178,7 +178,7 @@ export class AppealInfo extends React.Component {
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
               {appealContent}
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">

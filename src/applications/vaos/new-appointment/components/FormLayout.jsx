@@ -13,6 +13,8 @@ import WarningNotification from '../../components/WarningNotification';
 import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
+import getNewAppointmentFlow from '../newAppointmentFlow';
+import { selectFeatureMhvSecondaryNavigationEnabled } from '../../redux/selectors';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -71,9 +73,16 @@ Nav.propTypes = {
 
 export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
+  const featureMhvSecondaryNavigationEnabled = useSelector(
+    selectFeatureMhvSecondaryNavigationEnabled,
+  );
+  const flow = useSelector(state => getNewAppointmentFlow(state));
+  const typeOfCareUrl = flow.typeOfCare?.url;
+
   return (
     <>
-      <MhvSecondaryNav />
+      {featureMhvSecondaryNavigationEnabled &&
+        location.pathname === typeOfCareUrl && <MhvSecondaryNav />}
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Nav pageTitle={pageTitle} />
         {location.pathname.endsWith('new-appointment') && (

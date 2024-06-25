@@ -27,9 +27,6 @@ const selectFeatureToggles = createSelector(
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
     ],
-    isPreCheckInActionLinkTopPlacementEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperiencePreCheckInActionLinkTopPlacement
-    ],
     isUnifiedLandingPageEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceUnifiedLandingPage
     ],
