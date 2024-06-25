@@ -332,13 +332,9 @@ export class ComboBox extends React.Component {
         aria-owns="combobox-list"
         aria-autocomplete="list"
         tabIndex={-1}
-        aria-labelledby={this.props.idSchema.$id}
-        // aria-label="Enter you condition"
-        // aria-label={autocompleteHelperText}
       >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
-          // label=""
           required
           name="combobox-input"
           id={this.props.idSchema.$id}
@@ -348,8 +344,6 @@ export class ComboBox extends React.Component {
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
           // aria-labelledby={this.props.idSchema.$id}
-          aria-labelledby={this.props.idSchema.$id}
-          // aria-labelledby=""
           message-aria-describedby={autocompleteHelperText}
         />
         <ul
