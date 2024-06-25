@@ -396,6 +396,21 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERRORS.MHV_PROVISIONING_FAILURE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble provisioning your My HealtheVet account right now
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <p>Try signing in again in a few minutes.</p>
+          <Helpdesk startScentence />
+        </>
+      );
+      break;
+
     case AUTH_ERRORS.CERNER_PROVISIONING_FAILURE.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">

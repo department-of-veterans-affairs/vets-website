@@ -295,7 +295,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(1)`,
+      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
