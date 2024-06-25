@@ -61,7 +61,7 @@ export const AUTH_ERRORS = {
   },
   CERNER_PROVISIONING_FAILURE: {
     errorCode: '110',
-    message: `We're having trouble provisioning your My VA Health account right now.`,
+    message: `We’re having trouble provisioning your My HealtheVet account right now`,
   },
   CERNER_NOT_ELIGIBLE: {
     errorCode: '111',
