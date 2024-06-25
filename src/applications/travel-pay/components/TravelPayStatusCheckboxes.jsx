@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function TravelPayStatusFilters(props) {
+export default function TravelPayStatusCheckboxes(props) {
   const {
     statusesToFilterBy,
     checkedStatusFilters,
@@ -28,7 +28,7 @@ export default function TravelPayStatusFilters(props) {
   );
 }
 
-TravelPayStatusFilters.propTypes = {
+TravelPayStatusCheckboxes.propTypes = {
   checkedStatusFilters: PropTypes.array,
   statusesToFilterBy: PropTypes.array,
   onStatusFilterChange: PropTypes.func,
