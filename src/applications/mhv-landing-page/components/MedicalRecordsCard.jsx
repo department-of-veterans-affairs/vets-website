@@ -8,8 +8,8 @@ const MedicalRecordsCard = ({ href }) => {
     <div
       className={classnames(
         'vads-u-height--full',
-        'vads-u-padding-x--5',
-        'vads-u-padding-top--4',
+        'vads-u-padding-x--4',
+        'vads-u-padding-top--3',
         'vads-u-padding-bottom--2',
         'vads-u-background-color--gray-lightest',
       )}
