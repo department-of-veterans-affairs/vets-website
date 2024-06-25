@@ -27,7 +27,6 @@ export default function App({ children }) {
   const { isLoading, travelClaims, error } = useSelector(
     state => state.travelPay,
   );
-  console.log(profileLoading, userLoggedIn, isLoading, travelClaims); // eslint-disable-line no-console
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
