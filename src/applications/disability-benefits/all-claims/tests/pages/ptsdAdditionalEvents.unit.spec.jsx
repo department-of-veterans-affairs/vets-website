@@ -1,82 +1,90 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('781 additonal events yes/no', () => {
   const page = formConfig.chapters.disabilities.pages.ptsdAdditionalEvents0;
   const { schema, uiSchema, arrayPath } = page;
+  const { defaultDefinitions: definitions } = formConfig;
+  const data = {
+    'view:selectablePtsdTypes': {
+      'view:combatPtsdType': true,
+    },
+  };
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
-        data={{
-          'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
-          },
-        }}
+        data={data}
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    // Expect one question with two radio inputs
+    expect($$('va-radio').length).to.equal(1);
+    expect($$('va-radio-option').length).to.equal(2);
+
+    const question = container.querySelector('va-radio');
+    expect(question).to.have.attribute(
+      'label',
+      'Do you have another event or situation to tell us about?',
+    );
+
+    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="No"', container)).to
+      .exist;
   });
 
   it('should submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
-          },
-        }}
+        data={data}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
+    expect(onSubmit.calledOnce).to.be.true;
   });
 
   it('should submit when data filled in', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container } = render(
       <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
+        definitions={definitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:selectablePtsdTypes': {
-            'view:combatPtsdType': true,
-          },
-        }}
+        data={data}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    selectRadio(form, 'root_view:enterAdditionalEvents0', 'Y');
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });

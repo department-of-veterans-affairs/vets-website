@@ -16,13 +16,19 @@ const ExtraDetails = rx => {
     noRefillRemaining = true;
   }
   return (
-    <div className="shipping-info" id="status-description">
+    <div
+      className="shipping-info"
+      id={`status-description-${rx.prescriptionId}`}
+    >
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
-          <div>
-            We’re sorry. There’s a problem with our system. You can’t manage
-            this prescription online right now.
-            <p className="vads-u-margin-top--1">
+          <va-icon icon="warning" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            <p className="vads-u-margin-y--0">
+              We’re sorry. There’s a problem with our system. You can’t manage
+              this prescription online right now.
+            </p>
+            <p className="vads-u-margin-y--0">
               Call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={cmopDivisionPhone}
@@ -34,16 +40,23 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
-          <p data-testid="rx-refillinprocess-info">
-            We expect to fill it on {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, call your VA pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
+          <va-icon icon="acute" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            <p
+              data-testid="rx-refillinprocess-info"
+              className="vads-u-margin-y--0"
+            >
+              We expect to fill it on{' '}
+              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            </p>
+            <p className="vads-u-margin-y--0">
+              If you need it sooner, call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={cmopDivisionPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
@@ -51,22 +64,24 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          We got your request on{' '}
-          {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-          updates.
+          <va-icon icon="fact_check" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            We got your request on{' '}
+            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
+            updates.
+          </div>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
-        <div>
-          <p className="vads-u-margin-y--0" data-testid="VA-prescription">
-            You can request this prescription when you need it.
-          </p>
-        </div>
+        <p className="vads-u-margin-y--0" data-testid="active-parked">
+          You can request this prescription when you need it.
+        </p>
       )}
       {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="expired">
-            You have no refills left. If you need more, request a renewal.
+            This prescription is too old to refill. If you need more, request a
+            renewal.
           </p>
           <va-link
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
@@ -109,24 +124,20 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === dispStatusObj.nonVA && (
-        <div>
-          <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-            This isn’t a prescription that you filled through a VA pharmacy. You
-            can’t manage this medication in this online tool.
-          </p>
-        </div>
+        <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
+          This isn’t a prescription that you filled through a VA pharmacy. You
+          can’t manage this medication in this online tool.
+        </p>
       )}
       {dispStatus === dispStatusObj.onHold && (
-        <div className="no-print">
-          <p className="vads-u-margin-y--0" data-testid="active-onHold">
-            We put a hold on this prescription. If you need it now, call your VA
-            pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
-        </div>
+        <p className="vads-u-margin-y--0 no-print" data-testid="active-onHold">
+          You can’t refill this prescription online right now. If you need a
+          refill, call your VA pharmacy
+          <CallPharmacyPhone
+            cmopDivisionPhone={cmopDivisionPhone}
+            page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+          />
+        </p>
       )}
       {dispStatus === dispStatusObj.active &&
         noRefillRemaining && (

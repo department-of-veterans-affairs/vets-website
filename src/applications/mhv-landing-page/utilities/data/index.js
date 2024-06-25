@@ -30,7 +30,7 @@ const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
   unreadMessageAriaLabel,
-  userHasHealthData = false,
+  registered = false,
 ) => {
   const messagesLinks = resolveLinks(
     [
@@ -117,7 +117,7 @@ const resolveLandingPageLinks = (
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
         text: 'Community care',
       },
-      {
+      registered && {
         href:
           '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
@@ -195,38 +195,39 @@ const resolveLandingPageLinks = (
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
-      icon: 'calendar',
+      icon: 'calendar_today',
       links: HEALTH_TOOL_LINKS.APPOINTMENTS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MESSAGES,
-      icon: 'comments',
+      icon: 'forum',
       links: messagesLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
-      icon: 'prescription-bottle',
+      icon: 'pill',
       links: medicationsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
-      icon: 'file-medical',
+      icon: 'note_add',
       links: medicalRecordsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
-      icon: 'dollar-sign',
+      icon: 'attach_money',
+      iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
       links: HEALTH_TOOL_LINKS.PAYMENTS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,
-      icon: 'deaf',
+      icon: 'medical_services',
       links: HEALTH_TOOL_LINKS.MEDICAL_SUPPLIES,
     },
   ];
   const hubs = [
     {
-      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
+      title: registered ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {

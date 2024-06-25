@@ -36,8 +36,7 @@ export default function ClaimPhaseStepper({
             and Social Security number.
           </p>
           <p className="vads-u-margin-bottom--0">
-            If basic information is missing, we’ll contact you to gather that
-            information.
+            If information is missing, we’ll contact you.
           </p>
         </>
       ),
@@ -71,12 +70,8 @@ export default function ClaimPhaseStepper({
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <Link
-            aria-label="Submit evidence now"
-            title="Submit evidence now"
-            to="../files"
-          >
-            Submit evidence now
+          <Link data-testid="upload-evidence-link" to="../files">
+            Upload your evidence here
           </Link>
         </>
       ),
@@ -94,37 +89,104 @@ export default function ClaimPhaseStepper({
         </>
       ),
     },
+    {
+      phase: 5,
+      header: 'Step 5: Rating',
+      description: (
+        <>
+          <p>We’ll decide your claim and determine your disability rating.</p>
+          <p>
+            If we need more evidence or you submit more evidence, your claim
+            will go back to Step 3: Evidence gathering.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 6,
+      header: 'Step 6: Preparing decision letter',
+      description: (
+        <>
+          <p>We’ll prepare your decision letter.</p>
+          <p>
+            If you’re eligible for disability benefits, this letter will include
+            your disability rating, the amount of your monthly payments, and the
+            date your payments will start.
+          </p>
+          <p>
+            If we need more evidence or you submit more evidence, your claim
+            will go back to Step 3: Evidence gathering.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 7,
+      header: 'Step 7: Final review',
+      description: (
+        <>
+          <p>
+            A senior reviewer will do a final review of your claim and the
+            decision letter.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 8,
+      header: 'Step 8: Claim decided',
+      description: (
+        <>
+          <p>
+            You’ll be able to view and download your decision letter on the
+            status page for this claim.
+          </p>
+          <Link to="/your-claim-letters">Go to the claim letters page</Link>
+          <p>
+            We’ll also send you a copy of your decision letter by mail. It
+            should arrive within 10 business days, but it may take longer.
+          </p>
+        </>
+      ),
+    },
   ];
+
   const isCurrentPhase = phase => {
     return phase === currentPhase;
   };
-
+  const isCurrentPhaseAndNotFinalPhase = phase => {
+    return isCurrentPhase(phase) && phase !== 8;
+  };
+  const isPhaseComplete = phase => {
+    return phase < currentPhase || (isCurrentPhase(phase) && phase === 8);
+  };
   const phaseCanRepeat = phase => {
     return [3, 4, 5, 6].includes(phase);
   };
 
-  const headerIcon = phase => {
-    if (isCurrentPhase(phase)) {
-      return 'flag';
+  let headerIconAttributes = {};
+  const showIcon = phase => {
+    if (isCurrentPhaseAndNotFinalPhase(phase)) {
+      // Set headerIcon object
+      headerIconAttributes = {
+        icon: 'flag',
+        text: 'Current',
+        class: 'phase-current',
+      };
+      return true;
     }
 
-    if (phase < currentPhase) {
-      return 'check_circle';
+    if (isPhaseComplete(phase)) {
+      // Set headerIcon object
+      headerIconAttributes = {
+        icon: 'check_circle',
+        text: 'Completed',
+        class: 'phase-complete',
+      };
+      return true;
     }
 
-    return '';
-  };
-
-  const headerIconColor = phase => {
-    if (isCurrentPhase(phase)) {
-      return 'phase-current';
-    }
-
-    if (phase < currentPhase) {
-      return 'phase-complete';
-    }
-
-    return '';
+    return false;
   };
 
   return (
@@ -135,12 +197,16 @@ export default function ClaimPhaseStepper({
             key={phaseIndex}
             header={claimPhase.header}
             id={`phase${claimPhase.phase}`}
+            open={isCurrentPhase(claimPhase.phase)}
           >
-            <va-icon
-              icon={headerIcon(claimPhase.phase)}
-              class={headerIconColor(claimPhase.phase)}
-              slot="icon"
-            />
+            {showIcon(claimPhase.phase) && (
+              <va-icon
+                icon={headerIconAttributes.icon}
+                class={headerIconAttributes.class}
+                srtext={headerIconAttributes.text}
+                slot="icon"
+              />
+            )}
             {isCurrentPhase(claimPhase.phase) && (
               <strong className="current-phase">
                 Your claim is in this step as of{' '}
@@ -163,6 +229,6 @@ export default function ClaimPhaseStepper({
 
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
-  currentClaimPhaseDate: PropTypes.number.isRequired,
+  currentClaimPhaseDate: PropTypes.string.isRequired,
   currentPhase: PropTypes.number.isRequired,
 };

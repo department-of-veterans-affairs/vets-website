@@ -16,14 +16,10 @@ const PrintDownload = props => {
   let toggleMenuButtonClasses =
     'toggle-menu-button vads-u-justify-content--space-between';
   let menuOptionsClasses = 'menu-options';
-  let menuIconClasses =
-    'fas fa-angle-down vads-u-color--primary vads-u-margin-left--0p5';
   if (menuOpen) {
     toggleMenuButtonClasses +=
       ' toggle-menu-button-open vads-u-justify-content--space-between';
     menuOptionsClasses += ' menu-options-open';
-    menuIconClasses =
-      'fas fa-angle-up vads-u-color--primary vads-u-margin-left--0p5';
   }
 
   const handleDownload = async format => {
@@ -93,14 +89,17 @@ const PrintDownload = props => {
             <p>
               We’re sorry. There’s a problem with our system. Check back later.
             </p>
-            <p className="vads-u-margin--0">
-              If it still doesn’t work, call us at{' '}
-              <va-telephone contact="8773270022" /> (
-              <va-telephone tty contact="711" />
-              ).
-              <br />
-              We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
+            <div className="vads-u-margin--0">
+              <p>
+                If it still doesn’t work, call us at{' '}
+                <va-telephone contact="8773270022" /> (
+                <va-telephone tty contact="711" />
+                ).
+              </p>
+              <p>
+                We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              </p>
+            </div>
           </va-alert>
         </div>
       )}
@@ -123,7 +122,6 @@ const PrintDownload = props => {
         >
           <span>Print or download</span>
           <va-icon
-            className={menuIconClasses}
             size={3}
             icon={!menuOpen ? 'expand_more' : 'expand_less'}
             aria-hidden="true"

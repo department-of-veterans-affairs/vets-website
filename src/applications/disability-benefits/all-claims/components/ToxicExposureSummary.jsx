@@ -6,6 +6,7 @@ import {
   datesDescription,
   getOtherFieldDescription,
   goBackLink,
+  goBackLinkExposures,
 } from '../content/toxicExposure';
 
 /**
@@ -31,20 +32,22 @@ export function ToxicExposureSummary({
     <>
       {formSubtitle('Summary')}
       <ul>
-        {Object.keys(checkboxes).map(item => {
-          return (
-            checkboxes[item] === true && (
-              <li key={item}>
-                <strong className="vads-u-font-size--h6">
-                  {checkboxDefinitions[item]}
-                </strong>
-                <p className="vads-u-margin-y--1">
-                  {datesDescription(toxicExposure[datesObjectName][item])}
-                </p>
-              </li>
-            )
-          );
-        })}
+        {Object.keys(checkboxes)
+          .filter(item => item !== 'none' && item !== 'notsure')
+          .map(item => {
+            return (
+              checkboxes[item] === true && (
+                <li key={item}>
+                  <h5 className="vads-u-font-size--h6">
+                    {checkboxDefinitions[item]}
+                  </h5>
+                  <p className="vads-u-margin-y--1">
+                    {datesDescription(toxicExposure[datesObjectName][item])}
+                  </p>
+                </li>
+              )
+            );
+          })}
         {otherFieldDescription && (
           <li key="other">
             <strong className="vads-u-font-size--h6">
@@ -64,7 +67,9 @@ export function ToxicExposureSummary({
             search: '?redirect',
           }}
         >
-          {goBackLink}
+          {checkboxObjectName === 'otherExposures'
+            ? goBackLinkExposures
+            : goBackLink}
         </Link>
       </p>
     </>

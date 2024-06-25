@@ -3,17 +3,17 @@ import { Link } from 'react-router';
 
 export const addDisabilitiesInstructions = (
   <>
-    <h2>Tell us the new conditions you want to claim</h2>
+    <h3>Tell us the new conditions you want to claim</h3>
     <p>
       Enter the name of your condition. Then, select your condition from the
       list of possible matches.
     </p>
-    <h3>What if my condition isn’t listed?</h3>
+    <h4>What if my condition isn’t listed?</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
       diagnosis, or short description of you symptoms.
     </p>
-    <h3>Examples of conditions</h3>
+    <h4>Examples of conditions</h4>
     <ul>
       <li>Tinnitus (ringing or hissing in ears)</li>
       <li>PTSD (post-traumatic stress disorder), combat-related</li>
@@ -23,6 +23,7 @@ export const addDisabilitiesInstructions = (
       <li>Hypertension (high blood pressure)</li>
       <li>Migraines (headaches)</li>
     </ul>
+    <h4>Your new conditions</h4>
   </>
 );
 
@@ -31,9 +32,10 @@ export const newOnlyAlertRevised = ({ formContext }) => {
   if (!formContext.submitted) return null;
   return (
     <va-alert status="error" uswds>
-      <h3 slot="headline">We need you to add a condition</h3>
+      <h3 slot="headline">Enter a condition to submit your claim</h3>
       <p className="vads-u-font-size--base">
-        You need to add a new condition in order to submit your claim.
+        You’ll need to enter a condition, diagnosis, or short description of
+        your symptoms to submit your claim.
       </p>
     </va-alert>
   );

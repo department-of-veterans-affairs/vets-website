@@ -43,11 +43,24 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
     return false;
   }
   return (
-    environment.isProduction() || // Comment out to send to production
+    environment.isProduction() ||
     environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() ||
     environment.isLocalhost()
+  );
+};
+
+export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (environment.isDev() || isTest || automatedTest) {
+    return false;
+  }
+  return (
+    environment.isLocalhost() ||
+    environment.isStaging() ||
+    isReviewInstance() ||
+    environment.isProduction()
   );
 };
 
@@ -129,7 +142,7 @@ export function convertRatingToStars(rating) {
   let half = false;
 
   if (firstDecimal > 7) {
-    full++;
+    full += 1;
   } else if (firstDecimal >= 3) {
     half = true;
   }
@@ -463,3 +476,10 @@ export const managePushHistory = (history, url) => {
     history.push(url);
   }
 };
+export function showSchoolContentBasedOnType(type) {
+  const validateTypes = {
+    FLIGHT: false,
+    CORRESPONDENCE: false,
+  };
+  return !(type in validateTypes);
+}

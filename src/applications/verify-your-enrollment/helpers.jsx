@@ -103,7 +103,6 @@ export const translateDatePeriod = (startDateString, endDateString) => {
     const year = date.getUTCFullYear();
     return `${month}/${day}/${year}`;
   }
-
   // Format both dates and concatenate them
   return `${date1 === dateUnavailable ? date1 : formatDate(date1)} - ${
     date2 === dateUnavailable ? date2 : formatDate(date2)
@@ -172,6 +171,60 @@ export const remainingBenefits = remEnt => {
   return { month, day };
 };
 
+export const isSameMonth = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  return month1 === month2 && year1 === year2;
+};
+
+export const getEndOfMonth = (year, month) => {
+  return new Date(year, month, 0).getDate(); // Last day of the month
+};
+
+export const getDateRangesBetween = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  const ranges = [];
+
+  // Range for the first month
+  const endOfMonth1 = getEndOfMonth(year1, month1);
+  ranges.push(
+    `${date1} - ${year1}-${String(month1).padStart(2, '0')}-${endOfMonth1}`,
+  );
+
+  // Add ranges for full months in between
+  let currentYear = year1;
+  let currentMonth = month1 + 1;
+  while (
+    currentYear < year2 ||
+    (currentYear === year2 && currentMonth < month2)
+  ) {
+    const endOfMonth = getEndOfMonth(currentYear, currentMonth);
+    ranges.push(
+      `${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-01 - ${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-${endOfMonth}`,
+    );
+
+    if (currentMonth === 12) {
+      currentMonth = 1;
+      currentYear += 1;
+    } else {
+      currentMonth += 1;
+    }
+  }
+
+  // Range for the last month
+  ranges.push(`${year2}-${String(month2).padStart(2, '0')}-01 - ${date2}`);
+
+  return ranges;
+};
 export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
@@ -211,7 +264,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             <span className="vads-u-font-weight--bold">
               Total credit hours:
             </span>{' '}
-            {numberHours === null ? 'Data unavailable' : numberHours}
+            {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
           <p
             className={
@@ -222,7 +275,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
           >
             <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
-              ? 'Data unavailable'
+              ? 'Rate unavailable'
               : formatCurrency(monthlyRate)}
           </p>
         </div>
@@ -277,14 +330,14 @@ export const getGroupedPreviousEnrollments = month => {
                     <span className="vads-u-font-weight--bold">
                       Total credit hours:
                     </span>{' '}
-                    {numberHours === null ? 'Data unavailable' : numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
                     {monthlyRate === null
-                      ? 'Data unavailable'
+                      ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
@@ -340,14 +393,14 @@ export const getGroupedPreviousEnrollments = month => {
                     <span className="vads-u-font-weight--bold">
                       Total credit hours:
                     </span>{' '}
-                    {numberHours === null ? 'Data unavailable' : numberHours}
+                    {numberHours === null ? 'Hours unavailable' : numberHours}
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Monthly Rate:
                     </span>{' '}
                     {monthlyRate === null
-                      ? 'Data unavailable'
+                      ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
@@ -434,13 +487,13 @@ export const getSignlePreviousEnrollments = awards => {
                   Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
-                  ? 'Data unavailable'
+                  ? 'Hours unavailable'
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
-                  ? 'Data unavailable'
+                  ? 'Rate unavailable'
                   : formatCurrency(awards.monthlyRate)}
               </p>
               <div className="vads-u-font-style--italic">
@@ -480,13 +533,13 @@ export const getSignlePreviousEnrollments = awards => {
                   Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
-                  ? 'Data unavailable'
+                  ? 'Hours unavailable'
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
-                  ? 'Data unavailable'
+                  ? 'Rate unavailable'
                   : formatCurrency(awards.monthlyRate)}
               </p>
               <div className="vads-u-font-style--italic">
@@ -653,19 +706,13 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
+      {line1 && <>{line1} </>}
+      {line2 && <>{` ${line2}`}</>}
+      {cityState && (
         <>
-          {line1}
-          <br />
+          <br /> {cityState}
         </>
       )}
-      {line2 && (
-        <>
-          {line2}
-          <br />
-        </>
-      )}
-      {cityState && <>{cityState}</>}
       {state && <>{state}</>}
       {postalCode && (state || cityState) && ' '}
       {postalCode}
@@ -673,14 +720,17 @@ export const addressLabel = address => {
   );
 };
 
-export const hasFormChanged = (obj, applicantName) => {
+export const hasFormChanged = obj => {
   const keys = Object.keys(obj ?? {});
-
   for (const key of keys) {
-    if (
-      (!key.includes('fullName') && obj[key] !== undefined) ||
-      (key.includes('fullName') && obj[key] !== applicantName)
-    ) {
+    const value = obj[key];
+    // Skip the specific key
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Checking if there is value that is not undefined
+    if (value !== undefined) {
       return true;
     }
   }
@@ -697,6 +747,10 @@ export function compareAddressObjects(obj1, obj2) {
     return false;
   }
   for (const key of keys1) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj1, key) &&
       hasOwnProperty.call(obj2, key) &&
@@ -707,6 +761,10 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   for (const key of keys2) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj2, key) &&
       hasOwnProperty.call(obj1, key) &&
@@ -717,4 +775,67 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   return false;
+}
+
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+
+  if (
+    typeof obj1 !== 'object' ||
+    obj1 === null ||
+    typeof obj2 !== 'object' ||
+    obj2 === null
+  ) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (
+      key === 'view:livesOnMilitaryBaseInfo' ||
+      key === 'view:livesOnMilitaryBase'
+    ) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const initialState = {
+  addressLine1: undefined,
+  addressLine2: undefined,
+  addressLine3: undefined,
+  addressLine4: undefined,
+  city: undefined,
+  countryCodeIso3: 'USA',
+  internationalPostalCode: undefined,
+  province: undefined,
+  stateCode: '- Select -',
+  'view:livesOnMilitaryBase': undefined,
+  'view:livesOnMilitaryBaseInfo': {},
+  zipCode: undefined,
+};
+
+// Function to check if the object has changed
+export function hasAddressFormChanged(currentState) {
+  const filledCurrentState = {
+    ...initialState,
+    ...currentState,
+    stateCode:
+      currentState.stateCode !== undefined
+        ? currentState.stateCode
+        : initialState.stateCode,
+  };
+  return !deepEqual(initialState, filledCurrentState);
 }

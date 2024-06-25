@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -22,30 +22,29 @@ import {
   verifyEnrollmentAction,
   // updateVerificationsData,
 } from '../actions';
-import { toLocalISOString } from '../helpers';
+import {
+  toLocalISOString,
+  isSameMonth,
+  getDateRangesBetween,
+} from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
-  mockData,
-  // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
-  // dispatchUpdateVerificationsData,
-  // isUserLoggedIn,
-  // dispatchupdateToggleEnrollmentCard,
+  verifyEnrollment,
 }) => {
   useScrollToTop();
-  const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading, personalInfo, isUserLoggedIn } = useData();
+  const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-
-  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
+  const { error } = verifyEnrollment;
+  const enrollmentData = personalInfo;
   const history = useHistory();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
@@ -62,7 +61,7 @@ const VerificationReviewWrapper = ({
     const currentDateTime = toLocalISOString(new Date());
     // update pendingVerifications to a blank array
     dispatchUpdatePendingVerifications([]);
-    const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
+    const newVerifiedEnrollments = originalPeriodsToVerify.map(period => {
       return {
         ...period,
         transactDate: currentDateTime,
@@ -72,12 +71,15 @@ const VerificationReviewWrapper = ({
     const awardIds = newVerifiedEnrollments.map(
       enrollment => enrollment.awardId,
     );
+
     dispatchVerifyEnrollmentAction(awardIds);
   };
 
   const handleSubmission = () => {
     handleVerification();
-    dispatchUpdateToggleEnrollmentSuccess(true);
+    if (!error) {
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    }
     history.push(VERIFICATION_RELATIVE_URL);
   };
 
@@ -85,7 +87,35 @@ const VerificationReviewWrapper = ({
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-        setEnrollmentPeriodsToVerify(pendingVerifications);
+        setOriginalPeriodsToVerify(pendingVerifications);
+        const expandedPendingEnrollments = [];
+        pendingVerifications.forEach(enrollment => {
+          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+            const expandedMonths = getDateRangesBetween(
+              enrollment.actBegin,
+              enrollment.actEnd,
+            );
+            expandedMonths.forEach(period => {
+              const [startDate, endDate] = period.split(' - ');
+              expandedPendingEnrollments.push({
+                actBegin: startDate,
+                actEnd: endDate,
+                monthlyRate: enrollment.monthlyRate,
+                numberHours: enrollment.numberHours,
+              });
+            });
+          } else {
+            expandedPendingEnrollments.push({
+              actBegin: enrollment.actBegin,
+              actEnd: enrollment.actEnd,
+              monthlyRate: enrollment.monthlyRate,
+              numberHours: enrollment.numberHours,
+            });
+          }
+        });
+
+        setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
+        // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
     [enrollmentData],
@@ -100,17 +130,10 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-  // This Effect to check path to add class for bloding Label
-  useEffect(
-    () => {
-      if (location.pathname.includes('verification-review')) {
-        document.body.classList.add('verification-review-path');
-      } else {
-        document.body.classList.remove('verification-review-path');
-      }
-    },
-    [location.pathname],
-  );
+  // This Effect  add class for bloding Label only for this label
+  useEffect(() => {
+    document.body.classList.add('verify-information-path');
+  }, []);
 
   return (
     <>
@@ -135,6 +158,7 @@ const VerificationReviewWrapper = ({
                     error={errorStatement}
                     hint=""
                     label="Is this enrollment information correct?"
+                    required
                     onVaValueChange={handleRadioClick}
                   >
                     <VaRadioOption
@@ -177,7 +201,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  mockData: state.mockData.mockData,
+  verifyEnrollment: state.verifyEnrollment,
 });
 
 const mapDispatchToProps = {
@@ -193,10 +217,10 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,
+  verifyEnrollment: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

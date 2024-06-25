@@ -7,51 +7,15 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
+  selectRadioWebComponent,
   getAllPages,
+  verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
 const ALL_PAGES = getAllPages(formConfig);
-
-function missingValErrMsg(key, original, submitted) {
-  return `Property with name ${key} and value ${
-    original[key]
-  } not found in submitted data (instead got ${submitted[key]})`;
-}
-
-function verifyAllDataWasSubmitted(data, req) {
-  describe('Data submitted after E2E runthrough should include all data supplied in test file', () => {
-    Object.keys(data).forEach(k => {
-      // Expect all original data used to populate the form
-      // to be present in the submission - this is how we
-      // know that pages we intended to fill didn't get skipped:
-
-      // handle special cases:
-      if (k.endsWith('MedigapPlan')) {
-        // Grab last letter from original data ('medigapPlanK' -> 'K')
-        expect(data[k].slice(-1), missingValErrMsg(k, data, req.body)).to.equal(
-          req.body[k],
-        );
-      } else if (k.includes('DOB') || k.includes('Date')) {
-        // Just check length match. There's a discrepancy in the
-        // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
-        // TODO: Address discrepancy at some point.
-        expect(data[k]?.length, missingValErrMsg(k, data, req.body)).to.equal(
-          req.body[k]?.length,
-        );
-      } else {
-        expect(
-          JSON.stringify(req.body[k]),
-          missingValErrMsg(k, data, req.body),
-        ).to.equal(JSON.stringify(data[k]));
-      }
-      // cy.axeCheck();
-    });
-  });
-}
 
 const testConfig = createTestConfig(
   {
@@ -66,16 +30,14 @@ const testConfig = createTestConfig(
     variations designed to trigger the conditionals in the form/follow different paths. 
     */
     dataSets: [
-      'test-data',
-      'no-secondary.json',
-      'applicant-maximal-test.json',
-      'applicant-no-medicare-no-primary-no-secondary-test.json',
-      'applicant-no-medicare-test.json',
-      'applicant-no-primary-yes-secondary-test.json',
-      'applicant-no-secondary-yes-primary-test.json',
-      'thirdparty-no-medicare-no-primary-yes-secondary-test.json',
-      'veteran-child-no-medicare-yes-primary-no-secondary-test.json',
-      'veteran-spouse-medicare-no-ohi-test.json',
+      'test-data.json',
+      'maximal-test.json',
+      'minimal-test.json',
+      'no-medicare-no-ohi.json',
+      'no-medicare-yes-ohi.json',
+      'no-medicare-yes-primary.json',
+      'yes-medicare-no-ohi.json',
+      'yes-medicare-yes-primary.json',
     ],
 
     pageHooks: {
@@ -93,6 +55,10 @@ const testConfig = createTestConfig(
             fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
+            );
+            selectRadioWebComponent(
+              'applicantNewAddress',
+              data.applicantNewAddress,
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -115,8 +81,17 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name = data.applicantName;
-            reviewAndSubmitPageFlow(name);
+            cy.get('va-text-input')
+              .shadow()
+              .get('#inputField')
+              .type(data.signature);
+            cy.get(`va-checkbox`)
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.findByText('Submit application', {
+              selector: 'button',
+            }).click();
           });
         });
       },
@@ -124,7 +99,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req);
+          verifyAllDataWasSubmitted(data, req.body);
         });
         // Mock the backend response on form submit:
         req.reply({ status: 200 });

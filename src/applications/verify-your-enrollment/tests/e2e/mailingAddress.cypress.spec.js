@@ -20,12 +20,15 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
-    cy.get('[id="root_countryCodeIso3"]').select('United States');
-    cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
-    cy.get('input[id="root_city"]').type('San Francisco');
-    cy.get('[id="root_stateCode"]').select('California');
-    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get('select[name="root_countryCodeIso3"]')
+      .first()
+      .select('United States');
+    cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 1');
+    cy.get('input[name="root_city"]').type('San Francisco');
+    cy.get('select[name="root_stateCode"]')
+      .last()
+      .select('California');
+    cy.get('input[name="root_zipCode"]').type('94121');
   };
 
   it('should navigate to benefits-profile when "Manage your Montgomery GI Bill benefits information" link is clicked', () => {
@@ -54,12 +57,8 @@ describe('Contact information', () => {
     cy.get(
       '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans"]',
     ).should('contain', 'Change mailing address');
-    cy.get('[id="root_fullName-label"]').should(
-      'contain',
-      "Veteran's full name",
-    );
   });
-  it('Should shows error if one if requried field is missing', () => {
+  it('Should shows error if one requried field is missing', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -70,31 +69,8 @@ describe('Contact information', () => {
     cy.get(
       '[aria-label="save your Mailing address for GI Bill benefits"]',
     ).click();
-    cy.get('[id="root_city-error-message"]').should(
-      'contain',
-      'City is required',
-    );
-    cy.get('[id="root_stateCode-error-message"]').should(
-      'contain',
-      'State is required',
-    );
-  });
-  it('Should submit form when all required fileds not empty', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    )
-      .first()
-      .click();
-    cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
-    ).click();
-    cy.get('[id="root_city-error-message"]').should(
-      'contain',
-      'City is required',
-    );
-    cy.get('[id="root_stateCode-error-message"]').should(
+    cy.get('[class="usa-error-message"]').should('contain', 'City is required');
+    cy.get('[class="usa-error-message"]').should(
       'contain',
       'State is required',
     );
@@ -145,9 +121,9 @@ describe('Contact information', () => {
     cy.get('va-button[uswds]')
       .last()
       .click({ force: true });
-    cy.get('[id="root_fullName-label"]').should(
+    cy.get('[class="usa-checkbox__label"]').should(
       'contain',
-      "Veteran's full name",
+      'I live on a United States military base outside of the U.S.',
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {

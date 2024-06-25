@@ -1,3 +1,7 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const envUrl = environment.API_URL;
+
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
@@ -204,7 +208,7 @@ export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
   PAGE_1: {
     PATH: 'category-topic-1',
-    TITLE: 'Category selected',
+    TITLE: 'Category',
     PAGE_DESCRIPTION: 'Category',
     QUESTION_1: 'Select the category that best describes your question:',
   },
@@ -226,19 +230,19 @@ export const CHAPTER_1 = {
 export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
-    PATH: 'question-1',
+    PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select who your question is about:',
   },
   PAGE_2: {
-    PATH: 'question-2',
+    PATH: 'reason-you-contacted-us',
     TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
-    PATH: 'question-3',
+    PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'What is your question?',
@@ -300,9 +304,9 @@ export const CHAPTER_3 = {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
@@ -339,7 +343,12 @@ export const CHAPTER_3 = {
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -347,7 +356,7 @@ export const CHAPTER_3 = {
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  YOUR_ADDRESS: {
+  YOUR_MAILING_ADDRESS: {
     TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
@@ -355,6 +364,9 @@ export const CHAPTER_3 = {
     TITLE: 'Your address confirmation',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
+  },
+  ADDRESS_VALIDATION: {
+    TITLE: 'Check your mailing address',
   },
   ABOUT_YOUR_FAM_MEM: {
     TITLE: 'Tell us about your family member',
@@ -394,6 +406,10 @@ export const CHAPTER_3 = {
   },
   FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
     TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
 };

@@ -81,7 +81,6 @@ export async function checkAutoSession(
   profile = {},
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
-
   /**
    * Ensure user is authenticated with SSOe by verifying
    * loggedIn status and transaction ID

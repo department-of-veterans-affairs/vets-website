@@ -1,0 +1,25 @@
+{
+  "data": {
+    "applicantHasPrimary": false,
+    "applicantMedicareStatus": false,
+    "applicantPhone": "1231231234",
+    "applicantGender": "male",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Circle Street",
+      "city": "Cityburg",
+      "state": "CA",
+      "postalCode": "12312"
+    },
+    "applicantNewAddress": "yes",
+    "applicantSsn": "123123123",
+    "applicantName": {
+      "first": "Applicant",
+      "last": "Jones",
+      "suffix": "III"
+    },
+    "applicantDOB": "2000-02-01",
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
+  }
+}

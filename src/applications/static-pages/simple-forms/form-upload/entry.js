@@ -8,7 +8,7 @@ export default function createFormUploadAccess(store, widgetType) {
   const { hasOnlineTool, formNumber } = root.dataset;
 
   if (root) {
-    import(/* webpackChunkName: "form-upload" */ './App.js').then(module => {
+    import(/* webpackChunkName: "form-upload" */ './App').then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>

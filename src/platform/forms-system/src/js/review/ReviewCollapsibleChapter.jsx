@@ -482,11 +482,7 @@ class ReviewCollapsibleChapter extends React.Component {
           uswds
         >
           {this.props.hasUnviewedPages && (
-            <i
-              aria-hidden="true"
-              className="fas fa-exclamation-circle vads-u-color--secondary"
-              slot="subheader-icon"
-            />
+            <va-icon icon="error" class="vads-u-color--secondary" />
           )}
           {this.getChapterContent(this.props)}
         </va-accordion-item>

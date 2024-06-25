@@ -688,8 +688,8 @@
   .jump-link {
     display: block;
 
-    i {
-      font-size: 12px;
+    va-icon {
+      vertical-align: middle;
     }
     span {
       display: inline-block;
@@ -723,6 +723,12 @@
       display: none;
     }
   }
+
+  .veteran-programs {
+    va-icon {
+      vertical-align: bottom;
+    }
+  }
 }
 
 .institution-profile {
@@ -738,5 +744,11 @@
 .iconToggle{
   display: inline-block;
   margin-right: 15px;
+}
 
+.v3-checkbox-vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 100%;
 }

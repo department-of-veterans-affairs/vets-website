@@ -1,22 +1,25 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { expect } from 'chai';
-import userEvent from '@testing-library/user-event';
-import sinon from 'sinon';
+import {
+  checkVaCheckbox,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
-
 import {
   herbicidePageTitle,
   herbicideQuestion,
   noneAndLocationError,
+  otherInvalidCharError,
 } from '../../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS } from '../../../constants';
-import { checkVaCheckbox, inputVaTextInput } from '../../testUtils';
 
 describe('Herbicide Location', () => {
   const {
@@ -72,6 +75,7 @@ describe('Herbicide Location', () => {
     const checkboxGroup = $('va-checkbox-group', container);
     checkVaCheckbox(checkboxGroup, 'cambodia');
     checkVaCheckbox(checkboxGroup, 'laos');
+    inputVaTextInput(container, 'Test location', 'va-textarea');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
@@ -88,6 +92,25 @@ describe('Herbicide Location', () => {
 
     userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should submit with `none` and `notsure` selected', async () => {
+    const formData = {};
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'none');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 
   it('should display error when other location and "none"', () => {
@@ -110,8 +133,14 @@ describe('Herbicide Location', () => {
 
   it('should display error when other location does not match pattern', () => {
     const formData = {};
+    const onSubmit = sinon.spy();
     const { container, getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
     );
 
     inputVaTextInput(
@@ -121,6 +150,27 @@ describe('Herbicide Location', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    expect($('va-textarea').error.startsWith('does not match pattern'));
+    expect($('va-textarea').error).to.equal(otherInvalidCharError);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with "notsure" and other locations selected', async () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'cambodia');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });

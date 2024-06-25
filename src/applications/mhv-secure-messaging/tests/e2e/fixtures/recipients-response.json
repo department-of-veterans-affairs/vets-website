@@ -83,6 +83,18 @@
         "relationType": "PATIENT",
         "preferredTeam": true
       }
+    },
+    {
+      "id": "3658288",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 3658288,
+        "name": "Record Amendment Admin",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
     }
   ],
   "meta": {

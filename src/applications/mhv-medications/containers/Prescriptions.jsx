@@ -51,6 +51,7 @@ import { selectRefillContentFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -434,6 +435,7 @@ const Prescriptions = () => {
   );
 
   const handleFullListDownload = async format => {
+    setHasFullListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     if (
@@ -452,11 +454,12 @@ const Prescriptions = () => {
   };
 
   const isShowingErrorNotification = Boolean(
-    ((prescriptionsFullList?.length &&
+    (((prescriptionsFullList?.length &&
       pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
       paginatedPrescriptionsList) &&
       pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
-      allergiesError,
+      allergiesError) ||
+      hasFullListDownloadError,
   );
 
   const content = () => {
@@ -464,19 +467,23 @@ const Prescriptions = () => {
       return (
         <div className="landing-page no-print">
           <h1 data-testid="list-page-title">Medications</h1>
-          <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
+          <p
+            className="vads-u-margin-top--1 vads-u-margin-bottom--3"
             data-testid="Title-Notes"
           >
-            Refill and track your VA prescriptions. And review all medications
-            in your VA medical records.
-          </div>
-          <br />
-          <br />
+            When you share your medications list with providers, make sure you
+            also tell them about your allergies and reactions to medications. If
+            you print or download this list, we’ll include a list of your
+            allergies.
+          </p>
           {prescriptionsApiError ? (
-            <ApiErrorNotification errorType="access" content="medications" />
+            <>
+              <ApiErrorNotification errorType="access" content="medications" />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
+            </>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList &&
               paginatedPrescriptionsList.length === 0 ? (
                 <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
@@ -492,21 +499,23 @@ const Prescriptions = () => {
               ) : (
                 <>
                   {showRefillContent && (
-                    <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                      <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                        Refill your prescriptions
-                      </h2>
-                      <p className="vads-u-margin-y--3">
-                        Find a list of prescriptions you can refill online.
-                      </p>
-                      <Link
-                        className="vads-c-action-link--green vads-u-margin--0"
-                        to={medicationsUrls.subdirectories.REFILL}
-                        data-testid="prescriptions-nav-link-to-refill"
-                      >
-                        Refill prescriptions
-                      </Link>
-                    </div>
+                    <va-card background>
+                      <div className="vads-u-padding-x--1">
+                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                          Refill your prescriptions
+                        </h2>
+                        <p className="vads-u-margin-y--3">
+                          Find a list of prescriptions you can refill online.
+                        </p>
+                        <Link
+                          className="vads-c-action-link--green vads-u-margin--0"
+                          to={medicationsUrls.subdirectories.REFILL}
+                          data-testid="prescriptions-nav-link-to-refill"
+                        >
+                          Refill prescriptions
+                        </Link>
+                      </div>
+                    </va-card>
                   )}
                   <Alert
                     isAlertVisible={isAlertVisible}

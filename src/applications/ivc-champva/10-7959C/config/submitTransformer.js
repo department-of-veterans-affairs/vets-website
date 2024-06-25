@@ -19,20 +19,15 @@ export default function transformForSubmit(formConfig, form) {
 
   const copyOfData = JSON.parse(JSON.stringify(transformedData));
 
+  copyOfData.applicantMedicareAdvantage =
+    copyOfData.applicantMedicareClass === 'advantage';
+
   copyOfData.hasOtherHealthInsurance =
     copyOfData.applicantHasPrimary || copyOfData.applicantHasSecondary;
 
   if (copyOfData.applicantName?.middle) {
     copyOfData.applicantName.middle =
       copyOfData.applicantName?.middle?.charAt(0) ?? '';
-  }
-
-  // go from medigapPlanA -> A
-  if (copyOfData.primaryMedigapPlan) {
-    copyOfData.primaryMedigapPlan = copyOfData.primaryMedigapPlan.slice(-1);
-  }
-  if (copyOfData.secondaryMedigapPlan) {
-    copyOfData.secondaryMedigapPlan = copyOfData.secondaryMedigapPlan.slice(-1);
   }
 
   // Make sure all dates are in MM-DD-YYYY format
