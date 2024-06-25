@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import { App } from '../../components/App';
@@ -25,7 +25,6 @@ describe('Header <App>', () => {
 
   afterEach(() => {
     sandbox.restore();
-    cleanup();
   });
 
   function setupHeader(options = {}) {
