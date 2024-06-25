@@ -87,7 +87,7 @@ describe('Header <App>', () => {
   });
 
   it('renders legacy header when our width is more than 768px', () => {
-    window.innerWidth = 768;
+    window.innerWidth = 769;
 
     const { queryByText, staticDom } = setupHeader();
 
