@@ -143,6 +143,7 @@ export default function FormNav(props) {
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
+  const stepLabels = formConfig?.stepLabels;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
@@ -153,6 +154,7 @@ export default function FormNav(props) {
           uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
           name="v3SegmentedProgressBar"
+          labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
           {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
         />
