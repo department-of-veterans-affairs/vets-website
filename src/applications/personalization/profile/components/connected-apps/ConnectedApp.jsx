@@ -32,14 +32,14 @@ export class ConnectedApp extends Component {
         className="connected-app border-box vads-l-grid-container vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
         vads-u-margin-y--2 vads-u-display--block small-screen:vads-u-display--flex"
       >
-        <div className="small-screen:vads-l-col--4 vads-u-text-align--center">
+        <div className="small-screen:vads-l-col--2 small-screen:vads-u-text-align--center vads-u-text-align--left">
           <img
-            className="va-connected-app-account-logo vads-u-margin-right--2p5"
+            className="va-connected-app-account-logo vads-u-margin-right--2p5 vads-u-margin-bottom--1"
             src={logo}
             alt=""
           />
         </div>
-        <div className="vads-u-flex--4 vads-u-align-items--flex-start vads-l-col--9">
+        <div className="vads-u-flex--4 vads-u-align-items--flex-start">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
             <div>
               <h2 className="vads-u-margin--0 vads-u-color--gray-dark vads-u-font-size--h3 vads-u-padding-right--1px">
