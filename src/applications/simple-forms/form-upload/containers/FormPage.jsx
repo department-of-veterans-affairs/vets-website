@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -6,7 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { focusByOrder } from '~/platform/utilities/ui';
+import { focusElement } from '~/platform/utilities/ui';
 import {
   getBreadcrumbList,
   getFormNumber,
@@ -14,39 +14,30 @@ import {
   handleRouteChange,
 } from '../helpers';
 
+const focusProgressBar = () => {
+  const el = document.querySelector('va-segmented-progress-bar');
+  focusElement(el, {}, null);
+};
+
 const FormPage = ({ children, currentLocation, pageTitle }) => {
   const history = useHistory();
-
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
-  const [index, setIndex] = useState(0);
 
-  // The goal with this is to quickly "remove" the header from the DOM, and
-  // immediately re-render the component with the header included. `currentLocation`
-  // changes when the form chapter changes, and when this happens we want to
-  // force react to remove the <h2> and re-render it. This should ensure that
-  // VoiceOver will pick up on the new <h2>
-  // https://github.com/department-of-veterans-affairs/VA.gov-team-forms/issues/1400
+  // This logic focuses the progress bar for screen readers.
   useEffect(
     () => {
-      const selector = '.nav-header > va-segmented-progress-bar';
-
-      if (currentLocation > index + 1) {
-        setIndex(index + 1);
-      } else if (currentLocation === index) {
-        setIndex(index - 1);
-      } else {
-        focusByOrder([selector]);
-      }
+      // Delay the focus logic to override any other focus
+      const timer = setTimeout(focusProgressBar, 300);
 
       return () => {
-        focusByOrder([selector]);
+        clearTimeout(timer);
       };
     },
-    [currentLocation, index],
+    [currentLocation],
   );
 
   return (
