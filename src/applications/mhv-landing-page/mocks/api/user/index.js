@@ -82,7 +82,7 @@ const generateUser = ({
         va_profile: {
           ...defaultUser.data.attributes.va_profile,
           mhv_account_state: mhvAccountState,
-          va_patient: vaPatient,
+          va_patient: loa === 3 && vaPatient,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
