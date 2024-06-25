@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import {
   VaButton,
-  VaIcon,
+  VaCard,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -50,15 +50,34 @@ const SubmitPage = () => {
     <FormPage
       currentLocation={3}
       pageTitle={
-        <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
+        <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
           <h3>Uploaded file</h3>
           <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
         </div>
       }
     >
-      <div>
-        <VaIcon icon="description" size={5} srtext="icon representing a file" />
-        <b>{fileName}</b> {getFileSize(fileSize)}
+      <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-y--1 vads-u-color--gray">Your file</div>
+        <VaCard style={{ maxWidth: '50%' }}>
+          <div className="vads-u-display--flex vads-u-flex-direction--row">
+            <va-icon
+              size={4}
+              icon="see name mappings here https://design.va.gov/foundation/icons"
+              className="vads-u-margin-right--1 vads-u-color--primary"
+              aria-hidden="true"
+              style={{ fontSize: '3rem' }}
+            />
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <span className="vads-u-font-weight--bold">{fileName}</span>{' '}
+              <span className="vads-u-color--gray-darker">
+                {getFileSize(fileSize)}
+              </span>
+            </div>
+          </div>
+        </VaCard>
+      </div>
+      <div className="vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+        <h3>Your personal information</h3>
       </div>
       <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
         <p>
