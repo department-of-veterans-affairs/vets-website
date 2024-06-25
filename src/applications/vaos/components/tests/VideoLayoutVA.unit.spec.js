@@ -90,7 +90,8 @@ describe('VAOS Component: VideoLayoutVA', () => {
           }),
         ).not.to.exist;
       });
-      it('should not display heading and type of care information when no type of care information is returned', async () => {
+
+      it('should not display heading and type of care when no type of care information is returned', async () => {
         // Arrange
         const store = createTestStore(initialState);
         const appointment = {
@@ -107,6 +108,15 @@ describe('VAOS Component: VideoLayoutVA', () => {
             extension: {
               patientHasMobileGfe: false,
             },
+            providers: [
+              {
+                name: {
+                  firstName: ['TEST'],
+                  lastName: 'PROV',
+                },
+                display: 'TEST PROV',
+              },
+            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -115,7 +125,9 @@ describe('VAOS Component: VideoLayoutVA', () => {
             isPendingAppointment: false,
             isUpcomingAppointment: true,
             isVideo: true,
-            apiData: {},
+            apiData: {
+              serviceType: null,
+            },
           },
           status: 'booked',
         };
@@ -135,7 +147,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             name: /Video appointment at VA location/i,
           }),
         );
-
         expect(
           screen.queryByRole('heading', {
             level: 2,
