@@ -23,6 +23,7 @@ export default {
     hasBeenCourtMartialed: yesNoPageSchema({
       title: 'Court martialed',
       path: 'court-martialed',
+      depends: formData => formData?.militaryServiceExperiences?.length,
       heading: 'Have you ever been convicted by a military court-martial?',
     }),
     courtMartialDetails,
@@ -86,6 +87,7 @@ export default {
     hasConditionThatAffectsExamination: yesNoPageSchema({
       title: 'Condition that affects examination',
       path: 'condition-that-affects-examination',
+      depends: formData => formData?.role === 'CLAIMS_AGENT',
       heading:
         'Do you have any physical limitations which would interfere with your completion of written examination administered under the supervision of a VA district counsel?',
     }),

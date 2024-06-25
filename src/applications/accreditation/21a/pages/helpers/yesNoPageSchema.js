@@ -11,6 +11,7 @@ import {
 const yesNoPageSchema = ({
   title,
   path,
+  depends,
   heading,
   descriptionString = '',
   DescriptionComponent,
@@ -28,6 +29,7 @@ const yesNoPageSchema = ({
   return {
     title,
     path,
+    depends,
     uiSchema: {
       ...titleUI(heading, description),
       [key]: yesNoUI(options || ' '),
