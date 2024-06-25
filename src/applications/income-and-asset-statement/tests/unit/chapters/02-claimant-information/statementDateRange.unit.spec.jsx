@@ -1,14 +1,14 @@
 import testData from '../../../e2e/fixtures/data/test-data.json';
 
 import formConfig from '../../../../config/form';
-import statementDateRange from '../../../../config/chapters/02-claimant-information/statementDateRange';
+import incomeNetWorthDateRange from '../../../../config/chapters/02-claimant-information/incomeNetWorthDateRange';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-const { schema, uiSchema } = statementDateRange;
+const { schema, uiSchema } = incomeNetWorthDateRange;
 
 describe('income and asset statement date range page', () => {
   testNumberOfFieldsByType(
