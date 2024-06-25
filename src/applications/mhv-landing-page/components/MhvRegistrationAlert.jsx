@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
   useEffect(
@@ -18,42 +17,17 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
   );
 
   return (
-    <>
-      <div className="mhv-c-reg-alert mhv-u-reg-alert-warning usa-alert vads-u-display--flex vads-u-align-items--flex-start vads-u-justify-content--center vads-u-flex-direction--row">
-        <va-icon icon={icon} size={4} />
-        <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
-          <h2>{headline}</h2>
-          <div className="mhv-u-reg-alert-body" role="presentation">
-            <p className="vads-u-margin-y--0">
-              Before you can access your messages, medications, and medical
-              records, we need to confirm your personal information and
-              relationship with VA health care. After you register, come back to
-              this page.
-            </p>
-            <p>
-              <a
-                className="vads-c-action-link--green"
-                href="https://www.myhealth.va.gov/registration"
-              >
-                Register with My HealtheVet
-              </a>
-            </p>
-            <p>
-              <a href="https://www.va.gov/resources/how-to-access-my-healthevet-on-vagov/">
-                Learn how to access My HealtheVet on VA.gov
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <VaAlert
-        className="mhv-uuu"
-        status="continue"
-        data-testid="mhv-registration-alert"
-        disableAnalytics
-      >
-        <h2 slot="headline">{headline}</h2>
-        <div>
+    <div
+      className="mhv-c-reg-alert mhv-u-reg-alert-warning usa-alert vads-u-display--flex 
+    vads-u-align-items--flex-start vads-u-justify-content--center vads-u-flex-direction--row 
+    vads-u-margin-bottom--3"
+    >
+      <va-icon icon={icon} size={4} />
+      <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+          {headline}
+        </h2>
+        <div className="mhv-u-reg-alert-body" role="presentation">
           <p className="vads-u-margin-y--0">
             Before you can access your messages, medications, and medical
             records, we need to confirm your personal information and
@@ -74,8 +48,8 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
             </a>
           </p>
         </div>
-      </VaAlert>
-    </>
+      </div>
+    </div>
   );
 };
 

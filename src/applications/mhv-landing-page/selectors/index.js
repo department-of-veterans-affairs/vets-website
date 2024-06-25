@@ -19,7 +19,7 @@ import {
   helpdeskInfoEnabled,
 } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { selectHasMHVAccountState } from './hasMHVAccountState';
+import { hasMHVAccountState } from './hasMHVAccountState';
 import {
   selectGreetingName,
   selectPersonalInformation,
@@ -42,5 +42,5 @@ export {
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  hasMHVAccountState,
 };

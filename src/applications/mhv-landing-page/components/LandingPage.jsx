@@ -25,6 +25,7 @@ import {
   isVAPatient,
   personalizationEnabled,
   helpdeskInfoEnabled,
+  hasMHVAccountState,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
@@ -33,10 +34,10 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const verified = useSelector(isLOA3);
   const registered = useSelector(isVAPatient);
   const signInService = useSelector(signInServiceName);
+  const hasMHVAccount = useSelector(hasMHVAccountState);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo =
     useSelector(helpdeskInfoEnabled) && verified && registered;
-  const showCards = verified && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = !verified ? (
@@ -63,7 +64,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 
   return (
     <>
-      {verified && registered && <MhvSecondaryNav />}
+      {registered && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"
@@ -74,8 +75,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          <MhvRegistrationAlert />
-          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+          {registered && !hasMHVAccount && <MhvRegistrationAlert />}
+          {registered ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
