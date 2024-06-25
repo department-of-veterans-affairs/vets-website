@@ -74,21 +74,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             },
           },
           status: 'booked',
-          practitioners: [
-            {
-              identifier: [
-                {
-                  system: 'dfn-983',
-                  value: '520647363',
-                },
-              ],
-              name: {
-                family: 'NADEAU',
-                given: ['MARCY'],
-              },
-              practiceName: 'Cheyenne VA Medical Center',
-            },
-          ],
         };
 
         // Act
