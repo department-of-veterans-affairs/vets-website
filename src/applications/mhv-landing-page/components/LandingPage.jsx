@@ -25,7 +25,7 @@ import {
   isVAPatient,
   personalizationEnabled,
   helpdeskInfoEnabled,
-  hasMHVAccountState,
+  hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
@@ -34,7 +34,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const verified = useSelector(isLOA3);
   const registered = useSelector(isVAPatient);
   const signInService = useSelector(signInServiceName);
-  const hasMHVAccount = useSelector(hasMHVAccountState);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo =
     useSelector(helpdeskInfoEnabled) && verified && registered;
@@ -75,7 +75,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {registered && !hasMHVAccount && <MhvRegistrationAlert />}
+          {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
           {registered ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
