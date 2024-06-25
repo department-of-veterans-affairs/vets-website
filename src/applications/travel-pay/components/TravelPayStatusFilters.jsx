@@ -29,7 +29,7 @@ export default function TravelPayFilters(props) {
           />
           <hr />
           <label htmlFor="claimsOrder" className="vads-u-margin-bottom--0">
-            Show appointments in this order
+            Select a date range
           </label>
           <select
             hint={null}
