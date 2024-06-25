@@ -9,7 +9,15 @@ import {
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
+  AUTH_BROKER,
 } from 'platform/user/authentication/constants';
+import {
+  DD_SESSION_STORAGE_KEY,
+  dataDogLog,
+  STATUS_TYPE,
+  LOG_NAME,
+  newPayload,
+} from 'platform/user/authentication/datadog/utilities';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
   ALL_STATE_AND_VERIFIERS,
@@ -320,6 +328,25 @@ export const logoutEvent = async (signInServiceName, wait = {}) => {
   const sleep = time => {
     return new Promise(resolve => setTimeout(resolve, time));
   };
+
+  const isSSOe = !wait.shouldWait;
+  const ddSessionStorage = sessionStorage.getItem(DD_SESSION_STORAGE_KEY) || {
+    authLocation: 'unknown',
+    application: 'unknown',
+    level: 'unknown',
+  };
+  dataDogLog({
+    name: LOG_NAME.LOGOUT_ATTEMPT,
+    payload: newPayload({
+      csp: signInServiceName,
+      authBroker: isSSOe ? AUTH_BROKER.SIS : AUTH_BROKER.IAM,
+      authLocation: ddSessionStorage.authLocation,
+      application: ddSessionStorage.application,
+      level: ddSessionStorage.level,
+    }),
+    type: STATUS_TYPE.INFO,
+  });
+
   recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
   updateLoggedInStatus(false);
