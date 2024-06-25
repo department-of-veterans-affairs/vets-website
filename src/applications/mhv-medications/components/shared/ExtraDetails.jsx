@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
 import {
   dispStatusObj,
   medicationsUrls,
@@ -10,7 +10,8 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
+  const { dispStatus, refillRemaining } = rx;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -29,7 +30,7 @@ const ExtraDetails = rx => {
           <p className="vads-u-margin-top--1">
             Call your VA pharmacy
             <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
+              cmopDivisionPhone={pharmacyPhone}
               page={DD_ACTIONS_PAGE_TYPE.DETAILS}
             />
           </p>
@@ -43,7 +44,7 @@ const ExtraDetails = rx => {
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
             <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
+              cmopDivisionPhone={pharmacyPhone}
               page={DD_ACTIONS_PAGE_TYPE.DETAILS}
             />
           </p>
@@ -121,7 +122,7 @@ const ExtraDetails = rx => {
           You can’t refill this prescription online right now. If you need a
           refill, call your VA pharmacy
           <CallPharmacyPhone
-            cmopDivisionPhone={cmopDivisionPhone}
+            cmopDivisionPhone={pharmacyPhone}
             page={DD_ACTIONS_PAGE_TYPE.DETAILS}
           />
         </p>
@@ -149,7 +150,6 @@ const ExtraDetails = rx => {
 ExtraDetails.propTypes = {
   rx: PropTypes.shape({
     dispStatus: PropTypes.string,
-    cmopDivisionPhone: PropTypes.string,
   }),
 };
 

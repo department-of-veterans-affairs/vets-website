@@ -4,12 +4,17 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import { validateField, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  pharmacyPhoneNumber,
+} from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
-  const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
+
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -141,9 +146,9 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {phoneNumber ? (
+              {pharmacyPhone ? (
                 <>
-                  <va-telephone contact={phoneNumber} not-clickable /> (
+                  <va-telephone contact={pharmacyPhone} not-clickable /> (
                   <va-telephone tty contact="711" not-clickable />)
                 </>
               ) : (
@@ -201,7 +206,7 @@ const PrescriptionPrintOnly = props => {
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
                             <VaPharmacyText
-                              phone={phoneNumber}
+                              phone={pharmacyPhone}
                               isNotClickable
                             />
                             .
@@ -230,7 +235,10 @@ const PrescriptionPrintOnly = props => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phoneNumber} isNotClickable />{' '}
+                          <VaPharmacyText
+                            phone={pharmacyPhone}
+                            isNotClickable
+                          />{' '}
                           if you need help identifying this medication.
                         </>
                       )}

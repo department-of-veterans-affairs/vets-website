@@ -7,6 +7,7 @@ import {
   getImageUri,
   dateFormat,
   createOriginalFillRecord,
+  pharmacyPhoneNumber,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -19,14 +20,13 @@ const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
   refillHistory.push(originalFill);
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
-  const phoneNumber =
-    prescription?.cmopDivisionPhone || prescription?.dialCmopDivisionPhone;
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
@@ -100,9 +100,9 @@ const VaPrescription = prescription => {
               Pharmacy phone number
             </h3>
             <div className="no-print">
-              {phoneNumber ? (
+              {pharmacyPhone ? (
                 <>
-                  <va-telephone contact={phoneNumber} /> (
+                  <va-telephone contact={pharmacyPhone} /> (
                   <va-telephone tty contact="711" />)
                 </>
               ) : (
@@ -139,22 +139,13 @@ const VaPrescription = prescription => {
                   identification purposes only. They don’t mean that this is the
                   amount of medication you’re supposed to take. If the most
                   recent image doesn’t match what you’re taking, call{' '}
-                  <VaPharmacyText
-                    phone={
-                      prescription?.cmopDivisionPhone ||
-                      prescription?.dialCmopDivisionPhone
-                    }
-                  />
-                  .
+                  <VaPharmacyText phone={pharmacyPhone} />.
                 </p>
               )}
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => {
                 const { shape, color, backImprint, frontImprint } = entry;
-                const phone =
-                  prescription?.cmopDivisionPhone ||
-                  prescription?.dialCmopDivisionPhone;
                 const refillPosition = refillHistory.length - i - 1;
                 const refillLabelId = `rx-refill-${refillPosition}`;
                 return (
@@ -235,7 +226,7 @@ const VaPrescription = prescription => {
                           <p className="vads-u-margin--0">
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
-                            <VaPharmacyText phone={phone} />.
+                            <VaPharmacyText phone={pharmacyPhone} />.
                           </p>
                           <ul className="vads-u-margin--0">
                             <li
@@ -273,8 +264,8 @@ const VaPrescription = prescription => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phone} /> if you need help
-                          identifying this medication.
+                          <VaPharmacyText phone={pharmacyPhone} /> if you need
+                          help identifying this medication.
                         </>
                       )}
                     </div>
