@@ -21,15 +21,14 @@ import {
   sortedSpecializedMissionDefinitions,
   validateSearchTerm,
   isShowVetTec,
-  isShowCommunityFocusVACheckbox,
 } from '../../utils/helpers';
+
 import { showModal, filterChange, setError } from '../../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
 } from '../../constants';
-import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
@@ -62,246 +61,6 @@ const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
     },
   ];
 };
-
-export function schoolTypesCheckboxes(
-  handleIncludedSchoolTypesChange,
-  options,
-  smallScreen,
-  automatedTest = false,
-) {
-  if (isShowCommunityFocusVACheckbox(automatedTest)) {
-    return (
-      <VACheckboxGroupGi
-        className="about-school-checkbox"
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-            aria-level={2}
-          >
-            School types
-          </h3>
-        }
-        onChange={handleIncludedSchoolTypesChange}
-        options={options}
-        row={!smallScreen}
-        padding={!smallScreen}
-        colNum="1p5"
-        labelMargin="3"
-        // setIsCleared={setIsCleared}
-      />
-    );
-  }
-  return (
-    <CheckboxGroup
-      className="about-school-checkbox"
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-          aria-level={2}
-        >
-          School types
-        </h3>
-      }
-      onChange={handleIncludedSchoolTypesChange}
-      options={options}
-      row={!smallScreen}
-      colNum="1p5"
-      labelMargin="3"
-      // setIsCleared={setIsCleared}
-    />
-  );
-}
-
-export function aboutTheSchoolOptions(
-  excludeCautionFlags,
-  accredited,
-  studentVeteran,
-  yellowRibbonScholarship,
-  automatedTest = false,
-) {
-  if (isShowCommunityFocusVACheckbox(automatedTest)) {
-    return [
-      {
-        name: 'excludeCautionFlags',
-        checked: excludeCautionFlags,
-        dataTestId: 'exclude-caution-flags',
-        optionLabel: 'Has no cautionary warnings',
-      },
-      {
-        name: 'accredited',
-        dataTestId: 'accredited',
-        checked: accredited,
-        optionLabel: 'Is accredited',
-      },
-      {
-        name: 'studentVeteran',
-        dataTestId: 'student-veteran',
-        checked: studentVeteran,
-        optionLabel: 'Has a Student Veteran Group',
-      },
-      {
-        name: 'yellowRibbonScholarship',
-        dataTestId: 'yellow-ribbon',
-        checked: yellowRibbonScholarship,
-        optionLabel: 'Offers Yellow Ribbon Program',
-      },
-    ];
-  }
-  return [
-    {
-      name: 'excludeCautionFlags',
-      checked: excludeCautionFlags,
-      dataTestId: 'exclude-caution-flags',
-      optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-          Has no cautionary warnings
-        </label>
-      ),
-    },
-    {
-      name: 'accredited',
-      dataTestId: 'accredited',
-      checked: accredited,
-      optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-          Is accredited
-        </label>
-      ),
-    },
-    {
-      name: 'studentVeteran',
-      dataTestId: 'student-veteran',
-      checked: studentVeteran,
-      optionLabel: 'Has a Student Veteran Group',
-    },
-    {
-      name: 'yellowRibbonScholarship',
-      dataTestId: 'yellow-ribbon',
-      checked: yellowRibbonScholarship,
-      optionLabel: 'Offers Yellow Ribbon Program',
-    },
-  ];
-}
-
-export function aboutTheSchool(
-  onChangeCheckbox,
-  options,
-  smallScreen,
-  automatedTest = false,
-) {
-  if (isShowCommunityFocusVACheckbox(automatedTest)) {
-    return (
-      <VACheckboxGroupGi
-        // setIsCleared={setIsCleared}
-        className="about-school-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            About the school
-          </h3>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        padding={!smallScreen}
-        colNum="1p5"
-      />
-    );
-  }
-  return (
-    <CheckboxGroup
-      // setIsCleared={setIsCleared}
-      className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          About the school
-        </h3>
-      }
-      onChange={onChangeCheckbox}
-      options={options}
-      row={!smallScreen}
-      padding={!smallScreen}
-      colNum="4p5"
-    />
-  );
-}
-
-export function otherCheckboxes(
-  handleVetTechPreferredProviderChange,
-  options,
-  smallScreen,
-  automatedTest = false,
-) {
-  if (isShowCommunityFocusVACheckbox(automatedTest)) {
-    return (
-      <VACheckboxGroupGi
-        className="other-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            Other
-          </h3>
-        }
-        onChange={handleVetTechPreferredProviderChange}
-        options={options}
-        // setIsCleared={setIsCleared}
-        row={!smallScreen}
-        colNum="4p5"
-      />
-    );
-  }
-  return (
-    <CheckboxGroup
-      className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          Other
-        </h3>
-      }
-      onChange={handleVetTechPreferredProviderChange}
-      options={options}
-      // setIsCleared={setIsCleared}
-      row={!smallScreen}
-      colNum="4p5"
-    />
-  );
-}
-
-export function communityFocusCheckboxes(
-  onChangeCheckbox,
-  sortedOptions,
-  smallScreen,
-  automatedTest = false,
-) {
-  if (isShowCommunityFocusVACheckbox(automatedTest)) {
-    return (
-      <VACheckboxGroupGi
-        class="vads-u-margin-y--4"
-        className="my-filters-margin"
-        onChange={onChangeCheckbox}
-        options={sortedOptions}
-        // setIsCleared={setIsCleared}
-        row={!smallScreen}
-        colNum="4"
-      />
-    );
-  }
-  return (
-    <CheckboxGroup
-      class="vads-u-margin-y--4"
-      className="my-filters-margin"
-      onChange={onChangeCheckbox}
-      options={sortedOptions}
-      // setIsCleared={setIsCleared}
-      row={!smallScreen}
-      colNum="4"
-    />
-  );
-}
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -498,32 +257,89 @@ export function FilterBeforeResults({
 
     return (
       <div className="filter-your-results">
-        {schoolTypesCheckboxes(
-          handleIncludedSchoolTypesChange,
-          options,
-          smallScreen,
-        )}
+        {
+          <VACheckboxGroupGi
+            className="about-school-checkbox"
+            label={
+              <h3 className="school-types-label" aria-level={2}>
+                School types
+              </h3>
+            }
+            onChange={handleIncludedSchoolTypesChange}
+            options={options}
+            row={!smallScreen}
+            padding={!smallScreen}
+            colNum="1p5"
+            labelMargin="3"
+            // setIsCleared={setIsCleared}
+          />
+        }
       </div>
     );
   };
 
   const schoolAttributes = () => {
-    const options = aboutTheSchoolOptions(
-      excludeCautionFlags,
-      accredited,
-      studentVeteran,
-      yellowRibbonScholarship,
-    );
+    const options = [
+      {
+        name: 'excludeCautionFlags',
+        checked: excludeCautionFlags,
+        dataTestId: 'exclude-caution-flags',
+        optionLabel: 'Has no cautionary warnings',
+      },
+      {
+        name: 'accredited',
+        dataTestId: 'accredited',
+        checked: accredited,
+        optionLabel: 'Is accredited',
+      },
+      {
+        name: 'studentVeteran',
+        dataTestId: 'student-veteran',
+        checked: studentVeteran,
+        optionLabel: 'Has a Student Veteran Group',
+      },
+      {
+        name: 'yellowRibbonScholarship',
+        dataTestId: 'yellow-ribbon',
+        checked: yellowRibbonScholarship,
+        optionLabel: 'Offers Yellow Ribbon Program',
+      },
+    ];
 
-    return aboutTheSchool(onChangeCheckbox, options, smallScreen);
+    return (
+      <VACheckboxGroupGi
+        // setIsCleared={setIsCleared}
+        className="about-school-checkbox"
+        label={
+          <h3 className="about-school-label" aria-level={2}>
+            About the school
+          </h3>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
+        row={!smallScreen}
+        padding={!smallScreen}
+        colNum="1p5"
+      />
+    );
   };
 
   const vetTecOJT = () => {
     const options = etTecOJTOptions(employers, vettec);
-    return otherCheckboxes(
-      handleVetTechPreferredProviderChange,
-      options,
-      smallScreen,
+    return (
+      <VACheckboxGroupGi
+        className="other-checkbox"
+        label={
+          <h3 className="about-school-label" aria-level={2}>
+            Other
+          </h3>
+        }
+        onChange={handleVetTechPreferredProviderChange}
+        options={options}
+        // setIsCleared={setIsCleared}
+        row={!smallScreen}
+        colNum="4p5"
+      />
     );
   };
 
@@ -700,11 +516,15 @@ export function FilterBeforeResults({
               }
             />
           )}
-          {communityFocusCheckboxes(
-            onChangeCheckbox,
-            sortedOptions,
-            smallScreen,
-          )}
+          <VACheckboxGroupGi
+            class="vads-u-margin-y--4"
+            className="my-filters-margin"
+            onChange={onChangeCheckbox}
+            options={sortedOptions}
+            // setIsCleared={setIsCleared}
+            row={!smallScreen}
+            colNum="4"
+          />
         </div>
       </div>
     );
