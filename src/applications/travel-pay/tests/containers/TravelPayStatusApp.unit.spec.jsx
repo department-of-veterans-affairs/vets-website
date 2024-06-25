@@ -64,7 +64,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132ig',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'IN_PROCESS',
+          claimStatus: 'INCOMPLETE',
           appointmentDateTime: febDate,
           appointmentName: 'older',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -223,6 +223,29 @@ describe('App', () => {
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
+    });
+  });
+
+  it('displayed status filters correctly', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(() => {
+      const statusFilters = screen.getAllByTestId('status-filter');
+      expect(statusFilters.length).to.eq(2);
+      expect(statusFilters.map(filter => filter.label)).to.include(
+        'INCOMPLETE',
+      );
+      expect(statusFilters.map(filter => filter.label)).to.include(
+        'IN_PROCESS',
+      );
     });
   });
 

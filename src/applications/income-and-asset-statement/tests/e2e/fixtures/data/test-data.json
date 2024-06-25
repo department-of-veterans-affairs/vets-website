@@ -1,12 +1,20 @@
 {
   "data": {
+    "incomeNetWorthDateRange": {
+      "from": "2023-07-01",
+      "to": "2024-01-01"
+    },
     "veteranFullName": {
       "first": "John",
       "last": "Doe"
     },
     "veteranSocialSecurityNumber": "321654987",
-    "applicantIsVeteran": true,
-    "claimantFullName": {},
+    "view:applicantIsVeteran": false,
+    "claimantFullName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "claimantSocialSecurityNumber": "321654987",
     "claimantType": "veteran",
     "statementOfTruthSignature": "John Doe"
   }

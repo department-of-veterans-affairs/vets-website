@@ -47,36 +47,6 @@ const pronounInfo = (
   </>
 );
 
-// const genderInfo = (
-//   <va-additional-info
-//     trigger="What to know before you decide to share your gender identity"
-//     class="vads-u-margin-bottom--0"
-//     uswds
-//   >
-//     <div>
-//       <p className="vads-u-margin-top--0">
-//         Sharing your gender identity on this application is optional. This
-//         information can help your health care team know how you wish to be
-//         addressed as a person. It can also help your team better assess your
-//         health needs and risks. We also use this information to help make sure
-//         we’re serving the needs of all Veterans.
-//       </p>
-
-//       <p>
-//         But you should know that any information you share here goes into your
-//         VA-wide records. VA staff outside of the health care system may be able
-//         to read this information.
-//       </p>
-
-//       <p className="vads-u-margin-bottom--0">
-//         We follow strict security and privacy practices to keep your personal
-//         information secure. But if you want to share your gender identity in
-//         your health records only, talk with your health care team.
-//       </p>
-//     </div>
-//   </va-additional-info>
-// );
-
 const ssnServiceInfo = (
   <>
     <h4 className="vads-u-font-weight--bold vads-u-font-family--serif">
@@ -101,18 +71,6 @@ const pronounsLabels = {
   zeZirZirs: 'Ze/zir/zirs',
   useMyPreferredName: 'Use my preferred name',
 };
-
-// const genderLabels = {
-//   M: 'Man',
-//   B: 'Non-binary',
-//   TM: 'Transgender man',
-//   TF: 'Transgender woman',
-//   F: 'Woman',
-//   N: 'Prefer not to answer',
-//   O: 'A gender not listed here',
-// };
-
-// const genderOptions = Object.keys(genderLabels);
 
 export const personalInformationFormSchemas = {
   first: {
@@ -155,10 +113,64 @@ export const personalInformationFormSchemas = {
     required: [],
   },
 };
-// genderIdentity: {
-//   type: 'object',
-//   properties: { genderIdentity: { type: 'string', enum: genderOptions } },
-// },
+
+export const aboutYourselfRelationshipFamilyMemberSchema = {
+  first: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  middle: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
+  preferredName: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  socialNum: ssnSchema,
+  branchOfService: selectSchema(branchesOfService),
+  dateOfBirth: dateOfBirthSchema,
+  pronouns: {
+    type: 'object',
+    properties: {
+      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
+      ...{ pronounsNotListedText: { type: 'string' } },
+    },
+    required: [],
+  },
+};
+
+export const aboutYourselfGeneralSchema = {
+  first: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  middle: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
+  pronouns: {
+    type: 'object',
+    properties: {
+      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
+      ...{ pronounsNotListedText: { type: 'string' } },
+    },
+  },
+};
 
 export const personalInformationUiSchemas = {
   first: {
@@ -221,7 +233,7 @@ export const personalInformationUiSchemas = {
   dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
   pronouns: {
     'ui:title': pronounInfo,
-    'ui:validations': [validateGroup],
+    // 'ui:validations': [validateGroup],
     'ui:options': { showFieldLabel: true },
     ...createUiTitlePropertiesFromOptions(pronounsLabels),
     pronounsNotListedText: {
@@ -230,17 +242,6 @@ export const personalInformationUiSchemas = {
     },
   },
 };
-// dob: { ...currentOrPastDateUI('Date of birth'), 'ui:required': () => true },
-// genderIdentity: {
-//   'ui:title': 'Gender identity',
-//   'ui:description': genderInfo,
-//   genderIdentity: {
-//     'ui:widget': 'radio',
-//     'ui:title': `Select a gender identity`,
-//     'ui:required': () => true,
-//     'ui:options': { labels: genderLabels, enumOptions: genderOptions },
-//   },
-// },
 
 export const personalInformationAboutYourselfUiSchemas = {
   first: {
@@ -352,7 +353,14 @@ export const personalInformationAboutYourselfUiSchemas = {
   },
   dateOfBirth: {
     ...dateOfBirthUI(),
-    'ui:required': () => true,
+    'ui:required': formData =>
+      !(
+        (formData.questionAbout === 'SOMEONE_ELSE' &&
+          formData.personalRelationship === 'WORK') ||
+        (formData.questionAbout === 'SOMEONE_ELSE' &&
+          formData.personalRelationship === 'FAMILY_MEMBER') ||
+        formData.questionAbout === 'GENERAL'
+      ),
     'ui:options': {
       uswds: true,
       hideIf: formData =>
@@ -363,34 +371,64 @@ export const personalInformationAboutYourselfUiSchemas = {
         formData.questionAbout === 'GENERAL',
     },
   },
+  pronouns: {
+    'ui:title': pronounInfo,
+    'ui:required': () => false,
+    'ui:options': { showFieldLabel: true },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    },
+  },
 };
-// dob: {
-//   ...currentOrPastDateUI('Date of birth'),
-//   'ui:required': () => true,
-//   'ui:options': {
-//     hideIf: formData =>
-//       formData.questionAbout === 'SOMEONE_ELSE' &&
-//       formData.personalRelationship === 'WORK',
-//   },
-// },
-// pronouns: {
-//   'ui:title': pronounInfo,
-//   'ui:required': () => true,
-//   'ui:validations': [validateGroup],
-//   'ui:options': { showFieldLabel: true },
-//   ...createUiTitlePropertiesFromOptions(pronounsLabels),
-//   pronounsNotListedText: {
-//     'ui:title':
-//       'If not listed, please provide your preferred pronouns (255 characters maximum)',
-//   },
-// },
-// genderIdentity: {
-//   'ui:title': 'Gender identity',
-//   'ui:description': genderInfo,
-//   genderIdentity: {
-//     'ui:widget': 'radio',
-//     'ui:title': `Select a gender identity`,
-//     'ui:required': () => true,
-//     'ui:options': { labels: genderLabels, enumOptions: genderOptions },
-//   },
-// },
+
+export const aboutYourselfGeneralUISchema = {
+  first: {
+    'ui:title': 'First name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'given-name',
+    'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a first name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  middle: {
+    'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'additional-name',
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  last: {
+    'ui:title': 'Last name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'family-name',
+    'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a last name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:webComponentField': VaSelectField,
+    'ui:autocomplete': 'honorific-suffix',
+    'ui:options': {
+      uswds: true,
+      widgetClassNames: 'form-select-medium',
+      hideEmptyValueInReview: true,
+    },
+  },
+  pronouns: {
+    'ui:title': pronounInfo,
+    'ui:options': { showFieldLabel: true },
+    ...createUiTitlePropertiesFromOptions(pronounsLabels),
+    pronounsNotListedText: {
+      'ui:title':
+        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    },
+  },
+};
