@@ -51,6 +51,15 @@ describe('VAOS Component: VideoLayout', () => {
           extension: {
             patientHasMobileGfe: true,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -155,6 +164,15 @@ describe('VAOS Component: VideoLayout', () => {
           extension: {
             patientHasMobileGfe: true,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -268,6 +286,15 @@ describe('VAOS Component: VideoLayout', () => {
             extension: {
               patientHasMobileGfe: true,
             },
+            providers: [
+              {
+                name: {
+                  firstName: ['TEST'],
+                  lastName: 'PROV',
+                },
+                display: 'TEST PROV',
+              },
+            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -390,6 +417,15 @@ describe('VAOS Component: VideoLayout', () => {
             extension: {
               patientHasMobileGfe: true,
             },
+            providers: [
+              {
+                name: {
+                  firstName: ['TEST'],
+                  lastName: 'PROV',
+                },
+                display: 'TEST PROV',
+              },
+            ],
           },
           vaos: {
             isCommunityCare: false,

@@ -61,6 +61,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -200,6 +209,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -325,6 +343,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { getRealFacilityId } from '../../utils/appointment';
+
 import {
   AppointmentDate,
   AppointmentTime,
@@ -28,6 +30,7 @@ export default function InPersonLayout({ data: appointment }) {
     comment,
     facility,
     facilityPhone,
+    locationId,
     isPastAppointment,
     startDate,
     status,
@@ -40,6 +43,7 @@ export default function InPersonLayout({ data: appointment }) {
   if (!appointment) return null;
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
+  const facilityId = locationId;
   const oracleHealthProviderName = null;
 
   let heading = 'In-person appointment';
@@ -71,17 +75,36 @@ export default function InPersonLayout({ data: appointment }) {
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
         }
       >
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!!facility === false &&
+          !!facilityId === false && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!!facility === false &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
         {!!facility && (
           <>
             {facility.name}

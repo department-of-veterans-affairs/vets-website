@@ -52,6 +52,15 @@ describe('VAOS Component: VideoLayoutVA', () => {
             extension: {
               patientHasMobileGfe: false,
             },
+            providers: [
+              {
+                name: {
+                  firstName: ['TEST'],
+                  lastName: 'PROV',
+                },
+                display: 'TEST PROV',
+              },
+            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -65,6 +74,21 @@ describe('VAOS Component: VideoLayoutVA', () => {
             },
           },
           status: 'booked',
+          practitioners: [
+            {
+              identifier: [
+                {
+                  system: 'dfn-983',
+                  value: '520647363',
+                },
+              ],
+              name: {
+                family: 'NADEAU',
+                given: ['MARCY'],
+              },
+              practiceName: 'Cheyenne VA Medical Center',
+            },
+          ],
         };
 
         // Act
@@ -162,6 +186,15 @@ describe('VAOS Component: VideoLayoutVA', () => {
             extension: {
               patientHasMobileGfe: false,
             },
+            providers: [
+              {
+                name: {
+                  firstName: ['TEST'],
+                  lastName: 'PROV',
+                },
+                display: 'TEST PROV',
+              },
+            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -273,6 +306,15 @@ describe('VAOS Component: VideoLayoutVA', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -387,6 +429,15 @@ describe('VAOS Component: VideoLayoutVA', () => {
           extension: {
             patientHasMobileGfe: true,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
