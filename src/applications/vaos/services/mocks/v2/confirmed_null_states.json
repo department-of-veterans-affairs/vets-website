@@ -41,15 +41,15 @@
         "patientIcn": "1013678363V916823",
         "locationId": "983GC",
         "clinic": "1456",
-        "start": "2024-06-20T23:00:00Z",
-        "end": "2024-06-21T00:00:00Z",
+        "start": "2024-07-20T23:00:00Z",
+        "end": "2024-07-21T00:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323430363230323330303A323032343036323130303030",
-          "start": "2024-06-20T23:00:00Z",
-          "end": "2024-06-21T00:00:00Z"
+          "start": "2024-07-20T23:00:00Z",
+          "end": "2024-07-21T00:00:00Z"
         },
-        "created": "2024-06-13T00:00:00Z",
+        "created": "2024-07-13T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": { "address": {} },
@@ -61,7 +61,7 @@
             "phoneNumber": "500-500-5000"
           }
         },
-        "localStartTime": "2024-06-20T17:00:00.000-06:00",
+        "localStartTime": "2024-07-20T17:00:00.000-06:00",
         "serviceName": "YOUR FRIENDLY MH CLINIC",
         "physicalLocation": "PHYSICAL LOCATIION TESTING",
         "friendlyName": "YOUR FRIENDLY MH CLINIC",
@@ -138,15 +138,15 @@
         "patientIcn": "1013678363V916823",
         "locationId": "983GC",
         "clinic": "1456",
-        "start": "2024-06-21T23:00:00Z",
-        "end": "2024-06-22T00:00:00Z",
+        "start": "2024-07-21T23:00:00Z",
+        "end": "2024-07-22T00:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323430363230323330303A323032343036323130303030",
-          "start": "2024-06-20T23:00:00Z",
-          "end": "2024-06-21T00:00:00Z"
+          "start": "2024-07-20T23:00:00Z",
+          "end": "2024-07-21T00:00:00Z"
         },
-        "created": "2024-06-13T00:00:00Z",
+        "created": "2024-07-13T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": { "address": {} },
@@ -158,7 +158,7 @@
             "phoneNumber": "500-500-5000"
           }
         },
-        "localStartTime": "2024-06-21T17:00:00.000-06:00",
+        "localStartTime": "2024-07-21T17:00:00.000-06:00",
         "serviceName": null,
         "physicalLocation": null,
         "friendlyName": null,
@@ -235,15 +235,15 @@
         "patientIcn": "1013678363V916823",
         "locationId": "983GC",
         "clinic": "1456",
-        "start": "2024-06-22T23:00:00Z",
-        "end": "2024-06-23T00:00:00Z",
+        "start": "2024-07-22T23:00:00Z",
+        "end": "2024-07-23T00:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323430363230323330303A323032343036323130303030",
-          "start": "2024-06-20T23:00:00Z",
-          "end": "2024-06-21T00:00:00Z"
+          "start": "2024-07-20T23:00:00Z",
+          "end": "2024-07-21T00:00:00Z"
         },
-        "created": "2024-06-13T00:00:00Z",
+        "created": "2024-07-13T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": { "address": {} },
@@ -255,7 +255,7 @@
             "phoneNumber": "500-500-5000"
           }
         },
-        "localStartTime": "2024-06-23T17:00:00.000-06:00",
+        "localStartTime": "2024-07-23T17:00:00.000-06:00",
         "serviceName": null,
         "physicalLocation": null,
         "friendlyName": null,
@@ -267,13 +267,102 @@
             "vistaSite": "983",
             "vastParent": "983",
             "type": "va_facilities",
-            "name": "Fort Collins VA Clinic",
+            "name": "Fort Collins VA Clinic1",
             "classification": "Multi-Specialty CBOC",
             "timezone": { "timeZoneId": "America/Denver" },
             "lat": 40.553875,
             "long": -105.08795,
             "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
             "phone": { "main": "970-224-1550" },
+            "physicalAddress": {
+              "line": ["2509 Research Boulevard"],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "nstate-claimexam-001",
+      "type": "appointments",
+      "attributes": {
+        "id": "nstate-claimexam-001",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383339353233"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013120826V646496",
+        "locationId": "983GC",
+        "localStartTime": "2024-08-29T10:30:00.000+08:00",
+        "clinic": "945",
+        "start": "2024-08-29T02:30:00Z",
+        "end": "2024-06-22T14:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["NO ACTION TAKEN"]
+        },
+        "serviceName": "FTC C&P AUDIO BEV",
+        "physicalLocation": "FORT COLLINS AUDIO",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "Asia/Manila"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
             "physicalAddress": {
               "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
