@@ -7,10 +7,14 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
+import { submit } from './config/submit';
 
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
+  const pensionModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.pensionModuleEnabled,
+  );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -30,6 +34,10 @@ export default function PensionEntry({ location, children }) {
 
   if (!pensionFormEnabled) {
     return <NoFormPage />;
+  }
+
+  if (pensionModuleEnabled) {
+    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
   }
 
   return (
