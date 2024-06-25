@@ -32,12 +32,11 @@ import UnregisteredAlert from './UnregisteredAlert';
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const verified = useSelector(isLOA3);
-  const registered = useSelector(isVAPatient);
+  const registered = useSelector(isVAPatient) && verified;
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo =
-    useSelector(helpdeskInfoEnabled) && verified && registered;
+  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = !verified ? (

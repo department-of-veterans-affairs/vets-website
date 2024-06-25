@@ -39,14 +39,13 @@ describe(appName, () => {
           cy.findByRole('heading', { name }).should('not.exist');
         });
 
-        // Test the hubs are visible
-        pageLinks.hubs.forEach(hub => {
-          LandingPage.validateLinkGroup(hub.title, hub.links.length);
+        // Test the cards are not visible
+        pageLinks.cards.forEach(card => {
+          cy.findByRole('heading', { name: card.title }).should('not.exist');
         });
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'My VA health benefits' }).should
-          .exist;
+        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
       });
 
       it(`Shows landing page on ${size} screen`, () => {

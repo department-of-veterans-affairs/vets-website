@@ -22,7 +22,7 @@ class LandingPage {
     mhvAccountState = 'OK',
   } = {}) => {
     let props = { mhvAccountState };
-    if (!verified) props = { ...props, loa: 1 };
+    if (!verified) props = { ...props, loa: 1, vaPatient: false };
     if (!registered) props = { ...props, vaPatient: false };
     const user = generateUser(props);
     cy.login(user);
