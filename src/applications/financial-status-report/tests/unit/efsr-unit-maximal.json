@@ -1,7 +1,6 @@
 {
   "data": {
     "view:enhancedFinancialStatusReport": true,
-    "view:showUpdatedExpensePages": true,
     "otherExpenses": [
       {
         "name": "Clothing",
