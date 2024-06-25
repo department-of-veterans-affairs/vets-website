@@ -94,7 +94,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
