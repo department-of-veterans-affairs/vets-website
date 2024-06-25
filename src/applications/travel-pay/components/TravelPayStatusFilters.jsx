@@ -45,10 +45,7 @@ export default function TravelPayFilters(props) {
                 {date.label}
               </option>
             ))}
-            {/* <option value="mostRecent">Most Recent</option>
-            <option value="oldest">Oldest</option> */}
           </select>
-          {/* </div> */}
           <div className="modal-button-wrapper vads-u-margin-top--3">
             <va-button
               onClick={applyFilters}

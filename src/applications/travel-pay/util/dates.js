@@ -1,17 +1,19 @@
 import {
-  format,
-  getMonth,
-  getYear,
-  getQuarter,
   endOfMonth,
   endOfQuarter,
   endOfYear,
+  format,
+  getMonth,
+  getQuarter,
+  getYear,
   startOfQuarter,
   startOfYear,
-  subQuarters,
   subMonths,
+  subQuarters,
   subYears,
 } from 'date-fns';
+
+import { utcToZonedTime } from 'date-fns-tz';
 
 export const months = [
   { label: 'Jan', value: 1, text: 'January' },
@@ -45,7 +47,7 @@ export function formatDateTime(datetimeString) {
  *  - All of the previous year
  */
 export function getDateFilters() {
-  const today = new Date();
+  const today = utcToZonedTime(new Date());
   let quarter = getQuarter(today);
 
   const dateRanges = [];
@@ -83,7 +85,7 @@ export function getDateFilters() {
     });
   }
 
-  // Calculate the last 2 years
+  // Calculate the last 2 complete years
   for (let i = 0; i < 2; i++) {
     const previousYear = subYears(today, i);
     dateRanges.push({
