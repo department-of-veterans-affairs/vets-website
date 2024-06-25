@@ -48,8 +48,6 @@ export default function App({ children }) {
       ...new Set(travelClaims.map(claim => claim.claimStatus)),
     ];
     setStatusesToFilterBy(initialStatusFilters);
-    setAppliedStatusFilters(initialStatusFilters);
-    setCheckedStatusFilters(initialStatusFilters);
   }
 
   const dateFilters = getDateFilters();
@@ -86,8 +84,8 @@ export default function App({ children }) {
   }
 
   const resetSearch = () => {
-    setAppliedStatusFilters(statusesToFilterBy);
-    setCheckedStatusFilters(statusesToFilterBy);
+    setAppliedStatusFilters([]);
+    setCheckedStatusFilters([]);
     setAppliedDateFilter('all');
     setSelectedDateFilter('all');
   };
@@ -139,9 +137,9 @@ export default function App({ children }) {
   );
 
   let displayedClaims = travelClaims.filter(claim => {
-    const statusFilterIncludesClaim = appliedStatusFilters.includes(
-      claim.claimStatus,
-    );
+    const statusFilterIncludesClaim =
+      appliedStatusFilters.length === 0 ||
+      appliedStatusFilters.includes(claim.claimStatus);
 
     const daterangeIncludesClaim =
       appliedDateFilter === 'all'
@@ -223,7 +221,13 @@ export default function App({ children }) {
                 travelClaims.length > 0 && (
                   <>
                     <p id="pagination-info">
-                      Showing {pageStart} ‒ {pageEnd} of {numResults} events
+                      {numResults === 0 ? (
+                        <>Showing {numResults} events</>
+                      ) : (
+                        <>
+                          Showing {pageStart} ‒ {pageEnd} of {numResults} events
+                        </>
+                      )}
                     </p>
                     <div className="btsss-claims-order-container">
                       <p className="vads-u-margin-bottom--0">
