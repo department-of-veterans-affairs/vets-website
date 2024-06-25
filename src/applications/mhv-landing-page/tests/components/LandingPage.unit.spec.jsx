@@ -24,7 +24,7 @@ const stateFn = ({
       },
       loa: { current: loa },
       signIn: { serviceName },
-      vaPatient,
+      vaPatient: loa === 3 && vaPatient,
     },
   },
 });
@@ -58,11 +58,7 @@ describe('LandingPage component', () => {
   });
 
   it('shows an alert when user is unverified', () => {
-    const initialState = stateFn({
-      loa: 1,
-      vaPatient: false,
-      serviceName: 'idme',
-    });
+    const initialState = stateFn({ loa: 1, serviceName: 'idme' });
     const { getByText } = setup({ initialState });
     getByText(
       'Verify your identity to use your ID.me account on My HealtheVet',
@@ -77,11 +73,7 @@ describe('LandingPage component', () => {
     };
     const recordEventSpy = sinon.spy();
     const props = { recordEvent: recordEventSpy };
-    const initialState = stateFn({
-      loa: 1,
-      vaPatient: false,
-      serviceName: 'logingov',
-    });
+    const initialState = stateFn({ loa: 1, serviceName: 'idme' });
     setup({ initialState, props });
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
