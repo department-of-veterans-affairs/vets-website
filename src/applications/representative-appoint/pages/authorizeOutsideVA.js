@@ -11,7 +11,7 @@ export const uiSchema = {
   'ui:description': ({ formData }) => {
     return (
       <>
-        <h3>Authorization for access outside of VA’s sytems</h3>
+        <h3>Authorization for access outside of VA’s systems</h3>
         <p className="appoint-text">
           This accredited{' '}
           {representativeTypeMap[formData.repTypeRadio] || `representative`} may
