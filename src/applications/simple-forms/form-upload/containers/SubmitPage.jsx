@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   VaButton,
   VaCard,
+  VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -60,13 +61,15 @@ const SubmitPage = () => {
         <div className="vads-u-margin-y--1 vads-u-color--gray">Your file</div>
         <VaCard style={{ maxWidth: '50%' }}>
           <div className="vads-u-display--flex vads-u-flex-direction--row">
-            <va-icon
-              size={4}
-              icon="see name mappings here https://design.va.gov/foundation/icons"
-              className="vads-u-margin-right--1 vads-u-color--primary"
-              aria-hidden="true"
-              style={{ fontSize: '3rem' }}
-            />
+            <span className="vads-u-color--primary">
+              <VaIcon
+                size={6}
+                icon="file_present"
+                className="vads-u-margin-right--1"
+                srtext="icon representing a file"
+                aria-hidden="true"
+              />
+            </span>
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <span className="vads-u-font-weight--bold">{fileName}</span>{' '}
               <span className="vads-u-color--gray-darker">
