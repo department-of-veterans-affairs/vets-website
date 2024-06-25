@@ -154,6 +154,7 @@ export default function FormNav(props) {
           heading-text={chapterName ?? ''} // functionality only available for v3
           name="v3SegmentedProgressBar"
           {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
+          {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
         />
       )}
       {!v3SegmentedProgressBar &&
