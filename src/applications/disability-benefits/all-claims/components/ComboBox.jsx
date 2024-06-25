@@ -318,15 +318,7 @@ export class ComboBox extends React.Component {
     `;
 
     return (
-      <div
-        role="combobox"
-        aria-expanded={filteredOptions.length > 0 ? 'true' : 'false'}
-        className="cc-combobox"
-        aria-haspopup="listbox"
-        aria-controls="combobox-list"
-        aria-owns="combobox-list"
-        aria-autocomplete="list"
-      >
+      <div className="cc-combobox">
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required
