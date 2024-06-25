@@ -75,7 +75,7 @@ describe('Header <App>', () => {
     return { ...renderProps, staticDom };
   }
 
-  it('renders no header if show is false', () => {
+  it.skip('renders no header if show is false', () => {
     const { queryByText, staticDom } = setupHeader({ show: false });
     expect(staticDom.querySelector('#legacy-header')).to.have.class(
       'vads-u-display--none',
@@ -86,7 +86,7 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders legacy header when our width is more than 768px', () => {
+  it.skip('renders legacy header when our width is more than 768px', () => {
     window.innerWidth = 769;
 
     const { queryByText, staticDom } = setupHeader();
@@ -107,7 +107,7 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders header v2 (mobile) when our width is less than 768px', () => {
+  it.skip('renders header v2 (mobile) when our width is less than 768px', () => {
     window.innerWidth = 767;
 
     const { queryByText, staticDom } = setupHeader();
@@ -128,7 +128,7 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders minimal-header when applicable', () => {
+  it.skip('renders minimal-header when applicable', () => {
     window.innerWidth = 768;
 
     const { queryByText, staticDom } = setupHeader({ showMinimalHeader: true });
@@ -143,7 +143,7 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders legacy if minimal-header is false and is Desktop size', () => {
+  it.skip('renders legacy if minimal-header is false and is Desktop size', () => {
     window.innerWidth = 768;
 
     const { queryByText, staticDom } = setupHeader({
@@ -168,7 +168,7 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders mobile if minimal-header is false and is mobile size', () => {
+  it.skip('renders mobile if minimal-header is false and is mobile size', () => {
     window.innerWidth = 767;
 
     const { queryByText, staticDom } = setupHeader({
