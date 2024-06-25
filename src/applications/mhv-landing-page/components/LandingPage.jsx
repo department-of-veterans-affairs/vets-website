@@ -19,6 +19,7 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
+import MhvRegistrationAlert from './MhvRegistrationAlert';
 import {
   isLOA3,
   isVAPatient,
@@ -73,6 +74,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
+          <MhvRegistrationAlert />
           {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
