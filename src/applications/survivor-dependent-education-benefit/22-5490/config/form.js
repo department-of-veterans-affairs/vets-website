@@ -9,7 +9,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
 // import fullSchema from 'vets-json-schema/dist/22-5490-schema.json';
-
+import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -35,15 +35,15 @@ import directDeposit from '../pages/directDeposit';
 // import { uiSchema } from '../../../edu-benefits/1990s/pages/directDeposit';
 
 import { prefillTransformer } from '../helpers';
+import { transform5490Form } from '../utils/form-submit-transform';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
+  transformForSubmit: transform5490Form,
   trackingPrefix: 'edu-22-5490',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
