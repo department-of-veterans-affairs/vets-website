@@ -1,6 +1,7 @@
 {
   "data": {
     "view:enhancedFinancialStatusReport": true,
+    "view:showUpdatedExpensePages": true,
     "otherExpenses": [
       {
         "name": "Clothing",
@@ -24,20 +25,7 @@
       "view:vaBenefitsOnFile": {}
     },
     "expenses": {
-      "expenseRecords": [
-        {
-          "name": "Rent",
-          "amount": "1200.53"
-        },
-        {
-          "name": "Mortgage payment",
-          "amount": "800.00"
-        },
-        {
-          "name": "Property tax",
-          "amount": "85.25"
-        }
-      ]
+      "monthlyHousingExpenses": ""
     },
     "assets": {
       "realEstateValue": "800000.81",
@@ -144,6 +132,7 @@
       "additionalComments": "Supporting personal statement..."
     },
     "questions": {
+      "hasCreditCardBills": true,
       "hasBeenAdjudicatedBankrupt": true,
       "hasOtherExpenses": true,
       "hasRepayments": true,
