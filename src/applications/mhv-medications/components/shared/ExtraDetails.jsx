@@ -40,9 +40,12 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
-        <div className="statusIcon refillProcessIcon">
+        <div
+          className="statusIcon refillProcessIcon"
+          data-testid="refill-in-process"
+        >
           <va-icon icon="acute" size={4} aria-hidden="true" />
-          <div className="vads-u-padding-left--2">
+          <div className="vads-u-padding-left--2" data-testid="rx-process">
             <p
               data-testid="rx-refillinprocess-info"
               className="vads-u-margin-y--0"
@@ -50,7 +53,7 @@ const ExtraDetails = rx => {
               We expect to fill it on{' '}
               {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
             </p>
-            <p className="vads-u-margin-y--0">
+            <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
               If you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
