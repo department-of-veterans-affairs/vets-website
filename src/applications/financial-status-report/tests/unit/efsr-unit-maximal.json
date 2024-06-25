@@ -25,7 +25,20 @@
       "view:vaBenefitsOnFile": {}
     },
     "expenses": {
-      "monthlyHousingExpenses": ""
+      "expenseRecords": [
+        {
+          "name": "Rent",
+          "amount": "1200.53"
+        },
+        {
+          "name": "Mortgage payment",
+          "amount": "800.00"
+        },
+        {
+          "name": "Property tax",
+          "amount": "85.25"
+        }
+      ]
     },
     "assets": {
       "realEstateValue": "800000.81",
@@ -132,7 +145,6 @@
       "additionalComments": "Supporting personal statement..."
     },
     "questions": {
-      "hasCreditCardBills": true,
       "hasBeenAdjudicatedBankrupt": true,
       "hasOtherExpenses": true,
       "hasRepayments": true,
