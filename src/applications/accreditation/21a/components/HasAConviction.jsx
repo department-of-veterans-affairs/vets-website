@@ -4,11 +4,13 @@ import NotIncludedViolationsList from './NotIncludedViolationsList';
 
 const HasAConviction = () => (
   <>
-    This includes felonies, firearms, or explosive violations, misdemeanors, and
-    all other offenses.
-    <br />
-    <br />
-    This does not include:
+    <p>
+      This includes felonies, firearms, or explosive violations, misdemeanors,
+      and all other offenses.
+      <br />
+      <br />
+      This does not include:
+    </p>
     <NotIncludedViolationsList />
   </>
 );

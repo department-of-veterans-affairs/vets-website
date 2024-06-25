@@ -2,9 +2,11 @@ import React from 'react';
 
 const ConditionThatAffectsRepresentationDetailsNote = () => (
   <>
-    <strong>Note:</strong> If you have been under the care or supervision of a
-    health-care profession, you will need to submit a statement by your
-    health-care professional specifying:
+    <p>
+      <strong>Note:</strong> If you have been under the care or supervision of a
+      health-care profession, you will need to submit a statement by your
+      health-care professional specifying:
+    </p>
     <ul>
       <li>current diagnosis</li>
       <li>treatment regimen</li>

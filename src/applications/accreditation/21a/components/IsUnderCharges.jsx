@@ -4,7 +4,7 @@ import NotIncludedViolationsList from './NotIncludedViolationsList';
 
 const IsUnderCharges = () => (
   <>
-    This does not include:
+    <p>This does not include:</p>
     <NotIncludedViolationsList />
   </>
 );
