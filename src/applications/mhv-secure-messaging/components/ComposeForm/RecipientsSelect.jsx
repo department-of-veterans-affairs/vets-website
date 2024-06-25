@@ -1,7 +1,7 @@
 /**
  * Renders a select dropdown for selecting recipients in the compose form.
  *  - If a recipient requires a signature or switching from a recipient that does not 
- *    require a signature to one that does, an alert is displayed notifyong that signature is required.
+ *    require a signature to one that does, an alert is displayed notifying that signature is required.
  *  - If switching from a recipient that requires a signature to one that does not, 
  *    the alert is displayed notifying that signature is no longer required.
  *  - If switching from a recipient that does not require a signature to another that does not,
