@@ -44,6 +44,7 @@ const Column = props => {
               data-e2e-id={`${_.kebabCase(data.link.text)}`}
               href={data.link.href}
               onClick={columnThreeLinkClicked.bind(null, data.link)}
+              target={data.link.target || '_self'}
             >
               {data.link.text}
             </a>
@@ -84,6 +85,7 @@ const Column = props => {
               data-e2e-id={`${_.kebabCase(link.text)}-${i}`}
               href={link.href}
               onClick={linkClicked.bind(null, link)}
+              target={link.target || '_self'}
             >
               {link.text}
             </a>
@@ -110,6 +112,7 @@ Column.propTypes = {
     link: PropTypes.shape({
       text: PropTypes.string.isRequired,
       href: PropTypes.string.isRequired,
+      target: PropTypes.string,
     }),
     description: PropTypes.string,
   }),

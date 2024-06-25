@@ -179,6 +179,7 @@ export default class MegaMenu extends React.Component {
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
+                      target={item.target || null}
                     >
                       {item.title}
                     </a>
