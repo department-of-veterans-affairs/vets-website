@@ -43,11 +43,16 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 ### Quality Assurance & Testing
 
 - [ ] I fixed|updated|added unit tests and integration tests for each feature (if applicable).
-- [ ] No sensitive information (i.e. PII/credentials/internal URLs/etc.) is captured in logging, hardcoded, or specs
 - [ ] Linting warnings have been addressed
 - [ ] Documentation has been updated ([link to documentation](#) \*if necessary)
 - [ ] Screenshot of the developed feature is added
 - [ ] [Accessibility testing](https://depo-platform-documentation.scrollhelp.site/developer-docs/wcag-2-1-success-criteria-and-foundational-testing) has been performed
+
+### Sensitive information
+
+- [ ] No sensitive information (i.e. PII/credentials/internal URLs/etc.) is logged
+- [ ] No sensitive information (i.e. PII/credentials/internal URLs/etc.) is hard-coded in this PR
+- [ ] No sensitive information (PII/PHI) is exposed via Real User Monitoring (See [these docs](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/analytics/setup-real-user-monitoring.md#privacy) if you're not sure)
 
 ### Error Handling
 
