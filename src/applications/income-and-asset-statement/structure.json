@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Veteran information",
+    "pages": [
+      {
+        "title": "Veteran information",
+        "path": "veteran/information"
+      },
+      {
+        "title": "Veteran information",
+        "path": "veteran/information/applicant"
+      }
+    ]
+  },
+  {
+    "title": "Claimant information",
+    "pages": [
+      {
+        "title": "Claimant information",
+        "path": "claimant/information",
+        "depends": "return formData.applicantIsVeteran === false;"
+      },
+      {
+        "title": "Claimant type",
+        "path": "claimant/type"
+      },
+      {
+        "title": "Statement Period",
+        "path": "claimant/statement-period"
+      }
+    ]
+  }
+]

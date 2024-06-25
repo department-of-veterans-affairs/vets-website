@@ -28,7 +28,7 @@
     "cy-mobile-commands": "^0.3.0",
     "cypress-axe": "^1.0.0",
     "cypress-plugin-tab": "^1.0.5",
-    "cypress-real-events": "^1.10.3",
+    "cypress-real-events": "^1.12.0",
     "cypress-wait-until": "^1.7.2",
     "express-history-api-fallback": "^2.2.1",
     "jsdom": "^15.2.1",

@@ -43,12 +43,26 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
     return false;
   }
   return (
-    environment.isProduction() || // Comment out to send to production
+    environment.isProduction() ||
     environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() ||
     environment.isLocalhost()
   );
+};
+
+export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (environment.isDev() || isTest || automatedTest) {
+    return false;
+  }
+  return (
+    environment.isLocalhost() || environment.isStaging() || isReviewInstance()
+  );
+
+  // environment.isDev() || isReviewInstance() || environment.isProduction()
+  // environment.isProduction() || // Comment out to send to production
+  // || environment.isLocalhost() environment.isDev() ||
 };
 
 export const isShowVetTec = (automatedTest = false) => {
@@ -463,3 +477,10 @@ export const managePushHistory = (history, url) => {
     history.push(url);
   }
 };
+export function showSchoolContentBasedOnType(type) {
+  const validateTypes = {
+    FLIGHT: false,
+    CORRESPONDENCE: false,
+  };
+  return !(type in validateTypes);
+}

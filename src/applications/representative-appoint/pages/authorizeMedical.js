@@ -1,36 +1,15 @@
 import React from 'react';
-import { authorizationNote } from '../content/authorizeMedical';
-import { saveYourApplication } from '../content/saveYourApplication';
+import {
+  authorizeMedical,
+  authorizationNote,
+} from '../content/authorizeMedical';
 
 export const uiSchema = {
-  'view:saveYourApplication': {
-    'ui:description': saveYourApplication,
-  },
-  'view:authorizeMedical': {
-    'ui:description': formData => {
-      return (
-        <>
-          <h3>Authorization to access certain medical records</h3>
-          <p>
-            This accredited{' '}
-            {formData.repType || `Veterans Service Organization (VSO)`} may need
-            to access certain medical records to help you. You can authorize
-            them to access all or some of these types of records:
-          </p>
-          <ul>
-            <li>Alcoholism and alcohol abuse records</li>
-            <li>Drug abuse records</li>
-            <li>HIV (human immunodeficiency virus) records</li>
-            <li>Sickle cell anemia records</li>
-          </ul>
-        </>
-      );
-    },
-  },
+  'ui:description': authorizeMedical,
   'view:authorizationPolicy': {
     'ui:description': () => {
       return (
-        <>
+        <div className="vads-u-margin-y--3">
           <va-accordion uswds bordered open-single>
             <va-accordion-item
               bordered
@@ -54,7 +33,7 @@ export const uiSchema = {
               </p>
             </va-accordion-item>
           </va-accordion>
-        </>
+        </div>
       );
     },
   },
@@ -84,10 +63,6 @@ export const schema = {
   type: 'object',
   properties: {
     'view:saveYourApplication': {
-      type: 'object',
-      properties: {},
-    },
-    'view:authorizeMedical': {
       type: 'object',
       properties: {},
     },

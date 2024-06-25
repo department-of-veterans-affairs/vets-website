@@ -1,18 +1,20 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import MicrobiologyPage from './pages/MicrobiologyDetailsPage';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records Understanding Your Results Microbiology Detail Page', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('Understanding Your Results Microbiology Detail Page', () => {
     // Given As a Medical Records User I wanted to Navigate to "Microbiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(1);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(1, labsAndTests.entry[1]);
     // When I want to get "help to be able to understand results" of my MR data
     MicrobiologyPage.verifyExpandUnderstandResults();
     MicrobiologyPage.clickExpandUnderstandResults();

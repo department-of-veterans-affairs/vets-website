@@ -31,3 +31,24 @@ export const returnPhoneObject = phone => {
   }
   return result;
 };
+
+export const outsidePaths = [
+  '/start',
+  '/introduction',
+  '/confirmation',
+  '/form-saved',
+  '/error',
+  '/resume',
+];
+
+const trailingSlashRegex = /\/$/;
+
+/**
+ * Check if the form has been started
+ * @param {String} pathname - pathname from Router or window location object
+ * @returns {Boolean}
+ */
+export const isOutsideForm = pathname => {
+  const currentPath = (pathname || '').replace(trailingSlashRegex, '');
+  return outsidePaths.some(path => currentPath.endsWith(path));
+};

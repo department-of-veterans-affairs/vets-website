@@ -1,5 +1,7 @@
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
+
+import { checkboxGroupSchemaWithReviewLabels } from '../utilities/helpers';
+
 import { authorizeMedicalSelect } from '../content/authorizeMedicalSelect';
 import { saveYourApplication } from '../content/saveYourApplication';
 
@@ -11,30 +13,24 @@ export const uiSchema = {
     'ui:description': authorizeMedicalSelect,
   },
   'view:authorizeRecordsCheckbox': {
-    'ui:title': 'Select the types of records they can access',
+    ...checkboxGroupUI({
+      title: 'Select the types of records they can access',
+      required: true,
+      labelHeaderLevel: '',
+      tile: false,
+      uswds: true,
+      labels: {
+        alcoholRecords: 'Alcoholism and alcohol abuse records',
+        drugAbuseRecords: 'Drug abuse records',
+        HIVRecords: 'HIV (human immunodeficiency virus) records',
+        sickleCellRecords: 'Sickle cell anemia records',
+      },
+      errorMessages: {
+        required: 'Please select at least one option',
+      },
+    }),
     'ui:options': {
-      showFieldLabel: true,
-    },
-    'ui:validations': [validateBooleanGroup],
-    'ui:errorMessages': {
-      atLeastOne: 'Please select at least one type',
-      required: 'Please select at least one type',
-    },
-    'view:alcoholRecords': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': 'Alcoholism and alcohol abuse records',
-    },
-    'view:drugAbuseRecords': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': 'Drug abuse records',
-    },
-    'view:HIVRecords': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': 'HIV (human immunodeficiency virus) records',
-    },
-    'view:sickleCellRecords': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': 'Sickle cell anemia records',
+      classNames: 'vads-u-margin-top--0',
     },
   },
 };
@@ -48,17 +44,15 @@ export const schema = {
     },
     'view:authorizeMedicalSelect': {
       type: 'object',
-      formData: { prop1: 'test' },
       properties: {},
     },
     'view:authorizeRecordsCheckbox': {
-      type: 'object',
-      properties: {
-        'view:alcoholRecords': { type: 'boolean' },
-        'view:drugAbuseRecords': { type: 'boolean' },
-        'view:HIVRecords': { type: 'boolean' },
-        'view:sickleCellRecords': { type: 'boolean' },
-      },
+      ...checkboxGroupSchemaWithReviewLabels([
+        'alcoholRecords',
+        'drugAbuseRecords',
+        'HIVRecords',
+        'sickleCellRecords',
+      ]),
     },
   },
 };

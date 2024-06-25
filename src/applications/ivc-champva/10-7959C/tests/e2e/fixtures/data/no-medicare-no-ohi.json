@@ -11,6 +11,7 @@
       "state": "CA",
       "postalCode": "12312"
     },
+    "applicantNewAddress": "yes",
     "applicantSsn": "123123123",
     "applicantName": {
       "first": "Applicant",
@@ -18,7 +19,7 @@
       "suffix": "IV"
     },
     "applicantDOB": "2009-01-02",
-    "statementOfTruthSignature": "Applicant Jones",
-    "statementOfTruthCertified": true
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
   }
 }
