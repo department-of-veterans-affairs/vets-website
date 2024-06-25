@@ -77,7 +77,11 @@ describe('LandingPage component', () => {
     };
     const recordEventSpy = sinon.spy();
     const props = { recordEvent: recordEventSpy };
-    const initialState = stateFn({ loa: 1, serviceName: 'logingov' });
+    const initialState = stateFn({
+      loa: 1,
+      vaPatient: false,
+      serviceName: 'logingov',
+    });
     setup({ initialState, props });
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
