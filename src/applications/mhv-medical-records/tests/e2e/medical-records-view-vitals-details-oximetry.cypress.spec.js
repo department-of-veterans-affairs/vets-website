@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import defaultVitals from '../fixtures/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,42 +14,46 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Pulse Oximetry', () => {
     VitalsListPage.goToVitals();
-    // click vitals page pulse oximetry Link
+    // click pulse oximetry link
     VitalsListPage.clickLinkByRecordListItemIndex(3);
 
-    // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October',
-      '98%',
-      'ADTP BURNETT',
+      moment
+        .parseZone(defaultVitals.entry[6].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[6].resource.valueQuantity.value}%`,
+      defaultVitals.entry[6].resource.contained[0].name,
       'None noted',
     );
 
-    // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August',
-      '100%',
-      '23 HOUR OBSERVATION',
+      moment
+        .parseZone(defaultVitals.entry[16].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[16].resource.valueQuantity.value}%`,
+      defaultVitals.entry[16].resource.contained[0].name,
       'None noted',
     );
 
-    // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August',
-      '95%',
-      'ADMISSIONS (LOC)',
+      moment
+        .parseZone(defaultVitals.entry[26].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[26].resource.valueQuantity.value}%`,
+      defaultVitals.entry[26].resource.contained[0].name,
       'None noted',
     );
 
-    // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May',
-      '100%',
-      'ADTP SCREENING',
+      moment
+        .parseZone(defaultVitals.entry[36].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[36].resource.valueQuantity.value}%`,
+      defaultVitals.entry[36].resource.contained[0].name,
       'None noted',
     );
 
