@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -18,6 +19,7 @@ const formConfig = {
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submitUrl: `${environment.API_URL}/v0/accreditation/applications/form21a`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21a-',
