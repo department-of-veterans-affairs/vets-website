@@ -79,7 +79,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
-  'CustomHeader',
+  'CustomTopContent',
   'customText',
   'submissionError',
   'saveInProgress',
@@ -91,6 +91,7 @@ const formConfigKeys = [
   'useTopBackLink',
   'v3SegmentedProgressBar',
   'formOptions',
+  'stepLabels',
 ];
 
 const validProperty = (
@@ -347,7 +348,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'signInHelpList', false);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
-          validComponentProperty(formConfig, 'CustomHeader', false);
+          validComponentProperty(formConfig, 'CustomTopContent', false);
           validBooleanProperty(formConfig, 'useTopBackLink', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down

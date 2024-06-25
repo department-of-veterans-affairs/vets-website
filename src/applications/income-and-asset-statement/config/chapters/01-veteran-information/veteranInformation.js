@@ -1,8 +1,10 @@
 import {
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   ssnUI,
   ssnSchema,
+  vaFileNumberUI,
+  vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -10,15 +12,17 @@ export default {
   title: 'Veteran information',
   path: 'veteran/information',
   uiSchema: {
-    veteranFullName: fullNameUI(title => `Veteran’s ${title}`),
+    veteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
+    vaFileNumber: vaFileNumberUI('Veteran’s file number'),
   },
   schema: {
     type: 'object',
     required: ['veteranFullName', 'veteranSocialSecurityNumber'],
     properties: {
-      veteranFullName: fullNameSchema,
+      veteranFullName: fullNameNoSuffixSchema,
       veteranSocialSecurityNumber: ssnSchema,
+      vaFileNumber: vaFileNumberSchema,
     },
   },
 };

@@ -23,6 +23,10 @@
       {
         "title": "Claimant type",
         "path": "claimant/type"
+      },
+      {
+        "title": "Statement Period",
+        "path": "claimant/statement-period"
       }
     ]
   }
