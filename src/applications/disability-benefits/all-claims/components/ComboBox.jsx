@@ -33,7 +33,6 @@ export class ComboBox extends React.Component {
       bump: false,
       // Autopopulate input with existing form data:
       searchTerm: props.formData,
-      input: props.formData,
       value: props.formData,
       highlightedIndex: defaultHighlightedIndex,
       ariaLive1: '',
@@ -79,7 +78,6 @@ export class ComboBox extends React.Component {
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
-      input: newTextValue,
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
@@ -318,9 +316,6 @@ export class ComboBox extends React.Component {
       review and enter to select. Touch device users, explore by touch or
       with swipe gestures.
     `;
-    // const ariaAnnouncementForVaTextInput = `Enter your condition. ${autocompleteHelperText}`;
-    // const ariaAnnouncementForVaTextInput = `${autocompleteHelperText}`;
-    console.log('setting aria.labeledby to: ', this.props.idSchema.$id);
 
     return (
       <div
@@ -331,7 +326,6 @@ export class ComboBox extends React.Component {
         aria-controls="combobox-list"
         aria-owns="combobox-list"
         aria-autocomplete="list"
-        tabIndex={-1}
       >
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
@@ -343,7 +337,6 @@ export class ComboBox extends React.Component {
           onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
-          // aria-labelledby={this.props.idSchema.$id}
           message-aria-describedby={autocompleteHelperText}
         />
         <ul
