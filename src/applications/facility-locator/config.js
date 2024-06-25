@@ -205,9 +205,9 @@ export const facilityTypes = {
 export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
-  MentalHealthCare: 'Mental health care',
+  MentalHealth: 'Mental health care',
   Covid19Vaccine: 'COVID-19 vaccines',
-  DentalServices: 'Dental services',
+  Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',

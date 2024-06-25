@@ -51,7 +51,7 @@ export function applicantHasInsuranceSchema(isPrimary) {
       ...titleUI(
         ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary ? 'primary' : 'secondary'
+            isPrimary ? '' : 'additional'
           } health insurance`,
       ),
       [keyname]: {
@@ -63,7 +63,9 @@ export function applicantHasInsuranceSchema(isPrimary) {
                 false,
                 undefined,
                 true,
-              )} need to provide or update any other health insurance coverage?`,
+              )} have ${
+                isPrimary ? '' : 'any other'
+              } medical health insurance information to provide or update at this time?`,
               'ui:options': {
                 hint: additionalFilesHint,
               },
@@ -96,12 +98,9 @@ export function applicantProviderSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          `${nameWording(
-            formData,
-            undefined,
-            undefined,
-            true,
-          )} health insurance information`,
+          `${nameWording(formData, undefined, undefined, true)} ${
+            isPrimary ? '' : 'additional '
+          }health insurance information`,
       ),
       [keyname1]: textUI('Name of insurance provider'),
       [keyname2]: currentOrPastDateUI({
@@ -138,9 +137,12 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          `${nameWording(formData, undefined, undefined, true)} ${
-            formData[provider]
-          } type of insurance`,
+          `${nameWording(
+            formData,
+            undefined,
+            undefined,
+            true,
+          )} type of insurance for ${formData[provider]}`,
       ),
       [keyname]: {
         ...yesNoUI({
@@ -302,15 +304,12 @@ export function applicantInsuranceTypeSchema(isPrimary) {
   const keyname = isPrimary
     ? 'applicantPrimaryInsuranceType'
     : 'applicantSecondaryInsuranceType';
-  const provider = isPrimary
-    ? 'applicantPrimaryProvider'
-    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
-            formData[provider]
+            isPrimary ? '' : 'additional'
           } insurance plan`,
       ),
       [keyname]: {
@@ -335,7 +334,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
               )} is enrolled in`,
               'ui:options': {
                 hint:
-                  'You may find this information on the front of your health insurance card',
+                  'You may find this information on the front of your health insurance card.',
               },
             };
           },
@@ -367,9 +366,7 @@ export function applicantMedigapSchema(isPrimary) {
       ...titleUI(
         ({ formData }) =>
           `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary
-              ? formData?.applicantPrimaryProvider
-              : formData?.applicantSecondaryProvider
+            isPrimary ? '' : 'additional'
           } Medigap information`,
       ),
       [keyname]: {
@@ -439,7 +436,6 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
 }
 
 export function applicantInsuranceCardSchema(isPrimary) {
-  const val = isPrimary ? 'primary' : 'secondary';
   const keyname = isPrimary ? 'primaryInsuranceCard' : 'secondaryInsuranceCard';
   return {
     uiSchema: {
@@ -449,7 +445,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
             isPrimary
               ? formData?.applicantPrimaryProvider
               : formData?.applicantSecondaryProvider
-          } ${val} health insurance card`,
+          } health insurance card`,
         () => {
           return (
             <>
@@ -485,9 +481,9 @@ export function applicantInsuranceCardSchema(isPrimary) {
         'view:fileUploadBlurb': blankSchema,
         [keyname]: fileWithMetadataSchema(
           [
-            `Front of ${val} insurance card`,
-            `Back of ${val} insurance card`,
-            `Other ${val} insurance supporting document`,
+            `Front of insurance card`,
+            `Back of insurance card`,
+            `Other insurance supporting document`,
           ],
           2,
         ),
