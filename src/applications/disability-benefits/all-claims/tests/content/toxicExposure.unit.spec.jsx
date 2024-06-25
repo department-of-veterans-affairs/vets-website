@@ -21,7 +21,7 @@ describe('toxicExposure', () => {
   let formData;
 
   describe('showToxicExposurePages', () => {
-    describe('includeToxicExposure indicator omitted', () => {
+    describe('includeToxicExposure and startedFormVersion indicators omitted', () => {
       beforeEach(() => {
         formData = {};
       });
@@ -131,6 +131,134 @@ describe('toxicExposure', () => {
               primaryDescription: 'Test description',
               'view:serviceConnectedDisability': {},
               condition: 'anemia',
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+    });
+
+    describe('startedFormVersion is 2019', () => {
+      it('returns true when claiming one or more new conditions', () => {
+        formData = {
+          startedFormVersion: '2019',
+          'view:claimType': {
+            'view:claimingIncrease': false,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+
+      it('returns false when claim type is CFI only', () => {
+        formData = {
+          startedFormVersion: '2019',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': false,
+          },
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
+
+      it('returns true when both claim types', () => {
+        formData = {
+          startedFormVersion: '2019',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+    });
+
+    describe('startedFormVersion is 2022', () => {
+      it('returns true when claiming one or more new conditions', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': false,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              condition: 'asthma',
+              'view:descriptionInfo': {},
+            },
+            {
+              cause: 'SECONDARY',
+              'view:secondaryFollowUp': {
+                causedByDisability: 'Diabetes Mellitus0',
+                causedByDisabilityDescription: 'Test description 2',
+              },
+              condition:
+                'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
+              'view:descriptionInfo': {},
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+
+      it('returns false when claim type is CFI only', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': false,
+          },
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
+
+      it('returns true when both claim types', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+            {
+              cause: 'WORSENED',
+              'view:worsenedFollowUp': {
+                worsenedDescription: 'My knee was strained in the service',
+                worsenedEffects:
+                  "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it.",
+              },
+              condition: 'ankylosis in knee, bilateral',
+              'view:descriptionInfo': {},
             },
           ],
         };
