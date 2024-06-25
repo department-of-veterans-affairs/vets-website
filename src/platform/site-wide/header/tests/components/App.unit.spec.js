@@ -78,7 +78,7 @@ describe('Header <App>', () => {
   });
 
   it('renders legacy header when our width is more than 768px', () => {
-    window.innerWidth = 768;
+    window.innerWidth = 769;
     const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
