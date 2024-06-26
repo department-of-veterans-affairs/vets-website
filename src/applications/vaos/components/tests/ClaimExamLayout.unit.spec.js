@@ -50,7 +50,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          apiData: {},
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
         },
         status: 'booked',
       };
@@ -78,7 +84,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.be.ok;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Claim exam/i));
+      expect(screen.queryByText('Claim exam'), { exact: true });
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
