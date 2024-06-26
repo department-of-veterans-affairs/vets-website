@@ -89,8 +89,6 @@ export const submitForm = (formNumber, confirmationCode, history) => {
     body: JSON.stringify({
       confirmationCode,
       formNumber,
-      // ssn,
-      // zip,
     }),
     headers: {
       'Content-Type': 'application/json',

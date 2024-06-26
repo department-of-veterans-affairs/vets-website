@@ -114,7 +114,6 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  * @typedef {{
  *   title?: UISchemaOptions['ui:title'],
  *   labels?: {Y?: string, N?: string},
- *   hideHint?: boolean,
  *   hint?: string,
  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
@@ -181,26 +180,17 @@ export const arrayBuilderYesNoUI = (
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
-  const hasCustomMoreHint = Object.hasOwnProperty.bind(
-    yesNoOptionsMore,
-    'hint',
-  );
-  const hasCustomHint = Object.hasOwnProperty.bind(yesNoOptions, 'hint');
+  const getCustomHint = options => {
+    if (Object.prototype.hasOwnProperty.call(options, 'hint')) {
+      return typeof options.hint === 'function'
+        ? options.hint
+        : () => options.hint;
+    }
+    return null;
+  };
 
-  let customHint = null;
-  if (hasCustomMoreHint) {
-    customHint =
-      typeof yesNoOptionsMore?.hint === 'function'
-        ? yesNoOptionsMore?.hint
-        : () => yesNoOptionsMore?.hint;
-  }
-  let customMoreHint = null;
-  if (hasCustomHint) {
-    customMoreHint =
-      typeof yesNoOptions?.hint === 'function'
-        ? yesNoOptions?.hint
-        : () => yesNoOptions?.hint;
-  }
+  const customHint = getCustomHint(yesNoOptionsMore);
+  const customMoreHint = getCustomHint(yesNoOptions);
 
   return {
     ...yesNoUI({
@@ -215,7 +205,7 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint: hasCustomHint
+                hint: customHint
                   ? customHint({
                       arrayData,
                       nounSingular,
@@ -243,7 +233,7 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint: hasCustomMoreHint
+                hint: customMoreHint
                   ? customMoreHint({
                       arrayData,
                       nounSingular,

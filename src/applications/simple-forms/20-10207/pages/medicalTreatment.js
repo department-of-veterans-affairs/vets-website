@@ -105,7 +105,6 @@ const summaryPage = {
       },
       {
         title: 'Do you have another medical treatment to add?',
-        hint: () => '',
         labels: {
           Y: 'Yes',
           N: 'No',
