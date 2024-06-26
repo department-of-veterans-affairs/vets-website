@@ -27,7 +27,7 @@ const OrdersBlock = props => {
   if (orderListItems.length) {
     return (
       <div>
-        <h4>{heading}</h4>
+        <h4 data-dd-privacy="allow">{heading}</h4>
         {intro && <div>{intro}</div>}
         <ul className="bulleted-list" data-testid={kebabCase(type.label)}>
           {orderListItems}

@@ -24,7 +24,7 @@ const ParagraphBlock = props => {
 
     return (
       <div>
-        <Heading>{heading}</Heading>
+        <Heading data-dd-privacy="allow">{heading}</Heading>
         {paragraph}
       </div>
     );

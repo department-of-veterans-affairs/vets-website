@@ -33,8 +33,10 @@ const ListBlock = props => {
   const Heading = `h${headingLevel}`;
   return (
     <div>
-      <Heading>{heading}</Heading>
-      <ul data-testid={itemType}>{listItems}</ul>
+      <Heading data-dd-privacy="allow">{heading}</Heading>
+      <ul data-testid={itemType}>
+        {listItems}
+      </ul>
     </div>
   );
 };
