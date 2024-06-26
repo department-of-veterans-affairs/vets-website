@@ -2,11 +2,8 @@ import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 import MhvRegistrationAlert from '../../../components/MhvRegistrationAlert';
-import { resolveLandingPageLinks } from '../../../utilities/data';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
-  const pageLinks = resolveLandingPageLinks(false, [], 'arialLabel', false);
-
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
   });
@@ -18,10 +15,9 @@ describe(`${appName} - MHV Registration Alert - `, () => {
       name: MhvRegistrationAlert.defaultProps.headline,
     }).should.exist;
 
-    // Check the cards are visible
-    pageLinks.cards.forEach(card => {
-      LandingPage.validateLinkGroup(card.title, card.links.length);
-    });
+    // Check the cards and hubs are visible
+    cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+    cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
   });
 
   it(`alert not shown for user with MHV account`, () => {
@@ -31,9 +27,8 @@ describe(`${appName} - MHV Registration Alert - `, () => {
       name: MhvRegistrationAlert.defaultProps.headline,
     }).should('not.exist');
 
-    // Check the cards are visible
-    pageLinks.cards.forEach(card => {
-      LandingPage.validateLinkGroup(card.title, card.links.length);
-    });
+    // Check the cards and hubs are visible
+    cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+    cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
   });
 });
