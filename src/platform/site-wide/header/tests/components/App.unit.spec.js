@@ -24,12 +24,8 @@ describe('Header <App>', () => {
   });
 
   afterEach(() => {
-    try {
-      sandbox.restore();
-      cleanup();
-    } finally {
-      sandbox.restore();
-    }
+    sandbox.restore();
+    cleanup();
   });
 
   function setupHeader(options = {}) {
