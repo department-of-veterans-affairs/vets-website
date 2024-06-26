@@ -6,8 +6,7 @@
       "messageId": 3685357,
       "category": "OTHER",
       "subject": "DS test",
-      "body":
-      "Abraham Lincoln\nVeteran\nDS test text \n\ndigital signature for ROI request\nDusty Dump",
+      "body": "Abraham Lincoln\nVeteran\nDS test text \n\nDigital signature for ROI request:\nDusty Dump",
       "attachment": false,
       "sentDate": "2024-06-13T20:03:09.000Z",
       "senderId": 251391,
@@ -24,8 +23,7 @@
       }
     },
     "links": {
-      "self":
-      "http://0c8ebb3c8431854ba49998c2805d7217-api.review.vetsgov-internal/my_health/v1/messaging/messages/3685357"
+      "self": "http://0c8ebb3c8431854ba49998c2805d7217-api.review.vetsgov-internal/my_health/v1/messaging/messages/3685357"
     }
   }
 }
