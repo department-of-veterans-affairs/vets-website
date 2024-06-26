@@ -4,16 +4,23 @@ import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
 
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
+import { useFormRouting } from '../../hooks/useFormRouting';
 
 const AppointmentMessage = props => {
-  const { appointment } = props;
+  const { appointment, router } = props;
   const { t } = useTranslation();
+
+  const { getCurrentPageFromRouter } = useFormRouting(router);
+  const page = getCurrentPageFromRouter();
 
   const defaultMessage = t(
     'online-check-in-isnt-available-check-in-with-a-staff-member',
   );
 
   let alertMessage = '';
+  let alertIcon = (
+    <va-icon icon="warning" size={3} class="vads-u-margin-right--0p5" />
+  );
   if (appointment.eligibility) {
     // Disable check-in 10 seconds before the end of the eligibility window.
     // This helps prevent Veterans from getting an error if they click the
@@ -48,6 +55,9 @@ const AppointmentMessage = props => {
             })}
           </span>
         );
+        alertIcon = (
+          <va-icon icon="schedule" size={3} class="vads-u-margin-right--0p5" />
+        );
       } else {
         alertMessage = (
           <span data-testid="no-time-too-early-reason-message">
@@ -79,6 +89,13 @@ const AppointmentMessage = props => {
         ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
       )
     ) {
+      alertIcon = (
+        <va-icon
+          icon="check"
+          size={3}
+          class="vads-u-color--green vads-u-margin-right--0p5"
+        />
+      );
       if (appointment.checkedInTime) {
         const appointmentDateTime = new Date(appointment.checkedInTime);
         if (Number.isNaN(appointmentDateTime.getTime())) {
@@ -111,20 +128,29 @@ const AppointmentMessage = props => {
       );
     }
   }
+  let body = (
+    <va-alert
+      show-icon
+      class="vads-u-margin-bottom--2"
+      data-testid="appointment-action-message"
+      uswds
+      slim
+    >
+      {alertMessage}
+    </va-alert>
+  );
+  if (page === 'appointments') {
+    body = (
+      <p>
+        {alertIcon}
+        {alertMessage}
+      </p>
+    );
+  }
   return (
     <>
       {alertMessage ? (
-        <div data-testid="appointment-message">
-          <va-alert
-            show-icon
-            class="vads-u-margin-bottom--2"
-            data-testid="appointment-action-message"
-            uswds
-            slim
-          >
-            {alertMessage}
-          </va-alert>
-        </div>
+        <div data-testid="appointment-message">{body}</div>
       ) : (
         <></>
       )}
@@ -134,6 +160,7 @@ const AppointmentMessage = props => {
 
 AppointmentMessage.propTypes = {
   appointment: PropTypes.object,
+  router: PropTypes.object,
 };
 
 export default AppointmentMessage;

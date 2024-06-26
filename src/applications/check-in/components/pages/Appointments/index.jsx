@@ -17,6 +17,7 @@ import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
+import UpcomingAppointmentsVista from '../../UpcomingAppointmentsVista';
 import ActionItemDisplay from '../../ActionItemDisplay';
 import ExternalLink from '../../ExternalLink';
 
@@ -198,8 +199,13 @@ const AppointmentsPage = props => {
       withBackButton
     >
       <ActionItemDisplay router={router} />
-      {isUpcomingAppointmentsEnabled && (
+      {isUpcomingAppointmentsEnabled ? (
         <UpcomingAppointments router={router} refresh={refresh} />
+      ) : (
+        <UpcomingAppointmentsVista
+          router={router}
+          appointments={appointments}
+        />
       )}
       <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-padding-top--1p5 vads-u-padding-bottom--5">
         <p data-testid="update-text">
@@ -218,21 +224,19 @@ const AppointmentsPage = props => {
           data-testid="refresh-appointments-button"
         />
       </div>
-      {isUpcomingAppointmentsEnabled && (
-        <va-accordion uswds bordered data-testid="appointments-accordions">
-          {accordionContent.map((accordion, index) => (
-            <va-accordion-item
-              key={index}
-              header={accordion.header}
-              open={accordion.open}
-              uswds
-              bordered
-            >
-              {accordion.body}
-            </va-accordion-item>
-          ))}
-        </va-accordion>
-      )}
+      <va-accordion uswds bordered data-testid="appointments-accordions">
+        {accordionContent.map((accordion, index) => (
+          <va-accordion-item
+            key={index}
+            header={accordion.header}
+            open={accordion.open}
+            uswds
+            bordered
+          >
+            {accordion.body}
+          </va-accordion-item>
+        ))}
+      </va-accordion>
       <div className="vads-u-margin-top--4">
         <a
           data-testid="privacy-act-statement-link"
