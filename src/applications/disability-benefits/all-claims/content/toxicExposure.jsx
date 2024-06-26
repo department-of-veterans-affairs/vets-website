@@ -156,15 +156,20 @@ export function dateRangePageDescription(
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. prefilled indicator is true
+ *  1. prefilled indicator 'includeToxicExposure' is true or 'startedFormVersion' has appropriate year
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
+ *
+ * Note: We will temporarily be checking 2 prefill indicators. The includeToxicExposure
+ * indicator will be removed with https://github.com/department-of-veterans-affairs/va.gov-team/issues/86798
  *
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
   return (
-    formData?.includeToxicExposure === true &&
+    (formData?.includeToxicExposure === true ||
+      formData?.startedFormVersion === '2019' ||
+      formData?.startedFormVersion === '2022') &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );

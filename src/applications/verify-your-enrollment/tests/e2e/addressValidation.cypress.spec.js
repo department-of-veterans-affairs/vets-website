@@ -66,7 +66,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
   });
   it('should show suggested address when address is partially correct', () => {
@@ -91,7 +91,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.get('input[id="suggested-address"]').should('exist');
@@ -119,7 +119,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.login(mockUser);
@@ -150,7 +150,7 @@ describe('Address Validations', () => {
       .select('New York');
     cy.get('input[name="root_zipCode"]').type('43576');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.get('p[data-testid]').should(
@@ -183,7 +183,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.get('p[data-testid]').should(
@@ -216,7 +216,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.get('p[data-testid]').should(
@@ -246,7 +246,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.intercept('POST', `/vye/v1/address`, {
@@ -282,7 +282,7 @@ describe('Address Validations', () => {
       .select('California');
     cy.get('input[name="root_zipCode"]').type('94121');
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.wait('@submitAddress');
     cy.intercept('POST', `/vye/v1/address`, {
