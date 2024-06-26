@@ -120,26 +120,27 @@ export function prefillTransformer(pages, formData, metadata, state) {
     contactInfo.emailAddress ||
     undefined;
   let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
+  // let mobilePhoneIsInternational;
   const vapMobilePhone = vapContactInfo.mobilePhone || {};
   if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
     mobilePhoneNumber = [
       vapMobilePhone.areaCode,
       vapMobilePhone.phoneNumber,
     ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
+    // mobilePhoneIsInternational = vapMobilePhone.isInternational;
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
   let homePhoneNumber;
-  let homePhoneIsInternational;
+  // let homePhoneIsInternational;
   const vapHomePhone = vapContactInfo.homePhone || {};
   if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
     homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
+    // homePhoneIsInternational = vapHomePhone.isInternational;
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
+
   const address = vapContactInfo.mailingAddress?.addressLine1
     ? vapContactInfo.mailingAddress
     : contactInfo;
@@ -166,14 +167,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     benefitToChoose: formData?.benefitToChoose,
     email: emailAddress,
     confirmEmail: emailAddress,
-    mobilePhone: {
-      phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-      isInternational: mobilePhoneIsInternational,
-    },
-    homePhone: {
-      phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-      isInternational: homePhoneIsInternational,
-    },
+    mobilePhone: mobilePhoneNumber?.replace(/\D/g, ''),
+    homePhone: homePhoneNumber?.replace(/\D/g, ''),
     mailingAddressInput: {
       street: address?.addressLine1,
       street2: address?.addressLine2 || undefined,
