@@ -5,6 +5,7 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -143,6 +144,7 @@ export default function App({ children }) {
 
   return (
     <div>
+      <MhvSecondaryNav />
       <main>
         <article className="row vads-u-padding-bottom--0">
           <div className="vads-l-row vads-u-margin-x--neg2p5">
