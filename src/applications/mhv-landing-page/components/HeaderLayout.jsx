@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { datadogRum } from '@datadog/browser-rum';
 import { isAuthenticatedWithSSOe } from '../selectors';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
@@ -79,7 +80,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                   If you’re not ready to try the new My HealtheVet, you can use
                   the previous version anytime.{' '}
                   <a
-                    data-dd-action-name="Landing Page: Intro - Go back to the previous version of My HealtheVet"
+                    onClick={() =>
+                      datadogRum.addAction(
+                        'Click on Landing Page: Intro - Go back to the previous version of My HealtheVet',
+                      )
+                    }
                     data-testid="mhv-go-back-1"
                     href={goBackUrl}
                   >
@@ -118,7 +123,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}
                         <a
-                          data-dd-action-name="Landing Page: Learn More - Go back to the previous version of My HealtheVet"
+                          onClick={() =>
+                            datadogRum.addAction(
+                              'Click on Landing Page: Learn More - Go back to the previous version of My HealtheVet',
+                            )
+                          }
                           data-testid="mhv-go-back-2"
                           href={goBackUrl}
                         >

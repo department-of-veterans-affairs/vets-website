@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -103,7 +104,11 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
       <p>
         <a
           className="vads-c-action-link--green"
-          data-dd-action-name="Medical Records: Coming Soon - Go back to the previous version of My HealtheVet"
+          onClick={() =>
+            datadogRum.addAction(
+              'Click on Medical Records: Coming Soon - Go back to the previous version of My HealtheVet',
+            )
+          }
           href={blueButtonUrl}
         >
           Go back to the previous version of My HealtheVet
