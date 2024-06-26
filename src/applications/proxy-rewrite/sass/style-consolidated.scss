@@ -114,6 +114,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   .row { max-width: 1000px; }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
+
   // these are hardcoded here for the injected header since it runs off its own font-family
   button, .usa-button, [type=button] {
     font-size: 16px;
@@ -123,19 +124,12 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
-  // hardcoded svg icon path for injected header
-  .va-dropdown-trigger {
-    background: transparent url("/img/arrow-down-white.svg") no-repeat;
-    background-position: right 8px center;
-    background-size: 10px 10px;
-    border-radius: 0;
-    border-top: 3px solid transparent;
-    margin: 0;
-    padding: 9px 25px 8px 8px;
-  }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-additional-info";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mobile-typography";
+  #mega-menu .mm-marketing-container p, #mega-menu .mm-marketing-container .mm-marketing-text a { 	
+    font-size: 15px;	
+  }
   @import "~@department-of-veterans-affairs/formation/sass/shame";
 
   @import "../../../platform/site-wide/user-nav/sass/user-nav";
