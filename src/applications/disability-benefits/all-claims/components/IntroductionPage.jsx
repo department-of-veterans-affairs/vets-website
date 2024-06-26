@@ -243,7 +243,10 @@ class IntroductionPage extends React.Component {
               {/* Apply */}
               {isBDDForm ? (
                 <>
-                  <p className="vads-u-margin-top--2">
+                  <p
+                    data-testid="process-step2-apply"
+                    className="vads-u-margin-top--2"
+                  >
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
                   </p>
@@ -258,7 +261,10 @@ class IntroductionPage extends React.Component {
                   You can print this for your records.
                 </>
               ) : (
-                <p className="vads-u-margin-top--2">
+                <p
+                  data-testid="process-step2-apply"
+                  className="vads-u-margin-top--2"
+                >
                   Complete this disability compensation benefits form. After
                   submitting the form, you’ll get a confirmation message. You
                   can print this for your records.
@@ -267,7 +273,10 @@ class IntroductionPage extends React.Component {
             </va-process-list-item>
             <va-process-list-item header="VA review">
               {/* VA review */}
-              <p className="vads-u-margin-top--2">
+              <p
+                data-testid="process-step3-vareview"
+                className="vads-u-margin-top--2"
+              >
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
                 injuries or disabilities you claim and how long it takes us to
@@ -276,7 +285,10 @@ class IntroductionPage extends React.Component {
             </va-process-list-item>
             <va-process-list-item header="Decision">
               {/* Decision */}
-              <p className="vads-u-margin-top--2">
+              <p
+                data-testid="process-step4-decision"
+                className="vads-u-margin-top--2"
+              >
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
@@ -317,8 +329,8 @@ IntroductionPage.propTypes = {
   }).isRequired,
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
-  showWizard: PropTypes.bool,
   showMaxRating: PropTypes.bool,
+  showWizard: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
