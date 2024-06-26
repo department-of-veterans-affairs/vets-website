@@ -6,6 +6,7 @@ const HubSection = ({ title, links }) => {
   const listItems = links.map(({ href, text }, index) => (
     <li key={`${href}--${index}`}>
       <va-link
+        disable-analytics
         href={href}
         text={text}
         onClick={() => {
