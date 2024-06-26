@@ -61,6 +61,7 @@ const MedicalRecordsCard = ({ href }) => {
       </p>
       <p>
         <a
+          className="mhv-c-link"
           data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
           href={href}
         >
