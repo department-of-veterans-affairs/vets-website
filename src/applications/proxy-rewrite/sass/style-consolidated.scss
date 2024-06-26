@@ -114,8 +114,14 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   .row { max-width: 1000px; }
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
+  button, .usa-button, [type=button] {
+    font-size: 16px;
+  }
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
+  #mega-menu .mm-marketing-container p, #mega-menu .mm-marketing-container .mm-marketing-text a { 	
+    font-size: 15px;	
+  }
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";

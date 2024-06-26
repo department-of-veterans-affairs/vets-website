@@ -22,7 +22,7 @@ const I18Select = ({ baseUrls, languageCode }) => {
           return (
             <span key={i}>
               <a
-                className={`vads-u-font-size--base vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
+                className={`i18-select vads-u-font-family--sans vads-u-padding-bottom-0p5 ${
                   languageConfig.code === languageCode
                     ? 'vads-u-font-weight--bold vads-u-color--base vads-u-text-decoration--none'
                     : ''
