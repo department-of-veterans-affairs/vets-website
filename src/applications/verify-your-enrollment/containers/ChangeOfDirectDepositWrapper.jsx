@@ -9,7 +9,6 @@ import { hasFormChanged, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
   DIRECT_DEPOSIT_BUTTON_TEXT,
-  SMALL_SCREEN,
 } from '../constants/index';
 import { updateBankInfo } from '../actions';
 import Alert from '../components/Alert';
@@ -19,7 +18,6 @@ import AlertModal from '../components/AlertModal';
 const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const prefix = 'GI-Bill-Chapters-';
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [formData, setFormData] = useState();
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
@@ -78,12 +76,10 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
         Please enter your bank’s routing and account numbers and your account
         type.
       </p>
-      {screenWidth > SMALL_SCREEN && (
-        <img
-          src="/img/direct-deposit-check-guide.svg"
-          alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-        />
-      )}
+      <img
+        src="/img/direct-deposit-check-guide.svg"
+        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+      />
     </div>
   );
 
@@ -125,21 +121,6 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     setToggleDirectDepositForm(true);
     scrollToTopOfForm();
   };
-
-  // set innerWidth of screen to screenWidth state
-  // this state handles when to show the check image
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    document.body.classList.remove('verify-information-path');
-    // Cleanup function to remove the event listener
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>

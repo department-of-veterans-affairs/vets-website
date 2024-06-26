@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { waitFor, fireEvent } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import triageTeams from '../fixtures/recipients.json';
 import categories from '../fixtures/categories-response.json';
 import draftMessage from '../fixtures/message-draft-response.json';
@@ -18,8 +19,17 @@ import {
 describe('Compose container', () => {
   const initialState = {
     sm: {
-      triageTeams: { triageTeams },
       categories: { categories },
+      recipients: {
+        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        associatedTriageGroupsQty:
+          noBlockedRecipients.associatedTriageGroupsQty,
+        associatedBlockedTriageGroupsQty:
+          noBlockedRecipients.associatedBlockedTriageGroupsQty,
+        noAssociations: noBlockedRecipients.noAssociations,
+        allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+      },
     },
   };
 
@@ -153,7 +163,10 @@ describe('Compose container', () => {
       screen.getByTestId('compose-recipient-select');
     });
 
-    selectVaSelect(screen.container, triageTeams[0].id);
+    selectVaSelect(
+      screen.container,
+      initialState.sm.recipients.allowedRecipients[0].id,
+    );
     selectVaRadio(screen.container, 'Education');
     inputVaTextInput(screen.container, 'Test Subject');
     inputVaTextInput(screen.container, 'Test Body', 'va-textarea');

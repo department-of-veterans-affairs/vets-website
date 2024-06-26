@@ -64,9 +64,6 @@ export const selectFeatureVAOSServiceCCAppointments = state =>
 export const selectFeatureFacilitiesServiceV2 = state =>
   toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
 
-export const selectFeatureStatusImprovement = state =>
-  toggleValues(state).vaOnlineSchedulingStatusImprovement;
-
 export const selectFeatureStatusImprovementCanceled = state =>
   toggleValues(state).vaOnlineSchedulingStatusImprovementCanceled;
 

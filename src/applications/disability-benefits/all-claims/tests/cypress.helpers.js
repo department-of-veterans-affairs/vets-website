@@ -193,6 +193,10 @@ export const setup = (cy, testOptions = {}) => {
       formData.includeToxicExposure = true;
     }
 
+    if (testOptions?.prefillData?.startedFormVersion) {
+      formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
+    }
+
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
       metadata: mockPrefill.metadata,
@@ -208,7 +212,11 @@ export const setup = (cy, testOptions = {}) => {
  */
 function getUnreleasedPages(testOptions) {
   // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
-  if (testOptions?.prefillData?.includeToxicExposure !== true) {
+  if (
+    testOptions?.prefillData?.includeToxicExposure !== true &&
+    testOptions?.prefillData?.startedFormVersion !== '2019' &&
+    testOptions?.prefillData?.startedFormVersion !== '2022'
+  ) {
     return Object.keys(toxicExposurePages).map(page => {
       return toxicExposurePages[page].path;
     });

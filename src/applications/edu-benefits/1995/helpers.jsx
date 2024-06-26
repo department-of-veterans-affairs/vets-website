@@ -72,6 +72,16 @@ export const eighteenOrOver = birthday => {
     moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
   );
 };
+
+export const eighteenOrOverUpdate = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    !moment(birthday, 'YYYY-MM-DD').isValid() ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
 export const ageWarning = (
   <div
     className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
@@ -95,3 +105,9 @@ export const ageWarning = (
     </div>
   </div>
 );
+
+export const isEighteenOrOlder = (birthday, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? eighteenOrOver(birthday)
+    : eighteenOrOverUpdate(birthday);
+};
