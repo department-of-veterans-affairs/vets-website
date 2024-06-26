@@ -48,6 +48,7 @@ const createStore = ({
   facilitiesToFile = null,
   token = 'some-token',
   additionalContext = {},
+  activeAppointmentId = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -72,6 +73,7 @@ const createStore = ({
           'travel-vehicle': travelVehicle,
           'travel-review': travelReview,
           facilitiesToFile,
+          activeAppointmentId,
         },
       },
       appointments,
