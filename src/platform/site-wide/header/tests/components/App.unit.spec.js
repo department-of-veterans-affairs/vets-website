@@ -15,7 +15,6 @@ const mockStore = {
 };
 
 const MockMobileHeader = () => <div>Mobile header</div>;
-
 describe('Header <App>', () => {
   let sandbox;
   beforeEach(() => {
