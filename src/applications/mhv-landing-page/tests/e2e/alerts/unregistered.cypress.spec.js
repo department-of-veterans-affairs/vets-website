@@ -28,7 +28,7 @@ describe(appName, () => {
         // Check the cards are not visible
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
 
-        // Check the bubs are not visible
+        // Check the hubs are visible
         cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
