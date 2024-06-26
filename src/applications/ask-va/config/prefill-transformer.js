@@ -1,0 +1,135 @@
+import _ from 'platform/utilities/data';
+
+export default function prefillTransformer(pages, formData, metadata) {
+//   const prefillRatedDisabilities = data => {
+//     const { disabilities } = data;
+
+//     if (!disabilities) {
+//       return setClaimTypeNewOnly(data);
+//     }
+
+//     const transformedDisabilities = addNoneDisabilityActionType(
+//       filterServiceConnected(disabilities),
+//     );
+
+//     const newData = _.omit(['disabilities'], data);
+
+//     return transformedDisabilities.length
+//       ? _.set('ratedDisabilities', transformedDisabilities, newData)
+//       : setClaimTypeNewOnly(newData);
+//   };
+
+//   const prefillContactInformation = data => {
+//     const newData = _.omit(['veteran'], data);
+//     const { veteran } = data;
+
+//     if (veteran) {
+//       const { emailAddress, primaryPhone, mailingAddress } = veteran;
+//       newData.phoneAndEmail = {};
+//       if (emailAddress) {
+//         newData.phoneAndEmail.emailAddress = emailAddress;
+//       }
+//       if (primaryPhone) {
+//         newData.phoneAndEmail.primaryPhone = primaryPhone;
+//       }
+//       if (mailingAddress) {
+//         const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
+//         newData.mailingAddress = {
+//           // strip out any extra data. Maybe left over from v1?
+//           // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+//           'view:livesOnMilitaryBase': onMilitaryBase,
+//           country: mailingAddress.country || '',
+//           addressLine1: mailingAddress.addressLine1 || '',
+//           addressLine2: mailingAddress.addressLine2,
+//           addressLine3: mailingAddress.addressLine3,
+//           city: mailingAddress.city || '',
+//           state: mailingAddress.state || '',
+//           zipCode: mailingAddress.zipCode || '',
+//         };
+//       }
+//     }
+
+//     return newData;
+//   };
+
+//   const prefillServiceInformation = data => {
+//     const newData = _.omit(
+//       ['servicePeriods', 'reservesNationalGuardService'],
+//       data,
+//     );
+//     const { servicePeriods, reservesNationalGuardService } = data;
+//     if (servicePeriods || reservesNationalGuardService) {
+//       newData.serviceInformation = {};
+//       if (servicePeriods) {
+//         newData.serviceInformation.servicePeriods = servicePeriods;
+//       }
+//       if (reservesNationalGuardService) {
+//         newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
+//       }
+//     }
+//     // backend is prefilling with older branch names
+//     return migrateBranches(newData);
+//   };
+
+//   const prefillBankInformation = data => {
+//     const newData = _.omit(
+//       ['bankAccountType', 'bankAccountNumber', 'bankRoutingNumber', 'bankName'],
+//       data,
+//     );
+
+//     const {
+//       bankAccountType,
+//       bankAccountNumber,
+//       bankRoutingNumber,
+//       bankName,
+//     } = data;
+
+//     if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
+//       newData['view:originalBankAccount'] = viewifyFields({
+//         bankAccountType,
+//         bankAccountNumber,
+//         bankRoutingNumber,
+//         bankName,
+//       });
+
+//       // start the bank widget in 'review' mode
+//       newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
+//     }
+
+//     return newData;
+//   };
+
+//   const prefillIncludeToxicExposure = data => {
+//     const newData = _.omit(['includeToxicExposure'], data);
+//     const { includeToxicExposure } = data;
+
+//     if (includeToxicExposure === true) {
+//       newData.includeToxicExposure = true;
+//     }
+
+//     return newData;
+//   };
+
+//   const transformations = [
+//     prefillRatedDisabilities,
+//     prefillContactInformation,
+//     prefillServiceInformation,
+//     prefillBankInformation,
+//     prefillIncludeToxicExposure,
+//   ];
+
+//   const applyTransformations = (data = {}, transformer) => transformer(data);
+
+//   return {
+//     metadata,
+//     formData: transformations.reduce(applyTransformations, formData),
+//     pages,
+//   };
+    const test = {
+        metadata,
+        formData,
+        pages
+    }
+    console.log('prefill:', test)
+    return test
+}

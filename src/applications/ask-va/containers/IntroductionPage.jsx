@@ -18,9 +18,10 @@ import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, toggleLoginModal } = props;
+  const { route, loggedIn, toggleLoginModal, profile } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
@@ -42,7 +43,7 @@ const IntroductionPage = props => {
     },
     [props],
   );
-
+  console.log('get profile:', profile)
   // const getApiData = url => {
   //   return apiRequest(url)
   //     .then(() => {
@@ -317,7 +318,13 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start your Application"
+      />
       {loggedIn ? authenticatedUI : unAuthenticatedUI}
     </div>
   );
