@@ -66,6 +66,16 @@ export const getAllergies = async () => {
   );
 };
 
+export const getDocumentation = (id, ndcNumber) => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions/${id}/documentation?ndc=${ndcNumber}`,
+    {
+      method: 'GET',
+      headers,
+    },
+  );
+};
+
 export const getPaginatedSortedList = (pageNumber = 1, sortEndpoint = '') => {
   return apiRequest(
     `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=20${sortEndpoint}`,
