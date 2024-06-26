@@ -17,7 +17,8 @@ const CustomMessaging = () => (
 
     <p>
       We’re updating our systems for online direct deposit management. You can
-      still manage your information by phone.
+      still manage your information by phone. We expect to complete this work by
+      Wednesday, July 10, 2024 at 5pm ET.
     </p>
     <p>
       <strong>
