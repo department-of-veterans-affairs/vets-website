@@ -124,10 +124,6 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-  // This Effect  add class for bloding Label only for this label
-  useEffect(() => {
-    document.body.classList.add('verify-information-path');
-  }, []);
 
   return (
     <>
