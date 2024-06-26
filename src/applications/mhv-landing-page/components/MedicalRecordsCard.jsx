@@ -54,6 +54,7 @@ const MedicalRecordsCard = ({ href }) => {
           'vads-u-padding-left--0',
           'vads-u-margin-top--2',
           'vads-u-margin-bottom--0',
+          'vads-u-font-size--lg',
         )}
       >
         The new version of this tool isn’t ready yet. For now, you can get your
