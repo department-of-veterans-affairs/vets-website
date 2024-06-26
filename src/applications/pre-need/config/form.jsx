@@ -14,17 +14,17 @@ import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import transformForSubmit from './transformForSubmit';
 
 import emailUI from '../definitions/email';
-import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
-import * as applicantMilitaryName from './pages/applicantMilitaryName';
-import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
+// import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
+// import * as applicantMilitaryName from './pages/applicantMilitaryName';
+// import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
 import * as sponsorDetails from './pages/sponsorDetails';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
-import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
-import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
-import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
+// import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
+// import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
+// import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
 import * as burialBenefits from './pages/burialBenefits';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
@@ -32,6 +32,7 @@ import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails'
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import { servicePeriodsPages } from './pages/servicePeriodsPages';
 
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
@@ -53,8 +54,8 @@ import {
   transform,
   applicantContactInfoDescriptionNonVet,
   applicantContactInfoDescriptionVet,
-  isVeteranAndHasServiceName,
-  isNotVeteranAndHasServiceName,
+  // isVeteranAndHasServiceName,
+  // isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   preparerAddressHasState,
   applicantsMailingAddressHasState,
@@ -260,52 +261,56 @@ const formConfig = {
     },
     militaryHistory: {
       title: 'Military history',
-      pages: {
-        // Two sets of military history pages dependent on
-        // whether the applicant is the veteran or not.
-        // If not, "Sponsor’s" precedes all the field labels.
-        applicantMilitaryHistory: {
-          title: 'Service period(s)',
-          path: 'applicant-military-history',
-          depends: isVeteran,
-          uiSchema: applicantMilitaryHistory.uiSchema,
-          schema: applicantMilitaryHistory.schema,
-        },
-        applicantMilitaryName: {
-          path: 'applicant-military-name',
-          depends: isVeteran,
-          uiSchema: applicantMilitaryName.uiSchema,
-          schema: applicantMilitaryName.schema,
-        },
-        applicantMilitaryNameInformation: {
-          title: 'Previous name',
-          path: 'applicant-military-name-information',
-          depends: formData => isVeteranAndHasServiceName(formData),
-          uiSchema: applicantMilitaryNameInformation.uiSchema,
-          schema: applicantMilitaryNameInformation.schema,
-        },
-        sponsorMilitaryHistory: {
-          path: 'sponsor-military-history',
-          title: 'Sponsor’s service period(s)',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryHistory.uiSchema,
-          schema: sponsorMilitaryHistory.schema,
-        },
-        sponsorMilitaryName: {
-          path: 'sponsor-military-name',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryName.uiSchema,
-          schema: sponsorMilitaryName.schema,
-        },
-        sponsorMilitaryNameInformation: {
-          title: 'Sponsor’s previous name',
-          path: 'sponsor-military-name-information',
-          depends: formData => isNotVeteranAndHasServiceName(formData),
-          uiSchema: sponsorMilitaryNameInformation.uiSchema,
-          schema: sponsorMilitaryNameInformation.schema,
-        },
-      },
+      pages: servicePeriodsPages,
     },
+    // militaryHistory: {
+    //   title: 'Military history',
+    //   pages: {
+    //     // Two sets of military history pages dependent on
+    //     // whether the applicant is the veteran or not.
+    //     // If not, "Sponsor’s" precedes all the field labels.
+    //     applicantMilitaryHistory: {
+    //       title: 'Service period(s)',
+    //       path: 'applicant-military-history',
+    //       depends: isVeteran,
+    //       uiSchema: applicantMilitaryHistory.uiSchema,
+    //       schema: applicantMilitaryHistory.schema,
+    //     },
+    //     applicantMilitaryName: {
+    //       path: 'applicant-military-name',
+    //       depends: isVeteran,
+    //       uiSchema: applicantMilitaryName.uiSchema,
+    //       schema: applicantMilitaryName.schema,
+    //     },
+    //     applicantMilitaryNameInformation: {
+    //       title: 'Previous name',
+    //       path: 'applicant-military-name-information',
+    //       depends: formData => isVeteranAndHasServiceName(formData),
+    //       uiSchema: applicantMilitaryNameInformation.uiSchema,
+    //       schema: applicantMilitaryNameInformation.schema,
+    //     },
+    //     sponsorMilitaryHistory: {
+    //       path: 'sponsor-military-history',
+    //       title: 'Sponsor’s service period(s)',
+    //       depends: formData => !isVeteran(formData),
+    //       uiSchema: sponsorMilitaryHistory.uiSchema,
+    //       schema: sponsorMilitaryHistory.schema,
+    //     },
+    //     sponsorMilitaryName: {
+    //       path: 'sponsor-military-name',
+    //       depends: formData => !isVeteran(formData),
+    //       uiSchema: sponsorMilitaryName.uiSchema,
+    //       schema: sponsorMilitaryName.schema,
+    //     },
+    //     sponsorMilitaryNameInformation: {
+    //       title: 'Sponsor’s previous name',
+    //       path: 'sponsor-military-name-information',
+    //       depends: formData => isNotVeteranAndHasServiceName(formData),
+    //       uiSchema: sponsorMilitaryNameInformation.uiSchema,
+    //       schema: sponsorMilitaryNameInformation.schema,
+    //     },
+    //   },
+    // },
     burialBenefits: {
       title: 'Burial benefits',
       pages: {
