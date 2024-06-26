@@ -78,10 +78,10 @@ describe('Header <App>', () => {
   });
 
   it('renders legacy header when our width is more than 768px', () => {
-    window.innerWidth = 769;
-    const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
-    const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
-    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
+    window.innerWidth = 768;
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader();
 
@@ -106,9 +106,9 @@ describe('Header <App>', () => {
 
   it('renders header v2 (mobile) when our width is less than 768px', () => {
     window.innerWidth = 767;
-    const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
-    const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
-    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader();
 
@@ -133,9 +133,9 @@ describe('Header <App>', () => {
 
   it('renders minimal-header when applicable', () => {
     window.innerWidth = 768;
-    const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
-    const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
-    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({ showMinimalHeader: true });
 
@@ -154,9 +154,9 @@ describe('Header <App>', () => {
 
   it('renders legacy if minimal-header is false and is Desktop size', () => {
     window.innerWidth = 768;
-    const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
-    const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
-    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
@@ -185,9 +185,9 @@ describe('Header <App>', () => {
 
   it('renders mobile if minimal-header is false and is mobile size', () => {
     window.innerWidth = 767;
-    const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
-    const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
-    const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
