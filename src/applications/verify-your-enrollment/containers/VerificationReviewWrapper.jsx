@@ -17,7 +17,6 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
-  // updateVerificationsData,
 } from '../actions';
 import {
   toLocalISOString,
@@ -46,12 +45,6 @@ const VerificationReviewWrapper = ({
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  // const handleRadioClick = e => {
-  //   const { value } = e.detail;
-  //   console.log(e.target.cheked, '999999');
-  //   setRadioValue(value);
-  //   setErrorStatement(null);
-  // };
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
     setErrorStatement(null);
