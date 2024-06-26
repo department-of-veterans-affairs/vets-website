@@ -8,7 +8,10 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 // import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
-import { DATE_FORMATS } from '../constants';
+import {
+  DATE_FORMATS,
+  disabilityCompensationClaimTypeCodes,
+} from '../constants';
 
 // Adding !! so that we convert this to a boolean
 export const claimAvailable = claim =>
@@ -71,7 +74,7 @@ const claimPhaseTypeDescriptionMap = {
   PENDING_DECISION_APPROVAL:
     'We’re preparing your decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
   PREPARATION_FOR_NOTIFICATION:
-    'A senior reviewer is doing a final review of your claim and the decision letter. If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+    'A senior reviewer is doing a final review of your claim and the decision letter.',
   COMPLETE:
     'You can view and download your decision letter. We also sent you a copy by mail.',
 };
@@ -95,6 +98,10 @@ const statusDescriptionMap = {
 
 export function getClaimStatusDescription(status) {
   return statusDescriptionMap[status];
+}
+
+export function isDisabilityCompensationClaim(claimTypeCode) {
+  return disabilityCompensationClaimTypeCodes.includes(claimTypeCode);
 }
 
 export function isClaimOpen(status, closeDate) {

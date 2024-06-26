@@ -82,6 +82,7 @@ export default function StatusAlert({ appointment, facility }) {
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(history, dispatch, typeOfCare)}
+                tabindex="0"
               />
             </div>
           </>
@@ -97,7 +98,7 @@ export default function StatusAlert({ appointment, facility }) {
       return (
         <>
           <h2 className="vads-u-margin-bottom--0">After visit summary</h2>
-          <AfterVisitSummary data={appointment} />
+          <AfterVisitSummary data={appointment} /> <br />
         </>
       );
     }
@@ -136,6 +137,7 @@ export default function StatusAlert({ appointment, facility }) {
               text="Schedule a new appointment"
               data-testid="schedule-appointment-link"
               onClick={handleClick(history, dispatch, typeOfCare)}
+              tabindex="0"
             />
           </div>
         </InfoAlert>
@@ -155,6 +157,7 @@ export default function StatusAlert({ appointment, facility }) {
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
+            tabindex="0"
           />
         </InfoAlert>
       );
@@ -177,6 +180,7 @@ export default function StatusAlert({ appointment, facility }) {
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(history, dispatch, typeOfCare)}
+                tabindex="0"
               />
             </>
           )}
@@ -213,6 +217,7 @@ export default function StatusAlert({ appointment, facility }) {
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
+            tabindex="0"
           />
         </div>
       </InfoAlert>

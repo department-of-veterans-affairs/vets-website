@@ -12,8 +12,9 @@ const CallPharmacyPhone = ({ cmopDivisionPhone, page }) => {
           <span> at </span>
           <va-telephone
             contact={number}
+            data-testid="pharmacy-phone-number"
             data-dd-action-name={`Pharmacy Phone Number Link - ${page}`}
-          />
+          />{' '}
           <span>
             (<va-telephone tty contact="711" />)
           </span>

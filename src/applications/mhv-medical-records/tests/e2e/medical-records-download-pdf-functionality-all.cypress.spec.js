@@ -1,11 +1,10 @@
 import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
-
-describe('Medical Records Download Functionality For Radiology', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
+// SKIPPING this test as of 06/07/2024 for phase 0 because of MHV-58512 (https://jira.devops.va.gov/browse/MHV-58512)
+describe.skip('Medical Records Download All PDF Functionality', () => {
+  it('Visits Medical Records Download All PDF Page', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    // Given Navigate to Radiology Page
     cy.visit('my-health/medical-records/download-all');
 
     cy.get('[data-testid="download-blue-button-pdf"]').click();

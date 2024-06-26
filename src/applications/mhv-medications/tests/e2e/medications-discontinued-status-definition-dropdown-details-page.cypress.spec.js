@@ -10,12 +10,13 @@ describe('Medications Details Page Discontinued Status DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 6;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(discontinuedRx);
+    detailsPage.clickMedicationDetailsLink(discontinuedRx, cardNumber);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyDiscontinuedStatusDropDownDefinition();
   });

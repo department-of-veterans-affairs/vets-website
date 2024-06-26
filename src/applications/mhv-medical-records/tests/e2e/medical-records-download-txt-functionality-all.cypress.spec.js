@@ -2,12 +2,11 @@ import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import DownloadAllPage from './pages/DownloadAllPage';
 import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
-
-describe('Medical Records Download All TXT Functionality', () => {
-  it('Medical Records Download All TXTX Functionality', () => {
+// SKIPPING this test as of 06/07/2024 for phase 0 because of MHV-58512 (https://jira.devops.va.gov/browse/MHV-58512)
+describe.skip('Medical Records Download All TXT Functionality', () => {
+  it('Medical Records Download All TXT Functionality', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    // Given Navigate to Radiology Page
     cy.visit('my-health/medical-records/download-all');
 
     cy.get('[data-testid="download-blue-button-txt"]').click();

@@ -5,7 +5,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
-
+const defaultHighlightedIndex = -1;
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (searchTerm, value, numResults) => {
   let results = numResults;
@@ -33,9 +33,8 @@ export class ComboBox extends React.Component {
       bump: false,
       // Autopopulate input with existing form data:
       searchTerm: props.formData,
-      input: props.formData,
       value: props.formData,
-      highlightedIndex: 0,
+      highlightedIndex: defaultHighlightedIndex,
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
@@ -65,6 +64,8 @@ export class ComboBox extends React.Component {
         value: searchTerm,
         filteredOptions: [],
       });
+      // eslint-disable-next-line no-console
+      console.log('sending focus to input from handleClickOutsideList');
       this.sendFocusToInput(this.inputRef);
     }
   };
@@ -73,13 +74,15 @@ export class ComboBox extends React.Component {
   handleSearchChange = e => {
     const { bump } = this.state;
     const newTextValue = e.target.value;
+    // this.filterOptions();
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
-      input: newTextValue,
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from handleSearchChange');
     this.sendFocusToInput(this.inputRef);
   };
 
@@ -91,6 +94,8 @@ export class ComboBox extends React.Component {
   sendFocusToInput = ref => {
     const { shadowRoot } = ref.current;
     const input = shadowRoot.querySelector('input');
+    // eslint-disable-next-line no-console
+    console.log('sendFocusToInput() called. Input: ', input);
     input.focus();
   };
 
@@ -108,21 +113,29 @@ export class ComboBox extends React.Component {
             value: searchTerm,
             searchTerm,
             filteredOptions: [],
-            highlightedIndex: 0,
+            highlightedIndex: defaultHighlightedIndex,
           });
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
       case 'ArrowUp':
-        index = this.decrementIndex(index);
-        this.scrollIntoView(index);
-        this.setState({ highlightedIndex: index });
+        // if user is in first item of the list and arrows up, should return to input field
+        if (index === 0) {
+          this.sendFocusToInput(this.inputRef);
+          this.setState({ highlightedIndex: -1 });
+        } else {
+          index = this.decrementIndex(index);
+          this.scrollIntoView(index);
+          this.setState({ highlightedIndex: index });
+          this.optionFocus(index);
+        }
         e.preventDefault();
         break;
       case 'ArrowDown':
         index = this.incrementIndex(index);
         this.scrollIntoView(index);
         this.setState({ highlightedIndex: index });
+        this.optionFocus(index);
         e.preventDefault();
         break;
       // On Enter, select the highlighted option and close the list. Focus on text input.
@@ -136,17 +149,23 @@ export class ComboBox extends React.Component {
           value: searchTerm,
           searchTerm,
           filteredOptions: [],
-          highlightedIndex: 0,
+          highlightedIndex: defaultHighlightedIndex,
         });
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from escape');
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
       // All other cases treat as regular user input into the text field.
       default:
         // focus goes to input box by default
+        // eslint-disable-next-line no-console
+        console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
-        this.setState({ highlightedIndex: 0 });
+        this.setState({
+          highlightedIndex: defaultHighlightedIndex,
+        });
         break;
     }
   };
@@ -214,17 +233,24 @@ export class ComboBox extends React.Component {
     return index;
   };
 
+  optionFocus(index) {
+    const focusOption = document.getElementById(`option-${index}`);
+    focusOption.focus();
+  }
+
   // Click handler for a list item
   selectOption(option) {
     this.setState({
       value: option,
       searchTerm: option,
       filteredOptions: [],
-      highlightedIndex: 0,
+      highlightedIndex: defaultHighlightedIndex,
     });
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
+    // eslint-disable-next-line no-console
+    console.log('sending focus to input from selectOption');
     this.sendFocusToInput(this.inputRef);
   }
 
@@ -249,7 +275,7 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, searchTerm, value } = this.state;
+    const { highlightedIndex, value } = this.state;
 
     if (option === value || option.length < 1) {
       return null;
@@ -266,15 +292,16 @@ export class ComboBox extends React.Component {
         onClick={() => {
           this.selectOption(option);
         }}
+        id="option-0"
         style={{ cursor: 'pointer' }}
         tabIndex={0}
         onMouseEnter={e => {
           this.handleMouseEnter(e, 0);
         }}
-        onKeyDown={() => null}
+        onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected={searchTerm === option}
+        aria-selected={this.state.highlightedIndex === 0 ? 'true' : 'false'}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -284,6 +311,12 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
+    const autocompleteHelperText = `
+      When autocomplete results are available use up and down arrows to
+      review and enter to select. Touch device users, explore by touch or
+      with swipe gestures.
+    `;
+
     return (
       <div className="cc-combobox">
         <VaTextInput
@@ -296,6 +329,7 @@ export class ComboBox extends React.Component {
           onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
+          message-aria-describedby={autocompleteHelperText}
         />
         <ul
           className={
@@ -307,6 +341,13 @@ export class ComboBox extends React.Component {
           role="listbox"
           ref={this.listRef}
           aria-label="List of matching conditions"
+          id="combobox-list"
+          aria-activedescendant={
+            filteredOptions.length > 0
+              ? `option-${this.state.highlightedIndex}`
+              : null
+          }
+          tabIndex={-1}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -318,7 +359,7 @@ export class ComboBox extends React.Component {
               }
               return (
                 <li
-                  key={index}
+                  key={optionIndex}
                   className={classNameStr}
                   onClick={() => {
                     this.selectOption(option);
@@ -328,10 +369,15 @@ export class ComboBox extends React.Component {
                   onMouseEnter={e => {
                     this.handleMouseEnter(e, optionIndex);
                   }}
-                  onKeyDown={() => null}
+                  onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected={this.state.input === option}
+                  aria-selected={
+                    optionIndex === this.state.highlightedIndex
+                      ? 'true'
+                      : 'false'
+                  }
+                  id={`option-${optionIndex}`}
                 >
                   {option}
                 </li>

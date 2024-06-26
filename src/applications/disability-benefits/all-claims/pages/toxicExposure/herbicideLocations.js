@@ -6,7 +6,8 @@ import {
 import {
   herbicidePageTitle,
   herbicideQuestion,
-  validateLocations,
+  otherInvalidCharError,
+  validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 import { HERBICIDE_LOCATIONS } from '../../constants';
@@ -22,13 +23,16 @@ export const uiSchema = {
     otherHerbicideLocations: {
       description: textareaUI({
         title: 'Other locations not listed here (250 characters maximum)',
+        errorMessages: {
+          pattern: otherInvalidCharError,
+        },
       }),
     },
   },
   'ui:validations': [
     {
       validator: (errors, formData) => {
-        validateLocations(
+        validateSelections(
           errors,
           formData,
           'herbicide',
@@ -51,7 +55,7 @@ export const schema = {
           properties: {
             description: {
               type: 'string',
-              pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
+              pattern: "^([-a-zA-Z0-9'.,&# ])+$",
               maxLength: 250,
             },
           },

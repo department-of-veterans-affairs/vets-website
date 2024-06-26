@@ -8,7 +8,7 @@ import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
   formatAddress,
-  hasFormChanged,
+  hasAddressFormChanged,
   prepareAddressData,
   scrollToElement,
 } from '../helpers';
@@ -200,7 +200,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   };
   const onCancleButtonClicked = () => {
     if (
-      (hasFormChanged(formData) && !goBackToEdit) ||
+      (hasAddressFormChanged(formData) && !goBackToEdit) ||
       (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
     ) {
       setShowModal(true);
@@ -305,7 +305,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             >
               <div className="button-container">
                 <LoadingButton
-                  aria-label="save your Mailing address for GI Bill benefits"
+                  aria-label="save your mailing address for GI Bill benefits"
                   type="submit"
                   loadingText="saving Mailling address"
                   className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
@@ -315,7 +315,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 <va-button
                   text="Cancel"
                   secondary
-                  label="cancel updating your bank information for GI Bill benefits"
+                  label="cancel updating your mailing address for GI Bill benefits"
                   onClick={onCancleButtonClicked}
                   data-qa="cancel-button"
                   data-testid={`${PREFIX}form-cancel-button`}

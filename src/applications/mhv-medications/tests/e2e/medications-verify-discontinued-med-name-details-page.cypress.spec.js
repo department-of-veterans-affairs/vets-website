@@ -10,6 +10,7 @@ describe('Medications Details Page Discontinued Med Name', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 6;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
@@ -24,6 +25,6 @@ describe('Medications Details Page Discontinued Med Name', () => {
     listPage.verifyDiscontinuedMedicationNameIsVisibleOnListPage(
       discontinuedRx,
     );
-    detailsPage.clickMedicationDetailsLink(discontinuedRx);
+    detailsPage.clickMedicationDetailsLink(discontinuedRx, cardNumber);
   });
 });

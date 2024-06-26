@@ -67,12 +67,12 @@ export function CompareGrid({
             first: index === 0,
             'has-diff': displayDiff,
           })}
+          aria-label={
+            displayDiff
+              ? 'This row displays information that is different between your selected institutions'
+              : null
+          }
         >
-          {displayDiff && (
-            <div className="label-diff">
-              <i className="fas fa-asterisk" aria-hidden="true" />
-            </div>
-          )}
           {field.label}
         </div>
       </div>

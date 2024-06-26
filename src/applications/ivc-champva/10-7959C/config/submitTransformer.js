@@ -19,6 +19,9 @@ export default function transformForSubmit(formConfig, form) {
 
   const copyOfData = JSON.parse(JSON.stringify(transformedData));
 
+  copyOfData.applicantMedicareAdvantage =
+    copyOfData.applicantMedicareClass === 'advantage';
+
   copyOfData.hasOtherHealthInsurance =
     copyOfData.applicantHasPrimary || copyOfData.applicantHasSecondary;
 

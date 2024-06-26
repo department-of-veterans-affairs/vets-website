@@ -1,5 +1,4 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -8,7 +7,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setCategoryID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInCategories } from '../../constants';
+import { URL, envUrl, requireSignInCategories } from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const CategorySelect = props => {
@@ -61,7 +60,7 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
     },
     [loggedIn],
   );
@@ -95,7 +94,6 @@ const CategorySelect = props => {
           </option>
         ))}
       </VaSelect>
-
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}

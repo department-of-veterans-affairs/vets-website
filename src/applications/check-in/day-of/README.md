@@ -140,7 +140,6 @@ Though we have the HOC, its now considered best practice to query redux using th
 - `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
   - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_travel_reimbursement`: Enables travel reimbursement workflow for day-of check-in.
-- `check_in_experience_travel_logic`: Enables logic that allows the veteran to submit a travel claim to more than one appointment in a day if they are at separate facilities.
 - `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
 - `check_in_experience_unified_landing_page`: Enabled the unified check in landing page
 - `check_in_experience_45_minute_reminder`: Enables the 45 minute reminder

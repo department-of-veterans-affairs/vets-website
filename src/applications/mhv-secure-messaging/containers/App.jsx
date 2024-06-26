@@ -14,12 +14,12 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
-import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
@@ -45,6 +45,17 @@ const App = ({ isPilot }) => {
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
   );
 
   const scheduledDowntimes = useSelector(
@@ -101,16 +112,14 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
+
+  useDatadogRum(datadogRumConfig);
+  useEffect(
     () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
     [user],
   );
-  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
@@ -140,6 +149,7 @@ const App = ({ isPilot }) => {
     window.location.replace(manifest.rootUrl);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}
@@ -173,7 +183,6 @@ const App = ({ isPilot }) => {
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
               >
-                <Navigation />
                 <ScrollToTop />
                 <Switch>
                   <AuthorizedRoutes />
