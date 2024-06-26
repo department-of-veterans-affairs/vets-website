@@ -161,7 +161,7 @@ export default function TermsOfUse() {
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
-              <li>VA Health and Benefits mobile app</li>
+              <li>VA: Health and Benefits mobile app</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
@@ -174,7 +174,7 @@ export default function TermsOfUse() {
               <li>Refill your prescriptions</li>
               <li>Update your personal information</li>
             </ul>
-            <h3>If you have a My HealtheVet user ID and password</h3>
+            <h4>If you have a My HealtheVet user ID and password</h4>
             <p>
               If you decline these terms, you’ll no longer be able to use your{' '}
               <strong>My HealtheVet</strong> user ID and password.
