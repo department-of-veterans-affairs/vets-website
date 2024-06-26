@@ -383,5 +383,12 @@ class MedicationsDetailsPage {
       .find('[href="tel:+14106366899"]')
       .should('contain', pharmacyPhone);
   };
+
+  verifyUnknownRxPharmacyPhoneNumberOnDetailsPage = unknownRxPhone => {
+    cy.get('[data-testid="phone-number"]')
+      .shadow()
+      .find('[href="tel:+17832721069"]')
+      .should('contain', unknownRxPhone);
+  };
 }
 export default MedicationsDetailsPage;
