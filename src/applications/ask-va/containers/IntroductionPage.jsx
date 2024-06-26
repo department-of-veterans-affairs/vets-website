@@ -16,9 +16,9 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
   const { route, loggedIn, toggleLoginModal, profile } = props;
@@ -43,7 +43,8 @@ const IntroductionPage = props => {
     },
     [props],
   );
-  console.log('get profile:', profile)
+  // eslint-disable-next-line no-console
+  console.log('get profile:', profile);
   // const getApiData = url => {
   //   return apiRequest(url)
   //     .then(() => {
