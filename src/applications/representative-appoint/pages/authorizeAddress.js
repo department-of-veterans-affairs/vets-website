@@ -1,26 +1,25 @@
 import React from 'react';
+import {
+  radioSchema,
+  radioUI,
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import { authorizationNote } from '../content/authorizeMedical';
-import { saveYourApplication } from '../content/saveYourApplication';
+import { representativeTypeMap } from '../utilities/helpers';
 
 export const uiSchema = {
-  'view:saveYourApplication': {
-    'ui:description': saveYourApplication,
-  },
-  'view:authorizeAddress': {
-    'ui:description': formData => {
-      return (
-        <>
-          <h3>Authorization to change your address</h3>
-          <p>
-            This accredited{' '}
-            {formData.repTypeRadio || `Veterans Service Organization (VSO)`} can
-            help you change the address on your VA records. If the address on
-            your VA records is incorrect or outdated, it may take us longer to
-            contact you and process your benefit claims.
-          </p>
-        </>
-      );
-    },
+  'ui:description': ({ formData }) => {
+    return (
+      <>
+        <h3>Authorization to change your address</h3>
+        <p className="appoint-text">
+          This accredited{' '}
+          {representativeTypeMap[formData.repTypeRadio] || 'representative'} can
+          help you change the address on your VA records. If the address on your
+          VA records is incorrect or outdated, it may take us longer to contact
+          you and process your benefit claims.
+        </p>
+      </>
+    );
   },
   'view:addressAuthorizationPolicy': {
     'ui:description': () => {
@@ -49,52 +48,35 @@ export const uiSchema = {
       );
     },
   },
-  authorizeAddressRadio: {
-    'ui:title': `Do you authorize this accredited VSO to change your address on VA records?`,
-    'ui:widget': 'radio',
-    'ui:options': {
-      widgetProps: {
-        'Yes address change': { 'data-info': 'yes_address_change' },
-        'No address change': { 'data-info': 'no_address_change' },
-      },
-      selectedProps: {
-        'Yes address change': { 'aria-describedby': 'yes_address_change' },
-        'No address change': { 'aria-describedby': 'no_address_change' },
-      },
-      'ui:errorMessages': {
-        required: 'Field is required',
-      },
+  authorizeAddressRadio: radioUI({
+    title:
+      'Do you authorize this accredited representative to change your address on VA records?',
+    updateUiSchema: formData => {
+      const title = `Do you authorize this accredited ${representativeTypeMap[
+        (formData?.repTypeRadio)
+      ] || 'representative'} to change your address on VA records?`;
+      return { 'ui:title': title };
     },
-  },
+  }),
 
-  'view:authorizationNote': {
+  'view:authorizationNote3': {
     'ui:description': authorizationNote,
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['authorizeAddressRadio'],
   properties: {
-    'view:saveYourApplication': {
-      type: 'object',
-      properties: {},
-    },
-    'view:authorizeAddress': {
-      type: 'object',
-      properties: {},
-    },
     'view:addressAuthorizationPolicy': {
       type: 'object',
       properties: {},
     },
-    authorizeAddressRadio: {
-      type: 'string',
-      enum: [
-        `Yes, they can change my address if it's incorrect or outdated`,
-        `No, they can't change my address`,
-      ],
-    },
-    'view:authorizationNote': {
+    authorizeAddressRadio: radioSchema([
+      `Yes, they can change my address if it's incorrect or outdated`,
+      `No, they can't change my address`,
+    ]),
+    'view:authorizationNote3': {
       type: 'object',
       properties: {},
     },
