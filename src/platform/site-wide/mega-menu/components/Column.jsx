@@ -110,6 +110,7 @@ Column.propTypes = {
     link: PropTypes.shape({
       text: PropTypes.string.isRequired,
       href: PropTypes.string.isRequired,
+      target: PropTypes.string,
     }),
     description: PropTypes.string,
   }),
