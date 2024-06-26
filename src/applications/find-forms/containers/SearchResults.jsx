@@ -144,7 +144,7 @@ export const SearchResults = ({
   }
 
   // Show UX friendly message if all forms are tombstone/ deleted in the results returned.
-  if (hasOnlyRetiredForms) {
+  if (hasOnlyRetiredForms)
     return (
       <p
         className="vads-u-font-size--base vads-u-line-height--3 vads-u-font-family--sans
@@ -155,7 +155,6 @@ export const SearchResults = ({
         has been removed from the VA forms database.
       </p>
     );
-  }
 
   if (!results.length) {
     return (
@@ -167,10 +166,13 @@ export const SearchResults = ({
         No results were found for "<strong>{query}</strong>
         ." Try using fewer words or broadening your search. If you’re looking
         for non-VA forms, go to the{' '}
-        <va-link
+        <a
           href="https://www.gsa.gov/reference/forms"
-          text="GSA Forms Library"
-        />
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          GSA Forms Library
+        </a>
         .
       </p>
     );
@@ -270,7 +272,13 @@ export const SearchResults = ({
             >
               Get Acrobat Reader for free from Adobe
             </a>
-            <a href={pdfUrl} className="vads-u-margin-top--2" download>
+            <a
+              href={pdfUrl}
+              className="vads-u-margin-top--2"
+              download
+              rel="noreferrer noopener"
+              target="_blank"
+            >
               <va-icon
                 className="vads-u-margin-right--1"
                 icon="file_download"
