@@ -53,7 +53,7 @@ const formConfig = {
       pages: {
         page2: {
           path: 'sponsor-information',
-          title: 'Sponsor information',
+          title: 'Name',
           ...sponsorNameSchema,
         },
       },
