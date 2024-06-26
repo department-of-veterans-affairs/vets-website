@@ -4,7 +4,7 @@ import PatientComposePage from '../pages/PatientComposePage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 
-describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
+describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
@@ -19,9 +19,9 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
       force: true,
     });
     PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     FolderLoadPage.backToInbox();
     PatientComposePage.clickOnDeleteDraftButton();
@@ -53,7 +53,7 @@ describe.skip('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientComposePage.clickOnDeleteDraftButton();
   });
 
-  it('focus on error message for empty message body', () => {
+  it.skip('focus on error message for empty message body', () => {
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {

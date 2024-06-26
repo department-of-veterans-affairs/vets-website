@@ -115,7 +115,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = text => {
-    return cy.focused().should('have.attr', 'error', text);
+    return cy.focused().should('contain.text', text);
   };
 
   clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
