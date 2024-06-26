@@ -5,6 +5,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
+import WIP from '../../shared/components/WIP';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -34,8 +35,14 @@ export default function App({ location, children }) {
         </Toggler.Enabled>
         <Toggler.Disabled>
           <br />
-          <h1>This form is currently disabled.</h1>
-          <p>This form is still under development.</p>
+          <WIP
+            content={{
+              description:
+                'We’re rolling out the CHAMPVA application (VA Form 10-10d) in stages. It’s not quite ready yet. Please check back again soon.',
+              redirectLink: '/',
+              redirectText: 'Return to VA home page',
+            }}
+          />
         </Toggler.Disabled>
       </Toggler>
     </div>
