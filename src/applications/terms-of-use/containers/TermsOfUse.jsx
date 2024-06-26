@@ -161,7 +161,7 @@ export default function TermsOfUse() {
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
-              <li>VA Health and Benefits Mobile App</li>
+              <li>VA Health and Benefits mobile App</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
@@ -174,18 +174,18 @@ export default function TermsOfUse() {
               <li>Refill your prescriptions</li>
               <li>Update your personal information</li>
             </ul>
+            <h3>If you have a My HealtheVet user ID and password</h3>
+            <p>
+              If you decline these terms, you’ll no longer be able to use your{' '}
+              <strong>My HealtheVet</strong> user ID and password.
+            </p>
+            <p>
+              To manage your benefits and care online again, you’ll need to sign
+              in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+              account and accept these terms. If you don’t have one of these
+              accounts, you’ll need to create one.
+            </p>
           </va-alert>
-          <h3>If you have a My HealtheVet user ID and password</h3>
-          <p>
-            If you decline these terms, you’ll no longer be able to use your{' '}
-            <strong>My HealtheVet</strong> user ID and password.
-          </p>
-          <p>
-            To manage your benefits and care online again, you’ll need to sign
-            in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
-            account and accept these terms. If you don’t have one of these
-            accounts, you’ll need to create one.
-          </p>
           <TermsAcceptance
             error={error}
             isMiddleAuth={isMiddleAuth}
