@@ -4,37 +4,35 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-for (let i = 0; i < 20; i += 1) {
-  describe('Secure Messaging Custom Folder AXE Check', () => {
-    beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
-      PatientInboxPage.loadInboxMessages();
-      FolderLoadPage.loadFolders();
-      PatientMessageCustomFolderPage.loadMessages();
-    });
-
-    it('Verify folder header', () => {
-      PatientMessageCustomFolderPage.verifyFolderHeaderText();
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
-      PatientMessageCustomFolderPage.verifyResponseBodyLength();
-    });
-
-    it('Verify Filter btn exists', () => {
-      PatientMessageCustomFolderPage.VerifyFilterBtnExist();
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
-    });
-
-    it('Verify Remove Non-empty Folder', () => {
-      PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
-      PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
-      PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
-      PatientMessageCustomFolderPage.clickOnCloseIcon();
-      PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
-      cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT);
-    });
+describe('Secure Messaging Custom Folder AXE Check', () => {
+  beforeEach(() => {
+    const site = new SecureMessagingSite();
+    site.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+    PatientMessageCustomFolderPage.loadMessages();
   });
-}
+
+  it('Verify folder header', () => {
+    PatientMessageCustomFolderPage.verifyFolderHeaderText();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+    PatientMessageCustomFolderPage.verifyResponseBodyLength();
+  });
+
+  it('Verify Filter btn exists', () => {
+    PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('Verify Remove Non-empty Folder', () => {
+    PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
+    PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
+    PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
+    PatientMessageCustomFolderPage.clickOnCloseIcon();
+    PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+});
