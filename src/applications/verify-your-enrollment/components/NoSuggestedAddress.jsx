@@ -30,7 +30,7 @@ const NoSuggestedAddress = ({
               <span className="vads-u-font-weight--bold">
                 Entered Addresses:
               </span>
-              <label className="vads-u-margin-top--1" id="entred-address">
+              <label className="vads-u-margin-top--1" id="entered-address">
                 {addressLabel(formData)}
               </label>
             </div>
