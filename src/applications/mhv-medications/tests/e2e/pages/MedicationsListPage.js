@@ -570,5 +570,14 @@ class MedicationsListPage {
       .find('[href="tel:+14106366899"]')
       .should('contain', rfPhoneNumber);
   };
+
+  verifyUnknownRxPhoneNumberOnListPage = unknownPhoneNumber => {
+    cy.get(
+      '[data-testid="unknown"] > [data-testid="unknown-rx"] > :nth-child(2) > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+17832721069"]')
+      .should('contain', unknownPhoneNumber);
+  };
 }
 export default MedicationsListPage;

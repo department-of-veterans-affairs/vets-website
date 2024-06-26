@@ -376,5 +376,12 @@ class MedicationsDetailsPage {
       .find('[href="tel:+19832720905"]')
       .should('contain', pharmacyPhone);
   };
+
+  verifyRfRecordPharmacyPhoneNumberOnDetailsPage = pharmacyPhone => {
+    cy.get('[data-testid="phone-number"]')
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', pharmacyPhone);
+  };
 }
 export default MedicationsDetailsPage;

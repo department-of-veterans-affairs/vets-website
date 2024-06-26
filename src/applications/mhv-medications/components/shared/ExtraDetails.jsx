@@ -24,7 +24,7 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
           <va-icon icon="warning" size={4} aria-hidden="true" />
-          <div className="vads-u-padding-left--2">
+          <div className="vads-u-padding-left--2" data-testid="unknown-rx">
             <p className="vads-u-margin-y--0">
               We’re sorry. There’s a problem with our system. You can’t manage
               this prescription online right now.
