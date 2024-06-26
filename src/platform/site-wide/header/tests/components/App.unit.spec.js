@@ -17,14 +17,14 @@ const mockStore = {
 const MockMobileHeader = () => <div>Mobile header</div>;
 
 describe('Header <App>', () => {
-  // let sandbox;
+  let sandbox;
   beforeEach(() => {
-    // sandbox = sinon.createSandbox();
-    // sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
+    sandbox = sinon.createSandbox();
+    sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
   });
 
   afterEach(() => {
-    // sandbox.restore();
+    sandbox.restore();
     cleanup();
   });
 
@@ -78,19 +78,16 @@ describe('Header <App>', () => {
   });
 
   it('renders legacy header when our width is more than 768px', () => {
-    sinon.stub(MobileHeader, 'Header').callsFake(MockMobileHeader);
-
     window.innerWidth = 768;
-
-    sinon.spy(helpers, 'showLegacyHeader');
-    sinon.spy(helpers, 'hideLegacyHeader');
-    sinon.spy(helpers, 'toggleMinimalHeader');
+    const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
+    const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
+    const toggleMinimalHeader = sinon.spy(helpers, 'toggleMinimalHeader');
 
     const { queryByText, staticDom } = setupHeader();
 
-    expect(helpers.showLegacyHeader.called).to.be.true;
-    expect(helpers.hideLegacyHeader.called).to.be.false;
-    expect(helpers.toggleMinimalHeader.called).to.be.false;
+    expect(showLegacyHeaderSpy.called).to.be.true;
+    expect(hideLegacyHeaderSpy.called).to.be.false;
+    expect(toggleMinimalHeader.called).to.be.false;
 
     expect(staticDom.querySelector('#header-default')).to.not.have.class(
       'vads-u-display--none',
@@ -102,10 +99,12 @@ describe('Header <App>', () => {
     expect(staticDom.querySelector('#header-minimal')).to.not.exist;
 
     document.body.removeChild(staticDom);
-    sinon.stub.reset();
+    showLegacyHeaderSpy.restore();
+    hideLegacyHeaderSpy.restore();
+    toggleMinimalHeader.restore();
   });
 
-  it.skip('renders header v2 (mobile) when our width is less than 768px', () => {
+  it('renders header v2 (mobile) when our width is less than 768px', () => {
     window.innerWidth = 767;
     const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
@@ -132,7 +131,7 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it.skip('renders minimal-header when applicable', () => {
+  it('renders minimal-header when applicable', () => {
     window.innerWidth = 768;
     const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
@@ -153,7 +152,7 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it.skip('renders legacy if minimal-header is false and is Desktop size', () => {
+  it('renders legacy if minimal-header is false and is Desktop size', () => {
     window.innerWidth = 768;
     const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
@@ -184,7 +183,7 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it.skip('renders mobile if minimal-header is false and is mobile size', () => {
+  it('renders mobile if minimal-header is false and is mobile size', () => {
     window.innerWidth = 767;
     const showLegacyHeaderSpy = sinon.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sinon.spy(helpers, 'hideLegacyHeader');
