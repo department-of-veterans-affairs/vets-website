@@ -60,7 +60,6 @@ function AppointmentListSection() {
           />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
           <Route path="/review-approved" component={ReviewApproved} />
-          <Route path="/confirm-approved" component={ConfirmApprovedPage} />
           <Route
             path="/provider-choose-date-and-time"
             component={ChooseDateAndTime}
