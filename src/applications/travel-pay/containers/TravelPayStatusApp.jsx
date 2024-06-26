@@ -200,7 +200,10 @@ export default function App({ children }) {
                   />
                 </div>
               </div>
-              <div id="travel-claims-list">
+              <div
+                id="travel-claims-list"
+                className="travel-claim-list-container"
+              >
                 <p id="pagination-info">
                   Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
                   events
