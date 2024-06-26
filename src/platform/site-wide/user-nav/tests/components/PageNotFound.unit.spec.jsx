@@ -18,7 +18,7 @@ describe('PageNotFound Component', () => {
     expect(document.title).to.eql(notFoundTitle);
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledWith({ event: 'nav-404-errorr' })).to.be.true;
+      expect(recordEvent.calledWith({ event: 'nav-404-error' })).to.be.true;
     });
   });
 });

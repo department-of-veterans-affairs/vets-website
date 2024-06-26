@@ -11,7 +11,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(
     () => {
       recordEvent({
-        event: `nav-404-errorr`,
+        event: `nav-404-error`,
       });
     },
     [recordEvent],
