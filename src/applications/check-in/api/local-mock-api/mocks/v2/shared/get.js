@@ -158,6 +158,7 @@ const createAppointment = ({
   clinicIen = singleAppointment[0].clinicIen,
   facilityAddress = singleAppointment[0].facilityAddress,
   clinicPhoneNumber = singleAppointment[0].clinicPhoneNumber,
+  checkedInTime = '',
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -213,7 +214,7 @@ const createAppointment = ({
     eligibility,
     checkInWindowStart: formattedCheckInWindowStart,
     checkInWindowEnd: formattedCheckInWindowEnd,
-    checkedInTime: '',
+    checkedInTime,
     status,
     stationNo,
     clinicLocation,
@@ -272,6 +273,19 @@ const createAppointments = (
         clinicIen: '0001',
         appointmentIen: '0000',
         clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+        clinicIen: '0001',
+        appointmentIen: `0001`,
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+        clinicIen: '0001',
+        appointmentIen: `0001`,
+        clinicFriendlyName: `HEART CLINIC-1`,
+        checkedInTime: '2024-06-26T17:31:30.768Z',
       }),
     ];
     for (let i = 0; i < number; i += 1) {
