@@ -53,6 +53,8 @@ export const ErrorMessages = {
     CATEGORY_REQUIRED: 'Please select a category.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
+    SIGNATURE_REQUIRED: 'Enter your full name',
+    VALID_SIGNATURE_REQUIRED: 'This field accepts alphabetic characters only',
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
       p1: 'We need more information from you before we can save this draft.',
@@ -65,6 +67,16 @@ export const ErrorMessages = {
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
       saveDraft: 'Save draft without attachments',
       editDraft: 'Keep editing',
+    },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
+      title: "We can't save your signature or attachments in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature or attachments',
+    },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
+      title: "We can't save your signature in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature',
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
@@ -103,6 +115,9 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       'unable to save draft with attachment error',
     UNABLE_TO_SAVE_ERROR: 'no attachments and navigating away',
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR: 'unable to save draft with signature',
+    UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
+      'unable to save draft with attachment and signature',
   },
 };
 
@@ -200,6 +215,10 @@ export const Prompts = {
       'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
     EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
     (opens in a new tab)`,
+    SIGNATURE_REQUIRED:
+      'Messages to this team require a signature. We added a signature box to this page.',
+    SIGNATURE_NOT_REQUIRED:
+      "Messages to this team don't require a signature. We removed the signature box from this page.",
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
