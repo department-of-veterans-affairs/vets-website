@@ -30,11 +30,11 @@ const options = {
   text: {
     getItemName: item => item?.application?.veteran?.serviceBranch,
     cardDescription: item =>
-      `${item?.application?.veteran?.dateRange}, ${
-        item?.application?.veteran?.dischargeType
-      }, ${item?.application?.veteran?.highestRank}, ${
-        item?.application?.veteran?.nationalGuardState
-      }`,
+      `${item?.application?.veteran?.dateRange?.from}, ${
+        item?.application?.veteran?.dateRange?.to
+      }, ${item?.application?.veteran?.dischargeType}, ${
+        item?.application?.veteran?.highestRank
+      }, ${item?.application?.veteran?.nationalGuardState}`,
   },
 };
 
