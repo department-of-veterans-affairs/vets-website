@@ -18,9 +18,21 @@ describe(appName, () => {
       });
 
       it(`Shows unverified identity message on ${size} screen`, () => {
-        cy.viewportPreset(size);
+        const userIsVerified = false;
+        const userIsRegistered = false;
 
-        LandingPage.visit({ verified: false });
+        cy.viewportPreset(size);
+        const pageLinks = resolveLandingPageLinks(
+          false,
+          [],
+          'arialLabel',
+          userIsRegistered,
+        );
+
+        LandingPage.visit({
+          registered: userIsRegistered,
+          verified: userIsVerified,
+        });
         cy.injectAxeThenAxeCheck();
 
         // Test that the unverified identity message is present
@@ -33,20 +45,31 @@ describe(appName, () => {
           cy.findByRole('heading', { name }).should('not.exist');
         });
 
+        // Test the hubs are visible
+        pageLinks.hubs.forEach(hub => {
+          LandingPage.validateLinkGroup(hub.title, hub.links.length);
+        });
+
         // Test for the conditional heading for VA health benefits
         cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
       });
 
       it(`Shows landing page on ${size} screen`, () => {
+        const userIsVerified = true;
+        const userIsRegistered = true;
+
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
           'arialLabel',
-          true,
+          userIsRegistered,
         );
 
-        LandingPage.visit();
+        LandingPage.visit({
+          registered: userIsRegistered,
+          verified: userIsVerified,
+        });
         cy.injectAxeThenAxeCheck();
 
         // Validate the cards and hubs
