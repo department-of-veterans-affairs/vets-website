@@ -181,7 +181,7 @@ export const arrayBuilderYesNoUI = (
   const requiredFn = typeof required === 'function' ? required : () => required;
 
   const getCustomHint = options => {
-    if (Object.prototype.hasOwnProperty.call(options, 'hint')) {
+    if (Object.prototype.hasOwnProperty.call(options || {}, 'hint')) {
       return typeof options.hint === 'function'
         ? options.hint
         : () => options.hint;
