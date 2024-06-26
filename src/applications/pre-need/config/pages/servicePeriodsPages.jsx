@@ -10,7 +10,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+// import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -25,11 +25,16 @@ const options = {
   nounSingular: 'service period',
   nounPlural: 'service periods',
   required: true,
-  isItemIncomplete: item => !item?.name, // include all required fields here
+  isItemIncomplete: item => !item?.application?.veteran?.serviceBranch, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
-    cardDescription: item => `${formatReviewDate(item?.date)}`,
+    getItemName: item => item?.application?.veteran?.serviceBranch,
+    cardDescription: item =>
+      `${item?.application?.veteran?.dateRange}, ${
+        item?.application?.veteran?.dischargeType
+      }, ${item?.application?.veteran?.highestRank}, ${
+        item?.application?.veteran?.nationalGuardState
+      }`,
   },
 };
 
