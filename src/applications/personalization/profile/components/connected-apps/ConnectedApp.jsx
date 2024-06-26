@@ -54,7 +54,7 @@ export class ConnectedApp extends Component {
 
             <va-button
               aria-label={`Disconnect ${title} from your account`}
-              className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
+              class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
               onClick={this.openModal}
               data-testid={`disconnect-app-${this.props.id}`}
               text="Disconnect"
