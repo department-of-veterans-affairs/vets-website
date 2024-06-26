@@ -121,11 +121,14 @@ class IntroductionPage extends React.Component {
             </p>
           )}
 
-          <va-process-list uswds>
+          <va-process-list class="vads-u-padding-y--0">
             {/* Prepare */}
-            <va-process-list-item header="Prepare" uswds>
+            <va-process-list-item header="Prepare">
               {!isBDDForm && (
-                <p data-testid="process-step1-prepare">
+                <p
+                  data-testid="process-step1-prepare"
+                  className="vads-u-margin-top--2"
+                >
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
@@ -133,7 +136,10 @@ class IntroductionPage extends React.Component {
               )}
               {isBDDForm && (
                 <>
-                  <p data-testid="process-step1-prepare">
+                  <p
+                    data-testid="process-step1-prepare"
+                    className="vads-u-margin-top--2"
+                  >
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
@@ -233,11 +239,11 @@ class IntroductionPage extends React.Component {
                 </va-alert>
               )}
             </va-process-list-item>
-            <va-process-list-item header="Apply" uswds>
+            <va-process-list-item header="Apply">
               {/* Apply */}
               {isBDDForm ? (
                 <>
-                  <p>
+                  <p className="vads-u-margin-top--2">
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
                   </p>
@@ -252,25 +258,25 @@ class IntroductionPage extends React.Component {
                   You can print this for your records.
                 </>
               ) : (
-                <p>
+                <p className="vads-u-margin-top--2">
                   Complete this disability compensation benefits form. After
                   submitting the form, you’ll get a confirmation message. You
                   can print this for your records.
                 </p>
               )}
             </va-process-list-item>
-            <va-process-list-item header="VA review" uswds>
+            <va-process-list-item header="VA review">
               {/* VA review */}
-              <p>
+              <p className="vads-u-margin-top--2">
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
                 injuries or disabilities you claim and how long it takes us to
                 gather evidence needed to decide your claim.
               </p>
             </va-process-list-item>
-            <va-process-list-item header="Decision" uswds>
+            <va-process-list-item header="Decision">
               {/* Decision */}
-              <p>
+              <p className="vads-u-margin-top--2">
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
