@@ -64,10 +64,7 @@ const ConfirmationPage = () => {
           text="Print this page"
         />
       </div>
-      <div
-        className="action-bar-arrow vads-u-margin-bottom--4"
-        style={{ maxWidth: '70%' }}
-      >
+      <div className="action-bar-arrow vads-u-margin-bottom--4">
         <div className="vads-u-background-color--primary vads-u-padding--1">
           <a className="vads-c-action-link--white" href="/">
             Go back to VA.gov
