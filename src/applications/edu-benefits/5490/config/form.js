@@ -66,6 +66,11 @@ const {
 
 const nonRequiredFullName = createNonRequiredFullName(fullName);
 
+// When ready to remove the flag replace function with true
+const isShowVv3SegmentedProgressBar = () => {
+  return !environment.isProduction();
+};
+
 const relationshipEqualToSpouse = (myGet, formData) => {
   return myGet('relationshipAndChildType', formData) === 'spouse';
 };
@@ -110,6 +115,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/5490`,
   trackingPrefix: 'edu-5490-',
+  v3SegmentedProgressBar: isShowVv3SegmentedProgressBar(),
   formId: VA_FORM_IDS.FORM_22_5490,
   saveInProgress: {
     messages: {

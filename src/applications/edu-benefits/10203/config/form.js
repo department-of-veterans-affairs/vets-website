@@ -19,12 +19,18 @@ import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
+// When ready to remove the flag replace function with true
+const isShowVv3SegmentedProgressBar = () => {
+  return !environment.isProduction();
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10203`,
   submit: submitForm,
   trackingPrefix: 'edu-10203-',
+  v3SegmentedProgressBar: isShowVv3SegmentedProgressBar(),
   formId: VA_FORM_IDS.FORM_22_10203,
   saveInProgress: {
     messages: {

@@ -19,6 +19,11 @@ import { chapters } from './chapters';
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
+// When ready to remove the flag replace function with true
+const isShowVv3SegmentedProgressBar = () => {
+  return !environment.isProduction();
+};
+
 const {
   preferredContactMethod,
   date,
@@ -33,6 +38,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1995`,
   submit: submitForm,
   trackingPrefix: 'edu-1995-',
+  v3SegmentedProgressBar: isShowVv3SegmentedProgressBar(),
   formId: VA_FORM_IDS.FORM_22_1995,
   saveInProgress: {
     messages: {

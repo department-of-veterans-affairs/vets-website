@@ -6,6 +6,7 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import dataUtils from 'platform/utilities/data/index';
@@ -59,6 +60,11 @@ const {
   serviceBranch,
   serviceDateRange,
 } = fullSchema.properties;
+
+// When ready to remove the flag replace function with true
+const isShowVv3SegmentedProgressBar = () => {
+  return !environment.isProduction();
+};
 
 const { school, programs, assistance } = educationDetails.properties;
 
@@ -145,6 +151,7 @@ const formConfig = {
   submitUrl: '/v0/gi_bill_feedbacks',
   submit,
   trackingPrefix,
+  v3SegmentedProgressBar: isShowVv3SegmentedProgressBar(),
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FEEDBACK_TOOL,
