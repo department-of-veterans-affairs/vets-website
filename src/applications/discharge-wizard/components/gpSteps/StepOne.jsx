@@ -163,10 +163,8 @@ const StepOne = ({ formValues }) => {
         className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
         download
         href={form.link}
-        target="_blank"
-        rel="noopener noreferrer"
       >
-        Download Form {form.num} (opens in a new tab)
+        Download Form {form.num}
       </a>
       <AlertMessage
         content={
@@ -187,7 +185,7 @@ const StepOne = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="https://www.benefits.va.gov/vso/varo.asp"
               >
-                Find a VSO near you (opens in a new tab)
+                Find a VSO near you
               </a>
               .
             </p>

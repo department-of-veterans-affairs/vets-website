@@ -12,8 +12,7 @@ const renderMedicalRecordInfo = formValues => {
           rel="noopener noreferrer"
           href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
         >
-          Find out how to request your military medical records (opens in a new
-          tab).
+          Find out how to request your military medical records.
         </a>
       );
     } else {
@@ -39,10 +38,8 @@ const renderMedicalRecordInfo = formValues => {
             <a
               download
               href="https://www.va.gov/find-forms/about-form-10-5345/"
-              target="_blank"
-              rel="noopener noreferrer"
             >
-              Download VA Form 10-5345 (opens in a new tab)
+              Download VA Form 10-5345
             </a>
           </li>
           <li>{requestQuestion}</li>
@@ -75,7 +72,7 @@ const StepOne = ({ formValues }) => {
           rel="noopener noreferrer"
           href="https://www.archives.gov/veterans/military-service-records"
         >
-          Get your military personnel record (opens in a new tab).
+          Get your military personnel record.
         </a>
       </p>
     );
@@ -91,7 +88,7 @@ const StepOne = ({ formValues }) => {
           rel="noopener noreferrer"
           href="https://www.archives.gov/veterans/military-service-records"
         >
-          Get your military personnel record (opens in a new tab).
+          Get your military personnel record.
         </a>
       </p>
     );
