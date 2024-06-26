@@ -8,6 +8,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
+import { title995 } from '../../content/title';
+
 const getData = ({
   loggedIn = true,
   isVerified = true,
@@ -71,9 +73,7 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('h1', container).textContent).to.contain(
-      'File a Supplemental Claim',
-    );
+    expect($('h1', container).textContent).to.contain(title995);
     expect($('.va-introtext', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
