@@ -6,7 +6,10 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import reducers from '../../../redux/reducer';
 import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
+import {
+  mockVAOSAppointmentsFetch,
+  mockAppointmentsApi,
+} from '../../mocks/helpers';
 import { getVAOSAppointmentMock } from '../../mocks/mock';
 
 const initialState = {
@@ -31,7 +34,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -66,6 +68,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
 
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
@@ -108,6 +119,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
 
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
@@ -152,6 +172,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       telehealth: { vvsKind: 'MOBILE_ANY' },
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -192,6 +221,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
 
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
@@ -236,6 +274,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
       name: { firstName: 'Jane', lastName: 'Doctor' },
     };
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
 
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),

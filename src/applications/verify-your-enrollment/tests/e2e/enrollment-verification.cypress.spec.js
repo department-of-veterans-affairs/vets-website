@@ -47,7 +47,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
-    cy.get('[for="vye-radio-button-yesinput"]').click();
+    cy.get('[id="enrollmentCheckbox"]').click();
     cy.get('[text="Submit"]').should('not.be.disabled');
   });
   it('should go back to previous screen when Go Back button is clicked', () => {
@@ -70,7 +70,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
-    cy.get('[for="vye-radio-button-yesinput"]').click();
+    cy.get('[id="enrollmentCheckbox"]').click();
     cy.get('[text="Submit"]').click();
     cy.get('[class="vads-u-margin-y--0"]').should(
       'contain',
