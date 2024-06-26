@@ -106,11 +106,14 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
-            <div className="no-print">
+            <div className="no-print" data-testid="pharmacy-phone">
               {pharmacyPhone ? (
                 <>
-                  <va-telephone contact={pharmacyPhone} /> (
-                  <va-telephone tty contact="711" />)
+                  <va-telephone
+                    contact={pharmacyPhone}
+                    data-testid="phone-number"
+                  />{' '}
+                  (<va-telephone tty contact="711" />)
                 </>
               ) : (
                 'None noted'
