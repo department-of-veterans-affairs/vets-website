@@ -70,7 +70,7 @@ describe('<FilterBeforeResults />', () => {
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const recordCheckboxEventSpy = sinon.spy();
     wrapper.setProps({ recordCheckboxEvent: recordCheckboxEventSpy });
-
+ 
     const event = { target: { name: 'someCheckbox', checked: true } };
     wrapper
       .find('VACheckboxGroupGi')
@@ -79,7 +79,7 @@ describe('<FilterBeforeResults />', () => {
       .find('input')
       .at(0)
       .simulate('change', event);
-
+ 
     expect(recordCheckboxEventSpy.calledWith(event)).to.be.false;
     wrapper.unmount();
   });
@@ -107,7 +107,7 @@ describe('<FilterBeforeResults />', () => {
     wrapper = shallow(<FilterBeforeResults {...props} />);
     const fakeEvent = { target: { name: 'someSchoolType', checked: true } };
     wrapper
-      .find('va-checkbox')
+      .find('VACheckboxGroupGi')
       .at(0)
       .simulate('change', fakeEvent);
 
@@ -291,66 +291,5 @@ describe('<FilterBeforeResults />', () => {
       ).to.be.false;
       wrapper.unmount();
     });
-    /* // Have Call with Fatma to verify
-    it('calls dispatchFilterChange with the correct parameters on clearAllFilters', async () => {
-      const mockDispatchFilterChange = sinon.spy();
-      props = {
-        smallScreen: false,
-        dispatchFilterChange: mockDispatchFilterChange,
-        dispatchShowModal: sinon.spy(),
-        recordCheckboxEvent: sinon.spy(),
-        filters: {
-          excludedSchoolTypes: [],
-          vettec: false,
-          preferredProvider: false,
-        },
-        modalClose: sinon.spy(),
-        preview: {},
-        search: {
-          inProgres: true,
-          location: { facets: {} },
-          name: { facets: {} },
-          tab: '',
-          query: '',
-        },
-        history: [],
-        version: 'v1.0.0',
-        errorReducer: { error: null },
-      };
-      wrapper = mount(<FilterBeforeResults {...props} />);
-      wrapper.find('button.clear-filters-button').simulate('click');
-      const expectedDispatchArgument = {
-        accredited: false,
-        country: 'ALL',
-        employers: false,
-        excludeCautionFlags: false,
-        excludedSchoolTypes: [],
-        preferredProvider: false,
-        schools: false,
-        specialMissionAANAPII: false,
-        specialMissionANNHI: false,
-        specialMissionHSI: false,
-        specialMissionHbcu: false,
-        specialMissionMenonly: false,
-        specialMissionNANTI: false,
-        specialMissionPBI: false,
-        specialMissionRelaffil: false,
-        specialMissionTRIBAL: false,
-        specialMissionWomenonly: false,
-        state: 'ALL',
-        studentVeteran: false,
-        vettec: false,
-        yellowRibbonScholarship: false,
-      };
-      await waitFor(() => {
-        sinon.assert.calledOnce(mockDispatchFilterChange);
-        sinon.assert.calledWith(
-          mockDispatchFilterChange,
-          expectedDispatchArgument,
-        );
-      });
-
-      wrapper.unmount();
-    }); */
   });
 });
