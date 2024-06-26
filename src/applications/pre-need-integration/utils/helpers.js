@@ -1101,7 +1101,7 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
       }
     } else {
       // Sponsor
-      dob = formData.application.claimant.dateOfBirth;
+      dob = formData.application.veteran.dateOfBirth;
       errorMessage =
         "Provide a valid date that is after the sponsor's date of birth";
     }
