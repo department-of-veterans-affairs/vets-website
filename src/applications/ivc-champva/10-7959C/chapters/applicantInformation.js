@@ -24,7 +24,7 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI('Beneficiary’s name and date of birth'),
+    ...titleUI('Name and date of birth'),
     applicantName: fullNameMiddleInitialUI,
     applicantDOB: dateOfBirthUI({
       required: true,

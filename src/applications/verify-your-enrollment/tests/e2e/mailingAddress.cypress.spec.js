@@ -67,7 +67,7 @@ describe('Contact information', () => {
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('[class="usa-error-message"]').should('contain', 'City is required');
     cy.get('[class="usa-error-message"]').should(
@@ -79,7 +79,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
   });
   it('should close address form when cancle button is clicked without editing the form', () => {
@@ -91,7 +91,7 @@ describe('Contact information', () => {
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get(
       '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0"]',
@@ -101,7 +101,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
@@ -112,7 +112,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
@@ -130,7 +130,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',

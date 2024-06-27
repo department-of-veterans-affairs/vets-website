@@ -7,6 +7,7 @@ import userEvent from '@testing-library/user-event';
 import {
   mockSingleVAOSAppointmentFetch,
   mockVAOSAppointmentsFetch,
+  mockAppointmentsApi,
 } from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { createMockAppointment } from '../../mocks/data';
@@ -20,7 +21,6 @@ const initialState = {
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingStatusImprovement: false,
   },
 };
 
@@ -71,6 +71,15 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
 
     const appointment = createMockAppointment({
       ...data,
+    });
+
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
     });
 
     mockVAOSAppointmentsFetch({

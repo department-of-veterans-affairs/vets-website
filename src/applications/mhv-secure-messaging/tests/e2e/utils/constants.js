@@ -188,6 +188,7 @@ export const Locators = {
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
+    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -204,7 +205,6 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    MESSAGE: '@message',
     ATTACH_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
