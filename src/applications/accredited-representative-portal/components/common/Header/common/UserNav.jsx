@@ -49,11 +49,11 @@ const UserNav = ({ isMobile }) => {
   if (isLoading) {
     content = (
       <div className="loading-icon-container">
-        <va-icon
-          size={4}
-          icon="see name mappings here https://design.va.gov/foundation/icons"
+        <i
           data-testid="user-nav-loading-icon"
+          className="fa fa-spinner fa-spin fa-lg"
           aria-hidden="true"
+          role="presentation"
         />
       </div>
     );

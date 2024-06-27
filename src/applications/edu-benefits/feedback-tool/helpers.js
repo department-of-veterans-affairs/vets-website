@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import React from 'react';

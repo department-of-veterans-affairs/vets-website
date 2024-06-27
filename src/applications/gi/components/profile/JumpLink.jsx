@@ -36,13 +36,7 @@ export default function JumpLink({
         onClick={handleClick}
       >
         <p>
-          {iconToggle && (
-            <va-icon
-              size={4}
-              icon="see name mappings here https://design.va.gov/foundation/icons"
-              aria-hidden="true"
-            />
-          )}
+          {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
           <span>{label}</span>
         </p>
       </a>

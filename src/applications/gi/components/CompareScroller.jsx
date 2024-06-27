@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
 import React from 'react';
 import classNames from 'classnames';
 

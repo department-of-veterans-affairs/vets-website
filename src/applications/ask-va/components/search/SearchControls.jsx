@@ -83,11 +83,10 @@ const SearchControls = props => {
               type="button"
               className="use-my-location-link"
             >
-              <va-icon
-                size={4}
-                icon="see name mappings here https://design.va.gov/foundation/icons"
+              <i
                 className="use-my-location-button"
                 aria-hidden="true"
+                role="presentation"
               />
               Use my location
             </button>
