@@ -8,7 +8,8 @@ export const title4142 =
   'Authorize the release of non-VA medical records to the VA';
 export const title4142Omb =
   'Optional: Authorization to disclose information to the Department of Veteran Affairs (VA)';
-export const subTitle4142 = `VA Forms 21-4142 and 21-4142a with ${subTitle995}`;
+export const subTitle4142Omb = 'VA Forms 21-4142 and 21-4142a';
+export const subTitle4142 = `${subTitle4142Omb} with ${subTitle995}`;
 
 const paths4142 = [
   '/private-medical-records-authorization',

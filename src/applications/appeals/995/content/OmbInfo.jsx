@@ -5,7 +5,7 @@ import {
   title995Omb,
   subTitle995,
   title4142Omb,
-  subTitle4142,
+  subTitle4142Omb,
 } from './title';
 
 const OmbInfo = () => (
@@ -66,7 +66,7 @@ const OmbInfo = () => (
     </va-omb-info>
 
     <h3>{title4142Omb}</h3>
-    <p>{subTitle4142}</p>
+    <p>{subTitle4142Omb}</p>
     <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
       <p>
         <strong>Respondent Burden:</strong> We need this information and your
