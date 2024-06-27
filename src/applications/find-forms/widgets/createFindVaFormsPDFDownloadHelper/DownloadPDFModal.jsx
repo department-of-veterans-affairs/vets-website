@@ -68,6 +68,8 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
             className="usa-button vads-u-margin-top--2"
             download
             role="button"
+            rel="noreferrer noopener"
+            target="_blank"
           >
             Download VA Form {pdfSelected}
           </a>
