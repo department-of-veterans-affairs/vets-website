@@ -142,7 +142,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                       size={3}
                       aria-hidden="true"
                     />
-                    <span className="vads-u-margin-left--1p5">
+                    <span
+                      className="vads-u-margin-left--1p5"
+                      data-testid="shipped-date"
+                    >
                       {`Last refill shipped on ${dateFormat(
                         prescription.trackingList[0].completeDateTime,
                         'MMMM D, YYYY',
