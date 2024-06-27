@@ -10,7 +10,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-// import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -28,13 +28,31 @@ const options = {
   isItemIncomplete: item => !item?.application?.veteran?.serviceBranch, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => item?.application?.veteran?.serviceBranch,
-    cardDescription: item =>
-      `${item?.application?.veteran?.dateRange?.from}, ${
-        item?.application?.veteran?.dateRange?.to
-      }, ${item?.application?.veteran?.dischargeType}, ${
-        item?.application?.veteran?.highestRank
-      }, ${item?.application?.veteran?.nationalGuardState}`,
+    getItemName: item => {
+      return item?.application?.veteran?.serviceBranch
+        ? serviceLabels[item.application.veteran.serviceBranch]
+        : null;
+    },
+    cardDescription: item => {
+      const dateRangeFrom = item?.application?.veteran?.dateRange?.from;
+      const dateRangeTo = item?.application?.veteran?.dateRange?.to;
+
+      let range = '';
+
+      if (dateRangeFrom) {
+        range += formatReviewDate(dateRangeFrom);
+      }
+
+      if (dateRangeFrom && dateRangeTo) {
+        range += ' - ';
+      }
+
+      if (dateRangeTo) {
+        range += formatReviewDate(dateRangeTo);
+      }
+
+      return range;
+    },
   },
 };
 
@@ -91,6 +109,13 @@ const servicePeriodInformationPage = {
     }),
     application: {
       veteran: {
+        'ui:order': [
+          'serviceBranch',
+          'highestRank',
+          'dateRange',
+          'dischargeType',
+          'nationalGuardState',
+        ],
         serviceBranch: autosuggest.uiSchema('Branch of service', null, {
           'ui:options': {
             labels: serviceLabels,
@@ -355,6 +380,7 @@ const servicePeriodInformationPage = {
                 ],
               },
             },
+            required: ['serviceBranch'],
           },
         },
       },
