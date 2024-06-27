@@ -23,54 +23,92 @@ const DebtDetailsCard = ({ debt }) => {
     convertedAr,
   );
 
+  // Check if the debt is a Chapter 33 debt
+  const isChapter33Debt = debt.benefitType.includes('CH33');
+
+  // Get the current date
+  const currentDate = new Date();
+  const endDate = new Date('2024-07-19');
+
+  // Check if the current date is before the end date
+  const showChapter33Alert = isChapter33Debt && currentDate <= endDate;
+
   return (
-    <va-alert
-      class="vads-u-margin-bottom--1"
-      disable-analytics="false"
-      full-width="false"
-      show-icon={debtCardContent.showIcon}
-      status={debtCardContent.status}
-      visible="true"
-    >
-      <h2 slot="headline">{debtCardContent.headerText}</h2>
-
-      {debtCardContent.bodyText}
-
-      {debtCardContent.showLinks && (
-        <>
-          {debtCardContent.showMakePayment && (
-            <p>
-              <a
-                aria-label="Make a payment"
-                className="vads-c-action-link--blue"
-                data-testid="link-make-payment"
-                href="https://www.pay.va.gov/"
-                onClick={() => {
-                  recordEvent({ event: 'cta-link-click-debt-make-payment' });
-                }}
-              >
-                Make a payment
-              </a>
-            </p>
-          )}
-          {debtCardContent.showRequestHelp && (
-            <p>
-              <a
-                aria-label="Request help with your debt"
-                className="vads-c-action-link--blue"
-                data-testid="link-request-help"
-                href="/manage-va-debt/request-debt-help-form-5655"
-                onClick={() => {
-                  recordEvent({ event: 'cta-link-click-debt-request-help' });
-                }}
-              >
-                Request help with your debt
-              </a>
-            </p>
-          )}
-        </>
+    <>
+      {showChapter33Alert && (
+        <va-alert
+          class="vads-u-margin-bottom--2"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          slim
+          status="warning"
+          visible="true"
+        >
+          <p className="vads-u-margin-y--0">
+            VA is transitioning to a new system for processing Post 9-11 Chapter
+            33 financial transactions. Due to this transition, Chapter 33 debt
+            balance information may not reflect recent payments you have made by
+            check, credit card, or ACH. If you believe your Chapter 33 debt
+            balance does not reflect recent payments, we encourage you to
+            contact the Debt Management Center: at{' '}
+            <va-link href="https://ask.va.gov/" text="ask.va.gov" /> or call{' '}
+            <va-telephone contact="8008270648" />, after 07/12/2024. Your
+            payment will not be considered late and will reflect the date
+            received once system updates are completed. This message only
+            applies to Post 9-11, Chapter 33 debts.
+          </p>
+        </va-alert>
       )}
-    </va-alert>
+
+      <va-alert
+        class="vads-u-margin-bottom--1"
+        disable-analytics="false"
+        full-width="false"
+        show-icon={debtCardContent.showIcon}
+        status={debtCardContent.status}
+        visible="true"
+      >
+        <h2 slot="headline">{debtCardContent.headerText}</h2>
+
+        {debtCardContent.bodyText}
+
+        {debtCardContent.showLinks && (
+          <>
+            {debtCardContent.showMakePayment && (
+              <p>
+                <a
+                  aria-label="Make a payment"
+                  className="vads-c-action-link--blue"
+                  data-testid="link-make-payment"
+                  href="https://www.pay.va.gov/"
+                  onClick={() => {
+                    recordEvent({ event: 'cta-link-click-debt-make-payment' });
+                  }}
+                >
+                  Make a payment
+                </a>
+              </p>
+            )}
+            {debtCardContent.showRequestHelp && (
+              <p>
+                <a
+                  aria-label="Request help with your debt"
+                  className="vads-c-action-link--blue"
+                  data-testid="link-request-help"
+                  href="/manage-va-debt/request-debt-help-form-5655"
+                  onClick={() => {
+                    recordEvent({ event: 'cta-link-click-debt-request-help' });
+                  }}
+                >
+                  Request help with your debt
+                </a>
+              </p>
+            )}
+          </>
+        )}
+      </va-alert>
+    </>
   );
 };
 
