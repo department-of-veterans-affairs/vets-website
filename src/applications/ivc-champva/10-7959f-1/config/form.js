@@ -15,8 +15,6 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
-  yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -50,7 +48,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   customText: {
-    appType: 'form',
+    reviewPageTitle: 'Review and sign',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -83,12 +81,12 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Name and date of birth',
+      title: 'Personal information',
       pages: {
         page1: {
           // initialData: mockdata.data,
           path: 'veteran-information',
-          title: 'Personal Information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI(
               'Name and date of birth',
@@ -112,11 +110,11 @@ const formConfig = {
       },
     },
     identificationInformation: {
-      title: 'Identification Information',
+      title: 'Identification information',
       pages: {
         page2: {
           path: 'identification-information',
-          title: 'Veteran SSN and VA file number',
+          title: 'Identification information',
           uiSchema: {
             ...titleUI(
               `Identification information`,
@@ -139,11 +137,11 @@ const formConfig = {
       },
     },
     mailingAddress: {
-      title: 'Mailing Address',
+      title: 'Mailing address',
       pages: {
         page3: {
           path: 'mailing-address',
-          title: "Veteran's Mailing address",
+          title: 'Mailing address ',
           uiSchema: {
             ...titleUI(
               'Mailing address',
@@ -206,23 +204,25 @@ const formConfig = {
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
-              'Home Address',
-              'This is your current location, outside the United States.',
+              `Home address`,
+              `This is your current location, outside the United States.`,
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
-            physicalAddress: addressUI({
-              required: {
-                state: () => true,
-              },
-            }),
+            physicalAddress: {
+              ...addressUI({
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
           },
           schema: {
             type: 'object',
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              physicalAddress: addressSchema({}),
+              physicalAddress: addressSchema(),
             },
           },
         },
@@ -233,7 +233,7 @@ const formConfig = {
       pages: {
         page5: {
           path: 'contact-info',
-          title: "Veteran's contact information",
+          title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
