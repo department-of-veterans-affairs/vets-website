@@ -1,16 +1,22 @@
+import React from 'react';
 import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { checkboxGroupSchemaWithReviewLabels } from '../utilities/helpers';
-
-import { authorizeMedicalSelect } from '../content/authorizeMedicalSelect';
-import { saveYourApplication } from '../content/saveYourApplication';
+import {
+  checkboxGroupSchemaWithReviewLabels,
+  representativeTypeMap,
+} from '../utilities/helpers';
 
 export const uiSchema = {
-  'view:saveYourApplication': {
-    'ui:description': saveYourApplication,
-  },
-  'view:authorizeMedicalSelect': {
-    'ui:description': authorizeMedicalSelect,
+  'ui:description': ({ formData }) => {
+    return (
+      <>
+        <h3>Authorization to access certain medical records</h3>
+        <p className="vads-u-margin-bottom--3 appoint-text">
+          You’ve authorized this accredited{' '}
+          {representativeTypeMap[formData.repTypeRadio] || `representative`} to
+          access some of your medical records.
+        </p>
+      </>
+    );
   },
   'view:authorizeRecordsCheckbox': {
     ...checkboxGroupUI({
@@ -38,14 +44,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:saveYourApplication': {
-      type: 'object',
-      properties: {},
-    },
-    'view:authorizeMedicalSelect': {
-      type: 'object',
-      properties: {},
-    },
     'view:authorizeRecordsCheckbox': {
       ...checkboxGroupSchemaWithReviewLabels([
         'alcoholRecords',

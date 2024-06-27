@@ -54,7 +54,7 @@ export const EduMigrationAlert = ({ className }) => {
       <p>
         <strong>For disability compensation and pension benefits,</strong> call
         us at <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m.
-        to 7:00 p.m. ET.
+        to 9:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         <strong>For Post 9/11-GI Bill benefits,</strong> call us at{' '}
