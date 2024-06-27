@@ -173,10 +173,16 @@ const formConfig = {
             },
           },
         },
-        page3a: {
+      },
+    },
+    physicalAddress: {
+      title: 'Home address',
+      pages: {
+        page4: {
           path: 'same-as-mailing-address',
+          title: 'Home address',
           uiSchema: {
-            ...titleUI('Mailing address'),
+            ...titleUI('Home address'),
             sameMailingAddress: yesNoUI({
               title: 'Is your mailing address the same as your home address?',
               labels: {
@@ -194,14 +200,9 @@ const formConfig = {
             },
           },
         },
-      },
-    },
-    physicalAddress: {
-      title: 'Home Address',
-      pages: {
-        page4: {
+        page4a: {
           path: 'home-address',
-          title: "Veteran's Home address",
+          title: 'Home address',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
