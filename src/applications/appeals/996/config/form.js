@@ -31,10 +31,10 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
+import NeedHelp from '../content/NeedHelp';
 
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
-import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
@@ -235,7 +235,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: NeedHelp,
 };
 
 export default formConfig;
