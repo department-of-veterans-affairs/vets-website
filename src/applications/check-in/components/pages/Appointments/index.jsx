@@ -16,6 +16,7 @@ import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useStorage } from '../../../hooks/useStorage';
 import UpcomingAppointments from '../../UpcomingAppointments';
 import UpcomingAppointmentsVista from '../../UpcomingAppointmentsVista';
 import ActionItemDisplay from '../../ActionItemDisplay';
@@ -37,6 +38,7 @@ const AppointmentsPage = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
+  const { getCheckinComplete } = useStorage(APP_NAMES.CHECK_IN);
 
   const {
     isComplete,
@@ -64,6 +66,15 @@ const AppointmentsPage = props => {
       setPrivacyActModalOpen(modalState === 'open');
     },
     [setPrivacyActModalOpen],
+  );
+
+  useEffect(
+    () => {
+      if (getCheckinComplete(window)) {
+        setRefresh(true);
+      }
+    },
+    [getCheckinComplete],
   );
 
   useEffect(
