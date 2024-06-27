@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -17,11 +18,12 @@ import LoadFail from './components/LoadFail';
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
   const response = useSelector(state => state.personalInfo);
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
   const serverError = response?.error?.errors
     ? response?.error?.errors[0]
     : response?.error;
-  return (
+  return toggleValue || window.isProduction ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
@@ -50,6 +52,8 @@ const IsUserLoggedIn = () => {
         </Switch>
       )}
     </RequiredLoginView>
+  ) : (
+    <></>
   );
 };
 

@@ -7,7 +7,7 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 @import "../../shared/sass/appeals";
 
-/* Fix long labels on VA & private evidence pages, see
+/* Fix long labels on VA & non-VA evidence pages, see
  * https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2830
  */
 va-checkbox[name="issues"]::part(label) {

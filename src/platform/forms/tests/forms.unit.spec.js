@@ -229,6 +229,14 @@ const validFormTitle = ({ title }) => {
   expect(formTitle).to.be.a('string', 'title does not return a string');
 };
 
+const validFormSubTitle = ({ subTitle }) => {
+  const formSubTitle =
+    typeof subTitle === 'function' ? subTitle({ formData: {} }) : subTitle;
+  if (formSubTitle) {
+    expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+  }
+};
+
 const validDowntime = ({ downtime }) => {
   validObjectProperty({ downtime }, 'downtime', false);
   if (downtime) {
@@ -329,7 +337,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'prefillTransformer', false);
           validStringProperty(formConfig, 'trackingPrefix');
           validFormTitle(formConfig);
-          validStringProperty(formConfig, 'subTitle', false);
+          validFormSubTitle(formConfig);
           validStringProperty(formConfig, 'urlPrefix', false);
           validStringProperty(formConfig, 'submitUrl', false);
           validFunctionProperty(formConfig, 'submit', false);
