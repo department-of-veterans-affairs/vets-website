@@ -1,7 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { hasSession } from 'platform/user/profile/utilities';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -14,135 +12,74 @@ import {
   VaFileNumberMissingAlert,
   ServerErrorAlert,
 } from '../config/helpers';
-import { isServerError } from '../config/utilities';
-// import { PAGE_TITLE } from '../config/constants';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
+const IntroductionPage = props => {
+  const dispatch = useDispatch();
+  const { hasVaFileNumber, isLoading } = useSelector(
+    state => state?.vaFileNumber,
+  );
+
+  useEffect(() => {
     if (hasSession()) {
-      this.props.verifyVaFileNumber();
+      dispatch(verifyVaFileNumber());
     }
     focusElement('.va-nav-breadcrumbs-list');
-  }
+  }, []);
 
-  render() {
-    const {
-      vaFileNumber: { hasVaFileNumber, isLoading },
-      user,
-      // dependentsToggle,
-    } = this.props;
-    let ctaState;
-    let content;
-    // Base case: user is logged out.
-    // Case 1: User is logged in and we are checking for va file number.
-    // Case 2: User is logged in and they have a valid va file number.
-    // Case 3: User is logged in and they do not have a valid va file number.
-    if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
-      const errCode = hasVaFileNumber.errors[0].code;
-      ctaState = isServerError(errCode) ? (
-        <va-alert status="error" uswds="false">
-          {ServerErrorAlert}
-        </va-alert>
-      ) : (
-        <va-alert status="error" uswds="false">
-          {VaFileNumberMissingAlert}
-        </va-alert>
-      );
-      content = (
-        <div className="schemaform-intro">
-          <IntroductionPageHeader />
-          {ctaState}
-        </div>
-      );
-    } else if (
-      user?.login?.currentlyLoggedIn &&
-      !hasVaFileNumber?.VALIDVAFILENUMBER &&
-      !isLoading
-    ) {
-      content = (
-        <div className="schemaform-intro">
-          <IntroductionPageHeader />
-          <va-alert status="error" uswds="false">
-            {VaFileNumberMissingAlert}
-          </va-alert>
-        </div>
-      );
-    } else if (user?.login?.currentlyLoggedIn && isLoading) {
-      ctaState = (
+  const getStatus = () => {
+    if (hasVaFileNumber?.errors) return 'error';
+    if (!hasVaFileNumber?.VALIDVAFILENUMBER && !isLoading)
+      return 'missingVaFileNumber';
+    if (isLoading) return 'loading';
+    return '';
+  };
+
+  const renderLoadingOrError = status => {
+    if (status === 'loading') {
+      return (
         <va-loading-indicator message="Verifying veteran account information..." />
       );
-      content = (
-        <div className="schemaform-intro">
-          <IntroductionPageHeader />
-          {ctaState}
-          <IntroductionPageFormProcess />
-        </div>
-      );
-    } else {
-      ctaState = (
-        <SaveInProgressIntro
-          {...this.props}
-          hideUnauthedStartLink
-          verifiedPrefillAlert={VerifiedAlert}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          downtime={this.props.route.formConfig.downtime}
-          pageList={this.props.route.pageList}
-          startText="Add or remove a dependent"
-          headingLevel={2}
-        />
-      );
-      content = (
-        <div className="schemaform-intro">
-          <IntroductionPageHeader />
-          {ctaState}
-          <IntroductionPageFormProcess />
-          <SaveInProgressIntro
-            {...this.props}
-            hideUnauthedStartLink
-            buttonOnly
-            verifiedPrefillAlert={VerifiedAlert}
-            prefillEnabled={this.props.route.formConfig.prefillEnabled}
-            messages={this.props.route.formConfig.savedFormMessages}
-            downtime={this.props.route.formConfig.downtime}
-            pageList={this.props.route.pageList}
-            startText="Add or remove a dependent"
-          />
-          <div className="omb-info--container vads-u-padding-left--0">
-            <va-omb-info
-              res-burden={30}
-              omb-number="2900-0043"
-              exp-date="09/30/2021"
-            />
-          </div>
-        </div>
+    }
+    if (['error', 'missingVaFileNumber']?.includes(status)) {
+      const alertMessage =
+        status === 'missingVaFileNumber'
+          ? VaFileNumberMissingAlert
+          : ServerErrorAlert;
+
+      return (
+        <va-alert status="error" uswds>
+          {alertMessage}
+        </va-alert>
       );
     }
-
-    return content;
-  }
-}
-
-const mapStateToProps = state => {
-  const { form, user, vaFileNumber } = state;
-  const dependentsToggle = toggleValues(state)[
-    FEATURE_FLAG_NAMES.vaViewDependentsAccess
-  ];
-  return {
-    dependentsToggle,
-    form,
-    user,
-    vaFileNumber,
+    return null;
   };
+
+  return (
+    <div className="schemaform-intro">
+      <IntroductionPageHeader />
+      {renderLoadingOrError(getStatus())}
+      <IntroductionPageFormProcess />
+      <SaveInProgressIntro
+        {...props}
+        hideUnauthedStartLink
+        verifiedPrefillAlert={VerifiedAlert}
+        prefillEnabled={props.route.formConfig.prefillEnabled}
+        messages={props.route.formConfig.savedFormMessages}
+        downtime={props.route.formConfig.downtime}
+        pageList={props.route.pageList}
+        startText="Add or remove a dependent"
+        headingLevel={2}
+      />
+      <div className="omb-info--container vads-u-padding-left--0">
+        <va-omb-info
+          res-burden={30}
+          omb-number="2900-0043"
+          exp-date="09/30/2021"
+        />
+      </div>
+    </div>
+  );
 };
 
-const mapDispatchToProps = {
-  verifyVaFileNumber,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(IntroductionPage);
-
-export { IntroductionPage };
+export default IntroductionPage;

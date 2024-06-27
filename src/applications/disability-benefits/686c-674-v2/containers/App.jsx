@@ -17,7 +17,6 @@ function App({
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
-  // const formConfig = {};
   // Handle loading
   if (isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
