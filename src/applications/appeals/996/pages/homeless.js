@@ -5,21 +5,23 @@ import {
 
 import errorMessages from '../../shared/content/errorMessages';
 import {
+  homelessPageTitle,
   homelessTitle,
+  homelessDescription,
   homelessReviewField,
 } from '../../shared/content/homeless';
 
 export default {
   uiSchema: {
-    'ui:title': ' ',
+    'ui:title': homelessPageTitle,
     'ui:options': {
       forceDivWrapper: true,
     },
     homeless: {
       ...yesNoUI({
         title: homelessTitle,
+        hint: homelessDescription,
         enableAnalytics: true,
-        labelHeaderLevel: '3',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -28,7 +30,6 @@ export default {
         errorMessages: {
           required: errorMessages.requiredYesNo,
         },
-        uswds: true,
       }),
       'ui:reviewField': homelessReviewField,
     },

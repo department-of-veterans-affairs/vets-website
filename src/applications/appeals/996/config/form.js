@@ -32,6 +32,7 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 import NeedHelp from '../content/NeedHelp';
+import { formTitle, formSubTitle } from '../content/title';
 
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
@@ -92,8 +93,8 @@ const formConfig = {
     noAuth: errorMessages.savedFormNoAuth,
   },
 
-  title: 'Request a Higher-Level Review',
-  subTitle: 'VA Form 20-0996 (Higher-Level Review)',
+  title: formTitle,
+  subTitle: formSubTitle,
   defaultDefinitions: {},
   preSubmitInfo,
   submissionError,
@@ -132,7 +133,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusH3,
         },
         ...contactInfo,
       },
