@@ -9,6 +9,8 @@ import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
+import { formTitle, formSubTitle } from '../../content/title';
+
 import pageNames from './pageNames';
 
 const content = {
@@ -66,9 +68,9 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
+      <h1 className="vads-u-margin-bottom--0">{formTitle}</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0996 (Higher-Level Review)
+        {formSubTitle}
       </div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
