@@ -112,11 +112,20 @@ const getSpecimen = record => {
   return null;
 };
 
-export const extractOrderedTest = record => {
+export const extractOrderedTest = (record, id) => {
+  const serviceReq = extractContainedResource(record, id);
+  return serviceReq?.code?.text || null;
+};
+
+export const extractOrderedTests = record => {
   if (isArrayAndHasItems(record.basedOn)) {
-    const basedOnRef = record.basedOn.find(item => item.reference);
-    const serviceReq = extractContainedResource(record, basedOnRef?.reference);
-    return serviceReq?.code?.text || null;
+    const orderedTests = record.basedOn
+      .map(item => {
+        return extractOrderedTest(record, item?.reference) || null;
+      })
+      .filter(item => item !== null)
+      .join(', ');
+    return orderedTests === '' ? null : orderedTests;
   }
   return null;
 };
@@ -133,8 +142,8 @@ const convertChemHemRecord = record => {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
-    name: extractOrderedTest(record) || 'Chemistry/Hematology',
-    category: concatCategoryCodeText(record) || EMPTY_FIELD,
+    name: extractOrderedTests(record) || 'Chemistry/Hematology',
+    category: 'Chemistry/Hematology',
     orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
