@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
 import { getPeriodsToVerify } from '../helpers';
@@ -15,6 +16,18 @@ const PeriodsToVerify = ({
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
+  let id;
+
+  if (error) {
+    id = '#error-alert';
+  } else if (
+    enrollmentData?.pendingVerifications?.length === 0 &&
+    justVerified
+  ) {
+    id = '#success-alert';
+  } else {
+    id = 'h1';
+  }
 
   useEffect(
     () => {
@@ -29,7 +42,12 @@ const PeriodsToVerify = ({
     },
     [enrollmentData],
   );
-
+  useEffect(
+    () => {
+      focusElement(id);
+    },
+    [id, pendingEnrollments],
+  );
   return (
     <>
       {error && (
@@ -37,6 +55,7 @@ const PeriodsToVerify = ({
           status="error"
           title=" We’ve run into a problem"
           message=" We’re sorry. Something went wrong on our end. Please try again"
+          id="error-alert"
         />
       )}
       <div id="verifications-pending-alert">

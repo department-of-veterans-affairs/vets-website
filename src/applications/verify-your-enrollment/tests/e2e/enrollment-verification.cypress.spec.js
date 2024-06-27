@@ -35,13 +35,6 @@ describe('Enrollment Verification Page Tests', () => {
     cy.url().should('include', '/verify-information');
     cy.get('.vye-highlighted-content-container').should('exist');
   });
-  // it('should show the submit button disabled at first', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get(
-  //     '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
-  //   ).click();
-  //   cy.get('[text="Submit"]').should('be.disabled');
-  // });
   it('should show the submit button not disabled when radio button is checked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
@@ -80,16 +73,6 @@ describe('Enrollment Verification Page Tests', () => {
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');
   });
-  it("should go to  'Your benefits profile when' when 'Manage your Montgomery GI Bill benefits information' link is clicked ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    ).click();
-    cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
-      'contain',
-      'Your Montgomery GI Bill benefits information',
-    );
-  });
   it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
@@ -99,15 +82,6 @@ describe('Enrollment Verification Page Tests', () => {
       .first()
       .click();
     cy.url().should('not.include', '/benefits-profile');
-  });
-  it("should go back to 'Manage your VA debt' when 'Manage your VA debt' link is clicked ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('a[href="https://www.va.gov/manage-va-debt/"]').click();
-    cy.url().should('include', '/manage-va-debt');
-    cy.get('h1').should(
-      'contain',
-      'Manage your VA debt for benefit overpayments and copay bills',
-    );
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();

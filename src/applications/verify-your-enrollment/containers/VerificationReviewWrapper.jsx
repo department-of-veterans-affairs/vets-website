@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import { useScrollToTop } from '../hooks/useScrollToTop';
@@ -123,6 +124,12 @@ const VerificationReviewWrapper = ({
       }
     },
     [errorStatement],
+  );
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [enrollmentData, errorStatement],
   );
 
   return (
