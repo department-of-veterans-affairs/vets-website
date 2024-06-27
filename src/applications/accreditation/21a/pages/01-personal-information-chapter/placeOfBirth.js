@@ -14,14 +14,13 @@ export default {
       labels: {
         state: 'State/Province/Region',
       },
-      omit: ['street', 'street2', 'street3', 'postalCode'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
       placeOfBirthAddress: addressNoMilitarySchema({
-        omit: ['street', 'street2', 'street3', 'postalCode'],
+        omit: ['street2', 'street3'], // TODO: Inquire about allowing omitting 'street' and 'postalCode'
       }),
     },
   },
