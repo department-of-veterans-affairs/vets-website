@@ -8,8 +8,8 @@ const MedicalRecordsCard = ({ href }) => {
     <div
       className={classnames(
         'vads-u-height--full',
-        'vads-u-padding-x--5',
-        'vads-u-padding-top--4',
+        'vads-u-padding-x--4',
+        'vads-u-padding-top--3',
         'vads-u-padding-bottom--2',
         'vads-u-background-color--gray-lightest',
       )}
@@ -54,6 +54,7 @@ const MedicalRecordsCard = ({ href }) => {
           'vads-u-padding-left--0',
           'vads-u-margin-top--2',
           'vads-u-margin-bottom--0',
+          'vads-u-font-size--lg',
         )}
       >
         The new version of this tool isn’t ready yet. For now, you can get your
@@ -61,6 +62,7 @@ const MedicalRecordsCard = ({ href }) => {
       </p>
       <p>
         <a
+          className="mhv-c-link"
           data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
           href={href}
         >
