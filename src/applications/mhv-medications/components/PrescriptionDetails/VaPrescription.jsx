@@ -16,6 +16,7 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
+import { EMPTY_FIELD } from '../../util/constants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -97,7 +98,7 @@ const VaPrescription = prescription => {
                       prescription.providerFirstName
                     }`,
                   )
-                : 'None noted'}
+                : EMPTY_FIELD}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
@@ -116,7 +117,7 @@ const VaPrescription = prescription => {
                   (<va-telephone tty contact="711" />)
                 </>
               ) : (
-                'None noted'
+                EMPTY_FIELD
               )}
             </div>
           </div>

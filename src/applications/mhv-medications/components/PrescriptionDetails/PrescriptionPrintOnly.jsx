@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
+  EMPTY_FIELD,
 } from '../../util/constants';
 import {
   validateField,
@@ -58,7 +59,7 @@ const PrescriptionPrintOnly = props => {
         <strong>Documented by: </strong>
         {pres.providerLastName
           ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : 'None noted'}
+          : EMPTY_FIELD}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -139,7 +140,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {(rx.providerFirstName && rx.providerLastName) || 'None noted'}
+              {(rx.providerFirstName && rx.providerLastName) || EMPTY_FIELD}
             </p>
             <p>
               <strong>Facility:</strong> {validateField(rx.facilityName)}
@@ -152,7 +153,7 @@ const PrescriptionPrintOnly = props => {
                   <va-telephone tty contact="711" not-clickable />)
                 </>
               ) : (
-                'None noted'
+                EMPTY_FIELD
               )}
             </p>
           </div>
@@ -187,13 +188,13 @@ const PrescriptionPrintOnly = props => {
                         <strong>Filled by pharmacy on:</strong>{' '}
                         {entry?.dispensedDate
                           ? dateFormat(entry.dispensedDate)
-                          : 'None noted'}
+                          : EMPTY_FIELD}
                       </p>
                       <p>
                         <strong>Shipped on:</strong>{' '}
                         {entry?.trackingList?.[0]?.completeDateTime
                           ? dateFormat(entry.trackingList[0].completeDateTime)
-                          : 'None noted'}
+                          : EMPTY_FIELD}
                       </p>
                       <p className="vads-u-margin--0">
                         <strong>Medication description: </strong>
