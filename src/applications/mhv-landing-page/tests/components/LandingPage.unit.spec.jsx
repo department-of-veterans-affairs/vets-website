@@ -24,7 +24,7 @@ const stateFn = ({
       },
       loa: { current: loa },
       signIn: { serviceName },
-      vaPatient: loa === 3 && vaPatient,
+      vaPatient,
     },
   },
 });
