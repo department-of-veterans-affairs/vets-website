@@ -46,10 +46,10 @@ describe('unified check-in experience', () => {
     const mockRouter = {
       push,
       currentPage: '/appointments',
+      params: {},
     };
     const mockStore = {
       formPages: [URLS.APPOINTMENTS, URLS.COMPLETE],
-      activeAppointmentId: '0000-0000',
     };
     it('should render an action link', () => {
       const screen = render(
@@ -62,7 +62,8 @@ describe('unified check-in experience', () => {
       const actionLink = screen.getByTestId('action-link');
       expect(actionLink).to.exist;
       fireEvent.click(actionLink);
-      expect(push.calledWith('complete/0000-0000')).to.be.true;
+      // console.log(push.getCall(0).args);
+      expect(push.calledWith({ pathname: 'complete/0000-0000' })).to.be.true;
     });
     it('should not render an action link for ineligible appointments', () => {
       const screen = render(
