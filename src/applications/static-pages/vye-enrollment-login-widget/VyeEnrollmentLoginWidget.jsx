@@ -65,7 +65,7 @@ export function VyeEnrollmentLoginWidget({
 
   const loggedInUserUI = (
     <a className="vads-c-action-link--green" href={REVIEW_ENROLLMENTS_URL}>
-      Verify your enrollments for Montgomery GI Bill
+      Verify your enrollment for MGIB benefits
     </a>
   );
 
