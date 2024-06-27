@@ -8,7 +8,7 @@ import PageNotFound, {
 } from '../../components/PageNotFound';
 
 describe('PageNotFound Component', () => {
-  it.skip('renders', async () => {
+  it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { recordEvent };
     const { getByRole } = render(<PageNotFound {...props} />);
