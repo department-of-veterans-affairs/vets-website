@@ -1,9 +1,7 @@
 import {
-  endOfMonth,
   endOfQuarter,
   endOfYear,
   format,
-  getMonth,
   getQuarter,
   getYear,
   startOfQuarter,
@@ -67,21 +65,15 @@ export function getDateFilters() {
 
     const quarterStart = startOfQuarter(subQuarters(today, i));
     const quarterEnd = endOfQuarter(quarterStart);
-    const quarterYear = getYear(quarterStart);
-
-    const startMonth = months.find(
-      month => month.value === getMonth(quarterStart) + 1,
-    );
-    const endMonth = months.find(
-      month => month.value === getMonth(quarterEnd) + 1,
-    );
+    const quarterLabel = `${format(quarterStart, 'MMM yyyy')} - ${format(
+      quarterEnd,
+      'MMM yyyy',
+    )}`;
 
     dateRanges.push({
-      label: `${startMonth.label} ${quarterYear} - ${
-        endMonth.label
-      } ${quarterYear}`,
-      start: new Date(quarterYear, startMonth.value - 1, 1),
-      end: endOfMonth(new Date(quarterYear, endMonth.value - 1)),
+      label: quarterLabel,
+      start: quarterStart,
+      end: quarterEnd,
     });
   }
 
