@@ -10,7 +10,6 @@ import {
   buildDateFormatter,
   getItemDate,
   getPhaseItemText,
-  getStatusMap,
 } from '../../utils/helpers';
 
 export default function RecentActivity({ claim }) {
@@ -101,13 +100,6 @@ export default function RecentActivity({ claim }) {
     return !!getItemDate(event);
   };
 
-  const getPhaseFromStatus = latestStatus =>
-    [...getStatusMap().keys()].indexOf(latestStatus.toUpperCase()) + 1;
-
-  const isCurrentOrPastPhase = (event, currentPhase) => {
-    return event.phase <= currentPhase;
-  };
-
   const generatePhaseItems = () => {
     const {
       currentPhaseBack,
@@ -145,15 +137,14 @@ export default function RecentActivity({ claim }) {
     });
 
     // When cst_claim_phases is enabled then we remove steps 4-6 and only keep step 3
-    const firstPass = cstClaimPhasesEnabled
+    return cstClaimPhasesEnabled
       ? phases
       : phases.filter(isEventOrPrimaryPhase);
 
-    const currentPhase = getPhaseFromStatus(
-      claim.attributes.claimPhaseDates.latestPhaseType,
-    );
-    // TODO What is the purpose of this and is it needed?
-    return firstPass.filter(phase => isCurrentOrPastPhase(phase, currentPhase));
+    // const currentPhase = getPhaseFromStatus(
+    //   claim.attributes.claimPhaseDates.latestPhaseType,
+    // );
+    // return firstPass.filter(phase => isCurrentOrPastPhase(phase, currentPhase));
   };
 
   const getSortedItems = () => {
