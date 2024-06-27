@@ -188,6 +188,10 @@ export default function transformForSubmit(formConfig, form) {
     dataPostTransform.veteran.address.postalCode || '';
   delete dataPostTransform.veteran.address.postalCode;
 
+  dataPostTransform.certifierRole = transformedData.certifierRole;
+  dataPostTransform.statementOfTruthSignature =
+    transformedData.statementOfTruthSignature;
+
   // For our backend callback API, we need to designate which contact info
   // should be used if there is a notification event pertaining to this specific
   // form submission. We do this by adding the `primaryContactInfo` key:
