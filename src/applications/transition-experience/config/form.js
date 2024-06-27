@@ -28,6 +28,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import serviceHistory from '../pages/serviceHistory';
 import goals from '../pages/goals';
+import DisabilityRating from '../pages/DisabilityRating';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -41,7 +42,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals; Service History;',
+  stepLabels: 'Goals; Service History; Disability;',
   formId: 'T-QSTNR',
   saveInProgress: {
     // messages: {
@@ -80,6 +81,17 @@ const formConfig = {
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
+        },
+        disabilityRating: {
+          path: 'disability-rating',
+          title: 'Disability Rating',
+          CustomPage: DisabilityRating,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
