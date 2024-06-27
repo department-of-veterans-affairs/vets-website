@@ -8,8 +8,10 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
+// Define the Chapter 33 debt codes
+const CHAPTER_33_DEBT_CODES = ['70', '71', '72', '73', '74', '75'];
+
 const DebtDetailsCard = ({ debt }) => {
-  // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
   const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
   const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
   const mostRecentDate = isValid(head(sortedHistory))
@@ -23,8 +25,8 @@ const DebtDetailsCard = ({ debt }) => {
     convertedAr,
   );
 
-  // Check if the debt is a Chapter 33 debt
-  const isChapter33Debt = debt.benefitType.includes('CH33');
+  // Check if the debt is a Chapter 33 debt based on the deduction code
+  const isChapter33Debt = CHAPTER_33_DEBT_CODES.includes(debt.deductionCode);
 
   // Get the current date
   const currentDate = new Date();
