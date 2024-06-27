@@ -76,7 +76,7 @@ export default function RecentActivity({ claim }) {
         }
         return `Your claim moved into ${phaseItemText}`;
       default:
-        return `Your claim moved into ${phaseItemText}`;
+        return '';
     }
   };
 
