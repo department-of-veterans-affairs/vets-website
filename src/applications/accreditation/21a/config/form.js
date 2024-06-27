@@ -19,9 +19,9 @@ const formConfig = {
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/accreditation/applications/form21a`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/form21a`,
   trackingPrefix: '21a-',
   title: 'Apply to become a VA accredited attorney or claims agent',
   subTitle: 'VA Form 21a',
