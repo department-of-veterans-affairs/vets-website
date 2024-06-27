@@ -66,6 +66,10 @@ const HEALTH_TOOL_LINKS = freeze({
       text: 'Pay copay bills',
     },
     {
+      href: '/my-health/travel-claim-status',
+      text: 'Check travel reimbursement claim status',
+    },
+    {
       href: 'https://dvagov-btsss.dynamics365portals.us/signin',
       text:
         'File a claim for travel reimbursement on the Beneficiary Travel Self-Service System website',

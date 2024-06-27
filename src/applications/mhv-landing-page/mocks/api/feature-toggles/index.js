@@ -8,6 +8,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPageEnableVaGovHealthToolsLinks: false,
   mhvTransitionalMedicalRecordsLandingPage: false,
   mhvHelpdeskInformationEnabled: false,
+  travelPayPowerSwitch: false,
 });
 
 const generateFeatureToggles = ({
