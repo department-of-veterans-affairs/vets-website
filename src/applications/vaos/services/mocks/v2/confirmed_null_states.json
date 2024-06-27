@@ -267,7 +267,7 @@
             "vistaSite": "983",
             "vastParent": "983",
             "type": "va_facilities",
-            "name": "Fort Collins VA Clinic1",
+            "name": "Fort Collins VA Clinic",
             "classification": "Multi-Specialty CBOC",
             "timezone": { "timeZoneId": "America/Denver" },
             "lat": 40.553875,
@@ -289,6 +289,74 @@
             ]
           }
         }
+      }
+    },
+    {
+      "id": "nstate-inperson-004",
+      "type": "appointments",
+      "attributes": {
+        "id": "nstate-inperson-004",
+        "identifier": [
+          { "system": "Appointment/", "value": "413938333133363930" },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "983:13690"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "primaryCare",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "primaryCare"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": { "text": "" },
+        "patientIcn": "1013678363V916823",
+        "locationId": "",
+        "clinic": "1456",
+        "start": "2024-07-25T23:00:00Z",
+        "end": "2024-07-25T00:00:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323430363230323330303A323032343036323130303030",
+          "start": "2024-07-25T23:00:00Z",
+          "end": "2024-07-25T00:00:00Z"
+        },
+        "created": "2024-07-13T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": { "address": {} },
+          "vistaStatus": ["NO ACTION TAKEN/TODAY"],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+            "physicalLocation": "PHYSICAL LOCATIION TESTING",
+            "phoneNumber": "500-500-5000"
+          }
+        },
+        "localStartTime": "2024-07-25T17:00:00.000-06:00",
+        "serviceName": null,
+        "physicalLocation": null,
+        "friendlyName": null,
+        "location": null
       }
     },
     {
@@ -496,29 +564,51 @@
         "identifier": [
           {
             "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
-            "value": "524641||2||1"
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
           }
         ],
         "kind": "cc",
         "status": "booked",
-        "patientIcn": "1013120820V528557",
+        "description": "Eye Care Examination SEOC 1.3.10 PRCT",
+        "patientIcn": "1013124304V115761",
         "locationId": "984",
-        "start": "2024-11-22T12:00:00Z",
-        "created": "2024-11-22T20:33:54Z",
-        "localStartTime": "2024-11-22T09:00:00.000-06:00",
+        "practitioners": [
+          {
+            "name": {
+              "family": "BERMEL",
+              "given": ["MICHAEL"]
+            }
+          }
+        ],
+        "start": "2024-08-21T12:00:00Z",
+        "created": "2024-08-21T20:33:54Z",
+        "localStartTime": "2024-08-21T09:00:00.000-06:00",
+        "avsPath": null,
+        "cancellable": false,
+        "serviceType": "podiatry",
         "extension": {
           "ccLocation": {
             "address": {
-              "line": ["1 E NATIONAL RD ; STE 300"],
-              "city": "VANDALIA",
-              "state": "OH",
-              "postalCode": "45377",
-              "text": "1 E NATIONAL RD ; STE 300\nVANDALIA OH 45377"
+              "line": ["10640 MAIN ST ; STE 100"],
+              "city": "FAIRFAX",
+              "state": "VA",
+              "postalCode": "22030",
+              "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
             },
-            "telecom": []
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "703-691-2020"
+              }
+            ]
           },
           "hsrmTaskId": "",
-          "ccTreatingSpecialty": ""
+          "hsrmConsultId": "984_644056",
+          "ccTreatingSpecialty": "Optometrist"
         },
         "location": {
           "id": "984",
@@ -794,6 +884,114 @@
           "patientHasMobileGfe": false
         },
         "localStartTime": "2024-12-01T08:00:00.000-07:00",
+        "location": {
+          "id": "983",
+          "type": "appointments",
+          "attributes": {
+            "id": "983",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Cheyenne VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 39.744507,
+            "long": -104.830956,
+            "website": "https://www.denver.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "307-778-7550",
+              "fax": "307-778-7381",
+              "pharmacy": "866-420-6337",
+              "afterHours": "307-778-7550",
+              "patientAdvocate": "307-778-7550 x7517",
+              "mentalHealthClinic": "307-778-7349",
+              "enrollmentCoordinator": "307-778-7550 x7579"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["2360 East Pershing Boulevard"],
+              "city": "Cheyenne",
+              "state": "WY",
+              "postalCode": "82001-5356"
+            },
+            "mobile": false,
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "EmergencyCare",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "UrgentCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "operatingStatus": {
+              "code": "NORMAL"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "nstate-atlas-002",
+      "type": "appointments",
+      "attributes": {
+        "id": "nstate-atlas-002",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+            "value": "5c21ee08-7bc9-4cc3-b557-0fc543c40148"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1013124304V115761",
+        "locationId": "983",
+        "start": "2024-12-02T15:00:00Z",
+        "end": "2024-12-02T15:30:00Z",
+        "minutesDuration": 30,
+        "created": "2024-03-01T18:52:19.23Z",
+        "comment": "Testing ATLAS appt for VAOS team (Marcy)",
+        "cancellable": false,
+        "patientInstruction": "Medication Review\n\nAs part of your video visit, your provider will review all the medications, vitamins, herbs, and supplements you are taking\n(even items you get from a local store, another provider, or another VA clinic). Please have information about everything you\ntake available during the visit. Informing your provider about all these will help you get the best and safest care possible.\nRemember, it is your medications, your life. Play it safe by reviewing all your medications with your health care team.\n",
+        "telehealth": {
+          "url": "https://dev.care2.va.gov/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000003896@dev.care2.va.gov&pin=104039&aid=5c21ee08-7bc9-4cc3-b557-0fc543c40148#",
+          "atlas": {
+            "siteCode": "VFW-DC-20011-02",
+            "confirmationCode": "075041",
+            "address": {
+              "streetAddress": "5929 Georgia Ave NW",
+              "city": "Washington",
+              "state": "DC",
+              "zipCode": "20011",
+              "country": "USA",
+              "latitutde": 38.961979,
+              "longitude": -77.027908,
+              "additionalDetails": ""
+            }
+          },
+          "group": false,
+          "vvsKind": "ADHOC"
+        },
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [],
+          "patientHasMobileGfe": false
+        },
+        "localStartTime": "2024-12-02T08:00:00.000-07:00",
         "location": {
           "id": "983",
           "type": "appointments",
