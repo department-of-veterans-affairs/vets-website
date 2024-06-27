@@ -67,7 +67,7 @@ const MedicationsListCard = ({ rx }) => {
             data-testid="rx-card-details--shipped-on"
           >
             <va-icon icon="local_shipping" size={3} aria-hidden="true" />
-            <span className="vads-u-margin-left--2">
+            <span className="vads-u-margin-left--2" data-testid="shipping-date">
               Shipped on:{' '}
               {dateFormat(
                 latestTrackingStatus.completeDateTime,
