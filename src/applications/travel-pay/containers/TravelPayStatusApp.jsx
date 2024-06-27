@@ -146,7 +146,7 @@ export default function App({ children }) {
 
   return (
     <div>
-      <article className="vads-l-col--8 vads-u-margin-x--auto vads-u-padding-bottom--0">
+      <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
