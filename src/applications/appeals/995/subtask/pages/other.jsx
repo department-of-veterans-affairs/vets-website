@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import pageNames from './pageNames';
 import DownloadLink from '../../content/DownloadLink';
 import { BENEFIT_OFFICES_URL } from '../../constants';
+import { title995 } from '../../content/title';
 
 const DecisionReviewPage = () => {
   useEffect(() => {
@@ -30,7 +31,7 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other} className="vads-u-padding-bottom--2">
-      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <h1 className="vads-u-margin-bottom--0">{title995}</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
         VA Form 20-0995
       </div>
