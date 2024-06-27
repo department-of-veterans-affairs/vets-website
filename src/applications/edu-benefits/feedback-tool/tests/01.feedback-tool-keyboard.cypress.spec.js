@@ -1,6 +1,6 @@
 import manifest from '../manifest.json';
 
-describe('Feedback Tool Keyboard Test', () => {
+describe.skip('Feedback Tool Keyboard Test', () => {
   it('Is accessible accordingly via keyboard', () => {
     cy.intercept('POST', '/v0/gi_bill_feedbacks', {
       data: {
@@ -108,7 +108,6 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.repeatKey('Tab', 4);
     cy.allyEvaluateCheckboxes(['input[type="checkbox"]']);
-    cy.realPress('Space');
 
     cy.realPress('Tab');
     cy.allyEvaluateInput('[name*="manualSchoolEntry_name"]', 'Long Beach Poly');

@@ -70,8 +70,8 @@ export default function ClaimPhaseStepper({
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <Link data-testid="submit-evidence-link" to="../files">
-            Submit evidence now
+          <Link data-testid="upload-evidence-link" to="../files">
+            Upload your evidence here
           </Link>
         </>
       ),
@@ -150,48 +150,43 @@ export default function ClaimPhaseStepper({
       ),
     },
   ];
+
   const isCurrentPhase = phase => {
     return phase === currentPhase;
   };
-
+  const isCurrentPhaseAndNotFinalPhase = phase => {
+    return isCurrentPhase(phase) && phase !== 8;
+  };
+  const isPhaseComplete = phase => {
+    return phase < currentPhase || (isCurrentPhase(phase) && phase === 8);
+  };
   const phaseCanRepeat = phase => {
     return [3, 4, 5, 6].includes(phase);
   };
 
-  const headerIcon = phase => {
-    if (isCurrentPhase(phase) && phase !== 8) {
-      return 'flag';
+  let headerIconAttributes = {};
+  const showIcon = phase => {
+    if (isCurrentPhaseAndNotFinalPhase(phase)) {
+      // Set headerIcon object
+      headerIconAttributes = {
+        icon: 'flag',
+        text: 'Current',
+        class: 'phase-current',
+      };
+      return true;
     }
 
-    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
-      return 'check_circle';
+    if (isPhaseComplete(phase)) {
+      // Set headerIcon object
+      headerIconAttributes = {
+        icon: 'check_circle',
+        text: 'Completed',
+        class: 'phase-complete',
+      };
+      return true;
     }
 
-    return '';
-  };
-
-  const headerIconText = phase => {
-    if (isCurrentPhase(phase) && phase !== 8) {
-      return 'Current';
-    }
-
-    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
-      return 'Completed';
-    }
-
-    return '';
-  };
-
-  const headerIconColor = phase => {
-    if (isCurrentPhase(phase) && phase !== 8) {
-      return 'phase-current';
-    }
-
-    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
-      return 'phase-complete';
-    }
-
-    return '';
+    return false;
   };
 
   return (
@@ -204,12 +199,14 @@ export default function ClaimPhaseStepper({
             id={`phase${claimPhase.phase}`}
             open={isCurrentPhase(claimPhase.phase)}
           >
-            <va-icon
-              icon={headerIcon(claimPhase.phase)}
-              class={headerIconColor(claimPhase.phase)}
-              srtext={headerIconText(claimPhase.phase)}
-              slot="icon"
-            />
+            {showIcon(claimPhase.phase) && (
+              <va-icon
+                icon={headerIconAttributes.icon}
+                class={headerIconAttributes.class}
+                srtext={headerIconAttributes.text}
+                slot="icon"
+              />
+            )}
             {isCurrentPhase(claimPhase.phase) && (
               <strong className="current-phase">
                 Your claim is in this step as of{' '}
