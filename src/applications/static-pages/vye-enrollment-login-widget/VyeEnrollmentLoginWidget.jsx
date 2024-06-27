@@ -33,7 +33,7 @@ export function VyeEnrollmentLoginWidget({
         </h3>
         <p>
           Sign in with your existing <strong>ID.me</strong> or{' '}
-          <strong>Login.gov</strong> account. If you don’t have any of these
+          <strong>Login.gov</strong> account. If you don’t have either of these
           accounts, you can create a free{' '}
           <a
             className="vads-u-font-weight--bold"
