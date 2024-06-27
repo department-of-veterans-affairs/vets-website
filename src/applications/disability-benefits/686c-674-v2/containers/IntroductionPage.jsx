@@ -40,25 +40,28 @@ const IntroductionPage = props => {
         <va-loading-indicator message="Verifying veteran account information..." />
       );
     }
-    if (['error', 'missingVaFileNumber']?.includes(status)) {
+    if (['error', 'missingVaFileNumber']?.includes(status) && hasSession()) {
       const alertMessage =
         status === 'missingVaFileNumber'
           ? VaFileNumberMissingAlert
           : ServerErrorAlert;
 
       return (
-        <va-alert status="error" uswds>
-          {alertMessage}
-        </va-alert>
+        <div className="vads-u-margin-y--2">
+          <va-alert status="error" uswds>
+            {alertMessage}
+          </va-alert>
+        </div>
       );
     }
     return null;
   };
 
-  return (
+  return getStatus() !== '' && hasSession() ? (
+    renderLoadingOrError(getStatus())
+  ) : (
     <div className="schemaform-intro">
       <IntroductionPageHeader />
-      {renderLoadingOrError(getStatus())}
       <IntroductionPageFormProcess />
       <SaveInProgressIntro
         {...props}
@@ -71,7 +74,7 @@ const IntroductionPage = props => {
         startText="Add or remove a dependent"
         headingLevel={2}
       />
-      <div className="omb-info--container vads-u-padding-left--0">
+      <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
           omb-number="2900-0043"
