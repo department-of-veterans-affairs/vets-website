@@ -43,7 +43,7 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText('Potassium', {
+    const header = screen.getAllByText('Potassium, Sodium', {
       exact: true,
       selector: 'h1',
     });

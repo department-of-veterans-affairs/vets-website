@@ -34,11 +34,12 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getAllByText('Potassium', { exact: true })[0]).to.exist;
+    expect(screen.getAllByText('Potassium, Sodium', { exact: true })[0]).to
+      .exist;
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getAllByText('Potassium', {
+    const recordName = screen.getAllByText('Potassium, Sodium', {
       exact: true,
     })[0];
     expect(recordName).to.exist;
@@ -52,7 +53,7 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain a link to view record details', () => {
-    const recordDetailsLink = screen.getByText('Potassium', {
+    const recordDetailsLink = screen.getByText('Potassium, Sodium', {
       selector: 'span',
       exact: true,
     });
