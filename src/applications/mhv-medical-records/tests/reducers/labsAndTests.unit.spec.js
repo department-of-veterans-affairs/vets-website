@@ -72,7 +72,7 @@ describe('extractOrderedTests', () => {
     expect(extractOrderedTests(badRec)).to.equal(TEST2);
   });
 
-  it('returns null if one of all references return null', () => {
+  it('returns null if all references return null', () => {
     const badRec = {
       contained: [
         { id: 'ServiceRequest-1', ignore: 'wrong field' },
