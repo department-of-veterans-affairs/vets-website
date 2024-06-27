@@ -277,6 +277,14 @@ class FormPage extends React.Component {
     const NavButtons = route.formConfig?.useTopBackLink
       ? FormNavButtonContinue
       : FormNavButtons;
+    const showSaveLinkAfterButtons = route.formConfig?.showSaveLinkAfterButtons;
+    const hideSaveLinkAndStatus = route.pageConfig?.hideSaveLinkAndStatus;
+    let contentBeforeNavButtons = contentBeforeButtons;
+    let contentAfterNavButtons = contentAfterButtons;
+    if (hideSaveLinkAndStatus) {
+      contentBeforeNavButtons = null;
+      contentAfterNavButtons = null;
+    }
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -307,8 +315,8 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
-            contentBeforeButtons={contentBeforeButtons}
-            contentAfterButtons={contentAfterButtons}
+            contentBeforeButtons={contentBeforeNavButtons}
+            contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}
             formContext={this.formContext}
           />
@@ -343,13 +351,14 @@ class FormPage extends React.Component {
             <div />
           ) : (
             <>
-              {contentBeforeButtons}
+              {!showSaveLinkAfterButtons && contentBeforeNavButtons}
               <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
               />
-              {contentAfterButtons}
+              {showSaveLinkAfterButtons && contentBeforeNavButtons}
+              {contentAfterNavButtons}
             </>
           )}
         </SchemaForm>
@@ -405,6 +414,7 @@ FormPage.propTypes = {
       ]),
       customPageUsesPagePerItemData: PropTypes.bool,
       hideNavButtons: PropTypes.bool,
+      hideSaveLinkAndStatus: PropTypes.bool,
       onContinue: PropTypes.func,
       onNavBack: PropTypes.func,
       onNavForward: PropTypes.func,
@@ -428,6 +438,7 @@ FormPage.propTypes = {
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
       }),
+      showSaveLinkAfterButtons: PropTypes.bool,
       useTopBackLink: PropTypes.bool,
     }),
     pageList: PropTypes.arrayOf(
