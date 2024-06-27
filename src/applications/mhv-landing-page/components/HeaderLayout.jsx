@@ -8,6 +8,8 @@ import { datadogRum } from '@datadog/browser-rum';
 import { isAuthenticatedWithSSOe } from '../selectors';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
+const goBackLinkText = 'Go back to the previous version of My HealtheVet';
+
 const HeaderLayout = ({ showWelcomeMessage = false }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showHealthToolsLinks = useToggleValue(
@@ -82,13 +84,13 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                   <a
                     onClick={() =>
                       datadogRum.addAction(
-                        'Click on Landing Page: Intro - Go back to the previous version of My HealtheVet',
+                        `Click on Landing Page: Intro - ${goBackLinkText}`,
                       )
                     }
                     data-testid="mhv-go-back-1"
                     href={goBackUrl}
                   >
-                    Go back to the previous version of My HealtheVet
+                    {goBackLinkText}
                   </a>
                 </p>
                 <div>
@@ -125,13 +127,13 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                         <a
                           onClick={() =>
                             datadogRum.addAction(
-                              'Click on Landing Page: Learn More - Go back to the previous version of My HealtheVet',
+                              `Click on Landing Page: Learn More - ${goBackLinkText}`,
                             )
                           }
                           data-testid="mhv-go-back-2"
                           href={goBackUrl}
                         >
-                          Go back to the previous version of My HealtheVet
+                          {goBackLinkText}
                         </a>
                       </p>
                     </div>
