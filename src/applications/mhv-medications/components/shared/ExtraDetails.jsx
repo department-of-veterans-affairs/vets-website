@@ -22,7 +22,7 @@ const ExtraDetails = rx => {
     >
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
-          <va-icon icon="warning" size={4} aria-hidden="true" />
+          <va-icon icon="warning" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2">
             <p className="vads-u-margin-y--0">
               We’re sorry. There’s a problem with our system. You can’t manage
@@ -40,7 +40,7 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
-          <va-icon icon="acute" size={4} aria-hidden="true" />
+          <va-icon icon="acute" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2">
             <p
               data-testid="rx-refillinprocess-info"
@@ -64,7 +64,7 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          <va-icon icon="fact_check" size={4} aria-hidden="true" />
+          <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for

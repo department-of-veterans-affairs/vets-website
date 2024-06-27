@@ -137,10 +137,17 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 </p>
                 {prescription?.trackingList?.[0]?.completeDateTime && (
                   <p data-testid={`medications-last-shipped-${idx}`}>
-                    {`Last refill shipped on ${dateFormat(
-                      prescription.trackingList[0].completeDateTime,
-                      'MMMM D, YYYY',
-                    )}`}
+                    <va-icon
+                      icon="local_shipping"
+                      size={3}
+                      aria-hidden="true"
+                    />
+                    <span className="vads-u-margin-left--1p5">
+                      {`Last refill shipped on ${dateFormat(
+                        prescription.trackingList[0].completeDateTime,
+                        'MMMM D, YYYY',
+                      )}`}
+                    </span>
                   </p>
                 )}
               </div>
