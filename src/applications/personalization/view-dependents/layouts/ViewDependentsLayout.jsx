@@ -44,10 +44,7 @@ function ViewDependentsLayout(props) {
   const layout = (
     <div className="vads-l-row">
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <ViewDependentsHeader
-          dependentsToggle={props.dependentsToggle}
-          updateDiariesStatus={props.updateDiariesStatus}
-        />
+        <ViewDependentsHeader updateDiariesStatus={props.updateDiariesStatus} />
         {mainContent}
       </div>
       <div className="vads-l-col--12 medium-screen:vads-l-col--4">
