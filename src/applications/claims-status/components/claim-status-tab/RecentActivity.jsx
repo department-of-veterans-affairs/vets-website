@@ -55,10 +55,14 @@ export default function RecentActivity({ claim }) {
 
   const getPhaseItemDescription = (currentPhaseBack, phase) => {
     const phaseItemText = getPhaseItemText(phase, cstClaimPhasesEnabled);
+
     switch (phase) {
       case 1:
       case 8:
-        return phaseItemText;
+        if (cstClaimPhasesEnabled) {
+          return phaseItemText;
+        }
+        return `Your claim moved into ${phaseItemText}`;
       case 2:
       case 7:
         return `Your claim moved into ${phaseItemText}`;
@@ -102,7 +106,7 @@ export default function RecentActivity({ claim }) {
     phaseKeys.forEach(phaseKey => {
       const phase = Number(phaseKey.match(regex)[0]) + 1;
       claimPhases.push({
-        id: phase,
+        id: `phase_${phase}`,
         type: 'phase_entered',
         // We are assuming here that each phaseKey is of the format:
         // phaseXCompleteDate, where X is some integer between 1 and 7
@@ -117,7 +121,7 @@ export default function RecentActivity({ claim }) {
 
     // Add initial phase date since its not inculded in previousPhases
     claimPhases.push({
-      id: 1,
+      id: 'phase_1',
       type: 'filed',
       phase: 1,
       description: getPhaseItemDescription(currentPhaseBack, 1),
