@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { selectHasMHVAccountState } from '../../selectors';
+import { hasMhvAccount } from '../../selectors';
 import { appName } from '../../manifest.json';
 
-describe(`${appName} -- selectHasMHVAccountState`, () => {
+describe(`${appName} -- hasMhvAccount`, () => {
   it('returns true when user has an MHV account', () => {
     const state = {
       user: {
@@ -11,7 +11,7 @@ describe(`${appName} -- selectHasMHVAccountState`, () => {
         },
       },
     };
-    const result = selectHasMHVAccountState(state);
+    const result = hasMhvAccount(state);
     expect(result).to.be.true;
   });
 
@@ -23,7 +23,7 @@ describe(`${appName} -- selectHasMHVAccountState`, () => {
         },
       },
     };
-    const result = selectHasMHVAccountState(state);
+    const result = hasMhvAccount(state);
     expect(result).to.be.true;
   });
   it('returns false when user does not have an MHV account', () => {
@@ -34,7 +34,7 @@ describe(`${appName} -- selectHasMHVAccountState`, () => {
         },
       },
     };
-    const result = selectHasMHVAccountState(state);
+    const result = hasMhvAccount(state);
     expect(result).to.be.false;
   });
 });

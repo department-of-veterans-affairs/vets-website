@@ -4,6 +4,6 @@
  * @returns {boolean} The hasMHVAccount state.
  */
 
-export const selectHasMHVAccountState = state => {
+export const hasMhvAccount = state => {
   return ['OK', 'MULTIPLE'].includes(state?.user?.profile?.mhvAccountState);
 };

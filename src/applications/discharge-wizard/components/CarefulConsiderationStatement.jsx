@@ -151,7 +151,7 @@ const priorServiceStatement = formValues => {
                   request one.{' '}
                   <Link to="/request-dd214" target="_blank">
                     Find out how to request a DD214 for your period of honorable
-                    service
+                    service (opens in a new tab)
                   </Link>
                 </p>
               </div>

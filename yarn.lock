@@ -2875,10 +2875,19 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.8.1", "@department-of-veterans-affairs/css-library@^0.8.3":
+"@department-of-veterans-affairs/css-library@^0.8.1":
   version "0.8.3"
   resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.3.tgz#b5bf4fe1cb0ac5193ae8182b0e14ef2da8b4645a"
   integrity sha512-nQRTmjZKbFFHsBiW9kK6QlWKi9KJcPnDPvWLt2i6fJu8icNoET19n4TE5JPJPdR63zzMtgJUfYaAXd81HMB/uA==
+  dependencies:
+    "@divriots/style-dictionary-to-figma" "^0.4.0"
+    "@uswds/uswds" "^3.7.1"
+    rimraf "^5.0.5"
+
+"@department-of-veterans-affairs/css-library@^0.8.4":
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.4.tgz#b635cc0912c4612033a4f76980d764519c4c4566"
+  integrity sha512-5XscE1JvbCdqt9GJT9kX6X6SDJehjJHKqrRd1E3xbpVSborcG6c2/RjfhJATFvfqTQaYG6eDnNngC/r6liJwzQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
@@ -21237,9 +21246,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243":
-  version "22.3.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#860cbc605763f362d8b078b75c6ff9526d96e21e":
+  version "22.3.4"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#860cbc605763f362d8b078b75c6ff9526d96e21e"
   dependencies:
     minimist "^1.2.3"
 
