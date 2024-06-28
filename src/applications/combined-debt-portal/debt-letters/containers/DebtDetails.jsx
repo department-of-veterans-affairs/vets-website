@@ -178,20 +178,24 @@ const DebtDetails = () => {
             </h2>
             <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between vads-u-margin-bottom--2 medium-screen:vads-u-max-width--90">
               <div>
-                <p className="vads-u-margin-y--0">
-                  Current balance as of{' '}
-                  {getLatestPaymentDateFromCurrentDebt(currentDebt)}:{' '}
-                </p>
-                <h3 className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
-                  {formatCurrency(currentDebt.currentAr)}
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Current balance as of{' '}
+                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.currentAr)}
+                  </span>
                 </h3>
               </div>
               <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
-                <p className="vads-u-margin-y--0">
-                  Original overpayment amount:
-                </p>
-                <h3 className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
-                  {formatCurrency(currentDebt.originalAr)}
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Original overpayment amount
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.originalAr)}
+                  </span>
                 </h3>
               </div>
             </div>
