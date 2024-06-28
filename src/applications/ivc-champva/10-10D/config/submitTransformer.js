@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 // Simplify relationship to a single key/value.
@@ -19,20 +18,18 @@ function transformApplicants(applicants) {
   const applicantsPostTransform = [];
 
   applicants.forEach(app => {
-    // Snake_case names are present because the existing backend controller
-    // for this form uses them. May adjust with future refactor.
     const transformedApp = {
-      full_name: app.applicantName ?? '',
-      ssh_or_tin: app.applicantSSN ?? '',
-      date_of_birth: app.applicantDOB ?? '',
-      phone_number: app.applicantPhone ?? '',
+      fullName: app.applicantName ?? '',
+      sshOrTin: app.applicantSSN ?? '',
+      dateOfBirth: app.applicantDOB ?? '',
+      phoneNumber: app.applicantPhone ?? '',
       email: app.applicantEmailAddress ?? '',
-      vet_relationship: transformRelationship(
+      vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
-      sponsor_marriage_details:
+      sponsorMarriageDetails:
         app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
-      applicant_supporting_documents: [
+      applicantSupportingDocuments: [
         app?.applicantMedicareCardFront,
         app?.applicantMedicareCardBack,
         app?.applicantOHICardFront,
@@ -71,12 +68,12 @@ function parseCertifier(transformedData) {
     firstName: transformedData.veteransFullName.first || '',
     lastName: transformedData.veteransFullName.last || '',
     middleInitial: transformedData?.veteransFullName?.middle || '',
-    phone_number: transformedData?.sponsorPhone || '',
+    phoneNumber: transformedData?.sponsorPhone || '',
     relationship: '',
     streetAddress: transformedData?.sponsorAddress?.street || '',
     city: transformedData?.sponsorAddress?.city || '',
     state: transformedData?.sponsorAddress?.state || '',
-    postal_code: transformedData?.sponsorAddress?.postal_code || '',
+    postalCode: transformedData?.sponsorAddress?.postalCode || '',
   };
 }
 
@@ -95,19 +92,19 @@ function getPrimaryContact(data) {
       first:
         (useCert
           ? data?.certification?.firstName
-          : data?.applicants?.[0]?.full_name?.first) ?? false,
+          : data?.applicants?.[0]?.fullName?.first) ?? false,
       last:
         (useCert
           ? data?.certification?.lastName
-          : data?.applicants?.[0]?.full_name?.last) ?? false,
+          : data?.applicants?.[0]?.fullName?.last) ?? false,
     },
     email:
       (useCert ? data?.certification?.email : data?.applicants?.[0]?.email) ??
       false,
     phone:
       (useCert
-        ? data?.certification?.phone_number
-        : data?.applicants?.[0]?.phone_number) ?? false,
+        ? data?.certification?.phoneNumber
+        : data?.applicants?.[0]?.phoneNumber) ?? false,
   };
 }
 
@@ -118,11 +115,11 @@ export default function transformForSubmit(formConfig, form) {
 
   const dataPostTransform = {
     veteran: {
-      full_name: transformedData?.veteransFullName || {},
-      ssn_or_tin: transformedData?.ssn?.ssn || '',
-      va_claim_number: transformedData?.vaFileNumber || '',
-      date_of_birth: transformedData?.sponsorDOB || '',
-      phone_number: transformedData?.sponsorPhone || '',
+      fullName: transformedData?.veteransFullName || {},
+      ssnOrTin: transformedData?.ssn?.ssn || '',
+      vaClaimNumber: transformedData?.vaFileNumber || '',
+      dateOfBirth: transformedData?.sponsorDOB || '',
+      phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {
         street: 'NA',
         city: 'NA',
@@ -130,9 +127,9 @@ export default function transformForSubmit(formConfig, form) {
         postalCode: 'NA',
         country: 'NA',
       },
-      date_of_death: transformedData?.sponsorDOD || '',
-      date_of_marriage: transformedData?.sponsorDOM || '',
-      is_active_service_death: transformedData?.sponsorDeathConditions || '',
+      dateOfDeath: transformedData?.sponsorDOD || '',
+      dateOfMarriage: transformedData?.sponsorDOM || '',
+      isActiveServiceDeath: transformedData?.sponsorDeathConditions || '',
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
     certification: {
@@ -140,18 +137,18 @@ export default function transformForSubmit(formConfig, form) {
       lastName: transformedData?.certifierName?.last || '',
       middleInitial: transformedData?.certifierName?.middle || '',
       firstName: transformedData?.certifierName?.first || '',
-      phone_number: transformedData?.certifierPhone || '',
+      phoneNumber: transformedData?.certifierPhone || '',
       relationship: transformRelationship(
         transformedData?.certifierRelationship,
       ),
       streetAddress: transformedData?.certifierAddress?.street || '',
       city: transformedData?.certifierAddress?.city || '',
       state: transformedData?.certifierAddress?.state || '',
-      postal_code: transformedData?.certifierAddress?.postalCode || '',
+      postalCode: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [],
+    supportingDocs: [],
     // Include everything we originally received
-    raw_data: transformedData,
+    rawData: transformedData,
   };
 
   // Fill in certification data with sponsor info as needed
@@ -161,15 +158,15 @@ export default function transformForSubmit(formConfig, form) {
   // Flatten supporting docs for all applicants to a single array
   const supDocs = [];
   dataPostTransform.applicants.forEach(app => {
-    if (app.applicant_supporting_documents.length > 0) {
-      app.applicant_supporting_documents.forEach(doc => {
+    if (app.applicantSupportingDocuments.length > 0) {
+      app.applicantSupportingDocuments.forEach(doc => {
         if (doc !== undefined && doc !== null) {
           // doc is an array of files for a given input (e.g., insurance cards).
 
           // For clarity's sake, add applicant's name onto each file object:
           const files = doc.map(file => ({
             ...file,
-            applicantName: app.full_name,
+            applicantName: app.fullName,
           }));
 
           supDocs.push(...files);
@@ -178,7 +175,7 @@ export default function transformForSubmit(formConfig, form) {
     }
   });
 
-  dataPostTransform.supporting_docs = dataPostTransform.supporting_docs
+  dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
     .concat(supDocs)
     .filter(el => el); // remove undefineds
@@ -187,6 +184,8 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.veteran.address['postal_code'] =
     dataPostTransform.veteran.address.postalCode || '';
   delete dataPostTransform.veteran.address.postalCode;
+
+  dataPostTransform.certifierRole = transformedData.certifierRole;
 
   // For our backend callback API, we need to designate which contact info
   // should be used if there is a notification event pertaining to this specific

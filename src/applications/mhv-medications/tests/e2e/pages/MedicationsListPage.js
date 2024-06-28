@@ -561,5 +561,23 @@ class MedicationsListPage {
       .find('[href="tel:+19832720905"]')
       .should('contain', phoneNumber);
   };
+
+  verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
+    cy.get(
+      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="pharmacy-phone-info"] > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', rfPhoneNumber);
+  };
+
+  verifyUnknownRxPhoneNumberOnListPage = unknownPhoneNumber => {
+    cy.get(
+      '[data-testid="unknown"] > [data-testid="unknown-rx"] > :nth-child(2) > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+17832721069"]')
+      .should('contain', unknownPhoneNumber);
+  };
 }
 export default MedicationsListPage;
