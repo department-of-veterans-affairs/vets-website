@@ -8,7 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTravelLogic = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
-    checkInExperienceUpcomingAppointmentsEnabled = true,
+    checkInExperienceUpcomingAppointmentsEnabled = false,
   } = toggles;
 
   return {

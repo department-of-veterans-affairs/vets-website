@@ -99,6 +99,7 @@ const UpcomingAppointmentsList = props => {
                               goToDetails={handleDetailClick}
                               router={router}
                               border={number !== appointments.length - 1}
+                              app={app}
                             />
                           );
                         })}

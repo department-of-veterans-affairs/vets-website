@@ -64,6 +64,8 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: true,
+          checkInExperienceTravelLogic: true,
+          checkInExperienceUpcomingAppointmentsEnabled: true,
         }),
       );
     },
