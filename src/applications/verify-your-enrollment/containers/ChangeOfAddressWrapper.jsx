@@ -150,6 +150,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           <va-loading-indicator
             label="Loading"
             message="Loading mailing address..."
+            aria-hidden="true"
           />
         ) : (
           <div className="vads-u-margin-bottom--1">

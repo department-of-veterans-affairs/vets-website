@@ -230,10 +230,11 @@ const VaPrescription = prescription => {
                     <h4
                       className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                       data-testid="med-image"
+                      aria-hidden="true"
                     >
                       Image
                     </h4>
-                    <div className="no-print">
+                    <div className="no-print" aria-hidden="true">
                       {entry.cmopNdcNumber ? (
                         <>
                           <img
@@ -243,7 +244,6 @@ const VaPrescription = prescription => {
                             src={getImageUri(entry.cmopNdcNumber)}
                             width="350"
                             height="350"
-                            aria-hidden="true"
                           />
                         </>
                       ) : (
