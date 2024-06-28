@@ -96,7 +96,7 @@ const UpcomingAppointments = props => {
   }
 
   return (
-    <section data-testid="upcoming-appointments">
+    <section data-testid="upcoming-appointments-vaos">
       <h2 data-testid="upcoming-appointments-header">
         {t('upcoming-appointments')}
       </h2>

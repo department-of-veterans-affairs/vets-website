@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -7,9 +8,16 @@ import {
   clinicName,
   getAppointmentId,
 } from '../utils/appointment';
+import { APP_NAMES } from '../utils/appConstants';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+
+import AppointmentMessage from './AppointmentDisplay/AppointmentMessage';
+import UpcomingAppointmentsListItemAction from './UpcomingAppointmentsListItemAction';
 
 const UpcomingAppointmentsListItem = props => {
-  const { appointment, goToDetails, router, border } = props;
+  const { app, appointment, goToDetails, router, border } = props;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
@@ -104,12 +112,24 @@ const UpcomingAppointmentsListItem = props => {
         >
           {t('details')}
         </a>
+        {app === APP_NAMES.CHECK_IN &&
+          !isUpcomingAppointmentsEnabled && (
+            <div data-testid="appointment-action">
+              <AppointmentMessage appointment={appointment} router={router} />
+              <UpcomingAppointmentsListItemAction
+                appointment={appointment}
+                router={router}
+                event="check-in-clicked-VAOS-design"
+              />
+            </div>
+          )}
       </div>
     </li>
   );
 };
 
 UpcomingAppointmentsListItem.propTypes = {
+  app: PropTypes.string.isRequired,
   appointment: PropTypes.object.isRequired,
   border: PropTypes.bool.isRequired,
   goToDetails: PropTypes.func,
