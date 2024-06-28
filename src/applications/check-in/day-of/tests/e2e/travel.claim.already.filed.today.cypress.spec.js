@@ -46,7 +46,7 @@ describe('Check In Experience | Day Of |', () => {
       cy.visitWithUUID();
       window.localStorage.setItem(
         'health.care.check-in.travel.pay.sent',
-        JSON.stringify({ '0001': new Date() }),
+        JSON.stringify(new Date()),
       );
     });
     it('should complete check and skip all travel questions', () => {
