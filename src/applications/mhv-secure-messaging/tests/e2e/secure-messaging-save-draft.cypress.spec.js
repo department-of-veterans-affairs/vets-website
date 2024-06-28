@@ -3,11 +3,8 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
-// import requestBody from './fixtures/message-compose-request-body.json';
-// import newDraft from './fixtures/draftsResponse/drafts-single-message-response.json';
-// import PatientInterstitialPage from './pages/PatientInterstitialPage';
-// import mockDraftMessages from './fixtures/drafts-response.json';
-// import mockDraftResponse from './fixtures/message-draft-response.json';
+import mockDraftMessages from './fixtures/drafts-response.json';
+import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('save draft feature tests', () => {
   it('save new draft', () => {
@@ -34,6 +31,19 @@ describe('save draft feature tests', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages();
+    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
+    draftsPage.loadMessageDetails(mockDraftResponse);
+
+    PatientComposePage.selectCategory('COVID');
+    PatientComposePage.getMessageSubjectField().type(`-updated`, {
+      force: true,
+    });
+
+    PatientComposePage.saveExistingDraft('COVID', 'test subject-updated');
+
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('contain', 'message was saved');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

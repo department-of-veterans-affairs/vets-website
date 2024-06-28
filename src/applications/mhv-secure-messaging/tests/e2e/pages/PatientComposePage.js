@@ -200,8 +200,26 @@ class PatientComposePage {
 
   saveNewDraft = (category, subject) => {
     cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, newDraft).as(
-      'draft_message',
+      'new_draft',
     );
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@new_draft')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
+  };
+
+  saveExistingDraft = (category, subject) => {
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }`,
+      mockDraftResponse,
+    ).as('draft_message');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
 
     cy.get('@draft_message')
