@@ -7,8 +7,6 @@ import contactsSingleNok from '@@profile/tests/fixtures/contacts-single-nok.json
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72, nonVeteranUser } from '@@profile/mocks/endpoints/user';
 
-let featureToggles;
-
 describe('Personal health care contacts -- feature enabled', () => {
   beforeEach(() => {
     const otherEndpoints = [
@@ -21,8 +19,7 @@ describe('Personal health care contacts -- feature enabled', () => {
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
 
-    featureToggles = generateFeatureToggles();
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
 
   it('links from the hub page', () => {

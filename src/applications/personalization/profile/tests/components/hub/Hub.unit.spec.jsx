@@ -15,9 +15,7 @@ function createInitialState(
 ) {
   return {
     featureToggles: {
-      ...{
-        loading: false,
-      },
+      loading: false,
       ...toggles,
     },
     user: {
