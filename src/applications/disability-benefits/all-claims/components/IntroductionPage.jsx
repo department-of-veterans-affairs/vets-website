@@ -123,7 +123,8 @@ class IntroductionPage extends React.Component {
 
           <va-process-list class="vads-u-padding-y--0">
             {/* Prepare */}
-            <va-process-list-item header="Prepare">
+            <va-process-list-item>
+              <h3 className="vads-u-padding-top--0">Prepare</h3>
               {!isBDDForm && (
                 <p
                   data-testid="process-step1-prepare"
@@ -239,8 +240,9 @@ class IntroductionPage extends React.Component {
                 </va-alert>
               )}
             </va-process-list-item>
-            <va-process-list-item header="Apply">
+            <va-process-list-item>
               {/* Apply */}
+              <h3 className="vads-u-padding-top--0">Apply</h3>
               {isBDDForm ? (
                 <>
                   <p
@@ -271,8 +273,9 @@ class IntroductionPage extends React.Component {
                 </p>
               )}
             </va-process-list-item>
-            <va-process-list-item header="VA review">
+            <va-process-list-item>
               {/* VA review */}
+              <h3 className="vads-u-padding-top--0">VA review</h3>
               <p
                 data-testid="process-step3-vareview"
                 className="vads-u-margin-top--2"
@@ -283,8 +286,9 @@ class IntroductionPage extends React.Component {
                 gather evidence needed to decide your claim.
               </p>
             </va-process-list-item>
-            <va-process-list-item header="Decision">
+            <va-process-list-item>
               {/* Decision */}
+              <h3 className="vads-u-padding-top--0">Decision</h3>
               <p
                 data-testid="process-step4-decision"
                 className="vads-u-margin-top--2"
