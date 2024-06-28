@@ -25,7 +25,7 @@ export default `
               aria-hidden="true"
               class="vcl-crisis-panel-icon vads-u-display--inline-block"
               focusable="false"
-              style={{ transform: 'rotate(270deg)' }}
+              style="transform: rotate(270deg)"
               viewBox="0 0 23 23"
               width="30"
               xmlns="http://www.w3.org/2000/svg"

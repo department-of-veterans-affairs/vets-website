@@ -13,7 +13,6 @@ export const buildLevelOneLinks = (sectionData, index) => {
           type="button"
           aria-expanded="false"
           aria-controls="vetnav-${kebabCase(sectionData.title)}"
-          aria-haspopup="true"
           class="vetnav-level1"
           data-e2e-id="${kebabCase(sectionData.title)}-${index}"
         >

@@ -89,7 +89,7 @@ function renderHeader(megaMenuData, headerContainer = null) {
 
   const searchParentElement = isMobile
     ? 'mobile-search-container'
-    : 'search-dropdown';
+    : 'search';
 
   startReactApp(
     <Provider store={store}>
@@ -222,26 +222,24 @@ function activateInjectedAssets() {
 
       renderHeader(headerFooterData.megaMenuData, headerContainer);
       renderFooter(headerFooterData.footerData, footerContainer);
-
-      window.addEventListener(
-        'resize',
-        debounce(() => {
-          renderHeader(headerFooterData.megaMenuData);
-          startVCLModal();
-        }),
-        200,
-      );
-
-      window.addEventListener(
-        'resize',
-        debounce(() => {
-          renderFooter(headerFooterData.footerData);
-          startVCLModal();
-        }),
-        200,
-      );
-
       startVCLModal();
+
+      localStorage.setItem('isDesktop', window.innerWidth > 767);
+
+      window.addEventListener(
+        'resize',
+        debounce(() => {
+          const initialWindowIsDesktop = localStorage.getItem('isDesktop');
+          const newScreenIsDesktop = window.innerWidth > 767;
+
+          if (initialWindowIsDesktop !== newScreenIsDesktop) {
+            renderHeader(headerFooterData.megaMenuData);
+            renderFooter(headerFooterData.footerData);
+            startVCLModal();
+          }
+        }),
+        200,
+      );     
     });
 }
 

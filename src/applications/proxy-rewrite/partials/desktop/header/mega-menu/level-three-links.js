@@ -69,10 +69,10 @@ export const buildImageColumn = (
 export const buildColumns = (column, columnLabel, columnClass = '') => {
   return `
     <div aria-hidden="false" class="vetnav-panel vetnav-panel--submenu ${columnLabel} ${columnClass}">
-      <h3 data-e2e-id="vetnav-${columnLabel}-header" id="vetnav-${columnLabel}-header">${
+      <h3 data-e2e-id="vetnav-${columnLabel}-header">${
     column.title
   }</h3>
-      <ul id="vetnav-${columnLabel}-col" aria-labelledby="vetnav-${columnLabel}-header">
+      <ul id="vetnav-${columnLabel}-col">
         <li class="panel-top-link"></li>
         ${column.links && buildLinks(column.links)}
       </ul>

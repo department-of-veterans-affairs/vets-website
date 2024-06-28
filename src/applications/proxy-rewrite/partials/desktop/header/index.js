@@ -89,7 +89,7 @@ export const getDesktopHeaderHtml = megaMenuData => {
                     Search
                   </span>
                 </button>
-                <div id="search-dropdown" class="va-dropdown-panel vads-u-padding--0 vads-u-margin--0" hidden></div>
+                <div id="search" class="va-dropdown-panel vads-u-padding--0 vads-u-margin--0" hidden></div>
               </div>
               <!-- end Search -->
 

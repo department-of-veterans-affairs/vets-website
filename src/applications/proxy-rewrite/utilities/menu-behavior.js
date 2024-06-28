@@ -60,6 +60,12 @@ export const addHeaderEventListeners = () => {
     searchButton.addEventListener('click', function() {
       closeNotActiveMenu([...megaMenuL1Buttons]);
     });
+
+    searchButton.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        closeNotActiveMenu([...megaMenuL1Buttons]);
+      }
+    });
   }
 
   // [DESKTOP] Benefit Hubs -------------------------------------------
@@ -123,7 +129,7 @@ export const addHeaderEventListeners = () => {
   levelTwoButtons.forEach(menuBtn => {
     const mainNav = document.getElementById('header-nav-items');
     const searchBar = document.getElementById('mobile-search-container');
-    const id = menuBtn.getAttribute('aria-controls');
+    const id = menuBtn.getAttribute('data-menu');
     const menu = document.getElementById(id);
     const backButtons = document.querySelectorAll('button#header-back-to-menu');
 
@@ -131,7 +137,6 @@ export const addHeaderEventListeners = () => {
       menu.removeAttribute('hidden');
       mainNav.setAttribute('hidden', true);
       searchBar.setAttribute('hidden', true);
-      menuBtn.setAttribute('aria-expanded', 'true');
 
       backButtons.forEach(backBtn => {
         backBtn.focus();
@@ -140,7 +145,6 @@ export const addHeaderEventListeners = () => {
           mainNav.removeAttribute('hidden');
           searchBar.removeAttribute('hidden');
           menu.setAttribute('hidden', true);
-          menuBtn.setAttribute('aria-expanded', 'false');
           menuBtn.focus();
         });
       });

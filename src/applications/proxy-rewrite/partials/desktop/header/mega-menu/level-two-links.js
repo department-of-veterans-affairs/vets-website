@@ -18,7 +18,6 @@ export const buildLevelTwoLinks = sectionData => {
               aria-expanded="false"
               class="vetnav-level2"
               aria-controls="vetnav-${kebabCase(title)}-ms"
-              aria-haspopup="true"
             >
               ${title}
             </button>

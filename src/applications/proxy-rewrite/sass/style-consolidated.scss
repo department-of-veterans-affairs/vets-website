@@ -149,6 +149,11 @@
     box-sizing: border-box;
   }
 
+  .usa-sr-only {
+    position: absolute;
+    left: -999em;
+  }
+
   img {
     display: inline-block;
     vertical-align: middle;
@@ -916,6 +921,10 @@
     top: 8px;
     width: auto;
     z-index: 9;
+
+    &:hover {
+      color: #1a4480;
+    }
   }
 
   .va-btn-withicon > span {
@@ -2131,16 +2140,16 @@
     font-weight: 600;
   }
 
-  [id="search-dropdown"] {
+  [id="search"] {
     width: 300px;
   }
 
-  [id="search-dropdown"] [type="text"] {
+  [id="search"] [type="text"] {
     margin: 0;
     flex: 1 0 200px;
   }
 
-  [id="search-dropdown"] [type="submit"] {
+  [id="search"] [type="submit"] {
     border-radius: 0 3px 3px 0;
     display: flex;
     flex: 1 0 30px;
@@ -2312,7 +2321,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1201px) {
+  @media (min-width: 768px) and (max-width: 1200px) {
     .va-modal .usa-width-one-half {
       margin-right: 4.82916%;
       width: 44%;
