@@ -2,8 +2,8 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from 'applications/disability-benefits/686c-674/config/form';
-import manifest from 'applications/disability-benefits/686c-674/manifest.json';
+import formConfig from 'applications/disability-benefits/686c-674-v2/config/form';
+import manifest from 'applications/disability-benefits/686c-674-v2/manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 
 Cypress.config('waitForAnimations', true);
@@ -25,8 +25,8 @@ const testConfig = createTestConfig(
         mockVaFileNumber,
       ).as('mockVaFileNumber');
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/686C-674', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/686C-674', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/686C-674-v2', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-v2', testData);
       });
       cy.intercept('POST', '/v0/dependents_applications', {
         formSubmissionId: '123fake-submission-id-567',
