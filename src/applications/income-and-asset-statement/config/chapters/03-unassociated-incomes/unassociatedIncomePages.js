@@ -1,4 +1,3 @@
-import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
@@ -14,7 +13,6 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatCurrency } from '../../../helpers';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
 
 const otherExplanationRequired = (form, index) =>
@@ -40,27 +38,6 @@ const showRecipientName = recipientRelationship =>
   recipientRelationship === 'CUSTODIAN' ||
   recipientRelationship === 'OTHER';
 
-const CardDescription = ({ incomeType, grossMonthlyIncome, payer }) => (
-  <ul className="u-list-no-bullets vads-u-padding-left--0">
-    <li>
-      Income type:{' '}
-      <span className="vads-u-font-weight--bold">
-        {incomeTypeLabels[incomeType]}
-      </span>
-    </li>
-    <li>
-      Gross monthly income:{' '}
-      <span className="vads-u-font-weight--bold">
-        {formatCurrency(grossMonthlyIncome)}
-      </span>
-    </li>
-    <li>
-      Income recipient:{' '}
-      <span className="vads-u-font-weight--bold">{payer}</span>
-    </li>
-  </ul>
-);
-
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'unassociatedIncomes',
@@ -75,7 +52,6 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
-    cardDescription: item => (item ? CardDescription(item) : null),
     reviewAddButtonText: 'Add another recurring income',
     alertMaxItems:
       'You have added the maximum number of allowed recurring incomes for this application. You may edit or delete a recurring income or choose to continue the application.',
