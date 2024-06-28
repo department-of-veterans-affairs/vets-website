@@ -300,7 +300,7 @@ class IntroductionPage extends React.Component {
           </va-process-list>
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
-        {itfNotice}
+        <div className="vads-u-margin-top--2">{itfNotice}</div>
         <va-omb-info
           res-burden={25}
           omb-number={OMB_CONTROL}
