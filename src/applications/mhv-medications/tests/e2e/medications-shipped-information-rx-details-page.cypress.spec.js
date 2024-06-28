@@ -16,6 +16,13 @@ describe('Medications Details Page Shipping Information for Rx', () => {
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
+    cy.get('@medicationsList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[15].attributes).to.include({
+          dispensedDate: shippedDate,
+        });
+      });
     detailsPage.verifyShippedOnInformationRxDetailsPage(shippedDate);
     cy.injectAxe();
     cy.axeCheck('main');

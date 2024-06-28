@@ -372,13 +372,6 @@ class MedicationsDetailsPage {
 
   verifyShippedOnInformationRxDetailsPage = shippedDate => {
     cy.get('[data-testid="shipping-date"]').should('contain', shippedDate);
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[15].attributes).to.include({
-          dispensedDate: shippedDate,
-        });
-      });
   };
 }
 export default MedicationsDetailsPage;
