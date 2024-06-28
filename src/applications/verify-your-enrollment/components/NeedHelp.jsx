@@ -1,5 +1,4 @@
 import React from 'react';
-import { isMobileDevice } from '../helpers';
 
 const NeedHelp = () => {
   return (
@@ -8,8 +7,8 @@ const NeedHelp = () => {
         <div slot="content">
           <p>
             Call us at <va-telephone contact="8884424551" /> (TTY: 711). We’re
-            here Monday through Friday, 8:00 a.m to 7:00 p.m ET.
-            {!isMobileDevice() && <br />} If you have hearing loss, call
+            here Monday through Friday, 8:00 a.m to 7:00 p.m ET. If you have
+            hearing loss, call
             <span className="vads-u-margin-left--0p5">
               <va-telephone contact="711" tty="true" />.
             </span>
