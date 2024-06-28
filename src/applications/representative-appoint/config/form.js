@@ -14,6 +14,7 @@ import {
   authorizeInsideVA,
   authorizeOutsideVA,
   formToggle,
+  authorizeOutsideVANames,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -115,6 +116,15 @@ const formConfig = {
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
           schema: authorizeOutsideVA.schema,
+        },
+        authorizeOutsideVANames: {
+          path: 'authorize-outside-va/names',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside of VA Systems',
+          uiSchema: authorizeOutsideVANames.uiSchema,
+          schema: authorizeOutsideVANames.schema,
         },
       },
     },
