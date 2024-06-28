@@ -563,13 +563,6 @@ class MedicationsListPage {
   };
 
   verifyShippedOnInformationOnRxCardOnMedicationsListPage = shippedDate => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[15].attributes).to.include({
-          dispensedDate: shippedDate,
-        });
-      });
     cy.get(
       ' [data-testid="rx-card-details--shipped-on"] > [data-testid="shipping-date"]',
     ).should('contain', shippedDate);

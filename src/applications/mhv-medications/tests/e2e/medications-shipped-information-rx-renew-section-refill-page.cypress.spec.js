@@ -12,6 +12,13 @@ describe('Medications Refill Page Shipped On Information', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitle();
+    cy.get('@refillList')
+      .its('response')
+      .then(res => {
+        expect(res.body.data[15].attributes).to.include({
+          dispensedDate: shippedDate,
+        });
+      });
     refillPage.verifyShippedRxInformationOnRenewSectionRefillsPage(shippedDate);
   });
 });
