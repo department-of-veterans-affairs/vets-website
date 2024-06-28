@@ -7,9 +7,9 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
 
   for (let i = 0; i < divisions; i++) {
     circles.push(
-      <i
+      <div
         key={i}
-        className={classNames(`fa fa-circle`, {
+        className={classNames('gi-compare-circle', {
           'scroll-active': currentPosition === i,
         })}
       />,

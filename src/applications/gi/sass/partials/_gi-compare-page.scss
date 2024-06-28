@@ -430,13 +430,16 @@
         left: 0px;
       }
 
-      .fa-circle {
-        color: var(--vads-color-base-light);
+      .gi-compare-circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--vads-color-base-light);
         margin-left: 20px;
         margin-right: 20px;
 
         &.scroll-active{
-          color: var(--vads-color-base);
+          background-color: var(--vads-color-base);
         }
       }
 

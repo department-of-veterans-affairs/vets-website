@@ -1,7 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
-import JumpLink from './profile/JumpLink';
 import recordEvent from 'platform/monitoring/record-event';
+import JumpLink from './profile/JumpLink';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -37,18 +36,17 @@ export const CautionFlagAdditionalInfo = ({
                 {headline}
               </h4>
             </div>
-            <div>
-              <i
-                aria-hidden="true"
-                style={{
-                  float: 'right',
-                  margin: '5px',
-                }}
-                className={classNames('fa', {
-                  'fa-chevron-up': expanded,
-                  'fa-chevron-down': !expanded,
-                })}
-              />
+            <div
+              style={{
+                float: 'right',
+                margin: '5px',
+              }}
+            >
+              {expanded ? (
+                <va-icon icon="expand_less" size={3} />
+              ) : (
+                <va-icon icon="expand_more" size={3} />
+              )}
             </div>
           </div>
         </button>

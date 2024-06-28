@@ -11,27 +11,33 @@ export const RatingsStars = ({ rating }) => {
   const stars = [];
   for (let i = 0; i < starData.full; i++) {
     stars.push(
-      <i
+      <va-icon
         key={stars.length}
-        className="fas fa-star vads-u-color--gold-darker vads-u-margin-right--0p2"
+        icon="star"
+        size={3}
+        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
 
   if (starData.half) {
     stars.push(
-      <i
+      <va-icon
         key={stars.length}
-        className="fas fa-star-half-alt vads-u-color--gold-darker vads-u-margin-right--0p2"
+        icon="star_half"
+        size={3}
+        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
 
   for (let i = stars.length; i < 4; i++) {
     stars.push(
-      <i
+      <va-icon
         key={stars.length}
-        className="far fa-star vads-u-color--gold-darker vads-u-margin-right--0p2"
+        icon="star"
+        size={3}
+        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
       />,
     );
   }
