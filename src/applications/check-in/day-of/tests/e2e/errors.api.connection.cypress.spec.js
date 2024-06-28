@@ -23,7 +23,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
     initializeUpcomingAppointmentsDataGet,
   } = ApiInitializer;
   beforeEach(() => {
-    initializeFeatureToggle.withCurrentFeatures();
+    initializeFeatureToggle.withAllFeatures();
   });
   describe('Patient who encounters an error getting check in data', () => {
     it('should redirect to the generic error page', () => {

@@ -38,7 +38,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('what-to-do-next')).to.exist;
-      expect(getByTestId('upcoming-appointments')).to.exist;
+      expect(getByTestId('upcoming-appointments-vaos')).to.exist;
       expect(getByTestId('appointments-accordions')).to.exist;
 
       // Restore the hook
@@ -76,14 +76,13 @@ describe('unified check-in experience', () => {
       );
       expect(refreshButton).to.exist;
     });
-    it('does not show upcoming appointments or accordions with the feature off', () => {
+    it('displays upcoming vista appointments with the feature off', () => {
       const checkIn = render(
         <CheckInProvider store={{ features: appointmentsOff }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );
-      expect(checkIn.queryByTestId('upcoming-appointments')).to.not.exist;
-      expect(checkIn.queryByTestId('appointments-accordions')).to.not.exist;
+      expect(checkIn.queryByTestId('upcoming-appointments-vista')).to.exist;
     });
     it('shows a privacy act modal if the link is clicked', () => {
       const checkIn = render(
