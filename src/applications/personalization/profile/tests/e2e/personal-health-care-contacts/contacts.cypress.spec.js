@@ -21,7 +21,7 @@ describe('Personal health care contacts -- feature enabled', () => {
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
 
-    featureToggles = generateFeatureToggles({ profileContacts: true });
+    featureToggles = generateFeatureToggles();
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
   });
 
@@ -92,19 +92,6 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.login(nonVeteranUser);
     cy.visit(PROFILE_PATHS.CONTACTS);
     cy.findByTestId('non-va-patient-message');
-    cy.injectAxeThenAxeCheck();
-  });
-});
-
-describe('Personal health care contacts -- feature disabled', () => {
-  it('removes the link from the nav', () => {
-    featureToggles = generateFeatureToggles({ profileContacts: false });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
-    cy.intercept('GET', '/v0/profile/contacts', contacts);
-    cy.login(loa3User72);
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-    cy.get('h1');
-    cy.get('a[href$="/profile/contacts"]').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });
