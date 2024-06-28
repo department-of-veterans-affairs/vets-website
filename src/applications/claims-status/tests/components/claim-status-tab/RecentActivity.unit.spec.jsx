@@ -29,6 +29,22 @@ const openClaimStep1 = {
   },
 };
 
+const openClaimStep3PhaseBack = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-06-22',
+      currentPhaseBack: true,
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-20',
+        phase2CompleteDate: '2024-05-22',
+      },
+    },
+    trackedItems: [],
+  },
+};
+
 const openClaimStep7 = {
   attributes: {
     claimDate: '2024-05-02',
@@ -45,6 +61,22 @@ const openClaimStep7 = {
         phase6CompleteDate: '2024-06-22',
       },
     },
+    trackedItems: [],
+  },
+};
+
+const closedClaimStep8 = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-06-22',
+      currentPhaseBack: false,
+      latestPhaseType: 'COMPLETE',
+      previousPhases: {
+        phase7CompleteDate: '2024-06-22',
+      },
+    },
+    closeDate: '2024-06-22',
     trackedItems: [],
   },
 };
@@ -279,22 +311,6 @@ const openClaimStep4WithMultipleItems = {
   },
 };
 
-const closedClaimStep8 = {
-  attributes: {
-    claimDate: '2024-05-02',
-    claimPhaseDates: {
-      phaseChangeDate: '2024-06-22',
-      currentPhaseBack: false,
-      latestPhaseType: 'COMPLETE',
-      previousPhases: {
-        phase7CompleteDate: '2024-06-22',
-      },
-    },
-    closeDate: '2024-06-22',
-    trackedItems: [],
-  },
-};
-
 describe('<RecentActivity>', () => {
   context('when cstClaimPhasesEnabled enabled', () => {
     context('when claim doesn’t have trackedItems', () => {
@@ -312,6 +328,25 @@ describe('<RecentActivity>', () => {
             within(recentActivityList).getAllByRole('listitem').length,
           ).to.equal(1);
           getByText('We received your claim in our system');
+          expect($('va-pagination', container)).not.to.exist;
+        });
+      });
+      context('when claim in phase 3 and has phased back', () => {
+        it('should render recent activities section with 3 items', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <RecentActivity claim={openClaimStep3PhaseBack} />
+            </Provider>,
+          );
+          getByText('Recent activity');
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(3);
+          getByText('We received your claim in our system');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText('Your claim moved back to Step 3: Evidence gathering');
           expect($('va-pagination', container)).not.to.exist;
         });
       });
@@ -527,6 +562,27 @@ describe('<RecentActivity>', () => {
             within(recentActivityList).getAllByRole('listitem').length,
           ).to.equal(1);
           getByText('Your claim moved into Step 1: Claim received');
+          expect($('va-pagination', container)).not.to.exist;
+        });
+      });
+      context('when claim in phase 3 and has phased back', () => {
+        it('should render recent activities section with 3 items', () => {
+          const { container, getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <RecentActivity claim={openClaimStep3PhaseBack} />
+            </Provider>,
+          );
+          getByText('Recent activity');
+          const recentActivityList = $('ol', container);
+          expect(recentActivityList).to.exist;
+          expect(
+            within(recentActivityList).getAllByRole('listitem').length,
+          ).to.equal(3);
+          getByText('Your claim moved into Step 1: Claim received');
+          getByText('Your claim moved into Step 2: Initial review');
+          getByText(
+            'Your claim moved back to Step 3: Evidence gathering, review, and decision',
+          );
           expect($('va-pagination', container)).not.to.exist;
         });
       });
