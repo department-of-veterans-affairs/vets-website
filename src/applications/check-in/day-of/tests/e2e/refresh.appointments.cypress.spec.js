@@ -30,7 +30,7 @@ describe('Check In Experience | Day Of |', () => {
       cy.visitWithUUID();
       window.localStorage.setItem(
         'health.care.check-in.travel.pay.sent',
-        JSON.stringify({ '0001': new Date() }),
+        JSON.stringify(new Date()),
       );
       const rv1 = sharedData.get.createAppointments();
       const earliest = sharedData.get.createAppointment();

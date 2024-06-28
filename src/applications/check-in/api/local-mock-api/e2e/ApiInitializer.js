@@ -26,21 +26,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: true,
-          checkInExperienceTravelLogic: true,
-        }),
-      );
-    },
-    withPreCheckInActionLinkTopPlacementDisabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: false,
+          checkInExperienceTravelReimbursement: true,
         }),
       );
     },
@@ -64,7 +50,6 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: true,
-          checkInExperienceTravelLogic: true,
           checkInExperienceUpcomingAppointmentsEnabled: true,
         }),
       );
