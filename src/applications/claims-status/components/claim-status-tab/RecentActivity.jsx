@@ -6,11 +6,7 @@ import moment from 'moment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { ITEMS_PER_PAGE } from '../../constants';
-import {
-  buildDateFormatter,
-  getItemDate,
-  getPhaseItemText,
-} from '../../utils/helpers';
+import { buildDateFormatter, getPhaseItemText } from '../../utils/helpers';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
@@ -92,20 +88,12 @@ export default function RecentActivity({ claim }) {
     }));
   };
 
-  const isEventOrPrimaryPhase = event => {
-    if (event.type === 'phase_entered') {
-      return event.phase <= 3 || event.phase >= 7;
-    }
-
-    return !!getItemDate(event);
-  };
-
   const generatePhaseItems = () => {
     const {
       currentPhaseBack,
       previousPhases,
     } = claim.attributes.claimPhaseDates;
-    const phases = [];
+    const claimPhases = [];
 
     const regex = /\d+/;
 
@@ -113,12 +101,12 @@ export default function RecentActivity({ claim }) {
     const phaseKeys = Object.keys(previousPhases);
     phaseKeys.forEach(phaseKey => {
       const phase = Number(phaseKey.match(regex)[0]) + 1;
-      phases.push({
+      claimPhases.push({
         id: phase,
         type: 'phase_entered',
         // We are assuming here that each phaseKey is of the format:
         // phaseXCompleteDate, where X is some integer between 1 and 7
-        // NOTE: Adding 1 because the a phases completion date is
+        // NOTE: Adding 1 because the a claimPhases completion date is
         // analagous to the phase after it's start date
         // eg. phase1CompleteDate = start date for phase 2
         phase,
@@ -128,7 +116,7 @@ export default function RecentActivity({ claim }) {
     });
 
     // Add initial phase date since its not inculded in previousPhases
-    phases.push({
+    claimPhases.push({
       id: 1,
       type: 'filed',
       phase: 1,
@@ -138,13 +126,10 @@ export default function RecentActivity({ claim }) {
 
     // When cst_claim_phases is enabled then we remove steps 4-6 and only keep step 3
     return cstClaimPhasesEnabled
-      ? phases
-      : phases.filter(isEventOrPrimaryPhase);
-
-    // const currentPhase = getPhaseFromStatus(
-    //   claim.attributes.claimPhaseDates.latestPhaseType,
-    // );
-    // return firstPass.filter(phase => isCurrentOrPastPhase(phase, currentPhase));
+      ? claimPhases
+      : claimPhases.filter(
+          claimPhase => claimPhase.phase <= 3 || claimPhase.phase >= 7,
+        );
   };
 
   const getSortedItems = () => {
