@@ -19,7 +19,7 @@ export const sponsorNameSchema = {
         isBeneficiary ? 'you’re' : 'the beneficiary'
       } is connected to). We’ll use the sponsor’s information to verify ${
         isBeneficiary ? 'your' : 'the beneficiary’s'
-      } eligibility`;
+      } eligibility.`;
     }),
     sponsorName: fullNameMiddleInitialUI,
   },
