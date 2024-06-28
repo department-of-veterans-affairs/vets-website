@@ -7,7 +7,7 @@ import { currency } from '../utils/page';
 const PaymentHistoryTable = ({ currentDebt }) => {
   const { paymentHistory } = currentDebt;
   return (
-    <div className=" vads-u-margin-y--4">
+    <div className="vads-u-margin-y--4">
       <va-table>
         <va-table-row slot="headers">
           <span>Date</span>
@@ -16,7 +16,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         </va-table-row>
         {paymentHistory.map((payment, index) => (
           <va-table-row key={`${payment.transactionDate}-${index}`}>
-            <span>{payment.transactionDate}</span>
+            <span className="vads-u-width--fit">{payment.transactionDate}</span>
             <span>
               <div className="vads-u-margin-top--0">
                 {renderPaymentHistoryDescription(payment.hinesCode)}
@@ -28,7 +28,9 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         <va-table-row>
           {/* This is the default row that will always be displayed for initial
           debt creation */}
-          <span>{currentDebt.firstPaymentDate}</span>
+          <span className="vads-u-width--fit">
+            {currentDebt.firstPaymentDate}
+          </span>
           <span>
             <strong>
               Overpayment for{' '}
