@@ -136,7 +136,7 @@ describe('vaPrescription details container', () => {
   });
   it('displays none noted if no phone number is provided', () => {
     const screen = setup(prescription);
-    const pharmacyPhone = screen.queryByTestId('pharmacy-phone');
+    const pharmacyPhone = screen.queryByTestId('phone-number');
 
     expect(pharmacyPhone).to.not.exist;
   });
