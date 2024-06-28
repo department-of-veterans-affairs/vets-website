@@ -53,7 +53,7 @@ const IsUserLoggedIn = () => {
     ),
     [],
   );
-  if (toggleValue === undefined) {
+  if (toggleValue === undefined && !window.isProduction) {
     return <Loader />;
   }
 
