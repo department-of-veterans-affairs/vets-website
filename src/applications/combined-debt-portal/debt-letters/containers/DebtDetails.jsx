@@ -173,27 +173,26 @@ const DebtDetails = () => {
         />
         {shouldShowPaymentHistory && (
           <div>
-            <h2
-              id="debtDetailsHeader"
-              className="vads-u-margin-top--5 vads-u-margin-bottom--2"
-            >
+            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--2">
+            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between vads-u-margin-bottom--2 medium-screen:vads-u-max-width--90">
               <div>
-                <div>
+                <p className="vads-u-margin-y--0">
                   Current balance as of{' '}
-                  {getLatestPaymentDateFromCurrentDebt(currentDebt)}{' '}
-                </div>
-                <div className="vads-u-font-weight--bold vads-u-font-size--h3">
+                  {getLatestPaymentDateFromCurrentDebt(currentDebt)}:{' '}
+                </p>
+                <h3 className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
                   {formatCurrency(currentDebt.currentAr)}
-                </div>
+                </h3>
               </div>
-              <div>
-                <div>Original overpayment amount:</div>
-                <div className="vads-u-font-weight--bold vads-u-font-size--h3">
+              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+                <p className="vads-u-margin-y--0">
+                  Original overpayment amount:
+                </p>
+                <h3 className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
                   {formatCurrency(currentDebt.originalAr)}
-                </div>
+                </h3>
               </div>
             </div>
             <PaymentHistoryTable currentDebt={currentDebt} />
