@@ -129,7 +129,6 @@ const testConfig = createTestConfig(
         },
       });
       cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
-
       cy.login(user);
     },
     skip: false,
