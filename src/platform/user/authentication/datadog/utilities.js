@@ -93,12 +93,18 @@ export const dataDogLog = ({ name, payload, status, error }) => {
   if (!name) {
     throw new Error('Name cannot be left blank');
   }
-  // Initialize datadog logger
-  datadogLogs.init({
-    clientToken: DATA_DOG_TOKEN,
-    forwardErrorsToLogs: true,
-    service: DATA_DOG_SERVICE,
-    site: 'ddog-gov.com',
-  });
-  datadogLogs.logger.log(name, payload, status, error);
+  if (
+    !window.DD_LOGS?.getInitConfiguration() &&
+    !window.Mocha &&
+    !window.Cypress
+  ) {
+    // Initialize datadog logger
+    datadogLogs.init({
+      clientToken: DATA_DOG_TOKEN,
+      service: DATA_DOG_SERVICE,
+      forwardErrorsToLogs: true,
+      site: 'ddog-gov.com',
+    });
+    datadogLogs.logger.log(name, payload, status, error);
+  }
 };
