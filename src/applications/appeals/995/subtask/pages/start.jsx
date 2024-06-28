@@ -11,6 +11,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
+import { title995 } from '../../content/title';
+
 const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
   errorMessage: 'You must choose a claim type.',
@@ -66,7 +68,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
+      <h1 className="vads-u-margin-bottom--0">{title995}</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
         VA Form 20-0995
       </div>
