@@ -1,6 +1,5 @@
 import FormElementTitle from '../../../components/FormElementTitle';
 import { CHAPTER_3 } from '../../../constants';
-import ProfileLink from '../../../components/ProfileLink';
 import {
   personalInformationFormSchemas,
   personalInformationUiSchemas,
@@ -19,7 +18,6 @@ delete aboutVetFormSchema.pronouns;
 const aboutTheVeteranPage = {
   uiSchema: {
     'ui:title': question,
-    'ui:description': ProfileLink,
     aboutTheVeteran: aboutVetUiSchema,
   },
   schema: {

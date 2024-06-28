@@ -5,9 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import { sponsorNameSchema } from '../chapters/sponsorInformation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -36,8 +34,8 @@ const formConfig = {
   title: '10-7959a CHAMPVA Claim Form',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    signerInformation: {
+      title: 'Signer information',
       pages: {
         page1: {
           path: 'first-page',
@@ -47,6 +45,16 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
+        },
+      },
+    },
+    sponsorInformation: {
+      title: 'Sponsor information',
+      pages: {
+        page2: {
+          path: 'sponsor-information',
+          title: 'Name',
+          ...sponsorNameSchema,
         },
       },
     },

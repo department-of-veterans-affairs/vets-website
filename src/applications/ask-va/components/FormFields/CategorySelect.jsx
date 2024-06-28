@@ -7,7 +7,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setCategoryID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInCategories, envUrl } from '../../constants';
+import { URL, envUrl, requireSignInCategories } from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const CategorySelect = props => {
@@ -94,7 +94,6 @@ const CategorySelect = props => {
           </option>
         ))}
       </VaSelect>
-
       <RequireSignInModal
         onClose={onModalNo}
         show={showModal.show}

@@ -125,6 +125,7 @@ const {
 const formConfig = {
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
