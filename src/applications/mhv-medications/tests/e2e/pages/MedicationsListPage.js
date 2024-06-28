@@ -566,6 +566,7 @@ class MedicationsListPage {
     cy.get(
       ' [data-testid="rx-card-details--shipped-on"] > [data-testid="shipping-date"]',
     ).should('contain', shippedDate);
+  };
 
   verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
     cy.get(
@@ -585,4 +586,5 @@ class MedicationsListPage {
       .should('contain', unknownPhoneNumber);
   };
 }
+
 export default MedicationsListPage;

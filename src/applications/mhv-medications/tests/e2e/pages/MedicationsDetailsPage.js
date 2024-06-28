@@ -372,6 +372,7 @@ class MedicationsDetailsPage {
 
   verifyShippedOnInformationRxDetailsPage = shippedDate => {
     cy.get('[data-testid="shipping-date"]').should('contain', shippedDate);
+  };
 
   verifyRxRecordPharmacyPhoneNumberOnDetailsPage = pharmacyPhone => {
     cy.get('[data-testid="phone-number"]')
@@ -394,4 +395,5 @@ class MedicationsDetailsPage {
       .should('contain', unknownRxPhone);
   };
 }
+
 export default MedicationsDetailsPage;

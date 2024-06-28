@@ -40,8 +40,10 @@ const ExtraDetails = rx => {
         </div>
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
-
-        <div className="statusIcon refillProcessIcon"  data-testid="refill-in-process">
+        <div
+          className="statusIcon refillProcessIcon"
+          data-testid="refill-in-process"
+        >
           <va-icon icon="acute" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2" data-testid="rx-process">
             <p
