@@ -93,11 +93,7 @@ export const dataDogLog = ({ name, payload, status, error }) => {
   if (!name) {
     throw new Error('Name cannot be left blank');
   }
-  if (
-    !window.DD_LOGS?.getInitConfiguration() &&
-    !window.Mocha &&
-    !window.Cypress
-  ) {
+  if (window.DD_LOGS && (!window.Mocha || !window.Cypress)) {
     // Initialize datadog logger
     datadogLogs.init({
       clientToken: DATA_DOG_TOKEN,
