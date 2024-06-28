@@ -62,10 +62,12 @@ class RoutedSavableReviewPage extends React.Component {
 
   render() {
     const { form, formConfig, formContext, pageList, path, user } = this.props;
+    const { CustomReviewTopContent } = formConfig;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
 
     return (
       <div>
+        {CustomReviewTopContent && <CustomReviewTopContent />}
         <ReviewChapters
           formConfig={formConfig}
           formContext={formContext}
@@ -130,6 +132,7 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.shape({
+    CustomReviewTopContent: PropTypes.element,
     customText: PropTypes.shape({
       finishAppLaterMessage: PropTypes.string,
       appType: PropTypes.string,
