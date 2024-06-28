@@ -3,7 +3,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
 
-describe.skip('Secure Messaging Compose Form Keyboard Nav', () => {
+describe('Secure Messaging Compose Keyboard Nav', () => {
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
