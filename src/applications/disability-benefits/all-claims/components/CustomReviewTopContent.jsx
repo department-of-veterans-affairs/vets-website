@@ -19,7 +19,6 @@ function CustomReviewTopContent({ formData }) {
     <>
       <VaAlert
         // TODO: figure out behavior for close button
-        // closeBtnAriaLabel="Close notification"
         // closeable
         // onCloseEvent={function noRefCheck() {}}
         status="info"
