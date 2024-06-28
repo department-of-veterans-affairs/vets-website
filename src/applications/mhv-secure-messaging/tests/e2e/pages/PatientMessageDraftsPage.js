@@ -553,13 +553,6 @@ class PatientMessageDraftsPage {
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
-  verifyFilterFieldCleared = () => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .should('be.empty');
-  };
-
   verifySorting = () => {
     let listBefore;
     let listAfter;
