@@ -4,7 +4,7 @@ const ConditionThatAffectsRepresentationDetailsNote = () => (
   <>
     <p>
       <strong>Note:</strong> If you have been under the care or supervision of a
-      health-care profession, you will need to submit a statement by your
+      health-care professional, you will need to submit a statement by your
       health-care professional specifying:
     </p>
     <ul>
