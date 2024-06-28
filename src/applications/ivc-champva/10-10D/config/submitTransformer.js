@@ -186,6 +186,8 @@ export default function transformForSubmit(formConfig, form) {
   delete dataPostTransform.veteran.address.postalCode;
 
   dataPostTransform.certifierRole = transformedData.certifierRole;
+  dataPostTransform.statementOfTruthSignature =
+    transformedData.statementOfTruthSignature;
 
   // For our backend callback API, we need to designate which contact info
   // should be used if there is a notification event pertaining to this specific
