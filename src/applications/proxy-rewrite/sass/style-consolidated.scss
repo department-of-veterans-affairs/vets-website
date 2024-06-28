@@ -114,10 +114,9 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   .row { max-width: 1000px; }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
-
   // these are hardcoded here for the injected header since it runs off its own font-family
   button, .usa-button, [type=button] {
-    font-size: 16px;
+    font-size: 16.96px;
   }
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-elements";
   @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu";
