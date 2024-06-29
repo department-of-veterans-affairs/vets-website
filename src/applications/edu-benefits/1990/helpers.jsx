@@ -47,6 +47,10 @@ export const benefitsEligibilityBox = (
     <div className="usa-alert-body">
       <ul>
         <li>You may be eligible for more than 1 education benefit program.</li>
+        <li>
+          If you wish to apply for more than one benefit, submit another 22-1990
+          application.
+        </li>
         <li>You can only get payments from 1 program at a time.</li>
         <li>
           You can’t get more than 48 months of benefits under any combination of
@@ -121,7 +125,10 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
