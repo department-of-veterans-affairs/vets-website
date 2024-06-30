@@ -6,6 +6,8 @@ import {
   VaPagination,
   VaLoadingIndicator,
   VaCheckbox,
+  VaRadio,
+  VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
@@ -81,17 +83,18 @@ export class SchoolSelectField extends React.Component {
     });
   };
 
-  handleOptionClick = ({
-    address1,
-    address2,
-    address3,
-    city,
-    country,
-    facilityCode,
-    name,
-    state,
-    zip,
-  }) => {
+  handleOptionClick = institution => {
+    const {
+      address1,
+      address2,
+      address3,
+      city,
+      country,
+      facilityCode,
+      name,
+      state,
+      zip,
+    } = institution;
     this.props.selectInstitution({
       address1,
       address2,
@@ -310,101 +313,48 @@ export class SchoolSelectField extends React.Component {
           />
           <div aria-live="polite" aria-relevant="additions text">
             {showSearchResults &&
-              searchResultsCount > 0 && (
-                <span
-                  className="search-results-count"
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                  tabIndex="0"
-                  ref={el => {
-                    this.resultCount = el;
-                  }}
-                >
-                  {`${searchResultsCount} results for ${institutionQuery}`}
-                </span>
-              )}
-            {showSearchResults &&
               showInstitutions && (
-                <div>
-                  {institutions.map(
-                    (
-                      {
-                        address1,
-                        address2,
-                        address3,
-                        city,
-                        country,
-                        facilityCode,
-                        name,
-                        state,
-                        zip,
-                      },
-                      index,
-                    ) => (
-                      <div key={index}>
-                        <div className="radio-button">
-                          <input
-                            autoComplete="false"
-                            checked={facilityCodeSelected === facilityCode}
-                            id={`page-${currentPageNumber}-${index}`}
-                            name={`page-${currentPageNumber}`}
-                            type="radio"
-                            onKeyDown={this.onKeyDown}
-                            onChange={() =>
-                              this.handleOptionClick({
-                                address1,
-                                address2,
-                                address3,
-                                city,
-                                country,
-                                facilityCode,
-                                name,
-                                state,
-                                zip,
-                              })
-                            }
-                            value={facilityCode}
-                          />
-                          <label
-                            id={`institution-${index}-label`}
-                            htmlFor={`page-${currentPageNumber}-${index}`}
-                          >
-                            <span className="institution-information">
-                              {name && (
-                                <span className="institution-name">{name}</span>
-                              )}
-                              {address1 && (
-                                <span className="institution-address">
-                                  {address1}
-                                </span>
-                              )}
-                              {address2 && (
-                                <span className="institution-address">
-                                  {address2}
-                                </span>
-                              )}
-                              {address3 && (
-                                <span className="institution-address">
-                                  {address3}
-                                </span>
-                              )}
-                              {(city || state) && (
-                                <span className="institution-city-state">
-                                  {`${city}${city && state && ', '}${state}`}
-                                </span>
-                              )}
-                              {!city &&
-                                !state && (
-                                  <span className="institution-country">
-                                    {country}
-                                  </span>
-                                )}
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
+                <VaRadio
+                  label={`${searchResultsCount} results for ${institutionQuery}`}
+                  className="school-select-radio"
+                  data-testid="school-select-field-radio-option"
+                  onVaValueChange={e =>
+                    this.handleOptionClick(
+                      _.find(institutions, { facilityCode: e?.detail?.value }),
+                    )
+                  }
+                >
+                  {institutions.map(institution => {
+                    const {
+                      address1,
+                      address2,
+                      address3,
+                      city,
+                      country,
+                      facilityCode,
+                      name,
+                      state,
+                      zip,
+                    } = institution;
+                    return (
+                      <VaRadioOption
+                        name={`page-${currentPageNumber}-radio-option`}
+                        key={facilityCode}
+                        value={facilityCode}
+                        checked={facilityCode === facilityCodeSelected}
+                        label={name}
+                        tile
+                        description={`${address1}${address2 &&
+                          `, ${address2}`}${address3 &&
+                          `, ${address3}`}, ${city}${city &&
+                          state &&
+                          ', '}${state}${
+                          !(city && state) ? country : ` ${zip}`
+                        }`}
+                      />
+                    );
+                  })}
+                </VaRadio>
               )}{' '}
             {showSearchResults &&
               showInstitutionsLoading && (

@@ -67,11 +67,7 @@
     }
   }
 
-  .school-search {
-    margin-top: 0;
-  }
-
-  .school-search-label {
+  .school-search, .school-search-label, .school-select-radio {
     margin-top: 0;
   }
 
@@ -87,8 +83,8 @@
       display: flex;
     }
     .search-schools-button {
-      margin: 3px 0 0 15px;
-      max-width: 150px;
+      margin-left: 15px;
+      max-width: 160px;
       width: 100%;
     }
     .start-over {
@@ -96,31 +92,8 @@
     }
   }
 
-  .radio-button {
-    span {
-      display: inline-block;
-      width: 100%;
-
-      &.institution-name {
-        color: var(--vads-color-primary);
-        font-weight: bold;
-        text-decoration: underline;
-      }
-    }
-
-    label {
-      margin: 0;
-      &::before {
-        position: relative;
-        top: 45px;
-      }
-
-      .institution-information {
-        background-color: var(--vads-color-base-lightest);
-        margin-left: 25px;
-        padding: 10px 15px;
-      }
-    }
+  .school-select-radio {
+    margin-top: units(1);
   }
 }
 
