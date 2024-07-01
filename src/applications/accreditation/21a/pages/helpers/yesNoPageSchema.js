@@ -1,29 +1,12 @@
-import React from 'react';
 import camelCase from 'lodash/camelCase';
 
 import {
-  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
-const yesNoPageSchema = ({
-  title,
-  path,
-  depends,
-  heading,
-  descriptionString = '',
-  DescriptionComponent,
-  options,
-}) => {
-  const description = DescriptionComponent ? (
-    <div className="yesNoDescription">
-      <DescriptionComponent />
-    </div>
-  ) : (
-    <div className="yesNoDescription">{descriptionString}</div>
-  );
+const yesNoPageSchema = ({ title, path, depends, question, description }) => {
   const key = camelCase(path);
 
   return {
@@ -31,8 +14,11 @@ const yesNoPageSchema = ({
     path,
     depends,
     uiSchema: {
-      ...titleUI(heading, description),
-      [key]: yesNoUI(options || ' '),
+      [key]: yesNoUI({
+        title: question,
+        labelHeaderLevel: '3',
+        description, // TODO: Fix description for yesNoUI
+      }),
     },
     schema: {
       type: 'object',

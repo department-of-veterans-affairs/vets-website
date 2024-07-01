@@ -1,7 +1,6 @@
 import {
   textareaSchema,
   textareaUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import ConditionThatAffectsRepresentationDetailsNote from '../../components/ConditionThatAffectsRepresentationDetailsNote';
@@ -12,22 +11,17 @@ export default {
   path: 'condition-that-affects-representation-details',
   depends: formData => formData.conditionThatAffectsRepresentation,
   uiSchema: {
-    ...titleUI(
-      'Describe the condition or impairment and any treatment you receive now or in the past year',
-    ),
-    conditionThatAffectsRepresentationDetails: textareaUI(' '),
-    'view:conditionThatAffectsRepresentationDetailsNote': {
-      'ui:description': ConditionThatAffectsRepresentationDetailsNote,
-    },
+    conditionThatAffectsRepresentationDetails: textareaUI({
+      title:
+        'Describe the condition or impairment and any treatment you receive now or in the past year',
+      labelHeaderLevel: '3', // TODO: Fix labelHeaderLevel for Textarea
+      description: ConditionThatAffectsRepresentationDetailsNote,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       conditionThatAffectsRepresentationDetails: textareaSchema,
-      'view:conditionThatAffectsRepresentationDetailsNote': {
-        type: 'object',
-        properties: {},
-      },
     },
     required: ['conditionThatAffectsRepresentationDetails'],
   },

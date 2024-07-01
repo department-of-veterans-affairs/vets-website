@@ -1,7 +1,6 @@
 import {
   textareaSchema,
   textareaUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -10,10 +9,11 @@ export default {
   path: 'condition-that-affects-examination-details',
   depends: formData => formData.conditionThatAffectsExamination,
   uiSchema: {
-    ...titleUI(
-      'Please state the nature of such limitations and provide details of any special accommodations deemed necessary.',
-    ),
-    conditionThatAffectsExaminationDetails: textareaUI(' '),
+    conditionThatAffectsExaminationDetails: textareaUI({
+      title:
+        'Please state the nature of such limitations and provide details of any special accommodations deemed necessary.',
+      labelHeaderLevel: '3', // TODO: Fix labelHeaderLevel for Textarea
+    }),
   },
   schema: {
     type: 'object',
