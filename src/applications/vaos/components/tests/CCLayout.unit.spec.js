@@ -14,6 +14,128 @@ describe('VAOS Component: CCLayout', () => {
     },
   };
 
+  describe('When appointment information is missing', () => {
+    it('should not display heading and provider information when no provider information is returned', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        comment: 'This is a test:Additional information',
+        communityCareProvider: {
+          address: {
+            line: ['line 1'],
+            city: 'City',
+            state: 'State',
+            postalCode: '12345',
+          },
+          telecom: [{ system: 'phone', value: '123-456-7890' }],
+          providers: [
+            {
+              name: {
+                familyName: 'Test',
+                lastName: 'User',
+              },
+              providerName: 'Test User',
+            },
+          ],
+          providerName: ['Test User'],
+          treatmentSpecialty: 'Optometrist',
+        },
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: true,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Community care appointment/i,
+        }),
+      );
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Who/i,
+        }),
+      ).not.to.exist;
+    });
+
+    it('should not display heading and type of care when no type of care information is returned', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        comment: 'This is a test:Additional information',
+        communityCareProvider: {
+          address: {
+            line: ['line 1'],
+            city: 'City',
+            state: 'State',
+            postalCode: '12345',
+          },
+          telecom: [{ system: 'phone', value: '123-456-7890' }],
+          providers: [
+            {
+              name: {
+                familyName: 'Test',
+                lastName: 'User',
+              },
+              providerName: 'Test User',
+            },
+          ],
+          providerName: ['Test User'],
+          treatmentSpecialty: 'Optometrist',
+        },
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: true,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Community care appointment/i,
+        }),
+      );
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /What/i,
+        }),
+      ).not.to.exist;
+    });
+  });
+
   describe('When viewing upcomming appointment details', () => {
     it('should display CC layout', async () => {
       // Arrange
