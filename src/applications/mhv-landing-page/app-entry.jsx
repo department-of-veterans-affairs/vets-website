@@ -2,33 +2,11 @@ import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/mhv-landing-page.scss';
 import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 import { startAppFromRouter as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
-import { datadogRum } from '@datadog/browser-rum';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { initializeDatadogRum } from './utilities/datadogRum';
 
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
-
-const initializeDatadogRum = config => {
-  if (
-    // Prevent RUM from running on local/CI environments.
-    !environment.isLocalhost() &&
-    // Prevent re-initializing the SDK.
-    !window.DD_RUM?.getInitConfiguration() &&
-    !window.Mocha
-  ) {
-    const datadogRumConfig = config;
-    if (!datadogRumConfig.env) {
-      datadogRumConfig.env = environment.vspEnvironment();
-    }
-    datadogRum.init(datadogRumConfig);
-    datadogRum.startSessionReplayRecording();
-  }
-  if (environment.isLocalhost()) {
-    // eslint-disable-next-line no-console
-    console.dir(config);
-  }
-};
 
 initializeDatadogRum({
   applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
