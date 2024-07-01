@@ -25,6 +25,7 @@ const openClaimStep1 = {
       latestPhaseType: 'CLAIM_RECEIVED',
       previousPhases: {},
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [],
   },
 };
@@ -41,6 +42,7 @@ const openClaimStep3PhaseBack = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [],
   },
 };
@@ -61,6 +63,7 @@ const openClaimStep7 = {
         phase6CompleteDate: '2024-06-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [],
   },
 };
@@ -76,6 +79,7 @@ const closedClaimStep8 = {
         phase7CompleteDate: '2024-06-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     closeDate: '2024-06-22',
     trackedItems: [],
   },
@@ -93,6 +97,7 @@ const openClaimStep3WithNeededFromYouItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -116,6 +121,7 @@ const openClaimStep3WithNeededFromOthersItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -139,6 +145,7 @@ const openClaimStep3WithNoLongerRequiredItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -162,6 +169,7 @@ const openClaimStep3WithSubmittedAwaitingReviewItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -189,6 +197,7 @@ const openClaimStep3WithInitialReviewCompleteItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -212,6 +221,7 @@ const openClaimStep3WithAcceptedItem = {
         phase2CompleteDate: '2024-05-22',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,
@@ -236,6 +246,7 @@ const openClaimStep4WithMultipleItems = {
         phase3CompleteDate: '2024-06-07',
       },
     },
+    claimTypeCode: '110LCMP7IDES',
     trackedItems: [
       {
         id: 1,

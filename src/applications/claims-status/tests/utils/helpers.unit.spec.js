@@ -1079,7 +1079,7 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('getPhaseItemText', () => {
-    context('when cst_claim_phases disabled - 5 steps', () => {
+    context('when showEightPhases false - 5 steps', () => {
       it('should display phase item text from map when step 1', () => {
         const desc = getPhaseItemText(1);
         expect(desc).to.equal('Step 1: Claim received');
@@ -1122,7 +1122,7 @@ describe('Disability benefits helpers: ', () => {
         expect(desc).to.equal('Step 5: Closed');
       });
     });
-    context('when cst_claim_phases enabled - 8 steps', () => {
+    context('when showEightPhases true - 8 steps', () => {
       it('should display phase item text from map when step 1', () => {
         const desc = getPhaseItemText(1, true);
         expect(desc).to.equal('We received your claim in our system');

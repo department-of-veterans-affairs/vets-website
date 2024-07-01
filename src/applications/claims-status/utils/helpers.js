@@ -83,8 +83,8 @@ const phase5ItemTextMap = {
   8: 'Step 5: Closed',
 };
 
-export function getPhaseItemText(phase, cstClaimPhases = false) {
-  return cstClaimPhases ? phase8ItemTextMap[phase] : phase5ItemTextMap[phase];
+export function getPhaseItemText(phase, showEightPhases = false) {
+  return showEightPhases ? phase8ItemTextMap[phase] : phase5ItemTextMap[phase];
 }
 
 const claimPhaseTypeDescriptionMap = {

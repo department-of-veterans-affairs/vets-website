@@ -6,12 +6,21 @@ import moment from 'moment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { ITEMS_PER_PAGE } from '../../constants';
-import { buildDateFormatter, getPhaseItemText } from '../../utils/helpers';
+import {
+  buildDateFormatter,
+  getPhaseItemText,
+  isDisabilityCompensationClaim,
+} from '../../utils/helpers';
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
-
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled &&
+    isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
   const getOldestDocumentDate = item => {
     const arrDocumentDates = item.documents.map(
       document => document.uploadDate,
@@ -54,26 +63,23 @@ export default function RecentActivity({ claim }) {
   };
 
   const getPhaseItemDescription = (currentPhaseBack, phase) => {
-    const phaseItemText = getPhaseItemText(phase, cstClaimPhasesEnabled);
-
+    const phaseItemText = getPhaseItemText(phase, showEightPhases);
+    const movedIntoText = `Your claim moved into ${phaseItemText}`;
+    const movedBackText = `Your claim moved back to ${phaseItemText}`;
     switch (phase) {
       case 1:
       case 8:
-        if (cstClaimPhasesEnabled) {
-          return phaseItemText;
-        }
-        return `Your claim moved into ${phaseItemText}`;
+        if (showEightPhases) return phaseItemText;
+        return movedIntoText;
       case 2:
       case 7:
-        return `Your claim moved into ${phaseItemText}`;
+        return movedIntoText;
       case 3:
       case 4:
       case 5:
       case 6:
-        if (currentPhaseBack) {
-          return `Your claim moved back to ${phaseItemText}`;
-        }
-        return `Your claim moved into ${phaseItemText}`;
+        if (currentPhaseBack) return movedBackText;
+        return movedIntoText;
       default:
         return '';
     }
@@ -128,8 +134,9 @@ export default function RecentActivity({ claim }) {
       date: claim.attributes.claimDate,
     });
 
-    // When cst_claim_phases is enabled then we remove steps 4-6 and only keep step 3
-    return cstClaimPhasesEnabled
+    // When cst_claim_phases is enabled and is a disability compensation claim
+    // then we remove steps 4-6 and only keep step 3
+    return showEightPhases
       ? claimPhases
       : claimPhases.filter(
           claimPhase => claimPhase.phase <= 3 || claimPhase.phase >= 7,
