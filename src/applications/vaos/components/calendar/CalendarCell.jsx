@@ -1,3 +1,5 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+/* eslint-disable @department-of-veterans-affairs/prefer-icon-component */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
