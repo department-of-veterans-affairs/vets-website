@@ -6,29 +6,32 @@ import {
 import { errorMessages } from '../constants';
 
 import {
-  InformalConferenceDescription,
   InformalConferenceTitle,
+  InformalConferenceDescription,
+  informalConferenceHint,
   informalConferenceLabels,
+  informalConferenceDescriptions,
 } from '../content/InformalConference';
 
 const informalConference = {
   uiSchema: {
+    'ui:description': InformalConferenceDescription,
     informalConference: radioUI({
       title: InformalConferenceTitle,
+      hint: informalConferenceHint,
       labels: informalConferenceLabels,
-      descriptions: InformalConferenceDescription,
+      descriptions: informalConferenceDescriptions,
       enableAnalytics: true,
       errorMessages: {
         required: errorMessages.informalConferenceContactChoice,
       },
-      labelHeaderLevel: 3,
     }),
   },
   schema: {
     type: 'object',
     required: ['informalConference'],
     properties: {
-      informalConference: radioSchema(['no', 'me', 'rep']),
+      informalConference: radioSchema(['me', 'rep', 'no']),
     },
   },
 };
