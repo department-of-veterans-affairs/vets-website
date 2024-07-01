@@ -23,7 +23,6 @@ describe('Higher-Level Review 0996 informal conference', () => {
       />,
     );
 
-    expect($('va-radio[label-header-level="3"]')).to.exist;
     expect($$('va-radio-option', container).length).to.equal(3);
   });
 

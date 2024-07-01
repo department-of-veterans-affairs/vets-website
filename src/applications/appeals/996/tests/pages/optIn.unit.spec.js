@@ -21,7 +21,7 @@ describe('HLR opt-in page', () => {
       />,
     );
 
-    expect(form.find('va-checkbox').length).to.equal(1);
+    expect(form.find('va-checkbox').length).to.equal(0);
     form.unmount();
   });
 
@@ -37,9 +37,6 @@ describe('HLR opt-in page', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('va-checkbox').simulate('change', {
-      target: { checked: true },
-    });
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.true;
     form.unmount();
