@@ -147,6 +147,61 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'character-references/0/address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.characterReferences[0].address.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'character-references-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-legend').then($el => {
+            const text = $el.text();
+            if (
+              text.includes('You can add 4 more character references.') ||
+              text.includes('You can add 3 more character references.')
+            ) {
+              selectYesNoWebComponent('view:hasCharacterReferences', true);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            } else if (
+              text.includes('You can add 2 more character references.')
+            ) {
+              selectYesNoWebComponent('view:hasCharacterReferences', false);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            }
+          });
+        });
+      },
+      'character-references/1/address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.characterReferences[1].address.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'character-references/2/address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.characterReferences[2].address.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
