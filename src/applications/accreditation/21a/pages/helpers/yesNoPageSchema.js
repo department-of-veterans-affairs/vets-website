@@ -17,13 +17,21 @@ const yesNoPageSchema = ({ title, path, depends, question, description }) => {
       [key]: yesNoUI({
         title: question,
         labelHeaderLevel: '3',
-        description, // TODO: Fix description for yesNoUI
+        // description, // TODO: Fix description for yesNoUI
+        // https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87152
       }),
+      [`view:${key}Description`]: {
+        'ui:description': description,
+      },
     },
     schema: {
       type: 'object',
       properties: {
         [key]: yesNoSchema,
+        [`view:${key}Description`]: {
+          type: 'object',
+          properties: {},
+        },
       },
       required: [key],
     },
