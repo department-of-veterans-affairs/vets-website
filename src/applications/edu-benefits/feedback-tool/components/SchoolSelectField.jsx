@@ -267,7 +267,7 @@ export class SchoolSelectField extends React.Component {
                     <span className="sr-only">Error</span>
                     {!showInstitutions
                       ? message
-                      : 'You must select a school below'}
+                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
                   </span>
                 ))}
               </span>
