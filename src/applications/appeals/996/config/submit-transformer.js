@@ -32,7 +32,9 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      socOptIn: formData.socOptIn,
+      // Newer HLR gives no choice; defaulting to true until new Lighthouse API
+      // is ready
+      socOptIn: true,
     };
 
     const included = addAreaOfDisagreement(
