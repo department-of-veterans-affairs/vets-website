@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -9,8 +9,22 @@ export const IdentificationInfoPage = () => {
   const history = useHistory();
   const location = useLocation();
   const formNumber = getFormNumber(location);
+  const [ssn, setSsn] = useState('');
+  const [vaFileNumber, setVaFileNumber] = useState('');
 
-  const { state } = location;
+  const onClickContinue = () => {
+    const { state } = location;
+    const newState = { ...state, ssn, vaFileNumber };
+    history.push(`/${formNumber}/review-zip`, newState);
+  };
+
+  const onVaFileNumberChange = e => {
+    setVaFileNumber(e.target.value);
+  };
+
+  const onSsnChange = e => {
+    setSsn(e.target.value);
+  };
 
   return (
     <FormPage currentLocation={2} pageTitle="Identification information">
@@ -23,8 +37,7 @@ export const IdentificationInfoPage = () => {
           label="Social Security number"
           message-aria-describedby="Optional description text for screen readers"
           name="social-security-number"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
+          onInput={onSsnChange}
           required
         />
         <va-text-input
@@ -32,15 +45,13 @@ export const IdentificationInfoPage = () => {
           label="VA file number"
           message-aria-describedby="Optional description text for screen readers"
           name="va-file-number"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
+          onInput={onVaFileNumberChange}
         />
-        {/* <VaTextInputField /> */}
       </div>
       <VaButtonPair
         class="vads-u-margin-top--0"
         continue
-        onPrimaryClick={() => history.push(`/${formNumber}/review-zip`, state)}
+        onPrimaryClick={onClickContinue}
         onSecondaryClick={history.goBack}
         uswds
       />
@@ -52,8 +63,17 @@ export const ZipCodePage = () => {
   const history = useHistory();
   const location = useLocation();
   const formNumber = getFormNumber(location);
+  const [zipCode, setZipCode] = useState('');
 
-  const { state } = location;
+  const onClickContinue = () => {
+    const { state } = location;
+    const newState = { ...state, zipCode };
+    history.push(`/${formNumber}/submit`, newState);
+  };
+
+  const onZipCodeChange = e => {
+    setZipCode(e.target.value);
+  };
 
   return (
     <FormPage currentLocation={2} pageTitle="Your zip code">
@@ -67,14 +87,14 @@ export const ZipCodePage = () => {
           label="Zip code"
           message-aria-describedby="Optional description text for screen readers"
           name="zip-code"
-          onBlur={function noRefCheck() {}}
-          onInput={function noRefCheck() {}}
+          onInput={onZipCodeChange}
+          uswds
         />
       </div>
       <VaButtonPair
         class="vads-u-margin-top--0"
         continue
-        onPrimaryClick={() => history.push(`/${formNumber}/submit`, state)}
+        onPrimaryClick={onClickContinue}
         onSecondaryClick={history.goBack}
         uswds
       />
