@@ -1,7 +1,0 @@
-{
-  "appName": "Search Representative",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "search-representative",
-  "rootUrl": "/view-change-representative/search",
-  "productId": "a638f89a-9710-49ad-b389-0aadbef1e447"
-}
