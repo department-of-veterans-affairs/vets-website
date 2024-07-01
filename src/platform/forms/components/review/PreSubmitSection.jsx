@@ -141,7 +141,15 @@ export function PreSubmitSection(props) {
             {statementOfTruthBodyElement(form?.data, statementOfTruth.body)}
             <p>
               I have read and accept the{' '}
-              <va-link href="/privacy-policy/" text="privacy policy" />.
+              <a
+                href="/privacy-policy/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                privacy policy
+                <va-icon icon="launch" srtext="opens in a new window" />
+              </a>
+              .
             </p>
             <VaTextInput
               id="veteran-signature"
