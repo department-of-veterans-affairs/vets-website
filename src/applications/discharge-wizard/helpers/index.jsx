@@ -260,6 +260,8 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
   board(formValues).abbr === 'BCMR' &&
   formData(formValues).num === 149;
 
+// v2 Helpers
+
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
   const monthObj = options.months.find(
@@ -305,3 +307,8 @@ export const answerReviewLabel = (key, formValues) => {
     }
   }
 };
+
+export const determineIsAirForceAFRBAPortal = formValues =>
+  formValues[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  board(formValues).abbr === 'BCMR' &&
+  formData(formValues).num === 149;
