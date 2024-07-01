@@ -112,7 +112,6 @@ class SearchDropdownComponent extends React.Component {
   render() {
     const { inputValue } = this.state;
     const { isMobile } = this.props;
-    console.log('isMobile: ', isMobile);
 
     if (isMobile) {
       return (
@@ -123,10 +122,7 @@ class SearchDropdownComponent extends React.Component {
           >
             Search
           </label>
-          <div
-            id="search-header-dropdown-component"
-            className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5"
-          >
+          <div className="search-dropdown-component vads-u-display--flex vads-u-width--full full-width-suggestions vads-u-padding-x--0p5">
             <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column full-width-suggestions vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0 vads-u-padding-bottom--2 vads-u-margin--0 search-input-container">
               <input
                 aria-autocomplete="none"
@@ -170,10 +166,7 @@ class SearchDropdownComponent extends React.Component {
     }
     // Desktop
     return (
-      <div
-        id="search-header-dropdown-component"
-        className="search-dropdown-component vads-u-display--flex vads-u-width--full"
-      >
+      <div className="search-dropdown-component vads-u-display--flex vads-u-width--full">
         <div className="search-dropdown-container vads-u-width--full vads-u-flex-direction--column vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0">
           <input
             aria-autocomplete="none"

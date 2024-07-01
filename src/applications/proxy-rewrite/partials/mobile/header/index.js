@@ -1,6 +1,6 @@
 import { makeMegaMenu } from './mega-menu';
 
-export const getMobileHeaderHtml = megaMenuData => {
+export const getMobileHeader = megaMenuData => {
   return `
     <header role="banner">
       <div id="preview-site-alert"></div>

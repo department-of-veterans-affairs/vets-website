@@ -16,14 +16,15 @@ import {
 import { getAssetPath } from './utilities/get-asset-path';
 import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
-import { getDesktopHeaderHtml } from './partials/desktop/header';
-import { getMobileHeaderHtml } from './partials/mobile/header';
+import { getDesktopHeader } from './partials/desktop/header';
+import { getMobileHeader } from './partials/mobile/header';
 import { getDesktopFooterHtml } from './partials/desktop/footer';
 import { getMobileFooterHtml } from './partials/mobile/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
 import { addHeaderEventListeners } from './utilities/menu-behavior';
 import Search from './partials/search';
 import SignInModal from './partials/sign-in';
+import Header from './header';
 
 const store = createCommonStore();
 
@@ -65,32 +66,22 @@ function createMutationObserverCallback() {
   };
 }
 
-function renderHeader(megaMenuData, headerContainer = null) {
-  const container =
-    headerContainer || document.querySelector('.ts-header-container');
-  const skipLink = document.getElementById('skiplink');
+function renderHeader(megaMenuData, headerContainer) {
   const isMobile = window.innerWidth < 768;
 
-  if (container) {
-    if (isMobile) {
-      container.innerHTML = getMobileHeaderHtml(megaMenuData);
-    } else {
-      container.innerHTML = getDesktopHeaderHtml(megaMenuData);
-    }
-
-    if (skipLink) {
-      skipLink.after(container);
-    } else if (document.body.firstChild) {
-      document.body.firstChild.before(container);
-    }
-  }
-
-  addHeaderEventListeners();
+  // Add header
+  startReactApp(
+    <Provider store={store}>
+      <Header megaMenuData={megaMenuData} />
+    </Provider>,
+    headerContainer
+  );
 
   const searchParentElement = isMobile
     ? 'mobile-search-container'
     : 'search';
 
+  // Add search dropdown
   startReactApp(
     <Provider store={store}>
       <Search isMobile={isMobile} />
@@ -98,18 +89,7 @@ function renderHeader(megaMenuData, headerContainer = null) {
     document.getElementById(searchParentElement),
   );
 
-  const signInParentElement = isMobile
-    ? 'mobile-nav-container'
-    : 'desktop-nav-container';
-
-  startReactApp(
-    <Provider store={store}>
-      <SignInModal />
-    </Provider>,
-    document.getElementById(signInParentElement),
-  );
-
-  return null;
+  return addHeaderEventListeners();
 }
 
 function renderFooter(footerData, footerContainer = null) {
@@ -198,6 +178,15 @@ const startVCLModal = () => {
   addOverlayTriggers();
 };
 
+const addSignInModal = () => {
+  return startReactApp(
+    <Provider store={store}>
+      <SignInModal />
+    </Provider>,
+    document.getElementById('ts-login-modal-container'),
+  );
+};
+
 function activateInjectedAssets() {
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
@@ -213,33 +202,47 @@ function activateInjectedAssets() {
     })
     .then(headerFooterData => {
       teamsitesSetup();
+      
+      const skipLink = document.getElementById('skiplink');
 
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');
 
-      const footerContainer = document.createElement('div');
-      footerContainer.classList.add('ts-footer-container');
+      // const footerContainer = document.createElement('div');
+      // footerContainer.classList.add('ts-footer-container');
+
+      // Add login modal
+      const loginModalContainer = document.createElement('div');
+      loginModalContainer.setAttribute('id', 'ts-login-modal-container');
+
+      document.body.appendChild(loginModalContainer);
+
+      addSignInModal();
+
+      if (skipLink) {
+        skipLink.after(headerContainer);
+      } else if (document.body.firstChild) {
+        document.body.firstChild.before(headerContainer);
+      }
 
       renderHeader(headerFooterData.megaMenuData, headerContainer);
-      renderFooter(headerFooterData.footerData, footerContainer);
-      startVCLModal();
+      // renderFooter(headerFooterData.footerData, footerContainer);
+      startVCLModal(); 
 
-      localStorage.setItem('isDesktop', window.innerWidth > 767);
+      // window.addEventListener(
+      //   'resize',
+      //   debounce(() => {
+      //     const initialWindowIsDesktop = localStorage.getItem('isDesktop') === 'true';
+      //     const newScreenIsDesktop = window.innerWidth > 767;
 
-      window.addEventListener(
-        'resize',
-        debounce(() => {
-          const initialWindowIsDesktop = localStorage.getItem('isDesktop');
-          const newScreenIsDesktop = window.innerWidth > 767;
-
-          if (initialWindowIsDesktop !== newScreenIsDesktop) {
-            renderHeader(headerFooterData.megaMenuData);
-            renderFooter(headerFooterData.footerData);
-            startVCLModal();
-          }
-        }),
-        200,
-      );     
+      //     if (initialWindowIsDesktop !== newScreenIsDesktop) {
+      //       renderHeader(headerFooterData.megaMenuData);
+      //       renderFooter(headerFooterData.footerData);
+      //       startVCLModal();
+      //     }
+      //   }),
+      //   200,
+      // );     
     });
 }
 

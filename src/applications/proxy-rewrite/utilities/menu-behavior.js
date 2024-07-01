@@ -40,6 +40,7 @@ export const addHeaderEventListeners = () => {
 
   // [DESKTOP] VA Benefits & Health Care, About VA ----------------------
   const searchButton = document.getElementById('search-dropdown-button');
+  console.log('searchButton: ', searchButton);
   const megaMenuL1Buttons = [
     ...document.querySelectorAll('button.vetnav-level1'),
   ];
