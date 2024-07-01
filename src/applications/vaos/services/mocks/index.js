@@ -26,7 +26,6 @@ const directBookingEligibilityCriteria = require('./var/direct_booking_eligibili
 const generateMockSlots = require('./var/slots');
 
 // v2
-const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
@@ -34,10 +33,16 @@ const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 
 // To locally test appointment details null state behavior, comment out
-// the inclusion of confirmed.json and uncomment tghe inclusion of
+// the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-// const confirmedV2 = require('./v2/confirmed.json');
-const confirmedV2 = require('./v2/confirmed_null_states.json');
+const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+// To locally test appointment details null state behavior, comment out
+// the inclusion of requests.json and uncomment the inclusion of
+// requests_null_states.json.json
+// const requestsV2 = require('./v2/requests.json');
+const requestsV2 = require('./v2/requests_null_states.json.json');
 
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
