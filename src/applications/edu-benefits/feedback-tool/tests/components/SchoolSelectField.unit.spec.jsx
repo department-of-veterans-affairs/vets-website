@@ -503,7 +503,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree
-      .find('.clear-search button')
+      .find('.clear-search va-button')
       .first()
       .simulate('click');
     expect(onChange.calledOnce).to.eql(true);
