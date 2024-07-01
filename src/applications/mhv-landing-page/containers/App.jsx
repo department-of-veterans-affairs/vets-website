@@ -17,7 +17,7 @@ import {
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  hasMhvAccount,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -32,7 +32,7 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const hasMHVAccount = useSelector(selectHasMHVAccountState);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
 
   const data = useMemo(
     () => {
@@ -70,11 +70,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (enabled && hasMHVAccount) {
+      if (enabled && userHasMhvAccount) {
         loadMessages();
       }
     },
-    [enabled, hasMHVAccount],
+    [enabled, userHasMhvAccount],
   );
 
   useEffect(

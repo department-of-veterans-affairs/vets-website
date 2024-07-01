@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-$anchor-font-size: 1.1875rem;
+$anchor-font-size: 1.25rem; // == 20px
 
 // Font smoothing adjustment for macOS users
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
@@ -113,5 +113,42 @@ $anchor-font-size: 1.1875rem;
   .mhv-c-navlink {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+// Match the va-alert styling.
+.mhv-c-reg-alert {
+  border-left: 0.5rem solid;
+  padding: 1rem 1.25rem 0.875rem 1.875rem;
+  position: relative;
+
+  &.mhv-u-reg-alert-warning {
+    background-color: var(--vads-color-warning-lighter);
+    border-left-color: var(--vads-color-warning);
+  }
+
+  va-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  h2  {
+    font-size: 21.28px;
+  }
+
+  .mhv-u-reg-alert-body {
+    font-size: 1.06rem;
+  }
+
+  @media (min-width: 64em) {
+    .mhv-u-reg-alert-col {
+      padding-left: 1rem;
+      padding-right: 4rem;
+    }
+
+    va-icon {
+      padding-left: 0.75rem;
+    }
   }
 }

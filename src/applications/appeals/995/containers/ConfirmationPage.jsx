@@ -5,12 +5,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';
 
+import { title995 } from '../content/title';
+
 export const ConfirmationPage = () => {
   resetStoredSubTask();
 
   return (
     <ConfirmationDecisionReviews
-      pageTitle="File a Supplemental Claim"
+      pageTitle={title995}
       alertTitle="Thank you for filing a Supplemental Claim"
     >
       <h3>What to expect next</h3>
