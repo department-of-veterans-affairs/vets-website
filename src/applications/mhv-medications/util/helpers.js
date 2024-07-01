@@ -277,3 +277,27 @@ export const getErrorTypeFromFormat = format => {
       return 'print';
   }
 };
+
+export const pharmacyPhoneNumber = prescription => {
+  if (prescription.cmopDivisionPhone) {
+    return prescription.cmopDivisionPhone;
+  }
+  if (prescription.dialCmopDivisionPhone) {
+    return prescription.dialCmopDivisionPhone;
+  }
+
+  if (prescription.rxRfRecords && prescription.rxRfRecords.length > 0) {
+    const cmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.cmopDivisionPhone) return item.cmopDivisionPhone;
+      return null;
+    })?.cmopDivisionPhone;
+    if (cmopDivisionPhone) return cmopDivisionPhone;
+
+    const dialCmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.dialCmopDivisionPhone) return item.dialCmopDivisionPhone;
+      return null;
+    })?.dialCmopDivisionPhone;
+    if (dialCmopDivisionPhone) return dialCmopDivisionPhone;
+  }
+  return null;
+};

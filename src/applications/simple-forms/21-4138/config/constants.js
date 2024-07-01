@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
-  <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
+  <div className="action-bar-arrow">
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
         {children}

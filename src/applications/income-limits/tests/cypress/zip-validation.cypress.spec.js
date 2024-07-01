@@ -25,7 +25,7 @@ describe('zip code validation - service errors', () => {
     h.verifyLoadingIndicatorShown();
 
     h.checkServiceAlertText(
-      `We’ve run into a problemWe’re sorry. Something went wrong on our end. Please try again.`,
+      `Your answer didn’t go through.We’re sorry. There’s a problem with our system. Refresh this page or try again later.`,
     );
     h.verifyLoadingIndicatorNotShown();
 
