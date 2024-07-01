@@ -98,9 +98,12 @@ export function applicantProviderSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          `${nameWording(formData, undefined, undefined, true)} ${
-            isPrimary ? '' : 'additional '
-          }health insurance information`,
+          `${nameWording(
+            formData,
+            undefined,
+            undefined,
+            true,
+          )} health insurance information`,
       ),
       [keyname1]: textUI('Name of insurance provider'),
       [keyname2]: currentOrPastDateUI({
