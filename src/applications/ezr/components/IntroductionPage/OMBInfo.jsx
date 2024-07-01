@@ -27,7 +27,7 @@ const OMBInfo = () => {
           VACOPaperworkReduAct@va.gov
         </a>
         . Please refer to OMB Control No. {ombNum} in any correspondence. Do not
-        send your completed VA Form 10-10EZ to this email address.
+        send your completed VA Form 10-10EZR to this email address.
       </p>
 
       <p>
