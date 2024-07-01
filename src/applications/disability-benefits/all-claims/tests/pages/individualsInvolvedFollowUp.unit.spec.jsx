@@ -1,15 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
-
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
-  DefinitionTester,
-  fillData,
-  fillDate,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('781 individuals involved', () => {
@@ -18,7 +16,7 @@ describe('781 individuals involved', () => {
   const { schema, uiSchema, arrayPath } = page;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -32,15 +30,22 @@ describe('781 individuals involved', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(11);
-    expect(form.find('select').length).to.equal(2);
-    expect(form.find('textarea').length).to.equal(1);
-    form.unmount();
+    // Expect one question with two radio inputs
+    expect($$('va-radio').length).to.equal(1);
+    expect($$('va-radio-option').length).to.equal(2);
+
+    const question = container.querySelector('va-radio');
+    expect(question).to.have.attribute('label', 'Were they a service member?');
+
+    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="No"', container)).to
+      .exist;
   });
 
   it('should submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -55,15 +60,15 @@ describe('781 individuals involved', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
+    expect(onSubmit.calledOnce).to.be.true;
   });
 
   it('should add another individual involved', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByLabelText, getByText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -77,57 +82,33 @@ describe('781 individuals involved', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_incident0_personsInvolved_0_name_first', 'John');
-    fillData(form, 'input#root_incident0_personsInvolved_0_name_last', 'Doe');
-    fillData(
-      form,
-      'input#root_incident0_personsInvolved_0_name_middle',
-      'Phil',
-    );
-    fillData(
-      form,
-      'textarea#root_incident0_personsInvolved_0_description',
-      '6ft tall brown hair green eyes.',
-    );
+    userEvent.type(getByLabelText(/First name/), 'John');
+    userEvent.type(getByLabelText(/Middle name/), 'Phil');
+    userEvent.type(getByLabelText(/Last name/), 'Doe');
 
-    selectRadio(
-      form,
-      'root_incident0_personsInvolved_0_view:serviceMember',
-      'Y',
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
 
-    fillData(form, 'input#root_incident0_personsInvolved_0_rank', 'First Sgt.');
-    fillData(
-      form,
-      'input#root_incident0_personsInvolved_0_unitAssigned',
-      '101st Airborne',
-    );
-    fillDate(
-      form,
-      'root_incident0_personsInvolved_0_injuryDeathDate',
-      '2010-05-05',
-    );
-
-    selectRadio(form, 'root_incident0_personsInvolved_0_injuryDeath', 'other');
-
-    fillData(
-      form,
-      'input#root_incident0_personsInvolved_0_injuryDeathOther',
-      'lorem ipsum',
-    );
-
-    form.find('.va-growable-add-btn').simulate('click');
-
+    expect(getByText('What was their rank at the time of the event?')).to.exist;
     expect(
-      form
-        .find('.va-growable-background')
-        .first()
-        .text(),
-    ).to.contain('John Doe');
+      getByText(
+        'What unit were they assigned to at the time of the event? (This could include their division, wing, battalion, cavalry, ship, etc.)',
+      ),
+    ).to.exist;
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'other' },
+    });
+
+    const addButton = getByText(/Add another person/i);
+    userEvent.click(addButton);
+
+    expect(getByText('John Doe')).to.exist;
+
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 });

@@ -8,12 +8,16 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  checkVaCheckbox,
+  inputVaTextInput,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
   additionalExposuresPageTitle,
   additionalExposuresQuestion,
   noneAndHazardError,
+  otherInvalidCharError,
   specifyOtherExposuresLabel,
 } from '../../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES } from '../../../constants';
@@ -115,5 +119,24 @@ describe('Additional Exposures', () => {
 
     await userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndHazardError);
+  });
+
+  it('should display error when other exposures does not match pattern', () => {
+    const formData = {};
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    inputVaTextInput(container, 'Test hazard?', 'va-textarea');
+
+    userEvent.click(getByText('Submit'));
+    expect($('va-textarea').error).to.equal(otherInvalidCharError);
+    expect(onSubmit.called).to.be.false;
   });
 });

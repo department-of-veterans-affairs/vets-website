@@ -5,25 +5,24 @@ import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
 
   messageBodyText = 'testBody';
 
-  sendMessage = mockRequest => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
-      'message',
-    );
+  sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
-    cy.wait(Locators.INFO.MESSAGE)
+    cy.wait('@message')
       .its('request.body')
       .then(request => {
         if (mockRequest) {
           expect(request.body).to.eq(
-            `\n\n\nName\nTitleTest${mockRequest.body}`,
+            `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipientId);
@@ -37,7 +36,6 @@ class PatientComposePage {
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
-    // cy.wait(Locators.INFO.MESSAGE);
   };
 
   clickSendMessageButton = () => {
@@ -93,6 +91,10 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
+  getDigitalSignatureField = () => {
+    return cy.get('va-card').find('#inputField');
+  };
+
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
     cy.get(Locators.MESSAGE_SUBJECT)
       .shadow()
@@ -114,35 +116,14 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = text => {
-    return cy.focused().should('have.attr', 'error', text);
+    return cy.focused().should('contain.text', text);
   };
 
-  //* Refactor* Needs to have mockDraftMessage as parameter
-  clickOnSendMessageButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockDraftMessage).as(
-      'message',
-    );
+  clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
+    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, mockResponse).as('message');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click();
-  };
-
-  //* Refactor*  make parameterize mockDraftMessage
-  sendDraft = draftMessage => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, draftMessage).as(
-      'draft_message',
-    );
-    cy.get(Locators.BUTTONS.SEND).click();
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
-    cy.get(Locators.ALERTS.DRAFT_MESSAGE)
-      .its('request.body')
-      .then(message => {
-        expect(message.category).to.eq(draftMessage.data.attributes.category);
-        expect(message.subject).to.eq(draftMessage.data.attributes.subject);
-        expect(message.body).to.eq(draftMessage.data.attributes.body);
-      });
   };
 
   keyboardNavToMessageBodyField = () => {
@@ -217,6 +198,38 @@ class PatientComposePage {
       });
   };
 
+  saveNewDraft = (category, subject) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, newDraft).as(
+      'new_draft',
+    );
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@new_draft')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
+  };
+
+  saveExistingDraft = (category, subject) => {
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }`,
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
+  };
+
   verifyAttachmentErrorMessage = errormessage => {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
@@ -273,25 +286,6 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT)
       .eq(_attachmentIndex)
       .should('have.focus');
-  };
-
-  //* Refactor*Remove and consolidate
-  selectSideBarMenuOption = menuOption => {
-    if (menuOption === 'Inbox') {
-      cy.get(Locators.FOLDERS.INBOX).click();
-    }
-    if (menuOption === 'Drafts') {
-      cy.get(Locators.FOLDERS.DRAFTS).click();
-    }
-    if (menuOption === 'Sent') {
-      cy.get(Locators.FOLDERS.SENT).click();
-    }
-    if (menuOption === 'Trash') {
-      cy.get(Locators.FOLDERS.TRASH).click();
-    }
-    if (menuOption === 'My folders') {
-      cy.get(Locators.FOLDERS.SIDEBAR).click();
-    }
   };
 
   clickOnDeleteDraftButton = () => {
@@ -423,6 +417,24 @@ class PatientComposePage {
     cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
       cy.wrap(el).should('have.text', data[index]);
     });
+  };
+
+  verifyDigitalSignature = () => {
+    cy.get('va-card')
+      .find('h2')
+      .should('have.text', 'Digital signature');
+  };
+
+  verifyDigitalSignatureRequired = () => {
+    cy.get('va-card')
+      .find('va-text-input')
+      .shadow()
+      .find('#input-label')
+      .should('contain.text', 'Required');
+  };
+
+  getAlertEditDraftBtn = () => {
+    return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
   };
 }
 

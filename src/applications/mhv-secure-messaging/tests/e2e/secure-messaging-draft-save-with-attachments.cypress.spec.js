@@ -33,5 +33,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);
+
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
   });
 });

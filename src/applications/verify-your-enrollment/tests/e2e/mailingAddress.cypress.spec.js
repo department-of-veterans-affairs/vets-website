@@ -20,11 +20,15 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('[id="root_countryCodeIso3"]').select('United States');
-    cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
-    cy.get('input[id="root_city"]').type('San Francisco');
-    cy.get('[id="root_stateCode"]').select('California');
-    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get('select[name="root_countryCodeIso3"]')
+      .first()
+      .select('United States');
+    cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 1');
+    cy.get('input[name="root_city"]').type('San Francisco');
+    cy.get('select[name="root_stateCode"]')
+      .last()
+      .select('California');
+    cy.get('input[name="root_zipCode"]').type('94121');
   };
 
   it('should navigate to benefits-profile when "Manage your Montgomery GI Bill benefits information" link is clicked', () => {
@@ -54,7 +58,7 @@ describe('Contact information', () => {
       '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans"]',
     ).should('contain', 'Change mailing address');
   });
-  it('Should shows error if one if requried field is missing', () => {
+  it('Should shows error if one requried field is missing', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -63,33 +67,10 @@ describe('Contact information', () => {
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
-    cy.get('[id="root_city-error-message"]').should(
-      'contain',
-      'City is required',
-    );
-    cy.get('[id="root_stateCode-error-message"]').should(
-      'contain',
-      'State is required',
-    );
-  });
-  it('Should submit form when all required fileds not empty', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    )
-      .first()
-      .click();
-    cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
-    ).click();
-    cy.get('[id="root_city-error-message"]').should(
-      'contain',
-      'City is required',
-    );
-    cy.get('[id="root_stateCode-error-message"]').should(
+    cy.get('[class="usa-error-message"]').should('contain', 'City is required');
+    cy.get('[class="usa-error-message"]').should(
       'contain',
       'State is required',
     );
@@ -98,7 +79,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
   });
   it('should close address form when cancle button is clicked without editing the form', () => {
@@ -110,7 +91,7 @@ describe('Contact information', () => {
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get(
       '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0"]',
@@ -120,7 +101,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
@@ -131,7 +112,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
@@ -140,7 +121,7 @@ describe('Contact information', () => {
     cy.get('va-button[uswds]')
       .last()
       .click({ force: true });
-    cy.get('[for="root_view:livesOnMilitaryBase"]').should(
+    cy.get('[class="usa-checkbox__label"]').should(
       'contain',
       'I live on a United States military base outside of the U.S.',
     );
@@ -149,7 +130,7 @@ describe('Contact information', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
+      '[label="cancel updating your mailing address for GI Bill benefits"]',
     ).click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',

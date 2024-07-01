@@ -83,10 +83,6 @@
         "value": true
       },
       {
-        "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
         "name": "allow_online_10_10cg_submissions",
         "value": true
       },
