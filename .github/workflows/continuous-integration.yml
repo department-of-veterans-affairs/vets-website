@@ -1626,7 +1626,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && github.event.action != 'cancelled' && github.ref != 'refs/heads/main' }}
     continue-on-error: true
     steps:
       - name: Checkout
