@@ -35,8 +35,8 @@ const clinicsV2 = require('./v2/clinics.json');
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-const confirmedV2 = require('./v2/confirmed.json');
-// const confirmedV2 = require('./v2/confirmed_null_states.json');
+// const confirmedV2 = require('./v2/confirmed.json');
+const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of requests.json and uncomment the inclusion of
