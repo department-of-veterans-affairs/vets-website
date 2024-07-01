@@ -15,7 +15,6 @@ initializeDatadogRum({
   service: 'mhv-on-va.gov',
   sessionSampleRate: 100,
   sessionReplaySampleRate: 10,
-  trackInteractions: true,
   trackUserInteractions: true,
   trackResources: true,
   trackLongTasks: true,
