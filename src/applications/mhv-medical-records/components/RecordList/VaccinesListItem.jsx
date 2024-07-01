@@ -29,40 +29,21 @@ const VaccinesListItem = props => {
         {record.name}
       </h3>
 
+      {/* fields */}
       <div>
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Date received:
-        </span>{' '}
+        <span className="vads-u-display--inline">Date received:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.date}
         </span>
       </div>
-      {/* <div className="print-only">
-          <span className="vads-u-display--inline vads-u-font-weight--bold">
-            Manufacturer:
-          </span>{' '}
-          <span className="vads-u-display--inline" data-dd-privacy="mask">
-            {record.manufacturer}
-          </span>
-        </div> */}
       <div className="print-only">
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Location:
-        </span>{' '}
+        <span className="vads-u-display--inline">Location:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.location}
         </span>
       </div>
-      {/* <div className="print-only">
-          <span className="vads-u-display--inline vads-u-font-weight--bold">
-            Reaction:
-          </span>{' '}
-          <ItemList list={record.reactions} />
-        </div> */}
       <div className="print-only">
-        <span className="vads-u-display--inline vads-u-font-weight--bold">
-          Provider notes:
-        </span>{' '}
+        <span className="vads-u-display--inline">Provider notes:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.notes}
         </span>

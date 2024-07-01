@@ -105,13 +105,13 @@ ${record.summary}`;
   };
 
   const displayHeaderDate = note => {
-    let dateLabel = 'Admitted on';
+    let dateLabel = 'Date admitted';
     let displayDate = note.admissionDate;
     if (note.sortByField === dischargeSummarySortFields.DISCHARGE_DATE) {
-      dateLabel = 'Discharged on';
+      dateLabel = 'Date discharged';
       displayDate = note.dischargeDate;
     } else if (note.sortByField === dischargeSummarySortFields.DATE_ENTERED) {
-      dateLabel = 'Entered on';
+      dateLabel = 'Date entered';
       displayDate = note.dateEntered;
     }
     return (
@@ -160,7 +160,7 @@ ${record.summary}`;
           record.sortByField !== null && (
             <>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Admitted on
+                Date admitted
               </h3>
               <p data-testid="note-admission-date">{record.admissionDate}</p>
             </>
@@ -168,7 +168,7 @@ ${record.summary}`;
         {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharged on
+              Date discharged
             </h3>
             <p data-testid="note-discharge-date">{record.dischargeDate}</p>
           </>
