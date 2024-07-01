@@ -129,7 +129,7 @@ const formConfig = {
           // initialData,
         },
         homeless: {
-          title: 'Homelessness question',
+          title: 'Housing situation',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
