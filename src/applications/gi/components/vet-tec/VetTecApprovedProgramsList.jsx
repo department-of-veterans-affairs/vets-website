@@ -173,9 +173,10 @@ class VetTecApprovedProgramsList extends React.Component {
             onClick={this.handleShowMoreClicked}
           >
             Show next {showNextCount}
-            <i
-              className="fas fa-chevron-down fa-xs vads-u-padding-left--1"
-              aria-hidden="true"
+            <va-icon
+              icon="expand_more"
+              size={3}
+              className="vads-u-padding-left--1"
             />
           </button>
           <span className="vads-u-padding--2">|</span>
