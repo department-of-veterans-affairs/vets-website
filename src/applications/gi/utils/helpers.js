@@ -57,12 +57,11 @@ export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
     return false;
   }
   return (
-    environment.isLocalhost() || environment.isStaging() || isReviewInstance()
+    environment.isLocalhost() ||
+    environment.isStaging() ||
+    isReviewInstance() ||
+    environment.isProduction()
   );
-
-  // environment.isDev() || isReviewInstance() || environment.isProduction()
-  // environment.isProduction() || // Comment out to send to production
-  // || environment.isLocalhost() environment.isDev() ||
 };
 
 export const isShowVetTec = (automatedTest = false) => {

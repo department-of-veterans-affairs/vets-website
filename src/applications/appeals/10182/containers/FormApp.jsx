@@ -7,6 +7,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
+
 import formConfig from '../config/form';
 import {
   SHOW_PART3,
@@ -20,6 +21,7 @@ import { issuesNeedUpdating } from '../utils/issues';
 import { getEligibleContestableIssues } from '../utils/submit';
 import { checkRedirect } from '../utils/redirect';
 
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -77,7 +79,7 @@ export const FormApp = ({
       }
 
       if (
-        !contestableIssues?.status &&
+        (contestableIssues?.status || '') === '' &&
         // internalTesting is used to test the get contestable issues API call
         // in unit tests; Setting up the unit test to get RoutedSavableApp to
         // work properly is overly complicated
@@ -87,6 +89,7 @@ export const FormApp = ({
       } else if (
         // Checks if the API has returned contestable issues not already reflected
         // in `formData`.
+        contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
         issuesNeedUpdating(
           contestableIssues?.issues,
           formData.contestedIssues,

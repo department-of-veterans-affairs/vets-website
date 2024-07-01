@@ -120,7 +120,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name and date of birth',
+          title: 'Name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -353,8 +353,7 @@ const formConfig = {
         secondaryProvider: {
           path: 'secondary-insurance-info',
           depends: formData => get('applicantHasSecondary', formData),
-          title: formData =>
-            `${fnp(formData)} secondary health insurance information`,
+          title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {

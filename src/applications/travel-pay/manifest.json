@@ -1,5 +1,5 @@
 {
-  "appName": "Beneficiary Travel",
+  "appName": "Check travel claim status",
   "entryFile": "./app-entry.jsx",
   "entryName": "travel-pay",
   "rootUrl": "/my-health/travel-claim-status",

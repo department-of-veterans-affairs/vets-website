@@ -47,14 +47,14 @@ describe('<NoSuggestedAddress />', () => {
         countryCodeIso3: 'USA',
       },
     });
-    expect(wrapper.find('.usa-radio__label').text()).to.include('123 Main St');
-    expect(wrapper.find('.usa-radio__label').text()).to.not.include('Apt 4B');
+    expect(wrapper.find('#entered-address').text()).to.include('123 Main St');
+    expect(wrapper.find('#entered-address').text()).to.not.include('Apt 4B');
   });
   it('renders the entered address when deliveryPointValidation is not CONFIRMED', () => {
-    expect(wrapper.find('.usa-radio__label').text()).to.not.include(
+    expect(wrapper.find('#entered-address').text()).to.not.include(
       '123 Main St Apt 4B',
     );
-    expect(wrapper.find('.usa-radio__label').text()).to.include(
+    expect(wrapper.find('#entered-address').text()).to.include(
       'New York, NY 10001',
     );
   });

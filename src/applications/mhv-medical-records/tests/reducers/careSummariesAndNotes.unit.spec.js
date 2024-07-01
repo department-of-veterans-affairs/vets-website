@@ -112,7 +112,7 @@ describe('extractAuthenticator', () => {
   it('should return null if no "name" item contains a "text" field', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [{ ignore: 'the wrong object' }] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
@@ -120,7 +120,7 @@ describe('extractAuthenticator', () => {
   it('should return null if "name" is empty', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
