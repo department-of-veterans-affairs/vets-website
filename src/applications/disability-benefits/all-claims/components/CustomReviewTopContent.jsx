@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -7,6 +7,8 @@ import { TE_URL_PREFIX } from '../constants';
 import { isClaimingNew } from '../utils';
 
 function CustomReviewTopContent({ formData }) {
+  const [isVisible, setIsVisible] = useState(true);
+
   if (
     formData?.startedFormVersion !== '2019' ||
     !isClaimingNew(formData) ||
@@ -18,11 +20,12 @@ function CustomReviewTopContent({ formData }) {
   return (
     <>
       <VaAlert
-        // TODO: figure out behavior for close button
-        // closeable
-        // onCloseEvent={function noRefCheck() {}}
+        closeable
+        onCloseEvent={() => {
+          setIsVisible(false);
+        }}
         status="info"
-        visible
+        visible={isVisible}
       >
         <h2 slot="headline">We updated our online form</h2>
         <p>
