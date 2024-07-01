@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TravelPayStatusCheckboxes from './TravelPayStatusCheckboxes';
+import TravelPayDateFilterSelect from './TravelPayDateFilterSelect';
 
 export default function TravelPayClaimFilters(props) {
   const {
@@ -28,24 +29,11 @@ export default function TravelPayClaimFilters(props) {
             onStatusFilterChange={onStatusFilterChange}
           />
           <hr />
-          <label htmlFor="claimsOrder" className="vads-u-margin-bottom--0">
-            Select a date range
-          </label>
-          <select
-            hint={null}
-            title="Select a date range"
-            name="claimsDates"
-            id="claimsDates"
-            value={selectedDateFilter}
-            onChange={onDateFilterChange}
-          >
-            <option value="all">All</option>
-            {datesToFilterBy.map(date => (
-              <option key={date.label} value={date.label}>
-                {date.label}
-              </option>
-            ))}
-          </select>
+          <TravelPayDateFilterSelect
+            datesToFilterBy={datesToFilterBy}
+            selectedDateFilter={selectedDateFilter}
+            onDateFilterChange={onDateFilterChange}
+          />
           <div className="modal-button-wrapper vads-u-margin-top--3">
             <va-button
               onClick={applyFilters}
