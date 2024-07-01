@@ -10,7 +10,7 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import {
-  validateBooleanGroup,
+  // validateBooleanGroup,
   validateCurrentOrFutureDate,
 } from 'platform/forms-system/src/js/validation';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -275,11 +275,42 @@ const formConfig = {
         benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
+          // uiSchema: {
+          //   'ui:description': benefitsEligibilityBox,
+          //   'view:selectedBenefits': {
+          //     'ui:title': 'Select the benefit that is the best match for you.',
+          //     'ui:validations': [validateBooleanGroup],
+          //     'ui:errorMessages': {
+          //       atLeastOne: 'Please select at least one benefit',
+          //     },
+          //     'ui:options': {
+          //       showFieldLabel: true,
+          //     },
+          //     chapter33: {
+          //       'ui:title': benefitsLabels.chapter33,
+          //       'ui:options': {
+          //         expandUnderClassNames: 'schemaform-expandUnder-indent',
+          //       },
+          //     },
+          //     'view:chapter33ExpandedContent': {
+          //       'ui:description': benefitsLabels.chapter33Description,
+          //       'ui:options': {
+          //         expandUnder: 'chapter33',
+          //       },
+          //     },
+          //     chapter30: {
+          //       'ui:title': benefitsLabels.chapter30,
+          //     },
+          //     chapter1606: {
+          //       'ui:title': benefitsLabels.chapter1606,
+          //     },
+          //   },
+          // },
           uiSchema: {
             'ui:description': benefitsEligibilityBox,
             'view:selectedBenefits': {
               'ui:title': 'Select the benefit that is the best match for you.',
-              'ui:validations': [validateBooleanGroup],
+              // 'ui:validations': [validateBooleanGroup],
               'ui:errorMessages': {
                 atLeastOne: 'Please select at least one benefit',
               },
@@ -288,8 +319,10 @@ const formConfig = {
               },
               chapter33: {
                 'ui:title': benefitsLabels.chapter33,
+                'ui:widget': 'radio',
                 'ui:options': {
                   expandUnderClassNames: 'schemaform-expandUnder-indent',
+                  hideLabelText: true,
                 },
               },
               'view:chapter33ExpandedContent': {
@@ -300,9 +333,17 @@ const formConfig = {
               },
               chapter30: {
                 'ui:title': benefitsLabels.chapter30,
+                'ui:widget': 'radio',
+                'ui:options': {
+                  hideLabelText: true,
+                },
               },
               chapter1606: {
                 'ui:title': benefitsLabels.chapter1606,
+                'ui:widget': 'radio',
+                'ui:options': {
+                  hideLabelText: true,
+                },
               },
             },
           },
@@ -313,17 +354,47 @@ const formConfig = {
               'view:selectedBenefits': {
                 type: 'object',
                 properties: {
-                  chapter33,
+                  chapter33: {
+                    ...chapter33,
+                    type: 'boolean',
+                    enumNames: [benefitsLabels.chapter33],
+                  },
                   'view:chapter33ExpandedContent': {
                     type: 'object',
                     properties: {},
                   },
-                  chapter30,
-                  chapter1606,
+                  chapter30: {
+                    ...chapter30,
+                    type: 'boolean',
+                    enumNames: [benefitsLabels.chapter30],
+                  },
+                  chapter1606: {
+                    ...chapter1606,
+                    type: 'boolean',
+                    enumNames: [benefitsLabels.chapter1606],
+                  },
                 },
               },
             },
           },
+          // schema: {
+          //   type: 'object',
+          //   required: ['view:selectedBenefits'],
+          //   properties: {
+          //     'view:selectedBenefits': {
+          //       type: 'object',
+          //       properties: {
+          //         chapter33,
+          //         'view:chapter33ExpandedContent': {
+          //           type: 'object',
+          //           properties: {},
+          //         },
+          //         chapter30,
+          //         chapter1606,
+          //       },
+          //     },
+          //   },
+          // },
         },
         benefitsRelinquishment: {
           title: 'Benefits relinquishment',
