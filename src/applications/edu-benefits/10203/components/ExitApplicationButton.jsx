@@ -13,7 +13,7 @@ export const ExitApplicationButton = ({ formId, isLoggedIn }) => {
 
   return (
     <a
-      className="vads-c-action-link--green"
+      className="vads-c-action-link--greenn"
       href="/education/"
       onClick={onClick}
     >
