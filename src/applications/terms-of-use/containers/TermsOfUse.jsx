@@ -154,14 +154,14 @@ export default function TermsOfUse() {
             <p>
               If you decline these terms, we’ll sign you out. You can still get
               VA health care and benefits by phone, by mail, or in person. But
-              you won't be able to use some VA online services, including these
-              services:
+              you won't be able to use some VA online services until you sign in
+              again and accept the terms. That includes these services:
             </p>
             <ul>
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
-              <li>VA Health and Benefits Mobile App</li>
+              <li>VA: Health and Benefits mobile app</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
@@ -174,6 +174,17 @@ export default function TermsOfUse() {
               <li>Refill your prescriptions</li>
               <li>Update your personal information</li>
             </ul>
+            <h4>If you have a My HealtheVet user ID and password</h4>
+            <p>
+              If you decline these terms, you’ll no longer be able to use your{' '}
+              <strong>My HealtheVet</strong> user ID and password.
+            </p>
+            <p>
+              To manage your benefits and care online again, you’ll need to sign
+              in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+              account and accept these terms. If you don’t have one of these
+              accounts, you’ll need to create one.
+            </p>
           </va-alert>
           <TermsAcceptance
             error={error}
@@ -206,6 +217,16 @@ export default function TermsOfUse() {
               {error.message}
             </va-alert>
           )}
+          <p>
+            Remember, if you have a <strong>My HealtheVet</strong> user ID and
+            password, you’ll no longer be able to use it.
+          </p>
+          <p>
+            To manage your benefits and care online again, you’ll need to sign
+            in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+            account and accept these terms. If you don’t have one of these
+            accounts, you’ll need to create one.
+          </p>
         </VaModal>
       </section>
     </>

@@ -34,21 +34,14 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('renders without errors', () => {
-    expect(
-      screen.getAllByText(
-        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-        { exact: true },
-      )[0],
-    ).to.exist;
+    expect(screen.getAllByText('Potassium, Sodium', { exact: true })[0]).to
+      .exist;
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-      },
-    )[0];
+    const recordName = screen.getAllByText('Potassium, Sodium', {
+      exact: true,
+    })[0];
     expect(recordName).to.exist;
   });
 
@@ -60,13 +53,10 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain a link to view record details', () => {
-    const recordDetailsLink = screen.getByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        selector: 'span',
-        exact: true,
-      },
-    );
+    const recordDetailsLink = screen.getByText('Potassium, Sodium', {
+      selector: 'span',
+      exact: true,
+    });
     expect(recordDetailsLink).to.exist;
   });
 });
