@@ -84,7 +84,10 @@ const addressAndPhoneNumberPage = {
           : 'Address and phone number',
     ),
     address: addressUI({
-      omit: ['street3'],
+      labels: {
+        militaryCheckbox:
+          'I work on a United States military base outside of the U.S.',
+      },
     }),
     phone: phoneUI(),
     extension: textUI('Extension'),
@@ -102,7 +105,7 @@ const addressAndPhoneNumberPage = {
         maxLength: 10,
       },
     },
-    required: ['address', 'phone'],
+    required: ['phone'],
   },
 };
 

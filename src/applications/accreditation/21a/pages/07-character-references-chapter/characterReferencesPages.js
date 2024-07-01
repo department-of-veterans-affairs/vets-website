@@ -77,10 +77,8 @@ const addressPage = {
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'Reference lives on a United States military base outside of the U.S.',
-        state: 'State/Province/Region',
+          'This address is on a United States military base outside of the U.S.',
       },
-      omit: ['street3'],
     }),
   },
   schema: {
@@ -90,7 +88,6 @@ const addressPage = {
         omit: ['street3'],
       }),
     },
-    required: ['address'],
   },
 };
 
