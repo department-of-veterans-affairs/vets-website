@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelPayStatusCheckboxes(props) {
   const {
@@ -19,7 +20,7 @@ export default function TravelPayStatusCheckboxes(props) {
             data-testid="status-filter"
             name={`${status}_checkbox`}
             key={status}
-            label={status}
+            label={CLAIMS_STATUSES[status] || status}
             onVaChange={e => onStatusFilterChange(e, status)}
           />
         </div>
