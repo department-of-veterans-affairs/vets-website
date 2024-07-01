@@ -54,7 +54,7 @@ describe('LabsAndTestsListItem component', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByText('Potassium, Sodium', {
-      selector: 'span',
+      selector: 'a',
       exact: true,
     });
     expect(recordDetailsLink).to.exist;
@@ -87,13 +87,10 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   });
 
   it('should display the name of the record as a link to view record details', () => {
-    const recordName = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        selector: 'a',
-        exact: true,
-      },
-    )[0];
+    const recordName = screen.getAllByText('Potassium, Sodium', {
+      selector: 'a',
+      exact: true,
+    })[0];
     expect(recordName).to.exist;
   });
 
