@@ -1,136 +1,100 @@
-// import _ from 'platform/utilities/data';
+import _ from 'platform/utilities/data';
 
 export default function prefillTransformer(pages, formData, metadata) {
-  //   const prefillRatedDisabilities = data => {
-  //     const { disabilities } = data;
+  const prefillPersonalInformation = data => {
+    const newData = _.omit(['personalInformation'], data);
+    const { personalInformation } = data;
 
-  //     if (!disabilities) {
-  //       return setClaimTypeNewOnly(data);
-  //     }
+    if (personalInformation) {
+      const {
+        first,
+        middle,
+        last,
+        suffix,
+        socialOrServiceNum,
+        dateOfBirth,
+        brandOfService,
+      } = personalInformation;
+      newData.aboutYourself = {};
 
-  //     const transformedDisabilities = addNoneDisabilityActionType(
-  //       filterServiceConnected(disabilities),
-  //     );
+      if (first) newData.aboutYourself.first = first;
+      if (middle) newData.aboutYourself.middle = middle;
+      if (last) newData.aboutYourself.last = last;
+      if (suffix) newData.aboutYourself.suffix = suffix;
+      if (dateOfBirth) newData.aboutYourself.dateOfBirth = dateOfBirth;
+      if (brandOfService) newData.aboutYourself.brandOfService = brandOfService;
 
-  //     const newData = _.omit(['disabilities'], data);
+      if (socialOrServiceNum) {
+        const { ssn, serviceNumber } = socialOrServiceNum;
+        newData.aboutYourself.socialOrServiceNum = {};
 
-  //     return transformedDisabilities.length
-  //       ? _.set('ratedDisabilities', transformedDisabilities, newData)
-  //       : setClaimTypeNewOnly(newData);
-  //   };
+        if (ssn) newData.aboutYourself.socialOrServiceNum.ssn = ssn;
+        if (serviceNumber)
+          newData.aboutYourself.socialOrServiceNum.serviceNumber = serviceNumber;
+      }
+    }
 
-  //   const prefillContactInformation = data => {
-  //     const newData = _.omit(['veteran'], data);
-  //     const { veteran } = data;
+    return newData;
+  };
 
-  //     if (veteran) {
-  //       const { emailAddress, primaryPhone, mailingAddress } = veteran;
-  //       newData.phoneAndEmail = {};
-  //       if (emailAddress) {
-  //         newData.phoneAndEmail.emailAddress = emailAddress;
-  //       }
-  //       if (primaryPhone) {
-  //         newData.phoneAndEmail.primaryPhone = primaryPhone;
-  //       }
-  //       if (mailingAddress) {
-  //         const onMilitaryBase = MILITARY_CITIES.includes(mailingAddress.city);
-  //         newData.mailingAddress = {
-  //           // strip out any extra data. Maybe left over from v1?
-  //           // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
-  //           'view:livesOnMilitaryBase': onMilitaryBase,
-  //           country: mailingAddress.country || '',
-  //           addressLine1: mailingAddress.addressLine1 || '',
-  //           addressLine2: mailingAddress.addressLine2,
-  //           addressLine3: mailingAddress.addressLine3,
-  //           city: mailingAddress.city || '',
-  //           state: mailingAddress.state || '',
-  //           zipCode: mailingAddress.zipCode || '',
-  //         };
-  //       }
-  //     }
+  const prefillContactInformation = data => {
+    const newData = _.omit(['contactInformation', 'avaProfile'], data);
+    const { contactInformation, avaProfile } = data;
 
-  //     return newData;
-  //   };
+    if (contactInformation) {
+      const {
+        preferredName,
+        onBaseOutsideUS,
+        country,
+        address,
+        phoneNumber,
+        emailAddress,
+      } = contactInformation;
+      const { schoolInfo, businessEmail, businessPhone } = avaProfile;
 
-  //   const prefillServiceInformation = data => {
-  //     const newData = _.omit(
-  //       ['servicePeriods', 'reservesNationalGuardService'],
-  //       data,
-  //     );
-  //     const { servicePeriods, reservesNationalGuardService } = data;
-  //     if (servicePeriods || reservesNationalGuardService) {
-  //       newData.serviceInformation = {};
-  //       if (servicePeriods) {
-  //         newData.serviceInformation.servicePeriods = servicePeriods;
-  //       }
-  //       if (reservesNationalGuardService) {
-  //         newData.serviceInformation.reservesNationalGuardService = reservesNationalGuardService;
-  //       }
-  //     }
-  //     // backend is prefilling with older branch names
-  //     return migrateBranches(newData);
-  //   };
+      if (preferredName) newData.contactPreferredName = preferredName;
+      if (onBaseOutsideUS) newData.onBaseOutsideUS = onBaseOutsideUS;
+      if (country) newData.country = country;
+      if (emailAddress) newData.emailAddress = emailAddress;
+      if (phoneNumber) newData.phoneNumber = phoneNumber;
+      if (schoolInfo) newData.school = schoolInfo;
+      if (businessEmail) newData.businessEmail = businessEmail;
+      if (businessPhone) newData.businessPhone = businessPhone;
 
-  //   const prefillBankInformation = data => {
-  //     const newData = _.omit(
-  //       ['bankAccountType', 'bankAccountNumber', 'bankRoutingNumber', 'bankName'],
-  //       data,
-  //     );
+      if (address) {
+        const { militaryAddress } = address;
+        newData.address = {
+          street: address.street || '',
+          unitNumber: address.unitNumber || '',
+          street2: address.street2 || '',
+          street3: address.street3 || '',
+          city: address.city || '',
+          state: address.state || '',
+          postalCode: address.postalCode || '',
+        };
 
-  //     const {
-  //       bankAccountType,
-  //       bankAccountNumber,
-  //       bankRoutingNumber,
-  //       bankName,
-  //     } = data;
+        if (militaryAddress) {
+          newData.address.militaryAddress = {
+            militaryPostOffice: militaryAddress.militaryPostOffice,
+            militaryState: militaryAddress.militaryState,
+          };
+        }
+      }
+    }
 
-  //     if (bankAccountType && bankAccountNumber && bankRoutingNumber && bankName) {
-  //       newData['view:originalBankAccount'] = viewifyFields({
-  //         bankAccountType,
-  //         bankAccountNumber,
-  //         bankRoutingNumber,
-  //         bankName,
-  //       });
+    return newData;
+  };
 
-  //       // start the bank widget in 'review' mode
-  //       newData['view:bankAccount'] = { 'view:hasPrefilledBank': true };
-  //     }
+  const transformations = [
+    prefillPersonalInformation,
+    prefillContactInformation,
+  ];
 
-  //     return newData;
-  //   };
+  const applyTransformations = (data = {}, transformer) => transformer(data);
 
-  //   const prefillIncludeToxicExposure = data => {
-  //     const newData = _.omit(['includeToxicExposure'], data);
-  //     const { includeToxicExposure } = data;
-
-  //     if (includeToxicExposure === true) {
-  //       newData.includeToxicExposure = true;
-  //     }
-
-  //     return newData;
-  //   };
-
-  //   const transformations = [
-  //     prefillRatedDisabilities,
-  //     prefillContactInformation,
-  //     prefillServiceInformation,
-  //     prefillBankInformation,
-  //     prefillIncludeToxicExposure,
-  //   ];
-
-  //   const applyTransformations = (data = {}, transformer) => transformer(data);
-
-  //   return {
-  //     metadata,
-  //     formData: transformations.reduce(applyTransformations, formData),
-  //     pages,
-  //   };
-  const test = {
+  return {
     metadata,
-    formData,
+    formData: transformations.reduce(applyTransformations, formData),
     pages,
   };
-  // eslint-disable-next-line no-console
-  console.log('prefill:', test);
-  return test;
 }
