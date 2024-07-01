@@ -127,6 +127,19 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.characterReferences[2].address.state,
       ),
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#veteran-signature')
+            .shadow()
+            .find('input')
+            .type('First Middle Last');
+          cy.get(`va-checkbox[name="veteran-certify"]`)
+            .shadow()
+            .find('input')
+            .check({ force: true });
+          cy.findByText(/Submit/i, { selector: 'button' }).click();
+        });
+      },
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', {

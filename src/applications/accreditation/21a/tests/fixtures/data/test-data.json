@@ -3,9 +3,9 @@
     "role": "ATTORNEY",
     "barStanding": true,
     "fullName": {
-      "first": "Person",
+      "first": "First",
       "middle": "Middle",
-      "last": "LastName",
+      "last": "Last",
       "suffix": "Jr."
     },
     "dateOfBirth": "1995-01-09",
