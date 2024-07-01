@@ -74,9 +74,9 @@ export const IntroductionPage = props => {
 
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-y--4">
         <va-omb-info
-          res-burden={15}
+          res-burden="15"
           omb-number="2900-0862"
-          exp-date="04/30/2024"
+          exp-date="03/31/2027"
         />
       </div>
     </div>
