@@ -78,7 +78,7 @@ describe('Medication card component', () => {
         },
       ],
     });
-    const shippedOn = screen.getByText('Shipped on: June 16, 2024');
+    const shippedOn = screen.getByText('Shipped on June 16, 2024');
     expect(shippedOn);
   });
 });
