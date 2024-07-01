@@ -11,13 +11,13 @@ export default {
     attachments: fileUploadUI('', {
       buttonText: 'Upload a document',
       addAnotherLabel: 'Upload another document',
-      fileUploadUrl: `${environment.API_URL}/v0/hca_attachments`,
+      fileUploadUrl: `${environment.API_URL}/v0/form1010_ezr_attachments`,
       fileTypes: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'rtf'],
       maxSize: 1024 * 1024 * 10, // 10 MB max size
       hideLabelText: true,
       createPayload: file => {
         const payload = new FormData();
-        payload.append('hca_attachment[file_data]', file);
+        payload.append('form1010_ezr_attachment[file_data]', file);
         return payload;
       },
       parseResponse: (response, file) => ({

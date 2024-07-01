@@ -353,8 +353,7 @@ const formConfig = {
         secondaryProvider: {
           path: 'secondary-insurance-info',
           depends: formData => get('applicantHasSecondary', formData),
-          title: formData =>
-            `${fnp(formData)} additional health insurance information`,
+          title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {
