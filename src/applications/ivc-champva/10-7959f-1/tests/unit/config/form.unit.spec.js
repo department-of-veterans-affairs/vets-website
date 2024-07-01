@@ -33,10 +33,19 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.physicalAddress.pages.page4.schema,
-  formConfig.chapters.physicalAddress.pages.page4.uiSchema,
+  formConfig.chapters.physicalAddress.pages.page4a.schema,
+  formConfig.chapters.physicalAddress.pages.page4a.uiSchema,
   8,
   'Applicant home address',
+  { ...mockdata.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.physicalAddress.pages.page4.schema,
+  formConfig.chapters.physicalAddress.pages.page4.uiSchema,
+  1,
+  'Applicant home address yes/no',
   { ...mockdata.data },
 );
 
