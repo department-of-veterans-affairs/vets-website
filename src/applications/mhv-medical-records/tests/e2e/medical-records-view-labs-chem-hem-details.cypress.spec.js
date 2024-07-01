@@ -10,9 +10,7 @@ describe('Medical Records View Labs And Tests', () => {
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[0]);
-    ChemHemDetailsPage.verifyLabName(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-    );
+    ChemHemDetailsPage.verifyLabName('Potassium');
     ChemHemDetailsPage.verifyLabDate('January 20, 2021');
     ChemHemDetailsPage.verifySampleTested('SERUM');
     ChemHemDetailsPage.verifyOrderedBy('DOE, JANE A');

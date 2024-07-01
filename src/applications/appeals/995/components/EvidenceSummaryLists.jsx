@@ -230,14 +230,14 @@ export const PrivateContent = ({
                 {errors.name || (
                   <Header6
                     className="dd-privacy-hidden overflow-wrap-word"
-                    data-dd-action-name="Private facility name"
+                    data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
                   </Header6>
                 )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
-                  data-dd-action-name="Private facility treated issues"
+                  data-dd-action-name="Non-VA facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
                 </div>
@@ -245,7 +245,7 @@ export const PrivateContent = ({
                 {errors.dates || (
                   <div
                     className="dd-privacy-hidden"
-                    data-dd-action-name="Private facility treatment date range"
+                    data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
                   </div>
