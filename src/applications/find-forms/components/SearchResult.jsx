@@ -11,24 +11,6 @@ import {
 } from '../constants';
 import FormTitle from './FormTitle';
 
-const deriveLinkPropsFromFormURL = url => {
-  const linkProps = {};
-  if (!url) return linkProps;
-
-  const isSameOrigin = url.startsWith(window.location.origin);
-  const isPDF = url.toLowerCase().includes('.pdf');
-
-  if (!isSameOrigin || !isPDF) {
-    linkProps.target = '_blank';
-  } else {
-    linkProps.download = true;
-
-    if (isPDF) linkProps.type = 'application/pdf';
-  }
-
-  return linkProps;
-};
-
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
   if (!url) return '';
@@ -165,7 +147,6 @@ const SearchResult = ({
   const relativeFormToolUrl = formToolUrl
     ? replaceWithStagingDomain(formToolUrl)
     : formToolUrl;
-  const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
@@ -236,7 +217,6 @@ const SearchResult = ({
             }
           }}
           onClick={pdfDownloadHandler}
-          {...linkProps}
         >
           <va-icon icon="file_download" size="3" />
           <span

@@ -3,6 +3,7 @@ import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-for
 import { BASE_URL } from '../constants';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
+import { title995 } from '../content/title';
 
 describe('995 subtask', () => {
   beforeEach(() => {
@@ -21,7 +22,7 @@ describe('995 subtask', () => {
   it('should show error when nothing selected - C30850', () => {
     cy.injectAxeThenAxeCheck();
 
-    cy.get('h1').contains('File a Supplemental Claim');
+    cy.get('h1').contains(title995);
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
     cy.get('va-radio')
       .shadow()
@@ -34,7 +35,7 @@ describe('995 subtask', () => {
   it('should go to intro page when compensation is selected - C30851', () => {
     cy.injectAxeThenAxeCheck();
 
-    cy.get('h1').contains('File a Supplemental Claim');
+    cy.get('h1').contains(title995);
     cy.get('va-radio-option[value="compensation"] label').click(checkOpt);
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
@@ -44,7 +45,7 @@ describe('995 subtask', () => {
   it('should go to non-compensation type page when another type is selected - C30852', () => {
     cy.injectAxeThenAxeCheck();
 
-    cy.get('h1').contains('File a Supplemental Claim');
+    cy.get('h1').contains(title995);
     cy.get('va-radio-option[value="other"] label').click(checkOpt);
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
