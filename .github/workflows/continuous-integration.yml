@@ -1612,7 +1612,7 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
+  
   test-stability-review-merge-status:
     name: QA Merge Status
     runs-on: ubuntu-latest
@@ -1626,7 +1626,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && github.event.action != 'cancelled' && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' }}
     continue-on-error: true
     steps:
       - name: Checkout
