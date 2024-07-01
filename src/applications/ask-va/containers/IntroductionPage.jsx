@@ -21,7 +21,7 @@ import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, toggleLoginModal, profile } = props;
+  const { route, loggedIn, toggleLoginModal } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
@@ -43,8 +43,7 @@ const IntroductionPage = props => {
     },
     [props],
   );
-  // eslint-disable-next-line no-console
-  console.log('get profile:', profile);
+
   // const getApiData = url => {
   //   return apiRequest(url)
   //     .then(() => {
@@ -259,9 +258,11 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <Link className="vads-c-action-link--green" to={getStartPage}>
-        Ask a new question
-      </Link>
+      <SaveInProgressIntro
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+      />
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
         <va-accordion
           disable-analytics={{
@@ -319,13 +320,6 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start your Application"
-      />
       {loggedIn ? authenticatedUI : unAuthenticatedUI}
     </div>
   );
