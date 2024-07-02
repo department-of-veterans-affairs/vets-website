@@ -61,6 +61,14 @@ export const RESPONSE_PAGE = {
   },
 };
 
+export const pronounLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
+};
+
 // Used for yes/no radio questions
 export const yesNoOptions = {
   YES: 'Yes',
@@ -345,7 +353,7 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: {
       QUESTION: 'Preferred name',
-      HINT: 'Let us know how we should refer to you',
+      HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
     QUESTION_2: 'How should we contact you?',
@@ -411,6 +419,11 @@ export const CHAPTER_3 = {
   YOUR_LOCATION_OF_RESIDENCE: {
     TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_PERSONAL_INFORMATION: {
+    PATH: 'your-personal-information',
+    TITLE: `Your personal information`,
+    DESCRIPTION: 'This is the personal information we have on file for you.',
   },
 };
 

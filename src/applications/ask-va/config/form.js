@@ -12,6 +12,8 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
+// Your Personal Information - Authenticated only
+
 // Category and Topic pages
 import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
 import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
@@ -20,6 +22,8 @@ import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 // Your Question
 import questionAboutPage from './chapters/yourQuestion/questionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
+
+// Your Personal Information - Authenticated
 
 // // Personal Information
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
@@ -50,13 +54,6 @@ const review = {
 };
 
 const formConfig = {
-  // additionalRoutes: [
-  //   {
-  //     path: 'confirmation',
-  //     component: ConfirmationPage,
-  //     pageKey: 'confirmation',
-  //   },
-  // ],
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -67,25 +64,54 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '0873',
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your ask the va test application (XX-230) is in progress.',
-    //   expired: 'Your saved ask the va test application (XX-230) has expired. If you want to apply for ask the va test, please start a new application.',
-    //   saved: 'Your ask the va test application has been saved.',
-    // },
-  },
   version: 0,
   prefillEnabled: true,
-  savedFormMessages: {
-    // notFound: 'Please start over to apply for ask the va test.',
-    // noAuth:
-    //   'Please sign in again to continue your application for ask the va test.',
-  },
   title: 'Ask VA',
   subTitle: 'Get answers to your questions about VA benefits and services.',
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
+    // yourPersonalInformationAuthOnly: {
+    //   title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
+    //   pages: {
+    //     yourPersonalInformation: {
+    //       path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
+    //       title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
+    //       CustomPage: YourPersonalInformationAuthenticated,
+    //       CustomPageReview: null,
+    //       // initialData: {},
+    //       // depend: formData => {
+    //       //   const mock = {
+    //       //     first: 'Mark',
+    //       //     last: 'Webb',
+    //       //     dateOfBirth: '1950-10-04',
+    //       //     socialOrServiceNum: {
+    //       //       ssn: '1112223333',
+    //       //       service: null,
+    //       //     },
+    //       //   };
+
+    //       //   const {
+    //       //     first,
+    //       //     last,
+    //       //     dateOfBirth,
+    //       //     socialOrServiceNum,
+    //       //   } = formData.aboutYourself;
+    //       //   // const { first, last, dateOfBirth, socialOrServiceNum } = formData;
+    //       //   console.log(!!(first && last && dateOfBirth && socialOrServiceNum));
+    //       //   return !!(first && last && dateOfBirth && socialOrServiceNum);
+    //       // },
+    //       // uiSchema: {},
+    //       // schema: {
+    //       //   type: 'object',
+    //       //   properties: {},
+    //       // },
+    //       // onNavForward: ({ goPath }) => {
+    //       //   goPath(CHAPTER_1.PAGE_1.PATH);
+    //       // },
+    //     },
+    //   },
+    // },
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
@@ -141,8 +167,6 @@ const formConfig = {
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
           onNavForward: ({ formData, goPath }) => {
-            // TODO: Refactor this when we know what the other category flows will look like.
-            // console.log({ formData });
             if (
               formData.questionAbout === 'MYSELF' &&
               formData.personalRelationship === 'VETERAN'

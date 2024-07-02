@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { hasSession } from 'platform/user/profile/utilities';
 import { CHAPTER_2, CHAPTER_3 } from '../../constants';
 
 // Personal Information
@@ -131,7 +132,7 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
-    // depends: () => hasSession(),
+    depends: () => !hasSession(),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
@@ -399,7 +400,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 
 const generalQuestion = [
   'aboutYourselfGeneral',
-  // 'searchVAMedicalCenter',
+  'searchVAMedicalCenter',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',
