@@ -77,16 +77,6 @@ const RecipientsSelect = ({
     [recipientsList, isSignatureRequired],
   );
 
-  const SignatureStatus = props => {
-    return (
-      <p className="sr-only" aria-live="assertive" role="alert">
-        {props.isSignatureRequired
-          ? Prompts.Compose.SIGNATURE_REQUIRED
-          : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-      </p>
-    );
-  };
-
   return (
     <>
       <VaSelect
@@ -109,32 +99,26 @@ const RecipientsSelect = ({
         ))}
       </VaSelect>
       {alertDisplayed && (
-        <>
-          <SignatureStatus
-            selectedRecipient={selectedRecipient}
-            isSignatureRequired={isSignatureRequired}
-          />
-          <VaAlert
-            aria-live="assertive"
-            role="alert"
-            ref={alertRef}
-            class="vads-u-margin-y--2"
-            closeBtnAriaLabel="Close notification"
-            closeable
-            onCloseEvent={() => {
-              setAlertDisplayed(false);
-            }}
-            status="info"
-            visible
-            data-testid="signature-alert"
-          >
-            <p className="vads-u-margin-y--0">
-              {isSignatureRequired === true
-                ? Prompts.Compose.SIGNATURE_REQUIRED
-                : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-            </p>
-          </VaAlert>
-        </>
+        <VaAlert
+          role="alert"
+          aria-live="polite"
+          ref={alertRef}
+          class="vads-u-margin-y--2"
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={() => {
+            setAlertDisplayed(false);
+          }}
+          status="info"
+          visible
+          data-testid="signature-alert"
+        >
+          <p className="vads-u-margin-y--0">
+            {isSignatureRequired === true
+              ? Prompts.Compose.SIGNATURE_REQUIRED
+              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+          </p>
+        </VaAlert>
       )}
     </>
   );
