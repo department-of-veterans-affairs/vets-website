@@ -183,7 +183,6 @@ class Profile extends Component {
     const toggles = this.props.profileToggles;
 
     const routes = getRoutes({
-      profileContacts: toggles.profileContacts,
       profileShowDirectDepositSingleForm:
         toggles.profileShowDirectDepositSingleForm,
     });
