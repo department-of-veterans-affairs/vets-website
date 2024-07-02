@@ -100,6 +100,15 @@ const getPractitioner = (record, serviceRequest) => {
   return null;
 };
 
+const getMicrobiologyPractitioner = record => {
+  if (isArrayAndHasItems(record.performer)) {
+    const practitionerRef = record.performer[1]?.reference;
+    const practitioner = extractContainedResource(record, practitionerRef);
+    return practitioner.name.map(name => name.text);
+  }
+  return null;
+};
+
 const getSpecimen = record => {
   const specimenRef = isArrayAndHasItems(record.specimen);
   if (specimenRef) {
@@ -142,23 +151,32 @@ const convertChemHemRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertMicrobiologyRecord = record => {
+  const specimenRef =
+    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
+  const collectionRequest = extractContainedResource(record, specimenRef);
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: getMicrobiologyPractitioner(record),
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime
+    dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleFrom: record.type?.text || EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
+    dateAndTimeCollected: collectionRequest.collection.bodySite
+      .collectedDateTime
+      ? dateFormatWithoutTimezone(
+          collectionRequest.collection.bodySite.collectedDateTime,
+        )
+      : EMPTY_FIELD,
+    sampleFrom: collectionRequest.type.text || EMPTY_FIELD,
+    sampleTested: collectionRequest.collection.bodySite.text || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer?.text || EMPTY_FIELD,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    results: record.presentedForm.map(form => `${form.data}`) || EMPTY_FIELD,
   };
 };
 

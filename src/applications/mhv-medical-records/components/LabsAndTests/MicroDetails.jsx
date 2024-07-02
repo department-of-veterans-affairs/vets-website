@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -112,7 +111,7 @@ ${record.results}`;
         {record.name}
       </h1>
       <DateSubheading
-        date={record.date}
+        date={record.dateAndTimeCollected}
         id="microbio-date"
         label="Date and time collected"
         labelClass="vads-font-weight-regular"
@@ -153,7 +152,7 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed">{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
       </div>
 
       <div className="test-results-container">
