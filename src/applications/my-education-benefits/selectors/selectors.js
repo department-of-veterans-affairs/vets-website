@@ -62,4 +62,7 @@ export const getAppData = state => ({
   mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
   ],
+  dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
+  ],
 });

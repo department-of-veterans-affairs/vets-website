@@ -250,6 +250,15 @@ describe('form submit transform', () => {
         'CannotRelinquish',
       );
     });
+
+    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.dgiRudisillHideBenefitSelectionStep = true;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(null);
+    });
   });
 
   describe('has a createAdditionalConsiderations method', () => {
