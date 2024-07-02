@@ -86,7 +86,6 @@ const formConfig = {
   useCustomScrollAndFocus: true,
   chapters: {
     authorizerTypeChapter: {
-      hideFormNavProgress: true,
       title: 'Who’s submitting this authorization?',
       pages: {
         authTypePage: {
