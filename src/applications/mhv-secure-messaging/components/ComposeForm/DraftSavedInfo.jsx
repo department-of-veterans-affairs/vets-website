@@ -5,12 +5,12 @@ import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
 const DraftSavedInfo = props => {
-  const { messageId } = props;
+  const { messageId, drafts } = props;
 
   const threadDetails = useSelector(state => state.sm.threadDetails);
 
   const { isSaving, saveError, lastSaveTime } = messageId
-    ? threadDetails?.drafts?.find(d => d.messageId === messageId)
+    ? drafts?.find(d => d.messageId === messageId)
     : threadDetails;
 
   const content = () => {
@@ -66,6 +66,7 @@ const DraftSavedInfo = props => {
 };
 
 DraftSavedInfo.propTypes = {
+  drafts: PropTypes.array,
   messageId: PropTypes.number,
 };
 

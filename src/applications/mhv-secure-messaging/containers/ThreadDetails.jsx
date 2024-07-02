@@ -24,7 +24,7 @@ const ThreadDetails = props => {
   const history = useHistory();
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
-  const { recipients } = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
   const { cannotReply, drafts, messages, threadFolderId } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -34,6 +34,8 @@ const ThreadDetails = props => {
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const [isEditing, setIsEditing] = useState(false);
+  const [activeAlert, setActiveAlert] = useState(null);
+
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -102,13 +104,12 @@ const ThreadDetails = props => {
         />
       );
     }
-
     if (drafts?.length > 0 && messages?.length > 0) {
       return (
         <div className="compose-container">
           <ReplyForm
             cannotReply={cannotReply}
-            drafts={drafts}
+            drafts={drafts || []}
             header={header}
             messages={messages}
             recipients={recipients}
@@ -147,6 +148,7 @@ const ThreadDetails = props => {
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             recipients={recipients}
+            activeAlert={activeAlert}
           />
 
           <MessageThreadForPrint messageHistory={messages} />
@@ -170,8 +172,11 @@ const ThreadDetails = props => {
   return (
     <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
-      <AlertBackgroundBox closeable />
-
+      <AlertBackgroundBox
+        activeAlert={activeAlert}
+        setActiveAlert={setActiveAlert}
+        closeable
+      />
       {content()}
     </div>
   );

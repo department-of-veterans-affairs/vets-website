@@ -16,8 +16,21 @@ const MessageReply = () => {
   );
   const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
-  const recipients = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
+  const [newDraftArray, setDraftsArray] = useState([]);
+  const [activeAlert, setActiveAlert] = useState(null);
+
+  useEffect(
+    () => {
+      if (Array.isArray(drafts)) {
+        setDraftsArray(drafts);
+      } else if (typeof drafts === 'object') {
+        setDraftsArray([drafts[0]]);
+      }
+    },
+    [drafts],
+  );
 
   useEffect(
     () => {
@@ -53,9 +66,10 @@ const MessageReply = () => {
         </va-alert>
       );
     }
+
     return (
       <ReplyForm
-        drafts={drafts}
+        drafts={newDraftArray || []}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}
@@ -85,8 +99,11 @@ const MessageReply = () => {
       ) : (
         <>
           <div className="vads-l-grid-container compose-container">
-            <AlertBackgroundBox closeable />
-
+            <AlertBackgroundBox
+              activeAlert={activeAlert}
+              setActiveAlert={setActiveAlert}
+              closeable
+            />
             {content()}
             {messages?.length && thread()}
           </div>
