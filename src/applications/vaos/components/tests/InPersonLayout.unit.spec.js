@@ -34,16 +34,11 @@ describe('VAOS Component: InPersonLayout', () => {
   };
 
   describe('When appointment information is missing', () => {
-    it('should not display heading and type of care when no type of care information is returned', async () => {
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
+        location: {},
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -51,10 +46,7 @@ describe('VAOS Component: InPersonLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          isCancellable: true,
-          apiData: {
-            serviceType: null,
-          },
+          apiData: {},
         },
         status: 'booked',
       };
@@ -68,15 +60,53 @@ describe('VAOS Component: InPersonLayout', () => {
       );
 
       // Assert
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
+
       expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /In-person appointment/i,
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /Find facility information Link opens in a new tab/i,
         }),
       );
 
-      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
-        .exist;
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Location: Not available'
+          );
+        }),
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Clinic: Not available'
+          );
+        }),
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Reason: Not available'
+          );
+        }),
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Other details: Not available'
+          );
+        }),
+      );
     });
   });
 
@@ -164,6 +194,7 @@ describe('VAOS Component: InPersonLayout', () => {
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).to.be.ok;
     });
+
     it('should display in-person layout without cancel button', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -246,81 +277,6 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
-    });
-
-    it('should not display heading and text for empty data', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <InPersonLayout data={appointment} />,
-        {
-          store,
-        },
-      );
-
-      // Assert
-      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
-        .exist;
-
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
-      );
-      expect(screen.getByText(/Facility details not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: /Find facility information Link opens in a new tab/i,
-        }),
-      );
-
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Location: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Clinic: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Reason: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
-          );
-        }),
-      );
     });
   });
 

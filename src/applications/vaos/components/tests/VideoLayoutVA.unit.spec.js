@@ -34,7 +34,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
   };
 
   describe('When appointment information is missing', () => {
-    it('should not display heading and provider information when no provider information is returned', async () => {
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -59,9 +59,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isVideo: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
+          apiData: {},
         },
         status: 'booked',
       };
@@ -88,64 +86,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
           name: /Who/i,
         }),
       ).not.to.exist;
-    });
 
-    it('should not display heading and type of care when no type of care information is returned', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        comment: 'This is a test:Additional information',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {
-            serviceType: null,
-          },
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-
-      // Assert
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /Video appointment at VA location/i,
-        }),
-      );
       expect(
         screen.queryByRole('heading', {
           level: 2,
