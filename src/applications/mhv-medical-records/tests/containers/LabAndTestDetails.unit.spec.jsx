@@ -42,23 +42,17 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays the test name as an h1', () => {
-    const testName = screen.getByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const testName = screen.getByText('Potassium, Sodium', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(testName).to.exist;
   });
 
   it('displays the type of test', () => {
-    expect(
-      screen.getByText(
-        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-        { exact: true, selector: 'p' },
-      ),
-    ).to.exist;
+    const element = screen.getByTestId('chem-hem-category');
+    expect(element).to.exist;
+    expect(element.textContent).to.equal('Chemistry/Hematology');
   });
 
   it('displays the site or sample tested', () => {

@@ -148,7 +148,7 @@ export default function App({ children }) {
   return (
     <div>
       <MhvSecondaryNav />
-      <article className="vads-l-col--9 vads-u-margin-x--auto vads-u-padding-bottom--0">
+      <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
@@ -202,7 +202,10 @@ export default function App({ children }) {
                   />
                 </div>
               </div>
-              <div id="travel-claims-list">
+              <div
+                id="travel-claims-list"
+                className="travel-claim-list-container"
+              >
                 <p id="pagination-info">
                   Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
                   events
