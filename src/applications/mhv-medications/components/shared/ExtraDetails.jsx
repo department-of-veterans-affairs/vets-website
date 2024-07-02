@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
 import {
   dispStatusObj,
   medicationsUrls,
@@ -10,7 +10,8 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
+  const { dispStatus, refillRemaining } = rx;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -22,31 +23,44 @@ const ExtraDetails = rx => {
     >
       {dispStatus === dispStatusObj.unknown && (
         <div className="statusIcon unknownIcon" data-testid="unknown">
-          <p>
-            We’re sorry. There’s a problem with our system. You can’t manage
-            this prescription online right now.
-          </p>
-          <p className="vads-u-margin-top--1">
-            Call your VA pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
+          <va-icon icon="warning" size={4} aria-hidden="true" />
+          <div className="vads-u-padding-left--2" data-testid="unknown-rx">
+            <p className="vads-u-margin-y--0">
+              We’re sorry. There’s a problem with our system. You can’t manage
+              this prescription online right now.
+            </p>
+            <p className="vads-u-margin-y--0">
+              Call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={pharmacyPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.refillinprocess && (
-        <div className="statusIcon refillProcessIcon">
-          <p data-testid="rx-refillinprocess-info">
-            We expect to fill it on {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-padding-right--2">
-            If you need it sooner, call your VA pharmacy
-            <CallPharmacyPhone
-              cmopDivisionPhone={cmopDivisionPhone}
-              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-            />
-          </p>
+        <div
+          className="statusIcon refillProcessIcon"
+          data-testid="refill-in-process"
+        >
+          <va-icon icon="acute" size={3} aria-hidden="true" />
+          <div className="vads-u-padding-left--2" data-testid="rx-process">
+            <p
+              data-testid="rx-refillinprocess-info"
+              className="vads-u-margin-y--0"
+            >
+              We expect to fill it on{' '}
+              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            </p>
+            <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
+              If you need it sooner, call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={pharmacyPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
+            </p>
+          </div>
         </div>
       )}
       {dispStatus === dispStatusObj.submitted && (
@@ -54,9 +68,12 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          We got your request on{' '}
-          {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
-          updates.
+          <va-icon icon="fact_check" size={3} aria-hidden="true" />
+          <div className="vads-u-padding-left--2">
+            We got your request on{' '}
+            {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
+            updates.
+          </div>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
@@ -121,7 +138,7 @@ const ExtraDetails = rx => {
           You can’t refill this prescription online right now. If you need a
           refill, call your VA pharmacy
           <CallPharmacyPhone
-            cmopDivisionPhone={cmopDivisionPhone}
+            cmopDivisionPhone={pharmacyPhone}
             page={DD_ACTIONS_PAGE_TYPE.DETAILS}
           />
         </p>
@@ -149,7 +166,6 @@ const ExtraDetails = rx => {
 ExtraDetails.propTypes = {
   rx: PropTypes.shape({
     dispStatus: PropTypes.string,
-    cmopDivisionPhone: PropTypes.string,
   }),
 };
 

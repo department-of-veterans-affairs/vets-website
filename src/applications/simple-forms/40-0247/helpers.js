@@ -10,7 +10,6 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 
 export function trackNoAuthStartLinkClick() {
   recordEvent({ event: 'no-login-start-form' });
@@ -91,7 +90,7 @@ export function dateOfDeathValidation(errors, fields) {
   }
 
   // Check if dates have 16 or more years between them
-  if (!environment.isProduction() && dod.diff(dob, 'years') < 16) {
+  if (dod.diff(dob, 'years') < 16) {
     errors.veteranDateOfDeath.addError(
       'From date of birth to date of death must be at least 16 years.',
     );

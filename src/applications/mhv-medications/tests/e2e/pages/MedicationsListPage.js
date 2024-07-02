@@ -295,7 +295,7 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusUnknown = unknownPrescription => {
     cy.get(
-      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(1)`,
+      `[data-testid="medication-list"] > :nth-child(7) > [data-testid="rx-card-info"] > #status-description-${unknownPrescription} > [data-testid="unknown"] > :nth-child(2) > :nth-child(1)`,
     )
       .should('be.visible')
       .and('contain', 'We’re sorry. There’s a problem with our system.');
@@ -561,5 +561,30 @@ class MedicationsListPage {
       .find('[href="tel:+19832720905"]')
       .should('contain', phoneNumber);
   };
+
+  verifyShippedOnInformationOnRxCardOnMedicationsListPage = shippedDate => {
+    cy.get(
+      ' [data-testid="rx-card-details--shipped-on"] > [data-testid="shipping-date"]',
+    ).should('contain', shippedDate);
+  };
+
+  verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
+    cy.get(
+      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="pharmacy-phone-info"] > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', rfPhoneNumber);
+  };
+
+  verifyUnknownRxPhoneNumberOnListPage = unknownPhoneNumber => {
+    cy.get(
+      '[data-testid="unknown"] > [data-testid="unknown-rx"] > :nth-child(2) > [data-testid="pharmacy-phone-number"]',
+    )
+      .shadow()
+      .find('[href="tel:+17832721069"]')
+      .should('contain', unknownPhoneNumber);
+  };
 }
+
 export default MedicationsListPage;

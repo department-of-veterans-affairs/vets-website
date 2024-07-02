@@ -64,9 +64,6 @@ export const selectFeatureVAOSServiceCCAppointments = state =>
 export const selectFeatureFacilitiesServiceV2 = state =>
   toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
 
-export const selectFeatureStatusImprovement = state =>
-  toggleValues(state).vaOnlineSchedulingStatusImprovement;
-
 export const selectFeatureStatusImprovementCanceled = state =>
   toggleValues(state).vaOnlineSchedulingStatusImprovementCanceled;
 
@@ -106,5 +103,10 @@ export const selectFeatureAppointmentDetailsRedesign = state =>
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
+export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
+
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
+
+export const selectFeatureMhvSecondaryNavigationEnabled = state =>
+  toggleValues(state).mhv_secondary_navigation_enabled;

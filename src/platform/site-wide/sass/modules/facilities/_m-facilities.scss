@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 
 // Facilities Hub
 .vads-facility-hub-cta {
@@ -23,15 +23,6 @@
   background-color: var(--vads-color-primary-alt-lightest);
   border-radius: 50%;
   padding: 6px;
-
-  &.fa-calendar-check,
-  &.fa-comments {
-    padding: 8px;
-  }
-
-  &.fa-file-medical {
-    padding: 8px 11px;
-  }
 }
 
 .vads-facility-hub-cta-arrow {

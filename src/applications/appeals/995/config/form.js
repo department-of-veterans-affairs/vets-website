@@ -60,6 +60,7 @@ import {
   SUBMIT_URL,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
+import { title995, getSubTitle } from '../content/title';
 
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
@@ -104,8 +105,8 @@ const formConfig = {
   },
   saveInProgress,
   savedFormMessages,
-  title: 'File a Supplemental Claim',
-  subTitle: 'VA Form 20-0995',
+  title: title995,
+  subTitle: getSubTitle,
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
@@ -227,7 +228,7 @@ const formConfig = {
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateRecordsRequest: {
-          title: 'Request private medical records',
+          title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_REQUEST,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
@@ -236,7 +237,7 @@ const formConfig = {
           scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecordsAuthorization: {
-          title: 'Private medical record authorization',
+          title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecordsAuthorization,
@@ -246,7 +247,7 @@ const formConfig = {
           scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
-          title: 'Private medical records',
+          title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
@@ -256,7 +257,7 @@ const formConfig = {
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
-          title: 'Private medical record limitations',
+          title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,

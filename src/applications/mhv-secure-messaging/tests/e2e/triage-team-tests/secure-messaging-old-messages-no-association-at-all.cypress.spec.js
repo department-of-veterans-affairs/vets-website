@@ -8,14 +8,12 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 
 describe('Verify old messages - No association with particular Triage Group', () => {
-  const site = new SecureMessagingSite();
-
   const currentDate = new Date();
   const fortyFiveDaysAgo = new Date();
   fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,

@@ -58,34 +58,42 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         If you can’t find the prescription you’re looking for
       </h2>
       <div className="vads-u-margin-y--3">
-        <p className="vads-u-margin-y--0">You may need to renew it.</p>
-        <va-link
+        <p
+          className="vads-u-margin-y--0"
+          data-testid="renew-section-description"
+        >
+          You may have already requested a refill for that prescription. To
+          review your recent refill requests, go to your medications list and
+          find medications with a status of <strong>Active: Submitted</strong>{' '}
+          or <strong>Active: Refill in process.</strong>
+        </p>
+      </div>
+      <div className="vads-u-margin-y--0">
+        <Link
+          data-testid="medications-page-link"
+          to="/"
+          data-dd-action-name={`Go To Your Medications List Action Link - ${
+            DD_ACTIONS_PAGE_TYPE.REFILL
+          } - Renew Section`}
+        >
+          Go to your medications list
+        </Link>
+        <p>Or you may need to renew your prescription to get more refills.</p>
+        <Link
           class="vads-u-margin-y--0"
-          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-          text="Learn how to renew prescriptions"
+          to={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW.replace(
+            medicationsUrls.MEDICATIONS_URL,
+            '',
+          )}
           data-testid="learn-to-renew-prescriptions-link"
           data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
             DD_ACTIONS_PAGE_TYPE.REFILL
           } - Renew Section`}
-        />
+        >
+          Learn how to renew prescriptions
+        </Link>
       </div>
-      <div>
-        <p className="vads-u-margin-y--0">
-          <strong>Note:</strong> If your prescription isn’t listed here, find it
-          in your medications list.{' '}
-        </p>
-        <p className="vads-u-margin-y--0">
-          <Link
-            data-testid="medications-page-link"
-            to="/"
-            data-dd-action-name={`Go To Your Medications List Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            } - Renew Section`}
-          >
-            Go to your medications list
-          </Link>
-        </p>
-      </div>
+
       {renewablePrescriptionsList.length > 0 && (
         <>
           <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
@@ -129,10 +137,20 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 </p>
                 {prescription?.trackingList?.[0]?.completeDateTime && (
                   <p data-testid={`medications-last-shipped-${idx}`}>
-                    {`Last refill shipped on ${dateFormat(
-                      prescription.trackingList[0].completeDateTime,
-                      'MMMM D, YYYY',
-                    )}`}
+                    <va-icon
+                      icon="local_shipping"
+                      size={3}
+                      aria-hidden="true"
+                    />
+                    <span
+                      className="vads-u-margin-left--1p5"
+                      data-testid="shipped-date"
+                    >
+                      {`Last refill shipped on ${dateFormat(
+                        prescription.trackingList[0].completeDateTime,
+                        'MMMM D, YYYY',
+                      )}`}
+                    </span>
                   </p>
                 )}
               </div>
