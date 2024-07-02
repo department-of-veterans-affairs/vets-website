@@ -7,27 +7,12 @@ export const VhcButtonAttachment = props => (
   </form>
 );
 
-export function extractContent(input) {
-  // Extract the JSON string from the input
-  const jsonString = input
-    .toString()
-    .trim()
-    .split('The input from PVA is: ')[1]
-    .split('. Now exiting the skill')[0];
-
-  // Parse the JSON string to an object
-  const jsonObject = JSON.parse(jsonString);
-
-  // Extract the URL from the object
-  return jsonObject.attachments[0].content;
-}
-
 export const attachmentMiddleware = () => next => card => {
   if (
-    card.attachment.contentType === 'text/markdown' &&
-    card.attachment.content.includes('The input from PVA is:')
+    card.attachment.contentType ===
+    'application/vnd.va_chatbot.card.formPostButton'
   ) {
-    const content = extractContent(card.attachment.content);
+    const { content } = card.attachment;
     return (
       <VhcButtonAttachment
         action={content.action}
