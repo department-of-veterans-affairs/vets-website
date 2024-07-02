@@ -32,7 +32,6 @@ const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
-  const [activeAlert, setActiveAlert] = useState(null);
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
 
@@ -57,7 +56,7 @@ const AlertBackgroundBox = props => {
             return b.datestamp - a.datestamp;
           });
         // The activeAlert is the most recent alert marked as active.
-        setActiveAlert(filteredSortedAlerts[0] || null);
+        props.setActiveAlert(filteredSortedAlerts[0] || null);
       }
     },
     [alertList],
@@ -83,9 +82,10 @@ const AlertBackgroundBox = props => {
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
     () => {
-      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
-      const isErrorAlert = activeAlert?.alertType === 'error';
-      let content = activeAlert?.content;
+      const isServiceOutage =
+        props.activeAlert?.response?.code === SERVICE_OUTAGE;
+      const isErrorAlert = props.activeAlert?.alertType === 'error';
+      let content = props.activeAlert?.content;
 
       if (
         lastPathName !== 'Messages' &&
@@ -100,7 +100,7 @@ const AlertBackgroundBox = props => {
     [
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
-      activeAlert,
+      props.activeAlert,
       foldersViewPage,
       lastPathName,
       location.pathname,
@@ -110,7 +110,7 @@ const AlertBackgroundBox = props => {
 
   useInterval(() => {
     const shouldRetrieveFolders =
-      activeAlert?.response?.code === SERVICE_OUTAGE ||
+      props.activeAlert?.response?.code === SERVICE_OUTAGE ||
       folder?.folderId === undefined;
 
     if (shouldRetrieveFolders) {
@@ -127,7 +127,7 @@ const AlertBackgroundBox = props => {
 
   return (
     <>
-      {activeAlert && (
+      {props.activeAlert && (
         <VaAlert
           uswds
           ref={alertRef}
@@ -138,7 +138,7 @@ const AlertBackgroundBox = props => {
           disable-analytics="false"
           full-width="false"
           show-icon={handleShowIcon()}
-          status={activeAlert.alertType}
+          status={props.activeAlert.alertType}
           onCloseEvent={
             closeAlertBox // success, error, warning, info, continue
           }

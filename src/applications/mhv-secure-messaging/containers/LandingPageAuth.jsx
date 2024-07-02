@@ -40,6 +40,7 @@ const LandingPageAuth = () => {
   const fullState = useSelector(state => state);
   const inbox = useSelector(state => state.sm.folders?.folder);
   const [prefLink, setPrefLink] = useState('');
+  const [activeAlert, setActiveAlert] = useState(null);
 
   useEffect(
     () => {
@@ -62,7 +63,10 @@ const LandingPageAuth = () => {
 
   return (
     <div className="dashboard">
-      <AlertBackgroundBox />
+      <AlertBackgroundBox
+        activeAlert={activeAlert}
+        setActiveAlert={setActiveAlert}
+      />
       <h1>Messages</h1>
 
       <DowntimeNotification
