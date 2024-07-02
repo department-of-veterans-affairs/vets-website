@@ -2,7 +2,7 @@
 
 ## Overview
 
-The 'Prescription' object holds data about prescriptions as they move from the API to vets-api and then to vets-website. This document explains each field's name, purpose, usage context, and examples. It focuses on how the data appears on the front end after being received, without covering the back end or API details (like changes made by a serializer).
+The 'Prescription' object holds data about prescriptions as they move from the MHV API to vets-api and then to vets-website. This document explains each field's name, purpose, usage context, and examples. It focuses on how the data appears on the front end after being received, without covering the vets-api or MHV API details (like changes made by a serializer).
 
 ## Table of Contents
 
@@ -10,7 +10,7 @@ The 'Prescription' object holds data about prescriptions as they move from the A
 - [Purpose](#purpose)
 - [Field Descriptions and Transformations](#field-descriptions-and-transformations)
   - [Front End Prescription Object](#front-end-prescription-object)
-  - [Backend and API Field Mappings](#backend-and-api-field-mappings)
+  - [Vets-api and MHV API Field Mappings](#vets-api-and-mhv-api-field-mappings)
   - [Tracking List Object](#tracking-list-object)
 
 ## Purpose
@@ -70,9 +70,9 @@ This document helps front-end developers understand the prescription object, kno
 | `rxRfRecords` | array | Array of Prescription objects | An array of refill history data | This field is used to display refill history data for a prescription **NOTE:** The object at index `0` is the most recent refill |
 | `tracking` (not in use) | boolean | `true` | unknown | This field is currently not in use and there are no current plans to use this field in the future |
 
-### Backend and API Field Mappings
+### Vets-api and MHV API Field Mappings
 
-| Front End Field | Back End Field | API Field |
+| Front End Field | Vets-API Field | MHV API Field |
 |--|--|--|
 | `prescriptionId` | `prescription_id` | `prescription_id` |
 | `prescriptionNumber` | `prescription_number` | `prescription_number` |
