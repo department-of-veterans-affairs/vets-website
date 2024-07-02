@@ -499,21 +499,23 @@ const Prescriptions = () => {
               ) : (
                 <>
                   {showRefillContent && (
-                    <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                      <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                        Refill your prescriptions
-                      </h2>
-                      <p className="vads-u-margin-y--3">
-                        Find a list of prescriptions you can refill online.
-                      </p>
-                      <Link
-                        className="vads-c-action-link--green vads-u-margin--0"
-                        to={medicationsUrls.subdirectories.REFILL}
-                        data-testid="prescriptions-nav-link-to-refill"
-                      >
-                        Refill prescriptions
-                      </Link>
-                    </div>
+                    <va-card background>
+                      <div className="vads-u-padding-x--1">
+                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                          Refill your prescriptions
+                        </h2>
+                        <p className="vads-u-margin-y--3">
+                          Find a list of prescriptions you can refill online.
+                        </p>
+                        <Link
+                          className="vads-c-action-link--green vads-u-margin--0"
+                          to={medicationsUrls.subdirectories.REFILL}
+                          data-testid="prescriptions-nav-link-to-refill"
+                        >
+                          Refill prescriptions
+                        </Link>
+                      </div>
+                    </va-card>
                   )}
                   <Alert
                     isAlertVisible={isAlertVisible}

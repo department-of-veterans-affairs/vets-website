@@ -369,5 +369,31 @@ class MedicationsDetailsPage {
       'This prescription is too old to refill',
     );
   };
+
+  verifyShippedOnInformationRxDetailsPage = shippedDate => {
+    cy.get('[data-testid="shipping-date"]').should('contain', shippedDate);
+  };
+
+  verifyRxRecordPharmacyPhoneNumberOnDetailsPage = pharmacyPhone => {
+    cy.get('[data-testid="phone-number"]')
+      .shadow()
+      .find('[href="tel:+19832720905"]')
+      .should('contain', pharmacyPhone);
+  };
+
+  verifyRfRecordPharmacyPhoneNumberOnDetailsPage = pharmacyPhone => {
+    cy.get('[data-testid="phone-number"]')
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', pharmacyPhone);
+  };
+
+  verifyUnknownRxPharmacyPhoneNumberOnDetailsPage = unknownRxPhone => {
+    cy.get('[data-testid="phone-number"]')
+      .shadow()
+      .find('[href="tel:+17832721069"]')
+      .should('contain', unknownRxPhone);
+  };
 }
+
 export default MedicationsDetailsPage;

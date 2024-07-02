@@ -110,18 +110,28 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: $font-stack;
   @import '~@department-of-veterans-affairs/component-library/dist/main.css';
   @import "~@department-of-veterans-affairs/formation/sass/core";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
   .row { max-width: 1000px; }
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-loading-indicator";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-print";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
-  @import "~@department-of-veterans-affairs/formation/sass/modules/m-additional-info";
-  @import "~@department-of-veterans-affairs/formation/sass/mobile-typography";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
+  // these are hardcoded here for the injected header since it runs off its own font-family
+  button, .usa-button, [type=button] {
+    font-size: 16.96px;
+  }
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-elements";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu";
+  #mega-menu .mm-marketing-container p, #mega-menu .mm-marketing-container .mm-marketing-text a { 	
+    font-size: 15px;	
+  }
+  .usa-accordion-button[aria-expanded=false], .usa-accordion-button[aria-expanded=true] {
+    background-size: 15px;
+  }
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-loading-indicator";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-print";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-additional-info";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mobile-typography";
   @import "~@department-of-veterans-affairs/formation/sass/shame";
 
   @import "../../../platform/site-wide/user-nav/sass/user-nav";

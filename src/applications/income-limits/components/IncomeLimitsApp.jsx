@@ -19,8 +19,9 @@ const IncomeLimitsApp = ({
   zipValidationError,
 }) => {
   const location = router?.getCurrentLocation()?.pathname;
-  const GENERAL_ERROR =
-    'We’re sorry. Something went wrong on our end. Please try again.';
+  const GENERAL_ERROR_HEADING = `Your answer didn’t go through.`;
+  const GENERAL_ERROR_BODY =
+    'We’re sorry. There’s a problem with our system. Refresh this page or try again later.';
 
   useEffect(
     () => {
@@ -41,22 +42,21 @@ const IncomeLimitsApp = ({
     ],
   );
 
-  const alertBanner = message => {
+  const alertBanner = (message = null) => {
     return (
       <va-alert data-testid="il-service-error" status="error" uswds>
         <h2 className="vads-u-margin-bottom--2" slot="headline">
-          We&#8217;ve run into a problem
+          {message ? `We've run into a problem` : GENERAL_ERROR_HEADING}
         </h2>
-        <p className="vads-u-margin--0">{message}</p>
+        <p className="vads-u-margin--0">{message || GENERAL_ERROR_BODY}</p>
       </va-alert>
     );
   };
 
   return (
     <div className="income-limits-app row vads-u-padding-bottom--8">
-      {zipValidationError && alertBanner(GENERAL_ERROR)}
-      {resultsValidationError &&
-        alertBanner(resultsValidationErrorText || GENERAL_ERROR)}
+      {zipValidationError && alertBanner()}
+      {resultsValidationError && alertBanner(resultsValidationErrorText)}
       <Breadcrumbs />
       <div className="usa-width-two-thirds medium-8 columns">{children}</div>
     </div>

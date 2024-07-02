@@ -10,14 +10,13 @@ import {
   countUnreadMessages,
   resolveUnreadMessageAriaLabel,
 } from '../utilities/data';
-import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  hasMhvAccount,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
@@ -32,7 +31,7 @@ const App = () => {
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
-  const hasMHVAccount = useSelector(selectHasMHVAccountState);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
 
   const data = useMemo(
     () => {
@@ -46,21 +45,6 @@ const App = () => {
     [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
-  const datadogRumConfig = {
-    applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
-    clientToken: 'pub3e48a5b97661792510e69581b3b272d1',
-    site: 'ddog-gov.com',
-    service: 'mhv-on-va.gov',
-    sessionSampleRate: 100,
-    sessionReplaySampleRate: 10,
-    trackInteractions: true,
-    trackUserInteractions: true,
-    trackResources: true,
-    trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
-  };
-  useDatadogRum(datadogRumConfig);
-
   const loading = featureToggles.loading || profile.loading;
 
   useEffect(
@@ -70,11 +54,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (enabled && hasMHVAccount) {
+      if (enabled && userHasMhvAccount) {
         loadMessages();
       }
     },
-    [enabled, hasMHVAccount],
+    [enabled, userHasMhvAccount],
   );
 
   useEffect(

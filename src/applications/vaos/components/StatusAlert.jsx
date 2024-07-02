@@ -98,7 +98,7 @@ export default function StatusAlert({ appointment, facility }) {
       return (
         <>
           <h2 className="vads-u-margin-bottom--0">After visit summary</h2>
-          <AfterVisitSummary data={appointment} />
+          <AfterVisitSummary data={appointment} /> <br />
         </>
       );
     }
