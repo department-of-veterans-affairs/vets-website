@@ -44,7 +44,7 @@ const ExtraDetails = rx => {
           className="statusIcon refillProcessIcon"
           data-testid="refill-in-process"
         >
-          <va-icon icon="acute" size={4} aria-hidden="true" />
+          <va-icon icon="acute" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2" data-testid="rx-process">
             <p
               data-testid="rx-refillinprocess-info"
@@ -68,7 +68,7 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          <va-icon icon="fact_check" size={4} aria-hidden="true" />
+          <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
