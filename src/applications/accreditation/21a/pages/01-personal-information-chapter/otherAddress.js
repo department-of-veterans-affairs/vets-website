@@ -14,7 +14,7 @@ export default {
     otherAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'I other on a United States military base outside of the U.S.',
+          'I work on a United States military base outside of the U.S.',
         state: 'State/Province/Region',
       },
       omit: ['street3'],

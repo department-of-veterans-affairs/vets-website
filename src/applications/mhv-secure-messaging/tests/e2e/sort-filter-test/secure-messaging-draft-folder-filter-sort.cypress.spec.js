@@ -6,10 +6,9 @@ import FolderLoadPage from '../pages/FolderLoadPage';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 
 describe('Secure Messaging Draft Folder filter-sort checks', () => {
-  const site = new SecureMessagingSite();
   const draftsPage = new PatientMessagesDraftsPage();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadDraftMessages();
   });
