@@ -5,11 +5,10 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
-import { LocationType, OperatingStatus, Covid19Vaccine } from '../../constants';
+import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
-import Covid19Alert from './common/Covid19Alert';
 
 const VaFacilityResult = ({
   location,
@@ -18,16 +17,12 @@ const VaFacilityResult = ({
   showHealthConnectNumber,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
-  const isCovid19Search =
-    query.facilityType === LocationType.HEALTH &&
-    query.serviceType === Covid19Vaccine;
   const clickHandler = useCallback(
     () => {
       recordResultClickEvents(location, index);
     },
     [index, location],
   );
-
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -53,7 +48,6 @@ const VaFacilityResult = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {isCovid19Search && <Covid19Alert />}
         <LocationPhoneLink
           location={location}
           from="SearchResult"

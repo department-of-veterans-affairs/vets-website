@@ -8,19 +8,20 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
   const draftsPage = new PatientMessageDraftsPage();
 
   it('delete Drafts on key press', () => {
     site.login();
-    inboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftsPage.clickDeleteButton();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDraftMessageBannerTextHasFocus();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

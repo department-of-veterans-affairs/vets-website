@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
-import PropTypes from 'prop-types';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-function FormUploadApp({ user }) {
+const FormUploadApp = () => {
+  const user = useSelector(state => state?.user);
   useEffect(() => {
-    document.title = 'Form Upload | Veterans Affairs';
+    document.title = 'Upload VA Form 21-0779 | Veterans Affairs';
   }, []);
 
   return (
@@ -15,18 +15,6 @@ function FormUploadApp({ user }) {
       <Outlet />
     </RequiredLoginView>
   );
-}
-
-FormUploadApp.propTypes = {
-  user: PropTypes.object,
 };
 
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  };
-}
-
-export default connect(mapStateToProps)(FormUploadApp);
-
-export { FormUploadApp };
+export default FormUploadApp;

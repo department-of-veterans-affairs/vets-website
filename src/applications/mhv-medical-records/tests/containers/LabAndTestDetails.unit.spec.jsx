@@ -42,41 +42,37 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays the test name as an h1', () => {
-    const testName = screen.getByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const testName = screen.getByText('Potassium, Sodium', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(testName).to.exist;
   });
 
   it('displays the type of test', () => {
-    expect(
-      screen.getByText(
-        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-        { exact: true, selector: 'p' },
-      ),
-    ).to.exist;
+    const element = screen.getByTestId('chem-hem-category');
+    expect(element).to.exist;
+    expect(element.textContent).to.equal('Chemistry/Hematology');
   });
 
-  it('displays the sample tested, ordered by, ordering location, and collection location', () => {
-    expect(
-      screen.getAllByText('None noted', {
-        exact: true,
-        selector: 'p',
-      }).length,
-    ).to.eq(6);
+  it('displays the site or sample tested', () => {
+    expect(screen.getByText('SERUM', { exact: false })).to.exist;
   });
 
-  it('displays provider notes', () => {
+  it('displays who the test was ordered by', () => {
+    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+  });
+
+  it('displays the collecting location', () => {
+    expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
+  });
+
+  it('displays lab comments', () => {
     expect(
-      screen.getByText(
-        "Lisa's Test 1/20/2021 - Second lab Added Potassium test",
-        { exact: false },
-      ),
+      screen.getByText("Jane's Test 1/20/2021 - Second lab", { exact: false }),
     ).to.exist;
+    expect(screen.getByText('Added Potassium test', { exact: false })).to.exist;
+    expect(screen.getAllByTestId('list-item-multiple')).to.have.length(2);
   });
 
   it('displays results label', () => {

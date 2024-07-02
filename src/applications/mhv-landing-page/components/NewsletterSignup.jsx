@@ -6,25 +6,23 @@ const NewsletterSignup = () => {
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <h2 className="vads-u-margin-bottom--0">
-        Subscribe to the My HealtheVet newsletter
-      </h2>
-      <div className="vads-l-row">
-        <p>
-          To stay up to date on My HealtheVet tools and features, subscribe to
-          our biweekly newsletter.
-        </p>
-      </div>
-      <div className="vads-l-row">
-        <a
-          className="vads-c-action-link--blue"
-          href={mhvNewsletterURL}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Subscribe to the My HealtheVet newsletter on GovDelivery.com (opens in
-          new tab)
-        </a>
+      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+        <h2 className="vads-u-margin-bottom--0">
+          Subscribe to the My HealtheVet newsletter
+        </h2>
+        <div className="vads-l-row">
+          <p className="vads-u-font-size--md">
+            To stay up to date on My HealtheVet tools and features,{' '}
+            <a
+              href={mhvNewsletterURL}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              subscribe to the My HealtheVet newsletter on GovDelivery.com
+              (opens in new tab)
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

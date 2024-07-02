@@ -4,11 +4,10 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToInterstitialPage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToInterstitialPage();
 
     cy.get(Locators.ALERTS.VA_CRISIS_LINE).click();
 

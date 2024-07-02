@@ -15,8 +15,8 @@ export function trackNoAuthStartLinkClick() {
   recordEvent({ event: 'no-login-start-form' });
 }
 
-export function getInitialData({ mockData, environment }) {
-  return !!mockData && environment.isLocalhost() && !window.Cypress
+export function getInitialData({ mockData, environment: env }) {
+  return !!mockData && env.isLocalhost() && !window.Cypress
     ? mockData
     : undefined;
 }
@@ -78,12 +78,21 @@ export function parseResponse({ data }) {
 
 export function dateOfDeathValidation(errors, fields) {
   const { veteranDateOfBirth, veteranDateOfDeath } = fields;
+  // dob = date of birth | dod = date of death
   const dob = moment(veteranDateOfBirth);
   const dod = moment(veteranDateOfDeath);
 
+  // Check if the dates entered are after the date of birth
   if (dod.isBefore(dob)) {
     errors.veteranDateOfDeath.addError(
       'Provide a date that is after the date of birth',
+    );
+  }
+
+  // Check if dates have 16 or more years between them
+  if (dod.diff(dob, 'years') < 16) {
+    errors.veteranDateOfDeath.addError(
+      'From date of birth to date of death must be at least 16 years.',
     );
   }
 }

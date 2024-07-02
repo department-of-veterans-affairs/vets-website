@@ -6,13 +6,12 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
 
   it('Check confirmation message after save draft', () => {
     site.login();
-    inboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
 
-    inboxPage.navigateToComposePage(true);
+    PatientInboxPage.navigateToComposePage(true);
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
 
@@ -21,22 +20,13 @@ describe('Check confirmation message after save draft', () => {
       force: true,
     });
     PatientComposePage.saveDraftByKeyboard();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
-    // next line is for checking if assertion works properly
-    PatientComposePage.verifyDraftSaveButtonOnFocus();
 
-    // cy.get('.last-save-time').should('be.focused');
-    // cy.reload();
-    // cy.pause();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    PatientComposePage.verifyDraftSaveButtonOnFocus();
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
   });
 });

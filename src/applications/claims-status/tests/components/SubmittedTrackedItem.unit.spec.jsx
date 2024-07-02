@@ -116,4 +116,28 @@ describe('<SubmittedTrackedItem>', () => {
       'No longer needed',
     );
   });
+
+  it('should mask filenames in DataDog (no PII)', () => {
+    const item = {
+      id: 1,
+      displayName: 'Request 1',
+      description: 'Testing',
+      status: 'ACCEPTED',
+      documents: [
+        {
+          originalFileName: 'testfile.pdf',
+          documentTypeLabel: 'Test Type',
+        },
+      ],
+    };
+
+    const tree = SkinDeep.shallowRender(<SubmittedTrackedItem item={item} />);
+
+    expect(
+      tree.subTree('.submission-description').props['data-dd-privacy'],
+    ).to.equal('mask');
+    expect(
+      tree.subTree('.submission-description-filename').props['data-dd-privacy'],
+    ).to.equal('mask');
+  });
 });

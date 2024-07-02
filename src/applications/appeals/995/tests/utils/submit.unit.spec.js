@@ -12,7 +12,6 @@ import {
   getForm4142,
   getPhone,
   getEmail,
-  getTimeZone,
   getClaimantData,
   hasDuplicateFacility,
   hasDuplicateLocation,
@@ -192,13 +191,6 @@ describe('getPhone', () => {
     });
     expect(getPhone(wrap('home'))).to.deep.equal(phone1);
     expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });
 

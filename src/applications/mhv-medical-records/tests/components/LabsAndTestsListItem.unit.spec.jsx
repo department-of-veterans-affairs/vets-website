@@ -34,34 +34,60 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('renders without errors', () => {
-    expect(
-      screen.getAllByText(
-        'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-        { exact: true },
-      )[0],
-    ).to.exist;
+    expect(screen.getAllByText('Potassium, Sodium', { exact: true })[0]).to
+      .exist;
   });
 
-  it('should contain the name and date of the record', () => {
-    const recordName = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-      },
-    )[0];
-    const recordDate = screen.getAllByText('January', { exact: false });
+  it('should contain the name of the record', () => {
+    const recordName = screen.getAllByText('Potassium, Sodium', {
+      exact: true,
+    })[0];
     expect(recordName).to.exist;
-    expect(recordDate).to.exist;
+  });
+
+  it('should contain the date of the record', () => {
+    const date = screen.getAllByText('January 20, 2021, 4:38 p.m.', {
+      exact: false,
+    });
+    expect(date.length).to.eq(2);
   });
 
   it('should contain a link to view record details', () => {
-    const recordDetailsLink = screen.getByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
+    const recordDetailsLink = screen.getByText('Potassium, Sodium', {
+      selector: 'span',
+      exact: true,
+    });
+    expect(recordDetailsLink).to.exist;
+  });
+});
+
+describe('LabsAndTestsListItem component with chem/hem record', () => {
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: labsAndTests,
+        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RecordListItem
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        type={recordType.LABS_AND_TESTS}
+      />,
       {
-        selector: 'span',
-        exact: true,
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests',
       },
     );
-    expect(recordDetailsLink).to.exist;
+  });
+
+  it('should display the chem/hem date label', () => {
+    expect(screen.getAllByText('Date and time collected: ', { exact: false }))
+      .to.exist;
   });
 });
