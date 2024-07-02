@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   titleUI,
   radioUI,
@@ -7,44 +6,41 @@ import {
 
 export const formSignatureSchema = {
   uiSchema: {
-    ...titleUI('Form signature'),
+    ...titleUI('Signer information'),
     certifierRole: {
       ...radioUI({
-        title: 'Select who will sign for the beneficiary today.',
+        updateUiSchema: formData => {
+          const labels = {
+            applicant: `I'm ${
+              formData?.applicantName?.first
+            } and I'm signing for myself`,
+            other: `I'm a parent, spouse, or legal representative signing on behalf of ${
+              formData?.applicantName?.first
+            }`,
+          };
+
+          return {
+            'ui:title': `Who’s signing this form for ${
+              formData?.applicantName?.first
+            }?`,
+            'ui:options': {
+              labels,
+            },
+          };
+        },
         required: () => true,
         labels: {
           applicant: 'The beneficiary',
-          spouse: 'The spouse of the beneficiary',
-          parentOrGuardian: 'The parent of the beneficiary',
-          other:
-            'A representative with legal authority to make decisions for the beneficiary who is not also the parent, legal guardian or spouse',
+          other: 'A representative on behalf of the beneficiary',
         },
       }),
-    },
-    'view:additionalInfo': {
-      'ui:description': (
-        <p className="vads-u-font-size--sm vads-u-padding-left--4">
-          Not having a legal document on file with us that proves you have
-          authority to make decisions for the beneficiary may cause delays with
-          processing this form.
-        </p>
-      ),
     },
   },
   schema: {
     type: 'object',
     required: ['certifierRole'],
     properties: {
-      certifierRole: radioSchema([
-        'applicant',
-        'spouse',
-        'parentOrGuardian',
-        'other',
-      ]),
-      'view:additionalInfo': {
-        type: 'object',
-        properties: {},
-      },
+      certifierRole: radioSchema(['applicant', 'other']),
     },
   },
 };

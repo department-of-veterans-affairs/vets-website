@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -20,13 +19,4 @@ const initializeDatadogRum = config => {
   }
 };
 
-const useDatadogRum = config => {
-  useEffect(
-    () => {
-      initializeDatadogRum(config);
-    },
-    [config],
-  );
-};
-
-export { useDatadogRum };
+export { initializeDatadogRum };
