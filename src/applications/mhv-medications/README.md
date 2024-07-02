@@ -36,6 +36,7 @@ This document helps front-end developers understand the prescription object, kno
 | <span id="dispensed-date">`dispensedDate`</span> | string/date | `"2024-10-31T04:00:00000Z"` | The date when the medication was last dispensed | Use the [sortedDispensedDate](#sorted-dispensed-date) field first, when available Use this field as a fallback |
 | `stationNumber` | string | `"998"` | The unique identifier used to determine facilities | This field isn't currently used in the UI and most likely wouldn't be displayed |
 | `isRefillable` | boolean | `true` | Whether a prescription can be refilled | This field would most likely not be used in the UI, but can be used for searching or filtering |
+| `isRenewable` (not currently available) | boolean | `true` | Whether a prescription can be renewed | This field would most likely not be used in the UI, but can be used for searching or filtering |
 | `isTrackable` | boolean | `true` | Whether a prescription can be tracked | This field would most likely not be used in the UI, but can be used for searching or filtering |
 | <span id="cmop-ndc-number">`cmopNdcNumber`</span> | string | `"00013264681"` | The CMOP NDC number (unique identifier for medications) | This field would most likely not be used in the UI, but has been used to get a prescription image and retrieve medication insert information for a specific medication |
 | `inCernerTransition` (not in use) | boolean | `true` | Determines if the prescription belongs to a facility transitioning to Cerner | This field is not currently used but could be used to display Cerner-specific messaging for specific prescriptions |
@@ -88,6 +89,7 @@ This document helps front-end developers understand the prescription object, kno
 | `dispensedDate` | `dispensed_date` | `dispensed_date` |
 | `stationNumber` | `station_number` | `stationNumber` |
 | `isRefillable` | `is_refillable` | `refillable` |
+| `isRenewable` | `is_renewable` | unknown |
 | `isTrackable` | `is_trackable` | none |
 | `cmopNdcNumber` | `cmop_ndc_number` | `cmop_ndc_number` |
 | `inCernerTransition` (not in use) | `in_cerner_transition` | none |
