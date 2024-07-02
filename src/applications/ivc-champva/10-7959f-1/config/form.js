@@ -11,8 +11,6 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
   yesNoUI,
@@ -32,6 +30,10 @@ import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/InternationalPhone';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -243,7 +245,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -251,7 +253,7 @@ const formConfig = {
             required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
