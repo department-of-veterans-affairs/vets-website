@@ -70,6 +70,7 @@ const scrollAndFocusRadioOrCheckboxGroup = () => {
   scrollTo('topScrollElement');
   const radio = document.querySelector('va-radio');
   const checkboxGroup = document.querySelector('va-checkbox-group');
+
   if (radio) {
     waitForRenderThenFocus('h1', radio.shadowRoot);
   }
