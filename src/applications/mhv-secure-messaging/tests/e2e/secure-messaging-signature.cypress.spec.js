@@ -4,10 +4,9 @@ import { AXE_CONTEXT } from './utils/constants';
 import mockThread from './fixtures/thread-response.json';
 
 describe('verify signature', () => {
-  const site = new SecureMessagingSite();
   const currentDate = new Date().toISOString();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
   it('signature added on composing', () => {

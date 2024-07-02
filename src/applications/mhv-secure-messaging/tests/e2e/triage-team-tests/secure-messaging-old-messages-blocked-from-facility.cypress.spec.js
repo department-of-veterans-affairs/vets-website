@@ -8,14 +8,12 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
 describe('Verify old messages - blocked from facility', () => {
-  const site = new SecureMessagingSite();
-
   const currentDate = new Date();
   const fortyFiveDaysAgo = new Date();
   fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,
