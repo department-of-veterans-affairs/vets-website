@@ -132,11 +132,7 @@ const DeleteDraft = props => {
             setIsModalVisible(true);
             setNavigationError(null);
           }
-          if (blankReplyDraft) {
-            unsavedDeleteSuccessful();
-            history.goBack();
-          }
-          if (unsavedNewDraftMsg) {
+          if (blankReplyDraft || unsavedNewDraftMsg) {
             unsavedDeleteSuccessful();
             history.goBack();
           }
