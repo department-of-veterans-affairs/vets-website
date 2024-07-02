@@ -5,10 +5,8 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging - Cross Site Scripting', () => {
-  const site = new SecureMessagingSite();
-
   it('search for script', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
