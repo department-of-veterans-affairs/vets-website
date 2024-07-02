@@ -13,11 +13,7 @@ import {
 import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
-<<<<<<< HEAD
-=======
-  isLandingPageEnabledForUser,
   isVAPatient,
->>>>>>> main
   selectProfile,
   signInServiceEnabled,
   hasMhvAccount,
@@ -72,11 +68,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (hasMHVAccount) {
+      if (userHasMhvAccount) {
         loadMessages();
       }
     },
-    [hasMHVAccount],
+    [userHasMhvAccount],
   );
 
   useEffect(
