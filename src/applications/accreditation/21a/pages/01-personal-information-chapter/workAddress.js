@@ -8,6 +8,7 @@ import {
 export default {
   title: 'Work address',
   path: 'work-address',
+  depends: formData => formData.employmentStatus === 'EMPLOYED',
   uiSchema: {
     ...titleUI('Work address'),
     workAddress: addressUI({
