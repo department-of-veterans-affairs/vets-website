@@ -1,6 +1,6 @@
 {
   "data": {
-    "statementDateRange": {
+    "incomeNetWorthDateRange": {
       "from": "2023-07-01",
       "to": "2024-01-01"
     },
@@ -9,13 +9,23 @@
       "last": "Doe"
     },
     "veteranSocialSecurityNumber": "321654987",
-    "applicantIsVeteran": false,
+    "view:applicantIsVeteran": false,
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"
     },
     "claimantSocialSecurityNumber": "321654987",
-    "claimantType": "veteran",
+    "claimantType": "VETERAN",
+    "view:hasUnassociatedIncomes": true,
+    "unassociatedIncomes": [
+      {
+        "incomeType": "SOCIAL_SECURITY",
+        "grossMonthlyIncome": 2500,
+        "payer": "Business name",
+        "recipientRelationship": "SPOUSE",
+        "recipientName": "Recipient name"
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }

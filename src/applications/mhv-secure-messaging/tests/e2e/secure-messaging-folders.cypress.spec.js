@@ -6,8 +6,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 

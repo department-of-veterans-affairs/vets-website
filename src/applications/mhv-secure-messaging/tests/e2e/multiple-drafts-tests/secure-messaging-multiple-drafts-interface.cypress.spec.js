@@ -6,7 +6,6 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
   const draftPage = new PatientMessageDraftsPage();
 
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
@@ -14,7 +13,7 @@ describe('handle multiple drafts in one thread', () => {
   );
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });

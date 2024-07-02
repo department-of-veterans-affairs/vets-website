@@ -3,12 +3,21 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import {
+  fillStandardTextInput,
+  fillTextWebComponent,
+  selectRadioWebComponent,
+  selectYesNoWebComponent,
+} from './helpers';
+
 import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
 const SUBMISSION_DATE = new Date().toISOString();
 const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
+
+let addedListAndLoopItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -23,6 +32,48 @@ const testConfig = createTestConfig(
           cy.get('a.vads-c-action-link--green')
             .contains('Start the Application')
             .click({ force: true });
+        });
+      },
+      'unassociated-incomes-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let hasUnassociatedIncomes = data['view:hasUnassociatedIncomes'];
+            if (addedListAndLoopItem) {
+              hasUnassociatedIncomes = false;
+              addedListAndLoopItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:hasUnassociatedIncomes',
+              hasUnassociatedIncomes,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unassociated-incomes/0/income-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { unassociatedIncomes } = data;
+            const {
+              incomeType,
+              grossMonthlyIncome,
+              payer,
+            } = unassociatedIncomes[0];
+
+            selectRadioWebComponent('incomeType', incomeType);
+            fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
+            fillTextWebComponent('payer', payer);
+
+            addedListAndLoopItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
         });
       },
       'review-and-submit': ({ afterHook }) => {
