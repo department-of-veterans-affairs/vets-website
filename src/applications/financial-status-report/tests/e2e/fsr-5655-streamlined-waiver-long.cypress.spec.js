@@ -27,18 +27,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });
@@ -63,6 +51,14 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_expenses', {
+        calculatedMonthlyExpenses: '6759',
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: '7951',
+      });
 
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
@@ -116,9 +112,10 @@ const testConfig = createTestConfig(
       },
       'additional-income-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Social Security"]')
+            .shadow()
+            .find('input')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -154,15 +151,20 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
             .as('checklist')
             .should('have.length', 5);
+
           cy.get('@checklist')
             .eq(0)
-            .click();
+            .check({ force: true });
+
           cy.get('@checklist')
             .eq(1)
-            .click();
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },
@@ -192,9 +194,11 @@ const testConfig = createTestConfig(
       },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Clothing"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Clothing"]')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },

@@ -56,7 +56,8 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
- * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
+ * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
+ * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2. Also accepts an object with options.
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -379,14 +380,15 @@
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cancelYes?: (props: ArrayBuilderTextProps) => string,
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,

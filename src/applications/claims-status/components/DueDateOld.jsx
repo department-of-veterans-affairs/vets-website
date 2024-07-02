@@ -9,8 +9,8 @@ export default function DueDateOld({ date }) {
   return (
     <div className="tracked-item-due">
       <strong className={className}>
-        <i className="fa fa-exclamation-triangle past-due-icon" /> Needed from
-        you
+        <va-icon icon="warning" size={3} class="past-due-icon" />
+        Needed from you
       </strong>
       <span className={className}> - due {dueDate.fromNow()}</span>
     </div>

@@ -75,12 +75,23 @@ const StepThree = ({ formValues }) => {
     boardExplanation = `the ${boardToSubmit.abbr} for the ${branchOfService(
       formValues['1_branchOfService'],
     )}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
-  } else if (boardToSubmit.abbr === 'DRB') {
-    boardExplanation = `the Discharge Review Board (DRB) for the ${branchOfService(
+  } else if (boardToSubmit.abbr === 'DRB' || boardToSubmit.abbr === 'AFDRB') {
+    const boardName =
+      boardToSubmit.abbr === 'DRB'
+        ? 'Discharge Review Board (DRB)'
+        : 'Air Force Review Boards Agency (AFDRB)';
+
+    boardExplanation = `the ${boardName} for the ${branchOfService(
       formValues['1_branchOfService'],
-    )}. The DRB is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
+    )}. The ${
+      boardToSubmit.abbr
+    } is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the ${
+      boardToSubmit.abbr
+    } is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
       prevAppType === '1'
-        ? 'Because your application was rejected by the DRB on Documentary Review, you must apply for a Personal Appearance Review.'
+        ? `Because your application was rejected by the ${
+            boardToSubmit.abbr
+          } on Documentary Review, you must apply for a Personal Appearance Review.`
         : ''
     }`;
   }
@@ -97,7 +108,7 @@ const StepThree = ({ formValues }) => {
           rel="noopener noreferrer"
           href="http://actsonline.army.mil/"
         >
-          Visit ACTSOnline to submit your information
+          Visit ACTSOnline to submit your information (opens in a new tab)
         </a>
         .
       </p>

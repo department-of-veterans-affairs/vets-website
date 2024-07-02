@@ -8,7 +8,7 @@ import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import LearnMoreLabel from '../components/LearnMoreLabel';
+
 import {
   isProductionOrTestProdEnv,
   getStateNameForCode,
@@ -16,6 +16,7 @@ import {
   addAllOption,
   createId,
   validateSearchTerm,
+  isShowVetTec,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
@@ -29,8 +30,44 @@ import ClearFiltersBtn from '../components/ClearFiltersBtn';
 // import { useFilterBtn } from '../hooks/useFilterbtn';
 // import Loader from '../components/Loader';
 
+const vetTecCheckbox = (
+  vettec,
+  preferredProvider,
+  handleVetTecChange,
+  handlePreferredProviderChange,
+  legendId,
+  automatedTest = false,
+) => {
+  if (isShowVetTec(automatedTest)) {
+    return (
+      <>
+        <Checkbox
+          checked={vettec}
+          name="vettec"
+          label="VET TEC providers"
+          onChange={handleVetTecChange}
+          className="expanding-header-checkbox"
+          inputAriaLabelledBy={legendId}
+        />
+        <div className="expanding-group-children">
+          {vettec && (
+            <Checkbox
+              checked={preferredProvider}
+              name="preferredProvider"
+              label="Preferred providers only"
+              onChange={handlePreferredProviderChange}
+              labelAriaLabel="VET TEC Preferred providers"
+              inputAriaLabelledBy={legendId}
+            />
+          )}
+        </div>
+      </>
+    );
+  }
+  return <div />;
+};
+
 export function FilterYourResults({
-  dispatchShowModal,
   dispatchFilterChange,
   dispatchError,
   filters,
@@ -54,7 +91,7 @@ export function FilterYourResults({
     yellowRibbonScholarship,
     employers,
     vettec,
-    // preferredProvider,
+    preferredProvider,
     country,
     state,
     specialMissionHbcu,
@@ -139,24 +176,24 @@ export function FilterYourResults({
     }
   };
 
-  // const handlePreferredProviderChange = e => {
-  //   const { checked } = e.target;
-  //   if (checked) {
-  //     dispatchFilterChange({
-  //       ...filters,
-  //       vettec: true,
-  //       preferredProvider: true,
-  //     });
-  //     recordCheckboxEvent(e);
-  //   } else {
-  //     dispatchFilterChange({
-  //       ...filters,
-  //       vettec: true,
-  //       preferredProvider: false,
-  //     });
-  //     recordCheckboxEvent(e);
-  //   }
-  // };
+  const handlePreferredProviderChange = e => {
+    const { checked } = e.target;
+    if (checked) {
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: true,
+      });
+      recordCheckboxEvent(e);
+    } else {
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: false,
+      });
+      recordCheckboxEvent(e);
+    }
+  };
 
   const updateResults = () => {
     if (isProductionOrTestProdEnv()) {
@@ -196,15 +233,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Has no cautionary warnings"
-            onClick={() => {
-              dispatchShowModal('cautionaryWarnings');
-            }}
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Has no cautionary warnings
           </label>
@@ -213,16 +242,7 @@ export function FilterYourResults({
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Is accredited"
-            onClick={() => {
-              dispatchShowModal('accredited');
-            }}
-            buttonId="accredited-button"
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Is accredited
           </label>
@@ -334,26 +354,13 @@ export function FilterYourResults({
           className="vads-u-margin-bottom--4"
           inputAriaLabelledBy={legendId}
         />
-        <Checkbox
-          checked={vettec}
-          name="vettec"
-          label="VET TEC providers"
-          onChange={handleVetTecChange}
-          className="expanding-header-checkbox"
-          inputAriaLabelledBy={legendId}
-        />
-        {/* <div className="expanding-group-children">
-          {vettec && (
-            <Checkbox
-              checked={preferredProvider}
-              name="preferredProvider"
-              label="Preferred providers only"
-              onChange={handlePreferredProviderChange}
-              labelAriaLabel="VET TEC Preferred providers"
-              inputAriaLabelledBy={legendId}
-            />
-          )}
-        </div>    */}
+        {vetTecCheckbox(
+          vettec,
+          preferredProvider,
+          handleVetTecChange,
+          handlePreferredProviderChange,
+          legendId,
+        )}
         {specializedMissionAttributes()}
       </div>
     );

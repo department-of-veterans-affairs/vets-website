@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-import { TITLE, SUBTITLE } from '../config/constants';
+import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -49,6 +49,7 @@ const IntroductionPage = props => {
     unauthStartText: 'Sign in to start your statement',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
+    customLink: PrimaryActionLink,
   };
 
   const ombInfo = {
@@ -59,6 +60,9 @@ const IntroductionPage = props => {
 
   return (
     <IntroductionPageView
+      devOnly={{
+        forceShowFormControls: true,
+      }}
       route={route}
       content={content}
       ombInfo={ombInfo}

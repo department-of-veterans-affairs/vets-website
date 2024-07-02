@@ -8,14 +8,11 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const newDate = new Date().toISOString();
 
   beforeEach(() => {
-    site.login();
-
-    landingPage.loadInboxMessages(
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
@@ -39,7 +36,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -105,7 +102,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

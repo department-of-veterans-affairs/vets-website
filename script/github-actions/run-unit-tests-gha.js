@@ -131,10 +131,19 @@ if (testsToVerify === null) {
   // Stress test
   const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
     .filter(app => app.startsWith('src/applications'))
-    .map(app => app.split('/')[2]);
+    .map(app => app.split('/')[2])
+    .concat(
+      JSON.parse(process.env.APPS_TO_VERIFY).filter(app =>
+        app.startsWith('src/platform'),
+      ),
+    );
   for (const app of appsToVerify) {
     const testsToRun = testsToVerify
-      .filter(test => test.includes(`src/applications/${app}`))
+      .filter(
+        test =>
+          test.includes(`src/applications/${app}`) ||
+          test.includes(`src/platform`),
+      )
       .join(' ');
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[

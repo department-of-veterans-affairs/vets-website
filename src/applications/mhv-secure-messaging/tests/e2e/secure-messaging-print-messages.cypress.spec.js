@@ -6,18 +6,16 @@ import defaultMockThread from './fixtures/thread-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Print Functionality', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   const messageDetailsPage = new PatientMessageDetailsPage();
 
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages(
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
-      landingPage.getNewMessageDetails(),
+      PatientInboxPage.getNewMessageDetails(),
     );
     messageDetailsPage.loadMessageDetails(
-      landingPage.getNewMessageDetails(),
+      PatientInboxPage.getNewMessageDetails(),
       defaultMockThread,
       0,
     );

@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 // TODO: Look at moving the .process-step css into this file
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 // TODO: Determine if we are actually using any of these
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
 .claim-list {
   margin-bottom: 2em;
@@ -21,17 +21,17 @@
   font-size: 1.35em;
   line-height: 1.2;
   font-weight: bold;
-  max-width: 22.5rem;
+  max-width: 14.0625rem;
 }
 
 .claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
-    margin-top: calc(3rem - 10px);
+    margin-top: calc(1.875rem - 10px);
     margin-bottom: 50px;
 
     & > div {
-      margin-bottom: 3rem;
+      margin-bottom: 1.875rem;
     }
   }
 
@@ -144,7 +144,7 @@
   span {
     display: block;
     width: fit-content;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-family: var(--font-source-sans);
     font-weight: normal;
     line-height: 1.5;
@@ -207,20 +207,6 @@
   &.ssoc {
     background: var(--vads-color-gold-lightest);
     padding-left: 2.5em;
-
-    &:before {
-      left: 1em;
-      top: 1.5em;
-      position: absolute;
-      font-size: 1.25em;
-      display: inline-block;
-      font: normal normal normal 14px/1 "Font Awesome 5 Free";
-      font-size: inherit;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      content: "\F071";
-    }
   }
 }
 
@@ -231,7 +217,7 @@
 
 .content {
   position: relative;
-  padding-left: 3.25rem;
+  padding-left: 2.03125rem;
 }
 
 .last-status-content-icon {
@@ -449,7 +435,7 @@ h1:focus {
   .section-header-title {
     width: 100%;
     position: relative;
-    top: -1rem;
+    top: -0.625rem;
     background: inherit;
     border: inherit;
     color: inherit;
@@ -558,11 +544,6 @@ h1:focus {
 
   .section-complete {
     border-left: 5px solid var(--vads-color-base-lighter);
-    &::before {
-      font-family: "Font Awesome 5 Free";
-      content: "\f00c";
-      margin-top: 5px; // Aligns the check bullets to their headers better
-    }
   }
 
   // Only let the (+) and "See / Hide past events" be clickable
@@ -571,26 +552,6 @@ h1:focus {
 
     button {
       pointer-events: all;
-    }
-
-    h2::before {
-      position: absolute;
-      /*
-      left: 2.5rem;
-      width: 3.5rem;
-      text-indent: 0.5rem;
-      */
-      font-size: 1.3em;
-      font-weight: 700;
-      text-align: center;
-      width: 1.6em;
-      top: -0.2em;
-      margin-left: -2.15em;
-      font-family: "Font Awesome 5 Free";
-      color: var(--vads-color-primary);
-      background-color: var(--vads-color-white);
-      border: 4px var(--vads-color-primary) solid;
-      border-radius: 50%;
     }
   }
 
@@ -702,11 +663,6 @@ h1:focus {
 .claim-timeline-icon {
   float: right;
   margin-top: 3px;
-}
-
-button .claim-timeline-icon.fa {
-  font-size: 17px;
-  padding-right: 0;
 }
 
 .claims-evidence-list {
@@ -917,7 +873,7 @@ ol.va-list-horizontal {
     .sidelines {
       // line up the horizontal divider with the li::before 'bullets'
       font-family: $font-serif;
-      font-size: 3rem; // match h2 size
+      font-size: 1.875rem; // match h2 size
       margin-left: -0.6em;
       width: 102%;
     }
@@ -973,8 +929,8 @@ ol.va-list-horizontal {
 
 $end-of-docket-width: 4px;
 $docket-bar-width: calc(100% - #{$end-of-docket-width});
-$marker-width: 3rem;
-$marker-text-width: 9rem;
+$marker-width: 1.875rem;
+$marker-text-width: 5.625rem;
 
 .docket-container {
   // This is slightly darker than the cards above it
@@ -994,7 +950,7 @@ $marker-text-width: 9rem;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--vads-color-base-light);
     width: 80%;
-    max-width: 24rem;
+    max-width: 15rem;
 
     & + p {
       margin-top: 6px;
@@ -1059,7 +1015,7 @@ $marker-text-width: 9rem;
     flex-direction: row-reverse;
 
     p {
-      width: 8rem;
+      width: 5rem;
       text-align: right;
     }
   }
@@ -1073,7 +1029,7 @@ $marker-text-width: 9rem;
   }
   .usa-accordion-bordered {
     .usa-accordion-button {
-      font-size: 2rem; // match standard h3
+      font-size: 1.25rem; // match standard h3
     }
 
     .usa-accordion-content {
@@ -1104,16 +1060,10 @@ $marker-text-width: 9rem;
   text-align: center;
   font-family: $font-sans;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.25rem;
   background-color: var(--vads-color-base-lightest);
   margin-top: 2em;
   margin-bottom: 2em;
-}
-
-.usa-button .fa-chevron-right {
-  margin-left: 1.4rem;
-  margin-right: -0.6rem;
-  font-size: 80%;
 }
 
 .stem-ad-list {
@@ -1136,31 +1086,12 @@ $marker-text-width: 9rem;
   font-weight: bold;
   margin-top: 16px;
 
-  &:focus i::before,
-  &:hover i::before {
-    margin-left: 1.2rem;
+  &:focus va-icon,
+  &:hover va-icon {
+    margin-left: 0.75rem;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-property: margin;
-  }
-
-  i::before {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 1.6rem;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 900;
-    line-height: 1;
-    margin-right: 0.8rem;
-    text-rendering: auto;
-    content: "\f105"; /* fa-angle-right */
-    margin-bottom: 0.1rem;
-    margin-left: 0.8rem;
-    margin-right: 0;
-    vertical-align: middle;
   }
 }
 
@@ -1177,7 +1108,7 @@ $marker-text-width: 9rem;
 }
 
 .tab {
-  padding: 0.5em 1.5rem;
+  padding: 0.5em 0.9375rem;
   display: inline-block;
   font-size: 20px;
   text-decoration: none;
@@ -1194,8 +1125,8 @@ $marker-text-width: 9rem;
       display: block;
       position: absolute;
       height: 6px;
-      left: 1rem;
-      right: 1rem;
+      left: 0.625rem;
+      right: 0.625rem;
       bottom: 0;
     }
   }
@@ -1205,8 +1136,8 @@ $marker-text-width: 9rem;
   font-weight: bold;
   position: relative;
   // Lowering the padding to account for the font-weight: bold above
-  padding-left: 1.4rem;
-  padding-right: 1.4rem;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
 
   & > span::after {
     background-color: var(--vads-color-primary);
@@ -1215,8 +1146,8 @@ $marker-text-width: 9rem;
     display: block;
     position: absolute;
     height: 6px;
-    left: 1rem;
-    right: 1rem;
+    left: 0.625rem;
+    right: 0.625rem;
     bottom: 0;
   }
 }
@@ -1254,6 +1185,35 @@ $marker-text-width: 9rem;
     @media (max-width: $medium-screen) {
       display: block;
     }
+  }
+}
+
+va-icon.phase-complete {
+  color: $color-green; //vads-color-green
+}
+
+va-icon.phase-current {
+  color: $color-primary; //vads-color-primary
+}
+
+.current-phase {
+  padding-bottom: 16px;
+  display: inline-block;
+}
+
+
+.repeat-phase {
+  display: inline-flex;
+  flex-direction: row;
+  border: 1px solid var(--vads-color-base-light);
+  va-icon {
+    float: left;
+    align-content: center;
+    margin-left: 16px;
+  }
+  span {
+    display: inline-block;
+    margin: 16px;
   }
 }
 

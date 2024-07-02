@@ -17,23 +17,19 @@ const ReportModal = ({
   onCloseReportModal,
   submitRepresentativeReport,
   cancelRepresentativeReport,
-  handleOtherInputChangeTestId,
   testReportObject,
 }) => {
   const [reportObject, setReportObject] = useState({
     phone: null,
     email: null,
     address: null,
-    other: null,
   });
 
-  const [otherIsChecked, setOtherIsChecked] = useState(false);
-  const [otherIsBlankError, setOtherIsBlankError] = useState(false);
   const [reportIsBlankError, setReportIsBlankError] = useState(false);
 
   // render conditions
   const totalReportableItems =
-    (address !== null) + (phone !== null) + (email !== null) + 1;
+    (address !== null) + (phone !== null) + (email !== null);
   const someItemsReported = existingReports;
   const notAllItemsReported =
     !someItemsReported ||
@@ -41,14 +37,6 @@ const ReportModal = ({
   const addressReportable = address && !existingReports?.address;
   const emailReportable = email && !existingReports?.email;
   const phoneReportable = phone && !existingReports?.phone;
-  const otherReportable = !existingReports?.other;
-
-  const handleOtherInputChange = event => {
-    setOtherIsBlankError(false);
-    const newState = { ...reportObject };
-    newState.other = event.target.value;
-    setReportObject(newState);
-  };
 
   const handleCheckboxChange = event => {
     setReportIsBlankError(false);
@@ -67,10 +55,6 @@ const ReportModal = ({
         break;
       case '3':
         newState.phone = checked ? phone : null;
-        break;
-      case '4':
-        setOtherIsBlankError(false);
-        setOtherIsChecked(checked);
         break;
       default:
         break;
@@ -92,10 +76,6 @@ const ReportModal = ({
       }
     });
 
-    if (otherIsChecked && !formattedReportObject.reports.other) {
-      setOtherIsBlankError(true);
-      return;
-    }
     if (!Object.keys(formattedReportObject.reports).length) {
       setReportIsBlankError(true);
       return;
@@ -108,7 +88,6 @@ const ReportModal = ({
         phone: null,
         email: null,
         address: null,
-        other: null,
       });
     }
 
@@ -131,33 +110,7 @@ const ReportModal = ({
         uswds
       >
         {/* These buttons trigger methods for unit testing - temporary workaround for shadow root issues with va checkboxes */}
-        {handleOtherInputChangeTestId ? (
-          <>
-            <button
-              label="unit test button"
-              id="handle-checkbox-change-test-button"
-              type="button"
-              onClick={() =>
-                handleCheckboxChange({
-                  target: { id: handleOtherInputChangeTestId, checked: 'true' },
-                })
-              }
-            />
-            <button
-              id="handle-other-input-change-test-button"
-              label="unit test button"
-              type="button"
-              onClick={() =>
-                handleOtherInputChange({
-                  target: {
-                    id: handleOtherInputChangeTestId,
-                    value: 'test comment',
-                  },
-                })
-              }
-            />
-          </>
-        ) : null}
+
         {testReportObject ? (
           <>
             <button
@@ -189,9 +142,6 @@ const ReportModal = ({
               {existingReports.address && <li>Outdated address</li>}
               {existingReports.email && <li>Outdated email</li>}
               {existingReports.phone && <li>Outdated phone number</li>}
-              {existingReports.other && (
-                <li>Other: "{existingReports.other}"</li>
-              )}
             </ul>
           </>
         )}
@@ -210,7 +160,6 @@ const ReportModal = ({
               error={reportIsBlankError ? 'Please select an item' : null}
               hint={null}
               onVaChange={handleCheckboxChange}
-              required
               label="Select the information we need to update"
               label-header-level=""
               uswds
@@ -224,34 +173,8 @@ const ReportModal = ({
               {phoneReportable && (
                 <va-checkbox label="Phone number" name="phone" uswds id="3" />
               )}
-              {otherReportable && (
-                <va-checkbox label="Other" name="other" uswds id="4" />
-              )}
             </VaCheckboxGroup>
           </>
-        )}
-
-        {otherIsChecked && (
-          <div className="report-other-text-input">
-            <div
-              className={`${
-                !otherIsBlankError ? 'form-expanding-group-open' : null
-              } form-expanding-group-inner-enter-done`}
-            >
-              <va-textarea
-                hint={null}
-                label="Describe the other information we need to update"
-                required
-                error={otherIsBlankError ? 'This field is required' : null}
-                value={reportObject.other}
-                name="Other comment input"
-                maxlength={250}
-                onInput={e => handleOtherInputChange(e)}
-                uswds
-                charcount
-              />
-            </div>
-          </div>
         )}
       </VaModal>
     </>
@@ -267,10 +190,8 @@ ReportModal.propTypes = {
   existingReports: PropTypes.shape({
     address: PropTypes.string,
     email: PropTypes.string,
-    other: PropTypes.string,
     phone: PropTypes.string,
   }),
-  handleOtherInputChangeTestId: PropTypes.func,
   phone: PropTypes.string,
   representativeId: PropTypes.string,
   representativeName: PropTypes.string,

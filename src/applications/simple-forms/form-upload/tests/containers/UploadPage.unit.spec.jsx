@@ -3,8 +3,8 @@ import { render } from '@testing-library/react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+
 import UploadPage from '../../containers/UploadPage';
-import { handleRouteChange } from '../../helpers';
 
 describe('UploadPage', () => {
   const getStore = () => ({
@@ -13,34 +13,30 @@ describe('UploadPage', () => {
     dispatch: () => {},
   });
 
-  const renderPage = () =>
-    render(
-      <Provider store={getStore()}>
-        <MemoryRouter initialEntries={['/21-0779']}>
-          <Route path="/:id">
+  context('click Continue when no file uploaded yet', () => {
+    it('should populate errors and not change route', async () => {
+      let testLocation;
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter initialEntries={['/21-0779']}>
             <UploadPage />
-          </Route>
-        </MemoryRouter>
-      </Provider>,
-    );
+            <Route
+              path="/:id"
+              render={({ _, location }) => {
+                testLocation = location;
+                return null;
+              }}
+            />
+          </MemoryRouter>
+        </Provider>,
+      );
 
-  it('should render a header and breadcrumbs', () => {
-    const { container, getByRole } = renderPage();
+      const buttonPair = getByTestId('upload-button-pair');
+      buttonPair.__events.primaryClick();
 
-    expect(getByRole('heading', { level: 1 }).textContent).to.contain(
-      'Upload VA Form 21-0779',
-    );
-    expect(
-      container.querySelector('va-breadcrumbs').breadcrumbList.length,
-    ).to.eq(3);
-  });
-
-  it('should handle route changes correctly', () => {
-    const history = [];
-
-    handleRouteChange({ detail: { href: 'test-href' } }, history);
-
-    expect(history.length).to.equal(1);
-    expect(history[0]).to.equal('test-href');
+      expect(testLocation.pathname).to.equal('/21-0779');
+      const input = container.getElementsByTagName('va-file-input');
+      expect(input.item(0).error).to.eq('Upload a completed form 21-0779');
+    });
   });
 });
