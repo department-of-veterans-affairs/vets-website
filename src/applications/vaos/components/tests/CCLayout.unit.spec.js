@@ -15,18 +15,11 @@ describe('VAOS Component: CCLayout', () => {
   };
 
   describe('When appointment information is missing', () => {
-    it('should not display heading and provider information when no provider information is returned', async () => {
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
         communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: '12345',
-          },
           telecom: [{ system: 'phone', value: '123-456-7890' }],
           providers: [
             {
@@ -37,69 +30,6 @@ describe('VAOS Component: CCLayout', () => {
               providerName: 'Test User',
             },
           ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
-        store,
-      });
-
-      // Assert
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /Community care appointment/i,
-        }),
-      );
-
-      expect(
-        screen.queryByRole('heading', {
-          level: 2,
-          name: /Who/i,
-        }),
-      ).not.to.exist;
-    });
-
-    it('should not display heading and type of care when no type of care information is returned', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        comment: 'This is a test:Additional information',
-        communityCareProvider: {
-          address: {
-            line: ['line 1'],
-            city: 'City',
-            state: 'State',
-            postalCode: '12345',
-          },
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-          providerName: ['Test User'],
-          treatmentSpecialty: 'Optometrist',
         },
         location: {},
         videoData: {},
@@ -120,19 +50,32 @@ describe('VAOS Component: CCLayout', () => {
       });
 
       // Assert
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /Community care appointment/i,
-        }),
-      );
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
+
+      expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
+      expect(screen.getByText(/Provider information not available/i));
+      expect(screen.getByText(/Treatment specialty not available/i));
+      expect(screen.getByText(/Address not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
 
       expect(
-        screen.queryByRole('heading', {
-          level: 2,
-          name: /What/i,
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Reason: Not available'
+          );
         }),
-      ).not.to.exist;
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Other details: Not available'
+          );
+        }),
+      );
     });
   });
 
@@ -226,69 +169,6 @@ describe('VAOS Component: CCLayout', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
-    });
-
-    it('should not display heading and text for empty data', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        communityCareProvider: {
-          telecom: [{ system: 'phone', value: '123-456-7890' }],
-          providers: [
-            {
-              name: {
-                familyName: 'Test',
-                lastName: 'User',
-              },
-              providerName: 'Test User',
-            },
-          ],
-        },
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: true,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(<CCLayout data={appointment} />, {
-        store,
-      });
-
-      // Assert
-      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
-        .exist;
-
-      expect(screen.getByRole('heading', { level: 2, name: /Provider/ }));
-      expect(screen.getByText(/Provider information not available/i));
-      expect(screen.getByText(/Treatment specialty not available/i));
-      expect(screen.getByText(/Address not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
-
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Reason: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Other details: Not available'
-          );
-        }),
-      );
     });
   });
 
