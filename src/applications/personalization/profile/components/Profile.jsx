@@ -325,7 +325,10 @@ const mapStateToProps = state => {
     isEligibleForDD &&
     isLighthouseAvailable &&
     profileToggles?.profileShowDirectDepositSingleForm &&
-    !profileToggles?.profileHideDirectDeposit;
+    !(
+      profileToggles?.profileHideDirectDeposit &&
+      !profileToggles?.profileShowDirectDepositSingleFormUAT
+    );
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
