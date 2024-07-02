@@ -83,12 +83,18 @@ export function uploadScannedForm(formNumber, fileToUpload, onFileUploaded) {
   };
 }
 
-export const submitForm = (formNumber, confirmationCode, history) => {
+export const submitForm = (
+  formNumber,
+  confirmationCode,
+  history,
+  options = null,
+) => {
   apiRequest(`${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`, {
     method: 'POST',
     body: JSON.stringify({
       confirmationCode,
       formNumber,
+      options,
     }),
     headers: {
       'Content-Type': 'application/json',
