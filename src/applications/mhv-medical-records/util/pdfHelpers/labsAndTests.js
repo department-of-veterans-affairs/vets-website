@@ -111,7 +111,7 @@ export const generateMicrobioContent = record => ({
       },
       {
         title: 'Date completed',
-        value: record.date,
+        value: record.dateCompleted,
         inline: true,
       },
     ],

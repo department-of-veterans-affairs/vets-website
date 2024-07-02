@@ -81,7 +81,7 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date: ${record.date}\n
+Date and time collected: ${record.dateAndTimeCollected}\n
 ${txtLine}\n\n
 Details about this test\n
 Site or sample tested: ${record.sampleTested}\n
@@ -89,7 +89,7 @@ Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
 Collecting location: ${record.collectingLocation}\n
 Performing lab location: ${record.labLocation}\n
-Date completed: ${record.date}\n
+Date completed: ${record.dateCompleted}\n
 ${txtLine}\n\n
 Results\n
 ${record.results}`;
