@@ -7,9 +7,8 @@ import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facili
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Verify Thread - Blocked from Facility', () => {
-  const site = new SecureMessagingSite();
   it('create message view - verify user can not create a message to any group in blocked facility', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
@@ -38,7 +37,7 @@ describe('Verify Thread - Blocked from Facility', () => {
   });
 
   it('detailed view', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,

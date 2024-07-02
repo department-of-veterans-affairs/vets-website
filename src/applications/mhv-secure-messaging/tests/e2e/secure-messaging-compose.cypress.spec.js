@@ -5,9 +5,8 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
