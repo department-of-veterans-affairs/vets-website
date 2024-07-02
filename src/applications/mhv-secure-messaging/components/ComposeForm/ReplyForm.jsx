@@ -38,23 +38,23 @@ const ReplyForm = props => {
     setIsEditing,
   } = props;
   const dispatch = useDispatch();
-  const [lastFocusableElement, setLastFocusableElement] = useState(null);
-
-  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const header = useRef();
 
-  const [category, setCategory] = useState(null);
-  const [subject, setSubject] = useState('');
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const signature = useSelector(state => state.sm.preferences?.signature);
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
+
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subject, setSubject] = useState('');
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
-
-  const signature = useSelector(state => state.sm.preferences.signature);
+  const [hideDraft, setHideDraft] = useState(false);
 
   useEffect(() => {
     const draftToEdit = drafts?.[0];
@@ -67,7 +67,6 @@ const ReplyForm = props => {
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
-
       const {
         isAssociated,
         isBlocked,
@@ -158,8 +157,12 @@ const ReplyForm = props => {
 
         <MessageActionButtons
           threadId={threadId}
+          hideDraft={hideDraft}
           hideReplyButton
-          showEditDraftButton={!cannotReply && !showBlockedTriageGroupAlert}
+          replyMsgId={replyMessage.messageId}
+          showEditDraftButton={
+            !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
+          }
           handleEditDraftButton={() => {
             if (isEditing === false) {
               setIsEditing(true);
@@ -170,11 +173,9 @@ const ReplyForm = props => {
             }
           }}
           hasMultipleDrafts={drafts?.length > 1}
-          handleReplyButton={() => {}}
           isCreateNewModalVisible={isCreateNewModalVisible}
           setIsCreateNewModalVisible={setIsCreateNewModalVisible}
         />
-
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
@@ -182,25 +183,27 @@ const ReplyForm = props => {
           >
             {!cannotReply &&
               !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
-
-            {drafts && drafts.length > 1 ? (
-              <h2 id="draft-reply-header">Drafts</h2>
-            ) : (
-              <h2 id="draft-reply-header">Draft</h2>
+            {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
+            {!hideDraft && (
+              <>
+                <h2 id="draft-reply-header">
+                  {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
+                </h2>
+                <ReplyDrafts
+                  drafts={drafts}
+                  cannotReply={cannotReply}
+                  isSaving={isSaving}
+                  replyToName={replyToName}
+                  replyMessage={replyMessage}
+                  setLastFocusableElement={setLastFocusableElement}
+                  signature={signature}
+                  showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
+                  setHideDraft={setHideDraft}
+                />
+              </>
             )}
-
-            <ReplyDrafts
-              drafts={drafts}
-              cannotReply={cannotReply}
-              isSaving={isSaving}
-              replyToName={replyToName}
-              replyMessage={replyMessage}
-              setLastFocusableElement={setLastFocusableElement}
-              signature={signature}
-              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
           </form>
         </section>
       </>
