@@ -9,7 +9,7 @@ import manifest from '../manifest.json';
 import { setup, pageHooks } from './cypress.helpers';
 
 const prefillData = {
-  includeToxicExposure: true,
+  startedFormVersion: '2022',
 };
 
 const testConfig = createTestConfig(
