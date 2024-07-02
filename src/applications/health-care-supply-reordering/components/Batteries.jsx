@@ -6,6 +6,8 @@ import classnames from 'classnames';
 import moment from 'moment';
 
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // FIXME: figure out why cypress doesn't like this import.
 import recordEvent from 'platform/monitoring/record-event';
@@ -158,31 +160,15 @@ class Batteries extends Component {
                   </div>
                 </div>
               ) : (
-                <div>
-                  <input
-                    id={batterySupply.productId}
-                    className="vads-u-margin-left--0"
-                    type="checkbox"
-                    onChange={e =>
-                      this.handleChecked(e.target.checked, batterySupply)
-                    }
-                    checked={isBatterySelected(batterySupply.productId)}
-                  />
-                  <label
-                    className={classnames({
-                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
-                      'vads-u-color--white': isBatterySelected(
-                        batterySupply.productId,
-                      ),
-                      'vads-u-background-color--white vads-u-color--primary': !isBatterySelected(
-                        batterySupply.productId,
-                      ),
-                    })}
-                    htmlFor={batterySupply.productId}
-                  >
-                    Order batteries for this device
-                  </label>
-                </div>
+                <VaCheckbox
+                  className="vads-u-margin-left--0"
+                  onVaChange={e =>
+                    this.handleChecked(e.target.checked, batterySupply)
+                  }
+                  id={batterySupply.productId}
+                  checked={isBatterySelected(batterySupply.productId)}
+                  label="Order batteries for this device"
+                />
               )}
             </div>
           ))}
