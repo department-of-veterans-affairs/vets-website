@@ -117,8 +117,8 @@ This document helps front-end developers understand the prescription object, kno
 | `color` | `color` | `color` |
 | `frontImprint` | `front_imprint` | `front_imprint` |
 | `backImprint` | `back_imprint` | `back_imprint` |
-| `trackingList` | `tracking_list` | `tracking_list` |
-| `rxRfRecords` | `rx_rf_records` | `rx_rf_records` |
+| `trackingList` | `tracking_list` | none |
+| `rxRfRecords` | `rx_rf_records` | none |
 | `tracking` (not in use) | `tracking` | `tracking` |
 
 ### Tracking List Object
@@ -136,4 +136,4 @@ This document helps front-end developers understand the prescription object, kno
 | `rxNumber` (not in use) | `2719780` | number | Prescription number associated with the shipment | This field will most likely never be displayed in the UI, but could be useful for searching |
 | `stationNumber` (not in use) | `995` | number | Identifier for the facility from which the prescription came from | This field will most likely never be displayed in the UI, but could be useful for searching/filtering |
 | `trackingNumber` | `"332980271979930000002300"` | string | The tracking number assigned to the shipment | Used to show the tracking number in the UI |
-| `viewImageDisplayed`(not in use) | `false` | boolean | Indicates if an image of the item was displayed | This field isn't currently used and there are no plans to use it in the future |
+| `viewImageDisplayed` (not in use) | `false` | boolean | Indicates if an image of the item was displayed | This field isn't currently used and there are no plans to use it in the future |
