@@ -17,8 +17,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
+import { envUrl } from '../constants';
 
 const IntroductionPage = props => {
   const { route, loggedIn, toggleLoginModal } = props;
@@ -44,29 +46,17 @@ const IntroductionPage = props => {
     [props],
   );
 
-  // const getApiData = url => {
-  //   return apiRequest(url)
-  //     .then(() => {
-  //       setInquiryData(res);
-  //     })
-  //     .catch(() => setHasError(true));
-  // };
+  const getApiData = url => {
+    return apiRequest(url)
+      .then(res => {
+        setInquiryData(res.data);
+      })
+      .catch(() => setHasError(true));
+  };
 
-  const handleSearchByReferenceNumber = () => {
-    // const url = `${
-    //   envUrl
-    // }/inquiries/${searchReferenceNumber}/status`;
-    // getApiData(url);
-    const mockResponse = {
-      id: 12345,
-      type: 'inquiryStatus',
-      attributes: {
-        status: 'New',
-        levelOfAuthentication: '12389467687',
-      },
-    };
-    setHasError(false);
-    setInquiryData(mockResponse);
+  const handleSearchByReferenceNumber = async () => {
+    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    await getApiData(url);
   };
 
   const handleSearchInputChange = async e => {
@@ -93,8 +83,8 @@ const IntroductionPage = props => {
       );
     }
 
-    if (inquiryData.id && searchReferenceNumber) {
-      const { status, levelOfAuthentication } = inquiryData.attributes;
+    if (inquiryData?.attributes?.status) {
+      const { status } = inquiryData.attributes;
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -135,18 +125,6 @@ const IntroductionPage = props => {
               </p>
             )}
           </div>
-          {levelOfAuthentication !== 'Unauthenticated' && (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a
-              role="button"
-              className="vads-c-action-link--green vads-u-margin-top--2"
-              // eslint-disable-next-line no-script-url
-              href="javascript:void(0)"
-              onClick={showSignInModal}
-            >
-              Sign in to check your application status{' '}
-            </a>
-          )}
         </>
       );
     }

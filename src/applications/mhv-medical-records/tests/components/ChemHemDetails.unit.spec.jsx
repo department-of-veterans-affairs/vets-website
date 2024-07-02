@@ -43,13 +43,10 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const header = screen.getAllByText('Potassium, Sodium', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(header).to.exist;
   });
 

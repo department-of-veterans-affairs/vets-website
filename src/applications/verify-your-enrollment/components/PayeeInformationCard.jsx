@@ -30,6 +30,7 @@ const PayeeInformationCard = ({
             <va-loading-indicator
               label="Loading"
               message="Loading applicant Name..."
+              aria-hidden="true"
             />
           ) : (
             <>

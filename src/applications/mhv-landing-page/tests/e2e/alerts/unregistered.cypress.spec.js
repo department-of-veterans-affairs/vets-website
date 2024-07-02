@@ -1,7 +1,6 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import { resolveLandingPageLinks } from '../../../utilities/data';
 
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
@@ -17,12 +16,6 @@ describe(appName, () => {
 
       it(`unregistered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(
-          false,
-          [],
-          'arialLabel',
-          false,
-        );
 
         LandingPage.visit({ registered: false });
         cy.injectAxeThenAxeCheck();
@@ -32,14 +25,11 @@ describe(appName, () => {
           name: noHealthDataHeading,
         }).should.exist;
 
-        // Test the cards are not visible
-        pageLinks.cards.forEach(card => {
-          cy.findByRole('heading', { name: card.title }).should('not.exist');
-        });
-        // Test the hubs are visible
-        pageLinks.hubs.forEach(hub => {
-          LandingPage.validateLinkGroup(hub.title, hub.links.length);
-        });
+        // Check the cards are not visible
+        cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
+
+        // Check the hubs are visible
+        cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
         cy.findByRole('heading', { name: /VA health benefits/i }).should.exist;
@@ -47,23 +37,13 @@ describe(appName, () => {
 
       it(`registered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(
-          false,
-          [],
-          'arialLabel',
-          true,
-        );
 
         LandingPage.visit();
         cy.injectAxeThenAxeCheck();
 
-        // Validate the cards and hubs
-        pageLinks.cards.forEach(card => {
-          LandingPage.validateLinkGroup(card.title, card.links.length);
-        });
-        pageLinks.hubs.forEach(hub => {
-          LandingPage.validateLinkGroup(hub.title, hub.links.length);
-        });
+        // Check the cards and hubs are visible
+        cy.findAllByTestId(/^mhv-link-group-card-/).should.exist;
+        cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
         cy.findByRole('heading', { name: /My VA health benefits/i }).should

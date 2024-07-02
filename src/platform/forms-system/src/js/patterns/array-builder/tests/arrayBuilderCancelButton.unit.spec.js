@@ -118,7 +118,7 @@ describe('ArrayBuilderCancelButton', () => {
 
     expect(getText.calledWith('cancelEditTitle')).to.be.true;
     expect(getText.calledWith('cancelEditDescription')).to.be.true;
-    expect(getText.calledWith('cancelYes')).to.be.true;
+    expect(getText.calledWith('cancelEditYes')).to.be.true;
     expect(getText.calledWith('cancelEditNo')).to.be.true;
   });
 
@@ -131,7 +131,7 @@ describe('ArrayBuilderCancelButton', () => {
 
     expect(getText.calledWith('cancelAddTitle')).to.be.true;
     expect(getText.calledWith('cancelAddDescription')).to.be.true;
-    expect(getText.calledWith('cancelYes')).to.be.true;
+    expect(getText.calledWith('cancelAddYes')).to.be.true;
     expect(getText.calledWith('cancelAddNo')).to.be.true;
   });
 
@@ -144,7 +144,7 @@ describe('ArrayBuilderCancelButton', () => {
 
     expect(getText.calledWith('cancelAddTitle')).to.be.true;
     expect(getText.calledWith('cancelAddReviewDescription')).to.be.true;
-    expect(getText.calledWith('cancelYes')).to.be.true;
+    expect(getText.calledWith('cancelAddYes')).to.be.true;
     expect(getText.calledWith('cancelAddNo')).to.be.true;
   });
 
@@ -157,7 +157,7 @@ describe('ArrayBuilderCancelButton', () => {
 
     expect(getText.calledWith('cancelEditTitle')).to.be.true;
     expect(getText.calledWith('cancelEditReviewDescription')).to.be.true;
-    expect(getText.calledWith('cancelYes')).to.be.true;
+    expect(getText.calledWith('cancelEditYes')).to.be.true;
     expect(getText.calledWith('cancelEditNo')).to.be.true;
   });
 

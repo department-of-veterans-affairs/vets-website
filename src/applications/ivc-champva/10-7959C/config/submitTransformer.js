@@ -50,6 +50,8 @@ export default function transformForSubmit(formConfig, form) {
   // a status event notification
   copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
 
+  copyOfData.statementOfTruthSignature = copyOfData.signature;
+
   return JSON.stringify({
     ...copyOfData,
     form_number: formConfig.formId,
