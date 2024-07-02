@@ -163,7 +163,7 @@ const summaryPage = {
 
 const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
   employers: pageBuilder.introPage({
-    title: 'Your employers',
+    title: 'Employers',
     path: 'employers',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
@@ -181,7 +181,7 @@ const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
     schema: informationPage.schema,
   }),
   employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
-    title: 'Employer address and phone',
+    title: 'Employer address and phone number',
     path: 'employers/:index/address-phone-number',
     uiSchema: addressAndPhoneNumberPage.uiSchema,
     schema: addressAndPhoneNumberPage.schema,

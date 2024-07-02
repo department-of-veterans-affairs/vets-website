@@ -114,9 +114,9 @@ const testConfig = createTestConfig(
       'character-references-summary': selectYesNoHook(
         'view:hasCharacterReferences',
         [
-          { text: 'You can add 4 more character references.', value: true },
           { text: 'You can add 3 more character references.', value: true },
-          { text: 'You can add 2 more character references.', value: false },
+          { text: 'You can add 2 more character references.', value: true },
+          { text: 'You can add 1 more character reference.', value: false },
         ],
       ),
       'character-references/1/address': selectDropdownHook(

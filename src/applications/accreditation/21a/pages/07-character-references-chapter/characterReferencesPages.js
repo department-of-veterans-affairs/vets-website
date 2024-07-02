@@ -148,7 +148,7 @@ const characterReferencesPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     characterReferences: pageBuilder.introPage({
-      title: 'Your character references',
+      title: 'Character references',
       path: 'character-references',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,

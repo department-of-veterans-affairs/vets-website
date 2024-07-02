@@ -6,7 +6,7 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Enter other address',
+  title: 'Other address',
   path: 'other-address',
   depends: formData => formData.communicationAddress === 'OTHER',
   uiSchema: {

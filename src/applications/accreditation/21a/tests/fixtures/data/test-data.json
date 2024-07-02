@@ -107,7 +107,7 @@
         "membershipOrRegistrationNumber": "54321"
       }
     ],
-    "convictions": true,
+    "conviction": true,
     "convictionPlace": "Kansas City, Missouri",
     "convictionDate": "2010-01-01",
     "convictionExplanation": "Violation explanation",
