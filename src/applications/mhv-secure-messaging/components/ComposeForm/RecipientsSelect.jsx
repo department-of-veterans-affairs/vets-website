@@ -31,7 +31,6 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
 
@@ -62,16 +61,6 @@ const RecipientsSelect = ({
     () => {
       if (selectedRecipient) {
         onValueChange(selectedRecipient);
-        if (
-          selectedRecipient.signatureRequired ||
-          isSignatureRequiredRef.current !== null
-        ) {
-          setTimeout(() => {
-            focusElement(
-              document.querySelector('[data-testid="signature-alert"]'),
-            );
-          }, 500);
-        }
       }
     },
     [selectedRecipient],
@@ -87,6 +76,16 @@ const RecipientsSelect = ({
     },
     [recipientsList, isSignatureRequired],
   );
+
+  const SignatureStatus = props => {
+    return (
+      <p className="sr-only" aria-live="assertive" role="alert">
+        {props.isSignatureRequired
+          ? Prompts.Compose.SIGNATURE_REQUIRED
+          : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+      </p>
+    );
+  };
 
   return (
     <>
@@ -110,24 +109,32 @@ const RecipientsSelect = ({
         ))}
       </VaSelect>
       {alertDisplayed && (
-        <VaAlert
-          ref={alertRef}
-          class="vads-u-margin-y--2"
-          closeBtnAriaLabel="Close notification"
-          closeable
-          onCloseEvent={() => {
-            setAlertDisplayed(false);
-          }}
-          status="info"
-          visible
-          data-testid="signature-alert"
-        >
-          <p className="vads-u-margin-y--0">
-            {isSignatureRequired === true
-              ? Prompts.Compose.SIGNATURE_REQUIRED
-              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
-          </p>
-        </VaAlert>
+        <>
+          <SignatureStatus
+            selectedRecipient={selectedRecipient}
+            isSignatureRequired={isSignatureRequired}
+          />
+          <VaAlert
+            aria-live="assertive"
+            role="alert"
+            ref={alertRef}
+            class="vads-u-margin-y--2"
+            closeBtnAriaLabel="Close notification"
+            closeable
+            onCloseEvent={() => {
+              setAlertDisplayed(false);
+            }}
+            status="info"
+            visible
+            data-testid="signature-alert"
+          >
+            <p className="vads-u-margin-y--0">
+              {isSignatureRequired === true
+                ? Prompts.Compose.SIGNATURE_REQUIRED
+                : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
+            </p>
+          </VaAlert>
+        </>
       )}
     </>
   );
