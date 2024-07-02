@@ -26,7 +26,7 @@ const initialState = {
 };
 
 describe('CustomReviewTopContent', () => {
-  it('renders when startedFormVersion: "2019", claim type and new conditions are present (success path)', () => {
+  it('renders when startedFormVersion: "2019", claim type of new, and new condition present (success path)', () => {
     const store = createStore(() => initialState);
 
     const { container, queryByText } = render(
