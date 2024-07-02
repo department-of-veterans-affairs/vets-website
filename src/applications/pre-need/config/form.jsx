@@ -10,7 +10,7 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { fileUploadUi } from '../utils/upload';
 import transformForSubmit from './transformForSubmit';
 
 import emailUI from '../definitions/email';
@@ -127,6 +127,7 @@ function ApplicantContactInfoDescription() {
 const formConfig = {
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -333,7 +334,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUI('Select files to upload', {
+              preneedAttachments: fileUploadUi('Select files to upload', {
                 buttonText: 'Upload file',
                 addAnotherLabel: 'Upload another file',
                 fileUploadUrl: environment.isProduction()

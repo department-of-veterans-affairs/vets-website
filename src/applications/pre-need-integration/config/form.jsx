@@ -6,7 +6,8 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+// import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { fileUploadUi } from '../../pre-need/utils/upload';
 import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
 import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -597,7 +598,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUI('Select files to upload', {
+              preneedAttachments: fileUploadUi('Select files to upload', {
                 buttonText: 'Upload file',
                 addAnotherLabel: 'Upload another file',
                 fileUploadUrl: `${
