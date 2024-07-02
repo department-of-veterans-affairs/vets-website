@@ -1,3 +1,6 @@
+// eslint-disable function-url-scheme-disallowed-list
+// eslint-disable color-no-hex
+
 @font-face {
   font-family: "Source Sans Pro";
   src: url("https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-regular-webfont.woff2");
@@ -41,7 +44,8 @@
 }
 
 .ts-header-container,
-.ts-footer-container {
+.ts-footer-container,
+#ts-login-modal-container {
   $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
@@ -596,6 +600,7 @@
   @media screen and (min-width: 481px) {
     .usa-banner-button[aria-expanded=true]::after {
       position: static;
+      margin-left: 4px;
     }
   }
 

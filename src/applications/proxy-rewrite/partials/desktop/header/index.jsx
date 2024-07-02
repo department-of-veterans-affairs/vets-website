@@ -1,7 +1,13 @@
 import React from 'react';
 import MegaMenu from './mega-menu';
 
-const DesktopHeader = ({ megaMenuData }) => {
+const DesktopHeader = ({
+  megaMenuData,
+  setSignInModalIsOpen,
+  setVclModalIsOpen,
+  signInModalIsOpen,
+  vclModalIsOpen
+}) => {
   return (
     <header role="banner">
       <div id="preview-site-alert">

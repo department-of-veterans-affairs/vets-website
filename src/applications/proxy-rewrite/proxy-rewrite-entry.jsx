@@ -3,7 +3,6 @@ import 'platform/polyfills';
 import React from 'react';
 import { Provider } from 'react-redux';
 import cookie from 'cookie';
-import { debounce } from 'lodash';
 import bucketsContent from 'site/constants/buckets-content';
 import environments from 'site/constants/environments';
 import environment from 'platform/utilities/environment';
@@ -16,15 +15,12 @@ import {
 import { getAssetPath } from './utilities/get-asset-path';
 import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
-import { getDesktopHeader } from './partials/desktop/header';
-import { getMobileHeader } from './partials/mobile/header';
-import { getDesktopFooterHtml } from './partials/desktop/footer';
-import { getMobileFooterHtml } from './partials/mobile/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
 import { addHeaderEventListeners } from './utilities/menu-behavior';
 import Search from './partials/search';
 import SignInModal from './partials/sign-in';
-import Header from './header';
+import Header from './Header';
+import Footer from './Footer';
 
 const store = createCommonStore();
 
@@ -89,41 +85,22 @@ function renderHeader(megaMenuData, headerContainer) {
     document.getElementById(searchParentElement),
   );
 
-  return addHeaderEventListeners();
+  addHeaderEventListeners();
 }
 
-function renderFooter(footerData, footerContainer = null) {
-  const container =
-    footerContainer || document.querySelector('.ts-footer-container');
+function renderFooter(footerData, footerContainer) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = (subFooter && subFooter.item(0).textContent) || null;
 
-  const footer =
-    window.innerWidth < 768
-      ? getMobileFooterHtml(footerData)
-      : getDesktopFooterHtml(footerData);
-
-  if (lastUpdated) {
-    const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
-
-    container.innerHTML = `
-      <div>
-        <div class="footer-lastupdated">
-          <div class="usa-grid">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-              <p class="vads-u-margin--0 vads-u-padding--0 vads-u-font-size--lg">Last updated: ${lastUpdatedDate}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      ${footer}
-    `;
-  } else {
-    container.innerHTML = footer;
-  }
-
-  document.body.appendChild(container);
+  startReactApp(
+    <Provider store={store}>
+      <Footer
+        footerData={footerData}
+        lastUpdated={lastUpdated}
+      />
+    </Provider>,
+    footerContainer
+  );
 }
 
 function addFonts() {
@@ -178,15 +155,18 @@ const startVCLModal = () => {
   addOverlayTriggers();
 };
 
-const addSignInModal = () => {
-  return startReactApp(
+const startSignInModal = () => {
+  startReactApp(
     <Provider store={store}>
       <SignInModal />
     </Provider>,
     document.getElementById('ts-login-modal-container'),
   );
+
+  return null;
 };
 
+// Add modernized header and footer
 function activateInjectedAssets() {
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
@@ -208,16 +188,14 @@ function activateInjectedAssets() {
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');
 
-      // const footerContainer = document.createElement('div');
-      // footerContainer.classList.add('ts-footer-container');
+      const footerContainer = document.createElement('div');
+      footerContainer.classList.add('ts-footer-container');
 
-      // Add login modal
       const loginModalContainer = document.createElement('div');
       loginModalContainer.setAttribute('id', 'ts-login-modal-container');
 
       document.body.appendChild(loginModalContainer);
-
-      addSignInModal();
+      document.body.appendChild(footerContainer);
 
       if (skipLink) {
         skipLink.after(headerContainer);
@@ -226,23 +204,10 @@ function activateInjectedAssets() {
       }
 
       renderHeader(headerFooterData.megaMenuData, headerContainer);
-      // renderFooter(headerFooterData.footerData, footerContainer);
+      renderFooter(headerFooterData.footerData, footerContainer);
+
+      startSignInModal();
       startVCLModal(); 
-
-      // window.addEventListener(
-      //   'resize',
-      //   debounce(() => {
-      //     const initialWindowIsDesktop = localStorage.getItem('isDesktop') === 'true';
-      //     const newScreenIsDesktop = window.innerWidth > 767;
-
-      //     if (initialWindowIsDesktop !== newScreenIsDesktop) {
-      //       renderHeader(headerFooterData.megaMenuData);
-      //       renderFooter(headerFooterData.footerData);
-      //       startVCLModal();
-      //     }
-      //   }),
-      //   200,
-      // );     
     });
 }
 

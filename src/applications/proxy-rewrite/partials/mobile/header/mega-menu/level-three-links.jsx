@@ -1,3 +1,4 @@
+import React from 'react';
 import { isArray, kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
 
@@ -40,12 +41,23 @@ const formatMenuItems = menuItems => {
 };
 
 const buildLinks = linkGroups => {
-  const linkHtml = (text, href) =>
-    `<li class="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold" data-e2e-id="${kebabCase(
-      text,
-    )}"><a class="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="${updateLinkDomain(
-      href,
-    )}" data-e2e-id="${kebabCase(text)}">${text}</a></li>`;
+  const linkHtml = (text, href) => {
+    return (
+      <li
+        className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+        data-e2e-id={kebabCase(text)}
+        key={text}
+      >
+        <a
+          className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+          href={updateLinkDomain(href)}
+          data-e2e-id={kebabCase(text)}
+        >
+          {text}
+        </a>
+      </li>
+    );
+  };
 
   return linkGroups
     .map(group => {
@@ -62,13 +74,16 @@ const buildLinks = linkGroups => {
 };
 
 const containerForLinks = (title, linkGroups) => {
-  return `
-    <div id="${kebabCase(
-      title,
-    )}-menu" hidden class="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full">
-      <ul class="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
-        <li class="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
-          <button class="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center" id="header-back-to-menu" type="button">
+  return (
+    <div
+      id={`${kebabCase(title)}-menu`}
+      key={kebabCase(title)}
+      hidden
+      className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full"
+    >
+      <ul className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
+        <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
+          <button className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center" id="header-back-to-menu" type="button">
             <svg
               aria-hidden="true"
               focusable="false"
@@ -85,10 +100,10 @@ const containerForLinks = (title, linkGroups) => {
             </svg>Back to menu
           </button>
         </li>
-        ${buildLinks(linkGroups)}
+        {buildLinks(linkGroups)}
       </ul>
     </div>
-  `;
+  );
 };
 
 // Build hub child links
@@ -96,7 +111,7 @@ export const buildLevelThreeLinks = menuSections => {
   const linkContainers = [];
 
   if (!menuSections) {
-    return ``;
+    return null;
   }
 
   if (Array.isArray(menuSections)) {

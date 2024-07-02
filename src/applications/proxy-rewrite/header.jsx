@@ -1,25 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import DesktopHeader from './partials/desktop/header';
-// import { getMobileHeader } from './partials/mobile/header';
+import MobileHeader from './partials/mobile/header';
+import { addHeaderEventListeners } from './utilities/menu-behavior';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
 const Header = ({ megaMenuData }) => {
+  const [vclModalIsOpen, setVclModalIsOpen] = useState(false);
+  const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
   );
 
   useEffect(() => {
     const deriveIsDesktop = () => setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
-    const onResize = debounce(deriveIsDesktop, 100);
+    const serveHeader = debounce(deriveIsDesktop, 100);
+    const addListeners = debounce(addHeaderEventListeners, 100);
+    
+    window.addEventListener('resize', serveHeader);
 
-    window.addEventListener('resize', onResize);
-
-    return () => window.removeEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', serveHeader);
+      window.removeEventListener('resize', addListeners);
+    };
   }, []);
 
-  return <DesktopHeader megaMenuData={megaMenuData} />;
+  useEffect(() => {
+    addHeaderEventListeners();
+  }, [isDesktop]);
+
+  return isDesktop ?
+    (
+      <DesktopHeader
+        megaMenuData={megaMenuData}
+        setSignInModalIsOpen={setSignInModalIsOpen}
+        setVclModalIsOpen={setVclModalIsOpen}
+        signInModalIsOpen={signInModalIsOpen}
+        vclModalIsOpen={vclModalIsOpen}
+      />
+    ) :
+    (
+      <MobileHeader
+        megaMenuData={megaMenuData}
+        setSignInModalIsOpen={setSignInModalIsOpen}
+        setVclModalIsOpen={setVclModalIsOpen}
+        signInModalIsOpen={signInModalIsOpen}
+        vclModalIsOpen={vclModalIsOpen}
+      />
+    );
 };
 
 export default Header;

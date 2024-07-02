@@ -3,7 +3,7 @@ const toggleMenu = (nextSibling, btn, buttonIcons) => {
 
   btn.setAttribute(
     'aria-expanded',
-    `${btn.getAttribute('aria-expanded') !== 'true'}`,
+    btn.getAttribute('aria-expanded') !== 'true',
   );
 
   buttonIcons.forEach(icon => {
@@ -40,7 +40,6 @@ export const addHeaderEventListeners = () => {
 
   // [DESKTOP] VA Benefits & Health Care, About VA ----------------------
   const searchButton = document.getElementById('search-dropdown-button');
-  console.log('searchButton: ', searchButton);
   const megaMenuL1Buttons = [
     ...document.querySelectorAll('button.vetnav-level1'),
   ];

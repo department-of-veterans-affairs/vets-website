@@ -43,9 +43,7 @@ class SearchDropdownComponent extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const searchDropdown = document.getElementById('search');
-    const searchInput = document.getElementById(
-      `search-header-dropdown-input-field`,
-    );
+    const searchInput = document.getElementById('search-header-dropdown-input-field');
 
     if (searchDropdown && prevState.isOpen !== this.state.isOpen) {
       searchDropdown.toggleAttribute('hidden');

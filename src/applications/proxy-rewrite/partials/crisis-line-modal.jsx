@@ -1,6 +1,8 @@
-export default `
-  <div id="ts-modal-crisisline" class="vcl-overlay va-modal va-modal-large" role="alertdialog">
-    <div class="vcl-crisis-panel va-modal-inner">
+import React from 'react';
+
+const CrisisLineModal = () => (
+  <div id="ts-modal-crisisline" className="vcl-overlay va-modal va-modal-large" role="alertdialog">
+    <div className="vcl-crisis-panel va-modal-inner">
       <button aria-label="Close this modal" id="vcl-modal-close" type="button">
         <svg
           aria-hidden="true"
@@ -16,16 +18,16 @@ export default `
         />
       </svg>
       </button>
-      <div class="vcl-overlay-body vcl-crisis-panel-body">
-        <h3 class="vcl-crisis-panel-title">We’re here anytime, day or night – 24/7</h3>
+      <div className="vcl-overlay-body vcl-crisis-panel-body">
+        <h3 className="vcl-crisis-panel-title">We’re here anytime, day or night – 24/7</h3>
         <p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.</p>
-        <ul class="vcl-crisis-panel-list">
+        <ul className="vcl-crisis-panel-list">
           <li>
             <svg
               aria-hidden="true"
-              class="vcl-crisis-panel-icon vads-u-display--inline-block"
+              className="vcl-crisis-panel-icon vads-u-display--inline-block"
               focusable="false"
-              style="transform: rotate(270deg)"
+              style={{transform: 'rotate(270deg)'}}
               viewBox="0 0 23 23"
               width="30"
               xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +44,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              class="vcl-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -59,7 +61,7 @@ export default `
           <li>
             <svg
               aria-hidden="true"
-              class="vcl-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -72,12 +74,12 @@ export default `
                 d="M21 6H19V15H6V17C6 17.55 6.45 18 7 18H18L22 22V7C22 6.45 21.55 6 21 6ZM17 12V3C17 2.45 16.55 2 16 2H3C2.45 2 2 2.45 2 3V17L6 13H16C16.55 13 17 12.55 17 12Z"
               />
             </svg>
-            <a class="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a>
+            <a className="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a>
           </li>
           <li>
             <svg
               aria-hidden="true"
-              class="vcl-crisis-panel-icon"
+              className="vcl-crisis-panel-icon"
               focusable="false"
               viewBox="0 0 24 24"
               width="16"
@@ -98,4 +100,6 @@ export default `
       </div>
     </div>
   </div>
-`;
+);
+
+export default CrisisLineModal;

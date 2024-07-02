@@ -1,35 +1,36 @@
+import React from 'react';
 import { updateLinkDomain } from './links';
 
 // Shared utilities between the desktop and mobile footer
-const makeLink = link => {
+const makeLink = (link, index) => {
   let label = '';
 
   if (link.label) {
-    label = `<h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">${
-      link.label
-    }</h2>`;
+    label = (
+      <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1" key={index}>
+        {link.label}
+      </h2>
+    );
   }
 
-  return `<li>${label}
-    <a href=${updateLinkDomain(link.href)}>${link.title}</a>
-  </li>`;
+  return (
+    <li key={index}>
+      {label}
+      <a href={updateLinkDomain(link.href)}>
+        {link.title}
+      </a>
+    </li>
+  );
 };
 
 export const buildColumn = (columns, number) => {
-  return columns[number]
-    .map(link => makeLink(link))
-    .join()
-    .replaceAll(',', '');
+  return columns[number].map((link, index) => makeLink(link, index));
 };
 
 export const buildBottomRail = bottomRailData => {
-  return bottomRailData
-    .map(
-      link =>
-        `<li><a href=${updateLinkDomain(link.href)}>${link.title}</a></li>`,
-    )
-    .join()
-    .replaceAll('</li>,', '</li>');
+  return bottomRailData.map(
+    (link, index) => <li key={index}><a href={updateLinkDomain(link.href)}>{link.title}</a></li>
+  );
 };
 
 /**
