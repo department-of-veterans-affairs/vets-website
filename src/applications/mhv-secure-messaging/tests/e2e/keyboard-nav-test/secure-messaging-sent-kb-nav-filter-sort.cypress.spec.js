@@ -6,7 +6,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
 
-describe('Keyboard Navigation for Filter & Sort functionalities', () => {
+describe('Sent page keyboard navigation for filter & sort features', () => {
   const site = new SecureMessagingSite();
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
