@@ -10,12 +10,7 @@ export default {
   path: 'home-address',
   uiSchema: {
     ...titleUI('Home address'),
-    homeAddress: addressUI({
-      labels: {
-        state: 'State/Province/Region',
-      },
-      omit: ['street3'],
-    }),
+    homeAddress: addressUI(),
   },
   schema: {
     type: 'object',
