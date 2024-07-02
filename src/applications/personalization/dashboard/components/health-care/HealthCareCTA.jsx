@@ -96,7 +96,7 @@ const HealthCareCTA = ({
                 authenticatedWithSSOe,
                 'web/myhealthevet/refill-prescriptions',
               )}
-              icon="medication"
+              icon="pill"
               text="Refill and track your prescriptions"
               testId="refill-prescriptions-link-from-cta"
               onClick={() => {
