@@ -6,7 +6,10 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
 
-import { fetchPersonalInformation } from '../actions';
+import {
+  fetchPersonalInformation,
+  fetchDuplicateContactInfo,
+} from '../actions';
 
 function App({
   location,
@@ -16,6 +19,10 @@ function App({
   user,
   // fetchDirectDeposit,
   getPersonalInformation,
+  getDuplicateContactInfo,
+  // email,
+  duplicateEmail,
+  duplicatePhone,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -47,6 +54,47 @@ function App({
       setFormData,
     ],
   );
+  useEffect(
+    () => {
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
+        });
+      }
+
+      if (
+        formData?.mobilePhone &&
+        formData?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData?.mobilePhone,
+              dupe: '',
+            },
+          ],
+        );
+      }
+    },
+    [getDuplicateContactInfo, formData],
+  );
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
@@ -67,6 +115,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
   setFormData: setData,
 };
 

@@ -24,6 +24,7 @@ import manifest from '../manifest.json';
 import PersonalInformation from '../components/PersonalInformation';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 // const { } = fullSchema.properties;
 
@@ -527,6 +528,9 @@ const formConfig = {
             confirmEmail: {
               ...emailUI('Confirm email address'),
             },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
+            },
           },
           schema: {
             type: 'object',
@@ -545,6 +549,10 @@ const formConfig = {
               confirmEmail: {
                 type: 'string',
                 format: 'email',
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
