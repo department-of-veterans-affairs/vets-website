@@ -102,4 +102,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 200);
+module.exports = delay(responses, 3000);
