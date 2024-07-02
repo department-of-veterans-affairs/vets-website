@@ -7,7 +7,6 @@ import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.js
 import FolderLoadPage from '../pages/FolderLoadPage';
 
 describe('Sent page keyboard navigation for filter & sort features', () => {
-  const site = new SecureMessagingSite();
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -15,7 +14,7 @@ describe('Sent page keyboard navigation for filter & sort features', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockSentMessages);
     FolderLoadPage.loadSentMessages(mockSentMessages);
   });
