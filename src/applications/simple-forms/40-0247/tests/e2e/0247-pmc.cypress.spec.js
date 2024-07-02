@@ -108,7 +108,6 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { additionalAddress, additionalCopies } = data;
-
             cy.get(v3StepHeaderSelector)
               .should('be.visible')
               .then(() => {

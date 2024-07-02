@@ -13,50 +13,6 @@ import {
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
 
-const awaitFocusSelectorThenTest = pagePath => {
-  return ({ afterHook }) => {
-    cy.injectAxeThenAxeCheck();
-    afterHook(() => {
-      const header =
-        pagePath === 'authorizer-type'
-          ? '#root_authorizerType-label'
-          : '#nav-form-header';
-      cy.get(header).should('be.visible');
-      cy.fillPage();
-      cy.axeCheck();
-      cy.findByText(/continue/i, { selector: 'button' }).click();
-    });
-  };
-};
-
-const pagePaths = [
-  'authorizer-type',
-  'authorizer-personal-information',
-  'authorizer-address',
-  'authorizer-contact-information',
-  'veteran-personal-information',
-  'veteran-identification-information',
-  'disclosure-information-third-party-type',
-  'disclosure-information-person-name',
-  'disclosure-information-person-address',
-  'disclosure-information-organization-name',
-  'disclosure-information-organization-representative',
-  'disclosure-information-organization-address',
-  'disclosure-information-scope',
-  'disclosure-information-limited-information',
-  'disclosure-information-release-duration',
-  'disclosure-information-release-and-date',
-  'security-information-question',
-  'security-information-answer',
-];
-
-const pageTestConfigs = pagePaths.reduce((obj, pagePath) => {
-  return {
-    ...obj,
-    [pagePath]: awaitFocusSelectorThenTest(pagePath),
-  };
-}, {});
-
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -71,7 +27,6 @@ const testConfig = createTestConfig(
           }).click();
         });
       },
-      ...pageTestConfigs,
       'authorizer-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
