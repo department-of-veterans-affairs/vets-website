@@ -6,7 +6,6 @@ const ProcessTimeline = () => (
     <h2>Follow these steps to get started:</h2>
 
     <va-process-list>
-      {/* Check your eligibility */}
       <va-process-list-item header="Check your eligibility">
         <p className="vads-u-margin-top--2">
           Check our eligibility requirements before you apply.
@@ -23,7 +22,6 @@ const ProcessTimeline = () => (
         </p>
       </va-process-list-item>
 
-      {/* Gather your information */}
       <va-process-list-item header="Gather your information">
         <p className="vads-u-margin-top--2">
           You’ll need this information for the Veteran and each family
@@ -53,7 +51,7 @@ const ProcessTimeline = () => (
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
+            href="/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/#what-documents-can-i-submit-if"
           >
             Learn more about the documents you can submit
           </a>
@@ -114,7 +112,6 @@ const ProcessTimeline = () => (
         </va-additional-info>
       </va-process-list-item>
 
-      {/* Start your application */}
       <va-process-list-item header="Start your application">
         <p className="vads-u-margin-top--2">
           We’ll take you through each step of the process. It should take about

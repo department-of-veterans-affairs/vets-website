@@ -23,7 +23,7 @@ import fullSchema from './10-10CG-schema.json';
 
 // veteran pages
 import vetPersonalInfoPage from './chapters/veteran/personalInformation';
-import vetIdentityInfoPage from './chapters/veteran/identyInformation';
+import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
@@ -32,7 +32,7 @@ import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
 import primaryPersonalInfoPage from './chapters/primary/personalInformation';
-import primaryIdentityInfoPage from './chapters/primary/identyInformation';
+import primaryIdentityInfoPage from './chapters/primary/identityInformation';
 import primaryHomeAddressPage from './chapters/primary/homeAddress';
 import primaryMailingAddressPage from './chapters/primary/mailingAddress';
 import primaryContactInfoPage from './chapters/primary/contactInformation';
@@ -40,13 +40,13 @@ import primaryContactInfoPage from './chapters/primary/contactInformation';
 // secondary pages
 import hasSecondaryOnePage from './chapters/secondaryOne/hasSecondary';
 import secondaryOnePersonalInfoPage from './chapters/secondaryOne/personalInformation';
-import secondaryOneIdentityInfoPage from './chapters/secondaryOne/identyInformation';
+import secondaryOneIdentityInfoPage from './chapters/secondaryOne/identityInformation';
 import secondaryOneHomeAddressPage from './chapters/secondaryOne/homeAddress';
 import secondaryOneMailingAddressPage from './chapters/secondaryOne/mailingAddress';
 import secondaryOneContactInfoPage from './chapters/secondaryOne/contactInformation';
 import hasSecondaryTwoPage from './chapters/secondaryTwo/hasSecondaryTwo';
 import secondaryTwoPersonalInfoPage from './chapters/secondaryTwo/personalInformation';
-import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identyInformation';
+import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInformation';
 import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
 import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
