@@ -402,7 +402,7 @@ class TrackClaimsPageV2 {
       });
   }
 
-  verifyRecentActivity() {
+  verifyRecentActivity(claimClosed = false, showEightPhases = false) {
     cy.get('.recent-activity-container').should('be.visible');
     cy.get('.recent-activity-container > h3').should(
       'contain',
@@ -412,6 +412,57 @@ class TrackClaimsPageV2 {
       'have.length.greaterThan',
       0,
     );
+    if (showEightPhases) {
+      if (claimClosed) {
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim was decided',
+        );
+      } else {
+        cy.get('.recent-activity-container va-pagination')
+          .shadow()
+          .find(
+            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+          )
+          .click();
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We received your claim in our system',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 2: Initial review',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 3: Evidence gathering',
+        );
+      }
+    } else if (claimClosed) {
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 5: Closed',
+      );
+    } else {
+      cy.get('.recent-activity-container va-pagination')
+        .shadow()
+        .find(
+          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+        )
+        .click();
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 1: Claim received',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 2: Initial review',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 3: Evidence gathering, review, and decision',
+      );
+    }
   }
 
   verifyRecentActivityPagination() {

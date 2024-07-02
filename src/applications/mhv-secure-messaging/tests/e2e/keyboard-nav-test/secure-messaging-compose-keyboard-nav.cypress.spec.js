@@ -4,9 +4,8 @@ import { AXE_CONTEXT } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('Secure Messaging Compose Keyboard Nav', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
   it('Tab to Message Body', () => {
