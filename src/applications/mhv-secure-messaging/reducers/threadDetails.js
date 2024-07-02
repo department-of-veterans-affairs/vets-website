@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { updateMessageInThread } from '../util/helpers';
+import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
   drafts: undefined,
@@ -27,7 +27,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.UPDATE_DRAFT_IN_THREAD: {
       return {
         ...state,
-        drafts: state.drafts.map(d => {
+        drafts: updateDrafts(state.drafts).map(d => {
           if (d.messageId === action.payload.messageId) {
             return {
               ...d,
