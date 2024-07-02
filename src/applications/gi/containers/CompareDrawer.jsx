@@ -273,6 +273,11 @@ export function CompareDrawer({
               className={headerLabelClasses}
             >
               {headerLabel}
+              <va-icon
+                icon={open ? 'expand_more' : 'expand_less'}
+                size={4}
+                className="vads-u-padding-left--2"
+              />
             </button>
           </div>
 

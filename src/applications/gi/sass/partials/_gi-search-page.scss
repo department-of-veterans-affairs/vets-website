@@ -326,21 +326,6 @@
       border: none;
       height: unset;
     }
-
-    .clear-button {
-      width: 44px;
-      height: 44px;
-      background-color: transparent;
-      color: var(--vads-color-black);
-      padding: 0;
-      margin: 0;
-      font-family: "Font Awesome 5 Free";
-
-      &:hover {
-        background-color: unset;
-        color: unset;
-      }
-    }
   }
 
   .search-button {
