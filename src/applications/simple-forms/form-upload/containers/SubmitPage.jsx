@@ -25,10 +25,9 @@ const SubmitPage = () => {
 
   const fullName = useSelector(state => state?.user?.profile?.userFullName);
   const { state } = location;
-  const fileName = state?.file?.name;
-  const fileSize = state?.file?.size;
-  const confirmationCode = state?.file?.confirmationCode;
-  const submitHandler = () => submitForm(formNumber, confirmationCode, history);
+  const { file, options } = state;
+  const submitHandler = () =>
+    submitForm(formNumber, file?.confirmationCode, history, options);
 
   const [veteran, setVeteran] = useState();
 
@@ -70,9 +69,9 @@ const SubmitPage = () => {
               />
             </span>
             <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <span className="vads-u-font-weight--bold">{fileName}</span>{' '}
+              <span className="vads-u-font-weight--bold">{file?.name}</span>{' '}
               <span className="vads-u-color--gray-darker">
-                {getFileSize(fileSize)}
+                {getFileSize(file?.size)}
               </span>
             </div>
           </div>

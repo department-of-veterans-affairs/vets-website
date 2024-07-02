@@ -14,7 +14,8 @@ export const IdentificationInfoPage = () => {
 
   const onClickContinue = () => {
     const { state } = location;
-    const newState = { ...state, ssn, vaFileNumber };
+    const options = { ssn, vaFileNumber };
+    const newState = { ...state, options };
     history.push(`/${formNumber}/review-zip`, newState);
   };
 
@@ -67,7 +68,8 @@ export const ZipCodePage = () => {
 
   const onClickContinue = () => {
     const { state } = location;
-    const newState = { ...state, zipCode };
+    const { options } = state;
+    const newState = { ...state, options: { ...options, zipCode } };
     history.push(`/${formNumber}/submit`, newState);
   };
 
