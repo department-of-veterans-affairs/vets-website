@@ -91,8 +91,8 @@ Review a summary of your stay at a hospital or other health facility (called an 
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
-Admitted on: ${record.admissionDate}\n
-Discharged on: ${record.dischargeDate}\n
+Date admitted: ${record.admissionDate}\n
+Date discharged: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
 Summary\n

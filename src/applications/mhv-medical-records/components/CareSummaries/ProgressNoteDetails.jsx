@@ -93,7 +93,7 @@ Date: ${record.date}\n
 Location: ${record.location}\n
 Written by: ${record.writtenBy}\n
 ${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
-Signed on: ${record.dateSigned}\n
+Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;

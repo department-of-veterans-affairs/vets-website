@@ -17,12 +17,12 @@ export const generateDischargeSummaryContent = record => ({
         inline: true,
       },
       {
-        title: 'Admitted on',
+        title: 'Date admitted',
         value: record.admissionDate,
         inline: true,
       },
       {
-        title: 'Discharged on',
+        title: 'Date discharged',
         value: record.dischargeDate,
         inline: true,
       },
@@ -69,7 +69,7 @@ export const generateProgressNoteContent = record => {
           inline: true,
         },
         {
-          title: 'Signed on',
+          title: 'Date signed',
           value: record.dateSigned,
           inline: true,
         },

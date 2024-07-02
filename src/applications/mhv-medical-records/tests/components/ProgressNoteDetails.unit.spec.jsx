@@ -67,7 +67,7 @@ describe('Adverse React/Allergy details component', () => {
 
   it('should display signed on field', () => {
     expect(
-      screen.getByText('Signed on', {
+      screen.getByText('Date signed', {
         exact: true,
         selector: 'h3',
       }),
