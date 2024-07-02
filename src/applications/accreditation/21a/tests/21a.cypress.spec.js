@@ -69,22 +69,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'military-service-experiences/0/experience': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            selectDropdownWebComponent(
-              'serviceBranch',
-              data.militaryServiceExperiences[0].serviceBranch,
-            );
-            selectDropdownWebComponent(
-              'characterOfDischarge',
-              data.militaryServiceExperiences[0].characterOfDischarge,
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       'military-service-experiences-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-legend').then($el => {
@@ -101,6 +85,22 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'military-service-experiences/0/experience': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'serviceBranch',
+              data.militaryServiceExperiences[0].serviceBranch,
+            );
+            selectDropdownWebComponent(
+              'characterOfDischarge',
+              data.militaryServiceExperiences[0].characterOfDischarge,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'employers/0/address-phone-number': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -108,6 +108,40 @@ const testConfig = createTestConfig(
             selectDropdownWebComponent(
               'address_state',
               data.employers[0].address.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'agencies-courts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('.usa-legend').then($el => {
+            const text = $el.text();
+            if (
+              text.includes(
+                'Are you currently permitted to practice before any state or federal agency or any federal court?',
+              )
+            ) {
+              selectYesNoWebComponent('view:hasAgenciesOrCourts', true);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            } else if (
+              text.includes(
+                'Do you have another agency or court you are permitted to practice before?',
+              )
+            ) {
+              selectYesNoWebComponent('view:hasAgenciesOrCourts', false);
+              cy.findByText(/continue/i, { selector: 'button' }).click();
+            }
+          });
+        });
+      },
+      'court-martial-details': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'militaryAuthorityAddress_state',
+              data.militaryAuthorityAddress.state,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });

@@ -3,10 +3,13 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
-describe.skip('Secure Messaging Compose Errors', () => {
-  const site = new SecureMessagingSite();
+// TODO error focus assertions should be refactored later
+// Focus states go to interactive form fields (Select, text input, textarea, checkboxes, and radio buttons.)
+
+describe('Secure Messaging Compose Errors', () => {
+  SecureMessagingSite;
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
@@ -45,7 +48,7 @@ describe.skip('Secure Messaging Compose Errors', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('focus on error message for empty message body', () => {
+  it.skip('focus on error message for empty message body', () => {
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {

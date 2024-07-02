@@ -30,7 +30,7 @@ export const internationalPhoneUI = options => {
 
 export const internationalPhoneSchema = {
   type: 'string',
-  pattern: '^\\+?[0-9](?:-?[0-9]){0,15}$',
+  pattern: '^\\+?[0-9](?:-?[0-9]){0,30}$',
 };
 
 export default {

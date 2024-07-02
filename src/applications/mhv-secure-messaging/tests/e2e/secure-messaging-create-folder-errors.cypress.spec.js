@@ -6,14 +6,13 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('create folder errors check', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 
   it('create folder network error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.loadFolders();
 
     FolderManagementPage.createANewFolderButton().click({
@@ -42,7 +41,7 @@ describe('create folder errors check', () => {
 
   it('create blank name folder error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.loadFolders();
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click({

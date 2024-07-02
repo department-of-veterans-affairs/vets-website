@@ -43,7 +43,7 @@ export const applicantHasMedicareSchema = {
               false,
               undefined,
               true,
-            )} need to provide or update Medicare coverage?`,
+            )} have Medicare information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },
@@ -293,7 +293,7 @@ export const applicantHasMedicareDSchema = {
               false,
               undefined,
               true,
-            )} need to provide or update Medicare Part D coverage?`,
+            )} have Medicare Part D information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },

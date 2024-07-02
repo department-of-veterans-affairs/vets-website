@@ -5,9 +5,8 @@ import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 
