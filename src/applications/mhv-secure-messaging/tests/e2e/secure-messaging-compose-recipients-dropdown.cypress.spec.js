@@ -5,14 +5,12 @@ import mockSpecialCharsMessage from './fixtures/message-response-specialchars.js
 import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
-import mockBlockedRecipientsresponse from './fixtures/recipientsResponse/blocked-recipients-response.json';
+import mockBlockedRecipientsResponse from './fixtures/recipientsResponse/blocked-recipients-response.json';
 
 describe('recipients dropdown box', () => {
   it('preferredTriageTeam select dropdown default ', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
 
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
@@ -30,13 +28,11 @@ describe('recipients dropdown box', () => {
   });
 
   it('preferredTriageTeam select dropdown false', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages(
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSpecialCharsMessage,
-      mockBlockedRecipientsresponse,
+      mockBlockedRecipientsResponse,
     );
 
     cy.injectAxe();
@@ -51,7 +47,7 @@ describe('recipients dropdown box', () => {
         .find('select')
         .find('option')
         .its('length')
-        .should('equal', mockBlockedRecipientsresponse.data.length);
+        .should('equal', mockBlockedRecipientsResponse.data.length);
       cy.get(Locators.ALERTS.REPT_SELECT)
         .first()
         .click();

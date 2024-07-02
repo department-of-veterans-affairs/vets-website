@@ -7,6 +7,7 @@ const VerifiedSuccessStatement = () => {
         close-btn-aria-label="Close notification"
         status="success"
         visible
+        id="success-alert"
       >
         <div
           slot="headline"
@@ -20,7 +21,7 @@ const VerifiedSuccessStatement = () => {
         </div>
         <p className="vads-u-margin-top--2">
           Your verification will be submitted for processing during the next
-          regular business day. Your payment will be deposited within 3-5
+          regular business day. Your payment will be deposited within 4 to 6
           business days.
         </p>
       </va-alert>

@@ -8,13 +8,15 @@ import POARequestsTable, {
   createRelationshipCell,
   formatDate,
 } from '../../components/POARequestsTable/POARequestsTable';
-import { mockPOARequests } from '../../mocks/mockPOARequests';
+import mockPOARequestsResponse from '../../mocks/mockPOARequestsResponse.json';
+
+const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
 
 describe('POARequestsTable', () => {
   const getPOARequestsTable = () =>
     render(
       <MemoryRouter>
-        <POARequestsTable poaRequests={mockPOARequests} />
+        <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />
       </MemoryRouter>,
     );
 
@@ -45,35 +47,33 @@ describe('POARequestsTable', () => {
     );
     expect(
       getByTestId('poa-requests-table-headers-received').textContent,
-    ).to.eq('POA received date');
+    ).to.eq('Date received');
   });
 
   it('renders POA requests', () => {
     const { getByTestId } = getPOARequestsTable();
-    mockPOARequests.forEach(({ procId, attributes }) => {
-      expect(
-        getByTestId(`poa-requests-table-${procId}-status`).textContent,
-      ).to.eq(upperFirst(attributes.secondaryStatus));
-      expect(
-        getByTestId(`poa-requests-table-${procId}-name`).textContent,
-      ).to.eq(
+    MOCK_POA_REQUESTS.forEach(({ id, attributes }) => {
+      expect(getByTestId(`poa-requests-table-${id}-status`).textContent).to.eq(
+        upperFirst(attributes.status),
+      );
+      expect(getByTestId(`poa-requests-table-${id}-name`).textContent).to.eq(
         `${attributes.claimant.lastName}, ${attributes.claimant.firstName}`,
       );
       expect(
-        getByTestId(`poa-requests-table-${procId}-relationship`).textContent,
+        getByTestId(`poa-requests-table-${id}-relationship`).textContent,
       ).to.eq(createRelationshipCell(attributes));
-      expect(
-        getByTestId(`poa-requests-table-${procId}-city`).textContent,
-      ).to.eq(attributes.claimant.city);
-      expect(
-        getByTestId(`poa-requests-table-${procId}-state`).textContent,
-      ).to.eq(attributes.claimant.state);
-      expect(getByTestId(`poa-requests-table-${procId}-zip`).textContent).to.eq(
-        attributes.claimant.zip,
+      expect(getByTestId(`poa-requests-table-${id}-city`).textContent).to.eq(
+        attributes.claimantAddress.city,
+      );
+      expect(getByTestId(`poa-requests-table-${id}-state`).textContent).to.eq(
+        attributes.claimantAddress.state,
+      );
+      expect(getByTestId(`poa-requests-table-${id}-zip`).textContent).to.eq(
+        attributes.claimantAddress.zip,
       );
       expect(
-        getByTestId(`poa-requests-table-${procId}-received`).textContent,
-      ).to.eq(formatDate(attributes.dateRequestReceived));
+        getByTestId(`poa-requests-table-${id}-received`).textContent,
+      ).to.eq(formatDate(attributes.submittedAt));
     });
   });
 });

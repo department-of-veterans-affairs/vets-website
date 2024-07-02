@@ -1,215 +1,218 @@
 {
-  "records": [
+  "data": [
     {
-      "procId": "9453972527",
+      "id": 12345,
       "type": "powerOfAttorneyRequest",
       "attributes": {
-        "poaCode": "A1Q",
-        "secondaryStatus": "pending",
-        "dateRequestReceived": "2024-03-07",
-        "dateRequestActioned": "2024-04-14",
-        "declinedReason": null,
-        "healthInfoAuth": "Y",
-        "changeAddressAuth": "Y",
-        "claimant": {
-          "firstName": "Darcel",
-          "lastName": "Stamm",
-          "city": "Greenburgh",
-          "state": "MN",
-          "zip": "56339",
-          "country": "USA",
-          "militaryPO": null,
-          "militaryPostalCode": null,
-          "participantID": "7585030129",
-          "relationship": "Child"
-        },
-        "VSORepresentative": {
-          "email": "silvana@erdman.example",
-          "firstName": "Maureen",
-          "lastName": "Predovic"
-        }
-      }
-    },
-    {
-      "procId": "3692378881",
-      "type": "powerOfAttorneyRequest",
-      "attributes": {
-        "poaCode": "091",
-        "secondaryStatus": "pending",
-        "dateRequestReceived": "2024-03-18",
-        "dateRequestActioned": "2024-04-14",
-        "declinedReason": "Consectetur facilis placeat est.",
-        "healthInfoAuth": "N",
-        "changeAddressAuth": "N",
-        "claimant": {
-          "firstName": "Kelley",
-          "lastName": "Bosco",
-          "city": "South Vinnie",
-          "state": "ME",
-          "zip": "16385",
-          "country": "USA",
-          "militaryPO": null,
-          "militaryPostalCode": null,
-          "participantID": "9156371702",
-          "relationship": "Parent"
-        },
-        "veteran": {
-          "firstName": "Madelaine",
-          "lastName": "Langosh",
-          "middleName": "Davis",
-          "participantID": "4570953379",
-          "sensitivityLevel": "Medium"
-        },
-        "VSORepresentative": {
-          "email": "young.tremblay@kuphal-borer.test",
-          "firstName": "Ethelyn",
-          "lastName": "Rath"
-        }
-      }
-    },
-    {
-      "procId": "7482299145",
-      "type": "powerOfAttorneyRequest",
-      "attributes": {
-        "poaCode": "091",
-        "secondaryStatus": "declined",
-        "dateRequestReceived": "2024-03-11",
-        "dateRequestActioned": "2024-04-20",
-        "declinedReason": null,
-        "healthInfoAuth": "Y",
-        "changeAddressAuth": "N",
-        "claimant": {
-          "firstName": "Jerome",
-          "lastName": "Bauch",
-          "city": "East Randal",
-          "state": "TX",
-          "zip": "79936",
-          "country": "USA",
-          "militaryPO": null,
-          "militaryPostalCode": null,
-          "participantID": "2472934220",
-          "relationship": "Spouse"
-        },
-        "VSORepresentative": {
-          "email": "lora.schmeler@yost-bogisich.biz",
-          "firstName": "Francis",
-          "lastName": "Brekke"
-        }
-      }
-    },
-    {
-      "procId": "5409307872",
-      "type": "powerOfAttorneyRequest",
-      "attributes": {
-        "poaCode": "A1Q",
-        "secondaryStatus": "accepted",
-        "dateRequestReceived": "2024-04-01",
-        "dateRequestActioned": "2024-04-25",
-        "declinedReason": "Documentation insufficient.",
-        "healthInfoAuth": "Y",
-        "changeAddressAuth": "Y",
-        "claimant": {
-          "firstName": "Naomi",
-          "lastName": "Heaney",
-          "city": "Port Lance",
-          "state": "CA",
-          "zip": "90210",
-          "country": "USA",
-          "militaryPO": "APO",
-          "militaryPostalCode": "34034",
-          "participantID": "5683049112",
-          "relationship": "Sibling"
-        },
-        "veteran": {
-          "firstName": "Ivan",
+        "status": "Declined",
+        "declinedReason": "Refused to disclose health information",
+        "powerOfAttorneyCode": "012",
+        "submittedAt": "2024-04-10T04:51:12Z",
+        "acceptedOrDeclinedAt": "2024-04-10T04:51:12Z",
+        "isAddressChangingAuthorized": true,
+        "isTreatmentDisclosureAuthorized": false,
+        "representative": {
+          "firstName": "John",
           "lastName": "Smith",
-          "middleName": "Baxter",
-          "participantID": "7821035094",
-          "sensitivityLevel": "Low"
+          "email": "john.smith@vsorg.org"
         },
-        "VSORepresentative": {
-          "email": "elias.dooley@macejkovic-hagenes.name",
-          "firstName": "Georgia",
-          "lastName": "Hickle"
+        "claimant": {
+          "firstName": "Morgan",
+          "lastName": "Fox",
+          "participantId": 23456,
+          "relationshipToVeteran": "Child"
+        },
+        "claimantAddress": {
+          "city": "Baltimore",
+          "state": "MD",
+          "zip": "21218",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
         }
       }
     },
     {
-      "procId": "9630721948",
+      "id": 67890,
       "type": "powerOfAttorneyRequest",
       "attributes": {
-        "poaCode": "091",
-        "secondaryStatus": "pending",
-        "dateRequestReceived": "2024-03-25",
-        "dateRequestActioned": "2024-04-29",
-        "declinedReason": null,
-        "healthInfoAuth": "N",
-        "changeAddressAuth": "Y",
+        "status": "Pending",
+        "powerOfAttorneyCode": "034",
+        "submittedAt": "2024-03-29T15:20:00Z",
+        "acceptedOrDeclinedAt": null,
+        "isAddressChangingAuthorized": false,
+        "isTreatmentDisclosureAuthorized": true,
+        "representative": {
+          "firstName": "Michael",
+          "lastName": "Johnson",
+          "email": "michael.johnson@vsorg.org"
+        },
         "claimant": {
-          "firstName": "Vincent",
-          "lastName": "Rohan",
-          "city": "New Kristofer",
+          "firstName": "Emily",
+          "lastName": "Wells",
+          "participantId": 56789,
+          "relationshipToVeteran": "Parent"
+        },
+        "claimantAddress": {
+          "city": "New York",
+          "state": "NY",
+          "zip": "10001",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
+        }
+      }
+    },
+    {
+      "id": 54321,
+      "type": "powerOfAttorneyRequest",
+      "attributes": {
+        "status": "Accepted",
+        "powerOfAttorneyCode": "056",
+        "submittedAt": "2024-04-20T09:22:33Z",
+        "acceptedOrDeclinedAt": null,
+        "isAddressChangingAuthorized": true,
+        "isTreatmentDisclosureAuthorized": false,
+        "veteran": {
+          "firstName": "Bob",
+          "middleName": "G",
+          "lastName": "Norris",
+          "participantId": 800067890
+        },
+        "representative": {
+          "firstName": "Christopher",
+          "lastName": "Lee",
+          "email": "christopher.lee@vsorg.org"
+        },
+        "claimant": {
+          "firstName": "Gamma",
+          "lastName": "Theta",
+          "participantId": 34567,
+          "relationshipToVeteran": "Child"
+        },
+        "claimantAddress": {
+          "city": "San Francisco",
+          "state": "CA",
+          "zip": "94102",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
+        }
+      }
+    },
+    {
+      "id": 24680,
+      "type": "powerOfAttorneyRequest",
+      "attributes": {
+        "status": "Accepted",
+        "powerOfAttorneyCode": "077",
+        "submittedAt": "2024-02-14T10:30:00Z",
+        "acceptedOrDeclinedAt": "2024-02-15T14:45:22Z",
+        "isAddressChangingAuthorized": false,
+        "isTreatmentDisclosureAuthorized": false,
+        "veteran": {
+          "firstName": "Larry",
+          "middleName": "David",
+          "lastName": "Allen",
+          "participantId": 900077600
+        },
+        "representative": {
+          "firstName": "Alexander",
+          "lastName": "Williams",
+          "email": "alexander.williams@vsorg.org"
+        },
+        "claimant": {
+          "firstName": "Jacob",
+          "lastName": "Parker",
+          "participantId": 45678,
+          "relationshipToVeteran": "Brother"
+        },
+        "claimantAddress": {
+          "city": "Chicago",
+          "state": "IL",
+          "zip": "60607",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
+        }
+      }
+    },
+    {
+      "id": 13579,
+      "type": "powerOfAttorneyRequest",
+      "attributes": {
+        "status": "Pending",
+        "powerOfAttorneyCode": "089",
+        "submittedAt": "2024-05-01T12:15:47Z",
+        "acceptedOrDeclinedAt": null,
+        "isAddressChangingAuthorized": true,
+        "isTreatmentDisclosureAuthorized": true,
+        "veteran": {
+          "firstName": "Suzanne",
+          "middleName": "Jane",
+          "lastName": "Baker",
+          "participantId": 101112130
+        },
+        "representative": {
+          "firstName": "Benjamin",
+          "lastName": "Davis",
+          "email": "benjamin.davis@vsorg.org"
+        },
+        "claimant": {
+          "firstName": "Samantha",
+          "lastName": "Jones",
+          "participantId": 98765,
+          "relationshipToVeteran": "Sister"
+        },
+        "claimantAddress": {
+          "city": "Miami",
           "state": "FL",
-          "zip": "33139",
-          "country": "USA",
-          "militaryPO": null,
-          "militaryPostalCode": null,
-          "participantID": "9502481227",
-          "relationship": "Friend"
-        },
-        "veteran": {
-          "firstName": "Leah",
-          "lastName": "Johnston",
-          "middleName": "Marie",
-          "participantID": "6209573119",
-          "sensitivityLevel": "Medium"
-        },
-        "VSORepresentative": {
-          "email": "daisy.fay@johns.biz",
-          "firstName": "Vernon",
-          "lastName": "Mosciski"
+          "zip": "33101",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
         }
       }
     },
     {
-      "procId": "4510820760",
+      "id": 97531,
       "type": "powerOfAttorneyRequest",
       "attributes": {
-        "poaCode": "A1Q",
-        "secondaryStatus": "accepted",
-        "dateRequestReceived": "2024-03-14",
-        "dateRequestActioned": "2024-04-18",
-        "declinedReason": "Other",
-        "healthInfoAuth": "Y",
-        "changeAddressAuth": "N",
-        "claimant": {
-          "firstName": "Beatrice",
-          "lastName": "Feil",
-          "city": "North Eduardo",
-          "state": "WA",
-          "zip": "98101",
-          "country": "USA",
-          "militaryPO": "FPO",
-          "militaryPostalCode": "98765",
-          "participantID": "2176098453",
-          "relationship": "Guardian"
-        },
+        "status": "Pending",
+        "powerOfAttorneyCode": "102",
+        "submittedAt": "2024-03-20T08:00:00Z",
+        "acceptedOrDeclinedAt": null,
+        "isAddressChangingAuthorized": false,
+        "isTreatmentDisclosureAuthorized": false,
         "veteran": {
-          "firstName": "Stephen",
-          "lastName": "Boyer",
-          "middleName": "Ray",
-          "participantID": "3632947102",
-          "sensitivityLevel": "High"
+          "firstName": "Michael",
+          "middleName": "Karl",
+          "lastName": "Sage",
+          "participantId": 111213140
         },
-        "VSORepresentative": {
-          "email": "marcus.okon@wisoky.org",
-          "firstName": "Lillian",
-          "lastName": "O'Connell"
+        "representative": {
+          "firstName": "Nicholas",
+          "lastName": "Brown",
+          "email": "nicholas.brown@vsorg.org"
+        },
+        "claimant": {
+          "firstName": "Lucas",
+          "lastName": "Brown",
+          "participantId": 65432,
+          "relationshipToVeteran": "Child"
+        },
+        "claimantAddress": {
+          "city": "Los Angeles",
+          "state": "CA",
+          "zip": "90001",
+          "country": "US",
+          "militaryPostOffice": null,
+          "militaryPostalCode": null
         }
       }
     }
   ],
   "meta": {
-    "totalRecords": "7"
+    "totalRecords": "6"
   }
 }

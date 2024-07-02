@@ -16,6 +16,7 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
   - [URL Query Params](#url-query-params)
+  - [Advanced routing example with `helpers`](#advanced-routing-example-with-helpers)
   - [Future Enhancement Ideas](#future-enhancement-ideas)
 
 ## Flows
@@ -344,23 +345,24 @@ const options = {
 | `cancelAddButtonText` |
 | `cancelAddDescription` |
 | `cancelAddReviewDescription` |
+| `cancelAddYes` |
 | `cancelAddNo` |
 | `cancelAddTitle` |
 | `cancelEditButtonText` |
 | `cancelEditDescription` |
 | `cancelEditReviewDescription` |
+| `cancelEditYes` |
 | `cancelEditNo` |
 | `cancelEditTitle` |
-| `cancelYes` |
 | `cardDescription` |
 | `cardItemMissingInformation` |
 | `editSaveButtonText` |
 | `getItemName` |
-| `removeDescription` |
-| `removeNeedAtLeastOneDescription` |
-| `removeNo` |
-| `removeTitle` |
-| `removeYes` |
+| `deleteDescription` |
+| `deleteNeedAtLeastOneDescription` |
+| `deleteNo` |
+| `deleteTitle` |
+| `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `yesNoBlankReviewQuestion` |
@@ -373,6 +375,32 @@ const options = {
 | `review=true` | Used with `add=true` or `add=edit`. Used if coming from the `review-and-submit` page. Will return back to the `review-and-submit` page after finishing adding, editing, or cancelling this item. |
 | `updated=nounSingular_0` | Used after completing an edit flow. |
 | `removedAllWarn=true` | Used after removing all items. Will show a warning message if the item is required. |
+
+## Advanced routing example with `helpers`
+`arrayBuilderPages` has a second parameter `helpers` to help with things like a custom `onNavForward` and `onNavBack`.
+e.g.
+```js
+...arrayBuilderPages(employersOptions, (pageBuilder, helpers) => ({
+  multiPageBuilderSummary: pageBuilder.summaryPage({
+    title: 'Array with multiple page builder summary',
+    path: 'array-multiple-page-builder-summary',
+    uiSchema: employersSummaryPage.uiSchema,
+    schema: employersSummaryPage.schema,
+  }),
+  multiPageBuilderStepOne: pageBuilder.itemPage({
+    title: 'Employer name and address',
+    path: 'array-multiple-page-builder/:index/name-and-address',
+    uiSchema: employersPageNameAndAddressPage.uiSchema,
+    schema: employersPageNameAndAddressPage.schema,
+    onNavForward: props => {
+      return props.formData.name === 'Veteran'
+        ? helpers.navForwardKeepUrlParams(props) // go to next page
+        : helpers.navForwardFinishedItem(props); // return to summary
+    },
+  }),
+  // an optional itemPage follows
+}));
+```
 
 ## Future Enhancement Ideas
 - Add `minItems`

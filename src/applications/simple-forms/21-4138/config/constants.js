@@ -1,4 +1,40 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
+  <div className="action-bar-arrow">
+    <div className="vads-u-background-color--primary vads-u-padding--1">
+      <a className="vads-c-action-link--white" href={href} onClick={onClick}>
+        {children}
+      </a>
+    </div>
+  </div>
+);
+
+const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
+  const { livingSituation, otherReasons, otherHousingRisks } = useSelector(
+    state => state.form.data,
+  );
+
+  const handlePriorityProcessingOnClick = e => {
+    e.preventDefault();
+    sessionStorage.setItem(
+      `dataTransfer-${VA_FORM_IDS.FORM_20_10207}`,
+      JSON.stringify({
+        data: { livingSituation, otherReasons, otherHousingRisks },
+        expiry: Date.now() + 300000, // 5 minutes
+      }),
+    );
+    window.location.href = href;
+  };
+
+  return (
+    <PrimaryActionLink href={href} onClick={handlePriorityProcessingOnClick}>
+      Start your request
+    </PrimaryActionLink>
+  );
+};
 
 export const TITLE = 'Submit a statement to support a claim';
 export const SUBTITLE = 'Statement in Support of Claim (VA Form 21-4138)';
@@ -16,7 +52,6 @@ export const STATEMENT_TYPES = Object.freeze({
   PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
   NEW_EVIDENCE: 'new-evidence',
-  VRE_REQUEST: 'vre-request',
   NOT_LISTED: 'not-listed',
 });
 
@@ -29,8 +64,6 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
     'I want to request that VA process my claim faster due to certain qualifying situations.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
   [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
-  [STATEMENT_TYPES.VRE_REQUEST]:
-    'I want to submit a request related to the Veteran Readiness and Employment (VR&E) program (Chapter 31).',
   [STATEMENT_TYPES.NOT_LISTED]:
     "The type of statement I want to submit isn't listed here.",
 });
@@ -56,21 +89,40 @@ export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
     'You can also submit new evidence with certain types of Board Appeals.',
 });
 
-const PrimaryActionLink = ({ href, children }) => (
-  <div className="arrow" style={{ maxWidth: '75%' }}>
-    <div className="vads-u-background-color--primary vads-u-padding--1">
-      <a className="vads-c-action-link--white" href={href}>
-        {children}
-      </a>
-    </div>
-  </div>
-);
+export const LIVING_SITUATIONS = Object.freeze({
+  OVERNIGHT:
+    'I live or sleep overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+  SHELTER:
+    'I live in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+  FRIEND_OR_FAMILY:
+    'I’m staying with a friend or family member, because I can’t get my own home right now.',
+  LEAVING_SHELTER:
+    'In the next 30 days, I will have to leave a facility, like a homeless shelter.',
+  LOSING_HOME:
+    'In the next 30 days, I will lose my home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that you share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'I have another housing risk not listed here.',
+  NONE: 'None of these situations apply to me.',
+});
+
+export const OTHER_REASONS = Object.freeze({
+  FINANCIAL_HARDSHIP:
+    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
+  ALS:
+    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'I have a terminal illness.',
+  VSI_SI:
+    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'I’m age 85 or older.',
+  FORMER_POW: 'I’m a former prisoner of war (POW).',
+  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
+  NONE: 'None of these situations apply to me.',
+});
 
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement without selecting an
     answer here, you can{' '}
-    <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+    <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,
@@ -117,7 +169,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
   <div>
     <p>
       Since it’s been more than 1 year since we made a decision, you should file
-      a <strong>Supplemental claim.</strong>
+      a <strong>Supplemental Claim.</strong>
     </p>
     <p>
       We can help you gather any new evidence you identify (such as medical
@@ -144,7 +196,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
   <div>
     <p>
       Based on your answer, you may want to file a{' '}
-      <strong>Supplemental claim.</strong>
+      <strong>Supplemental Claim.</strong>
     </p>
     <p>
       We can help you gather any new evidence you identify (such as medical
@@ -254,21 +306,6 @@ export const NOD_BA_HANDOFF = Object.freeze(
   </div>,
 );
 
-export const LIVING_SITUATIONS = Object.freeze({
-  OVERNIGHT:
-    'I live or sleep overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
-  SHELTER:
-    'I live in a shelter (including a hotel or motel) that’s meant for temporary stays.',
-  FRIEND_OR_FAMILY:
-    'I’m staying with a friend or family member, because I can’t get my own home right now.',
-  LEAVING_SHELTER:
-    'In the next 30 days, I will have to leave a facility, like a homeless shelter.',
-  LOSING_HOME:
-    'In the next 30 days, I will lose my home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that you share with others. It could also include rooms in hotels or motels.)',
-  OTHER_RISK: 'I have another housing risk not listed here.',
-  NONE: 'None of these situations apply to me.',
-});
-
 export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   <va-additional-info
     trigger="What to know before sharing details about other housing risks"
@@ -291,33 +328,6 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
     </div>
   </va-additional-info>,
 );
-
-export const OTHER_REASONS_REQUIRED = Object.freeze({
-  FINANCIAL_HARDSHIP:
-    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
-  ALS:
-    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
-  TERMINAL_ILLNESS: 'I have a terminal illness.',
-  VSI_SI:
-    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
-  OVER_85: 'I’m age 85 or older.',
-  FORMER_POW: 'I’m a former prisoner of war (POW).',
-  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
-  NONE: 'None of these situations apply to me.',
-});
-
-export const OTHER_REASONS_OPTIONAL = Object.freeze({
-  FINANCIAL_HARDSHIP:
-    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
-  ALS:
-    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
-  TERMINAL_ILLNESS: 'I have a terminal illness.',
-  VSI_SI:
-    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
-  OVER_85: 'I’m age 85 or older.',
-  FORMER_POW: 'I’m a former prisoner of war (POW).',
-  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
-});
 
 export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
   <div>
@@ -352,9 +362,9 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+    <PrimaryActionLinkWithOnClick href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
       Start your request
-    </PrimaryActionLink>
+    </PrimaryActionLinkWithOnClick>
     <h2 className="vads-u-font-size--h3">Types of evidence to submit</h2>
     <p>You can submit any of these types of evidence.</p>
     <p>
@@ -612,52 +622,6 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
       Check the status of your claim
     </a>
-    {ESCAPE_HATCH}
-  </div>,
-);
-
-export const VRE_REQUEST_HANDOFF = Object.freeze(
-  <div>
-    <p>
-      Based on your answer, you should request support with VA Form 28-10212.
-    </p>
-    <h2 className="vads-u-font-size--h3">What kind of requests can I make?</h2>
-    <p>
-      Use VA Form 28-10212 to make requests like these related to VR&E (Chapter
-      31):
-    </p>
-    <ul>
-      <li>Request supplies or equipment to support your training</li>
-      <li>Request a revolving fund loan</li>
-      <li>Explain an issue or concern about your training</li>
-      <li>Withdraw your application for VR&E (Chapter 31) benefits</li>
-      <li>Reduce or withdraw from training</li>
-      <li>Discontinue your participation in the program and close your case</li>
-      <li>Submit another type of request not listed herec</li>
-    </ul>
-    <div className="vads-u-margin-left--1">
-      <va-link
-        download
-        filetype="PDF"
-        href="https://www.vba.va.gov/pubs/forms/vba-28-10212-are.pdf"
-        text="Download VA Form 28-10212"
-      />
-    </div>
-    <div className="vads-u-margin-y--4">
-      <a
-        href="/careers-employment/vocational-rehabilitation"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the VR&E program (Chapter 31) (opens in a new tab)
-      </a>
-    </div>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0882"
-      exp-date="02/29/2024"
-      class="vads-u-margin-y--4"
-    />
     {ESCAPE_HATCH}
   </div>,
 );

@@ -5,8 +5,11 @@ import {
 import {
   isLoggedIn,
   selectProfile,
+  isLOA1,
   isLOA3,
   isInMPI,
+  isProfileLoading,
+  isVAPatient,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
@@ -19,16 +22,18 @@ import {
 } from './personalInformation';
 
 export {
-  hasHealthData,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
+  isVAPatient,
   personalizationEnabled,
+  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  hasMhvAccount,
 };

@@ -6,14 +6,12 @@ import PatientErrorPage from './pages/PatientErrorPage';
 
 describe('Secure Messaging Inbox', () => {
   it('Secure Messaging Inbox Filter Validation', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
+    SecureMessagingSite.login();
+    const messageDetails = PatientInboxPage.getNewMessageDetails();
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
-    landingPage.clickAdditionalFilterButton();
-    landingPage.selectDateRange('Custom');
+    PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
+    PatientInboxPage.clickAdditionalFilterButton();
+    PatientInboxPage.selectDateRange('Custom');
     cy.get(Locators.FROM_TO_DATES_CONTAINER)
       .find('legend')
       .eq(0)

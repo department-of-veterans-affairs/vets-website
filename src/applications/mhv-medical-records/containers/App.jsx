@@ -28,6 +28,7 @@ import {
   selectSidenavFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
@@ -49,6 +50,7 @@ const App = ({ children }) => {
   const showNotes = useSelector(selectNotesFlag);
   const showVaccines = useSelector(selectVaccinesFlag);
   const showVitals = useSelector(selectVitalsFlag);
+  const showSettingsPage = useSelector(selectSettingsPageFlag);
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
@@ -97,7 +99,7 @@ const App = ({ children }) => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
 
@@ -122,12 +124,7 @@ const App = ({ children }) => {
             //   path: '/download-all',
             //   label: 'Download all medical records',
             //   datatestid: 'download-your-medical-records-sidebar',
-            // },
-            // {
-            //   path: '/settings',
-            //   label: 'Medical records settings',
-            //   datatestid: 'settings-sidebar',
-            // },
+            // }
           ],
         },
       ];
@@ -152,10 +149,23 @@ const App = ({ children }) => {
         'Health conditions',
       );
       addSideNavItem(navPaths, showVitals, '/vitals', 'Vitals');
+      addSideNavItem(
+        navPaths,
+        showSettingsPage,
+        '/settings',
+        'Medical records settings',
+      );
 
       setPaths(navPaths);
     },
-    [showConditions, showLabsAndTests, showNotes, showVaccines, showVitals],
+    [
+      showConditions,
+      showLabsAndTests,
+      showNotes,
+      showVaccines,
+      showVitals,
+      showSettingsPage,
+    ],
   );
 
   useEffect(

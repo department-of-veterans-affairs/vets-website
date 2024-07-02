@@ -117,7 +117,7 @@ export function acceptableFileList(list) {
 export const requiredFileUploadMessage = {
   'ui:description': (
     <p>
-      <i>This file is required for your application.</i>
+      <em>This file is required for your application.</em>
       Your application will not be considered complete until we receive this
       file.
     </p>

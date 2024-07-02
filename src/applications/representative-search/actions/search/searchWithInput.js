@@ -29,7 +29,6 @@ export const searchWithInput = ({
     recordEvent({
       // prettier-ignore
       'event': 'far-search',
-      'search-query': address,
       'search-filters-list': {
         'Type of accredited representative': type,
         'Search area': distance,

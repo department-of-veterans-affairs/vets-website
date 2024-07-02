@@ -108,7 +108,7 @@ export default {
       },
       spouseTransition: {
         path: 'spouse-transition',
-        title: 'Spouse Transition',
+        title: 'You added a spouse',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: SpouseTransitionExplainer,
@@ -124,15 +124,15 @@ export default {
       },
       dependentCount: {
         path: 'dependents-count',
-        title: 'Dependents',
-        uiSchema: {},
+        title: 'Dependents count',
+        uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,
       },
       dependentAges: {
         path: 'dependent-ages',
-        title: 'Dependents',
+        title: 'Dependents ages',
         uiSchema: {},
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>

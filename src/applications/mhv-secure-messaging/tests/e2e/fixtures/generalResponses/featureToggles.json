@@ -267,22 +267,6 @@
         "value": true
       },
       {
-        "name": "combinedFinancialStatusReport",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report",
-        "value": true
-      },
-      {
-        "name": "combinedFinancialStatusReportEnhancements",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report_enhancements",
-        "value": true
-      },
-      {
         "name": "communicationPreferences",
         "value": true
       },
@@ -780,14 +764,6 @@
       },
       {
         "name": "financial_status_report_debts_api_module",
-        "value": true
-      },
-      {
-        "name": "financialStatusReportStreamlinedWaiver",
-        "value": true
-      },
-      {
-        "name": "financial_status_report_streamlined_waiver",
         "value": true
       },
       {
@@ -1703,14 +1679,6 @@
         "value": true
       },
       {
-        "name": "vaOnlineSchedulingRequestFlowUpdate",
-        "value": false
-      },
-      {
-        "name": "va_online_scheduling_request_flow_update",
-        "value": false
-      },
-      {
         "name": "vaOnlineSchedulingPocTypeOfCare",
         "value": false
       },
@@ -1729,14 +1697,6 @@
       {
         "name": "va_online_scheduling_after_visit_summary",
         "value": false
-      },
-      {
-        "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
-        "name": "va_view_dependents_access",
-        "value": true
       },
       {
         "name": "yellowRibbonMvpEnhancement",

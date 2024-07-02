@@ -139,6 +139,8 @@ export const Locators = {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
     PREFER_LINK: '[data-testid="edit-preferences-link"]',
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
+    CRUMB: 'ol[role="list"] > li',
+    CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
   },
   ALERTS: {
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
@@ -170,7 +172,7 @@ export const Locators = {
     HIGHLIGHTED: '[data-testid="highlighted-text"]',
     SIDEBAR_NAV: '[class="sidebar-navigation-messages-list-header"]',
     INBOX_TEXT: '[text="Go to your inbox"]',
-    EDIT_DRAFT: '[text="Edit draft 1"]',
+    EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
     ACC_ITEM: '[data-testid="faq-accordion-item"]',
@@ -185,6 +187,8 @@ export const Locators = {
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
+    EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
+    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -201,7 +205,6 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    MESSAGE: '@message',
     ATTACH_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
@@ -228,7 +231,7 @@ export const Alerts = {
 };
 
 export const Data = {
-  TEST_MESSAGE_BODY: 'Test message body',
+  TEST_MESSAGE_BODY: '\nTest message body',
   TEST_SUBJECT: 'Test Subject',
   TEST_IMAGE: 'test_image.jpg',
   TEST_LARGE_IMAGE: 'test_image_10mb.jpg',

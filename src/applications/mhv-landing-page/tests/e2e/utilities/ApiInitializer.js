@@ -7,7 +7,7 @@ import {
 
 class ApiInitializer {
   initializeFeatureToggle = {
-    withAppDisabled: () => {
+    withAllFeaturesDisabled: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -42,36 +42,26 @@ class ApiInitializer {
         'GET',
         '/my_health/v1/messaging/folders*',
         allFoldersWithUnreadMessages,
-      );
+      ).as('sm');
     },
     withNoUnreadMessages: () => {
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders*',
         oneFolderWithNoUnreadMessages,
-      );
+      ).as('sm');
     },
   };
 
   initializeUserData = {
     withDefaultUser: () => {
-      cy.intercept('GET', '/v0/user*', userData.defaultUser);
-    },
-    withCernerPatient: () => {
-      cy.intercept('GET', '/v0/user*', userData.cernerPatient);
-    },
-    withFacilities: ({ facilities = [] }) => {
-      cy.intercept(
-        'GET',
-        '/v0/user*',
-        userData.generateUserWithFacilities({ facilities }),
-      );
+      cy.intercept('GET', '/v0/user*', userData.defaultUser).as('user');
     },
     withMHVAccountState: mhvAccountState => {
       const userDataWithMHVAccountState = userData.generateUserWithMHVAccountState(
         mhvAccountState,
       );
-      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState);
+      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState).as('user');
     },
   };
 }

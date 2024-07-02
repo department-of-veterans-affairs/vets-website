@@ -19,6 +19,7 @@ import {
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
+import VideoLayout from '../../../components/layout/VideoLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -90,9 +91,9 @@ export default function ConfirmedAppointmentDetailsPage() {
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
   ) {
     return (
-      <FullWidthLayout>
+      <PageLayout showBreadcrumbs showNeedHelp>
         <ErrorMessage level={1} />
-      </FullWidthLayout>
+      </PageLayout>
     );
   }
 
@@ -101,6 +102,28 @@ export default function ConfirmedAppointmentDetailsPage() {
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
       </FullWidthLayout>
+    );
+  }
+
+  if (featureAppointmentDetailsRedesign) {
+    return (
+      <PageLayout showNeedHelp>
+        {isVA && (
+          <DetailsVA
+            appointment={appointment}
+            facilityData={facilityData}
+            useV2={useV2}
+          />
+        )}
+        {isCommunityCare && (
+          <DetailsCC
+            appointment={appointment}
+            useV2={useV2}
+            featureVaosV2Next={featureVaosV2Next}
+          />
+        )}
+        {isVideo && <VideoLayout data={appointment} />}
+      </PageLayout>
     );
   }
 
@@ -123,7 +146,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           featureVaosV2Next={featureVaosV2Next}
         />
       )}
-      {!featureAppointmentDetailsRedesign && <CancelAppointmentModal />}
+      <CancelAppointmentModal />
     </PageLayout>
   );
 }

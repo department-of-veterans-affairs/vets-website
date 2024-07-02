@@ -67,13 +67,13 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
+      `${NOD_BASE_URL}/contact-information/edit-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
     // cancel phone change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update phone
@@ -93,13 +93,13 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-email-address`,
+      `${NOD_BASE_URL}/contact-information/edit-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
     // cancel email change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update email
@@ -119,13 +119,13 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-mailing-address`,
+      `${NOD_BASE_URL}/contact-information/edit-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
     // cancel address change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update address

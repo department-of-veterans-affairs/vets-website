@@ -16,9 +16,6 @@ describe('VAOS Page: ClosestCityStatePage', () => {
   it('should show supported parent sites', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -50,9 +47,6 @@ describe('VAOS Page: ClosestCityStatePage', () => {
   it('should not submit without choosing a site', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -81,9 +75,6 @@ describe('VAOS Page: ClosestCityStatePage', () => {
   it('should continue to preferences page', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },

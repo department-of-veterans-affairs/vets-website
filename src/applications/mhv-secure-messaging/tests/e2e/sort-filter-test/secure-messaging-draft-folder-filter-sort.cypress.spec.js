@@ -2,15 +2,15 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessagesDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
+import FolderLoadPage from '../pages/FolderLoadPage';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 
-describe('Secure Messaging Draft Folder checks', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
+describe('Secure Messaging Draft Folder filter-sort checks', () => {
   const draftsPage = new PatientMessagesDraftsPage();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    draftsPage.loadMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(mockDraftMessages);
+    FolderLoadPage.loadDraftMessages();
   });
 
   it('Verify filter works correctly', () => {

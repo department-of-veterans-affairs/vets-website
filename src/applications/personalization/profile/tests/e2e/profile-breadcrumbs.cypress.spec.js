@@ -26,11 +26,7 @@ describe('Profile Breadcrumbs', () => {
       return;
     }
     it('render the active page name in the breadcrumbs', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({ profileContacts: true }),
-      );
+      cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
       cy.visit(`${path}/`);
       cy.get('va-breadcrumbs')
         .shadow()

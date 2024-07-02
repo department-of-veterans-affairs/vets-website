@@ -8,19 +8,16 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details', () => {
-  const landingPage = new PatientInboxPage();
   const detailsPage = new PatientMessageDetailsPage();
-  const site = new SecureMessagingSite();
-
   const messageDetails = mockMessageDetails;
   const date = new Date();
 
   before('Axe Check Message Details Page', () => {
-    site.login();
+    SecureMessagingSite.login();
     date.setDate(date.getDate() - 2);
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
-    landingPage.loadInboxMessages(inboxMessages, messageDetails);
+    PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(
       messageDetails,
       defaultMockThread,

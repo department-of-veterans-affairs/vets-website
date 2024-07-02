@@ -56,7 +56,8 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
- * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
+ * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
+ * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2. Also accepts an object with options.
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -374,28 +375,29 @@
 /**
  * @typedef {{
  *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
- *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemDeleted?: (props: ArrayBuilderTextProps) => string,
  *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cancelYes?: (props: ArrayBuilderTextProps) => string,
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any) => string,
- *   removeDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNo?: (props: ArrayBuilderTextProps) => string,
- *   removeTitle?: (props: ArrayBuilderTextProps) => string,
- *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNo?: (props: ArrayBuilderTextProps) => string,
+ *   deleteTitle?: (props: ArrayBuilderTextProps) => string,
+ *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,

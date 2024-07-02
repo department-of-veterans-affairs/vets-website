@@ -10,6 +10,13 @@ export const isProductionOfTestProdEnv = automatedTest => {
   );
 };
 
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
+};
+
 export const directDepositMethod = (formData, automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? formData.bankAccountChange
@@ -65,17 +72,31 @@ export const eighteenOrOver = birthday => {
     moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
   );
 };
+
+export const eighteenOrOverUpdate = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    !moment(birthday, 'YYYY-MM-DD').isValid() ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
 export const ageWarning = (
   <div
     className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
-        Applicants under the age of 18 can’t legally make a benefits election.
+        {isProductionOfTestProdEnv() &&
+          'Applicants under the age of 18 can’t legally make a benefits election.'}
         Based on your date of birth, please have a parent, guardian, or
         custodian review the information on this application, provide their
         contact information in the Guardian Section of this form, and click the
@@ -84,3 +105,9 @@ export const ageWarning = (
     </div>
   </div>
 );
+
+export const isEighteenOrOlder = (birthday, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? eighteenOrOver(birthday)
+    : eighteenOrOverUpdate(birthday);
+};

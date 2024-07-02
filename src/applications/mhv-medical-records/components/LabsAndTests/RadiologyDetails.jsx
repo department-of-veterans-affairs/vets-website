@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,6 +12,8 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -21,9 +23,8 @@ import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -35,6 +36,9 @@ const RadiologyDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -71,7 +75,7 @@ ${txtLine}\n\n
 Reason for test: ${record.reason} \n
 Clinical history: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
-Imaging location: ${record.imagingLocation} \n
+Performing lab location: ${record.imagingLocation} \n
 Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n
 Results\n
@@ -93,8 +97,12 @@ ${record.results}`;
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="radiology-date" />
-
+      <DateSubheading
+        date={record.date}
+        id="radiology-date"
+        label="Date and time performed"
+        labelClass="vads-font-weight-regular"
+      />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
         downloadPdf={downloadPdf}
@@ -105,18 +113,6 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
-          Images
-        </h3>
-        <p data-testid="radiology-image" className="no-print">
-          <va-link
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'va-medical-images-and-reports',
-            )}
-            text="Request images on the My HealtheVet website"
-          />
-        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Reason for test
         </h3>
@@ -130,13 +126,29 @@ ${record.results}`;
         </h3>
         <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Imaging location
+          Performing lab location
         </h3>
         <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging provider
         </h3>
         <p data-testid="radiology-imaging-provider">{record.imagingProvider}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
+          Images
+        </h3>
+        <p data-testid="radiology-image" className="no-print">
+          Images are not yet available in this new medical records tool. To get
+          images, you’ll need to request them in the previous version of medical
+          records on the My HealtheVet website.
+        </p>
+        <va-link
+          href={mhvUrl(
+            isAuthenticatedWithSSOe(fullState),
+            'va-medical-images-and-reports',
+          )}
+          text="Request images on the My HealtheVet website"
+          data-testid="radiology-images-link"
+        />
       </div>
 
       <div className="test-results-container">

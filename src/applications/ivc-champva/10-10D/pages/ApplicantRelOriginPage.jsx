@@ -6,46 +6,36 @@ import ApplicantRelationshipPage, {
 const KEYNAME = 'applicantRelationshipOrigin';
 
 function generateOptions({ data, pagePerItemIndex }) {
-  const {
-    currentListItem,
-    personTitle,
-    applicant,
-    useFirstPerson,
-    relative,
-    beingVerbPresent,
-    relativePossessive,
-  } = appRelBoilerplate({ data, pagePerItemIndex });
-
-  const customTitle = `${applicant}’s relationship to the ${personTitle}`;
-
-  const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
+  const customTitle = `${bp.applicant}’s dependent status`;
+  const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const surv = data.sponsorIsDeceased ? 'surviving' : '';
 
   // Create dynamic radio labels based on above phrasing
   const options = [
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} biological child`,
+      label: `${relativeBeingVerb} the ${
+        bp.personTitle
+      }’s ${surv} biological child`,
       value: 'blood',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} step child`,
+      label: `${relativeBeingVerb} the ${bp.personTitle}’s ${surv} step child`,
       value: 'step',
     },
     {
-      label: `${relativeBeingVerb} the ${personTitle}’s ${surv} adopted child`,
+      label: `${relativeBeingVerb} the ${
+        bp.personTitle
+      }’s ${surv} adopted child`,
       value: 'adoption',
     },
   ];
 
   return {
     options,
-    useFirstPerson,
-    relativePossessive,
+    ...bp,
     relativeBeingVerb,
-    applicant,
-    personTitle,
     keyname: KEYNAME,
-    currentListItem,
     customTitle,
     description: `What’s ${customTitle}?`,
   };

@@ -12,9 +12,9 @@ import {
 } from '../../mocks/setup';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
-import { getV2ClinicMock } from '../../mocks/v2';
-import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
+import { getV2ClinicMock } from '../../mocks/mock';
+import { createMockCheyenneFacility } from '../../mocks/data';
+import { mockEligibilityFetches } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -30,58 +30,6 @@ const initialState = {
 describe('VAOS Page: ClinicChoicePage', () => {
   beforeEach(() => mockFetch());
 
-  it('should show the correct clinic name when filtered to matching', async () => {
-    // Given two available clinics
-    const clinics = [
-      getV2ClinicMock({
-        id: '309',
-        serviceName: 'Filtered out clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacilityByVersion();
-    facilityData.id = '983';
-
-    // And the second clinic matches a past appointment
-    mockEligibilityFetchesByVersion({
-      siteId: '983',
-      facilityId: '983',
-      typeOfCareId: 'amputation',
-      limit: true,
-      requestPastVisits: true,
-      directPastVisits: true,
-      matchingClinics: clinics.slice(1),
-      clinics,
-      pastClinics: true,
-    });
-
-    const store = createTestStore(initialState);
-
-    await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
-
-    // When the page is displayed
-    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
-      store,
-    });
-    await screen.findByText(/last amputation care appointment/i);
-
-    // Then the page says the last appointment was at the matching clinic
-    expect(screen.baseElement).to.contain.text(
-      'Your last amputation care appointment was at Green team clinic:',
-    );
-
-    // And the user is asked if they want an appt at matching clinic
-    expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
-    );
-  });
-
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       getV2ClinicMock({
@@ -95,9 +43,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'primaryCare',
@@ -137,7 +85,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'You must provide a response',
     );
     expect(screen.history.push.called).not.to.be.true;
 
@@ -157,9 +105,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'amputation',
@@ -222,9 +170,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'amputation',
@@ -306,7 +254,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'primaryCare',
@@ -344,5 +292,58 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     await cleanup();
+  });
+
+  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/82977
+  it.skip('should show the correct clinic name when filtered to matching', async () => {
+    // Given two available clinics
+    const clinics = [
+      getV2ClinicMock({
+        id: '309',
+        serviceName: 'Filtered out clinic',
+        stationId: '983',
+      }),
+      getV2ClinicMock({
+        id: '308',
+        serviceName: 'Green team clinic',
+        stationId: '983',
+      }),
+    ];
+    const facilityData = createMockCheyenneFacility();
+    facilityData.id = '983';
+
+    // And the second clinic matches a past appointment
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: 'amputation',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      matchingClinics: clinics.slice(1),
+      clinics,
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /amputation/i);
+    await setVAFacility(store, '983', 'amputation', { facilityData });
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+    await screen.findByText(/last amputation care appointment/i);
+
+    // Then the page says the last appointment was at the matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Your last amputation care appointment was at Green team clinic:',
+    );
+
+    // And the user is asked if they want an appt at matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
+    );
   });
 });
