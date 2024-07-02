@@ -10,8 +10,7 @@ import FolderLoadPage from '../pages/FolderLoadPage';
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       cy.intercept(
         'POST',
@@ -42,8 +41,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Drafts', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       FolderLoadPage.loadDraftMessages();
@@ -76,8 +74,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Sent', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       FolderLoadPage.loadSentMessages();
@@ -111,8 +108,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Trash', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       FolderLoadPage.loadDeletedMessages();
@@ -146,8 +142,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Custom folder', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       PatientMessageCustomFolderPage.loadMessages();
