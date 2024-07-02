@@ -51,7 +51,9 @@ export const retrieveMessageThread = messageId => async dispatch => {
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
 
-    const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+    const drafts = response.data
+      .filter(m => m.attributes.draftDate !== null)
+      .sort((a, b) => a.attributes.draftDate - b.attributes.draftDate);
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
     const replyToName =
