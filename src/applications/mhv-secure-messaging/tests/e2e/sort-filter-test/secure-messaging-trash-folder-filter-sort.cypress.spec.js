@@ -7,8 +7,7 @@ import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response
 
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockTrashMessages);
     FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });

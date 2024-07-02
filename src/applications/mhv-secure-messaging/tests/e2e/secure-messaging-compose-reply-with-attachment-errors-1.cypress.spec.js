@@ -5,8 +5,7 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
