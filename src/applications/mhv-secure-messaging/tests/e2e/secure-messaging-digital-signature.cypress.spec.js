@@ -6,9 +6,8 @@ import mockResponseBody from './fixtures/message-compose-DS-response-body.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });

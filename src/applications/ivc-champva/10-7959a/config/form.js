@@ -5,9 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
+import { sponsorNameSchema } from '../chapters/sponsorInformation';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -20,11 +18,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-7959A',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA claim form application (10-7959A) is in progress.',
-    //   expired: 'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
-    //   saved: 'Your CHAMPVA claim form application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your CHAMPVA claim form application (10-7959A) is in progress.',
+      expired:
+        'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
+      saved: 'Your CHAMPVA claim form application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -36,8 +36,8 @@ const formConfig = {
   title: '10-7959a CHAMPVA Claim Form',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
+    signerInformation: {
+      title: 'Signer information',
       pages: {
         page1: {
           path: 'first-page',
@@ -47,6 +47,16 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
+        },
+      },
+    },
+    sponsorInformation: {
+      title: 'Sponsor information',
+      pages: {
+        page2: {
+          path: 'sponsor-information',
+          title: 'Name',
+          ...sponsorNameSchema,
         },
       },
     },
