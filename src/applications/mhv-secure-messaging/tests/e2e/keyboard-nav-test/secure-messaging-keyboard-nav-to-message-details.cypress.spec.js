@@ -9,8 +9,7 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 describe('Navigate to Message Details ', () => {
   it('Keyboard Nav Access to Expended Messages', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';
@@ -36,8 +35,7 @@ describe('Navigate to Message Details ', () => {
   });
   it('Keyboard Navigation to Print Button', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';

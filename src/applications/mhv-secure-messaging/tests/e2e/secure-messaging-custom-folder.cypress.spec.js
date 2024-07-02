@@ -6,8 +6,7 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
