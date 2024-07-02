@@ -17,7 +17,7 @@
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "VETERAN",
     "view:hasUnassociatedIncomes": true,
-    "view:hasAssociatedIncomes": false,
+    "view:hasAssociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "incomeType": "SOCIAL_SECURITY",
@@ -27,7 +27,15 @@
         "recipientName": "Recipient name"
       }
     ],
-    "associatedIncomes": [],
+    "associatedIncomes": [
+      {
+        "incomeType": "INTEREST",
+        "grossMonthlyIncome": 500,
+        "accountValue": 50000,
+        "payer": "Financial name",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
     "statementOfTruthSignature": "John Doe"
   }
 }
