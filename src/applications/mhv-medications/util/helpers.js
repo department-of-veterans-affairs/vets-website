@@ -312,11 +312,11 @@ export const sanitizeKramesHtmlStr = htmlString => {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlString;
 
-  if (tempDiv.querySelector('page')) {
-    tempDiv.innerHTML = tempDiv.querySelector('page').innerHTML;
-  }
   if (tempDiv.querySelector('body')) {
     tempDiv.innerHTML = tempDiv.querySelector('body').innerHTML;
+  }
+  if (tempDiv.querySelector('page')) {
+    tempDiv.innerHTML = tempDiv.querySelector('page').innerHTML;
   }
 
   tempDiv.querySelectorAll('h1').forEach(h1 => {
