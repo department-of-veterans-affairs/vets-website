@@ -6,7 +6,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { downloadErrorsByCode } from '../definitions/content';
+import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import { submitTransform } from '../utils/helpers';
 import formConfig from '../config/form';
 
@@ -25,8 +25,8 @@ const ApplicationDownloadLink = ({ form }) => {
   // fetch a custom error message based on status code
   const errorMessage = () => {
     const code = errors[0].status.split('')[0];
-    const { generic } = downloadErrorsByCode;
-    return downloadErrorsByCode[code] || generic;
+    const { generic } = DOWNLOAD_ERRORS_BY_CODE;
+    return DOWNLOAD_ERRORS_BY_CODE[code] || generic;
   };
 
   const handlePdfDownload = blob => {
