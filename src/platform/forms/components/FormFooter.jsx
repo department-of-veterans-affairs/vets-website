@@ -7,7 +7,7 @@ export default function FormFooter({ formConfig, currentLocation }) {
   const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
   return isConfirmationPage || !GetFormHelp ? null : (
-    <div className="row">
+    <div className="row vads-u-margin-bottom--2">
       <div className="usa-width-two-thirds medium-8 columns">
         <va-need-help>
           <div slot="content">

@@ -10,9 +10,8 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details Buttons Check', () => {
   it('Message Details Buttons Check', () => {
-    const site = new SecureMessagingSite();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    site.login();
+    SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.setMessageDateToYesterday(
       mockMessageDetails,
     );

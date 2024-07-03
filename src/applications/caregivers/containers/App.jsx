@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import content from '../locales/en/content.json';
 
 const App = ({ loading, location, children }) => {
   // find all yes/no check boxes and attach analytics events
@@ -32,7 +33,11 @@ const App = ({ loading, location, children }) => {
   useBrowserMonitoring();
 
   return loading ? (
-    <va-loading-indicator />
+    <va-loading-indicator
+      message={content['app-loading-text']}
+      class="vads-u-margin-y--4"
+      set-focus
+    />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

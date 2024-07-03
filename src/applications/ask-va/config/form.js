@@ -40,6 +40,8 @@ import {
 import Footer from '../components/Footer';
 import ReviewPage from '../containers/ReviewPage';
 
+import prefillTransformer from './prefill-transformer';
+
 const review = {
   uiSchema: {},
   schema: {
@@ -76,6 +78,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     // notFound: 'Please start over to apply for ask the va test.',
     // noAuth:

@@ -28,6 +28,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     `If you cancel, you’ll lose the information you entered about this ${
       props.nounSingular
     } and you will be returned to the form review page.`,
+  cancelAddYes: props => `Yes, cancel`,
   cancelAddNo: props => `No, continue adding this ${props.nounSingular}`,
   cancelAddTitle: props => {
     const itemName = props.getItemName(props.itemData);
@@ -42,6 +43,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } review page.`,
   cancelEditReviewDescription: props =>
     `If you cancel, you’ll lose any changes you made on this screen and you will be returned to the form review page.`,
+  cancelEditYes: props => `Yes, cancel`,
   cancelEditNo: props => `No, continue editing this ${props.nounSingular}`,
   cancelEditTitle: props => {
     const itemName = props.getItemName(props.itemData);
@@ -49,7 +51,6 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       ? `Cancel editing ${itemName}`
       : `Cancel editing this ${props.nounSingular}`;
   },
-  cancelYes: props => `Yes, cancel`,
   cardDescription: itemData => '',
   cardItemMissingInformation: props =>
     `This ${
