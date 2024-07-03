@@ -15,7 +15,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourCharacterReferencesDescription from '../../components/YourCharacterReferencesDescription';
+import YourCharacterReferencesDescription from '../../components/07-character-references-chapter/YourCharacterReferencesDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {

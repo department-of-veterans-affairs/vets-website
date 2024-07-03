@@ -1,6 +1,6 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
-import YourBackgroundInformationDescription from '../../components/YourBackgroundInformationDescription';
+import YourBackgroundInformationDescription from '../../components/06-background-information-chapter/YourBackgroundInformationDescription';
 
 /** @type {PageSchema} */
 export default {

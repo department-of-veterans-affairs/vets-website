@@ -1,9 +1,9 @@
 import yourBackgroundInformation from './yourBackgroundInformation';
 import yesNoPageSchema from '../helpers/yesNoPageSchema';
-import HasAConviction from '../../components/HasAConviction';
+import HasAConviction from '../../components/06-background-information-chapter/HasAConviction';
 import convictionDetails from './convictionDetails';
 import courtMartialDetails from './courtMartialDetails';
-import IsUnderCharges from '../../components/IsUnderCharges';
+import IsUnderCharges from '../../components/06-background-information-chapter/IsUnderCharges';
 import conditionThatAffectsRepresentationDetails from './conditionThatAffectsRepresentationDetails';
 import conditionThatAffectsExaminationDetails from './conditionThatAffectsExaminationDetails';
 

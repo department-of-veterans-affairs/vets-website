@@ -12,7 +12,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourEducationHistoryDescription from '../../components/YourEducationHistoryDescription';
+import YourEducationHistoryDescription from '../../components/04-education-history-chapter/YourEducationHistoryDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {

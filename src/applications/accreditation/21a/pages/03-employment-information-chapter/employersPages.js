@@ -16,8 +16,8 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmployersInformationTitle from '../../components/EmployersInformationTitle';
-import YourEmployersDescription from '../../components/YourEmployersDescription';
+import EmployersInformationTitle from '../../components/03-employment-information-chapter/EmployersInformationTitle';
+import YourEmployersDescription from '../../components/03-employment-information-chapter/YourEmployersDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {

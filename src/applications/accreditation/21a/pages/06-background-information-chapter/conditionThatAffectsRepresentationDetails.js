@@ -3,7 +3,7 @@ import {
   textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import ConditionThatAffectsRepresentationDetailsNote from '../../components/ConditionThatAffectsRepresentationDetailsNote';
+import ConditionThatAffectsRepresentationDetailsNote from '../../components/06-background-information-chapter/ConditionThatAffectsRepresentationDetailsNote';
 
 /** @type {PageSchema} */
 export default {
