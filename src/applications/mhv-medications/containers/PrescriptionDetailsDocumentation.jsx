@@ -81,7 +81,7 @@ const PrescriptionDetailsDocumentation = () => {
       <div className="vads-u-margin-top--1">
         <ApiErrorNotification
           errorType="access"
-          content="medication documentation"
+          content="medication information"
         />
       </div>
     );
@@ -90,10 +90,10 @@ const PrescriptionDetailsDocumentation = () => {
   return (
     <>
       {isLoadingDoc || isLoadingRx || !htmlContent ? (
-        <va-loading-indicator message="Loading documentation..." set-focus />
+        <va-loading-indicator message="Loading information..." set-focus />
       ) : (
         <div>
-          <h1>Medication Documentation: {prescription?.prescriptionName}</h1>
+          <h1>Information: {prescription?.prescriptionName}</h1>
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
           <p className="vads-u-color--secondary vads-u-font-family--serif">
             Important: How to Use This Information
