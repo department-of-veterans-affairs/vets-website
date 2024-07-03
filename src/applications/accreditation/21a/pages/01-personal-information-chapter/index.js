@@ -15,7 +15,7 @@ export default {
   pages: {
     role,
     barStanding: yesNoPageSchema({
-      title: 'Bar standing',
+      title: 'Standing with the bar',
       path: 'bar-standing',
       question:
         'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
