@@ -14,7 +14,7 @@ import ConvictionDetailsDescription from '../../components/ConvictionDetailsDesc
 export default {
   title: 'Conviction details',
   path: 'conviction-details',
-  depends: formData => formData.convictions,
+  depends: formData => formData.conviction,
   uiSchema: {
     ...titleUI(
       'Provide details for your violation',

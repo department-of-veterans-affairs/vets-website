@@ -13,8 +13,8 @@ export default {
   pages: {
     yourBackgroundInformation,
     hasAConviction: yesNoPageSchema({
-      title: 'Convictions',
-      path: 'convictions',
+      title: 'Conviction',
+      path: 'conviction',
       question:
         'Have you ever been convicted, imprisoned, or sentenced to probation or parole?',
       description: HasAConviction,
