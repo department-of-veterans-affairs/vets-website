@@ -15,6 +15,7 @@ import {
   authorizeOutsideVA,
   formToggle,
   authorizeOutsideVANames,
+  claimantRelationship,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -71,7 +72,17 @@ const formConfig = {
         },
       },
     },
-
+    yourInformation: {
+      title: 'Your information',
+      pages: {
+        claimantRelationship: {
+          path: 'claimant-relationship',
+          title: 'Tell us how you’re connected to the veteran',
+          uiSchema: claimantRelationship.uiSchema,
+          schema: claimantRelationship.schema,
+        },
+      },
+    },
     authorization: {
       title: 'Accredited representative authorizations',
       pages: {
