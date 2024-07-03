@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -53,7 +54,12 @@ export const retrieveMessageThread = messageId => async dispatch => {
 
     const drafts = response.data
       .filter(m => m.attributes.draftDate !== null)
-      .sort((a, b) => a.attributes.draftDate - b.attributes.draftDate);
+      .sort(
+        (a, b) =>
+          moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
+            ? 1
+            : -1,
+      );
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
     const replyToName =
