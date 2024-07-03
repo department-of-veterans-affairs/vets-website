@@ -137,13 +137,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-top: 0;
   }
 
-  i.fa {
-    width: 18px;
-    text-align: center;
-    margin-right: 8px;
-    color: $color-link-default;
-  }
-
   .clearfix {
     content: "";
     display: block;
@@ -275,7 +268,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     float: right;
     background-color: rgba(255, 255, 255, 0);
     color: $color-black;
-    font-family: "Font Awesome 5 Free";
     max-width: 1.25rem;
     left: 68%;
     padding-left: 0.3125rem;
