@@ -345,14 +345,15 @@ const options = {
 | `cancelAddButtonText` |
 | `cancelAddDescription` |
 | `cancelAddReviewDescription` |
+| `cancelAddYes` |
 | `cancelAddNo` |
 | `cancelAddTitle` |
 | `cancelEditButtonText` |
 | `cancelEditDescription` |
 | `cancelEditReviewDescription` |
+| `cancelEditYes` |
 | `cancelEditNo` |
 | `cancelEditTitle` |
-| `cancelYes` |
 | `cardDescription` |
 | `cardItemMissingInformation` |
 | `editSaveButtonText` |

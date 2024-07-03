@@ -5,6 +5,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
 .btsss-portal-link {
   display: inline-flex;
@@ -26,6 +27,6 @@
   column-gap: 20px;
 }
 
-.travel-claim-card {
+.travel-claim-list-container {
   max-width: 35rem;
 }

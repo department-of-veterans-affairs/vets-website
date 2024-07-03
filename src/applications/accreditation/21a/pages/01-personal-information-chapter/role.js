@@ -16,6 +16,7 @@ export default {
     role: radioUI({
       title: 'What type of role are you applying for?',
       labels: roleOptions,
+      labelHeaderLevel: '3',
     }),
   },
   schema: {

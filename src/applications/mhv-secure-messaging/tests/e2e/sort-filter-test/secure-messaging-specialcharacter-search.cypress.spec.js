@@ -9,9 +9,7 @@ describe('Secure Messaging Basic Search Tests', () => {
   // const searchText = 'special %$#';  Known-Issue... special chars don't highlight
   const searchText = 'special';
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 

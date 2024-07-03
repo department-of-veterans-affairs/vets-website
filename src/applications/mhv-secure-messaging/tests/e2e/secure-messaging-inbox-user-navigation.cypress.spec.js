@@ -6,8 +6,7 @@ import { AXE_CONTEXT, Data, Paths } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(

@@ -14,6 +14,7 @@ import EnrollmentVerificationPageWrapper from './containers/EnrollmentVerificati
 import BenefitsProfileWrapper from './containers/BenefitsProfilePageWrapper';
 import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
+import Loader from './components/Loader';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
@@ -52,6 +53,9 @@ const IsUserLoggedIn = () => {
     ),
     [],
   );
+  if (toggleValue === undefined && !window.isProduction) {
+    return <Loader />;
+  }
 
   return toggleValue || window.isProduction ? (
     <RequiredLoginView

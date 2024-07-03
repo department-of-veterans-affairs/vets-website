@@ -69,7 +69,7 @@ const militaryServiceExperiencePage = {
       'Active service end date',
     ),
     characterOfDischarge: selectUI('Character of discharge'),
-    'view:serviceNote': {
+    'view:militaryServiceExperienceNote': {
       'ui:description': MilitaryServiceExperienceNote,
     },
   },
@@ -79,7 +79,7 @@ const militaryServiceExperiencePage = {
       serviceBranch: selectSchema(serviceBranchOptions),
       serviceDateRange: currentOrPastDateRangeSchema,
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
-      'view:serviceNote': {
+      'view:militaryServiceExperienceNote': {
         type: 'object',
         properties: {},
       },

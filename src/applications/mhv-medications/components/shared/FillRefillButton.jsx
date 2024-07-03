@@ -5,22 +5,17 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import { fillPrescription } from '../../actions/prescriptions';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
+import { pharmacyPhoneNumber } from '../../util/helpers';
 
 const FillRefillButton = rx => {
   const dispatch = useDispatch();
 
-  const {
-    cmopDivisionPhone,
-    dispensedDate,
-    error,
-    prescriptionId,
-    success,
-    isRefillable,
-  } = rx;
+  const { dispensedDate, error, prescriptionId, success, isRefillable } = rx;
 
   const [isLoading, setIsLoading] = useState(false);
   const hasBeenDispensed =
     dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
 
   useEffect(
     () => {
@@ -60,7 +55,7 @@ const FillRefillButton = rx => {
               <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
                 If it still doesn’t work, call your VA pharmacy
                 <CallPharmacyPhone
-                  cmopDivisionPhone={cmopDivisionPhone}
+                  cmopDivisionPhone={pharmacyPhone}
                   page={DD_ACTIONS_PAGE_TYPE.LIST}
                 />
               </p>
@@ -99,7 +94,6 @@ const FillRefillButton = rx => {
 
 FillRefillButton.propTypes = {
   rx: PropTypes.shape({
-    cmopDivisionPhone: PropTypes.string,
     dispensedDate: PropTypes.string,
     error: PropTypes.object,
     prescriptionId: PropTypes.number,
