@@ -40,9 +40,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText('Start your application without signing in')
-            .last()
-            .click();
+          cy.findByText('Start your application without signing in').click();
         });
       },
       'place-of-birth': selectDropdownHook(
