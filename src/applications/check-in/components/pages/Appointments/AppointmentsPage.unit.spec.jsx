@@ -39,6 +39,7 @@ describe('unified check-in experience', () => {
 
       expect(getByTestId('what-to-do-next')).to.exist;
       expect(getByTestId('upcoming-appointments-vaos')).to.exist;
+      expect(getByTestId('upcoming-appointments-header')).to.exist;
       expect(getByTestId('appointments-accordions')).to.exist;
 
       // Restore the hook
@@ -83,6 +84,8 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(checkIn.queryByTestId('upcoming-appointments-vista')).to.exist;
+      expect(checkIn.getByTestId('upcoming-appointments-header-vista')).to
+        .exist;
     });
     it('shows a privacy act modal if the link is clicked', () => {
       const checkIn = render(

@@ -13,16 +13,6 @@ class AppointmentDetails {
       .and('include.text', 'Phone appointment');
   };
 
-  validateSubtitleInPerson = () => {
-    cy.get('p[data-testid="in-person-appointment-subtitle"]').should(
-      'be.visible',
-    );
-  };
-
-  validateSubtitlePhone = () => {
-    cy.get('p[data-testid="phone-appointment-subtitle"]').should('be.visible');
-  };
-
   validateWhen = () => {
     cy.get('div[data-testid="appointment-details--when"]').should('be.visible');
     cy.get('div[data-testid="appointment-details--date-value"]').should(

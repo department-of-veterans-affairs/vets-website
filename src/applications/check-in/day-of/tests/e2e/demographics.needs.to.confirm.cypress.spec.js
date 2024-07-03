@@ -53,7 +53,7 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.dayOf();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 

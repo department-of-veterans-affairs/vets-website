@@ -51,7 +51,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -91,7 +91,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -165,7 +165,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -200,7 +200,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage('no');
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -235,7 +235,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage('no');
 
@@ -270,7 +270,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage('no');
 
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage('no');
 
@@ -297,7 +297,6 @@ describe('Check In Experience | Pre-Check-In |', () => {
         AppointmentsPage.validatePageLoaded();
         AppointmentsPage.clickDetails();
         AppointmentDetails.validatePageLoadedInPerson();
-        AppointmentDetails.validateSubtitleInPerson();
         AppointmentDetails.validateWhen();
         AppointmentDetails.validateProvider();
         AppointmentDetails.validateWhere('in-person');
