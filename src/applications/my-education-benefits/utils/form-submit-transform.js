@@ -381,27 +381,25 @@ export function createRelinquishedBenefit(submissionForm) {
       formFields.benefitRelinquished
     ];
   // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
-  if (submissionForm?.dgiRudisillHideBenefitSelectionStep) {
+  if (submissionForm.dgiRudisillHideBenefitsSelectionStep) {
     return {
       relinquishedBenefit: null,
     };
   }
-
   if (benefitRelinquished) {
     return {
       relinquishedBenefit: benefitRelinquished,
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
+  if (submissionForm.showMebEnhancements09) {
+    return submissionForm.showMebDgi42Features
       ? {
           relinquishedBenefit: 'NotEligible',
         }
       : {};
   }
-  return submissionForm?.showMebDgi42Features
+  return submissionForm.showMebDgi42Features
     ? {
         relinquishedBenefit: 'CannotRelinquish',
       }
