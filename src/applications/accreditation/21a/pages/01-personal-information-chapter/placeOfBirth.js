@@ -16,7 +16,7 @@ export default {
     type: 'object',
     properties: {
       placeOfBirthAddress: addressNoMilitarySchema({
-        omit: ['street', 'street2', 'street3', 'postalCode'],
+        omit: ['street2', 'street3'], // TODO: [#87156 Update Address fields to not require street and postal code](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87156)
       }),
     },
   },
