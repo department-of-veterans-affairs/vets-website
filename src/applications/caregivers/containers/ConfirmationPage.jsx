@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { links } from '../definitions/content';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 
@@ -61,9 +60,9 @@ const ConfirmationPage = ({ form }) => {
         </p>
         <p className="no-print">
           <a
-            href={links.caregiverSupportCoordinators.link}
             target="_blank"
             rel="noreferrer noopener"
+            href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
           >
             Find your local Caregiver Support Coordinator
           </a>
@@ -82,9 +81,9 @@ const ConfirmationPage = ({ form }) => {
         </p>
         <p className="no-print">
           <a
-            href={links.caregiverHelpPage.link}
             target="_blank"
             rel="noreferrer noopener"
+            href="https://www.caregiver.va.gov"
           >
             Learn more about caregiver support
           </a>

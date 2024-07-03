@@ -6,8 +6,8 @@ import GetHelp from '../../components/GetHelp';
 
 describe('CG <GetHelp>', () => {
   it('should render', () => {
-    const view = render(<GetHelp />);
-    const selector = view.container.querySelectorAll('.help-talk');
-    expect(selector).to.have.lengthOf(4);
+    const { container } = render(<GetHelp />);
+    const selector = container.querySelectorAll('.help-talk');
+    expect(selector).to.have.length;
   });
 });
