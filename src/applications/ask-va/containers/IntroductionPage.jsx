@@ -10,17 +10,17 @@ import {
   isLoggedIn,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { envUrl } from '../constants';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
-import { envUrl } from '../constants';
 
 const IntroductionPage = props => {
   const { route, loggedIn, toggleLoginModal } = props;
@@ -138,10 +138,6 @@ const IntroductionPage = props => {
       <p className="">
         You can use Ask VA to ask a question online. You can ask about
         education, disability compensation, health care and many other topics.
-      </p>
-      <p>
-        We will review your information and reply back in up to{' '}
-        <span className="vads-u-font-weight--bold">7 business days.</span>
       </p>
 
       <h3 className="vads-u-margin-top--1">
@@ -295,9 +291,12 @@ const IntroductionPage = props => {
     </>
   );
 
+  const subTitle =
+    'Get answers to your questions about VA benefits and service. You should receive a reply within 7 business days.';
+
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+      <FormTitle title={formConfig.title} subTitle={subTitle} />
       {loggedIn ? authenticatedUI : unAuthenticatedUI}
     </div>
   );

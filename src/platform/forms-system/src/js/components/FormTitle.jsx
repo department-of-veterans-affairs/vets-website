@@ -5,7 +5,10 @@ export default function FormTitle({ title, subTitle }) {
     <div className="schemaform-title">
       <h1 data-testid="form-title">{title}</h1>
       {subTitle && (
-        <div className="schemaform-subtitle" data-testid="form-subtitle">
+        <div
+          className="schemaform-subtitle vads-u-margin-top--3"
+          data-testid="form-subtitle"
+        >
           {subTitle}
         </div>
       )}
