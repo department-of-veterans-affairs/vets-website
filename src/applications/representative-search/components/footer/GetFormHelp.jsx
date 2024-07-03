@@ -7,7 +7,7 @@ const GetFormHelp = () => (
       How to contact us if you have questions
     </h2>
     <p className="help-talk">
-      You can call us at{' '}
+      PLEASE can call us at{' '}
       <va-telephone contact={CONTACTS.VA_411} extension={0} /> (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here 24/7.
