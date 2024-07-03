@@ -20,7 +20,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
   beforeEach(() => {
     initializeFeatureToggle.withCurrentFeatures();
   });
-  xdescribe('Patient who has encounters errors fetching session', () => {
+  describe('Patient who has encounters errors fetching session', () => {
     it('should take them straight to the error page without validation', () => {
       initializeSessionGet.withFailure();
       cy.visitPreCheckInWithUUID();
@@ -28,7 +28,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
-  xdescribe('Patient who has encounters errors fetching pre-check-in data', () => {
+  describe('Patient who has encounters errors fetching pre-check-in data', () => {
     it('should take them to the error page after validation', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();

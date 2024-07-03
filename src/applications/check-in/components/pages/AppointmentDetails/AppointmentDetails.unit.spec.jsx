@@ -391,7 +391,7 @@ describe('check-in experience', () => {
             .exist;
         });
       });
-      xdescribe('CVT pre-check-in appointment', () => {
+      describe('CVT pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
             <CheckInProvider
@@ -438,7 +438,7 @@ describe('check-in experience', () => {
             .exist;
         });
       });
-      xdescribe('VVC pre-check-in appointment', () => {
+      describe('VVC pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
           const { getByTestId } = render(
             <CheckInProvider
@@ -495,7 +495,7 @@ describe('check-in experience', () => {
           expect(getByTestId('appointment-details--facility-info')).to.exist;
         });
       });
-      xdescribe('All appointments - data exists', () => {
+      describe('All appointments - data exists', () => {
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(
             <CheckInProvider
@@ -519,7 +519,7 @@ describe('check-in experience', () => {
           expect(getByTestId('appointment-details--phone')).to.exist;
         });
       });
-      xdescribe("All appointments - data doesn't exist", () => {
+      describe("All appointments - data doesn't exist", () => {
         it('does not render doctor name if missing', () => {
           const { queryByTestId } = render(
             <CheckInProvider
@@ -543,7 +543,7 @@ describe('check-in experience', () => {
           expect(queryByTestId('appointment-details--phone')).to.not.exist;
         });
       });
-      xdescribe('Day-of check-in eligible appointment', () => {
+      describe('Day-of check-in eligible appointment', () => {
         it('Renders the check-in button and no message', () => {
           const { getByTestId, queryByTestId } = render(
             <CheckInProvider
@@ -557,7 +557,7 @@ describe('check-in experience', () => {
           expect(queryByTestId('appointment-action-message')).to.not.exist;
         });
       });
-      xdescribe('Day-of check-in ineligible appointment', () => {
+      describe('Day-of check-in ineligible appointment', () => {
         it('Renders the check-in button and no message', () => {
           const { getByTestId, queryByTestId } = render(
             <CheckInProvider
@@ -571,7 +571,7 @@ describe('check-in experience', () => {
           expect(queryByTestId('check-in-button')).to.not.exist;
         });
       });
-      xdescribe('Upcoming appointment', () => {
+      describe('Upcoming appointment', () => {
         it('Renders the check-in button and message for appointment in both arrays', () => {
           const { getByTestId } = render(
             <CheckInProvider
