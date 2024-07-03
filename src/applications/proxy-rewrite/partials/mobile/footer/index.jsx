@@ -1,4 +1,6 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
+import PropTypes from 'prop-types';
 import CrisisLineModal from '../../crisis-line-modal';
 import {
   buildBottomRail,
@@ -17,7 +19,11 @@ const MobileFooter = ({ footerData }) => {
           <ul className="usa-accordion">
             <li>
               <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-                <button className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open">Talk to the <strong>Veterans Crisis Line</strong> now
+                <button
+                  className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open"
+                  type="button"
+                >
+                  Talk to the <strong>Veterans Crisis Line</strong> now
                   <svg
                     aria-hidden="true"
                     className="vads-u-margin-left--0p5"
@@ -37,7 +43,15 @@ const MobileFooter = ({ footerData }) => {
               </div>
             </li>
             <li>
-              <button className="usa-accordion-button va-footer-button" aria-controls="veteran-contact" itemProp="name" aria-expanded="false">Contact us</button>
+              <button
+                className="usa-accordion-button va-footer-button"
+                aria-controls="veteran-contact"
+                itemProp="name"
+                aria-expanded="false"
+                type="button"
+              >
+                Contact us
+              </button>
               <div className="usa-accordion-content va-footer-accordion-content" id="veteran-contact" aria-hidden="true">
                 <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">Get answers</h2>
                 <ul className="va-footer-links">
@@ -46,7 +60,15 @@ const MobileFooter = ({ footerData }) => {
               </div>
             </li>
             <li>
-              <button className="usa-accordion-button va-footer-button" aria-controls="footer-veteran-programs" itemProp="name" aria-expanded="false">Veteran programs and services</button>
+              <button
+                className="usa-accordion-button va-footer-button"
+                aria-controls="footer-veteran-programs"
+                itemProp="name"
+                aria-expanded="false"
+                type="button"
+              >
+                Veteran programs and services
+              </button>
               <div className="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-veteran-programs">
                 <ul className="va-footer-links">
                   {buildColumn(columns, 1)}
@@ -54,7 +76,15 @@ const MobileFooter = ({ footerData }) => {
               </div>
             </li>
             <li>
-              <button className="usa-accordion-button va-footer-button" aria-controls="veteran-resources" itemProp="name" aria-expanded="false">More VA resources</button>
+              <button
+                className="usa-accordion-button va-footer-button"
+                aria-controls="veteran-resources"
+                itemProp="name"
+                aria-expanded="false"
+                type="button"
+              >
+                More VA resources
+              </button>
               <div className="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="veteran-resources">
                 <ul className="va-footer-links">
                   {buildColumn(columns, 2)}
@@ -62,7 +92,15 @@ const MobileFooter = ({ footerData }) => {
               </div>
             </li>
             <li>
-              <button className="usa-accordion-button va-footer-button" aria-controls="veteran-connect" itemProp="name" aria-expanded="false">Get VA updates</button>
+              <button
+                className="usa-accordion-button va-footer-button"
+                aria-controls="veteran-connect"
+                itemProp="name"
+                aria-expanded="false"
+                type="button"
+              >
+                Get VA updates
+              </button>
               <div className="usa-accordion-content va-footer-accordion-content" id="veteran-connect" aria-hidden="true">
                 <ul className="va-footer-links">
                   {buildColumn(columns, 3)}
@@ -71,7 +109,15 @@ const MobileFooter = ({ footerData }) => {
             </li>
             <li>
               <h2 className="va-footer-linkgroup-title">
-                <button className="usa-accordion-button va-footer-button" aria-controls="veteran-language-support" itemProp="name" aria-expanded="false">Language assistance</button>
+                <button
+                  className="usa-accordion-button va-footer-button"
+                  aria-controls="veteran-language-support"
+                  itemProp="name"
+                  aria-expanded="false"
+                  type="button"
+                >
+                  Language assistance
+                </button>
               </h2>
               <div className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5" id="veteran-language-support" aria-hidden="true">
                 <div className="usa-grid usa-grid-full va-footer-links-bottom">
@@ -105,6 +151,10 @@ const MobileFooter = ({ footerData }) => {
       <CrisisLineModal />
     </footer>
   );
+};
+
+MobileFooter.propTypes = {
+  footerData: PropTypes.object.isRequired
 };
 
 export default MobileFooter;

@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 import { kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
@@ -36,9 +37,9 @@ export const buildLevelTwoLinks = sectionData => {
             key={index}
           >
             <button
-              data-menu="${kebabCase(title)}-menu"
+              data-menu={`${kebabCase(title)}-menu`}
               className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default" 
-              data-e2e-id="${title}--2"
+              data-e2e-id={`${title}--2`}
               id={`${title}--2`}
               type="button"
             >

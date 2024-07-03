@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 
 const CrisisLineModal = () => (

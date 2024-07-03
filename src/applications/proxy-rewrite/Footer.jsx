@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import DesktopFooter from './partials/desktop/footer';
 import MobileFooter from './partials/mobile/footer';
@@ -45,5 +46,10 @@ const Footer = ({ footerData, lastUpdated }) => {
 
   return footer;
 };
+
+Footer.propTypes = {
+  footerData: PropTypes.object.isRequired,
+  lastUpdated: PropTypes.string
+}
 
 export default Footer;

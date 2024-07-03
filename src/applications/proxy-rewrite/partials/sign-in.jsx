@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
@@ -7,9 +7,9 @@ import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 const SignIn = ({ useSignInService }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const toggle = () => {
+  const toggle = useCallback(() => {
     setShowModal(!showModal);
-  };
+  }, [showModal]);
 
   useEffect(
     () => {

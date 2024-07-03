@@ -1,4 +1,6 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeMegaMenu } from './mega-menu';
 
 const MobileHeader = ({ megaMenuData }) => {
@@ -16,6 +18,7 @@ const MobileHeader = ({ megaMenuData }) => {
               aria-expanded="false"
               className="expand-official-govt-explanation usa-accordion-button va-button-link vads-u-text-decoration--none"
               id="govt-banner-button"
+              type="button"
             >
               An official website of the United States government.
               <svg
@@ -56,7 +59,11 @@ const MobileHeader = ({ megaMenuData }) => {
 
       {/* start Veterans Crisis Line banner */}
       <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-        <button className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open">Talk to the <strong>Veterans Crisis Line</strong> now
+        <button
+          className="va-button-link vads-u-color--white vads-u-text-decoration--none vcl-modal-open"
+          type="button"
+        >
+          Talk to the <strong>Veterans Crisis Line</strong> now
           <svg
             aria-hidden="true"
             className="vads-u-margin-left--1"
@@ -98,7 +105,7 @@ const MobileHeader = ({ megaMenuData }) => {
               <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
                 <div className="sign-in-nav">
                   <div className="sign-in-buttons">
-                    <button className="sign-in-button">Sign in</button>
+                    <button className="sign-in-button" type="button">Sign in</button>
                   </div>
                 </div>
               </div>
@@ -107,7 +114,13 @@ const MobileHeader = ({ megaMenuData }) => {
             </div>
 
             {/* start Menu button */}
-            <button aria-controls="header-nav-items" aria-expanded="false" id="header-menu-button" className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative" type="button">
+            <button
+              aria-controls="header-nav-items"
+              aria-expanded="false"
+              id="header-menu-button"
+              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
+              type="button"
+            >
               <span>Menu</span>
               <svg
                 aria-hidden="true"
@@ -150,6 +163,10 @@ const MobileHeader = ({ megaMenuData }) => {
       </nav>
     </header>
   );
+};
+
+MobileHeader.propTypes = {
+  megaMenuData: PropTypes.object.isRequired
 };
 
 export default MobileHeader;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import DesktopHeader from './partials/desktop/header';
 import MobileHeader from './partials/mobile/header';
@@ -49,6 +50,10 @@ const Header = ({ megaMenuData }) => {
         vclModalIsOpen={vclModalIsOpen}
       />
     );
+};
+
+Header.propTypes = {
+  megaMenuData: PropTypes.object.isRequired
 };
 
 export default Header;

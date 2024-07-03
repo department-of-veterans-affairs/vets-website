@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { Fragment } from 'react';
 import { buildLevelTwoLinks } from './level-two-links';
 import { buildLevelThreeLinks } from './level-three-links';

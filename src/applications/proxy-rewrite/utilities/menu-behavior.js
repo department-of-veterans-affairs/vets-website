@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const toggleMenu = (nextSibling, btn, buttonIcons) => {
   nextSibling.toggleAttribute('hidden');
 

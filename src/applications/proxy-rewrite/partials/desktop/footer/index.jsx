@@ -1,4 +1,6 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
+import PropTypes from 'prop-types';
 import CrisisLineModal from '../../crisis-line-modal';
 import {
   buildBottomRail,
@@ -36,7 +38,7 @@ const DesktopFooter = ({ footerData }) => {
             <h2 className="va-footer-linkgroup-title">In crisis? Talk to someone now</h2>
             <ul className="va-footer-links">
               <li>
-                <button className="va-button-link vcl-modal-open">Veterans Crisis Line</button>
+                <button className="va-button-link vcl-modal-open" type="button">Veterans Crisis Line</button>
               </li>
             </ul>
             <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Get answers</h2>
@@ -81,6 +83,10 @@ const DesktopFooter = ({ footerData }) => {
       <CrisisLineModal />
     </footer>
   );
+};
+
+DesktopFooter.propTypes = {
+  footerData: PropTypes.object.isRequired
 };
 
 export default DesktopFooter;

@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 import MegaMenu from './mega-menu';
 
@@ -22,7 +23,13 @@ const DesktopHeader = ({
                 <div className="usa-grid usa-banner-inner">
                   <img src="https://www.va.gov/img/tiny-usa-flag.png" alt="U.S. flag" height="20" width="20" />
                   <p>An official website of the United States government</p>
-                  <button id="usa-banner-toggle" className="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
+                  <button
+                    id="usa-banner-toggle"
+                    className="usa-accordion-button usa-banner-button"
+                    aria-expanded="false"
+                    aria-controls="gov-banner"
+                    type="button"
+                  >
                     <span className="usa-banner-button-text">Here’s how you know</span>
                   </button>
                 </div>
@@ -56,7 +63,7 @@ const DesktopHeader = ({
 
       {/* start Veterans Crisis Line banner */}
       <div className="vcl-crisis-line-container vads-u-background-color--secondary-darkest">
-        <button className="vcl-modal-open vads-u-background-color--secondary-darkest">
+        <button className="vcl-modal-open vads-u-background-color--secondary-darkest" type="button">
           <div className="vcl-crisis-line-inner">
             <span className="vcl-crisis-line-icon" aria-hidden="true"></span>
             <span className="vcl-crisis-line-text">
@@ -90,7 +97,13 @@ const DesktopHeader = ({
               
               {/* start Search */}
               <div className="va-dropdown">
-                <button id="search-dropdown-button" className="va-btn-withicon va-dropdown-trigger" aria-controls="search" aria-expanded="false">
+                <button
+                  id="search-dropdown-button"
+                  className="va-btn-withicon va-dropdown-trigger"
+                  aria-controls="search"
+                  aria-expanded="false"
+                  type="button"
+                >
                   <span>
                     <svg aria-hidden="true" className="vads-u-margin-right--0p5" focusable="false" width="24" viewBox="2 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"></path></svg>
                     Search
@@ -103,7 +116,7 @@ const DesktopHeader = ({
               <a className="va-header-contact vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold" href="https://www.va.gov/contact-us/">Contact us</a>
               <div className="sign-in-nav">
                 <div className="sign-in-buttons">
-                  <button className="sign-in-button">Sign in</button>
+                  <button className="sign-in-button" type="button">Sign in</button>
                 </div>
               </div>
             </div>
