@@ -10,8 +10,8 @@ When working on the MHV Medications team, understanding the prescription object 
 - [Purpose](#purpose)
 - [Field Descriptions and Transformations](#field-descriptions-and-transformations)
   - [Front End Prescription Object](#front-end-prescription-object)
-  - [Vets-api and MHV API Field Mappings](#vets-api-and-mhv-api-field-mappings)
   - [Tracking List Object](#tracking-list-object)
+  - [Vets-api and MHV API Field Mappings](#vets-api-and-mhv-api-field-mappings)
 
 ## Purpose
 This document was created to help front-end developers understand the prescription object and identify which fields to use for new features and which ones are currently in use. It also helps improve communication between developers working on different parts of the stack by clarifying the names used for the same fields.
@@ -70,6 +70,23 @@ This document was created to help front-end developers understand the prescripti
 | `rxRfRecords` | array | Array of Prescription objects | An array of refill history data | This field is used to display refill history data for a prescription. **NOTE:** The object at index `0` is the most recent refill |
 | `tracking` (not in use) | boolean | `true` | unknown | This field is currently not in use and there are no current plans to use this field in the future |
 
+### Tracking List Object
+
+| Front End Field | Example Value | Data Type | Description | Usage Context |
+|--|--|--|--|--|
+| `carrier` | `"USPS"` | string | The shipping carrier used for the delivery | Used to show which carrier is handling the shipment |
+| `completeDateTime` | `"2024-05-28T04:39:11-04:00"` | string/date | The date and time when the shipment was completed | To display or log when the shipment was finalized |
+| `dateLoaded` (not in use) | `"2024-04-21T16:55:19-04:00"` | string/date | The date and time when the shipment was processed | To track when the shipment was loaded for transport |
+| `divisionPhone` (not in use) | `"(401)271-9804"` | string | The phone number of the facility that shipped the prescription | Use when needing to show the facility phone number |
+| `id` (not in use) | `9878` | number | A unique identifier for the tracking record | This field will most likely never be displayed in the UI, but could be useful for searching |
+| `isLocalTracking` (not in use) | `false` | boolean | Indicates if the tracking is managed locally | This field will most likely never be displayed in the UI, but could be useful for filtering  |
+| `ndc` (not in use) | `"00113002240"` | `string` | The National Drug Code associated with the item | This field will most likely never be displayed in the UI. We commonly use [cmopNdcNumber](#cmop-ndc-number) instead, but could be useful for searching |
+| `othersInSamePackage` (not in use) | `false` | boolean | Indicates if other items are in the same package | Not used currently, but could be useful to show/filter if multiple items are shipped under one tracking number |
+| `rxNumber` (not in use) | `2719780` | number | Prescription number associated with the shipment | This field will most likely never be displayed in the UI, but could be useful for searching |
+| `stationNumber` (not in use) | `995` | number | Identifier for the facility from which the prescription came from | This field will most likely never be displayed in the UI, but could be useful for searching/filtering |
+| `trackingNumber` | `"332980271979930000002300"` | string | The tracking number assigned to the shipment | Used to show the tracking number in the UI |
+| `viewImageDisplayed` (not in use) | `false` | boolean | Indicates if an image of the item was displayed | This field isn't currently used and there are no plans to use it in the future |
+
 ### Vets-api and MHV API Field Mappings
 
 | Front End Field | Vets-API Field | MHV API Field |
@@ -123,19 +140,3 @@ This document was created to help front-end developers understand the prescripti
 | `rxRfRecords` | `rx_rf_records` | none |
 | `tracking` (not in use) | `tracking` | `tracking` |
 
-### Tracking List Object
-
-| Front End Field | Example Value | Data Type | Description | Usage Context |
-|--|--|--|--|--|
-| `carrier` | `"USPS"` | string | The shipping carrier used for the delivery | Used to show which carrier is handling the shipment |
-| `completeDateTime` | `"2024-05-28T04:39:11-04:00"` | string/date | The date and time when the shipment was completed | To display or log when the shipment was finalized |
-| `dateLoaded` (not in use) | `"2024-04-21T16:55:19-04:00"` | string/date | The date and time when the shipment was processed | To track when the shipment was loaded for transport |
-| `divisionPhone` (not in use) | `"(401)271-9804"` | string | The phone number of the facility that shipped the prescription | Use when needing to show the facility phone number |
-| `id` (not in use) | `9878` | number | A unique identifier for the tracking record | This field will most likely never be displayed in the UI, but could be useful for searching |
-| `isLocalTracking` (not in use) | `false` | boolean | Indicates if the tracking is managed locally | This field will most likely never be displayed in the UI, but could be useful for filtering  |
-| `ndc` (not in use) | `"00113002240"` | `string` | The National Drug Code associated with the item | This field will most likely never be displayed in the UI. We commonly use [cmopNdcNumber](#cmop-ndc-number) instead, but could be useful for searching |
-| `othersInSamePackage` (not in use) | `false` | boolean | Indicates if other items are in the same package | Not used currently, but could be useful to show/filter if multiple items are shipped under one tracking number |
-| `rxNumber` (not in use) | `2719780` | number | Prescription number associated with the shipment | This field will most likely never be displayed in the UI, but could be useful for searching |
-| `stationNumber` (not in use) | `995` | number | Identifier for the facility from which the prescription came from | This field will most likely never be displayed in the UI, but could be useful for searching/filtering |
-| `trackingNumber` | `"332980271979930000002300"` | string | The tracking number assigned to the shipment | Used to show the tracking number in the UI |
-| `viewImageDisplayed` (not in use) | `false` | boolean | Indicates if an image of the item was displayed | This field isn't currently used and there are no plans to use it in the future |
