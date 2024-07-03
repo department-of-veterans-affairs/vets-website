@@ -63,7 +63,7 @@ describe('Results Page', () => {
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-court_martial')).to.exist;
+    expect(screen.getByTestId('duw-results')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {

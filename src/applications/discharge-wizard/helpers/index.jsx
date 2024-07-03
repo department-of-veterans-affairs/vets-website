@@ -268,7 +268,7 @@ export const answerReviewLabel = (key, formValues) => {
     m => String(m.value) === formValues[SHORT_NAME_MAP.DISCHARGE_MONTH],
   );
 
-  const dischargeMonth = monthObj && monthObj.label;
+  const dischargeMonth = (monthObj && monthObj.label) || '';
 
   switch (key) {
     case SHORT_NAME_MAP.SERVICE_BRANCH:
@@ -281,7 +281,7 @@ export const answerReviewLabel = (key, formValues) => {
         return 'I was discharged before 1992.';
       }
 
-      return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}.`;
+      return `I was discharged in ${dischargeMonth} ${formValues[key]}.`;
     case SHORT_NAME_MAP.PREV_APPLICATION:
       if (answer === RESPONSES.PREV_APPLICATION_1) {
         return 'I have previously applied for a discharge upgrade for this period of service.';

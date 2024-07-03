@@ -47,7 +47,7 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
             <a
               aria-label={reviewLabel}
               className="vads-u-padding-left--2"
-              href="#"
+              href={shortName}
               name={shortName}
             >
               Edit
