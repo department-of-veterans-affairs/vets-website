@@ -186,9 +186,9 @@ const AppointmentDetails = props => {
               {!isUpcoming && (
                 <>
                   {app === APP_NAMES.PRE_CHECK_IN &&
-                  getPreCheckinComplete(window)?.complete ? (
-                    preCheckInSubTitle
-                  ) : (
+                    getPreCheckinComplete(window)?.complete &&
+                    preCheckInSubTitle}
+                  {app === APP_NAMES.CHECK_IN && (
                     <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
                       <AppointmentMessage appointment={appointment} />
                     </div>
