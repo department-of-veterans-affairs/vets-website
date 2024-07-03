@@ -27,7 +27,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   );
 
   return (
-    <article className="dw-guidance">
+    <article className="dw-guidance" data-testId="duw-results">
       <h1>{H1}</h1>
       <div className="medium-8">
         <ResultsSummary formResponses={formResponses} />
