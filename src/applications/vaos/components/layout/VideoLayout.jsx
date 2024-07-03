@@ -131,7 +131,12 @@ export default function VideoLayout({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!!facility && (
+            {!facility && (
+              <>
+                <span>Facility not noted</span>
+              </>
+            )}
+            {facility && (
               <>
                 {facility.name}
                 <br />
@@ -141,7 +146,16 @@ export default function VideoLayout({ data: appointment }) {
               </>
             )}
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {clinicName && (
+              <>
+                <span>Clinic: {clinicName}</span> <br />
+              </>
+            )}
+            {!clinicName && (
+              <>
+                <span>Clinic not noted</span>
+              </>
+            )}
             {facilityPhone && (
               <FacilityPhone heading="Phone:" contact={facilityPhone} />
             )}
@@ -160,7 +174,16 @@ export default function VideoLayout({ data: appointment }) {
             </>
           )}
           <br />
-          <span>Clinic: {clinicName || 'Not available'}</span> <br />
+          {clinicName && (
+            <>
+              <span>Clinic: {clinicName}</span> <br />
+            </>
+          )}
+          {!clinicName && (
+            <>
+              <span>Clinic not noted</span>
+            </>
+          )}
           {facilityPhone && (
             <FacilityPhone heading="Phone:" contact={facilityPhone} />
           )}

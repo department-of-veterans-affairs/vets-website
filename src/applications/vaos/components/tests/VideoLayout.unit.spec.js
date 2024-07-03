@@ -34,20 +34,26 @@ describe('VAOS Component: VideoLayout', () => {
   };
 
   describe('When appointment information is missing', () => {
+    const nullInitialState = {
+      appointments: {},
+      featureToggles: {
+        vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      },
+    };
     it('should not display heading and text for empty data', async () => {
       // Arrange
-      const store = createTestStore(initialState);
+      const store = createTestStore(nullInitialState);
       const appointment = {
         comment: 'This is a test:Additional information',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
+        location: {},
         videoData: {
           isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
+          facilityId: null,
+          kind: 'ADHOC',
+          duration: 30,
+          providers: [],
+          isAtlas: false,
+          atlasLocation: null,
           extension: {
             patientHasMobileGfe: false,
           },
@@ -93,6 +99,9 @@ describe('VAOS Component: VideoLayout', () => {
           name: /What/i,
         }),
       ).not.to.exist;
+
+      expect(screen.getByText(/Clinic not noted/i));
+      expect(screen.getByText(/Facility not noted/i));
     });
   });
 
