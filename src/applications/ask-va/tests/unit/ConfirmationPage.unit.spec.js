@@ -14,6 +14,7 @@ const data = {
         middle: 'B',
         last: 'Parker',
       },
+      loading: false,
     },
   },
   form: {
