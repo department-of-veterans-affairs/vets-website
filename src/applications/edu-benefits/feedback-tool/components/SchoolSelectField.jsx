@@ -294,13 +294,8 @@ export class SchoolSelectField extends React.Component {
                   Search Schools
                 </button>
               </div>
-              <div className="clear-search">
-                <button
-                  className="va-button-link start-over"
-                  onClick={this.handleStartOver}
-                >
-                  Start Over
-                </button>
+              <div className="clear-search vads-u-margin-top--1p5">
+                <va-button onClick={this.handleStartOver} text="Reset Search" />
               </div>
             </div>
           </div>
@@ -309,7 +304,6 @@ export class SchoolSelectField extends React.Component {
             onVaChange={event =>
               this.handleManualSchoolEntryToggled(event.detail.checked)
             }
-            description="If you don’t find your school in the search results, then check the box to enter in your school information manually."
             label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">

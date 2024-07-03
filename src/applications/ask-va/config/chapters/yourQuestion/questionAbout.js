@@ -1,8 +1,8 @@
 import {
   radioSchema,
   radioUI,
-} from '@department-of-veterans-affairs/platform-forms-system/src/js/web-component-patterns/radioPattern';
-import FormElementTitle from '../../../components/FormElementTitle';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
 import {
   CHAPTER_2,
   questionAboutDescriptions,
@@ -11,12 +11,14 @@ import {
 
 const questionAboutPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
+    'ui:description': SignInMayBeRequired,
     questionAbout: {
       ...radioUI({
-        title: CHAPTER_2.PAGE_1.QUESTION_1,
+        title: CHAPTER_2.PAGE_1.TITLE,
+        labelHeaderLevel: '3',
         labels: questionAboutLabels,
         descriptions: questionAboutDescriptions,
+        required: () => true,
       }),
     },
   },

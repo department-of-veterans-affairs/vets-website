@@ -8,11 +8,10 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 
 describe('Reply with attachments', () => {
-  const site = new SecureMessagingSite();
   const messageDetailsPage = new PatientMessageDetailsPage();
   const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
     messageDetailsPage.loadMessageDetails(testMessage);
@@ -55,11 +54,10 @@ describe('Reply with attachments', () => {
 });
 
 describe('verify attach file button behaviour', () => {
-  const site = new SecureMessagingSite();
   const messageDetailsPage = new PatientMessageDetailsPage();
   const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
     messageDetailsPage.loadMessageDetails(testMessage);

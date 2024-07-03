@@ -385,10 +385,13 @@ const formConfig = {
           title: 'Service periods',
           path: 'military-history/service-periods',
           uiSchema: {
-            'ui:title': 'Service periods',
+            // 'ui:title': 'Service periods',
             toursOfDuty: merge({}, toursOfDuty.uiSchema, {
               'ui:title': null,
               'ui:description': 'Please record all your periods of service.',
+              'ui:options': {
+                keepInPageOnReview: true,
+              },
             }),
           },
           schema: {

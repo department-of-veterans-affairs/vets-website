@@ -13,7 +13,7 @@ import {
 import MilitaryServiceExperienceNote from '../../components/MilitaryServiceExperienceNote';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+const arrayBuilderOptions = {
   arrayPath: 'militaryServiceExperiences',
   nounSingular: 'military service experience',
   nounPlural: 'military service experiences',
@@ -69,7 +69,7 @@ const militaryServiceExperiencePage = {
       'Active service end date',
     ),
     characterOfDischarge: selectUI('Character of discharge'),
-    'view:serviceNote': {
+    'view:militaryServiceExperienceNote': {
       'ui:description': MilitaryServiceExperienceNote,
     },
   },
@@ -79,7 +79,7 @@ const militaryServiceExperiencePage = {
       serviceBranch: selectSchema(serviceBranchOptions),
       serviceDateRange: currentOrPastDateRangeSchema,
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
-      'view:serviceNote': {
+      'view:militaryServiceExperienceNote': {
         type: 'object',
         properties: {},
       },
@@ -96,7 +96,7 @@ const militaryServiceExperiencePage = {
 const summaryPage = {
   uiSchema: {
     'view:isAVeteran': arrayBuilderYesNoUI(
-      options,
+      arrayBuilderOptions,
       {
         title: 'Have you ever served in the military?',
         labelHeaderLevel: 'p',
@@ -117,7 +117,7 @@ const summaryPage = {
 };
 
 const militaryServiceExperiencesPages = arrayBuilderPages(
-  options,
+  arrayBuilderOptions,
   pageBuilder => ({
     militaryServicesExperiences: pageBuilder.introPage({
       title: 'Military service experiences',

@@ -79,6 +79,59 @@
         }
       }
     ],
-    "view:hasEmployers": false
+    "view:hasEmployers": false,
+    "educationalInstitutions": [
+      {
+        "name": "University of California, Berkeley",
+        "dateRange": {
+          "from": "2010-01-01",
+          "to": "2014-12-31"
+        },
+        "degree": "Bachelor of Science",
+        "major": "Computer Science"
+      }
+    ],
+    "view:hasEducationalInstitutions": false,
+    "jurisdictions": [
+      {
+        "name": "California",
+        "admissionDate": "2000-01-01",
+        "membershipOrRegistrationNumber": "12345"
+      }
+    ],
+    "view:hasJurisdictions": false,
+    "agenciesOrCourts": [
+      {
+        "name": "California State Bar",
+        "admissionDate": "2010-01-01",
+        "membershipOrRegistrationNumber": "54321"
+      }
+    ],
+    "convictions": true,
+    "convictionPlace": "Kansas City, Missouri",
+    "convictionDate": "2010-01-01",
+    "convictionExplanation": "Violation explanation",
+    "courtMartialed": true,
+    "militaryAuthorityName": "U.S. Army",
+    "militaryAuthorityAddress": {
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "underCharges": false,
+    "resignedFromEducation": false,
+    "disciplinedForDishonesty": false,
+    "resignedForDishonesty": false,
+    "representativeForAgency": false,
+    "reprimandedInAgency": false,
+    "appliedForVaAccreditation": false,
+    "terminatedByVsorg": false,
+    "conditionThatAffectsRepresentation": true,
+    "conditionThatAffectsRepresentationDetails": "Condition that affects representation details",
+    "conditionThatAffectsExamination": true,
+    "conditionThatAffectsExaminationDetails": "Condition that affects examination details"
   }
 }

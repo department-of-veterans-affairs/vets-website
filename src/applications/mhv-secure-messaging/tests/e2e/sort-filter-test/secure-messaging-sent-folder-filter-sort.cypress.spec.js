@@ -7,8 +7,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockSentMessages);
     FolderLoadPage.loadSentMessages(mockSentMessages);
   });
