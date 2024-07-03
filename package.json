@@ -126,7 +126,7 @@
     "@babel/traverse": "^7.23.2",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.18.1",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
