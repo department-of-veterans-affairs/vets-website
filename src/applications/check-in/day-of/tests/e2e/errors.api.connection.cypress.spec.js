@@ -83,7 +83,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.dayOf();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -126,7 +126,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.dayOf();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -179,7 +179,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
-      NextOfKin.validatePage.dayOf();
+      NextOfKin.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 

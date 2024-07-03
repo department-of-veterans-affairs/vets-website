@@ -13,8 +13,8 @@ const UpcomingAppointments = props => {
   const { t } = useTranslation();
   return (
     <section data-testid="upcoming-appointments-vista">
-      <h2 data-testid="upcoming-appointments-header">
-        {t('your-appointments', { count: appointments.length })}
+      <h2 data-testid="upcoming-appointments-header-vista">
+        {t('todays-appointments-at-this-facility')}
       </h2>
       <UpcomingAppointmentsList
         router={router}
