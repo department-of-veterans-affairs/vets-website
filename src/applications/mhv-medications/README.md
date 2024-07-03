@@ -2,7 +2,7 @@
 
 ## Overview
 
-The 'Prescription' object holds data about prescriptions as they move from the MHV API to vets-api and then to vets-website. This document explains each field's name, purpose, usage context, and examples. It focuses on how the data appears on the front end after being received, without covering the vets-api or MHV API details (like changes made by a serializer).
+When working on the MHV Medications team, understanding the prescription object is important for developing new features or working with existing ones. The 'Prescription' object holds data about prescriptions as they move from the MHV API to vets-api and then to vets-website. This document explains each field's name, purpose, usage context, and examples. It focuses on how the data appears on the front end after being received, without covering the vets-api or MHV API details (like changes made by a serializer).
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ The 'Prescription' object holds data about prescriptions as they move from the M
   - [Tracking List Object](#tracking-list-object)
 
 ## Purpose
-This document helps front-end developers understand the prescription object, know which fields to use for new features and which ones are already in use. It also helps improve communication between developers working on different parts of the stack by clarifying the names used for the same fields.
+This document was created to help front-end developers understand the prescription object and identify which fields to use for new features and which ones are currently in use. It also helps improve communication between developers working on different parts of the stack by clarifying the names used for the same fields.
 
 ## Field Descriptions and Transformations
 
