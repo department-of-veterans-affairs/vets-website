@@ -30,6 +30,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   // set the props to use for the SaveInProgressIntro components
   const sipProps = {
     startText: content['sip-start-form-text'],
+    startPage: '/veteran-information/personal-information',
     unauthStartText: content['sip-sign-in-to-start-text'],
     messages: savedFormMessages,
     formConfig: { customText },
