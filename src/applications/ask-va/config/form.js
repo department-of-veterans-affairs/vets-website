@@ -75,6 +75,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '0873',
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your ask the va test application (XX-230) is in progress.',
+    //   expired: 'Your saved ask the va test application (XX-230) has expired. If you want to apply for ask the va test, please start a new application.',
+    //   saved: 'Your ask the va test application has been saved.',
+    // },
+  },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
