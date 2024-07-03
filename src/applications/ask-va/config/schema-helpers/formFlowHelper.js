@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CHAPTER_2, CHAPTER_3, hasPrefillInformation } from '../../constants';
+import { CHAPTER_2, CHAPTER_3 } from '../../constants';
 
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
@@ -131,19 +131,16 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
-    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
-    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
-    depends: form => !hasPrefillInformation(form),
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -229,27 +226,6 @@ const ch3Pages = {
     depends: form => form.contactPreference !== 'US_MAIL',
   },
 };
-
-// export const flowPages = (obj, list, path) => {
-//   const pages = _.cloneDeep(obj);
-//   const flowGroup = {};
-//   list.forEach((page, index) => {
-//     const key = ${page}_${path.split('-').join('')};
-//     flowGroup[key] = pages[page];
-//     flowGroup[key].path = ${path}-${index + 1};
-
-//     if (list.length === index + 1) {
-//       flowGroup[key].onNavForward = ({ goPath }) =>
-//         goPath(CHAPTER_2.PAGE_3.PATH); // your-question
-//     }
-
-//     if (index === 0) {
-//       flowGroup[key].onNavBack = ({ goPath }) =>
-//         goPath('/who-is-your-question-about');
-//     }
-//   });
-//   return flowGroup;
-// };
 
 export const flowPages = (obj, list, path) => {
   const pages = _.cloneDeep(obj);

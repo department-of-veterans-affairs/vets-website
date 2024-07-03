@@ -5,7 +5,6 @@ import {
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
-  hasPrefillInformation,
   requiredForSubtopicPage,
 } from '../constants';
 import manifest from '../manifest.json';
@@ -92,6 +91,18 @@ const formConfig = {
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
+        yourPersonalInformation: {
+          path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
+          title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
+          CustomPage: YourPersonalInformationAuthenticated,
+          CustomPageReview: null,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {}, // UI schema is completely ignored
+        },
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
@@ -111,19 +122,6 @@ const formConfig = {
           uiSchema: selectSubtopicPage.uiSchema,
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
-        },
-        yourPersonalInformation: {
-          path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
-          title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
-          CustomPage: YourPersonalInformationAuthenticated,
-          CustomPageReview: null,
-          depends: form => hasPrefillInformation(form),
-          schema: {
-            // This does still need to be here or it'll throw an error
-            type: 'object',
-            properties: {}, // The properties can be empty
-          },
-          uiSchema: {}, // UI schema is completely ignored
         },
         whoIsYourQuestionAbout: {
           path: CHAPTER_2.PAGE_1.PATH,

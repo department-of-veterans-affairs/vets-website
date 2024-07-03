@@ -8,20 +8,20 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  // data: { aboutYourself },
+  data: { aboutYourself },
 }) => {
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
-  const mock = {
-    first: 'Mark',
-    last: 'Webb',
-    dateOfBirth: '1950-10-04',
-    socialOrServiceNum: {
-      ssn: '1112223333',
-      service: null,
-    },
-  };
+  // const mock = {
+  //   first: 'Mark',
+  //   last: 'Webb',
+  //   dateOfBirth: '1950-10-04',
+  //   socialOrServiceNum: {
+  //     ssn: '1112223333',
+  //     service: null,
+  //   },
+  // };
 
-  const { first, last, dateOfBirth, socialOrServiceNum } = mock;
+  const { first, last, dateOfBirth, socialOrServiceNum } = aboutYourself;
   const { ssn, serviceNumber } = socialOrServiceNum;
 
   const dateOfBirthFormatted = !dateOfBirth
