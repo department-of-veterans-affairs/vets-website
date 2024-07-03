@@ -23,8 +23,7 @@ const arrayBuilderOptions = {
   nounSingular: 'character reference',
   nounPlural: 'character references',
   required: true,
-  isItemIncomplete: item =>
-    !item?.fullName || !item?.address || !item?.phone || !item?.email,
+  isItemIncomplete: item => !item?.fullName || !item?.address || !item?.phone,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
   text: {
