@@ -8,7 +8,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
   const { paymentHistory } = currentDebt;
   return (
     <div className="vads-u-margin-y--4">
-      <va-table>
+      <va-table table-title="Transaction history">
         <va-table-row slot="headers">
           <span>Date</span>
           <span>Description</span>
