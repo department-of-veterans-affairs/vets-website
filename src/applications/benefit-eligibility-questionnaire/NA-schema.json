@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Veteran Transition Experience",
+  "title": "Benefit Eligibility Questionnaire",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

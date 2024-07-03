@@ -33,12 +33,11 @@ class IntroductionPage extends React.Component {
           To get started, tell us a little about yourself.
         </h2>
         <SaveInProgressIntro
-          buttonOnly
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Next"
+          formConfig={formConfig}
         />
         <p />
       </article>

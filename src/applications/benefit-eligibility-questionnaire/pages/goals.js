@@ -1,7 +1,7 @@
 export default {
   uiSchema: {
-    checkboxGroupPatternExample: {
-      'ui:title': 'What golal(s) do you want to accomplish?',
+    checkboxGroupGoals: {
+      'ui:title': 'What goal(s) do you want to accomplish?',
       'ui:description':
         'Check all that aapply. This is a new tool on VA,gov, so some of the options may not be available yet.',
       buildMyNetwork: {
@@ -27,7 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      checkboxGroupPatternExample: {
+      checkboxGroupGoals: {
         type: 'object',
         properties: {
           buildMyNetwork: { type: 'boolean' },

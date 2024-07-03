@@ -26,8 +26,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // const { } = fullSchema.definitions;
 
 // pages
-import serviceHistory from '../pages/serviceHistory';
 import goals from '../pages/goals';
+import serviceHistory from '../pages/serviceHistory';
+import disabilityRating from '../pages/disabilityRating';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -37,18 +38,19 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'transition-experience-',
+  trackingPrefix: 'benefit-eligibility-questionnaire-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals; Service History;',
+  stepLabels: 'Goals; Service History; Disability Rating',
   formId: 'T-QSTNR',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (NA) is in progress.',
-    //   expired: 'Your saved benefits application (NA) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your benefits questionnaire is in progress.',
+      expired:
+        'Your saved benefits questionnaire has expired. If you want to continue, please start a new questionnaire.',
+      saved: 'Your benefits questionnaire has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -67,7 +69,8 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    transitionExperience: {
+    chapter1: {
+      title: 'Goals',
       pages: {
         goals: {
           path: 'goals',
@@ -75,11 +78,27 @@ const formConfig = {
           uiSchema: goals.uiSchema,
           schema: goals.schema,
         },
+      },
+    },
+    chapter2: {
+      title: 'Service History',
+      pages: {
         serviceHistory: {
           path: 'service-history',
           title: 'Service History',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
+        },
+      },
+    },
+    chapter3: {
+      title: 'Disability Rating',
+      pages: {
+        disabilityRating: {
+          path: 'disability-rating',
+          title: 'Disability Rating',
+          uiSchema: disabilityRating.uiSchema,
+          schema: disabilityRating.schema,
         },
       },
     },
