@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
-import { appTitle, appIntro } from '../../definitions/content';
+import content from '../../locales/en/content.json';
 
 describe('CG <IntroductionPage>', () => {
   const getData = ({ useFacilitiesAPI = false } = {}) => ({
@@ -68,8 +68,8 @@ describe('CG <IntroductionPage>', () => {
       intro: view.container.querySelector('.va-introtext'),
     };
     expect(selectors.wrapper).to.not.be.empty;
-    expect(selectors.title).to.contain.text(appTitle);
-    expect(selectors.intro).to.contain.text(appIntro);
+    expect(selectors.title).to.contain.text(content['app-title']);
+    expect(selectors.intro).to.contain.text(content['app-intro']);
   });
 
   it('should contain links to start the application', () => {

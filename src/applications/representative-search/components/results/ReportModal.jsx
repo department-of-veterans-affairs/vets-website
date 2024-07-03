@@ -29,7 +29,7 @@ const ReportModal = ({
 
   // render conditions
   const totalReportableItems =
-    (address !== null) + (phone !== null) + (email !== null) + 1;
+    (address !== null) + (phone !== null) + (email !== null);
   const someItemsReported = existingReports;
   const notAllItemsReported =
     !someItemsReported ||
