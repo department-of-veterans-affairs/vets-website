@@ -5,23 +5,21 @@ import { connect } from 'react-redux';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
-const PersonalAuthenticatedInformation = ({
-  goBack,
-  goForward,
-  data: { aboutYourself },
-}) => {
+const PersonalAuthenticatedInformation = ({ goBack, goForward }) => {
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
-  // const mock = {
-  //   first: 'Mark',
-  //   last: 'Webb',
-  //   dateOfBirth: '1950-10-04',
-  //   socialOrServiceNum: {
-  //     ssn: '1112223333',
-  //     service: null,
-  //   },
-  // };
 
-  const { first, last, dateOfBirth, socialOrServiceNum } = aboutYourself;
+  // TODO: Update with form data / prefill information
+  const mock = {
+    first: 'Mock',
+    last: 'Data',
+    dateOfBirth: '1950-10-04',
+    socialOrServiceNum: {
+      ssn: '1112223333',
+      service: null,
+    },
+  };
+
+  const { first, last, dateOfBirth, socialOrServiceNum } = mock;
   const { ssn, serviceNumber } = socialOrServiceNum;
 
   const dateOfBirthFormatted = !dateOfBirth

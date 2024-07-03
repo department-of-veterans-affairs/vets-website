@@ -198,6 +198,7 @@ const ch3Pages = {
     uiSchema: addressValidationPage.uiSchema,
     schema: addressValidationPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
+    onNavForward: ({ goPath }) => goPath(CHAPTER_2.PAGE_3.PATH),
   },
   aboutYourFamilyMember: {
     title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
