@@ -2,14 +2,14 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import { veteranSignatureContent } from '../../../definitions/content';
+import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../../utils/constants';
 import StatementOfTruth from '../../../components/PreSubmitInfo/StatementOfTruth';
 
 describe('CG <StatementOfTruth>', () => {
   const defaultProps = {
     content: {
       label: 'Veteran\u2019s',
-      text: veteranSignatureContent,
+      text: SIGNATURE_CERTIFICATION_STATEMENTS.veteran,
     },
   };
 
