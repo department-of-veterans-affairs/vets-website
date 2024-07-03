@@ -18,6 +18,7 @@ import {
   findUpcomingAppointment,
   getAppointmentId,
 } from '../../../utils/appointment';
+import { useStorage } from '../../../hooks/useStorage';
 import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
 import { APP_NAMES, phoneNumbers } from '../../../utils/appConstants';
 
@@ -46,6 +47,7 @@ const AppointmentDetails = props => {
   const isVvcAppointment = appointment?.kind === 'vvc';
   const isInPersonAppointment = appointment?.kind === 'clinic';
   const { appointmentId } = router.params;
+  const { getPreCheckinComplete } = useStorage(app);
 
   useLayoutEffect(
     () => {
@@ -183,9 +185,10 @@ const AppointmentDetails = props => {
               </h1>
               {!isUpcoming && (
                 <>
-                  {app === APP_NAMES.PRE_CHECK_IN ? (
-                    preCheckInSubTitle
-                  ) : (
+                  {app === APP_NAMES.PRE_CHECK_IN &&
+                    getPreCheckinComplete(window)?.complete &&
+                    preCheckInSubTitle}
+                  {app === APP_NAMES.CHECK_IN && (
                     <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
                       <AppointmentMessage appointment={appointment} />
                     </div>

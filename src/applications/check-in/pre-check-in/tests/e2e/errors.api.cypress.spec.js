@@ -56,7 +56,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
-      NextOfKin.validatePage.preCheckIn();
+      NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Error.validateAPIErrorPageLoaded();
       cy.injectAxeThenAxeCheck();
