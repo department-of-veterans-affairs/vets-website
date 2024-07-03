@@ -30,6 +30,15 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: '',
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
