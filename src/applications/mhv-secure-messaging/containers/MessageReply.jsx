@@ -26,7 +26,14 @@ const MessageReply = () => {
       if (Array.isArray(drafts)) {
         setDraftsArray(drafts);
       } else if (typeof drafts === 'object') {
-        setDraftsArray([drafts[0]]);
+        setDraftsArray([
+          {
+            ...drafts[0],
+            isSaving: drafts.isSaving,
+            saveError: drafts.saveError,
+            lastSaveTime: drafts.lastSaveTime,
+          },
+        ]);
       }
     },
     [drafts],

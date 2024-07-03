@@ -506,7 +506,7 @@ const ComposeForm = props => {
       checkMessageValidity,
       deleteButtonClicked,
       draft?.category,
-      draft.messageBody,
+      draft?.messageBody,
       draft?.recipientId,
       draft?.subject,
       formPopulated,

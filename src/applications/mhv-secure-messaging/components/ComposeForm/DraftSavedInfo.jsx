@@ -9,9 +9,18 @@ const DraftSavedInfo = props => {
 
   const threadDetails = useSelector(state => state.sm.threadDetails);
 
-  const { isSaving, saveError, lastSaveTime } = messageId
-    ? drafts?.find(d => d.messageId === messageId)
-    : threadDetails;
+  let isSaving;
+  let saveError;
+  let lastSaveTime;
+  const draft = messageId ? drafts?.find(d => d.messageId === messageId) : null;
+
+  if (draft) {
+    isSaving = draft.isSaving;
+    saveError = draft.saveError;
+    lastSaveTime = draft.lastSaveTime;
+  } else {
+    ({ isSaving, saveError, lastSaveTime } = threadDetails);
+  }
 
   const content = () => {
     if (isSaving) return 'Saving...';

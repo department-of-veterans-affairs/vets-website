@@ -8,6 +8,7 @@ const ComposeFormActionButtons = ({
   formPopulated,
   setDeleteButtonClicked,
   cannotReply,
+  draftBody,
   draftId,
   draftsCount,
   navigationError,
@@ -17,6 +18,12 @@ const ComposeFormActionButtons = ({
   savedForm,
   messageBody,
   draftSequence,
+  setHideDraft,
+  setIsEditing,
+  setIsModalVisible,
+  isModalVisible,
+  setConfirmedDeleteClicked,
+  savedComposeDraft,
 }) => {
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
@@ -40,7 +47,6 @@ const ComposeFormActionButtons = ({
           onClick={onSend}
         />
       )}
-
       {!cannotReply && (
         <button
           type="button"
@@ -70,6 +76,7 @@ const ComposeFormActionButtons = ({
       <DeleteDraft
         draftId={draftId}
         draftsCount={draftsCount}
+        draftBody={draftBody}
         formPopulated={formPopulated}
         navigationError={navigationError}
         refreshThreadCallback={refreshThreadCallback}
@@ -81,6 +88,12 @@ const ComposeFormActionButtons = ({
         messageBody={messageBody}
         showIcon={cannotReply}
         draftSequence={draftSequence}
+        setHideDraft={setHideDraft}
+        setIsEditing={setIsEditing}
+        setIsModalVisible={setIsModalVisible}
+        isModalVisible={isModalVisible}
+        setConfirmedDeleteClicked={setConfirmedDeleteClicked}
+        savedComposeDraft={savedComposeDraft}
       />
     </div>
   );
@@ -88,15 +101,22 @@ const ComposeFormActionButtons = ({
 
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
+  draftBody: PropTypes.string,
   draftId: PropTypes.number,
   draftSequence: PropTypes.number,
   draftsCount: PropTypes.number,
   formPopulated: PropTypes.bool,
+  isModalVisible: PropTypes.bool,
   messageBody: PropTypes.string,
   navigationError: PropTypes.object,
   refreshThreadCallback: PropTypes.func,
+  savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,
+  setConfirmedDeleteClicked: PropTypes.func,
   setDeleteButtonClicked: PropTypes.func,
+  setHideDraft: PropTypes.func,
+  setIsEditing: PropTypes.func,
+  setIsModalVisible: PropTypes.func,
   setNavigationError: PropTypes.func,
   setUnsavedNavigationError: PropTypes.func,
   onSaveDraft: PropTypes.func,

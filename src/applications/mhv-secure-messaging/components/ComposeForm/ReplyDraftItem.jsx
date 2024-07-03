@@ -173,7 +173,7 @@ const ReplyDraftItem = props => {
   // OnSave Reply Draft
   const saveDraftHandler = useCallback(
     async (type, e) => {
-      // Prevent 'auto' from running if isModalVisible is true
+      // Prevents 'auto' from running if isModalVisible is open
       if (type === 'auto' && isModalVisible) {
         return;
       }
@@ -529,7 +529,6 @@ const ReplyDraftItem = props => {
               />
             </section>
           )}
-
         <DraftSavedInfo messageId={draftId} drafts={drafts} />
 
         <div ref={composeFormActionButtonsRef}>
@@ -567,6 +566,8 @@ ReplyDraftItem.propTypes = {
   isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
+  setHideDraft: PropTypes.func,
+  setIsEditing: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,

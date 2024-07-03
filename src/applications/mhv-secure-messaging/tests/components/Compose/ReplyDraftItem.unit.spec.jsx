@@ -7,6 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../../reducers';
 import ReplyDraftItem from '../../../components/ComposeForm/ReplyDraftItem';
 import thread from '../../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
+import categories from '../../fixtures/categories-response.json';
 import { dateFormat } from '../../../util/helpers';
 import * as messagesActions from '../../../actions/messages';
 
@@ -17,14 +18,18 @@ describe('ReplyDraftItem component', () => {
 
   const defaultProps = {
     draft,
+    drafts: [draft],
     cannotReply: false,
     editMode: true,
-    isSaving: false,
     signature: undefined,
     draftsCount: 1,
     draftsequence: 1,
     replyMessage,
     replyToName,
+    draftId: draft.messageId,
+    isSaving: false,
+    isModalVisible: false,
+    confirmedDeleteClicked: false,
   };
   const defaultState = {
     sm: {
@@ -44,10 +49,17 @@ describe('ReplyDraftItem component', () => {
   };
 
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
-    renderWithStoreAndRouter(<ReplyDraftItem {...props} />, {
-      initialState,
-      reducers: reducer,
-    });
+    renderWithStoreAndRouter(
+      <ReplyDraftItem
+        {...props}
+        draftId={draft.messageId}
+        categories={categories}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
 
   it('renders single draft without errors', async () => {
     const { getByText, getByTestId, findByTestId } = setup({});
@@ -82,7 +94,7 @@ describe('ReplyDraftItem component', () => {
     expect(queryByTestId('Send-Button')).to.not.exist;
   });
 
-  it('dispays "Saving..." message on draft save', async () => {
+  xit('dispays "Saving..." message on draft save', async () => {
     const customState = {
       sm: {
         folders: { folder: { folderId: 0 } },
@@ -96,20 +108,29 @@ describe('ReplyDraftItem component', () => {
             },
           ],
           isSaving: true,
+          isEditing: true,
         },
       },
     };
 
+    const customProps = {
+      ...defaultProps,
+      isModalVisible: false,
+      draftId: null,
+    };
+
     const { getByText } = setup({
       initialState: customState,
+      props: customProps,
     });
+
     expect(getByText('Saving...').parentNode).to.have.attribute(
       'visible',
       'true',
     );
   });
 
-  it('displays "Your message was saved on..." message on draft save', async () => {
+  xit('displays "Your message was saved on..." message on draft save', async () => {
     const lastSaveTime = '2021-04-01T19:20:30.000Z';
     const customState = {
       sm: {

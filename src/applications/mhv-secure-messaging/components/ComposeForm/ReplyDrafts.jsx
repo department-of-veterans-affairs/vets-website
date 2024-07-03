@@ -71,6 +71,7 @@ const ReplyDrafts = props => {
               replyToName={replyToName}
               setLastFocusableElement={setLastFocusableElement}
               signature={signature}
+              isSaving={isSaving}
               toggleEditHandler={() => {
                 dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
               }}
