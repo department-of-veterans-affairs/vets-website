@@ -70,7 +70,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
               </div>
             </div>
           </div>
-          <div className="va-introtext">
+          <div className="vads-u-font-family--serif vads-u-font-size--md">
             {showHealthToolsLinks ? (
               <>
                 <p>
