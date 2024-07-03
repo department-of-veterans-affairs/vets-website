@@ -250,13 +250,11 @@ const IntroductionPage = props => {
             value: 'true',
           }}
         >
-          <va-accordion-item
-            header="Only use Ask VA for non-urgent questions"
-            id="first"
-          >
+          <va-accordion-item header="When to use Ask VA" id="first">
             <p>
-              It can take up to
-              <strong>7 business days</strong> to get a response.
+              You can use Ask VA to ask a question online. You can ask about
+              education, disability compensation, health care and many other
+              topics.
             </p>
             <p>
               If you need help now, use one of these urgent communication
