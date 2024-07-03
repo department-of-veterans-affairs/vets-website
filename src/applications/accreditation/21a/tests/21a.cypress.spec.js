@@ -64,7 +64,7 @@ const testConfig = createTestConfig(
         [
           { text: 'Have you ever served in the military?', value: true },
           {
-            text: 'Do you have another military service experience?',
+            text: 'Do you have another military service experience to add?',
             value: false,
           },
         ],
@@ -96,8 +96,7 @@ const testConfig = createTestConfig(
           value: true,
         },
         {
-          text:
-            'Do you have another agency or court you are permitted to practice before?',
+          text: 'Do you have another agency or court to add?',
           value: false,
         },
       ]),
