@@ -308,7 +308,95 @@ export const answerReviewLabel = (key, formValues) => {
   }
 };
 
-export const determineIsAirForceAFRBAPortal = formValues =>
-  formValues[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
-  board(formValues).abbr === 'BCMR' &&
-  formData(formValues).num === 149;
+export const determineBoardObj = (formResponses, noDRB) => {
+  if (!formResponses) return null;
+
+  const prevAppType = [
+    RESPONSES.PREV_APPLICATION_TYPE_1,
+    RESPONSES.PREV_APPLICATION_TYPE_4,
+  ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]);
+
+  const noPrevApp =
+    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] ===
+    RESPONSES.PREV_APPLICATION_2;
+
+  const preAppDateBefore = [
+    RESPONSES.PREV_APPLICATION_YEAR_1A,
+    RESPONSES.PREV_APPLICATION_YEAR_1B,
+    RESPONSES.PREV_APPLICATION_YEAR_1C,
+  ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR]);
+
+  const courtMartial =
+    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_1;
+
+  const transgender =
+    formResponses[SHORT_NAME_MAP.REASON] === RESPONSES.REASON_5;
+  const intention =
+    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_1;
+  const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
+
+  const oldDischarge =
+    moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+
+  const failureToExhaust = [
+    RESPONSES.FAILURE_TO_EXHAUST_1A,
+    RESPONSES.FAILURE_TO_EXHAUST_1B,
+  ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
+
+  let boardObj = {
+    name: 'Board for Correction of Naval Records (BCNR)',
+    abbr: 'BCNR',
+  };
+  if (
+    [RESPONSES.ARMY, RESPONSES.AIR_FORCE, RESPONSES.COAST_GUARD].includes(
+      formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+    )
+  ) {
+    boardObj = {
+      name: 'Board for Correction of Military Records (BCMR)',
+      abbr: 'BCMR',
+    };
+  }
+
+  if (noDRB) {
+    return boardObj;
+  }
+
+  if (noPrevApp || preAppDateBefore || prevAppType || failureToExhaust) {
+    if (courtMartial || transgender || intention || oldDischarge) {
+      return boardObj;
+    }
+
+    if (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE) {
+      return {
+        name: 'Air Force Review Boards Agency (AFDRB) for the Air Force',
+        abbr: 'AFDRB',
+      };
+    }
+
+    return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
+  }
+
+  return boardObj;
+};
+
+export const determineFormData = formResponses => {
+  const boardData = determineBoardObj(formResponses);
+  if (boardData?.abbr === 'DRB') {
+    return {
+      num: 293,
+      link:
+        'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
+    };
+  }
+  return {
+    num: 149,
+    link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
+  };
+};
+
+export const determineAirForceAFRBAPortal = formResponses =>
+  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  determineBoardObj(formResponses).abbr === 'BCMR' &&
+  determineFormData(formResponses).num === 149;
