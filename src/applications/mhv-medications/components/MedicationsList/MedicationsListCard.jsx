@@ -11,10 +11,12 @@ import {
 } from '../../util/constants';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
+import { dateFormat } from '../../util/helpers';
 
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const latestTrackingStatus = rx?.trackingList?.[0];
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -59,6 +61,21 @@ const MedicationsListCard = ({ rx }) => {
           )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
+        {latestTrackingStatus && (
+          <p
+            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+            data-testid="rx-card-details--shipped-on"
+          >
+            <va-icon icon="local_shipping" size={3} aria-hidden="true" />
+            <span className="vads-u-margin-left--2" data-testid="shipping-date">
+              Shipped on{' '}
+              {dateFormat(
+                latestTrackingStatus.completeDateTime,
+                'MMMM D, YYYY',
+              )}
+            </span>
+          </p>
+        )}
         {rx.dispStatus !== 'Unknown' && (
           <p
             id={`status-${rx.prescriptionId}`}

@@ -189,7 +189,7 @@ const convertMicrobiologyRecord = record => {
         )
       : EMPTY_FIELD,
     sampleFrom: collectionRequest.type.text || EMPTY_FIELD,
-    sampleTested: collectionRequest.collection.bodySite.text || EMPTY_FIELD,
+    sampleTested: getSpecimen(record) || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
@@ -230,7 +230,7 @@ const convertEkgRecord = record => {
     name: 'Electrocardiogram (EKG)',
     type: labTypes.EKG,
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',

@@ -27,6 +27,8 @@ const yourContactInformationPage = {
     },
     phoneNumber: phoneUI(),
     emailAddress: emailUI(),
+    businessPhone: phoneUI('Phone number'),
+    businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
       title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
       description: '',
@@ -42,6 +44,19 @@ const yourContactInformationPage = {
           formData.category,
           formData.topic,
         );
+        if (
+          formData.personalRelationship === 'WORK' &&
+          isEqualToOnlyEmail(updatedCategoryTopicContactPreferences)
+        ) {
+          return {
+            ...formSchema,
+            required: ['businessPhone', 'businessEmail'],
+            properties: {
+              businessPhone: phoneSchema,
+              businessEmail: emailSchema,
+            },
+          };
+        }
         if (isEqualToOnlyEmail(updatedCategoryTopicContactPreferences)) {
           return {
             ...formSchema,
@@ -73,6 +88,8 @@ const yourContactInformationPage = {
     properties: {
       phoneNumber: phoneSchema,
       emailAddress: emailSchema,
+      businessPhone: phoneSchema,
+      businessEmail: emailSchema,
       contactPreference: radioSchema(Object.keys(contactOptions)),
     },
   },

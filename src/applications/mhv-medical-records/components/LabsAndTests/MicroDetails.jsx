@@ -81,7 +81,7 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date and time collected: ${record.dateAndTimeCollected}\n
+Date: ${record.dateAndTimeCollected}\n
 ${txtLine}\n\n
 Details about this test\n
 Site or sample tested: ${record.sampleTested}\n
@@ -113,7 +113,7 @@ ${record.results}`;
       <DateSubheading
         date={record.dateAndTimeCollected}
         id="microbio-date"
-        label="Date and time collected"
+        label="Date"
         labelClass="vads-font-weight-regular"
       />
 
