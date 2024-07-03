@@ -37,7 +37,7 @@ const config = {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'serviceHistory', 'dob'];
+  const requiredFields = ['fullName', 'serviceHistory'];
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -96,29 +96,29 @@ const generate = async data => {
     doc
       .font(config.headings.H1.font)
       .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 82, 86, { width: 112 });
+      .text(data.details.fullName, 86, 86, { width: 112 });
   });
 
   wrapper.add(name);
 
-  // DOB
-  if (data.details.dob) {
-    const dateOfBirthHeader = doc.struct('H2', () => {
+  // DoD ID
+  if (data.details.edipi) {
+    const dodIDHeader = doc.struct('H2', () => {
       doc
         .font(config.headings.H2.font)
         .fontSize(config.headings.H2.size)
-        .text('Date of birth: ', 82, 120);
+        .text('DoD ID Number: ', 86, 120);
     });
-    const dateOfBirth = doc.struct('P', () => {
+    const dodID = doc.struct('P', () => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.details.dob)
+        .text(data.details.edipi)
         .moveDown(0.75);
     });
 
-    wrapper.add(dateOfBirthHeader);
-    wrapper.add(dateOfBirth);
+    wrapper.add(dodIDHeader);
+    wrapper.add(dodID);
   }
 
   // Disability rating
@@ -136,7 +136,7 @@ const generate = async data => {
         .text(
           `${data.details.totalDisabilityRating.toString()}% service connected`,
         )
-        .moveDown(1.5);
+        .moveDown(0.75);
     });
 
     wrapper.add(drHeader);
@@ -148,7 +148,7 @@ const generate = async data => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text('Period of service', 195, 120)
+      .text('Period of service', 215, 120)
       .moveDown(0.5);
   });
 
@@ -195,8 +195,8 @@ const generate = async data => {
       .fontSize(config.text.disclaimerTextSize)
       .text(
         "You can use this Veteran status to prove you served in the United States Uniformed Services. This status doesn't entitle you to any VA benefits.",
-        82,
-        187,
+        86,
+        195,
         {
           width: 247,
         },
