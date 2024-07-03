@@ -153,7 +153,9 @@ const testConfig = createTestConfig(
           ],
         },
       });
-      cy.intercept('POST', formConfig.submitUrl);
+      cy.intercept('POST', formConfig.submitUrl, {
+        confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
+      });
     },
 
     // TODO: Remove this skip when the form has a content page in prod
