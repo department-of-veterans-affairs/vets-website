@@ -15,6 +15,24 @@
             "value": "983:15322"
           }
         ],
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "1780671644"
+              }
+            ],
+            "address": {
+              "type": "physical",
+              "line": ["161 MADISON AVE STE 7SW"],
+              "city": "NEW YORK",
+              "state": "NY",
+              "postalCode": "10016-5448",
+              "text": "161 MADISON AVE STE 7SW,NEW YORK,NY,10016-5448"
+            }
+          }
+        ],
         "kind": "clinic",
         "status": "proposed",
         "serviceType": "primaryCare",

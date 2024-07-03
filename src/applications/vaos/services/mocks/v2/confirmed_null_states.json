@@ -275,36 +275,7 @@
         "serviceName": null,
         "physicalLocation": null,
         "friendlyName": null,
-        "location": {
-          "id": "983GC",
-          "type": "appointments",
-          "attributes": {
-            "id": "983GC",
-            "vistaSite": "983",
-            "vastParent": "983",
-            "type": "va_facilities",
-            "name": "Fort Collins VA Clinic",
-            "classification": "Multi-Specialty CBOC",
-            "timezone": { "timeZoneId": "America/Denver" },
-            "lat": 40.553875,
-            "long": -105.08795,
-            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
-            "phone": { "main": "970-224-1550" },
-            "physicalAddress": {
-              "line": ["2509 Research Boulevard"],
-              "city": "Fort Collins",
-              "state": "CO",
-              "postalCode": "80526-8108"
-            },
-            "healthService": [
-              "Audiology",
-              "EmergencyCare",
-              "MentalHealthCare",
-              "PrimaryCare",
-              "SpecialtyCare"
-            ]
-          }
-        }
+        "location": {}
       }
     },
     {
@@ -562,92 +533,76 @@
       }
     },
     {
-      "id": "nstate-video-001",
+      "id": "nstate-past-cc-001",
       "type": "appointments",
       "attributes": {
-        "id": "nstate-video-001",
+        "id": "nstate-past-cc-001",
         "identifier": [
           {
-            "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
-            "value": "38fc7910-fa4a-4973-8a50-c9533fb0e3c0"
-          }
-        ],
-        "kind": "telehealth",
-        "status": "booked",
-        "patientIcn": "1013124304V115761",
-        "locationId": "983",
-        "practitioners": [
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "522077||44||1"
+          },
           {
-            "identifier": [
-              {
-                "system": "dfn-983",
-                "value": "520647363"
-              }
-            ],
-            "name": {
-              "family": "NADEAU",
-              "given": ["MARCY"]
-            },
-            "practiceName": "Cheyenne VA Medical Center"
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1013006766"
           }
         ],
-        "start": "2025-02-25T19:00:00Z",
-        "end": "2025-02-25T19:20:00Z",
-        "minutesDuration": 20,
-        "created": "2024-02-29T18:22:31.642Z",
+        "kind": "cc",
+        "status": "booked",
+        "serviceTypes": [{ "text": "Cardiology Testing_REV_PRCT SEOC 1.6.9" }],
+        "description": "Cardiology Testing_REV_PRCT SEOC 1.6.9",
+        "patientIcn": "1012845331V153043",
+        "locationId": "984",
+        "practitioners": [
+          { "name": { "family": "PHARMACY", "given": ["RITE AID"] } }
+        ],
+        "start": "2023-04-28T05:00:00Z",
+        "created": "2023-04-19T21:09:20Z",
         "cancellable": false,
-        "patientInstruction": "Medication Review\n\nAs part of your video visit, your provider will review all the medications, vitamins, herbs, and supplements you are taking\n(even items you get from a local store, another provider, or another VA clinic). Please have information about everything you\ntake available during the visit. Informing your provider about all these will help you get the best and safest care possible.\nRemember, it is your medications, your life. Play it safe by reviewing all your medications with your health care team.\n",
-        "telehealth": {
-          "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000003848@pexip.mapsandbox.net&pin=111200&aid=38fc7910-fa4a-4973-8a50-c9533fb0e3c0#",
-          "group": false,
-          "vvsKind": "ADHOC"
-        },
         "extension": {
           "ccLocation": {
-            "address": {}
+            "address": {
+              "line": ["4810 PENN AVE"],
+              "city": "SINKING SPRINGS",
+              "state": "PA",
+              "postalCode": "19608",
+              "text": "4810 PENN AVE\nSINKING SPRINGS PA 19608"
+            },
+            "telecom": [{ "system": "phone", "value": "610-670-9986" }]
           },
-          "vistaStatus": [],
-          "patientHasMobileGfe": false
+          "hsrmTaskId": "",
+          "hsrmConsultId": "984_645050",
+          "ccTreatingSpecialty": "Pharmacy - Community/Retail Pharmacy"
         },
-        "localStartTime": "2025-02-25T12:00:00.000-07:00",
+        "localStartTime": "2023-04-28T01:00:00.000-04:00",
+        "avsPath": null,
         "location": {
-          "id": "983",
+          "id": "984",
           "type": "appointments",
           "attributes": {
-            "id": "983",
-            "vistaSite": "983",
-            "vastParent": "983",
-            "type": "va_facilities",
-            "name": "Cheyenne VA Medical Center",
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
             "classification": "VA Medical Center (VAMC)",
-            "timezone": {
-              "timeZoneId": "America/Denver"
-            },
-            "lat": 39.744507,
-            "long": -104.830956,
-            "website": "https://www.denver.va.gov/locations/directions.asp",
-            "phone": {
-              "main": "307-778-7550",
-              "fax": "307-778-7381",
-              "pharmacy": "866-420-6337",
-              "afterHours": "307-778-7550",
-              "patientAdvocate": "307-778-7550 x7517",
-              "mentalHealthClinic": "307-778-7349",
-              "enrollmentCoordinator": "307-778-7550 x7579"
-            },
+            "timezone": { "timeZoneId": "America/New_York" },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": { "main": "937-268-6511" },
             "physicalAddress": {
               "type": "physical",
-              "line": ["2360 East Pershing Boulevard"],
-              "city": "Cheyenne",
-              "state": "WY",
-              "postalCode": "82001-5356"
+              "line": ["4100 West Third Street"],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
             },
-            "mobile": false,
             "healthService": [
               "Audiology",
               "Cardiology",
               "DentalServices",
-              "EmergencyCare",
+              "Dermatology",
               "Gastroenterology",
               "Gynecology",
               "MentalHealthCare",
@@ -658,13 +613,9 @@
               "Podiatry",
               "PrimaryCare",
               "SpecialtyCare",
-              "UrgentCare",
               "Urology",
               "WomensHealth"
-            ],
-            "operatingStatus": {
-              "code": "NORMAL"
-            }
+            ]
           }
         }
       }
@@ -1008,6 +959,123 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "CLINIC_BASED"
+        }
+      }
+    },
+    {
+      "id": "nstate-video-001",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": "New issue: Video Visit Preparation",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
+        "end": "2024-09-23T20:00:00Z",
+        "id": "nstate-video-001",
+        "kind": "telehealth",
+        "locationId": "983",
+        "localStartTime": "2024-09-22T09:00:00.000-06:00",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Normal",
+              "given": ["Abbey"]
+            }
+          }
+        ],
+        "physicalLocation": "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
+        "requestedPeriods": null,
+        "serviceType": "outpatientMentalHealth",
+        "slot": null,
+        "start": "2024-09-22T12:00:00Z",
+        "created": "2024-09-22T20:33:54Z",
+        "avsPath": null,
+        "status": "booked",
+        "extension": {
+          "patientHasMobileGfe": false
+        },
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
+    {
+      "id": "nstate-video-002",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": null,
+        "comment": "New issue: Video Visit Preparation",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
+        "end": "2024-09-23T20:00:00Z",
+        "id": "nstate-video-002",
+        "kind": "telehealth",
+        "locationId": null,
+        "localStartTime": "2024-09-22T09:00:00.000-06:00",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
+        "practitioners": [],
+        "physicalLocation": "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
+        "requestedPeriods": null,
+        "serviceType": null,
+        "slot": null,
+        "start": "2024-09-22T12:00:00Z",
+        "created": "2024-09-22T20:33:54Z",
+        "avsPath": null,
+        "status": "booked",
+        "extension": {
+          "patientHasMobileGfe": false
+        },
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
         }
       }
     },
