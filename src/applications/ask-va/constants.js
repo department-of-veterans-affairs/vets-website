@@ -36,6 +36,13 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
 ];
 
+// Check to show Your Personal Information page and NOT About Yourself page
+export const hasPrefillInformation = form => {
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
+};
+
 // Response Page headers
 export const RESPONSE_PAGE = {
   QUESTION_DETAILS: 'Question details',

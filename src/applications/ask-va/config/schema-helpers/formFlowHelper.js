@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { hasSession } from 'platform/user/profile/utilities';
-import { CHAPTER_2, CHAPTER_3 } from '../../constants';
+import { CHAPTER_2, CHAPTER_3, hasPrefillInformation } from '../../constants';
 
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
@@ -132,19 +131,19 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
-    depends: () => !hasSession(),
+    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
-    // depends: () => hasSession(),
+    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
-    // depends: () => hasSession(),
+    depends: form => !hasPrefillInformation(form),
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -227,8 +226,30 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
+    depends: form => form.contactPreference !== 'US_MAIL',
   },
 };
+
+// export const flowPages = (obj, list, path) => {
+//   const pages = _.cloneDeep(obj);
+//   const flowGroup = {};
+//   list.forEach((page, index) => {
+//     const key = ${page}_${path.split('-').join('')};
+//     flowGroup[key] = pages[page];
+//     flowGroup[key].path = ${path}-${index + 1};
+
+//     if (list.length === index + 1) {
+//       flowGroup[key].onNavForward = ({ goPath }) =>
+//         goPath(CHAPTER_2.PAGE_3.PATH); // your-question
+//     }
+
+//     if (index === 0) {
+//       flowGroup[key].onNavBack = ({ goPath }) =>
+//         goPath('/who-is-your-question-about');
+//     }
+//   });
+//   return flowGroup;
+// };
 
 export const flowPages = (obj, list, path) => {
   const pages = _.cloneDeep(obj);
@@ -238,11 +259,13 @@ export const flowPages = (obj, list, path) => {
     flowGroup[key] = pages[page];
     flowGroup[key].path = `${path}-${index + 1}`;
 
+    // If last in the list, on nav forward go to the You question page
     if (list.length === index + 1) {
       flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath(CHAPTER_2.PAGE_3.PATH);
+        goPath(CHAPTER_2.PAGE_3.PATH); // your-question
     }
 
+    // If first in the list, on nav backward go to the Who is your question about page
     if (index === 0) {
       flowGroup[key].onNavBack = ({ goPath }) =>
         goPath('/who-is-your-question-about');

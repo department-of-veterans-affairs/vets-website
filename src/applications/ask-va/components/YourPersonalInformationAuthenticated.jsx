@@ -8,7 +8,6 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  // isLoggedIn,
   // data: { aboutYourself },
 }) => {
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
@@ -29,7 +28,6 @@ const PersonalAuthenticatedInformation = ({
     ? '-'
     : format(new Date(dateOfBirth), 'MMMM d, yyyy');
 
-  // let dateOfBirthFormatted = '-';
   let ssnLastFour = '-';
   if (ssn) {
     ssnLastFour = ssn.substr(ssn.length - 4);
@@ -37,7 +35,6 @@ const PersonalAuthenticatedInformation = ({
 
   return (
     <>
-      {/* {isLoggedIn && ( */}
       <div>
         <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
           <h3>Your personal information</h3>
@@ -69,7 +66,6 @@ const PersonalAuthenticatedInformation = ({
         </div>
         {navButtons}
       </div>
-      {/* )} */}
     </>
   );
 };

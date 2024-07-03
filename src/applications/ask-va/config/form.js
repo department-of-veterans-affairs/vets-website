@@ -5,14 +5,13 @@ import {
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
+  hasPrefillInformation,
   requiredForSubtopicPage,
 } from '../constants';
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-
-// Your Personal Information - Authenticated only
 
 // Category and Topic pages
 import selectCategoryPage from './chapters/categoryAndTopic/selectCategory';
@@ -24,6 +23,7 @@ import questionAboutPage from './chapters/yourQuestion/questionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Your Personal Information - Authenticated
+import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
 
 // // Personal Information
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
@@ -43,6 +43,16 @@ import {
 // Review Page
 import Footer from '../components/Footer';
 import ReviewPage from '../containers/ReviewPage';
+
+// const mockUser = {
+//   first: 'Mark',
+//   last: 'Webb',
+//   dateOfBirth: '1950-10-04',
+//   socialOrServiceNum: {
+//     ssn: '1112223333',
+//     service: null,
+//   },
+// };
 
 const review = {
   uiSchema: {},
@@ -71,47 +81,6 @@ const formConfig = {
   footerContent: Footer,
   defaultDefinitions: {},
   chapters: {
-    // yourPersonalInformationAuthOnly: {
-    //   title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
-    //   pages: {
-    //     yourPersonalInformation: {
-    //       path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
-    //       title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
-    //       CustomPage: YourPersonalInformationAuthenticated,
-    //       CustomPageReview: null,
-    //       // initialData: {},
-    //       // depend: formData => {
-    //       //   const mock = {
-    //       //     first: 'Mark',
-    //       //     last: 'Webb',
-    //       //     dateOfBirth: '1950-10-04',
-    //       //     socialOrServiceNum: {
-    //       //       ssn: '1112223333',
-    //       //       service: null,
-    //       //     },
-    //       //   };
-
-    //       //   const {
-    //       //     first,
-    //       //     last,
-    //       //     dateOfBirth,
-    //       //     socialOrServiceNum,
-    //       //   } = formData.aboutYourself;
-    //       //   // const { first, last, dateOfBirth, socialOrServiceNum } = formData;
-    //       //   console.log(!!(first && last && dateOfBirth && socialOrServiceNum));
-    //       //   return !!(first && last && dateOfBirth && socialOrServiceNum);
-    //       // },
-    //       // uiSchema: {},
-    //       // schema: {
-    //       //   type: 'object',
-    //       //   properties: {},
-    //       // },
-    //       // onNavForward: ({ goPath }) => {
-    //       //   goPath(CHAPTER_1.PAGE_1.PATH);
-    //       // },
-    //     },
-    //   },
-    // },
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
@@ -134,6 +103,19 @@ const formConfig = {
           uiSchema: selectSubtopicPage.uiSchema,
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
+        },
+        yourPersonalInformation: {
+          path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
+          title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
+          CustomPage: YourPersonalInformationAuthenticated,
+          CustomPageReview: null,
+          depends: form => hasPrefillInformation(form),
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {}, // UI schema is completely ignored
         },
         whoIsYourQuestionAbout: {
           path: CHAPTER_2.PAGE_1.PATH,
