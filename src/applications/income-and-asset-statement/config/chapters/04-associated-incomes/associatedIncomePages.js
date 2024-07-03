@@ -12,7 +12,7 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { relationshipLabels, incomeTypeLabels } from '../../../labels';
+import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 import {
   otherExplanationRequired,
   otherIncomeTypeExplanationRequired,
@@ -22,32 +22,33 @@ import {
 
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'unassociatedIncomes',
-  nounSingular: 'recurring income not associated with accounts or assets',
-  nounPlural: 'recurring incomes not associated with accounts or assets',
+  arrayPath: 'associatedIncomes',
+  nounSingular: 'income and net worth associated with financial accounts',
+  nounPlural: 'incomes and net worth associated with financial accounts',
   required: false,
   isItemIncomplete: item =>
     !item?.recipientRelationship ||
     !item.incomeType ||
     !item.grossMonthlyIncome ||
+    !item.accountValue ||
     !item.payer, // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
-    reviewAddButtonText: 'Add another recurring income',
+    reviewAddButtonText: 'Add another income and net worth',
     alertMaxItems:
-      'You have added the maximum number of allowed recurring incomes for this application. You may edit or delete a recurring income or choose to continue the application.',
-    alertItemUpdated: 'Your recurring income information has been updated',
-    alertItemDeleted: 'Your recurring income information has been deleted',
-    cancelAddTitle: 'Cancel adding this recurring income',
-    cancelAddButtonText: 'Cancel adding this recurring income',
-    cancelAddYes: 'Yes, cancel adding this recurring income',
+      'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
+    alertItemUpdated: 'Your income and net worth information has been updated',
+    alertItemDeleted: 'Your income and net worth information has been deleted',
+    cancelAddTitle: 'Cancel adding this income and net worth',
+    cancelAddButtonText: 'Cancel adding this income and net worth',
+    cancelAddYes: 'Yes, cancel adding this income and net worth',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this recurring income',
-    cancelEditYes: 'Yes, cancel editing this recurring income',
+    cancelEditTitle: 'Cancel editing this income and net worth',
+    cancelEditYes: 'Yes, cancel editing this income and net worth',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this recurring income',
-    deleteYes: 'Yes, delete this recurring income',
+    deleteTitle: 'Delete this income and net worth',
+    deleteYes: 'Yes, delete this income and net worth',
     deleteNo: 'No',
   },
 };
@@ -59,11 +60,11 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasUnassociatedIncomes': arrayBuilderYesNoUI(
+    'view:hasAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
         title:
-          'Are you or your dependents receiving or expecting to receive any income in the next 12 months from sources not related to an account or your assets?',
+          'Are you or your dependents receiving or expecting to receive any income in the next 12 months that is related to financial accounts?',
         labels: {
           Y: 'Yes, I have income to report',
           N: 'No, I don’t have any income to report',
@@ -81,9 +82,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:hasUnassociatedIncomes': arrayBuilderYesNoSchema,
+      'view:hasAssociatedIncomes': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasUnassociatedIncomes'],
+    required: ['view:hasAssociatedIncomes'],
   },
 };
 
@@ -91,7 +92,7 @@ const summaryPage = {
 const incomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income not associated with accounts or assets',
+      title: 'Income and net worth associated with financial accounts',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
@@ -134,11 +135,11 @@ const incomeRecipientPage = {
 const incomeTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      'Recurring income not associated with accounts or assets',
+      'Income and net worth associated with financial accounts',
     ),
     incomeType: radioUI({
-      title: 'What is the type of income?',
-      labels: incomeTypeLabels,
+      title: 'What is the type of income earned?',
+      labels: incomeTypeEarnedLabels,
     }),
     otherIncomeType: {
       'ui:title': 'Tell us the type of income',
@@ -154,6 +155,11 @@ const incomeTypePage = {
         classNames: 'schemaform-currency-input-v3',
       },
     }),
+    accountValue: merge({}, currencyUI('Value of account'), {
+      'ui:options': {
+        classNames: 'schemaform-currency-input-v3',
+      },
+    }),
     payer: textUI({
       title: 'Income payer name',
       hint: 'Name of business, financial institution, or program, etc.',
@@ -162,34 +168,35 @@ const incomeTypePage = {
   schema: {
     type: 'object',
     properties: {
-      incomeType: radioSchema(Object.keys(incomeTypeLabels)),
+      incomeType: radioSchema(Object.keys(incomeTypeEarnedLabels)),
       otherIncomeType: { type: 'string' },
       grossMonthlyIncome: { type: 'number' },
+      accountValue: { type: 'number' },
       payer: textSchema,
     },
-    required: ['incomeType', 'grossMonthlyIncome', 'payer'],
+    required: ['incomeType', 'grossMonthlyIncome', 'accountValue', 'payer'],
   },
 };
 
-export const unassociatedIncomePages = arrayBuilderPages(
+export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    unassociatedIncomePagesSummary: pageBuilder.summaryPage({
+    associatedIncomePagesSummary: pageBuilder.summaryPage({
       title:
-        'Review your recurring income not associated with accounts or assets',
-      path: 'unassociated-incomes-summary',
+        'Review your income and net worth associated with financial accounts',
+      path: 'associated-incomes-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    unassociatedIncomeRecipientPage: pageBuilder.itemPage({
+    associatedIncomeRecipientPage: pageBuilder.itemPage({
       title: 'Income recipient',
-      path: 'unassociated-incomes/:index/income-recipient',
+      path: 'associated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
     }),
-    unassociatedIncomeTypePage: pageBuilder.itemPage({
+    associatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Income type',
-      path: 'unassociated-incomes/:index/income-type',
+      path: 'associated-incomes/:index/income-type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,
     }),
