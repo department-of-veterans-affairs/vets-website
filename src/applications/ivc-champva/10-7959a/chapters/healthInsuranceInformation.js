@@ -56,6 +56,7 @@ const options = {
         ? `${item?.otherType}`
         : `${radioLabels[(item?.type)]}`,
     summaryTitle: 'Beneficiary’s health insurance review',
+    cancelAddButtonText: 'Cancel adding this insurance',
   },
 };
 
@@ -103,6 +104,9 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
+      description: `You can add up to ${
+        options?.maxItems
+      } health insurance policies.`,
       nounSingular: options.nounSingular,
     }),
     name: textUI('Name of insurance provider'),
