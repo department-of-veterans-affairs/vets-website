@@ -92,7 +92,7 @@ class Profile extends Component {
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
     }
-    if (shouldFetchEDUDirectDepositInformation) {
+    if (togglesLoaded && shouldFetchEDUDirectDepositInformation) {
       fetchEDUPaymentInformation();
     }
   }
@@ -148,8 +148,12 @@ class Profile extends Component {
     }
 
     if (
-      shouldFetchEDUDirectDepositInformation &&
-      !prevProps.shouldFetchEDUDirectDepositInformation
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchEDUDirectDepositInformation) ||
+      (togglesLoaded &&
+        shouldFetchEDUDirectDepositInformation &&
+        !prevProps.shouldFetchEDUDirectDepositInformation)
     ) {
       fetchEDUPaymentInformation();
     }
@@ -315,14 +319,19 @@ const mapStateToProps = state => {
     isEligibleForDD &&
     isLighthouseAvailable &&
     !profileToggles?.profileShowDirectDepositSingleForm;
-  const shouldFetchEDUDirectDepositInformation = isEligibleForDD;
+  const shouldFetchEDUDirectDepositInformation =
+    isEligibleForDD && !profileToggles?.profileShowDirectDepositSingleForm;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
-    profileToggles?.profileShowDirectDepositSingleForm;
+    profileToggles?.profileShowDirectDepositSingleForm &&
+    !(
+      profileToggles?.profileHideDirectDeposit &&
+      !profileToggles?.profileShowDirectDepositSingleFormUAT
+    );
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
