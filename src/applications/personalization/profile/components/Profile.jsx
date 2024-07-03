@@ -148,8 +148,12 @@ class Profile extends Component {
     }
 
     if (
-      shouldFetchEDUDirectDepositInformation &&
-      !prevProps.shouldFetchEDUDirectDepositInformation
+      (togglesLoaded &&
+        !prevProps.togglesLoaded &&
+        shouldFetchEDUDirectDepositInformation) ||
+      (togglesLoaded &&
+        shouldFetchEDUDirectDepositInformation &&
+        !prevProps.shouldFetchEDUDirectDepositInformation)
     ) {
       fetchEDUPaymentInformation();
     }
