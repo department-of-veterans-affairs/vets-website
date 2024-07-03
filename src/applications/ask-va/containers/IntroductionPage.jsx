@@ -16,6 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
@@ -235,9 +236,11 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <Link className="vads-c-action-link--green" to={getStartPage}>
-        Ask a new question
-      </Link>
+      <SaveInProgressIntro
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+      />
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
         <va-accordion
           disable-analytics={{
@@ -295,7 +298,6 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-
       {loggedIn ? authenticatedUI : unAuthenticatedUI}
     </div>
   );
