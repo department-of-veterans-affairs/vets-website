@@ -100,9 +100,9 @@ const summaryPage = {
       {
         title: 'Have you ever served in the military?',
         labelHeaderLevel: 'p',
+        hint: ' ',
       },
       {
-        title: 'Do you have another military service experience?',
         labelHeaderLevel: 'p',
       },
     ),

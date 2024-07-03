@@ -85,7 +85,13 @@ const educationalInstitutionPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(arrayBuilderOptions),
+    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(
+      arrayBuilderOptions,
+      {},
+      {
+        labelHeaderLevel: 'p',
+      },
+    ),
   },
   schema: {
     type: 'object',

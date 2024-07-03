@@ -111,7 +111,7 @@ const contactInformationPage = {
       phone: phoneSchema,
       email: emailSchema,
     },
-    required: ['phone'],
+    required: ['phone', 'email'],
   },
 };
 
@@ -125,12 +125,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasCharacterReferences': arrayBuilderYesNoUI(
       arrayBuilderOptions,
+      {},
       {
-        title: 'Do you have any character references to provide?',
-        labelHeaderLevel: 'p',
-      },
-      {
-        title: 'Do you have another character reference to provide?',
         labelHeaderLevel: 'p',
       },
     ),

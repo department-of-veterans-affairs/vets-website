@@ -61,10 +61,9 @@ const summaryPage = {
         title:
           'Are you currently permitted to practice before any state or federal agency or any federal court?',
         labelHeaderLevel: 'p',
+        hint: ' ',
       },
       {
-        title:
-          'Do you have another agency or court you are permitted to practice before?',
         labelHeaderLevel: 'p',
       },
     ),

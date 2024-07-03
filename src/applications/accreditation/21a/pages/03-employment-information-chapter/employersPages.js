@@ -142,12 +142,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasEmployers': arrayBuilderYesNoUI(
       arrayBuilderOptions,
+      {},
       {
-        title: 'Do you have any employment for the last 5 years to report?',
-        labelHeaderLevel: 'p',
-      },
-      {
-        title: 'Do you have another employer to report?',
         labelHeaderLevel: 'p',
       },
     ),
