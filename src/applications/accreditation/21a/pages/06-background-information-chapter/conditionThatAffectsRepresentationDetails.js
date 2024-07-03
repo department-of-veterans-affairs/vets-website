@@ -14,7 +14,6 @@ export default {
     conditionThatAffectsRepresentationDetails: textareaUI({
       title:
         'Describe the condition or impairment and any treatment you receive now or in the past year',
-      labelHeaderLevel: '3', // TODO: Fix labelHeaderLevel for Textarea
       description: ConditionThatAffectsRepresentationDetailsNote,
     }),
   },

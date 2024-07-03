@@ -12,7 +12,6 @@ export default {
     conditionThatAffectsExaminationDetails: textareaUI({
       title:
         'Please state the nature of such limitations and provide details of any special accommodations deemed necessary.',
-      labelHeaderLevel: '3', // TODO: Fix labelHeaderLevel for Textarea
     }),
   },
   schema: {
