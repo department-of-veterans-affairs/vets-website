@@ -14,6 +14,7 @@ import {
   authorizeInsideVA,
   authorizeOutsideVA,
   formToggle,
+  claimantType,
   authorizeOutsideVANames,
   claimantRelationship,
 } from '../pages';
@@ -62,11 +63,17 @@ const formConfig = {
   },
   chapters: {
     formToggle: {
-      title: 'Form toggle',
+      title: ' ',
       pages: {
-        formToggle: {
-          path: 'form-toggle',
-          title: 'Authorization for Certain Medical Records',
+        claimantType: {
+          path: 'claimant-type',
+          title: ' ',
+          uiSchema: claimantType.uiSchema,
+          schema: claimantType.schema,
+        },
+        repType: {
+          path: 'rep-type',
+          title: ' ',
           uiSchema: formToggle.uiSchema,
           schema: formToggle.schema,
         },

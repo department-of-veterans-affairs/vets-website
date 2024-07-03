@@ -1,6 +1,6 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [{ "name": "form1010D", "value": true }]
+    "features": [{ "name": "form1010d", "value": true }]
   }
 }
