@@ -272,7 +272,10 @@ export const answerReviewLabel = (key, formValues) => {
     case SHORT_NAME_MAP.SERVICE_BRANCH:
       return `I served in the ${formValues[key]}.`;
     case SHORT_NAME_MAP.DISCHARGE_YEAR:
-      if (answer === '1991' && !formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]) {
+      if (
+        answer === 'Before 1992' &&
+        !formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]
+      ) {
         return 'I was discharged before 1992.';
       }
 

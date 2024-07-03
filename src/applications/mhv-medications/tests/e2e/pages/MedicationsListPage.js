@@ -562,6 +562,12 @@ class MedicationsListPage {
       .should('contain', phoneNumber);
   };
 
+  verifyShippedOnInformationOnRxCardOnMedicationsListPage = shippedDate => {
+    cy.get(
+      ' [data-testid="rx-card-details--shipped-on"] > [data-testid="shipping-date"]',
+    ).should('contain', shippedDate);
+  };
+
   verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
     cy.get(
       '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="pharmacy-phone-info"] > [data-testid="pharmacy-phone-number"]',
@@ -580,4 +586,5 @@ class MedicationsListPage {
       .should('contain', unknownPhoneNumber);
   };
 }
+
 export default MedicationsListPage;

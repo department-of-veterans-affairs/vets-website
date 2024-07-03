@@ -52,7 +52,11 @@ const DischargeYear = ({
   const before1992Key = yearOptions.length + 1;
 
   yearOptions.push(
-    <option data-testid="va-select-option" key={before1992Key} value="1991">
+    <option
+      data-testid="va-select-option"
+      key={before1992Key}
+      value="Before 1992"
+    >
       Before 1992
     </option>,
   );

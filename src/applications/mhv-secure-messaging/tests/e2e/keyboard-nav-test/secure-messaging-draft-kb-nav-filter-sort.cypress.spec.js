@@ -7,7 +7,6 @@ import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-respon
 import FolderLoadPage from '../pages/FolderLoadPage';
 
 describe('Draft page keyboard navigation for filter & sort features', () => {
-  const site = new SecureMessagingSite();
   const draftPage = new PatientMessageDraftsPage();
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
@@ -16,7 +15,7 @@ describe('Draft page keyboard navigation for filter & sort features', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockDraftMessages);
     FolderLoadPage.loadDraftMessages(mockDraftMessages);
   });

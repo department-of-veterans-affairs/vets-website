@@ -8,6 +8,9 @@ const yearResponses = range(currentYear - 1992).map(i => {
   return year.toString();
 });
 
+// This accounts for the before 1992 answer for the Discharge Year question.
+yearResponses.push('Before 1992');
+
 const validYearsForNonOldDischarge = yearResponses.filter(year => {
   return currentYear - year <= 15;
 });
