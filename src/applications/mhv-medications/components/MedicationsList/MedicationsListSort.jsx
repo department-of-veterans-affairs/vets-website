@@ -36,11 +36,14 @@ const MedicationsListSort = props => {
           onVaSelect={e => {
             setSortListOption(e.detail.value);
             const capitalizedOption = e.detail.value
+              .replace(/([a-z])([A-Z])/g, '$1 $2')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(' ');
             datadogRum.addAction(
-              `${capitalizedOption} Option - ${DD_ACTIONS_PAGE_TYPE.LIST}`,
+              `click on ${capitalizedOption} Option - ${
+                DD_ACTIONS_PAGE_TYPE.LIST
+              }`,
             );
           }}
           uswds
