@@ -19,7 +19,7 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
 
   context('when the query is omitted', () => {
     it('should return an error object', async () => {
-      const response = await fetchMapBoxBBoxCoordinates('', clientStub);
+      const response = await fetchMapBoxBBoxCoordinates('');
       expect(response).to.be.a('object');
       expect(response.errorMessage).to.eq(
         content['error--facility-search-cancelled'],
