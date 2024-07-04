@@ -52,6 +52,15 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
+      screen.getByText(
+        'We’re working on a way for you to download your VA medical records here on VA.gov. For now, you can continue to download your VA Blue Button® report or your VA Health Summary on the previous version of My HealtheVet.',
+        {
+          selector: 'p',
+          exact: true,
+        },
+      ),
+    ).to.exist;
+    expect(
       screen.getAllByText(
         'Go to medical records on the My HealtheVet website',
         {
