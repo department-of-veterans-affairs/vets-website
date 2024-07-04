@@ -3,7 +3,9 @@ import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
+  extractContainedByRecourceType,
   extractContainedResource,
+  extractSpecimen,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -100,15 +102,6 @@ const getPractitioner = (record, serviceRequest) => {
   return null;
 };
 
-const getMicrobiologyPractitioner = record => {
-  if (isArrayAndHasItems(record.performer)) {
-    const practitionerRef = record.performer[1]?.reference;
-    const practitioner = extractContainedResource(record, practitionerRef);
-    return practitioner.name.map(name => name.text);
-  }
-  return null;
-};
-
 const getSpecimen = record => {
   const specimenRef = isArrayAndHasItems(record.specimen);
   if (specimenRef) {
@@ -169,15 +162,16 @@ const convertChemHemRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertMicrobiologyRecord = record => {
-  const specimenRef =
-    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
+  const specimenRef = extractSpecimen(record);
   const collectionRequest = extractContainedResource(record, specimenRef);
+  const getOrderedBy = extractContainedByRecourceType(record, 'Practitioner');
+  const orderedBy = getOrderedBy.name.map(name => name.text);
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: getMicrobiologyPractitioner(record),
+    orderedBy,
     requestedBy: 'John J. Lydon',
     dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -188,8 +182,8 @@ const convertMicrobiologyRecord = record => {
           collectionRequest.collection.bodySite.collectedDateTime,
         )
       : EMPTY_FIELD,
-    sampleFrom: collectionRequest.type.text || EMPTY_FIELD,
-    sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sampleFrom: getSpecimen(record) || EMPTY_FIELD,
+    sampleTested: collectionRequest.collection.bodySite.text || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
