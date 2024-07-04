@@ -10,7 +10,7 @@ import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import yearUI from 'platform/forms-system/src/js/definitions/year';
 import {
-  // validateBooleanGroup,
+  validateBooleanGroup,
   validateCurrentOrFutureDate,
 } from 'platform/forms-system/src/js/validation';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
@@ -50,13 +50,12 @@ import {
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
-
-import { benefitsLabels } from '../../utils/labels';
+import { benefitsEligibilityUpdate } from '../pages/benefitsEligibilityUpdate';
 
 const {
-  // chapter33,
-  // chapter30,
-  // chapter1606,
+  chapter33,
+  chapter30,
+  chapter1606,
   seniorRotcScholarshipProgram,
   seniorRotc,
   additionalContributions,
@@ -275,56 +274,64 @@ const formConfig = {
         benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
-          uiSchema: {
-            'ui:description': benefitsEligibilityBox,
-            'view:selectedBenefits': {
-              'ui:title': 'Select the benefit that is the best match for you.',
-              // 'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                atLeastOne: 'Please select at least one benefit',
-              },
-              'ui:options': {
-                showFieldLabel: true,
-              },
-              chapter33: {
-                'ui:widget': 'radio',
-                'ui:required': formData => !formData.chapter33,
-                'ui:options': {
-                  labels: benefitsLabels,
-                  hideLabelText: true,
-                },
-                'ui:errorMessages': {
-                  required: 'Please select at least one benefit',
-                },
-              },
-              'view:chapter33ExpandedContent': {
-                'ui:description': benefitsLabels.chapter33Description,
-                'ui:options': {
-                  expandUnder: 'chapter33',
-                  expandUnderCondition: 'chapter33',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:selectedBenefits'],
-            properties: {
-              'view:selectedBenefits': {
-                type: 'object',
-                properties: {
-                  chapter33: {
-                    type: 'string',
-                    enum: ['chapter33', 'chapter30', 'chapter1606'],
-                  },
-                  'view:chapter33ExpandedContent': {
-                    type: 'object',
-                    properties: {},
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: benefitsEligibilityUpdate(
+            benefitsEligibilityBox,
+            validateBooleanGroup,
+          ).uiSchema,
+          // uiSchema: {
+          //   'ui:description': benefitsEligibilityBox,
+          //   'view:selectedBenefits': {
+          //     'ui:title': 'Select the benefit that is the best match for you.',
+          //     // 'ui:validations': [validateBooleanGroup],
+          //     'ui:errorMessages': {
+          //       atLeastOne: 'Please select at least one benefit',
+          //     },
+          //     'ui:options': {
+          //       showFieldLabel: true,
+          //     },
+          //     chapter33: {
+          //       'ui:widget': 'radio',
+          //       'ui:required': formData => !formData.chapter33,
+          //       'ui:options': {
+          //         labels: benefitsLabels,
+          //         hideLabelText: true,
+          //         nestedContent: {
+          //          chapter33 : benefitsLabels.chapter33Description
+          //         },
+          //       },
+          //       'ui:errorMessages': {
+          //         required: 'Please select at least one benefit',
+          //       },
+
+          //     },
+          //   },
+          // },
+          schema: benefitsEligibilityUpdate(
+            '',
+            null,
+            chapter33,
+            chapter30,
+            chapter1606,
+          ).schema,
+          // schema: {
+          //   type: 'object',
+          //   required: ['view:selectedBenefits'],
+          //   properties: {
+          //     'view:selectedBenefits': {
+          //       type: 'object',
+          //       properties: {
+          //         chapter33: {
+          //           type: 'string',
+          //           enum: ['chapter33', 'chapter30', 'chapter1606'],
+          //         },
+          //         'view:chapter33ExpandedContent': {
+          //           type: 'object',
+          //           properties: {},
+          //         },
+          //       },
+          //     },
+          //   },
+          // },
           // uiSchema: {
           //   'ui:description': benefitsEligibilityBox,
           //   'view:selectedBenefits': {

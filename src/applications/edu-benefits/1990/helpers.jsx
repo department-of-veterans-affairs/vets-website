@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {
@@ -159,3 +160,10 @@ export const ageWarning = (
     </div>
   </div>
 );
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
