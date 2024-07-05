@@ -13,7 +13,7 @@ export default function TravelPayDateFilterSelect(props) {
         hint={null}
         title="Select a date range"
         name="claimsDates"
-        id="claimsDates"
+        data-testid="claimsDates"
         value={selectedDateFilter}
         onChange={onDateFilterChange}
       >
