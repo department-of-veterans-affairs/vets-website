@@ -8,8 +8,7 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Secure Messaging Inbox Cerner', () => {
   it('verify cerner facilities displays in alert banner', () => {
-    const site = new SecureMessagingSite();
-    site.login(
+    SecureMessagingSite.login(
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
