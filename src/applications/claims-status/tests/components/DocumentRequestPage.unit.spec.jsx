@@ -149,7 +149,7 @@ describe('<DocumentRequestPage>', () => {
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[2].href).to.equal('../status');
       expect(breadcrumbs.breadcrumbList[2].label).to.equal(
-        'Status of your disability compensation',
+        'Status of your disability compensation claim',
       );
     });
 
@@ -169,7 +169,7 @@ describe('<DocumentRequestPage>', () => {
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[2].href).to.equal('../files');
       expect(breadcrumbs.breadcrumbList[2].label).to.equal(
-        'Files for your disability compensation',
+        'Files for your disability compensation claim',
       );
     });
 
@@ -189,7 +189,7 @@ describe('<DocumentRequestPage>', () => {
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[2].href).to.equal('../status');
       expect(breadcrumbs.breadcrumbList[2].label).to.equal(
-        'Status of your disability compensation',
+        'Status of your disability compensation claim',
       );
     });
 

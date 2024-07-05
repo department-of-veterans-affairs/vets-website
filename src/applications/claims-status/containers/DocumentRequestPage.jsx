@@ -186,12 +186,12 @@ class DocumentRequestPage extends React.Component {
 
     const filesBreadcrumb = {
       href: filesPath,
-      label: `Files for your ${claimType}`,
+      label: `Files for your ${claimType} claim`,
       isRouterLink: true,
     };
     const statusBreadcrumb = {
       href: statusPath,
-      label: `Status of your ${claimType}`,
+      label: `Status of your ${claimType} claim`,
       isRouterLink: true,
     };
 
