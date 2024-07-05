@@ -39,10 +39,7 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
-            <i
-              aria-hidden="true"
-              className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"
-            />
+            <va-icon icon="menu" size={3} className="vads-u-margin-left--1" />
           </button>
         </div>
       </div>
