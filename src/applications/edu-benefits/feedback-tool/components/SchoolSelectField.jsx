@@ -37,7 +37,10 @@ import {
   selectShowPaginationLoading,
   selectShowSearchResults,
 } from '../selectors/schoolSearch';
-import { displaySingleLineAddress, transformSearchToolAddress } from '../helpers';
+import {
+  displaySingleLineAddress,
+  transformSearchToolAddress,
+} from '../helpers';
 
 const { Element } = Scroll;
 
@@ -267,9 +270,7 @@ export class SchoolSelectField extends React.Component {
                 {errorMessages.map((message, index) => (
                   <span key={index}>
                     <span className="sr-only">Error</span>
-                    {!showInstitutions
-                      ? message
-                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
+                    {message}
                   </span>
                 ))}
               </span>
@@ -324,7 +325,7 @@ export class SchoolSelectField extends React.Component {
                   {`${searchResultsCount} results for ${institutionQuery}`}
                 </div>
               )}
-              {showSearchResults &&
+            {showSearchResults &&
               showInstitutions && (
                 <VaRadio
                   className="school-select-field-radio"
@@ -355,7 +356,15 @@ export class SchoolSelectField extends React.Component {
                         checked={facilityCode === facilityCodeSelected}
                         label={name}
                         tile
-                        description={displaySingleLineAddress({address1, address2, address3, city, country, state, zip})}
+                        description={displaySingleLineAddress({
+                          address1,
+                          address2,
+                          address3,
+                          city,
+                          country,
+                          state,
+                          zip,
+                        })}
                       />
                     );
                   })}
