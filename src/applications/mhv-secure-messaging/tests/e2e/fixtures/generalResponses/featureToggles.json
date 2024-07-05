@@ -999,14 +999,6 @@
         "value": true
       },
       {
-        "name": "mhvLandingPageEnabled",
-        "value": true
-      },
-      {
-        "name": "mhv_landing_page_enabled",
-        "value": true
-      },
-      {
         "name": "mhvSecureMessagingToVAGovRelease",
         "value": true
       },

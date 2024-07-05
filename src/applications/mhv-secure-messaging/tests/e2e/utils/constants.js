@@ -228,6 +228,8 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  TRY_SEARCH: 'Try the search box or one of the common questions below.',
 };
 
 export const Data = {

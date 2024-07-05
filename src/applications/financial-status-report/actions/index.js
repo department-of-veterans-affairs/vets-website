@@ -51,7 +51,7 @@ export const fetchFormStatus = () => async dispatch => {
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+      Sentry.captureMessage(`FSR fetchFormStatus failed: ${error.detail}`);
     });
   }
   return dispatch({
