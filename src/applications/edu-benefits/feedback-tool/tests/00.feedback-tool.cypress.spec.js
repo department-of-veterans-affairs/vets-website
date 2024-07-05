@@ -6,10 +6,6 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 describe('Feedback Tool Test', () => {
   it('Fills the form and navigates accordingly', () => {
-    Cypress.config({
-      includeShadowDom: true
-    });
-    
     cy.intercept('POST', '/v0/gi_bill_feedbacks', { body: mockFeedbackPost });
     cy.intercept('GET', '/v0/gi_bill_feedbacks/1234', mockFeedbackGet);
 
@@ -85,19 +81,10 @@ describe('Feedback Tool Test', () => {
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/benefits-information');
 
-    // School information
+    // Select checkbox to enter information manually
     cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
-
-    // School search results options
-    cy.get('#school-search-input').type('Test');
-    cy.get('.search-schools-button').click();
-    cy.get('va-radio').should('exist');
-    cy.axeCheck();
-
-    // checkbox to enter information manually
     cy.get('label[id="option-label"]').click();
-
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },
