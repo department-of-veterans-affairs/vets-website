@@ -8,6 +8,7 @@ const NewRecordsIndicator = ({
   refreshState,
   extractType,
   newRecordsFound,
+  reloadFunction,
 }) => {
   const [refreshedOnThisPage, setRefreshedOnThisPage] = useState(false);
 
@@ -94,7 +95,13 @@ const NewRecordsIndicator = ({
                 We found updates to your records. Reload this page to update
                 your list.
               </p>
-              <va-button text="Reload page" onClick={() => {}} />
+              <va-button
+                text="Reload page"
+                onClick={() => {
+                  reloadFunction();
+                }}
+                data-testid="new-records-reload-button"
+              />
             </va-alert>
           );
         }
@@ -142,4 +149,5 @@ NewRecordsIndicator.propTypes = {
   extractType: PropTypes.string,
   newRecordsFound: PropTypes.bool,
   refreshState: PropTypes.object,
+  reloadFunction: PropTypes.func,
 };

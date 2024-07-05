@@ -137,6 +137,7 @@ export const refreshReducer = (state = initialState, action) => {
           };
         }),
         dateCompleted: safeNewDate(refreshCompleted(facilityExtractStatusList)),
+        isTimedOut: false,
       };
     }
     case Actions.Refresh.TIMED_OUT: {

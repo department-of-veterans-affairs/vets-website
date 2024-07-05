@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
+import {
+  getCareSummariesAndNotesList,
+  reloadRecords,
+} from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import useListRefresh from '../hooks/useListRefresh';
 import {
@@ -87,6 +90,9 @@ const CareSummariesAndNotes = () => {
             Array.isArray(updatedRecordList) &&
             careSummariesAndNotes.length !== updatedRecordList.length
           }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
         />
         <RecordList
           records={careSummariesAndNotes}
