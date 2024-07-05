@@ -98,6 +98,9 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
+            'view:prefilledAddress': {
+              'ui:description': PrefilledAddress,
+            },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
@@ -106,6 +109,10 @@ const formConfig = {
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
             },
@@ -158,9 +165,6 @@ const formConfig = {
                 state: () => true,
               },
             }),
-            'view:prefilledAddress': {
-              'ui:description': PrefilledAddress,
-            },
           },
           schema: {
             type: 'object',
@@ -168,10 +172,6 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranAddress: addressSchema(),
-              'view:prefilledAddress': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
