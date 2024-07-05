@@ -162,7 +162,7 @@ export const ageWarning = (
 );
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
-    !environment.isProduction() ||
+    environment.isProduction() ||
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
