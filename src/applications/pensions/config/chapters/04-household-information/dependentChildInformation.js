@@ -15,7 +15,10 @@ import {
 import get from 'platform/utilities/data/get';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-import { DependentSeriouslyDisabledDescription } from '../../../helpers';
+import {
+  DependentSeriouslyDisabledDescription,
+  showDependentsMultiplePage,
+} from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
@@ -52,7 +55,7 @@ function isBetween18And23(childDOB) {
 export default {
   title: item => getDependentChildTitle(item, 'information'),
   path: 'household/dependents/children/information/:index',
-  depends: doesHaveDependents,
+  depends: () => !showDependentsMultiplePage() && doesHaveDependents,
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {
