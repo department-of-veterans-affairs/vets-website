@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
@@ -18,8 +19,9 @@ const formConfig = {
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/form21a`,
   trackingPrefix: '21a-',
   title: 'Apply to become a VA accredited attorney or claims agent',
   subTitle: 'VA Form 21a',

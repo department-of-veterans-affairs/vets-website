@@ -11,8 +11,10 @@
     "dateOfBirth": "1995-01-09",
     "placeOfBirthAddress": {
       "country": "USA",
+      "street": "1234 Main St",
       "city": "City",
-      "state": "CA"
+      "state": "CA",
+      "postalCode": "12345"
     },
     "phone": "3453453455",
     "typeOfPhone": "HOME",
