@@ -201,7 +201,10 @@ describe('App', () => {
 
     await waitFor(() => {
       const [date, time] = formatDateTime(febDate);
-      userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
+      userEvent.selectOptions(
+        screen.getByLabelText('Show appointments in this order'),
+        ['oldest'],
+      );
       expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
@@ -214,7 +217,10 @@ describe('App', () => {
 
     await waitFor(() => {
       const [date, time] = formatDateTime(aprDate);
-      userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
+      userEvent.selectOptions(
+        screen.getByLabelText('Show appointments in this order'),
+        ['mostRecent'],
+      );
       expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
@@ -241,10 +247,10 @@ describe('App', () => {
       const statusFilters = screen.getAllByTestId('status-filter');
       expect(statusFilters.length).to.eq(2);
       expect(statusFilters.map(filter => filter.label)).to.include(
-        'INCOMPLETE',
+        'Incomplete',
       );
       expect(statusFilters.map(filter => filter.label)).to.include(
-        'IN_PROCESS',
+        'In Process',
       );
     });
   });
