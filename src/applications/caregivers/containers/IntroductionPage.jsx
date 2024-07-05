@@ -14,15 +14,26 @@ import { focusElement } from 'platform/utilities/ui';
 
 import CaregiversPrivacyActStatement from '../components/IntroductionPage/CaregiversPrivacyActStatement';
 import ProcessTimeline from '../components/IntroductionPage/ProcessTimeline';
-import { appTitle, appSubtitle, appIntro } from '../definitions/content';
+import content from '../locales/en/content.json';
 
-export const IntroductionPage = ({
-  route,
-  router,
-  formData,
-  setFormData,
-  useFacilitiesAPI,
-}) => {
+export const IntroductionPage = props => {
+  const { route, router, formData, setFormData, useFacilitiesAPI } = props;
+
+  const startForm = useCallback(
+    () => {
+      recordEvent({ event: 'caregivers-10-10cg-start-form' });
+      const { pageList } = route;
+      return router.push(pageList[1].path);
+    },
+    [route, router],
+  );
+
+  const startBtn = (
+    <a href="#start" className="vads-c-action-link--green" onClick={startForm}>
+      {content['button-start-app']}
+    </a>
+  );
+
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
@@ -38,42 +49,24 @@ export const IntroductionPage = ({
     [useFacilitiesAPI],
   );
 
-  const startForm = useCallback(
-    () => {
-      recordEvent({ event: 'caregivers-10-10cg-start-form' });
-      const { pageList } = route;
-      return router.push(pageList[1].path);
-    },
-    [route, router],
-  );
-
   return (
     <div className="caregivers-intro schemaform-intro">
       <DowntimeNotification
-        appTitle={appTitle}
+        appTitle={content['app-title']}
         dependencies={[externalServices.mvi, externalServices.carma]}
       >
-        <FormTitle title={appTitle} className="form-title" />
-        <p>{appSubtitle}</p>
-        <p className="va-introtext">{appIntro}</p>
+        <FormTitle
+          title={content['app-title']}
+          subTitle={content['app-subtitle']}
+          className="form-title"
+        />
+        <p className="va-introtext">{content['app-intro']}</p>
 
-        <a
-          href="#start"
-          className="vads-c-action-link--green"
-          onClick={startForm}
-        >
-          Start your application
-        </a>
+        {startBtn}
 
         <ProcessTimeline />
 
-        <a
-          href="#start"
-          className="vads-c-action-link--green"
-          onClick={startForm}
-        >
-          Start your application
-        </a>
+        {startBtn}
 
         <va-omb-info
           res-burden={15}
