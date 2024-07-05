@@ -237,58 +237,58 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.MEDICAL_RECORDS]}
+    // <RequiredLoginView
+    //   user={user}
+    //   serviceRequired={[backendServices.MEDICAL_RECORDS]}
+    // >
+    //   {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
+    <div
+      ref={measuredRef}
+      className="vads-l-grid-container vads-u-padding-left--2"
     >
-      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
-        <div
-          ref={measuredRef}
-          className="vads-l-grid-container vads-u-padding-left--2"
-        >
-          {mhvMrDown === externalServiceStatus.down ? (
-            <>
-              {atLandingPage && <MrBreadcrumbs />}
-              <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
-                Medical records
-              </h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvMr,
-                  externalServices.mhvPlatform,
-                  externalServices.global,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <>
-              <MrBreadcrumbs />
-              <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-                {showSideNav && (
-                  <>
-                    <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4 no-print" />
-                  </>
+      {mhvMrDown === externalServiceStatus.down ? (
+        <>
+          {atLandingPage && <MrBreadcrumbs />}
+          <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
+            Medical records
+          </h1>
+          <DowntimeNotification
+            appTitle={downtimeNotificationParams.appTitle}
+            dependencies={[
+              externalServices.mhvMr,
+              externalServices.mhvPlatform,
+              externalServices.global,
+            ]}
+            render={renderMHVDowntime}
+          />
+        </>
+      ) : (
+        <>
+          <MrBreadcrumbs />
+          <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+            {showSideNav && (
+              <>
+                <Navigation paths={paths} data-testid="mhv-mr-navigation" />
+                <div className="vads-u-margin-right--4 no-print" />
+              </>
+            )}
+            <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
+              <div className="vads-l-row">
+                <div className="vads-l-col">{children}</div>
+                {!showSideNav && (
+                  <div className="medium-screen:vads-l-col--4 no-print" />
                 )}
-                <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
-                  <div className="vads-l-row">
-                    <div className="vads-l-col">{children}</div>
-                    {!showSideNav && (
-                      <div className="medium-screen:vads-l-col--4 no-print" />
-                    )}
-                  </div>
-                </div>
               </div>
-            </>
-          )}
-          <va-back-to-top hidden={isHidden} />
-          <ScrollToTop />
-          <PhrRefresh />
-        </div>
+            </div>
+          </div>
+        </>
       )}
-    </RequiredLoginView>
+      <va-back-to-top hidden={isHidden} />
+      <ScrollToTop />
+      <PhrRefresh />
+    </div>
+    //   )}
+    // </RequiredLoginView>
   );
 };
 
