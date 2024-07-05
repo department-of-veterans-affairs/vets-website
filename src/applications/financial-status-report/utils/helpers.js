@@ -15,24 +15,6 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
-export const enhancedFSRFeatureToggle = state => {
-  return toggleValues(state)[
-    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
-  ];
-};
-
-export const streamlinedWaiverFeatureToggle = state => {
-  return toggleValues(state)[
-    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiver
-  ];
-};
-
-export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
-  return toggleValues(state)[
-    FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
-  ];
-};
-
 export const reviewPageNavigationFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation

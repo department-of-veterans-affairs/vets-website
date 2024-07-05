@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
 import { getPeriodsToVerify } from '../helpers';
@@ -15,6 +16,7 @@ const PeriodsToVerify = ({
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
+  const idRef = useRef();
 
   useEffect(
     () => {
@@ -29,6 +31,30 @@ const PeriodsToVerify = ({
     },
     [enrollmentData],
   );
+  useEffect(
+    () => {
+      if (error) {
+        idRef.current = '#error-alert';
+        setTimeout(() => {
+          focusElement(idRef.current);
+        }, 100); // Delay to ensure element is rendered
+      } else if (
+        enrollmentData?.pendingVerifications?.length === 0 &&
+        justVerified
+      ) {
+        idRef.current = '#success-alert';
+        focusElement(idRef.current);
+      } else if (
+        enrollmentData?.pendingVerifications?.length !== 0 &&
+        !justVerified &&
+        !error
+      ) {
+        idRef.current = 'h1';
+        focusElement(idRef.current);
+      }
+    },
+    [error, enrollmentData, justVerified, pendingEnrollments],
+  );
 
   return (
     <>
@@ -37,6 +63,7 @@ const PeriodsToVerify = ({
           status="error"
           title=" We’ve run into a problem"
           message=" We’re sorry. Something went wrong on our end. Please try again"
+          id="error-alert"
         />
       )}
       <div id="verifications-pending-alert">

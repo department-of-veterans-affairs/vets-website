@@ -5,10 +5,8 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
-  const site = new SecureMessagingSite();
-
   it('Check confirmation message after save draft', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.navigateToComposePage(true);
@@ -20,22 +18,13 @@ describe('Check confirmation message after save draft', () => {
       force: true,
     });
     PatientComposePage.saveDraftByKeyboard();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
-    // next line is for checking if assertion works properly
-    PatientComposePage.verifyDraftSaveButtonOnFocus();
 
-    // cy.get('.last-save-time').should('be.focused');
-    // cy.reload();
-    // cy.pause();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    PatientComposePage.verifyDraftSaveButtonOnFocus();
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
   });
 });

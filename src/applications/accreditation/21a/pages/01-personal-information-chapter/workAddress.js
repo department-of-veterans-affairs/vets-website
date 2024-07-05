@@ -8,15 +8,14 @@ import {
 export default {
   title: 'Work address',
   path: 'work-address',
+  depends: formData => formData.employmentStatus === 'EMPLOYED',
   uiSchema: {
     ...titleUI('Work address'),
     workAddress: addressUI({
       labels: {
         militaryCheckbox:
           'I work on a United States military base outside of the U.S.',
-        state: 'State/Province/Region',
       },
-      omit: ['street3'],
     }),
   },
   schema: {

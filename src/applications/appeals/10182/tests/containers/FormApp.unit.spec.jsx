@@ -17,7 +17,10 @@ import {
   SHOW_PART3_REDIRECT,
 } from '../../constants';
 
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
 import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 import { SELECTED } from '../../../shared/constants';
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
@@ -151,7 +154,7 @@ describe('FormApp', () => {
     });
   });
 
-  it('should set form data', async () => {
+  it('should update contested issues', async () => {
     const issues = [
       {
         type: 'contestableIssue',
@@ -159,7 +162,6 @@ describe('FormApp', () => {
           ratingIssueSubjectText: 'test1',
           approxDecisionDate: getRandomDate(),
         },
-        [SELECTED]: true,
       },
     ];
     const { props, data } = getData({
@@ -168,9 +170,17 @@ describe('FormApp', () => {
         issues,
       },
       formData: {
-        contestedIssues: [],
+        [SHOW_PART3]: true,
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-11-01',
+            },
+          },
+        ],
         areaOfDisagreement: [{}],
-        additionalIssues: [{ issue: 'test2', [SELECTED]: true }],
       },
     });
     const store = mockStore(data);
@@ -188,6 +198,54 @@ describe('FormApp', () => {
       const action = store.getActions()[1];
       expect(action.type).to.eq(SET_DATA);
       expect(action.data.contestedIssues.length).to.eq(1);
+      expect(action.data.contestedIssues).to.deep.equal([
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'test1',
+            approxDecisionDate: issues[0].attributes.approxDecisionDate,
+            description: '',
+          },
+        },
+      ]);
+    });
+  });
+
+  it('should not update contested issues when the API fails', async () => {
+    const { props, data } = getData({
+      contestableIssues: {
+        status: FETCH_CONTESTABLE_ISSUES_FAILED,
+        issues: [],
+      },
+      formData: {
+        [SHOW_PART3]: true,
+        contestedIssues: [
+          {
+            type: 'contestableIssue',
+            attributes: {
+              ratingIssueSubjectText: 'test1',
+              approxDecisionDate: '2023-11-01',
+            },
+          },
+        ],
+        areaOfDisagreement: [],
+        [SHOW_PART3_REDIRECT]: 'not-needed',
+      },
+    });
+    const store = mockStore(data);
+
+    render(
+      <Provider store={store}>
+        <FormApp {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      // Here, we are checking the second action, which is dispatched within the
+      // second `useEffect` in `FormApp`. This second `useEffect` is the one that
+      // manages contestable issues.
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
     });
   });
 

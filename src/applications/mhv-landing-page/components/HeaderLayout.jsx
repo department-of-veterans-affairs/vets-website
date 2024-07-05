@@ -1,14 +1,23 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { datadogRum } from '@datadog/browser-rum';
+import { isAuthenticatedWithSSOe } from '../selectors';
 import WelcomeContainer from '../containers/WelcomeContainer';
+
+const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 
 const HeaderLayout = ({ showWelcomeMessage = false }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showHealthToolsLinks = useToggleValue(
     TOGGLE_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
   );
+
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const goBackUrl = mhvUrl(ssoe, 'home');
 
   const alertExpandableRef = useRef(null);
 
@@ -72,8 +81,16 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                 <p>
                   If you’re not ready to try the new My HealtheVet, you can use
                   the previous version anytime.{' '}
-                  <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
-                    Go back to the previous version of My HealtheVet
+                  <a
+                    onClick={() =>
+                      datadogRum.addAction(
+                        `Click on Landing Page: Intro - ${goBackLinkText}`,
+                      )
+                    }
+                    data-testid="mhv-go-back-1"
+                    href={goBackUrl}
+                  >
+                    {goBackLinkText}
                   </a>
                 </p>
                 <div>
@@ -107,8 +124,16 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                         We’re working to bring your medical records to VA.gov.
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}
-                        <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
-                          Go back to the previous version of My HealtheVet
+                        <a
+                          onClick={() =>
+                            datadogRum.addAction(
+                              `Click on Landing Page: Learn More - ${goBackLinkText}`,
+                            )
+                          }
+                          data-testid="mhv-go-back-2"
+                          href={goBackUrl}
+                        >
+                          {goBackLinkText}
                         </a>
                       </p>
                     </div>
