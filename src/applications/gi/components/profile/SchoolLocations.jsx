@@ -256,7 +256,11 @@ export default function SchoolLocations({
               onClick={showMoreClicked}
             >
               Show next {showNextCount}
-              <va-icon icon="expand_more" size={3} className="vads-u-padding-left--1" />
+              <va-icon
+                icon="expand_more"
+                size={3}
+                className="vads-u-padding-left--1"
+              />
             </button>
             <span className="vads-u-padding--2">|</span>
             <button
