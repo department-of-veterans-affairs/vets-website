@@ -27,7 +27,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // pages
 import goals from '../pages/goals';
-import serviceHistory from '../pages/serviceHistory';
 import disabilityRating from '../pages/disabilityRating';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -42,7 +41,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals; Service History; Disability Rating',
+  stepLabels: 'Goals;Disability',
   formId: 'T-QSTNR',
   saveInProgress: {
     messages: {
@@ -58,9 +57,9 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'We have a few quick questions for you',
+  title: 'Complete the benefit eligibility questionnaire',
   subTitle:
-    'Please answer the questions on the following few screens to help us recommend helpful resources and benefits.',
+    'Please answer the questions to help us recommend helpful resources and benefits.',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -81,18 +80,7 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Service History',
-      pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
-        },
-      },
-    },
-    chapter3: {
-      title: 'Disability Rating',
+      title: 'Disability',
       pages: {
         disabilityRating: {
           path: 'disability-rating',
