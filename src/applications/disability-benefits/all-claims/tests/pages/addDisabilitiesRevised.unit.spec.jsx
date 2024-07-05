@@ -71,7 +71,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
     );
     const title = 'Tell us the new conditions you want to claim';
     const exampleConditions = 'Examples of conditions';
-    const conditionInstructions = 'What if my condition isn’t listed?';
+    const conditionInstructions = 'If your conditions aren’t listed';
     const listItem = 'Tinnitus (ringing or hissing in ears)';
     expect(screen.getByText(title)).to.exist;
     expect(screen.getByText(exampleConditions)).to.exist;
