@@ -101,3 +101,11 @@
     }
 }
 }
+.bread-crumbs-container{
+    va-breadcrumbs{
+        margin-left: 20px;
+        @media (max-width: $small-screen){
+            margin-left: 0;
+        }
+    }
+}
