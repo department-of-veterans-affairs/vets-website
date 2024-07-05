@@ -4,8 +4,7 @@ import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
 
 describe('Secure Messaging Compose with No Provider', () => {
   it('can not send message', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider();
     cy.get(Locators.ALERTS.TRIAGE_GROUP).should(
       'contain',

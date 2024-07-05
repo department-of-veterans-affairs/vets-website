@@ -2893,17 +2893,17 @@
     "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.18.1":
-  version "1.18.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.1.tgz#daa2bc99ae8d0b991395f7a0f35ca98baf834e73"
-  integrity sha512-irdnEsZidSwCE020kNwRmrUPUP7LSNkJK1sn4gq0ta+zXdKAsuslBqovlZng+4HuAcPfbwFJMl06ahzaoIw6ow==
+"@department-of-veterans-affairs/eslint-plugin@^1.18.2":
+  version "1.18.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.2.tgz#98c06b3146ce8c9c98cfd5de6ba7943cae0081ad"
+  integrity sha512-reeGP82EAEY4azLB3Og+o/KcWIbyDuKqShTT5NHHAgH9SvXsgqK/JTvrVmnvNDxWM0RV5UR3DkwmecuGU+8W+w==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.11":
-  version "11.0.11"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.11.tgz#2b476cba8b13bfda5113fba3068f34f39676fba0"
-  integrity sha512-pcHxHJLV0RxW7rH4oagDplDXDh+7Fdo7puJd71ueBj3OgbqfF0uppIG+refFQUwNBBaiQPRNo1CvaYOa4NM8Sg==
+"@department-of-veterans-affairs/formation@11.0.12":
+  version "11.0.12"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.12.tgz#9f06fd3f4bb006fa001e0bc54a1391932610ca60"
+  integrity sha512-GIMB56GYDP9PrZvefw7VWGoWZsOI7l3otEQLaoPP/z3AxzkORoDWkrSn5+yHiuST3z4BQfiA8fEKLOl1/jZJ0w==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -14654,7 +14654,7 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
+minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -21246,9 +21246,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#860cbc605763f362d8b078b75c6ff9526d96e21e":
-  version "22.3.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#860cbc605763f362d8b078b75c6ff9526d96e21e"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e":
+  version "23.0.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e"
   dependencies:
     minimist "^1.2.3"
 

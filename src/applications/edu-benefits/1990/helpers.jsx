@@ -121,7 +121,7 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon icon="info" />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">

@@ -18,11 +18,13 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '10-7959A',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your CHAMPVA claim form application (10-7959A) is in progress.',
-    //   expired: 'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
-    //   saved: 'Your CHAMPVA claim form application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your CHAMPVA claim form application (10-7959A) is in progress.',
+      expired:
+        'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
+      saved: 'Your CHAMPVA claim form application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
@@ -31,7 +33,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA claim form.',
   },
-  title: '10-7959a CHAMPVA Claim Form',
+  title: 'File a CHAMPVA claim',
+  subTitle: 'CHAMPVA Claim Form (VA Form 10-7959a)',
   defaultDefinitions: {},
   chapters: {
     signerInformation: {

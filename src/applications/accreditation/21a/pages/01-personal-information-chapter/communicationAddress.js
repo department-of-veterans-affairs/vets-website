@@ -11,7 +11,7 @@ const communicationAddressOptions = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Communication address',
+  title: 'Preferred address for communication',
   path: 'communication-address',
   uiSchema: {
     communicationAddress: radioUI({

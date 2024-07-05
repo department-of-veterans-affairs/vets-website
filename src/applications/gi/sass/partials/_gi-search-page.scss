@@ -246,9 +246,6 @@
         float: right;
         text-align: right;
       }
-      i.fa {
-        margin-right: 0.5em;
-      }
     }
 
     .info-flag {
@@ -275,20 +272,12 @@
       display: inline-block;
       padding: 0.1em 0.5em;
       margin: 1em 0 0 1em;
-
-      i.fa {
-        margin-right: 0.4em;
-      }
     }
 
     .preferred-flag {
       font-size: 0.9em;
       font-weight: bold;
       border-radius: 3px 3px 3px 3px;
-
-      i.fa {
-        margin-right: 0.4em;
-      }
     }
   }
 
@@ -325,21 +314,6 @@
     input {
       border: none;
       height: unset;
-    }
-
-    .clear-button {
-      width: 44px;
-      height: 44px;
-      background-color: transparent;
-      color: var(--vads-color-black);
-      padding: 0;
-      margin: 0;
-      font-family: "Font Awesome 5 Free";
-
-      &:hover {
-        background-color: unset;
-        color: unset;
-      }
     }
   }
 

@@ -4,9 +4,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 export const uiSchema = {
-  veteranRadio: radioUI({
-    title: 'Are you a veteran?',
-  }),
   repTypeRadio: radioUI({
     title: 'What type of representative are you appointing?',
   }),
@@ -14,9 +11,8 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['veteranRadio', 'repTypeRadio'],
+  required: ['repTypeRadio'],
   properties: {
-    veteranRadio: radioSchema(['Yes', 'No']),
     repTypeRadio: radioSchema([
       'Veterans Service Organization (VSO)',
       'Attorney',
