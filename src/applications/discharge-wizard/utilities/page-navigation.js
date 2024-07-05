@@ -38,8 +38,12 @@ export const navigateForward = (SHORT_NAME, formResponses, router) => {
       }
 
       if (DISPLAY_CONDITIONS?.[nextShortName]) {
-        // Found entry in DISPLAY_CONDITIONS for next question
-        if (displayConditionsMet(nextShortName, formResponses)) {
+        // Found entry in DISPLAY_CONDITIONS for next question.
+        // Also accounts for editing answers and if there are answers already saved, we continue routing to review page.
+        if (
+          displayConditionsMet(nextShortName, formResponses) &&
+          !formResponses[nextShortName]
+        ) {
           pushToRoute(nextShortName, router);
           return;
         }
