@@ -187,10 +187,21 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   preparerIdentification,
   veteranPrefillStore,
 ) => {
+  let prefillData = {};
+  if (veteranPrefillStore) {
+    const { fullName, ssn, address } = veteranPrefillStore;
+    prefillData = {
+      veteranFullName: fullName,
+      veteranId: preparerIdentification === 'VETERAN' ? { ssn } : undefined,
+      veteranMailingAddress:
+        preparerIdentification === 'VETERAN' ? address : undefined,
+    };
+  }
   return {
     ...createInitialState(formConfig).data,
     preparerIdentification,
     'view:veteranPrefillStore': veteranPrefillStore,
+    ...prefillData,
   };
 };
 
