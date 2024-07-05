@@ -37,7 +37,7 @@ import {
   selectShowPaginationLoading,
   selectShowSearchResults,
 } from '../selectors/schoolSearch';
-import { transformSearchToolAddress } from '../helpers';
+import { displaySingleLineAddress, transformSearchToolAddress } from '../helpers';
 
 const { Element } = Scroll;
 
@@ -124,7 +124,6 @@ export class SchoolSelectField extends React.Component {
   handlePageSelect = e => {
     const { page } = e.detail;
     this.resultCount.focus();
-
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
       page,
@@ -268,7 +267,9 @@ export class SchoolSelectField extends React.Component {
                 {errorMessages.map((message, index) => (
                   <span key={index}>
                     <span className="sr-only">Error</span>
-                    {message}
+                    {!showInstitutions
+                      ? message
+                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
                   </span>
                 ))}
               </span>
@@ -317,11 +318,22 @@ export class SchoolSelectField extends React.Component {
           />
           <div aria-live="polite" aria-relevant="additions text">
             {showSearchResults &&
+              searchResultsCount > 0 && (
+                <div
+                  className="search-results-count"
+                  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+                  tabIndex="0"
+                  ref={el => {
+                    this.resultCount = el;
+                  }}
+                >
+                  {`${searchResultsCount} results for ${institutionQuery}`}
+                </div>
+              )}
+              {showSearchResults &&
               showInstitutions && (
                 <VaRadio
-                  label={`${searchResultsCount} results for ${institutionQuery}`}
-                  className="school-select-radio"
-                  data-testid="school-select-field-radio-option"
+                  className="school-select-field-radio"
                   onVaValueChange={e =>
                     this.handleOptionClick(
                       _.find(institutions, { facilityCode: e?.detail?.value }),
@@ -343,18 +355,13 @@ export class SchoolSelectField extends React.Component {
                     return (
                       <VaRadioOption
                         name={`page-${currentPageNumber}-radio-option`}
+                        className="school-select-field-radio-option"
                         key={facilityCode}
                         value={facilityCode}
                         checked={facilityCode === facilityCodeSelected}
                         label={name}
                         tile
-                        description={`${address1}${address2 &&
-                          `, ${address2}`}${address3 &&
-                          `, ${address3}`}, ${city}${city &&
-                          state &&
-                          ', '}${state}${
-                          !(city && state) ? country : ` ${zip}`
-                        }`}
+                        description={displaySingleLineAddress({address1, address2, address3, city, country, state, zip})}
                       />
                     );
                   })}
