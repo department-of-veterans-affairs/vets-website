@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
+import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
-import recordEvent from '~/platform/monitoring/record-event';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { canAccess } from '../../../common/selectors';
 import { API_NAMES } from '../../../common/constants';
 
@@ -27,7 +27,7 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
       {/* todo check for direct deposit first */}
       <IconCTALink
         href="/profile/direct-deposit"
-        icon="dollar-sign"
+        icon="attach_money"
         text="Manage your direct deposit information"
         /* eslint-disable react/jsx-no-bind */
         onClick={() => {
@@ -43,7 +43,7 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
       {showPaymentHistoryLink && (
         <IconCTALink
           href="/va-payment-history/payments/"
-          icon="user-check"
+          icon="how_to_reg"
           text="Review your payment history"
           /* eslint-disable react/jsx-no-bind */
           onClick={() => {
