@@ -10,6 +10,7 @@ import { setupPerTest, pageHooks } from './995.cypress.helpers';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
 
     dataSets: ['no-evidence-test', 'minimal-test', 'partial-evidence-test'],

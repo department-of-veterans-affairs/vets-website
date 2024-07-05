@@ -38,11 +38,8 @@ const TrackingInfo = ({
   return (
     <div className="clearfix tracking-info vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-border-left--7px vads-u-border-color--primary">
       <h2 className="vads-u-margin-y--0" data-testid="track-package">
-        <i
-          className="fa fa-info-circle vads-u-margin-right--1"
-          aria-hidden="true"
-        />
-        Track your package
+        <va-icon size={4} icon="info" aria-hidden="true" />
+        <span className="vads-u-margin-left--1">Track your package</span>
       </h2>
       <h3 className="vads-u-font-size--lg vads-u-margin-bottom--1">
         Tracking number

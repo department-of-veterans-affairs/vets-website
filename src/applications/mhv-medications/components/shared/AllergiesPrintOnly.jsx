@@ -22,8 +22,15 @@ const AllergiesPrintOnly = props => {
               Showing {allergies.length} records from newest to oldest
             </div>
             <div>
-              {allergies?.map(allergy => (
-                <div key={allergy.id} className="vads-u-border-bottom--1px">
+              {allergies?.map((allergy, index) => (
+                <div
+                  key={allergy.id}
+                  className={
+                    allergies.length - 1 !== index
+                      ? 'vads-u-border-bottom--1px'
+                      : ''
+                  }
+                >
                   <div className="print-only-rx-details-container">
                     <h3>{allergy.name}</h3>
                     <div className="print-only-rx-details-container">

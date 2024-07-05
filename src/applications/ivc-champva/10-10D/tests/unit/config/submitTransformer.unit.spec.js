@@ -60,7 +60,7 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, { data: {} }),
     );
-    expect(transformed.veteran.ssn_or_tin).to.equal('');
+    expect(transformed.veteran.ssnOrTin).to.equal('');
   });
   it('should format certifier information', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
@@ -78,8 +78,8 @@ describe('transform for submit', () => {
       },
     ];
     const transformed = JSON.parse(transformForSubmit(formConfig, modified));
-    expect(transformed.supporting_docs[0].applicantName.first).to.equal(
-      transformed.applicants[0].full_name.first,
+    expect(transformed.supportingDocs[0].applicantName.first).to.equal(
+      transformed.applicants[0].fullName.first,
     );
   });
   it('should set sponsor info as primary contact if certifierRole == sponsor', () => {

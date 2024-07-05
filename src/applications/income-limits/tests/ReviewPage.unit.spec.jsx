@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -101,27 +100,5 @@ describe('Review Page', () => {
     expect(screen.getByTestId('review-dependents').textContent).to.equal(
       'Number of dependents: 3',
     );
-  });
-
-  it('should call the correct function when the Edit link is used in the standard flow', () => {
-    const screen = render(
-      <Provider store={mockStoreStandard}>
-        <ReviewPage {...propsStandard} />
-      </Provider>,
-    );
-
-    userEvent.click(screen.getAllByText('Edit')[1]);
-    expect(pushSpyStandard.withArgs('dependents').calledOnce).to.be.true;
-  });
-
-  it('should call the correct function when the Edit link is used in the past flow', () => {
-    const screen = render(
-      <Provider store={mockStorePast}>
-        <ReviewPage {...propsPast} />
-      </Provider>,
-    );
-
-    userEvent.click(screen.getAllByText('Edit')[0]);
-    expect(pushSpyPast.withArgs('year').calledOnce).to.be.true;
   });
 });

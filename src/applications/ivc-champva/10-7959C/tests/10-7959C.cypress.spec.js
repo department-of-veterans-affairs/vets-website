@@ -8,6 +8,7 @@ import manifest from '../manifest.json';
 
 import {
   fillAddressWebComponentPattern,
+  selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
@@ -54,6 +55,10 @@ const testConfig = createTestConfig(
             fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
+            );
+            selectRadioWebComponent(
+              'applicantNewAddress',
+              data.applicantNewAddress,
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
