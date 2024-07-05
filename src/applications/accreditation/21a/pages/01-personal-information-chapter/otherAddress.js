@@ -6,7 +6,7 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Enter other address',
+  title: 'Other address',
   path: 'other-address',
   depends: formData => formData.communicationAddress === 'OTHER',
   uiSchema: {
@@ -14,10 +14,8 @@ export default {
     otherAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'I work on a United States military base outside of the U.S.',
-        state: 'State/Province/Region',
+          'This address is on a United States military base outside of the U.S.',
       },
-      omit: ['street3'],
     }),
   },
   schema: {

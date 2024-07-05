@@ -39,6 +39,13 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
 ];
 
+// Check to show Your Personal Information page and NOT About Yourself page
+export const hasPrefillInformation = form => {
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
+};
+
 // Response Page headers
 export const RESPONSE_PAGE = {
   QUESTION_DETAILS: 'Question details',
@@ -62,6 +69,14 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
+};
+
+export const pronounLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
 };
 
 // Used for yes/no radio questions
@@ -348,7 +363,7 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: {
       QUESTION: 'Preferred name',
-      HINT: 'Let us know how we should refer to you',
+      HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
     QUESTION_2: 'How should we contact you?',
@@ -414,6 +429,11 @@ export const CHAPTER_3 = {
   YOUR_LOCATION_OF_RESIDENCE: {
     TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_PERSONAL_INFORMATION: {
+    PATH: 'your-personal-information',
+    TITLE: `Your personal information`,
+    DESCRIPTION: 'This is the personal information we have on file for you.',
   },
 };
 
