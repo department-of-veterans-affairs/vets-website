@@ -400,7 +400,7 @@ describe('<SchoolSelectField>', () => {
         name: internationalInstitution.name,
         facilityCode: internationalInstitution.facilityCode,
       });
-      expect(selectInstitution.lastCall.args[0]).to.eql({
+      expect(selectInstitution.firstCall.args[0]).to.eql({
         address1: internationalInstitution.address1,
         address2: internationalInstitution.address2,
         address3: internationalInstitution.address3,
