@@ -322,6 +322,18 @@ export function removeEmptyStringProperties(obj) {
   return cleanObject;
 }
 
+// Formats address on one line
+// Used in school select field radio options
+export function displaySingleLineAddress(obj){
+  const { address1, address2, address3, city, state, zip, country } = obj;
+  return `${address1}${address2 &&
+    `, ${address2}`}${address3 &&
+    `, ${address3}`}, ${city || ''}${city &&
+    state ? ', ' : ''}${state || ''}${
+    !state ? ` ${country}` : ` ${zip || ''}`
+  }`
+}
+
 /*
  * A helper that takes data from the SchoolSelectField back end and transforms
  * it to a valid format as specified by the FEEDBACK-TOOL's

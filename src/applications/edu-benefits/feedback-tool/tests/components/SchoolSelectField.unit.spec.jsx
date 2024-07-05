@@ -7,6 +7,7 @@ import {
   SchoolSelectField,
   mapStateToProps,
 } from '../../components/SchoolSelectField';
+import { displaySingleLineAddress } from '../../helpers';
 
 describe('<SchoolSelectField>', () => {
   it('should render initial search view', () => {
@@ -61,76 +62,12 @@ describe('<SchoolSelectField>', () => {
     );
 
     expect(tree.find('.search-controls').exists()).to.be.true;
-    expect(tree.find('.institution-name').exists()).to.be.true;
-    expect(tree.find('.institution-city-state').text()).to.eql(
-      'testCity, testState',
-    );
-    expect(tree.find('.institution-address').length).to.eql(3);
+    expect(tree.find('va-radio').exists()).to.be.true;
+    expect(tree.find('va-radio-option')).length.to.be(1);
     expect(tree.find('va-pagination').exists()).to.be.true;
     expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
       .false;
-    tree.unmount();
-  });
-
-  it('should only render available institution information', () => {
-    const institutions = [
-      {
-        city: '',
-        facilitycode: 'test',
-        name: 'testname',
-        state: 'testState',
-      },
-      {
-        city: '',
-        country: 'testCountry',
-        facilitycode: 'test',
-        name: 'testname',
-        state: '',
-      },
-    ];
-    const tree = mount(
-      <SchoolSelectField
-        formData={{}}
-        formContext={{}}
-        currentPageNumber={1}
-        institutionQuery="test"
-        institutions={institutions}
-        pagesCount={2}
-        searchInputValue="test"
-        searchResultsCount={1}
-        showInstitutions
-        showInstitutionsLoading={false}
-        showPagination
-        showPaginationLoading={false}
-      />,
-    );
-
-    const institutionsTrees = tree.find('.radio-button label');
-    expect(
-      institutionsTrees
-        .first()
-        .find('.institution-city-state')
-        .text(),
-    ).to.eql('testState');
-    expect(
-      institutionsTrees
-        .first()
-        .find('.institution-country')
-        .exists(),
-    ).to.be.false;
-    expect(
-      institutionsTrees
-        .last()
-        .find('.institution-city-state')
-        .exists(),
-    ).to.be.false;
-    expect(
-      institutionsTrees
-        .last()
-        .find('.institution-country')
-        .text(),
-    ).to.eql('testCountry');
     tree.unmount();
   });
 
@@ -153,8 +90,6 @@ describe('<SchoolSelectField>', () => {
 
     const vaLoadingIndicatorMessage = tree.find('va-loading-indicator');
     expect(tree.find('.search-controls').exists()).to.be.true;
-    expect(tree.find('.institution-name').exists()).to.be.false;
-    expect(tree.find('.institution-city-state').exists()).to.be.false;
     expect(tree.find('va-pagination').exists()).to.be.false;
     expect(vaLoadingIndicatorMessage.exists()).to.be.true;
     expect(vaLoadingIndicatorMessage.prop('message')).to.eql(
@@ -183,8 +118,6 @@ describe('<SchoolSelectField>', () => {
     );
 
     expect(tree.find('.search-controls').exists()).to.be.true;
-    expect(tree.find('.institution-name').exists()).to.be.false;
-    expect(tree.find('.institution-city-state').exists()).to.be.false;
     expect(tree.find('va-pagination').exists()).to.be.true;
     expect(tree.find('va-loading-indicator').exists()).to.be.true;
     expect(tree.find('va-loading-indicator').prop('message')).to.eql(
@@ -253,8 +186,6 @@ describe('<SchoolSelectField>', () => {
     );
 
     expect(tree.find('.search-controls').exists()).to.be.true;
-    expect(tree.find('.institution-name').exists()).to.be.false;
-    expect(tree.find('.institution-city-state').exists()).to.be.false;
     expect(tree.find('.va-pagination').exists()).to.be.false;
     expect(tree.find('va-loading-indicator').exists()).to.be.false;
     expect(tree.find('#root_school_view:manualSchoolEntry_name').exists()).to.be
@@ -385,7 +316,7 @@ describe('<SchoolSelectField>', () => {
       address2: 'testAddress2',
       address3: 'testAddress3',
       city: 'testcity',
-      facilityCode: 'test',
+      facilityCode: 'test2',
       name: 'testName',
       state: null,
       zip: null,
@@ -419,11 +350,13 @@ describe('<SchoolSelectField>', () => {
     afterEach(() => {
       tree.unmount();
     });
-    it('should call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
-      tree
-        .find('#page-1-0')
-        .first()
-        .simulate('change');
+    
+    it('should display options correctly and call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
+      expect(displaySingleLineAddress(domesticInstitution)).to.equal('testAddress1, testAddress2, testAddress3, testcity, testState 12345');
+      expect(tree.find('va-radio-option').length).to.equal(2);
+      const vaRadio = tree.find('VaRadio')
+      expect(vaRadio.exists()).to.be.true;
+      vaRadio.props().onVaValueChange({ detail: { value: domesticInstitution.facilityCode, checked: true } });
       expect(onChange.firstCall.args[0]).to.eql({
         address: {
           city: domesticInstitution.city,
@@ -448,12 +381,13 @@ describe('<SchoolSelectField>', () => {
       });
     });
 
-    it('should call `selectInstitution` and `onChange` props properly when non-domestic institution selected', () => {
-      tree
-        .find('#page-1-1')
-        .first()
-        .simulate('change');
-      expect(onChange.firstCall.args[0]).to.eql({
+    it('should display options correctly and call `selectInstitution` and `onChange` props properly when non-domestic institution selected', () => {
+      expect(displaySingleLineAddress(internationalInstitution)).to.equal('testAddress1, testAddress2, testAddress3, testcity NOT THE UNITED STATES');
+      expect(tree.find('va-radio-option').length).to.equal(2);
+      const vaRadio = tree.find('VaRadio')
+      expect(vaRadio.exists()).to.be.true;
+      vaRadio.props().onVaValueChange({ detail: { value: internationalInstitution.facilityCode, checked: true } });
+      expect(onChange.lastCall.args[0]).to.eql({
         address: {
           city: internationalInstitution.city,
           country: internationalInstitution.country,
@@ -466,7 +400,7 @@ describe('<SchoolSelectField>', () => {
         name: internationalInstitution.name,
         facilityCode: internationalInstitution.facilityCode,
       });
-      expect(selectInstitution.firstCall.args[0]).to.eql({
+      expect(selectInstitution.lastCall.args[0]).to.eql({
         address1: internationalInstitution.address1,
         address2: internationalInstitution.address2,
         address3: internationalInstitution.address3,

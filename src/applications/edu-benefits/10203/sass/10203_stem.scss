@@ -112,8 +112,8 @@ dd > span {
       display: flex;
     }
     .search-schools-button {
-      margin-left: 15px;
-      max-width: 160px;
+      margin: 3px 0 0 15px;
+      max-width: 150px;
       width: 100%;
     }
     .start-over {
@@ -138,6 +138,12 @@ dd > span {
       &::before {
         position: relative;
         top: 45px;
+      }
+
+      .institution-information {
+        background-color: var(--vads-color-base-lightest);
+        margin-left: 25px;
+        padding: 10px 15px;
       }
     }
   }
