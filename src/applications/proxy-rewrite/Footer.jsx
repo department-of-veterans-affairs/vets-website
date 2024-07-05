@@ -48,7 +48,7 @@ const Footer = ({ footerData, lastUpdated }) => {
 };
 
 Footer.propTypes = {
-  footerData: PropTypes.object.isRequired,
+  footerData: PropTypes.array.isRequired,
   lastUpdated: PropTypes.string
 }
 

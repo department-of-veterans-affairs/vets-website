@@ -63,8 +63,6 @@ function createMutationObserverCallback() {
 }
 
 function renderHeader(megaMenuData, headerContainer) {
-  const isMobile = window.innerWidth < 768;
-
   // Add header
   startReactApp(
     <Provider store={store}>
@@ -73,16 +71,12 @@ function renderHeader(megaMenuData, headerContainer) {
     headerContainer
   );
 
-  const searchParentElement = isMobile
-    ? 'mobile-search-container'
-    : 'search';
-
   // Add search dropdown
   startReactApp(
     <Provider store={store}>
-      <Search isMobile={isMobile} />
+      <Search />
     </Provider>,
-    document.getElementById(searchParentElement),
+    document.getElementById('search'),
   );
 
   addHeaderEventListeners();

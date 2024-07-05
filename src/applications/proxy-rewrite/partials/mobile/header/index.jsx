@@ -1,9 +1,15 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeMegaMenu } from './mega-menu';
+import MegaMenu from './mega-menu';
 
 const MobileHeader = ({ megaMenuData }) => {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+  const openMenu = () => {
+    setMenuIsOpen(!menuIsOpen);
+  };
+
   return (
     <header role="banner">
       <div id="preview-site-alert"></div>
@@ -116,12 +122,19 @@ const MobileHeader = ({ megaMenuData }) => {
             {/* start Menu button */}
             <button
               aria-controls="header-nav-items"
-              aria-expanded="false"
+              aria-expanded={menuIsOpen}
               id="header-menu-button"
               className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
               type="button"
+              onClick={openMenu}
+              onKeyDown={event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  openMenu();
+                }
+              }}
             >
-              <span>Menu</span>
+              <span>{menuIsOpen ? 'Close' : 'Menu'}</span>
               <svg
                 aria-hidden="true"
                 className="vads-u-margin-left--0p5"
@@ -130,6 +143,7 @@ const MobileHeader = ({ megaMenuData }) => {
                 viewBox="1 2 16 16"
                 width="16"
                 xmlns="http://www.w3.org/2000/svg"
+                hidden={menuIsOpen}
               >
                 <path
                   fill="#005ea2"
@@ -141,7 +155,7 @@ const MobileHeader = ({ megaMenuData }) => {
                 className="vads-u-margin-left--0p5"
                 focusable="false"
                 id="mobile-header-close-icon"
-                hidden
+                hidden={!menuIsOpen}
                 viewBox="3 3 16 16"
                 width="15"
                 xmlns="http://www.w3.org/2000/svg"
@@ -153,20 +167,26 @@ const MobileHeader = ({ megaMenuData }) => {
                   d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
                 />
               </svg>
-              <div className="header-menu-button-overlay vads-u-background-color--gray-lightest vads-u-position--absolute vads-u-width--full" hidden></div>
+              <div
+                className="header-menu-button-overlay vads-u-background-color--gray-lightest vads-u-position--absolute vads-u-width--full"
+                hidden={!menuIsOpen}
+              />
             </button>
             {/* end Menu button */}
 
           </div>
         </div>
-        {makeMegaMenu(megaMenuData)}
+        <MegaMenu
+          megaMenuData={megaMenuData}
+          menuIsOpen={menuIsOpen}
+        />
       </nav>
     </header>
   );
 };
 
 MobileHeader.propTypes = {
-  megaMenuData: PropTypes.object.isRequired
+  megaMenuData: PropTypes.array.isRequired
 };
 
 export default MobileHeader;

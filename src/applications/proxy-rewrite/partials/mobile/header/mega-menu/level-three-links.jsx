@@ -1,121 +1,123 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { isArray, kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
 
-const formatMenuItems = menuItems => {
-  const formattedMenuItems = [];
-
-  if (menuItems && isArray(menuItems)) {
-    return menuItems;
-  }
-
-  if (menuItems?.seeAllLink) {
-    formattedMenuItems.push({
-      title: menuItems?.seeAllLink?.text,
-      href: menuItems?.seeAllLink?.href,
-    });
-  }
-
-  if (menuItems?.mainColumn) {
-    formattedMenuItems.push({
-      title: menuItems?.mainColumn?.title,
-      links: menuItems?.mainColumn?.links,
-    });
-  }
-
-  if (menuItems?.columnOne) {
-    formattedMenuItems.push({
-      title: menuItems?.columnOne?.title,
-      links: menuItems?.columnOne?.links,
-    });
-  }
-
-  if (menuItems?.columnTwo) {
-    formattedMenuItems.push({
-      title: menuItems?.columnTwo?.title,
-      links: menuItems?.columnTwo?.links,
-    });
-  }
-
-  return formattedMenuItems;
-};
-
-const buildLinks = linkGroups => {
-  const linkHtml = (text, href) => {
-    return (
-      <li
-        className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-        data-e2e-id={kebabCase(text)}
-        key={text}
-      >
-        <a
-          className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
-          href={updateLinkDomain(href)}
+// Build hub child links
+const LevelThreeLinks = ({ activeMenu, menuSections }) => {
+  const formatMenuItems = menuItems => {
+    const formattedMenuItems = [];
+  
+    if (menuItems && isArray(menuItems)) {
+      return menuItems;
+    }
+  
+    if (menuItems?.seeAllLink) {
+      formattedMenuItems.push({
+        title: menuItems?.seeAllLink?.text,
+        href: menuItems?.seeAllLink?.href,
+      });
+    }
+  
+    if (menuItems?.mainColumn) {
+      formattedMenuItems.push({
+        title: menuItems?.mainColumn?.title,
+        links: menuItems?.mainColumn?.links,
+      });
+    }
+  
+    if (menuItems?.columnOne) {
+      formattedMenuItems.push({
+        title: menuItems?.columnOne?.title,
+        links: menuItems?.columnOne?.links,
+      });
+    }
+  
+    if (menuItems?.columnTwo) {
+      formattedMenuItems.push({
+        title: menuItems?.columnTwo?.title,
+        links: menuItems?.columnTwo?.links,
+      });
+    }
+  
+    return formattedMenuItems;
+  };
+  
+  const buildLinks = linkGroups => {
+    const linkHtml = (text, href) => {
+      return (
+        <li
+          className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
           data-e2e-id={kebabCase(text)}
+          key={text}
         >
-          {text}
-        </a>
-      </li>
+          <a
+            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+            href={updateLinkDomain(href)}
+            data-e2e-id={kebabCase(text)}
+          >
+            {text}
+          </a>
+        </li>
+      );
+    };
+  
+    return linkGroups
+      .map(group => {
+        if (group.links) {
+          return group.links.map(link => linkHtml(link.text, link.href));
+        }
+        if (Array.isArray(group)) {
+          return group.map(link => linkHtml(link.text, link.href));
+        }
+        return linkHtml(group.text || group.title, group.href);
+      });
+  };
+  
+  const containerForLinks = (title, linkGroups) => {
+    const menuTitle = `${kebabCase(title)}-menu`;
+    const isActiveMenu = activeMenu === menuTitle;
+
+    return (
+      <div
+        id={menuTitle}
+        key={kebabCase(title)}
+        hidden={!isActiveMenu}
+        className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full"
+      >
+        <ul className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
+          <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
+            <button className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center" id="header-back-to-menu" type="button">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                viewBox="8 5 13 13"
+                width="17"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill="#005ea2"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M14 6L15.41 7.41L10.83 12L15.41 16.59L14 18L8.00003 12L14 6Z"
+                />
+              </svg>Back to menu
+            </button>
+          </li>
+          {buildLinks(linkGroups)}
+        </ul>
+      </div>
     );
   };
 
-  return linkGroups
-    .map(group => {
-      if (group.links) {
-        return group.links.map(link => linkHtml(link.text, link.href));
-      }
-      if (Array.isArray(group)) {
-        return group.map(link => linkHtml(link.text, link.href));
-      }
-      return linkHtml(group.text || group.title, group.href);
-    })
-    .join()
-    .replaceAll(',', '');
-};
-
-const containerForLinks = (title, linkGroups) => {
-  return (
-    <div
-      id={`${kebabCase(title)}-menu`}
-      key={kebabCase(title)}
-      hidden
-      className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full"
-    >
-      <ul className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
-        <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
-          <button className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center" id="header-back-to-menu" type="button">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              viewBox="8 5 13 13"
-              width="17"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill="#005ea2"
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M14 6L15.41 7.41L10.83 12L15.41 16.59L14 18L8.00003 12L14 6Z"
-              />
-            </svg>Back to menu
-          </button>
-        </li>
-        {buildLinks(linkGroups)}
-      </ul>
-    </div>
-  );
-};
-
-// Build hub child links
-export const buildLevelThreeLinks = menuSections => {
   const linkContainers = [];
 
   if (!menuSections) {
     return null;
   }
 
-  if (Array.isArray(menuSections)) {
+  if (Array.isArray(menuSections)) { // Benefit hubs
     for (const section of menuSections) {
       if (section.links) {
         linkContainers.push(
@@ -123,7 +125,7 @@ export const buildLevelThreeLinks = menuSections => {
         );
       }
     }
-  } else {
+  } else { // About VA
     const linkGroups = formatMenuItems(menuSections);
 
     linkGroups.forEach(group => {
@@ -135,3 +137,10 @@ export const buildLevelThreeLinks = menuSections => {
 
   return linkContainers;
 };
+
+LevelThreeLinks.propTypes = {
+  activeMenu: PropTypes.string,
+  menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+};
+
+export default LevelThreeLinks;

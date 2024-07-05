@@ -105,50 +105,29 @@ export const addHeaderEventListeners = () => {
     });
   });
 
-  // [DESKTOP, MOBILE] Mega menu buttons ------------------------------
-  const buttons = document.querySelectorAll(
-    'button.header-menu-item-button.level1',
-  );
-
-  buttons.forEach((btn, index) => {
-    const correspondingUl = document.querySelectorAll('#header-nav-items ul')[
-      index
-    ];
-
-    const buttonIcons = btn.querySelectorAll('.mobile-benhub');
-
-    btn.addEventListener('click', () =>
-      toggleMenu(correspondingUl, btn, buttonIcons),
-    );
-  });
-
   // Toggle second level of mobile menu items
-  const levelTwoButtons = document.querySelectorAll(
-    'button.header-menu-item-button.level2',
-  );
+  // const levelTwoButtons = document.querySelectorAll(
+  //   'button.header-menu-item-button.level2',
+  // );
 
-  levelTwoButtons.forEach(menuBtn => {
-    const mainNav = document.getElementById('header-nav-items');
-    const searchBar = document.getElementById('mobile-search-container');
-    const id = menuBtn.getAttribute('data-menu');
-    const menu = document.getElementById(id);
-    const backButtons = document.querySelectorAll('button#header-back-to-menu');
+  // levelTwoButtons.forEach(menuBtn => {
+  //   const id = menuBtn.getAttribute('data-menu');
+  //   const menu = document.getElementById(id);
+  //   const backButtons = document.querySelectorAll('button#header-back-to-menu');
 
-    menuBtn.addEventListener('click', () => {
-      menu.removeAttribute('hidden');
-      mainNav.setAttribute('hidden', true);
-      searchBar.setAttribute('hidden', true);
+  //   menuBtn.addEventListener('click', () => {
+  //     menu.removeAttribute('hidden');
 
-      backButtons.forEach(backBtn => {
-        backBtn.focus();
+  //     backButtons.forEach(backBtn => {
+  //       backBtn.focus();
 
-        backBtn.addEventListener('click', () => {
-          mainNav.removeAttribute('hidden');
-          searchBar.removeAttribute('hidden');
-          menu.setAttribute('hidden', true);
-          menuBtn.focus();
-        });
-      });
-    });
-  });
+  //       backBtn.addEventListener('click', () => {
+  //         mainNav.removeAttribute('hidden');
+  //         searchBar.removeAttribute('hidden');
+  //         menu.setAttribute('hidden', true);
+  //         menuBtn.focus();
+  //       });
+  //     });
+  //   });
+  // });
 };

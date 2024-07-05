@@ -86,7 +86,7 @@ const DesktopFooter = ({ footerData }) => {
 };
 
 DesktopFooter.propTypes = {
-  footerData: PropTypes.object.isRequired
+  footerData: PropTypes.array.isRequired
 };
 
 export default DesktopFooter;

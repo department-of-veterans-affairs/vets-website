@@ -154,7 +154,7 @@ const MobileFooter = ({ footerData }) => {
 };
 
 MobileFooter.propTypes = {
-  footerData: PropTypes.object.isRequired
+  footerData: PropTypes.array.isRequired
 };
 
 export default MobileFooter;

@@ -2145,16 +2145,16 @@
     font-weight: 600;
   }
 
-  [id="search"] {
+  [id="search"].va-dropdown-panel {
     width: 300px;
   }
 
-  [id="search"] [type="text"] {
+  [id="search"].va-dropdown-panel [type="text"] {
     margin: 0;
     flex: 1 0 200px;
   }
 
-  [id="search"] [type="submit"] {
+  [id="search"].va-dropdown-panel [type="submit"] {
     border-radius: 0 3px 3px 0;
     display: flex;
     flex: 1 0 30px;

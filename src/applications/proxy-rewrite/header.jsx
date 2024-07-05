@@ -53,7 +53,7 @@ const Header = ({ megaMenuData }) => {
 };
 
 Header.propTypes = {
-  megaMenuData: PropTypes.object.isRequired
+  megaMenuData: PropTypes.array.isRequired
 };
 
 export default Header;
