@@ -47,10 +47,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         data-testid="other-va-debts-link"
       >
         View all your VA debt and bills
-        <i
-          className="fa fa-angle-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
+        <va-icon icon="navigate_next" size={3} />
       </Link>
     </>
   );

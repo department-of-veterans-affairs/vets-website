@@ -72,11 +72,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </h3>
       <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <span className="sr-only">Alert</span>
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fa fa-exclamation-triangle icon-right"
-        />
+        <va-icon icon="warning" size={3} className="icon-right" />
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (
@@ -93,10 +89,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         }}
       >
         {linkText}
-        <i
-          className="fas fa-angle-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
+        <va-icon icon="navigate_next" size={3} />
       </Link>
     </va-card>
   );

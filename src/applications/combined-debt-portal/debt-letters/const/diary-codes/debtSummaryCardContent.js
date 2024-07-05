@@ -3,13 +3,13 @@ import { endDate } from '../../utils/helpers';
 
 const TriangleIcon = () => (
   <>
-    <i aria-hidden="true" className="fas fa-exclamation-triangle icon-right" />
+    <va-icon icon="warning" size={3} className="icon-right" />
     <span className="sr-only">important</span>
   </>
 );
 const CircleIcon = () => (
   <>
-    <i aria-hidden="true" className="fas fa-info-circle icon-right" />
+    <va-icon icon="info" size={3} className="icon-right" />
     <span className="sr-only">informational</span>
   </>
 );

@@ -46,10 +46,7 @@ const DebtSummaryCard = ({ debt }) => {
           aria-label={`Check details and resolve this ${debtCardHeading}`}
         >
           Check details and resolve this debt
-          <i
-            aria-hidden="true"
-            className="fas fa-angle-right vads-u-margin-left--1"
-          />
+          <va-icon icon="navigate_next" size={3} />
         </Link>
       </va-card>
     </li>
