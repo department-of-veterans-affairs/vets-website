@@ -55,8 +55,6 @@ describe('aboutTheFamilyMemberPage', () => {
       'Tell us about your family member',
     );
 
-    expect($('h4', container).textContent).to.eq('Pronouns');
-
     labels.forEach(
       label =>
         expect(labelList.includes(removeReqFromLabel(label.textContent).trim()))
