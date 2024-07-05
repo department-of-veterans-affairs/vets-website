@@ -47,6 +47,7 @@ import {
   SeventeenOrOlder,
   eighteenOrOver,
   ageWarning,
+  isProductionOfTestProdEnv,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -386,7 +387,9 @@ const formConfig = {
           title: 'Benefits relinquishment',
           path: 'benefits-eligibility/benefits-relinquishment',
           depends: formData =>
-            formData['view:selectedBenefits'].chapter33 === 'chapter33',
+            isProductionOfTestProdEnv()
+              ? formData['view:selectedBenefits'].chapter33
+              : formData['view:selectedBenefits'].chapter33 === 'chapter33',
           initialData: {
             'view:benefitsRelinquishedContainer': {
               benefitsRelinquishedDate: moment().format('YYYY-MM-DD'),

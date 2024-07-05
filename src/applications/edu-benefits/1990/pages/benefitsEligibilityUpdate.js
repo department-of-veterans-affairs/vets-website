@@ -8,7 +8,7 @@ export const benefitsEligibilityUpdate = (
   chapter30,
   chapter1606,
 ) => {
-  const uiSchema = !isProductionOfTestProdEnv()
+  const uiSchema = isProductionOfTestProdEnv()
     ? {
         'ui:description': benefitsEligibilityBox,
         'view:selectedBenefits': {
@@ -66,7 +66,7 @@ export const benefitsEligibilityUpdate = (
           },
         },
       };
-  const schema = !isProductionOfTestProdEnv()
+  const schema = isProductionOfTestProdEnv()
     ? {
         type: 'object',
         required: ['view:selectedBenefits'],
