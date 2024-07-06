@@ -350,13 +350,16 @@ describe('<SchoolSelectField>', () => {
     afterEach(() => {
       tree.unmount();
     });
-    
     it('should display options correctly and call `selectInstitution` and `onChange` props properly when domestic institution selected', () => {
-      expect(displaySingleLineAddress(domesticInstitution)).to.equal('testAddress1, testAddress2, testAddress3, testcity, testState 12345');
+      expect(displaySingleLineAddress(domesticInstitution)).to.equal(
+        'testAddress1, testAddress2, testAddress3, testcity, testState 12345',
+      );
       expect(tree.find('va-radio-option').length).to.equal(2);
-      const vaRadio = tree.find('VaRadio')
+      const vaRadio = tree.find('VaRadio');
       expect(vaRadio.exists()).to.be.true;
-      vaRadio.props().onVaValueChange({ detail: { value: domesticInstitution.facilityCode, checked: true } });
+      vaRadio.props().onVaValueChange({
+        detail: { value: domesticInstitution.facilityCode, checked: true },
+      });
       expect(onChange.firstCall.args[0]).to.eql({
         address: {
           city: domesticInstitution.city,
@@ -382,11 +385,18 @@ describe('<SchoolSelectField>', () => {
     });
 
     it('should display options correctly and call `selectInstitution` and `onChange` props properly when non-domestic institution selected', () => {
-      expect(displaySingleLineAddress(internationalInstitution)).to.equal('testAddress1, testAddress2, testAddress3, testcity NOT THE UNITED STATES');
+      expect(displaySingleLineAddress(internationalInstitution)).to.equal(
+        'testAddress1, testAddress2, testAddress3, testcity NOT THE UNITED STATES',
+      );
       expect(tree.find('va-radio-option').length).to.equal(2);
-      const vaRadio = tree.find('VaRadio')
+      const vaRadio = tree.find('VaRadio');
       expect(vaRadio.exists()).to.be.true;
-      vaRadio.props().onVaValueChange({ detail: { value: internationalInstitution.facilityCode, checked: true } });
+      vaRadio.props().onVaValueChange({
+        detail: {
+          value: internationalInstitution.facilityCode,
+          checked: true,
+        },
+      });
       expect(onChange.lastCall.args[0]).to.eql({
         address: {
           city: internationalInstitution.city,
