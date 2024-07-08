@@ -17,14 +17,13 @@ export const uiSchema = {
   claimantRelationship: radioUI({
     title: 'What’s your relationship to the Veteran?',
     labels: {
-      [claimantRelationships.veteran]:
-        'I’m a Veteran, and I intend to file a VA claim for myself',
-      [claimantRelationships.spouseOrChild]:
-        'I’m the spouse or child of a Veteran, and I intend to file a VA claim for myself',
-      [claimantRelationships.veteranRepresentative]:
-        'I’m representing a Veteran who intends to file a VA claim',
-      [claimantRelationships.spouseOrChildRepresentative]:
-        'I’m representing a Veteran’s spouse or child who intends to file a VA claim (called the claimant in this form)',
+      [claimantRelationships.veteran]: 'I’m the Veteran’s spouse',
+      [claimantRelationships.spouse]: 'I’m the Veteran’s child',
+      [claimantRelationships.child]: 'I’m the Veteran’s parent',
+      [claimantRelationships.accreditedRepresentative]:
+        'I’m the Veteran’s accredited representative',
+      [claimantRelationships.relationshipNotListed]:
+        'We don’t have a relationship that’s listed here',
     },
     errorMessages: {
       enum: 'Select one that best describes you',
