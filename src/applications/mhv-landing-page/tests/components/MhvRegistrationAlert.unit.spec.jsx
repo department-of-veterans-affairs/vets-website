@@ -58,25 +58,27 @@ describe('MhvRegistrationAlert', () => {
     const linkPath = 'home';
 
     it('registration URL for SSOe users', () => {
+      const hasSsoe = true;
       const { getByRole } = render(
-        <Provider store={mockStore({ ssoe: true })}>
+        <Provider store={mockStore({ ssoe: hasSsoe })}>
           <MhvRegistrationAlert />
         </Provider>,
       );
       const link = getByRole('link', { name: linkText });
       expect(link).to.exist;
-      expect(link.href).to.eql(mhvUrl(true, linkPath));
+      expect(link.href).to.eql(mhvUrl(hasSsoe, linkPath));
     });
 
     it('registration URL for non-SSOe users', () => {
+      const hasSsoe = false;
       const { getByRole } = render(
-        <Provider store={mockStore({ ssoe: false })}>
+        <Provider store={mockStore({ ssoe: hasSsoe })}>
           <MhvRegistrationAlert />
         </Provider>,
       );
       const link = getByRole('link', { name: linkText });
       expect(link).to.exist;
-      expect(link.href).to.eql(mhvUrl(false, linkPath));
+      expect(link.href).to.eql(mhvUrl(hasSsoe, linkPath));
     });
   });
 });
