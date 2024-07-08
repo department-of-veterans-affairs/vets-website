@@ -1,4 +1,3 @@
-// Dependencies.
 import { expect } from 'chai';
 
 import {

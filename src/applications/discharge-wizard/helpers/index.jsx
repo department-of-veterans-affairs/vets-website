@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { differenceinYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
 import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
@@ -312,7 +313,9 @@ export const answerReviewLabel = (key, formValues) => {
 };
 
 export const determineBoardObj = (formResponses, noDRB) => {
-  if (!formResponses) return null;
+  if (!formResponses) {
+    return null;
+  }
 
   const prevAppType = [
     RESPONSES.PREV_APPLICATION_TYPE_1,
@@ -337,10 +340,11 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const intention =
     formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_1;
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
-  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
 
   const oldDischarge =
-    moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) >= 15;
+    differenceinYears(new Date(), new Date(dischargeMonth, dischargeYear)) >=
+    15;
 
   const failureToExhaust = [
     RESPONSES.FAILURE_TO_EXHAUST_1A,

@@ -47,13 +47,18 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
             className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review"
           >
             {reviewLabel}
-            <va-link
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
               aria-label={reviewLabel}
+              role="button"
+              tabIndex="0"
               className="vads-u-padding-left--2"
               onClick={() => onEditAnswerClick(ROUTES[shortName])}
+              onKeyDown={() => onEditAnswerClick(ROUTES[shortName])}
               name={shortName}
-              text="Edit"
-            />
+            >
+              Edit
+            </a>
           </li>
         )
       );
