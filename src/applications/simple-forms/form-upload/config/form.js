@@ -1,20 +1,26 @@
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 import footerContent from '~/platform/forms/components/FormFooter';
+// import { apiRequest } from '~/platform/utilities/api';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
+import { identificationInformationPage, zipCodePage } from '../pages/loa1';
 import { submitPage } from '../pages/submit';
 import { TITLE, SUBTITLE } from './constants';
 // import { getFormNumber, getFormUploadContent } from '../helpers';
 
 // const formNumber = getFormNumber(window.location);
+
 const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
   focusByOrder(['va-segmented-progress-bar', 'h1']);
 };
+
+const fullName = { first: 'John', last: 'Smith' };
+const veteran = { ssn: '123121234', address: { postalCode: '55555' } };
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -45,8 +51,8 @@ const formConfig = {
     noAuth: 'Please sign in again to continue uploading your form.',
   },
   title: TITLE,
-  // subitle: getFormUploadContent(formNumber),
   subitle: SUBTITLE,
+  // subitle: getFormUploadContent(formNumber),
   defaultDefinitions: {},
   v3SegmentedProgressBar: {
     useDiv: true,
@@ -72,8 +78,24 @@ const formConfig = {
         reviewPage: {
           path: 'review',
           title: 'Review Your Information',
-          uiSchema: reviewPage.uiSchema,
-          schema: reviewPage.schema,
+          uiSchema: reviewPage(fullName, veteran).uiSchema,
+          schema: reviewPage(fullName, veteran).schema,
+          pageClass: 'review',
+          scrollAndFocusTarget,
+        },
+        identificationInformationPage: {
+          path: 'identification-info',
+          title: 'Identification information',
+          uiSchema: identificationInformationPage.uiSchema,
+          schema: identificationInformationPage.schema,
+          pageClass: 'review',
+          scrollAndFocusTarget,
+        },
+        zipCodePage: {
+          path: 'zip-code',
+          title: 'Your zip code',
+          uiSchema: zipCodePage.uiSchema,
+          schema: zipCodePage.schema,
           pageClass: 'review',
           scrollAndFocusTarget,
         },
