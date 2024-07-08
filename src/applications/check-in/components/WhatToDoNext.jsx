@@ -82,13 +82,13 @@ const WhatToDoNext = props => {
               data-testid="what-next-card"
             >
               <va-card show-shadow={checkInableAppointments.length > 1}>
-                <h4
-                  className="vads-u-margin-top--0"
+                <h3
+                  className="vads-u-margin-top--0 vads-u-font-size--h4"
                   data-testid="what-next-card-title"
                   id={cardTitleId}
                 >
                   {cardTitle}
-                </h4>
+                </h3>
                 {showDetailsLink && (
                   <p>
                     <a
