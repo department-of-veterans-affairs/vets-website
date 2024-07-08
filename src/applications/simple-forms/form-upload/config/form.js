@@ -1,11 +1,13 @@
-// import fullSchema from 'vets-json-schema/dist/FORM-UPLOAD-schema.json';
-
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-
+import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
+import { reviewPage } from '../pages/review';
+import { submitPage } from '../pages/submit';
+import { TITLE, SUBTITLE } from './constants';
 // import { getFormNumber, getFormUploadContent } from '../helpers';
 
 // const formNumber = getFormNumber(window.location);
@@ -20,6 +22,10 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: !window.Cypress,
+  },
   trackingPrefix: 'form-upload-flow-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -38,12 +44,14 @@ const formConfig = {
     notFound: 'Please start over to upload your form.',
     noAuth: 'Please sign in again to continue uploading your form.',
   },
-  title: 'Upload VA Form 21-0779',
+  title: TITLE,
   // subitle: getFormUploadContent(formNumber),
-  subitle:
-    'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
+  subitle: SUBTITLE,
   defaultDefinitions: {},
-  v3SegmentedProgressBar: true,
+  v3SegmentedProgressBar: {
+    useDiv: true,
+  },
+  stepLabels: 'Upload your file;Review your information;Submit your form',
   chapters: {
     uploadChapter: {
       title: 'Upload',
@@ -64,11 +72,10 @@ const formConfig = {
         reviewPage: {
           path: 'review',
           title: 'Review Your Information',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: reviewPage.uiSchema,
+          schema: reviewPage.schema,
+          pageClass: 'review',
+          scrollAndFocusTarget,
         },
       },
     },
@@ -78,15 +85,16 @@ const formConfig = {
         submitPage: {
           path: 'submit',
           title: 'Submit Your Form',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: submitPage.uiSchema,
+          schema: submitPage.schema,
+          pageClass: 'review',
+          scrollAndFocusTarget,
         },
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
