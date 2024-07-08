@@ -145,7 +145,7 @@ const VaPrescription = prescription => {
                   to={`/prescription/${
                     prescription.prescriptionId
                   }/documentation?ndc=${
-                    refillHistory?.find(p => !!p?.cmopNdcNumber).cmopNdcNumber
+                    refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
                   }`}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
