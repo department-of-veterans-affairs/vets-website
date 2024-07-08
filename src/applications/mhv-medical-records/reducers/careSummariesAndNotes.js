@@ -277,11 +277,11 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         careSummariesAndNotesList:
           typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? undefined : newList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
       };
     }
     case Actions.CareSummariesAndNotes.COPY_UPDATED_LIST: {
-      const originalList = state.careSummariesDetails;
+      const originalList = state.careSummariesAndNotesList;
       const { updatedList } = state;
       if (
         Array.isArray(originalList) &&
@@ -290,7 +290,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       ) {
         return {
           ...state,
-          careSummariesDetails: state.updatedList,
+          careSummariesAndNotesList: state.updatedList,
           updatedList: undefined,
         };
       }
@@ -301,7 +301,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
       return {
         ...state,
-        careSummariesDetails: undefined,
+        careSummariesAndNotesDetails: undefined,
       };
     }
     case Actions.CareSummariesAndNotes.UPDATE_LIST_STATE: {
