@@ -7,6 +7,7 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
 import LocationDistance from './common/LocationDistance';
+import ProviderTraining from './common/ProviderTraining';
 
 const EmergencyCareResult = ({ provider, query }) => {
   const { name } = provider.attributes;
@@ -24,6 +25,7 @@ const EmergencyCareResult = ({ provider, query }) => {
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
+        <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
         <LocationDirectionsLink
           location={provider}
