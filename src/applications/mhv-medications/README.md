@@ -96,8 +96,8 @@ This document was created to help front-end developers understand the prescripti
 | `prescriptionName` | `prescription_name` | `drug_name` |
 | `prescriptionImage` (not in use) | `prescription_image` | none |
 | `refillStatus` | `refill_status` | `status` |
-| `refillSubmitDate` | `refill_submit_date` | `status` |
-| `refillDate` | `refill_date` | `status` |
+| `refillSubmitDate` | `refill_submit_date` | `last_refill_submitted_date` |
+| `refillDate` | `refill_date` | `issue_date_time` |
 | `refillRemaining` | `refill_remaining` | `number_of_refills` |
 | `facilityName` | `facility_api_name` | `facility_api_name` |
 | `orderedDate` | `ordered_date` | `issue_date_time` |
@@ -119,7 +119,7 @@ This document was created to help front-end developers understand the prescripti
 | `remarks` | `remarks` | `remarks` |
 | `divisionName` (not in use) | `division_name` | `division_name` |
 | `modifiedDate` | `modified_date` | `modified_date` |
-| `institutionId` (not in use) | `instution_id` | `instution_id` |
+| `institutionId` (not in use) | `institution_id` | `institution_id` |
 | `dialCmopDivisionPhone` | `dial_cmop_division_phone` | none |
 | `dispStatus` | `disp_status_status` | `status` |
 | `ndc` (not in use) | `ndc` | `ndc` |
@@ -127,7 +127,7 @@ This document was created to help front-end developers understand the prescripti
 | `prescriptionNumberIndex` | `prescription_number_index` | none |
 | `prescriptionSource` | `prescription_source` | `prescription_source` |
 | `disclaimer` | `disclaimer` | `disclaimer` |
-| `indicationForUse` | `indiciation_for_use` | `indiciation_for_use` |
+| `indicationForUse` | `indication_for_use` | `indication_for_use` |
 | `indicationForUseFlag` (not in use) | `indication_for_use_flag` | `indication_for_use_flag` |
 | `category` | `category` | `category` |
 | `orderableItem` | `orderable_item` | `orderable_item` |
