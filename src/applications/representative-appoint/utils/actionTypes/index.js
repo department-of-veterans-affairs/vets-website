@@ -1,1 +1,0 @@
-export const UPDATE_FORM_TYPE = 'UPDATE_FORM_TYPE';
