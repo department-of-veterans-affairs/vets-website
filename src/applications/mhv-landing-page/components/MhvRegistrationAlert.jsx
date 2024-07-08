@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { mhvBaseUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
@@ -38,7 +38,7 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
           <p>
             <a
               className="vads-c-action-link--green"
-              href={`${mhvBaseUrl()}/registration`}
+              href={mhvUrl(false, 'home')}
             >
               Register with My HealtheVet
             </a>
