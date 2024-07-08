@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { differenceinYears } from 'date-fns';
+import { differenceInYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
 import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
@@ -343,7 +343,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
 
   const oldDischarge =
-    differenceinYears(new Date(), new Date(dischargeMonth, dischargeYear)) >=
+    differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >=
     15;
 
   const failureToExhaust = [
