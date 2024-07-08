@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export function prefillTransformer(pages, formData, metadata) {
   const newFormData = {
@@ -35,9 +36,29 @@ export function prefillTransformer(pages, formData, metadata) {
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
+
+  const newformData = JSON.parse(formData);
+  switch (newformData.chapter33) {
+    case 'chapter33':
+      newformData.chapter33 = true;
+      break;
+    case 'chapter30':
+      newformData.chapter30 = true;
+      break;
+    case 'chapter1606':
+      newformData.chapter1606 = true;
+      break;
+    default:
+      break;
+  }
+
+  if (typeof newformData.chapter33 === 'string') {
+    delete newformData.chapter33;
+  }
+
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: formData,
+      form: JSON.stringify(newformData),
     },
   });
 }
@@ -47,6 +68,10 @@ export const benefitsEligibilityBox = (
     <div className="usa-alert-body">
       <ul>
         <li>You may be eligible for more than 1 education benefit program.</li>
+        <li>
+          If you wish to apply for more than one benefit, submit another 22-1990
+          application.
+        </li>
         <li>You can only get payments from 1 program at a time.</li>
         <li>
           You can’t get more than 48 months of benefits under any combination of
@@ -104,3 +129,10 @@ export const ageWarning = (
     </div>
   </div>
 );
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
