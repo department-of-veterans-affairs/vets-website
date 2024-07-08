@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const PrefilledAddress = props => {
   const { isLoggedIn } = props;
   return isLoggedIn ? (
     <div>
-      <p>
-        Any updates you make here to the contact information will only apply to
-        this form. If you want to update your contact information for all your
-        VA accounts,{' '}
-        <a href="/profile/contact-information">
-          please go to your profile page.
-        </a>
-      </p>
+      <VaAlert>
+        <p>
+          We’ve prefilled some of your information from your account. If you
+          need to correct anything, you can edit the form fields below.
+        </p>
+      </VaAlert>
     </div>
   ) : (
     <div />
@@ -21,7 +20,7 @@ const PrefilledAddress = props => {
 };
 
 PrefilledAddress.propTypes = {
-  isLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
