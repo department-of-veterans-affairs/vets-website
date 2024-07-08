@@ -52,7 +52,7 @@ export default function MobileFilterControls({ className }) {
         className="usa-button-secondary"
         onClick={tuitionAndHousingEstimatesClick}
       >
-        Update tuition and housing estimates
+        Update tuition, housing, and monthly benefit estimates
       </button>
       <button className="usa-button-secondary" onClick={filterClick}>
         Filter your results
