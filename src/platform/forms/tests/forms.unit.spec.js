@@ -92,6 +92,7 @@ const formConfigKeys = [
   'v3SegmentedProgressBar',
   'formOptions',
   'stepLabels',
+  'showSaveLinkAfterButtons',
 ];
 
 const validProperty = (

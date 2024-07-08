@@ -43,22 +43,16 @@ const IdentityNotVerified = ({
   showVerifyIdenityHelpInfo = false,
   signInService,
 }) => {
-  let serviceName;
-  switch (signInService) {
-    case CSP_IDS.MHV:
-    case CSP_IDS.MHV_VERBOSE:
-    case CSP_IDS.DS_LOGON:
-      serviceName = 'Login.gov or ID.me';
-      break;
-    case CSP_IDS.ID_ME:
-      serviceName = 'ID.me';
-      break;
-    case CSP_IDS.LOGIN_GOV:
-      serviceName = 'Login.gov';
-      break;
-    default:
-      serviceName = '';
-  }
+  const serviceNameMapping = {
+    [CSP_IDS.MHV]: 'Login.gov or ID.me',
+    [CSP_IDS.MHV_VERBOSE]: 'Login.gov or ID.me',
+    [CSP_IDS.DS_LOGON]: 'Login.gov or ID.me',
+    [CSP_IDS.ID_ME]: 'ID.me',
+    [CSP_IDS.LOGIN_GOV]: 'Login.gov',
+  };
+
+  const serviceName = serviceNameMapping[signInService] || '';
+
   return (
     <>
       <va-alert

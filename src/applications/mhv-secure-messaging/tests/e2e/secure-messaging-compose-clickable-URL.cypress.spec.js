@@ -7,9 +7,7 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Compose with Clickable URL', () => {
   it('search for clickable URL', () => {
-    const site = new SecureMessagingSite();
-    // const composePage = new PatientComposePage();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

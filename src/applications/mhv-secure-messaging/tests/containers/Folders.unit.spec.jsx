@@ -43,7 +43,7 @@ describe('Folders Landing Page', () => {
     screen = setup();
   });
 
-  it(`verifies page title tag for 'Folders' page`, async () => {
+  it(`verifies page title tag for 'More folders' page`, async () => {
     await waitFor(() => {
       expect(global.document.title).to.equal(
         PageTitles.MY_FOLDERS_PAGE_TITLE_TAG,
@@ -53,14 +53,14 @@ describe('Folders Landing Page', () => {
 
   it('renders without errors', () => {
     expect(
-      screen.getByText('Folders', {
+      screen.getByText('More folders', {
         selector: 'h1',
         exact: true,
       }),
     ).to.exist;
   });
 
-  it('renders innerNavigation component with Folders being the active tab', () => {
+  it('renders innerNavigation component with "More folders" being the active tab', () => {
     const foldersTab = screen.getByTestId('folders-inner-nav');
     expect(foldersTab).to.have.attribute('activetab', 'active-innerNav-link');
     const inboxTab = screen.getByTestId('inbox-inner-nav');
