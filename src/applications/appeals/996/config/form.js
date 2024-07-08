@@ -195,13 +195,11 @@ const formConfig = {
       },
     },
     informalConference: {
-      title: 'Request an informal conference',
+      title: 'Informal conference',
       pages: {
         requestConference: {
           path: 'informal-conference',
-          // Adding trailing space so this title and chapter title are different
-          // then the page header renders on the review & submit page
-          title: 'Request an informal conference ',
+          title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
           scrollAndFocusTarget: focusRadioH3,
