@@ -29,7 +29,8 @@ DependentNameView.propTypes = {
 export default {
   title: 'Dependent children',
   path: 'household/dependents/add',
-  depends: () => !showDependentsMultiplePage() && doesHaveDependents,
+  depends: formData =>
+    !showDependentsMultiplePage() && doesHaveDependents(formData),
   uiSchema: {
     ...titleUI('Dependent children'),
     dependents: {

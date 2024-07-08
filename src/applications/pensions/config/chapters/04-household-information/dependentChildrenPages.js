@@ -6,6 +6,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  addressUI,
+  addressSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameUI,
@@ -21,6 +23,7 @@ import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
+import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   DisabilityDocsAlert,
@@ -47,7 +50,8 @@ const options = {
     (!item?.childSocialSecurityNumber && !item['view:noSsn']) ||
     !item?.childRelationship ||
     typeof item.disabled !== 'boolean' ||
-    typeof item.previouslyMarried !== 'boolean', // include all required fields here
+    typeof item.previouslyMarried !== 'boolean' ||
+    typeof item.childInHousehold !== 'boolean', // include all required fields here
   maxItems: 15,
   text: {
     getItemName: item => formatFullName(item.fullName),
@@ -258,6 +262,70 @@ const previouslyMarriedPage = {
   },
 };
 
+/** @returns {PageSchema} */
+const inHouseholdPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} household information`
+          : 'Household information',
+    ),
+    childInHousehold: yesNoUI({
+      title: 'Does your child live with you?',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      childInHousehold: yesNoSchema,
+    },
+    required: ['childInHousehold'],
+  },
+};
+
+/** @returns {PageSchema} */
+const addressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} address information`
+          : 'Address information',
+    ),
+    childAddress: addressUI({
+      omit: ['isMilitary', 'street3'],
+    }),
+    personWhoLivesWithChild: merge(
+      {},
+      {
+        'ui:title': 'Who do they live with?',
+      },
+      fullNameUI(),
+    ),
+    monthlyPayment: merge(
+      {},
+      currencyUI(
+        "How much do you contribute per month to your child's support?",
+      ),
+      {
+        'ui:options': {
+          classNames: 'schemaform-currency-input-v3',
+        },
+      },
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      childAddress: addressSchema({ omit: ['isMilitary', 'street3'] }),
+      personWhoLivesWithChild: fullNameSchema,
+      monthlyPayment: { type: 'number' },
+    },
+    required: ['childAddress', 'monthlyPayment'],
+  },
+};
+
 export const dependentChildrenPages = arrayBuilderPages(
   options,
   pageBuilder => ({
@@ -321,6 +389,22 @@ export const dependentChildrenPages = arrayBuilderPages(
       depends: () => showDependentsMultiplePage(),
       uiSchema: previouslyMarriedPage.uiSchema,
       schema: previouslyMarriedPage.schema,
+    }),
+    dependentChildInHouseholdPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/in-household',
+      depends: () => showDependentsMultiplePage(),
+      uiSchema: inHouseholdPage.uiSchema,
+      schema: inHouseholdPage.schema,
+    }),
+    dependentChildAddressPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/address',
+      depends: (formData, index) =>
+        showDependentsMultiplePage() &&
+        !get(['dependents', index, 'childInHousehold'], formData),
+      uiSchema: addressPage.uiSchema,
+      schema: addressPage.schema,
     }),
   }),
 );

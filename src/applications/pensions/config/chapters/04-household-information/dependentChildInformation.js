@@ -42,7 +42,8 @@ const {
 export default {
   title: item => getDependentChildTitle(item, 'information'),
   path: 'household/dependents/children/information/:index',
-  depends: () => !showDependentsMultiplePage() && doesHaveDependents,
+  depends: formData =>
+    !showDependentsMultiplePage() && doesHaveDependents(formData),
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {
