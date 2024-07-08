@@ -102,10 +102,12 @@ const ReportModal = ({
     <>
       <VaModal
         onCloseEvent={onCancelOrClose}
-        onPrimaryButtonClick={onSubmitModal}
+        onPrimaryButtonClick={
+          notAllItemsReported ? onSubmitModal : onCancelOrClose
+        }
         onSecondaryButtonClick={onCancelOrClose}
-        primaryButtonText="Submit"
-        secondaryButtonText="Cancel"
+        primaryButtonText={notAllItemsReported ? 'Submit' : 'Close'}
+        secondaryButtonText={notAllItemsReported ? 'Cancel' : null}
         visible
         uswds
       >
