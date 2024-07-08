@@ -34,7 +34,7 @@ This document was created to help front-end developers understand the prescripti
 | `quantity` | number | `30` | The total number of medication units prescribed, such as pills or applications | Display this number in the UI to clearly show how much medication a prescription includes |
 | `expirationDate` | string/date | `"2024-10-31T04:00:00000Z"` | The expiration date of the medication | Display this date in the UI to show when the medication expires |
 | <span id="dispensed-date">`dispensedDate`</span> | string/date | `"2024-10-31T04:00:00000Z"` | The date when the medication was last dispensed | Use the [sortedDispensedDate](#sorted-dispensed-date) field first, when available. Use this field as a fallback |
-| `stationNumber` | string | `"998"` | The unique identifier used to determine facilities | This field isn't currently used in the UI and most likely wouldn't be displayed |
+| <span id="station-number">`stationNumber`</span> | string | `"998"` | The unique identifier used to determine facilities | This field isn't currently used in the UI and most likely wouldn't be displayed |
 | `isRefillable` | boolean | `true` | Whether a prescription can be refilled | This field would most likely not be used in the UI, but can be used for searching or filtering |
 | `isRenewable` (not currently available) | boolean | `true` | Whether a prescription can be renewed | This field would most likely not be used in the UI, but can be used for searching or filtering |
 | `isTrackable` | boolean | `true` | Whether a prescription can be tracked | This field would most likely not be used in the UI, but can be used for searching or filtering |
@@ -42,20 +42,20 @@ This document was created to help front-end developers understand the prescripti
 | `inCernerTransition` (not in use) | boolean | `true` | Determines if the prescription belongs to a facility transitioning to Cerner | This field is not currently used but could be used to display Cerner-specific messaging for specific prescriptions |
 | `notRefillableDisplayMessage` (not in use) | string | `"A refill request cannot be submitted at this time Please review the prescription status and fill date If you need more of this medication, please call the pharmacy phone number on your prescription label"` | The message to be displayed when a prescription isn't refillable | This field should not be used in the UI or on VA.gov This was previously used on MHV classic to display the message in the UI |
 | `sig` | string | `"TAKE 1 DAILY FOR 30 DAYS"` | Instructions for a prescription | Display instructions for a prescription in the UI |
-| <span id="cmop-division-phone">`cmopDivisionPhone`</span> | string | `"(783)272-1072"` | The phone number for a facility | Use this field first to display a facility phone number in the UI, with [dialCmopDivisionPhone](#dial-cmop-division-phone) used as the fallback value |
+| <span id="cmop-division-phone">`cmopDivisionPhone`</span> | string | `"(783)272-1072"` | The formatted phone number for a facility | Use this field first to display a facility phone number in the UI, with [dialCmopDivisionPhone](#dial-cmop-division-phone) used as the fallback value |
 | `userId` (not in use) | number | `17621060` | The ID of the user associated with a prescription | This field is not currently used in the UI and will most likely not be used in the future |
 | `providerFirstName` | string | `"JOHN"` | The first name of the doctor who prescribed the medication | Use this field to show the first name of the doctor who prescribed the medication |
 | `providerLastName` | string | `"SMITH"` | The last name of the doctor who prescribed the medication | Use this field to show the last name of the doctor who prescribed the medication |
-| `remarks` | string | `"RENEWED FROM RX # 2720412A"` | Remarks made from a provider | Currently used to show part of the "provider notes" for a prescription |
-| `divisionName` (not in use) | string | `"DAYTON"` | A division name for the facility | This field is currently not in use and there are no current plans to use this field in the future |
+| `remarks` | string | `"RENEWED FROM RX # 2720412A"` | The remarks from a provider (up to 200 characters) when processing or discontinuing prescriptions | Currently used to show part of the "provider notes" for a prescription |
+| `divisionName` (not in use) | string | `"DAYTON"` | The division name for the facility (a subdivision of [stationNumber](#station-number)) | This field is currently not in use and there are no current plans to use this field in the future |
 | `modifiedDate` (not in use) | string/date | `"2024-07-01T14:50:05000Z"` | The date for when this record was last updated | This field is currently not in use and there are no current plans to use this field in the future |
 | `institutionId` (not in use) | number | `10` | The ID to the facility where the prescription came from | This field is currently not in use and there are no current plans to use this field in the future |
-| <span id="dial-cmop-division-phone">`dialCmopDivisionPhone`</span> | string | `"00172-4266-70"` | The facility phone number | Use this field only as a fallback if [cmopDivisionPhone](#cmop-division-phone) doesn't exist |
+| <span id="dial-cmop-division-phone">`dialCmopDivisionPhone`</span> | string | `"00172-4266-70"` | The unformatted facility phone number | Use this field only as a fallback if [cmopDivisionPhone](#cmop-division-phone) doesn't exist |
 | <span id="disp-status">`dispStatus`</span> | string | `"Active"` | The status of a prescription (Active, Inactive, etc) for the UI | Used to show the status of a medication in the UI and show status-specific content |
 | `ndc` (not in use) | string | `"00172-4266-70"` | The NDC number associated with a prescription | This field is not in use and there are no current plans to use this field in the future. Use [cmopNdcNumber](#cmop-ndc-number) for NDC-related lookups |
 | `reason` (not in use) | string | `"Rash and other nonspecific skin irritation"` | The reason for a prescription | This field is currently not in use and there are no current plans to use this field in the future. Use [indicationForUse](#indication-for-use) to display the indication for use |
-| `prescriptionNumberIndex` | string | unknown | A value that helps determine the order for a specific refill | This field is currently not in use and there are no current plans to use this field in the future |
-| `prescriptionSource` | string | `"RX"` | If the prescription is a refill, original fill, or "Non-VA" prescription | Used to determine whether a prescription is "Non-VA" by checking if the value is `NV` |
+| `prescriptionNumberIndex` | string | unknown | A value that helps determine the order for a specific refill (Ex. "RX", "RF1", "RF2") | This field is currently not in use and there are no current plans to use this field in the future |
+| `prescriptionSource` | string | `"RX"` | A value that determines the source of a prescription. For example, if the prescription is a refill, original fill, or "Non-VA" prescription | Used to determine whether a prescription is "Non-VA" by checking if the value is `NV` |
 | `disclaimer` | string | `"Non-VA medication recommended by VA provider"` | A disclaimer note made by a provider | Used to show part of the "provider notes" for a prescription |
 | <span id="indication-for-use">`indicationForUse`</span> | string | `"relieves coughs"` | A valid reason to use a certain prescription | This field is currently used to show the "reason for use" noted by a provider |
 | `indicationForUseFlag` (not in use) | string/boolean | `"1"` | If an `indicationForUse` field exists | This field is currently not in use and there are no current plans to use this field in the future |
@@ -68,7 +68,7 @@ This document was created to help front-end developers understand the prescripti
 | <span id="back-imprint">`backImprint`</span> | string | `"12"` | The information printed on the back of a prescription | Used along with [shape](#shape), [frontImprint](#front-imprint) and [color](#color) to describe a prescription |
 | `trackingList` | array | See [Tracking List Object Example](#tracking-list-object-example) | An array of tracking data for a prescription | Used to display tracking information for a prescription |
 | `rxRfRecords` | array | Array of Prescription objects | An array of refill history data | This field is used to display refill history data for a prescription. **NOTE:** The object at index `0` is the most recent refill |
-| `tracking` (not in use) | boolean | `true` | unknown | This field is currently not in use and there are no current plans to use this field in the future |
+| `tracking` (not in use) | boolean | `true` | Indicates if a prescription has tracking information | This field is currently not in use and there are no current plans to use this field in the future |
 
 ### Tracking List Object
 
@@ -79,7 +79,7 @@ This document was created to help front-end developers understand the prescripti
 | `dateLoaded` (not in use) | `"2024-04-21T16:55:19-04:00"` | string/date | The date and time when the shipment was processed | To track when the shipment was loaded for transport |
 | `divisionPhone` (not in use) | `"(401)271-9804"` | string | The phone number of the facility that shipped the prescription | Use when needing to show the facility phone number |
 | `id` (not in use) | `9878` | number | A unique identifier for the tracking record | This field will most likely never be displayed in the UI, but could be useful for searching |
-| `isLocalTracking` (not in use) | `false` | boolean | Indicates if the tracking is managed locally | This field will most likely never be displayed in the UI, but could be useful for filtering  |
+| `isLocalTracking` (not in use) | `false` | boolean | Indicates if the tracking is managed locally | This field will most likely never be displayed in the UI, but could be useful for filtering |
 | `ndc` (not in use) | `"00113002240"` | `string` | The National Drug Code associated with the item | This field will most likely never be displayed in the UI. We commonly use [cmopNdcNumber](#cmop-ndc-number) instead, but could be useful for searching |
 | `othersInSamePackage` (not in use) | `false` | boolean | Indicates if other items are in the same package | Not used currently, but could be useful to show/filter if multiple items are shipped under one tracking number |
 | `rxNumber` (not in use) | `2719780` | number | Prescription number associated with the shipment | This field will most likely never be displayed in the UI, but could be useful for searching |
