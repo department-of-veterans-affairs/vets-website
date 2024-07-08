@@ -34,98 +34,12 @@ export const IdentificationInfoPage = () => {
     setSsn(e.target.value);
   };
 
-  // const SocialSecurityField = ({ props }) => SsnField(props);
-
-  // const maskSSN = (ssnString = '') => {
-  //   const strippedSSN = ssnString.replace(/[- ]/g, '');
-  //   const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
-  //     digit.replace(/\d/g, '●'),
-  //   );
-
-  //   return formatSSN(maskedSSN);
-  // };
-
-  // const SsnField = ({ props }) => {
-  //   const [val, setVal] = useState('');
-  //   const [displayVal, setDisplayVal] = useState('');
-  //   const vaTextInput = useRef();
-  //   const handleChange = event => {
-  //     const { value } = event.target;
-  //     let strippedSSN;
-  //     if (value) {
-  //       strippedSSN = value.replace(/[- ]/g, '');
-  //     }
-
-  //     setVal(value);
-  //     setDisplayVal(value);
-  //     props.onInput(event, strippedSSN);
-  //   };
-
-  //   const handleBlur = () => {
-  //     setDisplayVal(maskSSN(val));
-  //     props.onBlur(props.id);
-  //   };
-
-  //   const handleFocus = () => {
-  //     setDisplayVal(val);
-  //   };
-
-  //   return (
-  //     <VaTextInput
-  //       {...props}
-  //       hint={null}
-  //       value={displayVal}
-  //       onInput={handleChange}
-  //       onBlur={handleBlur}
-  //       onFocus={handleFocus}
-  //       ref={vaTextInput}
-  //     />
-  //   );
-  // };
-
   return (
     <FormPage currentLocation={2} pageTitle="Identification information">
       <p className="vads-u-margin-top--0">
         You must enter either a Social Security number or VA File number.
       </p>
       <div className="vads-u-margin-bottom--5">
-        {/* <SsnField
-          {...ssnUI}
-          hint={null}
-          label="Social Security number"
-          // message-aria-describedby="Optional description text for screen readers"
-          name="social-security-number"
-          required
-        /> */}
-        {/* {SsnField({
-          uiSchema: {
-            ...ssnUI,
-            'ui:autocomplete': null,
-            onInput: onSsnChange,
-            hint: null,
-            label: 'Social Security number',
-            // message-aria-describedby="Optional description text for screen readers"
-            name: 'social-security-number',
-            description: 'Description',
-            required: true,
-          },
-          childrenProps: {
-            idSchema: PropTypes.object,
-            schema: { type: 'object' },
-          },
-        })} */}
-        {/* {{
-          uiSchema: {
-            ...titleUI('Your identification information'),
-            userId: ssnOrVaFileNumberUI(),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              userId: ssnOrVaFileNumberSchema,
-            },
-          },
-        }} */}
         <VaTextInput
           hint={null}
           label="Social Security number"
