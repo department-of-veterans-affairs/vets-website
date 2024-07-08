@@ -606,7 +606,7 @@ const formConfig = {
                 // }/v0/preneeds/preneed_attachments`,
                 // fileTypes: ['pdf'],
                 // maxSize: 15728640,
-                hideLabelText: true,
+                // hideLabelText: true,
                 // createPayload: file => {
                 //   const payload = new FormData();
                 //   payload.append('preneed_attachment[file_data]', file);
