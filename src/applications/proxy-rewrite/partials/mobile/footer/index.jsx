@@ -43,20 +43,26 @@ const MobileFooter = ({ footerData }) => {
               </div>
             </li>
             <li>
-              <button
-                className="usa-accordion-button va-footer-button"
-                aria-controls="veteran-contact"
-                itemProp="name"
-                aria-expanded="false"
-                type="button"
+              <span>
+                <button
+                  className="usa-accordion-button va-footer-button"
+                  aria-controls="veteran-contact"
+                  itemProp="name"
+                  aria-expanded="false"
+                  type="button"
+                >
+                  Contact us
+                </button>
+              </span>
+              <div
+                className="usa-accordion-content va-footer-accordion-content"
+                id="veteran-contact"
+                aria-hidden="true"
               >
-                Contact us
-              </button>
-              <div className="usa-accordion-content va-footer-accordion-content" id="veteran-contact" aria-hidden="true">
-                <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">Get answers</h2>
-                <ul className="va-footer-links">
-                  {buildColumn(columns, 4)}
-                </ul>
+                <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+                  Get answers
+                </h2>
+                <ul className="va-footer-links">{buildColumn(columns, 4)}</ul>
               </div>
             </li>
             <li>
@@ -69,10 +75,12 @@ const MobileFooter = ({ footerData }) => {
               >
                 Veteran programs and services
               </button>
-              <div className="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-veteran-programs">
-                <ul className="va-footer-links">
-                  {buildColumn(columns, 1)}
-                </ul>
+              <div
+                className="usa-accordion-content va-footer-accordion-content"
+                aria-hidden="true"
+                id="footer-veteran-programs"
+              >
+                <ul className="va-footer-links">{buildColumn(columns, 1)}</ul>
               </div>
             </li>
             <li>
@@ -85,10 +93,12 @@ const MobileFooter = ({ footerData }) => {
               >
                 More VA resources
               </button>
-              <div className="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="veteran-resources">
-                <ul className="va-footer-links">
-                  {buildColumn(columns, 2)}
-                </ul>
+              <div
+                className="usa-accordion-content va-footer-accordion-content"
+                aria-hidden="true"
+                id="veteran-resources"
+              >
+                <ul className="va-footer-links">{buildColumn(columns, 2)}</ul>
               </div>
             </li>
             <li>
@@ -101,10 +111,12 @@ const MobileFooter = ({ footerData }) => {
               >
                 Get VA updates
               </button>
-              <div className="usa-accordion-content va-footer-accordion-content" id="veteran-connect" aria-hidden="true">
-                <ul className="va-footer-links">
-                  {buildColumn(columns, 3)}
-                </ul>
+              <div
+                className="usa-accordion-content va-footer-accordion-content"
+                id="veteran-connect"
+                aria-hidden="true"
+              >
+                <ul className="va-footer-links">{buildColumn(columns, 3)}</ul>
               </div>
             </li>
             <li>
@@ -119,17 +131,39 @@ const MobileFooter = ({ footerData }) => {
                   Language assistance
                 </button>
               </h2>
-              <div className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5" id="veteran-language-support" aria-hidden="true">
+              <div
+                className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
+                id="veteran-language-support"
+                aria-hidden="true"
+              >
                 <div className="usa-grid usa-grid-full va-footer-links-bottom">
                   <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
                     <li>
-                      <a href="https://www.va.gov/asistencia-y-recursos-en-espanol" lang="es" hrefLang="es">Español</a>
+                      <a
+                        href="https://www.va.gov/asistencia-y-recursos-en-espanol"
+                        lang="es"
+                        hrefLang="es"
+                      >
+                        Español
+                      </a>
                     </li>
                     <li>
-                      <a href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hrefLang="tl">Tagalog</a>
+                      <a
+                        href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong"
+                        lang="tl"
+                        hrefLang="tl"
+                      >
+                        Tagalog
+                      </a>
                     </li>
                     <li>
-                      <a href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hrefLang="en">Other languages</a>
+                      <a
+                        href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/"
+                        lang="en"
+                        hrefLang="en"
+                      >
+                        Other languages
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -140,13 +174,16 @@ const MobileFooter = ({ footerData }) => {
       </div>
       <div className="usa-grid usa-grid-full vads-u-padding-bottom--4 vads-u-padding-top--2 vads-u-padding-x--0p5">
         <a href="https://www.va.gov" title="Go to VA.gov">
-          <img src="https://www.va.gov/img/homepage/va-logo-white.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" width="200" className="vads-u-height--auto" />
+          <img
+            src="https://www.va.gov/img/homepage/va-logo-white.png"
+            alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+            width="200"
+            className="vads-u-height--auto"
+          />
         </a>
       </div>
       <div className="usa-grid usa-grid-full vads-u-margin-bottom--2 va-footer-links-bottom">
-        <ul>
-          {buildBottomRail(bottomRail)}
-        </ul>
+        <ul>{buildBottomRail(bottomRail)}</ul>
       </div>
       <CrisisLineModal />
     </footer>
@@ -154,7 +191,7 @@ const MobileFooter = ({ footerData }) => {
 };
 
 MobileFooter.propTypes = {
-  footerData: PropTypes.array.isRequired
+  footerData: PropTypes.array.isRequired,
 };
 
 export default MobileFooter;

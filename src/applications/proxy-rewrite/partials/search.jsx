@@ -1,5 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useCallback, useEffect, useState } from 'react';
+import { keyDownHandler } from '../utilities/keydown';
 
 const Keycodes = {
   Enter: 13,
@@ -13,48 +14,55 @@ const Search = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  const toggleDropdown = useCallback(() => {
-    const button = document.getElementById('search-dropdown-button');
+  const toggleDropdown = useCallback(
+    () => {
+      const button = document.getElementById('search-dropdown-button');
 
-    setIsOpen(!isOpen);
-    button.setAttribute(
-      'aria-expanded',
-      !isOpen ? 'true' : 'false',
-    );
-  }, [isOpen, setIsOpen]);
+      setIsOpen(!isOpen);
+      button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    },
+    [isOpen, setIsOpen],
+  );
 
-  useEffect(() => {
-    const searchDropdownButton = document.getElementById(
-      'search-dropdown-button',
-    );
-
-    if (searchDropdownButton) {
-      searchDropdownButton.addEventListener('click', toggleDropdown);
-      searchDropdownButton.addEventListener('keydown', event => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          toggleDropdown();
-        }
-      });
-
+  useEffect(
+    () => {
+      const searchDropdownButton = document.getElementById(
+        'search-dropdown-button',
+      );
       const htmlElement = document.getElementsByTagName('html')[0];
 
-      htmlElement.addEventListener('click', event => {
+      const outsideClickHandler = event => {
         if (isOpen && !searchDropdownButton.contains(event.target)) {
           toggleDropdown();
         }
-      });      
-    }
+      };
 
-    return () => {
-      searchDropdownButton.removeEventListener('click', toggleDropdown);
-      searchDropdownButton.removeEventListener('keydown', toggleDropdown);
-    }
-  }, [isOpen]);
+      if (searchDropdownButton) {
+        searchDropdownButton.addEventListener('click', toggleDropdown);
+        searchDropdownButton.addEventListener('keydown', event =>
+          keyDownHandler(event, toggleDropdown),
+        );
+
+        htmlElement.addEventListener('click', outsideClickHandler);
+      }
+
+      return () => {
+        searchDropdownButton.removeEventListener('click', toggleDropdown);
+        searchDropdownButton.removeEventListener('keydown', toggleDropdown);
+        htmlElement.removeEventListener('click', outsideClickHandler);
+      };
+    },
+    [isOpen, toggleDropdown],
+  );
+
+  const deriveIsDesktop = () =>
+    setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
 
   useEffect(() => {
-    const deriveIsDesktop = () => setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
-    
+    deriveIsDesktop();
+  }, []);
+
+  useEffect(() => {
     window.addEventListener('resize', deriveIsDesktop);
 
     return () => {
@@ -62,18 +70,18 @@ const Search = () => {
     };
   });
 
-  useEffect(() => {
-    const searchDropdown = document.querySelector('#search.va-dropdown-panel');
-    const searchInput = document.getElementById('search-header-dropdown-input-field');
+  useEffect(
+    () => {
+      const searchInput = document.getElementById(
+        'search-header-dropdown-input-field',
+      );
 
-    if (searchInput && isOpen) {
-      searchInput.focus();
-    }
-
-    // if (searchDropdown && prevState.isOpen !== isOpen) {
-    //   searchDropdown.toggleAttribute('hidden');
-    // }
-  }, [isOpen]);
+      if (searchInput && isOpen) {
+        searchInput.focus();
+      }
+    },
+    [isOpen],
+  );
 
   const handleInputChange = event => {
     setInputValue(event.target.value);
@@ -104,7 +112,7 @@ const Search = () => {
       document.getElementById('search-header-dropdown-input-field').focus();
     }
   };
-  
+
   if (!isDesktop) {
     return (
       <>
@@ -198,6 +206,6 @@ const Search = () => {
       </button>
     </div>
   );
-}
+};
 
 export default Search;

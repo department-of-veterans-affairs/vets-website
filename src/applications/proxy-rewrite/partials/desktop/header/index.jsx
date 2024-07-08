@@ -1,19 +1,25 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import MegaMenu from './mega-menu';
+import { keyDownHandler } from '../../../utilities/keydown';
 
-const DesktopHeader = ({
-  megaMenuData,
-  setSignInModalIsOpen,
-  setVclModalIsOpen,
-  signInModalIsOpen,
-  vclModalIsOpen
-}) => {
+const DesktopHeader = ({ megaMenuData }) => {
+  const [searchIsOpen, setSearchIsOpen] = useState(false);
+  const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
+
+  const toggleSearchDropdown = () => {
+    setSearchIsOpen(!searchIsOpen);
+  };
+
+  const toggleGovBanner = () => {
+    setGovBannerIsOpen(!govBannerIsOpen);
+  };
+
   return (
     <header role="banner">
-      <div id="preview-site-alert">
-      </div>
-      
+      <div id="preview-site-alert" />
+
       {/* US Govt banner */}
       <div className="va-notice--banner">
         <div className="va-notice--banner-inner">
@@ -21,36 +27,59 @@ const DesktopHeader = ({
             <div className="usa-accordion">
               <div className="usa-banner-header">
                 <div className="usa-grid usa-banner-inner">
-                  <img src="https://www.va.gov/img/tiny-usa-flag.png" alt="U.S. flag" height="20" width="20" />
+                  <img
+                    src="https://www.va.gov/img/tiny-usa-flag.png"
+                    alt="U.S. flag"
+                    height="20"
+                    width="20"
+                  />
                   <p>An official website of the United States government</p>
                   <button
-                    id="usa-banner-toggle"
                     className="usa-accordion-button usa-banner-button"
-                    aria-expanded="false"
+                    aria-expanded={govBannerIsOpen}
                     aria-controls="gov-banner"
-                    type="button"
+                    onClick={toggleGovBanner}
+                    onKeyDown={event => keyDownHandler(event, toggleGovBanner)}
                   >
-                    <span className="usa-banner-button-text">Here’s how you know</span>
+                    <span className="usa-banner-button-text">
+                      Here’s how you know
+                    </span>
                   </button>
                 </div>
               </div>
-              <div className="usa-banner-content usa-grid usa-accordion-content vads-u-padding-x--1" id="gov-banner" aria-hidden="true">
+              <div
+                className="usa-banner-content usa-grid usa-accordion-content vads-u-padding-x--1"
+                id="gov-banner"
+                aria-hidden={!govBannerIsOpen}
+              >
                 <div className="usa-banner-guidance-gov usa-width-one-half">
-                  <img className="usa-banner-icon usa-media_block-img" src="https://www.va.gov/img/icon-dot-gov.svg" alt="Dot gov" />
+                  <img
+                    className="usa-banner-icon usa-media_block-img"
+                    src="https://www.va.gov/img/icon-dot-gov.svg"
+                    alt="Dot gov"
+                  />
                   <div className="usa-media_block-body">
                     <p>
                       <strong>The .gov means it’s official.</strong>
                       <br />
-                      Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you're on a federal government site.
+                      Federal government websites often end in .gov or .mil.
+                      Before sharing sensitive information, make sure you’re on
+                      a federal government site.
                     </p>
                   </div>
                 </div>
                 <div className="usa-width-one-half">
-                  <img className="usa-banner-icon usa-media_block-img" src="https://www.va.gov/img/icon-https.svg" alt="SSL" />
+                  <img
+                    className="usa-banner-icon usa-media_block-img"
+                    src="https://www.va.gov/img/icon-https.svg"
+                    alt="SSL"
+                  />
                   <div className="usa-media_block-body">
                     <p>
                       <strong>The site is secure.</strong>
-                      <br /> The <strong>https://</strong> ensures that you're connecting to the official website and that any information you provide is encrypted and sent securely.
+                      <br /> The <strong>https://</strong> ensures that you’re
+                      connecting to the official website and that any
+                      information you provide is encrypted and sent securely.
                     </p>
                   </div>
                 </div>
@@ -63,9 +92,12 @@ const DesktopHeader = ({
 
       {/* start Veterans Crisis Line banner */}
       <div className="vcl-crisis-line-container vads-u-background-color--secondary-darkest">
-        <button className="vcl-modal-open vads-u-background-color--secondary-darkest" type="button">
+        <button
+          className="vcl-modal-open vads-u-background-color--secondary-darkest"
+          type="button"
+        >
           <div className="vcl-crisis-line-inner">
-            <span className="vcl-crisis-line-icon" aria-hidden="true"></span>
+            <span className="vcl-crisis-line-icon" aria-hidden="true" />
             <span className="vcl-crisis-line-text">
               Talk to the <strong>Veterans Crisis Line</strong> now
             </span>
@@ -77,46 +109,84 @@ const DesktopHeader = ({
               viewBox="8 3 16 16"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path fill="#fff" fillRule="evenodd" clipRule="evenodd" d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"></path>
+              <path
+                fill="#fff"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"
+              />
             </svg>
           </div>
         </button>
       </div>
       {/* end Veterans Crisis Line banner */}
 
-      <div className="vads-u-padding-top--3 vads-u-display--flex usa-grid vads-u-font-size--base" id="va-header-logo-menu">
+      <div
+        className="vads-u-padding-top--3 vads-u-display--flex usa-grid vads-u-font-size--base"
+        id="va-header-logo-menu"
+      >
         <div className="va-header-logo-wrapper">
           <a href="https://www.va.gov" className="va-header-logo desktop">
-            <img src="https://www.va.gov/img/header-logo.png" alt="VA logo and Seal, U.S. Department of Veterans Affairs" />
+            <img
+              src="https://www.va.gov/img/header-logo.png"
+              alt="VA logo and Seal, U.S. Department of Veterans Affairs"
+            />
           </a>
         </div>
         <div id="login-root">
           <div className="profile-nav-container">
-            <div id="desktop-nav-container"></div>
+            <div id="desktop-nav-container" />
             <div className="hidden-header vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
-              
               {/* start Search */}
               <div className="va-dropdown">
                 <button
                   id="search-dropdown-button"
                   className="va-btn-withicon va-dropdown-trigger"
                   aria-controls="search"
-                  aria-expanded="false"
-                  type="button"
+                  aria-expanded={searchIsOpen}
+                  onClick={toggleSearchDropdown}
+                  onKeyDown={event =>
+                    keyDownHandler(event, toggleSearchDropdown)
+                  }
                 >
                   <span>
-                    <svg aria-hidden="true" className="vads-u-margin-right--0p5" focusable="false" width="24" viewBox="2 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"></path></svg>
+                    <svg
+                      aria-hidden="true"
+                      className="vads-u-margin-right--0p5"
+                      focusable="false"
+                      width="24"
+                      viewBox="2 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="#fff"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+                      />
+                    </svg>
                     Search
                   </span>
                 </button>
-                <div id="search" className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0" hidden></div>
+                <div
+                  id="search"
+                  className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
+                  hidden={!searchIsOpen}
+                />
               </div>
               {/* end Search */}
 
-              <a className="va-header-contact vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold" href="https://www.va.gov/contact-us/">Contact us</a>
+              <a
+                className="va-header-contact vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
+                href="https://www.va.gov/contact-us/"
+              >
+                Contact us
+              </a>
               <div className="sign-in-nav">
                 <div className="sign-in-buttons">
-                  <button className="sign-in-button" type="button">Sign in</button>
+                  <button className="sign-in-button" type="button">
+                    Sign in
+                  </button>
                 </div>
               </div>
             </div>
@@ -126,6 +196,10 @@ const DesktopHeader = ({
       <MegaMenu megaMenuData={megaMenuData} />
     </header>
   );
+};
+
+DesktopHeader.propTypes = {
+  megaMenuData: PropTypes.array.isRequired,
 };
 
 export default DesktopHeader;

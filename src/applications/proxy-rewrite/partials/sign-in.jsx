@@ -5,11 +5,14 @@ import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 
 const SignIn = ({ useSignInService }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const toggle = useCallback(() => {
-    setShowModal(!showModal);
-  }, [showModal]);
+  const toggle = useCallback(
+    () => {
+      setModalIsOpen(!modalIsOpen);
+    },
+    [setModalIsOpen, modalIsOpen],
+  );
 
   useEffect(
     () => {
@@ -28,7 +31,7 @@ const SignIn = ({ useSignInService }) => {
 
   return (
     <SignInModal
-      visible={showModal}
+      visible={modalIsOpen}
       onClose={toggle}
       useSiS={useSignInService}
     />

@@ -16,9 +16,7 @@ import { getAssetPath } from './utilities/get-asset-path';
 import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { addHeaderEventListeners } from './utilities/menu-behavior';
 import Search from './partials/search';
-import SignInModal from './partials/sign-in';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -68,7 +66,7 @@ function renderHeader(megaMenuData, headerContainer) {
     <Provider store={store}>
       <Header megaMenuData={megaMenuData} />
     </Provider>,
-    headerContainer
+    headerContainer,
   );
 
   // Add search dropdown
@@ -78,8 +76,6 @@ function renderHeader(megaMenuData, headerContainer) {
     </Provider>,
     document.getElementById('search'),
   );
-
-  addHeaderEventListeners();
 }
 
 function renderFooter(footerData, footerContainer) {
@@ -88,12 +84,9 @@ function renderFooter(footerData, footerContainer) {
 
   startReactApp(
     <Provider store={store}>
-      <Footer
-        footerData={footerData}
-        lastUpdated={lastUpdated}
-      />
+      <Footer footerData={footerData} lastUpdated={lastUpdated} />
     </Provider>,
-    footerContainer
+    footerContainer,
   );
 }
 
@@ -149,17 +142,6 @@ const startVCLModal = () => {
   addOverlayTriggers();
 };
 
-const startSignInModal = () => {
-  startReactApp(
-    <Provider store={store}>
-      <SignInModal />
-    </Provider>,
-    document.getElementById('ts-login-modal-container'),
-  );
-
-  return null;
-};
-
 // Add modernized header and footer
 function activateInjectedAssets() {
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
@@ -176,7 +158,7 @@ function activateInjectedAssets() {
     })
     .then(headerFooterData => {
       teamsitesSetup();
-      
+
       const skipLink = document.getElementById('skiplink');
 
       const headerContainer = document.createElement('div');
@@ -200,8 +182,7 @@ function activateInjectedAssets() {
       renderHeader(headerFooterData.megaMenuData, headerContainer);
       renderFooter(headerFooterData.footerData, footerContainer);
 
-      startSignInModal();
-      startVCLModal(); 
+      startVCLModal();
     });
 }
 

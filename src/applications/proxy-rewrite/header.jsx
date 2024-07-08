@@ -3,57 +3,45 @@ import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import DesktopHeader from './partials/desktop/header';
 import MobileHeader from './partials/mobile/header';
-import { addHeaderEventListeners } from './utilities/menu-behavior';
+import SignInModal from './partials/sign-in';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
 const Header = ({ megaMenuData }) => {
-  const [vclModalIsOpen, setVclModalIsOpen] = useState(false);
-  const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
   );
 
   useEffect(() => {
-    const deriveIsDesktop = () => setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
+    const deriveIsDesktop = () =>
+      setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
     const serveHeader = debounce(deriveIsDesktop, 100);
-    const addListeners = debounce(addHeaderEventListeners, 100);
-    
+
     window.addEventListener('resize', serveHeader);
 
     return () => {
       window.removeEventListener('resize', serveHeader);
-      window.removeEventListener('resize', addListeners);
     };
   }, []);
 
-  useEffect(() => {
-    addHeaderEventListeners();
-  }, [isDesktop]);
+  const header = isDesktop ? (
+    <DesktopHeader megaMenuData={megaMenuData} />
+  ) : (
+    <MobileHeader megaMenuData={megaMenuData} />
+  );
 
-  return isDesktop ?
-    (
-      <DesktopHeader
-        megaMenuData={megaMenuData}
-        setSignInModalIsOpen={setSignInModalIsOpen}
-        setVclModalIsOpen={setVclModalIsOpen}
-        signInModalIsOpen={signInModalIsOpen}
-        vclModalIsOpen={vclModalIsOpen}
-      />
-    ) :
-    (
-      <MobileHeader
-        megaMenuData={megaMenuData}
-        setSignInModalIsOpen={setSignInModalIsOpen}
-        setVclModalIsOpen={setVclModalIsOpen}
-        signInModalIsOpen={signInModalIsOpen}
-        vclModalIsOpen={vclModalIsOpen}
-      />
-    );
+  return (
+    <>
+      {header}
+      <div id="ts-login-modal-container">
+        <SignInModal />
+      </div>
+    </>
+  );
 };
 
 Header.propTypes = {
-  megaMenuData: PropTypes.array.isRequired
+  megaMenuData: PropTypes.array.isRequired,
 };
 
 export default Header;

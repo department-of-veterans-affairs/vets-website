@@ -832,7 +832,7 @@
 
   @media screen and (min-width: 768px) {
     #va-header-logo-menu {
-      padding-bottom: 0;
+      padding: 2em 1.25em 0;
     }
   }
 
@@ -2612,7 +2612,7 @@
     font-size: 12px;
     background-image: none !important;
 
-    &[aria-expanded=true] i {
+    &[aria-expanded=true] svg {
       transform: rotate(180deg);
     }
   }
@@ -2822,6 +2822,8 @@
   }
 
   .va-footer-button {
+    width: 100%;
+    text-align: left;
     font-weight: 400;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
@@ -2835,6 +2837,7 @@
     color: #fff;
     background-color: #1a4480;
     background-image: url(/img/minus-white.svg);
+    border-radius: 0;
 
     &[aria-expanded="false"] {
       background-image: url(/img/plus-white.svg);

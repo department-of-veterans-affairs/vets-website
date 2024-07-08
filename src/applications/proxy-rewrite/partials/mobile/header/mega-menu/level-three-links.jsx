@@ -1,49 +1,63 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { isArray, kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
+import { keyDownHandler } from '../../../../utilities/keydown';
 
 // Build hub child links
-const LevelThreeLinks = ({ activeMenu, menuSections }) => {
+const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen }) => {
+  useEffect(() => {
+    const backToMenuButton = document.querySelector('.back-to-menu.active');
+
+    if (backToMenuButton) {
+      backToMenuButton.focus();
+    }
+  });
+
+  const backToMenuClick = () => {
+    setLevelTwoMenuOpen(null);
+  };
+
   const formatMenuItems = menuItems => {
     const formattedMenuItems = [];
-  
+
     if (menuItems && isArray(menuItems)) {
       return menuItems;
     }
-  
+
     if (menuItems?.seeAllLink) {
       formattedMenuItems.push({
         title: menuItems?.seeAllLink?.text,
         href: menuItems?.seeAllLink?.href,
       });
     }
-  
+
     if (menuItems?.mainColumn) {
       formattedMenuItems.push({
         title: menuItems?.mainColumn?.title,
         links: menuItems?.mainColumn?.links,
       });
     }
-  
+
     if (menuItems?.columnOne) {
       formattedMenuItems.push({
         title: menuItems?.columnOne?.title,
         links: menuItems?.columnOne?.links,
       });
     }
-  
+
     if (menuItems?.columnTwo) {
       formattedMenuItems.push({
         title: menuItems?.columnTwo?.title,
         links: menuItems?.columnTwo?.links,
       });
     }
-  
+
     return formattedMenuItems;
   };
-  
+
   const buildLinks = linkGroups => {
     const linkHtml = (text, href) => {
       return (
@@ -62,19 +76,18 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
         </li>
       );
     };
-  
-    return linkGroups
-      .map(group => {
-        if (group.links) {
-          return group.links.map(link => linkHtml(link.text, link.href));
-        }
-        if (Array.isArray(group)) {
-          return group.map(link => linkHtml(link.text, link.href));
-        }
-        return linkHtml(group.text || group.title, group.href);
-      });
+
+    return linkGroups.map(group => {
+      if (group.links) {
+        return group.links.map(link => linkHtml(link.text, link.href));
+      }
+      if (Array.isArray(group)) {
+        return group.map(link => linkHtml(link.text, link.href));
+      }
+      return linkHtml(group.text || group.title, group.href);
+    });
   };
-  
+
   const containerForLinks = (title, linkGroups) => {
     const menuTitle = `${kebabCase(title)}-menu`;
     const isActiveMenu = activeMenu === menuTitle;
@@ -88,7 +101,15 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
       >
         <ul className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column usa-unstyled-list vads-u-margin--0 vads-u-padding--0">
           <li className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
-            <button className="header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center" id="header-back-to-menu" type="button">
+            <button
+              className={classNames(
+                'back-to-menu header-menu-item-button vads-u-background-color--gray-lightest vads-u-display--flex vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-align-items--center',
+                { active: isActiveMenu },
+              )}
+              type="button"
+              onClick={backToMenuClick}
+              onKeyDown={event => keyDownHandler(event, backToMenuClick)}
+            >
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -102,7 +123,8 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
                   clipRule="evenodd"
                   d="M14 6L15.41 7.41L10.83 12L15.41 16.59L14 18L8.00003 12L14 6Z"
                 />
-              </svg>Back to menu
+              </svg>
+              Back to menu
             </button>
           </li>
           {buildLinks(linkGroups)}
@@ -117,7 +139,8 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
     return null;
   }
 
-  if (Array.isArray(menuSections)) { // Benefit hubs
+  if (Array.isArray(menuSections)) {
+    // Benefit hubs
     for (const section of menuSections) {
       if (section.links) {
         linkContainers.push(
@@ -125,7 +148,8 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
         );
       }
     }
-  } else { // About VA
+  } else {
+    // About VA
     const linkGroups = formatMenuItems(menuSections);
 
     linkGroups.forEach(group => {
@@ -140,7 +164,8 @@ const LevelThreeLinks = ({ activeMenu, menuSections }) => {
 
 LevelThreeLinks.propTypes = {
   activeMenu: PropTypes.string,
-  menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  setLevelTwoMenuOpen: PropTypes.func,
 };
 
 export default LevelThreeLinks;

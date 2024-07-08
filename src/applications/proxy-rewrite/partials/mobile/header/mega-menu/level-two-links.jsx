@@ -3,12 +3,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
+import { keyDownHandler } from '../../../../utilities/keydown';
 
-const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
+const LevelTwoLinks = ({
+  // previouslyClickedLink,
+  sectionData,
+  setLevelTwoMenuOpen,
+  setPreviouslyClickedLink,
+}) => {
   if (!sectionData) {
     return null;
   }
 
+  // TODO the "Health care", "Disability" link etc. are not focusing when the level two menu returns
   const rightChevron = (
     <svg
       aria-hidden="true"
@@ -26,8 +33,9 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
     </svg>
   );
 
-  const onButtonClick = index => {
-    setLevelTwoMenuOpen(index);
+  const onButtonClick = kebabTitle => {
+    setLevelTwoMenuOpen(kebabTitle);
+    setPreviouslyClickedLink(kebabTitle);
   };
 
   if (Array.isArray(sectionData)) {
@@ -44,16 +52,13 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
           >
             <button
               data-menu={menuTitle}
-              className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default" 
+              className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
               data-e2e-id={`${title}--2`}
               id={`${title}--2`}
               onClick={() => onButtonClick(menuTitle)}
-              onKeyDown={event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault();
-                  onButtonClick(menuTitle);
-                }
-              }}
+              onKeyDown={event =>
+                keyDownHandler(event, onButtonClick, menuTitle)
+              }
               type="button"
             >
               {title}
@@ -69,11 +74,12 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
           data-e2e-id={kebabCase(title)}
           key={index}
         >
-          <a className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full"
-          data-e2e-id={kebabCase(title.toLowerCase())}
-          href={updateLinkDomain(section.href)}
-        >
-          {title}
+          <a
+            className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default vads-u-width--full"
+            data-e2e-id={kebabCase(title.toLowerCase())}
+            href={updateLinkDomain(section.href)}
+          >
+            {title}
           </a>
         </li>
       );
@@ -84,7 +90,7 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
     const mainTitle = sectionData.mainColumn.title;
     const oneTitle = sectionData.columnOne.title;
     const twoTitle = sectionData.columnTwo.title;
-    
+
     const mainTitleData = `${kebabCase(mainTitle)}-menu`;
     const oneTitleData = `${kebabCase(oneTitle)}-menu`;
     const twoTitleData = `${kebabCase(twoTitle)}-menu`;
@@ -97,17 +103,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
         >
           <button
             data-menu={mainTitleData}
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default" 
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             data-e2e-id={`${mainTitle}--2`}
             id={`${mainTitle}--2`}
             type="button"
             onClick={() => onButtonClick(mainTitleData)}
-            onKeyDown={event => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                onButtonClick(mainTitleData);
-              }
-            }}
+            onKeyDown={event =>
+              keyDownHandler(event, onButtonClick, mainTitleData)
+            }
           >
             {mainTitle}
             {rightChevron}
@@ -119,17 +122,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
         >
           <button
             data-menu={oneTitleData}
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default" 
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             data-e2e-id={`${oneTitle}--2`}
             id={`${oneTitle}--2`}
             type="button"
             onClick={() => onButtonClick(oneTitleData)}
-            onKeyDown={event => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                onButtonClick(oneTitleData);
-              }
-            }}
+            onKeyDown={event =>
+              keyDownHandler(event, onButtonClick, oneTitleData)
+            }
           >
             {oneTitle}
             {rightChevron}
@@ -141,17 +141,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
         >
           <button
             data-menu={twoTitleData}
-            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default" 
+            className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             data-e2e-id={`${twoTitle}--2`}
             id={`${twoTitle}--2`}
             type="button"
             onClick={() => onButtonClick(twoTitleData)}
-            onKeyDown={event => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                onButtonClick(twoTitleData);
-              }
-            }}
+            onKeyDown={event =>
+              keyDownHandler(event, onButtonClick, twoTitleData)
+            }
           >
             {twoTitle}
             {rightChevron}
@@ -166,7 +163,8 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
 
 LevelTwoLinks.propTypes = {
   setLevelTwoMenuOpen: PropTypes.func.isRequired,
-  levelOneIndexOpen: PropTypes.number,
+  setPreviouslyClickedLink: PropTypes.func.isRequired,
+  previouslyClickedLink: PropTypes.string,
   sectionData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 

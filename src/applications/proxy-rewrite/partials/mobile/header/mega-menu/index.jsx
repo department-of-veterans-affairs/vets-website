@@ -3,29 +3,28 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LevelTwoLinks from './level-two-links';
 import LevelThreeLinks from './level-three-links';
+import { keyDownHandler } from '../../../../utilities/keydown';
 
 const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
+  const [previouslyClickedLink, setPreviouslyClickedLink] = useState(null);
 
-  useEffect(() => {
-    const search = document.getElementById('search');
+  useEffect(
+    () => {
+      const search = document.getElementById('search');
 
-    if (levelTwoMenuOpen !== null && search) {
-      search.toggleAttribute('hidden');
-    }
-  });
+      if (levelTwoMenuOpen !== null && search) {
+        search.setAttribute('hidden', true);
+      } else {
+        search.removeAttribute('hidden');
+      }
+    },
+    [levelTwoMenuOpen],
+  );
 
-  const openLevelOne = (event, index) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-    }
-
-    if (index === levelOneIndexOpen) {
-      setLevelOneIndexOpen(null);
-    } else {
-      setLevelOneIndexOpen(index);
-    }
+  const openLevelOne = index => {
+    setLevelOneIndexOpen(index === levelOneIndexOpen ? null : index);
   };
 
   const buildLevelOneLinks = (sectionData, index) => {
@@ -37,10 +36,10 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
               aria-expanded={levelOneIndexOpen === index}
               className="header-menu-item-button level1 vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
               data-e2e-id={`${sectionData.title}--${index + 1}`}
-              id={`${sectionData.title}--${index +1}`}
+              id={`${sectionData.title}--${index + 1}`}
               type="button"
-              onClick={event => openLevelOne(event, index)}
-              onKeyDown={event => openLevelOne(event, index)}
+              onClick={() => openLevelOne(index)}
+              onKeyDown={event => keyDownHandler(event, openLevelOne, index)}
             >
               {sectionData.title}
               <svg
@@ -84,9 +83,10 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
             id={`${sectionData.title}--${index + 1}`}
           >
             <LevelTwoLinks
-              levelOneIndexOpen={levelOneIndexOpen}
+              previouslyClickedLink={previouslyClickedLink}
               sectionData={sectionData.menuSections}
               setLevelTwoMenuOpen={setLevelTwoMenuOpen}
+              setPreviouslyClickedLink={setPreviouslyClickedLink}
             />
           </ul>
         </Fragment>
@@ -94,8 +94,14 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
     }
 
     return (
-      <li className="vads-u-font-size--base vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold" key={index}>
-        <a className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://www.va.gov/find-locations">
+      <li
+        className="vads-u-font-size--base vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+        key={index}
+      >
+        <a
+          className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+          href="https://www.va.gov/find-locations"
+        >
           Find a VA Location
         </a>
       </li>
@@ -109,15 +115,22 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
       hidden={!menuIsOpen}
     >
       <div>
-        <div id="search"></div>
+        <div id="search" />
         <ul
           id="header-nav-items"
           className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
           hidden={levelTwoMenuOpen !== null}
         >
-          {megaMenuData.map((section, index) => buildLevelOneLinks(section, index))}
+          {megaMenuData.map((section, index) =>
+            buildLevelOneLinks(section, index),
+          )}
           <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold vads-u-font-size--md">
-            <a className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full" href="https://www.va.gov/contact-us/">Contact us</a>
+            <a
+              className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
+              href="https://www.va.gov/contact-us/"
+            >
+              Contact us
+            </a>
           </li>
         </ul>
       </div>
@@ -126,15 +139,16 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
           activeMenu={levelTwoMenuOpen}
           key={index}
           menuSections={section.menuSections}
+          setLevelTwoMenuOpen={setLevelTwoMenuOpen}
         />
       ))}
-    </div>   
+    </div>
   );
 };
 
 MegaMenu.propTypes = {
   megaMenuData: PropTypes.array.isRequired,
-  menuIsOpen: PropTypes.bool.isRequired
+  menuIsOpen: PropTypes.bool.isRequired,
 };
 
 export default MegaMenu;

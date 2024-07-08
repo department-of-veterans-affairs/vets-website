@@ -12,7 +12,8 @@ const Footer = ({ footerData, lastUpdated }) => {
   );
 
   useEffect(() => {
-    const deriveIsDesktop = () => setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
+    const deriveIsDesktop = () =>
+      setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
     const onResize = debounce(deriveIsDesktop, 100);
 
     window.addEventListener('resize', onResize);
@@ -20,9 +21,11 @@ const Footer = ({ footerData, lastUpdated }) => {
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  const footer = isDesktop ?
-    <DesktopFooter footerData={footerData} /> :
-    <MobileFooter footerData={footerData} />;
+  const footer = isDesktop ? (
+    <DesktopFooter footerData={footerData} />
+  ) : (
+    <MobileFooter footerData={footerData} />
+  );
 
   if (lastUpdated) {
     const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
@@ -32,9 +35,11 @@ const Footer = ({ footerData, lastUpdated }) => {
         <div>
           <div className="footer-lastupdated">
             <div className="usa-grid">
-              <div className="col-md-3"></div>
+              <div className="col-md-3" />
               <div className="col-md-9">
-                <p className="vads-u-margin--0 vads-u-padding--0 vads-u-font-size--lg">Last updated: {lastUpdatedDate}</p>
+                <p className="vads-u-margin--0 vads-u-padding--0 vads-u-font-size--lg">
+                  Last updated: {lastUpdatedDate}
+                </p>
               </div>
             </div>
           </div>
@@ -42,14 +47,14 @@ const Footer = ({ footerData, lastUpdated }) => {
         {footer}
       </>
     );
-  } 
+  }
 
   return footer;
 };
 
 Footer.propTypes = {
   footerData: PropTypes.array.isRequired,
-  lastUpdated: PropTypes.string
-}
+  lastUpdated: PropTypes.string,
+};
 
 export default Footer;
