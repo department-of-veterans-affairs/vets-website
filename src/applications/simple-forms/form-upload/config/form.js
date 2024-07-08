@@ -5,8 +5,8 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
+import { uploadPage } from '../pages/upload';
+// import { getFormNumber, getFormUploadContent } from '../helpers';
 
 // const formNumber = getFormNumber(window.location);
 const scrollAndFocusTarget = () => {
@@ -51,11 +51,10 @@ const formConfig = {
         uploadPage: {
           path: 'upload',
           title: 'Upload Your File',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          uiSchema: uploadPage.uiSchema,
+          schema: uploadPage.schema,
+          pageClass: 'upload',
+          scrollAndFocusTarget,
         },
       },
     },
