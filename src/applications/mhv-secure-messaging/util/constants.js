@@ -246,10 +246,28 @@ export const Breadcrumbs = {
   INBOX: { href: Paths.INBOX, label: 'Inbox', isRouterLink: true },
   DRAFTS: { href: Paths.DRAFTS, label: 'Drafts', isRouterLink: true },
   DRAFT: { href: Paths.DRAFT, label: 'Drafts', isRouterLink: true },
-  FOLDERS: { href: Paths.FOLDERS, label: 'Folders', isRouterLink: true },
+  FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
   TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
 };
+
+export const InnerNavigationPaths = [
+  {
+    path: Paths.INBOX,
+    label: Breadcrumbs.INBOX.label,
+    datatestid: 'inbox-inner-nav',
+  },
+  {
+    path: Paths.SENT,
+    label: Breadcrumbs.SENT.label,
+    datatestid: 'sent-inner-nav',
+  },
+  {
+    path: Paths.FOLDERS,
+    label: Breadcrumbs.FOLDERS.label,
+    datatestid: 'folders-inner-nav',
+  },
+];
 
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
@@ -354,7 +372,7 @@ export const PageTitles = {
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
-    'Folders - MHV Secure Messaging | Veterans Affairs',
+    'More folders - MHV Secure Messaging | Veterans Affairs',
 };
 
 export const Recipients = {
