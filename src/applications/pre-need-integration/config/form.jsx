@@ -601,27 +601,27 @@ const formConfig = {
               preneedAttachments: fileUploadUi('Select files to upload', {
                 buttonText: 'Upload file',
                 addAnotherLabel: 'Upload another file',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf'],
-                maxSize: 15728640,
+                // fileUploadUrl: `${
+                //   environment.API_URL
+                // }/v0/preneeds/preneed_attachments`,
+                // fileTypes: ['pdf'],
+                // maxSize: 15728640,
                 hideLabelText: true,
-                createPayload: file => {
-                  const payload = new FormData();
-                  payload.append('preneed_attachment[file_data]', file);
-                  return payload;
-                },
-                parseResponse: (response, file) => ({
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                }),
-                attachmentSchema: {
-                  'ui:title': 'What kind of file is this?',
-                },
-                attachmentName: {
-                  'ui:title': 'File name',
-                },
+                // createPayload: file => {
+                //   const payload = new FormData();
+                //   payload.append('preneed_attachment[file_data]', file);
+                //   return payload;
+                // },
+                // parseResponse: (response, file) => ({
+                //   name: file.name,
+                //   confirmationCode: response.data.attributes.guid,
+                // }),
+                // attachmentSchema: {
+                //   'ui:title': 'What kind of file is this?',
+                // },
+                // attachmentName: {
+                //   'ui:title': 'File name',
+                // },
               }),
             },
           },
