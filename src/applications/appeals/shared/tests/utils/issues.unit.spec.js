@@ -1,9 +1,11 @@
 import { expect } from 'chai';
+import { startOfToday } from 'date-fns';
 
 import { SELECTED, LEGACY_TYPE } from '../../constants';
 import {
   appStateSelector,
   calculateIndexOffset,
+  getEligibleContestableIssues,
   getIssueDate,
   getIssueName,
   getIssueNameAndDate,
@@ -14,10 +16,12 @@ import {
   hasDuplicates,
   hasSomeSelected,
   issuesNeedUpdating,
+  mayHaveLegacyAppeals,
   processContestableIssues,
   returnUniqueIssues,
   someSelected,
 } from '../../utils/issues';
+import { parseDateWithOffset } from '../../utils/dates';
 
 describe('getIssueName', () => {
   it('should return undefined', () => {
@@ -51,7 +55,7 @@ describe('getIssueNameAndDate', () => {
   it('should return empty string', () => {
     expect(getIssueNameAndDate()).to.equal('');
   });
-  it('should return a contestable issue name', () => {
+  it('should return a contested issue name', () => {
     expect(
       getIssueNameAndDate({
         attributes: {
@@ -68,6 +72,46 @@ describe('getIssueNameAndDate', () => {
   });
 });
 
+describe('getEligibleContestableIssues', () => {
+  const date = startOfToday();
+
+  const getIssue = (text, description = '', dateOffset = 0) => ({
+    type: 'contestableIssue',
+    attributes: {
+      ratingIssueSubjectText: text,
+      description,
+      approxDecisionDate: dateOffset
+        ? parseDateWithOffset({ months: dateOffset }, date)
+        : '',
+    },
+  });
+  const olderIssue = getIssue('Issue 1', '', -25);
+  const eligibleIssue = getIssue('Issue 2', '', -10);
+  const deferredIssue = getIssue('Issue 3', 'this is a deferred issue', -1);
+  const emptyDateIssue = getIssue('Issue 4');
+
+  it('should return empty array', () => {
+    expect(getEligibleContestableIssues()).to.have.lengthOf(0);
+    expect(getEligibleContestableIssues([])).to.have.lengthOf(0);
+    expect(getEligibleContestableIssues([{}])).to.have.lengthOf(0);
+  });
+  it('should keep issues with dates more than one year in the past', () => {
+    expect(
+      getEligibleContestableIssues([olderIssue, eligibleIssue]),
+    ).to.deep.equal([eligibleIssue, olderIssue]);
+  });
+  it('should filter out missing dates', () => {
+    expect(
+      getEligibleContestableIssues([emptyDateIssue, eligibleIssue]),
+    ).to.deep.equal([eligibleIssue]);
+  });
+  it('should filter out deferred issues', () => {
+    expect(
+      getEligibleContestableIssues([eligibleIssue, deferredIssue, olderIssue]),
+    ).to.deep.equal([eligibleIssue, olderIssue]);
+  });
+});
+
 describe('getLegacyAppealsLength', () => {
   it('should return no legacy issues', () => {
     const issues = [{ type: '' }, { type: '' }];
@@ -77,9 +121,38 @@ describe('getLegacyAppealsLength', () => {
     expect(
       getLegacyAppealsLength([{ type: LEGACY_TYPE, attributes: {} }]),
     ).to.eq(0);
+    expect(
+      getLegacyAppealsLength([{ type: 'one' }, { type: LEGACY_TYPE }]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: {} },
+      ]),
+    ).to.equal(0);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+      ]),
+    ).to.equal(0);
   });
 
-  it('should return 3 legacy issues', () => {
+  it('should return a value > 0 with legacy issues', () => {
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+      ]),
+    ).to.equal(2);
+    expect(
+      getLegacyAppealsLength([
+        { type: 'one' },
+        { type: LEGACY_TYPE, attributes: { issues: [{}, {}] } },
+        { type: LEGACY_TYPE, attributes: { issues: [] } },
+        { type: LEGACY_TYPE, attributes: { issues: [{}] } },
+      ]),
+    ).to.equal(3);
     expect(
       getLegacyAppealsLength([
         { type: '' },
@@ -96,6 +169,61 @@ describe('getLegacyAppealsLength', () => {
         { type: LEGACY_TYPE, attributes: { issues: [''] } },
       ]),
     ).to.eq(4);
+  });
+});
+
+describe('mayHaveLegacyAppeals', () => {
+  it('should return false if there is no data', () => {
+    expect(mayHaveLegacyAppeals()).to.be.false;
+  });
+  it('should return false if there is no legacy & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0 })).to.be.false;
+  });
+  it('should return false if there is no legacy & a newer contestable issue date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.false;
+  });
+  it('should return true if there are some legacy issues & no additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 1 })).to.be.true;
+  });
+  it('should return true if there is no legacy & some additional issues', () => {
+    expect(mayHaveLegacyAppeals({ legacyCount: 0, additionalIssues: [{}] })).to
+      .be.true;
+  });
+  it('should return true if there is no legacy & a contestable issue with a legacy date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2019-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is no legacy & a second contestable issue with a legacy date', () => {
+    const data = {
+      legacyCount: 0,
+      contestedIssues: [
+        { attributes: { approxDecisionDate: '2021-01-01' } },
+        { attributes: { approxDecisionDate: '2019-01-01' } },
+      ],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is legacy issue & a contestable issue with a newer date', () => {
+    const data = {
+      legacyCount: 1,
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
+  });
+  it('should return true if there is no legacy, has an additional issue & a contestable issue with a newer date', () => {
+    const data = {
+      legacyCount: 0,
+      additionalIssues: [{}],
+      contestedIssues: [{ attributes: { approxDecisionDate: '2020-01-01' } }],
+    };
+    expect(mayHaveLegacyAppeals(data)).to.be.true;
   });
 });
 
@@ -139,7 +267,7 @@ describe('hasSomeSelected', () => {
   });
 });
 
-describe('getSelected,  getSelectedCount, & getIssuesListItems', () => {
+describe('getSelected, getSelectedCount, & getIssuesListItems', () => {
   it('should return an empty array', () => {
     expect(getSelected()).to.deep.equal([]);
     expect(getSelectedCount()).to.eq(0);
