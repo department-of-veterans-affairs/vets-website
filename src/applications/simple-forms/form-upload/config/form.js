@@ -1,5 +1,6 @@
 // import fullSchema from 'vets-json-schema/dist/FORM-UPLOAD-schema.json';
 
+import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -7,7 +8,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.properties;
 
-// const { } = fullSchema.definitions;
+// const formNumber = getFormNumber(window.location);
+const scrollAndFocusTarget = () => {
+  scrollTo('topScrollElement');
+  focusByOrder(['va-segmented-progress-bar', 'h1']);
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -34,6 +39,9 @@ const formConfig = {
     noAuth: 'Please sign in again to continue uploading your form.',
   },
   title: 'Upload VA Form 21-0779',
+  // subitle: getFormUploadContent(formNumber),
+  subitle:
+    'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
   defaultDefinitions: {},
   v3SegmentedProgressBar: true,
   chapters: {
