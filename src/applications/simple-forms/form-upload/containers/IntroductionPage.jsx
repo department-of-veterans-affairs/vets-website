@@ -1,90 +1,87 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
+import { TITLE, SUBTITLE, PrimaryActionLink } from '../config/constants';
 
-import { focusElement } from 'platform/utilities/ui';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+const IntroductionPage = props => {
+  const { route } = props;
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const userIdVerified = useSelector(state => isLOA3(state));
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+  const childContent = (
+    <>
+      <p>
+        <ul className="remove-bullets">
+          <li>related to: Disability</li>
+          <li>Form last updated: October 2023</li>
+        </ul>
+      </p>
+      <h2>When to use this form</h2>
+      <p>
+        Use VA Form 21-0779 if you’re a resident of a nursing home and you’re
+        providing supporting information for your claim application for VA Aid
+        and Attendance benefits.
+      </p>
+      <h3>Download form</h3>
+      <p>
+        Download this PDF form and fill it out. Then submit your completed form
+        on this page. Or you can print the form and mail it to the address
+        listed on the form.
+      </p>
+      <h3>Submit completed form</h3>
+      <p>After you complete the form, you can upload and submit it here.</p>
+      <h2>Related forms and instructions</h2>
+      <h3>
+        <a href="">VA Form 21-2680</a>
+        <p>
+          Examination for Housebound Status or Permanent Need for Regular Aid
+          and Attendance
+        </p>
+      </h3>
+    </>
+  );
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  const content = {
+    formTitle: TITLE,
+    formSubTitle: SUBTITLE,
+    authStartFormText: 'Start your statement',
+    unauthStartText: 'Sign in to start your statement',
+    displayNonVeteranMessaging: true,
+    hideSipIntro: userLoggedIn && !userIdVerified,
+    customLink: PrimaryActionLink,
+  };
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Upload VA Form 21-0779"
-          subtitle="Equal to VA Form FORM-UPLOAD (Upload VA Form 21-0779)"
-        />
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the FORM-UPLOAD form to apply for benefits.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for benefits.
-        </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
-        <p />
-        <OMBInfo resBurden={30} ombNumber="" expDate="12/31/2025" />
-      </article>
-    );
-  }
-}
+  const ombInfo = {
+    resBurden: '15',
+    ombNumber: '2900-0075',
+    expDate: '6/30/2024',
+  };
+
+  return (
+    <IntroductionPageView
+      devOnly={{
+        forceShowFormControls: true,
+      }}
+      route={route}
+      content={content}
+      ombInfo={ombInfo}
+      childContent={childContent}
+      userIdVerified={userIdVerified}
+      userLoggedIn={userLoggedIn}
+    />
+  );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+};
 
 export default IntroductionPage;
