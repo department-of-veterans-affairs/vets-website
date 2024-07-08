@@ -9,6 +9,7 @@ import ProviderTraining from './common/ProviderTraining';
 
 const CCProviderResult = ({ provider, query }) => {
   const { name } = provider.attributes;
+
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>

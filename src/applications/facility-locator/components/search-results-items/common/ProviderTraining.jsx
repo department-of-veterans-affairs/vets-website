@@ -7,7 +7,7 @@ function ProviderTraining({ provider }) {
     return null;
   }
   return (
-    <div className="vads-u-margin-y--2">
+    <div className="vads-u-margin-y--2" data-testid={`training-${provider.id}`}>
       <VaIcon
         size={3}
         icon="how_to_reg"
@@ -20,6 +20,7 @@ function ProviderTraining({ provider }) {
 
 ProviderTraining.propTypes = {
   provider: PropTypes.shape({
+    id: PropTypes.string,
     attributes: PropTypes.shape({
       trainings: PropTypes.arrayOf(PropTypes.shape({})),
     }),
