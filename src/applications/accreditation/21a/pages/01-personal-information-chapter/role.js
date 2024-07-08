@@ -10,7 +10,7 @@ const roleOptions = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'role',
+  title: 'Role',
   path: 'role',
   uiSchema: {
     role: radioUI({

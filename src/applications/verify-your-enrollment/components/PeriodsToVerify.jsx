@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
@@ -16,18 +16,7 @@ const PeriodsToVerify = ({
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
-  let id;
-
-  if (error) {
-    id = '#error-alert';
-  } else if (
-    enrollmentData?.pendingVerifications?.length === 0 &&
-    justVerified
-  ) {
-    id = '#success-alert';
-  } else {
-    id = 'h1';
-  }
+  const idRef = useRef();
 
   useEffect(
     () => {
@@ -44,10 +33,29 @@ const PeriodsToVerify = ({
   );
   useEffect(
     () => {
-      focusElement(id);
+      if (error) {
+        idRef.current = '#error-alert';
+        setTimeout(() => {
+          focusElement(idRef.current);
+        }, 100); // Delay to ensure element is rendered
+      } else if (
+        enrollmentData?.pendingVerifications?.length === 0 &&
+        justVerified
+      ) {
+        idRef.current = '#success-alert';
+        focusElement(idRef.current);
+      } else if (
+        enrollmentData?.pendingVerifications?.length !== 0 &&
+        !justVerified &&
+        !error
+      ) {
+        idRef.current = 'h1';
+        focusElement(idRef.current);
+      }
     },
-    [id, pendingEnrollments],
+    [error, enrollmentData, justVerified, pendingEnrollments],
   );
+
   return (
     <>
       {error && (
