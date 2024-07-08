@@ -1,12 +1,20 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MegaMenu from './mega-menu';
 import { keyDownHandler } from '../../../utilities/keydown';
+import Search from '../../search';
 
 const DesktopHeader = ({ megaMenuData }) => {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
   const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
+  const searchButton = document?.getElementById('search-dropdown-button');
+
+  const outsideClickHandler = event => {
+    if (searchIsOpen && searchButton && !searchButton.contains(event.target)) {
+      setSearchIsOpen(false);
+    }
+  };
 
   const toggleSearchDropdown = () => {
     setSearchIsOpen(!searchIsOpen);
@@ -15,6 +23,16 @@ const DesktopHeader = ({ megaMenuData }) => {
   const toggleGovBanner = () => {
     setGovBannerIsOpen(!govBannerIsOpen);
   };
+
+  useEffect(() => {
+    const htmlElement = document.getElementsByTagName('html')[0];
+
+    htmlElement.addEventListener('click', outsideClickHandler);
+
+    return () => {
+      htmlElement.removeEventListener('click', outsideClickHandler);
+    };
+  });
 
   return (
     <header role="banner">
@@ -172,7 +190,9 @@ const DesktopHeader = ({ megaMenuData }) => {
                   id="search"
                   className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
                   hidden={!searchIsOpen}
-                />
+                >
+                  <Search />
+                </div>
               </div>
               {/* end Search */}
 

@@ -1,5 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { keyDownHandler } from '../utilities/keydown';
 
 const Keycodes = {
@@ -13,46 +13,38 @@ const Search = () => {
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const button = document.getElementById('search-dropdown-button');
 
-  const toggleDropdown = useCallback(
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(
     () => {
-      const button = document.getElementById('search-dropdown-button');
-
-      setIsOpen(!isOpen);
-      button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (button) {
+        button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
     },
-    [isOpen, setIsOpen],
+    [button, isOpen],
   );
 
   useEffect(
     () => {
-      const searchDropdownButton = document.getElementById(
-        'search-dropdown-button',
-      );
-      const htmlElement = document.getElementsByTagName('html')[0];
-
-      const outsideClickHandler = event => {
-        if (isOpen && !searchDropdownButton.contains(event.target)) {
-          toggleDropdown();
-        }
-      };
-
-      if (searchDropdownButton) {
-        searchDropdownButton.addEventListener('click', toggleDropdown);
-        searchDropdownButton.addEventListener('keydown', event =>
+      if (button) {
+        button.addEventListener('click', toggleDropdown);
+        button.addEventListener('keydown', event =>
           keyDownHandler(event, toggleDropdown),
         );
 
-        htmlElement.addEventListener('click', outsideClickHandler);
+        return () => {
+          button.removeEventListener('click', toggleDropdown);
+          button.removeEventListener('keydown', toggleDropdown);
+        };
       }
 
-      return () => {
-        searchDropdownButton.removeEventListener('click', toggleDropdown);
-        searchDropdownButton.removeEventListener('keydown', toggleDropdown);
-        htmlElement.removeEventListener('click', outsideClickHandler);
-      };
+      return null;
     },
-    [isOpen, toggleDropdown],
+    [button, isOpen, toggleDropdown],
   );
 
   const deriveIsDesktop = () =>
@@ -60,9 +52,6 @@ const Search = () => {
 
   useEffect(() => {
     deriveIsDesktop();
-  }, []);
-
-  useEffect(() => {
     window.addEventListener('resize', deriveIsDesktop);
 
     return () => {

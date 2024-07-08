@@ -16,7 +16,6 @@ import { getAssetPath } from './utilities/get-asset-path';
 import { getTargetEnv } from './utilities/get-target-env';
 import redirectIfNecessary from './redirects';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import Search from './partials/search';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -61,20 +60,11 @@ function createMutationObserverCallback() {
 }
 
 function renderHeader(megaMenuData, headerContainer) {
-  // Add header
   startReactApp(
     <Provider store={store}>
       <Header megaMenuData={megaMenuData} />
     </Provider>,
     headerContainer,
-  );
-
-  // Add search dropdown
-  startReactApp(
-    <Provider store={store}>
-      <Search />
-    </Provider>,
-    document.getElementById('search'),
   );
 }
 

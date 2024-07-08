@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import LevelTwoLinks from './level-two-links';
 import LevelThreeLinks from './level-three-links';
 import { keyDownHandler } from '../../../../utilities/keydown';
+import Search from '../../../search';
 
 const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
@@ -115,7 +116,9 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
       hidden={!menuIsOpen}
     >
       <div>
-        <div id="search" />
+        <div id="search">
+          <Search />
+        </div>
         <ul
           id="header-nav-items"
           className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0"
