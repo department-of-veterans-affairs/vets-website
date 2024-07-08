@@ -28,8 +28,23 @@ describe('SearchBenefits', () => {
     expect(setMilitaryStatus.calledWith('national guard / reserves')).to.be
       .true;
     const event3 = { target: { name: 'giBillChapter', value: '33b' } };
+    const event4 = { target: { name: 'giBillChapter', value: '30' } };
+    const event5 = { target: { name: 'giBillChapter', value: '1606' } };
+    const event6 = { target: { name: 'giBillChapter', value: '31' } };
+    const event7 = { target: { name: 'giBillChapter', value: '35' } };
+    const event8 = { target: { name: 'giBillChapter', value: '33a' } };
     wrapper.find('[name="giBillChapter"]').simulate('change', event3);
+    wrapper.find('[name="giBillChapter"]').simulate('change', event4);
+    wrapper.find('[name="giBillChapter"]').simulate('change', event5);
+    wrapper.find('[name="giBillChapter"]').simulate('change', event6);
+    wrapper.find('[name="giBillChapter"]').simulate('change', event7);
+    wrapper.find('[name="giBillChapter"]').simulate('change', event8);
     expect(setGiBillChapter.calledWith('33b')).to.be.true;
+    expect(setGiBillChapter.calledWith('30')).to.be.true;
+    expect(setGiBillChapter.calledWith('1606')).to.be.true;
+    expect(setGiBillChapter.calledWith('31')).to.be.true;
+    expect(setGiBillChapter.calledWith('35')).to.be.true;
+    expect(setGiBillChapter.calledWith('33a')).to.be.true;
     wrapper.unmount();
   });
 
