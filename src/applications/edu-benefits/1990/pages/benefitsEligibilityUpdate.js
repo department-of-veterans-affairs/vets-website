@@ -1,100 +1,48 @@
-import { isProductionOfTestProdEnv } from '../helpers';
 import { benefitsLabels } from '../../utils/labels';
 
-export const benefitsEligibilityUpdate = (
-  benefitsEligibilityBox,
-  validateBooleanGroup,
-  chapter33,
-  chapter30,
-  chapter1606,
-) => {
-  const uiSchema = isProductionOfTestProdEnv()
-    ? {
-        'ui:description': benefitsEligibilityBox,
-        'view:selectedBenefits': {
-          'ui:title': 'Select the benefit that is the best match for you.',
-          'ui:validations': [validateBooleanGroup],
-          'ui:errorMessages': {
-            atLeastOne: 'Please select at least one benefit',
-          },
-          'ui:options': {
-            showFieldLabel: true,
-          },
-          chapter33: {
-            'ui:title': benefitsLabels.chapter33,
-            'ui:options': {
-              expandUnderClassNames: 'schemaform-expandUnder-indent',
-            },
-          },
-          chapter30: {
-            'ui:title': benefitsLabels.chapter30,
-          },
-          chapter1606: {
-            'ui:title': benefitsLabels.chapter1606,
-          },
+export const benefitsEligibilityUpdate = benefitsEligibilityBox => {
+  const uiSchema = {
+    'ui:description': benefitsEligibilityBox,
+    'view:selectedBenefits': {
+      'ui:title': 'Select the benefit that is the best match for you.',
+      'ui:errorMessages': {
+        atLeastOne: 'You must select a benefit',
+      },
+      'ui:options': {
+        showFieldLabel: true,
+      },
+      chapter33: {
+        'ui:widget': 'radio',
+        'ui:required': formData => !formData.chapter33,
+        'ui:options': {
+          labels: benefitsLabels,
+          hideLabelText: true,
         },
-      }
-    : {
-        'ui:description': benefitsEligibilityBox,
-        'view:selectedBenefits': {
-          'ui:title': 'Select the benefit that is the best match for you.',
-          'ui:errorMessages': {
-            atLeastOne: 'You must select a benefit',
-          },
-          'ui:options': {
-            showFieldLabel: true,
-          },
-          chapter33: {
-            'ui:widget': 'radio',
-            'ui:required': formData => !formData.chapter33,
-            'ui:options': {
-              labels: benefitsLabels,
-              hideLabelText: true,
-            },
-            'ui:errorMessages': {
-              required: 'You must select a benefit',
-            },
-          },
+        'ui:errorMessages': {
+          required: 'You must select a benefit',
         },
-      };
-  const schema = isProductionOfTestProdEnv()
-    ? {
+      },
+    },
+  };
+  const schema = {
+    type: 'object',
+    required: ['view:selectedBenefits'],
+    properties: {
+      'view:selectedBenefits': {
         type: 'object',
-        required: ['view:selectedBenefits'],
         properties: {
-          'view:selectedBenefits': {
+          chapter33: {
+            type: 'string',
+            enum: ['chapter33', 'chapter30', 'chapter1606'],
+          },
+          'view:chapter33ExpandedContent': {
             type: 'object',
-            properties: {
-              chapter33,
-              'view:chapter33ExpandedContent': {
-                type: 'object',
-                properties: {},
-              },
-              chapter30,
-              chapter1606,
-            },
+            properties: {},
           },
         },
-      }
-    : {
-        type: 'object',
-        required: ['view:selectedBenefits'],
-        properties: {
-          'view:selectedBenefits': {
-            type: 'object',
-            properties: {
-              chapter33: {
-                type: 'string',
-                enum: ['chapter33', 'chapter30', 'chapter1606'],
-              },
-              'view:chapter33ExpandedContent': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
-      };
+      },
+    },
+  };
   return {
     uiSchema,
     schema,

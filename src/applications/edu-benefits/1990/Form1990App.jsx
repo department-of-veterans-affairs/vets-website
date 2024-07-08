@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from './config/form';
-import { isProductionOfTestProdEnv } from './helpers';
 
 export default function Form1990Entry({ location, children }) {
   /* This useEffect is to add custom class to remove the extra margin-top for radio buttons
@@ -11,9 +10,8 @@ export default function Form1990Entry({ location, children }) {
     () => {
       const fieldset = document.querySelector('body');
       if (
-        !isProductionOfTestProdEnv() &&
-        (location.pathname.includes('benefits-selection') ||
-          location.pathname === '/review-and-submit')
+        location.pathname.includes('benefits-selection') ||
+        location.pathname === '/review-and-submit'
       ) {
         fieldset.classList.add('fieldset-wrapper');
       } else {
