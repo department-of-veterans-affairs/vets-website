@@ -90,7 +90,7 @@ const formConfig = {
             !!mockData && environment.isLocalhost() && !window.Cypress
               ? mockData
               : undefined,
-          onNavForward: (formData, goPath, goNextPath) => goNextPath(),
+          onNavForward: ({ goNextPath }) => goNextPath(),
           updateFormData: (oldFormData, newFormData) => {
             return initializeFormDataWithClaimantInformationAndPrefill(
               newFormData['view:applicantIsVeteran'],
@@ -129,7 +129,7 @@ const formConfig = {
           schema: claimantPersonalInformation.schema,
         },
         confirmClaimantPersonalInformation: {
-          path: 'claimant-personal-information',
+          path: 'confirm-claimant-personal-information',
           depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
           initialData:
             /* istanbul ignore next */
