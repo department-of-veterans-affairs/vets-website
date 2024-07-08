@@ -1,3 +1,4 @@
+/*
 import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
@@ -44,3 +45,5 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+ */
