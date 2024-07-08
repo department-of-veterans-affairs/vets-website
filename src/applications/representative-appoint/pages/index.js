@@ -5,7 +5,10 @@ import * as authorizeInsideVA from './authorizations/authorizeInsideVA';
 import * as authorizeOutsideVA from './authorizations/authorizeOutsideVA';
 import * as authorizeOutsideVANames from './authorizations/authorizeOutsideVANames';
 import * as formToggle from './formToggle';
+import * as claimantType from './claimant/claimantType';
 import * as claimantRelationship from './personalInformation/claimantRelationship';
+import * as claimantPersonalInformation from './personalInformation/claimantPersonalInformation';
+import * as confirmClaimantPersonalInformation from './personalInformation/confirmClaimantPersonalInformation';
 
 export {
   authorizeMedical,
@@ -15,5 +18,8 @@ export {
   authorizeOutsideVA,
   authorizeOutsideVANames,
   formToggle,
+  claimantType,
   claimantRelationship,
+  claimantPersonalInformation,
+  confirmClaimantPersonalInformation,
 };
