@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { nameWording as sharedNameWording } from '../../shared/utilities';
 
 export function isRequiredFile(formContext, requiredFiles) {
   return Object.keys(formContext?.schema?.properties || {}).filter(v =>
@@ -15,23 +16,10 @@ export function nameWording(
   cap = true,
   firstNameOnly = false,
 ) {
-  let retVal = '';
-  // NOTE: certifierRole isn't used in this form anymore so this will always
-  // skip to else clause
-  if (formData?.certifierRole === 'applicant') {
-    retVal = isPosessive ? 'your' : 'you';
-  } else {
-    // Concatenate all parts of applicant's name (first, middle, etc...)
-    retVal = firstNameOnly
-      ? formData?.applicantName?.first
-      : Object.values(formData?.applicantName || {})
-          .filter(el => el)
-          .join(' ');
-    retVal = isPosessive ? `${retVal}’s` : retVal;
-  }
-
-  // Optionally capitalize first letter and return
-  return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
+  // Moved contents of this function to shared utilities file,
+  // leaving this stub in place so existing imports still work.
+  // TODO: update all imports of nameWording to point directly to shared
+  return sharedNameWording(formData, isPosessive, cap, firstNameOnly);
 }
 
 /**

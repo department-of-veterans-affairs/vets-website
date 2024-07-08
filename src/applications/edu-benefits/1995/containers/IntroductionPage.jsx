@@ -8,13 +8,6 @@ import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
 } from 'applications/static-pages/wizard';
-import { isProductionOfTestProdEnv } from '../helpers';
-
-export const introPageDescription = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? ' Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).'
-    : 'Equal to VA Form 22-1995 (Request for Change of Benefit, Program or Place of Training).';
-};
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -53,7 +46,10 @@ export class IntroductionPage extends React.Component {
         itemType="http://schema.org/HowTo"
       >
         <FormTitle title="Change your education benefits" />
-        <p itemProp="description">{introPageDescription()}</p>
+        <p itemProp="description">
+          Equal to VA Form 22-1995 (Request for Change of Program or Place of
+          Training).
+        </p>
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
           <h4>Follow the steps below to apply for education benefits.</h4>

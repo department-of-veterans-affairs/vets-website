@@ -12,12 +12,12 @@ import { urlMigration } from '../../config/migrations';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { chapters } from './chapters';
 
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
+import { introductionPage } from '../helpers';
 
 const {
   preferredContactMethod,
@@ -53,7 +53,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: introductionPage(),
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     preferredContactMethod,
