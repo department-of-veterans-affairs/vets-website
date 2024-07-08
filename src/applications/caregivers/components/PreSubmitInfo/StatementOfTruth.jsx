@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { links } from '../../definitions/content';
 
 const StatementOfTruth = ({ content }) => {
   const { label = '', text = [] } = content;
@@ -20,11 +19,7 @@ const StatementOfTruth = ({ content }) => {
 
       <p data-testid="cg-privacy-copy">
         I have read and accept the{' '}
-        <a
-          href={links.privacyPolicy.link}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
+        <a target="_blank" rel="noopener noreferrer" href="/privacy-policy/">
           privacy policy
         </a>
         .

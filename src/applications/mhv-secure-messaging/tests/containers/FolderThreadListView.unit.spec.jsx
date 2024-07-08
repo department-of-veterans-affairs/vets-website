@@ -96,7 +96,7 @@ describe('Folder Thread List View container', () => {
       expect(folderName).to.exist;
       expect(folderName).to.have.text(DefaultFolders.SENT.header);
     });
-    expect(screen.queryByText('Start a new message')).to.not.exist;
+    expect(screen.queryByText('Start a new message')).to.exist;
   });
 
   it(`verifies page title tag for 'Drafts' FolderThreadListView page`, async () => {

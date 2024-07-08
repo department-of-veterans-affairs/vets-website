@@ -19,10 +19,8 @@ export default {
     militaryAuthorityAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'Address of the military authority or court is a United States military base outside of the U.S.',
-        state: 'State/Province/Region',
+          'This address is on a United States military base outside of the U.S.',
       },
-      omit: ['street3'],
     }),
   },
   schema: {
