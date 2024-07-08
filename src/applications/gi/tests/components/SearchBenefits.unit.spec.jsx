@@ -18,12 +18,15 @@ describe('SearchBenefits', () => {
         setSpouseActiveDuty={() => {}}
       />,
     );
-    const event = { target: { name: 'militaryStatus', value: 'spouse' } };
-    const event2 = { target: { name: 'militaryStatus', value: 'child' } };
+    const event = { target: { name: 'militaryStatus', value: 'active duty' } };
+    const event2 = {
+      target: { name: 'militaryStatus', value: 'national guard / reserves' },
+    };
     wrapper.find('[name="militaryStatus"]').simulate('change', event);
     wrapper.find('[name="militaryStatus"]').simulate('change', event2);
-    expect(setMilitaryStatus.calledWith('spouse')).to.be.true;
-    expect(setMilitaryStatus.calledWith('child')).to.be.true;
+    expect(setMilitaryStatus.calledWith('active duty')).to.be.true;
+    expect(setMilitaryStatus.calledWith('national guard / reserves')).to.be
+      .true;
     expect(setGiBillChapter.calledWith('33a')).to.be.true;
     wrapper.unmount();
   });
@@ -84,8 +87,12 @@ describe('SearchBenefits', () => {
   });
   it('should update giBillChapter when Dropdown onChange is triggered', () => {
     const setGiBillChapter = sinon.spy();
+    const setMilitaryStatus = sinon.spy();
     const wrapper = shallow(
-      <SearchBenefits setGiBillChapter={setGiBillChapter} />,
+      <SearchBenefits
+        setGiBillChapter={setGiBillChapter}
+        setMilitaryStatus={setMilitaryStatus}
+      />,
     );
 
     const dropdown = wrapper.find('Dropdown[name="giBillChapter"]');
