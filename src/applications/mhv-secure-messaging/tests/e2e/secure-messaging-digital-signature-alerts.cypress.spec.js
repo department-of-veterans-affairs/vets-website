@@ -4,9 +4,8 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Digital Signature Error flows', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('Record Amendment Admin');

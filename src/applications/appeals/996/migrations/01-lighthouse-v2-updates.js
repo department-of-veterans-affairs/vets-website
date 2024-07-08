@@ -47,7 +47,7 @@ export default function version2Updates(savedData) {
 
   // Only transform data to v2 if feature flag is set. Subsequent saves will
   // update the metadata.version to 2, so we can't rely on that
-  if (formData.hlrV2 === false || !isVersion1Data(formData)) {
+  if (!isVersion1Data(formData)) {
     return savedData;
   }
 

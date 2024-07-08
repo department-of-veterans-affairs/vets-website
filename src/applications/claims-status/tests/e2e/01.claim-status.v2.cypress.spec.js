@@ -56,7 +56,7 @@ describe('When feature toggle cst_claim_phases disabled', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
       trackClaimsPage.loadPage(claimsList, claimDetails);
       trackClaimsPage.verifyInProgressClaim(false);
-      trackClaimsPage.verifyRecentActivity();
+      trackClaimsPage.verifyRecentActivity(true);
       cy.axeCheck();
     });
 
@@ -185,9 +185,9 @@ describe('When feature toggle cst_claim_phases enabled', () => {
   context('A user that has tracked items can view recent activity', () => {
     it('Shows recent activity for a user with tracked items on a closed claim', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetails);
+      trackClaimsPage.loadPage(claimsList, claimDetails, false, true);
       trackClaimsPage.verifyInProgressClaim(false);
-      trackClaimsPage.verifyRecentActivity();
+      trackClaimsPage.verifyRecentActivity(true, true);
       cy.axeCheck();
     });
 
@@ -195,7 +195,7 @@ describe('When feature toggle cst_claim_phases enabled', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
       trackClaimsPage.loadPage(claimsList, claimDetailsOpen, false, true);
       trackClaimsPage.verifyInProgressClaim(true);
-      trackClaimsPage.verifyRecentActivity();
+      trackClaimsPage.verifyRecentActivity(false, true);
       cy.axeCheck();
     });
   });

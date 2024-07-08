@@ -131,19 +131,16 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
-    // depends: () => hasSession(),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
-    // depends: () => hasSession(),
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
-    // depends: () => hasSession(),
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -201,6 +198,7 @@ const ch3Pages = {
     uiSchema: addressValidationPage.uiSchema,
     schema: addressValidationPage.schema,
     depends: form => form.contactPreference === 'US_MAIL',
+    onNavForward: ({ goPath }) => goPath(CHAPTER_2.PAGE_3.PATH),
   },
   aboutYourFamilyMember: {
     title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
@@ -226,6 +224,7 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
+    depends: form => form.contactPreference !== 'US_MAIL',
   },
 };
 
@@ -237,11 +236,13 @@ export const flowPages = (obj, list, path) => {
     flowGroup[key] = pages[page];
     flowGroup[key].path = `${path}-${index + 1}`;
 
+    // If last in the list, on nav forward go to the You question page
     if (list.length === index + 1) {
       flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath(CHAPTER_2.PAGE_3.PATH);
+        goPath(CHAPTER_2.PAGE_3.PATH); // your-question
     }
 
+    // If first in the list, on nav backward go to the Who is your question about page
     if (index === 0) {
       flowGroup[key].onNavBack = ({ goPath }) =>
         goPath('/who-is-your-question-about');
@@ -399,7 +400,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 
 const generalQuestion = [
   'aboutYourselfGeneral',
-  // 'searchVAMedicalCenter',
+  'searchVAMedicalCenter',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',

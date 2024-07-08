@@ -140,6 +140,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+      dispatch({ type: 'RESET_ERROR' });
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
     },
     [dispatch, location.pathname],
   );

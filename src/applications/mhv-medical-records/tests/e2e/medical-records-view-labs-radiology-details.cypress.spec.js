@@ -21,9 +21,9 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     RadiologyDetailsPage.verifyDate('September 24, 2004');
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
     RadiologyDetailsPage.verifyRadiologyClinicalHistory('None noted');
-    RadiologyDetailsPage.verifyRadiologyOrderedBy('GARFUNKEL,FELIX');
+    RadiologyDetailsPage.verifyRadiologyOrderedBy('DOE, JOHN A');
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
-      'GARFUNKEL,FELIX, DAYT29 TEST LAB',
+      'DOE, JOHN A, DAYT29 TEST LAB',
     );
     RadiologyDetailsPage.verifyRadiologyImagingProvider('None noted');
     RadiologyDetailsPage.verifyRadiologyResults(
