@@ -27,7 +27,9 @@ describe('SearchBenefits', () => {
     expect(setMilitaryStatus.calledWith('active duty')).to.be.true;
     expect(setMilitaryStatus.calledWith('national guard / reserves')).to.be
       .true;
-    expect(setGiBillChapter.calledWith('33a')).to.be.true;
+    const event3 = { target: { name: 'giBillChapter', value: '33b' } };
+    wrapper.find('[name="giBillChapter"]').simulate('change', event3);
+    expect(setGiBillChapter.calledWith('33b')).to.be.true;
     wrapper.unmount();
   });
 
