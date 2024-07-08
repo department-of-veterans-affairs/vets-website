@@ -80,6 +80,7 @@ export const certifierPhoneSchema = {
   },
   schema: {
     type: 'object',
+    required: ['certifierPhone'],
     properties: {
       titleSchema,
       certifierPhone: phoneSchema,
