@@ -21,6 +21,12 @@ export const processList = (
       </p>
       <p>You can’t submit new evidence with a Higher-Level Review.</p>
       <p>
+        <strong>Note:</strong> To avoid potential delays, you may include a
+        written statement instead of requesting an informal conference. You can
+        only include a written statement when submitting your request by mail at
+        this time.
+      </p>
+      <p>
         <a href={HLR_INFO_URL}>
           Find out if a Higher-Level Review is an option for you.
         </a>
