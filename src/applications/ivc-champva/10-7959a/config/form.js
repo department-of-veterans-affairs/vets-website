@@ -1,10 +1,17 @@
 // import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
-
+import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { nameWording } from '../../shared/utilities';
+import {
+  certifierRoleSchema,
+  certifierNameSchema,
+  certifierAddressSchema,
+  certifierPhoneSchema,
+  certifierRelationshipSchema,
+} from '../chapters/signerInformation';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -51,15 +58,35 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          path: 'first-page',
-          title: 'First Page',
+          path: 'signer-type',
+          title: 'Your information',
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           initialData: { applicantName: { first: 'Beneficiary' } },
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          ...certifierRoleSchema,
+        },
+        page1a: {
+          path: 'signer-info',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierNameSchema,
+        },
+        page1b: {
+          path: 'signer-mailing-address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierAddressSchema,
+        },
+        page1c: {
+          path: 'signer-contact-info',
+          title: 'Your contact information',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierPhoneSchema,
+        },
+        page1d: {
+          path: 'signer-relationship',
+          title: 'Your relationship to the beneficiary',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierRelationshipSchema,
         },
       },
     },
