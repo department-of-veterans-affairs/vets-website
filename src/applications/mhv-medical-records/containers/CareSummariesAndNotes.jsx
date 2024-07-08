@@ -48,6 +48,18 @@ const CareSummariesAndNotes = () => {
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
     () => {
       dispatch(
         setBreadcrumbs([

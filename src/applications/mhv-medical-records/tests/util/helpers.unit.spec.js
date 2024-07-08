@@ -301,6 +301,7 @@ describe('getStatusExtractPhase', () => {
   };
 
   const now = new Date();
+
   it('returns STALE', () => {
     const phrStatus = [
       {
