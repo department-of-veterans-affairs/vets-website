@@ -2,16 +2,16 @@ import React from 'react';
 import { endDate } from '../../utils/helpers';
 
 const TriangleIcon = () => (
-  <>
-    <va-icon icon="warning" size={3} className="icon-right" />
+  <span className="icon-right">
+    <va-icon icon="warning" size={3} />
     <span className="sr-only">important</span>
-  </>
+  </span>
 );
 const CircleIcon = () => (
-  <>
+  <span className="icon-right">
     <va-icon icon="info" size={3} className="icon-right" />
     <span className="sr-only">informational</span>
-  </>
+  </span>
 );
 
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {

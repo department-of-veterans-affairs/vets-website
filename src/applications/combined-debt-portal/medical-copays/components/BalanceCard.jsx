@@ -72,7 +72,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </h3>
       <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <span className="sr-only">Alert</span>
-        <va-icon icon="warning" size={3} className="icon-right" />
+        <span className="icon-right">
+          <va-icon icon="warning" size={3} />
+        </span>
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (
