@@ -249,8 +249,8 @@
         ],
         "reasonCode": { "text": "" },
         "patientIcn": "1013678363V916823",
-        "locationId": "983GC",
-        "clinic": "1456",
+        "locationId": null,
+        "clinic": null,
         "start": "2024-07-21T23:00:00Z",
         "end": "2024-07-22T00:00:00Z",
         "minutesDuration": 60,
@@ -804,7 +804,7 @@
       "id": "nstate-phone-001",
       "type": "appointments",
       "attributes": {
-        "id": "enstate-phone-001",
+        "id": "nstate-phone-001",
         "identifier": [
           {
             "system": "Appointment/",
@@ -817,6 +817,9 @@
         ],
         "kind": "phone",
         "status": "booked",
+        "reasonCode": {
+          "text": "reasonCode:ROUTINEVISIT|comments:Some other details"
+        },
         "serviceCategory": [
           {
             "coding": [
@@ -870,8 +873,8 @@
           }
         },
         "localStartTime": "2024-12-05T13:00:00.000-05:00",
-        "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
-        "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+        "serviceName": "TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+        "friendlyName": "TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",
         "location": {
           "id": "984",
@@ -943,6 +946,47 @@
         "locationId": "983",
         "localStartTime": "2024-07-22T09:00:00.000-06:00",
         "physicalLocation": "PHYSICAL LOCATION TESTING",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "foodAndNutrition",
+        "slot": null,
+        "created": "2024-07-22T13:00:00Z",
+        "start": "2024-07-22T13:00:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "CLINIC_BASED"
+        }
+      }
+    },
+    {
+      "id": "nstate-vavideo-002",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": null,
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA location telehealth appointment",
+        "end": "2024-07-22T14:00:00Z",
+        "id": "nstate-vavideo-002",
+        "kind": "telehealth",
+        "locationId": null,
+        "localStartTime": "2024-07-22T09:00:00.000-06:00",
+        "physicalLocation": null,
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
@@ -1216,7 +1260,7 @@
         "kind": "telehealth",
         "status": "booked",
         "patientIcn": "1013124304V115761",
-        "locationId": "983",
+        "locationId": null,
         "start": "2024-12-02T15:00:00Z",
         "end": "2024-12-02T15:30:00Z",
         "minutesDuration": 30,
