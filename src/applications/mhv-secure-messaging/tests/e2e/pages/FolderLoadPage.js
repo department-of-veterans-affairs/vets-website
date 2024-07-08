@@ -64,6 +64,7 @@ class FolderLoadPage {
     this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
+  // this method no longer needed as sent folder link was moved to nav-bar
   loadSentMessages = (messagesList = mockSentMessages) => {
     this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
