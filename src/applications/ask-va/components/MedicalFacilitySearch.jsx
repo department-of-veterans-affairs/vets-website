@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import React, { useState } from 'react';
 import { URL, envUrl } from '../constants';
-import SearchItem from './search/SearchItem';
 import { convertToLatLng } from '../utils/mapbox';
 import SearchControls from './search/SearchControls';
+import SearchItem from './search/SearchItem';
 
 const facilities = {
   data: [],
@@ -14,9 +14,16 @@ const MedicalFacilitySearch = ({ onChange }) => {
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
 
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   const getApiData = url => {
     setIsSearching(true);
-    return apiRequest(url)
+    return apiRequest(url, options)
       .then(res => {
         setApiData(res);
         setIsSearching(false);
@@ -36,9 +43,9 @@ const MedicalFacilitySearch = ({ onChange }) => {
 
   const getFacilities = async input => {
     const latLong = await convertToLatLng(input);
-    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?type=health&lat=${
-      latLong[1]
-    }&long=${latLong[0]}`;
+    const url = `${envUrl}${URL.GET_HEALTH_FACILITY}?lat=${latLong[1]}&long=${
+      latLong[0]
+    }`;
     await getApiData(url);
     setPageURL(url);
   };

@@ -135,7 +135,7 @@ const ArrayBuilderCancelButton = ({
           isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
           currentItem,
         )}
-        primaryButtonText={getText('cancelYes')}
+        primaryButtonText={getText(isEdit ? 'cancelEditYes' : 'cancelAddYes')}
         secondaryButtonText={getText(isEdit ? 'cancelEditNo' : 'cancelAddNo')}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}

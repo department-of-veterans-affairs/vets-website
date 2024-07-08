@@ -10,14 +10,12 @@ import { appName } from '../../manifest.json';
 const stateFn = ({
   currentlyLoggedIn = true,
   featureTogglesLoading = false,
-  mhv_landing_page_enabled = true,
   profileLoading = false,
   serviceName = CSP_IDS.ID_ME,
   loa = 3,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesLoading,
-    mhv_landing_page_enabled,
     sign_in_service_enabled: true,
   },
   user: {

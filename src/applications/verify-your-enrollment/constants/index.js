@@ -138,7 +138,10 @@ export const errorAddressAlert = deliveryPointValidation => {
       />
     );
   }
-  if (deliveryPointValidation === 'MISSING_ZIP') {
+  if (
+    deliveryPointValidation === 'MISSING_ZIP' ||
+    deliveryPointValidation === 'UNDELIVERABLE'
+  ) {
     return (
       <Alert
         status="warning"

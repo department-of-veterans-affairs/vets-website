@@ -8,6 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
 import veteranInformation from './chapters/01-veteran-information';
 import claimantInformation from './chapters/02-claimant-information';
+import unassociatedIncomes from './chapters/03-unassociated-incomes';
+import associatedIncomes from './chapters/04-associated-incomes';
 
 // const { } = fullSchema.properties;
 
@@ -50,6 +52,8 @@ const formConfig = {
   chapters: {
     veteranInformation,
     claimantInformation,
+    unassociatedIncomes,
+    associatedIncomes,
   },
 };
 
