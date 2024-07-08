@@ -138,28 +138,20 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-          </div>
-          {isDisplayingDocumentation &&
-            prescription.cmopNdcNumber && (
-              <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
-                <h2
-                  className="vads-u-margin-top--3"
-                  data-testid="refill-History"
-                >
-                  Documentation
-                </h2>
+            {isDisplayingDocumentation &&
+              refillHistory[0].cmopNdcNumber && (
                 <Link
                   to={`/prescription/${
                     prescription.prescriptionId
-                  }/documentation?ndc=${prescription.cmopNdcNumber}`}
+                  }/documentation?ndc=${refillHistory[0].cmopNdcNumber}`}
                   data-testid="va-prescription-documentation-link"
-                  className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
+                  className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name="Rx Documentation Link - Details Page"
                 >
                   Learn more about {prescription.prescriptionName}
                 </Link>
-              </div>
-            )}
+              )}
+          </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
