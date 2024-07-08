@@ -1,7 +1,6 @@
 import React from 'react';
 import ResoursesForSchoolTitle from '../ResoursesForSchoolTitle';
 import OnThisPage from './OnThisPage';
-import KeyResourcesForScos from './KeyResourcesForScos';
 import LatestAnnouncementFromVA from './LatestAnnouncementFromVA';
 import LineFiveStartLine from './LineFiveStartLine';
 import TrainningAndGuide from './TrainningAndGuide';
@@ -16,16 +15,12 @@ const MainContent = () => {
       <ResoursesForSchoolTitle />
       <div>
         <p className="va-introtext">
-          Resources for schools is a one-stop shop for School Certifying
-          Officials (SCOs) and school administrators assisting students who are
-          using their VA benefits to pursue education and training programs.
-          Find trainings, resources, guides, and information on GI Bill programs
-          to support military-connected students.
+          Trainings, resources, guides, and information on GI Bill® programs
+          created for school administrators and certifying officials.
         </p>
         <p />
       </div>
       <OnThisPage />
-      <KeyResourcesForScos />
       <LatestAnnouncementFromVA />
       <LineFiveStartLine />
       <TrainningAndGuide />

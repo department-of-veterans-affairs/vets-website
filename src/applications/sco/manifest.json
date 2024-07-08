@@ -1,5 +1,5 @@
 {
-  "appName": "School administrators",
+  "appName": "Resources for schools",
   "entryFile": "./app-entry.jsx",
   "entryName": "sco",
   "rootUrl": "/education/school-administrators",
