@@ -97,6 +97,10 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
+
+import create1010DAccess from './ivc-champva/10-10D/entry';
+import create107959F1Access from './ivc-champva/10-7959f-1/entry';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -242,6 +246,9 @@ createBurialsV2HowDoIApplyWidget(
 );
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
+
+create1010DAccess(store, widgetTypes.FORM_1010D);
+create107959F1Access(store, widgetTypes.FORM_107959F1);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

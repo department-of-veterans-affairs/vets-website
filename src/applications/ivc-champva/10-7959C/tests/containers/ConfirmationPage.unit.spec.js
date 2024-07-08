@@ -75,7 +75,7 @@ describe('presubmit section', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('Statement of truth')).to.exist;
+    expect(tree.getByText('Representative’s Statement of truth')).to.exist;
 
     tree.unmount();
   });

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   rxListSortingOptions,
   DD_ACTIONS_PAGE_TYPE,
@@ -34,23 +35,22 @@ const MedicationsListSort = props => {
           value={sortListOption}
           onVaSelect={e => {
             setSortListOption(e.detail.value);
+            const capitalizedOption = e.detail.value
+              .replace(/([a-z])([A-Z])/g, '$1 $2')
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            datadogRum.addAction(
+              `click on ${capitalizedOption} Option - ${
+                DD_ACTIONS_PAGE_TYPE.LIST
+              }`,
+            );
           }}
           uswds
         >
           {rxSortingOptions.map(option => {
-            const capitalizedOption = option
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ');
             return (
-              <option
-                key={option}
-                value={option}
-                data-testid="sort-option"
-                data-dd-action-name={`${capitalizedOption} Option - ${
-                  DD_ACTIONS_PAGE_TYPE.LIST
-                }`}
-              >
+              <option key={option} value={option} data-testid="sort-option">
                 {rxListSortingOptions[option].LABEL}
               </option>
             );
