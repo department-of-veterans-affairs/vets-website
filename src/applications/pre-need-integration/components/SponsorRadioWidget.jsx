@@ -77,7 +77,6 @@ export default function RadioWidget(props) {
               city: undefined,
               state: undefined,
               postalCode: undefined,
-              country: undefined,
             },
             phoneNumber: undefined,
             email: undefined,
