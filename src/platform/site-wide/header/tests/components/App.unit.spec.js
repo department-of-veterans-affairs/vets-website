@@ -17,19 +17,20 @@ const mockStore = {
 const MockMobileHeader = () => <div>Mobile header</div>;
 
 describe('Header <App>', () => {
-  let sandbox;
+  const sandbox = sinon.createSandbox();
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
   });
 
   afterEach(() => {
     sandbox.reset();
     sandbox.restore();
+    sandbox.resetBehavior();
+    sandbox.resetHistory();
     cleanup();
   });
 
-  async function setupHeader(options = {}) {
+  function setupHeader(options = {}) {
     const show = options.show ?? true;
     const { showMinimalHeader } = options;
     const staticDom = document.createElement('div');
@@ -67,8 +68,8 @@ describe('Header <App>', () => {
     return { ...renderProps, staticDom };
   }
 
-  it('renders no header if show is false', async () => {
-    const { queryByText, staticDom } = await setupHeader({ show: false });
+  it('renders no header if show is false', () => {
+    const { queryByText, staticDom } = setupHeader({ show: false });
     expect(staticDom.querySelector('#legacy-header')).to.have.class(
       'vads-u-display--none',
     );
@@ -78,13 +79,13 @@ describe('Header <App>', () => {
     document.body.removeChild(staticDom);
   });
 
-  it('renders legacy header when our width is more than 768px', async () => {
+  it('renders legacy header when our width is more than 768px', () => {
     window.innerWidth = 768;
     const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
-    const { queryByText, staticDom } = await setupHeader();
+    const { queryByText, staticDom } = setupHeader();
 
     expect(showLegacyHeaderSpy.called).to.be.true;
     expect(hideLegacyHeaderSpy.called).to.be.false;
@@ -105,13 +106,13 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it('renders header v2 (mobile) when our width is less than 768px', async () => {
+  it('renders header v2 (mobile) when our width is less than 768px', () => {
     window.innerWidth = 767;
     const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
-    const { queryByText, staticDom } = await setupHeader();
+    const { queryByText, staticDom } = setupHeader();
 
     expect(showLegacyHeaderSpy.called).to.be.false;
     expect(hideLegacyHeaderSpy.called).to.be.true;
@@ -132,15 +133,13 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it('renders minimal-header when applicable', async () => {
+  it('renders minimal-header when applicable', () => {
     window.innerWidth = 768;
     const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
-    const { queryByText, staticDom } = await setupHeader({
-      showMinimalHeader: true,
-    });
+    const { queryByText, staticDom } = setupHeader({ showMinimalHeader: true });
 
     expect(toggleMinimalHeader.calledWith(true)).to.be.true;
     expect(staticDom.querySelector('#header-default')).to.have.class(
@@ -155,13 +154,13 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it('renders legacy if minimal-header is false and is Desktop size', async () => {
+  it('renders legacy if minimal-header is false and is Desktop size', () => {
     window.innerWidth = 768;
     const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
-    const { queryByText, staticDom } = await setupHeader({
+    const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
     });
 
@@ -186,13 +185,13 @@ describe('Header <App>', () => {
     toggleMinimalHeader.restore();
   });
 
-  it('renders mobile if minimal-header is false and is mobile size', async () => {
+  it('renders mobile if minimal-header is false and is mobile size', () => {
     window.innerWidth = 767;
     const showLegacyHeaderSpy = sandbox.spy(helpers, 'showLegacyHeader');
     const hideLegacyHeaderSpy = sandbox.spy(helpers, 'hideLegacyHeader');
     const toggleMinimalHeader = sandbox.spy(helpers, 'toggleMinimalHeader');
 
-    const { queryByText, staticDom } = await setupHeader({
+    const { queryByText, staticDom } = setupHeader({
       showMinimalHeader: () => false,
     });
 
