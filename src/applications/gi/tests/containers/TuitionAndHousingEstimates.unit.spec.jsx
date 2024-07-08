@@ -94,8 +94,9 @@ describe('<TuitionAndHousingEstimates>', () => {
       },
     );
     const UpdateEstimatesButton = container.querySelector(
-      '#update-update-tuition,-housing,-and-monthly-benefit-estimates-button',
+      '#update-update-tuition\\,-housing\\,-and-monthly-benefit-estimates-button',
     );
+
     fireEvent.click(UpdateEstimatesButton);
 
     await waitFor(() => {
