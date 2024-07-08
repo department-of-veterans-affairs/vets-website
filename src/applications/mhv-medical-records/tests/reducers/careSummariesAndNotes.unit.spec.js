@@ -529,6 +529,7 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: [],
     });
   });
 
@@ -544,6 +545,7 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: [],
     });
   });
 
