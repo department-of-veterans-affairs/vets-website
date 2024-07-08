@@ -11,7 +11,7 @@ export default function Form1990Entry({ location, children }) {
     () => {
       const fieldset = document.querySelector('body');
       if (
-        isProductionOfTestProdEnv() &&
+        !isProductionOfTestProdEnv() &&
         (location.pathname.includes('benefits-selection') ||
           location.pathname === '/review-and-submit')
       ) {
