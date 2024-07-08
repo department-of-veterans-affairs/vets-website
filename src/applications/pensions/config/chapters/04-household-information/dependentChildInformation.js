@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import moment from 'moment';
 import {
   radioSchema,
   radioUI,
@@ -24,7 +23,12 @@ import {
   SchoolAttendanceAlert,
   AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
-import { doesHaveDependents, getDependentChildTitle } from './helpers';
+import { childRelationshipLabels } from '../../../labels';
+import {
+  doesHaveDependents,
+  getDependentChildTitle,
+  isBetween18And23,
+} from './helpers';
 
 const {
   childPlaceOfBirth,
@@ -33,23 +37,6 @@ const {
   previouslyMarried,
   married,
 } = fullSchemaPensions.properties.dependents.items.properties;
-
-const childRelationshipOptions = {
-  BIOLOGICAL: "They're my biological child",
-  ADOPTED: "They're my adopted child",
-  STEP_CHILD: "They're my stepchild",
-};
-
-function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
-      .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
-  );
-}
 
 /** @type {PageSchema} */
 export default {
@@ -76,7 +63,7 @@ export default {
         },
         childRelationship: radioUI({
           title: "What's your relationship?",
-          labels: childRelationshipOptions,
+          labels: childRelationshipLabels,
         }),
         'view:adoptionDocs': {
           'ui:description': AdoptionEvidenceAlert,
@@ -145,7 +132,7 @@ export default {
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
-              Object.keys(childRelationshipOptions),
+              Object.keys(childRelationshipLabels),
             ),
             'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege,

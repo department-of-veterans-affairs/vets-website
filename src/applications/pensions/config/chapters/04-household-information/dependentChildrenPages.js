@@ -1,6 +1,5 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -11,19 +10,29 @@ import {
   dateOfBirthSchema,
   fullNameUI,
   fullNameSchema,
+  radioUI,
+  radioSchema,
   ssnUI,
   ssnSchema,
+  yesNoUI,
+  yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatFullName, showDependentsMultiplePage } from '../../../helpers';
-
-const {
-  childPlaceOfBirth,
-} = fullSchemaPensions.properties.dependents.items.properties;
+import {
+  DisabilityDocsAlert,
+  SchoolAttendanceAlert,
+} from '../../../components/FormAlerts';
+import { childRelationshipLabels } from '../../../labels';
+import { isBetween18And23 } from './helpers';
+import {
+  DependentSeriouslyDisabledDescription,
+  formatFullName,
+  showDependentsMultiplePage,
+} from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -32,7 +41,13 @@ const options = {
   nounPlural: 'dependent children',
   required: false,
   isItemIncomplete: item =>
-    !item?.fullName || !item.childDateOfBirth || !item.childPlaceOfBirth, // include all required fields here
+    !item?.fullName ||
+    !item?.childDateOfBirth ||
+    !item?.childPlaceOfBirth ||
+    (!item?.childSocialSecurityNumber && !item['view:noSsn']) ||
+    !item?.childRelationship ||
+    typeof item.disabled !== 'boolean' ||
+    typeof item.previouslyMarried !== 'boolean', // include all required fields here
   maxItems: 15,
   text: {
     getItemName: item => formatFullName(item.fullName),
@@ -94,7 +109,9 @@ const birthInformationPage = {
     type: 'object',
     properties: {
       childDateOfBirth: dateOfBirthSchema,
-      childPlaceOfBirth,
+      childPlaceOfBirth: {
+        type: 'string',
+      },
     },
     required: ['childDateOfBirth', 'childPlaceOfBirth'],
   },
@@ -106,14 +123,14 @@ const socialSecurityNumberPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         formData?.fullName
-          ? `${formatFullName(formData.fullName)} social security information`
-          : 'Social security information',
+          ? `${formatFullName(formData.fullName)} Social Security information`
+          : 'Social Security information',
     ),
     childSocialSecurityNumber: merge({}, ssnUI(), {
       'ui:required': (formData, index) =>
-        !get(['dependents', index, 'view:noSSN'], formData),
+        !get(['dependents', index, 'view:noSsn'], formData),
     }),
-    'view:noSSN': {
+    'view:noSsn': {
       'ui:title': "Doesn't have a Social Security number",
       'ui:webComponentField': VaCheckboxField,
     },
@@ -122,8 +139,122 @@ const socialSecurityNumberPage = {
     type: 'object',
     properties: {
       childSocialSecurityNumber: ssnSchema,
-      'view:noSSN': { type: 'boolean' },
+      'view:noSsn': { type: 'boolean' },
     },
+  },
+};
+
+/** @returns {PageSchema} */
+const relationshipPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} relationship information`
+          : 'Relationship information',
+    ),
+    childRelationship: radioUI({
+      title: "What's your relationship?",
+      labels: childRelationshipLabels,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      childRelationship: radioSchema(Object.keys(childRelationshipLabels)),
+    },
+    required: ['childRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const attendingSchoolPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} school information`
+          : 'School information',
+    ),
+    attendingCollege: yesNoUI({
+      title: 'Is your child in school?',
+    }),
+    'view:schoolWarning': {
+      'ui:description': SchoolAttendanceAlert,
+      'ui:options': {
+        expandUnder: 'attendingCollege',
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      attendingCollege: yesNoSchema,
+      'view:schoolWarning': { type: 'object', properties: {} },
+    },
+    required: ['attendingCollege'],
+  },
+};
+
+/** @returns {PageSchema} */
+const disabledPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} disabled information`
+          : 'Disabled information',
+    ),
+    disabled: yesNoUI({
+      title: 'Is your child seriously disabled?',
+    }),
+    'view:disabilityDocs': {
+      'ui:description': DisabilityDocsAlert,
+      'ui:options': {
+        expandUnder: 'disabled',
+      },
+    },
+    'view:disabilityInformation': {
+      'ui:description': DependentSeriouslyDisabledDescription,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      disabled: yesNoSchema,
+      'view:disabilityDocs': { type: 'object', properties: {} },
+      'view:disabilityInformation': { type: 'object', properties: {} },
+    },
+    required: ['disabled'],
+  },
+};
+
+/** @returns {PageSchema} */
+const previouslyMarriedPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.fullName
+          ? `${formatFullName(formData.fullName)} marriage information`
+          : 'Marriage information',
+    ),
+    previouslyMarried: yesNoUI({
+      title: 'Has your child ever been married?',
+    }),
+    married: yesNoUI({
+      title: 'Are they currently married?',
+      expandUnder: 'previouslyMarried',
+      required: (formData, index) =>
+        get(['dependents', index, 'previouslyMarried'], formData),
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      previouslyMarried: yesNoSchema,
+      married: yesNoSchema,
+    },
+    required: ['previouslyMarried'],
   },
 };
 
@@ -158,6 +289,38 @@ export const dependentChildrenPages = arrayBuilderPages(
       depends: () => showDependentsMultiplePage(),
       uiSchema: socialSecurityNumberPage.uiSchema,
       schema: socialSecurityNumberPage.schema,
+    }),
+    dependentChildRelationshipPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/relationship',
+      depends: () => showDependentsMultiplePage(),
+      uiSchema: relationshipPage.uiSchema,
+      schema: relationshipPage.schema,
+    }),
+    dependentChildAttendingSchoolPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/school',
+      depends: (formData, index) =>
+        showDependentsMultiplePage() &&
+        isBetween18And23(
+          get(['dependents', index, 'childDateOfBirth'], formData),
+        ),
+      uiSchema: attendingSchoolPage.uiSchema,
+      schema: attendingSchoolPage.schema,
+    }),
+    dependentChildDisabledPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/disabled',
+      depends: () => showDependentsMultiplePage(),
+      uiSchema: disabledPage.uiSchema,
+      schema: disabledPage.schema,
+    }),
+    dependentChildPreviouslyMarriedPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/married',
+      depends: () => showDependentsMultiplePage(),
+      uiSchema: previouslyMarriedPage.uiSchema,
+      schema: previouslyMarriedPage.schema,
     }),
   }),
 );
