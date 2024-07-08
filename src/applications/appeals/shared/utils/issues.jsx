@@ -1,14 +1,16 @@
 import React from 'react';
+import { isValid, startOfDay, isBefore } from 'date-fns';
 
 // import the toggleValues helper
 import {
   FORMAT_READABLE_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
+  AMA_DATE,
   LEGACY_TYPE,
   REGEXP,
   SELECTED,
 } from '../constants';
-import { parseDate } from './dates';
+import { parseDate, parseDateToDateObj } from './dates';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -184,6 +186,35 @@ export const appStateSelector = state => ({
 });
 
 /**
+ * Filter out ineligible contestable issues (used by 995 & 10182):
+ * - remove issues with an invalid decision date
+ * - remove issues that are deferred
+ * @param {ContestableIssues} - Array of both eligible & ineligible contestable
+ *  issues, plus legacy issues
+ * @return {ContestableIssues} - filtered list
+ */
+export const getEligibleContestableIssues = issues => {
+  const result = (issues || []).filter(issue => {
+    const {
+      approxDecisionDate,
+      ratingIssueSubjectText = '',
+      description = '',
+    } = issue?.attributes || {};
+
+    const isDeferred = [ratingIssueSubjectText, description]
+      .join(' ')
+      .includes('deferred');
+    return (
+      !isDeferred &&
+      ratingIssueSubjectText &&
+      approxDecisionDate &&
+      isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
+    );
+  });
+  return processContestableIssues(result);
+};
+
+/**
  * Find legacy appeal array included with contestable issues & return length
  * Note: we are using the length of this array instead of trying to do a 1:1
  * coorelation of contestable issues to legacy issues since we're only getting a
@@ -200,3 +231,29 @@ export const getLegacyAppealsLength = issues =>
     }
     return count;
   }, 0);
+
+const amaCutoff = startOfDay(parseDateToDateObj(AMA_DATE, FORMAT_YMD_DATE_FNS));
+/**
+ * Are there any legacy appeals in the API, or did the Veteran manually add an
+ * issue of unknown legacy status?
+ * @param {Number} legacyCount - legacy appeal array size
+ * @returns {Boolean}
+ */
+export const mayHaveLegacyAppeals = ({
+  legacyCount = 0,
+  contestedIssues = [],
+  additionalIssues = [],
+} = {}) => {
+  if (legacyCount > 0 || additionalIssues?.length > 0) {
+    return true;
+  }
+  return contestedIssues?.some(issue => {
+    const decisionDate = startOfDay(
+      parseDateToDateObj(
+        issue.attributes.approxDecisionDate,
+        FORMAT_YMD_DATE_FNS,
+      ),
+    );
+    return isBefore(decisionDate, amaCutoff);
+  });
+};

@@ -67,7 +67,12 @@ export const fileUploadUi = content => {
       },
     }),
     // hideOnReview: true,
-    // attachmentName: true,
+    // attachmentName: false,
+    attachmentName: content?.attachmentName
+      ? {
+          'ui:title': 'Document name',
+        }
+      : false,
     uswds: true,
   });
 };

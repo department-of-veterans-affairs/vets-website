@@ -52,6 +52,7 @@ describe('<AddFilesForm>', () => {
       expect(checkbox.label).to.equal(
         'The files I uploaded support this claim only.',
       );
+      expect(checkbox.required).to.be.true;
       const link = $('#how-to-file-claim', container);
       expect(link.text).to.equal('How to File a Claim');
       expect($('.files-form-information', container)).to.exist;

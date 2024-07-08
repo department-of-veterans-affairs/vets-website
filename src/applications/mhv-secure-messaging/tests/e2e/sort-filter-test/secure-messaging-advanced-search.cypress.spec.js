@@ -6,6 +6,7 @@ import mockSearchCustomMessages from '../fixtures/search-advanced-custom-folder-
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import PatentMessageSentPage from '../pages/PatientMessageSentPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
@@ -77,7 +78,7 @@ describe(manifest.appName, () => {
       SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
-      FolderLoadPage.loadSentMessages();
+      PatentMessageSentPage.loadMessages();
 
       cy.intercept(
         'POST',
