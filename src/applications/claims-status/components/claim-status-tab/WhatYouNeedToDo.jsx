@@ -29,6 +29,7 @@ function WhatYouNeedToDo({ claim }) {
           evidenceWaiverSubmitted5103={
             claim.attributes.evidenceWaiverSubmitted5103
           }
+          previousPage="status"
         />
       ))}
     </>
