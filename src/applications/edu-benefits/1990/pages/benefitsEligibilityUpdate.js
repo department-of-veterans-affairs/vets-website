@@ -39,7 +39,7 @@ export const benefitsEligibilityUpdate = (
         'view:selectedBenefits': {
           'ui:title': 'Select the benefit that is the best match for you.',
           'ui:errorMessages': {
-            atLeastOne: 'Please select at least one benefit',
+            atLeastOne: 'You must select a benefit',
           },
           'ui:options': {
             showFieldLabel: true,
@@ -52,7 +52,7 @@ export const benefitsEligibilityUpdate = (
               hideLabelText: true,
             },
             'ui:errorMessages': {
-              required: 'Please select at least one benefit',
+              required: 'You must select a benefit',
             },
           },
         },
