@@ -20,7 +20,7 @@ const PrefilledAddress = props => {
 };
 
 PrefilledAddress.propTypes = {
-  isLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
