@@ -18,7 +18,6 @@ describe('ezr FeatureToggles selector', () => {
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
-        isTeraEnabled: true,
         isUploadEnabled: true,
       });
     });

@@ -15,7 +15,6 @@ import {
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
-  teraInformationEnabled,
   teraUploadEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
@@ -224,7 +223,6 @@ const formConfig = {
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
-          depends: teraInformationEnabled,
           uiSchema: toxicExposure.uiSchema,
           schema: toxicExposure.schema,
         },
