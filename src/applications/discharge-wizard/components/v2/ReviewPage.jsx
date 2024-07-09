@@ -48,8 +48,7 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
           >
             {reviewLabel}
             <va-link
-              aria-label={reviewLabel}
-              className="vads-u-padding-left--2"
+              class="hydrated vads-u-padding-left--2"
               onClick={() => onEditAnswerClick(ROUTES[shortName])}
               name={shortName}
               text="Edit"
