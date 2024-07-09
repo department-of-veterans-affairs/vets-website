@@ -24,6 +24,8 @@
  * @property {string} [ariaDescribedBySubmit]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
+ * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
+ * @property {JSX.Element | React.ReactNode} [CustomTopContent]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options

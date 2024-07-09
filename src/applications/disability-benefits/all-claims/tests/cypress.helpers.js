@@ -18,10 +18,6 @@ import {
 } from '../constants';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
-const todayPlus120 = format(add(new Date(), { days: 120 }), 'yyyy-M-d').split(
-  '-',
-);
-
 export const mockItf = (
   offset = { days: 1 },
   status = 'active',
@@ -249,10 +245,12 @@ export const pageHooks = (cy, testOptions = {}) => ({
   introduction: () => {
     cy.get('@testData').then(data => {
       if (data['view:isBddData']) {
-        window.sessionStorage.setItem(
-          SAVED_SEPARATION_DATE,
-          todayPlus120.join('-'),
+        const separationDate = format(
+          add(new Date(), { days: 120 }),
+          'yyyy-MM-dd',
         );
+
+        window.sessionStorage.setItem(SAVED_SEPARATION_DATE, separationDate);
       } else {
         window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
       }
@@ -285,6 +283,10 @@ export const pageHooks = (cy, testOptions = {}) => ({
           'view:isTitle10Activated'
         ]
       ) {
+        const todayPlus120 = format(
+          add(new Date(), { days: 120 }),
+          'yyyy-M-d',
+        ).split('-');
         // active title 10 activation puts this into BDD flow
         cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
         cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);

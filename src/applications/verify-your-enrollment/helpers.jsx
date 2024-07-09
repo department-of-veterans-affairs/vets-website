@@ -639,7 +639,8 @@ export const noSuggestedAddress = deliveryPointValidation => {
   return (
     deliveryPointValidation === BAD_UNIT_NUMBER ||
     deliveryPointValidation === MISSING_UNIT_NUMBER ||
-    deliveryPointValidation === 'MISSING_ZIP'
+    deliveryPointValidation === 'MISSING_ZIP' ||
+    deliveryPointValidation === 'UNDELIVERABLE'
   );
 };
 
