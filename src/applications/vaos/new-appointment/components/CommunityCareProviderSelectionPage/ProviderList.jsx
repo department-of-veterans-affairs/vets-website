@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
@@ -230,3 +231,14 @@ export default function ProviderList({
     </div>
   );
 }
+ProviderList.propTypes = {
+  checkedProvider: PropTypes.any,
+  idSchema: PropTypes.object,
+  initialProviderDisplayCount: PropTypes.number,
+  providersListLength: PropTypes.number,
+  setCheckedProvider: PropTypes.func,
+  setProvidersListLength: PropTypes.func,
+  setShowProvidersList: PropTypes.func,
+  showProvidersList: PropTypes.bool,
+  onChange: PropTypes.func,
+};
