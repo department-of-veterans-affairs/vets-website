@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const PrefillCopy = props => {
   const { isLoggedIn } = props;
-  return !isLoggedIn ? (
+  return isLoggedIn ? (
     <div>
       <p>
         Any updates you make will only apply to this form. If you want to update
