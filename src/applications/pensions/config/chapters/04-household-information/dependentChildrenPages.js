@@ -51,7 +51,18 @@ const options = {
     !item.childRelationship ||
     typeof item.disabled !== 'boolean' ||
     typeof item.previouslyMarried !== 'boolean' ||
-    typeof item.childInHousehold !== 'boolean', // include all required fields here
+    typeof item.childInHousehold !== 'boolean' ||
+    (!item.childInHousehold &&
+      (!item.childAddress ||
+        !item.childAddress.street ||
+        !item.childAddress.city ||
+        !item.childAddress.postalCode ||
+        !item.childAddress.country)) ||
+    (!item.childInHousehold &&
+      (!item.personWhoLivesWithChild ||
+        !item.personWhoLivesWithChild.first ||
+        !item.personWhoLivesWithChild.last)) ||
+    (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
   maxItems: 15,
   text: {
     getItemName: item => formatFullName(item.fullName),
