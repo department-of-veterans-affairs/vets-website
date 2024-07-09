@@ -25,14 +25,16 @@ describe('CG <ConfirmationPage>', () => {
       dispatch: () => {},
     },
   });
-
-  it('should render with Veterans name when submission response is omitted', () => {
-    const { mockStore } = getData({});
-    const { container } = render(
+  const subject = ({ mockStore }) =>
+    render(
       <Provider store={mockStore}>
         <ConfirmationPage />
       </Provider>,
     );
+
+  it('should render with Veterans name when submission response is omitted', () => {
+    const { mockStore } = getData({});
+    const { container } = subject({ mockStore });
     const selectors = {
       wrapper: container.querySelector('.caregiver-confirmation'),
       name: container.querySelector('[data-testid="cg-veteranfullname"]'),
@@ -52,11 +54,7 @@ describe('CG <ConfirmationPage>', () => {
       timestamp: 1666887649663,
     };
     const { mockStore } = getData({ submission });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage />
-      </Provider>,
-    );
+    const { container } = subject({ mockStore });
     const selectors = {
       wrapper: container.querySelector('.caregiver-confirmation'),
       name: container.querySelector('[data-testid="cg-veteranfullname"]'),
@@ -69,11 +67,7 @@ describe('CG <ConfirmationPage>', () => {
 
   it('should contain sections that will not be displayed in print view', () => {
     const { mockStore } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ConfirmationPage />
-      </Provider>,
-    );
+    const { container } = subject({ mockStore });
     const selector = container.querySelectorAll('.no-print');
     expect(selector).to.have.length;
   });
