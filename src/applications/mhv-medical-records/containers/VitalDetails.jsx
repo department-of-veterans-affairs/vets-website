@@ -68,16 +68,12 @@ const VitalDetails = props => {
 
   const updatedRecordType = useMemo(
     () => {
-      if (vitalType === 'heart-rate') {
-        return 'PULSE';
-      }
-      if (vitalType === 'breathing-rate') {
-        return 'RESPIRATION';
-      }
-      if (vitalType === 'blood-oxygen-level') {
-        return 'PULSE_OXIMETRY';
-      }
-      return vitalType;
+      const typeMap = {
+        'heart-rate': 'PULSE',
+        'breathing-rate': 'RESPIRATION',
+        'blood-oxygen-level': 'PULSE_OXIMETRY',
+      };
+      return typeMap[vitalType] || vitalType;
     },
     [vitalType],
   );

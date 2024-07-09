@@ -10,16 +10,12 @@ const VitalListItem = props => {
 
   const updatedRecordType = useMemo(
     () => {
-      if (record.type === 'PULSE') {
-        return 'HEART-RATE';
-      }
-      if (record.type === 'RESPIRATION') {
-        return 'BREATHING-RATE';
-      }
-      if (record.type === 'PULSE_OXIMETRY') {
-        return 'BLOOD-OXYGEN-LEVEL';
-      }
-      return record.type;
+      const typeMap = {
+        PULSE: 'HEART-RATE',
+        RESPIRATION: 'BREATHING-RATE',
+        PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
+      };
+      return typeMap[record.type] || record.type;
     },
     [record.type],
   );
