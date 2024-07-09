@@ -18,12 +18,16 @@ const BreadCrumbs = ({ currentLocation }) => {
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
 
   return (
-    <VaBreadcrumbs
-      home-veterans-affairs={false}
-      label="Breadcrumbs"
-      breadcrumbList={[...breadcrumbLinks]}
-      uswds
-    />
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <VaBreadcrumbs
+          home-veterans-affairs={false}
+          label="Breadcrumbs"
+          breadcrumbList={[...breadcrumbLinks]}
+          uswds
+        />
+      </div>
+    </div>
   );
 };
 
