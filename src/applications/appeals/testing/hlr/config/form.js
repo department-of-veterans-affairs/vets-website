@@ -60,7 +60,7 @@ const formConfig = {
     ],
   },
 
-  formId: 'hlr-testing',
+  formId: 'FORM_MOCK_HLR',
   saveInProgress: {
     messages: {
       inProgress:
