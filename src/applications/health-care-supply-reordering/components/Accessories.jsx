@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 import moment from 'moment';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -130,24 +129,42 @@ class Accessories extends Component {
               </div>
               {currentDate.diff(accessorySupply.nextAvailabilityDate, 'days') <
               0 ? (
-                <va-alert status="warning">
-                  <h3 className="usa-alert-heading vads-u-font-family--sans">
-                    You can't order this accessory online until{' '}
-                    {moment(accessorySupply.nextAvailabilityDate).format(
-                      'MMMM D, YYYY',
-                    )}
-                  </h3>
-                </va-alert>
+                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
+                  <div className="usa-alert-body">
+                    <h3 className="usa-alert-heading vads-u-font-family--sans">
+                      You can't order this accessory online until{' '}
+                      {moment(accessorySupply.nextAvailabilityDate).format(
+                        'MMMM D, YYYY',
+                      )}
+                    </h3>
+                  </div>
+                </div>
               ) : (
-                <VaCheckbox
-                  id={accessorySupply.productId}
-                  className="vads-u-margin-left--0"
-                  onChange={e =>
-                    this.handleChecked(e.target.checked, accessorySupply)
-                  }
-                  checked={isAccessorySelected(accessorySupply.productId)}
-                  label="Order this hearing aid accessory"
-                />
+                <div>
+                  <input
+                    id={accessorySupply.productId}
+                    className="vads-u-margin-left--0"
+                    type="checkbox"
+                    onChange={e =>
+                      this.handleChecked(e.target.checked, accessorySupply)
+                    }
+                    checked={isAccessorySelected(accessorySupply.productId)}
+                  />
+                  <label
+                    htmlFor={accessorySupply.productId}
+                    className={classnames({
+                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
+                      'vads-u-color--white': isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                      'vads-u-background-color--white vads-u-color--primary': !isAccessorySelected(
+                        accessorySupply.productId,
+                      ),
+                    })}
+                  >
+                    Order this hearing aid accessory
+                  </label>
+                </div>
               )}
             </div>
           ))}
