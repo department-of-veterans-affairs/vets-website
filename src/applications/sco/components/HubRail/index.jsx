@@ -1,5 +1,5 @@
 import React from 'react';
-import AskAQuestion from './AskAQuestion';
+import AskQuestions from './AskQuestions';
 import AverageProcessingTime from './AverageProcessingTime';
 import ConnectWithUs from './ConnectWithUs';
 import SchoolCertifyingOfficialHandbook from './SchoolCertifyingOfficialHandbook';
@@ -12,18 +12,7 @@ const HubRail = () => {
     >
       <SchoolCertifyingOfficialHandbook />
       <va-accordion bordered="" multi="" className="social hydrated">
-        <template shadowrootmode="closed">
-          <button
-            className="va-accordion__button"
-            aria-label="Collapse all accordions"
-            aria-controls="  "
-            aria-expanded="true"
-          >
-            Collapse all -
-          </button>
-          <slot />
-        </template>
-        <AskAQuestion />
+        <AskQuestions />
         <AverageProcessingTime />
         <ConnectWithUs />
       </va-accordion>
