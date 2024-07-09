@@ -136,6 +136,11 @@ Provider Notes: ${processList(record.comments)}\n`;
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
+  function containsSctOrIcd(inputString) {
+    const regex = /\b(sct|icd)\b/i;
+    return regex.test(inputString);
+  }
+
   const content = () => {
     if (accessAlert) {
       return (
@@ -191,6 +196,24 @@ Provider Notes: ${processList(record.comments)}\n`;
               data-testid="condition-provider-notes"
               list={record.comments}
             />
+            {containsSctOrIcd(record.name) && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  About the code in this condition name
+                </h2>
+                <p
+                  data-dd-privacy="mask"
+                  data-testid="about-the-condition-code"
+                >
+                  Some of your health conditions may have diagnosis codes in the
+                  name that start with SCT or ICD. Providers use these codes to
+                  track your health conditions and to communicate with other
+                  providers about your care. If you have a question about these
+                  codes or a health condition, ask your provider at your next
+                  appointment.
+                </p>
+              </>
+            )}
           </div>
         </>
       );

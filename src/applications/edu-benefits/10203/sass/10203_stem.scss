@@ -10,6 +10,14 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~uswds/src/stylesheets/core/utilities";
 
+.icon-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
 .process {
   #circle li {
     list-style: circle;
