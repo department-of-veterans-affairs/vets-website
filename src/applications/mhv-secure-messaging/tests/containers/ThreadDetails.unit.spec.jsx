@@ -567,8 +567,8 @@ describe('Thread Details container', () => {
 
     inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
     mockApiRequest({ method: 'POST', status: 200, ok: true });
+    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
   });
