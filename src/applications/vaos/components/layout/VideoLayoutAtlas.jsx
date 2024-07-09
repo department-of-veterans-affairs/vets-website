@@ -174,7 +174,12 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!!facility && (
+            {!facility && (
+              <>
+                <span>Facility not available</span>
+              </>
+            )}
+            {facility && (
               <>
                 {facility.name}
                 <br />
@@ -184,7 +189,17 @@ export default function VideoLayoutAtlas({ data: appointment }) {
               </>
             )}
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {clinicName && (
+              <>
+                <span>Clinic: {clinicName}</span> <br />
+              </>
+            )}
+            {!clinicName && (
+              <>
+                <span>Clinic not available</span>
+              </>
+            )}
+            <br />
             {facilityPhone && (
               <FacilityPhone heading="Phone:" contact={facilityPhone} />
             )}
