@@ -4,6 +4,7 @@ import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -146,6 +147,7 @@ export default function App({ children }) {
 
   return (
     <div>
+      <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1 tabIndex="-1" data-testid="header">

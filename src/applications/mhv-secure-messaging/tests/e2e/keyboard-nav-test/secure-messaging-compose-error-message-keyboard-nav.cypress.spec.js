@@ -8,9 +8,8 @@ import { AXE_CONTEXT, Data } from '../utils/constants';
 // Focus states go to interactive form fields (Select, text input, textarea, checkboxes, and radio buttons.)
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });

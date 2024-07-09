@@ -10,8 +10,7 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 describe('Secure Messaging navigate away from unsaved draft', () => {
   it(' Check navigation away from unsaved draft', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);

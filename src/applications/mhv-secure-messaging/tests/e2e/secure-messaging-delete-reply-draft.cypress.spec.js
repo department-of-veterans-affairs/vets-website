@@ -11,8 +11,7 @@ describe('Secure Messaging Delete Reply Draft', () => {
   it('Axe Check Message Delete Reply Draft with Axe Check', () => {
     const draftsPage = new PatientMessageDraftsPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);

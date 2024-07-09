@@ -450,7 +450,7 @@ const formConfig = {
       },
     },
     formSignature: {
-      title: 'Form signature',
+      title: 'Signer information',
       pages: {
         formSignature: {
           path: 'form-signature',

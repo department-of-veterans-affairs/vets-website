@@ -233,6 +233,8 @@ export const Alerts = {
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
+  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  TRY_SEARCH: 'Try the search box or one of the common questions below.',
 };
 
 export const Data = {

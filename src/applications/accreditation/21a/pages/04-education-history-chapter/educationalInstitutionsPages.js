@@ -100,7 +100,7 @@ const educationalInstitutionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     educationalInstitutions: pageBuilder.introPage({
-      title: 'educational institutions',
+      title: 'Educational institutions',
       path: 'educational-institutions',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
