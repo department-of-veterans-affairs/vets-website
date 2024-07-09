@@ -4,8 +4,8 @@ import YourBackgroundInformationDescription from '../../components/YourBackgroun
 
 /** @type {PageSchema} */
 export default {
-  title: 'Your background information',
-  path: 'your-background-information',
+  title: 'Background information',
+  path: 'background-information',
   uiSchema: {
     ...titleUI(
       'Your background information',

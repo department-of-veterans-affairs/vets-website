@@ -2,10 +2,9 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Data, Locators } from '../utils/constants';
 
-describe.skip('Secure Messaging Keyboard Nav To Compose', () => {
-  const site = new SecureMessagingSite();
+describe('Secure Messaging Keyboard Nav To Compose', () => {
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
   it('Keyboard Nav from Welcome Page to Compose', () => {

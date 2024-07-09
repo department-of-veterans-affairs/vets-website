@@ -1,8 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import { hi } from 'date-fns/locale';
+import { useHistory } from 'react-router-dom';
 import FormLayout from '../new-appointment/components/FormLayout';
+import mockData from '../services/mocks/wellHive/providerServices.json';
 
 export default function ChooseCommunityCare() {
+  const history = useHistory();
+
   const [providers, setProviders] = useState([
     {
       name: 'Dr. Kristina Jones',
@@ -19,6 +24,10 @@ export default function ChooseCommunityCare() {
     driveDistance: '12 minute drive (22 miles)',
     nextAvailable: 'June 6, 2024',
   });
+
+  const goToFilterPage = () => {
+    history.push('/filter-page');
+  };
 
   useEffect(() => {
     let newProviders = [...providers];
@@ -39,7 +48,7 @@ export default function ChooseCommunityCare() {
   ]);
 
   return (
-    <FormLayout>
+    <FormLayout pageTitle="Choose a community care provider">
       <div>
         <h1>Choose a [community care] provider</h1>
         <va-card background>
@@ -78,7 +87,13 @@ export default function ChooseCommunityCare() {
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">
               <va-icon icon="filter_list" size={4} srtext="Filter icon" />{' '}
-              Filter
+              <va-link
+                aria-label="Filter"
+                text="Filter"
+                data-testid="filter-link"
+                onClick={goToFilterPage}
+                tabindex="0"
+              />
             </div>
             <div className="vads-l-col vads-u-text-align--right">
               {resultsCount}

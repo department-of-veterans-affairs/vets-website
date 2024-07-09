@@ -5,6 +5,7 @@ import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
+import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
@@ -115,7 +116,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = text => {
-    return cy.focused().should('have.attr', 'error', text);
+    return cy.focused().should('contain.text', text);
   };
 
   clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
@@ -123,23 +124,6 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click();
-  };
-
-  //* Refactor*  make parameterize mockDraftMessage
-  sendDraft = draftMessage => {
-    cy.intercept('POST', Paths.INTERCEPT.MESSAGES, draftMessage).as(
-      'draft_message',
-    );
-    cy.get(Locators.BUTTONS.SEND).click();
-    cy.wait('@draft_message').then(xhr => {
-      cy.log(JSON.stringify(xhr.response.body));
-    });
-    cy.get(Locators.ALERTS.DRAFT_MESSAGE)
-      .its('request.body')
-      .then(message => {
-        expect(message.category).to.eq(draftMessage.data.attributes.category);
-        expect(message.subject).to.eq(draftMessage.data.attributes.subject);
-      });
   };
 
   keyboardNavToMessageBodyField = () => {
@@ -214,6 +198,38 @@ class PatientComposePage {
       });
   };
 
+  saveNewDraft = (category, subject) => {
+    cy.intercept('POST', `${Paths.SM_API_BASE}/message_drafts`, newDraft).as(
+      'new_draft',
+    );
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@new_draft')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
+  };
+
+  saveExistingDraft = (category, subject) => {
+    cy.intercept(
+      'PUT',
+      `/my_health/v1/messaging/message_drafts/${
+        mockDraftResponse.data.attributes.messageId
+      }`,
+      mockDraftResponse,
+    ).as('draft_message');
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+
+    cy.get('@draft_message')
+      .its('request.body')
+      .then(message => {
+        expect(message.category).to.eq(category);
+        expect(message.subject).to.eq(subject);
+      });
+  };
+
   verifyAttachmentErrorMessage = errormessage => {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
@@ -270,25 +286,6 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT)
       .eq(_attachmentIndex)
       .should('have.focus');
-  };
-
-  //* Refactor*Remove and consolidate
-  selectSideBarMenuOption = menuOption => {
-    if (menuOption === 'Inbox') {
-      cy.get(Locators.FOLDERS.INBOX).click();
-    }
-    if (menuOption === 'Drafts') {
-      cy.get(Locators.FOLDERS.DRAFTS).click();
-    }
-    if (menuOption === 'Sent') {
-      cy.get(Locators.FOLDERS.SENT).click();
-    }
-    if (menuOption === 'Trash') {
-      cy.get(Locators.FOLDERS.TRASH).click();
-    }
-    if (menuOption === 'My folders') {
-      cy.get(Locators.FOLDERS.SIDEBAR).click();
-    }
   };
 
   clickOnDeleteDraftButton = () => {

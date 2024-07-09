@@ -52,7 +52,7 @@ describe('MobileLogoRow', () => {
   it('should include an icon inside the menu button', () => {
     const { getByTestId } = renderMobileLogoRow(false, null);
     const button = getByTestId('mobile-logo-row-menu-button');
-    const icon = button.querySelector('i.fa-bars');
+    const icon = button.querySelector('va-icon');
     expect(icon).to.exist;
   });
 });

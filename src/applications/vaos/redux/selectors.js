@@ -103,6 +103,8 @@ export const selectFeatureAppointmentDetailsRedesign = state =>
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
+export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
+
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 

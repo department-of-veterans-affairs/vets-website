@@ -5,14 +5,12 @@ import { Hub } from './components/hub/Hub';
 
 // conditionally add the profile hub route based on feature toggle
 const getRoutes = (
-  { profileContacts = false, profileShowDirectDepositSingleForm = false } = {
-    profileContacts: false,
+  { profileShowDirectDepositSingleForm = false } = {
     profileShowDirectDepositSingleForm: false,
   },
 ) => {
   return [
     ...getRoutesForNav({
-      profileContacts,
       profileShowDirectDepositSingleForm,
     }),
     {

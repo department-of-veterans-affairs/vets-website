@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { datadogRum } from '@datadog/browser-rum';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import HeaderLayout from '../../components/HeaderLayout';
 
@@ -90,6 +92,35 @@ describe('MHV Landing Page -- Header Layout', () => {
           'href',
           'https://int.eauth.va.gov/mhv-portal-web/eauth',
         );
+      });
+    });
+  });
+
+  describe('Go back links', () => {
+    it('call datadogRum.addAction on click of go-back links', async () => {
+      const store = mockStore({
+        mhvLandingPageEnableVaGovHealthToolsLinks: true,
+      });
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <HeaderLayout />
+        </Provider>,
+      );
+
+      const spyDog = sinon.spy(datadogRum, 'addAction');
+
+      await waitFor(() => {
+        const goBack1 = getByTestId('mhv-go-back-1');
+        fireEvent.click(goBack1);
+
+        expect(spyDog.called).to.be.true;
+
+        const goBack2 = getByTestId('mhv-go-back-2');
+        fireEvent.click(goBack2);
+
+        expect(spyDog.calledTwice).to.be.true;
+
+        spyDog.restore();
       });
     });
   });

@@ -2,6 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { datadogRum } from '@datadog/browser-rum';
+
 const MedicalRecordsCard = ({ href }) => {
   const slug = 'mhv-c-card-medical-records';
   return (
@@ -62,8 +64,12 @@ const MedicalRecordsCard = ({ href }) => {
       </p>
       <p>
         <a
+          onClick={() =>
+            datadogRum.addAction(
+              'Click on Medical Records Card - Go back to the previous version of My HealtheVet',
+            )
+          }
           className="mhv-c-link"
-          data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
           href={href}
         >
           Go back to the previous version of My HealtheVet

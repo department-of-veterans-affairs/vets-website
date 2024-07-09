@@ -61,6 +61,32 @@ export function getClaimPhaseTypeHeaderText(claimPhaseType) {
   return claimPhaseTypeStepMap[claimPhaseType];
 }
 
+const phase8ItemTextMap = {
+  1: 'We received your claim in our system',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering',
+  4: 'Step 4: Evidence review',
+  5: 'Step 5: Rating',
+  6: 'Step 6: Preparing decision letter',
+  7: 'Step 7: Final review',
+  8: 'Your claim was decided',
+};
+
+const phase5ItemTextMap = {
+  1: 'Step 1: Claim received',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering, review, and decision',
+  4: 'Step 3: Evidence gathering, review, and decision',
+  5: 'Step 3: Evidence gathering, review, and decision',
+  6: 'Step 3: Evidence gathering, review, and decision',
+  7: 'Step 4: Preparation for notification',
+  8: 'Step 5: Closed',
+};
+
+export function getPhaseItemText(phase, showEightPhases = false) {
+  return showEightPhases ? phase8ItemTextMap[phase] : phase5ItemTextMap[phase];
+}
+
 const claimPhaseTypeDescriptionMap = {
   CLAIM_RECEIVED: 'We received your claim in our system.',
   UNDER_REVIEW:

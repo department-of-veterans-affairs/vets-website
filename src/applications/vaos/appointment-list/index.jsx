@@ -5,6 +5,7 @@ import AppointmentsPage from './components/AppointmentsPage/index';
 import AppointmentNotificationPage from '../referral-appointments/AppointmentNotificationsPage';
 import ReviewApproved from '../referral-appointments/ReviewApproved';
 import ChooseCommunityCare from '../referral-appointments/ChooseCommunityCare';
+import FilterPage from '../referral-appointments/FilterPage';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import ConfirmApprovedPage from '../referral-appointments/ConfirmApprovedPage';
@@ -27,6 +28,7 @@ function AppointmentListSection() {
             path="/choose-community-care-appointment"
             component={ChooseCommunityCare}
           />
+          <Route path="/filter-page" component={FilterPage} />
           <Route
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
@@ -54,6 +56,7 @@ function AppointmentListSection() {
             path="/choose-community-care-appointment"
             component={ChooseCommunityCare}
           />
+          <Route path="/filter-page" component={FilterPage} />
           <Route
             path="/appointment-notifications"
             component={AppointmentNotificationPage}

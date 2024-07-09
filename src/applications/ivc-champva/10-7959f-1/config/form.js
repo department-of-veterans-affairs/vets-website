@@ -11,10 +11,10 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -30,6 +30,10 @@ import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/InternationalPhone';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -94,6 +98,9 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
+            'view:prefilledAddress': {
+              'ui:description': PrefilledAddress,
+            },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
@@ -102,6 +109,10 @@ const formConfig = {
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
             },
@@ -154,9 +165,6 @@ const formConfig = {
                 state: () => true,
               },
             }),
-            'view:prefilledAddress': {
-              'ui:description': PrefilledAddress,
-            },
           },
           schema: {
             type: 'object',
@@ -164,10 +172,6 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranAddress: addressSchema(),
-              'view:prefilledAddress': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
@@ -177,8 +181,31 @@ const formConfig = {
       title: 'Home address',
       pages: {
         page4: {
+          path: 'same-as-mailing-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI('Home address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your mailing address the same as your home address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
+            },
+          },
+        },
+        page4a: {
           path: 'home-address',
           title: 'Home address ',
+          depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
               `Home address`,
@@ -218,7 +245,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -226,7 +253,7 @@ const formConfig = {
             required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

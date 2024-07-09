@@ -54,7 +54,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for health care benefits.',
   },
-  title: 'File a Foreign Medical Program (FMP) Claim',
+  title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
   defaultDefinitions: {},
   chapters: {
