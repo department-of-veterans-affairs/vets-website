@@ -188,6 +188,7 @@ ProofOfVeteranStatus.propTypes = {
   mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
+  edipi: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
