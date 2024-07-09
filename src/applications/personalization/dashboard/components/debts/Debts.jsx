@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 import {
   fetchDebts,
   fetchCopays,
 } from '~/applications/personalization/dashboard/actions/debts';
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
+import IconCTALink from '../IconCTALink';
 import DebtsCard from './DebtsCard';
 import CopaysCard from './CopaysCard';
 
@@ -51,7 +51,7 @@ const PopularActionsForDebts = () => {
     <>
       <IconCTALink
         href="/resources/va-debt-management"
-        icon="file-invoice-dollar"
+        icon="request_quote"
         text="Learn about VA debt"
         onClick={() => {
           recordEvent({

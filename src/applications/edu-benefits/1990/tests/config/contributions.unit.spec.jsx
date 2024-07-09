@@ -29,7 +29,6 @@ describe('Edu 1990 contributions', () => {
 
     expect(formDOM.querySelectorAll('input').length).to.equal(4);
   });
-
   it('should reveal date fields', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(

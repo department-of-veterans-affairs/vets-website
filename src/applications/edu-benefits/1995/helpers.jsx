@@ -1,6 +1,8 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment/moment';
+import IntroductionPage from './containers/IntroductionPage';
+import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
@@ -8,6 +10,12 @@ export const isProductionOfTestProdEnv = automatedTest => {
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
+};
+
+export const introductionPage = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? IntroductionPage
+    : IntroductionPageUpdate;
 };
 
 export const sponsorInformationTitle = (automatedTest = false) => {
@@ -88,7 +96,10 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">

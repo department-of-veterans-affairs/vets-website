@@ -14,6 +14,8 @@ import {
   authorizeInsideVA,
   authorizeOutsideVA,
   formToggle,
+  claimantType,
+  authorizeOutsideVANames,
 } from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -60,11 +62,17 @@ const formConfig = {
   },
   chapters: {
     formToggle: {
-      title: 'Form toggle',
+      title: ' ',
       pages: {
-        formToggle: {
-          path: 'form-toggle',
-          title: 'Authorization for Certain Medical Records',
+        claimantType: {
+          path: 'claimant-type',
+          title: ' ',
+          uiSchema: claimantType.uiSchema,
+          schema: claimantType.schema,
+        },
+        repType: {
+          path: 'rep-type',
+          title: ' ',
           uiSchema: formToggle.uiSchema,
           schema: formToggle.schema,
         },
@@ -115,6 +123,15 @@ const formConfig = {
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
           schema: authorizeOutsideVA.schema,
+        },
+        authorizeOutsideVANames: {
+          path: 'authorize-outside-va/names',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside of VA Systems',
+          uiSchema: authorizeOutsideVANames.uiSchema,
+          schema: authorizeOutsideVANames.schema,
         },
       },
     },

@@ -1,12 +1,12 @@
 import claimantInformation from './claimantInformation';
 import claimantType from './claimantType';
-import statementDateRange from './statementDateRange';
+import incomeNetWorthDateRange from './incomeNetWorthDateRange';
 
 export default {
   title: 'Claimant information',
   pages: {
     claimantInformation,
     claimantType,
-    statementDateRange,
+    incomeNetWorthDateRange,
   },
 };

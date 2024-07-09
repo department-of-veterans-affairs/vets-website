@@ -12,12 +12,12 @@ export default {
   title: 'Claimant information',
   path: 'claimant/information',
   depends: formData => {
-    return formData.applicantIsVeteran === false;
+    return formData['view:applicantIsVeteran'] === false;
   },
   uiSchema: {
     claimantFullName: fullNameNoSuffixUI(title => `Claimant’s ${title}`),
-    claimantSocialSecurityNumber: ssnUI('Claimants’s Social Security number'),
-    claimantPhoneNumber: phoneUI('Claimants’s telephone number (if known)'),
+    claimantSocialSecurityNumber: ssnUI('Claimant’s Social Security number'),
+    claimantPhone: phoneUI('Claimant’s telephone number (if known)'),
   },
   schema: {
     type: 'object',
@@ -25,7 +25,7 @@ export default {
     properties: {
       claimantFullName: fullNameNoSuffixSchema,
       claimantSocialSecurityNumber: ssnSchema,
-      claimantPhoneNumber: phoneSchema,
+      claimantPhone: phoneSchema,
     },
   },
 };

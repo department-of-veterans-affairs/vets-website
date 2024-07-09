@@ -7,37 +7,31 @@ import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
-import formConfig from '../config/form';
-import {
-  SHOW_PART3,
-  SHOW_PART3_REDIRECT,
-  DATA_DOG_ID,
-  DATA_DOG_TOKEN,
-  DATA_DOG_SERVICE,
-} from '../constants';
-import { nodPart3UpdateFeature } from '../utils/helpers';
-import { issuesNeedUpdating } from '../utils/issues';
-import { getEligibleContestableIssues } from '../utils/submit';
-import { checkRedirect } from '../utils/redirect';
 
+import formConfig from '../config/form';
+import { DATA_DOG_ID, DATA_DOG_TOKEN, DATA_DOG_SERVICE } from '../constants';
+
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
-import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
+import {
+  getEligibleContestableIssues,
+  getSelected,
+  getIssueNameAndDate,
+  issuesNeedUpdating,
+} from '../../shared/utils/issues';
 import { isOutsideForm } from '../../shared/utils/helpers';
 
 export const FormApp = ({
   isLoading,
   loggedIn,
-  showPart3,
   location,
   children,
   formData,
   setFormData,
   getContestableIssues,
   contestableIssues = {},
-  returnUrlFromSIPForm,
-  isStartingOver,
 }) => {
   const { pathname } = location || {};
 
@@ -77,7 +71,7 @@ export const FormApp = ({
       }
 
       if (
-        !contestableIssues?.status &&
+        (contestableIssues?.status || '') === '' &&
         // internalTesting is used to test the get contestable issues API call
         // in unit tests; Setting up the unit test to get RoutedSavableApp to
         // work properly is overly complicated
@@ -87,11 +81,8 @@ export const FormApp = ({
       } else if (
         // Checks if the API has returned contestable issues not already reflected
         // in `formData`.
-        issuesNeedUpdating(
-          contestableIssues?.issues,
-          formData.contestedIssues,
-          { showPart3 },
-        )
+        contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+        issuesNeedUpdating(contestableIssues?.issues, formData.contestedIssues)
       ) {
         setFormData({
           ...formData,
@@ -99,9 +90,6 @@ export const FormApp = ({
           // details.
           contestedIssues: getEligibleContestableIssues(
             contestableIssues?.issues,
-            {
-              showPart3,
-            },
           ),
         });
       }
@@ -113,57 +101,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      loggedIn,
-      contestableIssues,
-      showPart3,
-      formData.contestedIssues,
-      pathname,
-    ],
-  );
-
-  useEffect(
-    () => {
-      // Checking returnUrlFromSIPForm to ensure the redirect occurs _after_ the save-in-
-      // progress response has loaded; and saving this check to form data to
-      // ensure that this check & redirect only occurs once & the state is saved
-      // in the form data so it doesn't occur again if the Veteran returns later
-      const formDataIsLoadedInReduxStore = !!returnUrlFromSIPForm;
-      const weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected = !formData[
-        SHOW_PART3_REDIRECT
-      ];
-
-      if (
-        showPart3 &&
-        formDataIsLoadedInReduxStore &&
-        weHaveNeverCheckedWhetherVeteranNeedsToBeRedirected
-      ) {
-        // Redirect back to part 3 question if Veteran is on or past the
-        // contestable issues page
-        const needsRedirect = checkRedirect(returnUrlFromSIPForm);
-
-        // Using "redirected" for the resulting page to show an info alert so
-        // the Veteran knows why they were redirected.
-        // **This is just the updating the redux store. It takes further Veteran action (e.g. focus, blur, but not clicking back or continue).
-        setFormData({
-          ...formData,
-          // Setting 'redirected' to indicate that we are about to redirect them.
-          [SHOW_PART3_REDIRECT]:
-            !isStartingOver && needsRedirect ? 'redirected' : 'not-needed',
-        });
-      }
-      // Add feature flag to form data to be used within the form
-      if (showPart3 !== formData[SHOW_PART3]) {
-        setFormData({
-          ...formData,
-          [SHOW_PART3]: showPart3,
-        });
-      }
-    },
-    // Include formData[SHOW_PART3] in dependencies because the save-in-progress
-    // will over-write the value when starting a new form
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showPart3, returnUrlFromSIPForm, formData[SHOW_PART3]],
+    [loggedIn, contestableIssues, formData.contestedIssues, pathname],
   );
 
   const content = isLoading ? (
@@ -204,7 +142,6 @@ FormApp.propTypes = {
     areaOfDisagreement: PropTypes.array,
     contestedIssues: PropTypes.array,
     internalTesting: PropTypes.bool,
-    [SHOW_PART3]: PropTypes.bool,
   }),
   getContestableIssues: PropTypes.func,
   isLoading: PropTypes.bool,
@@ -218,12 +155,10 @@ FormApp.propTypes = {
     push: PropTypes.func,
   }),
   setFormData: PropTypes.func,
-  showPart3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
-  showPart3: nodPart3UpdateFeature(state),
   contestableIssues: state.contestableIssues,
   isLoading: state.featureToggles?.loading,
   loggedIn: isLoggedIn(state),

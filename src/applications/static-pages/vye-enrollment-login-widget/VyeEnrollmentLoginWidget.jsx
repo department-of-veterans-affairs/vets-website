@@ -21,51 +21,51 @@ export function VyeEnrollmentLoginWidget({
   ]);
 
   const visitorUI = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h3
-        className="vads-u-font-size--h1 vads-u-font-weight--bold"
-        slot="headline"
+    <div>
+      <p>You can verify your enrollment online.</p>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="continue"
+        visible
       >
-        Sign in to verify your school enrollment
-      </h3>
-      <p>
-        Sign in with your existing <strong>ID.me</strong> or{' '}
-        <strong>Login.gov</strong> account. If you don’t have any of these
-        accounts, you can create a free{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://www.id.me/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          ID.me
-        </a>{' '}
-        account or{' '}
-        <a
-          className="vads-u-font-weight--bold"
-          href="https://secure.login.gov/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Login.gov
-        </a>{' '}
-        account now.
-      </p>
-      <va-button
-        onClick={onSignInClicked}
-        primary-alternate
-        text="Sign in or create an account"
-      />
-    </va-alert>
+        <h3 id="verify-your-mgib-enrollment" slot="headline">
+          Sign in to verify your enrollment for MGIB benefits
+        </h3>
+        <p>
+          Sign in with your existing <strong>ID.me</strong> or{' '}
+          <strong>Login.gov</strong> account. If you don’t have either of these
+          accounts, you can create a free{' '}
+          <a
+            className="vads-u-font-weight--bold"
+            href="https://www.id.me/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            ID.me
+          </a>{' '}
+          account or{' '}
+          <a
+            className="vads-u-font-weight--bold"
+            href="https://secure.login.gov/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Login.gov
+          </a>{' '}
+          account now.
+        </p>
+        <va-button
+          onClick={onSignInClicked}
+          primary-alternate
+          text="Sign in or create an account"
+        />
+      </va-alert>
+    </div>
   );
 
   const loggedInUserUI = (
     <a className="vads-c-action-link--green" href={REVIEW_ENROLLMENTS_URL}>
-      Verify your enrollments for Montgomery GI Bill
+      Verify your enrollment for MGIB benefits
     </a>
   );
 

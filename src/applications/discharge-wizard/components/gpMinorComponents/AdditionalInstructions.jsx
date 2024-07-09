@@ -27,7 +27,7 @@ const AdditionalInstructions = ({ formValues }) => {
               rel="noopener noreferrer"
               href="https://www.dpris.dod.mil/veteranaccess.html"
             >
-              request a copy
+              request a copy (opens in a new tab)
             </a>
             .
           </p>
@@ -41,7 +41,7 @@ const AdditionalInstructions = ({ formValues }) => {
               rel="noopener noreferrer"
               href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"
             >
-              requesting a Character of Discharge review
+              requesting a Character of Discharge review (opens in a new tab)
             </a>
             .
           </p>
@@ -64,10 +64,13 @@ const AdditionalInstructions = ({ formValues }) => {
             depending on the complexity of your case. A lawyer or Veterans
             Service Organization (VSO) can collect and submit supporting
             documents for you.{' '}
-            <va-link
+            <a
               href="https://www.benefits.va.gov/vso/varo.asp"
-              text="Find a VSO near you."
-            />
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Find a VSO near you (opens in a new tab).
+            </a>
           </p>
           <p>
             <strong>Note:</strong> You can ask for a VA Character of Discharge
@@ -84,22 +87,33 @@ const AdditionalInstructions = ({ formValues }) => {
           <p>Learn more about:</p>
           <ul>
             <li>
-              <va-link
+              <a
                 href="/health-care/health-needs-conditions/military-sexual-trauma/"
-                text="VA health benefits for Veterans who have experienced military sexual trauma"
-              />
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                VA health benefits for Veterans who have experienced military
+                sexual trauma (opens in a new tab)
+              </a>
             </li>
             <li>
-              <va-link
+              <a
                 href="/health-care/health-needs-conditions/mental-health/"
-                text="VA health benefits for Veterans with mental health conditions"
-              />
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                VA health benefits for Veterans with mental health conditions
+                (opens in a new tab)
+              </a>
             </li>
             <li>
-              <va-link
+              <a
                 href="/health-care/health-needs-conditions/mental-health/ptsd/"
-                text="VA health benefits for Veterans with PTSD"
-              />
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                VA health benefits for Veterans with PTSD (opens in a new tab)
+              </a>
             </li>
           </ul>
         </va-accordion-item>
@@ -114,7 +128,7 @@ const AdditionalInstructions = ({ formValues }) => {
             href="/health-care/health-needs-conditions/military-sexual-trauma/"
           >
             VA health benefits for Veterans who experience military sexual
-            trauma
+            trauma (opens in a new tab)
           </a>
         </li>
         <li>
@@ -123,7 +137,8 @@ const AdditionalInstructions = ({ formValues }) => {
             rel="noopener noreferrer"
             href="/health-care/health-needs-conditions/mental-health/"
           >
-            VA health benefits for Veterans with mental health conditions
+            VA health benefits for Veterans with mental health conditions (opens
+            in a new tab)
           </a>
         </li>
         <li>
@@ -132,7 +147,7 @@ const AdditionalInstructions = ({ formValues }) => {
             rel="noopener noreferrer"
             href="/health-care/health-needs-conditions/mental-health/ptsd/"
           >
-            VA health benefits for Veterans with PTSD
+            VA health benefits for Veterans with PTSD (opens in a new tab)
           </a>
         </li>
         <li>
@@ -141,7 +156,7 @@ const AdditionalInstructions = ({ formValues }) => {
             rel="noopener noreferrer"
             href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"
           >
-            VA Guidance on Character of Discharge Reviews
+            VA Guidance on Character of Discharge Reviews (opens in a new tab)
           </a>
         </li>
         {serviceBranch === 'army' && (
@@ -151,7 +166,7 @@ const AdditionalInstructions = ({ formValues }) => {
               rel="noopener noreferrer"
               href="http://arba.army.pentagon.mil"
             >
-              Army Review Boards Agency
+              Army Review Boards Agency (opens in a new tab)
             </a>
           </li>
         )}
@@ -163,7 +178,7 @@ const AdditionalInstructions = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="http://arba.army.pentagon.mil/adrb-overview.html"
               >
-                Army Discharge Review Board
+                Army Discharge Review Board (opens in a new tab)
               </a>
             </li>
           )}
@@ -175,7 +190,8 @@ const AdditionalInstructions = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="http://arba.army.pentagon.mil/abcmr-overview.html"
               >
-                Army Board for Correction of Military Records
+                Army Board for Correction of Military Records (opens in a new
+                tab)
               </a>
             </li>
           )}
@@ -186,7 +202,7 @@ const AdditionalInstructions = ({ formValues }) => {
               rel="noopener noreferrer"
               href="http://www.secnav.navy.mil/mra/CORB/pages/ndrb/default.aspx"
             >
-              Naval Discharge Review Board
+              Naval Discharge Review Board (opens in a new tab)
             </a>
           </li>
         )}
@@ -198,7 +214,8 @@ const AdditionalInstructions = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="http://www.afpc.af.mil/Board-for-Correction-of-Military-Records/"
               >
-                Air Force Board for Correction of Military Records
+                Air Force Board for Correction of Military Records (opens in a
+                new tab)
               </a>
             </li>
           )}
@@ -210,7 +227,8 @@ const AdditionalInstructions = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="https://www.uscg.mil/Resources/legal/BCMR/"
               >
-                Coast Guard Board for Correction of Military Records
+                Coast Guard Board for Correction of Military Records (opens in a
+                new tab)
               </a>
             </li>
           )}
@@ -222,7 +240,7 @@ const AdditionalInstructions = ({ formValues }) => {
                 rel="noopener noreferrer"
                 href="https://www.uscg.mil/Resources/Legal/DRB.aspx/"
               >
-                Coast Guard Discharge Review Board
+                Coast Guard Discharge Review Board (opens in a new tab)
               </a>
             </li>
           )}

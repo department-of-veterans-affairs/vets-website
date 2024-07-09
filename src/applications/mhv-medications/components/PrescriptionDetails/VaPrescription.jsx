@@ -8,6 +8,7 @@ import {
   getImageUri,
   dateFormat,
   createOriginalFillRecord,
+  pharmacyPhoneNumber,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -15,6 +16,7 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
+import { EMPTY_FIELD } from '../../util/constants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -26,14 +28,13 @@ const VaPrescription = prescription => {
   );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
   refillHistory.push(originalFill);
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
-  const phoneNumber =
-    prescription?.cmopDivisionPhone || prescription?.dialCmopDivisionPhone;
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
@@ -97,7 +98,7 @@ const VaPrescription = prescription => {
                       prescription.providerFirstName
                     }`,
                   )
-                : 'None noted'}
+                : EMPTY_FIELD}
             </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
@@ -106,14 +107,17 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
-            <div className="no-print">
-              {phoneNumber ? (
+            <div className="no-print" data-testid="pharmacy-phone">
+              {pharmacyPhone ? (
                 <>
-                  <va-telephone contact={phoneNumber} /> (
-                  <va-telephone tty contact="711" />)
+                  <va-telephone
+                    contact={pharmacyPhone}
+                    data-testid="phone-number"
+                  />{' '}
+                  (<va-telephone tty contact="711" />)
                 </>
               ) : (
-                'None noted'
+                EMPTY_FIELD
               )}
             </div>
           </div>
@@ -134,28 +138,20 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-          </div>
-          {isDisplayingDocumentation &&
-            prescription.cmopNdcNumber && (
-              <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
-                <h2
-                  className="vads-u-margin-top--3"
-                  data-testid="refill-History"
-                >
-                  Documentation
-                </h2>
+            {isDisplayingDocumentation &&
+              refillHistory[0].cmopNdcNumber && (
                 <Link
                   to={`/prescription/${
                     prescription.prescriptionId
-                  }/documentation?ndc=${prescription.cmopNdcNumber}`}
+                  }/documentation?ndc=${refillHistory[0].cmopNdcNumber}`}
                   data-testid="va-prescription-documentation-link"
-                  className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
+                  className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name="Rx Documentation Link - Details Page"
                 >
                   Learn more about {prescription.prescriptionName}
                 </Link>
-              </div>
-            )}
+              )}
+          </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
@@ -167,22 +163,13 @@ const VaPrescription = prescription => {
                   identification purposes only. They don’t mean that this is the
                   amount of medication you’re supposed to take. If the most
                   recent image doesn’t match what you’re taking, call{' '}
-                  <VaPharmacyText
-                    phone={
-                      prescription?.cmopDivisionPhone ||
-                      prescription?.dialCmopDivisionPhone
-                    }
-                  />
-                  .
+                  <VaPharmacyText phone={pharmacyPhone} />.
                 </p>
               )}
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => {
                 const { shape, color, backImprint, frontImprint } = entry;
-                const phone =
-                  prescription?.cmopDivisionPhone ||
-                  prescription?.dialCmopDivisionPhone;
                 const refillPosition = refillHistory.length - i - 1;
                 const refillLabelId = `rx-refill-${refillPosition}`;
                 return (
@@ -230,10 +217,11 @@ const VaPrescription = prescription => {
                     <h4
                       className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
                       data-testid="med-image"
+                      aria-hidden="true"
                     >
                       Image
                     </h4>
-                    <div className="no-print">
+                    <div className="no-print" aria-hidden="true">
                       {entry.cmopNdcNumber ? (
                         <>
                           <img
@@ -243,7 +231,6 @@ const VaPrescription = prescription => {
                             src={getImageUri(entry.cmopNdcNumber)}
                             width="350"
                             height="350"
-                            aria-hidden="true"
                           />
                         </>
                       ) : (
@@ -263,7 +250,7 @@ const VaPrescription = prescription => {
                           <p className="vads-u-margin--0">
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
-                            <VaPharmacyText phone={phone} />.
+                            <VaPharmacyText phone={pharmacyPhone} />.
                           </p>
                           <ul className="vads-u-margin--0">
                             <li
@@ -301,8 +288,8 @@ const VaPrescription = prescription => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phone} /> if you need help
-                          identifying this medication.
+                          <VaPharmacyText phone={pharmacyPhone} /> if you need
+                          help identifying this medication.
                         </>
                       )}
                     </div>

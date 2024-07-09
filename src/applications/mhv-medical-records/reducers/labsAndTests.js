@@ -112,6 +112,24 @@ const getSpecimen = record => {
   return null;
 };
 
+export const extractOrderedTest = (record, id) => {
+  const serviceReq = extractContainedResource(record, id);
+  return serviceReq?.code?.text || null;
+};
+
+export const extractOrderedTests = record => {
+  if (isArrayAndHasItems(record.basedOn)) {
+    const orderedTests = record.basedOn
+      .map(item => {
+        return extractOrderedTest(record, item?.reference) || null;
+      })
+      .filter(item => item !== null)
+      .join(', ');
+    return orderedTests === '' ? null : orderedTests;
+  }
+  return null;
+};
+
 /**
  * @param {Object} record - A FHIR DiagnosticReport chem/hem object
  * @returns the appropriate frontend object for display
@@ -124,8 +142,8 @@ const convertChemHemRecord = record => {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
-    name: concatCategoryCodeText(record) || EMPTY_FIELD,
-    category: concatCategoryCodeText(record) || EMPTY_FIELD,
+    name: extractOrderedTests(record) || 'Chemistry/Hematology',
+    category: 'Chemistry/Hematology',
     orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -147,7 +165,7 @@ const convertMicrobiologyRecord = record => {
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -194,7 +212,7 @@ const convertEkgRecord = record => {
     name: 'Electrocardiogram (EKG)',
     type: labTypes.EKG,
     category: '',
-    orderedBy: 'Beth M. Smith',
+    orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',

@@ -51,6 +51,7 @@ class FormApp extends React.Component {
     const notProd = !environment.isProduction();
     const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
     let useTopBackLink = false;
+    const { CustomTopContent } = formConfig;
 
     let formTitle;
     let formNav;
@@ -100,6 +101,9 @@ class FormApp extends React.Component {
         <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
+            {CustomTopContent && (
+              <CustomTopContent currentLocation={currentLocation} />
+            )}
             {useTopBackLink && <BackLink />}
             {notProd && noTitle ? null : formTitle}
             {notProd && noTopNav ? null : formNav}
@@ -129,6 +133,7 @@ FormApp.propTypes = {
     formOptions: PropTypes.shape({}),
     subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    CustomTopContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   }),
   formData: PropTypes.shape({}),
   inProgressFormId: PropTypes.string,

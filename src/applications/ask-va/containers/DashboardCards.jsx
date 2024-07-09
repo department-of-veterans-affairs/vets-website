@@ -18,7 +18,7 @@ const DashboardCards = () => {
   const formatDate = dateString => {
     return moment(dateString, 'MM/DD/YY').format('MMM D, YYYY');
   };
-  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?mock=true`;
+  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');

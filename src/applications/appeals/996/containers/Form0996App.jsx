@@ -19,6 +19,7 @@ import forcedMigrations from '../migrations/forceMigrations';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
@@ -81,11 +82,12 @@ export const Form0996App = ({
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
-            issuesNeedUpdating(
+            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+            (issuesNeedUpdating(
               contestableIssues?.issues,
               formData?.contestedIssues,
             ) ||
-            contestableIssues.legacyCount !== formData.legacyCount
+              contestableIssues.legacyCount !== formData.legacyCount)
           ) {
             /**
              * Force HLR v2 update

@@ -69,4 +69,16 @@ describe('Medication card component', () => {
     const medicationName = screen.queryByTestId('refill-request-button');
     expect(medicationName).to.be.null;
   });
+  it('shows shipped on information when available', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      trackingList: [
+        {
+          completeDateTime: 'Sun, 16 Jun 2024 04:39:11 EDT',
+        },
+      ],
+    });
+    const shippedOn = screen.getByText('Shipped on June 16, 2024');
+    expect(shippedOn);
+  });
 });

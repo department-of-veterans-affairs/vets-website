@@ -108,7 +108,7 @@ const StepThree = ({ formValues }) => {
           rel="noopener noreferrer"
           href="http://actsonline.army.mil/"
         >
-          Visit ACTSOnline to submit your information
+          Visit ACTSOnline to submit your information (opens in a new tab)
         </a>
         .
       </p>

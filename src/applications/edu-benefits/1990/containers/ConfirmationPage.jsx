@@ -1,14 +1,9 @@
-import get from 'platform/utilities/data/get';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { getListOfBenefits } from '../../utils/helpers';
-import {
-  benefitsRelinquishmentLabels,
-  isShowBenefitsRelinquished,
-} from '../helpers';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 class ConfirmationPage extends React.Component {
@@ -34,10 +29,6 @@ class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, formId } = form;
     const benefits = form.data['view:selectedBenefits'];
-    const benefitsRelinquished = get(
-      'data.view:benefitsRelinquishedContainer.benefitsRelinquished',
-      form,
-    );
 
     return (
       <ConfirmationPageContent
@@ -46,15 +37,6 @@ class ConfirmationPage extends React.Component {
             <strong>Benefit claimed</strong>
             <br />
             {this.makeList(getListOfBenefits(benefits))}
-            {isShowBenefitsRelinquished() &&
-              benefits.chapter33 && (
-                <div className="claim-relinquished">
-                  <span>Relinquished:</span>
-                  {this.makeList([
-                    benefitsRelinquishmentLabels[benefitsRelinquished],
-                  ])}
-                </div>
-              )}
           </li>,
         ]}
         docExplanationHeader="No documents required at this time"

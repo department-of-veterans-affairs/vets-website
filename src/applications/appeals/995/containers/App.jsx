@@ -26,6 +26,7 @@ import {
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
 
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -97,11 +98,12 @@ export const App = ({
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
-            issuesNeedUpdating(
+            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+            (issuesNeedUpdating(
               contestableIssues.issues,
               formData?.contestedIssues,
             ) ||
-            contestableIssues.legacyCount !== formData.legacyCount
+              contestableIssues.legacyCount !== formData.legacyCount)
           ) {
             // resetStoredSubTask();
             setFormData({

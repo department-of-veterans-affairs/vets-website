@@ -4,6 +4,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/formation-overrides/variables";
 @import "~uswds/src/stylesheets/core/base";
 @import "~uswds/src/stylesheets/core/fonts";
+
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
+
 @import "~@department-of-veterans-affairs/formation/sass/formation-overrides/core/utilities";
 @import "~uswds/src/stylesheets/core/grid";
 @import "~@department-of-veterans-affairs/formation/sass/formation-overrides/elements/buttons";
@@ -28,10 +31,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/base/b-utils";
 @import "~@department-of-veterans-affairs/formation/sass/layout/flex-grid";
 
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-megamenu";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-dropdown";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-overlay";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-megamenu";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-dropdown";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-overlay";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
 
 // Formation utilities
 @import "~@department-of-veterans-affairs/formation/sass/utilities/background-color";
