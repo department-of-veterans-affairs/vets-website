@@ -115,6 +115,7 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
+  showSaveLinkAfterButtons: true,
   useTopBackLink: true,
   CustomTopContent,
   useCustomScrollAndFocus: true,
@@ -134,6 +135,7 @@ const formConfig = {
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
           scrollAndFocusTarget: scrollAndFocusRadioOrCheckboxGroup,
+          hideSaveLinkAndStatus: true,
         },
         layWitnessStatementPage: {
           depends: formData =>
@@ -155,6 +157,7 @@ const formConfig = {
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -178,6 +181,7 @@ const formConfig = {
           schema: selectDecisionReviewPage.schema,
           pageClass: 'select-decision-review',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
           depends: formData =>
@@ -191,6 +195,7 @@ const formConfig = {
           pageClass: 'supplemental-claim',
           hideNavButtons: true,
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         higherLevelReviewPage: {
           depends: formData =>
@@ -227,6 +232,7 @@ const formConfig = {
           schema: aboutPriorityProcessingPage.schema,
           pageClass: 'about-priority-processing',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         housingRisksPage: {
           depends: formData =>
@@ -238,6 +244,7 @@ const formConfig = {
           schema: housingRisksPage.schema,
           pageClass: 'housing-risks',
           scrollAndFocusTarget: scrollAndFocusRadioOrCheckboxGroup,
+          hideSaveLinkAndStatus: true,
         },
         otherHousingRisksPage: {
           depends: formData =>
@@ -249,6 +256,7 @@ const formConfig = {
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         hardshipsPage: {
           depends: formData =>
@@ -259,6 +267,7 @@ const formConfig = {
           schema: hardshipsPage.schema,
           pageClass: 'hardships',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         priorityProcessingNotQualifiedPage: {
           depends: formData => isIneligibleForPriorityProcessing(formData),
@@ -268,6 +277,7 @@ const formConfig = {
           schema: priorityProcessingNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
           scrollAndFocusTarget,
+          hideSaveLinkAndStatus: true,
         },
         priorityProcessingRequestPage: {
           depends: formData =>

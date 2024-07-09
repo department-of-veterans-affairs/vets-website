@@ -8,8 +8,7 @@ import mockDraftResponse from './fixtures/message-draft-response.json';
 
 describe('save draft feature tests', () => {
   it('save new draft', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
 
@@ -28,8 +27,7 @@ describe('save draft feature tests', () => {
 
   it('re-save existing draft', () => {
     const draftsPage = new PatientMessageDraftsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);

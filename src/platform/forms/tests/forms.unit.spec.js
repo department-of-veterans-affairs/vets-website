@@ -79,6 +79,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
+  'CustomReviewTopContent',
   'CustomTopContent',
   'customText',
   'submissionError',
@@ -92,6 +93,7 @@ const formConfigKeys = [
   'v3SegmentedProgressBar',
   'formOptions',
   'stepLabels',
+  'showSaveLinkAfterButtons',
 ];
 
 const validProperty = (

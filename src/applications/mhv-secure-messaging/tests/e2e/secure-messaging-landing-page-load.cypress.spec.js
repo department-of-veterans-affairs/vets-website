@@ -6,8 +6,7 @@ import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
   });
 
@@ -61,8 +60,7 @@ describe('SM main page', () => {
 
 describe('SM main page without API calls', () => {
   it('validate Inbox and New Message links exists in the page', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     cy.intercept(
       'GET',
       Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,

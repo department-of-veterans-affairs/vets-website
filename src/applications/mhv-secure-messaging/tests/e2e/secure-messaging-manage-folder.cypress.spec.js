@@ -8,11 +8,10 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('manage folders', () => {
   describe('verify folder created', () => {
-    const site = new SecureMessagingSite();
     const newFolder = `folder${Date.now()}`;
 
     before(() => {
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
     });
@@ -28,12 +27,11 @@ describe('manage folders', () => {
   });
 
   describe('verify folder deleted', () => {
-    const site = new SecureMessagingSite();
     const folderName = createdFolderResponse.data.attributes.name;
     const { folderId } = createdFolderResponse.data.attributes;
 
     before(() => {
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
     });

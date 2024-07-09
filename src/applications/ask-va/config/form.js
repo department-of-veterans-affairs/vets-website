@@ -21,6 +21,9 @@ import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 import questionAboutPage from './chapters/yourQuestion/questionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
+// Your Personal Information - Authenticated
+import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
+
 // // Personal Information
 import relationshipToVeteranPage from './chapters/personalInformation/relationshipToVeteran';
 import {
@@ -40,6 +43,18 @@ import {
 import Footer from '../components/Footer';
 import ReviewPage from '../containers/ReviewPage';
 
+// const mockUser = {
+//   first: 'Mark',
+//   last: 'Webb',
+//   dateOfBirth: '1950-10-04',
+//   socialOrServiceNum: {
+//     ssn: '1112223333',
+//     service: null,
+//   },
+// };
+
+import prefillTransformer from './prefill-transformer';
+
 const review = {
   uiSchema: {},
   schema: {
@@ -50,13 +65,6 @@ const review = {
 };
 
 const formConfig = {
-  // additionalRoutes: [
-  //   {
-  //     path: 'confirmation',
-  //     component: ConfirmationPage,
-  //     pageKey: 'confirmation',
-  //   },
-  // ],
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -76,6 +84,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     // notFound: 'Please start over to apply for ask the va test.',
     // noAuth:
@@ -89,6 +98,18 @@ const formConfig = {
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
       pages: {
+        yourPersonalInformation: {
+          path: CHAPTER_3.YOUR_PERSONAL_INFORMATION.PATH,
+          title: CHAPTER_3.YOUR_PERSONAL_INFORMATION.TITLE,
+          CustomPage: YourPersonalInformationAuthenticated,
+          CustomPageReview: null,
+          schema: {
+            // This does still need to be here or it'll throw an error
+            type: 'object',
+            properties: {}, // The properties can be empty
+          },
+          uiSchema: {}, // UI schema is completely ignored
+        },
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
@@ -141,8 +162,6 @@ const formConfig = {
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
           onNavForward: ({ formData, goPath }) => {
-            // TODO: Refactor this when we know what the other category flows will look like.
-            // console.log({ formData });
             if (
               formData.questionAbout === 'MYSELF' &&
               formData.personalRelationship === 'VETERAN'

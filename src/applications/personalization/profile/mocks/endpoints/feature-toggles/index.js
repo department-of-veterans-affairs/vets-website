@@ -4,7 +4,6 @@ const { snakeCase } = require('lodash');
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
   authExpVbaDowntimeMessage: false,
-  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,

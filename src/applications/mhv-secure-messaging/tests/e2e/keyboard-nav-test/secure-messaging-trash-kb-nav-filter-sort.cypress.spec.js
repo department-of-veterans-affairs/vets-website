@@ -7,7 +7,6 @@ import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response
 import FolderLoadPage from '../pages/FolderLoadPage';
 
 describe('Trash page keyboard navigation for filter & sort features', () => {
-  const site = new SecureMessagingSite();
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -15,7 +14,7 @@ describe('Trash page keyboard navigation for filter & sort features', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockTrashMessages);
     FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });

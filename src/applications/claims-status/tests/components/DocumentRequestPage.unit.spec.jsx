@@ -106,7 +106,7 @@ describe('<DocumentRequestPage>', () => {
       expect(document.title).to.equal('Document Request | Veterans Affairs');
     });
 
-    it('when component mounts should set document title', async () => {
+    it('when component mounts should scroll to breadcrumbs', async () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
         displayName: 'Testing',
@@ -133,6 +133,64 @@ describe('<DocumentRequestPage>', () => {
       await waitFor(() => {
         expect(document.activeElement).to.equal($('va-breadcrumbs', container));
       });
+    });
+
+    it('when component mounts without sessionStorage previousPage value should set previous breadcrumb to status', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+        displayName: 'Testing',
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
+        </Provider>,
+      );
+      const breadcrumbs = $('va-breadcrumbs', container);
+      expect(breadcrumbs.breadcrumbList[2].href).to.equal('../status');
+      expect(breadcrumbs.breadcrumbList[2].label).to.equal(
+        'Status of your disability compensation claim',
+      );
+    });
+
+    it('when component mounts with sessionStorage previousPage value of files should set previous breadcrumb', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+        displayName: 'Testing',
+      };
+
+      sessionStorage.setItem('previousPage', 'files');
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
+        </Provider>,
+      );
+      const breadcrumbs = $('va-breadcrumbs', container);
+      expect(breadcrumbs.breadcrumbList[2].href).to.equal('../files');
+      expect(breadcrumbs.breadcrumbList[2].label).to.equal(
+        'Files for your disability compensation claim',
+      );
+    });
+
+    it('when component mounts with sessionStorage previousPage value of status should set previous breadcrumb', () => {
+      const trackedItem = {
+        status: 'NEEDED_FROM_YOU',
+        displayName: 'Testing',
+      };
+
+      sessionStorage.setItem('previousPage', 'status');
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
+        </Provider>,
+      );
+      const breadcrumbs = $('va-breadcrumbs', container);
+      expect(breadcrumbs.breadcrumbList[2].href).to.equal('../status');
+      expect(breadcrumbs.breadcrumbList[2].label).to.equal(
+        'Status of your disability compensation claim',
+      );
     });
 
     it('should render loading div', () => {
