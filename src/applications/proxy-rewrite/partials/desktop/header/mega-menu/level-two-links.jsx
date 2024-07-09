@@ -2,10 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { kebabCase } from 'lodash';
-import {
-  buildLevelThreeLinksForAboutVA,
-  buildLevelThreeLinksForBenefitHubs,
-} from './level-three-links';
+import LevelThreeLinks from './level-three-links';
 import { updateLinkDomain } from '../../../../utilities/links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 
@@ -45,7 +42,7 @@ const LevelTwoLinks = ({
               >
                 Back to Menu
               </button>
-              {buildLevelThreeLinksForBenefitHubs(section)}
+              <LevelThreeLinks section={section} aboutVA={false} />
             </div>
           </li>
         );
@@ -65,7 +62,7 @@ const LevelTwoLinks = ({
     });
   }
 
-  return buildLevelThreeLinksForAboutVA(sectionData);
+  return <LevelThreeLinks section={sectionData} aboutVA />;
 };
 
 LevelTwoLinks.propTypes = {

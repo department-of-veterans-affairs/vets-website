@@ -3,6 +3,7 @@ import 'platform/polyfills';
 import React from 'react';
 import { Provider } from 'react-redux';
 import cookie from 'cookie';
+import { debounce } from 'lodash';
 import bucketsContent from 'site/constants/buckets-content';
 import environments from 'site/constants/environments';
 import environment from 'platform/utilities/environment';
@@ -173,6 +174,8 @@ function activateInjectedAssets() {
       renderFooter(headerFooterData.footerData, footerContainer);
 
       startVCLModal();
+
+      window.addEventListener('resize', debounce(startVCLModal, 100));
     });
 }
 
