@@ -4,3 +4,7 @@
 
 .cg-address-input[error]::part(label) { margin-top: 0; }
 .cg-address-input[error]::part(input) { border-width: 3px; }
+
+// Hack to hide the country field, because we only allow USA to be selected and
+// the forms pattern forces display of the field
+.rjsf-object-field va-select[name$="_country"] { display: none; }

@@ -21,7 +21,6 @@ const features = {
       { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
       { name: 'edu_section_103', value: true },
       { name: 'gibctEybBottomSheet', value: true },
-      { name: 'mhv_landing_page_enabled', value: true },
     ],
   },
 };

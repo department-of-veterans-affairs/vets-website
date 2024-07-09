@@ -17,7 +17,8 @@ import manifest from '../../manifest.json';
 const SUBMISSION_DATE = new Date().toISOString();
 const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 
-let addedListAndLoopItem = false;
+let addedUnassociatedIncomeItem = false;
+let addedAssociatedIncomeItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -38,9 +39,9 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             let hasUnassociatedIncomes = data['view:hasUnassociatedIncomes'];
-            if (addedListAndLoopItem) {
+            if (addedUnassociatedIncomeItem) {
               hasUnassociatedIncomes = false;
-              addedListAndLoopItem = false;
+              addedUnassociatedIncomeItem = false;
             }
 
             selectYesNoWebComponent(
@@ -68,7 +69,51 @@ const testConfig = createTestConfig(
             fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
             fillTextWebComponent('payer', payer);
 
-            addedListAndLoopItem = true;
+            addedUnassociatedIncomeItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'associated-incomes-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let hasAssociatedIncomes = data['view:hasAssociatedIncomes'];
+            if (addedAssociatedIncomeItem) {
+              hasAssociatedIncomes = false;
+              addedAssociatedIncomeItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:hasAssociatedIncomes',
+              hasAssociatedIncomes,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'associated-incomes/0/income-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { associatedIncomes } = data;
+            const {
+              incomeType,
+              grossMonthlyIncome,
+              accountValue,
+              payer,
+            } = associatedIncomes[0];
+
+            selectRadioWebComponent('incomeType', incomeType);
+            fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
+            fillStandardTextInput('accountValue', accountValue);
+            fillTextWebComponent('payer', payer);
+
+            addedAssociatedIncomeItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
