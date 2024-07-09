@@ -70,7 +70,13 @@ const jurisdictionPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasJurisdictions': arrayBuilderYesNoUI(arrayBuilderOptions),
+    'view:hasJurisdictions': arrayBuilderYesNoUI(
+      arrayBuilderOptions,
+      {},
+      {
+        labelHeaderLevel: 'p',
+      },
+    ),
   },
   schema: {
     type: 'object',
