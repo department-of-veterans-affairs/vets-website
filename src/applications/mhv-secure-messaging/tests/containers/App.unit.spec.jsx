@@ -364,4 +364,24 @@ describe('App', () => {
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
     expect(window.location.replace.called).to.be.true;
   });
+
+  it('displays Page Not Found component if bad url', () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_secure_messaging_to_va_gov_release: true,
+        },
+        ...initialState,
+      },
+      reducers: reducer,
+      path: `/sdfsdf`,
+    });
+    expect(
+      screen.getByText('Sorry — we can’t find that page', {
+        selector: 'h1',
+        exact: true,
+      }),
+    );
+  });
 });

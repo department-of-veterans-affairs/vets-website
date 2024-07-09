@@ -1,9 +1,7 @@
-import yourCharacterReferences from './yourCharacterReferences';
+import characterReferencesPages from './characterReferencesPages';
 
 /** @type {PageSchema} */
 export default {
   title: 'Character references',
-  pages: {
-    yourCharacterReferences,
-  },
+  pages: characterReferencesPages,
 };

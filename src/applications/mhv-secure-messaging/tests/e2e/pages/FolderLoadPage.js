@@ -6,7 +6,7 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
-import { Data, Assertions, Locators, Paths } from '../utils/constants';
+import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -64,6 +64,7 @@ class FolderLoadPage {
     this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
+  // this method no longer needed as sent folder link was moved to nav-bar
   loadSentMessages = (messagesList = mockSentMessages) => {
     this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
@@ -118,6 +119,20 @@ class FolderLoadPage {
         .eq(index)
         .should('contain.text', text);
     });
+  };
+
+  verifyUrlError = () => {
+    cy.visit(`${Paths.UI_MAIN}/dummy`);
+    cy.get('[data-testid="secure-messaging"]')
+      .find('h1')
+      .should('have.text', Alerts.PAGE_NOT_FOUND);
+    cy.get('[data-testid="secure-messaging"]')
+      .find('p')
+      .should('have.text', Alerts.TRY_SEARCH);
+    cy.get('#mobile-query').should('be.visible');
+    cy.get('input[type="submit"]').should('be.visible');
+    cy.get('#common-questions').should('be.visible');
+    cy.get('#popular-on-vagov').should('be.visible');
   };
 }
 

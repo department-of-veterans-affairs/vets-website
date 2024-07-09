@@ -67,8 +67,8 @@ const ReviewPage = () => {
         )}
       </div>
       <p className="vads-u-margin-bottom--5">
-        <b>Note:</b> If you need to update your personal information, please
-        call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
+        <b>Note:</b> If you need to update your personal information, call us at
+        800-827-1000 (TTY:711). We’re here Monday through Friday, 8:00am to
         9:00pm ET.
       </p>
       <VaButtonPair
