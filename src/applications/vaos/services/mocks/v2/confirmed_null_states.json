@@ -533,6 +533,62 @@
       }
     },
     {
+      "id": "nstate-claimexam-002",
+      "type": "appointments",
+      "attributes": {
+        "id": "nstate-claimexam-002",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383339353233"
+          }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013120826V646496",
+        "locationId": "",
+        "localStartTime": "2024-08-28T10:30:00.000+08:00",
+        "clinic": "945",
+        "start": "2024-08-28T02:30:00Z",
+        "end": "2024-06-22T14:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": ["NO ACTION TAKEN"]
+        },
+        "serviceName": null,
+        "physicalLocation": null,
+        "friendlyName": null,
+        "location": {}
+      }
+    },
+    {
       "id": "nstate-past-cc-001",
       "type": "appointments",
       "attributes": {
@@ -1102,7 +1158,7 @@
         "priority": 0,
         "reasonCode": {},
         "requestedPeriods": null,
-        "serviceType": "foodAndNutrition",
+        "serviceType": null,
         "slot": null,
         "created": "2024-07-22T13:00:00Z",
         "start": "2024-07-22T13:00:00Z",
