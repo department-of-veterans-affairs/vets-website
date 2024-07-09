@@ -334,17 +334,13 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUi('Select files to upload', {
-                buttonText: 'Upload file',
-                addAnotherLabel: 'Upload another file',
+              // Once these prod flags are removed, the preneedAttachments property can match the one in pre-need-integration
+              preneedAttachments: fileUploadUi({
                 fileUploadUrl: environment.isProduction()
                   ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
                   : `${
                       environment.API_URL
                     }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                fileTypes: ['pdf'],
-                maxSize: 15728640,
-                hideLabelText: true,
                 createPayload: !environment.isProduction()
                   ? createPayload
                   : file => {
@@ -359,12 +355,6 @@ const formConfig = {
                       name: file.name,
                       confirmationCode: response.data.attributes.guid,
                     }),
-                attachmentSchema: {
-                  'ui:title': 'What kind of file is this?',
-                },
-                attachmentName: {
-                  'ui:title': 'File name',
-                },
               }),
             },
           },
