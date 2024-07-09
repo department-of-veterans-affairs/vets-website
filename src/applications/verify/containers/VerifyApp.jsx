@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,7 +13,10 @@ import { focusElement } from '~/platform/utilities/ui';
 export const selectCSP = selectedPolicy =>
   Object.values(SERVICE_PROVIDERS).find(csp => csp.policy === selectedPolicy);
 
-export const VerifyApp = ({ profile, useOAuth, loading }) => {
+export const VerifyApp = () => {
+  const loading = useSelector(isProfileLoading);
+  const profile = useSelector(selectProfile);
+  const useOAuth = useSelector(isAuthenticatedWithOAuth);
   useEffect(
     () => {
       if (!hasSession() || (hasSession() && profile.verified)) {
@@ -38,7 +41,8 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
     );
   }
   const { idme, logingov } = SERVICE_PROVIDERS;
-  const signInMethod = !profile.loading && profile.signIn.serviceName;
+  const signInMethod =
+    !profile.loading && profile.signIn && profile.signIn.serviceName;
 
   return (
     <section data-testid="verify-app" className="verify">
@@ -99,16 +103,10 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  loading: isProfileLoading(state),
-  profile: selectProfile(state),
-  useOAuth: isAuthenticatedWithOAuth(state),
-});
-
-export default connect(mapStateToProps)(VerifyApp);
-
 VerifyApp.propTypes = {
   loading: PropTypes.bool.isRequired,
   profile: PropTypes.object.isRequired,
   useOAuth: PropTypes.bool,
 };
+
+export default VerifyApp;
