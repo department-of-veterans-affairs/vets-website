@@ -84,7 +84,7 @@ const NewRecordsIndicator = ({
   const content = () => {
     if (refreshedOnThisPage) {
       if (refreshPhase === refreshPhases.FAILED) {
-        failedMsg();
+        return failedMsg();
       }
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {

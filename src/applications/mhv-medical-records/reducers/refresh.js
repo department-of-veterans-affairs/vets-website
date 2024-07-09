@@ -53,7 +53,10 @@ export const getPhase = (extractStatus, retrieved) => {
   if (extractStatus.lastCompleted < extractStatus.lastRequested) {
     return refreshPhases.IN_PROGRESS;
   }
-  if (extractStatus.lastCompleted !== extractStatus.lastSuccessfulCompleted) {
+  if (
+    extractStatus.lastCompleted.getTime() !==
+    extractStatus.lastSuccessfulCompleted.getTime()
+  ) {
     return refreshPhases.FAILED;
   }
   return refreshPhases.CURRENT;
