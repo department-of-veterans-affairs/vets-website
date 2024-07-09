@@ -323,7 +323,7 @@ const addressPage = {
 
 export const dependentChildrenPages = arrayBuilderPages(
   options,
-  pageBuilder => ({
+  (pageBuilder, helpers) => ({
     dependentChildrenSummary: pageBuilder.summaryPage({
       title: 'Dependent children',
       path: 'household/dependents/summary',
@@ -370,6 +370,13 @@ export const dependentChildrenPages = arrayBuilderPages(
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
+    dependentChildDisabledPage: pageBuilder.itemPage({
+      title: 'Dependent children',
+      path: 'household/dependents/:index/disabled',
+      depends: () => showDependentsMultiplePage(),
+      uiSchema: disabledPage.uiSchema,
+      schema: disabledPage.schema,
+    }),
     dependentChildPreviouslyMarriedPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/married',
@@ -381,25 +388,20 @@ export const dependentChildrenPages = arrayBuilderPages(
       title: 'Dependent children',
       path: 'household/dependents/:index/in-household',
       depends: () => showDependentsMultiplePage(),
+      onNavForward: props => {
+        return props.formData.childInHousehold
+          ? helpers.navForwardFinishedItem(props) // go to next page
+          : helpers.navForwardKeepUrlParams(props); // return to summary
+      },
       uiSchema: inHouseholdPage.uiSchema,
       schema: inHouseholdPage.schema,
     }),
     dependentChildAddressPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/address',
-      depends: (formData, index) =>
-        showDependentsMultiplePage() &&
-        !get(['dependents', index, 'childInHousehold'], formData),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: addressPage.uiSchema,
       schema: addressPage.schema,
-    }),
-    // This page is last due to a bug in the navForwardFinishedItem in the arrayBuilder
-    dependentChildDisabledPage: pageBuilder.itemPage({
-      title: 'Dependent children',
-      path: 'household/dependents/:index/disabled',
-      depends: () => showDependentsMultiplePage(),
-      uiSchema: disabledPage.uiSchema,
-      schema: disabledPage.schema,
     }),
   }),
 );
