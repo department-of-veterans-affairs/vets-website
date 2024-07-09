@@ -156,7 +156,7 @@ export class IntroductionPageUpdate extends React.Component {
                 </div>
                 <p>
                   If we approve your application, you’ll get a Certificate of
-                  Eligibility (COE), in the mail. Bring this COE to the VA
+                  Eligibility (COE) in the mail. Bring this COE to the VA
                   certifying official at your school. This person is usually in
                   the Registrar or Financial Aid office at the school.
                 </p>
