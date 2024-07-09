@@ -444,26 +444,26 @@ export const noEditBtn = [
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
-export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+export const homeBreadcrumbs = [{ href: '/', label: 'Home', key: 'home' }];
 
 export const contactUsBreadcrumbs = [
   ...homeBreadcrumbs,
-  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+  { href: '/contact-us', label: 'Contact Us', key: 'contactUs' },
 ];
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'Response Page', key: 'responsePage' },
+  { label: 'Response Page', key: 'responsePage' },
 ];
 
 export const newInquiryBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'New Inquiry', key: 'newInquiry' },
+  { label: 'New Inquiry', key: 'newInquiry' },
 ];
 
 export const breadcrumbsDictionary = {
