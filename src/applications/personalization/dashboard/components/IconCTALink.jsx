@@ -36,8 +36,29 @@ const IconCTALink = ({
       data-testid={testId || ''}
     >
       <span className="vads-u-display--flex">
-        <span className="vads-u-margin-x--1">
-          <va-icon icon={icon} size={3} srtext={icon} />
+        <span className="vads-u-height--full vads-u-margin-right--1">
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <div
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                width: '24px',
+                height: '24px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--vads-u-color--primary-alt-lightest)',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            />
+            <va-icon
+              icon={icon}
+              size={3}
+              srtext={icon}
+              className="vads-u-color--primary-alt-lightest"
+              aria-hidden="true"
+            />
+          </div>
         </span>
 
         <span>
