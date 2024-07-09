@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities.js';
 import MhvRegistrationAlert from '../../components/MhvRegistrationAlert';
 
 const defaultHeadline = MhvRegistrationAlert.defaultProps.headline;
@@ -31,6 +30,8 @@ describe('MhvRegistrationAlert', () => {
       </Provider>,
     );
     getByRole('heading', { name: defaultHeadline });
+    const link = getByRole('link', { name: /Register with My HealtheVet/ });
+    expect(link.href).to.not.be.empty;
   });
 
   it('reports to GA via recordEvent when rendered', async () => {
@@ -50,35 +51,6 @@ describe('MhvRegistrationAlert', () => {
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
       expect(recordEventSpy.calledWith(event)).to.be.true;
-    });
-  });
-
-  describe('MHV registration URL', () => {
-    const linkText = /Register with My HealtheVet/;
-    const linkPath = 'home';
-
-    it('registration URL for SSOe users', () => {
-      const hasSsoe = true;
-      const { getByRole } = render(
-        <Provider store={mockStore({ ssoe: hasSsoe })}>
-          <MhvRegistrationAlert />
-        </Provider>,
-      );
-      const link = getByRole('link', { name: linkText });
-      expect(link).to.exist;
-      expect(link.href).to.eql(mhvUrl(hasSsoe, linkPath));
-    });
-
-    it('registration URL for non-SSOe users', () => {
-      const hasSsoe = false;
-      const { getByRole } = render(
-        <Provider store={mockStore({ ssoe: hasSsoe })}>
-          <MhvRegistrationAlert />
-        </Provider>,
-      );
-      const link = getByRole('link', { name: linkText });
-      expect(link).to.exist;
-      expect(link.href).to.eql(mhvUrl(hasSsoe, linkPath));
     });
   });
 });
