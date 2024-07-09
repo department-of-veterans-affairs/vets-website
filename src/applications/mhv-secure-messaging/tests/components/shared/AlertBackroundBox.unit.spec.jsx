@@ -6,28 +6,33 @@ import AlertBackgroundBox from '../../../components/shared/AlertBackgroundBox';
 import { Alerts, Paths } from '../../../util/constants';
 
 describe('Alert Backround Box component', () => {
-  it('ERROR alert should render without errors', () => {
+  it('ERROR alert should render without errors', async () => {
+    const activeAlertObj = {
+      datestamp: '2022-10-07T19:25:32.832Z',
+      isActive: true,
+      alertType: 'error',
+      header: 'Error',
+      content: 'Message was not successfully deleted.',
+    };
     const initialState = {
       sm: {
         alerts: {
           alertVisible: true,
-          alertList: [
-            {
-              datestamp: '2022-10-07T19:25:32.832Z',
-              isActive: true,
-              alertType: 'error',
-              header: 'Error',
-              content: 'Message was not successfully deleted.',
-            },
-          ],
+          alertList: [activeAlertObj],
         },
       },
     };
-    const screen = renderWithStoreAndRouter(
-      <AlertBackgroundBox closeable visible />,
-      { initialState, reducers: reducer, path: Paths.INBOX },
-    );
+    const customProps = {
+      activeAlert: activeAlertObj,
+      setActiveAlert: () => {},
+    };
 
-    expect(screen.findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
+    const setup = ({ state = initialState, props = customProps }) =>
+      renderWithStoreAndRouter(
+        <AlertBackgroundBox closeable visible {...props} />,
+        { state, reducers: reducer, path: Paths.INBOX },
+      );
+    const { findByText } = setup({});
+    expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
   });
 });

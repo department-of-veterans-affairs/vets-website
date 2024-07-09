@@ -94,7 +94,7 @@ describe('ReplyDraftItem component', () => {
     expect(queryByTestId('Send-Button')).to.not.exist;
   });
 
-  xit('dispays "Saving..." message on draft save', async () => {
+  it('dispays "Saving..." message on draft save', async () => {
     const customState = {
       sm: {
         folders: { folder: { folderId: 0 } },
@@ -130,7 +130,7 @@ describe('ReplyDraftItem component', () => {
     );
   });
 
-  xit('displays "Your message was saved on..." message on draft save', async () => {
+  it('displays "Your message was saved on..." message on draft save', async () => {
     const lastSaveTime = '2021-04-01T19:20:30.000Z';
     const customState = {
       sm: {

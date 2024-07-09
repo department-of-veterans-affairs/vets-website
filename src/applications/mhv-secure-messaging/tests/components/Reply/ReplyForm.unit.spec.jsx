@@ -175,7 +175,7 @@ describe('Reply form component', () => {
     });
   });
 
-  xit('renders success message on new reply draft save', async () => {
+  it('renders success message on new reply draft save', async () => {
     const customState = {
       sm: {
         ...initialState.sm,
@@ -192,8 +192,9 @@ describe('Reply form component', () => {
     fireEvent.focus(screen.getByTestId('message-body-field'));
     inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
     mockApiRequest(saveDraftResponse);
+    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
+    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
   });
