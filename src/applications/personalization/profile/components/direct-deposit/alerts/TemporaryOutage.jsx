@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import HelpDeskContact from '../../HelpDeskContact';
+import HelpdeskContact from 'platform/user/authentication/components/HelpdeskContact';
 
 const CustomMessaging = () => (
   <va-alert
@@ -23,7 +22,7 @@ const CustomMessaging = () => (
     <p>
       If you need to manage your direct deposit information for disability
       compensation, pension, or education benefits during this time, call us at{' '}
-      <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m. to 9:00
+      <HelpdeskContact />. We’re here Monday through Friday, 8:00 a.m. to 9:00
       p.m. ET.
     </p>
   </va-alert>

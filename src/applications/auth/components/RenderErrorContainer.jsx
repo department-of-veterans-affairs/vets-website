@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
-import Helpdesk from './HelpdeskContact';
+import HelpdeskContact from 'platform/user/authentication/components/HelpdeskContact';
 
 export default function RenderErrorContainer({
   code = AUTH_ERRORS.DEFAULT.errorCode,
@@ -80,7 +80,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <Helpdesk />
+          <HelpdeskContact />
           <button type="button" onClick={openLoginModal}>
             Try signing in again
           </button>
@@ -138,9 +138,9 @@ export default function RenderErrorContainer({
               Login.gov/contact.
             </a>
           </p>
-          <Helpdesk>
+          <HelpdeskContact>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </HelpdeskContact>
           <button type="button" onClick={openLoginModal}>
             Try signing in again
           </button>
@@ -162,7 +162,7 @@ export default function RenderErrorContainer({
           <ul>
             <li>
               <strong>Call the My HealtheVet help desk</strong>
-              <Helpdesk />
+              <HelpdeskContact />
               <p>
                 Tell the representative that you tried to sign in to VA.gov, but
                 got an error message that you have more than one My HealtheVet
@@ -214,7 +214,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <Helpdesk />
+          <HelpdeskContact />
         </>
       );
       break;
@@ -231,7 +231,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <HelpdeskContact />
         </>
       );
       break;
@@ -247,7 +247,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <HelpdeskContact />
         </>
       );
       break;
@@ -263,7 +263,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <Helpdesk />
+          <HelpdeskContact />
         </>
       );
       break;
@@ -389,9 +389,9 @@ export default function RenderErrorContainer({
               in—especially if you’re using a public or shared computer.
             </p>
           </div>
-          <Helpdesk>
+          <HelpdeskContact>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </HelpdeskContact>
         </>
       );
       break;
@@ -406,7 +406,7 @@ export default function RenderErrorContainer({
         <>
           <h2>How can I fix this issue?</h2>
           <p>Try signing in again in a few minutes.</p>
-          <Helpdesk startScentence />
+          <HelpdeskContact startScentence />
         </>
       );
       break;
@@ -420,7 +420,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>How can I fix this issue?</h2>
-          <Helpdesk startScentence />
+          <HelpdeskContact startScentence />
         </>
       );
       break;
@@ -442,7 +442,7 @@ export default function RenderErrorContainer({
             below
           </p>
           <a href="/my-health">Access My HealtheVet</a>
-          <Helpdesk>If you’re still running into issues</Helpdesk>
+          <HelpdeskContact>If you’re still running into issues</HelpdeskContact>
         </>
       );
       break;
@@ -491,9 +491,9 @@ export default function RenderErrorContainer({
               information in the “Tools,” “Settings,” or “Preferences” menu.
             </li>
           </ul>
-          <Helpdesk>
+          <HelpdeskContact>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </HelpdeskContact>
         </>
       );
       break;
@@ -554,9 +554,9 @@ export default function RenderErrorContainer({
               you’ve updated your browser with the latest updates.
             </li>
           </ul>
-          <Helpdesk>
+          <HelpdeskContact>
             If you’ve taken the steps above and still can’t sign in,
-          </Helpdesk>
+          </HelpdeskContact>
         </>
       );
   }

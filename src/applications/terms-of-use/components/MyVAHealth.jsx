@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import HelpdeskContact from 'platform/user/authentication/components/HelpdeskContact';
 import TermsAcceptance from './TermsAcceptanceAction';
 import { parseRedirectUrl, touUpdatedDate, declineAndLogout } from '../helpers';
 import { touStyles, errorMessages } from '../constants';
@@ -156,8 +156,8 @@ export default function MyVAHealth() {
                 Your decision to decline these terms won’t affect your
                 eligibility for VA health care and benefits in any way. You can
                 still get VA health care and benefits without using online
-                services. If you need help or have questions, <IdentityPhone />{' '}
-                We’re here 24/7.
+                services. If you need help or have questions,{' '}
+                <HelpdeskContact /> We’re here 24/7.
               </p>
               <va-alert status="warning" visible>
                 <h3 slot="headline" id="what-happens-if-you-decline">

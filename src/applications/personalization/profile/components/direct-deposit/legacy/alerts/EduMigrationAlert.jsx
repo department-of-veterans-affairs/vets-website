@@ -4,9 +4,9 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import HelpdeskContact from 'platform/user/authentication/components/HelpdeskContact';
 import { ProfileLink } from '../../../ProfileLink';
 import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
-import HelpDeskContact from '../../../HelpDeskContact';
 
 export const EduMigrationAlert = ({ className }) => {
   const directDepositPath = '/profile/direct-deposit';
@@ -53,7 +53,7 @@ export const EduMigrationAlert = ({ className }) => {
 
       <p>
         <strong>For disability compensation and pension benefits,</strong> call
-        us at <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m.
+        us at <HelpdeskContact />. We’re here Monday through Friday, 8:00 a.m.
         to 9:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
