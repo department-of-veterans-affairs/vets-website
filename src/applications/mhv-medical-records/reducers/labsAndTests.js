@@ -176,10 +176,9 @@ const convertMicrobiologyRecord = record => {
     dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    dateAndTimeCollected: collectionRequest.collection.bodySite
-      .collectedDateTime
+    date: collectionRequest.collection.collectedDateTime
       ? dateFormatWithoutTimezone(
-          collectionRequest.collection.bodySite.collectedDateTime,
+          collectionRequest.collection.collectedDateTime,
         )
       : EMPTY_FIELD,
     sampleFrom: getSpecimen(record) || EMPTY_FIELD,

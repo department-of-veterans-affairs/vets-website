@@ -100,7 +100,7 @@ describe('LabAndTestDetails microbiology', () => {
     screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
       initialState,
       reducers: reducer,
-      path: '/labs-and-tests/ex-MHV-chReport-1',
+      path: '/labs-and-tests/ex-MHV-labReport-3',
     });
   });
 
