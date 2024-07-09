@@ -257,6 +257,17 @@ const FileField = props => {
             : await readAndCheckFile(currentFile, checks);
       }
 
+      if (checkResults.checkIsEncryptedPdf) {
+        allFiles[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          errorMessage:
+            'We weren’t able to upload your file. Make sure the file is not encrypted and an accepted format before continuing.',
+        };
+        props.onChange(allFiles);
+        return;
+      }
+
       if (!checkResults.checkTypeAndExtensionMatches) {
         allFiles[idx] = {
           file: currentFile,
@@ -595,33 +606,6 @@ const FileField = props => {
                       <span className="sr-only">Error</span> {errors[0]}
                     </span>
                   )}
-                {showPasswordInput && (
-                  <div className="fieldErrorBorder vads-u-margin-bottom--2">
-                    <div className="fileFieldError">
-                      We weren’t able to upload your file. Make sure the file is
-                      not encrypted and an accepted format before continuing.
-                    </div>
-                    <va-button
-                      class="delete-upload vads-u-width--auto vads-u-margin-top--2"
-                      text="Upload a new file"
-                      onClick={() => {
-                        deleteThenAddFile(index);
-                      }}
-                      label="Upload a new file"
-                      uswds
-                    />
-                    <va-button
-                      secondary
-                      class="fileButtonSpacing vads-u-width--auto vads-u-margin-top--2"
-                      text="Cancel"
-                      onClick={() => {
-                        openRemoveModal(index);
-                      }}
-                      label="Cancel"
-                      uswds
-                    />
-                  </div>
-                )}
                 {!formContext.reviewMode &&
                   !isUploading && (
                     <div className="vads-u-margin-top--2">
