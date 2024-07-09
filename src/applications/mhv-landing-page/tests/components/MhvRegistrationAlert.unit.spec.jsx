@@ -9,12 +9,12 @@ import MhvRegistrationAlert from '../../components/MhvRegistrationAlert';
 const defaultHeadline = MhvRegistrationAlert.defaultProps.headline;
 
 describe('MhvRegistrationAlert', () => {
-  const mockStore = ({ ssoe = true } = {}) => ({
+  const mockStore = () => ({
     getState: () => ({
       user: {
         profile: {
           session: {
-            ssoe,
+            ssoe: true,
           },
         },
       },
@@ -25,7 +25,7 @@ describe('MhvRegistrationAlert', () => {
 
   it('renders', () => {
     const { getByRole } = render(
-      <Provider store={mockStore({ ssoe: true })}>
+      <Provider store={mockStore()}>
         <MhvRegistrationAlert />
       </Provider>,
     );
@@ -44,7 +44,7 @@ describe('MhvRegistrationAlert', () => {
     const recordEventSpy = sinon.spy();
     const props = { recordEvent: recordEventSpy };
     render(
-      <Provider store={mockStore({ ssoe: true })}>
+      <Provider store={mockStore()}>
         <MhvRegistrationAlert {...props} />
       </Provider>,
     );
