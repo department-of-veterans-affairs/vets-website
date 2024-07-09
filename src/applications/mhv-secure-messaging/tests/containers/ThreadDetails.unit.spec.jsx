@@ -204,21 +204,23 @@ describe('Thread Details container', () => {
     expect(screen.findByText('Edit draft', { exact: true, selector: 'h1' })).to
       .exist;
 
-    await waitFor(() => {
-      expect(global.document.title).to.equal(
-        PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
-      );
-    });
-
     expect(
       document.querySelector('va-alert-expandable').getAttribute('trigger'),
     ).to.equal('Only use messages for non-urgent needs');
+
     expect(
       screen.getByText(
         'If you need help sooner, use one of these urgent communication options:',
       ),
     ).to.exist;
+
     expect(document.querySelector(`va-textarea[value="${body}"]`)).to.exist;
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        PageTitles.EDIT_DRAFT_PAGE_TITLE_TAG,
+      );
+    });
   });
 
   it('with a reply draft message on a replied to message is MORE than 45 days', async () => {
