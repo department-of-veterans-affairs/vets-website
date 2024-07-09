@@ -215,7 +215,7 @@ export default function ProviderList({
             {communityCareProviderList?.length > 0 && (
               <button
                 type="button"
-                className="vaos-appts__cancel-btn usa-button-secondary vads-u-margin-right--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary"
                 onClick={() => {
                   setProvidersListLength(initialProviderDisplayCount);
                   setShowProvidersList(false);
