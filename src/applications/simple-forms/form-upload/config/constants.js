@@ -1,10 +1,8 @@
 import React from 'react';
-// import { capitalize } from 'lodash';
 import {
   VaCard,
   VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { mask, getFileSize } from '../helpers';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
   <div className="action-bar-arrow">
@@ -41,51 +39,6 @@ export const UPLOAD_GUIDELINES = Object.freeze(
         <li>Your file should be no larger than 25MB</li>
       </ul>
     </div>
-  </>,
-);
-
-export const USER_INFO_REVIEW = Object.freeze(
-  <>
-    <p className="vads-u-margin-top--0">
-      When you submit your form, we’ll include the following personal
-      information so that you can track your submission’s status.
-    </p>
-    <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
-      <p>
-        <b>
-          {/* {capitalize(fullName.first)} {capitalize(fullName.last)} */}
-          JOHN SMITH
-        </b>
-      </p>
-      {/* {veteran && (
-        <>
-          <p>
-            Social Security number:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's SSN"
-            >
-              {mask(veteran.ssn)}
-            </span>
-          </p>
-          <p>Zip code: {veteran.address?.postalCode}</p>
-        </>
-      )} */}
-      <>
-        <p>
-          Social Security number:{' '}
-          <span className="dd-privacy-mask" data-dd-action-name="Veteran's SSN">
-            123-12-1234
-          </span>
-        </p>
-        <p>Zip code: 55555</p>
-      </>
-    </div>
-    <p className="vads-u-margin-bottom--5">
-      <b>Note:</b> If you need to update your personal information, call us at
-      800-827-1000 (TTY:711). We’re here Monday through Friday, 8:00am to 9:00pm
-      ET.
-    </p>
   </>,
 );
 
