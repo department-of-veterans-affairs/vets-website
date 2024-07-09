@@ -1,8 +1,13 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
+/* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
 import React from 'react';
 
 const CrisisLineModal = () => (
-  <div id="ts-modal-crisisline" className="vcl-overlay va-modal va-modal-large" role="alertdialog">
+  <div
+    id="ts-modal-crisisline"
+    className="vcl-overlay va-modal va-modal-large"
+    role="alertdialog"
+  >
     <div className="vcl-crisis-panel va-modal-inner">
       <button aria-label="Close this modal" id="vcl-modal-close" type="button">
         <svg
@@ -13,22 +18,26 @@ const CrisisLineModal = () => (
           width="30"
           xmlns="http://www.w3.org/2000/svg"
         >
-        <path
-          fill="#005ea2"
-          d="m8.4 17 3.6-3.6 3.6 3.6 1.4-1.4-3.6-3.6L17 8.4 15.6 7 12 10.6 8.4 7 7 8.4l3.6 3.6L7 15.6 8.4 17Zm3.6 5a10.1 10.1 0 0 1-9.21-6.1A9.74 9.74 0 0 1 2 12a10.1 10.1 0 0 1 6.1-9.21A9.74 9.74 0 0 1 12 2a10.1 10.1 0 0 1 9.21 6.1c.53 1.22.79 2.52.79 3.9s-.26 2.68-.79 3.9a10.1 10.1 0 0 1-5.31 5.31A9.74 9.74 0 0 1 12 22Z"
-        />
-      </svg>
+          <path
+            fill="#005ea2"
+            d="m8.4 17 3.6-3.6 3.6 3.6 1.4-1.4-3.6-3.6L17 8.4 15.6 7 12 10.6 8.4 7 7 8.4l3.6 3.6L7 15.6 8.4 17Zm3.6 5a10.1 10.1 0 0 1-9.21-6.1A9.74 9.74 0 0 1 2 12a10.1 10.1 0 0 1 6.1-9.21A9.74 9.74 0 0 1 12 2a10.1 10.1 0 0 1 9.21 6.1c.53 1.22.79 2.52.79 3.9s-.26 2.68-.79 3.9a10.1 10.1 0 0 1-5.31 5.31A9.74 9.74 0 0 1 12 22Z"
+          />
+        </svg>
       </button>
       <div className="vcl-overlay-body vcl-crisis-panel-body">
-        <h3 className="vcl-crisis-panel-title">We’re here anytime, day or night – 24/7</h3>
-        <p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.</p>
+        <h3 className="vcl-crisis-panel-title">
+          We’re here anytime, day or night – 24/7
+        </h3>
+        <p>
+          If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.
+        </p>
         <ul className="vcl-crisis-panel-list">
           <li>
             <svg
               aria-hidden="true"
               className="vcl-crisis-panel-icon vads-u-display--inline-block"
               focusable="false"
-              style={{transform: 'rotate(270deg)'}}
+              style={{ transform: 'rotate(270deg)' }}
               viewBox="0 0 23 23"
               width="30"
               xmlns="http://www.w3.org/2000/svg"

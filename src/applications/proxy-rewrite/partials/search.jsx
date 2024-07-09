@@ -1,5 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { keyDownHandler } from '../utilities/keydown';
 
 const Keycodes = {
@@ -15,9 +15,9 @@ const Search = () => {
   const [isDesktop, setIsDesktop] = useState(false);
   const button = document.getElementById('search-dropdown-button');
 
-  const toggleDropdown = () => {
+  const toggleDropdown = useCallback(() => {
     setIsOpen(!isOpen);
-  };
+  });
 
   useEffect(
     () => {

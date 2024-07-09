@@ -66,11 +66,7 @@ export const buildImageColumn = (
   const imageSource = updateLinkDomain(column.img.src);
 
   return (
-    <div
-      aria-hidden="false"
-      className={`vetnav-panel vetnav-panel--submenu column-three ${columnClass}`}
-      aria-label="columnThree"
-    >
+    <div className={`vetnav-panel vetnav-panel--submenu column-three ${columnClass}`}>
       <div className={`mm-marketing-container ${marketingClass}`}>
         <img src={imageSource} alt={column.img.alt} />
         <div className="mm-marketing-text">
@@ -91,10 +87,7 @@ export const buildImageColumn = (
 
 export const buildColumns = (column, columnLabel, columnClass = '') => {
   return (
-    <div
-      aria-hidden="false"
-      className={`vetnav-panel vetnav-panel--submenu ${columnLabel} ${columnClass}`}
-    >
+    <div className={`vetnav-panel vetnav-panel--submenu ${columnLabel} ${columnClass}`}>
       <h3 data-e2e-id={`vetnav-${columnLabel}-header`}>{column.title}</h3>
       <ul id={`vetnav-${columnLabel}-col`}>
         <li className="panel-top-link" />
