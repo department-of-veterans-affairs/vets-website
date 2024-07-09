@@ -13,9 +13,11 @@ describe('CCProviderResult With Training', () => {
     const wrapper = render(
       <CCProviderResult provider={testData.data[0]} query={query} />,
     );
-    expect(wrapper.queryAllByTestId('training-a')).to.have.length(0); // should not exist
+    // should not exist because no trainings
+    expect(wrapper.queryAllByTestId('training-a')).to.have.length(0);
     wrapper.unmount();
   });
+
   it('Should render CCProviderResult, serviceType Podiatrist with 1 training', async () => {
     const query = {
       facilityType: 'provider',
@@ -27,6 +29,7 @@ describe('CCProviderResult With Training', () => {
     expect(wrapper.queryAllByTestId('training-b')).to.have.length(1);
     wrapper.unmount();
   });
+
   it('Should render CCProviderResult, serviceType Podiatrist with 3 training', async () => {
     const query = {
       facilityType: 'provider',
@@ -35,7 +38,8 @@ describe('CCProviderResult With Training', () => {
     const wrapper = render(
       <CCProviderResult provider={testData.data[2]} query={query} />,
     );
-    expect(wrapper.queryAllByTestId('training-c')).to.have.length(1); // stll one
+    // stll one <p> about core training despite having 3 trainings that fall into that category
+    expect(wrapper.queryAllByTestId('training-c')).to.have.length(1);
     wrapper.unmount();
   });
 });

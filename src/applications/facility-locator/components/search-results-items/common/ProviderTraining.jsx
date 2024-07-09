@@ -7,14 +7,14 @@ function ProviderTraining({ provider }) {
     return null;
   }
   return (
-    <div className="vads-u-margin-y--2" data-testid={`training-${provider.id}`}>
+    <p className="vads-u-margin-y--2" data-testid={`training-${provider.id}`}>
       <VaIcon
         size={3}
         icon="how_to_reg"
         className="vads-u-margin-right--1 success-icon"
       />
       <span>Provider core training</span>
-    </div>
+    </p>
   );
 }
 
