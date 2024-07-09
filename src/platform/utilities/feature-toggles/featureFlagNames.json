@@ -61,7 +61,6 @@
   "dischargeWizardFeatures": "discharge_wizard_features",
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
-  "ezrTeraEnabled": "ezr_tera_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressCommunityCare": "facilities_ppms_suppress_community_care",
