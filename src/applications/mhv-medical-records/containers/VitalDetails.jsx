@@ -66,6 +66,19 @@ const VitalDetails = props => {
 
   useIsDetails(dispatch);
 
+  const updatedRecordType = (() => {
+    if (vitalType === 'heart-rate') {
+      return 'PULSE';
+    }
+    if (vitalType === 'breathing-rate') {
+      return 'RESPIRATION';
+    }
+    if (vitalType === 'blood-oxygen-level') {
+      return 'PULSE_OXIMETRY';
+    }
+    return vitalType;
+  })();
+
   useEffect(
     () => {
       dispatch(
@@ -133,7 +146,11 @@ const VitalDetails = props => {
     () => {
       if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
       }
     },
     [currentPage, records],
@@ -143,8 +160,8 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (vitalType) {
-        const formattedVitalType = macroCase(vitalType);
+      if (updatedRecordType) {
+        const formattedVitalType = macroCase(updatedRecordType);
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
@@ -170,8 +187,7 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(
-        vital =>
-          `${txtLine}\n\n
+        vital => `${txtLine}\n\n
 Date entered: ${vital.date}\n
 Details about this test\n
 Result: ${vital.measurement}\n

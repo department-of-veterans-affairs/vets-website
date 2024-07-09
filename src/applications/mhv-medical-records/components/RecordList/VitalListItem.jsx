@@ -8,6 +8,19 @@ const VitalListItem = props => {
   const { record } = props;
   const displayName = vitalTypeDisplayNames[record.type];
 
+  const updatedRecordType = (() => {
+    if (record.type === 'PULSE') {
+      return 'HEART-RATE';
+    }
+    if (record.type === 'RESPIRATION') {
+      return 'BREATHING-RATE';
+    }
+    if (record.type === 'PULSE_OXIMETRY') {
+      return 'BLOOD-OXYGEN-LEVEL';
+    }
+    return record.type;
+  })();
+
   return (
     <va-card
       class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 small-screen:vads-u-padding-top--2"
@@ -48,8 +61,9 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span>{record.date}</span>
           </div>
+
           <Link
-            to={`/vitals/${_.kebabCase(record.type)}-history`}
+            to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid="vital-li-review-over-time"
           >
