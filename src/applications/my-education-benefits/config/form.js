@@ -1572,7 +1572,11 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    aria-hidden="true"
+                  />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
@@ -1736,7 +1740,7 @@ const formConfig = {
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
               accountNumber: {
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
@@ -1776,7 +1780,7 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: ['accountType', 'accountNumber', 'routingNumber'],
+                required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {
                   accountType: {
                     type: 'string',
