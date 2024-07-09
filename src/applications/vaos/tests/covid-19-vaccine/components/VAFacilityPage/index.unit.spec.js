@@ -121,7 +121,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
       // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('+ 1 more location');
+      const moreLocationsBtn = screen.getByText('Show 1 more location');
       expect(moreLocationsBtn).to.have.tagName('span');
       fireEvent.click(moreLocationsBtn);
 
