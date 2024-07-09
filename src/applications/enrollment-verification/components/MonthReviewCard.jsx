@@ -11,9 +11,10 @@ import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
 const correctText = (
   <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-    <i
-      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
-      aria-hidden="true"
+    <va-icon
+      //  className="fas fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      icon="check_circle"
+      size={3}
     />{' '}
     You verified that this month’s enrollment information is correct
   </p>
@@ -21,9 +22,10 @@ const correctText = (
 
 const incorrectText = (
   <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-    <i
-      className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1 vads-u-margin-top--1"
-      aria-hidden="true"
+    <va-icon
+      //  className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1 vads-u-margin-top--1"
+      icon="error"
+      size={3}
     />{' '}
     You verified that this month’s enrollment information isn’t correct
   </p>
@@ -31,10 +33,11 @@ const incorrectText = (
 
 const cantVerifyText = informationIncorrectMonth => {
   return (
-    <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-      <i
-        className="fas fa-exclamation-triangle vads-u-margin-right--1 vads-u-margin-top--1"
-        aria-hidden="true"
+    <p className="vads-u-margin-top--1 vads-u-margin-bottom--3 ">
+      <va-icon
+        //  className="fas fa-exclamation-triangle vads-u-margin-right--1 vads-u-margin-top--1"
+        icon="warning"
+        size={3}
       />{' '}
       You can’t verify our enrollment for this month until your School
       Certifying Official corrects your information for{' '}

@@ -8,9 +8,10 @@ import { MONTH_PROP_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i
-      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
-      aria-hidden="true"
+    <va-icon
+      //  className="fas fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      icon="check_circle"
+      size={3}
     />{' '}
     You verified this month
   </p>
@@ -18,9 +19,10 @@ const verifiedMonthStatusMessage = (
 const notVerifiedMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i
-        className="fas fa-exclamation-triangle vads-u-margin-right--1"
-        aria-hidden="true"
+      <va-icon
+        //  className="fas fa-exclamation-triangle vads-u-margin-right--1"
+        icon="warning"
+        size={3}
       />{' '}
       You haven’t verified this month
     </p>
@@ -30,9 +32,10 @@ const notVerifiedMonthStatusMessage = (
 const needToVerifyMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i
-        className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
-        aria-hidden="true"
+      <va-icon
+        //  className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+        icon="error"
+        size={3}
       />{' '}
       You need to verify this month
     </p>
@@ -41,9 +44,10 @@ const needToVerifyMonthStatusMessage = (
 );
 const contactScoMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i
-      className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
-      aria-hidden="true"
+    <va-icon
+      //  className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+      icon="error"
+      size={3}
     />{' '}
     <strong>
       Contact your School Certifying Official to update enrollment information

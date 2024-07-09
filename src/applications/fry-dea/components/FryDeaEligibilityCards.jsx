@@ -10,18 +10,20 @@ import {
 
 const eligibleMessage = (
   <p>
-    <i
-      className="fas fa-check-circle fry-dea-benefit-selection-icon"
-      aria-hidden="true"
+    <va-icon
+      // className="fas fa-check-circle fry-dea-benefit-selection-icon"
+      icon="check_circle"
+      size={3}
     />{' '}
     You may be eligible for this benefit
   </p>
 );
 const notEligibleMessage = (
   <p>
-    <i
-      className="fas fa-exclamation-circle vads-u-margin-right--1"
-      aria-hidden="true"
+    <va-icon
+      // className="fas fa-exclamation-circle vads-u-margin-right--1"
+      icon="error"
+      size={3}
     />{' '}
     You’re not eligible for this benefit
   </p>
@@ -67,24 +69,27 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         </h4>
         <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
           <li>
-            <i
-              className="fas fa-school fry-dea-benefit-selection-icon"
-              aria-hidden="true"
+            <va-icon
+              //  className="fas fa-school fry-dea-benefit-selection-icon"
+              icon="school"
+              size={3}
             />{' '}
             Tuition &amp; fees
           </li>
           <li>
-            <i
-              className="fas fa-home fry-dea-benefit-selection-icon"
-              aria-hidden="true"
+            <va-icon
+              // className="fas fa-home fry-dea-benefit-selection-icon"
+              icon="home"
+              size={3}
             />{' '}
             Money for housing
           </li>
           <li>
-            <i
-              className="fas fa-book fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
+           <va-icon
+            //   className="fas fa-book fry-dea-benefit-selection-icon"
+            icon="local_library"
+           size={3}
+         />{' '}
             Money for books &amp; supplies
           </li>
         </ul>
@@ -121,10 +126,11 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         </h4>
         <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
           <li>
-            <i
-              className="fas fa-money-check-alt fry-dea-benefit-selection-icon"
-              aria-hidden="true"
-            />{' '}
+           <va-icon
+            //   className="fas fa-money-check-alt fry-dea-benefit-selection-icon"
+            icon="attach_money"
+           size={3}
+         />{' '}
             Monthly stipend
           </li>
         </ul>

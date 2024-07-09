@@ -31,9 +31,10 @@ export default function DeniedConfirmation({ user, dateReceived }) {
               download
               href={LETTER_ENDPOINT}
             >
-              <i
-                className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
-                aria-hidden="true"
+              <va-icon
+                //  className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
+                icon="file_download"
+                size={3}
               />
               Download your decision letter (PDF)
             </a>

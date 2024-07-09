@@ -87,8 +87,8 @@ export function UnderReview(response, name) {
             and you haven’t heard back, please don’t apply again. Call our
             toll-free Education Call Center at{' '}
             <a href="tel:888-442-4551">1-888-442-4551</a> or{' '}
-            <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are
-            outside the U.S.
+            <a href="tel:001-918-781-5678">001-918-781-5678</a>
+            if you are outside the U.S.
           </div>
         </va-alert>
       </div>
@@ -180,9 +180,10 @@ export function Approved(name) {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <i
-                className="fa fa-download vads-u-margin-right--1"
-                aria-hidden="true"
+              <va-icon
+                //  className="fa fa-download vads-u-margin-right--1"
+                icon="file_download"
+                size={3}
               />
               <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
                 Download your decision letter (PDF)
@@ -294,9 +295,10 @@ export function NotEligible(name) {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <i
-                className="fa fa-download vads-u-margin-right--1"
-                aria-hidden="true"
+              <va-icon
+                //  className="fa fa-download vads-u-margin-right--1"
+                icon="file_download"
+                size={3}
               />
               <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
                 Download your decision letter (PDF)
