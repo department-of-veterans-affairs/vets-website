@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/appeals-testing.scss';
+import './sass/nod-new.scss';
 
 import startApp from 'platform/startup';
 
