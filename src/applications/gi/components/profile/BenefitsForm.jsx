@@ -315,7 +315,7 @@ const BenefitsForm = ({
 
   return (
     <div className="eligibility-form">
-      {showHeader && <h2>Your benefits</h2>}
+      {showHeader && <h2 id="benefits-header">Your benefits</h2>}
       {renderYourMilitaryDetails()}
     </div>
   );
