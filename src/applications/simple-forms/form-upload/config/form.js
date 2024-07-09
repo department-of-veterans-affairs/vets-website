@@ -10,6 +10,7 @@ import { reviewPage } from '../pages/review';
 import { identificationInformationPage, zipCodePage } from '../pages/loa1';
 import { submitPage } from '../pages/submit';
 import { TITLE, SUBTITLE } from './constants';
+import prefillTransformer from './prefill-transformer';
 // import { getFormNumber, getFormUploadContent } from '../helpers';
 
 // const formNumber = getFormNumber(window.location);
@@ -18,9 +19,6 @@ const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
   focusByOrder(['va-segmented-progress-bar', 'h1']);
 };
-
-const fullName = { first: 'John', last: 'Smith' };
-const veteran = { ssn: '123121234', address: { postalCode: '55555' } };
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -35,7 +33,7 @@ const formConfig = {
   trackingPrefix: 'form-upload-flow-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'FORM-UPLOAD',
+  formId: 'FORM-UPLOAD-FLOW',
   saveInProgress: {
     messages: {
       inProgress: 'Your form upload is in progress.',
@@ -46,13 +44,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to upload your form.',
     noAuth: 'Please sign in again to continue uploading your form.',
   },
   title: TITLE,
-  subitle: SUBTITLE,
-  // subitle: getFormUploadContent(formNumber),
+  subtitle: SUBTITLE,
+  // subtitle: getFormUploadContent(formNumber),
   defaultDefinitions: {},
   v3SegmentedProgressBar: {
     useDiv: true,
@@ -78,12 +77,14 @@ const formConfig = {
         reviewPage: {
           path: 'review',
           title: 'Review Your Information',
-          uiSchema: reviewPage(fullName, veteran).uiSchema,
-          schema: reviewPage(fullName, veteran).schema,
+          uiSchema: reviewPage.uiSchema,
+          schema: reviewPage.schema,
           pageClass: 'review',
           scrollAndFocusTarget,
         },
         identificationInformationPage: {
+          depends: formData =>
+            formData?.['view:veteranPrefillStore']?.loa !== 3,
           path: 'identification-info',
           title: 'Identification information',
           uiSchema: identificationInformationPage.uiSchema,
@@ -92,6 +93,8 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         zipCodePage: {
+          depends: formData =>
+            formData?.['view:veteranPrefillStore']?.loa !== 3,
           path: 'zip-code',
           title: 'Your zip code',
           uiSchema: zipCodePage.uiSchema,
