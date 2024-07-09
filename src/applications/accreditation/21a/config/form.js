@@ -60,12 +60,12 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter,
-    militaryServiceChapter,
-    employmentInformationChapter,
-    educationHistoryChapter,
-    lawPracticeInformationChapter,
-    backgroundInformationChapter,
-    characterReferencesChapter,
+    // militaryServiceChapter,
+    // employmentInformationChapter,
+    // educationHistoryChapter,
+    // lawPracticeInformationChapter,
+    // backgroundInformationChapter,
+    // characterReferencesChapter,
   },
 };
 
