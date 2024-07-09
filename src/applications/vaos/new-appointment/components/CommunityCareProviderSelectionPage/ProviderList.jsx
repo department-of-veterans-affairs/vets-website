@@ -183,7 +183,7 @@ export default function ProviderList({
               <>
                 <button
                   type="button"
-                  className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
+                  className="additional-info-button usa-button-secondary vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
                     setProvidersListLength(
                       providersListLength + initialProviderDisplayCount,
@@ -194,13 +194,19 @@ export default function ProviderList({
                   }}
                 >
                   <span className="sr-only">show</span>
-                  <span className="va-button-link">
-                    +{' '}
+                  <span>
+                    Show{' '}
                     {Math.min(
                       communityCareProviderList.length - providersListLength,
                       initialProviderDisplayCount,
                     )}{' '}
-                    more providers
+                    more provider
+                    {Math.min(
+                      communityCareProviderList.length - providersListLength,
+                      initialProviderDisplayCount,
+                    ) > 1
+                      ? 's'
+                      : ''}
                   </span>
                 </button>
               </>
@@ -208,7 +214,7 @@ export default function ProviderList({
             {communityCareProviderList?.length > 0 && (
               <button
                 type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary vads-u-margin-right--0 vads-u-flex--0"
                 onClick={() => {
                   setProvidersListLength(initialProviderDisplayCount);
                   setShowProvidersList(false);
