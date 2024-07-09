@@ -1,6 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
+import PatientMessageSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
@@ -9,14 +9,14 @@ describe('secure Messaging Sent Folder checks', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
-    FolderLoadPage.loadSentMessages();
+    PatientMessageSentPage.loadMessages();
   });
 
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Sent');
-    PatientMessagesSentPage.verifyResponseBodyLength();
+    PatientMessageSentPage.verifyFolderHeaderText('Sent');
+    PatientMessageSentPage.verifyResponseBodyLength();
   });
 
   it('checks for "End of conversations in this folder" text', () => {

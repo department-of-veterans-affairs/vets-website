@@ -93,14 +93,16 @@ export default function FacilitiesRadioWidget({
         hiddenCount > 0 && (
           <button
             type="button"
-            className="additional-info-button va-button-link vads-u-display--block"
+            className="additional-info-button usa-button-secondary vads-u-display--block"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
           >
             <span className="sr-only">show</span>
-            <span className="va-button-link">
-              {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+            <span>
+              {`Show ${hiddenCount} more location${
+                hiddenCount === 1 ? '' : 's'
+              }`}
             </span>
           </button>
         )}

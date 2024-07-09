@@ -1,11 +1,13 @@
+import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import * as Sentry from '@sentry/browser';
+import content from '../locales/en/content.json';
 
 export const fetchFacilities = async (mapBoxResponse, request = null) => {
   if (mapBoxResponse?.errorMessage) {
     return mapBoxResponse.errorMessage;
   }
+
   // Increase the area of the boundary to improve search results
   const adjustedBoundaryCoordinates = [
     // min X
@@ -26,17 +28,16 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
     adjustedBoundaryCoordinates[3]
   }&per_page=500`;
 
+  const fetchRequest = request || apiRequest(`${lightHouseRequestUrl}`, {});
+
   // Helper function to join address parts, filtering out null or undefined values
   const joinAddressParts = (...parts) => {
-    return parts.filter(part => part != null).join(', ');
+    return parts.filter(part => part !== null).join(', ');
   };
 
-  // eslint-disable-next-line no-param-reassign
-  request = request || apiRequest(`${lightHouseRequestUrl}`, {});
-
-  return request
-    .then(response => {
-      return response.data.map(facility => {
+  return fetchRequest
+    .then(({ data }) => {
+      return data.map(facility => {
         const { physical } = facility.attributes.address;
 
         // Create a new address object without modifying the original facility
@@ -63,19 +64,17 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
         };
       });
     })
-    .catch(error => {
-      const errors = error.errors.map(err => {
-        return err.detail ? err.detail : err.title;
-      });
+    .catch(({ errors }) => {
+      const messages = errors.map(err => err.detail || err.title);
 
       Sentry.withScope(scope => {
-        scope.setExtra('error', errors);
-        Sentry.captureMessage('Error fetching Lighthouse VA facilities');
+        scope.setExtra('error', messages);
+        Sentry.captureMessage(content['error--facilities-fetch']);
       });
 
       return {
         type: 'SEARCH_FAILED',
-        errorMessage: errors,
+        errorMessage: messages,
       };
     });
 };
