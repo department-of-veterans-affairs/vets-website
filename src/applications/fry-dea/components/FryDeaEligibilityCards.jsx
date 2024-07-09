@@ -85,11 +85,11 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
             Money for housing
           </li>
           <li>
-           <va-icon
-            //   className="fas fa-book fry-dea-benefit-selection-icon"
-            icon="local_library"
-           size={3}
-         />{' '}
+            <va-icon
+              //   className="fas fa-book fry-dea-benefit-selection-icon"
+              icon="local_library"
+              size={3}
+            />{' '}
             Money for books &amp; supplies
           </li>
         </ul>
@@ -126,11 +126,11 @@ function FryDeaEligibilityCards({ selectedVeteran, veterans }) {
         </h4>
         <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
           <li>
-           <va-icon
-            //   className="fas fa-money-check-alt fry-dea-benefit-selection-icon"
-            icon="attach_money"
-           size={3}
-         />{' '}
+            <va-icon
+              //   className="fas fa-money-check-alt fry-dea-benefit-selection-icon"
+              icon="attach_money"
+              size={3}
+            />{' '}
             Monthly stipend
           </li>
         </ul>
