@@ -15,7 +15,6 @@ import {
   authorizeInsideVA,
   authorizeOutsideVA,
   formToggle,
-  claimantType,
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
@@ -25,11 +24,11 @@ import {
 import { prefillTransformer } from '../prefill-transformer';
 import {
   preparerIsVeteranAndHasPrefill,
-  initializeFormDataWithClaimantInformationAndPrefill,
   preparerIsVeteran,
 } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
+import ClaimantType from '../components/ClaimantType';
 
 const mockData = initialData;
 
@@ -61,6 +60,13 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   v3SegmentedProgressBar: true,
+  additionalRoutes: [
+    {
+      path: 'claimant-type',
+      component: ClaimantType,
+      pageKey: 'claimant-type',
+    },
+  ],
   savedFormMessages: {
     notFound:
       'Please start over to apply for VA accredited representative appointment.',
@@ -80,24 +86,6 @@ const formConfig = {
     formToggle: {
       title: ' ',
       pages: {
-        claimantType: {
-          path: 'claimant-type',
-          title: ' ',
-          uiSchema: claimantType.uiSchema,
-          schema: claimantType.schema,
-          initialData:
-            /* istanbul ignore next */
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
-          onNavForward: ({ goNextPath }) => goNextPath(),
-          updateFormData: (oldFormData, newFormData) => {
-            return initializeFormDataWithClaimantInformationAndPrefill(
-              newFormData['view:applicantIsVeteran'],
-              newFormData['view:veteranPrefillStore'],
-            );
-          },
-        },
         repType: {
           path: 'rep-type',
           title: ' ',
