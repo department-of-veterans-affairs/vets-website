@@ -79,6 +79,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
+  'CustomReviewTopContent',
   'CustomTopContent',
   'customText',
   'submissionError',

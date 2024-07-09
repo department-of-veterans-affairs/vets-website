@@ -15,13 +15,6 @@ const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start your Application"
-      />
       <p>
         As an attorney or claims agent, you can start the application process to
         become a VA accredited representative through our online tool.
@@ -108,12 +101,11 @@ const IntroductionPage = ({ route }) => {
         </li>
       </va-process-list>
       <SaveInProgressIntro
-        buttonOnly
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the Application"
+        startText="Start your Application"
       />
       <va-omb-info
         res-burden={45}

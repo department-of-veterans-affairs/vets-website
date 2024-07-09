@@ -122,7 +122,7 @@ describe('CareSummariesAndNotesListItem DS date field', () => {
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('note-item-date');
-    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain('Date admitted');
     expect(headerDate.innerHTML).to.contain('May 29, 2022');
     const srDate = screen.queryByTestId('sr-note-date');
     expect(srDate.innerHTML).to.contain('May 29, 2022');
@@ -139,7 +139,7 @@ describe('CareSummariesAndNotesListItem DS date field', () => {
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('note-item-date');
-    expect(headerDate.innerHTML).to.contain('Discharged on');
+    expect(headerDate.innerHTML).to.contain('Date discharged');
     expect(headerDate.innerHTML).to.contain('June 11, 2022');
     const srDate = screen.queryByTestId('sr-note-date');
     expect(srDate.innerHTML).to.contain('June 11, 2022');
@@ -153,7 +153,7 @@ describe('CareSummariesAndNotesListItem DS date field', () => {
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('note-item-date');
-    expect(headerDate.innerHTML).to.contain('Entered on');
+    expect(headerDate.innerHTML).to.contain('Date entered');
     expect(headerDate.innerHTML).to.contain('August 8, 2022');
     const srDate = screen.queryByTestId('sr-note-date');
     expect(srDate.innerHTML).to.contain('August 8, 2022');
@@ -164,7 +164,7 @@ describe('CareSummariesAndNotesListItem DS date field', () => {
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('note-item-date');
-    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain('Date admitted');
     expect(headerDate.innerHTML).to.contain(EMPTY_FIELD);
     const srDate = screen.queryByTestId('sr-note-date');
     expect(srDate.innerHTML).to.contain(EMPTY_FIELD);
