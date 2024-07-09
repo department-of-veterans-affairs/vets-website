@@ -16,22 +16,20 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Welcome to the VA - we're glad you're here."
-          subtitle="Equal to VA Form NA (Veteran Transition Experience)"
+          title="Benefit and resource recommendation tool"
+          subtitle=""
         />
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu
-          sollicitudin dolor. Aenean vitae faucibus metus. Proin placerat sapien
-          sed dui faucibus, in fermentum mi molestie. Fusce maximus ex ac leo
-          placerat finibus. Integer aliquet congue tellus ac tincidunt. Nunc
-          ultricies commodo tempus. Fusce vitae nisl vulputate, sodales ante
-          vel, tincidunt lorem. Curabitur pulvinar porttitor odio, aliquam
-          viverra lacus dictum nec. Pellentesque quis justo quam. Nullam at
-          justo fermentum, dapibus mauris ac, lacinia massa.
+          Our recommendation tool can help you find benefits and resources that
+          are specific to your goals, needs, and circumstances. This is our
+          first version — it’s mostly focused on employment benefits and
+          resources. Please check in the future for additional benefits and
+          resources. Welcome to VA — we’re glad to have you.
         </p>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          To get started, tell us a little about yourself.
-        </h2>
+        <p>
+          We’ll ask you to answer a few quick questions to personalize our
+          recommendations.
+        </p>
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
