@@ -325,8 +325,7 @@ export const dependentChildrenPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     dependentChildrenSummary: pageBuilder.summaryPage({
-      title:
-        'Review your recurring income not associated with accounts or assets',
+      title: 'Dependent children',
       path: 'household/dependents/summary',
       depends: () => showDependentsMultiplePage(),
       uiSchema: summaryPage.uiSchema,
