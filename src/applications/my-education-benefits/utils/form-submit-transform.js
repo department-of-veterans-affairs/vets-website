@@ -317,7 +317,7 @@ export function createContactInfo(submissionForm) {
     addressType: getAddressType(submissionForm[formFields.viewMailingAddress]),
     city: address?.city,
     countryCode: getLTSCountryCode(address?.country),
-    emailAddress: submissionForm?.email?.email?.toLowercase(),
+    emailAddress: submissionForm?.email?.email?.toLowerCase(),
     homePhoneNumber: phoneNumbers?.phoneNumber.phone,
     mobilePhoneNumber: phoneNumbers?.mobilePhoneNumber.phone,
     stateCode: address?.state,
