@@ -16,8 +16,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmployersInformationTitle from '../../components/EmployersInformationTitle';
-import YourEmployersDescription from '../../components/YourEmployersDescription';
+import YourEmployersDescription from '../../components/03-employment-information-chapter/YourEmployersDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -56,7 +55,7 @@ const introPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: EmployersInformationTitle,
+      title: 'Employer and position information',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of employer'),
@@ -142,12 +141,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasEmployers': arrayBuilderYesNoUI(
       arrayBuilderOptions,
+      {},
       {
-        title: 'Do you have any employment for the last 5 years to report?',
-        labelHeaderLevel: 'p',
-      },
-      {
-        title: 'Do you have another employer to report?',
         labelHeaderLevel: 'p',
       },
     ),
