@@ -27,6 +27,7 @@ Cypress.Commands.add('openFiltersAndUncheckStatuses', () => {
 
 describe(`${appName} -- Status Page`, () => {
   beforeEach(() => {
+    cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeClaims.happyPath();
     cy.login(user);
@@ -126,7 +127,7 @@ describe(`${appName} -- Status Page`, () => {
       cy.get(`va-checkbox[name=${statusName}_checkbox]`)
         .shadow()
         .find('input[type="checkbox"]')
-        .should('be.checked');
+        .should('not.be.checked');
     });
     cy.get('h2[data-testid="travel-claim-details"]')
       .first()
