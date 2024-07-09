@@ -21,6 +21,7 @@ const DesktopHeader = ({ megaMenuData }) => {
   };
 
   const toggleGovBanner = () => {
+    console.log('this is being clicked: ', govBannerIsOpen);
     setGovBannerIsOpen(!govBannerIsOpen);
   };
 

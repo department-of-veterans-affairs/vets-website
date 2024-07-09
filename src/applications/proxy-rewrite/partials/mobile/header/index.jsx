@@ -1,5 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MegaMenu from './mega-menu';
 import { keyDownHandler } from '../../../utilities/keydown';
@@ -7,9 +7,25 @@ import { keyDownHandler } from '../../../utilities/keydown';
 const MobileHeader = ({ megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
+  const outsideClickHandler = () => {
+    if (menuIsOpen) {
+      setMenuIsOpen(false);
+    }
+  };
+
   const openMenu = () => {
     setMenuIsOpen(!menuIsOpen);
   };
+
+  useEffect(() => {
+    const signInButton = document.getElementsByClassName('sign-in-button')[0];
+
+    signInButton.addEventListener('click', outsideClickHandler);
+
+    return () => {
+      signInButton.removeEventListener('click', outsideClickHandler);
+    };
+  });
 
   return (
     <header role="banner">
