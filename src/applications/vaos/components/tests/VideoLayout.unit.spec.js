@@ -100,8 +100,8 @@ describe('VAOS Component: VideoLayout', () => {
         }),
       ).not.to.exist;
 
-      expect(screen.getByText(/Clinic not noted/i));
-      expect(screen.getByText(/Facility not noted/i));
+      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.getByText(/Facility not available/i));
     });
   });
 
