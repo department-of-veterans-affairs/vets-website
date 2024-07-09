@@ -1,23 +1,20 @@
-import MapboxClient from '@mapbox/mapbox-sdk';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import * as Sentry from '@sentry/browser';
-import { mapBoxToken } from '../utils/mapBoxToken';
-
-const mapboxClient = new MapboxClient({
-  accessToken: mapBoxToken,
-});
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../utils/mapbox/mapboxClient';
+import { replaceStrValues } from '../utils/helpers';
+import content from '../locales/en/content.json';
 
 export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
   if (!query) {
     return {
       type: 'SEARCH_FAILED',
-      errorMessage: 'Empty search string. Search cancelled.',
+      errorMessage: content['error--facility-search-cancelled'],
     };
   }
 
-  const newClient = client || mbxGeo(mapboxClient);
+  const fetchClient = client || mbxGeo(mapboxClient);
 
-  return newClient
+  return fetchClient
     .forwardGeocode({
       // Pulled from 'src/applications/facility-locator/constants/index.js'
       countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
@@ -27,14 +24,14 @@ export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
       query,
     })
     .send()
-    .then(response => {
-      if (!response.body.features[0].bbox) {
+    .then(({ body: response }) => {
+      if (!response.features[0].bbox) {
         return {
           type: 'NO_SEARCH_RESULTS',
-          errorMessage: 'No search results found.',
+          errorMessage: content['error--no-results-found'],
         };
       }
-      return response.body.features[0].bbox;
+      return response.features[0].bbox;
     })
     .catch(error => {
       const errMessage =
@@ -43,11 +40,14 @@ export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
           : error;
       Sentry.withScope(scope => {
         scope.setExtra('error', errMessage);
-        Sentry.captureMessage('Error fetching MapBox coordinates');
+        Sentry.captureMessage(content['error--fetching-coordinates']);
       });
       return {
         type: 'SEARCH_FAILED',
-        errorMessage: `Something went wrong. ${errMessage}`,
+        errorMessage: replaceStrValues(
+          content['error--facility-search-failed'],
+          errMessage,
+        ),
       };
     });
 };

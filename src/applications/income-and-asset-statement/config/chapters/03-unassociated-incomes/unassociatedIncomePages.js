@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import get from 'platform/utilities/data/get';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -14,29 +13,12 @@ import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { relationshipLabels, incomeTypeLabels } from '../../../labels';
-
-const otherExplanationRequired = (form, index) =>
-  get(['unassociatedIncomes', index, 'recipientRelationship'], form) ===
-  'OTHER';
-
-const otherIncomeTypeExplanationRequired = (form, index) =>
-  get(['unassociatedIncomes', index, 'incomeType'], form) === 'OTHER';
-
-const recipientNameRequired = (form, index) =>
-  get(['unassociatedIncomes', index, 'recipientRelationship'], form) ===
-    'CHILD' ||
-  get(['unassociatedIncomes', index, 'recipientRelationship'], form) ===
-    'PARENT' ||
-  get(['unassociatedIncomes', index, 'recipientRelationship'], form) ===
-    'CUSTODIAN' ||
-  get(['unassociatedIncomes', index, 'recipientRelationship'], form) ===
-    'OTHER';
-
-const showRecipientName = recipientRelationship =>
-  recipientRelationship === 'CHILD' ||
-  recipientRelationship === 'PARENT' ||
-  recipientRelationship === 'CUSTODIAN' ||
-  recipientRelationship === 'OTHER';
+import {
+  otherExplanationRequired,
+  otherIncomeTypeExplanationRequired,
+  recipientNameRequired,
+  showRecipientName,
+} from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
