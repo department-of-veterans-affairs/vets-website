@@ -1,37 +1,35 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import PatientMessagesSentPage from '../pages/PatientMessageSentPage';
-import FolderLoadPage from '../pages/FolderLoadPage';
+import PatientMessageSentPage from '../pages/PatientMessageSentPage';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockSentMessages);
-    FolderLoadPage.loadSentMessages(mockSentMessages);
+    PatientMessageSentPage.loadMessages();
   });
 
   it('Verify filter works correctly', () => {
-    PatientMessagesSentPage.inputFilterDataText('test');
-    PatientMessagesSentPage.clickFilterMessagesButton();
-    PatientMessagesSentPage.verifyFilterResults('test');
+    PatientMessageSentPage.inputFilterDataText('test');
+    PatientMessageSentPage.clickFilterMessagesButton();
+    PatientMessageSentPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientMessagesSentPage.inputFilterDataText('any');
-    PatientMessagesSentPage.clickFilterMessagesButton();
-    PatientMessagesSentPage.clickClearFilterButton();
-    PatientMessagesSentPage.verifyFilterFieldCleared();
+    PatientMessageSentPage.inputFilterDataText('any');
+    PatientMessageSentPage.clickFilterMessagesButton();
+    PatientMessageSentPage.clickClearFilterButton();
+    PatientMessageSentPage.verifyFilterFieldCleared();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
-    FolderLoadPage.loadSentMessages(mockSentMessages);
+    PatientMessageSentPage.loadMessages();
     const sortedResponse = {
       ...mockSentMessages,
       data: [...mockSentMessages.data].sort(
@@ -40,7 +38,7 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
       ),
     };
 
-    PatientMessagesSentPage.verifySorting('Oldest to newest', sortedResponse);
+    PatientMessageSentPage.verifySorting('Oldest to newest', sortedResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

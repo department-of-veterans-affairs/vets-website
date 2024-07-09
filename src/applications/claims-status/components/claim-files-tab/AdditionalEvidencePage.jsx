@@ -127,6 +127,7 @@ class AdditionalEvidencePage extends React.Component {
                   evidenceWaiverSubmitted5103={
                     claim.attributes.evidenceWaiverSubmitted5103
                   }
+                  previousPage="files"
                 />
               ))}
               {this.props.filesOptional.map(item => (

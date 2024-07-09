@@ -4,8 +4,6 @@ import mockMessages from '../fixtures/messages-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Folder filter-sort checks', () => {
-  const site = new SecureMessagingSite();
-
   const {
     data: [, secondElement, thirdElement],
     ...rest
@@ -14,7 +12,7 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
@@ -50,8 +48,6 @@ describe('Secure Messaging Inbox Folder filter-sort checks', () => {
 });
 
 describe('Verify sorting feature with only one filter result', () => {
-  const site = new SecureMessagingSite();
-
   const {
     data: [, secondElement],
     ...rest
@@ -60,7 +56,7 @@ describe('Verify sorting feature with only one filter result', () => {
   const mockSingleFilterResult = { data: [secondElement], ...rest };
 
   it('verify sorting does not appear with only one filter result', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.inputFilterData('draft');

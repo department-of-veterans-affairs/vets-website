@@ -4,7 +4,6 @@ import mockFeatureToggles from './fixtures/toggles-response.json';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
 
 describe('Secure Messaging Pilot feature flag', () => {
-  const site = new SecureMessagingSite();
   const pilotFeatureFlag = {
     name: 'mhv_secure_messaging_cerner_pilot',
     value: true,
@@ -17,8 +16,7 @@ describe('Secure Messaging Pilot feature flag', () => {
     },
   };
   it('pilot OF landing page view', () => {
-    site.login();
-
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_PILOT);
 
     cy.injectAxe();
@@ -32,7 +30,7 @@ describe('Secure Messaging Pilot feature flag', () => {
   });
 
   it('pilot ON landing page view', () => {
-    site.login();
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(
       mockPilotFeatureToggles,
       Paths.UI_PILOT,

@@ -7,7 +7,6 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 import { Alerts } from '../../../util/constants';
 
 describe('verify delete functionality of multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
   const draftPage = new PatientMessageDraftsPage();
 
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
@@ -15,7 +14,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
   );
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
