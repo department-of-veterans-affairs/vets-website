@@ -91,7 +91,7 @@ const Compose = () => {
             {pageTitle}
           </h1>
           <ComposeForm
-            draft={draftMessage}
+            draft={typeof draftMessage === 'number' ? null : draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
           />
