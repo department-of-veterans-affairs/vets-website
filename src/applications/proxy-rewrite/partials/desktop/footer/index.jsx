@@ -17,48 +17,68 @@ const DesktopFooter = ({ footerData }) => {
       <div className="footer-inner">
         <div className="usa-grid-full flex-container">
           <div className="va-footer-linkgroup">
-            <h2 className="va-footer-linkgroup-title">Veteran programs and services</h2>
-            <ul className="va-footer-links">
-              {buildColumn(columns, 1)}
-            </ul>
+            <h2 className="va-footer-linkgroup-title">
+              Veteran programs and services
+            </h2>
+            <ul className="va-footer-links">{buildColumn(columns, 1)}</ul>
           </div>
           <div className="va-footer-linkgroup">
             <h2 className="va-footer-linkgroup-title">More VA resources</h2>
-            <ul className="va-footer-links">
-              {buildColumn(columns, 2)}
-            </ul>
+            <ul className="va-footer-links">{buildColumn(columns, 2)}</ul>
           </div>
           <div className="va-footer-linkgroup">
             <h2 className="va-footer-linkgroup-title">Get VA updates</h2>
-            <ul className="va-footer-links">
-              {buildColumn(columns, 3)}
-            </ul>
+            <ul className="va-footer-links">{buildColumn(columns, 3)}</ul>
           </div>
           <div className="va-footer-linkgroup">
-            <h2 className="va-footer-linkgroup-title">In crisis? Talk to someone now</h2>
+            <h2 className="va-footer-linkgroup-title">
+              In crisis? Talk to someone now
+            </h2>
             <ul className="va-footer-links">
               <li>
-                <button className="va-button-link vcl-modal-open" type="button">Veterans Crisis Line</button>
+                <button className="va-button-link vcl-modal-open" type="button">
+                  Veterans Crisis Line
+                </button>
               </li>
             </ul>
-            <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Get answers</h2>
-            <ul className="va-footer-links">
-              {buildColumn(columns, 4)}
-            </ul>
+            <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">
+              Get answers
+            </h2>
+            <ul className="va-footer-links">{buildColumn(columns, 4)}</ul>
           </div>
         </div>
         {/* Language section */}
         <div className="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--2 vads-u-padding-bottom--1p5 vads-u-padding-left--0">
-          <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">Language assistance</h2>
+          <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+            Language assistance
+          </h2>
           <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0">
             <li>
-              <a href="https://www.va.gov/asistencia-y-recursos-en-espanol" lang="es" hrefLang="es">Español</a>
+              <a
+                href="https://www.va.gov/asistencia-y-recursos-en-espanol"
+                lang="es"
+                hrefLang="es"
+              >
+                Español
+              </a>
             </li>
             <li>
-              <a href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hrefLang="tl">Tagalog</a>
+              <a
+                href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong"
+                lang="tl"
+                hrefLang="tl"
+              >
+                Tagalog
+              </a>
             </li>
             <li>
-              <a href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hrefLang="en">Other languages</a>
+              <a
+                href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/"
+                lang="en"
+                hrefLang="en"
+              >
+                Other languages
+              </a>
             </li>
           </ul>
         </div>
@@ -75,9 +95,7 @@ const DesktopFooter = ({ footerData }) => {
           </a>
         </div>
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <ul>
-            {buildBottomRail(bottomRail)}
-          </ul>
+          <ul>{buildBottomRail(bottomRail)}</ul>
         </div>
       </div>
       <CrisisLineModal />
@@ -86,7 +104,7 @@ const DesktopFooter = ({ footerData }) => {
 };
 
 DesktopFooter.propTypes = {
-  footerData: PropTypes.array.isRequired
+  footerData: PropTypes.array.isRequired,
 };
 
 export default DesktopFooter;
