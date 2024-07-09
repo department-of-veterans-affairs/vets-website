@@ -178,6 +178,8 @@ const ProofOfVeteranStatus = ({
 };
 
 ProofOfVeteranStatus.propTypes = {
+  edipi: PropTypes.string,
+  mockUserAgent: PropTypes.string,
   serviceHistory: PropTypes.arrayOf(
     PropTypes.shape({
       branchOfService: PropTypes.string,
@@ -185,10 +187,8 @@ ProofOfVeteranStatus.propTypes = {
       endDate: PropTypes.string,
     }).isRequired,
   ),
-  mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
-  edipi: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
