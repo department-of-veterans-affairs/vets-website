@@ -6,8 +6,6 @@ import maximalData from '../fixtures/data/maximal-test.json';
 
 import submitForm from '../../config/submitForm';
 
-import { SHOW_PART3 } from '../../constants';
-
 describe('submitForm', () => {
   let xhr;
   let requests;
@@ -23,15 +21,8 @@ describe('submitForm', () => {
     xhr.restore();
   });
 
-  it('should use v0 endpoint', done => {
-    const data = { data: { ...maximalData.data, [SHOW_PART3]: false } };
-    submitForm(data, formConfig);
-    expect(requests[0].url).to.contain(`/v0/${formConfig.submitUrl}`);
-    done();
-  });
-
-  it('should use v1 endpoint with part3 feature flag', done => {
-    const data = { data: { ...maximalData.data, [SHOW_PART3]: true } };
+  it('should use v1 endpoint', done => {
+    const data = { data: maximalData.data };
     submitForm(data, formConfig);
     expect(requests[0].url).to.contain(`/v1/${formConfig.submitUrl}`);
     done();

@@ -58,7 +58,6 @@ import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 import createNearByVALocations from './facilities/vet-center/createNearByVALocations';
-import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
@@ -218,7 +217,6 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
   store,
