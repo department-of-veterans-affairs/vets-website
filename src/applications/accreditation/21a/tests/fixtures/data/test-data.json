@@ -3,16 +3,18 @@
     "role": "ATTORNEY",
     "barStanding": true,
     "fullName": {
-      "first": "Person",
+      "first": "First",
       "middle": "Middle",
-      "last": "LastName",
+      "last": "Last",
       "suffix": "Jr."
     },
     "dateOfBirth": "1995-01-09",
     "placeOfBirthAddress": {
       "country": "USA",
+      "street": "1234 Main St",
       "city": "City",
-      "state": "CA"
+      "state": "CA",
+      "postalCode": "12345"
     },
     "phone": "3453453455",
     "typeOfPhone": "HOME",
@@ -27,7 +29,7 @@
       "postalCode": "12345"
     },
     "employmentStatus": "UNEMPLOYED",
-    "describeEmployment": "Employed at a company",
+    "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
     "workAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -107,7 +109,7 @@
         "membershipOrRegistrationNumber": "54321"
       }
     ],
-    "convictions": true,
+    "conviction": true,
     "convictionPlace": "Kansas City, Missouri",
     "convictionDate": "2010-01-01",
     "convictionExplanation": "Violation explanation",
@@ -132,6 +134,63 @@
     "conditionThatAffectsRepresentation": true,
     "conditionThatAffectsRepresentationDetails": "Condition that affects representation details",
     "conditionThatAffectsExamination": true,
-    "conditionThatAffectsExaminationDetails": "Condition that affects examination details"
+    "conditionThatAffectsExaminationDetails": "Condition that affects examination details",
+    "characterReferences": [
+      {
+        "fullName": {
+          "first": "Person",
+          "middle": "Middle",
+          "last": "LastName",
+          "suffix": "Jr."
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "phone": "3453453455",
+        "email": "person.name@testmail.com"
+      },
+      {
+        "fullName": {
+          "first": "John",
+          "middle": "A.",
+          "last": "Doe",
+          "suffix": "Sr."
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "5678 Elm St",
+          "street2": "Suite 2",
+          "city": "AnotherCity",
+          "state": "NY",
+          "postalCode": "67890"
+        },
+        "phone": "1234567890",
+        "email": "john.doe@example.com"
+      },
+      {
+        "fullName": {
+          "first": "Jane",
+          "middle": "B.",
+          "last": "Smith"
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "9101 Oak St",
+          "city": "YetAnotherCity",
+          "state": "TX",
+          "postalCode": "11223"
+        },
+        "phone": "0987654321",
+        "email": "jane.smith@example.com"
+      }
+    ]
   }
 }

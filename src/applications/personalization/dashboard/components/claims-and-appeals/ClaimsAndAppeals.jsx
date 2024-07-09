@@ -66,7 +66,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
       <IconCTALink
         text="Learn how to file a claim"
         href="/disability/how-to-file-claim/"
-        icon="file"
+        icon="description"
         onClick={() => {
           recordEvent({
             event: 'nav-linkslist',
@@ -80,7 +80,7 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
         <IconCTALink
           text="Manage all claims and appeals"
           href="/claim-or-appeal-status/"
-          icon="clipboard-check"
+          icon="assignment_turned_in"
           onClick={() => {
             recordEvent({
               event: 'nav-linkslist',
