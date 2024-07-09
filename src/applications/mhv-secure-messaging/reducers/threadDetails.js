@@ -2,7 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { updateMessageInThread, updateDrafts } from '../util/helpers';
 
 const initialState = {
-  drafts: undefined,
+  drafts: [],
   messages: undefined,
   isLoading: false,
   replyToName: undefined,
@@ -61,12 +61,15 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.CREATE_SUCCEEDED:
       return {
         ...state,
-        drafts: {
-          ...[action.response.data.attributes],
-          isSaving: false,
-          saveError: null,
-          lastSaveTime: Date.now(),
-        },
+        drafts: [
+          ...state.drafts,
+          {
+            ...action.response.data.attributes,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime: Date.now(),
+          },
+        ],
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),
@@ -85,9 +88,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
           }
           return d;
         }),
-        isSaving: false,
-        lastSaveTime: null,
-        saveError: { ...action.response },
       };
     case Actions.Thread.RESET_LAST_SAVE_TIME:
       return {
