@@ -32,9 +32,11 @@ const DeleteDraft = props => {
     formPopulated,
     navigationError,
     refreshThreadCallback,
+    // setDeleteButtonClicked,
     setNavigationError,
     messageBody,
     showIcon = true,
+    // setUnsavedNavigationError,
     draftSequence,
     setHideDraft,
     setIsEditing,
@@ -44,18 +46,14 @@ const DeleteDraft = props => {
     savedComposeDraft,
   } = props;
 
-  const savedDraft = draftId !== undefined;
+  // Navigation props
+  const savedDraft = draftId;
   const unsavedDraft = draftId === undefined;
-
   const savedReplyDraft = !!savedDraft === true && formPopulated === undefined;
-
   const blankReplyDraft = draftBody === undefined && messageBody === '';
   const inProgressReplyDraft = !blankReplyDraft && messageBody !== draftBody;
-
   const editableDraft = !!savedDraft === true && formPopulated === true;
-
   const newMessageNavErr = unsavedDraft && navigationError !== null;
-
   const unsavedNewDraftMsg = draftId === undefined && navigationError === null;
 
   const unsavedDeleteSuccessful = () =>
