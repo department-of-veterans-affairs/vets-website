@@ -47,10 +47,10 @@ export const mockGetRefreshStatus = () => {
       return mockStatusResponse(0, 10, 5, 5); // CURRENT
     }
     case 5: {
-      if (trueElapsed(8)) {
+      if (trueElapsed(4)) {
         return mockStatusResponse(0, 10, 5, 80); // FAILED
       }
-      if (trueElapsed(4)) {
+      if (trueElapsed(2)) {
         return mockStatusResponse(0, 10, 20, 20); // IN PROGRESS
       }
       return mockStatusResponse(0, 80, 70, 70); // STALE
@@ -58,10 +58,10 @@ export const mockGetRefreshStatus = () => {
     case 3:
     case 4:
     default: {
-      if (trueElapsed(8)) {
+      if (trueElapsed(4)) {
         return mockStatusResponse(0, 10, 5, 5); // CURRENT
       }
-      if (trueElapsed(4)) {
+      if (trueElapsed(2)) {
         return mockStatusResponse(0, 10, 20, 20); // IN PROGRESS
       }
       return mockStatusResponse(0, 80, 70, 70); // STALE
