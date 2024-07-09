@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import * as recordEventModule from '~/platform/monitoring/record-event';
@@ -11,23 +12,50 @@ import {
 } from 'platform/testing/unit/helpers';
 import sinon from 'sinon';
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
+import content from '../../../locales/en/content.json';
 
 describe('CG <ApplicationDownloadLink>', () => {
-  const form = {
-    data: { veteranFullName: { first: 'John', last: 'Smith' } },
+  const mockStore = {
+    getState: () => ({
+      form: {
+        data: { veteranFullName: { first: 'John', last: 'Smith' } },
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
   };
-  const subject = () => render(<ApplicationDownloadLink form={form} />);
-
-  it('renders a download file button', () => {
-    const { container } = subject();
-    const link = $('va-link', container);
-    expect(link).to.exist;
-    expect(link.getAttribute('text')).to.eq(
-      'Download your completed application',
+  const subject = () =>
+    render(
+      <Provider store={mockStore}>
+        <ApplicationDownloadLink />
+      </Provider>,
     );
+
+  context('default behavior', () => {
+    it('should render a download file button', () => {
+      const { container } = subject();
+      const link = $('va-link', container);
+      expect(link).to.exist;
+      expect(link).to.have.attr('text', content['button-download']);
+    });
   });
 
-  context('clicking the download file button', () => {
+  context('when clicking the download file button', () => {
+    const triggerError = ({ container, status }) => {
+      const link = $('va-link', container);
+      expect(link).to.exist;
+      expect(container.querySelector('va-loading-indicator')).to.not.exist;
+
+      mockApiRequest({}, false);
+
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
+        // eslint-disable-next-line prefer-promise-reject-errors
+        Promise.reject({ errors: [{ status }] }),
+      );
+
+      fireEvent.click(link);
+    };
     let recordEventStub;
 
     beforeEach(() => {
@@ -38,7 +66,7 @@ describe('CG <ApplicationDownloadLink>', () => {
       recordEventStub.restore();
     });
 
-    it('records pdf-download-success when button is clicked', async () => {
+    it('should record success event when button is clicked', async () => {
       const { container } = subject();
       const loadingIndicator = container.querySelector('va-loading-indicator');
 
@@ -79,21 +107,10 @@ describe('CG <ApplicationDownloadLink>', () => {
       revokeObjectStub.restore();
     });
 
-    it('displays error message and records error when request fails', async () => {
-      const { getByText, container } = subject();
-      const link = $('va-link', container);
-      expect(link).to.exist;
-      expect(container.querySelector('va-loading-indicator')).to.not.exist;
-
-      mockApiRequest({}, false);
+    it('should record error event when the request fails', async () => {
       const spy = sinon.spy(Sentry, 'withScope');
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        // eslint-disable-next-line prefer-promise-reject-errors
-        Promise.reject({ errors: [{ status: '503' }] }),
-      );
-
-      fireEvent.click(link);
+      const { container } = subject();
+      triggerError({ container, status: '503' });
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.exist;
@@ -101,10 +118,6 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.not.exist;
-      });
-
-      await waitFor(() => {
-        expect(getByText('Something went wrong')).to.exist;
       });
 
       await waitFor(() => {
@@ -118,6 +131,50 @@ describe('CG <ApplicationDownloadLink>', () => {
       await waitFor(() => {
         expect(spy.called).to.be.true;
         spy.restore();
+      });
+
+      await waitFor(() => {
+        expect($('va-link', container)).to.not.exist;
+      });
+    });
+
+    it('should display `downtime` error message when error has status of `5xx`', async () => {
+      const { getByText, container } = subject();
+      triggerError({ container, status: '503' });
+
+      await waitFor(() => {
+        expect(container.querySelector('va-loading-indicator')).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      });
+
+      await waitFor(() => {
+        expect(getByText(content['alert-heading--generic'])).to.exist;
+        expect(getByText(content['alert-download-message--500'])).to.exist;
+      });
+
+      await waitFor(() => {
+        expect($('va-link', container)).to.not.exist;
+      });
+    });
+
+    it('should display `generic` error message when error has status of anything other than `5xx`', async () => {
+      const { getByText, container } = subject();
+      triggerError({ container, status: '403' });
+
+      await waitFor(() => {
+        expect(container.querySelector('va-loading-indicator')).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      });
+
+      await waitFor(() => {
+        expect(getByText(content['alert-heading--generic'])).to.exist;
+        expect(getByText(content['alert-download-message--generic'])).to.exist;
       });
 
       await waitFor(() => {
