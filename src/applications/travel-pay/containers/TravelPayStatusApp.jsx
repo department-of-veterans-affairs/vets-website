@@ -98,6 +98,7 @@ export default function App({ children }) {
   const applyFilters = () => {
     setAppliedStatusFilters(checkedStatusFilters);
     setAppliedDateFilter(selectedDateFilter);
+    setCurrentPage(1);
   };
 
   const onStatusFilterChange = (e, statusName) => {
@@ -114,7 +115,6 @@ export default function App({ children }) {
 
   const onDateFilterChange = e => {
     setSelectedDateFilter(e.target.value);
-    setCurrentPage(1);
   };
 
   const onSortClick = () => {
