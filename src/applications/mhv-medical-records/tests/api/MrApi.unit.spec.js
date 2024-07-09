@@ -18,6 +18,8 @@ import {
   getConditions,
   getLabOrTest,
   getLabsAndTests,
+  getMhvRadiologyTest,
+  getMhvRadiologyTests,
   getNote,
   getNotes,
   getVaccine,
@@ -31,8 +33,8 @@ describe('Get labs and tests api call', () => {
     const mockData = labsAndTests;
     mockApiRequest(mockData);
 
-    return getLabsAndTests(true).then(res => {
-      expect(res.entry.length).to.equal(14);
+    return getLabsAndTests().then(res => {
+      expect(res.entry.length).to.equal(13);
     });
   });
 });
@@ -42,8 +44,30 @@ describe('Get labs and tests details api call', () => {
     const mockData = pathology;
     mockApiRequest(mockData);
 
-    return getLabOrTest('123', true).then(res => {
+    return getLabOrTest('123').then(res => {
       expect(res.resourceType).to.equal('DiagnosticReport');
+    });
+  });
+});
+
+describe('Get radiology tests from MHV api call', () => {
+  it('should make an api call to get all radiology tests from MHV', () => {
+    // const mockData = radiologyListMhv;
+    // mockApiRequest(mockData);
+
+    return getMhvRadiologyTests().then(res => {
+      expect(res.length).to.equal(21);
+    });
+  });
+});
+
+describe('Get radiology test details from MHV api call', () => {
+  it('should make an api call to get a single radiology test from MHV', () => {
+    // const mockData = radiologyMhv;
+    // mockApiRequest(mockData);
+
+    return getMhvRadiologyTest('5621490').then(res => {
+      expect(res.radiologist).to.equal('DOE,JANE');
     });
   });
 });
@@ -53,7 +77,7 @@ describe('Get notes api call', () => {
     const mockData = notes;
     mockApiRequest(mockData);
 
-    return getNotes(true).then(res => {
+    return getNotes().then(res => {
       expect(res.entry.length).to.equal(4);
     });
   });
@@ -64,7 +88,7 @@ describe('Get note details api call', () => {
     const mockData = note;
     mockApiRequest(mockData);
 
-    return getNote('123', true).then(res => {
+    return getNote('123').then(res => {
       expect(res.resourceType).to.equal('DocumentReference');
     });
   });
@@ -75,7 +99,7 @@ describe('Get vitals api call', () => {
     const mockData = vitals;
     mockApiRequest(mockData);
 
-    return getVitalsList(true).then(res => {
+    return getVitalsList().then(res => {
       expect(res.entry.length).to.equal(40);
     });
   });
@@ -86,7 +110,7 @@ describe('Get health conditions api call', () => {
     const mockData = conditions;
     mockApiRequest(mockData);
 
-    return getConditions(true).then(res => {
+    return getConditions().then(res => {
       expect(res.entry.length).to.equal(5);
     });
   });
@@ -97,7 +121,7 @@ describe('Get health condition details api call', () => {
     const mockData = condition;
     mockApiRequest(mockData);
 
-    return getCondition('123', true).then(res => {
+    return getCondition('123').then(res => {
       expect(res.resourceType).to.equal('Condition');
     });
   });
@@ -130,7 +154,7 @@ describe('Get vaccines api call', () => {
     const mockData = vaccines;
     mockApiRequest(mockData);
 
-    return getVaccineList(true).then(res => {
+    return getVaccineList().then(res => {
       expect(res.entry.length).to.equal(5);
     });
   });
@@ -141,7 +165,7 @@ describe('Get vaccine details api call', () => {
     const mockData = vaccine;
     mockApiRequest(mockData);
 
-    return getVaccine('123', true).then(res => {
+    return getVaccine('123').then(res => {
       expect(res.resourceType).to.equal('Immunization');
     });
   });
