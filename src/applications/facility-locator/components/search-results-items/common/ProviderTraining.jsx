@@ -13,7 +13,7 @@ function ProviderTraining({ provider }) {
         icon="how_to_reg"
         className="vads-u-margin-right--1 success-icon"
       />
-      <span>Provider core training</span>
+      Provider core training
     </p>
   );
 }
