@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -8,18 +8,21 @@ const VitalListItem = props => {
   const { record } = props;
   const displayName = vitalTypeDisplayNames[record.type];
 
-  const updatedRecordType = (() => {
-    if (record.type === 'PULSE') {
-      return 'HEART-RATE';
-    }
-    if (record.type === 'RESPIRATION') {
-      return 'BREATHING-RATE';
-    }
-    if (record.type === 'PULSE_OXIMETRY') {
-      return 'BLOOD-OXYGEN-LEVEL';
-    }
-    return record.type;
-  })();
+  const updatedRecordType = useMemo(
+    () => {
+      if (record.type === 'PULSE') {
+        return 'HEART-RATE';
+      }
+      if (record.type === 'RESPIRATION') {
+        return 'BREATHING-RATE';
+      }
+      if (record.type === 'PULSE_OXIMETRY') {
+        return 'BLOOD-OXYGEN-LEVEL';
+      }
+      return record.type;
+    },
+    [record.type],
+  );
 
   return (
     <va-card

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -66,18 +66,21 @@ const VitalDetails = props => {
 
   useIsDetails(dispatch);
 
-  const updatedRecordType = (() => {
-    if (vitalType === 'heart-rate') {
-      return 'PULSE';
-    }
-    if (vitalType === 'breathing-rate') {
-      return 'RESPIRATION';
-    }
-    if (vitalType === 'blood-oxygen-level') {
-      return 'PULSE_OXIMETRY';
-    }
-    return vitalType;
-  })();
+  const updatedRecordType = useMemo(
+    () => {
+      if (vitalType === 'heart-rate') {
+        return 'PULSE';
+      }
+      if (vitalType === 'breathing-rate') {
+        return 'RESPIRATION';
+      }
+      if (vitalType === 'blood-oxygen-level') {
+        return 'PULSE_OXIMETRY';
+      }
+      return vitalType;
+    },
+    [vitalType],
+  );
 
   useEffect(
     () => {
