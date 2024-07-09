@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import { truncateDescription } from '../../utils/helpers';
 import DueDate from '../DueDate';
 
-function FilesNeeded({ item, evidenceWaiverSubmitted5103 = false }) {
+function FilesNeeded({
+  item,
+  evidenceWaiverSubmitted5103 = false,
+  previousPage = null,
+}) {
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -59,6 +63,11 @@ function FilesNeeded({ item, evidenceWaiverSubmitted5103 = false }) {
           title={`Details for ${item.displayName}`}
           className="vads-c-action-link--blue"
           to={`../document-request/${item.id}`}
+          onClick={() => {
+            if (previousPage !== null) {
+              sessionStorage.setItem('previousPage', previousPage);
+            }
+          }}
         >
           Details
         </Link>
@@ -70,6 +79,7 @@ function FilesNeeded({ item, evidenceWaiverSubmitted5103 = false }) {
 FilesNeeded.propTypes = {
   item: PropTypes.object.isRequired,
   evidenceWaiverSubmitted5103: PropTypes.bool,
+  previousPage: PropTypes.string,
 };
 
 export default FilesNeeded;
