@@ -9,7 +9,13 @@ import {
   WIZARD_STATUS_NOT_STARTED,
 } from 'applications/static-pages/wizard';
 
-export class IntroductionPage extends React.Component {
+// export const introPageDescription = (automatedTest = false) => {
+//   return isProductionOfTestProdEnv(automatedTest)
+//     ? ' Equal to VA Form 22-1995 (Request for Change of Program or Place of Training).'
+//     : 'Equal to VA Form 22-1995 (Request for Change of Benefit, Program or Place of Training).';
+// };
+
+export class IntroductionPageUpdate extends React.Component {
   state = {
     status: sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
   };
@@ -47,8 +53,8 @@ export class IntroductionPage extends React.Component {
       >
         <FormTitle title="Change your education benefits" />
         <p itemProp="description">
-          Equal to VA Form 22-1995 (Request for Change of Program or Place of
-          Training).
+          Equal to VA Form 22-1995 (Request for Change of Benefit, Program or
+          Place of Training).
         </p>
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
@@ -72,14 +78,24 @@ export class IntroductionPage extends React.Component {
                     <li>Social Security number (required)</li>
                     <li>
                       Basic information about the school or training facility
-                      you want to attend (required)
+                      you want to attend
                     </li>
                     <li>
                       Bank account direct deposit information (if adding or
                       changing an account)
                     </li>
                     <li>Military history</li>
-                    <li>Education history</li>
+                    <li>
+                      Benefit you have most recently used and benefit you want
+                      to change to
+                    </li>
+                    <li>
+                      Sponsor information if using or want to use DEA Chapter 35
+                      benefit
+                    </li>
+                    <li>
+                      Guardian information if applicant is under the age of 18{' '}
+                    </li>
                   </ul>
                   <p>
                     <strong>
@@ -92,7 +108,6 @@ export class IntroductionPage extends React.Component {
                       Get help filing your claim
                     </a>
                   </p>
-                  <h6>Learn about educational programs</h6>
                   <p>
                     See what benefits you’ll get at the school you want to
                     attend.{' '}
@@ -141,10 +156,9 @@ export class IntroductionPage extends React.Component {
                 </div>
                 <p>
                   If we approve your application, you’ll get a Certificate of
-                  Eligibility (COE), or award letter, in the mail. Bring this
-                  COE to the VA certifying official at your school. This person
-                  is usually in the Registrar or Financial Aid office at the
-                  school.
+                  Eligibility (COE) in the mail. Bring this COE to the VA
+                  certifying official at your school. This person is usually in
+                  the Registrar or Financial Aid office at the school.
                 </p>
                 <p>
                   If your application isn’t approved, you’ll get a denial letter
@@ -171,4 +185,4 @@ const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
 });
 
-export default connect(mapStateToProps)(IntroductionPage);
+export default connect(mapStateToProps)(IntroductionPageUpdate);
