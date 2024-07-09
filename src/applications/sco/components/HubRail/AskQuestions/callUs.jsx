@@ -1,5 +1,5 @@
 import React from 'react';
-import LiVaLinkAndVaTelephone from './liVaLinkAndVaTelephone';
+import LiVaLinkAndVaTelephone from '../shared/liVaLinkAndVaTelephone';
 
 const CallUs = () => {
   return (

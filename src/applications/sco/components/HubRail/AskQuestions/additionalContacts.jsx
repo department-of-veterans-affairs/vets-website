@@ -1,5 +1,5 @@
 import React from 'react';
-import LiVaLink from './liVaLink';
+import LiVaLink from '../shared/liVaLink';
 
 const AdditionalContacts = () => {
   return (

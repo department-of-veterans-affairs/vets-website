@@ -1,6 +1,5 @@
 import React from 'react';
 import AskQuestions from './AskQuestions';
-import AverageProcessingTime from './AverageProcessingTime';
 import ConnectWithUs from './ConnectWithUs';
 import SchoolCertifyingOfficialHandbook from './SchoolCertifyingOfficialHandbook';
 
@@ -13,7 +12,6 @@ const HubRail = () => {
       <SchoolCertifyingOfficialHandbook />
       <va-accordion bordered="" multi="" className="social hydrated">
         <AskQuestions />
-        <AverageProcessingTime />
         <ConnectWithUs />
       </va-accordion>
     </div>
