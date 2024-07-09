@@ -74,7 +74,7 @@ describe('<IconCTALink />', () => {
       />,
     );
 
-    expect(wrapper.container.querySelector('.fa-stack i.fa-check')).to.exist;
+    expect(wrapper.container.querySelector('va-icon')).to.exist;
   });
 
   it('should render bold text', () => {

@@ -348,8 +348,10 @@
   "appointments_other": "appointments",
   "select-appointment-to-file-today": "Select the appointment you want to file for today",
   "select-the-appointment-you-want": "Select the appointment you want to file for",
-  "mileage-reimbursement-rates": "Mileage reimbursement rates",
-  "the-payment-amount-depends-on-type" : "The payment amount you receive depends on the type of appointment. We pay round-trip mileage for your scheduled appointments. We may only pay return mileage for unscheduled visits like walk-in appointments or labs.",
   "mileage-only-reimbursement-for-your": "Mileage-only reimbursement for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}",
-  "this-claim-is-for-your": "This claim is for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}"
+  "this-claim-is-for-your": "This claim is for your appointment at {{facility}}{{provider}} on {{date, dayWithTime}}",
+  "how-we-calculate-mileage": "How we calculate mileage",
+  "we-pay-round-trip-mileage-for-scheduled": "We pay round-trip mileage for your scheduled appointments",
+  "we-may--only-pay-return-for-unscheduled": "We may only pay return mileage for unscheduled appointments, like walk-ins and labs",
+  "check-current-mileage-rates": "Check current mileage rates"
 }

@@ -5,10 +5,8 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
-  const site = new SecureMessagingSite();
-
   it('Check confirmation message after save draft', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.navigateToComposePage(true);

@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 
-import { SHOW_PART3 } from '../../constants';
 import {
   addIncludedIssues,
   addUploads,
   createIssueName,
   getAddress,
   getContestableIssues,
-  getEligibleContestableIssues,
   getPart3Data,
   getEmail,
 } from '../../utils/submit';
@@ -84,53 +82,6 @@ const issue2 = {
     },
   },
 };
-
-describe('getEligibleContestableIssues', () => {
-  it('should empty array', () => {
-    expect(getEligibleContestableIssues()).to.deep.equal([]);
-    expect(getEligibleContestableIssues([{}])).to.deep.equal([]);
-  });
-  it('should remove ineligible dates', () => {
-    expect(
-      getEligibleContestableIssues([
-        {
-          type: 'contestableIssue',
-          attributes: {
-            ...issue1.raw.attributes,
-            approxDecisionDate: '2020-01-01',
-          },
-        },
-        {
-          type: 'contestableIssue',
-          attributes: {
-            ...issue2.raw.attributes,
-            approxDecisionDate: '2020-01-02',
-          },
-        },
-      ]),
-    ).to.deep.equal([]);
-  });
-  it('should keep eligible dates', () => {
-    const issue = {
-      type: 'contestableIssue',
-      attributes: {
-        ...issue1.raw.attributes,
-        approxDecisionDate: '2020-01-01',
-      },
-    };
-    expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([
-      issue2.rawCleaned,
-    ]);
-  });
-  it('should keep older decision dates when show part 3 feature is enabled', () => {
-    expect(
-      // include showPart3 feature flag
-      getEligibleContestableIssues([issue1.raw, issue2.raw], {
-        showPart3: true,
-      }),
-    ).to.deep.equal([issue1.rawCleaned, issue2.rawCleaned]);
-  });
-});
 
 describe('createIssueName', () => {
   const getName = (name, description, percent) =>
@@ -266,10 +217,7 @@ describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
     // zipCode5 returns 5 zeros if country isn't set to 'US'
     const result = { zipCode5: '00000' };
-    const wrap = obj => ({
-      // define countryCodeIso2 to '' until we remove SHOW_PART3 flag
-      veteran: { address: { countryCodeIso2: '', ...obj } },
-    });
+    const wrap = obj => ({ veteran: { address: obj } });
     expect(getAddress()).to.deep.equal(result);
     expect(getAddress(wrap({}))).to.deep.equal(result);
     expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal(result);
@@ -282,11 +230,10 @@ describe('getAddress', () => {
     });
     expect(
       getAddress(wrap({ countryCodeIso2: 'US', zipCode: '10101' })),
-    ).to.deep.equal({ zipCode5: '10101' });
+    ).to.deep.equal({ countryCodeISO2: 'US', zipCode5: '10101' });
     expect(
       getAddress({
         ...wrap({ countryCodeIso2: 'US', zipCode: '10101' }),
-        [SHOW_PART3]: true,
       }),
     ).to.deep.equal({
       countryCodeISO2: 'US',
@@ -312,22 +259,10 @@ describe('getAddress', () => {
       city: 'Big City',
       stateCode: 'NV',
       zipCode5: '10101',
-      countryName: 'United States',
-      internationalPostalCode: '12345',
-    });
-    expect(getAddress({ ...testAddress(), [SHOW_PART3]: true })).to.deep.equal({
-      addressLine1: '123 test',
-      addressLine2: 'c/o foo',
-      addressLine3: 'suite 99',
-      city: 'Big City',
-      stateCode: 'NV',
-      zipCode5: '10101',
       countryCodeISO2: 'US', // ISO is all caps here
       internationalPostalCode: '12345',
     });
-    expect(
-      getAddress({ ...testAddress('GB'), [SHOW_PART3]: true }),
-    ).to.deep.equal({
+    expect(getAddress(testAddress('GB'))).to.deep.equal({
       addressLine1: '123 test',
       addressLine2: 'c/o foo',
       addressLine3: 'suite 99',
@@ -344,7 +279,6 @@ describe('getAddress', () => {
           zipCode: '10101',
           internationalPostalCode: '55555',
         }),
-        [SHOW_PART3]: true,
       }),
     ).to.deep.equal({
       countryCodeISO2: 'GB',
@@ -361,8 +295,7 @@ describe('getAddress', () => {
         }),
       ),
     ).to.deep.equal({
-      // countryCodeISO2: 'GB',
-      countryName: 'Great Britain',
+      countryCodeISO2: 'GB',
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
@@ -374,20 +307,16 @@ describe('getPart3Data', () => {
     requestingExtension: ext,
     appealingVhaDenial: denial, // Vha not VHA is submitted
   });
-  it('should return an empty object', () => {
-    expect(getPart3Data({})).to.deep.equal({});
-  });
   it('should return part 3 default data', () => {
-    expect(getPart3Data({ [SHOW_PART3]: true })).to.deep.equal(getResult());
+    expect(getPart3Data({})).to.deep.equal(getResult());
   });
   it('should return appealing VHA denial as true', () => {
-    const data = { [SHOW_PART3]: true, appealingVHADenial: true };
+    const data = { appealingVHADenial: true };
     const result = getResult({ denial: true });
     expect(getPart3Data(data)).to.deep.equal(result);
   });
   it('should return extension reason', () => {
     const formData = {
-      [SHOW_PART3]: true,
       requestingExtension: true,
       extensionReason: 'yep',
     };
@@ -401,14 +330,10 @@ describe('getPart3Data', () => {
 
 describe('getEmail', () => {
   it('should return empty string', () => {
-    expect(getEmail()).to.deep.equal({ emailAddressText: '' });
-  });
-  it('should return v0 email', () => {
-    const data = { [SHOW_PART3]: false, veteran: { email: 'test@test.com' } };
-    expect(getEmail(data)).to.deep.equal({ emailAddressText: 'test@test.com' });
+    expect(getEmail()).to.deep.equal({ email: '' });
   });
   it('should return v1 email', () => {
-    const data = { [SHOW_PART3]: true, veteran: { email: 'test@test.com' } };
+    const data = { veteran: { email: 'test@test.com' } };
     expect(getEmail(data)).to.deep.equal({ email: 'test@test.com' });
   });
 });

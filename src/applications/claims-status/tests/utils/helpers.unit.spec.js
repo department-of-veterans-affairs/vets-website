@@ -31,6 +31,7 @@ import {
   groupClaimsByDocsNeeded,
   claimAvailable,
   getClaimPhaseTypeHeaderText,
+  getPhaseItemText,
   getClaimPhaseTypeDescription,
 } from '../../utils/helpers';
 
@@ -1074,6 +1075,86 @@ describe('Disability benefits helpers: ', () => {
       const desc = getClaimPhaseTypeHeaderText('CLAIM_RECEIVED');
 
       expect(desc).to.equal('Step 1 of 8: Claim received');
+    });
+  });
+
+  describe('getPhaseItemText', () => {
+    context('when showEightPhases false - 5 steps', () => {
+      it('should display phase item text from map when step 1', () => {
+        const desc = getPhaseItemText(1);
+        expect(desc).to.equal('Step 1: Claim received');
+      });
+      it('should display phase item text from map when step 2', () => {
+        const desc = getPhaseItemText(2);
+
+        expect(desc).to.equal('Step 2: Initial review');
+      });
+      it('should display phase item text from map when step 3', () => {
+        const desc = getPhaseItemText(3);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 4', () => {
+        const desc = getPhaseItemText(4);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 5', () => {
+        const desc = getPhaseItemText(5);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 6', () => {
+        const desc = getPhaseItemText(6);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 7', () => {
+        const desc = getPhaseItemText(7);
+        expect(desc).to.equal('Step 4: Preparation for notification');
+      });
+      it('should display phase item text from map when step 8', () => {
+        const desc = getPhaseItemText(8);
+        expect(desc).to.equal('Step 5: Closed');
+      });
+    });
+    context('when showEightPhases true - 8 steps', () => {
+      it('should display phase item text from map when step 1', () => {
+        const desc = getPhaseItemText(1, true);
+        expect(desc).to.equal('We received your claim in our system');
+      });
+      it('should display phase item text from map when step 2', () => {
+        const desc = getPhaseItemText(2, true);
+        expect(desc).to.equal('Step 2: Initial review');
+      });
+      it('should display phase item text from map when step 3', () => {
+        const desc = getPhaseItemText(3, true);
+        expect(desc).to.equal('Step 3: Evidence gathering');
+      });
+      it('should display phase item text from map when step 4', () => {
+        const desc = getPhaseItemText(4, true);
+        expect(desc).to.equal('Step 4: Evidence review');
+      });
+      it('should display phase item text from map when step 5', () => {
+        const desc = getPhaseItemText(5, true);
+        expect(desc).to.equal('Step 5: Rating');
+      });
+      it('should display phase item text from map when step 6', () => {
+        const desc = getPhaseItemText(6, true);
+        expect(desc).to.equal('Step 6: Preparing decision letter');
+      });
+      it('should display phase item text from map when step 7', () => {
+        const desc = getPhaseItemText(7, true);
+        expect(desc).to.equal('Step 7: Final review');
+      });
+      it('should display phase item text from map when step 8', () => {
+        const desc = getPhaseItemText(8, true);
+        expect(desc).to.equal('Your claim was decided');
+      });
     });
   });
 

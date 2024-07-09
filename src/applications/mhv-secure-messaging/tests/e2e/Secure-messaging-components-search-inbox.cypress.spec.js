@@ -6,8 +6,7 @@ import PatientErrorPage from './pages/PatientErrorPage';
 
 describe('Secure Messaging Inbox', () => {
   it('Secure Messaging Inbox Filter Validation', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);

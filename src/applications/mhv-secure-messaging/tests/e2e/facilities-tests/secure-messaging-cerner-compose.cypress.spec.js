@@ -10,8 +10,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Inbox Cerner', () => {
   it('Displays warning with cerner facilities list for mixed Cerner Facilities', () => {
-    const site = new SecureMessagingSite();
-    site.login(
+    SecureMessagingSite.login(
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
@@ -27,8 +26,12 @@ describe('Secure Messaging Inbox Cerner', () => {
   });
 
   it('Displays warning with cerner facilities list for one Cerner Facility', () => {
-    const site = new SecureMessagingSite();
-    site.login(mockEhrData, true, mockOneCernerFacilitiesUser, mockFacilities);
+    SecureMessagingSite.login(
+      mockEhrData,
+      true,
+      mockOneCernerFacilitiesUser,
+      mockFacilities,
+    );
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.verifyFilterMessageHeadingText();
     PatientInboxPage.verifyCernerFacilityNames(
@@ -41,8 +44,12 @@ describe('Secure Messaging Inbox Cerner', () => {
   });
 
   it('Does not display warning with no cerner facilities', () => {
-    const site = new SecureMessagingSite();
-    site.login(mockEhrData, true, noCernerFacilitiesUser, mockFacilities);
+    SecureMessagingSite.login(
+      mockEhrData,
+      true,
+      noCernerFacilitiesUser,
+      mockFacilities,
+    );
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.verifyCernerFacilityNames(
       noCernerFacilitiesUser,

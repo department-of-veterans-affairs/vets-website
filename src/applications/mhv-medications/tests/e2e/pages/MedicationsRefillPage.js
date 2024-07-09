@@ -435,6 +435,10 @@ class MedicationsRefillPage {
       'find medications with a status of Active: Submitted or Active: Refill in process.',
     );
   };
+
+  verifyShippedRxInformationOnRenewSectionRefillsPage = shippedDate => {
+    cy.get('[data-testid="shipped-date"]').should('contain', shippedDate);
+  };
 }
 
 export default MedicationsRefillPage;

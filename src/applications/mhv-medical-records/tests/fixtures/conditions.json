@@ -488,6 +488,129 @@
           }
         ]
       }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/Immunization/957",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "c4706e07-7290-44e8-8d34-593027b049139",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.condition"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Condition</b><a name=\"c4706e07-7290-44e8-8d34-593027b04913\"> </a><a name=\"hcc4706e07-7290-44e8-8d34-593027b04913\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Condition &quot;c4706e07-7290-44e8-8d34-593027b04913&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.condition.html\">VA MHV PHR problems</a></p></div><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.984</code>/ProblemTO.352248\u00a0(use:\u00a0USUAL)</p><p><b>clinicalStatus</b>: Active <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-condition-clinical.html\">Condition Clinical Status Codes</a>#active)</span></p><p><b>verificationStatus</b>: Confirmed <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.3.0/CodeSystem-condition-ver-status.html\">ConditionVerificationStatus</a>#confirmed)</span></p><p><b>category</b>: Problem List Item <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-condition-category.html\">Condition Category Codes</a>#problem-list-item)</span></p><p><b>code</b>: Acute posttraumatic stress disorder following military combat (SCT 446175003) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/5.0.0/CodeSystem-icd10CM.html\">International Classification of Diseases, 10th Revision, Clinical Modification (ICD-10-CM)</a>#F43.11)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-4.html\">Patient/ex-MHV-patient-4</a> &quot; CASEY&quot;</p><p><b>onset</b>: 1997-01-01</p><p><b>recordedDate</b>: 2024-02-13</p><p><b>recorder</b>: <a name=\"hcex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><a name=\"hcex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: JOHN,SMITH</p></blockquote><p><b>note</b>: Problem added from other problem under military (By JOHN,SMITH @2024-02-13)</p><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a><a name=\"hcex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: JOHN,SMITH</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a><a name=\"hcex-MHV-location-552\"> </a></p><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "JOHN,SMITH",
+                "family": "SMITH",
+                "given": ["JOHN"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.984",
+            "value": "ProblemTO.352248"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/icd-10-cm",
+              "code": "F43.11"
+            }
+          ],
+          "text": "Acute posttraumatic stress disorder"
+        },
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-4"
+        },
+        "onsetDateTime": "1997-01-01",
+        "recordedDate": "2024-02-12",
+        "recorder": {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+              "valueReference": {
+                "reference": "#ex-MHV-location-552"
+              }
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "note": [
+          {
+            "authorString": "JOHN,SMITH",
+            "time": "2024-02-13",
+            "text": "Problem added from other problem under military"
+          }
+        ]
+      }
     }
   ]
 }
