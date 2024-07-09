@@ -18,26 +18,7 @@ const MessageReply = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
-  const [newDraftArray, setDraftsArray] = useState([]);
   const [activeAlert, setActiveAlert] = useState(null);
-
-  useEffect(
-    () => {
-      if (Array.isArray(drafts)) {
-        setDraftsArray(drafts);
-      } else if (typeof drafts === 'object') {
-        setDraftsArray([
-          {
-            ...drafts[0],
-            isSaving: drafts.isSaving,
-            saveError: drafts.saveError,
-            lastSaveTime: drafts.lastSaveTime,
-          },
-        ]);
-      }
-    },
-    [drafts],
-  );
 
   useEffect(
     () => {
@@ -76,7 +57,7 @@ const MessageReply = () => {
 
     return (
       <ReplyForm
-        drafts={newDraftArray || []}
+        drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}

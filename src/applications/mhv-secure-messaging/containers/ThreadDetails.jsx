@@ -143,7 +143,7 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageThreadHeader
-            message={messages[0]}
+            message={messages?.[0]}
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}

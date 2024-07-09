@@ -185,8 +185,8 @@ const ComposeForm = props => {
   useEffect(() => {
     if (draft) {
       const tempRecipient = {
-        recipientId: draft.recipientId,
-        name: draft.triageGroupName,
+        recipientId: draft?.recipientId,
+        name: draft?.triageGroupName,
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
@@ -284,8 +284,8 @@ const ComposeForm = props => {
       setSelectedRecipient(draft.recipientId);
     } else {
       const newRecipient = {
-        id: draft.recipientId,
-        name: draft.recipientName,
+        id: draft?.recipientId,
+        name: draft?.recipientName,
       };
       setRecipientsList(prevRecipientsList => [
         ...prevRecipientsList,
@@ -302,10 +302,10 @@ const ComposeForm = props => {
     setFormPopulated(true);
     setFieldsString(
       JSON.stringify({
-        rec: draft.recipientId,
-        cat: draft.category,
-        sub: draft.subject,
-        bod: draft.body,
+        rec: draft?.recipientId,
+        cat: draft?.category,
+        sub: draft?.subject,
+        bod: draft?.body,
       }),
     );
   };
@@ -399,7 +399,7 @@ const ComposeForm = props => {
         }
       }
 
-      const draftId = draft && draft.messageId;
+      const draftId = draft && draft?.messageId;
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || selectedRecipient, 10),
         cat: debouncedCategory || category,
@@ -586,10 +586,10 @@ const ComposeForm = props => {
     e => {
       if (
         selectedRecipient.toString() !==
-          (draft ? draft.recipientId.toString() : '0') ||
-        category !== (draft ? draft.category : null) ||
-        subject !== (draft ? draft.subject : '') ||
-        messageBody !== (draft ? draft.body : '') ||
+          (draft ? draft?.recipientId.toString() : '0') ||
+        category !== (draft ? draft?.category : null) ||
+        subject !== (draft ? draft?.subject : '') ||
+        messageBody !== (draft ? draft?.body : '') ||
         attachments.length
       ) {
         e.preventDefault();
@@ -834,7 +834,7 @@ const ComposeForm = props => {
             setDeleteButtonClicked={setDeleteButtonClicked}
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
-            savedComposeDraft={savedDraft}
+            savedComposeDraft={!!draft}
             isModalVisible={isModalVisible}
             setIsModalVisible={setIsModalVisible}
             confirmedDeleteClicked={confirmedDeleteClicked}

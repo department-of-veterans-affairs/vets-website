@@ -26,23 +26,23 @@ const ReplyDrafts = props => {
 
   return (
     <div>
-      <va-accordion bordered open-single>
+      <va-accordion bordered open-single={drafts.length <= 1}>
         {drafts?.length ? (
           drafts.map((draft, i) => {
-            const subheader = `${draft?.body.slice(0, 45)}...`;
+            const singleDraft = draft?.[0] ? draft[0] : draft;
+            const subheader = `${singleDraft.body.slice(0, 45)}...`;
             const draftsCount = drafts.length;
             const draftSequence = draftsCount > 1 ? draftsCount - i : null;
-
             return (
               <va-accordion-item
                 bordered="true"
-                key={draft?.messageId}
+                key={singleDraft[i]?.messageId}
                 open={isEditing}
                 subheader={subheader}
               >
                 <ReplyDraftItem
                   cannotReply={cannotReply || showBlockedTriageGroupAlert}
-                  draft={draft}
+                  draft={singleDraft}
                   drafts={drafts}
                   draftsCount={draftsCount}
                   draftSequence={draftSequence}
@@ -92,6 +92,7 @@ ReplyDrafts.propTypes = {
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
   saveDraftHandler: PropTypes.func,
+  setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,

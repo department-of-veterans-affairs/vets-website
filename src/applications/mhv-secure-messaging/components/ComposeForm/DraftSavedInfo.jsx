@@ -14,10 +14,10 @@ const DraftSavedInfo = props => {
   let lastSaveTime;
   const draft = messageId ? drafts?.find(d => d.messageId === messageId) : null;
 
-  if (draft) {
-    isSaving = draft.isSaving;
-    saveError = draft.saveError;
-    lastSaveTime = draft.lastSaveTime;
+  if (drafts?.length > 1) {
+    isSaving = draft?.isSaving;
+    saveError = draft?.saveError;
+    lastSaveTime = draft?.lastSaveTime;
   } else {
     ({ isSaving, saveError, lastSaveTime } = threadDetails);
   }

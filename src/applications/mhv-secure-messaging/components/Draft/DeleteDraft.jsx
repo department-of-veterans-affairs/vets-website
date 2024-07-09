@@ -75,6 +75,13 @@ const DeleteDraft = props => {
             ? activeFolder.folderId
             : DefaultFolders.DRAFTS.id;
 
+          if (pathname.includes('/new-message')) {
+            navigateToFolderByFolderId(
+              activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
+              history,
+            );
+          }
+
           if (pathname.includes('/reply')) {
             history.goBack();
           } else if (pathname.includes(`/thread/${draftId}`)) {

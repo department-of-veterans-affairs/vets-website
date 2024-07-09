@@ -165,6 +165,7 @@ const AlertBackgroundBox = props => {
 };
 
 AlertBackgroundBox.propTypes = {
+  activeAlert: PropTypes.object,
   closeable: PropTypes.bool,
   noIcon: PropTypes.bool,
 };

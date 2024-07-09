@@ -221,13 +221,13 @@ const ReplyDraftItem = props => {
 
       if (isValidMessage) {
         if (!draftId) {
-          dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
           setFieldsString(newFieldsString);
+          dispatch(saveReplyDraft(replyMessage.messageId, formData, type));
         } else if (typeof draftId === 'number') {
+          setFieldsString(newFieldsString);
           dispatch(
             saveReplyDraft(replyMessage.messageId, formData, type, draftId),
           );
-          setFieldsString(newFieldsString);
         }
       }
       if (!attachments.length) setNavigationError(null);
