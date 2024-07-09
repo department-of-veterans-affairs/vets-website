@@ -45,10 +45,10 @@ export const MiniSummaryCard = ({
         >
           <span>
             <strong>Edit</strong>
-            <i
-              aria-hidden="true"
-              role="img"
-              className="fas fa-chevron-right vads-u-padding-left--0p5"
+            <va-icon
+              icon="navigate_next"
+              size={3}
+              className="vads-u-padding-left--0p5"
             />
           </span>
         </Link>
@@ -59,9 +59,10 @@ export const MiniSummaryCard = ({
             className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
             onClick={onDelete}
           >
-            <i
-              aria-hidden="true"
-              className="fas fa-trash-alt vads-u-padding-right--0p5"
+            <va-icon
+              icon="trash"
+              size={3}
+              className="vads-u-padding-right--0p5"
             />
             <span>DELETE</span>
           </button>
