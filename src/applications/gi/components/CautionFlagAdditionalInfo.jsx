@@ -31,24 +31,21 @@ export const CautionFlagAdditionalInfo = ({
           }}
         >
           <div className="vads-u-display--flex">
-            <va-icon icon="warning" size={2} />
+            <va-icon
+              icon="warning"
+              size={3}
+              className="vads-u-margin-right--1p5"
+            />
             <div>
               <h4 className="usa-alert-heading caution-flag-alert-heading">
                 {headline}
               </h4>
             </div>
-            <div
-              style={{
-                float: 'right',
-                margin: '5px',
-              }}
-            >
-              {expanded ? (
-                <va-icon icon="expand_less" size={3} />
-              ) : (
-                <va-icon icon="expand_more" size={3} />
-              )}
-            </div>
+            {expanded ? (
+              <va-icon icon="expand_less" size={3} />
+            ) : (
+              <va-icon icon="expand_more" size={3} />
+            )}
           </div>
         </button>
 
