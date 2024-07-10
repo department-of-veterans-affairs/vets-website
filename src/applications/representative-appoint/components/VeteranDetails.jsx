@@ -18,7 +18,9 @@ function VeteranDetails({ profile }) {
       </p>
       <div className="blue-bar-block">
         <strong>
-          {`${first || ''} ${middle || ''} ${last || ''}`}
+          {`${first || ''}${first && middle ? ' ' : ''}${middle || ''}${
+            (first || middle) && last ? ' ' : ''
+          }${last || ''}`}
           {suffix && `, ${suffix}`}
         </strong>
         <p>
