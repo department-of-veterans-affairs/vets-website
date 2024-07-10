@@ -347,17 +347,7 @@ const formConfig = {
                       const payload = new FormData();
                       payload.append('preneed_attachment[file_data]', file);
 
-
-                          return payload;
-                        },
-                    parseResponse: !environment.isProduction()
-                      ? parseResponse
-                      : (response, file) => ({
-                          name: file.name,
-                          confirmationCode: response.data.attributes.guid,
-                        }),
-                    attachmentSchema: {
-                      'ui:title': 'What kind of file is this?',
+                      return payload;
                     },
                 parseResponse: !environment.isProduction()
                   ? parseResponse
@@ -365,8 +355,10 @@ const formConfig = {
                       name: file.name,
                       confirmationCode: response.data.attributes.guid,
                     }),
+                attachmentSchema: {
+                  'ui:title': 'What kind of file is this?',
+                },
               }),
-
             },
           },
           schema: {
