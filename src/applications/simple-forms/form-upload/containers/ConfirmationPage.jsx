@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  VaAlert,
-  VaBreadcrumbs,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
@@ -29,8 +26,8 @@ const ConfirmationPage = () => {
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <VaBreadcrumbs
-          breadcrumbList={breadcrumbList}
+        <va-breadcrumbs
+          breadcrumb-list={JSON.stringify(breadcrumbList)}
           onRouteChange={onRouteChange}
         />
         <h1>{`Upload VA Form ${formNumber}`}</h1>

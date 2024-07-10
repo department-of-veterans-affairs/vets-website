@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import WIP from '../../shared/components/WIP';
@@ -20,10 +19,11 @@ export default function App({ location, children }) {
       label: 'Register for the Foreign Medical Program (FMP)',
     },
   ];
+  const bcString = JSON.stringify(breadcrumbList);
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959F1}>
       <Toggler.Enabled>
-        <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+        <va-breadcrumbs breadcrumb-list={bcString} />
         <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
           {children}
         </RoutedSavableApp>

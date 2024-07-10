@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 
-import {
-  VaBreadcrumbs,
-  VaSegmentedProgressBar,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaSegmentedProgressBar } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '~/platform/utilities/ui';
@@ -25,6 +22,7 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
+  const bcString = JSON.stringify(breadcrumbList);
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
 
   // This logic focuses the progress bar for screen readers.
@@ -44,8 +42,8 @@ const FormPage = ({ children, currentLocation, pageTitle }) => {
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
         <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--1p5">
-          <VaBreadcrumbs
-            breadcrumbList={breadcrumbList}
+          <va-breadcrumbs
+            breadcrumb-list={bcString}
             onRouteChange={onRouteChange}
           />
         </div>
