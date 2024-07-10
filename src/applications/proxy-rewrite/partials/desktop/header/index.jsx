@@ -7,21 +7,17 @@ import Search from '../../search';
 
 const DesktopHeader = ({ isDesktop, megaMenuData }) => {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
-  const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
-  const searchButton = document?.getElementById('search-dropdown-button');
+  const searchContainer = document.getElementsByClassName('va-dropdown')?.[0];
 
+  // If a click is made outside the search button or the dropdown, close the search dropdown
   const outsideClickHandler = event => {
-    if (searchIsOpen && searchButton && !searchButton.contains(event.target)) {
+    if (searchIsOpen && !searchContainer?.contains(event.target)) {
       setSearchIsOpen(false);
     }
   };
 
   const toggleSearchDropdown = () => {
     setSearchIsOpen(!searchIsOpen);
-  };
-
-  const toggleGovBanner = () => {
-    setGovBannerIsOpen(!govBannerIsOpen);
   };
 
   useEffect(() => {
@@ -54,10 +50,8 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
                   <p>An official website of the United States government</p>
                   <button
                     className="usa-accordion-button usa-banner-button"
-                    aria-expanded={govBannerIsOpen}
+                    aria-expanded="false"
                     aria-controls="gov-banner"
-                    onClick={toggleGovBanner}
-                    onKeyDown={event => keyDownHandler(event, toggleGovBanner)}
                   >
                     <span className="usa-banner-button-text">
                       Here’s how you know
@@ -68,7 +62,7 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
               <div
                 className="usa-banner-content usa-grid usa-accordion-content vads-u-padding-x--1"
                 id="gov-banner"
-                aria-hidden={!govBannerIsOpen}
+                aria-hidden="true"
               >
                 <div className="usa-banner-guidance-gov usa-width-one-half">
                   <img
@@ -160,7 +154,6 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
                 <button
                   id="search-dropdown-button"
                   className="va-btn-withicon va-dropdown-trigger"
-                  aria-controls="search"
                   aria-expanded={searchIsOpen}
                   onClick={toggleSearchDropdown}
                   onKeyDown={event =>
@@ -191,7 +184,7 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
                   className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
                   hidden={!searchIsOpen}
                 >
-                  <Search isDesktop={isDesktop} />
+                  <Search isDesktop={isDesktop} searchIsOpen={searchIsOpen} />
                 </div>
               </div>
               {/* end Search */}

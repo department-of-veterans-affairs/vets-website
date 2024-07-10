@@ -5,17 +5,11 @@ import { kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 
-const LevelTwoLinks = ({
-  // previouslyClickedLink,
-  sectionData,
-  setLevelTwoMenuOpen,
-  setPreviouslyClickedLink,
-}) => {
+const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen }) => {
   if (!sectionData) {
     return null;
   }
 
-  // TODO the "Health care", "Disability" link etc. are not focusing when the level two menu returns
   const rightChevron = (
     <svg
       aria-hidden="true"
@@ -35,7 +29,6 @@ const LevelTwoLinks = ({
 
   const onButtonClick = kebabTitle => {
     setLevelTwoMenuOpen(kebabTitle);
-    setPreviouslyClickedLink(kebabTitle);
   };
 
   if (Array.isArray(sectionData)) {
@@ -163,8 +156,6 @@ const LevelTwoLinks = ({
 
 LevelTwoLinks.propTypes = {
   setLevelTwoMenuOpen: PropTypes.func.isRequired,
-  setPreviouslyClickedLink: PropTypes.func.isRequired,
-  previouslyClickedLink: PropTypes.string,
   sectionData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 

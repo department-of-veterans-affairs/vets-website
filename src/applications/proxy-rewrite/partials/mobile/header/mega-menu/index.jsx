@@ -9,7 +9,6 @@ import Search from '../../../search';
 const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
-  const [previouslyClickedLink, setPreviouslyClickedLink] = useState(null);
 
   useEffect(
     () => {
@@ -84,10 +83,8 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
             id={`${sectionData.title}--${index + 1}`}
           >
             <LevelTwoLinks
-              previouslyClickedLink={previouslyClickedLink}
               sectionData={sectionData.menuSections}
               setLevelTwoMenuOpen={setLevelTwoMenuOpen}
-              setPreviouslyClickedLink={setPreviouslyClickedLink}
             />
           </ul>
         </Fragment>

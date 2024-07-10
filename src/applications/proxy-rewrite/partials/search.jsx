@@ -1,60 +1,25 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { keyDownHandler } from '../utilities/keydown';
 
 const Keycodes = {
   Enter: 13,
   Tab: 9,
 };
 
-const Search = ({ isDesktop }) => {
+const Search = ({ isDesktop, searchIsOpen }) => {
   const [inputValue, setInputValue] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const button = document.getElementById('search-dropdown-button');
   const searchInput = document.getElementById(
     'search-header-dropdown-input-field',
   );
 
-  const toggleDropdown = useCallback(() => {
-    setIsOpen(!isOpen);
-  });
-
   useEffect(
     () => {
-      if (button) {
-        button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      }
-    },
-    [button, isOpen],
-  );
-
-  useEffect(
-    () => {
-      if (button) {
-        button.addEventListener('click', toggleDropdown);
-        button.addEventListener('keydown', event =>
-          keyDownHandler(event, toggleDropdown),
-        );
-
-        return () => {
-          button.removeEventListener('click', toggleDropdown);
-          button.removeEventListener('keydown', toggleDropdown);
-        };
-      }
-
-      return null;
-    },
-    [button, isOpen, toggleDropdown],
-  );
-
-  useEffect(
-    () => {
-      if (searchInput && isOpen) {
+      if (searchInput && searchIsOpen) {
         searchInput.focus();
       }
     },
-    [isOpen],
+    [searchInput, searchIsOpen],
   );
 
   const handleInputChange = event => {
@@ -184,6 +149,7 @@ const Search = ({ isDesktop }) => {
 
 Search.propTypes = {
   isDesktop: PropTypes.bool.isRequired,
+  searchIsOpen: PropTypes.bool,
 };
 
 export default Search;

@@ -2146,22 +2146,26 @@
     font-weight: 600;
   }
 
-  [id="search"].va-dropdown-panel {
+  #search.va-dropdown-panel {
     width: 300px;
   }
 
-  [id="search"].va-dropdown-panel [type="text"] {
+  #search.va-dropdown-panel [type="text"] {
     margin: 0;
     flex: 1 0 200px;
   }
 
-  [id="search"].va-dropdown-panel [type="submit"] {
+  #search.va-dropdown-panel [type="submit"] {
     border-radius: 0 3px 3px 0;
     display: flex;
     flex: 1 0 30px;
     justify-content: center;
     margin: 0;
     padding: 12px 10px 10px;
+  }
+
+  #search.va-dropdown-panel[aria-hidden="true"] {
+    display: none;
   }
 
   @media (min-width: 320px) and (max-width: 767px) {
