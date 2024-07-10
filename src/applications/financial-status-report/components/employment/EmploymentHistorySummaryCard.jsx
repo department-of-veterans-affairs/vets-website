@@ -177,7 +177,7 @@ const EmploymentHistorySummaryCard = ({
             onClick={() => handleDeleteClick(index)}
           >
             <va-icon
-              icon="trash"
+              icon="delete"
               size={3}
               className="vads-u-padding-right--0p5"
             />
