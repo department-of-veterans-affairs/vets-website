@@ -20,13 +20,19 @@ const WhatToDoNext = props => {
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
-  const { getCheckinComplete } = useStorage(app);
+  const { getCheckinComplete, getPreCheckinComplete } = useStorage(app);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  const checkInableAppointments = getCheckinableAppointments(
-    sortedAppointments,
-  );
-  if (!checkInableAppointments.length && !getCheckinComplete(window)) {
+  let actionableAppointments = sortedAppointments;
+  if (app === APP_NAMES.CHECK_IN) {
+    actionableAppointments = getCheckinableAppointments(sortedAppointments);
+  }
+  const complete =
+    app === APP_NAMES.CHECK_IN
+      ? getCheckinComplete(window)
+      : getPreCheckinComplete(window);
+
+  if (!actionableAppointments.length && !complete) {
     updateError(
       app === APP_NAMES.CHECK_IN
         ? 'check-in-past-appointment'
@@ -35,13 +41,13 @@ const WhatToDoNext = props => {
   }
   const appointmentCards =
     app === APP_NAMES.PRE_CHECK_IN
-      ? [checkInableAppointments[0]]
-      : checkInableAppointments;
+      ? [actionableAppointments[0]]
+      : actionableAppointments;
 
   const getPreCheckinCardTitle = () => {
     let title = `${t('review-your-contact-information-for-your')} `;
-    if (checkInableAppointments.length > 1) {
-      checkInableAppointments.forEach((appointment, index) => {
+    if (actionableAppointments.length > 1) {
+      actionableAppointments.forEach((appointment, index) => {
         title += t('day-of-week-month-day-time', {
           date: new Date(appointment.startTime),
         });
@@ -62,7 +68,7 @@ const WhatToDoNext = props => {
   };
 
   const showDetailsLink =
-    (checkInableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
+    (actionableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
     app === APP_NAMES.CHECK_IN;
 
   return (
@@ -88,7 +94,7 @@ const WhatToDoNext = props => {
                   key={appointment.appointmentIen}
                   data-testid="what-next-card"
                 >
-                  <va-card show-shadow={checkInableAppointments.length > 1}>
+                  <va-card show-shadow={actionableAppointments.length > 1}>
                     <h3
                       className="vads-u-margin-top--0 vads-u-font-size--h4"
                       data-testid="what-next-card-title"
