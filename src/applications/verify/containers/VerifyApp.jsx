@@ -41,8 +41,7 @@ export const VerifyApp = () => {
     );
   }
   const { idme, logingov } = SERVICE_PROVIDERS;
-  const signInMethod =
-    !profile.loading && profile.signIn && profile.signIn.serviceName;
+  const signInMethod = !profile.loading && profile.signIn?.serviceName;
 
   return (
     <section data-testid="verify-app" className="verify">
