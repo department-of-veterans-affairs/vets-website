@@ -300,7 +300,11 @@ export class SchoolSelectField extends React.Component {
                 </button>
               </div>
               <div className="clear-search vads-u-margin-top--1p5">
-                <va-button onClick={this.handleStartOver} text="Reset Search" />
+                <va-button
+                  secondary
+                  onClick={this.handleStartOver}
+                  text="Reset Search"
+                />
               </div>
             </div>
           </div>
@@ -364,7 +368,7 @@ export class SchoolSelectField extends React.Component {
                           country,
                           state,
                           zip,
-                        })}
+                        }).toUpperCase()}
                       />
                     );
                   })}
