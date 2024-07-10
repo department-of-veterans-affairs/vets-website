@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TravelPayStatusFilters from './TravelPayStatusFilters';
+import TravelPayStatusCheckboxes from './TravelPayStatusCheckboxes';
+import TravelPayDateFilterSelect from './TravelPayDateFilterSelect';
 
-export default function TravelPayFilters(props) {
+export default function TravelPayClaimFilters(props) {
   const {
     statusesToFilterBy,
-    checkedStatuses,
+    checkedStatusFilters,
     onStatusFilterChange,
     applyFilters,
     resetSearch,
+    datesToFilterBy,
+    selectedDateFilter,
+    onDateFilterChange,
   } = props;
 
   return (
@@ -19,10 +23,16 @@ export default function TravelPayFilters(props) {
         header="Filter travel claims"
       >
         <div className="filter-your-results">
-          <TravelPayStatusFilters
+          <TravelPayStatusCheckboxes
             statusesToFilterBy={statusesToFilterBy}
-            checkedStatuses={checkedStatuses}
+            checkedStatusFilters={checkedStatusFilters}
             onStatusFilterChange={onStatusFilterChange}
+          />
+          <hr />
+          <TravelPayDateFilterSelect
+            datesToFilterBy={datesToFilterBy}
+            selectedDateFilter={selectedDateFilter}
+            onDateFilterChange={onDateFilterChange}
           />
           <div className="modal-button-wrapper vads-u-margin-top--3">
             <va-button
@@ -44,10 +54,13 @@ export default function TravelPayFilters(props) {
   );
 }
 
-TravelPayFilters.propTypes = {
+TravelPayClaimFilters.propTypes = {
   applyFilters: PropTypes.func,
-  checkedStatuses: PropTypes.array,
+  checkedStatusFilters: PropTypes.array,
+  datesToFilterBy: PropTypes.array,
   resetSearch: PropTypes.func,
+  selectedDateFilter: PropTypes.string,
   statusesToFilterBy: PropTypes.array,
+  onDateFilterChange: PropTypes.func,
   onStatusFilterChange: PropTypes.func,
 };
