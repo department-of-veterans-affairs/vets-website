@@ -846,11 +846,8 @@ const formConfig = {
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      !formData['view:mailingAddress'].livesOnMilitaryBase),
+                    !formData['view:mailingAddress'].livesOnMilitaryBase,
                   'ui:disabled': formData =>
-                    formData.showMebDgi40Features &&
                     formData['view:mailingAddress'].livesOnMilitaryBase,
                   'ui:options': {
                     updateSchema: (formData, schema, uiSchema) => {
@@ -863,10 +860,7 @@ const formConfig = {
                         ['view:mailingAddress', 'livesOnMilitaryBase'],
                         formData,
                       );
-                      if (
-                        formData.showMebDgi40Features &&
-                        livesOnMilitaryBase
-                      ) {
+                      if (livesOnMilitaryBase) {
                         countryUI['ui:disabled'] = true;
                         const USA = {
                           value: 'USA',
@@ -879,9 +873,7 @@ const formConfig = {
                           default: USA.value,
                         };
                       }
-
                       countryUI['ui:disabled'] = false;
-
                       return {
                         type: 'string',
                         enum: constants.countries.map(country => country.value),
@@ -921,7 +913,6 @@ const formConfig = {
                   'ui:options': {
                     replaceSchema: formData => {
                       if (
-                        formData.showMebDgi40Features &&
                         formData['view:mailingAddress']?.livesOnMilitaryBase
                       ) {
                         return {
@@ -930,7 +921,6 @@ const formConfig = {
                           enum: ['APO', 'FPO'],
                         };
                       }
-
                       return {
                         type: 'string',
                         title: 'City',
@@ -940,11 +930,8 @@ const formConfig = {
                 },
                 state: {
                   'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                        formData['view:mailingAddress']?.address?.country ===
-                          'USA')),
+                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                    formData['view:mailingAddress']?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
@@ -961,7 +948,6 @@ const formConfig = {
                           type: 'string',
                         };
                       }
-
                       return {
                         title: 'Zip code',
                         type: 'string',
@@ -1326,9 +1312,6 @@ const formConfig = {
           uiSchema: {
             'view:subHeading': {
               'ui:description': <h3>Review your service history</h3>,
-              'ui:options': {
-                hideIf: formData => formData?.showMebDgi40Features,
-              },
             },
             'view:newSubHeading': {
               'ui:description': (
@@ -1352,9 +1335,6 @@ const formConfig = {
                   </p>
                 </>
               ),
-              'ui:options': {
-                hideIf: formData => !formData?.showMebDgi40Features,
-              },
             },
             [formFields.toursOfDuty]: {
               ...toursOfDutyUI,

@@ -234,7 +234,6 @@ describe('form submit transform', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
-      mockSubmissionForm.showMebDgi40Features = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
       expect(objectIsEmpty).to.eql(true);
