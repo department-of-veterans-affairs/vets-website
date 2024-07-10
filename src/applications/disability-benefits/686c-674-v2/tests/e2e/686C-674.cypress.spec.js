@@ -62,33 +62,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'options-selection': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          // cy.get('.progress-box va-telephone')
-          //   .contains('800-827-1000')
-          //   .should('have.prop', 'href');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'options-selection/add-dependents': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          // cy.get('.progress-box va-telephone')
-          //   .contains('800-827-1000')
-          //   .should('have.prop', 'href');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'options-selection/remove-dependents': ({ afterHook }) => {
-        afterHook(() => {
-          cy.fillPage();
-          // cy.get('.progress-box va-telephone')
-          //   .contains('800-827-1000')
-          //   .should('have.prop', 'href');
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'veteran-information': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
