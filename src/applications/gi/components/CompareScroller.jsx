@@ -38,7 +38,7 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
             onClick={() => arrowClick(-1)}
           />
         </div>
-        <div className="vads-u-text-align--center circles">{circles}</div>
+        <div className="vads-u-display--flex circles">{circles}</div>
         <div className="right-arrow scroll-arrrow vads-u-text-align--right">
           <va-icon
             icon="navigate_next"

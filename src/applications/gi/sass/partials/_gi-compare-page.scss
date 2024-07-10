@@ -423,7 +423,8 @@
 
     .scroll-controls {
       width: 98vw;
-      text-align: center;
+      display: flex;
+      align-items: center;
 
       @media (max-width: $small-screen) {
         position: sticky;
@@ -448,9 +449,7 @@
       }
 
       .circles {
-        padding-top: 30px;
         width: 180px;
-        display: inline-block;
         margin-left: auto;
         margin-right: auto;
       }

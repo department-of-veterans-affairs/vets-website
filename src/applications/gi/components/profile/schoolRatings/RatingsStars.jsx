@@ -11,34 +11,25 @@ export const RatingsStars = ({ rating }) => {
   const stars = [];
   for (let i = 0; i < starData.full; i++) {
     stars.push(
-      <va-icon
-        key={stars.length}
-        icon="star"
-        size={3}
-        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
-      />,
+      <span className="vads-u-color--gold-darker vads-u-margin-right--0p2">
+        <va-icon key={stars.length} icon="star" size={3} />
+      </span>,
     );
   }
 
   if (starData.half) {
     stars.push(
-      <va-icon
-        key={stars.length}
-        icon="star_half"
-        size={3}
-        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
-      />,
+      <span className="vads-u-color--gold-darker vads-u-margin-right--0p2">
+        <va-icon key={stars.length} icon="star_half" size={3} />
+      </span>,
     );
   }
 
   for (let i = stars.length; i < 4; i++) {
     stars.push(
-      <va-icon
-        key={stars.length}
-        icon="star"
-        size={3}
-        className="vads-u-color--gold-darker vads-u-margin-right--0p2"
-      />,
+      <span className="vads-u-color--gold-darker vads-u-margin-right--0p2">
+        <va-icon key={stars.length} icon="star_outline" size={3} />
+      </span>,
     );
   }
 
