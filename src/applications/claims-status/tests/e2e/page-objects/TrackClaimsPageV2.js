@@ -579,6 +579,35 @@ class TrackClaimsPageV2 {
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
+  verifyDocRequestBreadcrumbs(previousPageFiles = false) {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
+    cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
+      'contain',
+      'VA.gov home',
+    );
+    cy.get('.usa-breadcrumb__list > li:nth-child(2) a').should(
+      'contain',
+      'Check your claims and appeals',
+    );
+    if (previousPageFiles) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Files for your compensation claim',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Status of your compensation claim',
+      );
+    }
+
+    cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+      'contain',
+      'Document request',
+    );
+  }
+
   submitEvidenceWaiver() {
     cy.get('va-checkbox')
       .shadow()
