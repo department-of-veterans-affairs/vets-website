@@ -71,7 +71,9 @@
     display: none !important;
   }
 
-  font-family: $font-stack !important;
+  p, li, a {
+    font-family: $font-stack !important;
+  }
 
   header,
   nav {
@@ -2768,6 +2770,7 @@
 
   .va-footer-linkgroup .va-button-link {
     color: #fff !important;
+    text-decoration: underline;
   }
 
   .va-footer-linkgroup .va-button-link:hover {

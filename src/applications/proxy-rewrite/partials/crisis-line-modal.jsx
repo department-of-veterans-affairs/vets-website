@@ -29,7 +29,9 @@ const CrisisLineModal = () => (
           We’re here anytime, day or night – 24/7
         </h3>
         <p>
-          If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.
+          If you are a Veteran in crisis or concerned about one, connect with
+          our caring, qualified responders for confidential help. Many of them
+          are Veterans themselves.
         </p>
         <ul className="vcl-crisis-panel-list">
           <li>
@@ -49,7 +51,9 @@ const CrisisLineModal = () => (
                 d="M6.62 10.79C8.06 13.62 10.38 15.93 13.21 17.38L15.41 15.18C15.68 14.91 16.08 14.82 16.43 14.94C17.55 15.31 18.76 15.51 20 15.51C20.55 15.51 21 15.96 21 16.51V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z"
               />
             </svg>
-            <a href="tel:988">Call <strong>988 and select 1</strong></a>
+            <a href="tel:988">
+              Call <strong>988 and select 1</strong>
+            </a>
           </li>
           <li>
             <svg
@@ -65,7 +69,8 @@ const CrisisLineModal = () => (
                 d="M15.5 1h-8A2.5 2.5 0 0 0 5 3.5v17A2.5 2.5 0 0 0 7.5 23h8a2.5 2.5 0 0 0 2.5-2.5v-17A2.5 2.5 0 0 0 15.5 1Zm-4 21a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm4.5-4H7V4h9v14Z"
               />
             </svg>
-            <a href="sms:838255">Text <strong>838255</strong>
+            <a href="sms:838255">
+              Text <strong>838255</strong>
             </a>
           </li>
           <li>
@@ -84,7 +89,12 @@ const CrisisLineModal = () => (
                 d="M21 6H19V15H6V17C6 17.55 6.45 18 7 18H18L22 22V7C22 6.45 21.55 6 21 6ZM17 12V3C17 2.45 16.55 2 16 2H3C2.45 2 2 2.45 2 3V17L6 13H16C16.55 13 17 12.55 17 12Z"
               />
             </svg>
-            <a className="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a>
+            <a
+              className="no-external-icon"
+              href="https://www.veteranscrisisline.net/get-help-now/chat/"
+            >
+              Start a confidential chat
+            </a>
           </li>
           <li>
             <svg
@@ -103,10 +113,15 @@ const CrisisLineModal = () => (
               />
             </svg>
             <p>
-              <a href="tel:711" aria-label="7 1 1">For TTY, call <strong>711 then 988</strong></a>
+              <a href="tel:711" aria-label="TTY: 7 1 1.">
+                For TTY, call <strong>711 then 988</strong>
+              </a>
             </p>
           </li>
-        </ul>Get more resources at <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.
+        </ul>
+        Get more resources at{' '}
+        <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>
+        .
       </div>
     </div>
   </div>

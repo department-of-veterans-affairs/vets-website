@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MegaMenu from './mega-menu';
 import { keyDownHandler } from '../../../utilities/keydown';
 
-const MobileHeader = ({ megaMenuData }) => {
+const MobileHeader = ({ isDesktop, megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const outsideClickHandler = () => {
@@ -219,13 +219,18 @@ const MobileHeader = ({ megaMenuData }) => {
             {/* end Menu button */}
           </div>
         </div>
-        <MegaMenu megaMenuData={megaMenuData} menuIsOpen={menuIsOpen} />
+        <MegaMenu
+          isDesktop={isDesktop}
+          megaMenuData={megaMenuData}
+          menuIsOpen={menuIsOpen}
+        />
       </nav>
     </header>
   );
 };
 
 MobileHeader.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.array.isRequired,
 };
 

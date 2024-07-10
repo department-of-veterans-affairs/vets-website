@@ -6,7 +6,7 @@ import LevelThreeLinks from './level-three-links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 import Search from '../../../search';
 
-const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
+const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
   const [previouslyClickedLink, setPreviouslyClickedLink] = useState(null);
@@ -117,7 +117,7 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
     >
       <div>
         <div id="search">
-          <Search />
+          <Search isDesktop={isDesktop} />
         </div>
         <ul
           id="header-nav-items"
@@ -150,6 +150,7 @@ const MegaMenu = ({ megaMenuData, menuIsOpen }) => {
 };
 
 MegaMenu.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.array.isRequired,
   menuIsOpen: PropTypes.bool.isRequired,
 };

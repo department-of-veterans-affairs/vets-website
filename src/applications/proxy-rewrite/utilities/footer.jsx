@@ -7,7 +7,10 @@ const makeLink = (link, index) => {
 
   if (link.label) {
     label = (
-      <h2 className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1" key={index}>
+      <h2
+        className="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1"
+        key={index}
+      >
         {link.label}
       </h2>
     );
@@ -16,7 +19,10 @@ const makeLink = (link, index) => {
   return (
     <li key={index}>
       {label}
-      <a href={updateLinkDomain(link.href)}>
+      <a
+        href={updateLinkDomain(link.href)}
+        aria-label={link.ariaLabel ? link.ariaLabel : null}
+      >
         {link.title}
       </a>
     </li>
@@ -28,9 +34,11 @@ export const buildColumn = (columns, number) => {
 };
 
 export const buildBottomRail = bottomRailData => {
-  return bottomRailData.map(
-    (link, index) => <li key={index}><a href={updateLinkDomain(link.href)}>{link.title}</a></li>
-  );
+  return bottomRailData.map((link, index) => (
+    <li key={index}>
+      <a href={updateLinkDomain(link.href)}>{link.title}</a>
+    </li>
+  ));
 };
 
 /**

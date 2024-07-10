@@ -5,7 +5,7 @@ import MegaMenu from './mega-menu';
 import { keyDownHandler } from '../../../utilities/keydown';
 import Search from '../../search';
 
-const DesktopHeader = ({ megaMenuData }) => {
+const DesktopHeader = ({ isDesktop, megaMenuData }) => {
   const [searchIsOpen, setSearchIsOpen] = useState(false);
   const [govBannerIsOpen, setGovBannerIsOpen] = useState(false);
   const searchButton = document?.getElementById('search-dropdown-button');
@@ -191,7 +191,7 @@ const DesktopHeader = ({ megaMenuData }) => {
                   className="va-dropdown-panel vads-u-padding--0 vads-u-margin--0"
                   hidden={!searchIsOpen}
                 >
-                  <Search />
+                  <Search isDesktop={isDesktop} />
                 </div>
               </div>
               {/* end Search */}
@@ -219,6 +219,7 @@ const DesktopHeader = ({ megaMenuData }) => {
 };
 
 DesktopHeader.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.array.isRequired,
 };
 

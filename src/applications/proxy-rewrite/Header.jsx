@@ -15,6 +15,7 @@ const Header = ({ megaMenuData }) => {
   useEffect(() => {
     const deriveIsDesktop = () =>
       setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
+
     const serveHeader = debounce(deriveIsDesktop, 100);
 
     window.addEventListener('resize', serveHeader);
@@ -25,9 +26,9 @@ const Header = ({ megaMenuData }) => {
   }, []);
 
   const header = isDesktop ? (
-    <DesktopHeader megaMenuData={megaMenuData} />
+    <DesktopHeader isDesktop={isDesktop} megaMenuData={megaMenuData} />
   ) : (
-    <MobileHeader megaMenuData={megaMenuData} />
+    <MobileHeader isDesktop={isDesktop} megaMenuData={megaMenuData} />
   );
 
   return (

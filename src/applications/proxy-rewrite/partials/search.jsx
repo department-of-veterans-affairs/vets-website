@@ -1,5 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { keyDownHandler } from '../utilities/keydown';
 
 const Keycodes = {
@@ -7,13 +8,13 @@ const Keycodes = {
   Tab: 9,
 };
 
-const MOBILE_BREAKPOINT_PX = 768;
-
-const Search = () => {
+const Search = ({ isDesktop }) => {
   const [inputValue, setInputValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const button = document.getElementById('search-dropdown-button');
+  const searchInput = document.getElementById(
+    'search-header-dropdown-input-field',
+  );
 
   const toggleDropdown = useCallback(() => {
     setIsOpen(!isOpen);
@@ -47,24 +48,8 @@ const Search = () => {
     [button, isOpen, toggleDropdown],
   );
 
-  const deriveIsDesktop = () =>
-    setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
-
-  useEffect(() => {
-    deriveIsDesktop();
-    window.addEventListener('resize', deriveIsDesktop);
-
-    return () => {
-      window.removeEventListener('resize', deriveIsDesktop);
-    };
-  });
-
   useEffect(
     () => {
-      const searchInput = document.getElementById(
-        'search-header-dropdown-input-field',
-      );
-
       if (searchInput && isOpen) {
         searchInput.focus();
       }
@@ -195,6 +180,10 @@ const Search = () => {
       </button>
     </div>
   );
+};
+
+Search.propTypes = {
+  isDesktop: PropTypes.bool.isRequired,
 };
 
 export default Search;
