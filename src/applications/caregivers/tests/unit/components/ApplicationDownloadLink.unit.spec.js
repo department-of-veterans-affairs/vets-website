@@ -2,15 +2,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import * as recordEventModule from '~/platform/monitoring/record-event';
+import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
   mockApiRequest,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import sinon from 'sinon';
+import * as recordEventModule from 'platform/monitoring/record-event';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import ApplicationDownloadLink from '../../../components/ApplicationDownloadLink';
 import content from '../../../locales/en/content.json';
 
