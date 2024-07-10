@@ -64,7 +64,6 @@ const OverviewPage = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
-
   const {
     debts,
     isError: debtError,
@@ -74,7 +73,6 @@ const OverviewPage = () => {
   const debtLoading = isDebtPending || isProfileUpdating;
   const { statements, error: mcpError, pending: mcpLoading } = mcp;
   const statementsEmpty = statements?.length === 0;
-
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
@@ -94,21 +92,17 @@ const OverviewPage = () => {
       </div>
     );
   }
-
   const isNotEnrolledInHealthCare = mcpError?.status === '403';
-
   const renderContent = () => {
     if (isNotEnrolledInHealthCare) {
       return <MCPAlerts type="no-health-care" />;
     }
-
     if (mcpError) {
       return renderAlert(
         debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
         debts?.length,
       );
     }
-
     if (statementsEmpty) {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
@@ -128,7 +122,6 @@ const OverviewPage = () => {
       </>
     );
   };
-
   return (
     <>
       <VaBreadcrumbs
