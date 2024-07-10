@@ -6,7 +6,7 @@ import AdditionalContacts from './additionalContacts';
 
 const AskQuestions = () => {
   return (
-    <va-accordion-item level="3" open="true" header="Ask questions">
+    <va-accordion-item level="3" open="true" header="Ask questions" uswds>
       <ScoResourceMatrix />
       <MessageUs />
       <CallUs />

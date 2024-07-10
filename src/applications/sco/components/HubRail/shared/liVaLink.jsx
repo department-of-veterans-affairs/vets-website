@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LiVaLink = ({ href, text }) => (
   <li className="vads-u-margin-bottom--0 vads-u-margin-top--0">
-    <va-link href={href} text={text} />
+    <va-link href={href} text={text} uswds />
   </li>
 );
 

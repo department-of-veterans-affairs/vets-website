@@ -1,7 +1,11 @@
 import React from 'react';
-import ResoursesForSchoolTitle from '../ResoursesForSchoolTitle';
-import OnThisPage from './OnThisPage';
-import LatestAnnouncementFromVA from './LatestAnnouncementFromVA';
+import ResourcesForSchoolTitle from '../ResourcesForSchoolTitle';
+import ScoHandbooks from './Update/ScoHandbooks';
+import ProgramApprovalInformation from './Update/ProgramApprovalInformation';
+import UploadFileToVa from './Update/UploadFileToVa';
+import OtherResources from './Update/OtherResources';
+import TrainingAndWebinar from './Update/TrainingAndWebinar';
+
 import LineFiveStartLine from './LineFiveStartLine';
 import TrainningAndGuide from './TrainningAndGuide';
 import UpcommingEvents from './UpcommingEvents';
@@ -12,7 +16,7 @@ import LastUpdated from './LastUpdated';
 const MainContent = () => {
   return (
     <div className="vads-l-col--12 medium-screen:vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-      <ResoursesForSchoolTitle />
+      <ResourcesForSchoolTitle />
       <div>
         <p className="va-introtext">
           Trainings, resources, guides, and information on GI Bill® programs
@@ -20,8 +24,15 @@ const MainContent = () => {
         </p>
         <p />
       </div>
-      <OnThisPage />
-      <LatestAnnouncementFromVA />
+      <article>
+        <va-on-this-page uswds />
+        <ScoHandbooks />
+        <TrainingAndWebinar />
+        <ProgramApprovalInformation />
+        <UploadFileToVa />
+        <OtherResources />
+      </article>
+
       <LineFiveStartLine />
       <TrainningAndGuide />
       <LineFiveStartLine />

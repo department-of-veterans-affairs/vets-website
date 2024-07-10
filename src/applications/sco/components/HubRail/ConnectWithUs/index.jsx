@@ -4,7 +4,7 @@ import FollowUs from './followUs';
 
 const ConnectWithUs = () => {
   return (
-    <va-accordion-item level="3" open="true" header="Connect with us">
+    <va-accordion-item level="3" open="true" header="Connect with us" uswds>
       <GetGovDeliveryUpdates />
       <FollowUs />
     </va-accordion-item>

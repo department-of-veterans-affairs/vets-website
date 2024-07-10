@@ -7,8 +7,9 @@ const LiVaIconAndVaLink = ({ href, text, iconName }) => (
       className="vads-u-color--link-default vads-u-margin-right--0p5 hydrated"
       icon={iconName}
       size="3"
+      uswds
     />
-    <va-link href={`${href}#facebook`} text={text} />
+    <va-link href={`${href}#facebook`} text={text} uswds />
   </li>
 );
 

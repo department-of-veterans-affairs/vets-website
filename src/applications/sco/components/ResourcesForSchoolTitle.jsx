@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ResoursesForSchoolTitle = () => {
+const ResourcesForSchoolTitle = () => {
   return (
     <div className="medium-screen:vads-u-display--flex">
       <div className="hub-main-title">
@@ -10,4 +10,4 @@ const ResoursesForSchoolTitle = () => {
   );
 };
 
-export default ResoursesForSchoolTitle;
+export default ResourcesForSchoolTitle;
