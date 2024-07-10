@@ -1,4 +1,4 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   titleUI,
   selectUI,
@@ -10,7 +10,6 @@ import {
   STATE_LABELS,
 } from '../../../utils/constants';
 import content from '../../../locales/en/content.json';
-import fullSchema from '../../10-10CG-schema.json';
 
 const { veteran } = fullSchema.properties;
 const { plannedClinic } = veteran.properties;

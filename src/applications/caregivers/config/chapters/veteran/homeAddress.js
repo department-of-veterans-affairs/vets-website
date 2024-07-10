@@ -1,10 +1,9 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { VeteranCountyDescription } from '../../../components/FormDescriptions/AddressCountyDescriptions';
 import { addressUI } from '../../../definitions/sharedUI';
 import { addressSchema } from '../../../definitions/sharedSchema';
 import content from '../../../locales/en/content.json';
-import fullSchema from '../../10-10CG-schema.json';
 
 const { address } = fullSchema.definitions;
 const inputLabel = content['vet-input-label'];

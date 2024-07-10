@@ -1,4 +1,4 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   titleUI,
   yesNoUI,
@@ -8,7 +8,6 @@ import { addressWithAutofillSchema } from '../../../definitions/sharedSchema';
 import { addressWithAutofillUI } from '../../../definitions/sharedUI';
 import { replaceStrValues } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
-import fullSchema from '../../10-10CG-schema.json';
 
 const { address } = fullSchema.definitions;
 const inputLabel = content['primary-input-label'];
