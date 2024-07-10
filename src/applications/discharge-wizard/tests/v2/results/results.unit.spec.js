@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import PrevApplicationType from '../../components/v2/questions/PrevApplicationType';
+import ResultsPage from '../../../components/v2/ResultsPage';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,6 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setPrevApplicationType: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +45,31 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setPrevApplicationType: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Previous Application Type Page', () => {
+describe('Results Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the Previous Application page in the standard flow', () => {
+  it('should correctly load the Results page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <PrevApplicationType {...propsStandard} />
+        <ResultsPage {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-prev_application_type')).to.exist;
+    expect(screen.getByTestId('duw-results')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <PrevApplicationType {...propsNoIntroPage} />
+        <ResultsPage {...propsNoIntroPage} />
       </Provider>,
     );
 
