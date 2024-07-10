@@ -13,6 +13,7 @@
       "state": "AK",
       "postalCode": "12323"
     },
+    "applicantNewAddress": "yes",
     "applicantPhone": "3331233456",
     "applicantGender": "male",
     "applicantMedicareStatus": true,
@@ -32,7 +33,7 @@
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
     "applicantPrimaryEOB": false,
-    "applicantPrimaryInsuranceType": { "hmo": true, "medigap": true },
+    "applicantPrimaryInsuranceType": "medigap",
     "primaryMedigapPlan": "A",
     "primaryAdditionalComments": "Additional primary comment",
     "applicantHasSecondary": true,
@@ -42,11 +43,11 @@
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryHasPrescription": true,
     "applicantSecondaryEOB": true,
-    "applicantSecondaryInsuranceType": { "ppo": true, "medigap": true },
+    "applicantSecondaryInsuranceType": "medigap",
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
-    "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "Jimmy Alvin"
+    "certifierRole": "other",
+    "signature": "Certifier Jones",
+    "consentToMailMissingRequiredFiles": true
   }
 }

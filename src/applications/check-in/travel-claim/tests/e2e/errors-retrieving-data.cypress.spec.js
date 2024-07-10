@@ -3,8 +3,8 @@ import '../../../tests/e2e/commands';
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
 import Error from './pages/Error';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('A Patient who encounters an error retrieving check in data', () => {
+
+describe('A Patient who encounters an error retrieving check in data', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,

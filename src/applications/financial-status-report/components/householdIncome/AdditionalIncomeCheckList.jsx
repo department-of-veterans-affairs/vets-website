@@ -60,25 +60,16 @@ const AdditionalIncomeCheckList = ({
     calculateIncome();
   }, []);
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: addlIncRecords.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      additionalIncome: {
+        ...additionalIncome,
+        addlIncRecords: checked
+          ? [...addlIncRecords, { name, amount: '' }]
+          : addlIncRecords.filter(source => source.name !== name),
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -115,6 +106,7 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons

@@ -99,7 +99,7 @@ const App = ({ children }) => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
 
@@ -265,7 +265,7 @@ const App = ({ children }) => {
           ) : (
             <>
               <MrBreadcrumbs />
-              <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+              <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />

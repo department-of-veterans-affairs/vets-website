@@ -20,6 +20,7 @@ import {
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
+  isDisabilityCompensationClaim,
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
@@ -192,23 +193,34 @@ class OverviewPage extends React.Component {
       return null;
     }
 
-    const { claimPhaseDates, claimDate } = claim.attributes;
+    const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
-        <ClaimOverviewHeader />
+        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
-            <div className="claim-phase-diagram">
-              <MobileClaimPhaseDiagram currentPhase={currentPhase} />
-              <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
-            </div>
-            <ClaimPhaseStepper
-              claimDate={claimDate}
-              currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
-              currentPhase={currentPhase}
-            />
+            {isDisabilityCompensationClaim(claimTypeCode) ? (
+              <>
+                <div className="claim-phase-diagram">
+                  <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+                  <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+                </div>
+                <ClaimPhaseStepper
+                  claimDate={claimDate}
+                  currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+                  currentPhase={currentPhase}
+                />
+              </>
+            ) : (
+              <ClaimTimeline
+                id={claim.id}
+                phase={currentPhase}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            )}
           </Toggler.Enabled>
           <Toggler.Disabled>
             <ClaimTimeline

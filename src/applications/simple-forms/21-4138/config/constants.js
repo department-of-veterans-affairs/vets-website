@@ -1,4 +1,40 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
+  <div className="action-bar-arrow">
+    <div className="vads-u-background-color--primary vads-u-padding--1">
+      <a className="vads-c-action-link--white" href={href} onClick={onClick}>
+        {children}
+      </a>
+    </div>
+  </div>
+);
+
+const PrimaryActionLinkWithOnClick = ({ href = '/' }) => {
+  const { livingSituation, otherReasons, otherHousingRisks } = useSelector(
+    state => state.form.data,
+  );
+
+  const handlePriorityProcessingOnClick = e => {
+    e.preventDefault();
+    sessionStorage.setItem(
+      `dataTransfer-${VA_FORM_IDS.FORM_20_10207}`,
+      JSON.stringify({
+        data: { livingSituation, otherReasons, otherHousingRisks },
+        expiry: Date.now() + 300000, // 5 minutes
+      }),
+    );
+    window.location.href = href;
+  };
+
+  return (
+    <PrimaryActionLink href={href} onClick={handlePriorityProcessingOnClick}>
+      Start your request
+    </PrimaryActionLink>
+  );
+};
 
 export const TITLE = 'Submit a statement to support a claim';
 export const SUBTITLE = 'Statement in Support of Claim (VA Form 21-4138)';
@@ -81,16 +117,6 @@ export const OTHER_REASONS = Object.freeze({
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
   NONE: 'None of these situations apply to me.',
 });
-
-export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
-  <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
-    <div className="vads-u-background-color--primary vads-u-padding--1">
-      <a className="vads-c-action-link--white" href={href} onClick={onClick}>
-        {children}
-      </a>
-    </div>
-  </div>
-);
 
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
@@ -336,9 +362,9 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+    <PrimaryActionLinkWithOnClick href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
       Start your request
-    </PrimaryActionLink>
+    </PrimaryActionLinkWithOnClick>
     <h2 className="vads-u-font-size--h3">Types of evidence to submit</h2>
     <p>You can submit any of these types of evidence.</p>
     <p>

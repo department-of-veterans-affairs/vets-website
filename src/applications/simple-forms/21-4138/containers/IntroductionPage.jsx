@@ -60,6 +60,9 @@ const IntroductionPage = props => {
 
   return (
     <IntroductionPageView
+      devOnly={{
+        forceShowFormControls: true,
+      }}
       route={route}
       content={content}
       ombInfo={ombInfo}

@@ -143,7 +143,6 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {' '}
               {addressLabel(formData)}
             </label>
           </div>

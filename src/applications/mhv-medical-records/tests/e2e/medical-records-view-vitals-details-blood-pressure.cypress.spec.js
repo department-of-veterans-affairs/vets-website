@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import defaultVitals from '../fixtures/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,42 +14,54 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Blood Pressure', () => {
     VitalsListPage.goToVitals();
-    // click vitals page Blood Pressure Link
+    // click blood pressure Link
     VitalsListPage.clickLinkByRecordListItemIndex(0);
 
-    // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October', // 27, 2023, 7:00 a.m. PDT
-      '130/70',
-      'ADTP BURNETT',
+      moment
+        .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[0].resource.component[0].valueQuantity.value}/${
+        defaultVitals.entry[0].resource.component[1].valueQuantity.value
+      }`,
+      defaultVitals.entry[0].resource.contained[0].name,
       'None noted',
     );
 
-    // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August', // 4, 2023, 7:08 a.m. PDT
-      '120/80',
-      '23 HOUR OBSERVATION',
+      moment
+        .parseZone(defaultVitals.entry[10].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[10].resource.component[0].valueQuantity.value}/${
+        defaultVitals.entry[10].resource.component[1].valueQuantity.value
+      }`,
+      defaultVitals.entry[10].resource.contained[0].name,
       'None noted',
     );
 
-    // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August', // 18, 2022, 1:29 p.m. PDT
-      '90/60',
-      'ADMISSIONS (LOC)',
+      moment
+        .parseZone(defaultVitals.entry[20].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[20].resource.component[0].valueQuantity.value}/${
+        defaultVitals.entry[20].resource.component[1].valueQuantity.value
+      }`,
+      defaultVitals.entry[20].resource.contained[0].name,
       'None noted',
     );
 
-    // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May', // 11, 2021, 7:20 a.m. PDT
-      '125/80',
-      'ADTP SCREENING',
+      moment
+        .parseZone(defaultVitals.entry[30].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[30].resource.component[0].valueQuantity.value}/${
+        defaultVitals.entry[30].resource.component[1].valueQuantity.value
+      }`,
+      defaultVitals.entry[30].resource.contained[0].name,
       'None noted',
     );
 

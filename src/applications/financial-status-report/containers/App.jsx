@@ -24,13 +24,11 @@ import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
-  enhancedFSRFeatureToggle,
-  streamlinedWaiverFeatureToggle,
-  streamlinedWaiverAssetUpdateFeatureToggle,
   reviewPageNavigationFeatureToggle,
 } from '../utils/helpers';
 import user from '../mocks/user.json';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const App = ({
   children,
@@ -55,6 +53,12 @@ const App = ({
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
   );
+  const serverSideTransform = useToggleValue(
+    TOGGLE_NAMES.fsrServerSideTransform,
+  );
+
+  // Set the document title based on the current page
+  useDocumentTitle(location);
 
   useEffect(
     () => {
@@ -155,6 +159,9 @@ const App = ({
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
         'view:showUpdatedExpensePages': showUpdatedExpensePages,
+        flippers: {
+          serverSideTransform,
+        },
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
@@ -164,6 +171,7 @@ const App = ({
       setFormData,
       showReviewPageNavigationFeature,
       showUpdatedExpensePages,
+      serverSideTransform,
     ],
   );
 
@@ -228,11 +236,8 @@ App.propTypes = {
   }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
-  showStreamlinedWaiver: PropTypes.bool,
-  showStreamlinedWaiverAssetUpdate: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
 
@@ -244,11 +249,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
-  showEnhancedFSR: enhancedFSRFeatureToggle(state),
-  showStreamlinedWaiver: streamlinedWaiverFeatureToggle(state),
-  showStreamlinedWaiverAssetUpdate: streamlinedWaiverAssetUpdateFeatureToggle(
-    state,
-  ),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,

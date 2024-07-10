@@ -7,10 +7,10 @@ import {
   isClaimingNew,
   sippableId,
 } from '../utils';
-import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
+import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
-export const conditionsPageTitle = 'Toxic Exposure';
+export const conditionsPageTitle = 'Toxic exposure';
 export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
@@ -62,6 +62,9 @@ export const noneAndLocationError =
   'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
 export const noneAndHazardError =
   'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
+
+export const otherInvalidCharError =
+  'You entered an invalid character in the text field. This field only allows letters, numbers, hyphens, apostrophes, periods, commas, ampersands (& symbol), number signs (# symbol), and spaces.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
@@ -153,17 +156,16 @@ export function dateRangePageDescription(
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. toggle is enabled
+ *  1. 'startedFormVersion' has 2019 or 2022
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
  *
- * Note: toggle is currently read from the redux store by Form526EZApp and stored in sessions storage since
- * not all form aspects have ready access to the store.
  * @returns true if all criteria are met, false otherwise
  */
 export function showToxicExposurePages(formData) {
   return (
-    window.sessionStorage.getItem(SHOW_TOXIC_EXPOSURE) === 'true' &&
+    (formData?.startedFormVersion === '2019' ||
+      formData?.startedFormVersion === '2022') &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );

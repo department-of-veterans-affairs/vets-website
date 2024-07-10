@@ -5,8 +5,7 @@ import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages
 import { AXE_CONTEXT } from '../utils/constants';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
 
-describe('Keyboard Navigation for Filter & Sort functionalities', () => {
-  const site = new SecureMessagingSite();
+describe('Sent page keyboard navigation for filter & sort features', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -14,8 +13,8 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   };
 
   beforeEach(() => {
-    site.login();
-    PatientInboxPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(mockSentMessages);
     PatientMessageSentPage.loadMessages();
   });
 

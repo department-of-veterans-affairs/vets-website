@@ -16,9 +16,7 @@ const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
 
 // travel-claim UUIDS
-const multiApptSingleFacilityUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
-const multiApptTwoFacilityUUID = '0791fe85-36b0-4a28-85ea-48f5f4306b5b';
-const multiApptMultiFacilityUUID = '8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0';
+const multiOHAppointmentsUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
 
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
@@ -297,7 +295,7 @@ const createAppointmentOH = ({
     state: 'DC',
     zip: '20002',
   },
-  stationNo = '530',
+  stationNo = '500',
   clinicIen = '32216049',
   clinicLocation = '',
   doctorName = 'Dr. Smith',
@@ -328,58 +326,17 @@ const createAppointmentOH = ({
 const createAppointmentsOH = (token = defaultUUID) => {
   const appointments = [createAppointmentOH()];
 
-  if (token === multiApptSingleFacilityUUID) {
+  if (token === multiOHAppointmentsUUID) {
     appointments.push(
       createAppointmentOH({
         appointmentIen: '2222',
         startTime: dateFns.addHours(new Date(), 1).toISOString(),
         type: 'Mental Health',
-      }),
-    );
-  }
-
-  if (token === multiApptTwoFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-        facility: 'VA Facility 2',
         stationNo: '500',
       }),
     );
   }
 
-  if (token === multiApptMultiFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-      }),
-      createAppointmentOH({
-        appointmentIen: '1111',
-        startTime: dateFns.addHours(new Date(), 3).toISOString(),
-        type: 'Primary Care',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 2).toISOString(),
-        type: 'Anesthesiology',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '6767',
-        startTime: dateFns.addHours(new Date(), 4).toISOString(),
-        type: 'Neurology',
-        stationNo: '622',
-        facility: 'VA Facility 3',
-      }),
-    );
-  }
   return {
     id: token,
     payload: {
@@ -398,7 +355,5 @@ module.exports = {
   mockDemographics,
   createMockFailedResponse,
   createMockNotFoundResponse,
-  multiApptSingleFacilityUUID,
-  multiApptMultiFacilityUUID,
-  multiApptTwoFacilityUUID,
+  multiOHAppointmentsUUID,
 };

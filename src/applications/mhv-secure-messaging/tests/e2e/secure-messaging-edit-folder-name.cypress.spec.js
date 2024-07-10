@@ -2,25 +2,21 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('edit custom folder name validation', () => {
-  it('verify axe check', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+  beforeEach(() => {
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
-
+    FolderLoadPage.loadFolders();
+  });
+  it('verify axe check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('verify edit folder name buttons', () => {
-    const site = new SecureMessagingSite();
-    site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
-
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });
@@ -34,12 +30,7 @@ describe('edit custom folder name validation', () => {
   });
 
   it('verify edit folder name error', () => {
-    const site = new SecureMessagingSite();
-    site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
-
     PatientMessageCustomFolderPage.editFolderButton()
       .should('be.visible')
       .click({ waitForAnimations: true });

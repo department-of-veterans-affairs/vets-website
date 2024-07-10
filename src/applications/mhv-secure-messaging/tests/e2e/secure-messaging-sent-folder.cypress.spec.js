@@ -1,25 +1,25 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientMessagesSentPage from './pages/PatientMessageSentPage';
+import PatientMessageSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('Secure Messaging Sent Folder checks', () => {
+describe('secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessagesSentPage.loadMessages();
+    FolderLoadPage.loadFolders();
+    PatientMessageSentPage.loadMessages();
   });
 
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Sent');
-    PatientMessagesSentPage.verifyResponseBodyLength();
+    PatientMessageSentPage.verifyFolderHeaderText('Sent');
+    PatientMessageSentPage.verifyResponseBodyLength();
   });
 
-  it('Checks for "End of conversations in this folder" text', () => {
+  it('checks for "End of conversations in this folder" text', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     cy.get('.endOfThreads').should('not.exist');
@@ -32,5 +32,15 @@ describe('Secure Messaging Sent Folder checks', () => {
       );
     });
     FolderLoadPage.verifyPaginationElements();
+  });
+  it('verify breadcrumbs', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    FolderLoadPage.verifyBreadCrumbsLength(4);
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
+    FolderLoadPage.verifyBreadCrumbText(3, 'Sent');
   });
 });

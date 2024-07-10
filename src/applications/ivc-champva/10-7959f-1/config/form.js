@@ -2,8 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { cloneDeep } from 'lodash';
 
 import {
-  ssnOrVaFileNumberSchema,
-  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -12,10 +11,10 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -24,8 +23,18 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import {
+  ssnOrVaFileNumberCustomUI,
+  CustomSSNReviewPage,
+} from '../helpers/CustomSSN';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../../shared/components/InternationalPhone';
+import PrefillCopy from '../helpers/PrefillCopy';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -44,7 +53,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   customText: {
-    appType: 'form',
+    reviewPageTitle: 'Review and sign',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -77,12 +86,12 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
-      title: 'Name and date of birth',
+      title: 'Personal information',
       pages: {
         page1: {
           // initialData: mockdata.data,
           path: 'veteran-information',
-          title: 'Personal Information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI(
               'Name and date of birth',
@@ -90,27 +99,41 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
+            'view:prefilledAddress': {
+              'ui:description': prefilledAddress,
+            },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            'view:PrefillCopy': {
+              'ui:description': PrefillCopy,
+            },
           },
           schema: {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
+              'view:PrefillCopy': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },
       },
     },
     identificationInformation: {
-      title: 'Identification Information',
+      title: 'Identification information',
       pages: {
         page2: {
           path: 'identification-information',
-          title: 'Veteran SSN and VA file number',
+          title: 'Identification information',
           uiSchema: {
             ...titleUI(
               `Identification information`,
@@ -118,25 +141,26 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberCustomUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
+          CustomPageReview: CustomSSNReviewPage,
         },
       },
     },
     mailingAddress: {
-      title: 'Mailing Address',
+      title: 'Mailing address',
       pages: {
         page3: {
           path: 'mailing-address',
-          title: "Veteran's Mailing address",
+          title: 'Mailing address ',
           uiSchema: {
             ...titleUI(
               'Mailing address',
@@ -155,37 +179,62 @@ const formConfig = {
             required: ['veteranAddress'],
             properties: {
               titleSchema,
-              veteranAddress: addressSchema({}),
+              veteranAddress: addressSchema(),
             },
           },
         },
       },
     },
     physicalAddress: {
-      title: 'Home Address',
+      title: 'Home address',
       pages: {
         page4: {
+          path: 'same-as-mailing-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI('Home address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your mailing address the same as your home address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
+            },
+          },
+        },
+        page4a: {
           path: 'home-address',
-          title: "Veteran's Home address",
+          title: 'Home address ',
+          depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
-              'Home Address',
-              'This is your current location, outside the United States.',
+              `Home address`,
+              `This is your current location, outside the United States.`,
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
-            physicalAddress: addressUI({
-              required: {
-                state: () => true,
-              },
-            }),
+            physicalAddress: {
+              ...addressUI({
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
           },
           schema: {
             type: 'object',
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              physicalAddress: addressSchema({}),
+              physicalAddress: addressSchema(),
             },
           },
         },
@@ -196,22 +245,23 @@ const formConfig = {
       pages: {
         page5: {
           path: 'contact-info',
-          title: "Veteran's contact information",
+          title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Please include this information so that we can contact you with questions or updates',
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
+            required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

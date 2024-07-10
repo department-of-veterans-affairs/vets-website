@@ -4,7 +4,7 @@ import updateAddress from './updateAddress';
 import addressValidation from './addressValidation';
 import suggestedAddress from './suggestedAddress';
 
-const rootReducer = {
+const vyeRootReducer = {
   personalInfo,
   bankInfo,
   updateAddress,
@@ -12,4 +12,4 @@ const rootReducer = {
   suggestedAddress,
 };
 
-export default rootReducer;
+export default vyeRootReducer;

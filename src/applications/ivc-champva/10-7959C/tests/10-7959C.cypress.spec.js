@@ -7,8 +7,8 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
+  selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
@@ -30,16 +30,14 @@ const testConfig = createTestConfig(
     variations designed to trigger the conditionals in the form/follow different paths. 
     */
     dataSets: [
-      'test-data',
-      'no-secondary.json',
-      'applicant-maximal-test.json',
-      'applicant-no-medicare-no-primary-no-secondary-test.json',
-      'applicant-no-medicare-test.json',
-      'applicant-no-primary-yes-secondary-test.json',
-      'applicant-no-secondary-yes-primary-test.json',
-      'thirdparty-no-medicare-no-primary-yes-secondary-test.json',
-      'veteran-child-no-medicare-yes-primary-no-secondary-test.json',
-      'veteran-spouse-medicare-no-ohi-test.json',
+      'test-data.json',
+      'maximal-test.json',
+      'minimal-test.json',
+      'no-medicare-no-ohi.json',
+      'no-medicare-yes-ohi.json',
+      'no-medicare-yes-primary.json',
+      'yes-medicare-no-ohi.json',
+      'yes-medicare-yes-primary.json',
     ],
 
     pageHooks: {
@@ -57,6 +55,10 @@ const testConfig = createTestConfig(
             fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
+            );
+            selectRadioWebComponent(
+              'applicantNewAddress',
+              data.applicantNewAddress,
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -79,8 +81,17 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name = data.applicantName;
-            reviewAndSubmitPageFlow(name);
+            cy.get('va-text-input')
+              .shadow()
+              .get('#inputField')
+              .type(data.signature);
+            cy.get(`va-checkbox`)
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.findByText('Submit application', {
+              selector: 'button',
+            }).click();
           });
         });
       },

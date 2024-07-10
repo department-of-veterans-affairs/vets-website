@@ -63,7 +63,7 @@ describe('getPeriodsToVerify', () => {
     expect(wrapper.children()).to.have.length(0);
     wrapper.unmount();
   });
-  it('should returns "Data unavailable" for Total credit hours if numberHours is null', () => {
+  it('should returns "Hours unavailable" for Total credit hours if numberHours is null', () => {
     const wrapper = shallow(
       <div>
         {getPeriodsToVerify([
@@ -81,10 +81,12 @@ describe('getPeriodsToVerify', () => {
     const unavailable = wrapper
       .find('p.vads-u-margin--0.vads-u-font-size--base')
       .at(1);
-    expect(unavailable.text()).to.equal('Total credit hours: Data unavailable');
+    expect(unavailable.text()).to.equal(
+      'Total credit hours: Hours unavailable',
+    );
     wrapper.unmount();
   });
-  it('should returns "Data unavailable" for Monthly rate if monthlyRate is null', () => {
+  it('should returns "Rate unavailable" for Monthly rate if monthlyRate is null', () => {
     const wrapper = shallow(
       <div>
         {getPeriodsToVerify([
@@ -102,7 +104,7 @@ describe('getPeriodsToVerify', () => {
     const unavailable = wrapper
       .find('p.vads-u-margin--0.vads-u-font-size--base')
       .at(2);
-    expect(unavailable.text()).to.equal('Monthly rate: Data unavailable');
+    expect(unavailable.text()).to.equal('Monthly rate: Rate unavailable');
     wrapper.unmount();
   });
 });

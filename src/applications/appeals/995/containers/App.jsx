@@ -26,7 +26,7 @@ import {
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
 
-import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
@@ -34,6 +34,7 @@ import {
   issuesNeedUpdating,
   processContestableIssues,
 } from '../../shared/utils/issues';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 import { data995 } from '../../shared/props';
 
@@ -50,6 +51,7 @@ export const App = ({
   accountUuid,
   inProgressFormId,
 }) => {
+  const { pathname } = location || {};
   // Make sure we're only loading issues once - see
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
@@ -83,17 +85,25 @@ export const App = ({
             ...formData,
             benefitType: subTaskBenefitType,
           });
-        } else if (loggedIn && formData.benefitType) {
+        } else if (
+          loggedIn &&
+          // internalTesting is used to test the get contestable issues API call
+          // in unit tests; Setting up the unit test to get RoutedSavableApp to
+          // work properly is overly complicated
+          (!isOutsideForm(pathname) || formData.internalTesting) &&
+          formData.benefitType
+        ) {
           if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
             getContestableIssues({ benefitType: formData.benefitType });
           } else if (
-            issuesNeedUpdating(
+            contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
+            (issuesNeedUpdating(
               contestableIssues.issues,
               formData?.contestedIssues,
             ) ||
-            contestableIssues.legacyCount !== formData.legacyCount
+              contestableIssues.legacyCount !== formData.legacyCount)
           ) {
             // resetStoredSubTask();
             setFormData({
@@ -120,6 +130,7 @@ export const App = ({
       loggedIn,
       setFormData,
       subTaskBenefitType,
+      pathname,
     ],
   );
 
@@ -127,7 +138,7 @@ export const App = ({
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       <ITFWrapper
         loggedIn={loggedIn}
-        pathname={location.pathname}
+        pathname={pathname}
         title={formConfig.title}
         benefitType={subTaskBenefitType}
         router={router}
@@ -140,24 +151,12 @@ export const App = ({
   );
 
   // Go to start page if we don't have an expected benefit type
-  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
+  if (!pathname.endsWith('/start') && !hasSupportedBenefitType) {
     router.push('/start');
     content = wrapInH1(
       <va-loading-indicator
         set-focus
         message="Please wait while we restart the application for you."
-      />,
-    );
-  } else if (
-    loggedIn &&
-    hasSupportedBenefitType &&
-    ((contestableIssues.status || '') === '' ||
-      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
-  ) {
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
       />,
     );
   }
@@ -177,7 +176,7 @@ export const App = ({
 
   return wrapWithBreadcrumb(
     'sc',
-    <article id="form-0995" data-location={`${location?.pathname?.slice(1)}`}>
+    <article id="form-0995" data-location={`${pathname?.slice(1)}`}>
       {content}
     </article>,
   );

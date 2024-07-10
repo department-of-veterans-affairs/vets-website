@@ -259,12 +259,6 @@
   .field-label {
     vertical-align: middle;
 
-    .label-diff {
-      display: inline-block;
-      padding-right: .75em;
-      font-size: 14px;
-    }
-
     .label-cell {
       background-color: var(--vads-color-gray-light-alt);
       margin-right: 1.5em;
@@ -290,7 +284,6 @@
     .label-cell.has-diff {
       font-weight: bold;
       border-width: 2px;
-      padding-left: .8em;
     }
 
     @media (max-width: $small-screen) {

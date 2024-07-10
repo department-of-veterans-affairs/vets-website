@@ -7,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   getRefillablePrescriptionsList,
@@ -17,7 +20,7 @@ import { dateFormat } from '../util/helpers';
 import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
+import { DD_ACTIONS_PAGE_TYPE } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -56,6 +59,8 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
+  const userName = useSelector(state => state.user.profile.userFullName);
+  const dob = useSelector(state => state.user.profile.dob);
 
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
@@ -116,11 +121,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   };
 
   const categorizePrescriptions = ([refillable, renewable], rx) => {
-    if (
-      (rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
-      (rx.dispStatus === dispStatusObj.activeParked &&
-        (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-    ) {
+    if (rx.isRefillable) {
       return [[...refillable, rx], renewable];
     }
     return [refillable, [...renewable, rx]];
@@ -171,6 +172,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     },
     [refillablePrescriptionsList],
   );
+
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   const content = () => {
     if (!showRefillContent) {
@@ -241,7 +245,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     data-testid="select-all-checkbox"
                     label={`Select all ${fullRefillList.length} refills`}
                     name="select-all-checkbox"
-                    className="vads-u-margin-bottom--3 select-all-checkbox"
+                    className="vads-u-margin-bottom--3 select-all-checkbox no-print"
                     data-dd-action-name={`Select All Checkbox - ${
                       DD_ACTIONS_PAGE_TYPE.REFILL
                     }`}
@@ -252,68 +256,45 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 )}
                 {fullRefillList.slice().map((prescription, idx) => (
                   <div key={idx} className="vads-u-margin-bottom--2">
-                    <input
+                    <VaCheckbox
+                      id={`checkbox-${prescription.prescriptionId}`}
+                      data-testid={`refill-prescription-checkbox-${idx}`}
+                      label={prescription.prescriptionName}
+                      name={prescription.prescriptionId}
+                      className="select-1-checkbox vads-u-margin-y--0"
                       data-dd-action-name={`Select Single Medication Checkbox - ${
                         DD_ACTIONS_PAGE_TYPE.REFILL
                       }`}
-                      data-testid={`refill-prescription-checkbox-${idx}`}
-                      type="checkbox"
                       checked={
                         selectedRefillList.includes(
                           prescription.prescriptionId,
                         ) || false
                       }
-                      id={`checkbox-${prescription.prescriptionId}`}
-                      name={prescription.prescriptionId}
-                      className="vads-u-margin-y--0"
-                      onChange={e =>
-                        e.type === 'change' &&
+                      onVaChange={() =>
                         onSelectPrescription(prescription.prescriptionId)
                       }
+                      uswds
+                      checkbox-description={`Prescription number: ${
+                        prescription.prescriptionNumber
+                      }
+                        ${
+                          prescription.sortedDispensedDate ||
+                          prescription.dispensedDate
+                            ? `Last filled on ${dateFormat(
+                                prescription.sortedDispensedDate ||
+                                  prescription.dispensedDate,
+                                'MMMM D, YYYY',
+                              )}`
+                            : 'Not filled yet'
+                        }
+                        ${prescription.refillRemaining} refills left`}
                     />
-                    <label
-                      htmlFor={`checkbox-${prescription.prescriptionId}`}
-                      id={`label-${prescription.prescriptionId}`}
-                      className="refillable-prescription-item"
-                    >
-                      <div>
-                        <span className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold">
-                          {prescription.prescriptionName}
-                        </span>
-                        <div
-                          id={`details-${prescription.prescriptionId}`}
-                          className="vads-u-margin-top--0"
-                          data-testid={`refill-prescription-details-${
-                            prescription.prescriptionNumber
-                          }`}
-                        >
-                          <p className="vads-u-margin--0">
-                            Prescription number:{' '}
-                            {prescription.prescriptionNumber}
-                          </p>
-                          <p
-                            className="vads-u-margin--0"
-                            data-testid={`refill-last-filled-${idx}`}
-                          >
-                            Last filled on{' '}
-                            {dateFormat(
-                              prescription.sortedDispensedDate ||
-                                prescription.dispensedDate,
-                              'MMMM D, YYYY',
-                            )}
-                          </p>
-                          <p className="vads-u-margin--0">
-                            {prescription.refillRemaining} refills left
-                          </p>
-                        </div>
-                      </div>
-                    </label>
                   </div>
                 ))}
                 <VaButton
                   uswds
                   type="button"
-                  className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1"
+                  className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1 no-print"
                   id="request-refill-button"
                   data-testid="request-refill-button"
                   data-dd-action-name={`Request Refills Button - ${
@@ -357,6 +338,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           }
         >
           {content()}
+          <hr className="vads-u-margin-y--3 print-only" />
           <AllergiesPrintOnly allergies={allergies} />
         </div>
         {(prescriptionsApiError || allergiesError) && (

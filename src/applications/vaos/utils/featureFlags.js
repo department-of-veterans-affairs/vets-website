@@ -22,7 +22,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
   { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
-  { name: 'vaOnlineSchedulingGA4Migration', value: true },
   { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
@@ -31,7 +30,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
-  { name: 'vaViewDependentsAccess', value: false },
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'mhv_secondary_navigation_enabled', value: true },
 ];

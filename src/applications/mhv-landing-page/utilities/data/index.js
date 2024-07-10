@@ -1,6 +1,5 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 import resolveLinks from './resolveLinks';
 
@@ -36,46 +35,13 @@ const resolveLandingPageLinks = (
     [
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[0],
-        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        oldText: 'Go to inbox',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
         ariaLabel: unreadMessageAriaLabel,
       },
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[1],
-        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
-        oldText: 'Compose message',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
       },
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[2],
-        oldHref: mhvUrl(authdWithSSOe, 'manage-folders'),
-        oldText: 'Manage folders',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-    ],
-    featureToggles,
-  );
-
-  const medicationsLinks = resolveLinks(
-    [
-      {
-        ...HEALTH_TOOL_LINKS.MEDICATIONS[0],
-        oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
-        oldText: 'Refill VA prescriptions',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/prescription-tracking'),
-        oldText: 'Track prescription delivery',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-      {
-        ...HEALTH_TOOL_LINKS.MEDICATIONS[1],
-        oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
-        oldText: 'Medications and allergies',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
       },
     ],
     featureToggles,
@@ -117,7 +83,7 @@ const resolveLandingPageLinks = (
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
         text: 'Community care',
       },
-      {
+      registered && {
         href:
           '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
@@ -206,7 +172,7 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
       icon: 'pill',
-      links: medicationsLinks,
+      links: HEALTH_TOOL_LINKS.MEDICATIONS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,

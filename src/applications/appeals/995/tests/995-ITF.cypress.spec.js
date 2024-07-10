@@ -15,7 +15,9 @@ describe('995 ITF page', () => {
 
     window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
-    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []).as(
+      'getIssues',
+    );
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
@@ -30,6 +32,8 @@ describe('995 ITF page', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues');
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -50,6 +54,8 @@ describe('995 ITF page', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues');
 
     cy.get('va-alert[status="success"]')
       .should('be.visible')
@@ -75,6 +81,8 @@ describe('995 ITF page', () => {
       .first()
       .click();
 
+    cy.wait('@getIssues');
+
     cy.get('va-alert[status="success"]')
       .should('be.visible')
       .then($el => {
@@ -99,6 +107,8 @@ describe('995 ITF page', () => {
       .first()
       .click();
 
+    cy.wait('@getIssues');
+
     cy.get('va-alert[status="success"]')
       .should('be.visible')
       .then($el => {
@@ -119,6 +129,8 @@ describe('995 ITF page', () => {
       .first()
       .click();
 
+    cy.wait('@getIssues');
+
     cy.get('va-alert[status="info"]')
       .should('be.visible')
       .then($el => {
@@ -138,6 +150,8 @@ describe('995 ITF page', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues');
 
     cy.get('va-alert[status="info"]')
       .should('be.visible')

@@ -166,7 +166,9 @@ describe('<PeriodsToVerify />', () => {
       wrapper.update();
 
       const alert = wrapper.find('va-alert');
-      expect(alert.at(0).text()).to.include('Oops Something went wrong');
+      expect(alert.at(0).text()).to.include(
+        ' We’re sorry. Something went wrong on our end. Please try again',
+      );
       wrapper.unmount();
     });
   });

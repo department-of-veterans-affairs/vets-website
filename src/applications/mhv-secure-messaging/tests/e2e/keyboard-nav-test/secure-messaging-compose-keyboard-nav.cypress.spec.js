@@ -3,10 +3,9 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
 
-describe('Secure Messaging Compose Form Keyboard Nav', () => {
-  const site = new SecureMessagingSite();
+describe('Secure Messaging Compose Keyboard Nav', () => {
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
   it('Tab to Message Body', () => {

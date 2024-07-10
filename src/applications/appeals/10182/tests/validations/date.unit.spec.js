@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { validateDate, isValidDate } from '../../validations/date';
-import { SHOW_PART3 } from '../../constants';
 
 import errorMessages from '../../../shared/content/errorMessages';
 import { parseDate, parseDateWithOffset } from '../../../shared/utils/dates';
@@ -55,7 +54,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage[0]).to.eq(errorMessages.decisions.recentDate);
+    expect(errorMessage[0]).to.eq(errorMessages.decisions.newerDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -76,16 +75,6 @@ describe('validateDate & isValidDate', () => {
     const date = parseDate(new Date());
     validateDate(errors, date);
     expect(errorMessage[0]).to.eq(errorMessages.decisions.pastDate);
-    expect(errorMessage[1]).to.not.contain('month');
-    expect(errorMessage[1]).to.not.contain('day');
-    expect(errorMessage[1]).to.contain('year');
-    expect(errorMessage[1]).to.not.contain('other');
-    expect(isValidDate(date)).to.be.false;
-  });
-  it('should throw an error for dates in the distant past', () => {
-    const date = parseDateWithOffset({ years: -2 });
-    validateDate(errors, date);
-    expect(errorMessage[0]).to.eq(errorMessages.decisions.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -114,14 +103,14 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[1]).to.contain('other');
     expect(isValidDate(date)).to.be.false;
   });
-  it('should not throw an error for older dates when feature toggle is set to support the new form', () => {
+  it('should not throw an error for dates > 1 year in the past to support the new form', () => {
     const date = parseDateWithOffset({ years: -2 });
-    validateDate(errors, date, { [SHOW_PART3]: true });
+    validateDate(errors, date, {});
     expect(errorMessage[0]).to.be.undefined;
   });
-  it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
+  it('should throw an error for dates in the distant past to support the new form', () => {
     const date = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 10) });
-    validateDate(errors, date, { [SHOW_PART3]: true });
+    validateDate(errors, date, {});
     expect(errorMessage[0]).to.eq(errorMessages.decisions.newerDate);
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');

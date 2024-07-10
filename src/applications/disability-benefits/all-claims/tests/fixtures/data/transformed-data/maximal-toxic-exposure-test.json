@@ -1,6 +1,6 @@
 {
   "form526": {
-    "standardClaim": false,
+    "standardClaim": true,
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
@@ -33,6 +33,7 @@
       "zipCode": "54321",
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
+    "startedFormVersion": "2022",
     "toxicExposure": {
       "conditions": {
         "asthma": true,

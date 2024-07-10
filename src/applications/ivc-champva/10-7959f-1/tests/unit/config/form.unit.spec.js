@@ -3,14 +3,14 @@ import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/p
 
 import formConfig from '../../../config/form';
 
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformationChapter.pages.page1.schema,
-  formConfig.chapters.applicantInformationChapter.pages.page1.uiSchema,
-  5,
-  'Applicant information',
-  { ...mockdata.data },
-);
+// testNumberOfWebComponentFields(
+//   formConfig,
+//   formConfig.chapters.applicantInformationChapter.pages.page1.schema,
+//   formConfig.chapters.applicantInformationChapter.pages.page1.uiSchema,
+//   5,
+//   'Applicant information',
+//   { ...mockdata.data },
+// );
 
 testNumberOfWebComponentFields(
   formConfig,
@@ -32,10 +32,19 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.physicalAddress.pages.page4.schema,
-  formConfig.chapters.physicalAddress.pages.page4.uiSchema,
+  formConfig.chapters.physicalAddress.pages.page4a.schema,
+  formConfig.chapters.physicalAddress.pages.page4a.uiSchema,
   8,
   'Applicant home address',
+  { ...mockdata.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.physicalAddress.pages.page4.schema,
+  formConfig.chapters.physicalAddress.pages.page4.uiSchema,
+  1,
+  'Applicant home address yes/no',
   { ...mockdata.data },
 );
 

@@ -3,7 +3,7 @@ import { EMPTY_FIELD, loadStates } from '../util/constants';
 import {
   isArrayAndHasItems,
   extractContainedResource,
-  parseDate,
+  formatDate,
 } from '../util/helpers';
 
 const initialState = {
@@ -100,7 +100,7 @@ export const convertVaccine = vaccine => {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
-      ? parseDate(vaccine.occurrenceDateTime)
+      ? formatDate(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,

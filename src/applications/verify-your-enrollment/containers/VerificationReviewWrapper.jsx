@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import VerifyEnrollmentStatement from '../components/VerifyEnrollmentStatement';
@@ -20,7 +18,6 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
-  // updateVerificationsData,
 } from '../actions';
 import {
   toLocalISOString,
@@ -36,8 +33,7 @@ const VerificationReviewWrapper = ({
   verifyEnrollment,
 }) => {
   useScrollToTop();
-  const location = useLocation();
-  const [radioValue, setRadioValue] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
@@ -50,12 +46,10 @@ const VerificationReviewWrapper = ({
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  const handleRadioClick = e => {
-    const { value } = e.detail;
-    setRadioValue(value);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
     setErrorStatement(null);
   };
-
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
@@ -131,16 +125,11 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-  // This Effect to check path to add class for bloding Label
   useEffect(
     () => {
-      if (location.pathname.includes('verify-information')) {
-        document.body.classList.add('verify-information-path');
-      } else {
-        document.body.classList.remove('verify-information-path');
-      }
+      focusElement('h1');
     },
-    [location.pathname],
+    [enrollmentData, errorStatement],
   );
 
   return (
@@ -161,21 +150,25 @@ const VerificationReviewWrapper = ({
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
                 <div className="vads-u-margin-top--2">
-                  <VaRadio
-                    className="bold-label"
-                    error={errorStatement}
-                    hint=""
-                    label="Is this enrollment information correct?"
-                    onVaValueChange={handleRadioClick}
+                  <label
+                    className="vads-u-font-weight--bold"
+                    htmlFor="enrollmentCheckbox"
                   >
-                    <VaRadioOption
-                      id="vye-radio-button-yes"
-                      label="Yes, this information is correct."
-                      name="vye-radio-group1"
-                      tile
-                      value="true"
+                    Is this enrollment information correct?
+                    <span className="vads-u-color--secondary-dark">
+                      {' '}
+                      (*Required)
+                    </span>
+                    <VaCheckbox
+                      id="enrollmentCheckbox"
+                      label="Yes, this information is correct"
+                      checked={isChecked}
+                      onVaChange={handleCheckboxChange}
+                      aria-describedby="authorize-text"
+                      enable-analytics
+                      uswds
                     />
-                  </VaRadio>
+                  </label>
                   <EnrollmentInformation />
                 </div>
                 <div
@@ -192,7 +185,7 @@ const VerificationReviewWrapper = ({
                     text="Submit"
                     submit
                     uswds
-                    disabled={!radioValue}
+                    disabled={!isChecked}
                   />
                 </div>
               </>

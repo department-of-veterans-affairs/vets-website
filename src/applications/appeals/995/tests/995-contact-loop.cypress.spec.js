@@ -28,7 +28,7 @@ describe('995 contact info loop', () => {
       'GET',
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
-    );
+    ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
@@ -63,6 +63,8 @@ describe('995 contact info loop', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues'); // getContestableIssues API loading indicator
     cy.get('.itf-inner')
       .should('be.visible')
       .then(() => {

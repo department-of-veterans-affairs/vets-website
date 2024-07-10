@@ -13,8 +13,8 @@
   background-color: var(--vads-color-white);
 
   @media (max-width: calc(#{$medium-screen} - 1px)) {
-      width: 264px;
-      max-width: 80%;
+    width: 264px;
+    max-width: 80%;
   }
 
   .sidebar-navigation-header {
@@ -44,7 +44,6 @@
       position: absolute;
       left: -3000;
     }
-
   }
 
   .usa-sidenav-list {
@@ -59,22 +58,22 @@
     &:active,
     &:focus,
     &:hover {
-        background-color: var(--vads-color-primary-alt-lightest);
-        border-left: 4px solid var(--vads-color-link);
-        transition: background-color 0.1s ease-in-out,
-            border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
+      background-color: var(--vads-color-primary-alt-lightest);
+      border-left: 4px solid var(--vads-color-link);
+      transition: background-color 0.1s ease-in-out,
+        border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
 
     &.is-active {
-        background-color: var(--vads-color-base-lightest);
-        border-left: 4px solid var(--vads-color-base);
-        color: var(--vads-color-black);
-        font-weight: bold;
-        padding-left: units-px(1.5);
+      background-color: var(--vads-color-base-lightest);
+      border-left: 4px solid var(--vads-color-base);
+      color: var(--vads-color-black);
+      font-weight: bold;
+      padding-left: units-px(1.5);
 
-        span {
-            margin-left: -4px;
-        }
+      span {
+        margin-left: -4px;
+      }
     }
   }
 
@@ -105,7 +104,6 @@
     padding-right: 15px;
 
     .sidebar-navigation-messages-list-header {
-
       &.is-active {
         background-color: var(--vads-color-base-lightest);
         border-left: 4px solid var(--vads-color-base);
@@ -119,8 +117,8 @@
         }
 
         &:active {
-            color: var(--vads-color-base-darker);
-            text-decoration: underline;
+          color: var(--vads-color-base-darker);
+          text-decoration: underline;
         }
       }
     }
@@ -134,7 +132,6 @@
         display: none;
 
         ul {
-
           .usa-sidenav-list {
             border: 0px;
           }
@@ -152,9 +149,7 @@
           display: block;
 
           ul {
-
             li {
-
               a {
                 padding-left: 1.875rem;
               }
@@ -171,7 +166,6 @@
 }
 
 @media (min-width: $medium-screen) {
-
   .sidebar-navigation {
     height: 600px;
     list-style-type: none;
@@ -201,9 +195,7 @@
     }
 
     .sidebar-navigation-messages-list {
-
       .sidebar-navigation-messages-list-header {
-
         a {
           padding-top: 7px;
           color: var(--vads-color-link);
@@ -211,4 +203,22 @@
       }
     }
   }
+}
+
+.active-innerNav-link {
+  border-bottom: 5px solid var(--vads-color-primary);
+}
+
+.active-innerNav-link > a {
+  font-weight: bold;
+  color: var(--vads-color-base);
+  text-decoration: none;
+
+  &:visited {
+    color: var(--vads-color-base);
+  }
+}
+
+.inner-nav-link:visited {
+  color: var(--vads-color-link);
 }

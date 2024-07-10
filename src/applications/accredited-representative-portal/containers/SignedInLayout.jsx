@@ -3,6 +3,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPermissionsAlert';
 import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 

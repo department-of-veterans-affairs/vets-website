@@ -6,7 +6,7 @@ describe('Medications Renew Section on Refill Page', () => {
   it('visits Medications Renew Section on Refill Page', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
-    const listLength = 26;
+    const listLength = 23;
     site.login();
     refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();

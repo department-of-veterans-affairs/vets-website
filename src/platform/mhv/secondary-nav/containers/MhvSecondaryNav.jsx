@@ -30,6 +30,7 @@ export const mhvSecNavItems = [
     title: 'Appointments',
     actionName: `${actionPrefix} - Appointments`,
     abbreviation: 'Appts',
+    ariaLabel: 'Appointments',
     icon: 'calendar_today',
     href: `/my-health/appointments`,
   },

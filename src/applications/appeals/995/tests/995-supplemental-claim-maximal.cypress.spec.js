@@ -10,6 +10,7 @@ import { setupPerTest, pageHooks } from './995.cypress.helpers';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: ['maximal-test'],
     fixtures: {

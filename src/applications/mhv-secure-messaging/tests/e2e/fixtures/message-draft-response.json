@@ -5,8 +5,8 @@
     "attributes": {
       "messageId": 7208913,
       "category": "OTHER",
-      "subject": "test",
-      "body": "ststASert",
+      "subject": "test subject",
+      "body": "test body",
       "attachment": false,
       "sentDate": null,
       "senderId": 6820911,

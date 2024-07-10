@@ -1,5 +1,6 @@
-import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { getAPI, resolveParamsWithUrl } from '../config';
+import manifest from '../manifest.json';
 
 class LocatorApi {
   /**
@@ -26,7 +27,7 @@ class LocatorApi {
     allUrgentCare,
   ) {
     const reduxStore = require('../facility-locator-entry');
-    const { params, url } = resolveParamsWithUrl({
+    const { params, url, postParams } = resolveParamsWithUrl({
       address,
       locationType,
       serviceType,
@@ -41,23 +42,52 @@ class LocatorApi {
     const api = getAPI();
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
-      fetch(`${url}?${params}`, api.settings)
-        .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
-          }
-          return response.json();
+      if (url.slice(-3) === '/va') {
+        fetch(`${url}`, {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Key-Inflection': 'camel',
+            'Source-App-Name': manifest.entryName,
+          },
+          method: 'POST',
+          body: JSON.stringify(postParams),
         })
-        .then(res => {
-          const endTime = new Date().getTime();
-          const resultTime = endTime - startTime;
-          res.meta = {
-            ...res.meta,
-            resultTime,
-          };
-          return res;
-        })
-        .then(data => resolve(data), error => reject(error));
+          .then(response => {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response.json();
+          })
+          .then(res => {
+            const endTime = new Date().getTime();
+            const resultTime = endTime - startTime;
+            res.meta = {
+              ...res.meta,
+              resultTime,
+            };
+            return res;
+          })
+          .then(data => resolve(data), error => reject(error));
+      } else {
+        fetch(`${url}?${params}`, api.settings)
+          .then(response => {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response.json();
+          })
+          .then(res => {
+            const endTime = new Date().getTime();
+            const resultTime = endTime - startTime;
+            res.meta = {
+              ...res.meta,
+              resultTime,
+            };
+            return res;
+          })
+          .then(data => resolve(data), error => reject(error));
+      }
     });
   }
 

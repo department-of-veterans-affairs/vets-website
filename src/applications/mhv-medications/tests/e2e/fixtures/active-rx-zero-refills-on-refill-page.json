@@ -17,7 +17,7 @@
             "expirationDate": "2024-10-15T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "989",
-            "isRefillable": true,
+            "isRefillable": false,
             "isTrackable": false,
             "cmopNdcNumber": null,
             "inCernerTransition": false,

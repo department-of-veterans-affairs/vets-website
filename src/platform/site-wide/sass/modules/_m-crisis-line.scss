@@ -54,6 +54,7 @@ button.va-crisis-line {
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 16px;
   margin: auto;
 
   @include media($small-desktop-screen) {
@@ -158,11 +159,6 @@ button.va-crisis-line {
     align-self: center;
     flex-shrink: 0;
     font-family: "Font Awesome 5 Free";
-
-    &.fa-mobile {
-      font-size: 38px;
-      padding: 0.15em 0.3em;
-    }
   }
 
   &-close.va-modal-close {

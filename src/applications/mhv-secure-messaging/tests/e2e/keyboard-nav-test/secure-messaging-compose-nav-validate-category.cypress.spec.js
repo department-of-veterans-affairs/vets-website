@@ -5,36 +5,24 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 import categories from '../fixtures/categories-response.json';
 
 describe('Validate the category', () => {
-  it('selects a category', () => {
-    const site = new SecureMessagingSite();
+  it('verify category focus', () => {
     const listOfCategories = categories.data.attributes.messageCategoryType;
 
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
-    cy.tabToElement('[data-testid="edit-preferences-button"]').should(
-      'have.focus',
-    );
-    cy.realPress(['Tab']);
-    cy.realPress(['Tab']);
+    cy.get('[data-testid="secure-messaging"]')
+      .find('h1')
+      .should('have.focus');
 
     for (let i = 0; i < listOfCategories.length; i += 1) {
-      cy.get(`#compose-message-categories${listOfCategories[i]}input`).should(
-        'have.focus',
-      );
-      cy.realPress('ArrowDown');
+      cy.get(`#compose-message-categories${listOfCategories[i]}input`)
+        .click({ force: true })
+        .should('have.focus');
     }
-    cy.tabToElement('[data-testid="message-subject-field"]').should(
-      'have.focus',
-    );
+
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

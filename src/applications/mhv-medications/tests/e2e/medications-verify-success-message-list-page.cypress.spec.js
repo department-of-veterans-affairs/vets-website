@@ -13,7 +13,9 @@ describe('Medications Refill Submit Success Message Refill Page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitle();
-    refillPage.clickPrescriptionRefillCheckbox(prescription);
+    refillPage.clickPrescriptionRefillCheckboxForSuccessfulRequest(
+      prescription,
+    );
     refillPage.clickRequestRefillButtonforSuccessfulRequests(
       prescription.data.attributes.prescriptionId,
       successRequest,

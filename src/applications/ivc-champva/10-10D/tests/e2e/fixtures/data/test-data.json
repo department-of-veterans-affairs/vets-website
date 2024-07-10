@@ -36,16 +36,6 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
-    "sponsorPhone": "5555555555",
-    "sponsorHasPhone": "yes",
-    "sponsorAddress": {
-      "country": "USA",
-      "street": "123 Anystreet",
-      "city": "Anyville",
-      "state": "AL",
-      "postalCode": "12345"
-    },
-    "sponsorHasAddress": "yes",
     "ssn": {
       "ssn": "123123123"
     },

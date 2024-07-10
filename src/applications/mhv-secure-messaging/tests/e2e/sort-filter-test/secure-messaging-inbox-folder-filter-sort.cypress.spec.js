@@ -3,9 +3,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
 import { Locators, AXE_CONTEXT } from '../utils/constants';
 
-describe('Secure Messaging Inbox Folder checks', () => {
-  const site = new SecureMessagingSite();
-
+describe('Secure Messaging Inbox Folder filter-sort checks', () => {
   const {
     data: [, secondElement, thirdElement],
     ...rest
@@ -14,8 +12,8 @@ describe('Secure Messaging Inbox Folder checks', () => {
   const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
 
   beforeEach(() => {
-    site.login();
-    PatientInboxPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(mockMessages);
   });
 
   it('Verify filter works correctly', () => {
@@ -36,15 +34,20 @@ describe('Secure Messaging Inbox Folder checks', () => {
   });
 
   it('Check sorting works properly', () => {
-    PatientInboxPage.verifySorting();
+    const sortedResponse = {
+      ...mockMessages,
+      data: [...mockMessages.data].sort(
+        (a, b) =>
+          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
+      ),
+    };
+    PatientInboxPage.verifySorting('Oldest to newest', sortedResponse);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 });
 
 describe('Verify sorting feature with only one filter result', () => {
-  const site = new SecureMessagingSite();
-
   const {
     data: [, secondElement],
     ...rest
@@ -53,7 +56,7 @@ describe('Verify sorting feature with only one filter result', () => {
   const mockSingleFilterResult = { data: [secondElement], ...rest };
 
   it('verify sorting does not appear with only one filter result', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     PatientInboxPage.inputFilterData('draft');

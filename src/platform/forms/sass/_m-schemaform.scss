@@ -740,6 +740,11 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 
 .action-bar-arrow {
   position: relative;
+  max-width: 75%;
+
+  @media (max-width: 767px) {
+    max-width: 90%;
+  }
 }
 
 .action-bar-arrow::after {

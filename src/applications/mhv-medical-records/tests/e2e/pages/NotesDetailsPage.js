@@ -62,10 +62,12 @@ class NotesDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="progress-location"]').contains(progressLocation);
   };
 
-  verifyProgressNoteSignedBy = progressSignedBy => {
-    // Progress Note Details Signed by
-    cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
-    cy.get('[data-testid="note-record-signed-by"]').contains(progressSignedBy);
+  verifyProgressNoteWrittenBy = progressWrittenBy => {
+    // Progress Note Details Written by
+    cy.get('[data-testid="note-record-written-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-written-by"]').contains(
+      progressWrittenBy,
+    );
   };
 
   verifyProgressNoteSignedDate = progressSignedDate => {
@@ -73,11 +75,9 @@ class NotesDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="progress-signed-date"]').contains(progressSignedDate);
   };
 
-  verifyProgressNoteCoSignedBy = progressCoSignedBy => {
-    cy.get('[data-testid="note-record-cosigned-by"]').should('be.visible');
-    cy.get('[data-testid="note-record-cosigned-by"]').contains(
-      progressCoSignedBy,
-    );
+  verifyProgressNoteSignedBy = progressSignedBy => {
+    cy.get('[data-testid="note-record-signed-by"]').should('be.visible');
+    cy.get('[data-testid="note-record-signed-by"]').contains(progressSignedBy);
   };
 
   verifyProgressNoteRecord = progressNote => {

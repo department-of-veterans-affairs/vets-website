@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../util/dates';
+import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelClaimCard(props) {
   const {
@@ -8,7 +9,7 @@ export default function TravelClaimCard(props) {
     createdOn,
     claimStatus,
     claimNumber,
-    appointmentDate: appointmentDateTime,
+    appointmentDateTime,
     facilityName,
     modifiedOn,
   } = props;
@@ -20,7 +21,7 @@ export default function TravelClaimCard(props) {
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   return (
-    <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
+    <va-card key={id} class="vads-u-margin-bottom--2">
       <h2
         className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
         data-testid="travel-claim-details"
@@ -33,7 +34,10 @@ export default function TravelClaimCard(props) {
 
       <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
       <p className="vads-u-margin-top--0">
-        <strong>Claim status: {claimStatus}</strong> <br />
+        <strong>
+          Claim status: {CLAIMS_STATUSES[claimStatus] || claimStatus}
+        </strong>{' '}
+        <br />
         Claim number: {claimNumber} <br />
         Submitted on {createDate} at {createTime} <br />
         Updated on {updateDate} at {updateTime}
@@ -43,7 +47,7 @@ export default function TravelClaimCard(props) {
 }
 
 TravelClaimCard.propTypes = {
-  appointmentDate: PropTypes.string,
+  appointmentDateTime: PropTypes.string,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,

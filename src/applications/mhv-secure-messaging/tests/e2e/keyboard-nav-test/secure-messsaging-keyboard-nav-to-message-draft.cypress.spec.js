@@ -7,19 +7,20 @@ import mockThreadResponse from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
-  const site = new SecureMessagingSite();
   const draftsPage = new PatientMessageDraftsPage();
 
   it('delete Drafts on key press', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     draftsPage.clickDeleteButton();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+
     draftsPage.confirmDeleteDraftWithEnterKey(mockDraftResponse);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDraftMessageBannerTextHasFocus();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

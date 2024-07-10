@@ -3,6 +3,15 @@ import path from 'path';
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
+import {
+  fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
+  fillFullNameWebComponentPattern,
+  fillTextAreaWebComponent,
+  fillTextWebComponent,
+  reviewAndSubmitPageFlow,
+} from '../../../shared/tests/e2e/helpers';
+
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/featureToggles.json';
@@ -37,7 +46,7 @@ const testConfig = createTestConfig(
 
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['test-data'],
+    dataSets: ['user'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -47,23 +56,82 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'statement-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.selectVaRadioOption('root_statementType', 'not-listed');
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
       'personal-information': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillFullNameWebComponentPattern('fullName', data.fullName);
+            fillDateWebComponentPattern('dateOfBirth', data.dateOfBirth);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
       },
       'identification-information': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent('idNumber_ssn', data.idNumber.ssn);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
       },
       'mailing-address': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'mailingAddress',
+              data.mailingAddress,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
       },
       'contact-information': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent('phone', data.phone);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
       },
       statement: ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextAreaWebComponent('statement', data.statement);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
       },
       'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {});
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            reviewAndSubmitPageFlow(
+              `${data.fullName.first} ${data.fullName.last}`,
+              'Submit application',
+            );
+          });
+        });
       },
     },
 

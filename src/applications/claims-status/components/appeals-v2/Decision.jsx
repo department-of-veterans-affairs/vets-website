@@ -33,7 +33,9 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
           The {boardDecision ? 'judge' : 'reviewer'} granted the following{' '}
           {pluralize.allowed}:
         </p>
-        <ul data-dd-privacy="mask">{allowedIssues}</ul>
+        <ul data-dd-privacy="mask" data-dd-action-name="allowed issue">
+          {allowedIssues}
+        </ul>
       </div>
     );
   }
@@ -45,7 +47,9 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
           The {boardDecision ? 'judge' : 'reviewer'} denied the following{' '}
           {pluralize.denied}:
         </p>
-        <ul data-dd-privacy="mask">{deniedIssues}</ul>
+        <ul data-dd-privacy="mask" data-dd-action-name="denied issue">
+          {deniedIssues}
+        </ul>
       </div>
     );
   }
@@ -61,7 +65,9 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
             : 'gather more evidence or to fix a mistake before deciding whether to grant or deny'}
           :
         </p>
-        <ul data-dd-privacy="mask">{remandIssues}</ul>
+        <ul data-dd-privacy="mask" data-dd-action-name="remanded issue">
+          {remandIssues}
+        </ul>
       </div>
     );
   }
@@ -94,8 +100,8 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
 };
 
 Decision.propTypes = {
-  issues: PropTypes.array.isRequired,
   aoj: PropTypes.string.isRequired,
+  issues: PropTypes.array.isRequired,
   ama: PropTypes.bool,
   boardDecision: PropTypes.bool,
 };

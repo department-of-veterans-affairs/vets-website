@@ -5,6 +5,7 @@ import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
 import { profileContactsReducer } from './contacts';
 import directDeposit from './directDeposit';
+import vyeRootReducer from '../components/direct-deposit/vye/reducers';
 
 export default {
   communicationPreferences,
@@ -14,6 +15,7 @@ export default {
   ...ratedDisabilities,
   profileContacts: profileContactsReducer,
   directDeposit,
+  ...vyeRootReducer,
 };
 
 export const selectCommunicationPreferences = state => {

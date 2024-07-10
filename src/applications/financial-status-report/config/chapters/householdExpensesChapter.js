@@ -123,7 +123,7 @@ export default {
       },
       addEditCreditCardBills: {
         path: 'your-credit-card-bills',
-        title: 'Credit card bills',
+        title: 'Add your credit card bill',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -136,7 +136,7 @@ export default {
       },
       creditCardBillSummary: {
         path: 'credit-card-bills-summary',
-        title: 'Credit card bills',
+        title: 'Credit card bills summary',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -148,14 +148,14 @@ export default {
       },
       installmentContracts: {
         path: 'installment-contracts',
-        title: 'Installment Contracts',
+        title: 'Installment contracts',
         uiSchema: installmentContracts.uiSchema,
         schema: installmentContracts.schema,
         depends: formData => !isStreamlinedShortForm(formData),
       },
       addEditInstallmentContract: {
         path: 'your-installment-contracts',
-        title: 'Installment contracts',
+        title: 'Installment contracts details',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -168,7 +168,7 @@ export default {
       },
       installmentContractSummary: {
         path: 'installment-contracts-summary',
-        title: 'Installment contracts',
+        title: 'Installment contracts summary',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -220,7 +220,7 @@ export default {
       streamlinedLongTransitionPage: {
         // Transition page - streamlined long form only
         path: 'skip-questions-explainer',
-        title: ' ',
+        title: 'You can skip questions on this form',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,
         uiSchema: {},

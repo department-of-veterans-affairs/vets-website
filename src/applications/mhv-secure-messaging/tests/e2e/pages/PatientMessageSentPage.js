@@ -18,9 +18,7 @@ class PatientMessageSentPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
       mockMessagesResponse,
     ).as('sentFolderMessages');
-    cy.get(Locators.FOLDERS.SENT).click();
-    cy.wait('@sentFolder');
-    cy.wait('@sentFolderMessages');
+    cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
@@ -83,7 +81,7 @@ class PatientMessageSentPage {
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -93,7 +91,7 @@ class PatientMessageSentPage {
         cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {

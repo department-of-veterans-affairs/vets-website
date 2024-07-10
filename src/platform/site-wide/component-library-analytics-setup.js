@@ -114,6 +114,13 @@ const analyticsEvents = {
       prefix: 'link',
     },
   ],
+  'va-link-action': [
+    {
+      action: 'click',
+      event: 'nav-link-click',
+      prefix: 'link-action',
+    },
+  ],
   'va-loading-indicator': [
     {
       action: 'displayed',
