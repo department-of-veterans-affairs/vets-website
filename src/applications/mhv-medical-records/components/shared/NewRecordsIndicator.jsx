@@ -64,7 +64,7 @@ const NewRecordsIndicator = ({
       <va-alert
         status="warning"
         visible
-        aria="polite"
+        aria-live="polite"
         data-testid="new-records-refreshed-failed"
       >
         <h2>We couldn’t update your records</h2>
@@ -92,7 +92,7 @@ const NewRecordsIndicator = ({
           return (
             <va-alert
               visible
-              aria="polite"
+              aria-live="polite"
               data-testid="new-records-refreshed-stale"
             >
               <h2>Reload to get updates</h2>
@@ -114,7 +114,7 @@ const NewRecordsIndicator = ({
           <va-alert
             status="success"
             visible
-            aria="polite"
+            aria-live="polite"
             data-testid="new-records-refreshed-current"
           >
             Your list is up to date
@@ -135,7 +135,7 @@ const NewRecordsIndicator = ({
       return (
         <va-card
           background
-          aria="polite"
+          aria-live="polite"
           data-testid="new-records-last-updated"
         >
           Last updated at {lastSuccessfulUpdate.time} on{' '}
