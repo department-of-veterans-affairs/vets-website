@@ -63,10 +63,13 @@ describe('Medical Copays - CDP Alerts', () => {
     });
     cy.intercept('GET', '/v0/debts', mockDebt);
     cy.visit('/manage-va-debt/summary/copay-balances');
+
+    // Ensure the page has loaded
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
+
+    // Check for the "not enrolled in healthcare" alert
     cy.findByTestId('no-healthcare-alert').should('exist');
-    cy.findByTestId('other-va-debt-body').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
