@@ -9,7 +9,7 @@ export const uiSchema = {
   'view:selectable686Options': checkboxGroupUI({
     title:
       'Who do you want to remove as a dependent? Check everyone you want to remove.',
-    required: true,
+    required: form => form?.['view:addOrRemoveDependents']?.remove,
     tile: true,
     labelHeaderLevel: '3',
     labels: {
@@ -21,6 +21,9 @@ export const uiSchema = {
         removeDependentOptions.reportMarriageOfChildUnder18,
       reportChild18OrOlderIsNotAttendingSchool:
         removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
+    },
+    errorMessages: {
+      required: 'Select at least one option',
     },
   }),
 };

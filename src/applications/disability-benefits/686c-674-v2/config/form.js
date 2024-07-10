@@ -64,7 +64,7 @@ import manifest from '../manifest.json';
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
-const formConfig = {
+export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
