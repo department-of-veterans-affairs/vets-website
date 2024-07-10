@@ -16,6 +16,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import { OnThisPageOverview } from '../components/OnThisPageOverview';
+import MCPAlerts from '../../combined/components/MCPAlerts';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
@@ -94,6 +95,40 @@ const OverviewPage = () => {
     );
   }
 
+  const isNotEnrolledInHealthCare = mcpError?.status === '403';
+
+  const renderContent = () => {
+    if (isNotEnrolledInHealthCare) {
+      return <MCPAlerts type="no-health-care" />;
+    }
+
+    if (mcpError) {
+      return renderAlert(
+        debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+        debts?.length,
+      );
+    }
+
+    if (statementsEmpty) {
+      return renderAlert(ALERT_TYPES.ZERO, debts?.length);
+    }
+    return (
+      <>
+        <OnThisPageOverview multiple={statements?.length > 1} />
+        <Balances statements={statementsByUniqueFacility} />
+        {renderOtherVA(debts?.length, debtError)}
+        <HowToPay
+          isOverview="true"
+          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
+          facility={statementsByUniqueFacility[0].station}
+        />
+        <FinancialHelp />
+        <DisputeCharges />
+        <BalanceQuestions />
+      </>
+    );
+  };
+
   return (
     <>
       <VaBreadcrumbs
@@ -121,31 +156,7 @@ const OverviewPage = () => {
           of your facilities. Find out how to make payments or request financial
           help.
         </p>
-        {mcpError || statementsEmpty ? (
-          <>
-            {mcpError &&
-              renderAlert(
-                debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-                debts?.length,
-              )}
-
-            {statementsEmpty && renderAlert(ALERT_TYPES.ZERO, debts?.length)}
-          </>
-        ) : (
-          <>
-            <OnThisPageOverview multiple={statements?.length > 1} />
-            <Balances statements={statementsByUniqueFacility} />
-            {renderOtherVA(debts?.length, debtError)}
-            <HowToPay
-              isOverview="true"
-              acctNum={statementsByUniqueFacility[0].pHAccountNumber}
-              facility={statementsByUniqueFacility[0].station}
-            />
-            <FinancialHelp />
-            <DisputeCharges />
-            <BalanceQuestions />
-          </>
-        )}
+        {renderContent()}
       </div>
     </>
   );
