@@ -119,6 +119,9 @@ const Confirmation = props => {
       token,
       getCheckinComplete,
       setCheckinComplete,
+      setECheckinStartedCalled,
+      isTravelReimbursementEnabled,
+      travelPayEligible,
     ],
   );
 
