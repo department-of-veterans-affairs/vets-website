@@ -88,7 +88,7 @@ describe('MHV Secondary Navigation Menu Component', () => {
     const medNavItem = {
       title: 'Medications',
       abbreviation: 'Meds',
-      icon: 'medication',
+      icon: 'pill',
       href: '/my-health/records',
       appRootUrl: '/my-health/medications',
     };
