@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
+import { mhvBaseUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from '../selectors';
 
 const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
   useEffect(
@@ -18,8 +16,6 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
     },
     [headline, recordEvent, status],
   );
-
-  const hasSsoe = useSelector(isAuthenticatedWithSSOe);
 
   return (
     <div
@@ -42,7 +38,7 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
           <p>
             <a
               className="vads-c-action-link--green"
-              href={mhvUrl(hasSsoe, 'home')}
+              href={`${mhvBaseUrl}/mhv-portal-web/web/myhealthevet/user-registration`}
             >
               Register with My HealtheVet
             </a>
