@@ -18,9 +18,12 @@ describe('check-in', () => {
     MockDate.reset();
   });
   describe('AppointmentMessage', () => {
+    const mockRouter = {
+      currentPage: '/details',
+    };
     it('should render the bad status message for appointments with INELIGIBLE_BAD_STATUS status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_BAD_STATUS,
@@ -36,7 +39,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_UNSUPPORTED_LOCATION status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
@@ -52,7 +55,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_UNKNOWN_REASON status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON,
@@ -68,7 +71,7 @@ describe('check-in', () => {
     it('should render the bad status message for appointments with ELIGIBLE status that expire in the next 10 seconds', () => {
       MockDate.set('2018-01-01T12:14:51-04:00');
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               checkInWindowEnd: '2018-01-01T12:15:00-04:00',
@@ -84,7 +87,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_TOO_LATE status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_TOO_LATE,
@@ -100,7 +103,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_TOO_EARLY status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_TOO_EARLY,
@@ -118,7 +121,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
@@ -136,7 +139,7 @@ describe('check-in', () => {
     });
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and no checked in time', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
@@ -155,7 +158,7 @@ describe('check-in', () => {
 
     it('should render the bad status message for appointments with INELIGIBLE_ALREADY_CHECKED_IN status and an invalid date time', () => {
       const action = render(
-        <CheckInProvider>
+        <CheckInProvider router={mockRouter}>
           <AppointmentMessage
             appointment={{
               eligibility: ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN,
