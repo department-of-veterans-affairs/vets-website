@@ -101,7 +101,7 @@ describe('CG <IntroductionPage>', () => {
     });
   });
 
-  context('when a `start` button is clicked', () => {
+  context('when the `start` button is clicked', () => {
     let recordEventStub;
 
     beforeEach(() => {
@@ -112,7 +112,7 @@ describe('CG <IntroductionPage>', () => {
       recordEventStub.restore();
     });
 
-    it('should record a `start` event in GA', () => {
+    it('should call the `recordEvent` helper to send the `start` event to Google Analytics', () => {
       const { mockStore, props } = getData();
       const { container } = subject({ mockStore, props });
       const selector = container.querySelector('.vads-c-action-link--green');
