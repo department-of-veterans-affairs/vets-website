@@ -10,6 +10,7 @@ import {
   makeSelectVeteranData,
   makeSelectCurrentContext,
 } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSendDemographicsFlags } from '../../../hooks/useSendDemographicsFlags';
@@ -17,6 +18,7 @@ import { URLS } from '../../../utils/navigation';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { findAppointment } from '../../../utils/appointment';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useTravelPayFlags } from '../../../hooks/useTravelPayFlags';
 
 const Confirmation = props => {
   const dispatch = useDispatch();
@@ -35,6 +37,10 @@ const Confirmation = props => {
   const { t } = useTranslation();
 
   const { appointments } = useSelector(selectVeteranData);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled } = featureToggles;
+  const { travelPayEligible } = useTravelPayFlags({});
 
   const {
     demographicsFlagsEmpty,
@@ -45,7 +51,7 @@ const Confirmation = props => {
   const { appointmentId } = router.params;
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
+  const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   const { setCheckinComplete, getCheckinComplete } = useStorage(
     APP_NAMES.CHECK_IN,
@@ -76,7 +82,9 @@ const Confirmation = props => {
           const json = await api.v2.postCheckInData({
             uuid: token,
             appointmentIen: appointment.appointmentIen,
-            facilityId: appointment.facilityId,
+            setECheckinStartedCalled,
+            isTravelEnabled: isTravelReimbursementEnabled,
+            travelSubmitted: travelPayEligible,
           });
           const { status } = json;
           if (status === 200) {
