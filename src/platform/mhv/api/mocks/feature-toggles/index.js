@@ -1,6 +1,5 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
-    mhvLandingPageEnabled = true,
     mhvLandingPagePersonalization = true,
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
@@ -15,10 +14,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv-mock-session',
           value: true,
-        },
-        {
-          name: 'mhv_landing_page_enabled',
-          value: mhvLandingPageEnabled,
         },
         {
           name: 'mhv_landing_page_personalization',
