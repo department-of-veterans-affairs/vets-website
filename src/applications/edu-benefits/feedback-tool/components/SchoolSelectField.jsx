@@ -270,7 +270,9 @@ export class SchoolSelectField extends React.Component {
                 {errorMessages.map((message, index) => (
                   <span key={index}>
                     <span className="sr-only">Error</span>
-                    {message}
+                    {!showInstitutions
+                      ? message
+                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
                   </span>
                 ))}
               </span>
