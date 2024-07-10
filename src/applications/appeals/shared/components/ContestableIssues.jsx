@@ -98,7 +98,7 @@ const ContestableIssues = props => {
   useEffect(
     () => {
       if (showEditModeError) {
-        focusElement('va-alert[status="error"]');
+        focusElement('va-alert[status="error"] h3');
         scrollTo('va-alert[status="error"]');
       }
     },
