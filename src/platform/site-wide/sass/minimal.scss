@@ -37,7 +37,24 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
 
 // Formation utilities
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/background-color";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/border";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/color";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/display";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/flexbox";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/font-family";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/font-size";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/font-style";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/font-weight";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/height-width";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/line-height";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/margins";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/measure";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/padding";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/position";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/text-align";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/text-decoration";
+@import "~@department-of-veterans-affairs/formation/sass/utilities/visibility";
 
 @import "~@department-of-veterans-affairs/formation/sass/shame";
 
