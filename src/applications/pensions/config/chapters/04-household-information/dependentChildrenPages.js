@@ -76,14 +76,14 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasDependentsSummaryPage': arrayBuilderYesNoUI(options),
+    'view:isAddingDependents': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasDependentsSummaryPage': arrayBuilderYesNoSchema,
+      'view:isAddingDependents': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasDependentsSummaryPage'],
+    required: ['view:isAddingDependents'],
   },
 };
 
