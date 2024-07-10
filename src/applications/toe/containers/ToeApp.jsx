@@ -6,6 +6,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import formConfig from '../config/form';
+
 import {
   fetchPersonalInformation,
   fetchDirectDeposit,
@@ -40,6 +41,7 @@ function ToeApp({
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
   const [lightHouseFlag, setLighthouseFlag] = useState(false);
+
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
@@ -49,6 +51,7 @@ function ToeApp({
         setFetchedUserInfo(true);
         getPersonalInformation();
       }
+
       if (
         !sponsors?.loadedFromSavedState &&
         isArray(sponsorsSavedState?.sponsors)
@@ -69,6 +72,7 @@ function ToeApp({
       sponsorsSavedState,
     ],
   );
+
   useEffect(
     () => {
       if (isLOA3 !== formData.isLOA3) {
@@ -80,6 +84,7 @@ function ToeApp({
     },
     [formData, setFormData, isLOA3],
   );
+
   useEffect(
     () => {
       if (showMebEnhancements !== formData.showMebEnhancements) {
@@ -91,6 +96,7 @@ function ToeApp({
     },
     [formData, setFormData, showMebEnhancements],
   );
+
   useEffect(
     () => {
       if (showMebEnhancements06 !== formData.showMebEnhancements06) {
@@ -102,6 +108,7 @@ function ToeApp({
     },
     [formData, setFormData, showMebEnhancements06],
   );
+
   useEffect(
     () => {
       if (
@@ -116,6 +123,7 @@ function ToeApp({
     },
     [formData, setFormData, showMeb1990ER6MaintenanceMessage],
   );
+
   useEffect(
     () => {
       if (showMebEnhancements08 !== formData.showMebEnhancements08) {
@@ -124,12 +132,14 @@ function ToeApp({
           showMebEnhancements08,
         });
       }
+
       if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
           toeDupContactInfoCall,
         });
       }
+
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
@@ -147,6 +157,7 @@ function ToeApp({
           ],
         );
       }
+
       if (
         duplicateEmail?.length > 0 &&
         duplicateEmail !== formData?.duplicateEmail
@@ -156,6 +167,7 @@ function ToeApp({
           duplicateEmail,
         });
       }
+
       if (
         duplicatePhone?.length > 0 &&
         duplicatePhone !== formData?.duplicatePhone
@@ -176,6 +188,7 @@ function ToeApp({
       getDuplicateContactInfo,
     ],
   );
+
   useEffect(
     () => {
       if (
@@ -191,11 +204,13 @@ function ToeApp({
     },
     [formData, setFormData, toeLightHouseDgiDirectDeposit],
   );
+
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
+
       if (!fetchedDirectDeposit && lightHouseFlag) {
         setFetchedDirectDeposit(true);
         getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
@@ -209,6 +224,7 @@ function ToeApp({
       formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
+
   return (
     <>
       <div className="row">
@@ -244,6 +260,7 @@ function ToeApp({
     </>
   );
 }
+
 ToeApp.propTypes = {
   children: PropTypes.object,
   duplicateEmail: PropTypes.array,
@@ -267,6 +284,7 @@ ToeApp.propTypes = {
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
+
 const mapStateToProps = state => {
   return {
     ...getAppData(state),
