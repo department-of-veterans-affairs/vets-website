@@ -17,16 +17,15 @@ const mockStore = {
 const MockMobileHeader = () => <div>Mobile header</div>;
 
 describe('Header <App>', () => {
-  const sandbox = sinon.createSandbox();
+  let sandbox;
   beforeEach(() => {
+    sandbox = sinon.createSandbox();
     sandbox.stub(MobileHeader, 'default').callsFake(MockMobileHeader);
   });
 
   afterEach(() => {
     sandbox.reset();
     sandbox.restore();
-    sandbox.resetBehavior();
-    sandbox.resetHistory();
     cleanup();
   });
 
