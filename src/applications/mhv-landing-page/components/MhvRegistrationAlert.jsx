@@ -38,7 +38,7 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
           <p>
             <a
               className="vads-c-action-link--green"
-              href={`${mhvBaseUrl}/mhv-portal-web/web/myhealthevet/user-registration`}
+              href={`${mhvBaseUrl()}/mhv-portal-web/web/myhealthevet/user-registration`}
             >
               Register with My HealtheVet
             </a>
