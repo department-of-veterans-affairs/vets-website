@@ -289,7 +289,7 @@ const getRecordType = record => {
     if (record.type.coding.some(coding => coding.code === loincCodes.EKG))
       return labTypes.EKG;
     if (record.type.coding.some(coding => coding.code === loincCodes.RADIOLOGY))
-      return labTypes.RADIOLOGY;
+      return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
