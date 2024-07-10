@@ -136,6 +136,37 @@ const formConfig = {
         },
       },
     },
+    physicalAddress: {
+      title: 'Home address',
+      pages: {
+        page4: {
+          path: 'home-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI(
+              `Home address`,
+              `Provide the address where you're living right now.`,
+            ),
+            messageAriaDescribedby: `Provide the address where you're living right now.`,
+            physicalAddress: {
+              ...addressUI({
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              physicalAddress: addressSchema(),
+            },
+          },
+        },
+      },
+    },
     contactInformation: {
       title: 'Contact Information',
       pages: {
