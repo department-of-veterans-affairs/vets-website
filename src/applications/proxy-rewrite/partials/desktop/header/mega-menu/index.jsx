@@ -39,7 +39,7 @@ const MegaMenu = ({ megaMenuData }) => {
 
   // Build top titles (e.g. VA Benefits and Health Care, About VA)
   const buildLevelOneLinks = (sectionData, index) => {
-    const isDropdown = sectionData?.menuSections?.length > -1;
+    const isDropdown = sectionData?.menuSections;
     const sectionOpen = levelOneIndexOpen === index;
 
     if (isDropdown) {
