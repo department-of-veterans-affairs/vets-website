@@ -68,7 +68,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 8 of 8: Claim decided');
       });
-      it('should show the correct status', () => {
+      it('should show the correct status when UNDER_REVIEW', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -87,6 +87,86 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         getByText('Step 2 of 8: Initial review');
+      });
+      it('should show the correct status when REVIEW_OF_EVIDENCE', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'REVIEW_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 4 of 8: Evidence review');
+      });
+      it('should show the correct status when PREPARATION_FOR_DECISION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_DECISION',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 5 of 8: Rating');
+      });
+      it('should show the correct status when PENDING_DECISION_APPROVAL', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PENDING_DECISION_APPROVAL',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 6 of 8: Preparing decision letter');
+      });
+      it('should show the correct status when PREPARATION_FOR_NOTIFICATION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_NOTIFICATION',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 7 of 8: Final review');
       });
       it('should show development letter flag', () => {
         const claim = {
@@ -263,7 +343,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 5 of 5: Closed');
       });
-      it('should show the correct status', () => {
+      it('should show the correct status when UNDER_REVIEW', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -282,6 +362,86 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         getByText('Step 2 of 5: Initial review');
+      });
+      it('should show the correct status when REVIEW_OF_EVIDENCE', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'REVIEW_OF_EVIDENCE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show the correct status when PREPARATION_FOR_DECISION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_DECISION',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show the correct status when PENDING_DECISION_APPROVAL', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PENDING_DECISION_APPROVAL',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 4 of 5: Preparation for notification');
+      });
+      it('should show the correct status when PREPARATION_FOR_NOTIFICATION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_NOTIFICATION',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 4 of 5: Preparation for notification');
       });
       it('should show development letter flag', () => {
         const claim = {
@@ -458,7 +618,7 @@ describe('<ClaimsListItem>', () => {
         );
         getByText('Step 5 of 5: Closed');
       });
-      it('should show the correct status', () => {
+      it('should show the correct status when UNDER_REVIEW', () => {
         const claim = {
           id: 1,
           attributes: {
@@ -477,6 +637,86 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         getByText('Step 2 of 5: Initial review');
+      });
+      it('should show the correct status when REVIEW_OF_EVIDENCE', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'REVIEW_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show the correct status when PREPARATION_FOR_DECISION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_DECISION',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show the correct status when PENDING_DECISION_APPROVAL', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PENDING_DECISION_APPROVAL',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 4 of 5: Preparation for notification');
+      });
+      it('should show the correct status when PREPARATION_FOR_NOTIFICATION', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'PREPARATION_FOR_NOTIFICATION',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'PREPARATION_FOR_NOTIFICATION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 4 of 5: Preparation for notification');
       });
       it('should show development letter flag', () => {
         const claim = {
