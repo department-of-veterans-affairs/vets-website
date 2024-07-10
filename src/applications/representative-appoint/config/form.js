@@ -65,6 +65,7 @@ const formConfig = {
       path: 'claimant-type',
       component: ClaimantType,
       pageKey: 'claimant-type',
+      depends: () => true,
     },
   ],
   savedFormMessages: {
