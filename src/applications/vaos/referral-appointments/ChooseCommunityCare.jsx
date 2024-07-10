@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { hi } from 'date-fns/locale';
 import { useHistory } from 'react-router-dom';
 import FormLayout from '../new-appointment/components/FormLayout';
-import mockData from '../services/mocks/wellHive/providerServices.json';
+import ProviderAlert from './components/ProviderAlert';
+// import mockData from '../services/mocks/wellHive/providerServices.json';
 
 export default function ChooseCommunityCare() {
   const history = useHistory();
@@ -47,28 +48,34 @@ export default function ChooseCommunityCare() {
     { value: 'name', label: 'Name' },
   ]);
 
+  const showAlert = true;
+
   return (
     <FormLayout pageTitle="Choose a community care provider">
       <div>
         <h1>Choose a [community care] provider</h1>
-        <va-card background>
-          <div>Your preferred provider</div>
-          <div className="vads-u-font-weight--bold">
-            {providerDetails.providerName}
-          </div>
-          <div>{providerDetails.providerGroup}</div>
-          <div>{providerDetails.driveDistance}</div>
-          <div>Next available: {providerDetails.nextAvailable}</div>
-          <div>{providerDetails.reviewText}</div>
-          <div className="vads-u-font-weight--bold vads-u-margin-top--2">
-            <va-link
-              aria-label="Review available appointments"
-              text="Review available appointments"
-              data-testid="review-available-appointments-link"
-              tabindex="0"
-            />
-          </div>
-        </va-card>
+        {showAlert ? (
+          <ProviderAlert status="info" />
+        ) : (
+          <va-card background>
+            <div>Your preferred provider</div>
+            <div className="vads-u-font-weight--bold">
+              {providerDetails.providerName}
+            </div>
+            <div>{providerDetails.providerGroup}</div>
+            <div>{providerDetails.driveDistance}</div>
+            <div>Next available: {providerDetails.nextAvailable}</div>
+            <div>{providerDetails.reviewText}</div>
+            <div className="vads-u-font-weight--bold vads-u-margin-top--2">
+              <va-link
+                aria-label="Review available appointments"
+                text="Review available appointments"
+                data-testid="review-available-appointments-link"
+                tabindex="0"
+              />
+            </div>
+          </va-card>
+        )}
         <h3>All providers</h3>
         <va-select
           hint={null}
