@@ -115,7 +115,7 @@ export const focusAlertH3 = () => {
 
 // Used for onContinue callback on the contestable issues page
 export const focusOnAlert = () => {
-  const alert = $('va-alert[status="error"]');
+  const alert = $('va-alert[status="error"] h3');
   if (alert) {
     scrollAndFocus(alert);
   }

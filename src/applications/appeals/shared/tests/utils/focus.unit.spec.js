@@ -382,8 +382,14 @@ describe('focusOnAlert', () => {
     render(
       <div id="main">
         <div />
-        <va-alert status="info" />
-        {hasErrorAlert && <va-alert status="error" />}
+        <va-alert status="info">
+          <h3>Test</h3>
+        </va-alert>
+        {hasErrorAlert && (
+          <va-alert status="error">
+            <h3>Test 2</h3>
+          </va-alert>
+        )}
       </div>,
     );
 
@@ -392,7 +398,7 @@ describe('focusOnAlert', () => {
 
     await focusOnAlert();
     await waitFor(() => {
-      const target = $('va-alert[status="error"]', container);
+      const target = $('va-alert[status="error"] h3', container);
       expect(document.activeElement).to.eq(target);
     });
   });
@@ -401,7 +407,7 @@ describe('focusOnAlert', () => {
 
     await focusOnAlert();
     await waitFor(() => {
-      expect(document.activeElement?.tagName).to.not.eq('VA-ALERT');
+      expect(document.activeElement?.tagName).to.eq('BODY');
     });
   });
 });
