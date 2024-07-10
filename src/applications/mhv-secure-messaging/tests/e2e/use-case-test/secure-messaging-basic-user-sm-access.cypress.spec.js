@@ -12,8 +12,7 @@ describe('Secure Messaging Basic User', () => {
       service => service !== 'messaging',
     );
 
-    const site = new SecureMessagingSite();
-    site.login(true, basicUser);
+    SecureMessagingSite.login(true, basicUser);
 
     cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockFeatureToggles).as(
       'featureToggles',

@@ -1,20 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import Avs from './containers/Avs';
 
-const ErrorBoundaryWrapper = props => {
-  useMyHealthAccessGuard();
-
-  return (
-    <ErrorBoundary>
-      <Avs {...props} />
-    </ErrorBoundary>
-  );
-};
+const ErrorBoundaryWrapper = props => (
+  <ErrorBoundary>
+    <Avs {...props} />
+  </ErrorBoundary>
+);
 
 const routes = (
   <Switch>

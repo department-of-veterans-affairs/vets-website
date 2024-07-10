@@ -8,15 +8,15 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
 import { AXE_CONTEXT } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Move Message tests', () => {
   it('move message from custom folder to Deleted', () => {
-    const site = new SecureMessagingSite();
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.clickMyFoldersSideBar();
+    FolderLoadPage.loadFolders();
 
     FolderManagementPage.clickAndLoadCustomFolder(
       folderName,
@@ -33,13 +33,12 @@ describe('Secure Messaging Move Message tests', () => {
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('move message from inbox to deleted', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
 
@@ -48,6 +47,6 @@ describe('Secure Messaging Move Message tests', () => {
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

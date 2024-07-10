@@ -29,7 +29,7 @@ const ReportModal = ({
 
   // render conditions
   const totalReportableItems =
-    (address !== null) + (phone !== null) + (email !== null) + 1;
+    (address !== null) + (phone !== null) + (email !== null);
   const someItemsReported = existingReports;
   const notAllItemsReported =
     !someItemsReported ||
@@ -160,7 +160,6 @@ const ReportModal = ({
               error={reportIsBlankError ? 'Please select an item' : null}
               hint={null}
               onVaChange={handleCheckboxChange}
-              required
               label="Select the information we need to update"
               label-header-level=""
               uswds

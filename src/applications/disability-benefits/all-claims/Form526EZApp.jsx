@@ -24,7 +24,6 @@ import {
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
   SHOW_REVISED_ADD_DISABILITIES_PAGE,
-  SHOW_TOXIC_EXPOSURE,
   WIZARD_STATUS,
 } from './constants';
 import {
@@ -101,9 +100,6 @@ export const Form526Entry = ({
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showToxicExposurePages = useToggleValue(
-    TOGGLE_NAMES.disability526ToxicExposure,
-  );
   const showRevisedNewDisabilitiesPage = useToggleValue(
     TOGGLE_NAMES.disability526ImprovedAutosuggestionsAddDisabilitiesPage,
   );
@@ -141,12 +137,6 @@ export const Form526Entry = ({
         setPageFocus('h1');
         // save feature flag for 8940/4192
         sessionStorage.setItem(SHOW_8940_4192, showSubforms);
-
-        // save feature flag for Toxic Exposure pages
-        window.sessionStorage.setItem(
-          SHOW_TOXIC_EXPOSURE,
-          showToxicExposurePages,
-        );
       }
       // Set user account & application id in Sentry so we can access their form
       // data for any thrown errors
@@ -155,14 +145,7 @@ export const Form526Entry = ({
         Sentry.setTag('in_progress_form_id', inProgressFormId);
       }
     },
-    [
-      inProgressFormId,
-      location,
-      profile,
-      showSubforms,
-      showToxicExposurePages,
-      wizardStatus,
-    ],
+    [inProgressFormId, location, profile, showSubforms, wizardStatus],
   );
 
   useEffect(

@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
-import { applicantWording, getAgeInYears } from '../../../../shared/utilities';
+import {
+  applicantWording,
+  getAgeInYears,
+  makeHumanReadable,
+} from '../../../../shared/utilities';
 import { sponsorWording } from '../../../helpers/wordingCustomization';
 import { isInRange } from '../../../helpers/utilities';
 import { getTopLevelFormData } from '../../../components/Applicant/applicantFileUpload';
@@ -48,6 +52,12 @@ describe('isInRange helper', () => {
   });
   it('should return false if number not in range', () => {
     expect(isInRange(25, 18, 23)).to.be.false;
+  });
+});
+
+describe('makeHumanReadable helper', () => {
+  it('should convert camelCase into separate, capitalized words', () => {
+    expect(makeHumanReadable('camelCaseTest')).to.equal('Camel Case Test');
   });
 });
 

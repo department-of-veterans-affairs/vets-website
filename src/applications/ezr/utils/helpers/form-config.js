@@ -61,6 +61,18 @@ export function includeTeraInformation(formData) {
 }
 
 /**
+ * Helper that determines if the form data contains values that enable the
+ * toxic exposure file upload in the Military Service chapter
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user wants to fill out TERA information and the
+ * EZR Upload feature flag is set to true
+ */
+export function teraUploadEnabled(formData) {
+  const { hasTeraResponse } = formData;
+  return includeTeraInformation(formData) && hasTeraResponse;
+}
+
+/**
  * Helper that determines if the form data contains values that indicate the
  * user served in specific gulf war locations
  * @param {Object} formData - the current data object passed from the form

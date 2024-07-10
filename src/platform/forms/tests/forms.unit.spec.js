@@ -26,6 +26,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_4138,
   VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21A,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_XX_123,
   VA_FORM_IDS.FORM_MOCK,
@@ -78,7 +79,8 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
-  'CustomHeader',
+  'CustomReviewTopContent',
+  'CustomTopContent',
   'customText',
   'submissionError',
   'saveInProgress',
@@ -90,6 +92,8 @@ const formConfigKeys = [
   'useTopBackLink',
   'v3SegmentedProgressBar',
   'formOptions',
+  'stepLabels',
+  'showSaveLinkAfterButtons',
 ];
 
 const validProperty = (
@@ -227,6 +231,14 @@ const validFormTitle = ({ title }) => {
   expect(formTitle).to.be.a('string', 'title does not return a string');
 };
 
+const validFormSubTitle = ({ subTitle }) => {
+  const formSubTitle =
+    typeof subTitle === 'function' ? subTitle({ formData: {} }) : subTitle;
+  if (formSubTitle) {
+    expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+  }
+};
+
 const validDowntime = ({ downtime }) => {
   validObjectProperty({ downtime }, 'downtime', false);
   if (downtime) {
@@ -327,7 +339,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'prefillTransformer', false);
           validStringProperty(formConfig, 'trackingPrefix');
           validFormTitle(formConfig);
-          validStringProperty(formConfig, 'subTitle', false);
+          validFormSubTitle(formConfig);
           validStringProperty(formConfig, 'urlPrefix', false);
           validStringProperty(formConfig, 'submitUrl', false);
           validFunctionProperty(formConfig, 'submit', false);
@@ -346,7 +358,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'signInHelpList', false);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
-          validComponentProperty(formConfig, 'CustomHeader', false);
+          validComponentProperty(formConfig, 'CustomTopContent', false);
           validBooleanProperty(formConfig, 'useTopBackLink', false);
           validSaveInProgressConfig(formConfig);
           // This return true is needed for the to.eventually.be.ok a few lines down

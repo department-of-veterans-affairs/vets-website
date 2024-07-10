@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
@@ -19,6 +20,7 @@ import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
+import { attachmentMiddleware } from '../middleware/attachmentMiddleware';
 
 // Selectors
 import selectUserFirstName from '../selectors/selectUserFirstName';
@@ -103,10 +105,18 @@ const WebChat = ({
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // value of specific toggle
+  const isComponentToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentComponentTesting,
+  );
+
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware}
+        {...(isComponentToggleOn ? { attachmentMiddleware } : {})}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}

@@ -410,7 +410,7 @@ describe('Compose form component', () => {
         path: Paths.COMPOSE,
       },
     );
-    const val = initialState.sm.recipients.allowedRecipients[0].name;
+    const val = initialState.sm.recipients.allowedRecipients[0].id;
     selectVaSelect(screen.container, val);
     waitFor(() => {
       expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
@@ -854,5 +854,42 @@ describe('Compose form component', () => {
       "You can't send messages to your care teams right now",
     );
     expect(screen.queryByTestId('Send-Button')).to.not.exist;
+  });
+
+  it('displays an alert and Digital Signature component if signature is required', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const digitalSignature = await screen.findByText('Digital signature', {
+      selector: 'h2',
+    });
+    expect(digitalSignature).to.exist;
+    const alert = screen.getByTestId('signature-alert');
+    expect(alert).to.have.attribute('visible', 'true');
+    expect(alert.textContent).to.contain(Prompts.Compose.SIGNATURE_REQUIRED);
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    const signatureTextField = screen.container.querySelector(
+      signatureTextFieldSelector,
+    );
+    inputVaTextInput(
+      screen.container,
+      'Test$# User',
+      signatureTextFieldSelector,
+    );
+    expect(signatureTextField).to.have.attribute(
+      'error',
+      'You entered a character we can’t accept. Try removing $, #',
+    );
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    expect(signatureTextField).to.have.attribute('error', '');
   });
 });

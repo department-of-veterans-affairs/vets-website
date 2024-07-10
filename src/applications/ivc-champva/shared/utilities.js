@@ -33,6 +33,33 @@ export function applicantWording(
   return isPosessive ? `${retVal}’s` : retVal;
 }
 
+// Return either 'your' or the applicant's name depending
+// TODO: combine with `applicantWording` fn above
+export function nameWording(
+  formData,
+  isPosessive = true,
+  cap = true,
+  firstNameOnly = false,
+) {
+  let retVal = '';
+  // NOTE: certifierRole isn't used in this form anymore so this will always
+  // skip to else clause
+  if (formData?.certifierRole === 'applicant') {
+    retVal = isPosessive ? 'your' : 'you';
+  } else {
+    // Concatenate all parts of applicant's name (first, middle, etc...)
+    retVal = firstNameOnly
+      ? formData?.applicantName?.first
+      : Object.values(formData?.applicantName || {})
+          .filter(el => el)
+          .join(' ');
+    retVal = isPosessive ? `${retVal}’s` : retVal;
+  }
+
+  // Optionally capitalize first letter and return
+  return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
+}
+
 // Turn camelCase into capitalized words ("camelCase" => "Camel Case")
 export function makeHumanReadable(inputStr) {
   return inputStr
@@ -78,7 +105,7 @@ export function getAgeInYears(date) {
  * )
  * ```
  *
- * @param {Array} urlArray Array of page URLs where these styles should be applied
+ * @param {Array} urlArray Array of page URLs where these styles should be applied - to target all URLs, use value: ['']
  * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
  * @param {String} style String of CSS to inject into the specified elements on the specified pages
  */

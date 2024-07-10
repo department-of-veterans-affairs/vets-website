@@ -62,12 +62,7 @@ Where.propTypes = {
 function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
-  const {
-    isCommunityCare,
-    isCompAndPenAppointment,
-    isVideo,
-    isPastAppointment,
-  } = vaos;
+  const { isCancellable, isPastAppointment } = vaos;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -88,14 +83,7 @@ function CancelButton({ appointment }) {
     />
   );
 
-  if (
-    APPOINTMENT_STATUS.cancelled !== status &&
-    !isCommunityCare &&
-    !isCompAndPenAppointment &&
-    !isVideo &&
-    !isPastAppointment
-  )
-    return button;
+  if (!!isCancellable && !isPastAppointment) return button;
 
   if (APPOINTMENT_STATUS.proposed === status) return button;
 

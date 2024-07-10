@@ -33,10 +33,6 @@ $medium-phone-screen: 375px;
 
   #modal-crisisline {
     display: block;
-
-    p {
-      font-size: 100%;
-    }
   }
 
   #dashboard-title {
@@ -51,7 +47,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  @import "iconography";
   @import "modules/m-right-rail";
 
   section.usa-grid {
@@ -153,23 +148,6 @@ $medium-phone-screen: 375px;
     li {
       list-style: none;
       margin: 0 0 1.375em 0;
-    }
-  }
-
-  .hub-main-title {
-    width: 90%;
-  }
-
-  .usa-grid {
-    .usa-width-two-thirds {
-      .hub-main-icon {
-        vertical-align: top;
-        margin-top: 8px;
-
-        > .icon-large {
-          margin-right: 10px;
-        }
-      }
     }
   }
 
@@ -486,6 +464,7 @@ $medium-phone-screen: 375px;
 
   .sign-in-link {
     margin: 0;
+    line-height: 16px;
 
     @include media($medium-screen) {
 

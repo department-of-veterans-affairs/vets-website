@@ -20,7 +20,6 @@ describe('Medications Refill Page Active Parked Rx', () => {
       ActiveParkedWithRefills.data.attributes.refillStatus,
     );
     refillPage.verifyRefillsRemainingForActiveParkedRxOnRefillPage(
-      ActiveParkedWithRefills.data.attributes.prescriptionNumber,
       ActiveParkedWithRefills.data.attributes.refillRemaining,
     );
   });

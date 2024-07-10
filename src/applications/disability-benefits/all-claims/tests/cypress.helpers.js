@@ -15,13 +15,8 @@ import {
   FORM_STATUS_BDD,
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
-  SHOW_TOXIC_EXPOSURE,
 } from '../constants';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
-
-const todayPlus120 = format(add(new Date(), { days: 120 }), 'yyyy-M-d').split(
-  '-',
-);
 
 export const mockItf = (
   offset = { days: 1 },
@@ -127,15 +122,18 @@ function getToggleValue(toggles, name) {
 /**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with optional prefill data or toggles
  */
-export const setup = (cy, toggles = mockFeatureToggles) => {
+export const setup = (cy, testOptions = {}) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
-  window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
 
-  cy.intercept('GET', '/v0/feature_toggles*', toggles);
+  cy.intercept(
+    'GET',
+    '/v0/feature_toggles*',
+    testOptions?.toggles || mockFeatureToggles,
+  );
 
   // `mockItf` is not a fixture; it can't be loaded as a fixture
   // because fixtures don't evaluate JS.
@@ -179,14 +177,20 @@ export const setup = (cy, toggles = mockFeatureToggles) => {
       ({ 'view:selected': _, ...obj }) => obj,
     );
 
+    const formData = {
+      ...mockPrefill.formData,
+      disabilities: sanitizedRatedDisabilities,
+      servicePeriods: data.serviceInformation.servicePeriods,
+      reservesNationalGuardService:
+        data.serviceInformation.reservesNationalGuardService,
+    };
+
+    if (testOptions?.prefillData?.startedFormVersion) {
+      formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
+    }
+
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
-      formData: {
-        ...mockPrefill.formData,
-        disabilities: sanitizedRatedDisabilities,
-        servicePeriods: data.serviceInformation.servicePeriods,
-        reservesNationalGuardService:
-          data.serviceInformation.reservesNationalGuardService,
-      },
+      formData,
       metadata: mockPrefill.metadata,
     });
   });
@@ -195,12 +199,15 @@ export const setup = (cy, toggles = mockFeatureToggles) => {
 /**
  * Build a list of unreleased pages using the given toggles
  *
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
  * @returns {string[]} - list of paths for unreleased pages
  */
-function getUnreleasedPages(toggles) {
-  // if toxic exposure toggle is disabled, add those pages to the unreleased pages list
-  if (getToggleValue(toggles, 'disability_526_toxic_exposure') !== true) {
+function getUnreleasedPages(testOptions) {
+  // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
+  if (
+    testOptions?.prefillData?.startedFormVersion !== '2019' &&
+    testOptions?.prefillData?.startedFormVersion !== '2022'
+  ) {
     return Object.keys(toxicExposurePages).map(page => {
       return toxicExposurePages[page].path;
     });
@@ -211,11 +218,11 @@ function getUnreleasedPages(toggles) {
 
 /**
  * For each unreleased page, create the page hook to throw an error if the page loads
- * @param {object} toggles - feature toggles object, based on api response
+ * @param {object} testOptions - object with prefill data. can optionally add toggles in future as needed
  * @returns {object} object with page hook for each unreleased page
  */
-function makeUnreleasedPageHooks(toggles) {
-  const pages = getUnreleasedPages(toggles);
+function makeUnreleasedPageHooks(testOptions) {
+  const pages = getUnreleasedPages(testOptions);
 
   return Object.assign(
     {},
@@ -229,7 +236,7 @@ function makeUnreleasedPageHooks(toggles) {
   );
 }
 
-export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
+export const pageHooks = (cy, testOptions = {}) => ({
   start: () => {
     // skip wizard
     cy.findByText(/apply now/i).click();
@@ -238,10 +245,12 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
   introduction: () => {
     cy.get('@testData').then(data => {
       if (data['view:isBddData']) {
-        window.sessionStorage.setItem(
-          SAVED_SEPARATION_DATE,
-          todayPlus120.join('-'),
+        const separationDate = format(
+          add(new Date(), { days: 120 }),
+          'yyyy-MM-dd',
         );
+
+        window.sessionStorage.setItem(SAVED_SEPARATION_DATE, separationDate);
       } else {
         window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
       }
@@ -266,19 +275,6 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       .click();
   },
 
-  'review-veteran-details/military-service-history': () => {
-    cy.get('@testData').then(data => {
-      cy.fillPage();
-      if (data['view:isBddData']) {
-        cy.get('select[name$="_dateRange_toMonth"]').select(todayPlus120[1]);
-        cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
-        cy.get('input[name$="_dateRange_toYear"]')
-          .clear()
-          .type(todayPlus120[0]);
-      }
-    });
-  },
-
   'review-veteran-details/military-service-history/federal-orders': () => {
     cy.get('@testData').then(data => {
       cy.fillPage();
@@ -287,6 +283,10 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
           'view:isTitle10Activated'
         ]
       ) {
+        const todayPlus120 = format(
+          add(new Date(), { days: 120 }),
+          'yyyy-M-d',
+        ).split('-');
         // active title 10 activation puts this into BDD flow
         cy.get('select[name$="SeparationDateMonth"]').select(todayPlus120[1]);
         cy.get('select[name$="SeparationDateDay"]').select(todayPlus120[2]);
@@ -310,7 +310,7 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       data.newDisabilities.forEach((disability, index) => {
         if (
           getToggleValue(
-            toggles,
+            testOptions.toggles,
             'disability_526_improved_autosuggestions_add_disabilities_page',
           ) !== true
         ) {
@@ -360,5 +360,5 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
       }
     });
   },
-  ...makeUnreleasedPageHooks(toggles),
+  ...makeUnreleasedPageHooks(testOptions),
 });

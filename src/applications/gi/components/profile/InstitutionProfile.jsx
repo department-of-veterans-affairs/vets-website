@@ -96,7 +96,7 @@ export default function InstitutionProfile({
       >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
-          {!showSchoolContentBasedOnType(type) && (
+          {type === 'FLIGHT' && (
             <p>
               For information about VA flight benefits, visit{' '}
               <VaLink

@@ -151,18 +151,6 @@ class PatientReplyPage {
     cy.contains('Continue editing').should('be.visible');
     cy.contains('Delete draft').should('be.visible');
   };
-
-  verifyContnueButtonMessageDisplayText = () => {
-    cy.get(Locators.REPLY_FORM)
-      .find('va-button')
-      .should('have.attr', 'text', 'Continue editing');
-  };
-
-  verifyDeleteButtonMessageDisplayText = () => {
-    cy.get(Locators.REPLY_FORM)
-      .find('va-button[secondary]')
-      .should('have.attr', 'text', 'Delete draft');
-  };
 }
 
 export default new PatientReplyPage();

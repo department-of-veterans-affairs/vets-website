@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 #supporting-documents-description {
@@ -73,44 +73,14 @@ article#pre-need[data-location="sponsor-demographics"] {
   }
 }
 
-// MBMS-61967: change "applicant-demographics-notprod" to "applicant-demographics" and remove the applicant-demographics-notprod section from form.jsx
-// MBMS-61967: change "sponsor-demographics-notprod" to "sponsor-demographics" and remove the sponsor-demographics-notprod section from form.jsx
-article#pre-need[data-location="applicant-demographics-notprod"],
-article#pre-need[data-location="sponsor-demographics-notprod"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
   fieldset.schemaform-field-template.usa-input-error {
     fieldset.vads-u-margin-y--2.rjsf-object-field {
       div {
         margin-top: 1.875em;
       }
     }
-  }
-  .form-checkbox > input[type="checkbox"] + .schemaform-label {
-    line-height: 0.5rem;
-  }
-  .form-checkbox > input[type="checkbox"] + label::before {
-    margin-top: -0.35em;
-  }
-  fieldset.schemaform-field-template.schemaform-first-field {
-    margin-top: -2em;
-    margin-bottom: -0.9em;
-  }
-  .schemaform-widget-wrapper {
-    &:nth-child(2) {
-      fieldset.vads-u-margin-y--2.rjsf-object-field {
-        div {
-          margin-top: 3.4em;
-          &:nth-child(1) {
-            margin-top: -1.5em;
-          }
-        }
-      }
-    }
-  }
-  div > div:nth-child(2) > div:nth-child(1) > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > div:nth-child(3) > div > div:nth-child(2) > fieldset > div.schemaform-widget-wrapper {
-    margin-bottom: -1.5em;
-  }
-  div > div:nth-child(2) > div:nth-child(1) > div > div.progress-box.progress-box-schemaform > div > form > div.vads-u-margin-y--2.rjsf-object-field > div > fieldset > div:nth-child(3) > div > div:nth-child(2) > fieldset.usa-input-error > div.schemaform-widget-wrapper {
-    margin-top: -1.7em;
   }
 }
 
@@ -137,15 +107,14 @@ article#pre-need[data-location="review-and-submit"] {
     margin-bottom: 1em;
     padding-bottom: 2em;
   }
-  // MBMS-61967: remove race-view class
-  .race-view {
+
   fieldset > div.schemaform-widget-wrapper > fieldset > div {
     margin-top: -0.9em;
   }
   fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
     margin-top: 0.9em;
   }
-  }
+
 }
 
 dl.review + dl.review .review-row {

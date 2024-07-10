@@ -7,7 +7,16 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { authorizeMedical, authorizeMedicalSelect } from '../pages';
+import {
+  authorizeMedical,
+  authorizeMedicalSelect,
+  authorizeAddress,
+  authorizeInsideVA,
+  authorizeOutsideVA,
+  formToggle,
+  claimantType,
+  authorizeOutsideVANames,
+} from '../pages';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -43,7 +52,7 @@ const formConfig = {
       'Please sign in again to continue your application for VA accredited representative appointment.',
   },
   title: 'Fill out your form to appoint a VA accredited representative or VSO',
-  subTitle: formConfigFromService.subTitle || 'VA Form 21-22',
+  subTitle: formConfigFromService.subTitle || 'VA Forms 21-22 and 21-22a',
   defaultDefinitions: {
     fullName,
     ssn,
@@ -52,6 +61,24 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
+    formToggle: {
+      title: ' ',
+      pages: {
+        claimantType: {
+          path: 'claimant-type',
+          title: ' ',
+          uiSchema: claimantType.uiSchema,
+          schema: claimantType.schema,
+        },
+        repType: {
+          path: 'rep-type',
+          title: ' ',
+          uiSchema: formToggle.uiSchema,
+          schema: formToggle.schema,
+        },
+      },
+    },
+
     authorization: {
       title: 'Accredited representative authorizations',
       pages: {
@@ -72,6 +99,39 @@ const formConfig = {
           title: 'Authorization for Certain Medical Records - Select',
           uiSchema: authorizeMedicalSelect.uiSchema,
           schema: authorizeMedicalSelect.schema,
+        },
+        authorizeAddress: {
+          path: 'authorize-address',
+          title: 'Authorization to change your address',
+          uiSchema: authorizeAddress.uiSchema,
+          schema: authorizeAddress.schema,
+        },
+        authorizeInsideVA: {
+          path: 'authorize-inside-va',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Inside VA Systems',
+          uiSchema: authorizeInsideVA.uiSchema,
+          schema: authorizeInsideVA.schema,
+        },
+        authorizeOutsideVA: {
+          path: 'authorize-outside-va',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside VA Systems',
+          uiSchema: authorizeOutsideVA.uiSchema,
+          schema: authorizeOutsideVA.schema,
+        },
+        authorizeOutsideVANames: {
+          path: 'authorize-outside-va/names',
+          depends: formData => {
+            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+          },
+          title: 'Authorization for Access Outside of VA Systems',
+          uiSchema: authorizeOutsideVANames.uiSchema,
+          schema: authorizeOutsideVANames.schema,
         },
       },
     },

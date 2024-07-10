@@ -1,14 +1,14 @@
 import PatientInboxPage from './pages/PatientInboxPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientComposePage from './pages/PatientComposePage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
-  const site = new SecureMessagingSite();
   // const composePage = new PatientComposePage();
 
   it('Verify Data When Cancel Navigate Away', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
@@ -17,7 +17,9 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     PatientComposePage.selectCategory();
     PatientComposePage.enterDataToMessageSubject();
     PatientComposePage.enterDataToMessageBody();
-    PatientComposePage.selectSideBarMenuOption('Inbox');
+
+    FolderLoadPage.backToInbox();
+
     PatientComposePage.verifyAlertModal();
     PatientComposePage.clickOnContinueEditingButton();
 

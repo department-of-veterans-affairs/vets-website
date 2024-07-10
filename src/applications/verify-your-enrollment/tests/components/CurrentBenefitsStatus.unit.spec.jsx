@@ -20,7 +20,23 @@ describe('when <CurrentBenefitsStatus/> renders', () => {
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });
-
+  it('should return null if response error is "Forbidden"', () => {
+    const wrapper = mount(
+      <Provider
+        store={mockStore({
+          personalInfo: {
+            error: {
+              error: 'Forbidden',
+            },
+          },
+        })}
+      >
+        <CurrentBenefitsStatus />
+      </Provider>,
+    );
+    expect(wrapper.html()).to.not.be.ok;
+    wrapper.unmount();
+  });
   it('Should render the link', () => {
     const wrapper = mount(
       <Provider store={store}>

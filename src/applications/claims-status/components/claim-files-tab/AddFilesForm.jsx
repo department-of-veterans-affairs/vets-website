@@ -177,15 +177,9 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--0">
-            Please only submit evidence that supports this claim. You’ll need to
-            scan your document onto the device you’re using to submit this
-            application, such as your computer, tablet, or mobile phone. You can
-            upload your document from there.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--3">
-            To submit supporting documents for a new disability claim, please
-            visit our{' '}
+          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
+            Please only submit evidence that supports this claim. To submit
+            supporting documents for a new disability claim, please visit our{' '}
             <a id="how-to-file-claim" href="/disability/how-to-file-claim">
               How to File a Claim
             </a>{' '}
@@ -281,6 +275,7 @@ class AddFilesForm extends React.Component {
         <VaCheckbox
           label="The files I uploaded support this claim only."
           className="vads-u-margin-y--3"
+          required
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
           onVaChange={event => {

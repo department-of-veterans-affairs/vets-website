@@ -19,7 +19,7 @@ describe('Header on mobile', () => {
     cy.get('[data-testid=user-nav-mobile-sign-in-link]')
       .contains('Sign in')
       .click();
-    cy.location('pathname').should('equal', '/sign-in/');
+    cy.location('pathname').should('eq', '/sign-in/');
   });
 
   it('allows navigation from the Landing Page to the POA Requests Page then use the logo link to navigate back to the Landing Page', () => {
@@ -31,7 +31,7 @@ describe('Header on mobile', () => {
     );
     cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
 
-    cy.location('pathname').should('equal', '/representative/poa-requests');
+    cy.location('pathname').should('eq', '/representative/poa-requests');
     cy.axeCheck();
 
     cy.get('[data-testid=poa-requests-heading]').should(
@@ -64,7 +64,7 @@ describe('Header on screens wider than mobile', () => {
     cy.get('[data-testid=user-nav-wider-than-mobile-sign-in-link]')
       .contains('Sign in')
       .click();
-    cy.location('pathname').should('equal', '/sign-in/');
+    cy.location('pathname').should('eq', '/sign-in/');
   });
 
   it('allows navigation from the Landing Page to the POA Requests Page and then use the logo link to navigate back to the Landing Page', () => {
@@ -74,9 +74,9 @@ describe('Header on screens wider than mobile', () => {
       'have.text',
       'Welcome to the Accredited Representative Portal',
     );
-    cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
+    cy.get('[data-testid=wider-than-mobile-menu-poa-link]').click();
 
-    cy.location('pathname').should('equal', '/representative/poa-requests');
+    cy.location('pathname').should('eq', '/representative/poa-requests');
     cy.axeCheck();
 
     cy.get('[data-testid=poa-requests-heading]').should(
@@ -100,7 +100,7 @@ describe('Header on screens wider than mobile', () => {
     );
     cy.get('[data-testid=wider-than-mobile-menu-poa-link]').click();
 
-    cy.location('pathname').should('equal', '/representative/poa-requests');
+    cy.location('pathname').should('eq', '/representative/poa-requests');
     cy.axeCheck();
 
     cy.get('[data-testid=poa-requests-heading]').should(

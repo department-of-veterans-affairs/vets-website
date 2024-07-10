@@ -2,16 +2,18 @@ import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import EKGDetailsPage from './pages/EKGDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records View EKG Details', () => {
   const site = new MedicalRecordsSite();
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
   });
   it('Navigate to EKG Details page, verify fields', () => {
     // Given As a Medical Records User I wanted to Navigate to "EKG" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4, labsAndTests.entry[4]);
     EKGDetailsPage.verifyPrintOrDownload();
     EKGDetailsPage.clickPrintOrDownload();
     EKGDetailsPage.verifyPrintButton();

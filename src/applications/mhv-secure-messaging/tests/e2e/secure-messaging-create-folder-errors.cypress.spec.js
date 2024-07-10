@@ -2,19 +2,19 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
-import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('create folder errors check', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 
   it('create folder network error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageCustomFolderPage.loadFoldersList();
+    cy.axeCheck(AXE_CONTEXT);
+    FolderLoadPage.loadFolders();
+
     FolderManagementPage.createANewFolderButton().click({
       waitForAnimations: true,
     });
@@ -41,8 +41,8 @@ describe('create folder errors check', () => {
 
   it('create blank name folder error check', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageCustomFolderPage.loadFoldersList();
+    cy.axeCheck(AXE_CONTEXT);
+    FolderLoadPage.loadFolders();
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click({
       waitForAnimations: true,

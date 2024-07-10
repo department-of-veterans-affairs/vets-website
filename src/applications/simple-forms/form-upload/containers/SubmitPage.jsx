@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  VaBreadcrumbs,
   VaButton,
+  VaCard,
   VaIcon,
-  VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { capitalize } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import {
-  mask,
-  getBreadcrumbList,
-  getFileSize,
-  getFormNumber,
-  getFormUploadContent,
-  handleRouteChange,
-  submitForm,
-} from '../helpers';
+import { mask, getFileSize, getFormNumber, submitForm } from '../helpers';
+import FormPage from './FormPage';
 
 const inProgressApi = formId => {
   const apiUrl = '/v0/in_progress_forms/';
@@ -30,8 +22,6 @@ const SubmitPage = () => {
   const history = useHistory();
   const location = useLocation();
   const formNumber = getFormNumber(location);
-  const formUploadContent = getFormUploadContent(formNumber);
-  const breadcrumbList = getBreadcrumbList(formNumber);
 
   const fullName = useSelector(state => state?.user?.profile?.userFullName);
   const { state } = location;
@@ -58,27 +48,39 @@ const SubmitPage = () => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <VaBreadcrumbs
-        breadcrumbList={breadcrumbList}
-        onRouteChange={handleRouteChange}
-      />
-      <h1>{`Upload VA Form ${formNumber}`}</h1>
-      <p>{formUploadContent}</p>
-      <div>
-        <VaSegmentedProgressBar
-          current={3}
-          total={3}
-          labels="Upload your file;Review your information;Submit your form"
-        />
+    <FormPage
+      currentLocation={3}
+      pageTitle={
+        <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-top--0">
+          <h3>Uploaded file</h3>
+          <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
+        </div>
+      }
+    >
+      <div className="vads-u-margin-top--2">
+        <div className="vads-u-margin-y--1 vads-u-color--gray">Your file</div>
+        <VaCard style={{ maxWidth: '50%' }}>
+          <div className="vads-u-display--flex vads-u-flex-direction--row">
+            <span className="vads-u-color--primary">
+              <VaIcon
+                size={6}
+                icon="file_present"
+                className="vads-u-margin-right--1"
+                srtext="icon representing a file"
+                aria-hidden="true"
+              />
+            </span>
+            <div className="vads-u-display--flex vads-u-flex-direction--column">
+              <span className="vads-u-font-weight--bold">{fileName}</span>{' '}
+              <span className="vads-u-color--gray-darker">
+                {getFileSize(fileSize)}
+              </span>
+            </div>
+          </div>
+        </VaCard>
       </div>
-      <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center">
-        <h3>Uploaded file</h3>
-        <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
-      </div>
-      <div>
-        <VaIcon icon="description" size={5} srtext="icon representing a file" />
-        <b>{fileName}</b> {getFileSize(fileSize)}
+      <div className="vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+        <h3>Your personal information</h3>
       </div>
       <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
         <p>
@@ -101,26 +103,16 @@ const SubmitPage = () => {
           </>
         )}
       </div>
-      <p>
+      <p className="vads-u-margin-bottom--5">
         <b>Note:</b> If you need to update your personal information, please
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
         9:00pm ET.
       </p>
-      <span>
-        <VaButton secondary text="<< Back" onClick={history.goBack} />
+      <span className="vads-u-margin-top--0">
+        <VaButton secondary back onClick={history.goBack} />
         <VaButton primary text="Submit form" onClick={submitHandler} />
       </span>
-      <div className="need-help-footer">
-        <h2 className="vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-          Need help?
-        </h2>
-        <p>
-          You can call us at <va-telephone contact="8772228387" /> (
-          <va-telephone contact="8008778339" tty />
-          ). We’re here Monday through Friday, 8:00 a.m to 9:00 p.m ET.
-        </p>
-      </div>
-    </div>
+    </FormPage>
   );
 };
 

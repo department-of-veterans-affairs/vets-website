@@ -9,8 +9,8 @@ import {
   titleSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  // addressUI,
-  // addressSchema,
+  addressUI,
+  addressSchema,
   phoneUI,
   phoneSchema,
   emailUI,
@@ -54,7 +54,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for health care benefits.',
   },
-  title: 'File a Foreign Medical Program (FMP) Claim',
+  title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
   defaultDefinitions: {},
   chapters: {
@@ -101,6 +101,36 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+            },
+          },
+        },
+      },
+    },
+    mailingAddress: {
+      title: 'Mailing address',
+      pages: {
+        page3: {
+          path: 'mailing-address',
+          title: 'Mailing address ',
+          uiSchema: {
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+            ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
+            veteranAddress: addressUI({
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              titleSchema,
+              veteranAddress: addressSchema(),
             },
           },
         },

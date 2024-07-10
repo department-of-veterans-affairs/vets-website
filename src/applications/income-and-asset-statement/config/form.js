@@ -6,7 +6,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import applicantInformation from './applicantInformation';
+import veteranInformation from './chapters/01-veteran-information';
+import claimantInformation from './chapters/02-claimant-information';
+import unassociatedIncomes from './chapters/03-unassociated-incomes';
+import associatedIncomes from './chapters/04-associated-incomes';
 
 // const { } = fullSchema.properties;
 
@@ -15,6 +18,7 @@ import applicantInformation from './applicantInformation';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submitUrl: 'form0969',
   submit,
   trackingPrefix: 'income-and-asset-statement-',
   v3SegmentedProgressBar: true,
@@ -29,7 +33,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -46,12 +50,10 @@ const formConfig = {
   title: '21P-0969 Income and Asset Statement Form',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Chapter 1',
-      pages: {
-        applicantInformation,
-      },
-    },
+    veteranInformation,
+    claimantInformation,
+    unassociatedIncomes,
+    associatedIncomes,
   },
 };
 

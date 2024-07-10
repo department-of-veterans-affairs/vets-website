@@ -54,30 +54,18 @@ const SpouseAdditionalIncomeCheckList = ({
     calculateIncome();
   }, []);
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return spAddlIncome.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            spouse: {
-              spAddlIncome: spAddlIncome.filter(
-                source => source.name !== value,
-              ),
-            },
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            spouse: {
-              ...additionalIncome.spouse,
-              spAddlIncome: [...spAddlIncome, { name: value, amount: '' }],
-            },
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      additionalIncome: {
+        ...additionalIncome,
+        spouse: {
+          spAddlIncome: checked
+            ? [...spAddlIncome, { name, amount: '' }]
+            : spAddlIncome.filter(source => source.name !== name),
+        },
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -95,6 +83,7 @@ const SpouseAdditionalIncomeCheckList = ({
   const isBoxChecked = option => {
     return spAddlIncome.some(incomeValue => incomeValue.name === option);
   };
+
   const title = 'Your spouse’s other income';
   const prompt = 'Select any additional income your spouse receives:';
 

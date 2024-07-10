@@ -9,6 +9,29 @@ import {
   fillAddressWebComponentPattern,
   reviewAndSubmitPageFlow,
 } from '../../../shared/tests/e2e/helpers';
+import user from './fixtures/mocks/user.json';
+import sipPut from './fixtures/mocks/sip-put.json';
+import sipGet from './fixtures/mocks/sip-get.json';
+
+// mock logged in LOA3 user
+const userLOA3 = {
+  ...user,
+  data: {
+    ...user.data,
+    attributes: {
+      ...user.data.attributes,
+      login: {
+        currentlyLoggedIn: true,
+      },
+      profile: {
+        ...user.data.attributes.profile,
+        loa: {
+          current: 3,
+        },
+      },
+    },
+  },
+};
 
 const testConfig = createTestConfig(
   {
@@ -19,8 +42,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-button[text*="start"]');
-          cy.findByText(/without signing in/i).click({ force: true });
+          cy.findAllByText(/^Start/, { selector: 'a[href="#start"]' })
+            .last()
+            .click();
         });
       },
       'contact-information-1': ({ afterHook }) => {
@@ -45,8 +69,12 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+      cy.intercept('/v0/api', { status: 200 });
+      cy.intercept('/v0/feature_toggles', featureToggles);
+      cy.intercept('PUT', '/v0/in_progress_forms/26-4555', sipPut);
+      cy.intercept('GET', '/v0/in_progress_forms/26-4555', sipGet);
+      cy.intercept(formConfig.submitUrl, mockSubmit);
+      cy.login(userLOA3);
     },
     skip: false,
   },

@@ -118,8 +118,9 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             version.
           </p>
           <p>
+            Edit your preferences on{' '}
             <a href={prefLink} target="_blank" rel="noreferrer">
-              Edit your preferences on the previous version of My HealtheVet
+              My HealtheVet (opens in new tab)
             </a>
           </p>
           <p>
@@ -147,10 +148,7 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             dispute the charges. You’ll need to dispute charges within{' '}
             <strong>30 days</strong> of receiving your copay bill.
           </p>
-          <a
-            href="/health-care/pay-copay-bill/dispute-charges/"
-            target="_blank"
-          >
+          <a href="/health-care/pay-copay-bill/dispute-charges/">
             Learn how to dispute your VA copay charges
           </a>
         </va-accordion-item>

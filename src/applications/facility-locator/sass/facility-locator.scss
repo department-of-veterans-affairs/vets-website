@@ -34,10 +34,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-top: 0;
   }
 
-  i.fa {
-    width: 18px;
-    text-align: center;
-    margin-right: 8px;
+  va-icon {
     color: var(--vads-color-link);
   }
 
@@ -285,7 +282,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
         @media (min-width: $small-desktop-screen) {
           margin-top: auto;
-          min-width: 67px;
+          min-width: 4.4rem;
           width: auto;
         }
       }
@@ -345,29 +342,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
     li.sublist {
       margin-left: 1.5em;
-    }
-
-    li.show-more {
-      list-style-type: none;
-    }
-
-    button.seeMore {
-      text-decoration: underline;
-
-      &:after {
-        font: normal normal normal 1em "Font Awesome 5 Free";
-        content: "\F078";
-        text-decoration: none;
-        display: inline-block;
-        padding: 0 0.5em;
-        font-weight: 900;
-      }
-
-      &.expanded {
-        &:after {
-          content: "\F077";
-        }
-      }
     }
 
     h5 {
@@ -614,12 +588,15 @@ canvas.mapboxgl-canvas:focus {
   color: var(--vads-color-black);
   padding: 0;
   margin: 0;
-  font-family: "Font Awesome 5 Free";
 
   &:hover {
     background-color: unset;
     color: unset;
   }
+}
+
+.clear-button va-icon {
+  color: var(--vads-color-black);
 }
 
 #street-city-state-zip {

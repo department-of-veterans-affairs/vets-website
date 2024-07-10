@@ -1,12 +1,11 @@
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { URL } from '../../constants';
+import { URL, envUrl } from '../../constants';
 import { formatAddress } from '../../helpers';
 
 const AddressValidationRadio = props => {
@@ -80,7 +79,7 @@ const AddressValidationRadio = props => {
   };
 
   useEffect(() => {
-    getApiData(`${environment.API_URL}${URL.ADDRESS_VALIDATION}`);
+    getApiData(`${envUrl}${URL.ADDRESS_VALIDATION}`);
     focusElement('#address-validation-alert-heading');
   }, []);
 
@@ -144,11 +143,12 @@ const AddressValidationRadio = props => {
   }
 
   const deliveryPointValidation =
+    apiData &&
     apiData.length > 0 &&
-    apiData.addresses[0].addressMetaData.deliveryPointValidation;
+    apiData[0].addressMetaData.deliveryPointValidation;
 
   const shouldShowSuggestions =
-    apiData.length > 0 && deliveryPointValidation === 'CONFIRMED';
+    apiData && apiData.length > 0 && deliveryPointValidation === 'CONFIRMED';
 
   return (
     <>

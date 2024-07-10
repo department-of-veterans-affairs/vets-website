@@ -26,6 +26,7 @@
       "last": "Jones",
       "suffix": "IV"
     },
+    "applicantNewAddress": "yes",
     "applicantDOB": "1950-01-01",
     "missingUploads": [
       {
@@ -36,7 +37,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jones",
-    "statementOfTruthCertified": true
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
   }
 }

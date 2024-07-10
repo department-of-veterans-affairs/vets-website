@@ -3,8 +3,8 @@ import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-delete
 import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.json';
 import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
-import mockSortedMessages from '../fixtures/trashResponse/sorted-trash-message-response.json';
 import { Locators, Paths } from '../utils/constants';
+import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 
 class PatientMessageTrashPage {
   loadMessages = (mockMessagesResponse = mockTrashMessages) => {
@@ -68,13 +68,13 @@ class PatientMessageTrashPage {
   };
 
   clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
+    option = 'Oldest to newest',
+    sortedResponse,
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
-      .select(`${text}`, { force: true });
+      .select(`${option}`, { force: true });
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`,
@@ -83,7 +83,7 @@ class PatientMessageTrashPage {
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -93,7 +93,7 @@ class PatientMessageTrashPage {
         cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -115,6 +115,22 @@ class PatientMessageTrashPage {
       'have.length',
       `${responseData.data.length}`,
     );
+  };
+
+  verifyFilterResults = (filterValue, responseData = sentSearchResponse) => {
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
   };
 
   verifyFilterResultsText = (
@@ -141,6 +157,69 @@ class PatientMessageTrashPage {
       .shadow()
       .find('#inputField')
       .should('be.empty');
+  };
+
+  inputFilterDataByKeyboard = text => {
+    cy.tabToElement('#inputField')
+      .first()
+      .type(`${text}`, { force: true });
+  };
+
+  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
+      mockFilterResponse,
+    ).as('filterResult');
+
+    cy.realPress('Enter');
+  };
+
+  clearFilterByKeyboard = () => {
+    // next line required to start tab navigation from the header of the page
+    cy.get('[data-testid="folder-header"]').click();
+    cy.contains('Clear Filters').then(el => {
+      cy.tabToElement(el)
+        .first()
+        .click();
+    });
+  };
+
+  sortMessagesByKeyboard = (text, data, folderId) => {
+    cy.get(Locators.DROPDOWN)
+      .shadow()
+      .find('select')
+      .select(`${text}`, { force: true });
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
+      data,
+    ).as('sortResponse');
+    cy.tabToElement('[data-testid="sort-button"]');
+    cy.realPress('Enter');
+  };
+
+  verifySortingByKeyboard = (text, data, folderId) => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.sortMessagesByKeyboard(`${text}`, data, folderId);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 }
 

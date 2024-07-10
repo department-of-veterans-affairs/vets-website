@@ -7,8 +7,8 @@ import TravelMileage from './pages/TravelMileage';
 import TravelPages from '../../../tests/e2e/pages/TravelPages';
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 import Error from './pages/Error';
-// skipping rather than fixing since this will be overhauled.
-describe.skip('Travel claim validation', () => {
+
+describe('Travel claim validation', () => {
   beforeEach(() => {
     const {
       initializeFeatureToggle,
@@ -20,7 +20,7 @@ describe.skip('Travel claim validation', () => {
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
     initializeCheckInDataGetOH.withSuccess(
-      sharedData.get.multiApptMultiFacilityUUID,
+      sharedData.get.multiOHAppointmentsUUID,
     );
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
@@ -36,7 +36,7 @@ describe.skip('Travel claim validation', () => {
     it('should go to error page if answers no to travel vehicle', () => {
       TravelMileage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      TravelMileage.selectFacility('500');
+      TravelMileage.selectAppointment('500-1111');
       TravelMileage.attemptToGoToNextPage();
 
       TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -51,7 +51,7 @@ describe.skip('Travel claim validation', () => {
     it('should go to error page if answers no to travel address', () => {
       TravelMileage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      TravelMileage.selectFacility('500');
+      TravelMileage.selectAppointment('500-1111');
       TravelMileage.attemptToGoToNextPage();
 
       TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -70,7 +70,7 @@ describe.skip('Travel claim validation', () => {
     it('should go to error page if answers no to travel address after coming back from the review page', () => {
       TravelMileage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      TravelMileage.selectFacility('500');
+      TravelMileage.selectAppointment('500-1111');
       TravelMileage.attemptToGoToNextPage();
 
       TravelPages.validatePageWrapper('travel-claim-vehicle-page');
@@ -102,7 +102,7 @@ describe.skip('Travel claim validation', () => {
     it('should display an error on the page', () => {
       TravelMileage.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      TravelMileage.selectFacility('500');
+      TravelMileage.selectAppointment('500-1111');
       TravelMileage.attemptToGoToNextPage();
 
       TravelPages.validatePageWrapper('travel-claim-vehicle-page');

@@ -11,7 +11,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { accessAlertTypes, pageTitles } from '../util/constants';
 import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
-import { getTxtContent } from '../util/txtHelpers/downloadRecords';
+import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';

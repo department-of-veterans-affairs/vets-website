@@ -7,6 +7,8 @@
 @import "./personal-contact-information";
 @import "./notification-radio-buttons";
 @import "./hub-cards";
+@import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
+@import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
 
 [tabindex="-1"]:focus {
   outline: 0;

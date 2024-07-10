@@ -1,13 +1,13 @@
 // Variables
 
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
   // TODO: add > to .schemaform-first-field .schemaform-label, .schemaform-first-field > .usa-input-error in us-forms-system
@@ -166,4 +166,23 @@ div[data-chapter="benefitSelection"]{
   .form-review-panel-page {
     margin-bottom: 0px;
   }
+}
+.tool-app-wrapper{
+  .schemaform-field-template {
+    display: flex;
+    flex-direction: column;
+  .max-char{
+    order: 3;
+    margin: 0;
+  }
+  label: {
+    order: 1;
+  }
+  .schemaform-widget-wrapper{
+    order: 2;
+  }
+  }
+}
+.fieldset-wrapper .schemaform-field-template{
+  margin-top: 0;
 }

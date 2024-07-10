@@ -38,6 +38,25 @@ export const veteranApplicantDetailsSubHeader = (
   </div>
 );
 
+export function veteranApplicantDetailsSummary({ formContext }) {
+  return (
+    <>
+      {formContext.isLoggedIn &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+    </>
+  );
+}
+
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
@@ -797,8 +816,11 @@ export const veteranUI = {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
-  placeOfBirth: {
-    'ui:title': 'Place of birth (City, State, or Territory)',
+  cityOfBirth: {
+    'ui:title': 'Your birth city or county',
+  },
+  stateOfBirth: {
+    'ui:title': 'Your birth state or territory',
   },
   gender: {
     'ui:title': 'What’s your sex?',
@@ -1061,6 +1083,36 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
           "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
         );
       }
+    }
+
+    let dob;
+    let errorMessage;
+
+    if (isVeteran(formData)) {
+      if (!isAuthorizedAgent(formData)) {
+        // Self
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage = 'Provide a valid date that is after your date of birth';
+      } else {
+        // Applicant
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage =
+          "Provide a valid date that is after the applicant's date of birth";
+      }
+    } else {
+      // Sponsor
+      dob = formData.application.veteran.dateOfBirth;
+      errorMessage =
+        "Provide a valid date that is after the sponsor's date of birth";
+    }
+
+    // Date of birth validation against service start date and service end date
+    if (serviceRecord.dateRange.from <= dob) {
+      errors[index].dateRange.from.addError(errorMessage);
+    }
+
+    if (serviceRecord.dateRange.to <= dob) {
+      errors[index].dateRange.to.addError(errorMessage);
     }
   }
 };

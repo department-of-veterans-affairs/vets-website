@@ -526,23 +526,6 @@ describe('<Modals>', () => {
     });
   });
 
-  describe('VRRAP modal', () => {
-    const props = {
-      ...defaultProps,
-      modals: {
-        displaying: 'vrrap',
-      },
-    };
-
-    it('should render', () => {
-      const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain(
-        'Veteran Rapid Retraining Assistance Program (VRRAP)',
-      );
-      wrapper.unmount();
-    });
-  });
-
   describe('Caution info modal', () => {
     const props = {
       ...defaultProps,

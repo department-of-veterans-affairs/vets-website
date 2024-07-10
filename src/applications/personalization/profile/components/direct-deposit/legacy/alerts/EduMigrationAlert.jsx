@@ -42,7 +42,7 @@ export const EduMigrationAlert = ({ className }) => {
       <h2 slot="headline">Upcoming site maintenance for direct deposit</h2>
       <p>
         We’ll soon be doing some work to update our systems for online direct
-        deposit management. We expect the maintenance period will last for 6
+        deposit management. We expect the maintenance period will last for 14
         days.
       </p>
       <p>
@@ -54,7 +54,7 @@ export const EduMigrationAlert = ({ className }) => {
       <p>
         <strong>For disability compensation and pension benefits,</strong> call
         us at <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m.
-        to 7:00 p.m. ET.
+        to 9:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
         <strong>For Post 9/11-GI Bill benefits,</strong> call us at{' '}
@@ -64,10 +64,10 @@ export const EduMigrationAlert = ({ className }) => {
       </p>
 
       <p className="vads-u-margin-bottom--0">
-        <strong>Start:</strong> Friday, April 26, 2024, at 8:00 p.m. ET
+        <strong>Start:</strong> Wednesday, June 26, 2024, at 5:00 p.m. ET
       </p>
       <p className="vads-u-margin-top--0">
-        <strong>End:</strong> Thursday, May 2, 2024, at 8:00 p.m. ET
+        <strong>End:</strong> Wednesday, July 10, 2024, at 5:00 p.m. ET
       </p>
 
       {includeExtraLinkAndDismiss && (

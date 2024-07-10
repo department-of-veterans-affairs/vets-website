@@ -58,7 +58,10 @@ export default function ConfirmationPage() {
           {appointmentDateString}
         </h2>
         <strong>
-          <i className="fa fa-check-circle vads-u-color--green" />
+          <span className="vads-u-color--green">
+            <va-icon icon="check_circle" size="3" aria-hidden="true" />
+          </span>
+
           <span className="vads-u-font-weight--bold vads-u-margin-left--1 vads-u-display--inline-block">
             Confirmed
           </span>

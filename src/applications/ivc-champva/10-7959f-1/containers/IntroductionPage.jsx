@@ -4,17 +4,10 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Link } from 'react-router';
-import recordEvent from 'platform/monitoring/record-event';
 
 const IntroductionPage = props => {
-  const { route, isLoggedIn } = props;
+  const { route } = props;
   const { formConfig, pageList } = route;
-
-  const handleClick = () => {
-    recordEvent({ event: 'no-login-start-form' });
-  };
 
   useEffect(
     () => {
@@ -48,40 +41,14 @@ const IntroductionPage = props => {
           </li>
         </ul>
       </div>
-      {!isLoggedIn ? (
-        <VaAlert status="info" visible uswds>
-          <h2>Sign in now to save time and save your work in progress</h2>
-          <p>Here’s how signing in now helps you:</p>
-          <ul>
-            <li>
-              We can fill in some of your information for you to save you time.
-            </li>
-            <li>
-              You can save your work in progress. You’ll have 60 days from when
-              you start, or make updates, to come back and finish it.
-            </li>
-          </ul>
-          <p>
-            <strong>Note:</strong> You can sign in after you start your
-            registration form. But you’ll lose any information you already
-            filled in.
-          </p>
-          <p className="vads-u-margin-top--2">
-            <Link onClick={handleClick} to={pageList[1]?.path}>
-              Start your form without signing in
-            </Link>
-          </p>
-        </VaAlert>
-      ) : (
-        <SaveInProgressIntro
-          formId={formConfig.formId}
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start"
-        />
-      )}
+      <SaveInProgressIntro
+        formId={formConfig.formId}
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start"
+      />
 
       <va-omb-info
         res-burden={4}
@@ -93,7 +60,7 @@ const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
-  isLoggedIn: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
   route: PropTypes.object,
 };
 

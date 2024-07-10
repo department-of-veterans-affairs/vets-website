@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import {
+  VaTextInputField,
+  VaSelectField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import { addressFormRequiredData, blockURLsRegEx } from '../constants';
 import { MILITARY_STATES } from '../helper';
 import { getFormSchema, getUiSchema } from './addressSchema';
@@ -12,13 +16,12 @@ const ChangeOfAddressForm = ({
   formChange,
   addressFormData,
   formSubmit,
-  applicantName,
   formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema(applicantName, formData);
+    const fSchema = getFormSchema(formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
@@ -33,11 +36,6 @@ const ChangeOfAddressForm = ({
     // return new schema with updated fields
     return tempSchemaWithRequiredFields;
   };
-
-  const livesOnMilitaryBaseInfo = {
-    title: 'view:livesOnMilitaryBaseInfo',
-  };
-
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
@@ -48,7 +46,10 @@ const ChangeOfAddressForm = ({
     addressUISchema: {
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
-      'ui:disabled': true,
+      'ui:webComponentField': VaSelectField,
+      'ui:options': {
+        inert: true,
+      },
     },
   };
   const ipc = {
@@ -72,14 +73,18 @@ const ChangeOfAddressForm = ({
       type: 'string',
       pattern: blockURLsRegEx,
       enum: ADDRESS_DATA.militaryCities,
+      enumNames: ADDRESS_DATA.militaryCities,
       minLength: 1,
       maxLength: 100,
     },
     addressUISchema: {
       'ui:title': addressFormData?.['view:livesOnMilitaryBase']
-        ? 'APO/FPO/DPO'
-        : 'City',
+        ? 'APO/FPO/DPO '
+        : 'City ',
       'ui:autocomplete': 'address-level2',
+      'ui:webComponentField': addressFormData?.['view:livesOnMilitaryBase']
+        ? VaSelectField
+        : VaTextInputField,
       'ui:errorMessages': {
         required: 'City is required',
         pattern: `Please enter a valid city under 100 characters`,
@@ -96,8 +101,9 @@ const ChangeOfAddressForm = ({
       enumNames: Object.values(MILITARY_STATES),
     },
     addressUISchema: {
-      'ui:title': 'State',
+      'ui:title': 'State ',
       'ui:autocomplete': 'address-level1',
+      'ui:webComponentField': VaSelectField,
       'ui:errorMessages': {
         required: 'State is required',
       },
@@ -159,8 +165,11 @@ const ChangeOfAddressForm = ({
         if (addressFormData) {
           // if livesOnMilitaryBase is checked
           if (addressFormData?.['view:livesOnMilitaryBase']) {
+            const filteredRequiredArray = addressFormRequiredData.filter(
+              requiredField => requiredField !== 'countryCodeIso3',
+            );
             const tempSchemaAddObj = addObjectKeys(
-              createFormSchema(addressFormRequiredData),
+              createFormSchema(filteredRequiredArray),
               [city.title, stateCode.title],
               [city.addressSchema, stateCode.addressSchema],
               'schema',
@@ -201,7 +210,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'schema',
                 ),
               );
@@ -219,7 +228,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
+                  [province.title, ipc.title],
                   'uiSchema',
                 ),
               );
@@ -238,7 +247,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(tempAddressRequiredData),
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  [ZC.title, stateCode.title],
                   'schema',
                 ),
               );
@@ -256,7 +265,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
+                  [ZC.title, stateCode.title],
                   'uiSchema',
                 ),
               );
@@ -267,7 +276,7 @@ const ChangeOfAddressForm = ({
 
       updateSchema();
     },
-    [addressFormData],
+    [addressFormData, formData],
   );
   return (
     <SchemaForm
@@ -292,7 +301,6 @@ ChangeOfAddressForm.propTypes = {
   formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
-  applicantName: PropTypes.string,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.oneOfType([
     PropTypes.string,

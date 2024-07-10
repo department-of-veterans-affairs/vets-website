@@ -2,12 +2,14 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
 import App from './containers/App';
 import PrescriptionDetails from './containers/PrescriptionDetails';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
 import RefillPrescriptions from './containers/RefillPrescriptions';
+import PrescriptionDetailsDocumentation from './containers/PrescriptionDetailsDocumentation';
 
 /**
  * Route that wraps its children within the application component.
@@ -27,38 +29,52 @@ AppRoute.propTypes = {
   children: PropTypes.object,
 };
 
+const AccessGuardWrapper = ({ children }) => {
+  useMyHealthAccessGuard();
+  return children;
+};
+
 const routes = (
-  <Switch>
-    <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
-      <LandingPage />
-    </AppRoute>
-    <AppRoute exact path={['/refill']} key="RefillPage">
-      <div>
-        <RefillPrescriptions />
-        <div className="no-print">
-          <va-back-to-top />
+  <AccessGuardWrapper>
+    <Switch>
+      <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
+        <LandingPage />
+      </AppRoute>
+      <AppRoute exact path={['/refill']} key="RefillPage">
+        <div>
+          <RefillPrescriptions />
+          <div className="no-print">
+            <va-back-to-top />
+          </div>
         </div>
-      </div>
-    </AppRoute>
-    <AppRoute exact path={['/', '/:page']} key="App">
-      <div>
-        <Prescriptions />
-        <div className="no-print">
-          <va-back-to-top />
+      </AppRoute>
+      <AppRoute exact path={['/', '/:page']} key="App">
+        <div>
+          <Prescriptions />
+          <div className="no-print">
+            <va-back-to-top />
+          </div>
         </div>
-      </div>
-    </AppRoute>
-    <AppRoute
-      exact
-      path="/prescription/:prescriptionId"
-      key="prescriptionDetails"
-    >
-      <PrescriptionDetails />
-    </AppRoute>
-    <Route>
-      <PageNotFound />
-    </Route>
-  </Switch>
+      </AppRoute>
+      <AppRoute
+        exact
+        path="/prescription/:prescriptionId"
+        key="prescriptionDetails"
+      >
+        <PrescriptionDetails />
+      </AppRoute>
+      <AppRoute
+        exact
+        path="/prescription/:prescriptionId/documentation"
+        key="prescriptionDetailsDocumentation"
+      >
+        <PrescriptionDetailsDocumentation />
+      </AppRoute>
+      <Route>
+        <PageNotFound />
+      </Route>
+    </Switch>
+  </AccessGuardWrapper>
 );
 
 export default routes;

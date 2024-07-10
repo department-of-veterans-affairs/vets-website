@@ -9,6 +9,13 @@ describe('Facility Locator error handling', () => {
       },
     }).as('getServerError');
 
+    cy.intercept('POST', '/facilities_api/**', {
+      statusCode: 500,
+      body: {
+        error: 'server error',
+      },
+    }).as('getServerError');
+
     cy.visit('/find-locations');
   });
 

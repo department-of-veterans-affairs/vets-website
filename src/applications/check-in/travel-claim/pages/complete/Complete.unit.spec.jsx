@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import Complete from './index';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
-import * as usePostTravelClaimsModule from '../../../hooks/usePostTravelClaims';
+import * as usePostTravelOnlyClaimModule from '../../../hooks/usePostTravelOnlyClaim';
 import * as useUpdateErrorModule from '../../../hooks/useUpdateError';
 import * as useStorageModule from '../../../hooks/useStorage';
 import { api } from '../../../api';
@@ -24,24 +24,25 @@ describe('Check-in experience', () => {
       const sandbox = sinon.createSandbox();
       const { v2 } = api;
       const store = {
-        app: 'travelClaim',
-        facilitiesToFile: [
-          {
-            stationNo: '500',
-            startTime: '2024-03-12T10:18:02.422Z',
-            appointmentCount: 1,
-          },
-        ],
+        appointmentToFile: {
+          startTime: '2024-03-12T10:18:02.422Z',
+          timezone: 'America/Los_Angeles',
+        },
+        travelAddress: 'yes',
+        travelVehicle: 'yes',
+        travelReview: 'yes',
       };
       afterEach(() => {
         sandbox.restore();
         MockDate.reset();
       });
       it('renders loading while loading', () => {
-        sandbox.stub(usePostTravelClaimsModule, 'usePostTravelClaims').returns({
-          travelPayClaimError: false,
-          isLoading: true,
-        });
+        sandbox
+          .stub(usePostTravelOnlyClaimModule, 'usePostTravelOnlyClaim')
+          .returns({
+            travelPayClaimError: false,
+            isLoading: true,
+          });
         const { getByTestId } = render(
           <CheckInProvider>
             <Complete />
@@ -50,10 +51,12 @@ describe('Check-in experience', () => {
         expect(getByTestId('loading-indicator')).to.exist;
       });
       it('renders page when complete', () => {
-        sandbox.stub(usePostTravelClaimsModule, 'usePostTravelClaims').returns({
-          travelPayClaimError: false,
-          isLoading: false,
-        });
+        sandbox
+          .stub(usePostTravelOnlyClaimModule, 'usePostTravelOnlyClaim')
+          .returns({
+            travelPayClaimError: false,
+            isLoading: false,
+          });
         const { getByTestId } = render(
           <CheckInProvider store={store}>
             <Complete />
@@ -63,24 +66,26 @@ describe('Check-in experience', () => {
         expect(getByTestId('travel-info-external-link')).to.exist;
         expect(getByTestId('travel-complete-content')).to.exist;
       });
-      it.skip('calls travel API via hook', () => {
-        sandbox.stub(v2, 'postTravelPayClaims').resolves({});
+      it('calls travel API via hook', () => {
+        sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
         render(
           <CheckInProvider store={store}>
             <Complete />
           </CheckInProvider>,
         );
-        sandbox.assert.calledOnce(v2.postTravelPayClaims);
+        sandbox.assert.calledOnce(v2.postTravelOnlyClaim);
       });
       it('dispatches error on API error', () => {
         const updateErrorSpy = sinon.spy();
         sandbox.stub(useUpdateErrorModule, 'useUpdateError').returns({
           updateError: updateErrorSpy,
         });
-        sandbox.stub(usePostTravelClaimsModule, 'usePostTravelClaims').returns({
-          travelPayClaimError: true,
-          isLoading: false,
-        });
+        sandbox
+          .stub(usePostTravelOnlyClaimModule, 'usePostTravelOnlyClaim')
+          .returns({
+            travelPayClaimError: true,
+            isLoading: false,
+          });
         render(
           <CheckInProvider store={store}>
             <Complete />
@@ -88,17 +93,12 @@ describe('Check-in experience', () => {
         );
         expect(updateErrorSpy.calledOnce).to.be.true;
       });
-      // Skipping rather than fixing, since this will be overhauled soon.
-      it.skip('redirects to intro if questions are skipped', () => {
+      it('redirects to intro if questions are skipped', () => {
         const skippedQuestionsStore = {
-          app: 'travelClaim',
-          facilitiesToFile: [
-            {
-              stationNo: '500',
-              startTime: '2024-03-12T10:18:02.422Z',
-              appointmentCount: 1,
-            },
-          ],
+          appointmentToFile: {
+            startTime: '2024-03-12T10:18:02.422Z',
+            timezone: 'America/Los_Angeles',
+          },
           travelAddress: '',
           travelVehicle: '',
           travelReview: '',
@@ -111,30 +111,30 @@ describe('Check-in experience', () => {
         );
         expect(push.calledOnce).to.be.true;
       });
-      it.skip('does not call API on reload or already filed', () => {
+      it('does not call API on reload or already filed', () => {
         MockDate.set('2024-03-12T10:18:02.422Z');
         sandbox.stub(useStorageModule, 'useStorage').returns({
-          getTravelPaySent: () => ({ 500: '2024-03-12T10:18:02.422Z' }),
+          getTravelPaySent: () => '2024-03-12T10:18:02.422Z',
         });
-        sandbox.stub(v2, 'postTravelPayClaims').resolves({});
+        sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
         render(
           <CheckInProvider store={store}>
             <Complete />
           </CheckInProvider>,
         );
-        sandbox.assert.notCalled(v2.postTravelPayClaims);
+        sandbox.assert.notCalled(v2.postTravelOnlyClaim);
       });
-      it.skip('does call API if station filed before today', () => {
+      it('does call API if filed before today', () => {
         sandbox.stub(useStorageModule, 'useStorage').returns({
-          getTravelPaySent: () => ({ 500: '2024-03-10T15:18:02.422Z' }),
+          getTravelPaySent: () => '2024-03-10T15:18:02.422Z',
         });
-        sandbox.stub(v2, 'postTravelPayClaims').resolves({});
+        sandbox.stub(v2, 'postTravelOnlyClaim').resolves({});
         render(
           <CheckInProvider store={store}>
             <Complete />
           </CheckInProvider>,
         );
-        sandbox.assert.calledOnce(v2.postTravelPayClaims);
+        sandbox.assert.calledOnce(v2.postTravelOnlyClaim);
       });
     });
   });
