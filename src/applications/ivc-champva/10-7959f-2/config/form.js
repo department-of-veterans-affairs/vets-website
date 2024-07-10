@@ -9,20 +9,20 @@ import {
   titleSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  // addressUI,
-  // addressSchema,
-  phoneUI,
-  phoneSchema,
+  addressUI,
+  addressSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../../shared/components/InternationalPhone';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -106,27 +106,58 @@ const formConfig = {
         },
       },
     },
+    mailingAddress: {
+      title: 'Mailing address',
+      pages: {
+        page3: {
+          path: 'mailing-address',
+          title: 'Mailing address ',
+          uiSchema: {
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+            ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
+            veteranAddress: addressUI({
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              titleSchema,
+              veteranAddress: addressSchema(),
+            },
+          },
+        },
+      },
+    },
     contactInformation: {
       title: 'Contact Information',
       pages: {
         page5: {
           path: 'contact-info',
-          title: "Veteran's contact information",
+          title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Please include this information so that we can contact you with questions or updates',
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
             ),
             messageAriaDescribedby:
-              'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
+            required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

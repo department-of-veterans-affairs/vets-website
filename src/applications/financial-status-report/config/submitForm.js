@@ -75,8 +75,12 @@ const submitForm = (form, formConfig) => {
       }/debts_api/v0/financial_status_reports/transform_and_submit`
     : submitUrl;
 
+  // transform_and_submit is expecting the whole striingified formData
+  const formDataBody = JSON.stringify(form.data);
+  const submitBody = serverSideTransform ? formDataBody : body;
+
   // Submit the form data to the specified URL, with the tracking prefix and eventData
-  return submitToUrl(body, newSubmitUrl, trackingPrefix, eventData);
+  return submitToUrl(submitBody, newSubmitUrl, trackingPrefix, eventData);
 };
 
 export default submitForm;
