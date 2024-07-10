@@ -96,52 +96,45 @@ const generate = async data => {
     doc
       .font(config.headings.H1.font)
       .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 86, 86, { width: 112 });
+      .text(data.details.fullName, 86, 86, { width: 112 })
+      .moveDown(1.38);
   });
 
   wrapper.add(name);
 
-  // DoD ID
-  if (data.details.edipi) {
-    const dodIDHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('DoD ID Number: ', 86, 120);
-    });
-    const dodID = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(data.details.edipi)
-        .moveDown(0.75);
-    });
+  // Render all info items conditionally
+  const infoItems = [
+    {
+      heading: 'DoD ID Number',
+      content: data.details.edipi,
+      condition: data.details.edipi,
+    },
+    {
+      heading: 'Disability rating',
+      content: `${data.details.totalDisabilityRating?.toString()}% service connected`,
+      condition: data.details.totalDisabilityRating,
+    },
+  ];
 
-    wrapper.add(dodIDHeader);
-    wrapper.add(dodID);
-  }
-
-  // Disability rating
-  if (data.details.totalDisabilityRating) {
-    const drHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('Disability rating: ');
-    });
-    const dr = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(
-          `${data.details.totalDisabilityRating.toString()}% service connected`,
-        )
-        .moveDown(0.75);
-    });
-
-    wrapper.add(drHeader);
-    wrapper.add(dr);
-  }
+  infoItems.forEach(item => {
+    if (item.condition) {
+      const header = doc.struct('H2', () => {
+        doc
+          .font(config.headings.H2.font)
+          .fontSize(config.headings.H2.size)
+          .text(`${item.heading} `);
+      });
+      const content = doc.struct('P', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(item.content)
+          .moveDown(0.75);
+      });
+      wrapper.add(header);
+      wrapper.add(content);
+    }
+  });
 
   // Service History
   const serviceHistory = doc.struct('H2', () => {

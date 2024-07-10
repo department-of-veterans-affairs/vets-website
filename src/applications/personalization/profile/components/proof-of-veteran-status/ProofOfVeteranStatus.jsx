@@ -178,7 +178,7 @@ const ProofOfVeteranStatus = ({
 };
 
 ProofOfVeteranStatus.propTypes = {
-  edipi: PropTypes.string,
+  edipi: PropTypes.number,
   mockUserAgent: PropTypes.string,
   serviceHistory: PropTypes.arrayOf(
     PropTypes.shape({
