@@ -11,18 +11,18 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../../shared/components/InternationalPhone';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -141,22 +141,23 @@ const formConfig = {
       pages: {
         page5: {
           path: 'contact-info',
-          title: "Veteran's contact information",
+          title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Please include this information so that we can contact you with questions or updates',
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
             ),
             messageAriaDescribedby:
-              'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
+            required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },
