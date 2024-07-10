@@ -64,6 +64,7 @@ const NewRecordsIndicator = ({
       <va-alert
         status="warning"
         visible
+        aria="polite"
         data-testid="new-records-refreshed-failed"
       >
         <h2>We couldn’t update your records</h2>
@@ -89,7 +90,11 @@ const NewRecordsIndicator = ({
       if (refreshPhase === refreshPhases.CURRENT) {
         if (newRecordsFound) {
           return (
-            <va-alert visible data-testid="new-records-refreshed-stale">
+            <va-alert
+              visible
+              aria="polite"
+              data-testid="new-records-refreshed-stale"
+            >
               <h2>Reload to get updates</h2>
               <p>
                 We found updates to your records. Reload this page to update
@@ -109,6 +114,7 @@ const NewRecordsIndicator = ({
           <va-alert
             status="success"
             visible
+            aria="polite"
             data-testid="new-records-refreshed-current"
           >
             Your list is up to date
@@ -127,7 +133,11 @@ const NewRecordsIndicator = ({
     }
     if (lastSuccessfulUpdate) {
       return (
-        <va-card background data-testid="new-records-last-updated">
+        <va-card
+          background
+          aria="polite"
+          data-testid="new-records-last-updated"
+        >
           Last updated at {lastSuccessfulUpdate.time} on{' '}
           {lastSuccessfulUpdate.date}
         </va-card>
