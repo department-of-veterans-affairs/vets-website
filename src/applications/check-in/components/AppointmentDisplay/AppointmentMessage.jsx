@@ -18,6 +18,8 @@ const AppointmentMessage = props => {
   );
 
   let alertMessage = '';
+  let alertError = false;
+
   let alertIcon = (
     <va-icon icon="warning" size={3} class="vads-u-margin-right--0p5" />
   );
@@ -36,6 +38,7 @@ const AppointmentMessage = props => {
           {t('your-appointment-started-more-than-15-minutes-ago-ask-for-help')}
         </span>
       );
+      alertError = true;
     }
 
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_BAD_STATUS)) {
@@ -44,6 +47,7 @@ const AppointmentMessage = props => {
           {defaultMessage}
         </span>
       );
+      alertError = true;
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
       if (appointment.checkInWindowStart) {
@@ -64,6 +68,7 @@ const AppointmentMessage = props => {
             {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
           </span>
         );
+        alertError = true;
       }
     }
     if (
@@ -75,6 +80,7 @@ const AppointmentMessage = props => {
       alertMessage = (
         <span data-testid="unsupported-location-message">{defaultMessage}</span>
       );
+      alertError = true;
     }
     if (
       areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
@@ -82,6 +88,7 @@ const AppointmentMessage = props => {
       alertMessage = (
         <span data-testid="unknown-reason-message">{defaultMessage}</span>
       );
+      alertError = true;
     }
     if (
       areEqual(
@@ -126,7 +133,11 @@ const AppointmentMessage = props => {
       alertMessage = (
         <span data-testid="no-status-given-message">{defaultMessage}</span>
       );
+      alertError = true;
     }
+  }
+  if (page === 'appointments' && alertError) {
+    return <></>;
   }
   let body = (
     <va-alert
@@ -139,7 +150,7 @@ const AppointmentMessage = props => {
       {alertMessage}
     </va-alert>
   );
-  if (page === 'appointments') {
+  if (page === 'appointments' && !alertError) {
     body = (
       <p>
         {alertIcon}
