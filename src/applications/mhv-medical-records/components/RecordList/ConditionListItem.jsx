@@ -29,7 +29,7 @@ const ConditionListItem = props => {
         {record.name}
       </h3>
 
-      <p className="vads-u-margin--0">Entered on: {record?.date}</p>
+      <p className="vads-u-margin--0">Date entered: {record?.date}</p>
     </va-card>
   );
 };
