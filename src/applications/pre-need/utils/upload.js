@@ -1,6 +1,6 @@
 import environment from '~/platform/utilities/environment';
-import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
+import fileUiSchema from '../definitions/file';
 
 export function fileUploadUi(content) {
   return {
