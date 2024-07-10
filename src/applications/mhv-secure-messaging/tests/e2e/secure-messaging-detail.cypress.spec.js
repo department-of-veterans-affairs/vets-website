@@ -9,8 +9,7 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
     const detailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     // const messageDetails = mockMessageDetails;
     // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();

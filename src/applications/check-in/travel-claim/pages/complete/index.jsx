@@ -32,9 +32,7 @@ const Complete = props => {
   return (
     <>
       <Wrapper
-        pageTitle={t('were-processing-your-travel-claim', {
-          count: 1,
-        })}
+        pageTitle={t('were-processing-your-travel-claim')}
         classNames="travel-page"
         testID="travel-complete-page"
       >

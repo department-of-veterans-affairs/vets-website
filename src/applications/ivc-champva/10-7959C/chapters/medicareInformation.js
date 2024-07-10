@@ -43,7 +43,7 @@ export const applicantHasMedicareSchema = {
               false,
               undefined,
               true,
-            )} need to provide or update Medicare coverage?`,
+            )} have Medicare information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },
@@ -246,20 +246,29 @@ export const applicantMedicareABUploadSchema = {
       },
     ),
     ...fileUploadBlurb,
-    applicantMedicarePartAPartBCard: fileUploadUI({
-      label: 'Upload Medicare card',
-    }),
+    applicantMedicarePartAPartBCard: {
+      ...fileUploadUI({
+        label: 'Upload Medicare card',
+      }),
+      'ui:errorMessages': {
+        minItems:
+          'You must add both the front and back of your card as separate files.',
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartAPartBCard: fileWithMetadataSchema([
-        'Front of Medicare card',
-        'Back of Medicare card',
-        'Other supporting document',
-      ]),
+      applicantMedicarePartAPartBCard: fileWithMetadataSchema(
+        [
+          'Front of Medicare card',
+          'Back of Medicare card',
+          'Other supporting document',
+        ],
+        2,
+      ),
     },
   },
 };
@@ -284,7 +293,7 @@ export const applicantHasMedicareDSchema = {
               false,
               undefined,
               true,
-            )} need to provide or update Medicare Part D coverage?`,
+            )} have Medicare Part D information to provide or update at this time?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },
@@ -348,20 +357,29 @@ export const applicantMedicareDUploadSchema = {
       );
     }),
     ...fileUploadBlurb,
-    applicantMedicarePartDCard: fileUploadUI({
-      label: 'Upload Medicare Part D card',
-    }),
+    applicantMedicarePartDCard: {
+      ...fileUploadUI({
+        label: 'Upload Medicare Part D card',
+      }),
+      'ui:errorMessages': {
+        minItems:
+          'You must add both the front and back of your card as separate files.',
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      applicantMedicarePartDCard: fileWithMetadataSchema([
-        'Front of Medicare Part D card',
-        'Back of Medicare Part D card',
-        'Other supporting document',
-      ]),
+      applicantMedicarePartDCard: fileWithMetadataSchema(
+        [
+          'Front of Medicare Part D card',
+          'Back of Medicare Part D card',
+          'Other supporting document',
+        ],
+        2,
+      ),
     },
   },
 };

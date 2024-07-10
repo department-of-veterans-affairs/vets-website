@@ -192,6 +192,7 @@ describe('travel-mileage', () => {
               doctorName: 'Dr. Face',
               startTime: '2024-03-21T22:19:12.099Z',
               timezone: 'America/Los_Angeles',
+              facility: 'Test Facility',
             },
           ],
         };
@@ -202,7 +203,7 @@ describe('travel-mileage', () => {
         );
         expect(
           component.getByTestId('appointment-list-item-111'),
-        ).to.contain.text('Dermatology appointment with Dr. Face');
+        ).to.contain.text('In person at Test Facility');
       });
       it('formats string with missing values', () => {
         const store = {

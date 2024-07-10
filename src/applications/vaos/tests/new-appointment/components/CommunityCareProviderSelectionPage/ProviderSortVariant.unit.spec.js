@@ -220,9 +220,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
 
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     // Then providers should be displayed in ascending order by distance from current location
     const miles = screen.queryAllByText(/miles$/);
@@ -377,9 +377,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: '983' },
     });
 
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     const miles = screen.queryAllByText(/miles$/);
     // Then providers should be displayed in ascending order by distance from the chosen facility

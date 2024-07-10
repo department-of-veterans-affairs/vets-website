@@ -29,18 +29,13 @@ const OtherExpensesChecklist = ({
     'view:showUpdatedExpensePages': showUpdatedExpensePages,
   } = data;
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-
-    return otherExpenses.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          otherExpenses: otherExpenses.filter(source => source.name !== value),
-        })
-      : setFormData({
-          ...data,
-          otherExpenses: [...otherExpenses, { name: value, amount: '' }],
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      otherExpenses: checked
+        ? [...otherExpenses, { name, amount: '' }]
+        : otherExpenses.filter(expense => expense.name !== name),
+    });
   };
 
   // Calculate Discretionary income as necessary

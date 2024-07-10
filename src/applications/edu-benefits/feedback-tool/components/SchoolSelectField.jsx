@@ -15,6 +15,7 @@ import {
   searchInputChange,
   selectInstitution,
   searchSchools,
+  toggleManualSchoolEntry,
 } from '../actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -73,9 +74,10 @@ export class SchoolSelectField extends React.Component {
   }
 
   handleManualSchoolEntryToggled = currentValue => {
+    this.props.toggleManualSchoolEntry(currentValue);
     this.props.onChange({
       ...this.props.formData,
-      'view:manualSchoolEntryChecked': !currentValue,
+      'view:manualSchoolEntryChecked': currentValue,
     });
   };
 
@@ -263,7 +265,9 @@ export class SchoolSelectField extends React.Component {
                 {errorMessages.map((message, index) => (
                   <span key={index}>
                     <span className="sr-only">Error</span>
-                    {message}
+                    {!showInstitutions
+                      ? message
+                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
                   </span>
                 ))}
               </span>
@@ -292,13 +296,8 @@ export class SchoolSelectField extends React.Component {
                   Search Schools
                 </button>
               </div>
-              <div className="clear-search">
-                <button
-                  className="va-button-link start-over"
-                  onClick={this.handleStartOver}
-                >
-                  Start Over
-                </button>
+              <div className="clear-search vads-u-margin-top--1p5">
+                <va-button onClick={this.handleStartOver} text="Reset Search" />
               </div>
             </div>
           </div>
@@ -307,7 +306,6 @@ export class SchoolSelectField extends React.Component {
             onVaChange={event =>
               this.handleManualSchoolEntryToggled(event.detail.checked)
             }
-            description="If you don’t find your school in the search results, then check the box to enter in your school information manually."
             label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">
@@ -506,6 +504,7 @@ const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
   selectInstitution,
+  toggleManualSchoolEntry,
 };
 
 SchoolSelectField.propTypes = {

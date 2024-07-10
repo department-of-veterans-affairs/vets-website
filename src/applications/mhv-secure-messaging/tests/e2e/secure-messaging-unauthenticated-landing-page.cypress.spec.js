@@ -5,14 +5,13 @@ import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const site = new SecureMessagingSite();
-    site.login(mockEhrData, false);
-    site.loadPageUnauthenticated();
+    SecureMessagingSite.login(mockEhrData, false);
+    SecureMessagingSite.loadPageUnauthenticated();
 
     cy.url().should('contain', Paths.HEALTH_CARE_SECURE_MSG);
 
     // lines below are only for axeCheck (as test couldn't be committed without axeCheck verification)
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     cy.injectAxe();

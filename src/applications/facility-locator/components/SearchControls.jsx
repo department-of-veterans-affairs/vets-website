@@ -198,9 +198,11 @@ const SearchControls = props => {
               aria-label="Clear your city, state or postal code"
               type="button"
               id="clear-input"
-              className="fas fa-times-circle clear-button"
+              className="clear-button"
               onClick={handleClearInput}
-            />
+            >
+              <va-icon icon="cancel" size={3} />
+            </button>
           )}
         </div>
       </div>

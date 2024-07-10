@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import { focusElement } from 'platform/utilities/ui';
 import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -13,77 +12,54 @@ const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle
-        title="File a Foreign Medical Program (FMP) Claim"
+        title="File a Foreign Medical Program (FMP) claim"
         subTitle="FMP Claim Cover Sheet (VA Form 10-7959f-2)"
       />
+      <p>
+        If you’re a Veteran who gets medical care outside the U.S. for a
+        service-connected condition, use this form to file a Foreign Medical
+        Program (FMP) claim.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for health care benefits.
+        What to know before you fill out this form
       </h2>
-      <va-process-list>
+      <p>When you prepare to file, be sure to have these on hand: </p>
+      <ul>
+        <li>You’ll need an itemized billing statement to support your claim</li>
         <li>
-          <h3>Prepare</h3>
-          <h4>To fill out this application, you’ll need your:</h4>
-          <ul>
-            <li>Social Security number (required)</li>
-          </ul>
-          <p>
-            <strong>What if I need help filling out my application?</strong> An
-            accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your claim.{' '}
-            <a href="/disability-benefits/apply/help/index.html">
-              Get help filing your claim
-            </a>
-          </p>
+          If you already paid the provider, you’ll need to upload a receiept or
+          other proof that you paid
         </li>
         <li>
-          <h3>Apply</h3>
-          <p>Complete this health care benefits form.</p>
-          <p>
-            After submitting the form, you’ll get a confirmation message. You
-            can print this for your records.
-          </p>
+          For cetain types of claims, you may need other supporting documents
         </li>
-        <li>
-          <h3>VA Review</h3>
-          <p>
-            We process claims within a week. If more than a week has passed
-            since you submitted your application and you haven’t heard back,
-            please don’t apply again. Call us at.
-          </p>
-        </li>
-        <li>
-          <h3>Decision</h3>
-          <p>
-            Once we’ve processed your claim, you’ll get a notice in the mail
-            with our decision.
-          </p>
-        </li>
-      </va-process-list>
+      </ul>
+      <a
+        href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w"
+        style={{ display: 'inline-block', marginBottom: '2em' }}
+      >
+        {' '}
+        Find out which support documents you need.
+      </a>
       <SaveInProgressIntro
-        buttonOnly
+        formId={formConfig.formId}
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the Application"
+        alertTitle="Sign in now to save time and save your work in progress"
+        unauthStartText="Sign in to start your claim"
+        formConfig={{
+          customText: {
+            appType: 'claim',
+          },
+        }}
       />
-      <p />
       <va-omb-info
         res-burden={11}
         omb-number="2900-0648"
         exp-date="03/31/2027"
       />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        What if I need help filling out my application?
-      </h2>
-      <p>
-        An accredited representative, like a Veterans Service Officer (VSO), can
-        help you fill out your application.
-        <a href="https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/CITI.asp">
-          Find out if you can get care at a local VA medical center when you’re
-          covered under CHAMPVA
-        </a>
-      </p>
     </article>
   );
 };

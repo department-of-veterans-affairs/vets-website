@@ -30,7 +30,7 @@ describe(`${appName} -- transitional Medical Records page disabled`, () => {
   });
 
   it('renders not found page', () => {
-    cy.findByRole('heading', { level: 3, name: notFoundHeading });
+    cy.findByRole('heading', { name: notFoundHeading });
     cy.injectAxeThenAxeCheck();
   });
 });

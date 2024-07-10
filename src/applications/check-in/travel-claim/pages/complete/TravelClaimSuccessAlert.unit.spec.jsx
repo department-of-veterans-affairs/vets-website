@@ -2,7 +2,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { format } from 'date-fns';
 import TravelClaimSuccessAlert from './TravelClaimSuccessAlert';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
@@ -15,17 +14,25 @@ describe('Check-in experience', () => {
     teardownI18n();
   });
   describe('travel-claim', () => {
+    const mockData = {
+      appointmentToFile: {
+        stationNo: '555',
+        startTime: '2021-08-19T13:56:31Z',
+        clinicStopCodeName: 'Endoscopy',
+        clinicFriendlyName: 'Endoscopy clinic',
+        timezone: 'America/Los_Angeles',
+      },
+    };
     describe('TravelClaimSuccessAlert', () => {
       it('renders the travel pay message', () => {
-        const dateString = format(new Date(), 'MMMM dd, yyyy');
         const { getByTestId } = render(
-          <CheckInProvider>
+          <CheckInProvider store={mockData}>
             <TravelClaimSuccessAlert />
           </CheckInProvider>,
         );
         expect(getByTestId('travel-pay-message')).to.exist;
-        expect(getByTestId('travel-pay--claim--submitted')).to.have.text(
-          `This claim is for your appointment on ${dateString}. We’ll send you a text to let you know the status of your claim.`,
+        expect(getByTestId('travel-pay--claim--submitted')).to.contain.text(
+          `August 19, 2021, 6:56 a.m.`,
         );
       });
     });

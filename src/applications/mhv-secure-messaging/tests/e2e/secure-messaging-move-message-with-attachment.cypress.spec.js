@@ -8,9 +8,8 @@ import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
-    const site = new SecureMessagingSite();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    site.login();
+    SecureMessagingSite.login();
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.messageId = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;

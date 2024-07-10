@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 
 /**
@@ -89,7 +89,7 @@ export const SubTask = props => {
       // H1 must be unique on each sub-task page
       focusElement('h1');
       // Scroll new page to top
-      scrollToTop();
+      scrollTo('topContentElement');
     },
     // We only want to call this useEffect when the page changes
     [currentPage.name],

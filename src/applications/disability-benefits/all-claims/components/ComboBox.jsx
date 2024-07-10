@@ -5,7 +5,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
-
+const defaultHighlightedIndex = -1;
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (searchTerm, value, numResults) => {
   let results = numResults;
@@ -33,9 +33,8 @@ export class ComboBox extends React.Component {
       bump: false,
       // Autopopulate input with existing form data:
       searchTerm: props.formData,
-      input: props.formData,
       value: props.formData,
-      highlightedIndex: 0,
+      highlightedIndex: defaultHighlightedIndex,
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
@@ -75,10 +74,10 @@ export class ComboBox extends React.Component {
   handleSearchChange = e => {
     const { bump } = this.state;
     const newTextValue = e.target.value;
+    // this.filterOptions();
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
-      input: newTextValue,
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
@@ -114,16 +113,22 @@ export class ComboBox extends React.Component {
             value: searchTerm,
             searchTerm,
             filteredOptions: [],
-            highlightedIndex: 0,
+            highlightedIndex: defaultHighlightedIndex,
           });
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
       case 'ArrowUp':
-        index = this.decrementIndex(index);
-        this.scrollIntoView(index);
-        this.setState({ highlightedIndex: index });
-        this.optionFocus(index);
+        // if user is in first item of the list and arrows up, should return to input field
+        if (index === 0) {
+          this.sendFocusToInput(this.inputRef);
+          this.setState({ highlightedIndex: -1 });
+        } else {
+          index = this.decrementIndex(index);
+          this.scrollIntoView(index);
+          this.setState({ highlightedIndex: index });
+          this.optionFocus(index);
+        }
         e.preventDefault();
         break;
       case 'ArrowDown':
@@ -144,7 +149,7 @@ export class ComboBox extends React.Component {
           value: searchTerm,
           searchTerm,
           filteredOptions: [],
-          highlightedIndex: 0,
+          highlightedIndex: defaultHighlightedIndex,
         });
         // eslint-disable-next-line no-console
         console.log('sending focus to input from escape');
@@ -158,7 +163,9 @@ export class ComboBox extends React.Component {
         console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
-        this.setState({ highlightedIndex: 0 });
+        this.setState({
+          highlightedIndex: defaultHighlightedIndex,
+        });
         break;
     }
   };
@@ -237,7 +244,7 @@ export class ComboBox extends React.Component {
       value: option,
       searchTerm: option,
       filteredOptions: [],
-      highlightedIndex: 0,
+      highlightedIndex: defaultHighlightedIndex,
     });
     const { onChange } = this.props;
     onChange(option);
@@ -294,7 +301,7 @@ export class ComboBox extends React.Component {
         onKeyDown={this.handleKeyPress}
         label="new-condition-option"
         role="option"
-        aria-selected="false"
+        aria-selected={this.state.highlightedIndex === 0 ? 'true' : 'false'}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -304,19 +311,14 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
+    const autocompleteHelperText = `
+      When autocomplete results are available use up and down arrows to
+      review and enter to select. Touch device users, explore by touch or
+      with swipe gestures.
+    `;
+
     return (
-      <div
-        role="combobox"
-        aria-expanded={filteredOptions.length > 0}
-        className="cc-combobox"
-        aria-haspopup="listbox"
-        aria-controls="combobox-list"
-        aria-owns="combobox-list"
-        aria-autocomplete="list"
-        tabIndex={0}
-        aria-labelledby={this.props.idSchema.$id}
-        aria-label="Enter you condition"
-      >
+      <div className="cc-combobox">
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required
@@ -327,6 +329,7 @@ export class ComboBox extends React.Component {
           onChange={this.handleSearchChange}
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
+          message-aria-describedby={autocompleteHelperText}
         />
         <ul
           className={
@@ -344,7 +347,7 @@ export class ComboBox extends React.Component {
               ? `option-${this.state.highlightedIndex}`
               : null
           }
-          tabIndex={0}
+          tabIndex={-1}
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -356,7 +359,7 @@ export class ComboBox extends React.Component {
               }
               return (
                 <li
-                  key={index}
+                  key={optionIndex}
                   className={classNameStr}
                   onClick={() => {
                     this.selectOption(option);
@@ -369,7 +372,11 @@ export class ComboBox extends React.Component {
                   onKeyDown={this.handleKeyPress}
                   label={option}
                   role="option"
-                  aria-selected="false"
+                  aria-selected={
+                    optionIndex === this.state.highlightedIndex
+                      ? 'true'
+                      : 'false'
+                  }
                   id={`option-${optionIndex}`}
                 >
                   {option}

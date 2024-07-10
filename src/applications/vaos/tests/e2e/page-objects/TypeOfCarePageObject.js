@@ -20,7 +20,7 @@ export class TypeOfCarePageObject extends PageObject {
     return super.assertUrl(
       {
         url: '/type-of-care',
-        breadcrumb: 'Choose the type of care you need',
+        breadcrumb: 'Schedule an appointment',
       },
       { timeout: 10000 },
     );
