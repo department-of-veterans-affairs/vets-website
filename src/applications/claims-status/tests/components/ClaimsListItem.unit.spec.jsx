@@ -1,145 +1,605 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import ClaimsListItem from '../../components/ClaimsListItem';
 import { renderWithRouter } from '../utils';
 
+const getStore = (cstClaimPhasesEnabled = true) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_claim_phases: cstClaimPhasesEnabled,
+    },
+  }));
+
+const dependencyClaimTypeCode = '400PREDSCHRG';
+const compensationClaimTypeCode = '110LCMP7IDES'; // 5103 Notice
+
 describe('<ClaimsListItem>', () => {
-  it('should not show any flags', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: false,
-        developmentLetterSent: false,
-        documentsNeeded: false,
-        status: 'CLAIM_RECEIVED',
-      },
-    };
+  context(
+    'cstClaimPhases feature flag enabled and compenstaiton claim type code',
+    () => {
+      it('should not show any flags and render proper fields', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimDate: '2024-06-08',
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'CLAIM_RECEIVED',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: false,
+            status: 'CLAIM_RECEIVED',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.queryByRole('listitem')).not.to.exist;
-  });
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Received on June 8, 2024');
+        getByText('Step 1 of 8: Claim received');
+        getByText('Moved to this step on June 8, 2024');
+      });
+      it('should show closed status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
 
-  it('should show closed status', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        status: 'COMPLETE',
-      },
-    };
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 8 of 8: Claim decided');
+      });
+      it('should show the correct status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText('Step 5 of 5: Closed')).to.exist;
-  });
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 2 of 8: Initial review');
+      });
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
 
-  it('should show the correct status', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        status: 'INITIAL_REVIEW',
-      },
-    };
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 8: Evidence gathering');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: true,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText(/Initial review/i)).to.exist;
-  });
+        const { queryByText, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByText('We sent you a development letter')).to.be.null;
+        expect(queryByText('An item in the claim needs your attention')).to.be
+          .null;
+        expect(getByText('You have a decision letter ready')).to.exist;
+        getByText('Step 2 of 8: Initial review');
+      });
+      it('should show items needed flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-  it('should show development letter flag', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: false,
-        developmentLetterSent: true,
-        documentsNeeded: false,
-        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-      },
-    };
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('An item in the claim needs your attention');
+        getByText('Step 2 of 8: Initial review');
+      });
+      it('should not show any flags when closed', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'COMPLETE',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText('We sent you a development letter')).to.exist;
-  });
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Step 8 of 8: Claim decided');
+      });
+      it('should render a link to the claim status page', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
+        const { getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
 
-  it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: true,
-        developmentLetterSent: true,
-        documentsNeeded: true,
-        status: 'INITIAL_REVIEW',
-      },
-    };
+        expect(getByRole('link')).to.have.text('Details');
+        expect(getByRole('link').href).to.equal(
+          `http://localhost/your-claims/1/status`,
+        );
+      });
+    },
+  );
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.queryByText('We sent you a development letter')).to.be.null;
-    expect(screen.queryByText('An item in the claim needs your attention')).to
-      .be.null;
-    expect(screen.getByText('You have a decision letter ready')).to.exist;
-  });
+  context(
+    'cstClaimPhases feature flag enabled and dependency claim type code',
+    () => {
+      it('should not show any flags', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimDate: '2024-06-08',
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'CLAIM_RECEIVED',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: false,
+            status: 'CLAIM_RECEIVED',
+          },
+        };
 
-  it('should show items needed flag', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: false,
-        developmentLetterSent: false,
-        documentsNeeded: true,
-        status: 'INITIAL_REVIEW',
-      },
-    };
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Received on June 8, 2024');
+        getByText('Step 1 of 5: Claim received');
+        getByText('Moved to this step on June 8, 2024');
+      });
+      it('should show closed status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText('An item in the claim needs your attention')).to
-      .exist;
-  });
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 5 of 5: Closed');
+      });
+      it('should show the correct status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-  it('should not show any flags when closed', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        decisionLetterSent: false,
-        developmentLetterSent: true,
-        documentsNeeded: true,
-        status: 'COMPLETE',
-      },
-    };
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.queryByRole('listitem')).not.to.exist;
-  });
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: true,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-  it('should render a link to the claim status page', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        status: 'COMPLETE',
-      },
-    };
+        const { queryByText, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByText('We sent you a development letter')).to.be.null;
+        expect(queryByText('An item in the claim needs your attention')).to.be
+          .null;
+        expect(getByText('You have a decision letter ready')).to.exist;
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should show items needed flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
 
-    const tree = shallow(<ClaimsListItem claim={claim} />);
-    const linkProps = tree
-      .find('ClaimCardLink')
-      .first()
-      .props();
-    expect(linkProps.href).to.equal(`/your-claims/${claim.id}/status`);
-    tree.unmount();
-  });
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('An item in the claim needs your attention');
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should not show any flags when closed', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'COMPLETE',
+          },
+        };
 
-  it('should render updated on and submitted on with proper dates', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        claimDate: '2019-02-10',
-        claimPhaseDates: {
-          phaseChangeDate: '2019-08-20',
-        },
-        status: 'COMPLETE',
-      },
-    };
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Step 5 of 5: Closed');
+      });
+      it('should render a link to the claim status page', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: dependencyClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
+        const { getByRole } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
 
-    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText(/Moved to this step on August 20, 2019/i)).to.exist;
-    expect(screen.getByText(/Received on February 10, 2019/i)).to.exist;
-  });
+        expect(getByRole('link')).to.have.text('Details');
+        expect(getByRole('link').href).to.equal(
+          `http://localhost/your-claims/1/status`,
+        );
+      });
+    },
+  );
+
+  context(
+    'cstClaimPhases feature flag disabled and compenstaiton claim type code',
+    () => {
+      it('should not show any flags and render proper fields', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimDate: '2024-06-08',
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'CLAIM_RECEIVED',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: false,
+            status: 'CLAIM_RECEIVED',
+          },
+        };
+
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Received on June 8, 2024');
+        getByText('Step 1 of 5: Claim received');
+        getByText('Moved to this step on June 8, 2024');
+      });
+      it('should show closed status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 5 of 5: Closed');
+      });
+      it('should show the correct status', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'INITIAL_REVIEW',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should show development letter flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'GATHERING_OF_EVIDENCE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('We sent you a development letter');
+        getByText('Step 3 of 5: Evidence gathering, review, and decision');
+      });
+      it('should show decision letter flag decisionLetterSent is true, but not render the other flags', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: true,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
+
+        const { queryByText, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByText('We sent you a development letter')).to.be.null;
+        expect(queryByText('An item in the claim needs your attention')).to.be
+          .null;
+        expect(getByText('You have a decision letter ready')).to.exist;
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should show items needed flag', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'UNDER_REVIEW',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: false,
+            documentsNeeded: true,
+            status: 'INITIAL_REVIEW',
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        getByText('An item in the claim needs your attention');
+        getByText('Step 2 of 5: Initial review');
+      });
+      it('should not show any flags when closed', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            decisionLetterSent: false,
+            developmentLetterSent: true,
+            documentsNeeded: true,
+            status: 'COMPLETE',
+          },
+        };
+
+        const { queryByRole, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+        expect(queryByRole('listitem')).not.to.exist;
+        getByText('Step 5 of 5: Closed');
+      });
+      it('should render a link to the claim status page', () => {
+        const claim = {
+          id: 1,
+          attributes: {
+            claimPhaseDates: {
+              phaseChangeDate: '2024-06-08',
+              phaseType: 'COMPLETE',
+            },
+            claimTypeCode: compensationClaimTypeCode,
+            status: 'COMPLETE',
+          },
+        };
+        const { getByRole } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <ClaimsListItem claim={claim} />
+          </Provider>,
+        );
+
+        expect(getByRole('link')).to.have.text('Details');
+        expect(getByRole('link').href).to.equal(
+          `http://localhost/your-claims/1/status`,
+        );
+      });
+    },
+  );
 });
