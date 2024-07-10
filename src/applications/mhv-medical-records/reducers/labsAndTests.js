@@ -196,6 +196,8 @@ const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
+  const specimenRef = extractSpecimen(record);
+  const collectionRequest = extractContainedResource(record, specimenRef);
   return {
     id: record.id,
     name: record.code?.text,
@@ -206,10 +208,10 @@ const convertPathologyRecord = record => {
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
-    labLocation: record.labLocation || EMPTY_FIELD,
+    sampleTested: collectionRequest?.type.text || EMPTY_FIELD,
+    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    results: record.presentedForm.map(form => `${form.data}`) || EMPTY_FIELD,
   };
 };
 
