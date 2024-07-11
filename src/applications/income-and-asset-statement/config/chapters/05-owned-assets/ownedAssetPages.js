@@ -13,6 +13,10 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
+  RequestPropertyOrBusinessIncomeFormAlert,
+  RequestFarmIncomeFormAlert,
+} from '../../../components/FormAlerts';
+import {
   otherExplanationRequired,
   recipientNameRequired,
   showRecipientName,
@@ -152,6 +156,21 @@ const ownedAssetTypePage = {
       title: 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
+    'view:propertyOrBusinessFormRequestAlert': {
+      'ui:description': RequestPropertyOrBusinessIncomeFormAlert,
+      'ui:options': {
+        expandUnder: 'assetType',
+        expandUnderCondition: assetType =>
+          assetType === 'RENTAL_PROPERTY' || assetType === 'BUSINESS',
+      },
+    },
+    'view:farmFormRequestAlert': {
+      'ui:description': RequestFarmIncomeFormAlert,
+      'ui:options': {
+        expandUnder: 'assetType',
+        expandUnderCondition: 'FARM',
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -159,6 +178,11 @@ const ownedAssetTypePage = {
       grossMonthlyIncome: { type: 'number' },
       ownedPortionValue: { type: 'number' },
       assetType: radioSchema(Object.keys(ownedAssetTypeLabels)),
+      'view:propertyOrBusinessFormRequestAlert': {
+        type: 'object',
+        properties: {},
+      },
+      'view:farmFormRequestAlert': { type: 'object', properties: {} },
     },
     required: ['grossMonthlyIncome', 'ownedPortionValue', 'assetType'],
   },
