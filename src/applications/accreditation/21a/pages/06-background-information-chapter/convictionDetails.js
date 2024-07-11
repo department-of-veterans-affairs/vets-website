@@ -8,7 +8,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import ConvictionDetailsDescription from '../../components/ConvictionDetailsDescription';
+import ConvictionDetailsDescription from '../../components/06-background-information-chapter/ConvictionDetailsDescription';
 
 /** @type {PageSchema} */
 export default {

@@ -31,7 +31,7 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { setDocumentTitle } from '../utils/helpers';
+import { setDocumentTitle, getClaimType } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
@@ -43,6 +43,7 @@ const scrollToError = () => {
 const { Element } = Scroll;
 
 const filesPath = '../files';
+const statusPath = '../status';
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
@@ -172,12 +173,34 @@ class DocumentRequestPage extends React.Component {
       );
     }
 
+    const { claim } = this.props;
+    const claimType = getClaimType(claim).toLowerCase();
+
+    const previousPageIsFilesTab = () => {
+      const previousPage = sessionStorage.getItem('previousPage');
+      if (previousPage === 'files') {
+        return true;
+      }
+      return false;
+    };
+
+    const filesBreadcrumb = {
+      href: filesPath,
+      label: `Files for your ${claimType} claim`,
+      isRouterLink: true,
+    };
+    const statusBreadcrumb = {
+      href: statusPath,
+      label: `Status of your ${claimType} claim`,
+      isRouterLink: true,
+    };
+
+    const previousPageBreadcrumb = previousPageIsFilesTab()
+      ? filesBreadcrumb
+      : statusBreadcrumb;
+
     const crumbs = [
-      {
-        href: filesPath,
-        label: 'Status details',
-        isRouterLink: true,
-      },
+      previousPageBreadcrumb,
       {
         href: `../document-request/${this.props.params.trackedItemId}`,
         label: 'Document request',

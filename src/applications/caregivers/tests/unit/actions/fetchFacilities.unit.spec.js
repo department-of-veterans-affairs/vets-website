@@ -1,61 +1,55 @@
 import { expect } from 'chai';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockLightHouseFacilitiesResponse,
   mockLightHouseFacilitiesResponseWithTransformedAddresses,
 } from '../../mocks/responses';
 
-describe('fetchFacilities', () => {
-  context("when the 'mapBoxResponse' param is an error", () => {
-    // eslint-disable-next-line cypress/no-async-tests
-    it('should return the mapBox error', async () => {
-      const facilities = await fetchFacilities({
-        type: 'SEARCH_FAILED',
-        errorMessage: 'Something went wrong. Some bad error.',
-      });
+describe('CG fetchFacilities action', () => {
+  const mockCoordinates = [1, 2, 3, 4];
 
-      expect(facilities).to.be.a('string');
-      expect(facilities).to.eq('Something went wrong. Some bad error.');
+  context('when the `mapBoxResponse` param is an error', () => {
+    it('should return the mapBox error', async () => {
+      const errorMessage = 'Something went wrong. Some bad error.';
+      const response = await fetchFacilities({
+        type: 'SEARCH_FAILED',
+        errorMessage,
+      });
+      expect(response).to.eq(errorMessage);
     });
   });
 
-  context('when the response is successful', () => {
-    it('should return facility results', async () => {
-      // Use the mockLightHouseFacilitiesResponse as the response data
-      const facilities = await fetchFacilities(
-        [1, 2, 3, 4],
+  context('when the request succeeds', () => {
+    const { data } = mockLightHouseFacilitiesResponseWithTransformedAddresses;
+
+    it('should return facility results when request is omitted', async () => {
+      mockApiRequest(mockLightHouseFacilitiesResponse);
+      const response = await fetchFacilities(mockCoordinates);
+      expect(response).to.deep.eq(data);
+    });
+
+    it('should return facility results when request is passed', async () => {
+      const response = await fetchFacilities(
+        mockCoordinates,
         Promise.resolve(mockLightHouseFacilitiesResponse),
       );
-
-      const expectedFacilities =
-        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
-
-      // expect(facilities).to.be.an('array');
-      expect(facilities).to.deep.eq(expectedFacilities);
+      expect(response).to.deep.eq(data);
     });
   });
 
-  context('when the response is unsuccessful', () => {
-    const mockErrors = {
-      errors: [
-        {
-          title: 'Some bad error',
-        },
-        {
-          detail: 'Another bad error',
-        },
-      ],
-    };
-    // eslint-disable-next-line cypress/no-async-tests
+  context('when the request fails', () => {
     it('should return an error object', async () => {
-      const facilities = await fetchFacilities(
-        [4, 3, 2, 1],
+      const mockErrors = {
+        errors: [{ title: 'Some bad error' }, { detail: 'Another bad error' }],
+      };
+      const response = await fetchFacilities(
+        mockCoordinates,
         Promise.reject(mockErrors),
       );
-
-      expect(facilities).to.be.a('object');
-      expect(facilities.errorMessage[0]).to.eq('Some bad error');
-      expect(facilities.errorMessage[1]).to.eq('Another bad error');
+      expect(response).to.be.a('object');
+      expect(response.errorMessage[0]).to.eq(mockErrors.errors[0].title);
+      expect(response.errorMessage[1]).to.eq(mockErrors.errors[1].detail);
     });
   });
 });

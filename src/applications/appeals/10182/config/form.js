@@ -9,8 +9,6 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
-import { onFormLoaded } from '../utils/redirect';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -19,7 +17,6 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
-  showPart3,
   showExtensionReason,
 } from '../utils/helpers';
 
@@ -89,7 +86,6 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
-  onFormLoaded,
   // SaveInProgress messages
   customText,
   savedFormMessages,
@@ -141,10 +137,8 @@ const formConfig = {
         extensionRequest: {
           title: 'Request an extension',
           path: 'extension-request',
-          depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
-          onContinue: extensionRequest.onContinue,
           scrollAndFocusTarget: focusH3,
         },
         extensionReason: {
@@ -158,7 +152,6 @@ const formConfig = {
         appealingVhaDenial: {
           title: 'Appealing denial of VA health care benefits',
           path: 'appealing-denial',
-          depends: showPart3,
           uiSchema: appealingVhaDenial.uiSchema,
           schema: appealingVhaDenial.schema,
           scrollAndFocusTarget: focusH3,
