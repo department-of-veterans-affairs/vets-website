@@ -141,7 +141,9 @@ const DebtLettersSummary = () => {
             </>
           ) : (
             <>
-              <OnThisPageLinks />
+              <OnThisPageLinks
+                showDebtLetterDownload={showDebtLetterDownload}
+              />
 
               <DebtCardsList />
 

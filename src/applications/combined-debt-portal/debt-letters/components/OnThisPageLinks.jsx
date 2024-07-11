@@ -103,6 +103,7 @@ const OnThisPageLinks = ({
 OnThisPageLinks.propTypes = {
   hasHistory: PropTypes.bool,
   isDetailsPage: PropTypes.bool,
+  showDebtLetterDownload: PropTypes.bool,
 };
 
 export default OnThisPageLinks;
