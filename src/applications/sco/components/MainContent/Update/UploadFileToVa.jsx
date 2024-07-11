@@ -1,15 +1,11 @@
 import React from 'react';
+import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 
 const UploadFileToVa = () => {
   return (
-    <div>
-      <section>
-        <div className="va-h-ruled--stars" />
-      </section>
-      <h2 id="handbooks" tabIndex="-1">
-        Upload files to VA
-      </h2>
-    </div>
+    <MainContentSubDiv id="upload-files-to-va" header="Upload files to VA">
+      <h3>Sample Body Will Go Here.</h3>
+    </MainContentSubDiv>
   );
 };
 

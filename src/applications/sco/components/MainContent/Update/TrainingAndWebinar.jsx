@@ -1,15 +1,14 @@
 import React from 'react';
+import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 
 const TrainingAndWebinar = () => {
   return (
-    <div>
-      <section>
-        <div className="va-h-ruled--stars" />
-      </section>
-      <h2 id="handbooks" tabIndex="-1">
-        Trainings and webinars
-      </h2>
-    </div>
+    <MainContentSubDiv
+      id="trainings-and-webinars"
+      header="Trainings and webinars"
+    >
+      <h3>Sample Body Will Go Here.</h3>
+    </MainContentSubDiv>
   );
 };
 

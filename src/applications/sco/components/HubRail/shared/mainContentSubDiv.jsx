@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const MainContentBodyDiv = ({ id, header, children }) => {
+const MainContentSubDiv = ({ id, header, children }) => {
   return (
     <div>
       <section>
@@ -10,15 +10,15 @@ const MainContentBodyDiv = ({ id, header, children }) => {
       <h2 id={id} tabIndex="-1">
         {header}
       </h2>
-      {children}
+      <ul className="va-nav-linkslist-list">{children}</ul>
     </div>
   );
 };
 
-MainContentBodyDiv.propTypes = {
+MainContentSubDiv.propTypes = {
   id: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
   children: PropTypes.any,
 };
 
-export default MainContentBodyDiv;
+export default MainContentSubDiv;
