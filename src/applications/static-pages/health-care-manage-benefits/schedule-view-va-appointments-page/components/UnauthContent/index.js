@@ -68,7 +68,7 @@ export const UnauthContent = () => (
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
       Online scheduling is available at all VA health facilities except in
-      Manila, Philippines
+      Manila, Philippines.
     </p>
     <p>
       <strong>Note:</strong> Online scheduling is available for some types of
