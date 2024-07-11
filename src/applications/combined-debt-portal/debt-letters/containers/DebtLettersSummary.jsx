@@ -6,6 +6,7 @@ import {
   setPageFocus,
   ALERT_TYPES,
   APP_TYPES,
+  debtLettersShowLettersVBMS,
 } from '../../combined/utils/helpers';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
@@ -61,6 +62,10 @@ const DebtLettersSummary = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
+  const showDebtLetterDownload = useSelector(state =>
+    debtLettersShowLettersVBMS(state),
+  );
+
   const {
     debts,
     debtLinks,
@@ -142,26 +147,28 @@ const DebtLettersSummary = () => {
 
               {renderOtherVA(mcpStatements?.length, mcpError)}
 
-              <section>
-                <h3
-                  id="downloadDebtLetters"
-                  className="vads-u-margin-top--4 vads-u-font-size--h2"
-                >
-                  Download debt letters
-                </h3>
-                <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
-                  You can download some of your letters for education,
-                  compensation and pension debt.
-                </p>
+              {showDebtLetterDownload ? (
+                <section>
+                  <h3
+                    id="downloadDebtLetters"
+                    className="vads-u-margin-top--4 vads-u-font-size--h2"
+                  >
+                    Download debt letters
+                  </h3>
+                  <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+                    You can download some of your letters for education,
+                    compensation and pension debt.
+                  </p>
 
-                <Link
-                  to="/debt-balances/letters"
-                  className="vads-u-margin-top--1 vads-u-font-family--sans"
-                  data-testid="download-letters-link"
-                >
-                  Download letters related to your VA debt
-                </Link>
-              </section>
+                  <Link
+                    to="/debt-balances/letters"
+                    className="vads-u-margin-top--1 vads-u-font-family--sans"
+                    data-testid="download-letters-link"
+                  >
+                    Download letters related to your VA debt
+                  </Link>
+                </section>
+              ) : null}
 
               <HowDoIPay />
 

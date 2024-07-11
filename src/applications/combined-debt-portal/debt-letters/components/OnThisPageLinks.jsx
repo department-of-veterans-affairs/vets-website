@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
+const OnThisPageLinks = ({
+  isDetailsPage,
+  hasHistory,
+  showDebtLetterDownload,
+}) => (
   <>
     <nav aria-labelledby="on-this-page" className="on-this-page-links">
       <dl>
@@ -40,7 +44,7 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               Debt letter history
             </a>
           )}
-          {(!isDetailsPage || hasHistory) && (
+          {showDebtLetterDownload && (!isDetailsPage || hasHistory) ? (
             <a
               href="#downloadDebtLetters"
               data-testid="download-jumplink"
@@ -53,7 +57,7 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               />
               Download debt letters
             </a>
-          )}
+          ) : null}
           <a
             href="#howDoIPay"
             data-testid="howto-pay-jumplink"
