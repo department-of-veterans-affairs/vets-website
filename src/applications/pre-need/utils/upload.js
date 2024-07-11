@@ -30,7 +30,7 @@ export function fileUploadUi(content) {
         },
       }),
       hideLabelText: !content.label,
-      hideOnReview: true,
+      hideOnReview: false,
       attachmentName: {
         'ui:title': 'File name',
       },
