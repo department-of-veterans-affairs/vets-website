@@ -191,7 +191,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <br />
             {clinicName && (
               <>
-                <span>Clinic: {clinicName}</span> <br />
+                <span>Clinic: {clinicName}</span>
               </>
             )}
             {!clinicName && (
