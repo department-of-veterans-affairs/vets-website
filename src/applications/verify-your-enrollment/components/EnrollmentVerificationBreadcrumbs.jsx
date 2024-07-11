@@ -15,8 +15,14 @@ export default function EnrollmentVerificationBreadcrumbs() {
     <a href="/education/" key="education-and-training">
       Education and training
     </a>,
+    <a
+      href="/education/verify-school-enrollment/"
+      key="verify-school-enrollment"
+    >
+      Verify your school enrollment for GI Bill benefits
+    </a>,
     <a href={BASE_URL} key="enrollment-verification-page">
-      Montgomery GI Bill® enrollment verification
+      Montgomery GI Bill enrollment verification
     </a>,
   ];
 
@@ -29,7 +35,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={BENEFITS_PROFILE_URL} key="BenefitsProfilePage">
-        Your benefits profile
+        Your Montgomery GI Bill benefits information
       </a>,
     );
   }

@@ -2,10 +2,27 @@ $teamsite-large-screen: 1008px;
 
 .usa-banner-header {
   .usa-banner-inner p {
-    font-size: 1.2rem;
+    font-size: 12px;
     font-family: inherit;
     padding: 0;
   }
+}
+
+.hidden-header > a {
+  font-size: 16px;
+}
+
+.header-us-flag {
+  height: 20px;
+}
+
+button.expand-official-govt-explanation {
+  font-size: 12px;
+}
+
+.header-search label {
+  font-size: 16px;
+  font-weight: normal;
 }
 
 @media (max-width: 480px) {
@@ -15,7 +32,7 @@ $teamsite-large-screen: 1008px;
     }
 
     .usa-banner-inner p {
-      font-size: 1.5rem;
+      font-size: 0.9375rem;
     }
   }
 }
@@ -30,7 +47,7 @@ $teamsite-large-screen: 1008px;
 
 .usa-banner-content p {
   font-family: inherit;
-  font-size: 1.5rem;
+  font-size: 15px;
 }
 
 .login-container {
@@ -88,7 +105,7 @@ header.merger {
     .va-notice--banner-inner,
     .va-crisis-line-container {
       width: $teamsite-width;
-      padding-left: 1rem;
+      padding-left: 0.625rem;
     }
   }
 
@@ -159,6 +176,14 @@ header.merger {
         display: none;
       }
     }
+
+   a, p, span {
+    font-size: 16px;
+   }
+
+   .usa-banner-button-text {
+    font-size: 12px;
+   }
   }
 
   #login-root {

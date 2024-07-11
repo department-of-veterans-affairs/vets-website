@@ -21,7 +21,6 @@ import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
-import submissionError from '../content/submissionError';
 import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
@@ -40,7 +39,6 @@ import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 
-import { mayHaveLegacyAppeals } from '../utils/helpers';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
@@ -61,6 +59,7 @@ import {
   SUBMIT_URL,
 } from '../constants';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
+import { title995, getSubTitle } from '../content/title';
 
 import prefillTransformer from './prefill-transformer';
 import submitForm from './submitForm';
@@ -68,12 +67,16 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence, focusUploads } from '../utils/focus';
+import { focusEvidence } from '../utils/focus';
 
+import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
-import { appStateSelector } from '../../shared/utils/issues';
+import { focusAlertH3, focusRadioH3, focusH3 } from '../../shared/utils/focus';
+import {
+  mayHaveLegacyAppeals,
+  appStateSelector,
+} from '../../shared/utils/issues';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -104,8 +107,8 @@ const formConfig = {
   },
   saveInProgress,
   savedFormMessages,
-  title: 'File a Supplemental Claim',
-  subTitle: 'VA Form 20-0995',
+  title: title995,
+  subTitle: getSubTitle,
   defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   submissionError,
@@ -135,6 +138,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
+          scrollAndFocusTarget: focusH3,
         },
 
         ...contactInfo,
@@ -161,6 +165,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusH3,
         },
         addIssue: {
           title: 'Add issues for review',
@@ -171,12 +176,14 @@ const formConfig = {
           uiSchema: {},
           schema: blankSchema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
+          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -184,6 +191,7 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -222,7 +230,7 @@ const formConfig = {
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateRecordsRequest: {
-          title: 'Request private medical records',
+          title: 'Request non-VA medical records',
           path: EVIDENCE_PRIVATE_REQUEST,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
@@ -231,16 +239,17 @@ const formConfig = {
           scrollAndFocusTarget: focusRadioH3,
         },
         evidencePrivateRecordsAuthorization: {
-          title: 'Private medical record authorization',
+          title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
-          title: 'Private medical records',
+          title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
@@ -250,13 +259,14 @@ const formConfig = {
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
-          title: 'Private medical record limitations',
+          title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateLimitation,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -271,7 +281,7 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusUploads,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
@@ -280,6 +290,7 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },

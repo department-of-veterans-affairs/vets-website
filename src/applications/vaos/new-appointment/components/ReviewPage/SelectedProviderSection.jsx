@@ -80,6 +80,7 @@ export default function SelectedProviderSection({ data, vaCityState }) {
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
+            tabindex="0"
           />
         </div>
       </div>

@@ -42,7 +42,7 @@ export const Auth = ({
       <va-card show-shadow>
         <va-loading-indicator
           label="Loading"
-          message="Loading your accredited representative information..."
+          message="Loading your information..."
         />
       </va-card>
     );
@@ -200,16 +200,15 @@ export const Auth = ({
       visible
     >
       <DynamicHeader slot="headline">
-        We don’t seem to have your records
+        We can’t check if you have an accredited representative.
       </DynamicHeader>
       <React.Fragment key=".1">
-        <p>We’re sorry. We can’t match your information to our records.</p>
+        <p>We’re sorry. Our system isn’t working right now. Try again later.</p>
 
         <p className="vads-u-margin-y--0">
-          If you think your information should be here, please try again later
-          or call us at <va-telephone contact={CONTACTS.VA_411} extension={0} />{' '}
-          (<va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here 24/7.
+          If it still doesn’t work, call us at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} extension={0} /> to check
+          if you have an accredited representative.
         </p>
       </React.Fragment>
     </va-alert>

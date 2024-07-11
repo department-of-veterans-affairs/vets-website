@@ -1,7 +1,10 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  extractContainedResource,
+  formatDate,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -88,6 +91,7 @@ export const extractNote = vaccine => {
  * @param {Object} vaccine a FHIR vaccine resource
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
+
 export const convertVaccine = vaccine => {
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
@@ -96,7 +100,7 @@ export const convertVaccine = vaccine => {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
-      ? formatDateLong(vaccine.occurrenceDateTime)
+      ? formatDate(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,

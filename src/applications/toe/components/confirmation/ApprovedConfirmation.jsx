@@ -45,7 +45,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
           visible
         >
           <div>
-            <h3 slot="headline" style={{ marginTop: '1rem' }}>
+            <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
             For {user}

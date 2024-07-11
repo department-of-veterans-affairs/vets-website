@@ -127,6 +127,7 @@ export const verifyLoadingIndicatorShown = () =>
 export const verifyLoadingIndicatorNotShown = () =>
   cy.findByTestId('il-loading-indicator').should('not.exist');
 
-export const getEditLink = index => cy.get('.income-limits-edit a').eq(index);
+export const getEditLink = index =>
+  cy.get('.income-limits-edit va-link').eq(index);
 export const checkListItemText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('contain.text', expectedValue);

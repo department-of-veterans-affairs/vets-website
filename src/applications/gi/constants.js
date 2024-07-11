@@ -167,7 +167,7 @@ export const complaintData = [
   {
     key: 'studentLoans',
     definition:
-      'The school didn’t provide you total a cost of your school loan.',
+      'The school didn’t provide you a total cost of your school loan.',
     type: 'Student Loans',
   },
   {

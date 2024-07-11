@@ -13,26 +13,26 @@ import { createAccessibleDoc, registerVaGovFonts } from './utils';
 
 const config = {
   margins: {
-    top: 40,
-    bottom: 40,
-    left: 20,
-    right: 20,
+    top: 30,
+    bottom: 30,
+    left: 15,
+    right: 15,
   },
   headings: {
     H1: {
       font: 'Bitter-Bold',
-      size: 14,
+      size: 10.5,
     },
     H2: {
       font: 'SourceSansPro-Bold',
-      size: 10,
+      size: 7.5,
     },
   },
   text: {
     boldFont: 'SourceSansPro-Bold',
     font: 'SourceSansPro-Regular',
-    size: 10,
-    disclaimerTextSize: 9,
+    size: 7.5,
+    disclaimerTextSize: 6.75,
   },
 };
 
@@ -60,7 +60,7 @@ const generate = async data => {
   // Add a dotted line to indicate where the card should be cut out
   const cardWrapper = doc.struct('Artifact', () => {
     doc
-      .roundedRect(100, 100, 336, 192, 5)
+      .roundedRect(75, 75, 252, 144, 5) // roughly results in a 2 x 3.5 inch rectangle
       .dash(5, { space: 5 })
       .stroke();
   });
@@ -79,9 +79,9 @@ const generate = async data => {
       `data:${contentType};base64,${Buffer.from(
         await fetchedImage.arrayBuffer(),
       ).toString('base64')}`,
-      275,
-      105,
-      { width: 150, alt: data.details.image.title },
+      206,
+      79,
+      { width: 112, alt: data.details.image.title },
     );
 
     const logo = doc.struct('Figure', { alt: data.details.image.title }, [
@@ -96,7 +96,7 @@ const generate = async data => {
     doc
       .font(config.headings.H1.font)
       .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 110, 115);
+      .text(data.details.fullName, 82, 86, { width: 112 });
   });
 
   wrapper.add(name);
@@ -107,7 +107,7 @@ const generate = async data => {
       doc
         .font(config.headings.H2.font)
         .fontSize(config.headings.H2.size)
-        .text('Date of birth: ', 110, 160);
+        .text('Date of birth: ', 82, 120);
     });
     const dateOfBirth = doc.struct('P', () => {
       doc
@@ -148,7 +148,7 @@ const generate = async data => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text('Period of service', 260, 160)
+      .text('Period of service', 195, 120)
       .moveDown(0.5);
   });
 
@@ -195,10 +195,10 @@ const generate = async data => {
       .fontSize(config.text.disclaimerTextSize)
       .text(
         "You can use this Veteran status to prove you served in the United States Uniformed Services. This status doesn't entitle you to any VA benefits.",
-        110,
-        250,
+        82,
+        187,
         {
-          width: 330,
+          width: 247,
         },
       );
   });

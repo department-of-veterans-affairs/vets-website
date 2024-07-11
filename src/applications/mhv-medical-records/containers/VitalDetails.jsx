@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -40,6 +40,7 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -62,6 +63,20 @@ const VitalDetails = props => {
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
+
+  const updatedRecordType = useMemo(
+    () => {
+      const typeMap = {
+        'heart-rate': 'PULSE',
+        'breathing-rate': 'RESPIRATION',
+        'blood-oxygen-level': 'PULSE_OXIMETRY',
+      };
+      return typeMap[vitalType] || vitalType;
+    },
+    [vitalType],
+  );
 
   useEffect(
     () => {
@@ -119,9 +134,22 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        focusElement(document.querySelector('h2'));
         paginatedVitals.current = paginateData(records);
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
+      }
+    },
+    [records],
+  );
+
+  useEffect(
+    () => {
+      if (currentPage > 1 && records?.length) {
+        focusElement(document.querySelector('#showingRecords'));
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
       }
     },
     [currentPage, records],
@@ -131,8 +159,8 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (vitalType) {
-        const formattedVitalType = macroCase(vitalType);
+      if (updatedRecordType) {
+        const formattedVitalType = macroCase(updatedRecordType);
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
@@ -158,9 +186,8 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(
-        vital =>
-          `${txtLine}\n\n
-Date entered: ${vital.dateTime}\n
+        vital => `${txtLine}\n\n
+Date entered: ${vital.date}\n
 Details about this test\n
 Result: ${vital.measurement}\n
 Location: ${vital.location}\n
@@ -193,6 +220,7 @@ Provider notes: ${vital.notes}\n\n`,
           downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
+          list
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
@@ -200,6 +228,7 @@ Provider notes: ${vital.notes}\n\n`,
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
             vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
+          id="showingRecords"
         >
           {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
             records.length
@@ -218,7 +247,7 @@ Provider notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
-                  {vital.dateTime}
+                  {vital.date}
                 </h3>
                 <h4 className="vads-u-font-size--base vads-u-margin--0 vads-u-font-family--sans">
                   Result
@@ -270,7 +299,7 @@ Provider notes: ${vital.notes}\n\n`,
                   className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
-                  {vital.dateTime}
+                  {vital.date}
                 </h3>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
                   <h4 className="vads-u-display--inline vads-u-font-size--base vads-u-font-family--sans">

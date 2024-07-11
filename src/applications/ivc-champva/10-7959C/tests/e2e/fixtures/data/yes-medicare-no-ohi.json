@@ -1,0 +1,25 @@
+{
+  "data": {
+    "applicantHasPrimary": false,
+    "applicantMedicareStatus": false,
+    "applicantPhone": "7771231234",
+    "applicantGender": "male",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "811 Street Circle",
+      "city": "Cityburg",
+      "state": "AR",
+      "postalCode": "77722"
+    },
+    "applicantNewAddress": "yes",
+    "applicantSsn": "444221234",
+    "applicantName": {
+      "first": "Applicant",
+      "last": "Jones",
+      "suffix": "II"
+    },
+    "applicantDOB": "1950-08-02",
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
+  }
+}

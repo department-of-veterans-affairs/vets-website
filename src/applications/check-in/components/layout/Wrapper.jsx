@@ -77,6 +77,7 @@ const Wrapper = props => {
         <DowntimeNotification
           appTitle={appTitle}
           dependencies={[downtimeDependency]}
+          customText={{ appType: 'tool' }}
         >
           {children}
         </DowntimeNotification>

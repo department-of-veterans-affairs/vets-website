@@ -1,3 +1,10 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const envUrl = environment.API_URL;
+
+// Used to test against dev
+// export const envUrl = 'https:///dev-api.va.gov';
+
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
@@ -6,7 +13,6 @@ export const URL = {
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `/v0/gi/institutions/search?name=`,
@@ -33,6 +39,13 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
 ];
 
+// Check to show Your Personal Information page and NOT About Yourself page
+export const hasPrefillInformation = form => {
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
+};
+
 // Response Page headers
 export const RESPONSE_PAGE = {
   QUESTION_DETAILS: 'Question details',
@@ -56,6 +69,14 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
+};
+
+export const pronounLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
 };
 
 // Used for yes/no radio questions
@@ -205,7 +226,7 @@ export const CHAPTER_1 = {
   CHAPTER_TITLE: 'Category and Topic',
   PAGE_1: {
     PATH: 'category-topic-1',
-    TITLE: 'Category selected',
+    TITLE: 'Category',
     PAGE_DESCRIPTION: 'Category',
     QUESTION_1: 'Select the category that best describes your question:',
   },
@@ -227,19 +248,19 @@ export const CHAPTER_1 = {
 export const CHAPTER_2 = {
   CHAPTER_TITLE: 'Your Question',
   PAGE_1: {
-    PATH: 'question-1',
+    PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select who your question is about:',
   },
   PAGE_2: {
-    PATH: 'question-2',
+    PATH: 'reason-you-contacted-us',
     TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
-    PATH: 'question-3',
+    PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'What is your question?',
@@ -279,22 +300,31 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  VET_POSTAL_CODE: {
+  FAMILY_MEMBERS_POSTAL_CODE: {
+    TITLE: "Family member's postal code",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'Family member receives mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'State',
+    QUESTION_4: 'Postal code',
+  },
+  VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'The Veteran lives on a United States military base outside of the country.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   YOUR_POSTAL_CODE: {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
@@ -331,7 +361,12 @@ export const CHAPTER_3 = {
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you.',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -339,7 +374,7 @@ export const CHAPTER_3 = {
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  YOUR_ADDRESS: {
+  YOUR_MAILING_ADDRESS: {
     TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
@@ -348,10 +383,13 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  ADDRESS_VALIDATION: {
+    TITLE: 'Check your mailing address',
+  },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
@@ -380,6 +418,23 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1: 'Please provide one of the following',
   },
+  VETERAN_LOCATION_OF_RESIDENCE: {
+    TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_PERSONAL_INFORMATION: {
+    PATH: 'your-personal-information',
+    TITLE: `Your personal information`,
+    DESCRIPTION: 'This is the personal information we have on file for you.',
+  },
 };
 
 export const noEditBtn = [
@@ -389,26 +444,26 @@ export const noEditBtn = [
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
-export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+export const homeBreadcrumbs = [{ href: '/', label: 'Home', key: 'home' }];
 
 export const contactUsBreadcrumbs = [
   ...homeBreadcrumbs,
-  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+  { href: '/contact-us', label: 'Contact Us', key: 'contactUs' },
 ];
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'Response Page', key: 'responsePage' },
+  { label: 'Response Page', key: 'responsePage' },
 ];
 
 export const newInquiryBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'New Inquiry', key: 'newInquiry' },
+  { label: 'New Inquiry', key: 'newInquiry' },
 ];
 
 export const breadcrumbsDictionary = {

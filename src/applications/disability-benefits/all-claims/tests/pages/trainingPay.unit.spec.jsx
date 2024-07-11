@@ -61,7 +61,7 @@ describe('Training Pay', () => {
     userEvent.click(submitButton);
     // Check that form is not submitted due to missing answer.
     expect(onSubmit.called).to.be.false;
-    expect($('va-radio').error).to.equal('Please provide a response');
+    expect($('va-radio').error).to.equal('You must provide a response');
   });
 
   it('should submit if question answered with a no', () => {

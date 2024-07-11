@@ -1516,6 +1516,10 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
+            // If the dgiRudisillHideBenefitsSelectionStep feature flag is turned on, hide the page
+            if (formData.dgiRudisillHideBenefitsSelectionStep) {
+              return false;
+            }
             // If the showMebEnhancements09 feature flag is turned on, show the page
             if (formData.showMebEnhancements09) {
               return true;
@@ -1572,7 +1576,7 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon size={3} icon="warning" aria-hidden="true" />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
@@ -1750,7 +1754,7 @@ const formConfig = {
                 <>
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
@@ -1858,7 +1862,7 @@ const formConfig = {
                 >
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />

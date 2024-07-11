@@ -152,7 +152,7 @@ const useStorage = (app, local = false) => {
   const getTravelPaySent = useCallback(
     window => {
       const value = getKey(window, STORAGE_KEYS.TRAVELPAY_SENT);
-      return value || {};
+      return value || '';
     },
     [STORAGE_KEYS, getKey],
   );

@@ -54,7 +54,7 @@ export default function CancelPageLayout() {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3">{heading}</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">{heading}</h2>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">When</h3>
       {moment(startDate).format('ddd, MMMM D, YYYY')} <br />
       {moment(startDate).format('HH:mm:ss')} {timeZoneAbbr}

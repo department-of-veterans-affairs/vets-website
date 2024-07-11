@@ -35,7 +35,15 @@ export const noSuggestedAddress = deliveryPointValidation => {
     deliveryPointValidation === 'MISSING_ZIP'
   );
 };
+export const formatAddress = address => {
+  const city = address?.city ?? '';
+  const stateCode = address?.stateCode ?? '';
+  const zipCode = address?.zipCode ?? '';
 
+  return `${city}${
+    stateCode || zipCode ? ',' : ''
+  } ${stateCode} ${zipCode}`.trim();
+};
 export const prepareAddressData = formData => {
   let addressData = {
     veteranName: formData.fullName,
@@ -91,19 +99,13 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
+      {line1 && <>{line1} </>}
+      {line2 && <>{` ${line2}`}</>}
+      {cityState && (
         <>
-          {line1}
-          <br />
+          <br /> {cityState}
         </>
       )}
-      {line2 && (
-        <>
-          {line2}
-          <br />
-        </>
-      )}
-      {cityState && <>{cityState}</>}
       {state && <>{state}</>}
       {postalCode && (state || cityState) && ' '}
       {postalCode}
@@ -111,14 +113,17 @@ export const addressLabel = address => {
   );
 };
 
-export const hasFormChanged = (obj, applicantName) => {
-  const keys = Object.keys(obj);
-
+export const hasFormChanged = obj => {
+  const keys = Object.keys(obj ?? {});
   for (const key of keys) {
-    if (
-      (!key.includes('fullName') && obj[key] !== undefined) ||
-      (key.includes('fullName') && obj[key] !== applicantName)
-    ) {
+    const value = obj[key];
+    // Skip the specific key
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Checking if there is value that is not undefined
+    if (value !== undefined) {
       return true;
     }
   }
@@ -135,6 +140,10 @@ export function compareAddressObjects(obj1, obj2) {
     return false;
   }
   for (const key of keys1) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj1, key) &&
       hasOwnProperty.call(obj2, key) &&
@@ -145,6 +154,10 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   for (const key of keys2) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj2, key) &&
       hasOwnProperty.call(obj1, key) &&
@@ -155,4 +168,68 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   return false;
+}
+
+// Utility function to deep compare two objects
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+
+  if (
+    typeof obj1 !== 'object' ||
+    obj1 === null ||
+    typeof obj2 !== 'object' ||
+    obj2 === null
+  ) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (
+      key === 'view:livesOnMilitaryBaseInfo' ||
+      key === 'view:livesOnMilitaryBase'
+    ) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const initialState = {
+  addressLine1: undefined,
+  addressLine2: undefined,
+  addressLine3: undefined,
+  addressLine4: undefined,
+  city: undefined,
+  countryCodeIso3: 'USA',
+  internationalPostalCode: undefined,
+  province: undefined,
+  stateCode: '- Select -',
+  'view:livesOnMilitaryBase': undefined,
+  'view:livesOnMilitaryBaseInfo': {},
+  zipCode: undefined,
+};
+
+// Function to check if the object has changed
+export function hasAddressFormChanged(currentState) {
+  const filledCurrentState = {
+    ...initialState,
+    ...currentState,
+    stateCode:
+      currentState.stateCode !== undefined
+        ? currentState.stateCode
+        : initialState.stateCode,
+  };
+  return !deepEqual(initialState, filledCurrentState);
 }

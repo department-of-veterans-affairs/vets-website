@@ -85,7 +85,7 @@ export const fillSelectByTyping = (str, handleFailure, attempt = 0) => {
 
   if (attempt > 3) {
     cy.log(`Unable to enter ${str} in select after 3 tries.`);
-    handleFailure(str);
+    return handleFailure(str);
   }
 
   return cy

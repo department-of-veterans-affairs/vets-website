@@ -281,41 +281,39 @@ const findAppointment = (appointmentId, appointments) => {
 };
 
 /**
- * Determine if the appoinents have multiple facilities.
- *
- * @param {Array<Appointment>} appointments
- * @returns {bool}
- */
-
-const hasMultipleFacilities = appointments => {
-  const uniqueFacilites = [
-    ...new Map(appointments.map(appt => [appt.stationNo, appt])).values(),
-  ];
-  return uniqueFacilites.length > 1;
-};
-
-/**
- * Return unique facilities as an array
- * @param {Array<Appointment>} appointments
- * @returns {Array}
- */
-
-const getUniqueFacilies = appointments => {
-  return [...new Set(appointments.map(appt => appt.facility))];
-};
-
-/**
  * Return adjusted ISO timestring
  * @param {string} time
  * @param {string} timezone
+ * @param {string} isoFormat
  * @returns {string}
  */
 
-const utcToFacilityTimeZone = (time, timezone) => {
-  const isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
+const utcToFacilityTimeZone = (
+  time,
+  timezone,
+  isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx",
+) => {
   return format(utcToZonedTime(time, timezone), isoFormat, {
     timeZone: timezone,
   });
+};
+
+/**
+ * Return label for appointment
+ * @param {object} appointment
+ * @returns {string}
+ */
+
+const getApptLabel = appointment => {
+  const time = utcToFacilityTimeZone(
+    appointment.startTime,
+    appointment.timezone,
+    'h:mm aaaa',
+  );
+  const label = appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicStopCodeName;
+  return `${time}${label ? ` ${label}` : ''}`;
 };
 
 export {
@@ -335,7 +333,6 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
-  hasMultipleFacilities,
-  getUniqueFacilies,
   utcToFacilityTimeZone,
+  getApptLabel,
 };

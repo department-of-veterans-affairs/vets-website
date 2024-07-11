@@ -1,10 +1,14 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 import { doesHaveDependents, getDependentChildTitle } from './helpers';
+
+const {
+  childInHousehold,
+} = fullSchemaPensions.properties.dependents.items.properties;
 
 export default {
   title: item => getDependentChildTitle(item, 'household'),
@@ -31,7 +35,7 @@ export default {
           type: 'object',
           required: ['childInHousehold'],
           properties: {
-            childInHousehold: yesNoSchema,
+            childInHousehold,
           },
         },
       },

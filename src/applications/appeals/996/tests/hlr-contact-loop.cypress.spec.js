@@ -29,7 +29,9 @@ describe('HLR contact info loop', () => {
     window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
 
-    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
+    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []).as(
+      'getIssues',
+    );
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
@@ -45,6 +47,8 @@ describe('HLR contact info loop', () => {
     cy.findAllByText(/start the request/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues');
 
     // Veteran info (DOB, SSN, etc)
     cy.location('pathname').should('eq', `${BASE_URL}/veteran-information`);
@@ -72,7 +76,7 @@ describe('HLR contact info loop', () => {
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -84,7 +88,7 @@ describe('HLR contact info loop', () => {
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-email-address`,
+      `${BASE_URL}/contact-information/edit-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -96,7 +100,7 @@ describe('HLR contact info loop', () => {
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mailing-address`,
+      `${BASE_URL}/contact-information/edit-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -114,7 +118,7 @@ describe('HLR contact info loop', () => {
     cy.contains('Edit mobile phone').should('be.visible');
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
 
     cy.get('va-text-input[label^="Mobile phone"]')

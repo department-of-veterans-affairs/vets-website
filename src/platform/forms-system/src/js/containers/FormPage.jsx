@@ -14,7 +14,9 @@ import {
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
-import FormNavButtons from '../components/FormNavButtons';
+import FormNavButtons, {
+  FormNavButtonContinue,
+} from '../components/FormNavButtons';
 import SchemaForm from '../components/SchemaForm';
 import { setData, uploadFile } from '../actions';
 import {
@@ -32,6 +34,34 @@ function focusForm(route, index) {
   } else {
     focusElement(defaultFocusSelector);
   }
+}
+
+function getContentBeforeAndAfterButtons(
+  route,
+  contentBeforeButtons,
+  contentAfterButtons,
+) {
+  const content = {
+    contentBeforeNavButtons: contentBeforeButtons,
+    contentAfterNavButtons: contentAfterButtons,
+  };
+
+  if (route.pageConfig?.hideSaveLinkAndStatus) {
+    content.contentBeforeNavButtons = null;
+    content.contentAfterNavButtons = null;
+  } else if (route.formConfig?.showSaveLinkAfterButtons) {
+    content.contentBeforeNavButtons = null;
+    content.contentAfterNavButtons = (
+      <>
+        {contentBeforeButtons}
+        {contentAfterButtons && (
+          <div className="vads-u-margin-top--2">{contentAfterButtons}</div>
+        )}
+      </>
+    );
+  }
+
+  return content;
 }
 
 class FormPage extends React.Component {
@@ -272,6 +302,18 @@ class FormPage extends React.Component {
         />
       );
     }
+    const NavButtons = route.formConfig?.useTopBackLink
+      ? FormNavButtonContinue
+      : FormNavButtons;
+
+    const {
+      contentBeforeNavButtons,
+      contentAfterNavButtons,
+    } = getContentBeforeAndAfterButtons(
+      route,
+      contentBeforeButtons,
+      contentAfterButtons,
+    );
 
     // Bypass the SchemaForm and render the custom component
     // NOTE: I don't think FormPage is rendered on the review page, so I believe
@@ -302,8 +344,8 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
-            contentBeforeButtons={contentBeforeButtons}
-            contentAfterButtons={contentAfterButtons}
+            contentBeforeButtons={contentBeforeNavButtons}
+            contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}
             formContext={this.formContext}
           />
@@ -338,13 +380,13 @@ class FormPage extends React.Component {
             <div />
           ) : (
             <>
-              {contentBeforeButtons}
-              <FormNavButtons
+              {contentBeforeNavButtons}
+              <NavButtons
                 goBack={!isFirstRoutePage && this.goBack}
                 goForward={this.onContinue}
                 submitToContinue
               />
-              {contentAfterButtons}
+              {contentAfterNavButtons}
             </>
           )}
         </SchemaForm>
@@ -400,6 +442,7 @@ FormPage.propTypes = {
       ]),
       customPageUsesPagePerItemData: PropTypes.bool,
       hideNavButtons: PropTypes.bool,
+      hideSaveLinkAndStatus: PropTypes.bool,
       onContinue: PropTypes.func,
       onNavBack: PropTypes.func,
       onNavForward: PropTypes.func,
@@ -423,6 +466,8 @@ FormPage.propTypes = {
       formOptions: PropTypes.shape({
         noBottomNav: PropTypes.bool,
       }),
+      showSaveLinkAfterButtons: PropTypes.bool,
+      useTopBackLink: PropTypes.bool,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

@@ -5,36 +5,35 @@ import {
   remainingBenefits,
   translateDateIntoMonthDayYearFormat,
 } from '../helpers';
-import { fetchPersonalInfo, getData } from '../actions';
+import { fetchPersonalInfo } from '../actions';
 
 export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
-  const { data, loading } = useSelector(state => state.getDataReducer);
-  const { personalInfo, isLoading } = useSelector(state => state.personalInfo);
-
+  const response = useSelector(state => state.personalInfo);
+  const { data: enrollmentResponse } = useSelector(
+    state => state.verifyEnrollment,
+  );
   useEffect(
     () => {
-      dispatch(getData());
       dispatch(fetchPersonalInfo());
     },
-    [dispatch],
+    [dispatch, enrollmentResponse],
   );
-  const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
-  const userInfo = isUserLoggedIn
-    ? personalInfo && personalInfo['vye::UserInfo']
-    : data && data['vye::UserInfo'];
+
+  const userInfo = response?.personalInfo?.['vye::UserInfo'];
+
   const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
-    isUserLoggedIn,
-    loading: isUserLoggedIn ? isLoading : loading,
+    personalInfo: response?.personalInfo,
+    errorMessage: response,
+    loading: response?.isLoading,
     expirationDate,
     updated,
     day,
     month,
-    enrollmentData: isUserLoggedIn ? personalInfo : data,
     ...userInfo,
   };
 };

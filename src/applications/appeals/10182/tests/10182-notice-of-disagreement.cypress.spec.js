@@ -44,6 +44,12 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+
+      'veteran-information': () => {
+        cy.wait('@getIssues');
+        cy.findByText('Continue', { selector: 'button' }).click();
+      },
+
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -124,7 +130,7 @@ const testConfig = createTestConfig(
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
         cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-        });
+        }).as('getIssues');
       });
     },
   },

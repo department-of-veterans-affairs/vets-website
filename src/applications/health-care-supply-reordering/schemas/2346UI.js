@@ -1,13 +1,8 @@
 import { isValidEmail } from 'platform/forms/validations';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
-import AddressViewField from '../components/AddressViewField';
 import BatteriesAndAccessories from '../components/BatteriesAndAccessories';
 import ReviewPageSupplies from '../components/ReviewPageSupplies';
 import VeteranInfoBox from '../components/VeteranInfoBox';
-import { schemaFields } from '../constants';
-import { addressUISchema } from './address-schema';
-
-const { permanentAddressField, temporaryAddressField } = schemaFields;
 
 export default {
   'ui:title': fullSchema.title,
@@ -37,58 +32,6 @@ export default {
         'ui:options': {
           widgetClassNames: 'form-select-medium',
         },
-      },
-    },
-    permanentAddressUI: {
-      ...addressUISchema(
-        true,
-        permanentAddressField,
-        formData => formData.permanentAddress,
-      ),
-      'ui:title': 'Permanent address',
-      'ui:options': {
-        viewComponent: AddressViewField,
-        hideOnReview: formData =>
-          formData['view:currentAddress'] !== 'permanentAddress',
-      },
-    },
-    temporaryAddressUI: {
-      ...addressUISchema(true, temporaryAddressField, formData => {
-        const {
-          street,
-          city,
-          state,
-          country,
-          postalCode,
-          internationalPostalCode,
-        } = formData.temporaryAddress;
-
-        if (
-          !street &&
-          !city &&
-          !state &&
-          !country &&
-          !postalCode &&
-          !internationalPostalCode
-        ) {
-          return false;
-        }
-        return true;
-      }),
-      'ui:title': 'Temporary address',
-      'ui:options': {
-        viewComponent: AddressViewField,
-        startInEdit: formData =>
-          Object.values(formData).every(prop => Boolean(prop)),
-        hideOnReview: formData =>
-          formData['view:currentAddress'] !== 'temporaryAddress',
-      },
-    },
-    currentAddressUI: {
-      'ui:options': {
-        classNames: 'vads-u-display--none',
-        hideOnReview: true,
-        customTitle: ' ',
       },
     },
     emailUI: {

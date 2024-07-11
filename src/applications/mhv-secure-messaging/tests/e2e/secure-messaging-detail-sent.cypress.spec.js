@@ -8,17 +8,15 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details in Sent AXE Check', () => {
   it('Axe Check message details page', () => {
-    const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const messageDetails = mockMessageDetails;
     // const messageDetails = landingPage.setMessageDateToYesterday(mockMessageDetails);
     const date = new Date();
     date.setDate(date.getDate() - 2);
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
-    landingPage.loadInboxMessages(inboxMessages, messageDetails);
+    PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
     detailsPage.loadMessageDetails(messageDetails, defaultMockThread, 0);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -4,7 +4,7 @@
       "view:claimingIncrease": true,
       "view:claimingNew": true
     },
-    "standardClaim": false,
+    "standardClaim": true,
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "isTerminallyIll": false,

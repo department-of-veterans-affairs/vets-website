@@ -1,43 +1,66 @@
+import {
+  radioSchema,
+  radioUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import PageFieldSummary from '../../../components/PageFieldSummary';
-import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import {
   CHAPTER_3,
   postOfficeOptions,
   regionOptions,
 } from '../../../constants';
 
-const question = <h4>{CHAPTER_3.YOUR_POSTAL_CODE.TITLE}</h4>;
+const MilitaryBaseInfo = () => (
+  <div className="">
+    <va-additional-info trigger="Learn more about military base addresses">
+      <span>
+        The United States is automatically chosen as your country if you live on
+        a military base outside of the country.
+      </span>
+    </va-additional-info>
+  </div>
+);
 
 const yourPostalCodePage = {
   uiSchema: {
-    'ui:description': question,
+    ...titleUI(CHAPTER_3.YOUR_POSTAL_CODE.TITLE),
     'ui:objectViewField': PageFieldSummary,
-    isOnMilitaryBase: {
-      'ui:title': CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_1,
+    isMilitaryBase: {
+      'ui:title':
+        'Veteran receives mail outside of the United States on a U.S. military base.',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+        useDlWrap: true,
+      },
     },
-    yourMilitaryBasePostOffice: {
+    'view:livesOnMilitaryBaseInfo': {
+      'ui:title': ' ',
+      'ui:field': MilitaryBaseInfo,
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+        useDlWrap: true,
+      },
+    },
+    militaryBasePostOffice: {
       ...radioUI({
         title: CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_2,
         labels: postOfficeOptions,
-        hideIf: form => !form.isOnMilitaryBase,
+        hideIf: form => !form.isMilitaryBase,
       }),
-      'ui:required': form => form.isOnMilitaryBase,
+      'ui:required': form => form.isMilitaryBase,
     },
-    yourMilitaryBaseRegion: {
+    militaryBaseRegion: {
       ...radioUI({
         title: CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_3,
         labels: regionOptions,
-        hideIf: form => !form.isOnMilitaryBase,
+        hideIf: form => !form.isMilitaryBase,
       }),
-      'ui:required': form => form.isOnMilitaryBase,
+      'ui:required': form => form.isMilitaryBase,
     },
-    yourVeteranPostalCode: {
+    veteranPostalCode: {
       'ui:title': CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_4,
-      'ui:required': form => !form.isOnMilitaryBase,
-      'ui:options': {
-        hideIf: form => form.isOnMilitaryBase,
-      },
+      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:
@@ -49,13 +72,16 @@ const yourPostalCodePage = {
     type: 'object',
     required: [],
     properties: {
-      isOnMilitaryBase: {
+      isMilitaryBase: {
         type: 'boolean',
         default: false,
       },
-      yourMilitaryBasePostOffice: radioSchema(Object.keys(postOfficeOptions)),
-      yourMilitaryBaseRegion: radioSchema(Object.keys(regionOptions)),
-      yourVeteranPostalCode: {
+      'view:livesOnMilitaryBaseInfo': {
+        type: 'string',
+      },
+      militaryBasePostOffice: radioSchema(Object.keys(postOfficeOptions)),
+      militaryBaseRegion: radioSchema(Object.keys(regionOptions)),
+      veteranPostalCode: {
         type: 'string',
         maxLength: 10,
         pattern: '^[0-9]{5}(?:-[0-9]{4})?$',

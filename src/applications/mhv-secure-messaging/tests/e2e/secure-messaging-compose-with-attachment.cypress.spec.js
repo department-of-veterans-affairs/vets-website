@@ -4,12 +4,10 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Compose a new message with attachments', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('verify use can send a message with attachments', () => {
@@ -48,12 +46,10 @@ describe('Compose a new message with attachments', () => {
 });
 
 describe('verify attach file button behaviour', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('verify attach file button label change', () => {
@@ -72,7 +68,7 @@ describe('verify attach file button behaviour', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify attach file button label change', () => {
+  it('verify already attached file error', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Paragraph } from '../constants';
 
 const CurrentBenefitsStatus = ({
@@ -8,17 +9,19 @@ const CurrentBenefitsStatus = ({
   expirationDate,
   link,
 }) => {
+  const response = useSelector(state => state.personalInfo);
+  if (response?.error?.error === 'Forbidden') return null;
   return (
     <div className="vads-u-margin-top--5">
       <va-card>
         <span className="usa-label">UPDATED {updated}</span>
         <h2 className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin-top--2">
-          Current Benefits Status
+          Current benefits status
         </h2>
         <div>
-          <Paragraph title=" Remaining Benefits" date={remainingBenefits} />
+          <Paragraph title=" Remaining benefits" date={remainingBenefits} />
           <Paragraph
-            title=" Expiration Date"
+            title=" Expiration date"
             date={expirationDate}
             className="vads-u-margin-top--neg2"
           />

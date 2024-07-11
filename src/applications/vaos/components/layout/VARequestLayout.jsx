@@ -1,90 +1,56 @@
 import React from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useLocation } from 'react-router-dom';
 import {
   selectModalityText,
-  selectRequestedAppointmentDetails,
+  selectRequestedAppointmentData,
 } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import Address from '../Address';
-import { GA_PREFIX } from '../../utils/constants';
-import InfoAlert from '../InfoAlert';
-import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
-import { startNewAppointmentFlow } from '../../new-appointment/redux/actions';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { TIME_TEXT } from '../../utils/appointment';
 import FacilityPhone from '../FacilityPhone';
 
-function handleClick(history, dispatch, typeOfCare) {
-  return () => {
-    recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-    });
-    dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
-  };
-}
-
-export function VARequestLayout() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
+export default function VARequestLayout({ data: appointment }) {
+  const { search } = useLocation();
   const {
-    appointment,
     bookingNotes,
     email,
     facility,
     facilityPhone,
+    isPendingAppointment,
     phone,
     preferredDates,
+    status,
     typeOfCareName,
   } = useSelector(
-    state => selectRequestedAppointmentDetails(state, id),
+    state => selectRequestedAppointmentData(state, appointment),
     shallowEqual,
   );
+  const queryParams = new URLSearchParams(search);
+  const showConfirmMsg = queryParams.get('confirmMsg');
   const modiality = selectModalityText(appointment, true);
   const [reason, otherDetails] = bookingNotes?.split(':') || [];
 
+  let heading = 'We have received your request';
+  if (isPendingAppointment && !showConfirmMsg)
+    heading = 'Request for appointment';
+  else if (APPOINTMENT_STATUS.cancelled === status)
+    heading = 'Canceled request for appointment';
+
   return (
     <PageLayout showNeedHelp>
-      <DetailPageLayout header="We have received your request">
-        <InfoAlert backgroundOnly status="success">
-          <p>
-            We’ll try to schedule your appointment in the next 2 business days.
-            Check back here or call your facility for updates. Review your
-            appointments Schedule a new appointment
-          </p>
-          <div className="vads-u-margin-y--1">
-            <va-link
-              text="Review your appointments"
-              data-testid="review-appointments-link"
-              href={root.url}
-              onClick={() =>
-                recordEvent({
-                  event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-                })
-              }
-            />
-          </div>
-          <div>
-            <va-link
-              text="Schedule a new appointment"
-              data-testid="schedule-appointment-link"
-              onClick={handleClick(history, dispatch, typeOfCare)}
-            />
-          </div>
-        </InfoAlert>
+      <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((option, optionIndex) => (
-              <li key={`${id}-option-${optionIndex}`}>
+              <li key={`${appointment.id}-option-${optionIndex}`}>
                 {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
                 {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
               </li>
@@ -118,7 +84,7 @@ export function VARequestLayout() {
             {!facilityPhone && <>Not available</>}
           </div>
         </Section>
-        <Section heading="Details you’d like to shared with your provider">
+        <Section heading="Details you’d like to share with your provider">
           <span>
             Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
           </span>
@@ -143,3 +109,6 @@ export function VARequestLayout() {
     </PageLayout>
   );
 }
+VARequestLayout.propTypes = {
+  data: PropTypes.object.isRequired,
+};

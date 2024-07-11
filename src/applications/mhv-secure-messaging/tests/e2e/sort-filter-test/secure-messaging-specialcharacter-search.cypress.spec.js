@@ -9,11 +9,8 @@ describe('Secure Messaging Basic Search Tests', () => {
   // const searchText = 'special %$#';  Known-Issue... special chars don't highlight
   const searchText = 'special';
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('Basic Search Highlight Inbox Check', () => {

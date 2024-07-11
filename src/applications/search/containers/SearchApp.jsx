@@ -19,11 +19,11 @@ import DowntimeNotification, {
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 import {
   formatResponseString,
   truncateResponseString,
   removeDoubleBars,
-  isSearchStrInvalid,
 } from '../utils';
 import { fetchSearchResults } from '../actions';
 
@@ -39,6 +39,7 @@ class SearchApp extends React.Component {
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
+    searchGovMaintenance: PropTypes.bool,
   };
 
   constructor(props) {
@@ -61,7 +62,7 @@ class SearchApp extends React.Component {
     // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
     const { userInput, page } = this.state;
     if (userInput) {
-      if (isSearchStrInvalid(userInput)) {
+      if (!isSearchTermValid(userInput)) {
         return;
       }
       this.props.fetchSearchResults(userInput, page, {
@@ -105,7 +106,7 @@ class SearchApp extends React.Component {
       ? parseInt(rawPageFromURL, 10)
       : undefined;
 
-    if (isSearchStrInvalid(userInput) || isSearchStrInvalid(userInputFromURL)) {
+    if (!isSearchTermValid(userInput) || !isSearchTermValid(userInputFromURL)) {
       return;
     }
 
@@ -230,7 +231,7 @@ class SearchApp extends React.Component {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    if (isSearchStrInvalid(inputValue)) {
+    if (!isSearchTermValid(inputValue)) {
       return;
     }
 
@@ -308,7 +309,7 @@ class SearchApp extends React.Component {
 
     // fetch suggestions
     try {
-      if (isSearchStrInvalid(inputValue)) {
+      if (!isSearchTermValid(inputValue)) {
         return [];
       }
 
@@ -351,6 +352,7 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
+    const { searchGovMaintenance } = this.props;
     const {
       loading,
       errors,
@@ -480,6 +482,22 @@ class SearchApp extends React.Component {
       };
     }
 
+    if (searchGovMaintenance) {
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-banner
+            data-label="Error banner"
+            headline="Search Maintenance"
+            type="error"
+          >
+            We’re working on Search VA.gov right now. If you have trouble using
+            the search tool, check back later. Thank you for your patience.
+          </va-banner>
+          {searchInput}
+        </div>
+      );
+    }
+
     if (
       isWithinMaintenanceWindow() &&
       results &&
@@ -488,11 +506,12 @@ class SearchApp extends React.Component {
       !loading
     ) {
       const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
+
       return (
         <div className="columns vads-u-margin-bottom--4">
           <va-maintenance-banner
             banner-id="search-gov-maintenance-banner"
-            maintenance-title="Search.gov Maintenance"
+            maintenance-title="Search Maintenance"
             maintenance-start-date-time={start}
             maintenance-end-date-time={end}
             isError
@@ -509,7 +528,7 @@ class SearchApp extends React.Component {
     }
 
     // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
+    if (hasErrors && !loading) {
       let errorMessage;
 
       if (!userInput.trim().length) {
@@ -844,6 +863,9 @@ const mapStateToProps = state => ({
   search: state.search,
   searchDropdownComponentEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
+  ],
+  searchGovMaintenance: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchGovMaintenance
   ],
 });
 

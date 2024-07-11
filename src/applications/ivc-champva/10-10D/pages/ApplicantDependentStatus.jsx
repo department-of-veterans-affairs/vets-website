@@ -3,28 +3,21 @@ import ApplicantRelationshipPage, {
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
-const KEYNAME = 'applicantDependentStatus';
-const PRIMARY = 'status';
-const SECONDARY = 'otherStatus';
+const PROPERTY_NAMES = {
+  keyname: 'applicantDependentStatus',
+  primary: 'status',
+  secondary: '_unused',
+};
 
 function generateOptions({ data, pagePerItemIndex }) {
-  const {
-    currentListItem,
-    personTitle,
-    applicant,
-    useFirstPerson,
-    relative,
-    beingVerbPresent,
-    relativePossessive,
-  } = appRelBoilerplate({ data, pagePerItemIndex });
-
-  const customTitle = `${applicant}’s status`;
-
-  const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
-
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
+  const customTitle = `${bp.applicant}’s status`;
+  const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const options = [
     {
-      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${beingVerbPresent} enrolled as a student in a high school, college, or vocational school`,
+      label: `${relativeBeingVerb} between the ages of 18 and 23 years old and ${
+        bp.beingVerbPresent
+      } enrolled as a student in a high school, college, or vocational school`,
       value: 'enrolled',
     },
     {
@@ -39,26 +32,18 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   return {
     options,
-    useFirstPerson,
-    relativePossessive,
     relativeBeingVerb,
-    applicant,
-    personTitle,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
-    currentListItem,
+    ...bp,
+    ...PROPERTY_NAMES,
     customTitle,
-    description: `Which of these best describes ${applicant}?`,
+    description: `Which of these best describes ${bp.applicant}?`,
   };
 }
 
 export function ApplicantDependentStatusPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipPage(newProps);
@@ -66,9 +51,7 @@ export function ApplicantDependentStatusPage(props) {
 export function ApplicantDependentStatusReviewPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipReviewPage(newProps);

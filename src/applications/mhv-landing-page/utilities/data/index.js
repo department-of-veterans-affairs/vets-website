@@ -1,6 +1,5 @@
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
-import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 import resolveLinks from './resolveLinks';
 
@@ -29,54 +28,20 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount,
   unreadMessageAriaLabel,
-  userHasHealthData = false,
+  registered = false,
 ) => {
   const messagesLinks = resolveLinks(
     [
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[0],
-        oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        oldText: 'Go to inbox',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
         ariaLabel: unreadMessageAriaLabel,
       },
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[1],
-        oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
-        oldText: 'Compose message',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
       },
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[2],
-        oldHref: mhvUrl(authdWithSSOe, 'manage-folders'),
-        oldText: 'Manage folders',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-    ],
-    featureToggles,
-  );
-
-  const medicationsLinks = resolveLinks(
-    [
-      {
-        ...HEALTH_TOOL_LINKS.MEDICATIONS[0],
-        oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
-        oldText: 'Refill VA prescriptions',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-      {
-        href: null,
-        oldHref: mhvUrl(authdWithSSOe, '/prescription-tracking'),
-        oldText: 'Track prescription delivery',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
-      },
-      {
-        ...HEALTH_TOOL_LINKS.MEDICATIONS[1],
-        oldHref: mhvUrl(authdWithSSOe, '/my-complete-medications-list'),
-        oldText: 'Medications and allergies',
-        toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
       },
     ],
     featureToggles,
@@ -118,7 +83,7 @@ const resolveLandingPageLinks = (
         href: '/COMMUNITYCARE/programs/veterans/index.asp',
         text: 'Community care',
       },
-      {
+      registered && {
         href:
           '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
@@ -196,38 +161,39 @@ const resolveLandingPageLinks = (
   const cards = [
     {
       title: HEALTH_TOOL_HEADINGS.APPOINTMENTS,
-      icon: 'calendar',
+      icon: 'calendar_today',
       links: HEALTH_TOOL_LINKS.APPOINTMENTS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MESSAGES,
-      icon: 'comments',
+      icon: 'forum',
       links: messagesLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICATIONS,
-      icon: 'prescription-bottle',
-      links: medicationsLinks,
+      icon: 'pill',
+      links: HEALTH_TOOL_LINKS.MEDICATIONS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
-      icon: 'file-medical',
+      icon: 'note_add',
       links: medicalRecordsLinks,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
-      icon: 'dollar-sign',
+      icon: 'attach_money',
+      iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
       links: HEALTH_TOOL_LINKS.PAYMENTS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_SUPPLIES,
-      icon: 'deaf',
+      icon: 'medical_services',
       links: HEALTH_TOOL_LINKS.MEDICAL_SUPPLIES,
     },
   ];
   const hubs = [
     {
-      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
+      title: registered ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {

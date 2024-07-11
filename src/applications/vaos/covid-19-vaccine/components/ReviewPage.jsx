@@ -116,6 +116,7 @@ export default function ReviewPage({ changeCrumb }) {
             aria-label="Edit contact information"
             text="Edit"
             data-testid="edit-contact-information-link"
+            tabindex="0"
           />
         </div>
       </div>

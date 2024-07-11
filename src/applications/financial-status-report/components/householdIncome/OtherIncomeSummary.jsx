@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -40,25 +41,34 @@ const OtherIncomeSummary = ({
       : 'Continue';
 
   // Calculate income properties as necessary
-  useEffect(
-    () => {
+  useEffect(() => {
+    const calculateIncome = async () => {
       if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
 
-      const calculatedIncome = calculateTotalAnnualIncome(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-          incomeBelowOneFiftyGmt:
-            calculatedIncome < gmtData?.incomeUpperThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addlIncRecords, questions?.isMarried, gmtData?.isEligibleForStreamlined],
-  );
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in OtherIncomeSummary: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
 
   const onDelete = deleteIndex => {
     setFormData({

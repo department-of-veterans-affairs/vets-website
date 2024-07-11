@@ -40,7 +40,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingCancel: true,
       vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
-      vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
       vaOnlineSchedulingAppointmentDetailsRedesign: false,
@@ -311,7 +310,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(screen.getByText('Primary care')).to.be.ok;
 
     // Then it should display who canceled the appointment
-    expect(await screen.findByText(/You canceled your appointment/i)).to.exist;
+    expect(await screen.findByText(/You canceled this appointment/i)).to.exist;
 
     expect(
       screen.getByRole('heading', {
@@ -638,7 +637,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text(
-      'You canceled your appointment.',
+      'You canceled this appointment.',
     );
   });
 

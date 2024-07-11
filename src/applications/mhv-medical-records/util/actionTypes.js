@@ -64,4 +64,8 @@ export const Actions = {
   BlueButtonReport: {
     GET: 'MR_BLUE_BUTTON_GET_DATA',
   },
+  IsDetails: {
+    SET_IS_DETAILS: 'MR_SET_IS_DETAILS',
+    CLEAR_IS_DETAILS: 'MR_CLEAR_IS_DETAILS',
+  },
 };

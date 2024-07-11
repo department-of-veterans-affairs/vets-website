@@ -1,5 +1,6 @@
 import {
   issueTitle,
+  getIssueTitle,
   content,
   errorMessages,
   AreaOfDisagreementReviewField,
@@ -26,6 +27,9 @@ export default {
         'ui:validations': [areaOfDisagreementRequired],
         'ui:errorMessages': {
           required: errorMessages.missingDisagreement,
+        },
+        'ui:options': {
+          itemAriaLabel: data => getIssueTitle(data, { plainText: true }),
         },
         // Not used by CustomPage, kept here for review & submit page render
         disagreementOptions: {

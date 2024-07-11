@@ -1,5 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 
 .search-app {
   margin-bottom: 3em;
@@ -14,7 +14,7 @@
   }
 
   .usa-width-three-fourths.error {
-    padding-left: 1.5rem;
+    padding-left: 0.9375rem;
   }
 
   ul {
@@ -29,16 +29,19 @@
             "Times New Roman", "Times", serif;
         }
 
+
         .result-url,
         .result-desc {
           color: var(--vads-color-base-darker);
           font-family: "Source Sans Pro";
-          font-size: 1.6rem;
+          font-size: 1rem;
         }
+
 
         a.result-title {
           text-decoration: none;
           color: var(--vads-color-link);
+
 
           &:visited {
             span {
@@ -52,6 +55,7 @@
             }
           }
 
+
           &:focus,
           &:active {
             outline: none;
@@ -64,6 +68,7 @@
           }
         }
 
+
         p {
           margin: 0;
         }
@@ -71,17 +76,21 @@
     }
   }
 
+
   .right-nav-link {
     color: var(--vads-color-link);
+
 
     &:visited {
       color: var(--vads-color-link-visited);
     }
 
+
     &:hover {
       color: var(--vads-color-base-darker);
       background: rgba(0, 0, 0, 0.05);
     }
+
 
     &:focus,
     &:active {
@@ -92,108 +101,131 @@
     }
   }
 
+
   .usa-alert {
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
+
 
     .usa-alert-body {
-      padding-left: 1rem;
+      padding-left: 0.625rem;
+
 
       .usa-alert-text {
-        margin-top: 1rem;
+        margin-top: 0.625rem;
       }
     }
   }
+
 
   hr {
     border-bottom: none;
 
+
     &#hr-search-bottom {
       margin-bottom: 0;
 
+
       @include media($small-screen) {
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.9375rem;
       }
     }
   }
+
 
   .results-footer {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
+
 
     @include media($medium-screen) {
       flex-direction: row;
-      margin-bottom: 4rem;
+      margin-bottom: 2.5rem;
     }
+
 
     .powered-by {
       font-weight: bold;
-      margin: 1rem 0 0;
+      margin: 0.625rem 0 0;
+
 
       @include media($small-screen) {
-        margin: 1rem 0 2rem;
+        margin: 0.625rem 0 1.25rem;
       }
       @include media($medium-screen) {
-        margin: 2rem 0 1rem;
+        margin: 1.25rem 0 0.625rem;
       }
     }
 
+
     .va-pagination {
       border-top: none;
+
 
       .va-pagination-prev:empty {
         padding: 0;
       }
 
+
       @include media($large-screen) {
         .va-pagination-inner {
-          width: 20rem !important;
+          width: 12.5rem !important;
         }
       }
+
 
       @include media($medium-screen) {
         width: unset;
       }
     }
 
+
     .simple-pagination {
       span.current-page {
-        padding: 0 1rem;
+        padding: 0 0.625rem;
       }
     }
   }
+
 
   a:visited {
     color: var(--vads-color-link);
   }
 
+
   .search-box {
     flex-direction: column;
+
 
     @media (min-width: $medium-screen) {
       flex-direction: row;
     }
+
 
     input {
       max-width: none;
       margin: 0;
       font-family: "Source Sans Pro";
 
+
     }
     button {
       margin: 10px 0 5px;
       font-family: "Source Sans Pro";
+
 
       @media (min-width: $medium-screen) {
         margin: 0;
       }
     }
 
+
     input {
       color: var(--vads-color-base-darker);
       font-weight: 400;
     }
+
 
     button {
       align-items: center;
@@ -201,15 +233,15 @@
       border-radius: 5px;
       color: var(--vads-color-white);
       display: flex;
-      font-size: 1.6rem;
+      font-size: 1rem;
       font-weight: 700;
       justify-content: center;
-      padding: 1rem;
+      padding: 0.625rem;
       width: 100%;
 
       @media (min-width: $medium-screen) {
         border-radius: 0 5px 5px 0;
-        padding: 0 1.5rem 0 1rem;
+        padding: 0 0.9375rem 0 0.625rem;
         width: auto;
       }
 

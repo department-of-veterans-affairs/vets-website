@@ -32,7 +32,7 @@ function EnrollmentHistory({ enrollmentData = {} }) {
   if (enrollmentData.veteranIsEligible) {
     sectionContent = (
       <div>
-        <h3 className="section-header">Enrollment History</h3>
+        <h2 className="section-header">Enrollment History</h2>
         {historyExplanationBox}
         {enrollmentHistory}
       </div>

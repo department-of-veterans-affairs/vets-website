@@ -24,14 +24,14 @@ const validYesNoPattern = arrayBuilderYesNoUI({
 
 const validIntroPage = {
   title: 'Employment history',
-  path: '/employers-intro',
+  path: 'employers-intro',
   uiSchema: {},
   schema: {},
 };
 
 const validSummaryPage = {
   title: 'Employment history',
-  path: '/employers-summary',
+  path: 'employers-summary',
   uiSchema: {
     hasEmployment: validYesNoPattern,
   },
@@ -40,14 +40,14 @@ const validSummaryPage = {
 
 const validFirstPage = {
   title: 'Name of employer',
-  path: '/employers/name/:index',
+  path: 'employers/name/:index',
   uiSchema: {},
   schema: {},
 };
 
 const validLastPage = {
   title: 'Address of employer',
-  path: '/employers/address/:index',
+  path: 'employers/address/:index',
   uiSchema: {},
   schema: {},
 };
@@ -356,7 +356,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       goNextPath,
       formData: mockFormData,
     });
-    expect(goPath.args[0][0]).to.eql('/employers-summary');
+    expect(goPath.args[0][0]).to.eql('employers-summary');
 
     mockFormData = {
       hasEmployment: true,
@@ -369,7 +369,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       goNextPath,
       formData: mockFormData,
     });
-    expect(goPath.args[1][0]).to.eql('/employers/name/0?add=true');
+    expect(goPath.args[1][0]).to.eql('employers/name/0?add=true');
   });
 
   it('should navigate forward correctly on the summary page', () => {
@@ -392,7 +392,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       formData: mockFormData,
       pageList: mockPageList,
     });
-    expect(goPath.args[0][0]).to.eql('/employers/name/1?add=true');
+    expect(goPath.args[0][0]).to.eql('employers/name/1?add=true');
 
     mockFormData = {
       hasEmployment: false,
@@ -422,14 +422,14 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       urlParams: { add: true },
       pathname: '/employers/address/0',
     });
-    expect(goPath.args[0][0]).to.eql('/employers-summary');
+    expect(goPath.args[0][0]).to.eql('employers-summary');
 
     lastPage.onNavForward({
       goPath,
       urlParams: { edit: true },
       pathname: '/employers/address/0',
     });
-    expect(goPath.args[1][0]).to.eql('/employers-summary?updated=employer-0');
+    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
 
     lastPage.onNavForward({
       goPath,

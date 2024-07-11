@@ -116,7 +116,7 @@ describe('ConfirmationPersonalInfo', () => {
     ).to.deep.equal([
       '●●●–●●–V A file number ending with ',
       '',
-      'No',
+      'Not selected',
       '',
       '',
       ',  ',

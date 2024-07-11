@@ -31,6 +31,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -47,6 +48,8 @@ const AllergyDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

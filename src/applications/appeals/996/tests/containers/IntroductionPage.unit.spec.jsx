@@ -40,6 +40,9 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
+          dob: '2000-01-01',
+          claims: { appeals: true },
           // need to have a saved form or else form will redirect to v2
           savedForms: [
             // {

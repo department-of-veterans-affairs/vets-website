@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -24,46 +25,47 @@ const SpouseAdditionalIncomeCheckList = ({
   const { spAddlIncome = [] } = additionalIncome?.spouse;
 
   // Calculate income properties as necessary
-  const updateStreamlinedValues = () => {
-    if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
+  useEffect(() => {
+    const calculateIncome = async () => {
+      if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
 
-    const calculatedIncome = calculateTotalAnnualIncome(data);
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
 
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGmt:
-          calculatedIncome < gmtData?.incomeUpperThreshold,
-      },
-    });
-  };
-
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return spAddlIncome.some(source => source.name === value)
-      ? setFormData({
+        setFormData({
           ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            spouse: {
-              spAddlIncome: spAddlIncome.filter(
-                source => source.name !== value,
-              ),
-            },
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            spouse: {
-              ...additionalIncome.spouse,
-              spAddlIncome: [...spAddlIncome, { name: value, amount: '' }],
-            },
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
           },
         });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in SpouseAdditionalIncomeChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
+
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      additionalIncome: {
+        ...additionalIncome,
+        spouse: {
+          spAddlIncome: checked
+            ? [...spAddlIncome, { name, amount: '' }]
+            : spAddlIncome.filter(source => source.name !== name),
+        },
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -81,6 +83,7 @@ const SpouseAdditionalIncomeCheckList = ({
   const isBoxChecked = option => {
     return spAddlIncome.some(incomeValue => incomeValue.name === option);
   };
+
   const title = 'Your spouse’s other income';
   const prompt = 'Select any additional income your spouse receives:';
 
@@ -98,7 +101,7 @@ const SpouseAdditionalIncomeCheckList = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

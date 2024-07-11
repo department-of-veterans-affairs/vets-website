@@ -9,17 +9,15 @@ import { AXE_CONTEXT, Paths } from './utils/constants';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
     // const composePage = new PatientComposePage();
 
-    site.login();
+    SecureMessagingSite.login();
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.messageId = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
-    landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     cy.intercept(
       'GET',
       `${

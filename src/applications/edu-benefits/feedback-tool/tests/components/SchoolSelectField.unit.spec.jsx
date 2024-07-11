@@ -264,6 +264,7 @@ describe('<SchoolSelectField>', () => {
 
   // handleManualSchoolEntryToggled
   it('should call onChange props on when manual entry is toggled', () => {
+    const toggleManualSchoolEntry = sinon.spy();
     const onChange = sinon.spy();
     const { container } = render(
       <SchoolSelectField
@@ -280,16 +281,12 @@ describe('<SchoolSelectField>', () => {
         showInstitutionsLoading={false}
         showPagination
         showPaginationLoading
+        toggleManualSchoolEntry={toggleManualSchoolEntry}
       />,
     );
 
-    const clickEvent = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-    });
-
     const checkbox = container.getElementsByTagName('va-checkbox')[0];
-    checkbox.__events.vaChange(clickEvent);
+    checkbox.__events.vaChange({ detail: { checked: true } });
     expect(onChange.firstCall.args[0]).to.eql({
       'view:manualSchoolEntryChecked': true,
     });
@@ -506,7 +503,7 @@ describe('<SchoolSelectField>', () => {
     );
 
     tree
-      .find('.clear-search button')
+      .find('.clear-search va-button')
       .first()
       .simulate('click');
     expect(onChange.calledOnce).to.eql(true);

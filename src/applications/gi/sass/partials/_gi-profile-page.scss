@@ -51,8 +51,8 @@
 
   @include media-maxwidth($medium-screen - 1) {
     .ratings-heading {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
     }
   }
 
@@ -68,8 +68,8 @@
 }
 
   .ratings-star-block{
-    max-width: 8rem;
-    min-width: 8rem;
+    max-width: 5rem;
+    min-width: 5rem;
   }
 
   .main-rating{
@@ -79,8 +79,8 @@
 
   @include media-maxwidth($medium-screen - 1) {
     .about-ratings {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
     }
   }
 
@@ -112,12 +112,12 @@
       background-size: 12px;
       background-color: transparent;
       padding-left: 0;
-      padding-right: 0rem;
-      background-position: right 1rem center;
+      padding-right: 0;
+      background-position: right 0.625rem center;
       width: 100%;
 
       @include media-maxwidth($medium-screen - 1) {
-        background-position: right 1rem center;
+        background-position: right 0.625rem center;
       }
     }
   }
@@ -190,7 +190,7 @@
   }
   @media screen and (max-width: $small-screen) {
     .usa-alert {
-      padding-right: 3.2rem;
+      padding-right: 2rem;
     }
   }
 
@@ -206,13 +206,13 @@
 
   .category-ratings-accordion-headings {
     margin-bottom: 9px;
-    padding-top: 2rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-top: 1.25rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
 
     @include media-maxwidth($medium-screen - 1) {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
     }
   }
 
@@ -227,7 +227,7 @@
 
     button {
       margin: 0.75em 0 0 0;
-      padding: 1rem 2rem;
+      padding: 0.625rem 1.25rem;
     }
 
     .calculator-result {
@@ -237,7 +237,7 @@
     }
 
     li.section-item button.usa-accordion-button {
-      padding-right: 4rem;
+      padding-right: 2.5rem;
     }
 
     .calculate-button:disabled {
@@ -246,19 +246,9 @@
     }
   }
 
-  .programs.row {
-    .fa-check {
-      color: var(--vads-color-success-dark);
-    }
-
-    .fa-remove {
-      color: var(--vads-color-gray-medium);
-    }
-  }
-
   .your-estimated-benefits {
     background: var(--vads-color-base-lightest);
-    padding: 1.5rem 1.5rem 0rem 1.5rem;
+    padding: 0.9375rem 0.9375rem 0 0.9375rem;
     overflow-wrap: break-word;
 
     hr {
@@ -287,26 +277,26 @@
 
   .total-paid-to-you {
     .calculator-result {
-      margin-top: 1.6rem;
+      margin-top: 1rem;
     }
   }
   .eyb-h4 {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
       serif;
-    font-size: 1.7rem;
+    font-size: 1.0625rem;
     font-weight: 700;
   }
 
   .per-term-section {
     & + .per-term-section {
-      margin-top: 1.5rem;
+      margin-top: 0.9375rem;
     }
   }
 
   .tuition-section,
   .housing-section {
     .calculator-result {
-      margin-top: 0.5rem;
+      margin-top: 0.3125rem;
     }
   }
 
@@ -316,7 +306,7 @@
   }
 
   .graph-key {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
 
     @include media-maxwidth($medium-screen) {
       width: 200%;
@@ -381,7 +371,7 @@
 
   .additional-information {
     .institution-summary {
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
     }
   }
 
@@ -392,7 +382,7 @@
   }
 
   .school-locations {
-    padding-bottom: 1rem;
+    padding-bottom: 0.625rem;
 
     table {
       table-layout: fixed;
@@ -688,8 +678,8 @@
   .jump-link {
     display: block;
 
-    i {
-      font-size: 12px;
+    va-icon {
+      vertical-align: middle;
     }
     span {
       display: inline-block;
@@ -711,7 +701,7 @@
 
 .veteran-programs-and-support {
   .historical-information.list {
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
 
     @media screen and (min-width: $medium-screen) {
       display: none;
@@ -721,6 +711,12 @@
   @include media-maxwidth($medium-screen) {
     .historical-information.table {
       display: none;
+    }
+  }
+
+  .veteran-programs {
+    va-icon {
+      vertical-align: bottom;
     }
   }
 }
@@ -738,5 +734,11 @@
 .iconToggle{
   display: inline-block;
   margin-right: 15px;
+}
 
+.v3-checkbox-vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 100%;
 }

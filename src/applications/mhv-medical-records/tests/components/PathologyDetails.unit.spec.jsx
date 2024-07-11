@@ -51,11 +51,10 @@ describe('Pathology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText('August', {
+    const formattedDate = screen.getAllByText('august', {
       exact: false,
-      selector: 'p',
     });
-    expect(formattedDate).to.exist;
+    expect(formattedDate.length).to.eq(2);
   });
 
   it('should display the lab results', () => {

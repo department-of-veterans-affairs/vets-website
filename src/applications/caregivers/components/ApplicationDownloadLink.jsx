@@ -6,7 +6,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { downloadErrorsByCode } from '../definitions/content';
+import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import { submitTransform } from '../utils/helpers';
 import formConfig from '../config/form';
 
@@ -15,7 +15,6 @@ const apiURL = `${
 }/v0/caregivers_assistance_claims/download_pdf`;
 
 const ApplicationDownloadLink = ({ form }) => {
-  const [PDFLink, setPDFLink] = useState(null);
   const [loading, isLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -26,45 +25,51 @@ const ApplicationDownloadLink = ({ form }) => {
   // fetch a custom error message based on status code
   const errorMessage = () => {
     const code = errors[0].status.split('')[0];
-    const { generic } = downloadErrorsByCode;
-    return downloadErrorsByCode[code] || generic;
+    const { generic } = DOWNLOAD_ERRORS_BY_CODE;
+    return DOWNLOAD_ERRORS_BY_CODE[code] || generic;
   };
 
-  // define our method of retrieving the link to download
-  const fetchDownloadUrl = body => {
+  const handlePdfDownload = blob => {
+    const downloadUrl = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+
+    downloadLink.className = 'cg-application-download-link';
+    downloadLink.href = downloadUrl;
+    downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(downloadUrl);
+  };
+
+  const fetchPdf = event => {
+    // Prevents browser from navigating to top of page due to href='#'
+    event.preventDefault();
     isLoading(true);
 
-    // create the application link
+    // get pdf file to download
     apiRequest(apiURL, {
       method: 'POST',
-      body,
+      body: formData,
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then(response => response.blob())
       .then(blob => {
-        const linkUrl = URL.createObjectURL(blob);
-        setPDFLink(linkUrl);
-        isLoading(false);
-        setErrors([]);
+        handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(response => {
-        isLoading(false);
         setErrors(response.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
         Sentry.withScope(scope => scope.setExtra('error', response));
+      })
+      .finally(() => {
+        isLoading(false);
       });
   };
-
-  // get application download link when form data is transformed
-  useEffect(
-    () => {
-      fetchDownloadUrl(formData);
-    },
-    [formData],
-  );
 
   // apply focus to the error alert if we have errors set
   useEffect(
@@ -102,11 +107,11 @@ const ApplicationDownloadLink = ({ form }) => {
 
   return (
     <va-link
-      href={PDFLink}
-      text="Download your completed application"
-      filename={`10-10CG_${name.first}_${name.last}`}
-      filetype="PDF"
+      onClick={e => fetchPdf(e)}
+      href="#"
       download
+      filetype="PDF"
+      text="Download your completed application"
     />
   );
 };

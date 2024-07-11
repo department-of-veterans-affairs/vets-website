@@ -7,7 +7,11 @@ import { setupPages } from '../utils/reviewPageHelper';
 
 const updateSubmitted = (
   <p className="vads-u-width--full vads-u-background-color--green-lightest vads-u-padding--2">
-    <i className="fas fa-check vads-u-color--green-darker vads-u-margin-right--2" />
+    <va-icon
+      icon="check"
+      size={4}
+      className="vads-u-color--green-darker vads-u-margin-right--2"
+    />
     Your edit was submitted successfully.
   </p>
 );

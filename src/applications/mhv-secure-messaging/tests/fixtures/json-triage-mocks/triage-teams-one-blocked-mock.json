@@ -11,7 +11,8 @@
       "stationNumber": "662",
       "blockedStatus": true,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2323849,
@@ -19,7 +20,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2336822,
@@ -27,7 +29,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2666935,
@@ -35,7 +38,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2343333,
@@ -43,7 +47,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     }
   ],
   "mockAllowedRecipients": [
@@ -53,7 +58,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2336822,
@@ -61,7 +67,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2666935,
@@ -69,7 +76,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     },
     {
       "id": 2343333,
@@ -77,7 +85,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "type": "Care Team"
     }
   ],
   "mockBlockedRecipients": [

@@ -74,7 +74,7 @@ describe('<ClaimStatusPage>', () => {
                 claimPhaseDates: {
                   currentPhaseBack: false,
                   phaseChangeDate: '2015-01-01',
-                  latestPhaseType: 'INITIAL_REVIEW',
+                  latestPhaseType: 'UNDER_REVIEW',
                   previousPhases: {
                     phase1CompleteDate: '2023-02-08',
                     phase2CompleteDate: '2023-02-08',

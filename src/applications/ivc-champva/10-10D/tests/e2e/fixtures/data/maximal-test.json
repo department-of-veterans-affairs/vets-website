@@ -1,0 +1,218 @@
+{
+  "description": "Is 3rd party certifier, sponsor alive, 3 applicants, spouse, child, other relationship, over 65 no Medicare no OHI, Medicare ABD and OHI",
+  "data": {
+    "applicants": [
+      {
+        "applicantPhone": "1231231234",
+        "applicantEmailAddress": "app1@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 App1 St",
+          "city": "Cityland",
+          "state": "MD",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "123123123"
+        },
+        "applicantName": {
+          "first": "Applicant1",
+          "last": "Jones"
+        },
+        "applicantDOB": "2004-04-03",
+        "applicantGender": {
+          "gender": "male"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "blood"
+        },
+        "missingUploads": [
+          {
+            "name": "applicantBirthCertOrSocialSecCard",
+            "path": "applicant-child-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantSchoolCert",
+            "path": "applicant-child-school-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "applicantDependentStatus": {
+          "status": "enrolled"
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "ineligible"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "no"
+        }
+      },
+      {
+        "dateOfMarriageToSponsor": "1980-02-03",
+        "applicantPhone": "2342342345",
+        "applicantEmailAddress": "app2@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 Sponsor Street",
+          "city": "Citytown",
+          "state": "AL",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "123234123"
+        },
+        "applicantName": {
+          "first": "Applicant2",
+          "last": "Jones"
+        },
+        "applicantDOB": "1955-04-02",
+        "missingUploads": [
+          {
+            "name": "applicantMedicareIneligibleProof",
+            "path": "applicant-medicare-ineligible/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMarriageCert",
+            "path": "applicant-marriage-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCard",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOtherInsuranceCertification",
+            "path": "applicant-other-insurance-10-7959c-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "sharesAddressWith": "{\"originatorName\":\"Sponsor  Jones \",\"originatorAddress\":{\"view:militaryBaseDescription\":{},\"country\":\"USA\",\"street\":\"123 Sponsor Street\",\"city\":\"Citytown\",\"state\":\"AL\",\"postalCode\":\"12312\"},\"displayText\":\"123 Sponsor Street\"}",
+        "applicantGender": {
+          "gender": "female"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "spouse"
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "ineligible"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "yes"
+        }
+      },
+      {
+        "applicantPhone": "1231232345",
+        "applicantEmailAddress": "app3@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 Certifier Street",
+          "city": "Citytown",
+          "state": "AL",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "876123876"
+        },
+        "applicantName": {
+          "first": "Applicant3",
+          "last": "Jones"
+        },
+        "applicantDOB": "2000-01-02",
+        "missingUploads": [
+          {
+            "name": "applicantMedicarePartAPartBCard",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCard",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOtherInsuranceCertification",
+            "path": "applicant-other-insurance-10-7959c-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCard",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "applicantGender": {
+          "gender": "male"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "other",
+          "otherRelationshipToVeteran": "Something else"
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
+        "applicantMedicarePartD": {
+          "enrollment": "enrolled"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "yes"
+        }
+      }
+    ],
+    "sponsorPhone": "1231232345",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Sponsor Street",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "sponsorIsDeceased": false,
+    "ssn": {
+      "ssn": "123123123"
+    },
+    "veteransFullName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "sponsorDOB": "1950-01-01",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true,
+        "child": true,
+        "thirdParty": true
+      }
+    },
+    "certifierPhone": "1231231234",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
+    "certifierRole": "other",
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "certifier jones",
+    "statementOfTruthCertified": true
+  }
+}

@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .find-a-representative {
@@ -20,8 +20,8 @@
   @media (min-width: $small-screen) and (max-width: $medium-screen) {
     .usa-content,
     .va-nav-breadcrumbs {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      padding-left: 0.9375rem;
+      padding-right: 0.9375rem;
     }
   }
 
@@ -36,10 +36,11 @@
           @media (min-width: $medium-screen) {
             .geolocation-container {
               display: flex;
-              min-width: 10rem;
+              min-width: 6.25rem;
+
 
               .location-input {
-                min-width: 48rem;
+                min-width: 30rem;
               }
 
               .use-my-location-button-container {
@@ -50,24 +51,24 @@
               }
             }
             .search-area-dropdown {
-              width: 48rem;
+              width: 30rem;
             }
 
             .representative-name-input {
-              width: 48rem;
+              width: 30rem;
             }
           }
           @media (max-width: $medium-screen) {
             .location-input {
-              max-width: 46rem;
+              max-width: 28.75rem;
             }
 
             .search-area-dropdown {
-              max-width: 46rem;
+              max-width: 28.75rem;
             }
 
             .representative-name-input {
-              max-width: 46rem;
+              max-width: 28.75rem;
             }
 
             .use-my-location-button-container {
@@ -136,19 +137,19 @@
 
   .results-section {
     @media (min-width: $medium-screen) {
-      min-width: 60rem;
+      min-width: 37.5rem;
     }
 
     .loading-indicator-container {
-      margin-bottom: 60rem !important;
+      margin-bottom: 37.5rem !important;
     }
 
     hr {
       @media (min-width: $medium-screen) {
-        min-width: 60rem;
+        min-width: 37.5rem;
       }
       @media (max-width: $medium-screen) {
-        max-width: 57rem;
+        max-width: 35.625rem;
       }
     }
     .pagination-container .hydrated {
@@ -169,16 +170,17 @@
         align-items: flex-end;
 
         .sort-select {
-          min-width: 25rem;
+          min-width: 15.625rem;
           margin-left: 0;
         }
 
         .sort-apply-button {
-          margin-left: 2rem;
+          margin-left: 1.25rem;
         }
       }
 
-      @media (max-width: 26rem) {
+
+      @media (max-width: 16.25rem) {
         .sort-select-and-apply {
           flex-direction: column;
           align-items: flex-start;
@@ -195,15 +197,16 @@
 
       .representative-result-card {
         .representative-result-card-content {
-          @media (min-width: 29rem) {
+          @media (min-width: 18.125rem) {
             .report-outdated-information-button {
-              min-width: 27rem;
+              min-width: 16.875rem;
             }
           }
         }
 
         @media (min-width: $medium-screen) {
-          min-width: 60rem;
+          min-width: 37.5rem;
+
 
           .representative-result-card-content {
             display: grid;
@@ -246,20 +249,21 @@
         @media (max-width: $medium-screen) {
           display: flex;
           align-items: center;
-          max-width: 57rem;
+          max-width: 35.625rem;
+
 
           .report-thank-you-alert {
-            margin-top: 3rem;
+            margin-top: 1.875rem;
             margin-bottom: 0;
           }
 
           .report-outdated-information-button {
-            margin-top: 3rem;
+            margin-top: 1.875rem;
           }
         }
         @media (min-width: 565px) and (max-width: $medium-screen) {
           .representative-result-card-content {
-            min-width: 35rem;
+            min-width: 21.875rem;
           }
         }
       }
@@ -267,14 +271,14 @@
 
     .report-other-text-input {
       @media (min-width: $small-screen) {
-        padding-left: 4rem;
+        padding-left: 2.5rem;
       }
     }
   }
 
   .help-section {
     @media (max-width: $medium-screen) {
-      padding-right: 2.5rem;
+      padding-right: 1.5625rem;
     }
   }
 }

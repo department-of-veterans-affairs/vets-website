@@ -9,12 +9,10 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
-    const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage);
+    SecureMessagingSite.login();
+    const testMessage = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({

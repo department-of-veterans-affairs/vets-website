@@ -112,7 +112,7 @@ describe('extractAuthenticator', () => {
   it('should return null if no "name" item contains a "text" field', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [{ ignore: 'the wrong object' }] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
@@ -120,7 +120,7 @@ describe('extractAuthenticator', () => {
   it('should return null if "name" is empty', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
@@ -435,7 +435,10 @@ describe('convertAdmissionAndDischargeDetails', () => {
   it('should properly convert dates', () => {
     const record = {
       context: {
-        period: { start: '2022-08-05T13:41:23Z', end: '2022-08-18T04:00:00Z' },
+        period: {
+          start: '2022-08-05T13:41:23-0500',
+          end: '2022-08-18T04:00:00-0500',
+        },
       },
     };
     const dsNote = convertAdmissionAndDischargeDetails(record);

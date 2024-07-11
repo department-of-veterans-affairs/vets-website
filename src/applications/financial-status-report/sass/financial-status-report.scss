@@ -1,8 +1,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/forms/sass/m-schemaform";
 
@@ -17,21 +17,6 @@
 
 .schemaform-review-page-error {
   margin: 0;
-}
-
-.debt-card {
-  padding: 24px;
-  label {
-    display: inline-block !important;
-    user-select: none;
-  }
-  [type="checkbox"]:checked + label::before {
-    background-color: var(--vads-color-white);
-    color: var(--vads-color-primary);
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    padding-right: 2px;
-  }
 }
 
 .selected-debt {
@@ -348,7 +333,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   }
   @media (max-width: $xsmall-screen) {
     width: -webkit-fill-available;
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
     &::part(button) {
       width: 100%;
     }
@@ -369,7 +354,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
     &::before {
       font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
       font-weight: 900; /* Use 900 for solid icons */
-      font-size: 1.6rem;
+      font-size: 1rem;
       vertical-align: bottom;
     }
   }
@@ -391,5 +376,11 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
       content: "\f101";
       margin-left: 8px;
     }
+  }
+}
+
+va-checkbox {
+  &::part(checkbox) {
+    max-width: fit-content;
   }
 }

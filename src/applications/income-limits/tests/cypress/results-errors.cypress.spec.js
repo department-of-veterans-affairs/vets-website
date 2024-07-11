@@ -41,7 +41,7 @@ describe('retrieving results - errors', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemYour information couldn’t go through. Enter a valid 5 digit zip code.`,
+        `We've run into a problemYour information couldn’t go through. Enter a valid 5 digit zip code.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -87,7 +87,7 @@ describe('retrieving results - errors', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemYour information couldn’t go through. Select a year again.`,
+        `We've run into a problemYour information couldn’t go through. Select a year again.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -133,7 +133,7 @@ describe('retrieving results - errors', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We’ve run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
+        `We've run into a problemYour information couldn’t go through. Enter a number of dependents between 0 and 100.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });
@@ -180,7 +180,7 @@ describe('retrieving results - errors', () => {
       cy.wait(5200);
 
       h.checkServiceAlertText(
-        `We’ve run into a problemWe’re sorry. Something went wrong on our end. Please try again.`,
+        `Your answer didn’t go through.We’re sorry. There’s a problem with our system. Refresh this page or try again later.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });

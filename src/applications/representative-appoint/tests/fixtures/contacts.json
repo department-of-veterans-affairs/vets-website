@@ -1,0 +1,76 @@
+{
+  "data": [
+    {
+      "id": "Emergency Contact",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Emergency Contact",
+        "givenName": "Ethan",
+        "middleName": "Jermey",
+        "familyName": "Bishop",
+        "relationship": "Brother",
+        "addressLine1": "9758 TEST AVE",
+        "addressLine2": null,
+        "addressLine3": null,
+        "city": "ALBUQUERQUE",
+        "state": "NM",
+        "zipCode": "87109",
+        "primaryPhone": "(439)573-8274"
+      }
+    },
+    {
+      "id": "Other emergency contact",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Other emergency contact",
+        "givenName": "Deborah",
+        "middleName": null,
+        "familyName": "Williams",
+        "relationship": "Unrelated Friend",
+        "addressLine1": "2645 TEST WAY",
+        "addressLine2": "UNIT 192",
+        "addressLine3": null,
+        "city": "CLEARWATER",
+        "state": "FL",
+        "zipCode": "33760",
+        "primaryPhone": "(927)737-7486"
+      }
+    },
+    {
+      "id": "Primary Next of Kin",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Primary Next of Kin",
+        "givenName": "James",
+        "middleName": "Daniel",
+        "familyName": "Bishop",
+        "relationship": "Son",
+        "addressLine1": "823 SE 2ND ST",
+        "addressLine2": "BLDG 2",
+        "addressLine3": "UNIT 163",
+        "city": "GUADALAJARA",
+        "state": "JAL.",
+        "zipCode": null,
+        "primaryPhone": "(254)394-1938"
+      }
+    },
+    {
+      "id": "Other Next of Kin",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Other Next of Kin",
+        "givenName": "Mary",
+        "middleName": "Jessica",
+        "familyName": "Bishop",
+        "relationship": "Daughter",
+        "addressLine1": "748 TEST ST",
+        "addressLine2": "APT 394",
+        "addressLine3": "UNIT 2",
+        "city": "ALBUQUERQUE",
+        "state": "NM",
+        "zipCode": "87109",
+        "primaryPhone": "(274)294-3384"
+      }
+    }
+  ]
+}

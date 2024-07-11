@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 import FacilityDirectionsLink from './FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
 import { hasValidCovidPhoneNumber } from '../services/appointment';
-import { selectFeaturePhysicalLocation } from '../redux/selectors';
 
 export default function FacilityAddress({
   name,
@@ -20,9 +18,6 @@ export default function FacilityAddress({
   isPhone,
   phoneHeading,
 }) {
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
-  );
   const address = facility?.address;
   const phone =
     showCovidPhone && hasValidCovidPhoneNumber(facility)
@@ -69,8 +64,7 @@ export default function FacilityAddress({
           </>
         )}
         {!!clinicPhysicalLocation &&
-          !isPhone &&
-          featurePhysicalLocation && (
+          !isPhone && (
             <>
               <br />
               <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">

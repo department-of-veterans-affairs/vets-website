@@ -4,7 +4,7 @@ import { LAST_YEAR } from '../../utils/constants';
 const SpouseInfoDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
     uswds
   >
     <div>

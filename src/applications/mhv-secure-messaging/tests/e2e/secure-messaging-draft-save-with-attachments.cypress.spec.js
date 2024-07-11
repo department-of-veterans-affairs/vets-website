@@ -10,12 +10,10 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
 
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     PatientInterstitialPage.getContinueButton().should('not.exist');
@@ -34,5 +32,9 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);
+
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
   });
 });

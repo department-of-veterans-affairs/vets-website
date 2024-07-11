@@ -1,8 +1,7 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-linkslist";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-linklist";
 
 dfn {
     width: fit-content;

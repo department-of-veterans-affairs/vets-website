@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -6,20 +6,14 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
-import {
-  addMultiresponseStyles,
-  removeMultiresponseStyles,
-} from './multiresponseStyles';
-import {
-  removeSessionMultiresponseStyles,
-  setSessionMultiresponseStyles,
-} from './helpers';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
+import { submit } from './config/submit';
 
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
-  const pensionMultiresponseStyles = useToggleValue(
-    TOGGLE_NAMES.pensionMultiresponseStyles,
+  const pensionModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.pensionModuleEnabled,
   );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
@@ -31,22 +25,8 @@ export default function PensionEntry({ location, children }) {
     window.location.href = '/pension/survivors-pension/';
   }
 
-  useEffect(
-    () => {
-      if (isLoadingFeatures === false) {
-        if (pensionMultiresponseStyles) {
-          // TODO: Move styles to pensions.scss when we remove the flipper
-          addMultiresponseStyles();
-          // TODO: Remove sessionStorage calls when removing the flipper
-          setSessionMultiresponseStyles();
-        } else {
-          removeMultiresponseStyles();
-          removeSessionMultiresponseStyles();
-        }
-      }
-    },
-    [isLoadingFeatures, pensionMultiresponseStyles],
-  );
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;
@@ -55,6 +35,11 @@ export default function PensionEntry({ location, children }) {
   if (!pensionFormEnabled) {
     return <NoFormPage />;
   }
+
+  if (pensionModuleEnabled) {
+    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
+  }
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

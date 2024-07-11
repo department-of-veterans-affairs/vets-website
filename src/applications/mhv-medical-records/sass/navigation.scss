@@ -88,14 +88,14 @@
       ul {
         li {
           a {
-            padding-left: 3rem;
+            padding-left: 1.875rem;
           }
         }
       }
     }
   }
 }
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .va-btn-sidebarnav-trigger {
     z-index: 0;
     .button-wrapper {
@@ -119,7 +119,7 @@
     }
     .sidebar-navigation-header {
       height: 50px;
-      margin-left: 20rem;
+      margin-left: 12.5rem;
       i.fa-medkit {
         padding-bottom: 4px;
       }

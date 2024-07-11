@@ -240,7 +240,7 @@ const BenefitsForm = ({
           {militaryStatus === 'active duty' &&
             chapter33Check && (
               <div className="military-status-info warning form-group">
-                <i className="fa fa-warning" />
+                <va-icon icon="warning" />
                 <a
                   title="Post 9/11 GI Bill"
                   href="http://www.benefits.va.gov/gibill/post911_gibill.asp"
@@ -257,7 +257,7 @@ const BenefitsForm = ({
             )}
           {giBillChapter === '31' && (
             <div className="military-status-info info form-group">
-              <i className="fa fa-info-circle" />
+              <va-icon icon="info" />
               To apply for VR&E benefits, please{' '}
               <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">
                 visit this site

@@ -1,11 +1,11 @@
 // Variables
 
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
-// @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-// @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+// @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+// @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .full-page-alert {
@@ -47,7 +47,7 @@ fieldset.schemaform-block,
 /* federal orders */
 article[data-location$="federal-orders"] {
   .schemaform-field-template.usa-input-error {
-    margin-top: 3rem;
+    margin-top: 1.875rem;
   }
 }
 
@@ -126,7 +126,7 @@ article[data-location$="federal-orders"] {
 // Supporting evidence legend (matches h4 style)
 #root_privateMedicalRecordAttachments-label {
   font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   font-weight: 700;
 
   .schemaform-required-span {
@@ -149,7 +149,7 @@ article[data-location$="federal-orders"] {
 // Mimics usa-form-group-year minus the float and sets the max width so the
 //  error formatting doesn't increase the size
 .year-input {
-  max-width: 7rem;
+  max-width: 4.375rem;
 }
 
 .patient-acknowldegment-help {
@@ -180,7 +180,7 @@ div.review {
     justify-content: space-between;
     flex-direction: column;
     border-top: 1px solid var(--vads-color-base-light);
-    padding: 1.5rem;
+    padding: 0.9375rem;
     padding-left: 0;
   }
   .review-row > dd {
@@ -249,4 +249,57 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   #root_view\:hasEvidence-label .schemaform-required-span {
     display: none
   }
+}
+
+/* addDisabilities combo-box styles */
+.cc-combobox {
+  position: relative
+}
+.cc-combobox__list {
+  position: absolute;
+  width: 100%;
+  max-width: 30rem;
+  background-color: var(--vads-color-white);
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  z-index: 100;
+
+  &--open {
+    border: 1px solid var(--vads-color-black);
+  }
+}
+.cc-combobox__option {
+  display: block;
+  padding: units(1);
+  margin: 0;
+
+  &--active {
+    background-color: var(--vads-color-primary);
+    border-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
+  }
+
+  // dynamic option inserted at beginning, for free text input
+  &--free {
+    border-bottom: 1px solid var(--vads-color-gray-warm-light);
+  }
+}
+
+// Adjusts spacing on label inside web component text input.
+.cc-combobox va-text-input::part(label) {
+  margin-top: 0;
+}
+
+// Adjusts labels in the ArrayField around combobox groups.
+.cc-combobox-container {
+  .schemaform-label,
+  .va-growable-expanded legend {
+    display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
+  }
+}
+
+// Overrides spacing coming from foundation-sites.scss breaking layout.
+.cc-combobox-container .row {
+  margin: 0;
 }

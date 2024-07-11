@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
+import { differenceInCalendarDays, parseISO } from 'date-fns';
 
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +32,8 @@ const Landing = props => {
     APP_NAMES.TRAVEL_CLAIM,
   );
 
+  const { getTravelPaySent } = useStorage(APP_NAMES.TRAVEL_CLAIM, true);
+
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);
 
@@ -58,6 +61,11 @@ const Landing = props => {
         updateError('no-token');
       } else if (!isUUID(token)) {
         updateError('bad-token');
+      }
+
+      const travelPaySent = getTravelPaySent(window);
+      if (differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0) {
+        updateError('already-filed-claim');
       }
 
       if (token && isUUID(token)) {
@@ -111,6 +119,7 @@ const Landing = props => {
       setCurrentToken,
       setSession,
       updateError,
+      getTravelPaySent,
     ],
   );
   return (

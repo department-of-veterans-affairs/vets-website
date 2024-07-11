@@ -151,22 +151,23 @@ export const ConfirmationPageV2 = () => {
             {boardReviewLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {data.boardReviewOption === 'evidence_submission' && (
-          <li>
-            <div className="page-title vads-u-color--gray">
-              Uploaded evidence
-            </div>
-            {data.evidence.map((file, index) => (
-              <div
-                key={index}
-                className="page-value dd-privacy-hidden"
-                data-dd-action-name="evidence file name"
-              >
-                {file.name}
+        {data.boardReviewOption === 'evidence_submission' &&
+          data.evidence.length && (
+            <li>
+              <div className="page-title vads-u-color--gray">
+                Uploaded evidence
               </div>
-            ))}
-          </li>
-        )}
+              {data.evidence?.map((file, index) => (
+                <div
+                  key={index}
+                  className="page-value dd-privacy-hidden"
+                  data-dd-action-name="evidence file name"
+                >
+                  {file.name}
+                </div>
+              ))}
+            </li>
+          )}
         {data.boardReviewOption === 'hearing' && (
           <>
             <li>

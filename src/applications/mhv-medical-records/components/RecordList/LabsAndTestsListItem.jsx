@@ -14,21 +14,29 @@ const LabsAndTestsListItem = props => {
     >
       <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
         <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
-          <span>
-            {record.name} <span className="sr-only">on {record.date}</span>
-          </span>
+          {record.name} <span className="sr-only">on {record.date}</span>
         </Link>
       </h3>
-
       <div>
+        {/* date */}
         <div>{record.date}</div>
+
+        {/* location */}
+        {(record.type === labTypes.CHEM_HEM ||
+          record.type === labTypes.MICROBIOLOGY) && (
+          <div>{record.collectingLocation}</div>
+        )}
+        {record.type === labTypes.PATHOLOGY && <div>{record.labLocation}</div>}
         {record.type === labTypes.RADIOLOGY && (
-          <div>Type of test: X-rays and imaging tests (Radiology)</div>
+          <div>{record.imagingLocation}</div>
         )}
-        {record.type === labTypes.CHEM_HEM && (
-          <div>Type of test: Chemistry and hematology</div>
+
+        {/* ordered by */}
+        {(record.type === labTypes.CHEM_HEM ||
+          record.type === labTypes.MICROBIOLOGY ||
+          record.type === labTypes.RADIOLOGY) && (
+          <div>{`Ordered by ${record.orderedBy}`}</div>
         )}
-        <div>Ordered by {record.orderedBy}</div>
       </div>
     </va-card>
   );

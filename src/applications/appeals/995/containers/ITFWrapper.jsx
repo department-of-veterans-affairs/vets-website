@@ -7,11 +7,8 @@ import { requestStates } from 'platform/utilities/constants';
 import ITFBanner from '../components/ITFBanner';
 import { ITF_STATUSES } from '../constants';
 import { createITF, fetchITF } from '../actions';
-import {
-  isActiveITF,
-  shouldBlockITF,
-  isSupportedBenefitType,
-} from '../utils/itf';
+import { isActiveITF, isSupportedBenefitType } from '../utils/itf';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
 
@@ -42,12 +39,11 @@ const ITFWrapper = ({
       const hasActiveITF = isActiveITF(itf.currentITF);
       const createITFCalled =
         hasActiveITF && itf.creationCallState !== requestStates.notCalled;
-      const blockITF = shouldBlockITF(pathname);
       // ...fetch the ITF
       if (
         allowITF &&
         !isFetching &&
-        !blockITF &&
+        !isOutsideForm(pathname) &&
         itf.fetchCallState === requestStates.notCalled
       ) {
         setIsFetching(true);
@@ -82,7 +78,7 @@ const ITFWrapper = ({
     ],
   );
 
-  if (!allowITF || shouldBlockITF(pathname)) {
+  if (!allowITF || isOutsideForm(pathname)) {
     return children;
   }
 
@@ -149,8 +145,13 @@ const ITFWrapper = ({
   }
 
   // We'll get here after the createITF promise is fulfilled and we have no
-  // active ITF because of a failed creation call
-  return <ITFBanner status="error" router={router} />;
+  // active ITF because of a failed creation call. Render children after alerting
+  // next steps to the Veteran
+  return (
+    <ITFBanner status="error" router={router}>
+      {children}
+    </ITFBanner>
+  );
 };
 
 const requestStateEnum = Object.values(requestStates);

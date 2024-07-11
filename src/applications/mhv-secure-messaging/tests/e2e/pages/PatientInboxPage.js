@@ -10,7 +10,6 @@ import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/no-recipients-response.json';
 import PatientInterstitialPage from './PatientInterstitialPage';
 import { AXE_CONTEXT, Locators, Assertions, Paths } from '../utils/constants';
-import mockSortedMessages from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 
 class PatientInboxPage {
@@ -314,24 +313,6 @@ class PatientInboxPage {
     }
   };
 
-  clickInboxSideBar = () => {};
-
-  clickSentSideBar = () => {};
-
-  clickTrashSideBar = () => {};
-
-  clickDraftsSideBar = () => {};
-
-  clickMyFoldersSideBar = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-      mockFolders,
-    ).as('folders');
-    cy.get(Locators.FOLDERS_LIST).click();
-    cy.wait('@folders');
-  };
-
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };
@@ -354,12 +335,6 @@ class PatientInboxPage {
 
   verifyMoveMessageWithAttachmentSuccessMessage = () => {
     cy.get('p').contains('Message conversation was successfully moved');
-  };
-
-  interstitialStartMessage = type => {
-    return cy
-      .get('a')
-      .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
@@ -527,10 +502,10 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  submitFilterByKeyboard = mockFilterResponse => {
+  submitFilterByKeyboard = (mockFilterResponse, folderId) => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/search`,
       mockFilterResponse,
     ).as('filterResult');
 
@@ -547,18 +522,22 @@ class PatientInboxPage {
     });
   };
 
-  sortMessagesByKeyboard = (text, data) => {
+  sortMessagesByKeyboard = (text, data, folderId) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
 
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`, data);
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
+      data,
+    );
     cy.tabToElement('[data-testid="sort-button"]');
     cy.realPress('Enter');
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -568,7 +547,7 @@ class PatientInboxPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -580,7 +559,7 @@ class PatientInboxPage {
       });
   };
 
-  verifySortingByKeyboard = (text, data) => {
+  verifySortingByKeyboard = (text, data, folderId) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -590,7 +569,7 @@ class PatientInboxPage {
         cy.log(`List before sorting${JSON.stringify(listBefore)}`);
       })
       .then(() => {
-        this.sortMessagesByKeyboard(`${text}`, data);
+        this.sortMessagesByKeyboard(`${text}`, data, folderId);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {
@@ -610,13 +589,13 @@ class PatientInboxPage {
   };
 
   clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
+    option = 'Oldest to newest',
+    sortedResponse,
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
-      .select(`${text}`, { force: true });
+      .select(`${option}`, { force: true });
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
@@ -735,4 +714,4 @@ class PatientInboxPage {
   };
 }
 
-export default PatientInboxPage;
+export default new PatientInboxPage();

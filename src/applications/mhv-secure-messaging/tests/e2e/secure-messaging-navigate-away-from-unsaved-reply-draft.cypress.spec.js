@@ -4,16 +4,15 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT, Data, Locators } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
+import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging navigate away from unsaved draft', () => {
-  it(' Check navigatation away from unsaved draft', () => {
-    const landingPage = new PatientInboxPage();
+  it(' Check navigation away from unsaved draft', () => {
     const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage);
+    SecureMessagingSite.login();
+    const testMessage = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
@@ -23,7 +22,7 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
       force: true,
     });
 
-    cy.get(Locators.FOLDERS.INBOX).click();
+    FolderLoadPage.backToInbox();
     PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
 
     cy.injectAxe();

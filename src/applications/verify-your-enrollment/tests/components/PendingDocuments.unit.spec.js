@@ -32,7 +32,7 @@ describe('<PendingDocuments>', () => {
       <PendingDocuments loading={false} pendingDocuments={pendingDocuments} />,
     );
     expect(wrapper.text()).to.include(
-      'The following document is currently being processed for your account.',
+      'We’re currently processing this document for your account:',
     );
     expect(wrapper.text()).to.include(
       'Application for Benefits (VA Form 22-1990)',

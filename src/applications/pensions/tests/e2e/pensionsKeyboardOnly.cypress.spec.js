@@ -35,7 +35,7 @@ const testForm = data => {
   });
 
   fillReviewPage(data);
-  cy.wait(['@submitApplication', '@pollSubmission']);
+  cy.wait(['@submitApplication']);
   cy.url().should('include', '/confirmation');
 };
 

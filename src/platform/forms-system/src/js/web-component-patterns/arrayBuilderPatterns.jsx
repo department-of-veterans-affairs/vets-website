@@ -9,7 +9,7 @@ import {
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
-export function withAlertOrDescription({ nounSingular }) {
+export function withAlertOrDescription({ description, nounSingular }) {
   return () => {
     const search = getArrayUrlSearchParams();
     const isAdd = search.get('add');
@@ -30,7 +30,7 @@ export function withAlertOrDescription({ nounSingular }) {
     }
     return isEdit
       ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
-      : '';
+      : description || '';
   };
 }
 
@@ -72,11 +72,14 @@ export const withEditTitle = title => {
  * }} options
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemFirstPageTitleUI = ({ title, nounSingular }) => {
+export const arrayBuilderItemFirstPageTitleUI = ({
+  title,
+  description,
+  nounSingular,
+}) => {
   return titleUI(
     withEditTitle(title),
-    // can refactor this to allow passing a description if necessary
-    withAlertOrDescription({ nounSingular }),
+    withAlertOrDescription({ description, nounSingular }),
   );
 };
 

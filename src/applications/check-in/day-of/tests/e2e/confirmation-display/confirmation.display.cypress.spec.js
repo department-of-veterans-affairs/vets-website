@@ -60,6 +60,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('refreshes appointments when using the back to appointments link', () => {
+      Confirmation.validatePageLoaded();
       Confirmation.attemptGoBackToAppointments();
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(2);

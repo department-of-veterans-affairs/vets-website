@@ -23,10 +23,12 @@ import {
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
 import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
-import { InPersonLayout } from '../../../components/layout/InPersonLayout';
+import InPersonLayout from '../../../components/layout/InPersonLayout';
 import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
+import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
 
 function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -81,8 +83,11 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
-    return <InPersonLayout />;
+  if (featureAppointmentDetailsRedesign) {
+    if (isCompAndPenAppointment) return <ClaimExamLayout data={appointment} />;
+    if (isPhoneAppointment) return <PhoneLayout data={appointment} />;
+    return <InPersonLayout data={appointment} />;
+  }
 
   return (
     <>
