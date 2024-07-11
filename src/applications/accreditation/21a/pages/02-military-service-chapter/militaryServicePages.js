@@ -10,7 +10,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import MilitaryServiceExperienceNote from '../../components/MilitaryServiceExperienceNote';
+import MilitaryServiceExperienceNote from '../../components/02-military-service-chapter/MilitaryServiceExperienceNote';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -100,9 +100,9 @@ const summaryPage = {
       {
         title: 'Have you ever served in the military?',
         labelHeaderLevel: 'p',
+        hint: ' ',
       },
       {
-        title: 'Do you have another military service experience?',
         labelHeaderLevel: 'p',
       },
     ),

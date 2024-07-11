@@ -8,9 +8,14 @@ import { dateFormat } from '../../../util/helpers';
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
   const newRx = { ...prescription, phoneNumber: '1234567891' };
-  const setup = (rx = newRx) => {
+  const setup = (rx = newRx, ffEnabled = true) => {
     return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
-      initialState: {},
+      initialState: {
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          mhv_medications_display_documentation_content: ffEnabled,
+        },
+      },
       reducers: {},
       path: '/prescriptions/1234567891',
     });
@@ -139,6 +144,32 @@ describe('vaPrescription details container', () => {
     const pharmacyPhone = screen.queryByTestId('phone-number');
 
     expect(pharmacyPhone).to.not.exist;
+  });
+  it('does not display documentation if cmopNdcNumber is missing', () => {
+    const screen = setup(prescription);
+    const docLink = screen.queryByTestId('va-prescription-documentation-link');
+
+    expect(docLink).to.not.exist;
+  });
+  it('displays documentation if original fill cmopNdcNumber exists', () => {
+    const screen = setup({ ...prescription, cmopNdcNumber: '123456' });
+    const docLink = screen.queryByTestId('va-prescription-documentation-link');
+    expect(docLink).to.exist;
+  });
+  it('displays documentation if rxRfRecords cmopNdcNumber exists', () => {
+    const screen = setup({
+      ...prescription,
+      rxRfRecords: [
+        { ...prescription.rxRfRecords[0], cmopNdcNumber: '123456' },
+      ],
+    });
+    const docLink = screen.queryByTestId('va-prescription-documentation-link');
+    expect(docLink).to.exist;
+  });
+  it('does not display documentation if ff is off', () => {
+    const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
+    const docLink = screen.queryByTestId('va-prescription-documentation-link');
+    expect(docLink).to.not.exist;
   });
   it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
     const rxWithNoRefillHistory = {

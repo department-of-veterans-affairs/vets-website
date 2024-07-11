@@ -67,7 +67,7 @@ export const EduMigrationAlert = ({ className }) => {
         <strong>Start:</strong> Wednesday, June 26, 2024, at 5:00 p.m. ET
       </p>
       <p className="vads-u-margin-top--0">
-        <strong>End:</strong> Wednesday, July 10, 2024, at 5:00 p.m. ET
+        <strong>End:</strong> Monday, July 29, 2024, at 5:00 p.m. ET
       </p>
 
       {includeExtraLinkAndDismiss && (

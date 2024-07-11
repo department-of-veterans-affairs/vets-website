@@ -11,8 +11,9 @@ export default function App({ location, children }) {
         <a href="/">Home</a>
         <a href="/health-care">Health care</a>
         <a href="/health-care/foreign-medical-program">
-          Foreign Medical Program (FMP) Cover Sheet
+          Foreign Medical Program
         </a>
+        <a href="/health-care/foreign-medical-program">File a claim</a>
       </va-breadcrumbs>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
