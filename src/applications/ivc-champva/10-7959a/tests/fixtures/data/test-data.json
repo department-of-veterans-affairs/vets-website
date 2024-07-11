@@ -1,5 +1,18 @@
 {
   "data": {
+    "certifierRole": "applicant",
+    "sponsorName": {
+      "first": "Sponsor",
+      "middle": "Quincy",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "applicantName": {
+      "first": "Beneficiary",
+      "last": "Jones"
+    },
+    "applicantMemberNumber": "222111123",
+    "applicantDOB": "2000-10-25",
     "medicalUpload": [
       {
         "name": "Document1.png",
@@ -12,15 +25,6 @@
     "claimIsWorkRelated": true,
     "claimType": "medical",
     "hasOhi": true,
-    "sponsorName": {
-      "first": "Sponsor",
-      "middle": "Quincy",
-      "last": "Jones",
-      "suffix": "Jr."
-    },
-    "applicantName": {
-      "first": "Beneficiary"
-    },
     "policies": [
       {
         "type": "group",
