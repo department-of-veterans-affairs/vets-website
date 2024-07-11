@@ -96,7 +96,7 @@ describe('<VetTecVeteranPrograms/>', () => {
     expect(wrapper.find('a').exists()).to.be.true;
     wrapper.unmount();
   });
-  it('renders the fa-remove icon when a program is not available', () => {
+  it('does not render the va-icon#close icon when a program is not available', () => {
     const institutions = { programs: [{ studentVetGroup: false }] };
     const wrapper = shallow(
       <VetTecVeteranPrograms
@@ -104,10 +104,10 @@ describe('<VetTecVeteranPrograms/>', () => {
         onShowModal={() => {}}
       />,
     );
-    expect(wrapper.find('.fa-remove').exists()).to.be.false;
+    expect(wrapper.find('va-icon#close').exists()).to.be.false;
     wrapper.unmount();
   });
-  it('renders the fa-check icon when a program is available', () => {
+  it('renders va-icon#checkIcon when a program is available', () => {
     const institutions = { programs: [{ studentVetGroup: true }] };
     const wrapper = shallow(
       <VetTecVeteranPrograms
