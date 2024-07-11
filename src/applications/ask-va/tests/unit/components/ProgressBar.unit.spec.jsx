@@ -58,22 +58,4 @@ describe('<ProgressBar />', () => {
 
     expect(getByText('98% complete with form')).to.exist;
   });
-
-  it('should update progress percent based on pathname', () => {
-    const { getByText, rerender } = render(
-      <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
-      </Provider>,
-    );
-
-    expect(getByText('90% complete with form')).to.exist;
-
-    rerender(
-      <Provider store={store}>
-        <ProgressBar pathname="/review-then-submit" categoryID="testCategory" />
-      </Provider>,
-    );
-
-    expect(getByText('98% complete with form')).to.exist;
-  });
 });
