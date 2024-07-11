@@ -135,7 +135,12 @@ export class ComboBox extends React.Component {
       // On Enter, select the highlighted option and close the list. Focus on text input.
       case 'Enter':
         e.preventDefault();
-        this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        if (index === -1) {
+          this.selectOption(searchTerm);
+        } else {
+          this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        }
+        // this.selectOptionWithKeyboard(e, index, list, searchTerm);
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
