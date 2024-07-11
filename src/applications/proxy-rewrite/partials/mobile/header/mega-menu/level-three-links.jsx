@@ -7,7 +7,12 @@ import { updateLinkDomain } from '../../../../utilities/links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 
 // Build hub child links
-const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen, setLinkShouldFocus}) => {
+const LevelThreeLinks = ({
+  activeMenu,
+  menuSections,
+  setLevelTwoMenuOpen,
+  setLinkShouldFocus,
+}) => {
   useEffect(() => {
     const backToMenuButton = document.querySelector('.back-to-menu.active');
 

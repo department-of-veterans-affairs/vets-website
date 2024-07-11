@@ -50,10 +50,7 @@ const LevelTwoLinks = ({
 
       return (
         <li className="mm-link-container" key={index}>
-          <a
-            className="vetnav-level2"
-            href={updateLinkDomain(section.href)}
-          >
+          <a className="vetnav-level2" href={updateLinkDomain(section.href)}>
             {section.text}
           </a>
         </li>
