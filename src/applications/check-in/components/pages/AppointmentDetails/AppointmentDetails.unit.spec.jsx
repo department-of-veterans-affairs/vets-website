@@ -165,7 +165,7 @@ describe('check-in experience', () => {
       },
     };
     const appointmentFourRoute = {
-      currentPage: '/appointment-details-details',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '4444-0001',
       },
