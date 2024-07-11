@@ -2,7 +2,7 @@ export const generateConditionContent = record => ({
   details: {
     items: [
       {
-        title: 'Entered on',
+        title: 'Date entered',
         value: record.date,
         inline: true,
       },

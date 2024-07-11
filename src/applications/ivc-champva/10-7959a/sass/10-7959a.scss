@@ -5,3 +5,9 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+// On custom file upload pages, this removes extra space between
+// the 'upload' button and its associated label text.
+.upload-button-label.vads-u-display--inline-block {
+  margin-top: initial;
+}
