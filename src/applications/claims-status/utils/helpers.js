@@ -13,12 +13,6 @@ import {
   disabilityCompensationClaimTypeCodes,
 } from '../constants';
 
-export function setDocumentRequestPageTitle(displayName) {
-  return displayName === 'Automated 5103 Notice Response'
-    ? '5103 Evidence Notice'
-    : `Request for ${displayName}`;
-}
-
 // Adding !! so that we convert this to a boolean
 export const claimAvailable = claim =>
   !!(claim && claim.attributes && Object.keys(claim.attributes).length !== 0);
@@ -1070,3 +1064,10 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
       : 'Invalid date';
   };
 };
+
+// Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+export function setDocumentRequestPageTitle(displayName) {
+  return displayName === 'Automated 5103 Notice Response'
+    ? '5103 Evidence Notice'
+    : `Request for ${displayName}`;
+}
