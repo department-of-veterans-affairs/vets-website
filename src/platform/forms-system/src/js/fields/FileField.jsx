@@ -232,9 +232,19 @@ const FileField = props => {
    */
   const onAddFile = async (event, index = null, password) => {
     if (event.target?.files?.length) {
-      const currentFile = event.target.files[0];
-      const allFiles = props.formData || [];
       const addUiOptions = props.uiSchema['ui:options'];
+
+      // v3 multi-file always includes a `null` at the end of files array, so drop:
+      const tmpFiles = event.target.files.filter(el => el);
+
+      const tmpCurrentFile = addUiOptions.uswds
+        ? tmpFiles.slice(-1) // for v3 we need last item, not first
+        : tmpFiles[0];
+      const currentFile = tmpCurrentFile?.length
+        ? tmpCurrentFile[0] // v3 multi-upload returns a single-item list, so pull file from that
+        : tmpCurrentFile;
+      const allFiles = props.formData || [];
+
       // needed for FileField unit tests
       const { mockReadAndCheckFile } = uiOptions;
 
