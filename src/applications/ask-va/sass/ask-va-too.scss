@@ -298,3 +298,30 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     }
   }
 }
+
+.ava-progress-bar {
+  border: 1px solid $color-gray-lightest;
+  background-color: $color-gray-lightest;
+  border-radius: 3px;
+  height: 1rem;
+  width: 100%;
+  display: block;
+  margin: 2rem 0 4rem 0;
+}
+
+.ava-progress-bar-inner {
+  height: 100%;
+  background-color: $color-orange;
+  border: 1px solid $color-orange;
+  border-radius: 3px;
+  display: block;
+}
+
+.ava-progress-bar-text {
+  font-weight: 600;
+  display: block;
+}
+
+.progress-box {
+  padding-left: 0;
+}

@@ -67,7 +67,7 @@ const formConfig = {
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  v3SegmentedProgressBar: true,
+  // v3SegmentedProgressBar: true,
   formId: '0873',
   saveInProgress: {
     // messages: {
@@ -91,6 +91,7 @@ const formConfig = {
   chapters: {
     categoryAndTopic: {
       title: CHAPTER_1.CHAPTER_TITLE,
+      hideFormNavProgress: true,
       pages: {
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
@@ -137,8 +138,10 @@ const formConfig = {
     },
     personalInformation: {
       title: CHAPTER_3.CHAPTER_TITLE,
+      hideFormNavProgress: true,
       pages: {
         relationshipToVeteran: {
+          // TODO: Move this object to a Constants Paths Obj and combine with CH1 and CH2
           path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           uiSchema: relationshipToVeteranPage.uiSchema,
@@ -227,6 +230,7 @@ const formConfig = {
     },
     yourQuestion: {
       title: CHAPTER_2.CHAPTER_TITLE,
+      hideFormNavProgress: true,
       pages: {
         tellUsYourQuestion: {
           path: CHAPTER_2.PAGE_3.PATH,
@@ -241,6 +245,7 @@ const formConfig = {
     },
     review: {
       title: 'Review and submit',
+      hideFormNavProgress: true,
       pages: {
         reviewForm: {
           title: 'Review and submit',
