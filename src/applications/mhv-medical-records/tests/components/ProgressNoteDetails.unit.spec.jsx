@@ -57,17 +57,17 @@ describe('Adverse React/Allergy details component', () => {
     expect(formattedDate).to.exist;
   });
 
-  it('should display a co-signer if one is present in the data', async () => {
-    const coSigner = await screen.getByText('Co-signed by', {
+  it('should display a signer if one is present in the data', async () => {
+    const signer = await screen.getByText('Signed by', {
       exact: true,
       selector: 'h3',
     });
-    expect(coSigner).to.exist;
+    expect(signer).to.exist;
   });
 
   it('should display signed on field', () => {
     expect(
-      screen.getByText('Signed on', {
+      screen.getByText('Date signed', {
         exact: true,
         selector: 'h3',
       }),
@@ -117,11 +117,11 @@ describe('Adverse React/Allergy details component with fields missing', () => {
     );
   });
 
-  it('should not display a co-signer if one is not present in the data', () => {
-    const coSigner = screen.queryByText('Co-signed by', {
+  it('should not display a signer if one is not present in the data', () => {
+    const signer = screen.queryByText('Signed by', {
       exact: true,
       selector: 'h3',
     });
-    expect(coSigner).to.not.exist;
+    expect(signer).to.not.exist;
   });
 });

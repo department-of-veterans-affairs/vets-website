@@ -41,7 +41,6 @@ class ViewDependentsApp extends Component {
               error={this.props.error}
               onAwardDependents={this.props.onAwardDependents}
               notOnAwardDependents={this.props.notOnAwardDependents}
-              dependentsToggle={this.props.dependentsToggle}
               manageDependentsToggle={this.props.manageDependentsToggle}
               dependencyVerificationToggle={
                 this.props.dependencyVerificationToggle
@@ -59,9 +58,6 @@ const mapStateToProps = state => ({
   user: state.user,
   loading: state.allDependents.loading,
   error: state.allDependents.error,
-  dependentsToggle: toggleValues(state)[
-    FEATURE_FLAG_NAMES.vaViewDependentsAccess
-  ],
   manageDependentsToggle: toggleValues(state)[
     FEATURE_FLAG_NAMES.manageDependents
   ],

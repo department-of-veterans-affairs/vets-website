@@ -19,23 +19,24 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
+import MhvRegistrationAlert from './MhvRegistrationAlert';
 import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
   helpdeskInfoEnabled,
+  hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const verified = useSelector(isLOA3);
-  const registered = useSelector(isVAPatient);
+  const registered = useSelector(isVAPatient) && verified;
   const signInService = useSelector(signInServiceName);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo =
-    useSelector(helpdeskInfoEnabled) && verified && registered;
-  const showCards = verified && registered;
+  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = !verified ? (
@@ -62,7 +63,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 
   return (
     <>
-      {verified && registered && <MhvSecondaryNav />}
+      {registered && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"
@@ -73,7 +74,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+          {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          {registered ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

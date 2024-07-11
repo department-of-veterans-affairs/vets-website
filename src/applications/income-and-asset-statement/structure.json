@@ -1,14 +1,14 @@
 [
   {
-    "title": "Applicant information",
+    "title": "Veteran information",
     "pages": [
       {
-        "title": "Applicant information",
-        "path": "applicant/information"
+        "title": "Veteran information",
+        "path": "veteran/information"
       },
       {
-        "title": "Applicant information",
-        "path": "applicant/information/is-veteran"
+        "title": "Veteran information",
+        "path": "veteran/information/applicant"
       }
     ]
   },
@@ -23,6 +23,10 @@
       {
         "title": "Claimant type",
         "path": "claimant/type"
+      },
+      {
+        "title": "Statement Period",
+        "path": "claimant/statement-period"
       }
     ]
   }

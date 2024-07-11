@@ -17,6 +17,7 @@ describe('Date formatting interpolators', () => {
       day: 'Tuesday',
       monthDay: 'March 12',
       dayOfWeek: 'Tuesday',
+      dayWithTime: 'March 12, 2024, 10:38 a.m.',
     },
     es: {
       long: '12 de marzo de 2024',
@@ -26,6 +27,7 @@ describe('Date formatting interpolators', () => {
       day: 'martes',
       monthDay: 'marzo 12',
       dayOfWeek: 'martes',
+      dayWithTime: 'marzo 12, 2024, 10:38 a.m.',
     },
   };
   languageCodes.forEach(lng => {
@@ -47,7 +49,17 @@ describe('Date formatting interpolators', () => {
           const date = new Date(correctedDateString);
           const utcDate = zonedTimeToUtc(date, process.env.TZ);
           const locale = locales[lng];
-          const actual = interpolator(utcDate, format, lng, locale);
+          let actual;
+          if (format !== 'dayWithTime') {
+            actual = interpolator(utcDate, format, lng, locale);
+          } else {
+            actual = interpolator(
+              { date: utcDate, timezone: process.env.TZ },
+              format,
+              lng,
+              locale,
+            );
+          }
           if (format === 'longAtTime' && lng === 'es') {
             expected = `${expected}${formatDate(now, 'O', process.env.TZ)}`;
           }

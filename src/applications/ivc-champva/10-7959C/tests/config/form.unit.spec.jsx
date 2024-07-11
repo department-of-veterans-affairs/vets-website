@@ -71,7 +71,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  8,
+  9,
   'Applicant address info',
   { ...mockData.data },
 );
@@ -340,3 +340,12 @@ describe('FileFieldWrapped', () => {
     expect(ffw).to.not.be.undefined;
   });
 });
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.formSignature.pages.formSignature.schema,
+  formConfig.chapters.formSignature.pages.formSignature.uiSchema,
+  1,
+  'Form signature page',
+  { ...mockData.data },
+);

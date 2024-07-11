@@ -9,6 +9,7 @@ import RxBreadcrumbs from './containers/RxBreadcrumbs';
 import Prescriptions from './containers/Prescriptions';
 import LandingPage from './containers/LandingPage';
 import RefillPrescriptions from './containers/RefillPrescriptions';
+import PrescriptionDetailsDocumentation from './containers/PrescriptionDetailsDocumentation';
 
 /**
  * Route that wraps its children within the application component.
@@ -61,6 +62,13 @@ const routes = (
         key="prescriptionDetails"
       >
         <PrescriptionDetails />
+      </AppRoute>
+      <AppRoute
+        exact
+        path="/prescription/:prescriptionId/documentation"
+        key="prescriptionDetailsDocumentation"
+      >
+        <PrescriptionDetailsDocumentation />
       </AppRoute>
       <Route>
         <PageNotFound />

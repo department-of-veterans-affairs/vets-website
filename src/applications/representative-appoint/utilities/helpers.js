@@ -3,7 +3,7 @@ import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-
 export const representativeTypeMap = {
   Attorney: 'attorney',
   'Claims Agent': 'claims agent',
-  'Veterans Service Officer (VSO)': 'Veterans Service Officer (VSO)',
+  'Veterans Service Organization (VSO)': 'Veterans Service Organization (VSO)',
 };
 
 export const checkboxGroupSchemaWithReviewLabels = keys => {

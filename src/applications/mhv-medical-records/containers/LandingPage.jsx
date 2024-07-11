@@ -80,7 +80,7 @@ const LandingPage = () => {
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get results of your VA medical tests. This includes blood tests,
-            X-rays, and other <br /> imaging tests.
+            X-rays, and other imaging tests.
           </p>
           <Link
             to="/labs-and-tests"

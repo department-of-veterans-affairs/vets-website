@@ -3,7 +3,7 @@ import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
 export const defaultFocusSelector =
-  '.nav-header > h2, va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  '.nav-header > h2, va-segmented-progress-bar[heading-text][header-level="2"]';
 
 /**
  * Focus on element

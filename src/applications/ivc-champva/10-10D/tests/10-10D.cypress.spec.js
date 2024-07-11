@@ -19,6 +19,8 @@ import {
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
+import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+
 // All pages from form config i.e.: {page1: {path: '/blah'}}
 const ALL_PAGES = getAllPages(formConfig);
 
@@ -389,9 +391,11 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req.body.raw_data);
+          verifyAllDataWasSubmitted(data, req.body.rawData);
         });
         // Mock response
         req.reply({ status: 200 });

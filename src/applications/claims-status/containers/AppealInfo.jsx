@@ -161,35 +161,29 @@ export class AppealInfo extends React.Component {
 
     return (
       <div>
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs crumbs={[crumb]} />
-            </div>
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 column">
+            <ClaimsBreadcrumbs crumbs={[crumb]} />
           </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              {!!(claimHeading && appeal) && (
-                <AppealHeader
-                  heading={claimHeading}
-                  lastUpdated={appeal.attributes.updated}
-                />
-              )}
-            </div>
+        </div>
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 column">
+            {!!(claimHeading && appeal) && (
+              <AppealHeader
+                heading={claimHeading}
+                lastUpdated={appeal.attributes.updated}
+              />
+            )}
+            {appealContent}
           </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              {appealContent}
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
-              {appeal && (
-                <AppealHelpSidebar
-                  location={appeal.attributes.location}
-                  aoj={appeal.attributes.aoj}
-                />
-              )}
-              <CopyOfExam />
-            </div>
+          <div className="usa-width-one-third medium-4 column">
+            {appeal && (
+              <AppealHelpSidebar
+                location={appeal.attributes.location}
+                aoj={appeal.attributes.aoj}
+              />
+            )}
+            <CopyOfExam />
           </div>
         </div>
       </div>

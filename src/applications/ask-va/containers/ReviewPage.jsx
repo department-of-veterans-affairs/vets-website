@@ -32,12 +32,6 @@ const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
   const dispatch = useDispatch();
 
-  const handlers = {
-    onSubmit: () => {
-      props.goToPath('/confirmation');
-    },
-  };
-
   const scrollToChapter = chapterKey => {
     scroller.scrollTo(
       `chapter${chapterKey}ScrollElement`,
@@ -145,7 +139,7 @@ const ReviewPage = props => {
         })}
       </va-accordion>
       <va-button back onClick={() => props.goBack()} />
-      <va-button onClick={handlers.onSubmit} text="Submit question" />
+      <va-button text="Submit question" />
     </article>
   );
 };

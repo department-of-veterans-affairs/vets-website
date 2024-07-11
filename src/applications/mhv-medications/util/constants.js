@@ -29,6 +29,7 @@ export const medicationsUrls = {
     ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
+    DOCUMENTATION: '/documentation',
   },
 };
 

@@ -91,9 +91,9 @@ ${txtLine}\n\n
 Details\n
 Date: ${record.date}\n
 Location: ${record.location}\n
-Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
-Signed on: ${record.dateSigned}\n
+Written by: ${record.writtenBy}\n
+${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
+Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
@@ -114,13 +114,11 @@ ${record.note}`;
         {record.name}
       </h1>
 
-      {record.date !== EMPTY_FIELD ? (
-        <div>
-          <p id="progress-note-date">Entered on {record.date}</p>
-        </div>
-      ) : (
-        <DateSubheading date={record.date} id="progress-note-date" />
-      )}
+      <DateSubheading
+        date={record.date}
+        id="progress-note-date"
+        label="Date entered"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -137,19 +135,19 @@ ${record.note}`;
         </h3>
         <p data-testid="progress-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed by
+          Written by
         </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        {record.coSignedBy !== EMPTY_FIELD && (
+        <p data-testid="note-record-written-by">{record.writtenBy}</p>
+        {record.signedBy !== EMPTY_FIELD && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Co-signed by
+              Signed by
             </h3>
-            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
+            <p data-testid="note-record-signed-by">{record.signedBy}</p>
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed on
+          Date signed
         </h3>
         <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>

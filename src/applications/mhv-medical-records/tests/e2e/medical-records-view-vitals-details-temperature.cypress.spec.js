@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import defaultVitals from '../fixtures/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,42 +14,46 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Temperature', () => {
     VitalsListPage.goToVitals();
-    // click vitals page temperature link
+    // click temperature link
     VitalsListPage.clickLinkByRecordListItemIndex(4);
 
-    // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October',
-      '99 °F',
-      'ADTP BURNETT',
+      moment
+        .parseZone(defaultVitals.entry[8].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[8].resource.valueQuantity.value} °F`,
+      defaultVitals.entry[8].resource.contained[0].name,
       'None noted',
     );
 
-    // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August',
-      '98.5 °F',
-      '23 HOUR OBSERVATION',
+      moment
+        .parseZone(defaultVitals.entry[18].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[18].resource.valueQuantity.value} °F`,
+      defaultVitals.entry[18].resource.contained[0].name,
       'None noted',
     );
 
-    // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August',
-      '98.5 °F',
-      'ADMISSIONS (LOC)',
+      moment
+        .parseZone(defaultVitals.entry[28].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[28].resource.valueQuantity.value} °F`,
+      defaultVitals.entry[28].resource.contained[0].name,
       'None noted',
     );
 
-    // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May',
-      '98.5 °F',
-      'ADTP SCREENING',
+      moment
+        .parseZone(defaultVitals.entry[38].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[38].resource.valueQuantity.value} °F`,
+      defaultVitals.entry[38].resource.contained[0].name,
       'None noted',
     );
 

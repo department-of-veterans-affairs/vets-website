@@ -21,11 +21,7 @@ describe('Profile - Hub page, Keyboard navigation', () => {
   it('should allow tabbing through all links on the page, in order', () => {
     cy.login(mockUser);
 
-    mockProfileLOA3(
-      generateFeatureToggles({
-        profileContacts: true,
-      }),
-    );
+    mockProfileLOA3(generateFeatureToggles());
 
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 

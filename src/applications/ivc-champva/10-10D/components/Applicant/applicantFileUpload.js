@@ -303,7 +303,7 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare cards ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part A and B card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -323,9 +323,15 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
-      applicantMedicarePartAPartBCard: fileUploadUI({
-        label: 'Upload Medicare cards',
-      }),
+      applicantMedicarePartAPartBCard: {
+        ...fileUploadUI({
+          label: 'Upload Medicare cards',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };
@@ -342,7 +348,7 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
     items: {
       ...titleUI(
         ({ _formData, formContext }) =>
-          `Upload Medicare card ${isRequiredFile(formContext)}`,
+          `Upload Medicare Part D card ${isRequiredFile(formContext)}`,
         ({ formData, formContext }) => {
           const posessive = applicantWording(
             formData,
@@ -362,9 +368,15 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: fileUploadUI({
-        label: 'Upload Medicare card',
-      }),
+      applicantMedicarePartDCard: {
+        ...fileUploadUI({
+          label: 'Upload Medicare card',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };
@@ -436,9 +448,15 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: fileUploadUI({
-        label: 'Upload other health insurance cards',
-      }),
+      applicantOhiCard: {
+        ...fileUploadUI({
+          label: 'Upload other health insurance cards',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };

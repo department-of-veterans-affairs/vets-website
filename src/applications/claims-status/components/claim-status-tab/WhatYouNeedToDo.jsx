@@ -22,7 +22,15 @@ function WhatYouNeedToDo({ claim }) {
         </div>
       )}
       {filesNeeded.map(item => (
-        <FilesNeeded key={item.id} id={claim.id} item={item} />
+        <FilesNeeded
+          key={item.id}
+          id={claim.id}
+          item={item}
+          evidenceWaiverSubmitted5103={
+            claim.attributes.evidenceWaiverSubmitted5103
+          }
+          previousPage="status"
+        />
       ))}
     </>
   );

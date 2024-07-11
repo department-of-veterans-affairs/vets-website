@@ -6,10 +6,9 @@ import categories from '../fixtures/categories-response.json';
 
 describe('Validate the category', () => {
   it('verify category focus', () => {
-    const site = new SecureMessagingSite();
     const listOfCategories = categories.data.attributes.messageCategoryType;
 
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
