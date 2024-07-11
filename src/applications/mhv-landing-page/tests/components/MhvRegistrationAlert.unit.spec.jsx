@@ -11,6 +11,8 @@ describe('MhvRegistrationAlert', () => {
   it('renders', () => {
     const { getByRole } = render(<MhvRegistrationAlert />);
     getByRole('heading', { name: defaultHeadline });
+    const link = getByRole('link', { name: /Register with My HealtheVet/ });
+    expect(link.href).to.not.be.empty;
   });
 
   it('reports to GA via recordEvent when rendered', async () => {
