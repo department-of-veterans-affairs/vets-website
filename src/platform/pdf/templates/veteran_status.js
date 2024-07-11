@@ -122,7 +122,7 @@ const generate = async data => {
         doc
           .font(config.headings.H2.font)
           .fontSize(config.headings.H2.size)
-          .text(`${item.heading} `);
+          .text(`${item.heading}: `);
       });
       const content = doc.struct('P', () => {
         doc
