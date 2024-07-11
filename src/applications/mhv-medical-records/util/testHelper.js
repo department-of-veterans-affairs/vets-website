@@ -13,7 +13,7 @@ const scenario = 5;
 const beginDate = new Date();
 
 const minutesAgo = (date, minutes) => {
-  return new Date(date.getTime() - minutes * 60 * 1000);
+  return new Date(date.getTime() - minutes * 60 * 1000).getTime();
 };
 
 const trueElapsed = seconds => {
