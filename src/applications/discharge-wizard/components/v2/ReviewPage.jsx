@@ -28,6 +28,10 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
     [router, viewedIntroPage],
   );
 
+  const onEditAnswerClick = route => {
+    router.push(route);
+  };
+
   const renderReviewAnswers = () => {
     return Object.keys(SHORT_NAME_MAP).map(shortName => {
       if (formResponses[shortName] === null) {
@@ -43,15 +47,12 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
             className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review"
           >
             {reviewLabel}
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              aria-label={reviewLabel}
-              className="vads-u-padding-left--2"
-              href="#"
+            <va-link
+              class="hydrated vads-u-padding-left--2"
+              onClick={() => onEditAnswerClick(ROUTES[shortName])}
               name={shortName}
-            >
-              Edit
-            </a>
+              text="Edit"
+            />
           </li>
         )
       );
