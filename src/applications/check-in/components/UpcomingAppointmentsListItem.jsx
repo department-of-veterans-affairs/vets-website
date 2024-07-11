@@ -10,6 +10,7 @@ import {
 } from '../utils/appointment';
 import { APP_NAMES } from '../utils/appConstants';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { useFormRouting } from '../hooks/useFormRouting';
 
 import AppointmentMessage from './AppointmentDisplay/AppointmentMessage';
 import UpcomingAppointmentsListItemAction from './UpcomingAppointmentsListItemAction';
@@ -19,6 +20,8 @@ const UpcomingAppointmentsListItem = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
+  const { getCurrentPageFromRouter } = useFormRouting(router);
+  const page = getCurrentPageFromRouter();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
   const isCancelled = appointment.status?.includes('CANCELLED');
@@ -115,7 +118,7 @@ const UpcomingAppointmentsListItem = props => {
         {app === APP_NAMES.CHECK_IN &&
           !isUpcomingAppointmentsEnabled && (
             <div data-testid="appointment-action">
-              <AppointmentMessage appointment={appointment} router={router} />
+              <AppointmentMessage appointment={appointment} page={page} />
               <UpcomingAppointmentsListItemAction
                 appointment={appointment}
                 router={router}

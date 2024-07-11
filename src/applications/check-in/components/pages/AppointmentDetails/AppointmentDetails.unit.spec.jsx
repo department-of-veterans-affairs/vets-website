@@ -147,67 +147,67 @@ describe('check-in experience', () => {
       upcomingAppointments,
     };
     const appointmentOneRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '1111-0001',
       },
     };
     const appointmentTwoRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '2222-0001',
       },
     };
     const appointmentThreeRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '3333-0001',
       },
     };
     const appointmentFourRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '4444-0001',
       },
     };
     const appointmentFiveRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '5555-0001',
       },
     };
     const appointmentSixRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '6666-0001',
       },
     };
     const upcomingAppointmentOneRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '2222-0001',
       },
     };
     const upcomingAppointmentTwoRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '9999-9999',
       },
     };
     const upcomingAppointmentThreeRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '6767-6767',
       },
     };
     const upcomingAppointmentFourRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '6768-6768',
       },
     };
     const upcomingAppointmentFiveRoute = {
-      currentPage: '/appointment',
+      currentPage: '/appointment-details',
       params: {
         appointmentId: '6769-6769',
       },
