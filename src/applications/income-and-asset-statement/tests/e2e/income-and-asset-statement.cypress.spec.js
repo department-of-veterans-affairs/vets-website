@@ -19,6 +19,7 @@ const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 
 let addedUnassociatedIncomeItem = false;
 let addedAssociatedIncomeItem = false;
+let addedOwnedAssetItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -38,15 +39,16 @@ const testConfig = createTestConfig(
       'unassociated-incomes-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            let hasUnassociatedIncomes = data['view:hasUnassociatedIncomes'];
+            let isAddingUnassociatedIncomes =
+              data['view:isAddingUnassociatedIncomes'];
             if (addedUnassociatedIncomeItem) {
-              hasUnassociatedIncomes = false;
+              isAddingUnassociatedIncomes = false;
               addedUnassociatedIncomeItem = false;
             }
 
             selectYesNoWebComponent(
-              'view:hasUnassociatedIncomes',
-              hasUnassociatedIncomes,
+              'view:isAddingUnassociatedIncomes',
+              isAddingUnassociatedIncomes,
             );
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
@@ -80,15 +82,16 @@ const testConfig = createTestConfig(
       'associated-incomes-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            let hasAssociatedIncomes = data['view:hasAssociatedIncomes'];
+            let isAddingAssociatedIncomes =
+              data['view:isAddingAssociatedIncomes'];
             if (addedAssociatedIncomeItem) {
-              hasAssociatedIncomes = false;
+              isAddingAssociatedIncomes = false;
               addedAssociatedIncomeItem = false;
             }
 
             selectYesNoWebComponent(
-              'view:hasAssociatedIncomes',
-              hasAssociatedIncomes,
+              'view:isAddingAssociatedIncomes',
+              isAddingAssociatedIncomes,
             );
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
@@ -114,6 +117,50 @@ const testConfig = createTestConfig(
             fillTextWebComponent('payer', payer);
 
             addedAssociatedIncomeItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'owned-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingOwnedAssets = data['view:isAddingOwnedAssets'];
+            if (addedOwnedAssetItem) {
+              isAddingOwnedAssets = false;
+              addedOwnedAssetItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingOwnedAssets',
+              isAddingOwnedAssets,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'owned-assets/0/income-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { ownedAssets } = data;
+            const {
+              incomeType,
+              grossMonthlyIncome,
+              accountValue,
+              payer,
+            } = ownedAssets[0];
+
+            selectRadioWebComponent('incomeType', incomeType);
+            fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
+            fillStandardTextInput('accountValue', accountValue);
+            fillTextWebComponent('payer', payer);
+
+            addedOwnedAssetItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
