@@ -19,7 +19,7 @@ In production, VA.gov provides a downloadable form only when searching for a 'Bu
 
 ## How the form works for the user
 
-The applicant is shown an introduction page that gives an overview of the process to apply for burial benefits. It includes 4 steps:
+The applicant is shown an introduction page that gives an overview of the process to apply for a Veterans burial allowance. It includes 4 steps:
 
 - `Determine eligibility`
 - `Gather information`
