@@ -39,6 +39,7 @@ import { wizard } from './chapters/taskWizard';
 import {
   veteranInformation,
   veteranAddress,
+  veteranContactInformation,
 } from './chapters/veteran-information';
 import {
   stepchildren,
@@ -122,16 +123,22 @@ const formConfig = {
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-address',
-          title: 'Veteran Address',
+          title: 'Veteran address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-          updateFormData: veteranAddress.updateFormData,
+          // updateFormData: veteranAddress.updateFormData,
+        },
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },
