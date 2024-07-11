@@ -9,6 +9,20 @@ import Search from '../../../search';
 const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
+  const [previouslyClickedMenu, setPreviouslyClickedMenu] = useState(null);
+  const [linkShouldFocus, setLinkShouldFocus] = useState(false);
+
+  const focus = document.querySelector('[data-menu="Health care"]');
+
+  focus?.focus();
+
+  useEffect(() => {
+    if (previouslyClickedMenu && linkShouldFocus) {
+      const menu = document.querySelector(`[data-menu="${previouslyClickedMenu}"]`);
+      console.log('focusing menu');
+      menu.focus();
+    }
+  }, [previouslyClickedMenu, linkShouldFocus]);
 
   useEffect(
     () => {
@@ -35,7 +49,6 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
             <button
               aria-expanded={levelOneIndexOpen === index}
               className="header-menu-item-button level1 vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
-              data-e2e-id={`${sectionData.title}--${index + 1}`}
               id={`${sectionData.title}--${index + 1}`}
               type="button"
               onClick={() => openLevelOne(index)}
@@ -83,6 +96,7 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
             id={`${sectionData.title}--${index + 1}`}
           >
             <LevelTwoLinks
+              setPreviouslyClickedMenu={setPreviouslyClickedMenu}
               sectionData={sectionData.menuSections}
               setLevelTwoMenuOpen={setLevelTwoMenuOpen}
             />
@@ -140,6 +154,7 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
           key={index}
           menuSections={section.menuSections}
           setLevelTwoMenuOpen={setLevelTwoMenuOpen}
+          setLinkShouldFocus={setLinkShouldFocus}
         />
       ))}
     </div>

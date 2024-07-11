@@ -10,7 +10,6 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
       return (
         <div className="panel-bottom-link">
           <a
-            data-e2e-id={kebabCase(seeAllLink.text)}
             href={updateLinkDomain(seeAllLink.href)}
           >
             {seeAllLink.text}
@@ -40,7 +39,6 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
           <li className="mm-link-container" key={index}>
             <a
               className="mm-links"
-              data-e2e-id={`${kebabCase(link.text)}-${index}`}
               href={updateLinkDomain(link.href)}
               target="_self"
             >
@@ -72,7 +70,6 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
           <div className="mm-marketing-text">
             <a
               className="mm-links"
-              data-e2e-id={kebabCase(column.link.text)}
               href={updateLinkDomain(column.link.href)}
               target="_self"
             >
@@ -90,7 +87,7 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
       <div
         className={`vetnav-panel vetnav-panel--submenu ${columnLabel} ${columnClass}`}
       >
-        <h3 data-e2e-id={`vetnav-${columnLabel}-header`}>{column.title}</h3>
+        <h3>{column.title}</h3>
         <ul id={`vetnav-${columnLabel}-col`}>
           <li className="panel-top-link" />
           {column.links && buildLinks(column.links)}

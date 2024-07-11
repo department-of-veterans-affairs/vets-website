@@ -52,7 +52,6 @@ const LevelTwoLinks = ({
         <li className="mm-link-container" key={index}>
           <a
             className="vetnav-level2"
-            data-e2e-id={`vetnav-level2--${kebabCase(title)}`}
             href={updateLinkDomain(section.href)}
           >
             {section.text}

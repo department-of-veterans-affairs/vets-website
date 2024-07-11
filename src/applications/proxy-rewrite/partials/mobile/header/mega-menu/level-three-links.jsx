@@ -7,7 +7,7 @@ import { updateLinkDomain } from '../../../../utilities/links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 
 // Build hub child links
-const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen }) => {
+const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen, setLinkShouldFocus}) => {
   useEffect(() => {
     const backToMenuButton = document.querySelector('.back-to-menu.active');
 
@@ -18,6 +18,7 @@ const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen }) => {
 
   const backToMenuClick = () => {
     setLevelTwoMenuOpen(null);
+    setLinkShouldFocus(true);
   };
 
   const formatMenuItems = menuItems => {
@@ -63,13 +64,11 @@ const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen }) => {
       return (
         <li
           className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-          data-e2e-id={kebabCase(text)}
           key={text}
         >
           <a
             className="vads-u-display--flex vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white vads-u-width--full"
             href={updateLinkDomain(href)}
-            data-e2e-id={kebabCase(text)}
           >
             {text}
           </a>
@@ -89,12 +88,11 @@ const LevelThreeLinks = ({ activeMenu, menuSections, setLevelTwoMenuOpen }) => {
   };
 
   const containerForLinks = (title, linkGroups) => {
-    const menuTitle = `${kebabCase(title)}-menu`;
-    const isActiveMenu = activeMenu === menuTitle;
+    const isActiveMenu = activeMenu === title;
 
     return (
       <div
-        id={menuTitle}
+        id={title}
         key={kebabCase(title)}
         hidden={!isActiveMenu}
         className="header-menu vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full"

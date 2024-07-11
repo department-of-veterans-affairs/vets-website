@@ -50,7 +50,6 @@ const MegaMenu = ({ megaMenuData }) => {
             aria-expanded={sectionOpen}
             aria-controls={`vetnav-${kebabCase(sectionData.title)}`}
             className="vetnav-level1"
-            data-e2e-id={`${kebabCase(sectionData.title)}-${index}`}
             onClick={() => openLevelOne(index)}
             onKeyDown={event => keyDownHandler(event, openLevelOne, index)}
           >
@@ -79,7 +78,6 @@ const MegaMenu = ({ megaMenuData }) => {
       <li key={index}>
         <a
           className="vetnav-level1 medium-screen:vads-u-padding--2"
-          data-e2e-id={`${kebabCase(sectionData.title)}-${index}`}
           href={updateLinkDomain(sectionData.href)}
         >
           {sectionData.title}

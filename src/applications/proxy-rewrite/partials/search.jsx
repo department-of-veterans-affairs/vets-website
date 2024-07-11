@@ -68,7 +68,6 @@ const Search = ({ isDesktop, searchIsOpen }) => {
               autoComplete="off"
               className="vads-u-width--full search-dropdown-input-field"
               id="search-header-dropdown-input-field"
-              data-e2e-id="search-header-dropdown-input-field"
               type="text"
               value={inputValue}
               onChange={handleInputChange}
@@ -78,7 +77,6 @@ const Search = ({ isDesktop, searchIsOpen }) => {
           <button
             type="submit"
             className="search-button search-dropdown-submit-button vads-u-margin-right--1 vads-u-font-size--base vads-u-padding-left--1p5"
-            data-e2e-id="search-header-dropdown-submit-button"
             id="search-header-dropdown-submit-button"
             onClick={onInputSubmit}
             onKeyDown={handleButtonShift}
@@ -114,7 +112,6 @@ const Search = ({ isDesktop, searchIsOpen }) => {
           autoComplete="off"
           className="vads-u-width--full search-dropdown-input-field"
           id="search-header-dropdown-input-field"
-          data-e2e-id="search-header-dropdown-input-field"
           type="text"
           value={inputValue}
           onChange={handleInputChange}
