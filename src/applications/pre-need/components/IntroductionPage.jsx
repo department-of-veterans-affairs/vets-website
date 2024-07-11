@@ -7,9 +7,12 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import environment from 'platform/utilities/environment';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
+import { fetchFormSubmissions } from '../utils/helpers';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
+    fetchFormSubmissions('c3b6231c-9ad7-4951-bd70-5b7821cc56d6');
   }
 
   render() {

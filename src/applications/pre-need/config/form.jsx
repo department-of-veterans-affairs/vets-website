@@ -43,6 +43,7 @@ import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
+import FormFetch from '../components/FormFetch';
 
 import manifest from '../manifest.json';
 
@@ -181,11 +182,28 @@ const formConfig = {
     centralMailVaFile,
   },
   chapters: {
+    testChapter: {
+      title: 'Cemetery Review',
+      pages: {
+        test: {
+          path: 'test',
+          uiSchema: {
+            'ui:title': '3rd party signature',
+            'ui:description': <FormFetch />, // Render FormFetch component
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantRelationshipToVet: {
           path: 'applicant-relationship-to-vet',
+
           uiSchema: applicantRelationshipToVet.uiSchema,
           schema: applicantRelationshipToVet.schema,
         },
