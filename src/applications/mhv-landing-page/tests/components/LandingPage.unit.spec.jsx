@@ -7,6 +7,7 @@ import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-
 
 import LandingPage from '../../components/LandingPage';
 import reducers from '../../reducers';
+import VerifyAndRegisterAlert from '../../components/VerifyAndRegisterAlert';
 
 const stateFn = ({
   mhv_landing_page_personalization = false,
@@ -63,6 +64,25 @@ describe('LandingPage component', () => {
     getByText(
       'Verify your identity to use your ID.me account on My HealtheVet',
     );
+  });
+
+  it('shows the VerifyAndRegisterAlert', async () => {
+    const initialState = stateFn();
+    const props = { showVerifyAndRegisterAlert: () => true };
+    const { getByTestId } = setup({ initialState, props });
+    await waitFor(() => {
+      expect(getByTestId(VerifyAndRegisterAlert.defaultProps.testId)).to.exist;
+    });
+  });
+
+  it('does not show the VerifyAndRegisterAlert', async () => {
+    const initialState = stateFn();
+    const props = { showVerifyAndRegisterAlert: () => false };
+    const { getByTestId } = setup({ initialState, props });
+    await waitFor(() => {
+      expect(getByTestId(VerifyAndRegisterAlert.defaultProps.testId)).not.to
+        .exist;
+    });
   });
 
   it('reports unverified condition to GA via recordEvent', async () => {

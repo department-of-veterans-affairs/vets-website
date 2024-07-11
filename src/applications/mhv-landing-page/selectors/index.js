@@ -19,8 +19,11 @@ import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 
 export {
+  hasMhvAccount,
+  helpdeskInfoEnabled,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -29,11 +32,10 @@ export {
   isProfileLoading,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
+  showVerifyAndRegisterAlert,
   signInServiceEnabled,
-  hasMhvAccount,
 };

@@ -26,10 +26,16 @@ import {
   personalizationEnabled,
   helpdeskInfoEnabled,
   hasMhvAccount,
+  showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
+import VerifyAndRegisterAlert from './VerifyAndRegisterAlert';
 
-const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+const LandingPage = ({
+  data = {},
+  recordEvent = recordEventFn,
+  showVerifyAndRegisterAlert = showVerifyAndRegisterAlertFn,
+}) => {
   const { cards = [], hubs = [] } = data;
   const verified = useSelector(isLOA3);
   const registered = useSelector(isVAPatient) && verified;
@@ -37,6 +43,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
+  const showsVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = !verified ? (
@@ -75,6 +82,9 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          {showsVerifyAndRegisterAlert && (
+            <VerifyAndRegisterAlert cspId={signInService} />
+          )}
           {registered ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
@@ -96,6 +106,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 LandingPage.propTypes = {
   data: PropTypes.object,
   recordEvent: PropTypes.func,
+  showVerifyAndRegisterAlert: PropTypes.func,
 };
 
 export default LandingPage;
