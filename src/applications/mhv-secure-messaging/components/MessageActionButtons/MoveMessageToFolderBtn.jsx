@@ -40,6 +40,15 @@ const MoveMessageToFolderBtn = props => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      if (folderInputError) {
+        focusOnErrorField();
+      }
+    },
+    [folderInputError],
+  );
+
   const openModal = () => {
     setIsMoveModalVisible(true);
   };
@@ -63,7 +72,6 @@ const MoveMessageToFolderBtn = props => {
       setFolderInputError(
         Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
       );
-      focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
         closeModal();

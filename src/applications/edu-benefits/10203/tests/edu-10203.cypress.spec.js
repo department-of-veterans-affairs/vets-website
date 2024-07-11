@@ -47,7 +47,7 @@ const testConfig = createTestConfig(
         cy.get('@testKey').then(testKey => {
           if (testKey === 'confirmation-stem-test') {
             cy.get('.stem-eligibility-ul')
-              .find('fa-times')
+              .find('va-icon')
               .to.have.lengthOf(2);
           }
         });

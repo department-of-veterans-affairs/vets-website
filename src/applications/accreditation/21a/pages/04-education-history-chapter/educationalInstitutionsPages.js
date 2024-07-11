@@ -12,7 +12,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourEducationHistoryDescription from '../../components/YourEducationHistoryDescription';
+import YourEducationHistoryDescription from '../../components/04-education-history-chapter/YourEducationHistoryDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -85,7 +85,13 @@ const educationalInstitutionPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(arrayBuilderOptions),
+    'view:hasEducationalInstitutions': arrayBuilderYesNoUI(
+      arrayBuilderOptions,
+      {},
+      {
+        labelHeaderLevel: 'p',
+      },
+    ),
   },
   schema: {
     type: 'object',
@@ -100,7 +106,7 @@ const educationalInstitutionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     educationalInstitutions: pageBuilder.introPage({
-      title: 'educational institutions',
+      title: 'Educational institutions',
       path: 'educational-institutions',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
