@@ -25,6 +25,22 @@ class GeneralFunctionsPage {
       }),
     };
   };
+
+  getDateFormat = () => {
+    const date = new Date();
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZoneName: 'short',
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter.format(date).replace(`AM`, `a.m.`);
+  };
 }
 
 export default new GeneralFunctionsPage();

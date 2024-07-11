@@ -661,6 +661,13 @@ class PatientMessageDraftsPage {
     cy.get(`#send-button-${number}`).should('not.exist');
     cy.get(`#save-draft-button-${number}`).should('not.exist');
   };
+
+  verifySaveWithAttachmentAlert = () => {
+    cy.get('[data-testid="quit-compose-double-dare"]')
+      .shadow()
+      .find('h2')
+      .should('contain', `can't save attachment`);
+  };
 }
 
 export default PatientMessageDraftsPage;
