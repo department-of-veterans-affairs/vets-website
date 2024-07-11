@@ -1169,20 +1169,16 @@ describe('Disability benefits helpers: ', () => {
 
   describe('setDocumentRequestPageTitle', () => {
     it('should display 5103 Evidence Notice', () => {
-      const documentRequestPageTitle = setDocumentRequestPageTitle(
-        'Automated 5103 Notice Response',
-      );
+      const displayName = 'Automated 5103 Notice Response';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
       expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
     });
     it('should display Request for Submit buddy statement(s)', () => {
-      const documentRequestPageTitle = setDocumentRequestPageTitle(
-        'Submit buddy statement(s)',
-      );
+      const displayName = 'Submit buddy statement(s)';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
-      expect(documentRequestPageTitle).to.equal(
-        'Request for Submit buddy statement(s)',
-      );
+      expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
     });
   });
 });
