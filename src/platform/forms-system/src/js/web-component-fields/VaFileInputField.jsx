@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { uploadScannedForm } from '~/applications/simple-forms/form-upload/helpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
 /**
@@ -15,24 +17,44 @@ import vaFileInputFieldMapping from './vaFileInputFieldMapping';
  *   },
  *   'ui:options': {
  *     accept: '.pdf,.jpeg,.png',
- *     messageAriaDescribedby: 'text description to be read by screen reader',
+ *     buttonText: 'Push this button',
  *     enableAnalytics: true,
+ *     labelHeaderLevel: "1",
+ *     messageAriaDescribedby: 'text description to be read by screen reader',
  *   },
  * }
  * ```
  *
  * Usage schema:
  * ```
- * fileInput: {
- *   type: 'string',
- *   minLength: 1,
- *   maxLength: 24,
- * }
+ * uploadedFile: {
+ *   type: 'object',
+ *   properties: {},
+ * },
  * ```
  * @param {WebComponentFieldProps} props */
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
-  return <VaFileInput {...mappedProps} />;
+  const dispatch = useDispatch();
+  const [error, setError] = useState('');
+
+  const onFileUploaded = uploadedFile => {
+    if (uploadedFile.confirmationCode) {
+      setError('');
+      props.childrenProps.onChange(uploadedFile);
+    }
+  };
+
+  const defaultOnVaChange = e =>
+    dispatch(uploadScannedForm('21-0779', e.detail.files[0], onFileUploaded));
+
+  return (
+    <VaFileInput
+      {...mappedProps}
+      error={error}
+      onVaChange={props.onVaChange || defaultOnVaChange}
+    />
+  );
 };
 
 export default VaFileInputField;

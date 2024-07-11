@@ -27,6 +27,7 @@ export const workInProgressContent = {
 
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
+    <h3 className="vads-u-margin-bottom--3">Upload your file</h3>
     <p className="vads-u-margin-top--0">
       You’ll need to scan your document onto the device you’re using to submit
       this application, such as your computer, tablet, or mobile phone. You can
