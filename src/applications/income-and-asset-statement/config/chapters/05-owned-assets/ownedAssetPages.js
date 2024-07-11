@@ -138,20 +138,6 @@ const ownedAssetTypePage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Income and net worth associated with owned assets',
     ),
-    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
-    ownedPortionValue: merge(
-      {},
-      currencyUI('Value of your portion of the property'),
-      {
-        'ui:options': {
-          classNames: 'schemaform-currency-input-v3',
-        },
-      },
-    ),
     assetType: radioUI({
       title: 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
@@ -171,20 +157,34 @@ const ownedAssetTypePage = {
         expandUnderCondition: 'FARM',
       },
     },
+    grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
+      'ui:options': {
+        classNames: 'schemaform-currency-input-v3',
+      },
+    }),
+    ownedPortionValue: merge(
+      {},
+      currencyUI('Value of your portion of the property'),
+      {
+        'ui:options': {
+          classNames: 'schemaform-currency-input-v3',
+        },
+      },
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      grossMonthlyIncome: { type: 'number' },
-      ownedPortionValue: { type: 'number' },
       assetType: radioSchema(Object.keys(ownedAssetTypeLabels)),
       'view:propertyOrBusinessFormRequestAlert': {
         type: 'object',
         properties: {},
       },
       'view:farmFormRequestAlert': { type: 'object', properties: {} },
+      grossMonthlyIncome: { type: 'number' },
+      ownedPortionValue: { type: 'number' },
     },
-    required: ['grossMonthlyIncome', 'ownedPortionValue', 'assetType'],
+    required: ['assetType', 'grossMonthlyIncome', 'ownedPortionValue'],
   },
 };
 
