@@ -215,11 +215,31 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
+    cy.get(`#delete-draft-button`).should('be.visible');
+    cy.get(`#delete-draft-button`).click({
       force: true,
       waitForAnimations: true,
     });
+  };
+
+  clickMultipleDeleteButton = number => {
+    cy.get(`[data-testid="reply-form"]`)
+      .find('va-accordion-item')
+      .then(el => {
+        if (el.length > 1) {
+          cy.get(`#delete-draft-button-${number}`).should('be.visible');
+          cy.get(`#delete-draft-button-${number}`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        } else {
+          cy.get(`#delete-draft-button`).should('be.visible');
+          cy.get(`#delete-draft-button`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        }
+      });
   };
 
   sendDraftMessage = draftMessage => {

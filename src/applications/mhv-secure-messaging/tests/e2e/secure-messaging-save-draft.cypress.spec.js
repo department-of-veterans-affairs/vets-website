@@ -41,9 +41,9 @@ describe('save draft feature tests', () => {
 
     PatientComposePage.saveExistingDraft('COVID', 'test subject-updated');
 
-    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+    cy.get(Locators.ALERTS.SAVE_ALERT).should(
       'contain',
-      `message was saved on ${currentDate}`,
+      `message was saved on ${currentDate}.`,
     );
 
     cy.injectAxe();

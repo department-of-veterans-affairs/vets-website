@@ -39,7 +39,10 @@ class GeneralFunctionsPage {
     };
 
     const formatter = new Intl.DateTimeFormat('en-US', options);
-    return formatter.format(date).replace(`AM`, `a.m.`);
+    return formatter
+      .format(date)
+      .replace(`AM`, `a.m.`)
+      .replace(`PM`, `p.m.`);
   };
 }
 

@@ -25,7 +25,9 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(0, 1);
 
-    draftPage.clickDeleteButton();
+    draftPage.expandSingleDraft(2);
+
+    draftPage.clickMultipleDeleteButton(2);
     draftPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
@@ -42,13 +44,12 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(1, 1);
 
-    cy.get('[text="Edit draft 1"]').click();
+    draftPage.expandSingleDraft(1);
+    draftPage.clickMultipleDeleteButton(1);
 
-    draftPage.clickDeleteButton();
     draftPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
-      1,
     );
     draftPage.verifyConfirmationMessage(Alerts.Message.DELETE_DRAFT_SUCCESS);
 
@@ -65,14 +66,16 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     const noDraftsResponse = Cypress._.cloneDeep(updatedMultiDraftResponse);
     noDraftsResponse.data.splice(0, 2);
 
-    draftPage.clickDeleteButton();
+    draftPage.expandSingleDraft(2);
+    draftPage.clickMultipleDeleteButton(2);
     draftPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
     );
     draftPage.verifyDeleteConfirmationMessage();
 
-    draftPage.clickDeleteButton();
+    draftPage.expandSingleDraft(1);
+    draftPage.clickMultipleDeleteButton(1);
     draftPage.deleteMultipleDraft(reducedMultiDraftResponse, noDraftsResponse);
     draftPage.verifyDeleteConfirmationMessage();
 
