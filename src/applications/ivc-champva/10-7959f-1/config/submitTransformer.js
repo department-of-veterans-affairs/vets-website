@@ -29,12 +29,12 @@ export default function transformForSubmit(formConfig, form) {
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
-    // statement_of_truth_signature: transformedData.fullName,
+    statementOfTruthSignature: transformedData.statementOfTruthSignature,
     current_date: new Date().toJSON().slice(0, 10),
     primaryContactInfo: {
       name: {
-        first: transformedData.veteranFullName.first,
-        last: transformedData.veteranFullName.last,
+        first: transformedData.veteranFullName?.first,
+        last: transformedData.veteranFullName?.last,
       },
       email: transformedData.veteranEmailAddress,
       phone: transformedData.veteranPhoneNumber,
