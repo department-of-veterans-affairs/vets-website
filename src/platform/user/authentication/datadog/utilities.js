@@ -1,4 +1,4 @@
-import { datadogLogs } from '@datadog/browser-logs';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const DATA_DOG_TOKEN = 'pube9cdb0054ba0126c0adac86ff8ac50e2';
 const DATA_DOG_SERVICE = 'octo-identity';
@@ -89,16 +89,29 @@ export const newError = ({ message, code, requestId }) => {
   return error;
 };
 
+const initializeDataDog = () => {
+  if (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.Mocha &&
+    !window.Cypress
+  ) {
+    // Initialize datadog logger through a Node require + IIFE
+    const { datadogLogs } = require('@datadog/browser-logs');
+    datadogLogs.init({
+      clientToken: DATA_DOG_TOKEN,
+      service: DATA_DOG_SERVICE,
+      forwardErrorsToLogs: true,
+      site: 'ddog-gov.com',
+    });
+    return datadogLogs;
+  }
+  return null;
+};
+
 export const dataDogLog = ({ name, payload, status, error }) => {
   if (!name) {
     throw new Error('Name cannot be left blank');
   }
-  // Initialize datadog logger
-  datadogLogs.init({
-    clientToken: DATA_DOG_TOKEN,
-    forwardErrorsToLogs: true,
-    service: DATA_DOG_SERVICE,
-    site: 'ddog-gov.com',
-  });
-  datadogLogs.logger.log(name, payload, status, error);
+  const datadogLogs = initializeDataDog();
+  datadogLogs?.logger?.log(name, payload, status, error);
 };
