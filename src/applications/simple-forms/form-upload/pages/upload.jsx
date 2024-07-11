@@ -1,7 +1,4 @@
-import {
-  fileInputUI,
-  fileInputSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+import { fileInputUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { UPLOAD_GUIDELINES } from '../config/constants';
 
 export const uploadPage = {
@@ -11,10 +8,9 @@ export const uploadPage = {
     },
     uploadedFile: {
       ...fileInputUI({
+        errorMessages: { required: 'Upload a completed VA Form 21-0779' },
+        name: 'form-upload-file-input',
         title: 'Upload VA Form 21-0779',
-        errorMessages: {
-          required: 'Upload a completed VA Form 21-0779',
-        },
       }),
     },
   },
@@ -25,7 +21,10 @@ export const uploadPage = {
         type: 'object',
         properties: {},
       },
-      uploadedFile: fileInputSchema,
+      uploadedFile: {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['uploadedFile'],
   },
