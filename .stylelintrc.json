@@ -3,7 +3,8 @@
   "ignoreFiles": [
     "src/applications/proxy-rewrite/sass/style-consolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
-    "mochawesome-report/**/*.css"
+    "mochawesome-report/**/*.css",
+    "**/.git/**"
   ],
   "rules": {
     "at-rule-disallowed-list": ["debug", "extend"],
