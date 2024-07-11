@@ -5,6 +5,8 @@ import {
 import { createStore, applyMiddleware } from 'redux';
 import { expect } from 'chai';
 import thunk from 'redux-thunk';
+import sinon from 'sinon';
+import * as apiCalls from '../../api/SmApi';
 import { threadsReducer } from '../../reducers/threads';
 import inboxThreadResponse from '../fixtures/mock-api-responses/inbox-threads-response.json';
 import inboxNoThreadsResponse from '../fixtures/mock-api-responses/inbox-no-threads-response.json';
@@ -44,6 +46,37 @@ describe('threads reducer', () => {
       }),
       isLoading: false,
     });
+  });
+
+  it('should call getThreadList with arg true when isPilot', async () => {
+    const folderId = 0;
+    const pageSize = 10;
+    const pageNumber = 1;
+    const isPilot = true;
+    const isPilotState = {
+      sm: {
+        app: {
+          isPilot,
+        },
+      },
+    };
+    const getThreadListSpy = sinon.spy(apiCalls, 'getThreadList');
+    const store = mockStore(isPilotState);
+    mockApiRequest(inboxThreadResponse);
+
+    await store
+      .dispatch(getListOfThreads(folderId, pageSize, pageNumber))
+      .then(() => {
+        expect(
+          getThreadListSpy.calledWith({
+            folderId,
+            pageSize,
+            pageNumber,
+            isPilot,
+            threadSort: undefined,
+          }),
+        ).to.be.true;
+      });
   });
 
   it('should dispatch an empty array when no threads returned', async () => {

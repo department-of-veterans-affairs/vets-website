@@ -270,7 +270,7 @@ export const getThreadList = async params => {
     pageSize = 10,
     pageNumber = 1,
     threadSort = threadSortingOptions.SENT_DATE_DESCENDING.value,
-    isPilot = false,
+    isPilot,
   } = params;
   const { sortField, sortOrder } = threadSortingOptions[threadSort];
   const { sessionExpiration, sessionExpirationSSO } = localStorage;

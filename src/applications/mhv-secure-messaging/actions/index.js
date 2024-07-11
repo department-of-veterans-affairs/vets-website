@@ -25,5 +25,5 @@ export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
 export const getIsPilotFromState = getState => {
   const state = getState();
-  return state.sm.app?.isPilot ?? false;
+  return state.sm?.app?.isPilot ?? false;
 };
