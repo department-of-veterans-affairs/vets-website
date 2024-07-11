@@ -1,7 +1,6 @@
 import React from 'react';
-import classNames from 'classnames';
-import JumpLink from './profile/JumpLink';
 import recordEvent from 'platform/monitoring/record-event';
+import JumpLink from './profile/JumpLink';
 
 export const CautionFlagAdditionalInfo = ({
   cautionFlags,
@@ -18,8 +17,8 @@ export const CautionFlagAdditionalInfo = ({
       ? 'This school has 1 cautionary warning'
       : `This school has ${validFlags.length} cautionary warnings`;
   return (
-    <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--0p5 vads-u-padding-y--2">
-      <div className="usa-alert-body ">
+    <div className="vads-u-border-left--10px vads-u-border-color--gold vads-u-background-color--white vads-u-padding-x--0p5 vads-u-padding-y--2">
+      <div>
         <button
           className="caution-flag-toggle"
           onClick={() => {
@@ -32,24 +31,21 @@ export const CautionFlagAdditionalInfo = ({
           }}
         >
           <div className="vads-u-display--flex">
+            <va-icon
+              icon="warning"
+              size={3}
+              className="vads-u-margin-right--1p5"
+            />
             <div>
               <h4 className="usa-alert-heading caution-flag-alert-heading">
                 {headline}
               </h4>
             </div>
-            <div>
-              <i
-                aria-hidden="true"
-                style={{
-                  float: 'right',
-                  margin: '5px',
-                }}
-                className={classNames('fa', {
-                  'fa-chevron-up': expanded,
-                  'fa-chevron-down': !expanded,
-                })}
-              />
-            </div>
+            {expanded ? (
+              <va-icon icon="expand_less" size={3} />
+            ) : (
+              <va-icon icon="expand_more" size={3} />
+            )}
           </div>
         </button>
 
