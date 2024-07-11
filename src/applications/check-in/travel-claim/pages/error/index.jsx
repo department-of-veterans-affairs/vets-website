@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { makeSelectError, makeSelectTravelClaimData } from '../../../selectors';
+import { makeSelectError } from '../../../selectors';
 import Wrapper from '../../../components/layout/Wrapper';
 import ExternalLink from '../../../components/ExternalLink';
 
@@ -10,12 +10,6 @@ const Error = () => {
   const { t } = useTranslation();
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
-
-  // @TODO refactor using something else from redux
-  const selectTravelClaimData = useMemo(makeSelectTravelClaimData, []);
-  const appointments = useSelector(selectTravelClaimData);
-  const appointmentDateTime =
-    appointments.length > 0 ? new Date(appointments[0].startTime) : null;
 
   let alerts = [];
   let header = '';
@@ -120,7 +114,7 @@ const Error = () => {
                 className="vads-u-margin-top--0"
               >
                 {t('were-sorry-you-already-filed-a-claim', {
-                  date: appointmentDateTime,
+                  date: new Date(),
                 })}
               </p>
               <ExternalLink

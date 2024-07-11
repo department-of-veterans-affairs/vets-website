@@ -16,8 +16,7 @@ describe('income and asset veteran information page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 4,
-      'va-select': 1,
+      'va-text-input': 5,
     },
     'veteran information',
   );

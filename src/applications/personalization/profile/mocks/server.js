@@ -92,8 +92,7 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileContacts: true,
-            profileHideDirectDeposit: false,
+            profileHideDirectDeposit: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,

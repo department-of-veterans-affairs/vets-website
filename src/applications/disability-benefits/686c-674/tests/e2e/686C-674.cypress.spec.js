@@ -15,17 +15,6 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       cy.login();
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'va_view_dependents_access',
-              value: true,
-            },
-          ],
-        },
-      });
       cy.intercept(
         'GET',
         '/v0/profile/valid_va_file_number',

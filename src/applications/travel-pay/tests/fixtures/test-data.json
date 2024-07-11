@@ -40,7 +40,7 @@
       "claimStatus": "INCOMPLETE",
       "appointmentDateTime": "2024-05-15T17:56:49.440Z",
       "appointmentName": "Physical Therapy",
-      "appointmentLocation": "Minnepolis VA Medical Center",
+      "appointmentLocation": "Minneapolis VA Medical Center",
       "createdOn": "2024-05-16T17:56:49.440Z",
       "modifiedOn": "2024-05-19T17:56:49.440Z"
     },
@@ -73,7 +73,7 @@
       "claimStatus": "CLAIM_SUBMITTED",
       "appointmentDateTime": "2023-05-21T03:51:41.364Z",
       "appointmentName": "Medical imaging",
-      "appointmentLocation": "Minnepolis VA Medical Center",
+      "appointmentLocation": "Minneapolis VA Medical Center",
       "createdOn": "2023-05-22T03:51:41.364Z",
       "modifiedOn": "2023-05-28T03:51:41.364Z"
     },
@@ -128,7 +128,7 @@
       "claimStatus": "CLOSED",
       "appointmentDateTime": "2024-02-11T17:43:08.022Z",
       "appointmentName": "Medical imaging",
-      "appointmentLocation": "Minnepolis VA Medical Center",
+      "appointmentLocation": "Minneapolis VA Medical Center",
       "createdOn": "2024-02-12T17:43:08.022Z",
       "modifiedOn": "2024-02-15T17:43:08.022Z"
     },
@@ -159,7 +159,7 @@
       "claimNumber": "7d171f53-4be0-4d4a-afe2-baabcce40097",
       "claimName": "5e506e99-8dff-4382-8f07-653127356242",
       "claimStatus": "SAVED",
-      "appointmentDateTime": "2023-06-22T04:41:45.517Z",
+      "appointmentDateTime": "2023-06-22T08:41:45.517Z",
       "appointmentName": "Medical imaging",
       "appointmentLocation": "Dubuque VA Clinic",
       "createdOn": "2023-06-23T04:41:45.517Z",

@@ -1,6 +1,7 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 $nav-width-bar-max-width: 720px;
-$nav-mobile-breakpoint: 629px;
-$nav-abbr-breakpoint: 467px;
+$nav-mobile-breakpoint: 650px;
 
 .mhv-c-sec-nav-bar-row {
   justify-content: space-around;
@@ -28,12 +29,12 @@ $nav-abbr-breakpoint: 467px;
 }
 
 .mhv-u-sec-nav-header-style a {
-    padding: 15px 7px 14px;
+    padding: 8px 7px 11px;
     min-width: 170px;
 }
 
 .mhv-u-sec-nav-item-style a {
-    padding: 13px 7px 16px;
+    padding: 11px 7px 12px;
     min-width: 75px;
 }
 
@@ -86,14 +87,14 @@ $nav-abbr-breakpoint: 467px;
 }
 
 // Show the abbreviation instead of the long title
-@media (max-width: $nav-abbr-breakpoint) {
+@media (max-width: $small-screen) {
   .mhv-u-sec-nav-item-title {
     display: none;
   }
 }
 
 // Show the title instead of the abbreviation
-@media (min-width: $nav-abbr-breakpoint) {
+@media (min-width: $small-screen) {
   .mhv-u-sec-nav-short-title {
     display: none;
   }

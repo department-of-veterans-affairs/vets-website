@@ -44,6 +44,7 @@ import migrations from './migrations';
 
 import manifest from '../manifest.json';
 import NeedHelp from '../components/NeedHelp';
+import { maxCharAllowed } from '../constants';
 
 const {
   address: applicantAddress,
@@ -578,8 +579,9 @@ const formConfig = {
             },
             issueDescription: {
               'ui:title':
-                'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+                'Please write your feedback and any details about your issue in the space below.',
               'ui:widget': 'textarea',
+              'ui:description': maxCharAllowed('32,000'),
               'ui:options': {
                 rows: 5,
                 maxLength: 32000,
@@ -587,7 +589,8 @@ const formConfig = {
             },
             issueResolution: {
               'ui:title':
-                'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+                'What do you think would be a fair way to resolve your issue?',
+              'ui:description': maxCharAllowed('1,000'),
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,

@@ -1,7 +1,8 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import GetFormHelp from '../components/GetFormHelp';
+import GetFormHelp from '../components/common/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
@@ -18,8 +19,9 @@ const formConfig = {
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${
+    environment.API_URL
+  }/accredited_representative_portal/v0/form21a`,
   trackingPrefix: '21a-',
   title: 'Apply to become a VA accredited attorney or claims agent',
   subTitle: 'VA Form 21a',
@@ -30,6 +32,15 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: '',
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:

@@ -30,7 +30,7 @@ function signatureValidator(signatureName, formData) {
     .join('')
     .toLowerCase();
   if (signatureName.replaceAll(' ', '').toLowerCase() !== name) {
-    return `Please enter your name exactly as entered on the form: ${nameWording(
+    return `Please enter your full name exactly as entered on the form: ${nameWording(
       { ...formData, certifierRole: '' },
       false,
     )}`;
@@ -66,10 +66,6 @@ export default function CustomAttestation(signatureProps) {
     </>
   ) : (
     <>
-      <p>
-        Signed by the beneficiary’s spouse, parent, legal guardian or legal
-        representative on behalf of the beneficiary.
-      </p>
       {isCorrect}
       {pp}
       <p>
@@ -81,7 +77,7 @@ export default function CustomAttestation(signatureProps) {
   );
 
   const sigLabel = isBeneficiary
-    ? 'Your name'
+    ? 'Your full name'
     : 'Enter your full name to sign as the beneficiary’s representative';
 
   const validators = isBeneficiary ? [signatureValidator] : [];
@@ -95,7 +91,10 @@ export default function CustomAttestation(signatureProps) {
         (Reference: 18 U.S.C. 1001).
       </p>
       <section className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
-        <h3>Statement of truth</h3>
+        <h3>
+          {formData?.certifierRole !== 'applicant' ? 'Representative’s ' : ''}
+          Statement of truth
+        </h3>
         {content}
         <FormSignature
           {...signatureProps}

@@ -10,7 +10,8 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import fileUploadUIPlatform from 'platform/forms-system/src/js/definitions/file';
+import fileUploadUI from '../definitions/file';
 import transformForSubmit from './transformForSubmit';
 
 import emailUI from '../definitions/email';
@@ -333,38 +334,72 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUI('Select files to upload', {
-                buttonText: 'Upload file',
-                addAnotherLabel: 'Upload another file',
-                fileUploadUrl: environment.isProduction()
-                  ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
-                  : `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                fileTypes: ['pdf'],
-                maxSize: 15728640,
-                hideLabelText: true,
-                createPayload: !environment.isProduction()
-                  ? createPayload
-                  : file => {
-                      const payload = new FormData();
-                      payload.append('preneed_attachment[file_data]', file);
+              // MBMS-66403
+              preneedAttachments: environment.isProduction()
+                ? fileUploadUIPlatform('Select files to upload', {
+                    buttonText: 'Upload file',
+                    addAnotherLabel: 'Upload another file',
+                    fileUploadUrl: environment.isProduction()
+                      ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
+                      : `${
+                          environment.API_URL
+                        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileTypes: ['pdf'],
+                    maxSize: 15728640,
+                    hideLabelText: true,
+                    createPayload: !environment.isProduction()
+                      ? createPayload
+                      : file => {
+                          const payload = new FormData();
+                          payload.append('preneed_attachment[file_data]', file);
 
-                      return payload;
+                          return payload;
+                        },
+                    parseResponse: !environment.isProduction()
+                      ? parseResponse
+                      : (response, file) => ({
+                          name: file.name,
+                          confirmationCode: response.data.attributes.guid,
+                        }),
+                    attachmentSchema: {
+                      'ui:title': 'What kind of file is this?',
                     },
-                parseResponse: !environment.isProduction()
-                  ? parseResponse
-                  : (response, file) => ({
-                      name: file.name,
-                      confirmationCode: response.data.attributes.guid,
-                    }),
-                attachmentSchema: {
-                  'ui:title': 'What kind of file is this?',
-                },
-                attachmentName: {
-                  'ui:title': 'File name',
-                },
-              }),
+                    attachmentName: {
+                      'ui:title': 'File name',
+                    },
+                  })
+                : fileUploadUI('Select files to upload', {
+                    buttonText: 'Upload file',
+                    addAnotherLabel: 'Upload another file',
+                    fileUploadUrl: environment.isProduction()
+                      ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
+                      : `${
+                          environment.API_URL
+                        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
+                    fileTypes: ['pdf'],
+                    maxSize: 15728640,
+                    hideLabelText: true,
+                    createPayload: !environment.isProduction()
+                      ? createPayload
+                      : file => {
+                          const payload = new FormData();
+                          payload.append('preneed_attachment[file_data]', file);
+
+                          return payload;
+                        },
+                    parseResponse: !environment.isProduction()
+                      ? parseResponse
+                      : (response, file) => ({
+                          name: file.name,
+                          confirmationCode: response.data.attributes.guid,
+                        }),
+                    attachmentSchema: {
+                      'ui:title': 'What kind of file is this?',
+                    },
+                    attachmentName: {
+                      'ui:title': 'File name',
+                    },
+                  }),
             },
           },
           schema: {

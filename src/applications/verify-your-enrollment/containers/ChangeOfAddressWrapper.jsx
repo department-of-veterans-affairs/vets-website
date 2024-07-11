@@ -140,6 +140,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+      dispatch({ type: 'RESET_ERROR' });
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
     },
     [dispatch, location.pathname],
   );
@@ -150,6 +153,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
           <va-loading-indicator
             label="Loading"
             message="Loading mailing address..."
+            aria-hidden="true"
           />
         ) : (
           <div className="vads-u-margin-bottom--1">
@@ -305,7 +309,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             >
               <div className="button-container">
                 <LoadingButton
-                  aria-label="save your Mailing address for GI Bill benefits"
+                  aria-label="save your mailing address for GI Bill benefits"
                   type="submit"
                   loadingText="saving Mailling address"
                   className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
@@ -315,7 +319,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 <va-button
                   text="Cancel"
                   secondary
-                  label="cancel updating your bank information for GI Bill benefits"
+                  label="cancel updating your mailing address for GI Bill benefits"
                   onClick={onCancleButtonClicked}
                   data-qa="cancel-button"
                   data-testid={`${PREFIX}form-cancel-button`}

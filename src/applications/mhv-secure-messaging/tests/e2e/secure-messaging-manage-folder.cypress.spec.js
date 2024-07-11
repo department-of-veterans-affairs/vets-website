@@ -7,17 +7,16 @@ import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('manage folders', () => {
-  describe('folder created message', () => {
-    const site = new SecureMessagingSite();
+  describe('verify folder created', () => {
     const newFolder = `folder${Date.now()}`;
 
     before(() => {
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
     });
 
-    it('verify folder created', () => {
+    it('verify message and focus', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {});
 
@@ -27,18 +26,17 @@ describe('manage folders', () => {
     });
   });
 
-  describe('folder deleted message', () => {
-    const site = new SecureMessagingSite();
+  describe('verify folder deleted', () => {
     const folderName = createdFolderResponse.data.attributes.name;
     const { folderId } = createdFolderResponse.data.attributes;
 
     before(() => {
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
     });
 
-    it('verify folder deleted', () => {
+    it('verify message and focus', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {});
 

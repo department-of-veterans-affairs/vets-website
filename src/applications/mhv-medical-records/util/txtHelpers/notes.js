@@ -26,9 +26,9 @@ Details
   
   Date: ${record.date}
   Location: ${record.location}
+  Written by: ${record.writtenBy}
   Signed by: ${record.signedBy}
-  Co-signed by: ${record.coSignedBy}
-  Signed on: ${record.dateSigned}
+  Date signed: ${record.dateSigned}
 
 Notes
   ${record.note}
@@ -40,8 +40,8 @@ ${txtLineDotted}
 
 Details
   Location: ${record.location}
-  Admitted on: ${record.admissionDate}
-  Discharged on: ${record.dischargeDate}
+  Date admitted: ${record.admissionDate}
+  Date discharged: ${record.dischargeDate}
   Discharged by: ${record.dischargedBy}
 
 Summary

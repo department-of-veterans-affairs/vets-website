@@ -29,7 +29,10 @@
 .abbrv-day {
    display: inline-block;
    width: 35px;
-   margin-right: 5px;
+   margin-right: 0;
+   @include media($small-screen + 1) {
+      margin-right: 5px;
+    }
 }
 
 .va-c-facility-sidebar {
