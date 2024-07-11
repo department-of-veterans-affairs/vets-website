@@ -4,14 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
 
 import { ELIGIBILITY, areEqual } from '../../utils/appointment/eligibility';
-import { useFormRouting } from '../../hooks/useFormRouting';
 
 const AppointmentMessage = props => {
-  const { appointment, router } = props;
+  const { appointment, page } = props;
   const { t } = useTranslation();
-
-  const { getCurrentPageFromRouter } = useFormRouting(router);
-  const page = getCurrentPageFromRouter();
 
   const defaultMessage = t(
     'online-check-in-isnt-available-check-in-with-a-staff-member',
@@ -55,11 +51,10 @@ const AppointmentMessage = props => {
         alertIcon.size = 3;
         alertIcon.class = 'vads-u-margin-right--0p5';
       } else {
-        alertMessage = (
-          <span data-testid="no-time-too-early-reason-message">
-            {t('this-appointment-isnt-eligible-check-in-with-a-staff-member')}
-          </span>
+        alertMessage = t(
+          'this-appointment-isnt-eligible-check-in-with-a-staff-member',
         );
+        alertTestId = 'no-time-too-early-reason-message';
         alertError = true;
       }
     }
@@ -69,17 +64,15 @@ const AppointmentMessage = props => {
         ELIGIBILITY.INELIGIBLE_UNSUPPORTED_LOCATION,
       )
     ) {
-      alertMessage = (
-        <span data-testid="unsupported-location-message">{defaultMessage}</span>
-      );
+      alertMessage = defaultMessage;
+      alertTestId = 'unsupported-location-message';
       alertError = true;
     }
     if (
       areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_UNKNOWN_REASON)
     ) {
-      alertMessage = (
-        <span data-testid="unknown-reason-message">{defaultMessage}</span>
-      );
+      alertMessage = defaultMessage;
+      alertTestId = 'unknown-reason-message';
       alertError = true;
     }
     if (
@@ -139,7 +132,7 @@ const AppointmentMessage = props => {
   }
   return (
     <>
-      {alertMessage && (!alertError || page === 'details') ? (
+      {alertMessage && (!alertError || page.includes('appointment-details')) ? (
         <div data-testid="appointment-message">{body}</div>
       ) : (
         <></>
@@ -149,8 +142,8 @@ const AppointmentMessage = props => {
 };
 
 AppointmentMessage.propTypes = {
+  page: PropTypes.string.isRequired,
   appointment: PropTypes.object,
-  router: PropTypes.object,
 };
 
 export default AppointmentMessage;

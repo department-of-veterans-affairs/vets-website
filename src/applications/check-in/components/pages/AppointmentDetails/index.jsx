@@ -34,7 +34,12 @@ const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const {
+    goToPreviousPage,
+    jumpToPage,
+    getCurrentPageFromRouter,
+  } = useFormRouting(router);
+  const page = getCurrentPageFromRouter();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
@@ -190,7 +195,10 @@ const AppointmentDetails = props => {
                     preCheckInSubTitle}
                   {app === APP_NAMES.CHECK_IN && (
                     <div className="vads-u-margin-x--neg2 vads-u-margin-top--2">
-                      <AppointmentMessage appointment={appointment} />
+                      <AppointmentMessage
+                        appointment={appointment}
+                        page={page}
+                      />
                     </div>
                   )}
                 </>
