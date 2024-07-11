@@ -12,6 +12,7 @@ import {
   sortAppointmentsByStartTime,
 } from '../utils/appointment';
 import { useUpdateError } from '../hooks/useUpdateError';
+import { useStorage } from '../hooks/useStorage';
 
 const WhatToDoNext = props => {
   const { router, appointments, action, goToDetails } = props;
@@ -19,12 +20,19 @@ const WhatToDoNext = props => {
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
+  const { getCheckinComplete, getPreCheckinComplete } = useStorage(app);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  const checkInableAppointments = getCheckinableAppointments(
-    sortedAppointments,
-  );
-  if (!checkInableAppointments.length) {
+  let actionableAppointments = sortedAppointments;
+  if (app === APP_NAMES.CHECK_IN) {
+    actionableAppointments = getCheckinableAppointments(sortedAppointments);
+  }
+  const complete =
+    app === APP_NAMES.CHECK_IN
+      ? getCheckinComplete(window)
+      : getPreCheckinComplete(window);
+
+  if (!actionableAppointments.length && !complete) {
     updateError(
       app === APP_NAMES.CHECK_IN
         ? 'check-in-past-appointment'
@@ -33,13 +41,13 @@ const WhatToDoNext = props => {
   }
   const appointmentCards =
     app === APP_NAMES.PRE_CHECK_IN
-      ? [checkInableAppointments[0]]
-      : checkInableAppointments;
+      ? [actionableAppointments[0]]
+      : actionableAppointments;
 
   const getPreCheckinCardTitle = () => {
     let title = `${t('review-your-contact-information-for-your')} `;
-    if (checkInableAppointments.length > 1) {
-      checkInableAppointments.forEach((appointment, index) => {
+    if (actionableAppointments.length > 1) {
+      actionableAppointments.forEach((appointment, index) => {
         title += t('day-of-week-month-day-time', {
           date: new Date(appointment.startTime),
         });
@@ -60,66 +68,77 @@ const WhatToDoNext = props => {
   };
 
   const showDetailsLink =
-    (checkInableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
+    (actionableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
     app === APP_NAMES.CHECK_IN;
 
   return (
     <>
-      <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
-      <div data-testid="appointments">
-        {appointmentCards.map((appointment, index) => {
-          const cardTitleId = `what-next-card-title-${index}`;
-          let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
-            time: new Date(appointment.startTime),
-          });
-          if (app === APP_NAMES.PRE_CHECK_IN) {
-            cardTitle = getPreCheckinCardTitle();
-          }
-          return (
-            <div
-              className="vads-u-margin-bottom--2"
-              key={appointment.appointmentIen}
-              data-testid="what-next-card"
-            >
-              <va-card show-shadow={checkInableAppointments.length > 1}>
-                <h3
-                  className="vads-u-margin-top--0 vads-u-font-size--h4"
-                  data-testid="what-next-card-title"
-                  id={cardTitleId}
+      {appointmentCards.length ? (
+        <>
+          <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
+          <div data-testid="appointments">
+            {appointmentCards.map((appointment, index) => {
+              const cardTitleId = `what-next-card-title-${index}`;
+              let cardTitle = t(
+                'its-time-to-check-in-for-your-time-appointment',
+                {
+                  time: new Date(appointment.startTime),
+                },
+              );
+              if (app === APP_NAMES.PRE_CHECK_IN) {
+                cardTitle = getPreCheckinCardTitle();
+              }
+              return (
+                <div
+                  className="vads-u-margin-bottom--2"
+                  key={appointment.appointmentIen}
+                  data-testid="what-next-card"
                 >
-                  {cardTitle}
-                </h3>
-                {showDetailsLink && (
-                  <p>
-                    <a
-                      data-testid={`details-link-${index}`}
-                      href={`${
-                        router.location.basename
-                      }/appointment-details/${getAppointmentId(appointment)}`}
-                      onClick={e => goToDetails(e, appointment)}
-                      aria-label={t('details-for-appointment', {
-                        time: new Date(appointment.startTime),
-                        type: appointment.clinicStopCodeName
-                          ? appointment.clinicStopCodeName
-                          : 'VA',
-                      })}
+                  <va-card show-shadow={actionableAppointments.length > 1}>
+                    <h3
+                      className="vads-u-margin-top--0 vads-u-font-size--h4"
+                      data-testid="what-next-card-title"
+                      id={cardTitleId}
                     >
-                      {t('details')}
-                    </a>
-                  </p>
-                )}
-                <ActionLink
-                  app={app}
-                  action={action}
-                  cardTitleId={cardTitleId}
-                  startTime={appointment.startTime}
-                  appointmentId={getAppointmentId(appointment)}
-                />
-              </va-card>
-            </div>
-          );
-        })}
-      </div>
+                      {cardTitle}
+                    </h3>
+                    {showDetailsLink && (
+                      <p>
+                        <a
+                          data-testid={`details-link-${index}`}
+                          href={`${
+                            router.location.basename
+                          }/appointment-details/${getAppointmentId(
+                            appointment,
+                          )}`}
+                          onClick={e => goToDetails(e, appointment)}
+                          aria-label={t('details-for-appointment', {
+                            time: new Date(appointment.startTime),
+                            type: appointment.clinicStopCodeName
+                              ? appointment.clinicStopCodeName
+                              : 'VA',
+                          })}
+                        >
+                          {t('details')}
+                        </a>
+                      </p>
+                    )}
+                    <ActionLink
+                      app={app}
+                      action={action}
+                      cardTitleId={cardTitleId}
+                      startTime={appointment.startTime}
+                      appointmentId={getAppointmentId(appointment)}
+                    />
+                  </va-card>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        ''
+      )}
     </>
   );
 };
