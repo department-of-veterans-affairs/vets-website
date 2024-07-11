@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { COOKIES, CLIENT_IDS } from 'platform/utilities/oauth/constants';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 import { touStyles } from '../constants';
 
 export default function Declined() {
@@ -55,7 +55,7 @@ export default function Declined() {
           <strong>Note:</strong> You can still access your VA benefits and
           health care without using our online services. If you need help or
           have questions, call our MYVA411 main information line at{' '}
-          <IdentityPhone /> We’re here 24/7.
+          <ContactCenterInformation /> We’re here 24/7.
         </p>
         <p className="vads-u-margin-y--2p5">
           <va-link
