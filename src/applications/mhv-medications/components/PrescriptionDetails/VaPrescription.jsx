@@ -139,11 +139,14 @@ const VaPrescription = prescription => {
             </h3>
             <p>{validateField(prescription.quantity)}</p>
             {isDisplayingDocumentation &&
-              refillHistory[0].cmopNdcNumber && (
+              // Any of the Rx's NDC's will work here. They should all show the same information
+              refillHistory.some(p => p.cmopNdcNumber) && (
                 <Link
                   to={`/prescription/${
                     prescription.prescriptionId
-                  }/documentation?ndc=${refillHistory[0].cmopNdcNumber}`}
+                  }/documentation?ndc=${
+                    refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
+                  }`}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
                   data-dd-action-name="Rx Documentation Link - Details Page"
