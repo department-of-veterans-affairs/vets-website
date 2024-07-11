@@ -7,6 +7,9 @@ import * as authorizeOutsideVANames from './authorizations/authorizeOutsideVANam
 import * as formToggle from './formToggle';
 import * as claimantType from './claimant/claimantType';
 import * as claimantContactPhoneEmail from './personalInformation/claimantContactPhoneEmail';
+import * as claimantRelationship from './personalInformation/claimantRelationship';
+import * as claimantPersonalInformation from './personalInformation/claimantPersonalInformation';
+import * as confirmClaimantPersonalInformation from './personalInformation/confirmClaimantPersonalInformation';
 
 export {
   authorizeMedical,
@@ -18,4 +21,7 @@ export {
   formToggle,
   claimantType,
   claimantContactPhoneEmail,
+  claimantRelationship,
+  claimantPersonalInformation,
+  confirmClaimantPersonalInformation,
 };
