@@ -1351,6 +1351,9 @@
           "patientHasMobileGfe": false
         },
         "localStartTime": "2024-12-01T08:00:00.000-07:00",
+        "serviceName": "YOUR FRIENDLY MH CLINIC",
+        "physicalLocation": "PHYSICAL LOCATIION TESTING",
+        "friendlyName": "YOUR FRIENDLY MH CLINIC",
         "location": {
           "id": "983",
           "type": "appointments",
