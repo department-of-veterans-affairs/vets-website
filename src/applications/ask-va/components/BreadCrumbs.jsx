@@ -17,7 +17,13 @@ const BreadCrumbs = ({ currentLocation }) => {
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
   const bcString = JSON.stringify(breadcrumbLinks);
 
-  return <va-breadcrumbs label="Breadcrumbs" breadcrumb-list={bcString} />;
+  return (
+    <va-breadcrumbs
+      label="Breadcrumbs"
+      breadcrumb-list={bcString}
+      data-testid="Breadcrumb"
+    />
+  );
 };
 
 BreadCrumbs.propTypes = {
