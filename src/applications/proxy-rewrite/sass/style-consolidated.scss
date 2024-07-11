@@ -237,15 +237,13 @@
     padding: 0;
   }
 
-  input:not([disabled]):focus,
-  button:not([disabled]):focus {
+  input:focus,
+  button:focus {
     outline: 2px solid #face00;
     outline-offset: 2px;
   }
 
-  [href]:focus,
-  [tabindex]:focus,
-  [contentEditable=true]:focus {
+  [href]:focus {
     outline: 2px solid #face00;
     outline-offset: 2px;
   }

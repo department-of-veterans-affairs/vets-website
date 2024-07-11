@@ -1,6 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 import LevelTwoLinks from './level-two-links';
 import LevelThreeLinks from './level-three-links';
 import { keyDownHandler } from '../../../../utilities/keydown';
@@ -12,17 +13,15 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
   const [previouslyClickedMenu, setPreviouslyClickedMenu] = useState(null);
   const [linkShouldFocus, setLinkShouldFocus] = useState(false);
 
-  const focus = document.querySelector('[data-menu="Health care"]');
-
-  focus?.focus();
-
-  useEffect(() => {
-    if (previouslyClickedMenu && linkShouldFocus) {
-      const menu = document.querySelector(`[data-menu="${previouslyClickedMenu}"]`);
-      console.log('focusing menu');
-      menu.focus();
-    }
-  }, [previouslyClickedMenu, linkShouldFocus]);
+  useEffect(
+    () => {
+      if (previouslyClickedMenu && linkShouldFocus) {
+        const menu = document.getElementById(previouslyClickedMenu);
+        focusElement(menu);
+      }
+    },
+    [previouslyClickedMenu, linkShouldFocus],
+  );
 
   useEffect(
     () => {

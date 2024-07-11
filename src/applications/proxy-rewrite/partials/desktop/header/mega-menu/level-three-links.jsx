@@ -1,7 +1,6 @@
 // This file is only used for Benefit Hubs links
 import React from 'react';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
 
 const LevelThreeLinks = ({ section, aboutVA = false }) => {
@@ -9,9 +8,7 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
     if (seeAllLink) {
       return (
         <div className="panel-bottom-link">
-          <a
-            href={updateLinkDomain(seeAllLink.href)}
-          >
+          <a href={updateLinkDomain(seeAllLink.href)}>
             {seeAllLink.text}
             <svg
               className="all-link-arrow"

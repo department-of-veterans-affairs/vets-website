@@ -1,11 +1,14 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { kebabCase } from 'lodash';
 import { updateLinkDomain } from '../../../../utilities/links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 
-const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedMenu }) => {
+const LevelTwoLinks = ({
+  sectionData,
+  setLevelTwoMenuOpen,
+  setPreviouslyClickedMenu,
+}) => {
   if (!sectionData) {
     return null;
   }
@@ -40,16 +43,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedM
         return (
           <li
             className="vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-            data-menu={title}
+            id={title}
             key={index}
           >
             <button
               className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
               id={`${title}--2`}
               onClick={() => onButtonClick(title)}
-              onKeyDown={event =>
-                keyDownHandler(event, onButtonClick, title)
-              }
+              onKeyDown={event => keyDownHandler(event, onButtonClick, title)}
               type="button"
             >
               {title}
@@ -62,7 +63,7 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedM
       return (
         <li
           className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-          data-menu={title}
+          id={title}
           key={index}
         >
           <a
@@ -85,16 +86,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedM
       <>
         <li
           className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-          data-menu={mainTitle}
+          id={mainTitle}
         >
           <button
             className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             id={`${mainTitle}--2`}
             type="button"
             onClick={() => onButtonClick(mainTitle)}
-            onKeyDown={event =>
-              keyDownHandler(event, onButtonClick, mainTitle)
-            }
+            onKeyDown={event => keyDownHandler(event, onButtonClick, mainTitle)}
           >
             {mainTitle}
             {rightChevron}
@@ -102,16 +101,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedM
         </li>
         <li
           className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-          data-menu={oneTitle}
+          id={oneTitle}
         >
           <button
             className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             id={`${oneTitle}--2`}
             type="button"
             onClick={() => onButtonClick(oneTitle)}
-            onKeyDown={event =>
-              keyDownHandler(event, onButtonClick, oneTitle)
-            }
+            onKeyDown={event => keyDownHandler(event, onButtonClick, oneTitle)}
           >
             {oneTitle}
             {rightChevron}
@@ -119,16 +116,14 @@ const LevelTwoLinks = ({ sectionData, setLevelTwoMenuOpen, setPreviouslyClickedM
         </li>
         <li
           className="vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
-          data-menu={twoTitle}
+          id={twoTitle}
         >
           <button
             className="header-menu-item-button level2 vads-u-background-color--gray-lightest vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--link-default"
             id={`${twoTitle}--2`}
             type="button"
             onClick={() => onButtonClick(twoTitle)}
-            onKeyDown={event =>
-              keyDownHandler(event, onButtonClick, twoTitle)
-            }
+            onKeyDown={event => keyDownHandler(event, onButtonClick, twoTitle)}
           >
             {twoTitle}
             {rightChevron}
