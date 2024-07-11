@@ -131,6 +131,17 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             : undefined
         }
       >
+        {!!facility === false && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {!!facility && (
           <>
             <Address address={videoProviderAddress} />
