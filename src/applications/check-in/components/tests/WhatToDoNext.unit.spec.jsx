@@ -7,6 +7,7 @@ import {
   multipleAppointments,
   singleAppointment,
 } from '../../tests/unit/mocks/mock-appointments';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import WhatToDoNext from '../WhatToDoNext';
 
 const mockRouter = {
@@ -22,6 +23,12 @@ const preCheckInMockStore = {
 };
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('WhatToDoNext', () => {
     it('displays the what next header', () => {
       const { getByTestId } = render(
@@ -85,22 +92,27 @@ describe('unified check-in experience', () => {
       initAppointments[0] = {
         ...initAppointments[0],
         startTime: '2022-01-03T14:00:00',
+        eligibility: 'INELIGIBLE_BAD_STATUS',
       };
       initAppointments[1] = {
         ...initAppointments[1],
         startTime: '2022-01-03T14:30:00',
+        eligibility: 'INELIGIBLE_BAD_STATUS',
       };
       initAppointments[2] = {
         ...initAppointments[2],
         startTime: '2022-01-03T15:00:00',
+        eligibility: 'INELIGIBLE_BAD_STATUS',
       };
       initAppointments[3] = {
         ...initAppointments[3],
         startTime: '2022-01-03T16:00:00',
+        eligibility: 'INELIGIBLE_BAD_STATUS',
       };
       initAppointments[4] = {
         ...initAppointments[4],
         startTime: '2022-01-03T17:00:00',
+        eligibility: 'INELIGIBLE_BAD_STATUS',
       };
       const { getByTestId } = render(
         <CheckInProvider store={initStore}>

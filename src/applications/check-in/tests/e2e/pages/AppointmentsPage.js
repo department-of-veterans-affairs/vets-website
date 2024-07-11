@@ -147,6 +147,10 @@ class AppointmentsPage {
       'be.visible',
     );
   };
+
+  validateNoTaskCards = () => {
+    cy.get('[data-testid="what-next-header"]').should('not.exist');
+  };
 }
 
 export default new AppointmentsPage();
