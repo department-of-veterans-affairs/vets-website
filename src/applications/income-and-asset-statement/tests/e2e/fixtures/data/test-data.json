@@ -16,17 +16,16 @@
     },
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "VETERAN",
-    "view:hasUnassociatedIncomes": true,
-    "view:hasAssociatedIncomes": true,
+    "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 2500,
         "payer": "Business name",
-        "recipientRelationship": "SPOUSE",
-        "recipientName": "Recipient name"
+        "recipientRelationship": "SPOUSE"
       }
     ],
+    "view:isAddingAssociatedIncomes": true,
     "associatedIncomes": [
       {
         "incomeType": "INTEREST",
@@ -36,9 +35,10 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingOwnedAssets": true,
     "ownedAssets": [
       {
-        "recipientRelationship": "SPOUSE",
+        "recipientRelationship": "PARENT",
         "recipientName": "Recipient name",
         "grossMonthlyIncome": 2500,
         "ownedPortionValue": 100000,

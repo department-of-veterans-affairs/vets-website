@@ -149,16 +149,14 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             const { ownedAssets } = data;
             const {
-              incomeType,
+              assetType,
               grossMonthlyIncome,
-              accountValue,
-              payer,
+              ownedPortionValue,
             } = ownedAssets[0];
 
-            selectRadioWebComponent('incomeType', incomeType);
+            selectRadioWebComponent('assetType', assetType);
             fillStandardTextInput('grossMonthlyIncome', grossMonthlyIncome);
-            fillStandardTextInput('accountValue', accountValue);
-            fillTextWebComponent('payer', payer);
+            fillStandardTextInput('ownedPortionValue', ownedPortionValue);
 
             addedOwnedAssetItem = true;
 
