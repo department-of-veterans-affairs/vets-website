@@ -27,7 +27,7 @@ describe(`${appName} -- showVerifyAndRegisterAlert`, () => {
   });
 
   it('returns true when csp is Login.gov and not LOA3', () => {
-    state = stateFn({ loa: 2, serviceName: CSP_IDS.ID_ME });
+    state = stateFn({ loa: 2, serviceName: CSP_IDS.LOGIN_GOV });
     result = showVerifyAndRegisterAlert(state);
     expect(result).to.eq(true);
   });
