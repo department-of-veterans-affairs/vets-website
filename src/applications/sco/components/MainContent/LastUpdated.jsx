@@ -1,5 +1,7 @@
 import React from 'react';
 
+const LAST_UPDATED_DATE = 'July 15, 2024';
+
 const LastUpdated = () => {
   const feedbackButtonClicked = () => {
     window.KAMPYLE_ONSITE_SDK?.showForm('17');
@@ -11,7 +13,8 @@ const LastUpdated = () => {
         <div className="vads-u-flex--auto">
           <span className="vads-u-text-align--justify">
             <p>
-              Last updated: <time dateTime="2024-05-07">May 7, 2024</time>
+              Last updated:{' '}
+              <time dateTime="2024-05-07">{LAST_UPDATED_DATE}</time>
             </p>
           </span>
         </div>

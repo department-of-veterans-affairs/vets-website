@@ -8,7 +8,6 @@ const MainContentSubSection = ({ id, header, children }) => {
         <h3 className="va-nav-linkslist-heading" id={id}>
           {header}
         </h3>
-
         <ul className="va-nav-linkslist-list">{children}</ul>
       </section>
     </section>

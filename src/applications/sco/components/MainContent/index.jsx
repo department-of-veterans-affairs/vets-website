@@ -6,11 +6,6 @@ import UploadFileToVa from './Update/UploadFileToVa';
 import OtherResources from './Update/OtherResources';
 import TrainingAndWebinar from './Update/TrainingAndWebinar';
 
-import LineFiveStartLine from './LineFiveStartLine';
-import TrainningAndGuide from './TrainningAndGuide';
-import UpcommingEvents from './UpcommingEvents';
-import PoliciesAndProcedures from './PoliciesAndProcedures';
-import OtherResourcesToSupportYourStudents from './OtherResourcesToSupportYourStudents';
 import LastUpdated from './LastUpdated';
 
 const MainContent = () => {
@@ -32,15 +27,6 @@ const MainContent = () => {
         <UploadFileToVa />
         <OtherResources />
       </article>
-
-      <LineFiveStartLine />
-      <TrainningAndGuide />
-      <LineFiveStartLine />
-      <UpcommingEvents />
-      <LineFiveStartLine />
-      <PoliciesAndProcedures />
-      <LineFiveStartLine />
-      <OtherResourcesToSupportYourStudents />
       <LastUpdated />
     </div>
   );

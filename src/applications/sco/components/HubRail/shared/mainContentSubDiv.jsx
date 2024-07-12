@@ -7,9 +7,7 @@ const MainContentSubDiv = ({ id, header, children }) => {
       <section>
         <div className="va-h-ruled--stars" />
       </section>
-      <h2 id={id} tabIndex="-1">
-        {header}
-      </h2>
+      <h2 id={id}>{header}</h2>
       <ul className="va-nav-linkslist-list">{children}</ul>
     </div>
   );
