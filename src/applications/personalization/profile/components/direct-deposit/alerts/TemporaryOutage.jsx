@@ -16,7 +16,7 @@ const CustomMessaging = () => (
 
     <p>
       We’re updating our systems for online direct deposit management. We expect
-      to complete this work by <strong>Wednesday, July 10, 2024</strong> at 5:00
+      to complete this work by <strong>Monday, July 29, 2024</strong> at 5:00
       p.m. ET.
     </p>
 
