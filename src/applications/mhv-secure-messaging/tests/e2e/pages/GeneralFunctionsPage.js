@@ -32,9 +32,6 @@ class GeneralFunctionsPage {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
     };
 
     const formatter = new Intl.DateTimeFormat('en-US', options);
