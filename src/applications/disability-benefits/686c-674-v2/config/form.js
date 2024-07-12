@@ -57,6 +57,7 @@ import {
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -85,6 +86,8 @@ const formConfig = {
   version: 1,
   migrations,
   prefillEnabled: true,
+  prefillTransformer,
+  verifyRequiredPrefill: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
