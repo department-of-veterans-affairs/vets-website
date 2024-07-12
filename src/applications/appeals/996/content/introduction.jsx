@@ -74,6 +74,25 @@ export const ProcessList = () => (
           </p>
           <p>You can’t submit new evidence with a Higher-Level Review.</p>
           <p>
+            If you want to provide more information about potential errors in
+            our decision, you have one of these 2 options:
+          </p>
+          <ul>
+            <li>
+              <strong>
+                Request an informal conference with a VA reviewer.
+              </strong>{' '}
+              If you choose this option, our decision may take longer,{' '}
+              <strong>or</strong>
+            </li>
+            <li>
+              <strong>Submit a written statement.</strong> If you choose this
+              option, you must mail us your statement or submit it in person,
+              together with your completed VA Form 21-0996. We can’t accept
+              written statements if you complete the online form at this time.
+            </li>
+          </ul>
+          <p>
             <a href={HLR_INFO_URL}>
               Find out if a Higher-Level Review is an option for you.
             </a>

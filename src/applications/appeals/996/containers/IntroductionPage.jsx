@@ -36,7 +36,7 @@ export const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <PageTitle longTitle />
+      <PageTitle />
 
       <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
 
