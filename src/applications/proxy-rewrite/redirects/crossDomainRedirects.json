@@ -1357,5 +1357,20 @@
     "domain": "www.benefits.va.gov",
     "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100120.asp",
     "dest": "/education/benefit-rates/chapter-35-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/FGIB/Reallocation.asp",
+    "dest": "/education/survivor-dependent-benefits/transferred-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/regional_processing.asp",
+    "dest": "/resources/regional-processing-office-addresses-for-gi-bill-applications/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/debt_info.asp",
+    "dest": "/resources/how-your-reason-for-withdrawing-from-a-class-affects-your-va-debt/"
   }
 ]

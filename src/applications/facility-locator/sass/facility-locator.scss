@@ -609,3 +609,7 @@ canvas.mapboxgl-canvas:focus {
   outline-offset: 2px !important;
   transition: none !important;
 }
+
+.success-icon {
+  color: var(--vads-color-success) !important;
+}

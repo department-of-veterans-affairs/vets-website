@@ -9,7 +9,6 @@
 @import "partials/gi-modal";
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
-@import "partials/gi-search-controls";
 @import "partials/gi-search-form";
 @import "partials/gi-search-location";
 @import "partials/gi-back-to-top";
@@ -82,13 +81,6 @@
     cursor: not-allowed;
     select:disabled {
       background-color: var(--vads-color-base-lightest);
-    }
-  }
-
-  .search-result {
-    i.fa {
-      background: initial;
-      color: initial;
     }
   }
 
@@ -180,10 +172,6 @@
     background-color: transparent;
     padding: 0px;
     margin: 0px;
-
-    i {
-      font-size: 16px;
-    }
   }
 }
 
