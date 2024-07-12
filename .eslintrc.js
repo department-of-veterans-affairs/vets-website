@@ -16,7 +16,10 @@ module.exports = {
     sourceType: 'module',
     requireConfigFile: false,
   },
-  extends: ['plugin:@department-of-veterans-affairs/recommended'],
+  extends: [
+    'plugin:@department-of-veterans-affairs/recommended',
+    'plugin:you-dont-need-momentjs/recommended',
+  ],
   globals: {
     __BUILDTYPE__: true,
     __API__: true,
