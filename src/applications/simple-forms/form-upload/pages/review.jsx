@@ -33,8 +33,8 @@ export const reviewPage = {
               </span>
             </p>
           )}
-          {formData?.['view:veteranPrefillStore']?.zip && (
-            <p>Zip code: {formData?.['view:veteranPrefillStore']?.zip}</p>
+          {formData?.['view:veteranPrefillStore']?.zipCode && (
+            <p>Zip code: {formData?.['view:veteranPrefillStore']?.zipCode}</p>
           )}
         </div>
         <p className="vads-u-margin-bottom--5">

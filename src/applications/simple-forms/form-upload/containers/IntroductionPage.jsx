@@ -12,12 +12,12 @@ const IntroductionPage = props => {
 
   const childContent = (
     <>
-      <p>
+      <div>
         <ul className="remove-bullets">
           <li>related to: Disability</li>
           <li>Form last updated: October 2023</li>
         </ul>
-      </p>
+      </div>
       <h2>When to use this form</h2>
       <p>
         Use VA Form 21-0779 if you’re a resident of a nursing home and you’re
@@ -30,16 +30,39 @@ const IntroductionPage = props => {
         on this page. Or you can print the form and mail it to the address
         listed on the form.
       </p>
+      <div className="vads-u-margin-y--4">
+        <va-link
+          download
+          href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
+          text="Download VA Form 21-0779"
+        />
+      </div>
       <h3>Submit completed form</h3>
       <p>After you complete the form, you can upload and submit it here.</p>
       <h2>Related forms and instructions</h2>
       <h3>
-        <a href="">VA Form 21-2680</a>
-        <p>
-          Examination for Housebound Status or Permanent Need for Regular Aid
-          and Attendance
-        </p>
+        <div className="vads-u-margin-y--4">
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21-2680/"
+            text="VA Form 21-2680"
+          />
+        </div>
       </h3>
+      <p>
+        Examination for Housebound Status or Permanent Need for Regular Aid and
+        Attendance
+      </p>
+      <p>
+        Use VA Form 21-2680 to apply for Aid and Attendance benefits that will
+        be added to your monthly compensation or pension benefits.
+      </p>
+      <div className="vads-u-margin-y--4">
+        <va-link
+          download
+          href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
+          text="Download VA Form 21-2680"
+        />
+      </div>
     </>
   );
 

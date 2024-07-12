@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { uploadScannedForm } from '~/applications/simple-forms/form-upload/helpers';
@@ -37,22 +37,38 @@ const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
   const [error, setError] = useState('');
+  const [file, setFile] = useState(null);
 
-  const onFileUploaded = uploadedFile => {
-    if (uploadedFile.confirmationCode) {
-      setError('');
-      props.childrenProps.onChange(uploadedFile);
-    }
-  };
+  const onFileUploaded = useCallback(
+    uploadedFile => {
+      if (uploadedFile.confirmationCode) {
+        setError('');
+        props.childrenProps.onChange(uploadedFile);
+      }
+    },
+    [props.childrenProps],
+  );
 
-  const defaultOnVaChange = e =>
-    dispatch(uploadScannedForm('21-0779', e.detail.files[0], onFileUploaded));
+  const handleVaChange = useCallback(
+    e => {
+      const newFile = e.detail.files[0];
+
+      if (file && newFile.name === file.name && newFile.size === file.size) {
+        setFile(null);
+        return;
+      }
+
+      setFile(newFile);
+      dispatch(uploadScannedForm('21-0779', newFile, onFileUploaded));
+    },
+    [file, dispatch, onFileUploaded],
+  );
 
   return (
     <VaFileInput
       {...mappedProps}
       error={error}
-      onVaChange={props.onVaChange || defaultOnVaChange}
+      onVaChange={props.onVaChange || handleVaChange}
     />
   );
 };

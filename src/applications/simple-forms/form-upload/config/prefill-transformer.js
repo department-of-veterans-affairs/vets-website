@@ -1,17 +1,24 @@
-export default function prefillTransformer(pages, formData, metadata, state) {
+const prefillTransformer = (pages, formData, metadata, state) => {
+  const { veteran } = formData || {};
+  const { fullName, ssn, vaFileNumber, address } = veteran || {};
+  const { profile } = state.user;
+  const { userFullName, loa, zip } = profile;
+
   return {
     pages,
     formData: {
       ...formData,
       'view:veteranPrefillStore': {
-        fullName:
-          formData?.veteran?.fullName || state.user.profile.userFullName,
-        loa: state.user.profile.loa.current,
-        ssn: formData?.veteran?.ssn || state.user.profile.ssn,
-        zip: formData?.veteran?.address?.postalCode || state.user.profile.zip,
+        fullName: fullName || userFullName,
+        loa: loa.current,
+        ssn: ssn || profile?.ssn,
+        vaFileNumber: vaFileNumber || profile?.vaFileNumber,
+        zipCode: address?.postalCode || zip,
       },
     },
     metadata,
     state,
   };
-}
+};
+
+export default prefillTransformer;
