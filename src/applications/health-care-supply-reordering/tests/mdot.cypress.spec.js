@@ -106,6 +106,25 @@ const testConfig = createTestConfig(
           }
         });
       },
+      'review-and-submit': () => {
+        // Confirm that the correct supplies are listed.
+        cy.expandAccordions();
+        cy.get('@testKey').then(testKey => {
+          if (testKey === 'noBatteries') {
+            cy.findByText(/DOME/i).should('exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('exist');
+            cy.findByText(/OMEGAX d3241/i).should('not.exist');
+          } else if (testKey === 'noAccessories') {
+            cy.findByText(/OMEGAX d3241/i).should('exist');
+            cy.findByText(/DOME/i).should('not.exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('not.exist');
+          } else {
+            cy.findByText(/DOME/i).should('exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('exist');
+            cy.findByText(/OMEGAX d3241/i).should('exist');
+          }
+        });
+      },
     },
 
     setupPerTest: () => {
