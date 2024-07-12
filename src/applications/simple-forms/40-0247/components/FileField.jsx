@@ -13,6 +13,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
+import environment from 'platform/utilities/environment';
 import {
   displayFileSize,
   focusElement,
@@ -258,6 +259,20 @@ const FileField = props => {
           typeof mockReadAndCheckFile === 'function'
             ? mockReadAndCheckFile()
             : await readAndCheckFile(currentFile, checks);
+      }
+
+      // 20MB in bytes
+      const BYTES_LIMIT = 20 * 1024 * 1024;
+
+      // Check to see if the file size is greater than 20MB
+      if (!environment.isProduction() && currentFile.size > BYTES_LIMIT) {
+        allFiles[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          errorMessage: 'File size must not be greater than 20.0 MB.',
+        };
+        props.onChange(allFiles);
+        return;
       }
 
       if (!checkResults.checkTypeAndExtensionMatches) {

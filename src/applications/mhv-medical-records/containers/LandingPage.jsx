@@ -80,7 +80,7 @@ const LandingPage = () => {
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get results of your VA medical tests. This includes blood tests,
-            X-rays, and other <br /> imaging tests.
+            X-rays, and other imaging tests.
           </p>
           <Link
             to="/labs-and-tests"
@@ -230,9 +230,9 @@ const LandingPage = () => {
           Download your VA medical records
         </h2>
         <p className="vads-u-margin-bottom--2">
-          We’re working on a way for you to download you VA medical records here
-          on VA.gov. For now, you can continue to download you VA Blue Button®
-          report or your VA Health Summary on the previous version of My
+          We’re working on a way for you to download your VA medical records
+          here on VA.gov. For now, you can continue to download your VA Blue
+          Button® report or your VA Health Summary on the previous version of My
           HealtheVet.
         </p>
         <p

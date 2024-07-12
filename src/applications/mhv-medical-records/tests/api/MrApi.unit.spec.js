@@ -54,7 +54,7 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(4);
+      expect(res.entry.length).to.equal(6);
     });
   });
 });
