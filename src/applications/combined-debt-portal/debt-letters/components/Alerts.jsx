@@ -66,7 +66,7 @@ export const DowntimeMessage = () => {
 export const DebtLetterDownloadDisabled = () => (
   <va-alert status="warning">
     <h3 className="vads-u-font-size--h3" slot="headline">
-      Information about your current debts is unavailable
+      Your debt letters are currently unavailable for download.
     </h3>
     <p>
       If you have VA health care copay debt, go to our

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const HowDoIPay = ({ userData }) => (
+const HowDoIPay = ({ userData, showDebtLetterDownload }) => (
   <article className="vads-u-font-family--sans vads-u-padding-x--0">
     <h2 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
       How to pay your VA debt
@@ -86,21 +86,34 @@ const HowDoIPay = ({ userData }) => (
           <va-telephone contact="6127136415" international />.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 3: Pay by mail" id="third">
-        <p className="vads-u-margin-y--0">
-          Find instructions on how to pay by mail in the demand letter sent to
-          your address or you can
-          <Link className="vads-u-margin-left--0p5" to="/debt-balances/letters">
-            download them online
-          </Link>
-          .
-        </p>
-      </va-accordion-item>
+      {showDebtLetterDownload ? (
+        <va-accordion-item header="Option 3: Pay by mail" id="third">
+          <p className="vads-u-margin-y--0">
+            Find instructions on how to pay by mail in the demand letter sent to
+            your address or you can
+            <Link
+              className="vads-u-margin-left--0p5"
+              to="/debt-balances/letters"
+            >
+              download them online
+            </Link>
+            .
+          </p>
+        </va-accordion-item>
+      ) : (
+        <va-accordion-item header="Option 3: Pay by mail" id="third">
+          <p className="vads-u-margin-y--0">
+            Find instructions on how to pay by mail in the demand letter sent to
+            your address.
+          </p>
+        </va-accordion-item>
+      )}
     </va-accordion>
   </article>
 );
 
 HowDoIPay.propTypes = {
+  showDebtLetterDownload: PropTypes.bool,
   userData: PropTypes.shape({
     fileNumber: PropTypes.string,
     payeeNumber: PropTypes.string,
