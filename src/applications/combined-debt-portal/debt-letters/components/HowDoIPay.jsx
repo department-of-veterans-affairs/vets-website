@@ -95,9 +95,8 @@ const HowDoIPay = ({ userData, showDebtLetterDownload }) => (
               className="vads-u-margin-left--0p5"
               to="/debt-balances/letters"
             >
-              download them online
+              download them online.
             </Link>
-            .
           </p>
         </va-accordion-item>
       ) : (
