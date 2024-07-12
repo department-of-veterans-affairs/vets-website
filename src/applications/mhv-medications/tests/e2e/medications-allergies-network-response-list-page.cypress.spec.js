@@ -13,6 +13,8 @@ describe('Medications List Page Allergies', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLinkForUserWithAllergies();
-    listPage.verifyAllergiesNetworkResponseWithObservedHistoric(valueCode);
+    listPage.verifyAllergiesListNetworkResponseWithAllergyTypeReported(
+      valueCode,
+    );
   });
 });

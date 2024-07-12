@@ -82,7 +82,7 @@ class MedicationsListPage {
     }
   };
 
-  verifyAllergiesNetworkResponseWithObservedHistoric = valueCode => {
+  verifyAllergiesListNetworkResponseWithAllergyTypeReported = valueCode => {
     cy.get('@allergiesList')
       .its('response')
       .then(res => {
