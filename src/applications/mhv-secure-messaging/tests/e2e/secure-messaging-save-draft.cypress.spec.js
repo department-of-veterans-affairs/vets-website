@@ -43,7 +43,7 @@ describe('save draft feature tests', () => {
 
     cy.get(Locators.ALERTS.SAVE_ALERT).should(
       'contain',
-      `message was saved on ${currentDate}.`,
+      `message was saved on ${currentDate}`,
     );
 
     cy.injectAxe();
