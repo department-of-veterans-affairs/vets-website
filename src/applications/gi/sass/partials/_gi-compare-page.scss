@@ -423,20 +423,24 @@
 
     .scroll-controls {
       width: 98vw;
-      text-align: center;
+      display: flex;
+      align-items: center;
 
       @media (max-width: $small-screen) {
         position: sticky;
         left: 0px;
       }
 
-      .fa-circle {
-        color: var(--vads-color-base-light);
+      .gi-compare-circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--vads-color-base-light);
         margin-left: 20px;
         margin-right: 20px;
 
         &.scroll-active{
-          color: var(--vads-color-base);
+          background-color: var(--vads-color-base);
         }
       }
 
@@ -445,9 +449,7 @@
       }
 
       .circles {
-        padding-top: 30px;
         width: 180px;
-        display: inline-block;
         margin-left: auto;
         margin-right: auto;
       }

@@ -1,4 +1,5 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import configService from '../utilities/configService';
 
@@ -14,9 +15,22 @@ import {
   authorizeInsideVA,
   authorizeOutsideVA,
   formToggle,
-  claimantType,
   authorizeOutsideVANames,
+  claimantRelationship,
+  claimantPersonalInformation,
+  confirmClaimantPersonalInformation,
 } from '../pages';
+
+import { prefillTransformer } from '../prefill-transformer';
+import {
+  preparerIsVeteranAndHasPrefill,
+  preparerIsVeteran,
+} from '../utilities/helpers';
+
+import initialData from '../tests/fixtures/data/test-data.json';
+import ClaimantType from '../components/ClaimantType';
+
+const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -44,7 +58,16 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   v3SegmentedProgressBar: true,
+  additionalRoutes: [
+    {
+      path: 'claimant-type',
+      component: ClaimantType,
+      pageKey: 'claimant-type',
+      depends: () => true,
+    },
+  ],
   savedFormMessages: {
     notFound:
       'Please start over to apply for VA accredited representative appointment.',
@@ -64,12 +87,6 @@ const formConfig = {
     formToggle: {
       title: ' ',
       pages: {
-        claimantType: {
-          path: 'claimant-type',
-          title: ' ',
-          uiSchema: claimantType.uiSchema,
-          schema: claimantType.schema,
-        },
         repType: {
           path: 'rep-type',
           title: ' ',
@@ -78,7 +95,43 @@ const formConfig = {
         },
       },
     },
-
+    yourInformation: {
+      title: 'Your information',
+      pages: {
+        claimantRelationship: {
+          depends: formData => !preparerIsVeteran({ formData }),
+          path: 'claimant-relationship',
+          title: 'Tell us how you’re connected to the veteran',
+          uiSchema: claimantRelationship.uiSchema,
+          schema: claimantRelationship.schema,
+        },
+        claimantPersonalInformation: {
+          path: 'claimant-personal-information',
+          depends: formData => !preparerIsVeteranAndHasPrefill({ formData }),
+          initialData:
+            /* istanbul ignore next */
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
+          title: 'Your Personal Information',
+          uiSchema: claimantPersonalInformation.uiSchema,
+          schema: claimantPersonalInformation.schema,
+        },
+        confirmClaimantPersonalInformation: {
+          path: 'confirm-claimant-personal-information',
+          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
+          initialData:
+            /* istanbul ignore next */
+            !!mockData && environment.isLocalhost() && !window.Cypress
+              ? mockData
+              : undefined,
+          title: 'Your Personal Information',
+          uiSchema: confirmClaimantPersonalInformation.uiSchema,
+          schema: confirmClaimantPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
+      },
+    },
     authorization: {
       title: 'Accredited representative authorizations',
       pages: {
@@ -92,7 +145,7 @@ const formConfig = {
           path: 'authorize-medical/select',
           depends: formData => {
             return (
-              formData.authorizationRadio ===
+              formData?.authorizationRadio ===
               'Yes, but they can only access some of these types of records'
             );
           },
@@ -109,7 +162,7 @@ const formConfig = {
         authorizeInsideVA: {
           path: 'authorize-inside-va',
           depends: formData => {
-            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
           },
           title: 'Authorization for Access Inside VA Systems',
           uiSchema: authorizeInsideVA.uiSchema,
@@ -118,7 +171,7 @@ const formConfig = {
         authorizeOutsideVA: {
           path: 'authorize-outside-va',
           depends: formData => {
-            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
           },
           title: 'Authorization for Access Outside VA Systems',
           uiSchema: authorizeOutsideVA.uiSchema,
@@ -127,7 +180,7 @@ const formConfig = {
         authorizeOutsideVANames: {
           path: 'authorize-outside-va/names',
           depends: formData => {
-            return formData.repTypeRadio === ('Attorney' || 'Claims Agent');
+            return formData?.repTypeRadio === ('Attorney' || 'Claims Agent');
           },
           title: 'Authorization for Access Outside of VA Systems',
           uiSchema: authorizeOutsideVANames.uiSchema,

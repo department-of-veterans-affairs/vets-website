@@ -73,17 +73,17 @@ export const DowntimeMessage = () => {
   );
 };
 
-export const ErrorMessage = () => (
-  <va-alert status="error">
-    <h3 slot="headline">Information about your current debts is unavailable</h3>
+export const DebtLetterDownloadDisabled = () => (
+  <va-alert status="warning">
+    <h3 className="vads-u-font-size--h3" slot="headline">
+      Your debt letters are currently unavailable for download.
+    </h3>
     <p>
-      We’re sorry. You can’t view information about your current debts because
-      something went wrong on our end. Please check back soon.
-    </p>
-    <h4>What you can do</h4>
-    <p>
-      If you continue having trouble viewing information about your current
-      debts, contact us online through <a href="https://ask.va.gov">Ask VA</a>.
+      If you have VA health care copay debt, go to our
+      <Link className="vads-u-margin-x--0p5" to="/copay-balances/">
+        Pay your VA copay bill
+      </Link>
+      page to learn about your payment options.
     </p>
     <va-link
       href="/manage-va-debt/summary/debt-balances/"

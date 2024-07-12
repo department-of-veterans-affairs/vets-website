@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../util/dates';
+import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelClaimCard(props) {
   const {
@@ -33,7 +34,10 @@ export default function TravelClaimCard(props) {
 
       <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
       <p className="vads-u-margin-top--0">
-        <strong>Claim status: {claimStatus}</strong> <br />
+        <strong>
+          Claim status: {CLAIMS_STATUSES[claimStatus] || claimStatus}
+        </strong>{' '}
+        <br />
         Claim number: {claimNumber} <br />
         Submitted on {createDate} at {createTime} <br />
         Updated on {updateDate} at {updateTime}
