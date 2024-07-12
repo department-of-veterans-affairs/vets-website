@@ -115,8 +115,16 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  verifyFocusOnErrorMessage = text => {
-    return cy.focused().should('contain.text', text);
+  verifyErrorText = text => {
+    cy.get('.usa-error-message').should('contain.text', text);
+  };
+
+  verifyFocusOnErrorMessage = () => {
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    return cy.focused().then(el => {
+      const tagName = el.prop('tagName');
+      expect(tagName).to.be.oneOf(allowedTags);
+    });
   };
 
   clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
