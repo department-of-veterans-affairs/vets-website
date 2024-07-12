@@ -35,7 +35,6 @@ class GeneralFunctionsPage {
       hour: 'numeric',
       minute: 'numeric',
       hour12: true,
-      timeZoneName: 'short',
     };
 
     const formatter = new Intl.DateTimeFormat('en-US', options);
