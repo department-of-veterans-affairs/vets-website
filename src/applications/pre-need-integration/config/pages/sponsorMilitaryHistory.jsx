@@ -25,8 +25,8 @@ export const uiSchema = {
             'ui:title': 'Sponsor’s branch of service',
           },
           dateRange: dateRangeUI(
-            'Sponsor’s service start date',
-            'Sponsor’s service end date',
+            'Sponsor’s Service Start Date',
+            'Sponsor’s Service End Date',
             'Service start date must be before end date',
           ),
           dischargeType: {

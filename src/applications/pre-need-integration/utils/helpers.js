@@ -1143,8 +1143,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1204,8 +1204,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
