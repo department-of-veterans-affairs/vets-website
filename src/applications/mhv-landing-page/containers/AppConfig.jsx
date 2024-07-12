@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
   setDatadogRumUser,
@@ -34,6 +35,10 @@ const AppConfig = ({ children }) => {
   );
 
   return <>{children}</>;
+};
+
+AppConfig.propTypes = {
+  children: PropTypes.node,
 };
 
 export default AppConfig;
