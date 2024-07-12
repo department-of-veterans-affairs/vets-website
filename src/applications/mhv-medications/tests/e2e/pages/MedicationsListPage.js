@@ -82,11 +82,30 @@ class MedicationsListPage {
     }
   };
 
-  verifyAllergiesListNetworkResponseWithAllergyTypeReported = valueCode => {
+  verifyAllergiesListNetworkResponseWithAllergyTypeReported = (
+    valueCode,
+    allergy,
+  ) => {
     cy.get('@allergiesList')
       .its('response')
       .then(res => {
-        expect(res.body.entry[0].resource.extension[0]).to.include({
+        expect(res.body.entry[allergy].resource.extension[allergy]).to.include({
+          valueCode,
+        });
+      });
+  };
+
+  verifyAllergiesListNetworkResponseWithAllergyTypeObserved = (
+    valueCode,
+    allergy,
+    listNumber,
+  ) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.extension[listNumber],
+        ).to.include({
           valueCode,
         });
       });
