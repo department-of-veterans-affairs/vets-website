@@ -8,12 +8,10 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
 import { identificationInformationPage, zipCodePage } from '../pages/loa1';
-import { submitPage } from '../pages/submit';
 import { TITLE, SUBTITLE } from './constants';
 import prefillTransformer from './prefill-transformer';
-// import { getFormNumber, getFormUploadContent } from '../helpers';
-
-// const formNumber = getFormNumber(window.location);
+import CustomReviewTopContent from '../containers/CustomReviewTopContent';
+import { submitForm } from '../helpers';
 
 const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
@@ -23,9 +21,12 @@ const scrollAndFocusTarget = () => {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: formData =>
+    submitForm(
+      '21-0779',
+      formData.uploadedFile?.confirmationCode,
+      window.history,
+    ),
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -33,6 +34,8 @@ const formConfig = {
   trackingPrefix: 'form-upload-flow-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  CustomReviewTopContent,
+  hideReviewChapters: true,
   formId: 'FORM-UPLOAD-FLOW',
   saveInProgress: {
     messages: {
@@ -51,7 +54,6 @@ const formConfig = {
   },
   title: TITLE,
   subtitle: SUBTITLE,
-  // subtitle: getFormUploadContent(formNumber),
   defaultDefinitions: {},
   v3SegmentedProgressBar: {
     useDiv: true,
@@ -99,19 +101,6 @@ const formConfig = {
           title: 'Your zip code',
           uiSchema: zipCodePage.uiSchema,
           schema: zipCodePage.schema,
-          pageClass: 'review',
-          scrollAndFocusTarget,
-        },
-      },
-    },
-    submitChapter: {
-      title: 'Submit',
-      pages: {
-        submitPage: {
-          path: 'submit',
-          title: 'Submit Your Form',
-          uiSchema: submitPage.uiSchema,
-          schema: submitPage.schema,
           pageClass: 'review',
           scrollAndFocusTarget,
         },
