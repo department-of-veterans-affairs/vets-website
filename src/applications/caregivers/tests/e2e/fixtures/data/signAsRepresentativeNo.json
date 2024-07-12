@@ -1,13 +1,14 @@
 {
   "view:hasSecondaryCaregiverOne": false,
   "view:hasPrimaryCaregiver": true,
-  "primaryHasHealthInsurance": false,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
+  "view:primaryHomeSameAsMailingAddress": true,
   "primaryPrimaryPhoneNumber": "7887754588",
   "primaryVetRelationship": "Spouse",
   "primaryFullName": {
@@ -17,15 +18,14 @@
   "primarySignature": "Mini Mouse",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
-  "veteranPreferredFacility": {
-    "veteranFacilityState": "FL",
-    "plannedClinic": "675"
-  },
+  "view:plannedClinicState": "FL",
+  "veteranPlannedClinic": "675",
   "veteranAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
   "veteranPrimaryPhoneNumber": "7153874113",
   "veteranFullName": {

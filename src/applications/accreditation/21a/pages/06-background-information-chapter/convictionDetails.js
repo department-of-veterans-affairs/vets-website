@@ -8,13 +8,13 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import ConvictionDetailsDescription from '../../components/ConvictionDetailsDescription';
+import ConvictionDetailsDescription from '../../components/06-background-information-chapter/ConvictionDetailsDescription';
 
 /** @type {PageSchema} */
 export default {
   title: 'Conviction details',
   path: 'conviction-details',
-  depends: formData => formData.convictions,
+  depends: formData => formData.conviction,
   uiSchema: {
     ...titleUI(
       'Provide details for your violation',

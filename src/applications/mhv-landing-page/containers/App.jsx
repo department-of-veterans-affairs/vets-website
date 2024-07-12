@@ -12,7 +12,6 @@ import {
 } from '../utilities/data';
 import {
   isAuthenticatedWithSSOe,
-  isLandingPageEnabledForUser,
   isVAPatient,
   selectProfile,
   signInServiceEnabled,
@@ -23,7 +22,6 @@ import { getFolderList } from '../utilities/api';
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
-  const enabled = useSelector(isLandingPageEnabledForUser);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
@@ -54,11 +52,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (enabled && userHasMhvAccount) {
+      if (userHasMhvAccount) {
         loadMessages();
       }
     },
-    [enabled, userHasMhvAccount],
+    [userHasMhvAccount],
   );
 
   useEffect(

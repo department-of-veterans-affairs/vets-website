@@ -52,6 +52,12 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
+      screen.getByText('We’re working on a way for you to download', {
+        selector: 'p',
+        exact: false,
+      }),
+    ).to.exist;
+    expect(
       screen.getAllByText(
         'Go to medical records on the My HealtheVet website',
         {
