@@ -111,6 +111,26 @@ class MedicationsListPage {
       });
   };
 
+  verifyAllergiesListNetworkResponseURL = (url, allergy) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.extension[allergy].url,
+        ).to.include(url);
+      });
+  };
+
+  verifyAllergiesListContainedResourceOrgName = (orgName, allergy) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.contained[allergy].name,
+        ).to.include(orgName);
+      });
+  };
+
   clickPrintThisPageOfTheListButtonOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('exist');
     cy.get('[data-testid="download-print-button"]').click({
