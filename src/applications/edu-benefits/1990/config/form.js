@@ -31,6 +31,7 @@ import createDirectDepositPage1990 from '../pages/DirectDeposit';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { benefitsEligibilityUpdate } from '../pages/benefitsEligibilityUpdate';
 
 import {
   transform,
@@ -42,8 +43,6 @@ import {
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
-
-import { benefitsLabels } from '../../utils/labels';
 
 const {
   chapter33,
@@ -265,45 +264,17 @@ const formConfig = {
         benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
-          uiSchema: {
-            'ui:description': benefitsEligibilityBox,
-            'view:selectedBenefits': {
-              'ui:title': 'Select the benefit that is the best match for you.',
-              'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                atLeastOne: 'Please select at least one benefit',
-              },
-              'ui:options': {
-                showFieldLabel: true,
-              },
-              chapter33: {
-                'ui:title': benefitsLabels.chapter33,
-                'ui:options': {
-                  expandUnderClassNames: 'schemaform-expandUnder-indent',
-                },
-              },
-              chapter30: {
-                'ui:title': benefitsLabels.chapter30,
-              },
-              chapter1606: {
-                'ui:title': benefitsLabels.chapter1606,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:selectedBenefits'],
-            properties: {
-              'view:selectedBenefits': {
-                type: 'object',
-                properties: {
-                  chapter33,
-                  chapter30,
-                  chapter1606,
-                },
-              },
-            },
-          },
+          uiSchema: benefitsEligibilityUpdate(
+            benefitsEligibilityBox,
+            validateBooleanGroup,
+          ).uiSchema,
+          schema: benefitsEligibilityUpdate(
+            '',
+            null,
+            chapter33,
+            chapter30,
+            chapter1606,
+          ).schema,
         },
       },
     },

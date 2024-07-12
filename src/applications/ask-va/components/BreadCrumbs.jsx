@@ -18,11 +18,15 @@ const BreadCrumbs = ({ currentLocation }) => {
   const bcString = JSON.stringify(breadcrumbLinks);
 
   return (
-    <va-breadcrumbs
-      label="Breadcrumbs"
-      breadcrumb-list={bcString}
-      data-testid="Breadcrumb"
-    />
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <va-breadcrumbs
+          label="Breadcrumbs"
+          breadcrumb-list={bcString}
+          data-testid="Breadcrumb"
+        />
+      </div>
+    </div>
   );
 };
 

@@ -10,8 +10,9 @@ export default function App({ location, children }) {
     { href: '/health-care', label: 'Health care' },
     {
       href: '/health-care/foreign-medical-program',
-      label: 'Foreign Medical Program (FMP) Cover Sheet',
+      label: 'Foreign Medical Program',
     },
+    { href: '/health-care/foreign-medical-program', label: 'File a claim' },
   ];
   const bcString = JSON.stringify(breadcrumbs);
 

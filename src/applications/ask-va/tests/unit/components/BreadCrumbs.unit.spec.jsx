@@ -1,6 +1,6 @@
-import React from 'react';
-import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
 import BreadCrumbs from '../../../components/BreadCrumbs';
 
 describe('BreadCrumbs component', () => {
