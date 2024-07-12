@@ -31,7 +31,7 @@ const IntroductionPage = props => {
           other proof that you paid
         </li>
         <li>
-          For cetain types of claims, you may need other supporting documents
+          For certain types of claims, you may need other supporting documents
         </li>
       </ul>
       <a
