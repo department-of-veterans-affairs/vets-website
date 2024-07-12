@@ -150,7 +150,7 @@ describe('App', () => {
 
   it('handles a failed fetch of claims', async () => {
     global.fetch.restore();
-    mockApiRequest({ error: 'oh no' }, false);
+    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
