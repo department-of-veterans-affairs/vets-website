@@ -62,8 +62,8 @@ const CustomReviewTopContent = () => {
             </span>
           </p>
         )}
-        {form?.data?.['view:veteranPrefillStore']?.zip && (
-          <p>Zip code: {form?.data?.['view:veteranPrefillStore']?.zip}</p>
+        {form?.data?.['view:veteranPrefillStore']?.zipCode && (
+          <p>Zip code: {form?.data?.['view:veteranPrefillStore']?.zipCode}</p>
         )}
       </div>
       <p className="vads-u-margin-bottom--5">

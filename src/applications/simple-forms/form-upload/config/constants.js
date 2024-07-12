@@ -38,3 +38,15 @@ export const UPLOAD_GUIDELINES = Object.freeze(
     </div>
   </>,
 );
+
+export const SAVE_IN_PROGRESS_CONFIG = {
+  messages: {
+    inProgress: 'Your form upload is in progress.',
+    expired:
+      'Your form upload has expired. If you want to upload a form, please start a new request.',
+    saved: 'Your form upload has been saved.',
+  },
+};
+
+export const PROGRESS_BAR_LABELS =
+  'Upload your file;Review your information;Submit your form';

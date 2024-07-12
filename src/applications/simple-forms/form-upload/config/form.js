@@ -1,6 +1,4 @@
-import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 import footerContent from '~/platform/forms/components/FormFooter';
-// import { apiRequest } from '~/platform/utilities/api';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,25 +6,24 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
 import { identificationInformationPage, zipCodePage } from '../pages/loa1';
-import { TITLE, SUBTITLE } from './constants';
+import {
+  TITLE,
+  SUBTITLE,
+  SAVE_IN_PROGRESS_CONFIG,
+  PROGRESS_BAR_LABELS,
+} from './constants';
 import prefillTransformer from './prefill-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
-import { submitForm } from '../helpers';
-
-const scrollAndFocusTarget = () => {
-  scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h1']);
-};
+import {
+  handleSubmit,
+  isUnverifiedUser,
+  scrollAndFocusTarget,
+} from '../helpers';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: formData =>
-    submitForm(
-      '21-0779',
-      formData.uploadedFile?.confirmationCode,
-      window.history,
-    ),
+  submit: formData => handleSubmit(formData),
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -37,14 +34,7 @@ const formConfig = {
   CustomReviewTopContent,
   hideReviewChapters: true,
   formId: 'FORM-UPLOAD-FLOW',
-  saveInProgress: {
-    messages: {
-      inProgress: 'Your form upload is in progress.',
-      expired:
-        'Your form upload has expired. If you want to upload a form, please start a new request.',
-      saved: 'Your form upload has been saved.',
-    },
-  },
+  saveInProgress: SAVE_IN_PROGRESS_CONFIG,
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
@@ -58,7 +48,7 @@ const formConfig = {
   v3SegmentedProgressBar: {
     useDiv: true,
   },
-  stepLabels: 'Upload your file;Review your information;Submit your form',
+  stepLabels: PROGRESS_BAR_LABELS,
   chapters: {
     uploadChapter: {
       title: 'Upload',
@@ -85,8 +75,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         identificationInformationPage: {
-          depends: formData =>
-            formData?.['view:veteranPrefillStore']?.loa !== 3,
+          depends: formData => isUnverifiedUser(formData),
           path: 'identification-info',
           title: 'Identification information',
           uiSchema: identificationInformationPage.uiSchema,
@@ -95,8 +84,7 @@ const formConfig = {
           scrollAndFocusTarget,
         },
         zipCodePage: {
-          depends: formData =>
-            formData?.['view:veteranPrefillStore']?.loa !== 3,
+          depends: formData => isUnverifiedUser(formData),
           path: 'zip-code',
           title: 'Your zip code',
           uiSchema: zipCodePage.uiSchema,

@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
+import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 
 export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -56,7 +57,12 @@ export const createPayload = (file, formId) => {
   return payload;
 };
 
-export function uploadScannedForm(formNumber, fileToUpload, onFileUploaded) {
+export const scrollAndFocusTarget = () => {
+  scrollTo('topScrollElement');
+  focusByOrder(['va-segmented-progress-bar', 'h1']);
+};
+
+export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
   const uiOptions = {
     fileUploadUrl: `${
       environment.API_URL
@@ -81,7 +87,7 @@ export function uploadScannedForm(formNumber, fileToUpload, onFileUploaded) {
       },
     }));
   };
-}
+};
 
 export const submitForm = (
   formNumber,
@@ -106,6 +112,19 @@ export const submitForm = (
     });
   });
 };
+
+export const handleSubmit = formData => {
+  const { confirmationCode } = formData?.data?.uploadedFile || {};
+  const { ssn, vaFileNumber, zipCode } = formData?.data?.[
+    'view:veteranPrefillStore'
+  ];
+  const options = { ssn, vaFileNumber, zipCode };
+
+  return submitForm('21-0779', confirmationCode, window.history, options);
+};
+
+export const isUnverifiedUser = formData =>
+  formData?.['view:veteranPrefillStore']?.loa !== 3;
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
 // instead of "number ending with 1,234"
