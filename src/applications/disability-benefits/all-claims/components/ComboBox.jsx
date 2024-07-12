@@ -140,7 +140,6 @@ export class ComboBox extends React.Component {
         } else {
           this.selectOptionWithKeyboard(e, index, list, searchTerm);
         }
-        // this.selectOptionWithKeyboard(e, index, list, searchTerm);
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
