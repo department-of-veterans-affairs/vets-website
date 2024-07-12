@@ -13,6 +13,8 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
@@ -115,10 +117,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Mailing address',
-              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             ),
             messageAriaDescribedby:
-              "We'll send any important information about your application to this address.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             veteranAddress: addressUI({
               required: {
                 state: () => true,
@@ -131,6 +133,60 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranAddress: addressSchema(),
+            },
+          },
+        },
+      },
+    },
+    physicalAddress: {
+      title: 'Home address',
+      pages: {
+        page4: {
+          path: 'same-as-mailing-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI('Home address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your home address the same as your mailing address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
+            },
+          },
+        },
+        page4a: {
+          path: 'home-address',
+          title: 'Home address ',
+          depends: formData => formData.sameMailingAddress === false,
+          uiSchema: {
+            ...titleUI(
+              `Home address`,
+              `Provide the address where you're living right now`,
+            ),
+            messageAriaDescribedby: `Provide the address where you're living right now.`,
+            physicalAddress: {
+              ...addressUI({
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              physicalAddress: addressSchema(),
             },
           },
         },

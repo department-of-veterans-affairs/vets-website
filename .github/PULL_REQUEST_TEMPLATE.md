@@ -1,5 +1,17 @@
 **Note**: Delete the description statements, complete each step. **None are optional**, but can be justified as to why they cannot be completed as written. Provide known gaps to testing that may raise the risk of merging to production.
 
+## Are you removing, renaming or moving a folder in this PR?
+- [ ] No, I'm not changing any folders (skip to Summary and delete the rest of this section)
+- [ ] Yes, I'm removing, renaming or moving a folder
+
+If the folder you changed contains a `manifest.json`, search for its `entryName` in the content-build [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json) (the `entryName` there will match).
+
+If an entry for this folder exists in content-build and you are:
+1. **Deleting a folder**: Delete the application entry in [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json) and merge that PR **before** this one
+- _Add the link to your merged content-build PR here_
+
+2. **Renaming or moving a folder**: Update the entry in the [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json), but do not merge it until your vets-website changes here are merged. The content-build PR must be merged immediately after your vets-website change is merged in to avoid CI errors with content-build (and Tugboat).
+
 ## Summary
 
 - _(Summarize the changes that have been made to the platform)_
