@@ -3,9 +3,19 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
-import { ErrorAlert, DependentDebt, NoDebtLinks } from './Alerts';
+import {
+  DependentDebt,
+  ErrorAlert,
+  NoDebtLinks,
+  DebtLetterDownloadDisabled,
+} from './Alerts';
 
-const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
+const DebtLettersTable = ({
+  debtLinks,
+  hasDependentDebts,
+  isError,
+  showDebtLetterDownload,
+}) => {
   const hasDebtLinks = !!debtLinks.length;
   const [showOlder, toggleShowOlderLetters] = useState(false);
 
@@ -29,6 +39,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
 
   const [first, second, ...rest] = debtLinksDescending;
 
+  if (!showDebtLetterDownload) return <DebtLetterDownloadDisabled />;
   if (isError) return <ErrorAlert />;
   if (hasDependentDebts) return <DependentDebt />;
   if (!hasDebtLinks) return <NoDebtLinks />;
@@ -155,6 +166,7 @@ DebtLettersTable.propTypes = {
   ),
   hasDependentDebts: PropTypes.bool,
   isError: PropTypes.bool,
+  showDebtLetterDownload: PropTypes.bool,
 };
 
 export default DebtLettersTable;
