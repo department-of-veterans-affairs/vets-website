@@ -37,7 +37,7 @@ const HomePage = ({ router, setIntroPageViewed }) => {
       <va-link-action
         data-testid="paw-start-form"
         href="#"
-        class="vads-u-display--block vads-u-margin-top--4"
+        class="vads-u-margin-top--2"
         onClick={startForm}
         text="Get Started"
       />
