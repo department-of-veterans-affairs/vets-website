@@ -56,11 +56,12 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
                   `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
                 )}
               >
-                <i
-                  aria-hidden="true"
-                  role="img"
-                  className="fas fa-download vads-u-padding-right--1"
+                <va-icon
+                  icon="file_download"
+                  size={3}
+                  className="vads-u-padding-right--1"
                 />
+
                 <span aria-hidden="true">
                   {`${recvDate} - ${debt.typeDescription}`}{' '}
                 </span>
@@ -113,11 +114,12 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
                     `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
                   )}
                 >
-                  <i
-                    aria-hidden="true"
-                    role="img"
-                    className="fas fa-download vads-u-padding-right--1"
+                  <va-icon
+                    icon="file_download"
+                    size={3}
+                    className="vads-u-padding-right--1"
                   />
+
                   <span aria-hidden="true">
                     {`${formatDate(debt.date)} - ${debt.typeDescription}`}{' '}
                   </span>
