@@ -4,8 +4,7 @@
     ".git/**",
     "src/applications/proxy-rewrite/sass/style-consolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
-    "mochawesome-report/**/*.css",
-    "**/.git/**"
+    "mochawesome-report/**/*.css"
   ],
   "rules": {
     "at-rule-disallowed-list": ["debug", "extend"],
