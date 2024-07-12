@@ -117,10 +117,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Mailing address',
-              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             ),
             messageAriaDescribedby:
-              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             veteranAddress: addressUI({
               required: {
                 state: () => true,
