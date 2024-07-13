@@ -720,6 +720,18 @@ const FileField = props => {
               fileInputRef.current.value = '';
             }}
           />
+          {/* <VaFileInputMultiple
+            // ref={fileInputRef}
+            button-text="Upload your document"
+            // id={idSchema.$id}
+            // name={idSchema.$id}
+            onVaMultipleChange={e => {
+              return onAddFile({ target: e.detail });
+            }}
+            accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+            errors={[]}
+            // name="fileUpload"
+          /> */}
         </>
       )}
     </div>
