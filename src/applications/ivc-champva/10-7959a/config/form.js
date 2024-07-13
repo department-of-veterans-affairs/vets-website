@@ -154,8 +154,12 @@ const formConfig = {
               customTitle: `${fnp(props.data)} address`,
               customDescription:
                 'We’ll send any important information about this form to this address.',
-              customSelectText:
-                'Does the beneficiary have the same address as you?',
+              customSelectText: `Does ${nameWording(
+                props.data,
+                false,
+                false,
+                true,
+              )} have the same address as you?`,
               positivePrefix: 'Yes, their address is',
               negativePrefix: 'No, they have a different address',
             };
@@ -172,7 +176,7 @@ const formConfig = {
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: formData => `${fnp(formData)} phone information`,
+          title: formData => `${fnp(formData)} phone number`,
           ...applicantPhoneSchema,
         },
       },

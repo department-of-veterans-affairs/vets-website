@@ -83,6 +83,7 @@ export const applicantAddressSchema = {
     ...titleUI(
       ({ formData }) =>
         `${nameWording(formData, true, true, true)} mailing address`,
+      'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
       ...addressUI({
@@ -104,12 +105,15 @@ export const applicantAddressSchema = {
           return {
             'ui:title': `Has ${nameWording(
               formData,
+              true,
+              false,
+              true,
             )} mailing address changed since ${
               formData.certifierRole === 'applicant' ? 'your' : 'their'
             } last CHAMPVA claim or benefits application submission?`,
             'ui:options': {
               labels,
-              hint: `If the mailing address has changed, we’ll update our records with the new address`,
+              hint: `If the mailing address changed, we'll update our records with the new address.`,
             },
           };
         },
@@ -131,13 +135,13 @@ export const applicantPhoneSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        `${nameWording(formData, true, true, true)} contact information`,
+        `${nameWording(formData, true, true, true)} phone number`,
       ({ formData }) =>
         `We’ll use this information to contact ${
           formData?.certifierRole === 'applicant'
             ? 'you'
-            : nameWording(formData, true, true, true)
-        } if we have more questions.`,
+            : nameWording(formData, false, true, true)
+        } if we have any questions.`,
     ),
     applicantPhone: phoneUI(),
   },
