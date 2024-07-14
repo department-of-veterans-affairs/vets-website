@@ -2,6 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import labsAndTests from '../fixtures/labsAndTests.json';
+import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   const site = new MedicalRecordsSite();
@@ -13,22 +14,43 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   });
 
   it('Navigate to MHV Classic to view their Radiology Images', () => {
-    // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[5]);
-    RadiologyDetailsPage.verifyTitle(
-      'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
-    );
-    RadiologyDetailsPage.verifyDate('September 24, 2004');
+    LabsAndTestsListPage.loadVAPaginationNext();
+    // I think the second parameter doesn't do anything now...
+    // per conversation with Matt Wright
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[2]);
+
+    RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[2].procedureName);
+    // why is the date value in radiologyRecordsMHV.json
+    // a large number, like "eventDate": 976929600003, ???
+    // can I test against the JSON or do I neeed to hard-code the date in the test?
+    RadiologyDetailsPage.verifyDate('December 15, 2000');
+
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
-    RadiologyDetailsPage.verifyRadiologyClinicalHistory('None noted');
-    RadiologyDetailsPage.verifyRadiologyOrderedBy('DOE, JOHN A');
+
+    // Regex: replace \r\n line terminating characters, with spaces
+    // then eliminate multiple spaces
+    RadiologyDetailsPage.verifyRadiologyClinicalHistory(
+      `${radiologyRecordsMhv[2].clinicalHistory
+        .replace(/[\r\n]+/gm, ' ')
+        .replace(/ +(?= )/g, '')}`,
+    );
+
+    RadiologyDetailsPage.verifyRadiologyOrderedBy(
+      radiologyRecordsMhv[2].requestingProvider, // 'DOE, JOHN A'
+    );
+
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
-      'DOE, JOHN A, DAYT29 TEST LAB',
+      radiologyRecordsMhv[2].performingLocation,
     );
-    RadiologyDetailsPage.verifyRadiologyImagingProvider('None noted');
+
+    RadiologyDetailsPage.verifyRadiologyImagingProvider(
+      radiologyRecordsMhv[2].radiologist,
+    );
+
     RadiologyDetailsPage.verifyRadiologyResults(
-      'SPINE LUMBOSACRAL MIN 2 VIEWS',
+      radiologyRecordsMhv[2].impressionText.replace(/[\r\n]+/gm, ' '),
     );
+
     cy.injectAxe();
     cy.axeCheck('main', {});
   });
