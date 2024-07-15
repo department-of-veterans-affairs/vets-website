@@ -13,10 +13,15 @@ const IntroductionPage = props => {
   const childContent = (
     <>
       <div>
-        <ul className="remove-bullets">
-          <li>related to: Disability</li>
-          <li>Form last updated: October 2023</li>
-        </ul>
+        <p>
+          <span className="vads-u-font-weight--bold">Related to:</span>{' '}
+          Disability
+          <br />
+          <span className="vads-u-font-weight--bold">
+            Form last updated:
+          </span>{' '}
+          October 2023
+        </p>
       </div>
       <h2>When to use this form</h2>
       <p>
