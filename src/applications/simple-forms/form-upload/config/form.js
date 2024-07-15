@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -13,17 +14,14 @@ import {
   PROGRESS_BAR_LABELS,
 } from './constants';
 import prefillTransformer from './prefill-transformer';
+import submitTransformer from './submit-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
-import {
-  handleSubmit,
-  isUnverifiedUser,
-  scrollAndFocusTarget,
-} from '../helpers';
+import { isUnverifiedUser, scrollAndFocusTarget } from '../helpers';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: formData => handleSubmit(formData),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
   dev: {
     collapsibleNavLinks: true,
     showNavLinks: !window.Cypress,
@@ -38,6 +36,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to upload your form.',
     noAuth: 'Please sign in again to continue uploading your form.',
