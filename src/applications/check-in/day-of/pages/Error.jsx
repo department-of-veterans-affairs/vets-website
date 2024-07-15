@@ -2,11 +2,16 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 
-import { makeSelectError, makeSelectForm } from '../../selectors';
+import {
+  makeSelectError,
+  makeSelectForm,
+  makeSelectVeteranData,
+} from '../../selectors';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import Wrapper from '../../components/layout/Wrapper';
 import { phoneNumbers } from '../../utils/appConstants';
 import ExternalLink from '../../components/ExternalLink';
+import ConfirmationAccordionBlock from '../../components/ConfirmationAccordionBlock';
 
 const Error = () => {
   const { t } = useTranslation();
@@ -19,6 +24,9 @@ const Error = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
+
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
 
   let alerts = [];
   let header = '';
@@ -200,6 +208,9 @@ const Error = () => {
           )}
         </div>
       ))}
+      {error !== 'max-validation' && (
+        <ConfirmationAccordionBlock errorPage appointments={appointments} />
+      )}
     </Wrapper>
   );
 };
