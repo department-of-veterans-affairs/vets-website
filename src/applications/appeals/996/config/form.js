@@ -30,6 +30,7 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
+import { homelessPageTitle } from '../content/homeless';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 import NeedHelp from '../content/NeedHelp';
 import { formTitle, FormSubTitle } from '../content/title';
@@ -39,7 +40,12 @@ import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
+import {
+  focusRadioH3,
+  focusH3,
+  focusHomelessHeader,
+  focusOnAlert,
+} from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -129,11 +135,11 @@ const formConfig = {
           // initialData,
         },
         homeless: {
-          title: 'Homelessness question',
+          title: homelessPageTitle,
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusHomelessHeader, // focusH3,
         },
         ...contactInfo,
       },

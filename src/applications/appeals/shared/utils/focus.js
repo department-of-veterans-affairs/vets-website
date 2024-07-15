@@ -101,6 +101,21 @@ export const focusRadioH3 = () => {
   }
 };
 
+// Temporary focus function for HLR homlessness question (page header is
+// dynamic); once 100% released, change homeless form config to use
+// `scrollAndFocusTarget: focusH3`
+export const focusHomelessHeader = () => {
+  scrollTo('topContentElement');
+  if (sessionStorage.getItem('hlrUpdated') === 'false') {
+    const radio = $('va-radio');
+    if (radio) {
+      waitForRenderThenFocus('h3', radio.shadowRoot);
+    }
+  } else {
+    waitForRenderThenFocus('#main h3');
+  }
+};
+
 export const focusH3 = () => {
   scrollTo('topContentElement');
   focusByOrder(['#main h3', defaultFocusSelector]);
