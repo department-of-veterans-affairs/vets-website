@@ -101,7 +101,7 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          alertType: 'error',
+          type: 'error',
           message: t(
             'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
           ),
@@ -115,7 +115,7 @@ const Error = () => {
       header = t('this-link-has-expired');
       alerts = [
         {
-          type: 'info',
+          type: 'warning',
           message: (
             <Trans
               i18nKey="trying-to-check-in-for-an-appointment--info-message"
@@ -163,7 +163,7 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          type: 'info',
+          type: 'error',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
