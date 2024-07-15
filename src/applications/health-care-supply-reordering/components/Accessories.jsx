@@ -144,7 +144,7 @@ class Accessories extends Component {
                   <VaCheckbox
                     id={accessorySupply.productId}
                     className="vads-u-margin-left--0"
-                    onChange={e =>
+                    onVaChange={e =>
                       this.handleChecked(e.target.checked, accessorySupply)
                     }
                     checked={isAccessorySelected(accessorySupply.productId)}
