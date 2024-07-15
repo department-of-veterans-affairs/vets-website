@@ -420,7 +420,10 @@ const FileField = props => {
     // Use v3 multi-file upload:
     <VaFileInputMultiple
       button-text="Upload your document"
-      onVaMultipleChange={e => onAddFile({ target: e.detail })}
+      onVaMultipleChange={e => {
+        debugger;
+        return onAddFile({ target: e.detail });
+      }}
       accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
       errors={[]}
       name="fileUpload"
