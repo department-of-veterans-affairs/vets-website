@@ -19,7 +19,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['applicantDOB'],
+  required: ['applicantPhone'],
   properties: {
     titleSchema,
     applicantPhone: phoneSchema,
