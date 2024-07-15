@@ -27,7 +27,7 @@ const IntroductionPage = props => {
       <ul>
         <li>You’ll need an itemized billing statement to support your claim</li>
         <li>
-          If you already paid the provider, you’ll need to upload a receiept or
+          If you already paid the provider, you’ll need to upload a receipt or
           other proof that you paid
         </li>
         <li>
