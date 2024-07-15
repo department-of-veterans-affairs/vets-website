@@ -95,14 +95,32 @@ const testConfig = createTestConfig(
           if (testKey === 'noBatteries') {
             // #1 is "Order batteries for this device"
             // #3 & #5 are "order this accessory" for the available accessories
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#3')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#5')
+              .shadow()
+              .find('input')
+              .click({ force: true });
           } else if (testKey === 'noAccessories') {
-            cy.get('#1').click({ force: true });
+            cy.get('#1')
+              .shadow()
+              .find('input')
+              .click({ force: true });
           } else {
-            cy.get('#1').click({ force: true });
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#1')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#3')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#5')
+              .shadow()
+              .find('input')
+              .click({ force: true });
           }
         });
       },
