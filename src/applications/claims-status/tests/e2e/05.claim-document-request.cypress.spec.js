@@ -30,7 +30,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
         trackClaimsPage.verifyNumberOfFiles(15);
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestforDefaultPage(true);
-        trackClaimsPage.verifyDocRequestBreadcrumbs();
+        trackClaimsPage.verifyDocRequestBreadcrumbs(true);
         trackClaimsPage.submitFilesForReview();
         cy.axeCheck();
       });
@@ -60,7 +60,7 @@ describe('When feature toggle cst_use_claim_details_v2 enabled and cst_5103_upda
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
-        trackClaimsPage.verifyDocRequestBreadcrumbs();
+        trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitFilesForReview(false);
         cy.axeCheck();
       });
@@ -89,7 +89,7 @@ describe('When feature toggle cst_use_claim_details_v2 enabled and cst_5103_upda
         trackClaimsPage.navigateToFilesTab();
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
-        trackClaimsPage.verifyDocRequestBreadcrumbs(true);
+        trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitFilesForReview(false);
         cy.axeCheck();
       });
@@ -123,7 +123,7 @@ describe('When feature toggle cst_use_claim_details_v2 disabled and cst_5103_upd
         trackClaimsPage.verifyNumberOfFiles(15);
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestfor5103Notice();
-        trackClaimsPage.verifyDocRequestBreadcrumbs();
+        trackClaimsPage.verifyDocRequestBreadcrumbs(true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();
       });
@@ -167,7 +167,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestfor5103Notice();
-        trackClaimsPage.verifyDocRequestBreadcrumbs();
+        trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();
       });
@@ -210,7 +210,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
         trackClaimsPage.navigateToFilesTab();
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestfor5103Notice();
-        trackClaimsPage.verifyDocRequestBreadcrumbs(true);
+        trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();
       });

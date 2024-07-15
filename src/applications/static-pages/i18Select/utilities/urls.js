@@ -60,9 +60,9 @@ export default {
   },
   compAssistanceForFamily: {
     en:
-      '/family-member-benefits/comprehensive-assistance-for-family-caregivers/',
+      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/',
     es:
-      '/family-member-benefits/comprehensive-assistance-for-family-caregivers-esp/',
+      '/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers-esp/',
   },
   decisionReviewsSupplementalClaim: {
     en: '/decision-reviews/supplemental-claim/',
