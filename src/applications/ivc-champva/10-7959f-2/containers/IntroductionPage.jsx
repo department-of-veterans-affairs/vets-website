@@ -39,7 +39,7 @@ const IntroductionPage = props => {
         style={{ display: 'inline-block', marginBottom: '2em' }}
       >
         {' '}
-        Find out which support documents you need.
+        Find out which supporting documents you need.
       </a>
       <SaveInProgressIntro
         formId={formConfig.formId}
