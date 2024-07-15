@@ -61,26 +61,6 @@ export const Form0996App = ({
 
   useEffect(
     () => {
-      const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
-      if (
-        !toggles.loading &&
-        (typeof formData.hlrUpdatedContent === 'undefined' ||
-          formData.hlrUpdatedContent !== isUpdated)
-      ) {
-        setFormData({
-          ...formData,
-          hlrUpdatedContent: isUpdated,
-        });
-        // temp storage, used for homelessness page focus management
-        sessionStorage.setItem('hlrUpdated', isUpdated);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData.hlrUpdatedContent],
-  );
-
-  useEffect(
-    () => {
       if (hasSupportedBenefitType) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
@@ -168,6 +148,26 @@ export const Form0996App = ({
       subTaskBenefitType,
       pathname,
     ],
+  );
+
+  useEffect(
+    () => {
+      const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
+      if (
+        !toggles.loading &&
+        (typeof formData.hlrUpdatedContent === 'undefined' ||
+          formData.hlrUpdatedContent !== isUpdated)
+      ) {
+        setFormData({
+          ...formData,
+          hlrUpdatedContent: isUpdated,
+        });
+        // temp storage, used for homelessness page focus management
+        sessionStorage.setItem('hlrUpdated', isUpdated);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData.hlrUpdatedContent],
   );
 
   let content = (
