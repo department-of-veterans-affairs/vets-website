@@ -10,7 +10,7 @@ const HubRail = () => {
       id="hub-rail"
     >
       <SchoolCertifyingOfficialHandbook />
-      <va-accordion bordered="" multi="" className="social hydrated">
+      <va-accordion bordered="" multi="" className="social hydrated" uswds>
         <AskQuestions />
         <ConnectWithUs />
       </va-accordion>

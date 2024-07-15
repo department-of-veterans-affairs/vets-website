@@ -2,6 +2,7 @@ import React from 'react';
 import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 import LiSpanAndVaLink from '../../HubRail/shared/liSpanAndVaLink';
+import LiText from '../../HubRail/shared/liText';
 
 const UploadFileToVa = () => {
   return (
@@ -45,18 +46,9 @@ const UploadFileToVa = () => {
           </ul>
           Other accepted documents
           <ul>
-            <LiSpanAndVaLink
-              hrefText="Compliance documents requested to support a scheduled compliance activity at your institution"
-              href="N/A"
-            />
-            <LiSpanAndVaLink
-              hrefText="Electronic Fund Transfer and Tax ID Updates"
-              href="N/A"
-            />
-            <LiSpanAndVaLink
-              hrefText="Requests for centralized certification"
-              href="N/A"
-            />
+            <LiText text="Compliance documents requested to support a scheduled compliance activity at your institution" />
+            <LiText text="Electronic Fund Transfer and Tax ID Updates" />
+            <LiText text="Requests for centralized certification" />
           </ul>
         </va-accordion-item>
       </va-accordion>

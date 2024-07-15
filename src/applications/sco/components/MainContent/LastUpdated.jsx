@@ -1,5 +1,6 @@
 import React from 'react';
 
+const LAST_UPDATED_DATE_TIME = '2024-05-07';
 const LAST_UPDATED_DATE = 'July 15, 2024';
 
 const LastUpdated = () => {
@@ -14,7 +15,7 @@ const LastUpdated = () => {
           <span className="vads-u-text-align--justify">
             <p>
               Last updated:{' '}
-              <time dateTime="2024-05-07">{LAST_UPDATED_DATE}</time>
+              <time dateTime={LAST_UPDATED_DATE_TIME}>{LAST_UPDATED_DATE}</time>
             </p>
           </span>
         </div>
