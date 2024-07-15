@@ -39,7 +39,8 @@ const SearchBenefits = ({
   const [isDisabled, setIsDisabled] = useState(true);
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.militaryBenefitEstimates);
+  const toggle = useToggleValue(TOGGLE_NAMES.militaryBenefitEstimates);
+  const toggleValue = toggle || window.isProd;
   /*
     ***toggleCumulativeDropDown***
     Hide Cumulative Post 9/11 active-duty service drop down if applicant selects 'Fry Scholarship'
