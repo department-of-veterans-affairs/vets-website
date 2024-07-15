@@ -31,7 +31,11 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { setDocumentTitle, getClaimType } from '../utils/helpers';
+import {
+  setDocumentRequestPageTitle,
+  setDocumentTitle,
+  getClaimType,
+} from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
@@ -49,7 +53,10 @@ class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     if (this.props.trackedItem) {
-      setDocumentTitle(`Request for ${this.props.trackedItem.displayName}`);
+      const pageTitle = setDocumentRequestPageTitle(
+        this.props.trackedItem.displayName,
+      );
+      setDocumentTitle(pageTitle);
     } else {
       setDocumentTitle('Document Request');
     }
@@ -173,7 +180,7 @@ class DocumentRequestPage extends React.Component {
       );
     }
 
-    const { claim } = this.props;
+    const { claim, params, trackedItem } = this.props;
     const claimType = getClaimType(claim).toLowerCase();
 
     const previousPageIsFilesTab = () => {
@@ -202,8 +209,8 @@ class DocumentRequestPage extends React.Component {
     const crumbs = [
       previousPageBreadcrumb,
       {
-        href: `../document-request/${this.props.params.trackedItemId}`,
-        label: 'Document request',
+        href: `../document-request/${params.trackedItemId}`,
+        label: setDocumentRequestPageTitle(trackedItem?.displayName),
         isRouterLink: true,
       },
     ];
