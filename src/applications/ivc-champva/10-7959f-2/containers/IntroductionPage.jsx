@@ -27,11 +27,11 @@ const IntroductionPage = props => {
       <ul>
         <li>You’ll need an itemized billing statement to support your claim</li>
         <li>
-          If you already paid the provider, you’ll need to upload a receiept or
+          If you already paid the provider, you’ll need to upload a receipt or
           other proof that you paid
         </li>
         <li>
-          For cetain types of claims, you may need other supporting documents
+          For certain types of claims, you may need other supporting documents
         </li>
       </ul>
       <a
@@ -39,7 +39,7 @@ const IntroductionPage = props => {
         style={{ display: 'inline-block', marginBottom: '2em' }}
       >
         {' '}
-        Find out which support documents you need.
+        Find out which supporting documents you need.
       </a>
       <SaveInProgressIntro
         formId={formConfig.formId}
