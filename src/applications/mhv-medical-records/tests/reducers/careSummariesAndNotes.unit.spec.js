@@ -514,6 +514,7 @@ describe('careSummariesAndNotesReducer', () => {
       { type: Actions.CareSummariesAndNotes.GET_LIST, response },
     );
     expect(newState.careSummariesAndNotesList.length).to.equal(3);
+    expect(newState.updatedList).to.equal(undefined);
   });
 
   it('creates an empty list if "entry" is empty', () => {
@@ -529,6 +530,7 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: undefined,
     });
   });
 
@@ -544,7 +546,61 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: undefined,
     });
+  });
+
+  it('puts updated records in updatedList', () => {
+    const response = {
+      entry: [
+        { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        { resource: { type: { coding: [{ code: '11488-4' }] } } },
+      ],
+      resourceType: 'Bundle',
+    };
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+          { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        ],
+      },
+      { type: Actions.CareSummariesAndNotes.GET_LIST, response },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into careSummariesAndNotesList on request', () => {
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        ],
+        updatedList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+          { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        ],
+      },
+      { type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into careSummariesAndNotesList if updatedList does not exist', () => {
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        ],
+        updatedList: undefined,
+      },
+      { type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
   });
 
   it('sorts the list in descending date order, with nulls at the end', () => {
