@@ -426,13 +426,14 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
             )} health insurance?`,
           };
         },
+        charcount: true,
       }),
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
-        [keyname]: { type: 'string' },
+        [keyname]: { type: 'string', maxLength: 200 },
       },
     },
   };
