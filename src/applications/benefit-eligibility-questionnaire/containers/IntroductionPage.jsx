@@ -1,11 +1,14 @@
 import React from 'react';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const IntroductionPage = props => {
-  const { route } = props;
-  const { formConfig, pageList } = route;
+  const { router } = props;
+
+  const handleClick = () => {
+    router.push('/goals');
+  };
 
   return (
     <article className="schemaform-intro">
@@ -21,13 +24,7 @@ const IntroductionPage = props => {
         We’ll ask you to answer a few quick questions to personalize our
         recommendations.
       </p>
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        formConfig={formConfig}
-      />
+      <VaButton onClick={handleClick} uswds text="Get started" />
       <p />
     </article>
   );
