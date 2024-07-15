@@ -30,6 +30,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   CustomReviewTopContent,
+  customText: {
+    appType: 'form',
+  },
   hideReviewChapters: true,
   formId: 'FORM-UPLOAD-FLOW',
   saveInProgress: SAVE_IN_PROGRESS_CONFIG,
