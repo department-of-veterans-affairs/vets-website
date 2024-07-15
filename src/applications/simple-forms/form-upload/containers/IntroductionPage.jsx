@@ -39,6 +39,11 @@ const IntroductionPage = props => {
       </div>
       <h3>Submit completed form</h3>
       <p>After you complete the form, you can upload and submit it here.</p>
+    </>
+  );
+
+  const additionalChildContent = (
+    <>
       <h2>Related forms and instructions</h2>
       <h3>
         <div className="vads-u-margin-y--4">
@@ -62,6 +67,23 @@ const IntroductionPage = props => {
           href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
           text="Download VA Form 21-2680"
         />
+      </div>
+      <div
+        className="vads-u-display--none medium-screen:vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2 vads-u-background-color--gray-light-alt vads-u-margin-top--2p5 vads-u-margin-bottom--4"
+        data-e2e-id="yellow-ribbon--helpful-links"
+      >
+        <h3 className="vads-u-margin--0 vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
+          Helpful links related to VA Form 21-0779
+        </h3>
+        <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+          <a href="https://www.va.gov/pension/aid-attendance-housebound/">
+            VA Aid and Attendance benefits and Housebound allowance
+          </a>
+        </p>
+        <p className="vads-u-margin-top--0">
+          If you need help with daily activities, or you’re housebound, learn
+          about these benefits and if you qualify.
+        </p>
       </div>
     </>
   );
@@ -91,6 +113,7 @@ const IntroductionPage = props => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      additionalChildContent={additionalChildContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
     />
