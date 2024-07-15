@@ -6,7 +6,7 @@ import {
   VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildDateFormatter, setDocumentTitle } from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -32,7 +32,6 @@ function Automated5103Notice({
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
 
   useEffect(() => {
-    setDocumentTitle('Automated 5103 Notice - Document Request Page');
     setUpPage();
   }, []);
 
@@ -61,7 +60,7 @@ function Automated5103Notice({
   return (
     <div id="automated-5103-notice-page">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-        Review the list of evidence we need
+        5103 Evidence Notice
       </h1>
       <p>
         We sent you a “5103 notice” letter that lists the types of evidence we

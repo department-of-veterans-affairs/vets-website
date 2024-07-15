@@ -18,7 +18,7 @@ const claim = {
   attributes: {},
 };
 
-const params = { id: 1 };
+const params = { id: 1, trackedItemId: 467558 };
 
 const defaultProps = {
   claim,
@@ -68,6 +68,16 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
       expect($('#automated-5103-notice-page', container)).to.exist;
+      const breadcrumbs = $('va-breadcrumbs', container);
+      expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+        `../document-request/${trackedItem.id}`,
+      );
+      expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+        '5103 Evidence Notice',
+      );
+      expect(document.title).to.equal(
+        '5103 Evidence Notice | Veterans Affairs',
+      );
     });
 
     it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
@@ -92,6 +102,16 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
       expect($('#automated-5103-notice-page', container)).to.not.exist;
+      const breadcrumbs = $('va-breadcrumbs', container);
+      expect(breadcrumbs.breadcrumbList[3].href).to.equal(
+        `../document-request/${trackedItem.id}`,
+      );
+      expect(breadcrumbs.breadcrumbList[3].label).to.equal(
+        `Request for ${trackedItem.displayName}`,
+      );
+      expect(document.title).to.equal(
+        `Request for ${trackedItem.displayName} | Veterans Affairs`,
+      );
     });
   });
 
