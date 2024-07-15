@@ -1,6 +1,6 @@
 # Array Builder Pattern (Multiple responses list & loop)
 
-Array builder pattern features an intro page (for required flow), a yes/no question if they have items to add, a loop of page(s) to fill out data for an item, and cards displayed for each item to review/edit/remove items. The user can add items until `maxItems` is reached.
+Array builder pattern features an intro page (for required flow), a yes/no question if they have items to add, a loop of page(s) to fill out data for an item, and cards displayed for each item to review/edit/remove items. If `minItems` is specified, a user must add items until that amount is reached. If `maxItems` is specified, the user can add items until that amount is reached.
 
 ## Table of Contents
 - [Array Builder Pattern (Multiple responses list \& loop)](#array-builder-pattern-multiple-responses-list--loop)
@@ -77,6 +77,7 @@ const options = {
   nounPlural: '[noun plural]',
   required: true,
   isItemIncomplete: item => !item?.name, // include all required fields here
+  minItems: 2,
   maxItems: 5,
   text: {
     getItemName: item => item.name,
@@ -210,6 +211,7 @@ const options = {
   nounPlural: '[noun plural]',
   required: false,
   isItemIncomplete: item => !item?.name, // include all required fields here
+  minItems: 2,
   maxItems: 5,
   text: {
     getItemName: item => item.name,
@@ -300,7 +302,7 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
 | `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. |
 | `arrayBuilderItemSubsequentPageTitleUI` | Can be used instead of `titleUI` for subsequent item pages. Includes adding "Edit" before the title if in edit mode. If you need to use a custom title instead, you can try passing `withEditTitle` into your implementation. |
 | `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. |
-| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. You can override all text values. |
+| `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for min and max items. You can override all text values. |
 
 ### Example `arrayBuilderYesNoUI` Text Overrides:
 ```js
@@ -310,7 +312,7 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
     title:
       'Do you have any employment, including self-employment for the last 5 years to report?',
     hint: (props) =>
-      `Include self-employment and military duty (including inactive duty for training). ${maxItemsHint(props)}`,
+      `Include self-employment and military duty (including inactive duty for training). ${minMaxItemsHint(props)}`,
     labels: {
       Y: 'Yes, I have employment to report',
       N: 'No, I don’t have employment to report',
