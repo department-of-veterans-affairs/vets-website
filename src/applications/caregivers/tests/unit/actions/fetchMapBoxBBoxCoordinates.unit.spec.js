@@ -13,9 +13,17 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
       .resolves({ body: { features: [{ bbox: coordinates }] } }),
   };
   const mockClient = mockMapBoxClient();
-  const clientStub = sinon
-    .stub(mockClient, 'forwardGeocode')
-    .returns(successResponse);
+  let clientStub;
+
+  beforeEach(() => {
+    clientStub = sinon
+      .stub(mockClient, 'forwardGeocode')
+      .returns(successResponse);
+  });
+
+  afterEach(() => {
+    clientStub.restore();
+  });
 
   context('when the query is omitted', () => {
     it('should return an error object', async () => {
