@@ -213,7 +213,7 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimIsWorkRelated', formData),
+          depends: formData => get('claimType', formData) === 'medical',
           ...medicalClaimUploadSchema,
         },
         page8: {

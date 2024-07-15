@@ -146,16 +146,14 @@ export const medicalClaimUploadSchema = {
           &nbsp; You may need to ask your provider for a statement that has all
           of the information listed here. The statement must include all of this
           information in order for us to process this claim.
+          <br />
+          <br />
+          You can also submit any other documents you think may be relevant to
+          this claim.
         </p>
       </>
     )),
-    ...fileUploadBlurbCustom(
-      <li>
-        You can also upload any other documentation you believe is related to
-        your medical claim
-      </li>,
-      additionalNotesClaims,
-    ),
+    ...fileUploadBlurbCustom(null, additionalNotesClaims),
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
