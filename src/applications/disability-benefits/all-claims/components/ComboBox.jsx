@@ -64,8 +64,6 @@ export class ComboBox extends React.Component {
         value: searchTerm,
         filteredOptions: [],
       });
-      // eslint-disable-next-line no-console
-      console.log('sending focus to input from handleClickOutsideList');
       this.sendFocusToInput(this.inputRef);
     }
   };
@@ -81,8 +79,6 @@ export class ComboBox extends React.Component {
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
-    // eslint-disable-next-line no-console
-    console.log('sending focus to input from handleSearchChange');
     this.sendFocusToInput(this.inputRef);
   };
 
@@ -94,8 +90,6 @@ export class ComboBox extends React.Component {
   sendFocusToInput = ref => {
     const { shadowRoot } = ref.current;
     const input = shadowRoot.querySelector('input');
-    // eslint-disable-next-line no-console
-    console.log('sendFocusToInput() called. Input: ', input);
     input.focus();
   };
 
@@ -141,7 +135,11 @@ export class ComboBox extends React.Component {
       // On Enter, select the highlighted option and close the list. Focus on text input.
       case 'Enter':
         e.preventDefault();
-        this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        if (index === -1) {
+          this.selectOption(searchTerm);
+        } else {
+          this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        }
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
@@ -151,16 +149,12 @@ export class ComboBox extends React.Component {
           filteredOptions: [],
           highlightedIndex: defaultHighlightedIndex,
         });
-        // eslint-disable-next-line no-console
-        console.log('sending focus to input from escape');
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
       // All other cases treat as regular user input into the text field.
       default:
         // focus goes to input box by default
-        // eslint-disable-next-line no-console
-        console.log('sending focus to input from default');
         this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
         this.setState({
@@ -249,8 +243,6 @@ export class ComboBox extends React.Component {
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
-    // eslint-disable-next-line no-console
-    console.log('sending focus to input from selectOption');
     this.sendFocusToInput(this.inputRef);
   }
 
