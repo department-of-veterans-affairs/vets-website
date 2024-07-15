@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
@@ -35,6 +36,10 @@ const SearchBenefits = ({
     setWhatsYourMilitaryStatusDropDown,
   ] = useState(POST_911_ARRAY);
   const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.militaryBenefitEstimates);
   /*
     ***toggleCumulativeDropDown***
     Hide Cumulative Post 9/11 active-duty service drop down if applicant selects 'Fry Scholarship'
@@ -42,12 +47,23 @@ const SearchBenefits = ({
   */
   const toggleCumulativeDropDown = () => giBillChapter !== '33b';
   const handleChange = e => {
+    const field = e.target.name;
+    const { value } = e.target;
+
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': `What's your military status?`,
       'gibct-form-value': e.target.value,
     });
     setMilitaryStatus(e.target.value);
+
+    if (field === 'militaryStatus' && !toggleValue) {
+      setIsDisabled(true);
+      if (value === 'spouse' || value === 'child') {
+        setIsDisabled(false);
+      }
+      setGiBillChapter('33a');
+    }
   };
 
   const preEligibilityChange = e => {
@@ -60,29 +76,66 @@ const SearchBenefits = ({
     });
     setGiBillChapter(value);
 
-    if (value === '33a') {
-      setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
-      setMilitaryStatus('veteran');
-    } else if (value === '33b') {
-      setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
-      setMilitaryStatus('spouse');
-    } else if (value === '30') {
-      setWhatsYourMilitaryStatusDropDown(MONTGOMERY_GI_BILL_ARRAY);
-      setMilitaryStatus('veteran');
-    } else if (value === '1606') {
-      setWhatsYourMilitaryStatusDropDown(SELECT_RESERVE_GI_BILL_ARRAY);
-      setMilitaryStatus('national guard / reserves');
-    } else if (value === '31') {
-      setWhatsYourMilitaryStatusDropDown(VETERAN_READINESS_ARRAY);
-      setMilitaryStatus('veteran');
-    } else if (value === '35') {
-      setWhatsYourMilitaryStatusDropDown(SURVIVOR_AND_DEPENDENT_ARRAY);
-      setMilitaryStatus('spouse');
+    if (toggleValue) {
+      if (value === '33a') {
+        setWhatsYourMilitaryStatusDropDown(POST_911_ARRAY);
+        setMilitaryStatus('veteran');
+      } else if (value === '33b') {
+        setWhatsYourMilitaryStatusDropDown(FRY_SCHOLARSHIP_ARRAY);
+        setMilitaryStatus('spouse');
+      } else if (value === '30') {
+        setWhatsYourMilitaryStatusDropDown(MONTGOMERY_GI_BILL_ARRAY);
+        setMilitaryStatus('veteran');
+      } else if (value === '1606') {
+        setWhatsYourMilitaryStatusDropDown(SELECT_RESERVE_GI_BILL_ARRAY);
+        setMilitaryStatus('national guard / reserves');
+      } else if (value === '31') {
+        setWhatsYourMilitaryStatusDropDown(VETERAN_READINESS_ARRAY);
+        setMilitaryStatus('veteran');
+      } else if (value === '35') {
+        setWhatsYourMilitaryStatusDropDown(SURVIVOR_AND_DEPENDENT_ARRAY);
+        setMilitaryStatus('spouse');
+      }
     }
   };
 
   return (
     <div>
+      {!toggleValue && (
+        <div>
+          <Dropdown
+            label="What's your military status?"
+            name="militaryStatus"
+            options={[
+              { optionValue: 'veteran', optionLabel: 'Veteran' },
+              { optionValue: 'active duty', optionLabel: 'Active Duty' },
+              {
+                optionValue: 'national guard / reserves',
+                optionLabel: 'National Guard / Reserves',
+              },
+              { optionValue: 'spouse', optionLabel: 'Spouse' },
+              { optionValue: 'child', optionLabel: 'Child' },
+            ]}
+            value={militaryStatus}
+            alt="What's your military status?"
+            visible
+            onChange={handleChange}
+          />
+
+          <Dropdown
+            label="Is your spouse currently on active duty?"
+            name="spouseActiveDuty"
+            options={[
+              { optionValue: 'yes', optionLabel: 'Yes' },
+              { optionValue: 'no', optionLabel: 'No' },
+            ]}
+            value={spouseActiveDuty}
+            alt="Is your spouse on active duty?"
+            visible={militaryStatus === 'spouse'}
+            onChange={e => setSpouseActiveDuty(e.target.value)}
+          />
+        </div>
+      )}
       <Dropdown
         label={
           <LearnMoreLabel
@@ -113,6 +166,7 @@ const SearchBenefits = ({
             optionValue: '35',
             optionLabel:
               "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
+            optionDisabled: toggleValue ? false : isDisabled,
           },
         ]}
         value={giBillChapter}
@@ -120,30 +174,32 @@ const SearchBenefits = ({
         visible
         onChange={e => preEligibilityChange(e)}
       />
+      {toggleValue && (
+        <>
+          <Dropdown
+            label="What's your military status?"
+            name="militaryStatus"
+            options={whatsYourMilitaryStatusDropDown}
+            value={militaryStatus}
+            alt="What's your military status?"
+            visible
+            onChange={handleChange}
+          />
 
-      <Dropdown
-        label="What's your military status?"
-        name="militaryStatus"
-        options={whatsYourMilitaryStatusDropDown}
-        value={militaryStatus}
-        alt="What's your military status?"
-        visible
-        onChange={handleChange}
-      />
-
-      <Dropdown
-        label="Is your spouse currently on active duty?"
-        name="spouseActiveDuty"
-        options={[
-          { optionValue: 'yes', optionLabel: 'Yes' },
-          { optionValue: 'no', optionLabel: 'No' },
-        ]}
-        value={spouseActiveDuty}
-        alt="Is your spouse on active duty?"
-        visible={militaryStatus === 'spouse'}
-        onChange={e => setSpouseActiveDuty(e.target.value)}
-      />
-
+          <Dropdown
+            label="Is your spouse currently on active duty?"
+            name="spouseActiveDuty"
+            options={[
+              { optionValue: 'yes', optionLabel: 'Yes' },
+              { optionValue: 'no', optionLabel: 'No' },
+            ]}
+            value={spouseActiveDuty}
+            alt="Is your spouse on active duty?"
+            visible={militaryStatus === 'spouse'}
+            onChange={e => setSpouseActiveDuty(e.target.value)}
+          />
+        </>
+      )}
       {militaryStatus === 'active duty' &&
         chapter33Check && (
           <div className="military-status-info warning form-group">
