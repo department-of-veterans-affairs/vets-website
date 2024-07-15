@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import moment from 'moment';
 import {
   radioSchema,
   radioUI,
@@ -15,13 +14,21 @@ import {
 import get from 'platform/utilities/data/get';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-import { DependentSeriouslyDisabledDescription } from '../../../helpers';
+import {
+  DependentSeriouslyDisabledDescription,
+  showDependentsMultiplePage,
+} from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
   AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
-import { doesHaveDependents, getDependentChildTitle } from './helpers';
+import { childRelationshipLabels } from '../../../labels';
+import {
+  doesHaveDependents,
+  getDependentChildTitle,
+  isBetween18And23,
+} from './helpers';
 
 const {
   childPlaceOfBirth,
@@ -31,28 +38,12 @@ const {
   married,
 } = fullSchemaPensions.properties.dependents.items.properties;
 
-const childRelationshipOptions = {
-  BIOLOGICAL: "They're my biological child",
-  ADOPTED: "They're my adopted child",
-  STEP_CHILD: "They're my stepchild",
-};
-
-function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
-      .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
-  );
-}
-
 /** @type {PageSchema} */
 export default {
   title: item => getDependentChildTitle(item, 'information'),
   path: 'household/dependents/children/information/:index',
-  depends: doesHaveDependents,
+  depends: formData =>
+    !showDependentsMultiplePage() && doesHaveDependents(formData),
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {
@@ -73,7 +64,7 @@ export default {
         },
         childRelationship: radioUI({
           title: "What's your relationship?",
-          labels: childRelationshipOptions,
+          labels: childRelationshipLabels,
         }),
         'view:adoptionDocs': {
           'ui:description': AdoptionEvidenceAlert,
@@ -142,7 +133,7 @@ export default {
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
-              Object.keys(childRelationshipOptions),
+              Object.keys(childRelationshipLabels),
             ),
             'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege,
