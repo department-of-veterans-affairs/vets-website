@@ -32,6 +32,7 @@ import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails'
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
+import * as signatures from './pages/signatures';
 
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
@@ -128,6 +129,7 @@ function ApplicantContactInfoDescription() {
 const formConfig = {
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -195,6 +197,11 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
+        },
+        multiSignatures: {
+          path: 'signatures',
+          uiSchema: signatures.uiSchema,
+          schema: signatures.schema,
         },
       },
     },
