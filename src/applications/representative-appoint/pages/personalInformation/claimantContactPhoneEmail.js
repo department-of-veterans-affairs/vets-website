@@ -14,7 +14,7 @@ export const uiSchema = {
   applicantPhone: phoneUI({
     required: true,
   }),
-  applicantEmail: emailUI,
+  applicantEmail: emailUI(),
 };
 
 export const schema = {
