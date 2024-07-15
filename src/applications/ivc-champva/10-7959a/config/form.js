@@ -237,7 +237,8 @@ const formConfig = {
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
-            get('policies', formData).length > 1,
+            get('policies', formData) &&
+            formData?.policies?.length > 1,
           ...eobUploadSchema(false),
         },
         page10: {
