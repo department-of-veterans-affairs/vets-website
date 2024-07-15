@@ -59,6 +59,18 @@ const formConfig = {
       saved: 'Your CHAMPVA claim form application has been saved.',
     },
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData?.certifierRole === 'applicant'
+          ? 'applicantName'
+          : 'certifierName',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
