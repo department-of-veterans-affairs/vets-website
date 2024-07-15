@@ -154,7 +154,10 @@ const DebtDetails = () => {
             ) : null}
           </>
         )}
-        <HowDoIPay userData={howToUserData} />
+        <HowDoIPay
+          userData={howToUserData}
+          showDebtLetterDownload={showDebtLetterDownload}
+        />
         <NeedHelp />
       </div>
     </>
