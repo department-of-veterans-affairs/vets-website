@@ -138,7 +138,7 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: formData => `${fnp(formData)} identification information`,
+          title: formData => `${fnp(formData)} CHAMPVA member number`,
           ...applicantMemberNumberSchema,
         },
         page2c: {
