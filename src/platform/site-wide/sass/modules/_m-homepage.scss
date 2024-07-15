@@ -182,22 +182,22 @@
     }
   }
 
-  &-icon {
-    font-size: 1.5em;
-    display: inline-block;
-    position: relative;
-    &::before {
-      position: absolute;
-      margin: 0;
-      top: 15px;
-      left: -7.75px;
-      font-family: "Font Awesome 5 Free"
-    }
-    &.fa-user-circle {
-      font-size: 1.5em;
-      padding-right: .3em;
-    }
-  }
+  // &-icon {
+  //   font-size: 1.5em;
+  //   display: inline-block;
+  //   position: relative;
+  //   &::before {
+  //     position: absolute;
+  //     margin: 0;
+  //     top: 15px;
+  //     left: -7.75px;
+  //     font-family: "Font Awesome 5 Free"
+  //   }
+  //   &.fa-user-circle {
+  //     font-size: 1.5em;
+  //     padding-right: .3em;
+  //   }
+  // }
 
   .button-inner {
     margin-left: 55px;

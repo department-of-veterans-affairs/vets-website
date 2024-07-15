@@ -36,9 +36,10 @@ const MobileAppCallout = ({
                 rel="noreferrer noopener"
                 href="https://apps.apple.com/us/app/va-health-and-benefits/id1559609596"
               >
-                <i
-                  className="fab fa-app-store-ios fa-lg vads-u-margin--1"
-                  aria-hidden="true"
+                <va-icon
+                  //  className="fab fa-app-store-ios fa-lg vads-u-margin--1"
+                  icon ="app_store"
+                  size ={3}
                 />
                 <span className="vads-u-font-size--md">
                   {appleAppStoreLinkText}
@@ -51,9 +52,10 @@ const MobileAppCallout = ({
                 rel="noreferrer noopener"
                 href="https://play.google.com/store/apps/details?id=gov.va.mobileapp&hl=en_US&gl=US&pli=1"
               >
-                <i
-                  className="fab fa-google-play fa-lg vads-u-margin--1"
-                  aria-hidden="true"
+                <va-icon
+                  //  className="fab fa-google-play fa-lg vads-u-margin--1"
+                  icon ="google_play"
+                  size ={3}
                 />
                 <span className="vads-u-font-size--md">
                   {googlePlayStoreLinkText}

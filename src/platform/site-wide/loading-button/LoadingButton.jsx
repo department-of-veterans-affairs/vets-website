@@ -11,8 +11,9 @@ export default function LoadingButton({
 }) {
   const contents = isLoading ? (
     <>
-      <i
-        className="fa fa-spinner fa-spin"
+      <va-icon
+        // className="fa fa-spinner fa-spin"
+        icon ="autorenew"
         aria-hidden="true"
         role="presentation"
       />
