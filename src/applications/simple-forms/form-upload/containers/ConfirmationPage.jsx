@@ -1,27 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
   headlineText: 'Your form has been submitted and is pending processing',
   nextStepsText: (
-    <>
-      <p>
-        Right now your form is pending processing. We’ll review your submission
-        and contact you if we have any questions.
-      </p>
-    </>
+    <p>
+      Right now your form is pending processing. We’ll review your submission
+      and contact you if we have any questions.
+    </p>
   ),
 };
-const childContent = <div />;
 
-export const ConfirmationPage = () => {
+const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
-  const submitterFullName = form.data?.['view:veteranPrefillStore'].fullName;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
+  const submitterFullName = form.data?.['view:veteranPrefillStore']?.fullName;
 
   return (
     <ConfirmationPageView
@@ -31,7 +28,7 @@ export const ConfirmationPage = () => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       content={content}
-      childContent={childContent}
+      childContent={<></>}
     />
   );
 };
@@ -39,29 +36,21 @@ export const ConfirmationPage = () => {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string.isRequired,
-        middle: PropTypes.string,
-        last: PropTypes.string.isRequired,
-      },
+      'view:veteranPrefillStore': PropTypes.shape({
+        fullName: PropTypes.shape({
+          first: PropTypes.string,
+          middle: PropTypes.string,
+          last: PropTypes.string,
+        }).isRequired,
+      }),
     }),
-    formId: PropTypes.string,
     submission: PropTypes.shape({
       response: PropTypes.shape({
-        attributes: PropTypes.shape({
-          confirmationNumber: PropTypes.string.isRequired,
-        }).isRequired,
-      }).isRequired,
-      timestamp: PropTypes.string.isRequired,
+        confirmationNumber: PropTypes.string,
+      }),
+      timestamp: PropTypes.string,
     }),
   }),
-  name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;
