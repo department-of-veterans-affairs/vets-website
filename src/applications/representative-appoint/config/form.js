@@ -31,6 +31,7 @@ import { prefillTransformer } from '../prefill-transformer';
 import {
   preparerIsVeteranAndHasPrefill,
   preparerIsVeteran,
+  isLoggedIn,
 } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
@@ -152,7 +153,7 @@ const formConfig = {
           // contactPath: 'claimant-contact', // default path
           // contactInfoRequiredKeys: [], // nothing required
           // included: ['primaryPhone', 'mailingAddress', 'email'], // default
-          depends: formData => formData.contactInfoSettings === 'none',
+          depends: formData => isLoggedIn({ formData }),
           // ** These are ALL default values **
           contactPath: 'claimant-contact',
           phoneSchema: {
