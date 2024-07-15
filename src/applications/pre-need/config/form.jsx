@@ -6,7 +6,6 @@ import get from 'platform/utilities/data/get';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
@@ -32,7 +31,6 @@ import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails'
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as militaryDetails from './pages/militaryDetails';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
-import * as signatures from './pages/signatures';
 
 import * as address from '../definitions/address';
 import Footer from '../components/Footer';
@@ -162,9 +160,15 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      fullNamePath: 'application.claimant.name',
+      checkboxLabel:
+        'I confirm that the information above is correct and true to the best of my knowledge and belief',
+    },
+  },
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
-  preSubmitInfo,
   footerContent: ({ currentLocation }) => (
     <Footer formConfig={formConfig} currentLocation={currentLocation} />
   ),
@@ -197,11 +201,6 @@ const formConfig = {
             type: 'object',
             properties: {},
           },
-        },
-        multiSignatures: {
-          path: 'signatures',
-          uiSchema: signatures.uiSchema,
-          schema: signatures.schema,
         },
       },
     },
