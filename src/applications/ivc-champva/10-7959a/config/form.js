@@ -59,6 +59,18 @@ const formConfig = {
       saved: 'Your CHAMPVA claim form application has been saved.',
     },
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData?.certifierRole === 'applicant'
+          ? 'applicantName'
+          : 'certifierName',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -126,7 +138,7 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: formData => `${fnp(formData)} identification information`,
+          title: formData => `${fnp(formData)} CHAMPVA member number`,
           ...applicantMemberNumberSchema,
         },
         page2c: {
@@ -142,8 +154,12 @@ const formConfig = {
               customTitle: `${fnp(props.data)} address`,
               customDescription:
                 'We’ll send any important information about this form to this address.',
-              customSelectText:
-                'Does the beneficiary have the same address as you?',
+              customSelectText: `Does ${nameWording(
+                props.data,
+                false,
+                false,
+                true,
+              )} have the same address as you?`,
               positivePrefix: 'Yes, their address is',
               negativePrefix: 'No, they have a different address',
             };
@@ -160,7 +176,7 @@ const formConfig = {
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: formData => `${fnp(formData)} phone information`,
+          title: formData => `${fnp(formData)} phone number`,
           ...applicantPhoneSchema,
         },
       },
