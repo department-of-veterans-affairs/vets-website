@@ -14,13 +14,6 @@ export const TITLE = 'Upload VA Form 21-0779';
 export const SUBTITLE =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
 
-export const workInProgressContent = {
-  description:
-    'We’re rolling out Submit a Statement to Support a Claim (VA Form 21-4138) in stages. It’s not quite ready yet. Please check back again soon.',
-  redirectLink: '/',
-  redirectText: 'Return to VA home page',
-};
-
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
     <h3 className="vads-u-margin-bottom--3">Upload your file</h3>
