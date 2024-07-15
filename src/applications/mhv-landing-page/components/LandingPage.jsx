@@ -32,23 +32,44 @@ import UnregisteredAlert from './UnregisteredAlert';
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const verified = useSelector(isLOA3);
-  const registered = useSelector(isVAPatient) && verified;
+  const vaPatient = useSelector(isVAPatient);
+  const userRegistered = verified && vaPatient;
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
+  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && verified;
+  const showSecNav = userRegistered;
+  const showHubLinks = userRegistered;
+  const showNewsletter = userRegistered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = !verified ? (
-    <IdentityNotVerified
-      headline={unVerifiedHeadline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={signInService}
-    />
-  ) : (
-    <UnregisteredAlert />
-  );
+
+  /**
+   * Generates the page's content.
+   * @returns the page contents
+   */
+  const getContent = () => {
+    if (!verified) {
+      return (
+        <IdentityNotVerified
+          headline={unVerifiedHeadline}
+          showHelpContent={false}
+          showVerifyIdenityHelpInfo
+          signInService={signInService}
+        />
+      );
+    }
+
+    if (!vaPatient) {
+      return <UnregisteredAlert />;
+    }
+
+    if (!userHasMhvAccount) {
+      return <MhvRegistrationAlert />;
+    }
+
+    return <CardLayout data={cards} />;
+  };
 
   useEffect(() => {
     if (!verified) {
@@ -63,7 +84,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 
   return (
     <>
-      {registered && <MhvSecondaryNav />}
+      {showSecNav && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"
@@ -74,8 +95,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
-          {registered ? <CardLayout data={cards} /> : noCardsDisplay}
+          {getContent()}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -86,8 +106,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             </div>
           </div>
         )}
-        <HubLinks hubs={hubs} />
-        <NewsletterSignup />
+        {showHubLinks && <HubLinks hubs={hubs} />}
+        {showNewsletter && <NewsletterSignup />}
       </div>
     </>
   );
