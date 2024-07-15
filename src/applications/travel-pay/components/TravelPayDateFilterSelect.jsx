@@ -6,16 +6,14 @@ export default function TravelPayDateFilterSelect(props) {
 
   return (
     <>
-      <label htmlFor="claimsOrder" className="vads-u-margin-bottom--0">
-        Select a date range
-      </label>
-      <select
+      <va-select
         hint={null}
-        title="Select a date range"
+        label="Filter by date range"
         name="claimsDates"
         data-testid="claimsDates"
         value={selectedDateFilter}
         onChange={onDateFilterChange}
+        uswds
       >
         <option value="all">All</option>
         {datesToFilterBy.map(date => (
@@ -23,7 +21,7 @@ export default function TravelPayDateFilterSelect(props) {
             {date.label}
           </option>
         ))}
-      </select>
+      </va-select>
     </>
   );
 }

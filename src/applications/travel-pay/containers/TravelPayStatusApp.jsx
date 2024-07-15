@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
@@ -25,6 +25,8 @@ export default function App({ children }) {
   const dispatch = useDispatch();
   const profileLoading = useSelector(state => isProfileLoading(state));
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+
+  const filterInfoRef = useRef();
 
   // TODO: utilize user info for authenticated requests
   // and validating logged in status
@@ -93,12 +95,14 @@ export default function App({ children }) {
     setAppliedDateFilter('all');
     setSelectedDateFilter('all');
     setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
   const applyFilters = () => {
     setAppliedStatusFilters(checkedStatusFilters);
     setAppliedDateFilter(selectedDateFilter);
     setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
   const onStatusFilterChange = (e, statusName) => {
@@ -120,6 +124,7 @@ export default function App({ children }) {
   const onSortClick = () => {
     setOrderClaimsBy(selectedClaimsOrder);
     setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
   const {
@@ -176,6 +181,7 @@ export default function App({ children }) {
   const onPageSelect = useCallback(
     selectedPage => {
       setCurrentPage(selectedPage);
+      filterInfoRef.current.focus();
     },
     [setCurrentPage],
   );
@@ -198,7 +204,7 @@ export default function App({ children }) {
   }
 
   return (
-    <div>
+    <>
       <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
@@ -226,7 +232,7 @@ export default function App({ children }) {
           !isLoading &&
           travelClaims.length > 0 && (
             <>
-              <div className="btsss-claims-order-container">
+              <div className="btsss-claims-sort-and-filter-container">
                 <label
                   htmlFor="claimsOrder"
                   className="vads-u-margin-bottom--0"
@@ -253,20 +259,7 @@ export default function App({ children }) {
                     label="Sort"
                   />
                 </div>
-              </div>
-              <div
-                id="travel-claims-list"
-                className="travel-claim-list-container"
-              >
-                <p id="pagination-info">
-                  {numResults === 0 ? (
-                    <>Showing {numResults} events</>
-                  ) : (
-                    <>
-                      Showing {pageStart} ‒ {pageEnd} of {numResults} events
-                    </>
-                  )}
-                </p>
+
                 <TravelPayClaimFilters
                   statusesToFilterBy={statusesToFilterBy}
                   checkedStatusFilters={checkedStatusFilters}
@@ -277,10 +270,22 @@ export default function App({ children }) {
                   datesToFilterBy={datesToFilterBy}
                   onDateFilterChange={onDateFilterChange}
                 />
+              </div>
+
+              <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                {numResults === 0
+                  ? `Showing ${numResults} events`
+                  : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
+              </h2>
+
+              <section
+                id="travel-claims-list"
+                className="travel-claim-list-container"
+              >
                 {displayedClaims.map(travelClaim =>
                   TravelClaimCard(travelClaim),
                 )}
-              </div>
+              </section>
               {shouldPaginate && (
                 <VaPagination
                   onPageSelect={e => onPageSelect(e.detail.page)}
@@ -298,7 +303,7 @@ export default function App({ children }) {
       </article>
 
       {children}
-    </div>
+    </>
   );
 }
 
