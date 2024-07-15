@@ -2,6 +2,6 @@
   "appName": "Accredited Representative Portal",
   "entryFile": "./app-entry.jsx",
   "entryName": "representative",
-  "rootUrl": "/representative",
+  "rootUrl": "/attorney-claims-agent-form-21a",
   "productId": "89100c00-5b5f-46fd-bd98-d3b35f220958"
 }
