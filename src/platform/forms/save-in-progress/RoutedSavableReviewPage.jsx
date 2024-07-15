@@ -134,7 +134,10 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.shape({
-    CustomReviewTopContent: PropTypes.element,
+    CustomReviewTopContent: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     customText: PropTypes.shape({
       finishAppLaterMessage: PropTypes.string,
       appType: PropTypes.string,
