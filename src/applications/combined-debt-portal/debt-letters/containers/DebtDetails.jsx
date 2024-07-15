@@ -9,7 +9,10 @@ import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
 import { getCurrentDebt } from '../utils/page';
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  debtLettersShowLettersVBMS,
+} from '../../combined/utils/helpers';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -36,6 +39,10 @@ const DebtDetails = () => {
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
   };
+
+  const showDebtLetterDownload = useSelector(state =>
+    debtLettersShowLettersVBMS(state),
+  );
 
   useEffect(() => {
     setPageFocus('h1');
@@ -98,7 +105,11 @@ const DebtDetails = () => {
             {whyContent}
           </va-additional-info>
         )}
-        <OnThisPageLinks isDetailsPage hasHistory={hasFilteredHistory} />
+        <OnThisPageLinks
+          isDetailsPage
+          hasHistory={hasFilteredHistory}
+          showDebtLetterDownload={showDebtLetterDownload}
+        />
         {hasFilteredHistory && (
           <>
             <h2
@@ -108,7 +119,9 @@ const DebtDetails = () => {
               Debt letter history
             </h2>
             <p className="vads-u-margin-y--2">
-              You can check the status or download the letters for this debt.
+              {`You can check the status ${
+                showDebtLetterDownload ? `or download the letters for` : `of`
+              } this debt.`}
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <strong>Note:</strong> The content of the debt letters below may
@@ -122,19 +135,29 @@ const DebtDetails = () => {
               .
             </p>
             <HistoryTable history={filteredHistory} />
-            <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
-              Download debt letters
-            </h3>
-            <p className="vads-u-margin-bottom--0">
-              You can download some of your letters for education, compensation
-              and pension debt.
-            </p>
-            <Link to="/debt-balances/letters" className="vads-u-margin-top--1">
-              Download letters related to your VA debt
-            </Link>
+            {showDebtLetterDownload ? (
+              <>
+                <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
+                  Download debt letters
+                </h3>
+                <p className="vads-u-margin-bottom--0">
+                  You can download some of your letters for education,
+                  compensation and pension debt.
+                </p>
+                <Link
+                  to="/debt-balances/letters"
+                  className="vads-u-margin-top--1"
+                >
+                  Download letters related to your VA debt
+                </Link>
+              </>
+            ) : null}
           </>
         )}
-        <HowDoIPay userData={howToUserData} />
+        <HowDoIPay
+          userData={howToUserData}
+          showDebtLetterDownload={showDebtLetterDownload}
+        />
         <NeedHelp />
       </div>
     </>

@@ -5,9 +5,10 @@ import { Provider } from 'react-redux';
 
 export default function createFormUploadAccess(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
-  const { hasOnlineTool, formNumber } = root.dataset;
 
   if (root) {
+    const { hasOnlineTool, formNumber } = root.dataset;
+
     import(/* webpackChunkName: "form-upload" */ './App').then(module => {
       const App = module.default;
       ReactDOM.render(

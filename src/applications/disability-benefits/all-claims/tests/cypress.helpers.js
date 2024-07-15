@@ -185,10 +185,6 @@ export const setup = (cy, testOptions = {}) => {
         data.serviceInformation.reservesNationalGuardService,
     };
 
-    if (testOptions?.prefillData?.includeToxicExposure === true) {
-      formData.includeToxicExposure = true;
-    }
-
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
@@ -209,7 +205,6 @@ export const setup = (cy, testOptions = {}) => {
 function getUnreleasedPages(testOptions) {
   // if toxic exposure indicator not enabled in prefill data, add those pages to the unreleased pages list
   if (
-    testOptions?.prefillData?.includeToxicExposure !== true &&
     testOptions?.prefillData?.startedFormVersion !== '2019' &&
     testOptions?.prefillData?.startedFormVersion !== '2022'
   ) {
