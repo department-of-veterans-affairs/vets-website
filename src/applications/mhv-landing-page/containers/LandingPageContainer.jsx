@@ -19,7 +19,7 @@ import {
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
 
-const App = () => {
+const LandingPageContainer = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const profile = useSelector(selectProfile);
@@ -87,4 +87,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default LandingPageContainer;
