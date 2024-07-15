@@ -33,7 +33,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+import mockData from '../tests/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -76,7 +76,7 @@ const formConfig = {
         page1: {
           path: 'signer-type',
           title: 'Your information',
-          // initialData: mockData.data,
+          initialData: mockData.data,
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
         },
