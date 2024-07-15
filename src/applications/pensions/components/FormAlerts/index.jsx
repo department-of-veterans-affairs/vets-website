@@ -120,7 +120,7 @@ const RequestFormAlert = ({ title, formName, formLink, children }) => {
 };
 
 RequestFormAlert.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
