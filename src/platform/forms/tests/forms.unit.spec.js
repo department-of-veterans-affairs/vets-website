@@ -236,8 +236,17 @@ const validFormTitle = ({ title }) => {
 const validFormSubTitle = ({ subTitle }) => {
   const formSubTitle =
     typeof subTitle === 'function' ? subTitle({ formData: {} }) : subTitle;
-  if (formSubTitle) {
-    expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+
+  // subTitle can return a string or React component
+  if (
+    formSubTitle &&
+    !isReactComponent(subTitle) &&
+    typeof formSubTitle !== 'string'
+  ) {
+    expect(formSubTitle).to.be.a(
+      'string',
+      'subTitle does not return a string or a React component',
+    );
   }
 };
 
