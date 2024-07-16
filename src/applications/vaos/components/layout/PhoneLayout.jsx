@@ -85,7 +85,6 @@ export default function PhoneLayout({ data: appointment }) {
         {facilityPhone && (
           <FacilityPhone heading="Phone:" contact={facilityPhone} />
         )}
-        {!facilityPhone && <>Not available</>}
       </Section>
       <Section heading="Details you shared with your provider">
         <span>
