@@ -1354,6 +1354,47 @@
       }
     },
     {
+      "id": "nstate-vavideo-003",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA location telehealth appointment",
+        "end": "2024-07-22T14:00:00Z",
+        "id": "nstate-vavideo-003",
+        "kind": "telehealth",
+        "locationId": "983GG",
+        "clinic": "1456",
+        "localStartTime": "2024-07-22T09:00:00.000-06:00",
+        "physicalLocation": null,
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": null,
+        "slot": null,
+        "created": "2024-07-22T13:00:00Z",
+        "start": "2024-07-22T13:00:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "CLINIC_BASED"
+        }
+      }
+    },
+    {
       "id": "nstate-video-001",
       "type": "Appointment",
       "attributes": {
