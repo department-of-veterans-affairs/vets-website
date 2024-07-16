@@ -1,3 +1,0 @@
-## Conceptual Overview
-
-## Technical Callouts
