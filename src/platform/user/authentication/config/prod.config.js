@@ -5,6 +5,7 @@ import {
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
+  arpWebOAuthOptions,
 } from './constants';
 
 export default {
@@ -84,5 +85,28 @@ export default {
     requiresVerification: true,
     oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
+  },
+  [EXTERNAL_APPS.ARP]: {
+    allowedSignInProviders: {
+      idme: true,
+      logingov: true,
+    },
+    allowedSignUpProviders: {
+      idme: true,
+      logingov: true,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: true,
+      allowPostLogin: true,
+      allowRedirect: false,
+    },
+    oAuthOptions: {
+      ...arpWebOAuthOptions,
+      clientId: 'fe0d4b2cac7935e7eec5946b8ee31643', // SOURCE: https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests/blob/09e2f044cfe4d67a9f2c7ce22606facd18d381ca/apps/vets-api/prod/values.yaml#L2367
+    },
+    OAuthEnabled: true,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
   },
 };
