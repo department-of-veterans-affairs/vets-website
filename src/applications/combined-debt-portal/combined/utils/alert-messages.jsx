@@ -115,12 +115,19 @@ const alertMessage = (alertType, appType) => {
         ),
         secondHeader: `What you can do`,
         secondBody: (
-          <p className="vads-u-font-family--sans">
-            If you continue having trouble viewing information about your
-            current debts and bills, contact us online through{' '}
-            <a href="https://ask.va.gov">Ask VA</a>
-            ..
-          </p>
+          <>
+            <p className="vads-u-font-family--sans">
+              If you continue hav ing trouble viewing information about your
+              current debts and bills, contact us online through{' '}
+              <a href="https://ask.va.gov">Ask VA</a>.
+            </p>
+            <va-link
+              href="https://ask.va.gov"
+              active
+              text="Contact us at Ask VA"
+              class="vads-u-margin-top--2"
+            />
+          </>
         ),
       };
   }
