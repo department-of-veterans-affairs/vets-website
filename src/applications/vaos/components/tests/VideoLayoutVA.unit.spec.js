@@ -34,6 +34,64 @@ describe('VAOS Component: VideoLayoutVA', () => {
   };
 
   describe('When appointment information is missing', () => {
+    it('should display view facility info when only facility id is returned', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+        },
+        videoData: {
+          isVideo: true,
+          facilityId: '983',
+          kind: VIDEO_TYPES.clinic,
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isVideo: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutVA data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /View facility information Link opens in a new tab./i,
+        }),
+      );
+    });
+
     it('should display find facility info when no facility data and no facility id are available', async () => {
       // Arrange
       const state = {
@@ -46,13 +104,21 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       const appointment = {
         location: {},
-        videoData: {},
+        videoData: {
+          isVideo: true,
+          facilityId: '983',
+          kind: VIDEO_TYPES.clinic,
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
         vaos: {
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isVideo: true,
           apiData: {},
         },
         status: 'booked',
@@ -79,6 +145,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         }),
       );
     });
+
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
