@@ -44,6 +44,7 @@ export const Form0996App = ({
   getContestableIssues,
   contestableIssues,
   legacyCount,
+  toggles,
 }) => {
   const { pathname } = location || {};
 
@@ -149,6 +150,26 @@ export const Form0996App = ({
     ],
   );
 
+  useEffect(
+    () => {
+      const isUpdated = toggles.hlrUpdateedContnet || false; // expected typo
+      if (
+        !toggles.loading &&
+        (typeof formData.hlrUpdatedContent === 'undefined' ||
+          formData.hlrUpdatedContent !== isUpdated)
+      ) {
+        setFormData({
+          ...formData,
+          hlrUpdatedContent: isUpdated,
+        });
+        // temp storage, used for homelessness page focus management
+        sessionStorage.setItem('hlrUpdated', isUpdated);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [toggles, formData.hlrUpdatedContent],
+  );
+
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
@@ -207,6 +228,10 @@ Form0996App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  toggles: PropTypes.shape({
+    hlrUpdateedContnet: PropTypes.bool, // Don't fix typo :(
+    loading: PropTypes.bool,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -216,6 +241,7 @@ const mapStateToProps = state => ({
   savedForms: state.user?.profile?.savedForms || [],
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
+  toggles: state.featureToggles,
 });
 
 const mapDispatchToProps = {
