@@ -263,5 +263,6 @@
   "toggleVyeAddressDirectDepositFormsInProfile": "toggle_vye_address_direct_deposit_forms_in_profile",
   "vyeLoginWidget": "vye_login_widget",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
-  "toggleVyeApplication": "toggle_vye_application"
+  "toggleVyeApplication": "toggle_vye_application",
+  "militaryBenefitEstimates": "military_benefit_estimates"
 }
