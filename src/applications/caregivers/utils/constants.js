@@ -9,7 +9,7 @@ export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
 
 export const DOWNLOAD_ERRORS_BY_CODE = {
   '5': content['alert-download-message--500'],
-  default: content['alert-download-message--default'],
+  generic: content['alert-download-message--generic'],
 };
 
 export const MAX_FILE_SIZE_MB = 10;

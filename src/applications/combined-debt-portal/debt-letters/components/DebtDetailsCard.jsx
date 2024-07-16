@@ -51,14 +51,9 @@ const DebtDetailsCard = ({ debt }) => {
             VA is transitioning to a new system for processing Post 9-11 Chapter
             33 financial transactions. Due to this transition, Chapter 33 debt
             balance information may not reflect recent payments you have made by
-            check, credit card, or ACH. If you believe your Chapter 33 debt
-            balance does not reflect recent payments, we encourage you to
-            contact the Debt Management Center: at{' '}
-            <va-link href="https://ask.va.gov/" text="ask.va.gov" /> or call{' '}
-            <va-telephone contact="8008270648" />, after 07/12/2024. Your
-            payment will not be considered late and will reflect the date
-            received once system updates are completed. This message only
-            applies to Post 9-11, Chapter 33 debts.
+            check, credit card, or ACH. Your payment will not be considered late
+            and will reflect the date received once system updates are
+            completed. This message only applies to Post 9-11, Chapter 33 debts.
           </p>
         </va-alert>
       )}

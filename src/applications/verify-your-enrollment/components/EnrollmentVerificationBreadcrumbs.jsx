@@ -15,7 +15,10 @@ export default function EnrollmentVerificationBreadcrumbs() {
       href: '/education/verify-school-enrollment/',
       label: 'Verify your school enrollment for GI Bill benefits',
     },
-    { href: BASE_URL, label: 'Montgomery GI Bill enrollment verification' },
+    {
+      href: BASE_URL,
+      label: 'Montgomery GI Bill enrollment verification',
+    },
   ];
 
   // Get the last non-empty segment of the URL.
@@ -23,7 +26,6 @@ export default function EnrollmentVerificationBreadcrumbs() {
     .split('/')
     .reverse()
     .find(s => !!s.trim() && !s.startsWith('?'));
-
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
     breadcrumbs.push({
       href: BENEFITS_PROFILE_URL,
@@ -39,5 +41,9 @@ export default function EnrollmentVerificationBreadcrumbs() {
   }
 
   const bcString = JSON.stringify(breadcrumbs);
-  return <va-breadcrumbs breadcrumb-list={bcString} />;
+  return (
+    <div className="bread-crumbs-container">
+      <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" wrapping />;
+    </div>
+  );
 }
