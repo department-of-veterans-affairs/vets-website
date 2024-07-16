@@ -131,7 +131,7 @@ describe('<ContestableIssues>', () => {
       'at least 1 issue before you can continue',
     );
     await waitFor(() => {
-      expect(document.activeElement).to.equal(alert);
+      expect(document.activeElement).to.equal($('h3', alert));
     });
   });
 
@@ -170,7 +170,7 @@ describe('<ContestableIssues>', () => {
     );
 
     await waitFor(() => {
-      expect(document.activeElement).to.equal($('va-alert', container));
+      expect(document.activeElement).to.equal($('va-alert h4', container));
     });
   });
 
