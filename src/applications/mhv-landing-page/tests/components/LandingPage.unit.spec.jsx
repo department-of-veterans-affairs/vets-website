@@ -65,6 +65,14 @@ describe('LandingPage component', () => {
     );
   });
 
+  it('shows an alert when the user has an mhv basic account', () => {
+    const initialState = stateFn({ loa: 1 });
+    const { getByText } = setup({ initialState });
+    getByText(
+      'You need to sign in with a different account to access My HealtheVet',
+    );
+  });
+
   it('reports unverified condition to GA via recordEvent', async () => {
     const loa1Event = {
       ...event,
