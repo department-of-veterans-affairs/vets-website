@@ -35,23 +35,9 @@ describe('Debt Letters - downloads enabled', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('displays how do I pay my VA debt?', () => {
-    cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIPay').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays how do I get financial help?', () => {
-    cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIGetHelp').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays how do I dispute a debt?', () => {
-    cy.findByTestId('howto-dispute-jumplink').click({
-      waitForAnimations: true,
-    });
-    cy.get('#howDoIDispute').should('be.visible');
+  it('displays need help?', () => {
+    cy.findByTestId('needHelp-jumplink').click({ waitForAnimations: true });
+    cy.get('#needHelp').should('be.visible');
     cy.injectAxeThenAxeCheck();
   });
 });
