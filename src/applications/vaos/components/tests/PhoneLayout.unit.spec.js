@@ -38,7 +38,6 @@ describe('VAOS Component: PhoneLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
         },
@@ -101,7 +100,16 @@ describe('VAOS Component: PhoneLayout', () => {
         }),
       ).not.to.exist;
 
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Details you shared with your provider/i,
+        }),
+      );
+
       expect(screen.getByText(/Clinic: Not available/i));
+      expect(screen.getByText(/Reason: Not available/i));
+      expect(screen.getByText(/Other details: Not available/i));
     });
   });
 
