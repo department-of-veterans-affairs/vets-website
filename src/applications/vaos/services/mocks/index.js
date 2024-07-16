@@ -357,10 +357,6 @@ const responses = {
     });
   },
   'GET /vaos/v2/facilities/:id': (req, res) => {
-    if (req.params.id === '983GG') {
-      // returns empty facility data when the locationId 983GG is used
-      return res.json({});
-    }
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
     });
