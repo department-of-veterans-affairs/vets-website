@@ -1,4 +1,3 @@
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -17,6 +16,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
+import fullSchema from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 

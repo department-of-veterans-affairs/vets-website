@@ -1,7 +1,7 @@
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { emailUI, phoneUI } from '../../../definitions/sharedUI';
 import CaregiverContactInfoDescription from '../../../components/FormDescriptions/CaregiverContactInfoDescription';
+import fullSchema from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { email, phone } = fullSchema.definitions;
