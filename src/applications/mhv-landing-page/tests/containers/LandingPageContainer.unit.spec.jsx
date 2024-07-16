@@ -4,7 +4,7 @@ import React from 'react';
 import { CSP_IDS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
-import App from '../../containers/App';
+import LandingPageContainer from '../../containers/LandingPageContainer';
 import { appName } from '../../manifest.json';
 
 const stateFn = ({
@@ -36,9 +36,9 @@ const stateFn = ({
 });
 
 const setup = ({ initialState = stateFn() } = {}) =>
-  renderWithStoreAndRouter(<App />, { initialState });
+  renderWithStoreAndRouter(<LandingPageContainer />, { initialState });
 
-describe(`${appName} -- <App /> container`, () => {
+describe(`${appName} -- <LandingPageContainer /> container`, () => {
   it('renders', () => {
     const { getByRole } = setup();
     getByRole('heading', { name: 'My HealtheVet', level: 1 });

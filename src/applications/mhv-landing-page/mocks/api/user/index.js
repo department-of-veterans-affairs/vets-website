@@ -4,6 +4,9 @@ const defaultUser = {
     id: '',
     type: 'user_scaffolds',
     attributes: {
+      account: {
+        account_uuid: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
+      },
       profile: {
         sign_in: {
           service_name: 'idme',
