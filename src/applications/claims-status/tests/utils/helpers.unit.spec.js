@@ -33,6 +33,7 @@ import {
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
   getClaimPhaseTypeDescription,
+  setDocumentRequestPageTitle,
 } from '../../utils/helpers';
 
 import {
@@ -1163,6 +1164,21 @@ describe('Disability benefits helpers: ', () => {
       const desc = getClaimPhaseTypeDescription('CLAIM_RECEIVED');
 
       expect(desc).to.equal('We received your claim in our system.');
+    });
+  });
+
+  describe('setDocumentRequestPageTitle', () => {
+    it('should display 5103 Evidence Notice', () => {
+      const displayName = 'Automated 5103 Notice Response';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
+    });
+    it('should display Request for Submit buddy statement(s)', () => {
+      const displayName = 'Submit buddy statement(s)';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
     });
   });
 });
