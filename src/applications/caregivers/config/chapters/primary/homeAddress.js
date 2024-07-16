@@ -6,7 +6,7 @@ import {
 import { addressWithAutofillSchema } from '../../../definitions/sharedSchema';
 import { addressWithAutofillUI } from '../../../definitions/sharedUI';
 import { replaceStrValues } from '../../../utils/helpers';
-import fullSchema from '../../../utils/imports';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { address } = fullSchema.definitions;

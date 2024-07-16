@@ -8,7 +8,7 @@ import {
   MED_CENTERS_BY_STATE,
   STATE_LABELS,
 } from '../../../utils/constants';
-import fullSchema from '../../../utils/imports';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { veteran } = fullSchema.properties;

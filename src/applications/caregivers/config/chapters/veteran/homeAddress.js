@@ -2,7 +2,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { VeteranCountyDescription } from '../../../components/FormDescriptions/AddressCountyDescriptions';
 import { addressUI } from '../../../definitions/sharedUI';
 import { addressSchema } from '../../../definitions/sharedSchema';
-import fullSchema from '../../../utils/imports';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { address } = fullSchema.definitions;

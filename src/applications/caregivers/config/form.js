@@ -16,7 +16,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
-import fullSchema from '../utils/imports';
+import { fullSchema } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 

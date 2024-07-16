@@ -6,7 +6,7 @@ import {
   fullNameUI,
   vetRelationshipUI,
 } from '../../../definitions/sharedUI';
-import fullSchema from '../../../utils/imports';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { fullName, date, gender, vetRelationship } = fullSchema.definitions;
