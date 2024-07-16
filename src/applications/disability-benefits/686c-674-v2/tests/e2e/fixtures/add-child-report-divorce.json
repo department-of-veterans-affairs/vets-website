@@ -66,6 +66,10 @@
       "phoneNumber": "1231231234"
     },
     "view:686Information": {},
+    "view:addOrRemoveDependents": {
+      "add": true,
+      "remove": true
+    },
     "view:selectable686Options": {
       "addChild": true,
       "reportDivorce": true
