@@ -3,7 +3,11 @@
     "referral": {
       "id": "mock123",
       "typeOfCare": "Primary Care",
-      "referralNumber": 123456
+      "referralNumber": 123456,
+      "startDate": "2021-01-01",
+      "expirationDate": "2021-02-01",
+      "referringFacility": "White River VA Clinic, VT",
+      "phoneNumber": "555-555-5555"
     },
     "detailsShared": {
       "preferredProvider": "Dr. Smith",

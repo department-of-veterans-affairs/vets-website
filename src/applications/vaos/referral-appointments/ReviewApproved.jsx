@@ -5,29 +5,18 @@ import { getPatientDetails } from '../services/referral';
 
 export default function ReviewApproved() {
   const [patientData, setPatientData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      try {
-        const details = await getPatientDetails();
-        setPatientData(details);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
+      const details = await getPatientDetails();
+      setPatientData(details);
     };
 
     fetchDetails();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
-    <FormLayout>
+    <FormLayout pageTitle="Review Approved Referral">
       <div>
         <h1>
           Review your approved referral and start scheduling an appointment
@@ -38,21 +27,21 @@ export default function ReviewApproved() {
         </p>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">What</div>
-        <div>{patientData?.referral?.stateOfCare}</div>
+        <div>{patientData?.referral?.typeOfCare}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred Facility</div>
-        <div>none</div>
+        <div>{patientData?.detailsShared?.preferredFacility}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred location</div>
-        <div>none</div>
+        <div>{patientData?.detailsShared?.preferredLocation}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred provider</div>
-        <div>none</div>
+        <div>{patientData?.detailsShared?.preferredProvider}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">
           Details you shared with your provider
         </div>
-        <div>Back hurts</div>
+        <div>{patientData?.detailsShared?.bookNotes}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold vads-u-margin-bottom--2">
           Details about your referral
@@ -61,31 +50,31 @@ export default function ReviewApproved() {
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referral number:
           </span>{' '}
-          None
+          {patientData?.referral?.referralNumber}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Start date:
           </span>{' '}
-          None
+          {patientData?.referral?.startDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Expiration date:
           </span>{' '}
-          None
+          {patientData?.referral?.expirationDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referring VA facility:
           </span>{' '}
-          None
+          {patientData?.referral?.referringFacility}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Phone number:
           </span>{' '}
-          None
+          {patientData?.referral?.phoneNumber}
         </div>
         <hr className="vads-u-margin-y--2" />
         <div>
