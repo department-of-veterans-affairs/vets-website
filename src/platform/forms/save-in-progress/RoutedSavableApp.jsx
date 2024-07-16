@@ -317,32 +317,32 @@ export default withRouter(
 );
 
 RoutedSavableApp.propTypes = {
-  autoSavedStatus: PropTypes.any,
+  autoSavedStatus: PropTypes.string,
   children: PropTypes.any,
   currentLocation: PropTypes.shape({
     pathname: PropTypes.shape({
-      replace: PropTypes.any,
+      replace: PropTypes.func,
     }),
     search: PropTypes.shape({
-      includes: PropTypes.any,
+      includes: PropTypes.func,
     }),
   }),
   FormApp: PropTypes.any,
   formConfig: PropTypes.shape({
-    additionalRoutes: PropTypes.any,
+    additionalRoutes: PropTypes.object,
     customText: PropTypes.shape({
-      appType: PropTypes.any,
+      appType: PropTypes.string,
     }),
-    disableSave: PropTypes.any,
+    disableSave: PropTypes.bool,
   }),
-  loadedStatus: PropTypes.any,
-  location: PropTypes.any,
-  prefillStatus: PropTypes.any,
-  profileIsLoading: PropTypes.any,
+  loadedStatus: PropTypes.string,
+  location: PropTypes.object,
+  prefillStatus: PropTypes.string,
+  profileIsLoading: PropTypes.bool,
   router: PropTypes.shape({
-    push: PropTypes.any,
+    push: PropTypes.func,
   }),
-  savedStatus: PropTypes.any,
+  savedStatus: PropTypes.string,
 };
 
 export { RoutedSavableApp };
