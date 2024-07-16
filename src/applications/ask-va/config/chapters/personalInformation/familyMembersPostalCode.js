@@ -67,8 +67,8 @@ const familyMembersPostalCodePage = {
       'view:livesOnMilitaryBaseInfo': {
         type: 'string',
       },
-      militaryBasePostOffice: radioSchema(Object.keys(postOfficeOptions)),
-      militaryBaseRegion: radioSchema(Object.keys(regionOptions)),
+      militaryBasePostOffice: radioSchema(Object.values(postOfficeOptions)),
+      militaryBaseRegion: radioSchema(Object.values(regionOptions)),
       postalCode: {
         type: 'string',
         maxLength: 10,
