@@ -8,11 +8,16 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import RecentActivity from '../../../components/claim-status-tab/RecentActivity';
 import { renderWithRouter } from '../../utils';
 
-const getStore = (cstClaimPhasesEnabled = false) =>
+const getStore = (
+  cstClaimPhasesEnabled = false,
+  cst5103UpdateEnabled = false,
+) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_claim_phases: cstClaimPhasesEnabled,
+      // eslint-disable-next-line camelcase
+      cst_5103_update_enabled: cst5103UpdateEnabled,
     },
   }));
 
@@ -322,6 +327,59 @@ const openClaimStep4WithMultipleItems = {
   },
 };
 
+const openClaimStep4WithAuto5103Notice = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-05-22',
+      currentPhaseBack: false,
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+        phase3CompleteDate: '2024-06-07',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2024-05-12',
+        status: 'NEEDED_FROM_YOU',
+        suspenseDate: '2024-08-07',
+        displayName: 'Automated 5103 Notice Response',
+      },
+    ],
+  },
+};
+
+const openClaimStep4WithClosed5103Notice = {
+  attributes: {
+    claimDate: '2024-05-02',
+    claimPhaseDates: {
+      phaseChangeDate: '2024-05-22',
+      currentPhaseBack: false,
+      latestPhaseType: 'REVIEW_OF_EVIDENCE',
+      previousPhases: {
+        phase1CompleteDate: '2024-05-10',
+        phase2CompleteDate: '2024-05-22',
+        phase3CompleteDate: '2024-06-07',
+      },
+    },
+    claimTypeCode: '110LCMP7IDES',
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2024-05-12',
+        status: 'NO_LONGER_REQUIRED',
+        suspenseDate: '2024-08-07',
+        displayName: '5103 Notice Response',
+        closedDate: '2024-06-12',
+      },
+    ],
+  },
+};
+
 describe('<RecentActivity>', () => {
   context('when cstClaimPhasesEnabled enabled', () => {
     context('when claim doesn’t have trackedItems', () => {
@@ -553,6 +611,106 @@ describe('<RecentActivity>', () => {
           expect(pagination).to.exist;
           expect(pagination.pages).to.equal(2);
         });
+        context(
+          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(true, true)}>
+                  <RecentActivity claim={openClaimStep4WithAuto5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(5);
+              getByText('We received your claim in our system');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText('Your claim moved into Step 3: Evidence gathering');
+              getByText('Your claim moved into Step 4: Evidence review');
+              getByText('Request for you');
+              getByText('We opened a request for "5103 Evidence Notice"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled disabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(true, false)}>
+                  <RecentActivity claim={openClaimStep4WithAuto5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(5);
+              getByText('We received your claim in our system');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText('Your claim moved into Step 3: Evidence gathering');
+              getByText('Your claim moved into Step 4: Evidence review');
+              getByText('Request for you');
+              getByText(
+                'We opened a request for "Automated 5103 Notice Response"',
+              );
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled and has a closed 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(true, true)}>
+                  <RecentActivity claim={openClaimStep4WithClosed5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(5);
+              getByText('We received your claim in our system');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText('Your claim moved into Step 3: Evidence gathering');
+              getByText('Your claim moved into Step 4: Evidence review');
+              getByText('We closed a request for "5103 Evidence Notice"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled disabled and has a closed 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(true, false)}>
+                  <RecentActivity claim={openClaimStep4WithClosed5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(5);
+              getByText('We received your claim in our system');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText('Your claim moved into Step 3: Evidence gathering');
+              getByText('Your claim moved into Step 4: Evidence review');
+              getByText('We closed a request for "5103 Notice Response"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
       });
     });
   });
@@ -802,6 +960,110 @@ describe('<RecentActivity>', () => {
           expect(pagination).to.exist;
           expect(pagination.pages).to.equal(2);
         });
+        context(
+          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(false, true)}>
+                  <RecentActivity claim={openClaimStep4WithAuto5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(4);
+              getByText('Your claim moved into Step 1: Claim received');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText(
+                'Your claim moved into Step 3: Evidence gathering, review, and decision',
+              );
+              getByText('Request for you');
+              getByText('We opened a request for "5103 Evidence Notice"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore()}>
+                  <RecentActivity claim={openClaimStep4WithAuto5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(4);
+              getByText('Your claim moved into Step 1: Claim received');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText(
+                'Your claim moved into Step 3: Evidence gathering, review, and decision',
+              );
+              getByText('Request for you');
+              getByText(
+                'We opened a request for "Automated 5103 Notice Response"',
+              );
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore(false, true)}>
+                  <RecentActivity claim={openClaimStep4WithClosed5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(4);
+              getByText('Your claim moved into Step 1: Claim received');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText(
+                'Your claim moved into Step 3: Evidence gathering, review, and decision',
+              );
+              getByText('We closed a request for "5103 Evidence Notice"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
+        context(
+          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          () => {
+            it('should render list', () => {
+              const { container, getByText } = renderWithRouter(
+                <Provider store={getStore()}>
+                  <RecentActivity claim={openClaimStep4WithClosed5103Notice} />
+                </Provider>,
+              );
+
+              const recentActivityList = $('ol', container);
+              expect(recentActivityList).to.exist;
+              expect(
+                within(recentActivityList).getAllByRole('listitem').length,
+              ).to.equal(4);
+              getByText('Your claim moved into Step 1: Claim received');
+              getByText('Your claim moved into Step 2: Initial review');
+              getByText(
+                'Your claim moved into Step 3: Evidence gathering, review, and decision',
+              );
+              getByText('We closed a request for "5103 Notice Response"');
+              expect($('va-pagination', container)).not.to.exist;
+            });
+          },
+        );
       });
     });
   });
