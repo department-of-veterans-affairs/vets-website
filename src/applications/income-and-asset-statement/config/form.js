@@ -10,6 +10,7 @@ import veteranInformation from './chapters/01-veteran-information';
 import claimantInformation from './chapters/02-claimant-information';
 import unassociatedIncomes from './chapters/03-unassociated-incomes';
 import associatedIncomes from './chapters/04-associated-incomes';
+import ownedAssets from './chapters/05-owned-assets';
 
 // const { } = fullSchema.properties;
 
@@ -54,6 +55,7 @@ const formConfig = {
     claimantInformation,
     unassociatedIncomes,
     associatedIncomes,
+    ownedAssets,
   },
 };
 

@@ -6,6 +6,7 @@ export const DOC_TITLE =
 
 export const TASK_KEYS = {
   addChild: 'addChild',
+  addDisabledChild: 'addDisabledChild',
   addSpouse: 'addSpouse',
   reportDivorce: 'reportDivorce',
   reportDeath: 'reportDeath',
