@@ -132,6 +132,10 @@ va-loading-indicator {
   margin: 200px auto;
 }
 
+#new-records-indicator va-loading-indicator {
+  margin: initial;
+}
+
 .initial-fhir-load {
   width: 300px;
 }
