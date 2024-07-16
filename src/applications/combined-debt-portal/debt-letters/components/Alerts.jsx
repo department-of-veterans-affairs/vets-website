@@ -141,28 +141,26 @@ export const DependentDebt = () => (
 );
 
 export const NoDebtLinks = () => (
-  <>
-    <va-alert status="warning" class="vads-u-margin-bottom--2">
-      <h3 slot="headline">You don’t have any VA debt letters</h3>
-      <p>
-        Our records show you don’t have any debt letters related to VA benefits.
-        If you think this is an error, please contact the Debt Management Center
-        at <va-telephone contact="8008270648" />.
-      </p>
-      <p>
-        If you have VA health care copay debt, go to our
-        <Link className="vads-u-margin-x--0p5" to="/copay-balances/">
-          Pay your VA copay bill
-        </Link>
-        page to learn about your payment options.
-      </p>
-      <va-link
-        href="/manage-va-debt/summary/debt-balances/"
-        icon-name="navigate_before"
-        icon-size={3}
-        text="Back to current debts"
-        class="vads-u-font-weight--bold vads-u-margin-left--neg0p5 vads-u-margin-top--2"
-      />
-    </va-alert>
-  </>
+  <va-alert status="warning">
+    <h3 slot="headline">You don’t have any VA debt letters</h3>
+    <p>
+      Our records show you don’t have any debt letters related to VA benefits.
+      If you think this is an error, please contact the Debt Management Center
+      at <va-telephone contact="8008270648" />.
+    </p>
+    <p>
+      If you have VA health care copay debt, go to our
+      <Link className="vads-u-margin-x--0p5" to="/copay-balances/">
+        Pay your VA copay bill
+      </Link>
+      page to learn about your payment options.
+    </p>
+    <va-link
+      href="/manage-va-debt/summary/debt-balances/"
+      icon-name="navigate_before"
+      icon-size={3}
+      text="Back to current debts"
+      class="vads-u-font-weight--bold vads-u-margin-left--neg0p5 vads-u-margin-top--2"
+    />
+  </va-alert>
 );
