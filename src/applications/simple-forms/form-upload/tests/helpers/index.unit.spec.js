@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import {
   createPayload,
   getFileSize,
-  getFormUploadContent,
+  getFormSubtitle,
   handleRouteChange,
   mask,
   submitForm,
@@ -16,7 +16,7 @@ import {
 describe('Helpers', () => {
   describe('getFormUploadContent', () => {
     it('returns the empty string when formNumber does not match', () => {
-      expect(getFormUploadContent('fake-form')).to.eq('');
+      expect(getFormSubtitle('fake-form')).to.eq('');
     });
   });
 

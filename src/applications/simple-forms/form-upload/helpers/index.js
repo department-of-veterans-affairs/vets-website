@@ -1,25 +1,16 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import {
+  SUBTITLE_0779,
+  CHILD_CONTENT_0779,
+  ADD_CHILD_CONTENT_0779,
+} from '../config/constants';
 
 export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
-
-export const getBreadcrumbList = formNumber => [
-  { href: '/', label: 'VA.gov home' },
-  {
-    href: `/find-forms/about-form-${formNumber}`,
-    label: `About VA Form ${formNumber}`,
-    isRouterLink: true,
-  },
-  {
-    href: `/form-upload/${formNumber}`,
-    label: `Upload VA Form ${formNumber}`,
-    isRouterLink: true,
-  },
-];
 
 export const getFormNumber = location => {
   const path = location.pathname;
@@ -27,12 +18,24 @@ export const getFormNumber = location => {
   return path.match(regex)[1];
 };
 
-export const getFormUploadContent = formNumber => {
+export const getFormData = location => {
+  const formNumber = getFormNumber(location);
+  const title = `Upload VA Form ${formNumber}`;
   if (formNumber === '21-0779') {
-    return 'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
+    return {
+      title,
+      subtitle: SUBTITLE_0779,
+      childContent: CHILD_CONTENT_0779,
+      additionalChildContent: ADD_CHILD_CONTENT_0779,
+    };
   }
 
-  return '';
+  return {
+    title,
+    subtitle: '',
+    childContent: <></>,
+    additionalChildContent: <></>,
+  };
 };
 
 export const handleRouteChange = ({ detail }, history) => {
@@ -50,16 +53,22 @@ export const getFileSize = num => {
   return `${num} B`;
 };
 
-export const createPayload = (file, formId) => {
-  const payload = new FormData();
-  payload.set('form_id', formId);
-  payload.append('file', file);
-  return payload;
-};
-
 export const scrollAndFocusTarget = () => {
   scrollTo('topScrollElement');
   focusByOrder(['va-segmented-progress-bar', 'h1']);
+};
+
+export const isUnverifiedUser = formData =>
+  formData?.['view:veteranPrefillStore']?.loa !== 3;
+
+// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+export const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
 };
 
 export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
@@ -87,51 +96,4 @@ export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
       },
     }));
   };
-};
-
-export const submitForm = (
-  formNumber,
-  confirmationCode,
-  history,
-  options = null,
-) => {
-  apiRequest(`${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`, {
-    method: 'POST',
-    body: JSON.stringify({
-      confirmationCode,
-      formNumber,
-      options,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(response => {
-    history.push(`/${formNumber}/confirmation`, {
-      confirmationNumber: response.confirmationNumber,
-      submittedAt: Date.now(),
-    });
-  });
-};
-
-export const handleSubmit = formData => {
-  const { confirmationCode } = formData?.data?.uploadedFile || {};
-  const { ssn, vaFileNumber, zipCode } = formData?.data?.[
-    'view:veteranPrefillStore'
-  ];
-  const options = { ssn, vaFileNumber, zipCode };
-
-  return submitForm('21-0779', confirmationCode, window.history, options);
-};
-
-export const isUnverifiedUser = formData =>
-  formData?.['view:veteranPrefillStore']?.loa !== 3;
-
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-export const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
 };
