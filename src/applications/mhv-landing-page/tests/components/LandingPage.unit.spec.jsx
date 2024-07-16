@@ -78,10 +78,10 @@ describe('LandingPage component', () => {
   it('does not show the VerifyAndRegisterAlert', async () => {
     const initialState = stateFn();
     const props = { showVerifyAndRegisterAlert: () => false };
-    const { getByTestId } = setup({ initialState, props });
+    const { queryByTestId } = setup({ initialState, props });
     await waitFor(() => {
-      expect(getByTestId(VerifyAndRegisterAlert.defaultProps.testId)).not.to
-        .exist;
+      expect(queryByTestId(VerifyAndRegisterAlert.defaultProps.testId)).to.be
+        .null;
     });
   });
 
