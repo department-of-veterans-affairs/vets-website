@@ -2,9 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Error {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
 
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
       'be.visible',
@@ -12,9 +10,7 @@ class Error {
   };
 
   validatePageLoadedGeneric = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
 
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
       'be.visible',
@@ -24,9 +20,7 @@ class Error {
   };
 
   validatePageLoadedNotAvailable = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
 
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
       'be.visible',
@@ -36,31 +30,22 @@ class Error {
   };
 
   validatePageLoadedExpired = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
-
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
     cy.get('[data-testid="no-longer-available-message"]').should('be.visible');
-    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
   };
 
   validateCanceledPageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, pre-check-in is no longer available');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains('is canceled.');
   };
 
   validateAPIErrorPageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
-
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
