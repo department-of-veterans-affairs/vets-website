@@ -72,7 +72,12 @@ import { focusEvidence } from '../utils/focus';
 import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { focusAlertH3, focusRadioH3, focusH3 } from '../../shared/utils/focus';
+import {
+  focusAlertH3,
+  focusRadioH3,
+  focusH3,
+  focusOnAlert,
+} from '../../shared/utils/focus';
 import {
   mayHaveLegacyAppeals,
   appStateSelector,
@@ -166,6 +171,7 @@ const formConfig = {
           schema: contestableIssues.schema,
           appStateSelector,
           scrollAndFocusTarget: focusH3,
+          onContinue: focusOnAlert,
         },
         addIssue: {
           title: 'Add issues for review',
