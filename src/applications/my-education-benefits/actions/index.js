@@ -90,6 +90,13 @@ export function fetchPersonalInformation(showMebEnhancements09) {
       });
   };
 }
+
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
 const poll = ({
   endpoint,
   validate = response => response && response.data,
@@ -164,6 +171,25 @@ export function fetchEligibility() {
       .catch(errors =>
         dispatch({
           type: FETCH_ELIGIBILITY_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function sendConfirmation() {
+  return async dispatch => {
+    dispatch({ type: SEND_CONFIRMATION });
+    return apiRequest(CONFIRMATION_ENDPOINT)
+      .then(response =>
+        dispatch({
+          type: SEND_CONFIRMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: SEND_CONFIRMATION_FAILURE,
           errors,
         }),
       );
