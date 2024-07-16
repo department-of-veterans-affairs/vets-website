@@ -11,18 +11,11 @@ import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
 import prefillTransformer from './prefill-transformer';
 import submitTransformer from './submit-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
-import {
-  isUnverifiedUser,
-  scrollAndFocusTarget,
-  getFormData,
-} from '../helpers';
+import { isUnverifiedUser, scrollAndFocusTarget } from '../helpers';
 
-const { title, subtitle } = ({ currentLocation }) =>
-  getFormData(currentLocation);
-
-const formConfig = {
+const formConfig = ({ title, subtitle, formNumber }) => ({
   rootUrl: manifest.rootUrl,
-  urlPrefix: '/',
+  urlPrefix: `${formNumber}/`,
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
   dev: {
     collapsibleNavLinks: true,
@@ -101,6 +94,6 @@ const formConfig = {
   },
   footerContent,
   getHelp,
-};
+});
 
 export default formConfig;
