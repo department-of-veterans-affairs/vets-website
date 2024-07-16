@@ -124,34 +124,23 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
-      <Where
-        heading={
-          APPOINTMENT_STATUS.booked === status && !isPastAppointment
-            ? 'Where to attend'
-            : undefined
-        }
-      >
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
-        {!!facility && (
-          <>
-            <Address address={videoProviderAddress} />
-            <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
-            </div>
-          </>
-        )}
-      </Where>
+
+      {!!facility && (
+        <Where
+          heading={
+            APPOINTMENT_STATUS.booked === status && !isPastAppointment
+              ? 'Where to attend'
+              : undefined
+          }
+        >
+          <Address address={videoProviderAddress} />
+          <div className="vads-u-margin-top--1 vads-u-color--link-default">
+            <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+            <FacilityDirectionsLink location={facility} />
+          </div>
+        </Where>
+      )}
+
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
