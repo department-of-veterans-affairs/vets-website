@@ -5,10 +5,8 @@ import recordEvent from '~/platform/monitoring/record-event';
 const HubSection = ({ title, links }) => {
   const listItems = links.map(({ href, text }, index) => (
     <li key={`${href}--${index}`}>
-      <va-link
-        disable-analytics
+      <a
         href={href}
-        text={text}
         onClick={() => {
           recordEvent({
             event: 'nav-linkslist',
@@ -16,7 +14,9 @@ const HubSection = ({ title, links }) => {
             'links-list-section-header': title,
           });
         }}
-      />
+      >
+        {text}
+      </a>
     </li>
   ));
   return (
