@@ -5,6 +5,7 @@ const OnThisPageLinks = ({
   isDetailsPage,
   hasHistory,
   showDebtLetterDownload,
+  hasPaymentHistory,
 }) => (
   <>
     <nav aria-labelledby="on-this-page" className="on-this-page-links">
@@ -28,6 +29,20 @@ const OnThisPageLinks = ({
                 class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
               />
               Current debts
+            </a>
+          )}
+          {hasPaymentHistory && (
+            <a
+              href="#debtDetailsHeader"
+              data-testid="payment-history-jumplink"
+              className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
+            >
+              <va-icon
+                icon="arrow_downward"
+                aria-hidden="true"
+                class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
+              />
+              Debt details
             </a>
           )}
           {hasHistory && (
@@ -78,6 +93,7 @@ const OnThisPageLinks = ({
 
 OnThisPageLinks.propTypes = {
   hasHistory: PropTypes.bool,
+  hasPaymentHistory: PropTypes.bool,
   isDetailsPage: PropTypes.bool,
   showDebtLetterDownload: PropTypes.bool,
 };
