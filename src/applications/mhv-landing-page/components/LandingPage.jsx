@@ -78,8 +78,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
-          {registered && userHasMhvBasicAccount && <MhvBasicAccountAlert />}
           {registered ? <CardLayout data={cards} /> : noCardsDisplay}
+          {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
@@ -13,6 +14,10 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
       'alert-box-status': status,
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const signOut = () => {
+    window.location = logoutUrlSiS;
+  };
 
   return (
     <VaAlert
@@ -28,12 +33,12 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
           account. You have 2 options: a verified Login.gov or a verified ID.me
           account.
         </p>
-        <p className="vads-u-margin-y--0">
+        <p>
           <b>If you already have a Login.gov or ID.me account</b>, sign out of
           VA.gov. Then sign back in using that account. We’ll tell you if you
           need to verify your identity or take any other steps.
         </p>
-        <p className="vads-u-margin-y--0">
+        <p>
           <b>If you want to create a Login.gov account</b>, follow these steps:
         </p>
         <ul>
@@ -48,7 +53,7 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
             account to access My HealtheVet on VA.gov.
           </li>
         </ul>
-        <p className="vads-u-margin-y--0">
+        <p>
           <b>If you want to create an ID.me account</b>, you should know that we
           started this process for you when you signed in to VA.gov. Follow
           these steps to finish creating your account:
@@ -74,11 +79,13 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
           </li>
         </ul>
         <div className="alert-actions">
-          <va-button>Sign Out</va-button>
+          <va-button label="Sign out" onClick={signOut} text="Sign out" />
         </div>
-        <a href="https://www.va.gov/resources/creating-an-account-for-vagov/">
-          Learn more about how to access My HealtheVet on Va.gov
-        </a>
+        <p className="vads-u-margin-top--2">
+          <a href="https://www.va.gov/resources/creating-an-account-for-vagov/">
+            Learn more about how to access My HealtheVet on Va.gov
+          </a>
+        </p>
       </div>
     </VaAlert>
   );
