@@ -115,13 +115,15 @@ export default function InPersonLayout({ data: appointment }) {
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>
+              Location: {clinicPhysicalLocation || 'Not available'}
+            </span>{' '}
+            <br />
+            {facilityPhone && (
+              <FacilityPhone heading="Phone:" contact={facilityPhone} />
+            )}
           </>
-        )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-        <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Phone:" contact={facilityPhone} />
         )}
       </Where>
       <Section heading="Details you shared with your provider">
