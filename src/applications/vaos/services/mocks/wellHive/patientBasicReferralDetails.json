@@ -1,0 +1,15 @@
+{
+  "data": {
+    "referral": {
+      "id": "mock123",
+      "typeOfCare": "Primary Care",
+      "referralNumber": 123456
+    },
+    "detailsShared": {
+      "preferredProvider": "Dr. Smith",
+      "preferredLocation": "123 Main St, Springfield, IL 62704",
+      "preferredFacility": "Springfield VA Clinic",
+      "bookNotes": "Patient has a history of back pain"
+    }
+  }
+}
