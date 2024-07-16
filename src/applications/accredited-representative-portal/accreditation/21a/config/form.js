@@ -5,7 +5,7 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../components/common/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import manifest from '../manifest.json';
+import manifest from '../../../manifest.json';
 import personalInformationChapter from '../pages/01-personal-information-chapter';
 import militaryServiceChapter from '../pages/02-military-service-chapter';
 import employmentInformationChapter from '../pages/03-employment-information-chapter';

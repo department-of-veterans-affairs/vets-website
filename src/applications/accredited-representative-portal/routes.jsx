@@ -1,20 +1,13 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom-v5-compat';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
-import App from './containers/App';
-import LandingPage from './containers/LandingPage';
-import POARequestsPage from './containers/POARequestsPage';
-import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
+import formConfig from './accreditation/21a/config/form';
+import App from './accreditation/21a/containers/App';
 
-const routes = (
-  <Routes>
-    <Route element={<App />}>
-      <Route index element={<LandingPage />} />
-      <Route element={<SignedInLayoutWrapper />}>
-        <Route path="poa-requests" element={<POARequestsPage />} />
-      </Route>
-    </Route>
-  </Routes>
-);
+const route = {
+  path: '/',
+  component: App,
+  indexRoute: { onEnter: (_, replace) => replace('/introduction') },
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
+};
 
-export default routes;
+export default route;
