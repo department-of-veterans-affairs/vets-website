@@ -55,6 +55,10 @@
       "phoneNumber": "1231231234"
     },
     "view:686Information": {},
+    "view:addOrRemoveDependents": {
+      "add": false,
+      "remove": true
+    },
     "view:selectable686Options": {
       "reportStepchildNotInHousehold": true,
       "reportDeath": true,
