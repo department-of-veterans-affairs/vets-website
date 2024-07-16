@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { getRealFacilityId } from '../../utils/appointment';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -26,6 +27,7 @@ export default function ClaimExamLayout({ data: appointment }) {
     clinicPhysicalLocation,
     facility,
     facilityPhone,
+    locationId,
     isPastAppointment,
     startDate,
     status,
@@ -38,6 +40,7 @@ export default function ClaimExamLayout({ data: appointment }) {
   if (!appointment) return null;
 
   let heading = 'Claim exam';
+  const facilityId = locationId;
   if (isPastAppointment) heading = 'Past claim exam';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled claim exam';
@@ -77,17 +80,36 @@ export default function ClaimExamLayout({ data: appointment }) {
             : 'Where'
         }
       >
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!!facility === false &&
+          !!facilityId === false && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!!facility === false &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
         {!!facility && (
           <>
             {facility.name}
