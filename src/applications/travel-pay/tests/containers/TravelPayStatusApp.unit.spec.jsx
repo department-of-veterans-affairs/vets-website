@@ -265,7 +265,7 @@ describe('App', () => {
         'Incomplete',
       );
       expect(statusFilters.map(filter => filter.label)).to.include(
-        'In Process',
+        'In process',
       );
     });
   });

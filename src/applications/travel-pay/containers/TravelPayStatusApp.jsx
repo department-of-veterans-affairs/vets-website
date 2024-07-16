@@ -20,6 +20,7 @@ import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
+import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -48,9 +49,18 @@ export default function App({ children }) {
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
-    const initialStatusFilters = [
+    const claimStatusesPresent = [
       ...new Set(travelClaims.map(claim => claim.claimStatus)),
     ];
+    const initialStatusFilters = [];
+
+    // Status order based on sorting of CLAIMS_STATUSES
+    for (const status of Object.keys(CLAIMS_STATUSES)) {
+      if (claimStatusesPresent.includes(status)) {
+        initialStatusFilters.push(status);
+      }
+    }
+
     setStatusesToFilterBy(initialStatusFilters);
   }
 
