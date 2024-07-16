@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
+  getStatusExtractPhase,
   getObservationValueWithUnits,
   getReactions,
   nameFormat,
@@ -13,6 +14,7 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
 } from '../../util/helpers';
+import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -290,5 +292,69 @@ describe('formats', () => {
     const date = formatDate('2013');
 
     expect(date).to.equal(expectedStyle);
+  });
+});
+
+describe('getStatusExtractPhase', () => {
+  const minutesBefore = (date, minutes) => {
+    return new Date(date.getTime() - minutes * 60 * 1000);
+  };
+
+  const now = new Date();
+
+  it('returns STALE', () => {
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        lastRequested: minutesBefore(now, 80),
+        lastCompleted: minutesBefore(now, 70),
+        lastSuccessfulCompleted: minutesBefore(now, 70),
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.STALE,
+    );
+  });
+
+  it('returns IN_PROGRESS', () => {
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        lastRequested: minutesBefore(now, 10),
+        lastCompleted: minutesBefore(now, 20),
+        lastSuccessfulCompleted: minutesBefore(now, 20),
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.IN_PROGRESS,
+    );
+  });
+
+  it('returns FAILED', () => {
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        lastRequested: minutesBefore(now, 10),
+        lastCompleted: minutesBefore(now, 5),
+        lastSuccessfulCompleted: minutesBefore(now, 80),
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.FAILED,
+    );
+  });
+
+  it('returns CURRENT', () => {
+    const phrStatus = [
+      {
+        extract: 'VPR',
+        lastRequested: minutesBefore(now, 10),
+        lastCompleted: minutesBefore(now, 5),
+        lastSuccessfulCompleted: minutesBefore(now, 5),
+      },
+    ];
+    expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
+      refreshPhases.CURRENT,
+    );
   });
 });

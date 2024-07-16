@@ -33,7 +33,7 @@ import {
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
-} from '../helpers/InternationalPhone';
+} from '../../shared/components/InternationalPhone';
 import PrefillCopy from '../helpers/PrefillCopy';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());

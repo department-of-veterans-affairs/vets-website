@@ -25,9 +25,7 @@ export function getTravelClaims() {
 
       dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
-      const errorMessage = await error.json();
-
-      dispatch(fetchTravelClaimsFailure(errorMessage.error));
+      dispatch(fetchTravelClaimsFailure(error));
     }
   };
 }

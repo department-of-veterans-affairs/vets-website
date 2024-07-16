@@ -3,7 +3,7 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
-describe('Debt Letters', () => {
+describe('Debt Letters - downloads enabled', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
@@ -35,23 +35,38 @@ describe('Debt Letters', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('displays how do I pay my VA debt?', () => {
-    cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIPay').should('be.visible');
+  it('displays need help?', () => {
+    cy.findByTestId('needHelp-jumplink').click({ waitForAnimations: true });
+    cy.get('#needHelp').should('be.visible');
     cy.injectAxeThenAxeCheck();
   });
+});
 
-  it('displays how do I get financial help?', () => {
-    cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIGetHelp').should('be.visible');
-    cy.injectAxeThenAxeCheck();
+describe('Debt Letters - downloads disabled', () => {
+  beforeEach(() => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'debt_letters_show_letters_vbms', value: false },
+          {
+            name: 'combined_debt_portal_access',
+            value: true,
+          },
+        ],
+      },
+    }).as('features');
+    cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.visit('/manage-va-debt/summary/debt-balances');
+    cy.wait(['@features', '@debts']);
   });
 
-  it('displays how do I dispute a debt?', () => {
-    cy.findByTestId('howto-dispute-jumplink').click({
-      waitForAnimations: true,
-    });
-    cy.get('#howDoIDispute').should('be.visible');
+  it('does not display download debt letters', () => {
+    cy.findByTestId('download-jumplink').should('not.exist');
+    cy.findByTestId('download-letters-link').should('not.exist');
+    cy.get('#downloadDebtLetters').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
 });
