@@ -25,10 +25,10 @@ const DownloadLink = ({
       type="application/pdf"
       onClick={handler.onClick}
     >
-      <i
-        aria-hidden="true"
-        className="fas fa-download vads-u-padding-right--1"
-        role="img"
+      <va-icon
+        ///className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+        icon="file_download"
+        size={3}
       />
       {content}{' '}
       <dfn>
