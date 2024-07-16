@@ -2,24 +2,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  isFirstConferenceTimeEmpty,
   checkConferenceTimes,
   validatePhone,
   contactInfoValidation,
 } from '../../validations';
 import { errorMessages } from '../../constants';
-
-describe('isFirstConferenceTimeEmpty', () => {
-  const setTime = time1 => ({ informalConferenceTimes: { time1 } });
-  it('should return true if empty', () => {
-    expect(isFirstConferenceTimeEmpty({})).to.be.true;
-    expect(isFirstConferenceTimeEmpty(setTime())).to.be.true;
-    expect(isFirstConferenceTimeEmpty(setTime(''))).to.be.true;
-  });
-  it('should return false if not empty', () => {
-    expect(isFirstConferenceTimeEmpty(setTime('foo'))).to.be.false;
-  });
-});
 
 describe('Informal conference time validation', () => {
   const mockFormData = { informalConferenceChoice: 'me' };
