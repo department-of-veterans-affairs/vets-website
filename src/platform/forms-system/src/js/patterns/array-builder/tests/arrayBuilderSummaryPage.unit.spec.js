@@ -83,6 +83,7 @@ describe('ArrayBuilderSummaryPage', () => {
     arrayData = [],
     title = 'Name and address of employer',
     required = () => false,
+    minItems = 3,
     maxItems = 5,
     isReviewPage = false,
   }) {
@@ -109,6 +110,7 @@ describe('ArrayBuilderSummaryPage', () => {
           arrayPath: 'employers',
           nounSingular: 'employer',
           required: false,
+          minItems,
           maxItems,
         }),
       },
@@ -127,6 +129,7 @@ describe('ArrayBuilderSummaryPage', () => {
       hasItemsKey: 'view:hasOption',
       isItemIncomplete: item => !item?.name,
       isReviewPage,
+      minItems,
       maxItems,
       nounPlural: 'employers',
       nounSingular: 'employer',
@@ -163,6 +166,7 @@ describe('ArrayBuilderSummaryPage', () => {
       title: 'Review your employers',
       arrayData: [],
       urlParams: '',
+      minItems: 3,
       maxItems: 5,
     });
 
@@ -175,11 +179,35 @@ describe('ArrayBuilderSummaryPage', () => {
       title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
+      minItems: 3,
       maxItems: 5,
     });
 
     expect(container.querySelector('va-radio')).to.exist;
     expect(container.querySelector('va-card')).to.exist;
+  });
+
+  it('should display validation error when selecting "No" and clicking continue with less than min items', () => {
+    const { container, getByText } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      minItems: 3,
+      maxItems: 5,
+    });
+
+    const noRadioButtonLabel = container.querySelector(
+      'label[for="root_view:isAVeteranNoinput"]',
+    );
+    fireEvent.click(noRadioButtonLabel);
+
+    const continueButton = container.querySelector('button#16-continueButton');
+    fireEvent.click(continueButton);
+
+    const errorMessage = container.querySelector('span.usa-error-message');
+    expect(errorMessage.textContent).to.include(
+      'You need to add at least 1 more military service experience.',
+    );
   });
 
   it('should display appropriately with max items', () => {
@@ -193,11 +221,35 @@ describe('ArrayBuilderSummaryPage', () => {
         { name: 'Test 5' },
       ],
       urlParams: '',
+      minItems: 3,
       maxItems: 5,
     });
 
-    expect(container.querySelector('va-radio')).to.not.exist;
+    expect(container.querySelector('va-radio')).to.exist;
     expect(container.querySelector('va-card')).to.exist;
+  });
+
+  it('should display validation when select "Yes" with max items', () => {
+    const { getText, container, getByText } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      minItems: 3,
+      maxItems: 5,
+    });
+
+    const noRadioButtonLabel = container.querySelector(
+      'label[for="root_view:isAVeteranYesinput"]',
+    );
+    fireEvent.click(noRadioButtonLabel);
+
+    const continueButton = container.querySelector('button#16-continueButton');
+    fireEvent.click(continueButton);
+
+    const errorMessage = container.querySelector('span.usa-error-message');
+    expect(errorMessage.textContent).to.include(
+      'You cannot add more than 4 military service experiences.',
+    );
   });
 
   it('should remove all appropriately', () => {
@@ -211,6 +263,7 @@ describe('ArrayBuilderSummaryPage', () => {
       title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
+      minItems: 3,
       maxItems: 5,
       required: () => true,
     });
@@ -234,6 +287,7 @@ describe('ArrayBuilderSummaryPage', () => {
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       isReviewPage: true,
+      minItems: 3,
       maxItems: 5,
     });
 
@@ -255,6 +309,7 @@ describe('ArrayBuilderSummaryPage', () => {
       ],
       urlParams: '',
       isReviewPage: true,
+      minItems: 3,
       maxItems: 5,
     });
 

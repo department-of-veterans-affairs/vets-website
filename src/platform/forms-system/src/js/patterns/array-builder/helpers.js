@@ -232,7 +232,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
  *  nounSingular: string,
  *  nounPlural: string,
  *  minItems: number,
- *  maxItems: boolean,
+ *  maxItems: number,
  * }} options
  */
 export const minMaxItemsHint = ({
