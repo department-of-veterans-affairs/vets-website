@@ -1,4 +1,3 @@
-import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
@@ -12,29 +11,31 @@ import {
 export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
-export const getFormNumber = location => {
-  const path = location.pathname;
+export const getFormNumber = () => {
+  const path = window?.location?.pathname;
   const regex = /\/(\d{2}-\d{4})/;
   return path.match(regex)[1];
 };
 
-export const getFormData = location => {
-  const formNumber = getFormNumber(location);
-  const title = `Upload VA Form ${formNumber}`;
-  if (formNumber === '21-0779') {
-    return {
-      title,
-      subtitle: SUBTITLE_0779,
-      childContent: CHILD_CONTENT_0779,
-      additionalChildContent: ADD_CHILD_CONTENT_0779,
-    };
-  }
+const formMappings = {
+  '21-0779': {
+    subtitle: SUBTITLE_0779,
+    childContent: CHILD_CONTENT_0779,
+    additionalChildContent: ADD_CHILD_CONTENT_0779,
+  },
+};
+
+export const getFormContent = () => {
+  const formNumber = getFormNumber();
+  const { subtitle = '', childContent = null, additionalChildContent = null } =
+    formMappings[formNumber] || {};
 
   return {
-    title,
-    subtitle: '',
-    childContent: <></>,
-    additionalChildContent: <></>,
+    title: `Upload VA Form ${formNumber}`,
+    subtitle,
+    childContent,
+    additionalChildContent,
+    formNumber,
   };
 };
 
@@ -71,6 +72,13 @@ export const mask = value => {
   );
 };
 
+const createPayload = (file, formId) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  return payload;
+};
+
 export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
   const uiOptions = {
     fileUploadUrl: `${
@@ -90,10 +98,6 @@ export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
       file => onFileUploaded(file),
       () => {}, // onError
     );
-    uploadRequest(dispatch, () => ({
-      form: {
-        formId: formNumber,
-      },
-    }));
+    uploadRequest(dispatch, () => ({ form: { formId: formNumber } }));
   };
 };

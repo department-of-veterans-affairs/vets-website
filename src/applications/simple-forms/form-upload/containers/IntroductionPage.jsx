@@ -4,15 +4,18 @@ import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 import { PrimaryActionLink } from '../config/constants';
-import { getFormData } from '../helpers';
+import { getFormContent } from '../helpers';
 
 const IntroductionPage = props => {
-  const { route, location } = props;
+  const { route } = props;
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { title, subtitle, childContent, additionalChildContent } = getFormData(
-    location,
-  );
+  const {
+    title,
+    subtitle,
+    childContent,
+    additionalChildContent,
+  } = getFormContent();
 
   const content = {
     formTitle: title,
