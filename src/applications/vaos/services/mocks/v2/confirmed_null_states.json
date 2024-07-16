@@ -317,8 +317,7 @@
         ],
         "reasonCode": { "text": "" },
         "patientIcn": "1013678363V916823",
-        "locationId": "983GC",
-        "clinic": "1456",
+        "locationId": "983GD",
         "start": "2024-07-22T23:00:00Z",
         "end": "2024-07-23T00:00:00Z",
         "minutesDuration": 60,
@@ -342,37 +341,7 @@
         "localStartTime": "2024-07-23T17:00:00.000-06:00",
         "serviceName": null,
         "physicalLocation": null,
-        "friendlyName": null,
-        "location": {
-          "id": "983GC",
-          "type": "appointments",
-          "attributes": {
-            "id": "983GC",
-            "vistaSite": "983",
-            "vastParent": "983",
-            "type": "va_facilities",
-            "name": "Fort Collins VA Clinic",
-            "classification": "Multi-Specialty CBOC",
-            "timezone": { "timeZoneId": "America/Denver" },
-            "lat": 40.553875,
-            "long": -105.08795,
-            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
-            "phone": { "main": "970-224-1550" },
-            "physicalAddress": {
-              "line": ["2509 Research Boulevard"],
-              "city": "Fort Collins",
-              "state": "CO",
-              "postalCode": "80526-8108"
-            },
-            "healthService": [
-              "Audiology",
-              "EmergencyCare",
-              "MentalHealthCare",
-              "PrimaryCare",
-              "SpecialtyCare"
-            ]
-          }
-        }
+        "friendlyName": null
       }
     },
     {
