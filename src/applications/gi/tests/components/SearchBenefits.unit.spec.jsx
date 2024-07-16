@@ -119,28 +119,30 @@ describe('SearchBenefits', () => {
 
     wrapper.unmount();
   });
-  it('should update spouseActiveDuty when Dropdown onChange is triggered', async () => {
-    window.isProd = false;
+  it('should update spouseActiveDuty when Dropdown onChange is triggered', () => {
     const setSpouseActiveDuty = sinon.spy();
     const props = {
       militaryStatus: 'spouse',
+      setSpouseActiveDuty,
     };
+
     const wrapper = mount(
       <Provider store={store}>
-        <SearchBenefits setSpouseActiveDuty={setSpouseActiveDuty} {...props} />
+        <SearchBenefits {...props} />
       </Provider>,
     );
-    await waitFor(() => {
-      const dropdown = wrapper.find('Dropdown[name="spouseActiveDuty"]');
 
-      dropdown.simulate('change', { target: { value: 'yes' } });
+    const dropdown = wrapper.find('Dropdown[name="spouseActiveDuty"]');
+    expect(dropdown.exists()).to.be.true;
 
-      expect(setSpouseActiveDuty.calledOnce).to.equal(false);
-      expect(setSpouseActiveDuty.calledWith('yes')).to.equal(false);
-    });
+    dropdown.props().onChange({ target: { value: 'yes' } });
+
+    expect(setSpouseActiveDuty.calledOnce).to.be.true;
+    expect(setSpouseActiveDuty.calledWith('yes')).to.be.true;
 
     wrapper.unmount();
   });
+
   it('should update cumulativeService when Dropdown onChange is triggered', async () => {
     const props = {
       giBillChapter: '33a',
@@ -157,10 +159,10 @@ describe('SearchBenefits', () => {
     );
     const dropdown = wrapper.find('Dropdown[name="cumulativeService"]');
     await waitFor(() => {
-      dropdown.simulate('change', { target: { value: '0.9' } });
+      dropdown.props().onChange({ target: { value: '0.9' } });
 
-      expect(setCumulativeService.calledOnce).to.equal(false);
-      expect(setCumulativeService.calledWith('0.9')).to.equal(false);
+      expect(setCumulativeService.calledOnce).to.equal(true);
+      expect(setCumulativeService.calledWith('0.9')).to.equal(true);
     });
 
     wrapper.unmount();
@@ -178,10 +180,10 @@ describe('SearchBenefits', () => {
     );
 
     const dropdown = wrapper.find('Dropdown[name="giBillChapter"]');
-    dropdown.simulate('change', { target: { value: '33b' } });
+    dropdown.props().onChange({ target: { value: '33b' } });
     await waitFor(() => {
-      expect(setGiBillChapter.calledOnce).to.equal(false);
-      expect(setGiBillChapter.calledWith('33b')).to.equal(false);
+      expect(setGiBillChapter.calledOnce).to.equal(true);
+      expect(setGiBillChapter.calledWith('33b')).to.equal(true);
     });
 
     wrapper.unmount();
@@ -201,8 +203,8 @@ describe('SearchBenefits', () => {
     );
 
     const dropdown = wrapper.find('Dropdown[name="enlistmentService"]');
-    dropdown.simulate('change', { target: { value: '3' } });
-    expect(dropdown.props().value).to.equal('3');
+    dropdown.props().onChange({ target: { value: '33b' } });
+    expect(setEnlistmentService.calledWith('33b')).to.equal(true);
     wrapper.unmount();
   });
 });
