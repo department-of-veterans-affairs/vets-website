@@ -3,6 +3,7 @@ import { AXE_CONTEXT, Paths } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
+import mockMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mhvMessages from '../fixtures/pilot-responses/inbox-threads-response.json';
 
 describe('Secure Messaging Pilot feature flag', () => {
@@ -27,7 +28,8 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.loadInboxMessages();
 
-    cy.url().should('contain', Paths.UI_PILOT);
+    PilotEnvPage.verifyUrl(Paths.UI_PILOT);
+    PilotEnvPage.verifyThreadLength(mockMessages);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -39,7 +41,8 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.loadInboxMessages(0, Paths.UI_MAIN, mhvMessages);
 
-    cy.url().should('contain', Paths.UI_MAIN);
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
+    PilotEnvPage.verifyThreadLength(mhvMessages);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

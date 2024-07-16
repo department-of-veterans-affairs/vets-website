@@ -41,6 +41,16 @@ class PilotEnvPage {
       },
     });
   };
+
+  verifyUrl = url => {
+    cy.url().should('contain', url);
+  };
+
+  verifyThreadLength = thread => {
+    cy.get('[data-testid="thread-list-item"]').then(el => {
+      expect(el.length).to.eq(thread.data.length);
+    });
+  };
 }
 
 export default new PilotEnvPage();
