@@ -48,8 +48,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
         },
         videoData: {
           atlasConfirmationCode: '1234',
@@ -114,6 +112,9 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
       ).not.to.exist;
+
+      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.getByText(/Facility not available/i));
     });
   });
 
