@@ -42,15 +42,15 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = !verified ? (
+  const noCardsDisplay = verified ? (
+    <UnregisteredAlert />
+  ) : (
     <IdentityNotVerified
       headline={unVerifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
       signInService={signInService}
     />
-  ) : (
-    <UnregisteredAlert />
   );
 
   useEffect(() => {
