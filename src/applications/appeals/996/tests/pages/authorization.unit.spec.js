@@ -19,13 +19,10 @@ const mockStore = () => ({
     },
   }),
   subscribe: () => {},
-  dispatch: () => ({
-    setFormData: () => {},
-    getContestableIssues: () => {},
-  }),
+  dispatch: () => {},
 });
 
-describe('HLR opt-in page', () => {
+describe('HLR authorization page', () => {
   const {
     schema,
     uiSchema,
