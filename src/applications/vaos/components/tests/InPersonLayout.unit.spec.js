@@ -133,7 +133,9 @@ describe('VAOS Component: InPersonLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        location: {},
+        location: {
+          stationId: '983',
+        },
         videoData: {},
         vaos: {
           isCommunityCare: false,

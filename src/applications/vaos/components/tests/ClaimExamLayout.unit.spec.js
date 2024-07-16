@@ -59,7 +59,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          apiData: {},
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
         },
         status: 'booked',
       };
@@ -105,7 +111,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          apiData: {},
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
         },
         status: 'booked',
       };
@@ -136,7 +148,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
-        location: {},
+        location: {
+          stationId: '983',
+        },
         videoData: {},
         vaos: {
           isCommunityCare: false,
