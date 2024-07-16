@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaNumberInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_UTILITY_NAME_LENGTH } from '../../constants/checkboxSelections';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -117,7 +114,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             value={utilityName || ''}
             charcount
           />
-          <VaNumberInput
+          <VaTextInput
             width="md"
             error={(submitted && amountError) || null}
             id="add-utility-bill-amount"

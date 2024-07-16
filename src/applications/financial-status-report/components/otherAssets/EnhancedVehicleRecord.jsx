@@ -196,7 +196,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.model || ''}
           width="lg"
         />
-        <va-number-input
+        <va-text-input
           error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
           hint={null}
           inputmode="numeric"
@@ -207,7 +207,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.year || ''}
           width="md"
         />
-        <va-number-input
+        <va-text-input
           error={
             (vehicleRecordIsDirty && resaleValueIsDirty && resaleValueError) ||
             null

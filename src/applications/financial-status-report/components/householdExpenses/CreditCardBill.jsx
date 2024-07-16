@@ -211,7 +211,7 @@ const CreditCardBill = props => {
           </p>
         </legend>
 
-        <va-number-input
+        <va-text-input
           error={(submitted && unpaidBalanceError) || null}
           hint={null}
           currency
@@ -227,7 +227,7 @@ const CreditCardBill = props => {
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           error={(submitted && minMonthlyPaymentError) || null}
           hint={null}
           required
@@ -243,7 +243,7 @@ const CreditCardBill = props => {
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           error={(submitted && amountOverdueError) || null}
           hint={null}
           currency

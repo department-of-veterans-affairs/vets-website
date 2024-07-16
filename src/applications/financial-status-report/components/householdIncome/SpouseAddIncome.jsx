@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaNumberInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -127,7 +124,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             value={assetName || ''}
             charcount
           />
-          <VaNumberInput
+          <VaTextInput
             width="md"
             error={otherAssetIncomeError}
             id="add-other-asset-amount"

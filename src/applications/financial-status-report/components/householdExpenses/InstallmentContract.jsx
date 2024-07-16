@@ -271,7 +271,7 @@ const InstallmentContract = props => {
           value={creditorName || ''}
         />
 
-        <va-number-input
+        <va-text-input
           hint={null}
           currency
           inputmode="numeric"
@@ -283,7 +283,7 @@ const InstallmentContract = props => {
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           hint={null}
           currency
           inputmode="numeric"
@@ -297,7 +297,7 @@ const InstallmentContract = props => {
           width="md"
         />
 
-        <va-number-input
+        <va-text-input
           error={(submitted && amountDueMonthlyError) || null}
           hint={null}
           currency
@@ -334,7 +334,7 @@ const InstallmentContract = props => {
           error={(submitted && fromDateError) || null}
         />
 
-        <va-number-input
+        <va-text-input
           hint={null}
           currency
           inputmode="numeric"

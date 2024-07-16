@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
-  VaNumberInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -103,7 +103,7 @@ const DependentsPage = ({
     <>
       <h1>{determineH1()}</h1>
       <form>
-        <VaNumberInput
+        <VaTextInput
           className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
