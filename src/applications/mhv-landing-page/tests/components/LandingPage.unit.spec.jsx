@@ -25,6 +25,7 @@ const stateFn = ({
       loa: { current: loa },
       signIn: { serviceName },
       vaPatient,
+      mhvAccountState: 'OK',
     },
   },
 });
@@ -65,8 +66,8 @@ describe('LandingPage component', () => {
     );
   });
 
-  it('shows an alert when the user has an mhv basic account', () => {
-    const initialState = stateFn({ loa: 1 });
+  it('shows an alert when the user is loa1 and has mhvAccountState = OK', () => {
+    const initialState = stateFn({ loa: 1, mhvAccountState: 'OK' });
     const { getByText } = setup({ initialState });
     getByText(
       'You need to sign in with a different account to access My HealtheVet',
