@@ -127,7 +127,7 @@ const Error = () => {
           ? t('you-canceled')
           : t('facility-canceled');
       messageText = (
-        <div>
+        <div data-testid="canceled-message">
           <p className="vads-u-margin-top--0">
             <span className="vads-u-font-weight--bold">{openingText}</span>
             <Trans

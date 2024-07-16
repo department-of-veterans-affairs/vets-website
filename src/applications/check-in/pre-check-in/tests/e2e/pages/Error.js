@@ -39,9 +39,12 @@ class Error {
 
   validateCanceledPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains('is canceled.');
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    cy.get('[data-testid="canceled-message"]', {
+      timeout: Timeouts.slow,
+    }).should('be.visible');
   };
 
   validateAPIErrorPageLoaded = () => {
