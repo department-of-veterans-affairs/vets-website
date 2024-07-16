@@ -343,7 +343,7 @@ const testConfig = createTestConfig(
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
           // do U.S. Savings Bonds, and Retirement
-          cy.get('va-text-input')
+          cy.get('va-text-input[name="add-other-income-amount"]')
             .as('numberInputs')
             .should('have.length', 2);
 
