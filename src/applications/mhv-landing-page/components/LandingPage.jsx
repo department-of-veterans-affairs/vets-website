@@ -26,8 +26,10 @@ import {
   personalizationEnabled,
   helpdeskInfoEnabled,
   hasMhvAccount,
+  hasMhvBasicAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
+import MhvBasicAccountAlert from './MhvBasicAccountAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
@@ -35,6 +37,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const registered = useSelector(isVAPatient) && verified;
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
+  const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
@@ -75,6 +78,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          {registered && userHasMhvBasicAccount && <MhvBasicAccountAlert />}
           {registered ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
