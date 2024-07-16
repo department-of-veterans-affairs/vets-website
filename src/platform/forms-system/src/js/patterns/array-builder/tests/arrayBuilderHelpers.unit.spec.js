@@ -267,46 +267,44 @@ describe('arrayBuilderText', () => {
   expect(getText).to.be.a('function');
 });
 
-describe('maxItemsHint', () => {
-  let hint = helpers.maxItemsHint({
-    arrayData: [],
+describe('minMaxItemsHint', () => {
+  let hint = helpers.minMaxItemsHint({
     nounPlural: 'employers',
     nounSingular: 'employer',
+    minItems: 2,
     maxItems: 5,
   });
-  expect(hint).to.eq('You can add up to 5.');
+  expect(hint).to.eq(
+    'You need to add a minimum of 2 and maximum of 5 employers.',
+  );
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}],
+  hint = helpers.minMaxItemsHint({
     nounPlural: 'employers',
     nounSingular: 'employer',
-    maxItems: 5,
+    minItems: 1,
   });
-  expect(hint).to.eq('You can add 4 more employers.');
+  expect(hint).to.eq('You need to add a minimum of 1 employer.');
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}, {}, {}, {}],
+  hint = helpers.minMaxItemsHint({
     nounPlural: 'employers',
     nounSingular: 'employer',
-    maxItems: 5,
+    minItems: 2,
   });
-  expect(hint).to.eq('You can add 1 more employer.');
+  expect(hint).to.eq('You need to add a minimum of 2 employers.');
 
-  hint = helpers.maxItemsHint({
-    arrayData: [{}, {}, {}, {}, {}],
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 5,
-  });
-  expect(hint).to.eq('You can add up to 5.');
-
-  hint = helpers.maxItemsHint({
-    arrayData: [],
+  hint = helpers.minMaxItemsHint({
     nounPlural: 'employers',
     nounSingular: 'employer',
     maxItems: 1,
   });
-  expect(hint).to.eq('You can add up to 1.');
+  expect(hint).to.eq('You can add up to 1 employer.');
+
+  hint = helpers.minMaxItemsHint({
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add up to 5 employers.');
 });
 
 describe('getUpdatedItemFromPath', () => {

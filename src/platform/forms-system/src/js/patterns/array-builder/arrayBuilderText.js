@@ -13,12 +13,10 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       ? `${itemName}’s information has been deleted`
       : `${props.nounSingular} information has been deleted`;
   },
-  alertMaxItems: props =>
-    `You have added the maximum number of allowed ${
-      props.nounPlural
-    } for this application. You may edit or delete a ${
-      props.nounSingular
-    } or choose to continue on in the application.`,
+  alertMinItems: props =>
+    `You need to add at least ${props.itemData} ${
+      props.minItems === 1 ? props.nounSingular : props.nounPlural
+    }.`,
   cancelAddButtonText: props => `Cancel adding this ${props.nounSingular}`,
   cancelAddDescription: props =>
     `If you cancel, you’ll lose the information you entered about this ${

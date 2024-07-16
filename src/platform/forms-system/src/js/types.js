@@ -380,7 +380,7 @@
  * @typedef {{
  *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
  *   alertItemDeleted?: (props: ArrayBuilderTextProps) => string,
- *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
+ *   alertMinItems?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
@@ -424,6 +424,7 @@
  * nounPlural: "employers"
  * ```
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number} [minItems] The minimum number of items allowed in the array.
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
