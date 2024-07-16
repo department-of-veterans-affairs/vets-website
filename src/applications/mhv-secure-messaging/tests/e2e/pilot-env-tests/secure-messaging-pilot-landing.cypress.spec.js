@@ -1,7 +1,7 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Paths, Locators, Data } from './utils/constants';
-import mockFeatureToggles from './fixtures/toggles-response.json';
-import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT, Paths, Locators, Data } from '../utils/constants';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
+import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Secure Messaging Pilot feature flag', () => {
   const pilotFeatureFlag = {
