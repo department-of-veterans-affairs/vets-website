@@ -7,16 +7,18 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
 import { identificationInformationPage, zipCodePage } from '../pages/loa1';
-import {
-  TITLE,
-  SUBTITLE,
-  SAVE_IN_PROGRESS_CONFIG,
-  PROGRESS_BAR_LABELS,
-} from './constants';
+import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
 import prefillTransformer from './prefill-transformer';
 import submitTransformer from './submit-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
-import { isUnverifiedUser, scrollAndFocusTarget } from '../helpers';
+import {
+  isUnverifiedUser,
+  scrollAndFocusTarget,
+  getFormData,
+} from '../helpers';
+
+const { title, subtitle } = ({ currentLocation }) =>
+  getFormData(currentLocation);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -44,8 +46,8 @@ const formConfig = {
     notFound: 'Please start over to upload your form.',
     noAuth: 'Please sign in again to continue uploading your form.',
   },
-  title: TITLE,
-  subtitle: SUBTITLE,
+  title,
+  subtitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: {
     useDiv: true,
