@@ -39,10 +39,12 @@ const verifyEditPage = (values, editButtonText) => {
 
   // verify edit page has correct values populated in input fields
   cy.get('va-text-input')
+    .first()
     .shadow()
     .find('input')
     .should('have.value', values[0].name);
   cy.get('va-text-input')
+    .last()
     .shadow()
     .find('input')
     .should('have.value', values[0].amount);
