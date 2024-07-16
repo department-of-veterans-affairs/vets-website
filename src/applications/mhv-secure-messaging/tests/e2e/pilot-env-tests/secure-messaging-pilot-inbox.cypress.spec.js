@@ -19,6 +19,19 @@ describe('Secure Messaging Pilot feature flag', () => {
     },
   };
 
+  it('pilot OFF inbox page view', () => {
+    SecureMessagingSite.login();
+    SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_MAIN);
+
+    PilotEnvPage.loadInboxMessages(Paths.UI_MAIN, mhvMessages);
+
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
+    PilotEnvPage.verifyThreadLength(mhvMessages);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
   it('pilot ON inbox page view', () => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(
@@ -30,19 +43,6 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
     PilotEnvPage.verifyThreadLength(mockMessages);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('pilot OF inbox page view', () => {
-    SecureMessagingSite.login();
-    SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_MAIN);
-
-    PilotEnvPage.loadInboxMessages(0, Paths.UI_MAIN, mhvMessages);
-
-    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
-    PilotEnvPage.verifyThreadLength(mhvMessages);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

@@ -4,7 +4,6 @@ import { Paths } from '../utils/constants';
 
 class PilotEnvPage {
   loadInboxMessages = (
-    num = 1,
     url = Paths.UI_PILOT,
     messages = mockPilotMessages,
     folders = mockFolders,
@@ -12,14 +11,14 @@ class PilotEnvPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE +
-        Paths.FOLDERS}/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC&requires_oh_messages=${num}`,
+        Paths.FOLDERS}/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC&requires_oh_messages=1`,
       messages,
     ).as('inboxPilotMessages');
 
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE +
-        Paths.FOLDERS}?page=1&per_page=999&useCache=false&requires_oh_messages=${num}`,
+        Paths.FOLDERS}?page=1&per_page=999&useCache=false&requires_oh_messages=1`,
       folders,
     ).as('inboxPilotFolderMetaData');
 
