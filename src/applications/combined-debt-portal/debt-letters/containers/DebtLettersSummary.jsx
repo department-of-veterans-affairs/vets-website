@@ -172,7 +172,7 @@ const DebtLettersSummary = () => {
                 </section>
               ) : null}
 
-              <HowDoIPay />
+              <HowDoIPay showDebtLetterDownload={showDebtLetterDownload} />
 
               <NeedHelp />
             </>
