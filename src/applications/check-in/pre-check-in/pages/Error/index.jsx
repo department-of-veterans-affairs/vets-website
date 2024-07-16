@@ -53,7 +53,11 @@ const Error = () => {
     </div>
   );
   const chevRight = (
-    <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+    <va-icon
+      icon="navigate_next"
+      size={3}
+      className="vads-u-margin-left--neg0p5"
+    />
   );
   const mixedModalityMessage = (
     <div data-testid="mixed-modality-message">
