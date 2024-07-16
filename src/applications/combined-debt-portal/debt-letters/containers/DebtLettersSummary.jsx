@@ -6,9 +6,8 @@ import {
   setPageFocus,
   ALERT_TYPES,
   APP_TYPES,
+  debtLettersShowLettersVBMS,
 } from '../../combined/utils/helpers';
-import HowDoIPay from '../components/HowDoIPay';
-import NeedHelp from '../components/NeedHelp';
 import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 // TODO: OtherVA Update
@@ -61,6 +60,10 @@ const DebtLettersSummary = () => {
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
+  const showDebtLetterDownload = useSelector(state =>
+    debtLettersShowLettersVBMS(state),
+  );
+
   const {
     debts,
     debtLinks,
@@ -136,36 +139,52 @@ const DebtLettersSummary = () => {
             </>
           ) : (
             <>
-              <OnThisPageLinks />
+              <OnThisPageLinks
+                showDebtLetterDownload={showDebtLetterDownload}
+              />
 
               <DebtCardsList />
 
               {renderOtherVA(mcpStatements?.length, mcpError)}
 
-              <section>
-                <h3
-                  id="downloadDebtLetters"
-                  className="vads-u-margin-top--4 vads-u-font-size--h2"
-                >
-                  Download debt letters
-                </h3>
-                <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
-                  You can download some of your letters for education,
-                  compensation and pension debt.
-                </p>
+              {showDebtLetterDownload ? (
+                <section>
+                  <h3
+                    id="downloadDebtLetters"
+                    className="vads-u-margin-top--4 vads-u-font-size--h2"
+                  >
+                    Download debt letters
+                  </h3>
+                  <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+                    You can download some of your letters for education,
+                    compensation and pension debt.
+                  </p>
 
-                <Link
-                  to="/debt-balances/letters"
-                  className="vads-u-margin-top--1 vads-u-font-family--sans"
-                  data-testid="download-letters-link"
-                >
-                  Download letters related to your VA debt
-                </Link>
-              </section>
+                  <Link
+                    to="/debt-balances/letters"
+                    className="vads-u-margin-top--1 vads-u-font-family--sans"
+                    data-testid="download-letters-link"
+                  >
+                    Download letters related to your VA debt
+                  </Link>
+                </section>
+              ) : null}
 
-              <HowDoIPay />
-
-              <NeedHelp />
+              <va-need-help id="needHelp" class="vads-u-margin-top--4">
+                <div slot="content">
+                  <p>
+                    If you have any questions about your benefit overpayment or
+                    if you think your debt was created in an error, you can
+                    dispute it. Contact us online through{' '}
+                    <a href="https://ask.va.gov/">Ask VA</a> or call the Debt
+                    Management Center at <va-telephone contact="8008270648" /> (
+                    <va-telephone contact="711" tty="true" />
+                    ). For international callers, use{' '}
+                    <va-telephone contact="6127136415" />. We’re here Monday
+                    through Friday, 7:30 a.m. to 7:00 p.m. ET.
+                  </p>
+                </div>
+              </va-need-help>
             </>
           )}
         </>
