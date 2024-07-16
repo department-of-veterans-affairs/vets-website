@@ -173,9 +173,7 @@ const DebtDetails = () => {
         />
         {shouldShowPaymentHistory && (
           <div>
-            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
-              Debt details
-            </h2>
+            <h2 id="debtDetailsHeader">Debt details</h2>
             <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between vads-u-margin-bottom--2 medium-screen:vads-u-max-width--90">
               <div>
                 <h3 className="vads-u-margin-y--0">
@@ -204,19 +202,12 @@ const DebtDetails = () => {
         )}
         {hasFilteredHistory && (
           <>
-            <h2
-              id="debtLetterHistory"
-              className="vads-u-margin-top--5 vads-u-margin-bottom--0"
-            >
-              Debt letter history
-            </h2>
-            <p className="vads-u-margin-y--2">
+            <h2 id="debtLetterHistory">Debt letter history</h2>
+            <p className="vads-u-margin-y--0">
               You can check the status or download the letters for this debt.
             </p>
             <HistoryTable history={filteredHistory} />
-            <h3 id="downloadDebtLetters" className="vads-u-margin-top--0">
-              Download debt letters
-            </h3>
+            <h3 id="downloadDebtLetters">Download debt letters</h3>
             <p className="vads-u-margin-bottom--0">
               You can download some of your letters for education, compensation
               and pension debt.
