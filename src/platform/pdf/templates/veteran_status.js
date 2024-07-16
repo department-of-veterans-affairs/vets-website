@@ -37,7 +37,7 @@ const config = {
 };
 
 const validate = data => {
-  const requiredFields = ['fullName', 'serviceHistory', 'dob'];
+  const requiredFields = ['fullName', 'serviceHistory'];
 
   const missingFields = requiredFields.filter(field => !data[field]);
   if (missingFields.length) {
@@ -96,59 +96,52 @@ const generate = async data => {
     doc
       .font(config.headings.H1.font)
       .fontSize(config.headings.H1.size)
-      .text(data.details.fullName, 82, 86, { width: 112 });
+      .text(data.details.fullName, 86, 86, { width: 112 })
+      .moveDown(1.38);
   });
 
   wrapper.add(name);
 
-  // DOB
-  if (data.details.dob) {
-    const dateOfBirthHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('Date of birth: ', 82, 120);
-    });
-    const dateOfBirth = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(data.details.dob)
-        .moveDown(0.75);
-    });
+  // Render all info items conditionally
+  const infoItems = [
+    {
+      heading: 'DoD ID Number',
+      content: data.details.edipi,
+      condition: data.details.edipi,
+    },
+    {
+      heading: 'Disability rating',
+      content: `${data.details.totalDisabilityRating?.toString()}% service connected`,
+      condition: data.details.totalDisabilityRating,
+    },
+  ];
 
-    wrapper.add(dateOfBirthHeader);
-    wrapper.add(dateOfBirth);
-  }
-
-  // Disability rating
-  if (data.details.totalDisabilityRating) {
-    const drHeader = doc.struct('H2', () => {
-      doc
-        .font(config.headings.H2.font)
-        .fontSize(config.headings.H2.size)
-        .text('Disability rating: ');
-    });
-    const dr = doc.struct('P', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .text(
-          `${data.details.totalDisabilityRating.toString()}% service connected`,
-        )
-        .moveDown(1.5);
-    });
-
-    wrapper.add(drHeader);
-    wrapper.add(dr);
-  }
+  infoItems.forEach(item => {
+    if (item.condition) {
+      const header = doc.struct('H2', () => {
+        doc
+          .font(config.headings.H2.font)
+          .fontSize(config.headings.H2.size)
+          .text(`${item.heading}: `);
+      });
+      const content = doc.struct('P', () => {
+        doc
+          .font(config.text.font)
+          .fontSize(config.text.size)
+          .text(item.content)
+          .moveDown(0.75);
+      });
+      wrapper.add(header);
+      wrapper.add(content);
+    }
+  });
 
   // Service History
   const serviceHistory = doc.struct('H2', () => {
     doc
       .font(config.headings.H2.font)
       .fontSize(config.headings.H2.size)
-      .text('Period of service', 195, 120)
+      .text('Period of service', 215, 120)
       .moveDown(0.5);
   });
 
@@ -195,8 +188,8 @@ const generate = async data => {
       .fontSize(config.text.disclaimerTextSize)
       .text(
         "You can use this Veteran status to prove you served in the United States Uniformed Services. This status doesn't entitle you to any VA benefits.",
-        82,
-        187,
+        86,
+        195,
         {
           width: 247,
         },
