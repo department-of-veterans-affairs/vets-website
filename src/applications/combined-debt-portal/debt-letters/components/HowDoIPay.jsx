@@ -56,9 +56,11 @@ const HowDoIPay = ({ userData }) => (
         </ul>
       )}
 
-      <a className="vads-c-action-link--blue" href="https://www.pay.va.gov/">
-        Pay on pay.va.gov
-      </a>
+      <va-link-action
+        href="https://www.pay.va.gov/"
+        message-aria-describedby="Opens pay.va.gov"
+        text="Pay on pay.va.gov"
+      />
 
       <h3>Pay by phone</h3>
       <p>
