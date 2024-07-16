@@ -41,8 +41,6 @@ describe('VAOS Component: PhoneLayout', () => {
         comment: 'This is a test:Additional information',
         location: {
           stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
         },
         videoData: {},
         practitioners: [
@@ -102,6 +100,8 @@ describe('VAOS Component: PhoneLayout', () => {
           name: /What/i,
         }),
       ).not.to.exist;
+
+      expect(screen.getByText(/Clinic: Not available/i));
     });
   });
 
