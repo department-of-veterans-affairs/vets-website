@@ -138,7 +138,7 @@ const formConfig = {
         },
         page2b: {
           path: 'beneficiary-identification-info',
-          title: formData => `${fnp(formData)} identification information`,
+          title: formData => `${fnp(formData)} CHAMPVA member number`,
           ...applicantMemberNumberSchema,
         },
         page2c: {
@@ -154,8 +154,12 @@ const formConfig = {
               customTitle: `${fnp(props.data)} address`,
               customDescription:
                 'We’ll send any important information about this form to this address.',
-              customSelectText:
-                'Does the beneficiary have the same address as you?',
+              customSelectText: `Does ${nameWording(
+                props.data,
+                false,
+                false,
+                true,
+              )} have the same address as you?`,
               positivePrefix: 'Yes, their address is',
               negativePrefix: 'No, they have a different address',
             };
@@ -172,7 +176,7 @@ const formConfig = {
         },
         page2e: {
           path: 'beneficiary-contact-info',
-          title: formData => `${fnp(formData)} phone information`,
+          title: formData => `${fnp(formData)} phone number`,
           ...applicantPhoneSchema,
         },
       },
@@ -209,7 +213,7 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimIsWorkRelated', formData),
+          depends: formData => get('claimType', formData) === 'medical',
           ...medicalClaimUploadSchema,
         },
         page8: {
@@ -233,7 +237,8 @@ const formConfig = {
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
-            get('policies', formData).length > 1,
+            get('policies', formData) &&
+            formData?.policies?.length > 1,
           ...eobUploadSchema(false),
         },
         page10: {

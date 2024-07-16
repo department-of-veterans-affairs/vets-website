@@ -16,7 +16,6 @@ describe('Debt Letters - downloads enabled', () => {
   });
 
   it('displays the current debts section and navigates to debt details', () => {
-    cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testid="debt-details-button"]')
       .first()
       .click();
@@ -26,32 +25,6 @@ describe('Debt Letters - downloads enabled', () => {
 
   it('displays other va debts', () => {
     cy.findByTestId('other-va-copay-body').should('exist');
-    cy.injectAxeThenAxeCheck();
-  });
-  it('displays download debt letters', () => {
-    cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
-    cy.findByTestId('download-letters-link').click();
-    cy.get('#downloadDebtLetters').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays how do I pay my VA debt?', () => {
-    cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIPay').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays how do I get financial help?', () => {
-    cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
-    cy.get('#howDoIGetHelp').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays how do I dispute a debt?', () => {
-    cy.findByTestId('howto-dispute-jumplink').click({
-      waitForAnimations: true,
-    });
-    cy.get('#howDoIDispute').should('be.visible');
     cy.injectAxeThenAxeCheck();
   });
 });

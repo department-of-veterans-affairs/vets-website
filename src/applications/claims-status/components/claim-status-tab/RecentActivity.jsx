@@ -14,6 +14,9 @@ import {
 
 export default function RecentActivity({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cst5103UpdateEnabled = useToggleValue(
+    TOGGLE_NAMES.cst5103UpdateEnabled,
+  );
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
   // When feature flag cstClaimPhases is enabled and claim type code is for a disability
   // compensation claim we show 8 phases instead of 5 with updated description, link text
@@ -45,18 +48,29 @@ export default function RecentActivity({ claim }) {
     }
   };
 
+  const is5103Notice = item => {
+    return (
+      item.displayName === 'Automated 5103 Notice Response' ||
+      item.displayName === '5103 Notice Response'
+    );
+  };
+
   const getTrackedItemDescription = item => {
+    const displayName =
+      is5103Notice(item) && cst5103UpdateEnabled
+        ? '5103 Evidence Notice'
+        : item.displayName;
     switch (item.status) {
       case 'NEEDED_FROM_YOU':
       case 'NEEDED_FROM_OTHERS':
-        return `We opened a request for "${item.displayName}"`;
+        return `We opened a request for "${displayName}"`;
       case 'NO_LONGER_REQUIRED':
-        return `We closed a request for "${item.displayName}"`;
+        return `We closed a request for "${displayName}"`;
       case 'SUBMITTED_AWAITING_REVIEW':
-        return `We received your document(s) for "${item.displayName}"`;
+        return `We received your document(s) for "${displayName}"`;
       case 'INITIAL_REVIEW_COMPLETE':
       case 'ACCEPTED':
-        return `We completed a review for "${item.displayName}"`;
+        return `We completed a review for "${displayName}"`;
       default:
         return 'There was an update to this item';
     }

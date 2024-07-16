@@ -24,7 +24,7 @@ export default function DefaultPage({
   uploading,
 }) {
   return (
-    <div id="default-page">
+    <div id="default-page" className="vads-u-margin-bottom--3">
       <h1 className="claims-header">Request for {item.displayName}</h1>
       {item.status === 'NEEDED_FROM_YOU' ? (
         <DueDate date={item.suspenseDate} />

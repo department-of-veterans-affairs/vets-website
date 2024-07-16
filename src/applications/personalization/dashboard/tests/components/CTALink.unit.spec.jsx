@@ -38,7 +38,7 @@ describe('<CTALink />', () => {
       />,
     );
 
-    expect(tree.container.querySelector('i.fa-chevron-right')).to.not.be.null;
+    expect(tree.container.querySelector('va-icon')).to.not.be.null;
     tree.unmount();
   });
 
