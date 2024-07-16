@@ -398,5 +398,10 @@
   "youve-successfully-reviewed-your-contact-information": "You’ve successfully reviewed your contact information",
   "todays-appointments-at-this-facility": "Today’s appointments at this facility",
   "review-your-information": "Review your information",
-  "who": "Who"
+  "who": "Who",
+  "you-cant-review-information-right-now": "You can’t review your contact information right now",
+  "the-link-selected-has-expired": "The link you selected from our text message has expired. When it’s time to check in for your upcoming appointment, we’ll send you another text. Or if you’re at the facility, see staff to check you in. You can review your contact information at that time.",
+  "you-can-review-online-until-date": "You can review your contact information online until {{date, long}}.",
+  "canceled-in-person-appointment": "Canceled in-person appointment",
+  "were-sorry-something-went-wrong-on-our-end": "We’re sorry. Something went wrong on our end. Please try again."
 }
