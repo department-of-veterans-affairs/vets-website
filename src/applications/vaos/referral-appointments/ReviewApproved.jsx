@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
+import { getPatientDetails } from '../services/referral';
 
 export default function ReviewApproved() {
+  const [patientData, setPatientData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const details = await getPatientDetails();
+        setPatientData(details);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchDetails();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <FormLayout>
       <div>
@@ -15,7 +38,7 @@ export default function ReviewApproved() {
         </p>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">What</div>
-        <div>Family Medicine</div>
+        <div>{patientData?.referral?.stateOfCare}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred Facility</div>
         <div>none</div>
