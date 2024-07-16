@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths, Locators, Data } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
+import PilotEnvPage from '../pages/PilotEnvPage';
 
 describe('Secure Messaging Pilot feature flag', () => {
   const pilotFeatureFlag = {
@@ -22,7 +23,7 @@ describe('Secure Messaging Pilot feature flag', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.url().should('contain', Paths.UI_MAIN);
+    PilotEnvPage.verifyUrl(Paths.UI_MAIN);
     cy.get(Locators.ACCORDIONS).should(
       'have.length',
       mockFeatureToggles.data.features.length,
@@ -39,14 +40,17 @@ describe('Secure Messaging Pilot feature flag', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
+    PilotEnvPage.verifyUrl(Paths.UI_PILOT);
+
     cy.get(Locators.ACCORDIONS).should(
       'have.length',
       mockPilotFeatureToggles.data.features.length,
     );
-    cy.url().should('contain', Paths.UI_PILOT);
+
     cy.get(Locators.ACCORDIONS)
       .last()
       .should('be.visible');
+
     cy.get(Locators.ACCORDIONS)
       .last()
       .find('span')
