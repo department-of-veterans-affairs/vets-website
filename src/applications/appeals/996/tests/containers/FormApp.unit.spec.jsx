@@ -62,6 +62,11 @@ const getData = ({
         data: formData,
       },
       contestableIssues,
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        hlr_updateed_contnet: true,
+        hlrUpdateedContnet: true,
+      },
     },
   };
 };
@@ -283,6 +288,7 @@ describe('Form0996App', () => {
         ],
         legacyCount: 0,
         internalTesting: true,
+        hlrUpdatedContent: true,
       },
     });
     const store = mockStore(data);
@@ -372,6 +378,7 @@ describe('Form0996App', () => {
         areaOfDisagreement: [issues[0], additionalIssues[0]],
         additionalIssues,
         legacyCount: 0,
+        hlrUpdatedContent: true,
       },
     });
     const store = mockStore(data);
