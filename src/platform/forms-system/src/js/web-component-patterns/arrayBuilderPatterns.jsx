@@ -3,7 +3,7 @@ import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
 import {
   getArrayUrlSearchParams,
-  maxItemsHint,
+  minMaxItemsHint,
 } from '../patterns/array-builder/helpers';
 
 /**
@@ -125,6 +125,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  *   arrayPath: string,
  *   nounSingular: string,
  *   required: boolean | (formData) => boolean,
+ *   minItems?: number,
  *   maxItems?: number,
  * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptions yesNoUI options for 0 items
@@ -140,6 +141,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  *   arrayPath: 'employers',
  *   nounSingular: 'employer',
  *   required: false,
+ *   minItems: 3,
  *   maxItems: 5
  * })
  *
@@ -172,6 +174,7 @@ export const arrayBuilderYesNoUI = (
     arrayPath,
     nounSingular,
     nounPlural,
+    minItems,
     maxItems,
     required,
   } = arrayBuilderOptions;
@@ -201,18 +204,19 @@ export const arrayBuilderYesNoUI = (
                 yesNoOptionsMore?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
-                labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
                 hint:
                   customHint({
                     arrayData,
                     nounSingular,
                     nounPlural,
+                    minItems,
                     maxItems,
                   }) ||
-                  maxItemsHint({
+                  minMaxItemsHint({
                     arrayData,
                     nounSingular,
                     nounPlural,
+                    minItems,
                     maxItems,
                   }),
                 labels: {
@@ -229,7 +233,6 @@ export const arrayBuilderYesNoUI = (
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
                 hint:
                   customMoreHint({
                     arrayData,
@@ -237,14 +240,13 @@ export const arrayBuilderYesNoUI = (
                     nounPlural,
                     maxItems,
                   }) ||
-                  `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
-                    {
-                      arrayData,
-                      nounSingular,
-                      nounPlural,
-                      maxItems,
-                    },
-                  )}`,
+                  `If you select yes, ${minMaxItemsHint({
+                    arrayData,
+                    nounSingular,
+                    nounPlural,
+                    minItems: minItems || 1,
+                    maxItems,
+                  }).replace(/^You/, 'you will')}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',
@@ -261,11 +263,29 @@ export const arrayBuilderYesNoUI = (
     'ui:validations': [
       (errors, yesNoBoolean, formData) => {
         const arrayData = formData?.[arrayPath];
+
+        const len = arrayData?.length;
+        const remaining = minItems - len;
+
+        if (len && len === maxItems && yesNoBoolean) {
+          errors.addError(
+            `You cannot add more than ${maxItems} ${
+              maxItems === 1 ? nounSingular : nounPlural
+            }.`,
+          );
+        } else if (len && len < minItems && !yesNoBoolean) {
+          errors.addError(
+            `You need to add at least ${remaining} more ${
+              remaining === 1 ? nounSingular : nounPlural
+            }.`,
+          );
+        }
+
         // This validation may not be visible,
         // but helps the review page error work correctly
-        if (!arrayData?.length && !yesNoBoolean && requiredFn(formData)) {
+        if (!len && !yesNoBoolean && requiredFn(formData)) {
           errors.addError(
-            `You must add at least one ${nounSingular} for us to process this form.`,
+            `You need to add at least one ${nounSingular} for us to process this form.`,
           );
         }
       },

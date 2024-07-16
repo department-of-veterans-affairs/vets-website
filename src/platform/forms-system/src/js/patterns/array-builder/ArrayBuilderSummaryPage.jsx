@@ -31,7 +31,7 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   </div>
 );
 
-const MaxItemsAlert = ({ children }) => (
+const MinItemsAlert = ({ children }) => (
   <div className="vads-u-margin-top--4">
     <va-alert status="warning" tabIndex={-1} visible>
       <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
@@ -57,6 +57,7 @@ function filterEmptyItems(arrayData) {
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
+ *   minItems: number,
  *   nounPlural: string,
  *   nounSingular: string,
  *   required: (formData) => boolean,
@@ -68,11 +69,11 @@ export default function ArrayBuilderSummaryPage({
   arrayPath,
   firstItemPagePath,
   getText,
-  hasItemsKey,
   introPath,
   isItemIncomplete,
   isReviewPage,
   maxItems,
+  minItems,
   nounPlural,
   nounSingular,
   required,
@@ -100,6 +101,7 @@ export default function ArrayBuilderSummaryPage({
     const { uiSchema, schema } = props;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
+    const isLessThanMinItems = arrayData?.length < minItems;
 
     useEffect(() => {
       // We may end up with empty items if the user navigates back
@@ -148,26 +150,6 @@ export default function ArrayBuilderSummaryPage({
         return () => timeout && clearTimeout(timeout);
       },
       [showUpdatedAlert, updateItemIndex, updatedAlertRef],
-    );
-
-    useEffect(
-      () => {
-        if (
-          (uiSchema &&
-            schema?.properties &&
-            isMaxItemsReached &&
-            props.data[hasItemsKey] !== false) ||
-          (isReviewPage && props.data[hasItemsKey] == null)
-        ) {
-          // 1. If the user has reached the max items, we want to make sure the
-          //    yes/no field is set to false because it will be hidden yet required.
-          //    So we need to make sure it's false so it doesn't block the continue button.
-          // 2. the yes/no field should never be null/undefined on the final review page,
-          //    or it could cause a hidden validation error.
-          props.setData({ ...props.data, [hasItemsKey]: false });
-        }
-      },
-      [isReviewPage, arrayData?.length],
     );
 
     function forceRerender(data = props.data) {
@@ -344,6 +326,9 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
+          {isLessThanMinItems && (
+            <MinItemsAlert>{getText('alertMinItems', minItems)}</MinItemsAlert>
+          )}
           <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
@@ -361,25 +346,12 @@ export default function ArrayBuilderSummaryPage({
     }
 
     if (arrayData?.length > 0) {
-      uiSchema['ui:title'] = (
-        <>
-          {Title}
-          {isMaxItemsReached && (
-            <MaxItemsAlert>
-              {getText('alertMaxItems', updatedItemData)}
-            </MaxItemsAlert>
-          )}
-        </>
-      );
+      uiSchema['ui:title'] = Title;
       // ensure new reference to trigger re-render
       uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;
-    }
-
-    if (schema?.properties && maxItems && arrayData?.length >= maxItems) {
-      schema.properties[hasItemsKey]['ui:hidden'] = true;
     }
 
     return (

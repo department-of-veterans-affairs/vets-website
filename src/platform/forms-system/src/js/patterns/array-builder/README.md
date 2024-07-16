@@ -343,7 +343,6 @@ const options = {
 | Key |
 |-----|
 | `alertItemUpdated` |
-| `alertMaxItems` |
 | `cancelAddButtonText` |
 | `cancelAddDescription` |
 | `cancelAddReviewDescription` |

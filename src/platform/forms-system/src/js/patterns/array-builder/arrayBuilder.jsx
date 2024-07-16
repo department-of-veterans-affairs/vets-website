@@ -371,6 +371,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      minItems,
       nounPlural,
       nounSingular,
       required,
