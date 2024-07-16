@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^42.2.2":
-  version "42.2.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-42.2.2.tgz#42c8d5f4e52962e43ba30dfa9b49fd03cfd83627"
-  integrity sha512-Exytx2eFnb/j7WeMti6hL/pCn/Ka0NZdkkXKtm29IbLFPm4oIjDdHWmhtBKuZnyaf5T7LT2PTL4cDlwYeaFAiQ==
+"@department-of-veterans-affairs/component-library@^43.0.0":
+  version "43.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-43.0.0.tgz#1eff1c9723addacc2b98e5afb7a1aa8bf498935f"
+  integrity sha512-Rpqg30q5nJysbJYth5aWOI0atvmU4qL7PvEOY9p3xQuKnxGdewA/tHJqcachg6l89iNHP3MZdGVnl1JUQSAk8w==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "10.0.2"
+    "@department-of-veterans-affairs/web-components" "11.2.4"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2884,10 +2884,10 @@
     "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.4.tgz#b635cc0912c4612033a4f76980d764519c4c4566"
-  integrity sha512-5XscE1JvbCdqt9GJT9kX6X6SDJehjJHKqrRd1E3xbpVSborcG6c2/RjfhJATFvfqTQaYG6eDnNngC/r6liJwzQ==
+"@department-of-veterans-affairs/css-library@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
+  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
@@ -2960,10 +2960,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@10.0.2":
-  version "10.0.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-10.0.2.tgz#3c266fbb80d8e25604bf4f1dc4c4237562a4af81"
-  integrity sha512-GGdqfk+LFrNlgjIE0hKI737JLHsrkXd5SS7J7l6Xac/42gcGI1TTVbYnAq9DTQI8dotJlzbag1Up8IkfhhpJ8w==
+"@department-of-veterans-affairs/web-components@11.2.4":
+  version "11.2.4"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-11.2.4.tgz#158fa086f5b1e1434074da24272857ccdafa11df"
+  integrity sha512-+4kb8NUO1lMjoue/7n0Xj1p5BqTxglUQcW4OlEE1I3D/TC9dziQaLqQlt037b6y4AUg6D6JBVvttWVudQ2jEMg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
@@ -9837,6 +9837,13 @@ eslint-plugin-unicorn@^35.0.0:
     safe-regex "^2.1.1"
     semver "^7.3.5"
 
+eslint-plugin-you-dont-need-momentjs@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-you-dont-need-momentjs/-/eslint-plugin-you-dont-need-momentjs-1.6.0.tgz#c5209783e8a9fa772f8e3c4d4d4a03813d8f9a1e"
+  integrity sha512-u12WanwuAL5B6/Kx6AtMDI04OojkS/twDueDwBgxsnKLy33VM4npP7ZlU2o7pxD1z8LbzPP6Y6/e7cPf6ZhatQ==
+  dependencies:
+    kebab-case "^1.0.0"
+
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
@@ -13627,6 +13634,11 @@ kdbush@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/kdbush/-/kdbush-3.0.0.tgz"
   integrity sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
+
+kebab-case@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/kebab-case/-/kebab-case-1.0.2.tgz#5eac97d5d220acf606d40e3c0ecfea21f1f9e1eb"
+  integrity sha512-7n6wXq4gNgBELfDCpzKc+mRrZFs7D+wgfF5WRFLNAr4DA/qtr9Js8uOAVAfHhuLMfAcQ0pRKqbpjx+TcJVdE1Q==
 
 keyboardevent-key-polyfill@^1.0.2:
   version "1.1.0"

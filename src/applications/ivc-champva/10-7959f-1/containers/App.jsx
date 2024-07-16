@@ -21,25 +21,27 @@ export default function App({ location, children }) {
     },
   ];
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959F1}>
-      <Toggler.Enabled>
-        <VaBreadcrumbs breadcrumbList={breadcrumbList} />
-        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-          {children}
-        </RoutedSavableApp>
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <br />
-        <WIP
-          content={{
-            description:
-              'We’re rolling out the Foreign Medical Program (FMP) registration (VA Form 10-7959f-1) in stages. It’s not quite ready yet. Please check back again soon.',
-            redirectLink: '/',
-            redirectText: 'Return to VA home page',
-          }}
-        />
-      </Toggler.Disabled>
-    </Toggler>
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.form107959F1}>
+        <Toggler.Enabled>
+          <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <br />
+          <WIP
+            content={{
+              description:
+                'We’re rolling out the Foreign Medical Program (FMP) registration (VA Form 10-7959f-1) in stages. It’s not quite ready yet. Please check back again soon.',
+              redirectLink: '/',
+              redirectText: 'Return to VA home page',
+            }}
+          />
+        </Toggler.Disabled>
+      </Toggler>
+    </div>
   );
 }
 
