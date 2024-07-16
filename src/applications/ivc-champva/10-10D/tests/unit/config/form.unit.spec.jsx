@@ -79,9 +79,9 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
-  2,
+  1,
   'Sponsor - SSN (with VA File Number)',
-  { ssn: { vaFileNumber: '123123123' } },
+  { ssn: '123123123' },
 );
 
 testNumberOfWebComponentFields(
@@ -134,7 +134,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page14.schema,
   formConfig.chapters.applicantInformation.pages.page14.uiSchema,
-  2,
+  1,
   'Applicant - SSN and date of birth',
   { applicants },
 );

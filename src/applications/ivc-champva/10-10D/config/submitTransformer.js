@@ -35,7 +35,7 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     const transformedApp = {
       fullName: app.applicantName ?? '',
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       dateOfBirth: fmtDate(app.applicantDOB) ?? '',
       phoneNumber: app.applicantPhone ?? '',
       email: app.applicantEmailAddress ?? '',
@@ -134,8 +134,7 @@ export default function transformForSubmit(formConfig, form) {
   const dataPostTransform = {
     veteran: {
       fullName: transformedData?.veteransFullName || {},
-      ssnOrTin: transformedData?.ssn?.ssn || '',
-      vaClaimNumber: transformedData?.ssn?.vaFileNumber || '',
+      ssnOrTin: transformedData?.ssn || '',
       dateOfBirth: fmtDate(transformedData?.sponsorDOB) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {
