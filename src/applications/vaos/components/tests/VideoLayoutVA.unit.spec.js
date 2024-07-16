@@ -34,6 +34,51 @@ describe('VAOS Component: VideoLayoutVA', () => {
   };
 
   describe('When appointment information is missing', () => {
+    it('should display find facility info when no facility data and no facility id are available', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutVA data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /Find facility information Link opens in a new tab/i,
+        }),
+      );
+    });
     it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -95,6 +140,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       ).not.to.exist;
     });
   });
+
   describe('When viewing upcomming appointment details', () => {
     describe('And video type is clinic', () => {
       it('should display VA video layout', async () => {
