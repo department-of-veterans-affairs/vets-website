@@ -36,7 +36,14 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
   describe('When appointment information is missing', () => {
     it('should not display heading and text for empty data', async () => {
       // Arrange
-      const store = createTestStore(initialState);
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+
+      const store = createTestStore(state);
       const appointment = {
         comment: 'This is a test:Additional information',
         location: {
@@ -102,6 +109,10 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           level: 2,
           name: /What/i,
         }),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
       ).not.to.exist;
     });
   });
