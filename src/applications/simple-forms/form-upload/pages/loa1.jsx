@@ -34,7 +34,10 @@ export const zipCodePage = {
         'We use your zip code to send your form to the right place for processing.',
       headerLevel: 1,
     }),
-    zipCode: addressUI({
+    address: addressUI({
+      labels: {
+        postalCode: 'Zip code',
+      },
       omit: [
         'country',
         'city',
