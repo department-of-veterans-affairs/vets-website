@@ -20,7 +20,7 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
           you can access My HealtheVet. These steps help us keep your health
           information safe and prevent fraud and identity theft.
         </p>
-        <ol>
+        <ol className="custom-ordered-list">
           <li>
             Verify your identity for your {serviceProviderLabel} account. This
             one-time process often takes about 10 minutes. You’ll need to
