@@ -41,7 +41,7 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.schemaform-title');
+      focusElement('.schemaform-title > h1');
     },
     [props],
   );
