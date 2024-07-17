@@ -23,7 +23,6 @@ const IntroductionPage = props => {
     authStartFormText: 'Start your form upload',
     unauthStartText: 'Sign in to upload your form',
     displayNonVeteranMessaging: true,
-    hideSipIntro: userLoggedIn && !userIdVerified,
     customLink: PrimaryActionLink,
   };
 
