@@ -1,4 +1,3 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { cloneDeep } from 'lodash';
 import {
   addressUI,
@@ -13,6 +12,7 @@ import {
   radioSchema,
   phoneUI,
   phoneSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
 
@@ -27,7 +27,7 @@ export const applicantNameDobSchema = {
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
         } information`,
       ({ formData }) =>
-        `Enter the information exactly as it’s listed on ${
+        `Enter the name exactly as it’s listed on ${
           formData?.certifierRole === 'applicant' ? 'your' : 'the beneficiary’s'
         } CHAMPVA identification card.`,
     ),
@@ -51,19 +51,25 @@ export const applicantMemberNumberSchema = {
       ({ formData }) =>
         `${nameWording(formData, true, true, true)} identification information`,
     ),
-    applicantMemberNumber: {
-      'ui:title': 'CHAMPVA member number',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter your CHAMPVA member number',
-        pattern: 'Must be 20 or fewer characters (letters and numbers only)',
+    applicantMemberNumber: textUI({
+      updateUiSchema: formData => {
+        return {
+          'ui:title': 'CHAMPVA member number',
+          'ui:errorMessages': {
+            required: 'Please enter your CHAMPVA member number',
+            pattern: 'Must be letters and numbers only',
+          },
+          'ui:options': {
+            uswds: true,
+            hint: `This number is usually the same as ${
+              formData?.certifierRole === 'applicant'
+                ? 'your'
+                : 'the beneficiary’s'
+            } Social Security number.`,
+          },
+        };
       },
-      'ui:options': {
-        uswds: true,
-        hint:
-          'This number is usually the same as the beneficiary’s Social Security number.',
-      },
-    },
+    }),
   },
   schema: {
     type: 'object',
@@ -72,7 +78,8 @@ export const applicantMemberNumberSchema = {
       titleSchema,
       applicantMemberNumber: {
         type: 'string',
-        pattern: '^[0-9a-zA-Z]{0,20}$',
+        pattern: '^[0-9a-zA-Z]+$',
+        maxLength: 20,
       },
     },
   },

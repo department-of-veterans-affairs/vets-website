@@ -26,6 +26,10 @@ const mockStore = ({ data = {} } = {}) => {
         touched: {},
         submitted: false,
       },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        hlr_updateed_contnet: true,
+      },
     }),
     subscribe: () => {},
     dispatch: () => ({
@@ -154,9 +158,16 @@ describe('the HLR Sub-task', () => {
   it('should check setBenefitType fallback', () => {
     const setPageDataSpy = sinon.spy();
     const StartPage = pages[0].component;
-    const { container } = render(<StartPage setPageData={setPageDataSpy} />);
+    const { container } = render(
+      <Provider store={mockStore({ data: {} })}>
+        <StartPage setPageData={setPageDataSpy} />)
+      </Provider>,
+    );
 
     $('va-radio', container).__events.vaValueChange({ detail: { value: '' } });
     expect(setPageDataSpy.calledWith(''));
+    expect($('.schemaform-subtitle', container).textContent).to.contain(
+      'Decision Review Request:',
+    );
   });
 });
