@@ -1140,7 +1140,6 @@ export const selfServiceRecordsUI = {
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
-        hint: 'Enter your hint here',
       },
     }),
     dateRange: dateRangeUI(
