@@ -1,7 +1,7 @@
 import {
-  VaSelect,
   VaRadio,
   VaRadioOption,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ const SubtopicSelect = props => {
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
 
-  const errorMessages = { required: 'Please provide a response' };
+  const errorMessages = { required: 'Please select a subtopic' };
 
   const handleChange = event => {
     const selectedValue = event.detail.value;

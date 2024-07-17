@@ -20,7 +20,7 @@ const CategorySelect = props => {
   const [dirty, setDirty] = useState(false);
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
-  const errorMessages = { required: 'Please provide a response' };
+  const errorMessages = { required: 'Please select a category' };
 
   const onModalNo = () => {
     onChange('');

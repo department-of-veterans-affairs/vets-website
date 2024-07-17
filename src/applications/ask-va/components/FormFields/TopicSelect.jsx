@@ -1,7 +1,7 @@
 import {
-  VaSelect,
   VaRadio,
   VaRadioOption,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setTopicID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInTopics, envUrl } from '../../constants';
+import { URL, envUrl, requireSignInTopics } from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const TopicSelect = props => {
@@ -24,7 +24,7 @@ const TopicSelect = props => {
   const [dirty, setDirty] = useState(false);
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
-  const errorMessages = { required: 'Please provide a response' };
+  const errorMessages = { required: 'Please select a topic' };
 
   const onModalNo = () => {
     onChange('');
