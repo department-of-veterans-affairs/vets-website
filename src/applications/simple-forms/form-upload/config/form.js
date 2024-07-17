@@ -15,7 +15,7 @@ import { isUnverifiedUser, scrollAndFocusTarget } from '../helpers';
 
 const formConfig = ({ title, subtitle, formNumber }) => ({
   rootUrl: manifest.rootUrl,
-  urlPrefix: `${formNumber}/`,
+  urlPrefix: `/${formNumber}/`,
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
   dev: {
     collapsibleNavLinks: true,

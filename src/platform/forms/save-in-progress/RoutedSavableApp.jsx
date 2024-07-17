@@ -320,12 +320,8 @@ RoutedSavableApp.propTypes = {
   autoSavedStatus: PropTypes.string,
   children: PropTypes.any,
   currentLocation: PropTypes.shape({
-    pathname: PropTypes.shape({
-      replace: PropTypes.func,
-    }),
-    search: PropTypes.shape({
-      includes: PropTypes.func,
-    }),
+    pathname: PropTypes.string,
+    search: PropTypes.string,
   }),
   FormApp: PropTypes.any,
   formConfig: PropTypes.shape({
