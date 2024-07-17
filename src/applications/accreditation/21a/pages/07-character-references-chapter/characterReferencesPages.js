@@ -15,7 +15,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourCharacterReferencesDescription from '../../components/YourCharacterReferencesDescription';
+import YourCharacterReferencesDescription from '../../components/07-character-references-chapter/YourCharacterReferencesDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -23,7 +23,8 @@ const arrayBuilderOptions = {
   nounSingular: 'character reference',
   nounPlural: 'character references',
   required: true,
-  isItemIncomplete: item => !item?.fullName || !item?.address || !item?.phone,
+  isItemIncomplete: item =>
+    !item?.fullName || !item?.address || !item?.phone || !item?.email,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
   text: {
@@ -110,7 +111,7 @@ const contactInformationPage = {
       phone: phoneSchema,
       email: emailSchema,
     },
-    required: ['phone'],
+    required: ['phone', 'email'],
   },
 };
 
@@ -124,12 +125,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasCharacterReferences': arrayBuilderYesNoUI(
       arrayBuilderOptions,
+      {},
       {
-        title: 'Do you have any character references to provide?',
-        labelHeaderLevel: 'p',
-      },
-      {
-        title: 'Do you have another character reference to provide?',
         labelHeaderLevel: 'p',
       },
     ),

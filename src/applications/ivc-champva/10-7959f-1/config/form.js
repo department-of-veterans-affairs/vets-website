@@ -23,7 +23,7 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import PrefilledAddress from '../helpers/prefilledAddress';
+import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
@@ -33,7 +33,8 @@ import {
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
-} from '../helpers/InternationalPhone';
+} from '../../shared/components/InternationalPhone';
+import PrefillCopy from '../helpers/PrefillCopy';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -99,10 +100,13 @@ const formConfig = {
             messageAriaDescribedby:
               'We use this information to verify other details.',
             'view:prefilledAddress': {
-              'ui:description': PrefilledAddress,
+              'ui:description': prefilledAddress,
             },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            'view:PrefillCopy': {
+              'ui:description': PrefillCopy,
+            },
           },
           schema: {
             type: 'object',
@@ -115,6 +119,10 @@ const formConfig = {
               },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
+              'view:PrefillCopy': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },
