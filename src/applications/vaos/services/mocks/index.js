@@ -39,6 +39,7 @@ const confirmedV2 = require('./v2/confirmed.json');
 
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
+const patientDetails = require('./wellHive/patientBasicReferralDetails.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
 const driveTimes = require('./wellHive/driveTime.json');
 const patients = require('./wellHive/patients.json');
@@ -451,6 +452,11 @@ const responses = {
   },
 
   // WellHive api
+  'GET /vaos/v2/wellhive/referralDetails': (req, res) => {
+    return res.json({
+      patientDetails,
+    });
+  },
   'GET /vaos/v2/wellhive/appointments': (req, res) => {
     return res.json({
       data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),
