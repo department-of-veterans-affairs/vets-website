@@ -177,7 +177,10 @@ const VerificationReviewWrapper = ({
                   </label>
                   <EnrollmentInformation />
                   {showError && (
-                    <div style={{ color: '#b50909', marginTop: '8px' }}>
+                    <div
+                      id="required-error-message"
+                      style={{ color: '#b50909', marginTop: '8px' }}
+                    >
                       Please check the box to confirm the information is
                       correct.
                     </div>
@@ -197,7 +200,6 @@ const VerificationReviewWrapper = ({
                     onClick={handleSubmission}
                     submit
                     uswds
-                    //  disabled={!isChecked}
                   />
                 </div>
               </>
