@@ -11,12 +11,13 @@ const IntroductionPage = ({ route }) => {
 
   return (
     <div className="schemaform-intro vads-u-margin-bottom--6">
-      <FormTitle title="Apply for a Veterans burial allowance" />
+      <FormTitle title="Apply for a Veterans burial allowance and transportation benefits" />
       <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg3">
-        VA Form 21P-530EZ
+        Application for Burial Benefits (VA Form 21P-530EZ)
       </p>
       <h2 className="vads-u-font-size--h2">
-        Follow these steps to apply for a Veterans burial allowance
+        Follow these steps to apply for a burial allowance and transportation
+        benefits
       </h2>
       <va-process-list uswds>
         <va-process-list-item header="Check your eligibility">
@@ -25,7 +26,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <va-link
             href="/burials-memorials/veterans-burial-allowance"
-            text="Find out if you’re eligible for a Veterans burial allowance"
+            text="Find out if you're eligible for a Veterans burial allowance and transportation benefits"
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">

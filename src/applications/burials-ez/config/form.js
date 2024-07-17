@@ -69,7 +69,7 @@ const formConfig = {
     messages: {
       inProgress: 'Your burial benefits application (21-530) is in progress.',
       expired:
-        'Your saved burial benefits application (21-530) has expired. If you want to apply for a Veterans burial allowance, please start a new application.',
+        'Your saved burial benefits application (21-530) has expired. If you want to apply for a Veterans burial allowance and transportation benefits, please start a new application.',
       saved: 'Your burial benefits application has been saved.',
     },
   },
@@ -80,11 +80,12 @@ const formConfig = {
     dependencies: [externalServices.icmhs],
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for a Veterans burial allowance.',
+    notFound:
+      'Please start over to apply for a Veterans burial allowance and reimbursement.',
     noAuth:
       'Please sign in again to resume your application for burial benefits.',
   },
-  title: 'Apply for a Veterans burial allowance',
+  title: 'Apply for a Veterans burial allowance and reimbursement',
   subTitle: 'Form 21P-530EZ',
   preSubmitInfo,
   footerContent: FormFooter,
