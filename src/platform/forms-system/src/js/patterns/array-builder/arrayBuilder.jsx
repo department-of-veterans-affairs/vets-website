@@ -165,13 +165,6 @@ export function validateReviewPath(reviewPath) {
   }
 }
 
-export function validateMinItems(minItems) {
-  if (minItems != null) {
-    // eslint-disable-next-line no-console
-    console.warn('minItems is not yet implemented. Use "required" instead.');
-  }
-}
-
 /**
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
@@ -265,7 +258,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validatePages(orderedPageTypes);
   validateRequired(userRequired);
   validateReviewPath(reviewPath);
-  validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
   const pageKeys = Object.keys(testConfig);
