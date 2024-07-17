@@ -10,16 +10,14 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
-import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
-import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
-import MhvRegistrationAlert from './MhvRegistrationAlert';
+import LandingPageAlerts from './LandingPageAlerts';
 import {
   isLOA3,
   isVAPatient,
@@ -29,9 +27,6 @@ import {
   hasMhvBasicAccount,
   showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
 } from '../selectors';
-import UnregisteredAlert from './UnregisteredAlert';
-import MhvBasicAccountAlert from './MhvBasicAccountAlert';
-import VerifyAndRegisterAlert from './VerifyAndRegisterAlert';
 
 const LandingPage = ({
   data = {},
@@ -49,16 +44,6 @@ const LandingPage = ({
   const showsVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = verified ? (
-    <UnregisteredAlert />
-  ) : (
-    <IdentityNotVerified
-      headline={unVerifiedHeadline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={signInService}
-    />
-  );
 
   useEffect(() => {
     if (!verified) {
@@ -84,12 +69,16 @@ const LandingPage = ({
             render={renderMHVDowntime}
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
-          {registered ? <CardLayout data={cards} /> : noCardsDisplay}
-          {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
-          {showsVerifyAndRegisterAlert && (
-            <VerifyAndRegisterAlert cspId={signInService} />
-          )}
+          <LandingPageAlerts
+            registered={registered}
+            verified={verified}
+            userHasMhvAccount={userHasMhvAccount}
+            userHasMhvBasicAccount={userHasMhvBasicAccount}
+            showsVerifyAndRegisterAlert={showsVerifyAndRegisterAlert}
+            signInService={signInService}
+            cards={cards}
+            unVerifiedHeadline={unVerifiedHeadline}
+          />
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
