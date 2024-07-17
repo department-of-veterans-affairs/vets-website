@@ -1,0 +1,16 @@
+.rotate-icon-container {
+  animation: rotation 2s linear infinite;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#rotating-icon {
+  color: var(--vads-color-white);
+}
