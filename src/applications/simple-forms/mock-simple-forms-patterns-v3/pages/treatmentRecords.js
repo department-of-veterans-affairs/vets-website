@@ -29,7 +29,7 @@ const options = {
     !item.treatmentDates,
   maxItems: 5,
   text: {
-    getItemName: item => item.name,
+    getItemName: item => item?.name,
     cardDescription: item =>
       `${formatReviewDate(item?.treatmentDates?.from)} - ${formatReviewDate(
         item?.treatmentDates?.to,

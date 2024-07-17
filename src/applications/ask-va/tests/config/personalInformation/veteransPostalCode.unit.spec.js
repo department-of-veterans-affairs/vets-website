@@ -11,7 +11,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.veteransPostalCode_aboutsomeoneelserelationshipfamilymemberaboutveteran;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran.pages.veteransPostalCode_aboutsomeoneelserelationshipfamilymemberaboutveteran;
 
 describe('veteransPostalCodePage', () => {
   it('should render', () => {

@@ -153,6 +153,9 @@ describe('<Automated5103Notice>', () => {
         expect($('va-checkbox', container).getAttribute('checked')).to.equal(
           'false',
         );
+        expect($('va-checkbox', container).getAttribute('required')).to.equal(
+          'true',
+        );
         expect(submitRequest.called).to.be.false;
         expect(submit5103.called).to.be.false;
         expect(navigate.called).to.be.false;
