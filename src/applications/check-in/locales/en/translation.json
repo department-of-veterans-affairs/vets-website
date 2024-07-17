@@ -364,9 +364,7 @@
   "loading-your-appointment-information": "Loading your appointment information…",
   "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
   "what-to-do-next": "What to do next",
-  "its-time-to-check-in-for-your-time-appointment": "It's time to check in for your {{time, time}} appointment",
-  "review-your-contact-information-for-your-appointment": "Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment",
-  "review-your-contact-information-for-your": "Review your contact information for your",
+  "its-time-to-check-in-for-your-time-appointment": "It's time to check in for your appointment",
   "appointments": "appointments",
   "and": "and",
   "review-your-information-now": "Review your information now",
@@ -403,5 +401,7 @@
   "the-link-selected-has-expired": "The link you selected from our text message has expired. When it’s time to check in for your upcoming appointment, we’ll send you another text. Or if you’re at the facility, see staff to check you in. You can review your contact information at that time.",
   "you-can-review-online-until-date": "You can review your contact information online until {{date, long}}.",
   "canceled-in-person-appointment": "Canceled in-person appointment",
-  "were-sorry-something-went-wrong-on-our-end": "We’re sorry. Something went wrong on our end. Please try again."
+  "were-sorry-something-went-wrong-on-our-end": "We’re sorry. Something went wrong on our end. Please try again.",
+  "review-your-contact-information-for-your-appointment_one": "Review your contact information for your appointment",
+  "review-your-contact-information-for-your-appointment_other": "Review your contact information for your appointments"
 }
