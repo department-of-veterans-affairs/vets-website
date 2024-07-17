@@ -58,3 +58,55 @@ export const getPageKeysForReview = config => {
   const titles = pages.map(item => Object.keys(item[1].pages));
   return titles.flat();
 };
+
+export function createPageListByChapterAskVa(formConfig) {
+  const mergedChapters = {};
+  const modifiedFormConfig = {
+    ...formConfig,
+    chapters: { ...formConfig.chapters },
+  };
+
+  Object.keys(formConfig.chapters).forEach(chapter => {
+    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
+      ...formConfig.chapters[chapter].pages[page],
+      pageKey: page,
+      chapterKey: chapter,
+    }));
+
+    if (chapter === 'yourQuestionPart1' || chapter === 'yourQuestionPart2') {
+      if (!mergedChapters.yourQuestion) {
+        mergedChapters.yourQuestion = [];
+        modifiedFormConfig.chapters.yourQuestion = { pages: {} };
+      }
+      mergedChapters.yourQuestion.push(...pages);
+      pages.forEach(page => {
+        modifiedFormConfig.chapters.yourQuestion.pages[page.pageKey] = page;
+      });
+    } else {
+      mergedChapters[chapter] = pages;
+    }
+  });
+
+  return { pagesByChapter: mergedChapters, modifiedFormConfig };
+}
+
+export function getChapterFormConfigAskVa(modifiedFormConfig, chapterName) {
+  // Check if the requested chapter is part of the merged chapters
+  let chapterNameUpdate = chapterName;
+  if (
+    chapterName === 'yourQuestionPart1' ||
+    chapterName === 'yourQuestionPart2'
+  ) {
+    chapterNameUpdate = 'yourQuestion';
+  }
+
+  // Get the chapter form configuration
+  const chapterFormConfig = modifiedFormConfig.chapters[chapterNameUpdate];
+  if (!chapterFormConfig) {
+    throw new Error(
+      `Chapter "${chapterNameUpdate}" does not exist in formConfig.`,
+    );
+  }
+
+  return chapterFormConfig;
+}

@@ -143,6 +143,10 @@
       "phoneNumber": "1231231234"
     },
     "view:686Information": {},
+    "view:addOrRemoveDependents": {
+      "add": true,
+      "remove": false
+    },
     "view:selectable686Options": {
       "addSpouse": true,
       "addChild": true
