@@ -12,6 +12,7 @@ export const getAppData = state => ({
   isSponsorsFetchComplete: state.data?.fetchedSponsorsComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements: !!toggleValues(state)[
