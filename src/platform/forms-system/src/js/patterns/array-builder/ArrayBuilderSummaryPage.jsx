@@ -102,6 +102,7 @@ export default function ArrayBuilderSummaryPage({
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const isLessThanMinItems = arrayData?.length < minItems;
+    const notRequiredWithNoItems = !required(props.data) && !arrayData?.length;
 
     useEffect(() => {
       // We may end up with empty items if the user navigates back
@@ -326,9 +327,12 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {isLessThanMinItems && (
-            <MinItemsAlert>{getText('alertMinItems', minItems)}</MinItemsAlert>
-          )}
+          {isLessThanMinItems &&
+            !notRequiredWithNoItems && (
+              <MinItemsAlert>
+                {getText('alertMinItems', minItems)}
+              </MinItemsAlert>
+            )}
           <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
