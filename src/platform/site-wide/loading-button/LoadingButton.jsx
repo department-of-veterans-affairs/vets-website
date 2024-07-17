@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './loading-button.scss';
 
 export default function LoadingButton({
   isLoading,
@@ -12,7 +11,7 @@ export default function LoadingButton({
 }) {
   const contents = isLoading ? (
     <div className="rotate-icon-container">
-      <va-icon id="rotating-icon" icon="autorenew" size={1} />
+      <va-icon id="rotating-va-loading-icon" icon="autorenew" size={1} />
       {!!loadingText && <span className="sr-only">{loadingText}</span>}
     </div>
   ) : (
