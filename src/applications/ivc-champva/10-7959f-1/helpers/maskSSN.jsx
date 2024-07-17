@@ -1,5 +1,6 @@
 import { formatSSN } from 'platform/utilities/ui';
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import vaTextInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaTextInputFieldMapping';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -22,6 +23,7 @@ export default function HandlePrefilledSSN(fieldProps) {
 
   useEffect(() => {
     setDisplayVal(maskSSN(val));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = event => {
@@ -61,3 +63,10 @@ export default function HandlePrefilledSSN(fieldProps) {
     />
   );
 }
+
+HandlePrefilledSSN.propTypes = {
+  id: PropTypes.number,
+  value: PropTypes.string,
+  onBlur: PropTypes.func,
+  onInput: PropTypes.func,
+};

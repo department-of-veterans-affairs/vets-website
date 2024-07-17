@@ -188,6 +188,7 @@ export const Locators = {
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
+    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -204,7 +205,6 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    MESSAGE: '@message',
     ATTACH_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
@@ -228,6 +228,8 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  TRY_SEARCH: 'Try the search box or one of the common questions below.',
 };
 
 export const Data = {

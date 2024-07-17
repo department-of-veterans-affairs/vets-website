@@ -323,9 +323,15 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartAPartBCardsConfig.uiSchema,
-      applicantMedicarePartAPartBCard: fileUploadUI({
-        label: 'Upload Medicare cards',
-      }),
+      applicantMedicarePartAPartBCard: {
+        ...fileUploadUI({
+          label: 'Upload Medicare cards',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };
@@ -362,9 +368,15 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
         },
       ),
       ...applicantMedicarePartDCardsConfig.uiSchema,
-      applicantMedicarePartDCard: fileUploadUI({
-        label: 'Upload Medicare card',
-      }),
+      applicantMedicarePartDCard: {
+        ...fileUploadUI({
+          label: 'Upload Medicare card',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };
@@ -436,9 +448,15 @@ export const applicantOhiCardsUploadUiSchema = {
         </>,
       ),
       ...applicantOhiCardsConfig.uiSchema,
-      applicantOhiCard: fileUploadUI({
-        label: 'Upload other health insurance cards',
-      }),
+      applicantOhiCard: {
+        ...fileUploadUI({
+          label: 'Upload other health insurance cards',
+        }),
+        'ui:errorMessages': {
+          minItems:
+            'You must add both the front and back of your card as separate files.',
+        },
+      },
     },
   },
 };

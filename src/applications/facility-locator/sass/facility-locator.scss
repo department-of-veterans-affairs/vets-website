@@ -282,7 +282,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
         @media (min-width: $small-desktop-screen) {
           margin-top: auto;
-          min-width: 67px;
+          min-width: 4.4rem;
           width: auto;
         }
       }
@@ -608,4 +608,8 @@ canvas.mapboxgl-canvas:focus {
   outline: 2px solid rgb(249, 198, 66) !important;
   outline-offset: 2px !important;
   transition: none !important;
+}
+
+.success-icon {
+  color: var(--vads-color-success) !important;
 }

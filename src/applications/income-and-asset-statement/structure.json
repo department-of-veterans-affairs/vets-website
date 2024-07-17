@@ -18,11 +18,66 @@
       {
         "title": "Claimant information",
         "path": "claimant/information",
-        "depends": "return formData.applicantIsVeteran === false;"
+        "depends": "return formData['view:applicantIsVeteran'] === false;"
       },
       {
         "title": "Claimant type",
         "path": "claimant/type"
+      },
+      {
+        "title": "Statement Period",
+        "path": "claimant/statement-period"
+      }
+    ]
+  },
+  {
+    "title": "Unassociated income information",
+    "pages": [
+      {
+        "title": "Income not associated with accounts or assets",
+        "path": "unassociated-incomes-summary"
+      },
+      {
+        "title": "Unassociated income recipient",
+        "path": "unassociated-incomes/:index/income-recipient"
+      },
+      {
+        "title": "Unassociated income type",
+        "path": "unassociated-incomes/:index/income-type"
+      }
+    ]
+  },
+  {
+    "title": "Financial accounts information",
+    "pages": [
+      {
+        "title": "Income and net worth associated with financial accounts",
+        "path": "associated-incomes-summary"
+      },
+      {
+        "title": "Financial account recipient",
+        "path": "associated-incomes/:index/income-recipient"
+      },
+      {
+        "title": "Financial account type",
+        "path": "associated-incomes/:index/income-type"
+      }
+    ]
+  },
+  {
+    "title": "Owned assets information",
+    "pages": [
+      {
+        "title": "Income and net worth associated with owned assets",
+        "path": "owned-assets-summary"
+      },
+      {
+        "title": "Owned asset recipient",
+        "path": "owned-assets/:index/income-recipient"
+      },
+      {
+        "title": "Owned asset type",
+        "path": "owned-assets/:index/income-type"
       }
     ]
   }

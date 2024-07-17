@@ -21,6 +21,8 @@ export default {
       index + 1,
     )} selected debt`;
   },
+  monthlyHousingExpenses:
+    'Please enter a valid dollar amount for your monthly housing expenses',
   _override: (error, fullError) => {
     if (error === 'questions') {
       return {
@@ -34,7 +36,7 @@ export default {
         pageKey: 'resolutionOption',
       };
     }
-    if (fullError.__errors.some(str => str.includes('resolution amount'))) {
+    if (fullError?.__errors.some(str => str.includes('resolution amount'))) {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionComment',

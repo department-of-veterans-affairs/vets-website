@@ -102,6 +102,15 @@
       "blockedStatus": false,
       "preferredTeam": true,
       "relationshipType": "PATIENT"
+    },
+    {
+      "id": 2710521,
+      "name": "Admin ROI Test",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT"
     }
   ],
   "mockBlockedRecipients": []

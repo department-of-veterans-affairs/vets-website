@@ -4,8 +4,7 @@ import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
 
     cy.tabToElement('[text="Go to your inbox"]').should(

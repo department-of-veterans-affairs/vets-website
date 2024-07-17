@@ -1,0 +1,125 @@
+{
+  "data": [
+    {
+      "id": "a",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "401 N 17TH ST STE 311",
+          "city": "ALLENTOWN",
+          "state": "PA",
+          "zip": "18104-5051"
+        },
+        "caresitePhone": "610-969-4470",
+        "email": null,
+        "fax": null,
+        "gender": "Male",
+        "lat": 40.60274,
+        "long": -75.494775,
+        "name": "BRIGIDO, STEPHEN",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "trainings": [],
+        "uniqueId": "1407853336"
+      }
+    },
+    {
+      "id": "b",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "401 N 17TH ST STE 105",
+          "city": "ALLENTOWN",
+          "state": "PA",
+          "zip": "18104-5049"
+        },
+        "caresitePhone": "610-969-4470",
+        "email": null,
+        "fax": null,
+        "gender": "Male",
+        "lat": 40.60274,
+        "long": -75.494775,
+        "name": "OFRICHTER, WILLIAM",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "trainings": [
+          {
+            "courseName": "Opioid Safety Initiative (OSI)",
+            "courseCode": "1086479",
+            "courseCompletionDate": "2/11/2020 12:00:00 AM",
+            "courseExpirationDate": null,
+            "courseStatus": "Active"
+          }
+        ],
+        "uniqueId": "1689649824"
+      }
+    },
+    {
+      "id": "c",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "401 N 17TH ST STE 311",
+          "city": "ALLENTOWN",
+          "state": "PA",
+          "zip": "18104-5051"
+        },
+        "caresitePhone": "610-969-4470",
+        "email": null,
+        "fax": null,
+        "gender": "Female",
+        "lat": 40.60274,
+        "long": -75.494775,
+        "name": "BAKER, LORA",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "trainings": [
+          {
+            "courseName": "A Perspective for Veteran Care",
+            "courseCode": "1085488",
+            "courseCompletionDate": "2/5/2020 12:00:00 AM",
+            "courseExpirationDate": null,
+            "courseStatus": "Active"
+          },
+          {
+            "courseName": "Opioid Safety Initiative (OSI)",
+            "courseCode": "1073710",
+            "courseCompletionDate": "2/4/2020 12:00:00 AM",
+            "courseExpirationDate": null,
+            "courseStatus": "Active"
+          },
+          {
+            "courseName": "Opioid Safety Initiative (OSI)",
+            "courseCode": "1086479",
+            "courseCompletionDate": "2/4/2020 12:00:00 AM",
+            "courseExpirationDate": null,
+            "courseStatus": "Active"
+          }
+        ],
+        "uniqueId": "1235114331"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "prevPage": null,
+      "nextPage": null,
+      "totalPages": 1,
+      "totalEntries": 10
+    }
+  },
+  "links": {
+    "self": "https://dev-api.va.gov/facilities_api/v2/ccp?lat=40.599919&long=-75.497373&page=1&per_page=10&radius=10&specialties%5B%5D=213E00000X",
+    "first": "https://dev-api.va.gov/facilities_api/v2/ccp?lat=40.599919&long=-75.497373&page=1&per_page=10&radius=10&specialties%5B%5D=213E00000X",
+    "prev": null,
+    "next": null,
+    "last": "https://dev-api.va.gov/facilities_api/v2/ccp?lat=40.599919&long=-75.497373&page=1&per_page=10&radius=10&specialties%5B%5D=213E00000X"
+  }
+}

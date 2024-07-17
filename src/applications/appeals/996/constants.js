@@ -23,6 +23,11 @@ export const COVID_FAQ_URL =
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
+export const GET_HELP_REP_OR_VSO_URL =
+  '/get-help-from-accredited-representative';
+export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
+export const MST_COORD_URL =
+  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
 export const PROFILE_URL = '/profile';
 
 // Header of the "Submit your request by mail for any type of benefit claim"

@@ -9,13 +9,11 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details', () => {
   const detailsPage = new PatientMessageDetailsPage();
-  const site = new SecureMessagingSite();
-
   let messageDetails = mockMessageDetails;
   const date = new Date();
 
   before('Axe Check Message Details Page', () => {
-    site.login();
+    SecureMessagingSite.login();
     date.setDate(date.getDate() - 2);
     messageDetails = {
       data: {

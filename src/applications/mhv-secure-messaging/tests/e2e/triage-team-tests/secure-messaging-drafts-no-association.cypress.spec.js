@@ -8,7 +8,6 @@ import mockThread from '../fixtures/thread-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
-  const site = new SecureMessagingSite();
   const draftPage = new PatientMessageDraftsPage();
   const newDate = new Date().toISOString();
   const updatedData = mockRecipients.data.slice(1);
@@ -19,7 +18,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,

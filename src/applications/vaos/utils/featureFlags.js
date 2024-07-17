@@ -30,7 +30,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
-  { name: 'vaViewDependentsAccess', value: false },
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'mhv_secondary_navigation_enabled', value: true },
+  { name: 'vaOnlineSchedulingMedReviewInstructions', value: true },
 ];

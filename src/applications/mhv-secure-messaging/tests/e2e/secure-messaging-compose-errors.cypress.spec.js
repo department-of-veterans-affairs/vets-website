@@ -4,9 +4,9 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose Errors', () => {
-  const site = new SecureMessagingSite();
+  SecureMessagingSite;
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
@@ -17,18 +17,26 @@ describe('Secure Messaging Compose Errors', () => {
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
+
     PatientComposePage.clickSendMessageButton();
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
   });
 
   it('focus on error message for empty category', () => {
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    PatientComposePage.getMessageBodyField();
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
+
     PatientComposePage.clickSendMessageButton();
-    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_CATEGORY);
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -39,8 +47,11 @@ describe('Secure Messaging Compose Errors', () => {
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
       force: true,
     });
+
     PatientComposePage.clickSendMessageButton();
-    PatientComposePage.verifyFocusOnErrorMessage(Data.SUBJECT_CANNOT_BLANK);
+    PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -51,10 +62,11 @@ describe('Secure Messaging Compose Errors', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
       force: true,
     });
+
     PatientComposePage.clickSendMessageButton();
-    PatientComposePage.verifyFocusOnErrorMessage(
-      'Message body cannot be blank.',
-    );
+    PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

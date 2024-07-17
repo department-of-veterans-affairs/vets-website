@@ -6,8 +6,8 @@ export const content = {
       index || 1,
     )} provider where you received treatment`,
   description:
-    'We’ll request your private medical records from this provider or hospital.',
-  nameLabel: 'Name of private provider or hospital',
+    'We’ll request your non-VA medical records from this provider or hospital.',
+  nameLabel: 'Name of provider or hospital',
   addressLabels: {
     country: 'Country',
     street: 'Street address',

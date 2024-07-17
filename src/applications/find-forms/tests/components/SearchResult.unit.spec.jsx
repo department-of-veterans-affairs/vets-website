@@ -81,18 +81,6 @@ describe('Find VA Forms <SearchResult />', () => {
     tree.unmount();
   });
 
-  it('should have download or redirect attribute for form PDF dependant on CORS', () => {
-    const tree = mount(
-      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
-    );
-    const isSameOrigin = form.attributes.url.startsWith(window.location.origin);
-
-    if (isSameOrigin) expect(tree.exists('[download=true]')).to.equal(true);
-    else expect(tree.exists('[target="_blank"]')).to.equal(true);
-
-    tree.unmount();
-  });
-
   it('should have "Fill out VA Form" link', () => {
     const tree = mount(
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,

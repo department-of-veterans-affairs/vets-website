@@ -3,6 +3,7 @@
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
+import featureToggle5103UpdateEnabledV2 from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled-v2.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
@@ -15,6 +16,7 @@ class TrackClaimsPageV2 {
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
     cst5103UpdateEnabled = false,
+    cst5103UpdateEnabledV2 = false,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
@@ -29,16 +31,25 @@ class TrackClaimsPageV2 {
     }
 
     if (cstClaimPhasesToggleEnabled) {
+      // When cst_use_claim_details_v2 and cst_claim_phases are enabled
       cy.intercept(
         'GET',
         '/v0/feature_toggles?*',
         featureToggleClaimPhasesEnabled,
       );
     } else if (cst5103UpdateEnabled) {
+      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
       cy.intercept(
         'GET',
         '/v0/feature_toggles?*',
         featureToggle5103UpdateEnabled,
+      );
+    } else if (cst5103UpdateEnabledV2) {
+      // When cst_use_claim_details_v2 and cst_5103_update_enabled are enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabledV2,
       );
     } else {
       cy.intercept(
@@ -330,7 +341,7 @@ class TrackClaimsPageV2 {
         .find('button')
         .click();
     } else {
-      cy.get('.additional-evidence-container va-checkbox')
+      cy.get('va-checkbox')
         .shadow()
         .find('input[type="checkbox"]')
         .check({ force: true });
@@ -391,7 +402,7 @@ class TrackClaimsPageV2 {
       });
   }
 
-  verifyRecentActivity() {
+  verifyRecentActivity(claimClosed = false, showEightPhases = false) {
     cy.get('.recent-activity-container').should('be.visible');
     cy.get('.recent-activity-container > h3').should(
       'contain',
@@ -401,6 +412,57 @@ class TrackClaimsPageV2 {
       'have.length.greaterThan',
       0,
     );
+    if (showEightPhases) {
+      if (claimClosed) {
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim was decided',
+        );
+      } else {
+        cy.get('.recent-activity-container va-pagination')
+          .shadow()
+          .find(
+            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+          )
+          .click();
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We received your claim in our system',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 2: Initial review',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 3: Evidence gathering',
+        );
+      }
+    } else if (claimClosed) {
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 5: Closed',
+      );
+    } else {
+      cy.get('.recent-activity-container va-pagination')
+        .shadow()
+        .find(
+          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+        )
+        .click();
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 1: Claim received',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 2: Initial review',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 3: Evidence gathering, review, and decision',
+      );
+    }
   }
 
   verifyRecentActivityPagination() {
@@ -517,7 +579,40 @@ class TrackClaimsPageV2 {
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
-  x;
+  verifyDocRequestBreadcrumbs(previousPageFiles = false, is5103Notice = false) {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
+    cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
+      'contain',
+      'VA.gov home',
+    );
+    cy.get('.usa-breadcrumb__list > li:nth-child(2) a').should(
+      'contain',
+      'Check your claims and appeals',
+    );
+    if (previousPageFiles) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Files for your compensation claim',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Status of your compensation claim',
+      );
+    }
+    if (is5103Notice) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        '5103 Evidence Notice',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        'Request for Submit Buddy Statement(s)',
+      );
+    }
+  }
 
   submitEvidenceWaiver() {
     cy.get('va-checkbox')
