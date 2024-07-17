@@ -19,6 +19,7 @@ import redirectIfNecessary from './redirects';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
 import Header from './Header';
 import Footer from './Footer';
+import CrisisLineModal from './partials/crisis-line-modal';
 
 const store = createCommonStore();
 
@@ -129,6 +130,15 @@ function removeCurrentHeaderFooter() {
 }
 
 const startVCLModal = () => {
+  const vclContainer = document?.getElementById('ts-vcl-container');
+
+  startReactApp(
+    <Provider store={store}>
+      <CrisisLineModal />
+    </Provider>,
+    vclContainer,
+  );
+
   addFocusBehaviorToCrisisLineModal();
   addOverlayTriggers();
 };
@@ -155,13 +165,14 @@ function activateInjectedAssets() {
       const headerContainer = document.createElement('div');
       headerContainer.classList.add('ts-header-container');
 
+      const vclContainer = document.createElement('div');
+      vclContainer.setAttribute('id', 'ts-vcl-container');
+
+      document.body.appendChild(vclContainer);
+
       const footerContainer = document.createElement('div');
       footerContainer.classList.add('ts-footer-container');
 
-      const loginModalContainer = document.createElement('div');
-      loginModalContainer.setAttribute('id', 'ts-login-modal-container');
-
-      document.body.appendChild(loginModalContainer);
       document.body.appendChild(footerContainer);
 
       if (skipLink) {

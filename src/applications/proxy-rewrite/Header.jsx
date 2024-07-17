@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import DesktopHeader from './partials/desktop/header';
 import MobileHeader from './partials/mobile/header';
-import SignInModal from './partials/sign-in';
 
 const MOBILE_BREAKPOINT_PX = 768;
 
@@ -25,19 +24,10 @@ const Header = ({ megaMenuData }) => {
     };
   }, []);
 
-  const header = isDesktop ? (
+  return isDesktop ? (
     <DesktopHeader isDesktop={isDesktop} megaMenuData={megaMenuData} />
   ) : (
     <MobileHeader isDesktop={isDesktop} megaMenuData={megaMenuData} />
-  );
-
-  return (
-    <>
-      {header}
-      <div id="ts-login-modal-container">
-        <SignInModal />
-      </div>
-    </>
   );
 };
 

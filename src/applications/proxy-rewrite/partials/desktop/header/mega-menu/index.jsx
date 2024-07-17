@@ -11,6 +11,11 @@ const MegaMenu = ({ megaMenuData }) => {
   const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
   const [levelTwoIndexOpen, setLevelTwoIndexOpen] = useState(null);
 
+  const clearMenu = () => {
+    setLevelOneIndexOpen(null);
+    setLevelTwoIndexOpen(null);
+  };
+
   useEffect(() => {
     const megaNavContainer = document.getElementsByClassName(
       'mega-nav-open',
@@ -19,8 +24,7 @@ const MegaMenu = ({ megaMenuData }) => {
 
     const outsideClickHandler = event => {
       if (!megaNavContainer.contains(event.target)) {
-        setLevelOneIndexOpen(null);
-        setLevelTwoIndexOpen(null);
+        clearMenu();
       }
     };
 
@@ -33,8 +37,15 @@ const MegaMenu = ({ megaMenuData }) => {
     };
   });
 
-  const openLevelOne = index => {
-    setLevelOneIndexOpen(index === levelOneIndexOpen ? null : index);
+  const toggleLevelOne = index => {
+    // i.e. the click was meant to close the menu
+    const menuIsAlreadyOpen = index === levelOneIndexOpen;
+
+    setLevelOneIndexOpen(menuIsAlreadyOpen ? null : index);
+
+    if (menuIsAlreadyOpen) {
+      clearMenu();
+    }
   };
 
   // Build top titles (e.g. VA Benefits and Health Care, About VA)
@@ -50,8 +61,10 @@ const MegaMenu = ({ megaMenuData }) => {
             aria-expanded={sectionOpen}
             aria-controls={`vetnav-${kebabCase(sectionData.title)}`}
             className="vetnav-level1"
-            onClick={() => openLevelOne(index)}
-            onKeyDown={event => keyDownHandler(event, openLevelOne, index)}
+            onClick={() => {
+              toggleLevelOne(index);
+            }}
+            onKeyDown={event => keyDownHandler(event, toggleLevelOne, index)}
           >
             {sectionData.title}
           </button>
@@ -90,7 +103,7 @@ const MegaMenu = ({ megaMenuData }) => {
     <div className="usa-grid usa-grid-full">
       <div className="menu-rule" />
       <div id="mega-menu">
-        <div className="hidden-header login-container">
+        <div className="login-container">
           <div className="row vads-u-display--flex">
             <div id="vetnav" role="navigation">
               <ul

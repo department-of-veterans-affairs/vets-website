@@ -119,9 +119,13 @@ const CrisisLineModal = () => (
             </p>
           </li>
         </ul>
-        Get more resources at{' '}
-        <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>
-        .
+        <p className="vads-u-padding-bottom--0 vads-u-margin-bottom--0">
+          Get more resources at{' '}
+          <a href="https://www.veteranscrisisline.net/">
+            VeteransCrisisLine.net
+          </a>
+          .
+        </p>
       </div>
     </div>
   </div>

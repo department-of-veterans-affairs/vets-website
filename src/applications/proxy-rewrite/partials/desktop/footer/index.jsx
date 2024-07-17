@@ -1,7 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 import PropTypes from 'prop-types';
-import CrisisLineModal from '../../crisis-line-modal';
 import {
   buildBottomRail,
   buildColumn,
@@ -98,7 +97,6 @@ const DesktopFooter = ({ footerData }) => {
           <ul>{buildBottomRail(bottomRail)}</ul>
         </div>
       </div>
-      <CrisisLineModal />
     </footer>
   );
 };

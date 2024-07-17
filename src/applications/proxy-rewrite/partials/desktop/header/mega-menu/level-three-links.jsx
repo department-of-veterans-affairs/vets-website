@@ -51,9 +51,7 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
 
   const buildImageColumn = (column, columnClass = '', marketingClass = '') => {
     if (!column) {
-      return (
-        <div className="vads-u-display--block vetnav-panel vetnav-panel--submenu column-three" />
-      );
+      return null;
     }
 
     const imageSource = updateLinkDomain(column.img.src);

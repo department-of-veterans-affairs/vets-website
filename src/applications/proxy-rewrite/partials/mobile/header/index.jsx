@@ -1,5 +1,5 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import MegaMenu from './mega-menu';
 import { keyDownHandler } from '../../../utilities/keydown';
@@ -7,25 +7,9 @@ import { keyDownHandler } from '../../../utilities/keydown';
 const MobileHeader = ({ isDesktop, megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const outsideClickHandler = () => {
-    if (menuIsOpen) {
-      setMenuIsOpen(false);
-    }
-  };
-
   const openMenu = () => {
     setMenuIsOpen(!menuIsOpen);
   };
-
-  useEffect(() => {
-    const signInButton = document.getElementsByClassName('sign-in-button')[0];
-
-    signInButton.addEventListener('click', outsideClickHandler);
-
-    return () => {
-      signInButton.removeEventListener('click', outsideClickHandler);
-    };
-  });
 
   return (
     <header role="banner">
@@ -154,18 +138,9 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
 
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
             <div className="profile-nav-container">
-              <div id="mobile-nav-container" />
-              {/* start Sign In button */}
-              <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
-                <div className="sign-in-nav">
-                  <div className="sign-in-buttons">
-                    <button className="sign-in-button" type="button">
-                      Sign in
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* end Sign In button */}
+              <a className="sign-in-link" href="https://www.va.gov/my-va">
+                Sign in
+              </a>
             </div>
 
             {/* start Menu button */}

@@ -147,8 +147,7 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
         </div>
         <div id="login-root">
           <div className="profile-nav-container">
-            <div id="desktop-nav-container" />
-            <div className="hidden-header vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
+            <div className="vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1">
               {/* start Search */}
               <div className="va-dropdown">
                 <button
@@ -190,18 +189,14 @@ const DesktopHeader = ({ isDesktop, megaMenuData }) => {
               {/* end Search */}
 
               <a
-                className="va-header-contact vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
+                className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-left--1 vads-u-padding-right--2 vads-u-font-weight--bold"
                 href="https://www.va.gov/contact-us/"
               >
                 Contact us
               </a>
-              <div className="sign-in-nav">
-                <div className="sign-in-buttons">
-                  <button className="sign-in-button" type="button">
-                    Sign in
-                  </button>
-                </div>
-              </div>
+              <a className="sign-in-link" href="https://www.va.gov/my-va">
+                Sign in
+              </a>
             </div>
           </div>
         </div>

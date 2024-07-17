@@ -7,6 +7,7 @@ import { keyDownHandler } from '../../../../utilities/keydown';
 const LevelTwoLinks = ({
   sectionData,
   setLevelTwoMenuOpen,
+  setLinkShouldFocus,
   setPreviouslyClickedMenu,
 }) => {
   if (!sectionData) {
@@ -33,6 +34,7 @@ const LevelTwoLinks = ({
   const onButtonClick = title => {
     setLevelTwoMenuOpen(title);
     setPreviouslyClickedMenu(title);
+    setLinkShouldFocus(false);
   };
 
   if (Array.isArray(sectionData)) {
@@ -138,6 +140,7 @@ const LevelTwoLinks = ({
 
 LevelTwoLinks.propTypes = {
   setLevelTwoMenuOpen: PropTypes.func.isRequired,
+  setLinkShouldFocus: PropTypes.func.isRequired,
   setPreviouslyClickedMenu: PropTypes.func.isRequired,
   sectionData: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };

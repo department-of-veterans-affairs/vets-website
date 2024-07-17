@@ -1,7 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React from 'react';
 import PropTypes from 'prop-types';
-import CrisisLineModal from '../../crisis-line-modal';
 import {
   buildBottomRail,
   buildColumn,
@@ -185,7 +184,6 @@ const MobileFooter = ({ footerData }) => {
       <div className="usa-grid usa-grid-full vads-u-margin-bottom--2 va-footer-links-bottom">
         <ul>{buildBottomRail(bottomRail)}</ul>
       </div>
-      <CrisisLineModal />
     </footer>
   );
 };

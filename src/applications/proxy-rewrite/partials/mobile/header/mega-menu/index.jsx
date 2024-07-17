@@ -98,6 +98,7 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
               setPreviouslyClickedMenu={setPreviouslyClickedMenu}
               sectionData={sectionData.menuSections}
               setLevelTwoMenuOpen={setLevelTwoMenuOpen}
+              setLinkShouldFocus={setLinkShouldFocus}
             />
           </ul>
         </Fragment>

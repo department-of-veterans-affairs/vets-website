@@ -11,14 +11,13 @@ If an entry for this folder exists in content-build and you are:
 - _Add the link to your merged content-build PR here_
 
 2. **Renaming or moving a folder**: Update the entry in the [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json), but do not merge it until your vets-website changes here are merged. The content-build PR must be merged immediately after your vets-website change is merged in to avoid CI errors with content-build (and Tugboat).
-### :warning: Team Sites :warning:
-Example of a Team Site: https://va.gov/health. This scenario is also referred to as the "injected" header and footer.
 
-Did you make changes to the login modal (shown at https://www.va.gov/?next=loginModal)? TeamSites share the login modal code with va.gov and do not support web components. Please verify:
+### :warning: TeamSites :warning:
+Examples of a TeamSite: https://va.gov/health and https://benefits.va.gov/benefits/. This scenario is also referred to as the "injected" header and footer. You can reach out in the `#sitewide-public-websites` Slack channel for questions.
 
-- [ ] The login modal does not contain any web components
-- [ ] I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#that-sounds-normal-so-whats-the-proxy-all-about) to test the injected header scenario
-- [ ] I reached out in the `#sitewide-public-websites` Slack channel for questions
+Did you change site-wide styles, platform utilities or other infrastructure?
+- [ ] No
+- [ ] Yes, and I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#that-sounds-normal-so-whats-the-proxy-all-about) to test the injected header scenario
 
 ## Summary
 
