@@ -105,6 +105,7 @@ function Automated5103Notice({
         className="vads-u-margin-y--3"
         checked={addedEvidence}
         error={checkboxErrorMessage}
+        required="true"
         onVaChange={event => {
           setAddedEvidence(event.detail.checked);
         }}
