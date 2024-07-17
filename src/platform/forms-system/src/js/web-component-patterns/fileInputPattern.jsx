@@ -96,19 +96,17 @@ export const fileInputUI = stringOrOptions => {
 export const fileInputSchema = {
   type: 'object',
   properties: {
-    file: {
-      type: 'object',
-      properties: {
-        name: {
-          type: 'string',
-        },
-        size: {
-          type: 'integer',
-        },
-        confirmationCode: {
-          type: 'string',
-        },
-      },
+    confirmationCode: {
+      type: 'string',
+    },
+    isEncrypted: {
+      type: 'boolean',
+    },
+    name: {
+      type: 'string',
+    },
+    size: {
+      type: 'integer',
     },
   },
 };

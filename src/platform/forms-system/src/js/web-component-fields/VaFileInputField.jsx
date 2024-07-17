@@ -1,7 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { uploadScannedForm } from '~/applications/simple-forms/form-upload/helpers';
+import {
+  getFormContent,
+  uploadScannedForm,
+} from '~/applications/simple-forms/form-upload/helpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
 /**
@@ -38,6 +41,7 @@ const VaFileInputField = props => {
   const dispatch = useDispatch();
   const [error, setError] = useState('');
   const [file, setFile] = useState(null);
+  const { formNumber } = getFormContent();
 
   const onFileUploaded = useCallback(
     uploadedFile => {
@@ -59,17 +63,17 @@ const VaFileInputField = props => {
       }
 
       setFile(newFile);
-      dispatch(uploadScannedForm('21-0779', newFile, onFileUploaded));
+      if (props.onVaChange) {
+        props.onVaChange();
+      } else {
+        dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
+      }
     },
     [file, dispatch, onFileUploaded],
   );
 
   return (
-    <VaFileInput
-      {...mappedProps}
-      error={error}
-      onVaChange={props.onVaChange || handleVaChange}
-    />
+    <VaFileInput {...mappedProps} error={error} onVaChange={handleVaChange} />
   );
 };
 
