@@ -140,19 +140,10 @@ We use Cypress to capture screenshots of each page of this application. The scre
 
 Current features PCI, day-of, and travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
-Current features PCI only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.pci.cypress.spec.js`
-
-Current features day-of only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.day-of.cypress.spec.js`
-
-Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
+Pre-check-in: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-pre-check-in.cypress.spec.js`
 
 Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
 
-Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
-
-Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
-
-Current and errors Travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-claim.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
