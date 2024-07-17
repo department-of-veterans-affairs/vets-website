@@ -2,12 +2,14 @@ import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
-describe(`${appName} -- MHV Secondary Nav enabled`, () => {
+describe(`${appName} -- MHV Newsletter Signup`, () => {
   describe('registered user', () => {
     it('renders', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit();
-      LandingPage.secondaryNavRendered();
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should.exist;
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -16,7 +18,9 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit({ verified: false, registered: false });
-      LandingPage.secondaryNav().should('not.exist');
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should('not.exist');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -25,7 +29,9 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit({ registered: false });
-      LandingPage.secondaryNav().should('not.exist');
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should('not.exist');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -34,17 +40,10 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     it('renders', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit({ mhvAccountState: false });
-      LandingPage.secondaryNavRendered();
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should.exist;
       cy.injectAxeThenAxeCheck();
     });
-  });
-});
-
-describe(`${appName} -- MHV Secondary Nav disabled`, () => {
-  it('does not render', () => {
-    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
-    LandingPage.visit();
-    LandingPage.secondaryNav().should('not.exist');
-    cy.injectAxeThenAxeCheck();
   });
 });
