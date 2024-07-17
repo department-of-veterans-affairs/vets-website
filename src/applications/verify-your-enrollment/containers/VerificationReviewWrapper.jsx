@@ -34,6 +34,7 @@ const VerificationReviewWrapper = ({
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
@@ -48,6 +49,9 @@ const VerificationReviewWrapper = ({
   };
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+    if (isChecked) {
+      setShowError(false);
+    }
     setErrorStatement(null);
   };
   // used with mock data to mock what happens after
@@ -71,11 +75,13 @@ const VerificationReviewWrapper = ({
   };
 
   const handleSubmission = () => {
-    handleVerification();
-    if (!error) {
+    if (!isChecked) {
+      setShowError(true);
+    } else if (!error && isChecked) {
+      handleVerification();
       dispatchUpdateToggleEnrollmentSuccess(true);
+      history.push(VERIFICATION_RELATIVE_URL);
     }
-    history.push(VERIFICATION_RELATIVE_URL);
   };
 
   useEffect(
@@ -170,6 +176,12 @@ const VerificationReviewWrapper = ({
                     />
                   </label>
                   <EnrollmentInformation />
+                  {showError && (
+                    <div style={{ color: '#b50909', marginTop: '8px' }}>
+                      Please check the box to confirm the information is
+                      correct.
+                    </div>
+                  )}
                 </div>
                 <div
                   style={{
@@ -181,11 +193,11 @@ const VerificationReviewWrapper = ({
                 >
                   <va-button onClick={handleBackClick} back uswds />
                   <va-button
-                    onClick={handleSubmission}
                     text="Submit"
+                    onClick={handleSubmission}
                     submit
                     uswds
-                    disabled={!isChecked}
+                    //  disabled={!isChecked}
                   />
                 </div>
               </>
