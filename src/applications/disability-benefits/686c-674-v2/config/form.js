@@ -87,7 +87,7 @@ export const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
-  version: 1,
+  version: 2,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
@@ -95,6 +95,7 @@ export const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
+    requiredForPrefill: true,
     dependencies: [
       externalServices.bgs,
       externalServices.global,
@@ -104,9 +105,10 @@ export const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Start over to apply for declare or remove a dependent.',
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
     noAuth:
-      'Sign in again to continue your application for declare or remove a dependent.',
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',

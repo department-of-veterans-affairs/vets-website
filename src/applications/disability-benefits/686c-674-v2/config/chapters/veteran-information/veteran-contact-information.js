@@ -1,4 +1,5 @@
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import {
   phoneUI,
@@ -29,10 +30,9 @@ export const internationalPhoneUI = options => {
       ...uiOptions,
     },
     'ui:errorMessages': {
-      required:
-        'Please enter an international phone number (with or without dashes)',
+      required: 'Enter an international phone number (with or without dashes)',
       pattern:
-        'Please enter a valid international phone number (with or without dashes)',
+        'Enter a valid international phone number (with or without dashes)',
     },
   };
 };
@@ -60,6 +60,11 @@ export const uiSchema = {
   'view:electronicCorrespondence': {
     'ui:title':
       'I agree to receive electronic correspondence from the VA about my claim.',
+    'ui:webComponentField': VaCheckboxField,
+    'ui:options': {
+      messageAriaDescribedby: `I agree to receive electronic correspondence from the VA about my claim`,
+      classNames: 'custom-width',
+    },
   },
 };
 

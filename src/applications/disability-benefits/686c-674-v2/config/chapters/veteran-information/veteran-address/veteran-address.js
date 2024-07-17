@@ -2,7 +2,7 @@ import {
   addressSchema,
   addressUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { updateFormDataAddress } from '../../../address-schema';
+// import { updateFormDataAddress } from '../../../address-schema';
 import { generateTitle } from '../../../helpers';
 
 export const uiSchema = {
@@ -32,8 +32,8 @@ export const schema = {
   },
 };
 
-export const updateFormData = (oldFormData, formData) =>
-  updateFormDataAddress(oldFormData, formData, [
-    'veteranContactInformation',
-    'veteranAddress',
-  ]);
+// export const updateFormData = (oldFormData, formData) =>
+//   updateFormDataAddress(oldFormData, formData, [
+//     'veteranContactInformation',
+//     'veteranAddress',
+//   ]);
