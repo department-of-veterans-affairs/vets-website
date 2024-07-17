@@ -7,7 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ArrayDescription from '../../../components/ArrayDescription';
 import ListItemView from '../../../components/ListItemView';
-import { formatFullName, showDependentsMultiplePage } from '../../../helpers';
+import { formatFullName, showMultiplePageResponse } from '../../../helpers';
 import { doesHavePreviousNames } from './helpers';
 
 export const OtherNameView = ({ formData }) => (
@@ -25,7 +25,7 @@ export default {
   title: 'List of other service names',
   path: 'military/other-names/add',
   depends: formData =>
-    !showDependentsMultiplePage() && doesHavePreviousNames(formData),
+    !showMultiplePageResponse() && doesHavePreviousNames(formData),
   uiSchema: {
     ...titleUI(
       'List of other service names',

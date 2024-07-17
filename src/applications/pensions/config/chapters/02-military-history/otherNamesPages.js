@@ -7,7 +7,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { formatFullName, showDependentsMultiplePage } from '../../../helpers';
+import { formatFullName, showMultiplePageResponse } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -80,14 +80,14 @@ export const otherNamesPages = arrayBuilderPages(options, pageBuilder => ({
   otherNamesSummary: pageBuilder.summaryPage({
     title: 'Other service names',
     path: 'military/other-names/summary',
-    depends: () => showDependentsMultiplePage(),
+    depends: () => showMultiplePageResponse(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   otherNamePage: pageBuilder.itemPage({
     title: 'Other service names',
     path: 'military/other-names/:index/name',
-    depends: () => showDependentsMultiplePage(),
+    depends: () => showMultiplePageResponse(),
     uiSchema: otherNamePage.uiSchema,
     schema: otherNamePage.schema,
   }),

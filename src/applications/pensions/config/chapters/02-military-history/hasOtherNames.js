@@ -3,7 +3,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { showDependentsMultiplePage } from '../../../helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const { serveUnderOtherNames } = fullSchemaPensions.properties;
 
@@ -11,7 +11,7 @@ const { serveUnderOtherNames } = fullSchemaPensions.properties;
 export default {
   title: 'Other service names',
   path: 'military/other-names',
-  depends: () => !showDependentsMultiplePage(),
+  depends: () => !showMultiplePageResponse(),
   uiSchema: {
     ...titleUI('Other service names'),
     serveUnderOtherNames: yesNoUI({
