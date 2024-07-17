@@ -151,18 +151,15 @@ const Error = () => {
               {t('sign-in-to-schedule')}
             </ExternalLink>
           </p>
-          {canceledAppointment?.kind === 'phone' ? (
-            ''
-          ) : (
-            <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-              {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
-            </p>
-          )}
+          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
+          </p>
         </div>
       );
       break;
     }
     case 'pre-check-in-expired':
+    case 'uuid-not-found':
       alertType = 'warning';
       header = t('you-cant-review-information-right-now');
       messageText = <>{noLongerAvailableMessage}</>;
@@ -184,7 +181,7 @@ const Error = () => {
         uswds
         slim
       >
-        <div>{messageText}</div>
+        <div data-testid={error}>{messageText}</div>
       </va-alert>
       {error !== 'max-validation' && (
         <>

@@ -16,17 +16,6 @@ class Error {
       'be.visible',
     );
     cy.get('[data-testid="something-went-wrong-message"]').should('be.visible');
-    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
-  };
-
-  validatePageLoadedNotAvailable = () => {
-    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
-
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow }).should(
-      'be.visible',
-    );
-    cy.get('[data-testid="something-went-wrong-message"]').should('be.visible');
-    cy.get('[data-testid="mixed-modality-message"]').should('be.visible');
   };
 
   validatePageLoadedExpired = () => {
