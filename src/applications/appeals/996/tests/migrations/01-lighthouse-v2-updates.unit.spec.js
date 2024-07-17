@@ -87,7 +87,7 @@ describe('HLR v2 migration', () => {
     });
     it('should return in progress data if v2 feature is disabled', () => {
       const data = {
-        formData: { hlrV2: false },
+        formData: {},
         metadata: { test: true },
       };
       expect(version2Updates(data)).to.deep.equal(data);

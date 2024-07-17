@@ -16,8 +16,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmployersInformationTitle from '../../components/EmployersInformationTitle';
-import YourEmployersDescription from '../../components/YourEmployersDescription';
+import YourEmployersDescription from '../../components/03-employment-information-chapter/YourEmployersDescription';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -56,7 +55,7 @@ const introPage = {
 const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: EmployersInformationTitle,
+      title: 'Employer and position information',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of employer'),
@@ -84,7 +83,10 @@ const addressAndPhoneNumberPage = {
           : 'Address and phone number',
     ),
     address: addressUI({
-      omit: ['street3'],
+      labels: {
+        militaryCheckbox:
+          'I work on a United States military base outside of the U.S.',
+      },
     }),
     phone: phoneUI(),
     extension: textUI('Extension'),
@@ -102,7 +104,7 @@ const addressAndPhoneNumberPage = {
         maxLength: 10,
       },
     },
-    required: ['address', 'phone'],
+    required: ['phone'],
   },
 };
 
@@ -139,12 +141,8 @@ const summaryPage = {
   uiSchema: {
     'view:hasEmployers': arrayBuilderYesNoUI(
       arrayBuilderOptions,
+      {},
       {
-        title: 'Do you have any employment for the last 5 years to report?',
-        labelHeaderLevel: 'p',
-      },
-      {
-        title: 'Do you have another employer to report?',
         labelHeaderLevel: 'p',
       },
     ),
@@ -160,7 +158,7 @@ const summaryPage = {
 
 const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
   employers: pageBuilder.introPage({
-    title: 'Your employers',
+    title: 'Employers',
     path: 'employers',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
@@ -178,7 +176,7 @@ const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
     schema: informationPage.schema,
   }),
   employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
-    title: 'Employer address and phone',
+    title: 'Employer address and phone number',
     path: 'employers/:index/address-phone-number',
     uiSchema: addressAndPhoneNumberPage.uiSchema,
     schema: addressAndPhoneNumberPage.schema,

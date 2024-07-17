@@ -21,14 +21,26 @@ const IntroductionPage = props => {
         Program (FMP) claim.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        What to know before you submit this form
+        What to know before you fill out this form
       </h2>
       <p>When you prepare to file, be sure to have these on hand: </p>
       <ul>
-        <li>An itemized billing statement from your provider</li>
-        <li>Proof that you paid the provider (if applicable)</li>
-        <li>Any supporting documents you need for certain types of care</li>
+        <li>You’ll need an itemized billing statement to support your claim</li>
+        <li>
+          If you already paid the provider, you’ll need to upload a receipt or
+          other proof that you paid
+        </li>
+        <li>
+          For certain types of claims, you may need other supporting documents
+        </li>
       </ul>
+      <a
+        href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w"
+        style={{ display: 'inline-block', marginBottom: '2em' }}
+      >
+        {' '}
+        Find out which supporting documents you need.
+      </a>
       <SaveInProgressIntro
         formId={formConfig.formId}
         headingLevel={2}

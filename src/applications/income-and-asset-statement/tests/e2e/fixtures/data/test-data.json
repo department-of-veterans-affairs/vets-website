@@ -16,14 +16,33 @@
     },
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "VETERAN",
-    "view:hasUnassociatedIncomes": true,
+    "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 2500,
         "payer": "Business name",
-        "recipientRelationship": "SPOUSE",
-        "recipientName": "Recipient name"
+        "recipientRelationship": "SPOUSE"
+      }
+    ],
+    "view:isAddingAssociatedIncomes": true,
+    "associatedIncomes": [
+      {
+        "incomeType": "INTEREST",
+        "grossMonthlyIncome": 500,
+        "accountValue": 50000,
+        "payer": "Financial name",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "view:isAddingOwnedAssets": true,
+    "ownedAssets": [
+      {
+        "recipientRelationship": "PARENT",
+        "recipientName": "Recipient name",
+        "grossMonthlyIncome": 2500,
+        "ownedPortionValue": 100000,
+        "assetType": "BUSINESS"
       }
     ],
     "statementOfTruthSignature": "John Doe"

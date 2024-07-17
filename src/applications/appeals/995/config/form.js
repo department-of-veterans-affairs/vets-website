@@ -39,7 +39,6 @@ import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
 
-import { mayHaveLegacyAppeals } from '../utils/helpers';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
@@ -73,8 +72,16 @@ import { focusEvidence } from '../utils/focus';
 import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { focusAlertH3, focusRadioH3, focusH3 } from '../../shared/utils/focus';
-import { appStateSelector } from '../../shared/utils/issues';
+import {
+  focusAlertH3,
+  focusRadioH3,
+  focusH3,
+  focusOnAlert,
+} from '../../shared/utils/focus';
+import {
+  mayHaveLegacyAppeals,
+  appStateSelector,
+} from '../../shared/utils/issues';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -164,6 +171,7 @@ const formConfig = {
           schema: contestableIssues.schema,
           appStateSelector,
           scrollAndFocusTarget: focusH3,
+          onContinue: focusOnAlert,
         },
         addIssue: {
           title: 'Add issues for review',

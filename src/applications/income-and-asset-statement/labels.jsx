@@ -25,3 +25,15 @@ export const incomeTypeLabels = {
   CIVIL_SERVICE: 'Civil Service',
   OTHER: 'Other',
 };
+
+export const incomeTypeEarnedLabels = {
+  INTEREST: 'Interest',
+  DIVIDENDS: 'Dividends',
+  OTHER: 'Other',
+};
+
+export const ownedAssetTypeLabels = {
+  BUSINESS: 'Business',
+  FARM: 'Farm',
+  RENTAL_PROPERTY: 'Rental property',
+};
