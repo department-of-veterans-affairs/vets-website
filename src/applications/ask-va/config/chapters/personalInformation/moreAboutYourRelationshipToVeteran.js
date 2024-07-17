@@ -51,7 +51,7 @@ const moreAboutYourRelationshipToVeteranPage = {
     required: ['moreAboutYourRelationshipToVeteran'],
     properties: {
       moreAboutYourRelationshipToVeteran: radioSchema(
-        Object.keys(aboutRelationship),
+        Object.values(aboutRelationship),
       ),
       relationshipNotListed: { type: 'string' },
     },

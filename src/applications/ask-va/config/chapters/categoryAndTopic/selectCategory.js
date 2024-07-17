@@ -14,6 +14,7 @@ const selectCategoryPage = {
       'ui:widget': CategorySelect,
       'ui:options': {
         required: () => true,
+        keepInPageOnReview: true,
       },
     },
   },
