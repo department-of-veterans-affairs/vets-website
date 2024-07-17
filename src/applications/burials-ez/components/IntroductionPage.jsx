@@ -106,7 +106,7 @@ const IntroductionPage = ({ route }) => {
         prefillEnabled={route.formConfig.prefillEnabled}
         pageList={route.pageList}
         downtime={route.formConfig.downtime}
-        startText="Start the Burial Benefits Application"
+        startText="Start the burial allowance and transportation benefits application"
       />
       <div className="omb-info--container vads-u-margin-top--3 vads-u-padding-left--0">
         <va-omb-info
