@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import classnames from 'classnames';
 import moment from 'moment';
+
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
@@ -157,15 +158,17 @@ class Batteries extends Component {
                   </h3>
                 </va-alert>
               ) : (
-                <VaCheckbox
-                  id={batterySupply.productId}
-                  className="vads-u-margin-left--0"
-                  onChange={e =>
-                    this.handleChecked(e.target.checked, batterySupply)
-                  }
-                  checked={isBatterySelected(batterySupply.productId)}
-                  label="Order batteries for this device"
-                />
+                <div>
+                  <VaCheckbox
+                    id={batterySupply.productId}
+                    className="vads-u-margin-left--0"
+                    onVaChange={e =>
+                      this.handleChecked(e.target.checked, batterySupply)
+                    }
+                    checked={isBatterySelected(batterySupply.productId)}
+                    label="Order batteries for this device"
+                  />
+                </div>
               )}
             </div>
           ))}

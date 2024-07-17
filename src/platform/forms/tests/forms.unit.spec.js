@@ -38,10 +38,12 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
+  VA_FORM_IDS.FORM_MOCK_HLR,
   VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_3542,
   VA_FORM_IDS.FORM_10_7959F_1,
   VA_FORM_IDS.FORM_10_7959F_2,
+  VA_FORM_IDS.FORM_T_QSTNR,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -79,6 +81,7 @@ const formConfigKeys = [
   'formSavedPage',
   'additionalRoutes',
   'submitErrorText',
+  'CustomReviewTopContent',
   'CustomTopContent',
   'customText',
   'submissionError',
@@ -233,8 +236,17 @@ const validFormTitle = ({ title }) => {
 const validFormSubTitle = ({ subTitle }) => {
   const formSubTitle =
     typeof subTitle === 'function' ? subTitle({ formData: {} }) : subTitle;
-  if (formSubTitle) {
-    expect(formSubTitle).to.be.a('string', 'subTitle does not return a string');
+
+  // subTitle can return a string or React component
+  if (
+    formSubTitle &&
+    !isReactComponent(subTitle) &&
+    typeof formSubTitle !== 'string'
+  ) {
+    expect(formSubTitle).to.be.a(
+      'string',
+      'subTitle does not return a string or a React component',
+    );
   }
 };
 

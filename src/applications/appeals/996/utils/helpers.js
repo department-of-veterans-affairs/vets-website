@@ -51,3 +51,6 @@ export const mayHaveLegacyAppeals = ({
   legacyCount = 0,
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
+
+export const showNewHlrContent = formData => formData.hlrUpdatedContent;
+export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;

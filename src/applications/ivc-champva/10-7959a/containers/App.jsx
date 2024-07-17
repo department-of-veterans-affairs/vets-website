@@ -14,10 +14,6 @@ const breadcrumbList = [
     href: `/family-and-caregiver-benefits/health-and-disability/`,
     label: `Health and disability benefits for family and caregivers`,
   },
-  {
-    href: `/family-and-caregiver-benefits/health-and-disability/champva`,
-    label: `CHAMPVA benefits`,
-  },
 ];
 
 export default function App({ location, children }) {
