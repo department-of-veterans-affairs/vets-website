@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+// import classNames from 'classnames'; //remove
 import { connect } from 'react-redux';
 // Relative imports.
 import SearchForm from '../../containers/SearchForm';
@@ -40,7 +40,7 @@ export const SearchResultsPage = ({
           Change search criteria{' '}
           <va-icon
             // class=  'vads-u-padding-left--0p5'
-            icon ={showMobileForm ? 'expand_less':'expand_more'}
+            icon={showMobileForm ? 'expand_less' : 'expand_more'}
             size={3}
           />
         </button>
