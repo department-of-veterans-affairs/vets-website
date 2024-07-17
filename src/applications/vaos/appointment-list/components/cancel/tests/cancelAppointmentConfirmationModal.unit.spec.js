@@ -25,7 +25,7 @@ describe('VAOS Component: CancelAppointmentConfirmationModal', () => {
     expect(screen.baseElement).to.contain.text(
       'If you want to reschedule, you’ll need to call us',
     );
-    expect(screen.container.querySelector('.fa-spin')).to.exist;
+    expect(screen.container.querySelector('va-icon')).to.exist;
     expect(
       screen.queryByRole('button', { name: /Yes, cancel this appointment/i }),
     ).to.be.null;
