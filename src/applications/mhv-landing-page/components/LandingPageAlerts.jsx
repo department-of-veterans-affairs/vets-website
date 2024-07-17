@@ -33,7 +33,7 @@ const LandingPageAlerts = ({
       {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
       {registered ? <CardLayout data={cards} /> : noCardsDisplay}
       {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
-      {!showsVerifyAndRegisterAlert && (
+      {showsVerifyAndRegisterAlert && (
         <VerifyAndRegisterAlert cspId={signInService} />
       )}
     </>
