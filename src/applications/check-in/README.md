@@ -140,6 +140,8 @@ We use Cypress to capture screenshots of each page of this application. The scre
 
 Current features PCI, day-of, and travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
+Day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-day-of-check-in.cypress.spec.js`
+
 Pre-check-in: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-pre-check-in.cypress.spec.js`
 
 Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
