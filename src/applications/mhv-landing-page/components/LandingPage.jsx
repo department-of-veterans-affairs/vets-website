@@ -36,11 +36,10 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const userRegistered = userVerified && vaPatient;
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
-  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
-  const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && userRegistered;
+  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+  const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
   useEffect(
     () => {
