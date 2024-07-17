@@ -291,6 +291,7 @@ const baseUserResponses = {
             appeals: true,
             medicalCopays: true,
           },
+          edipi: 3332224445,
         },
         vaProfile: {
           status: 'OK',

@@ -35,20 +35,20 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
-    reviewAddButtonText: 'Add another income and net worth',
+    reviewAddButtonText: 'Add another financial account',
     alertMaxItems:
       'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
-    alertItemUpdated: 'Your income and net worth information has been updated',
-    alertItemDeleted: 'Your income and net worth information has been deleted',
-    cancelAddTitle: 'Cancel adding this income and net worth',
-    cancelAddButtonText: 'Cancel adding this income and net worth',
-    cancelAddYes: 'Yes, cancel adding this income and net worth',
+    alertItemUpdated: 'Your financial account information has been updated',
+    alertItemDeleted: 'Your financial account information has been deleted',
+    cancelAddTitle: 'Cancel adding this financial account',
+    cancelAddButtonText: 'Cancel adding this financial account',
+    cancelAddYes: 'Yes, cancel adding this financial account',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this income and net worth',
-    cancelEditYes: 'Yes, cancel editing this income and net worth',
+    cancelEditTitle: 'Cancel editing this financial account',
+    cancelEditYes: 'Yes, cancel editing this financial account',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this income and net worth',
-    deleteYes: 'Yes, delete this income and net worth',
+    deleteTitle: 'Delete this financial account',
+    deleteYes: 'Yes, delete this financial account',
     deleteNo: 'No',
   },
 };
@@ -60,7 +60,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasAssociatedIncomes': arrayBuilderYesNoUI(
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
         title:
@@ -82,9 +82,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:hasAssociatedIncomes': arrayBuilderYesNoSchema,
+      'view:isAddingAssociatedIncomes': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasAssociatedIncomes'],
+    required: ['view:isAddingAssociatedIncomes'],
   },
 };
 
@@ -182,20 +182,19 @@ export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
     associatedIncomePagesSummary: pageBuilder.summaryPage({
-      title:
-        'Review your income and net worth associated with financial accounts',
+      title: 'Income and net worth associated with financial accounts',
       path: 'associated-incomes-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomeRecipientPage: pageBuilder.itemPage({
-      title: 'Income recipient',
+      title: 'Financial account recipient',
       path: 'associated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
     }),
     associatedIncomeTypePage: pageBuilder.itemPage({
-      title: 'Income type',
+      title: 'Financial account type',
       path: 'associated-incomes/:index/income-type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,

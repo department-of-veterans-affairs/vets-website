@@ -50,7 +50,7 @@ import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3 } from '../../shared/utils/focus';
+import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -163,6 +163,7 @@ const formConfig = {
           schema: contestableIssues.schema,
           appStateSelector,
           scrollAndFocusTarget: focusH3,
+          onContinue: focusOnAlert,
         },
         addIssue: {
           title: 'Add issues for review',

@@ -5,6 +5,12 @@ export const relationshipLabels = {
   PARENT: 'Parent',
 };
 
+export const childRelationshipLabels = {
+  BIOLOGICAL: "They're my biological child",
+  ADOPTED: "They're my adopted child",
+  STEP_CHILD: "They're my stepchild",
+};
+
 export const marriageTypeLabels = {
   CEREMONY:
     'In a civil or religious ceremony with an officiant who signed my marriage license',
