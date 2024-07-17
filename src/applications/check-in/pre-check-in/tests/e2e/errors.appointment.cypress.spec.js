@@ -22,6 +22,7 @@ describe('Check In Experience | Pre-Check-In | Appointment Errors', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validatePageLoadedExpired();
+      cy.createScreenshots('Pre-check-in--Errors--expired');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -38,6 +39,7 @@ describe('Check In Experience | Pre-Check-In | Appointment Errors', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validateCanceledPageLoaded();
+      cy.createScreenshots('Pre-check-in--Errors--canceled');
       cy.injectAxeThenAxeCheck();
     });
   });
