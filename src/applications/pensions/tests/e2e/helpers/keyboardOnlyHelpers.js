@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import { replaceRefSchemas } from 'platform/forms-system/src/js/state/helpers';
 
+import { expect } from 'chai';
 import { fillDateWebComponentPattern } from './index';
 import formConfig from '../../../config/form';
 
@@ -253,6 +254,21 @@ export const fillStateField = (path, schema, uiSchema, data) => {
   });
 };
 
+// uses a workaround to check each validation error element,
+// instead of using `should('be.empty') on the list of nonempty validation errors,
+// because this method causes Cypress to print the specific validation error when failing
+const shouldNotHaveValidationErrors = () => {
+  // searches for validation errors on the page
+  cy.get('[error]:not(:empty), [role="alert"]:not(:empty)')
+    // prevents an error being thrown when no items are found
+    .should(Cypress._.noop)
+    // throws an error if the validation item has content
+    .then($els =>
+      // eslint-disable-next-line no-unused-expressions
+      $els.each(i => expect($els[i]).to.be.empty),
+    );
+};
+
 export const fillSchema = ({
   schema,
   uiSchema,
@@ -342,6 +358,7 @@ const keyboardTestArrayPage = (page, data, fieldKey, i) => {
     data,
   });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
 };
 
 export const keyboardTestArrayPages = (page, chapter, data) => {
@@ -374,6 +391,7 @@ export const keyboardTestPage = (page, data) => {
 
   fillSchema({ schema: page.schema, uiSchema: page.uiSchema, data });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
   return [page.path];
 };
 
