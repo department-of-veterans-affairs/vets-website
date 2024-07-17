@@ -251,6 +251,18 @@ const responses = {
         ...req.body,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+        contact: {
+          telecom: [
+            {
+              type: 'phone',
+              value: '6195551234',
+            },
+            {
+              type: 'email',
+              value: 'myemail72585885@unattended.com',
+            },
+          ],
+        },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
       },
