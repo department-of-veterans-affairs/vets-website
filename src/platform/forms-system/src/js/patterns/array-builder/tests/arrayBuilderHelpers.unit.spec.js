@@ -269,6 +269,7 @@ describe('arrayBuilderText', () => {
 
 describe('minMaxItemsHint', () => {
   let hint = helpers.minMaxItemsHint({
+    arrayData: [{}],
     nounPlural: 'employers',
     nounSingular: 'employer',
     minItems: 2,
@@ -279,6 +280,7 @@ describe('minMaxItemsHint', () => {
   );
 
   hint = helpers.minMaxItemsHint({
+    arrayData: [],
     nounPlural: 'employers',
     nounSingular: 'employer',
     minItems: 1,
@@ -286,6 +288,7 @@ describe('minMaxItemsHint', () => {
   expect(hint).to.eq('You need to add a minimum of 1 employer.');
 
   hint = helpers.minMaxItemsHint({
+    arrayData: [{}],
     nounPlural: 'employers',
     nounSingular: 'employer',
     minItems: 2,
@@ -293,18 +296,44 @@ describe('minMaxItemsHint', () => {
   expect(hint).to.eq('You need to add a minimum of 2 employers.');
 
   hint = helpers.minMaxItemsHint({
-    nounPlural: 'employers',
-    nounSingular: 'employer',
-    maxItems: 1,
-  });
-  expect(hint).to.eq('You can add up to 1 employer.');
-
-  hint = helpers.minMaxItemsHint({
+    arrayData: [],
     nounPlural: 'employers',
     nounSingular: 'employer',
     maxItems: 5,
   });
-  expect(hint).to.eq('You can add up to 5 employers.');
+  expect(hint).to.eq('You can add up to 5.');
+
+  hint = helpers.minMaxItemsHint({
+    arrayData: [{}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add 4 more employers.');
+
+  hint = helpers.minMaxItemsHint({
+    arrayData: [{}, {}, {}, {}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add 1 more employer.');
+
+  hint = helpers.minMaxItemsHint({
+    arrayData: [{}, {}, {}, {}, {}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add up to 5.');
+
+  hint = helpers.minMaxItemsHint({
+    arrayData: [],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 1,
+  });
+  expect(hint).to.eq('You can add up to 1.');
 });
 
 describe('getUpdatedItemFromPath', () => {

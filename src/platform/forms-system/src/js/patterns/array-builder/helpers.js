@@ -229,6 +229,7 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
 
 /**
  * @param {{
+ *  arrayData: Array<any>,
  *  nounSingular: string,
  *  nounPlural: string,
  *  minItems: number,
@@ -236,23 +237,29 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
  * }} options
  */
 export const minMaxItemsHint = ({
+  arrayData,
   nounSingular,
   nounPlural,
   minItems,
   maxItems,
 }) => {
   let hint = '';
+  const len = arrayData?.length;
 
   if (minItems && maxItems) {
-    hint += `You need to add a minimum of ${minItems} and maximum of ${maxItems} ${nounPlural}.`;
+    hint = `You need to add a minimum of ${minItems} and maximum of ${maxItems} ${nounPlural}.`;
   } else if (minItems) {
-    hint += `You need to add a minimum of ${minItems} ${
+    hint = `You need to add a minimum of ${minItems} ${
       minItems === 1 ? nounSingular : nounPlural
     }.`;
   } else if (maxItems) {
-    hint += `You can add up to ${maxItems} ${
-      minItems === 1 ? nounSingular : nounPlural
-    }.`;
+    if (!len || maxItems === 1 || len >= maxItems) {
+      hint = `You can add up to ${maxItems}.`;
+    } else if (len && maxItems - len === 1) {
+      hint = `You can add 1 more ${nounSingular}.`;
+    } else if (len && maxItems - len > 1) {
+      hint = `You can add ${maxItems - len} more ${nounPlural}.`;
+    }
   }
 
   return hint;
