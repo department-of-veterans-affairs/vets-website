@@ -50,7 +50,7 @@ export const zipCodePage = {
   schema: {
     type: 'object',
     properties: {
-      zipCode: addressSchema({
+      address: addressSchema({
         omit: [
           'country',
           'city',

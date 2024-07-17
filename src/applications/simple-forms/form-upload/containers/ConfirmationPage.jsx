@@ -15,18 +15,16 @@ const content = {
 
 const ConfirmationPage = () => {
   const form = useSelector(state => state.form || {});
-  const { submission } = form;
-  const submitDate = submission?.timestamp;
-  const confirmationNumber = submission?.response?.confirmationNumber;
-  const submitterFullName = form.data?.['view:veteranPrefillStore']?.fullName;
+  const { timestamp, response = {} } = form.submission;
+  const submitterFullName = form.data?.veteran?.fullName;
 
   return (
     <ConfirmationPageView
       formType="submission"
       submitterHeader="Who submitted this form"
       submitterName={submitterFullName}
-      submitDate={submitDate}
-      confirmationNumber={confirmationNumber}
+      submitDate={timestamp}
+      confirmationNumber={response.confirmationNumber}
       content={content}
       childContent={<></>}
     />
@@ -36,7 +34,7 @@ const ConfirmationPage = () => {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      'view:veteranPrefillStore': PropTypes.shape({
+      veteran: PropTypes.shape({
         fullName: PropTypes.shape({
           first: PropTypes.string,
           middle: PropTypes.string,

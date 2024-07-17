@@ -1,16 +1,23 @@
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
+import { getFormContent } from '../helpers';
 
 const transformForSubmit = (formConfig, form) => {
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
 
-  const { ssn, vaFileNumber, zipCode, uploadedFile } = transformedData;
+  const { formNumber } = getFormContent();
+  const { idNumber = {}, address = {} } = transformedData.veteran;
+  const { confirmationCode } = transformedData.uploadedFile;
 
   return JSON.stringify({
-    confirmationCode: uploadedFile?.confirmationCode,
-    formNumber: '21-0779',
-    options: { ssn, vaFileNumber, zipCode },
+    confirmationCode,
+    formNumber,
+    options: {
+      ssn: idNumber.ssn,
+      vaFileNumber: idNumber.vaFileNumber,
+      zipCode: address.postalCode,
+    },
   });
 };
 
