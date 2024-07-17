@@ -4,7 +4,10 @@ import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 
+// const toggle = localStorage.getItem('toggleValue');
+
 export const isProductionOfTestProdEnv = automatedTest => {
+  // console.log(toggle, 'toggleValue');
   return (
     environment.isProduction() ||
     automatedTest ||
