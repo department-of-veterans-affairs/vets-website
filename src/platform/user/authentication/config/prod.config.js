@@ -103,7 +103,6 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
-      clientId: 'fe0d4b2cac7935e7eec5946b8ee31643', // SOURCE: https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests/blob/09e2f044cfe4d67a9f2c7ce22606facd18d381ca/apps/vets-api/prod/values.yaml#L2367
     },
     OAuthEnabled: true,
     requiresVerification: false,
