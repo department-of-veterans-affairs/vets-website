@@ -29,6 +29,15 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
       cy.injectAxeThenAxeCheck();
     });
   });
+
+  describe('user without MHV account', () => {
+    it('renders', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visit({ mhvAccountState: false });
+      LandingPage.secondaryNavRendered();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
 
 describe(`${appName} -- MHV Secondary Nav disabled`, () => {

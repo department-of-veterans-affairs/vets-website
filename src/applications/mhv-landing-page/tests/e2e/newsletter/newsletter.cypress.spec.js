@@ -35,4 +35,15 @@ describe(`${appName} -- MHV Newsletter Signup`, () => {
       cy.injectAxeThenAxeCheck();
     });
   });
+
+  describe('user without MHV account', () => {
+    it('renders', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visit({ mhvAccountState: false });
+      cy.findByRole('heading', {
+        name: /Subscribe to the My HealtheVet newsletter/,
+      }).should.exist;
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 });
