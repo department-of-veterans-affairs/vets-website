@@ -215,23 +215,33 @@ class ReviewCollapsibleChapter extends React.Component {
           {!editing ? (
             <div />
           ) : (
-            <ProgressButton
-              submitButton
-              onButtonClick={() => {
-                // recheck _all_ validations after the user clicks the
-                // update page button - needed to dynamically update
-                // accordion headers
-                // this.checkValidation();
-                focusOnChange(
-                  `${page.pageKey}${
-                    typeof page.index === 'number' ? page.index : ''
-                  }`,
-                );
-              }}
-              buttonText="Update page"
-              buttonClass="usa-button-primary"
-              ariaLabel={ariaLabel}
-            />
+            <div>
+              <ProgressButton
+                submitButton
+                onButtonClick={() => {
+                  // recheck _all_ validations after the user clicks the
+                  // update page button - needed to dynamically update
+                  // accordion headers
+                  // this.checkValidation();
+                  focusOnChange(
+                    `${page.pageKey}${
+                      typeof page.index === 'number' ? page.index : ''
+                    }`,
+                  );
+                }}
+                buttonText="Save"
+                buttonClass="usa-button-primary"
+                ariaLabel={ariaLabel}
+              />
+              <button
+                aria-label="Cancel"
+                type="button"
+                id="cancel"
+                className=""
+              >
+                Cancel
+              </button>
+            </div>
           )}
         </SchemaForm>
         {arrayFields.map(arrayField => (
