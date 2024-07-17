@@ -6,7 +6,7 @@ const mockFeatureToggles = require('./featureToggles.json');
 const mockSipPut = require('./sip-put.json');
 const mockSipGet = require('./sip-get.json');
 const mockScannedFormUpload = require('./scanned-form-upload.json');
-const mockUpload = require('./upload.json');
+const mockSubmit = require('./submit.json');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -17,8 +17,7 @@ const responses = {
   'GET /v0/in_progress_forms/FORM-UPLOAD-FLOW': mockSipGet,
   'PUT /v0/in_progress_forms/FORM-UPLOAD-FLOW': mockSipPut,
   'POST /simple_forms_api/v1/scanned_form_upload': mockScannedFormUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_supporting_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms': {},
+  'POST /simple_forms_api/v1/submit_scanned_form': mockSubmit,
 };
 
 module.exports = responses;
