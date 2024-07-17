@@ -56,7 +56,9 @@ function ClaimsStatusApp({
   const { pathname } = useLocation();
   useEffect(
     () => {
-      dispatchSetLastPage(pathname);
+      return () => {
+        dispatchSetLastPage(pathname);
+      };
     },
     [pathname],
   );

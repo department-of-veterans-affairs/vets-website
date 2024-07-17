@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
@@ -13,17 +12,16 @@ import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopCl
 import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
 
 import {
-  buildDateFormatter,
   claimAvailable,
-  getClaimType,
   getItemDate,
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
   isDisabilityCompensationClaim,
-  setDocumentTitle,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab, setFocus } from '../utils/page';
+import { setUpPage, isTab } from '../utils/page';
 import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
@@ -155,29 +153,21 @@ const generateEventTimeline = claim => {
 
 class OverviewPage extends React.Component {
   componentDidMount() {
-    this.setTitle();
-
-    if (!isTab(this.props.lastPage)) {
-      if (!this.props.loading) {
-        setUpPage();
-      } else {
-        scrollToTop();
-      }
-    } else {
-      setFocus('#tabPanelOverview');
-    }
+    setTimeout(() => {
+      const { claim, lastPage, loading } = this.props;
+      setTabDocumentTitle(claim, 'Overview');
+      setPageFocus(lastPage, loading);
+    });
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.loading &&
-      prevProps.loading &&
-      !isTab(this.props.lastPage)
-    ) {
+    const { claim, lastPage, loading } = this.props;
+
+    if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
-    if (this.props.loading !== prevProps.loading) {
-      this.setTitle();
+    if (loading !== prevProps.loading) {
+      setTabDocumentTitle(claim, 'Overview');
     }
   }
 
@@ -233,19 +223,6 @@ class OverviewPage extends React.Component {
         </Toggler>
       </div>
     );
-  }
-
-  setTitle() {
-    const { claim } = this.props;
-
-    if (claimAvailable(claim)) {
-      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-      const claimType = getClaimType(claim);
-      const title = `Overview Of ${claimDate} ${claimType} Claim`;
-      setDocumentTitle(title);
-    } else {
-      setDocumentTitle('Overview Of Your Claim');
-    }
   }
 
   render() {

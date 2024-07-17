@@ -1,11 +1,11 @@
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
-// import * as Sentry from '@sentry/browser';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollAndFocus } from 'platform/utilities/ui';
+import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -1070,4 +1070,35 @@ export function setDocumentRequestPageTitle(displayName) {
   return displayName === 'Automated 5103 Notice Response'
     ? '5103 Evidence Notice'
     : `Request for ${displayName}`;
+}
+
+// Used to set page title for the CST Tabs
+export function setTabDocumentTitle(claim, tabName) {
+  if (claimAvailable(claim)) {
+    const claimDate = buildDateFormatter()(claim.attributes.claimDate);
+    const claimType = getClaimType(claim);
+    const title =
+      tabName === 'Overview'
+        ? `${tabName} Of ${claimDate} ${claimType} Claim`
+        : `${tabName} For ${claimDate} ${claimType} Claim`;
+    setDocumentTitle(title);
+  } else {
+    const title =
+      tabName === 'Overview'
+        ? `${tabName} Of Your Claim`
+        : `${tabName} For Your Claim`;
+    setDocumentTitle(title);
+  }
+}
+// Used to set the page focus on the CST Tabs
+export function setPageFocus(lastPage, loading) {
+  if (!isTab(lastPage)) {
+    if (!loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
+  } else {
+    scrollAndFocus(document.querySelector('.tab-header'));
+  }
 }
