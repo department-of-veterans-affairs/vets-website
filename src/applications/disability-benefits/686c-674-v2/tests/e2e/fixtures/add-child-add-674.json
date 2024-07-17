@@ -5,11 +5,11 @@
     "lastTermSchoolInformation": {
       "name": "phoenix online",
       "address": {
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
       "termBegin": "2010-04-06",
       "dateTermEnded": "2011-04-06",
@@ -30,11 +30,11 @@
     "schoolInformation": {
       "name": "Los Angeles VA",
       "address": {
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
       "schoolType": "HighSch",
       "trainingProgram": "Marine Biology"
@@ -43,11 +43,11 @@
       "address": {
         "view:livesOnMilitaryBase": true,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "123 athome dr",
+        "country": "USA",
+        "street": "123 athome dr",
         "city": "APO",
-        "stateCode": "AA",
-        "zipCode": "34012"
+        "state": "AA",
+        "postalCode": "34012"
       },
       "wasMarried": false,
       "tuitionIsPaidByGovAgency": true,
@@ -83,11 +83,11 @@
       "veteranAddress": {
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
       "phoneNumber": "1231231234"
     },

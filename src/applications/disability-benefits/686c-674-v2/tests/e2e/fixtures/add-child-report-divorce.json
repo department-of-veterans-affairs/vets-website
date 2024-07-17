@@ -12,11 +12,11 @@
           "address": {
             "view:livesOnMilitaryBase": true,
             "view:livesOnMilitaryBaseInfo": {},
-            "countryName": "USA",
-            "addressLine1": "123 athome dr",
+            "country": "USA",
+            "street": "123 athome dr",
             "city": "APO",
-            "stateCode": "AA",
-            "zipCode": "34012"
+            "state": "AA",
+            "postalCode": "34012"
           }
         },
         "placeOfBirth": {
@@ -57,11 +57,11 @@
       "veteranAddress": {
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennsylvania Ave",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
       "phoneNumber": "1231231234"
     },

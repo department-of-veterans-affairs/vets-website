@@ -32,8 +32,8 @@ const testConfig = createTestConfig(
         mockVaFileNumber,
       ).as('mockVaFileNumber');
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/686C-674-v2', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-v2', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', testData);
+        cy.intercept('PUT', 'v0/in_progress_forms/686C-674-V2', testData);
       });
       cy.intercept('POST', '/v0/dependents_applications', {
         formSubmissionId: '123fake-submission-id-567',
