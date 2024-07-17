@@ -1,19 +1,48 @@
 import React, { useEffect, useState } from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
 import { getPatientDetails } from '../services/referral';
 
 export default function ReviewApproved() {
   const [patientData, setPatientData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const details = await getPatientDetails();
+      let details = {};
+      setError(false);
+      try {
+        details = await getPatientDetails();
+      } catch (networkError) {
+        setError(true);
+      }
       setPatientData(details);
+      setLoading(false);
     };
 
     fetchDetails();
   }, []);
+
+  if (loading) {
+    return (
+      <FormLayout pageTitle="Review Approved Referral">
+        <va-loading-indicator set-focus message="Loading your data..." />
+      </FormLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <VaAlert status="error" visible>
+        <h2 slot="headline">
+          There was an error trying to get your referral data
+        </h2>
+        <p>Please try again later, or contact your VA facility for help.</p>
+      </VaAlert>
+    );
+  }
 
   return (
     <FormLayout pageTitle="Review Approved Referral">
