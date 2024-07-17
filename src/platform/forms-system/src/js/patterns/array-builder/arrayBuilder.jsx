@@ -172,6 +172,26 @@ export function validateMinItems(minItems) {
   }
 }
 
+export function assignGetItemName(options) {
+  const safeGetItemName = getItemFn => {
+    return item => {
+      try {
+        return getItemFn(item);
+      } catch (e) {
+        return null;
+      }
+    };
+  };
+
+  if (options.getItemName) {
+    return safeGetItemName(options.getItemName);
+  }
+  if (options.text?.getItemName) {
+    return safeGetItemName(options.text.getItemName);
+  }
+  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
+}
+
 /**
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
@@ -215,10 +235,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
   } = options;
 
-  const getItemName =
-    options.getItemName ||
-    options.text?.getItemName ||
-    DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
+  const getItemName = assignGetItemName(options);
 
   const getText = initGetText({
     getItemName,
