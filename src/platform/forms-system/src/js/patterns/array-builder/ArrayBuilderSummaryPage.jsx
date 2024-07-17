@@ -33,7 +33,7 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
 
 const MinItemsAlert = ({ children }) => (
   <div className="vads-u-margin-top--4">
-    <va-alert status="warning" tabIndex={-1} visible>
+    <va-alert status="error" tabIndex={-1} visible>
       <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
         {children}
       </p>
