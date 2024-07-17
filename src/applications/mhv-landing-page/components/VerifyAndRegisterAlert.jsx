@@ -15,12 +15,12 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
         Verify and register your account to access My HealtheVet
       </h2>
       <div>
-        <p className="vads-u-margin-y--0">
+        <p className="vads-u-margin-y--2">
           We need you to verify your identity and register your account before
           you can access My HealtheVet. These steps help us keep your health
           information safe and prevent fraud and identity theft.
         </p>
-        <ul>
+        <ol>
           <li>
             Verify your identity for your {serviceProviderLabel} account. This
             one-time process often takes about 10 minutes. You’ll need to
@@ -32,7 +32,7 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
             need to register before you can access your messages, medications,
             and medical records.
           </li>
-        </ul>
+        </ol>
         <p>
           <a href="/verify" className="vads-c-action-link--green">
             Verify your identity with {serviceProviderLabel}
