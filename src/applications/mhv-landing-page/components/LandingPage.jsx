@@ -27,11 +27,17 @@ import {
   helpdeskInfoEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
+  showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 import MhvBasicAccountAlert from './MhvBasicAccountAlert';
+import VerifyAndRegisterAlert from './VerifyAndRegisterAlert';
 
-const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+const LandingPage = ({
+  data = {},
+  recordEvent = recordEventFn,
+  showVerifyAndRegisterAlert = showVerifyAndRegisterAlertFn,
+}) => {
   const { cards = [], hubs = [] } = data;
   const verified = useSelector(isLOA3);
   const registered = useSelector(isVAPatient) && verified;
@@ -40,6 +46,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && registered;
+  const showsVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = verified ? (
@@ -80,6 +87,9 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
           {registered ? <CardLayout data={cards} /> : noCardsDisplay}
           {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
+          {showsVerifyAndRegisterAlert && (
+            <VerifyAndRegisterAlert cspId={signInService} />
+          )}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -100,6 +110,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 LandingPage.propTypes = {
   data: PropTypes.object,
   recordEvent: PropTypes.func,
+  showVerifyAndRegisterAlert: PropTypes.func,
 };
 
 export default LandingPage;

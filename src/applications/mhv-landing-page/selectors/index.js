@@ -16,6 +16,7 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import { personalizationEnabled, helpdeskInfoEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import {
   selectGreetingName,
   selectPersonalInformation,
@@ -38,4 +39,5 @@ export {
   signInServiceEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
+  showVerifyAndRegisterAlert,
 };
