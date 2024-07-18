@@ -3,8 +3,7 @@ import { format, isValid, parseISO } from 'date-fns';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
-import { scrollAndFocus } from 'platform/utilities/ui';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
 import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';

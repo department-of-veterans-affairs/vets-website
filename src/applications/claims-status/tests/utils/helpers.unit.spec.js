@@ -3,9 +3,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as scroll from 'platform/utilities/ui/scroll';
 import * as page from '../../utils/page';
-// import * as scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop'
-// import * as ui from 'platform/utilities/ui';
 
 import {
   groupTimelineActivity,
@@ -1265,22 +1264,21 @@ describe('Disability benefits helpers: ', () => {
         expect(setUpPage.called).to.be.true;
       });
     });
-    // context('when last page was not a tab and loading is true', () => {
-    //   it('should run scrollToTop', () => {
-    //     const scrollToTopStub = sinon.stub(scrollToTop, 'scrollToTop')
-    //     setPageFocus('/test', true);
+    context('when last page was not a tab and loading is true', () => {
+      it('should run scrollToTop', () => {
+        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        setPageFocus('/test', true);
 
-    //     expect(scrollToTopStub.called).to.be.true;
-    //     scrollToTopStub.restore();
-    //   });
-    // });
-    // context('when last page was a tab', () => {
-    //   it('should run scrollAndFocus', () => {
-    //     const scrollAndFocus = sinon.spy(ui, 'scrollAndFocus')
-    //     setPageFocus('/status', false);
+        expect(scrollToTop.called).to.be.true;
+      });
+    });
+    context('when last page was a tab', () => {
+      it('should run scrollAndFocus', () => {
+        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        setPageFocus('/status', false);
 
-    //     expect(scrollAndFocus.called).to.be.true;
-    //   });
-    // });
+        expect(scrollAndFocus.called).to.be.true;
+      });
+    });
   });
 });
