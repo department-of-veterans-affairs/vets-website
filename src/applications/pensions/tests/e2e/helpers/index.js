@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
@@ -323,4 +325,19 @@ export const fillMedicalExpensesPage = (fields, index) => {
   cy.get(`input[name="root_medicalExpenses_${index}_paymentAmount"]`).type(
     fields.paymentAmount,
   );
+};
+
+// uses a workaround to check each validation error element,
+// instead of using `should('be.empty') on the list of nonempty validation errors,
+// because this method causes Cypress to print the specific validation error when failing
+export const shouldNotHaveValidationErrors = () => {
+  // searches for validation errors on the page
+  cy.get('[error]:not(:empty), [role="alert"]:not(:empty)')
+    // prevents an error being thrown when no items are found
+    .should(Cypress._.noop)
+    // throws an error if the validation item has content
+    .then($els =>
+      // eslint-disable-next-line no-unused-expressions
+      $els.each(i => expect($els[i]).to.be.empty),
+    );
 };
