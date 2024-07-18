@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaMemorableDateFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaMemorableDateFieldMapping';
 import {
@@ -48,16 +49,29 @@ export default function MemorableDateField(props) {
     return isNaN(vals.month);
   };
 
-  // const isDayInvalid = (vals = {}) => {
-  //   return Number(vals.month) < 1 || Number(vals.month) > 12;
-  // };
+  const isDayInvalid = (vals = {}) => {
+    return Number(vals.month) < 1 || Number(vals.month) > 12;
+  };
 
-  // const isDayNotNumbers = (vals = {}) => {
-  //   return isNaN(vals.day);
-  // };
+  const isDayNotNumbers = (vals = {}) => {
+    return isNaN(vals.day);
+  };
+
+  const currentYear = () => {
+    return moment().year();
+  };
+
+  const isYearInvalid = (vals = {}) => {
+    return Number(vals.year) > currentYear();
+  };
+
+  const yearErrorMessage = `Please enter a year between 1900 and ${currentYear()}`;
 
   return (
     <VaMemorableDate
+      customMonthErrorMessage="Enter a valid month"
+      customDayErrorMessage="Enter a valid day"
+      customYearErrorMessage={yearErrorMessage}
       {...mappedProps}
       onDateChange={(event, newValue) => {
         const date = newValue ?? event.target.value ?? undefined;
@@ -79,34 +93,26 @@ export default function MemorableDateField(props) {
           setErrorVal('Enter a valid month');
         }
 
-        if (isMonthNotNumbers(newValues)) {
+        if (isDayInvalid(newValues)) {
+          setErrorVal('Enter a valid day');
+        }
+
+        if (isMonthNotNumbers(newValues) && isDayNotNumbers(newValues)) {
           setErrorVal('Input numbers only');
         }
 
-        // if (isDayInvalid(newValues)) {
-        //   setErrorVal('Enter a valid day');
-        // }
-
-        // if (isDayNotNumbers(newValues)) {
-        //   setErrorVal('Input numbers only');
-        // }
+        if (isYearInvalid(newValues)) {
+          setErrorVal('Please provide a valid current or past date');
+        }
       }}
-      onDateBlur={() => {
+      onDateBlur={event => {
         const newValues = parseISODate(event.target.value);
 
         if (isIncomplete(newValues)) {
           props.childrenProps.onChange(formatISOPartialDate(newValues));
         }
 
-        // props.childrenProps.onBlur(props.childrenProps.idSchema.$id);
-
-        if (isMonthInvalid(newValues)) {
-          setErrorVal('Enter a valid month');
-        }
-
-        if (isMonthNotNumbers(newValues)) {
-          setErrorVal('Input numbers only');
-        }
+        props.childrenProps.onBlur(props.childrenProps.idSchema.$id);
       }}
       // onDateBlur={(e) => e.preventDefault()}
       value={formattedValue}
