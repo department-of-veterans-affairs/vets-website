@@ -19,6 +19,7 @@ export default function TravelPayStatusCheckboxes(props) {
       name="status-filter"
       label="Filter by status"
       onVaChange={e => onStatusFilterChange(e)}
+      // onVaChange={e => console.log(e)}
       uswds
     >
       {statusesToFilterBy.map(status => (
