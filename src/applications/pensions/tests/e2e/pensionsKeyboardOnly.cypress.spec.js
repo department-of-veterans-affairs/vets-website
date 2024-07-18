@@ -9,14 +9,18 @@ import {
   keyboardTestPage,
   startForm,
   fillReviewPage,
+  fillSchema,
+  fillField,
 } from './helpers/keyboardOnlyHelpers';
+import { shouldHaveValidationError } from './helpers';
+import pagePaths from './pagePaths';
 
 const skipInCI = (testKey, callback) =>
   Cypress.env('CI')
     ? context.skip(testKey, callback)
     : context(testKey, callback);
 
-const testForm = data => {
+const testForm = (data, pageHooks = {}) => {
   const { chapters } = formConfig;
 
   startForm();
@@ -25,7 +29,10 @@ const testForm = data => {
   Object.values(chapters).forEach(chapter => {
     Object.values(chapter.pages).forEach(page => {
       if (pathsVisited.includes(page.path)) return;
-      if (page.path.includes(':index')) {
+      const pageHook = pageHooks[page.path];
+      if (typeof pageHook === 'function') {
+        pathsVisited = pathsVisited.concat(pageHook(page, chapter, data));
+      } else if (page.path.includes(':index')) {
         pathsVisited = pathsVisited.concat(
           keyboardTestArrayPages(page, chapter, data),
         );
@@ -77,6 +84,38 @@ describe('Higher-Level Review keyboard only navigation', () => {
         cy.injectAxeThenAxeCheck();
 
         testForm(data);
+      });
+    });
+  });
+  context('Unhappy paths', () => {
+    it('validates missing SSN', () => {
+      cy.wrap(simpleFixture.data).as('testData');
+      cypressSetup(cy);
+
+      cy.get('@testData').then(data => {
+        cy.injectAxeThenAxeCheck();
+
+        testForm(data, {
+          [pagePaths.applicantInformation]: (page, chapter, d) => {
+            fillSchema({
+              schema: page.schema.properties.veteranFullName,
+              uiSchema: page.uiSchema.veteranFullName,
+              path: ['veteranFullName'],
+              data: d,
+            });
+            fillField({
+              fieldData: d.veteranDateOfBirth,
+              elementSchema: page.schema.properties.veteranDateOfBirth,
+              type: 'VaMemorableDateField',
+              elementPath: ['veteranDateOfBirth'],
+            });
+            cy.tabToContinueForm();
+            shouldHaveValidationError('Please enter a Social Security number');
+
+            // returning the keyboard test page allows the test to continue with a valid SSN
+            return keyboardTestPage(page, d);
+          },
+        });
       });
     });
   });

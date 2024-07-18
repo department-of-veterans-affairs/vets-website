@@ -341,3 +341,13 @@ export const shouldNotHaveValidationErrors = () => {
       $els.each(i => expect($els[i]).to.be.empty),
     );
 };
+
+export const shouldHaveValidationError = (expectedError = null) => {
+  if (expectedError === null) {
+    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').should('exist');
+  } else {
+    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').contains(
+      expectedError,
+    );
+  }
+};
