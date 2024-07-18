@@ -32,10 +32,10 @@ const ApplicationInProgress = ({
           {formatTitle(formTitle)}
         </h3>
         <div className="vads-u-display--flex">
-          <va-icon
-            icon="error"
-            className="vads-u-margin-right--1 vads-u-margin-top--0p5"
-          />
+          <span className="vads-u-margin-right--1 vads-u-margin-top--0p5">
+            <va-icon icon="error" size={3} />
+          </span>
+
           <span className="sr-only">Alert: </span>
           <div>
             <p className="vads-u-margin-top--0">
