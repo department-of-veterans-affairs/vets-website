@@ -9,6 +9,10 @@ const routes = [
     component: ResponseInboxPage,
   },
   {
+    path: '/introduction',
+    component: App,
+  },
+  {
     path: '/',
     component: App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
