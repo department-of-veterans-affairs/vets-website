@@ -31,14 +31,15 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
+import NeedHelp from '../content/NeedHelp';
+import { formTitle, FormSubTitle } from '../content/title';
 
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
-import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3 } from '../../shared/utils/focus';
+import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -92,8 +93,8 @@ const formConfig = {
     noAuth: errorMessages.savedFormNoAuth,
   },
 
-  title: 'Request a Higher-Level Review',
-  subTitle: 'VA Form 20-0996 (Higher-Level Review)',
+  title: formTitle,
+  subTitle: FormSubTitle,
   defaultDefinitions: {},
   preSubmitInfo,
   submissionError,
@@ -148,6 +149,7 @@ const formConfig = {
           schema: contestableIssuesPage.schema,
           appStateSelector,
           scrollAndFocusTarget: focusH3,
+          onContinue: focusOnAlert,
         },
         // v2 - add issue. Accessed from contestableIssues page only
         addIssue: {
@@ -194,13 +196,11 @@ const formConfig = {
       },
     },
     informalConference: {
-      title: 'Request an informal conference',
+      title: 'Informal conference',
       pages: {
         requestConference: {
           path: 'informal-conference',
-          // Adding trailing space so this title and chapter title are different
-          // then the page header renders on the review & submit page
-          title: 'Request an informal conference ',
+          title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
           scrollAndFocusTarget: focusRadioH3,
@@ -235,7 +235,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: NeedHelp,
 };
 
 export default formConfig;

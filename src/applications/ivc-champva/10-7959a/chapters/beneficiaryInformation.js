@@ -1,4 +1,3 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import { cloneDeep } from 'lodash';
 import {
   addressUI,
@@ -13,6 +12,7 @@ import {
   radioSchema,
   phoneUI,
   phoneSchema,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
 
@@ -27,7 +27,7 @@ export const applicantNameDobSchema = {
           formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
         } information`,
       ({ formData }) =>
-        `Enter the information exactly as it’s listed on ${
+        `Enter the name exactly as it’s listed on ${
           formData?.certifierRole === 'applicant' ? 'your' : 'the beneficiary’s'
         } CHAMPVA identification card.`,
     ),
@@ -51,19 +51,25 @@ export const applicantMemberNumberSchema = {
       ({ formData }) =>
         `${nameWording(formData, true, true, true)} identification information`,
     ),
-    applicantMemberNumber: {
-      'ui:title': 'CHAMPVA member number',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Please enter your CHAMPVA member number',
-        pattern: 'Must be 20 or fewer characters (letters and numbers only)',
+    applicantMemberNumber: textUI({
+      updateUiSchema: formData => {
+        return {
+          'ui:title': 'CHAMPVA member number',
+          'ui:errorMessages': {
+            required: 'Please enter your CHAMPVA member number',
+            pattern: 'Must be letters and numbers only',
+          },
+          'ui:options': {
+            uswds: true,
+            hint: `This number is usually the same as ${
+              formData?.certifierRole === 'applicant'
+                ? 'your'
+                : 'the beneficiary’s'
+            } Social Security number.`,
+          },
+        };
       },
-      'ui:options': {
-        uswds: true,
-        hint:
-          'This number is usually the same as the beneficiary’s Social Security number.',
-      },
-    },
+    }),
   },
   schema: {
     type: 'object',
@@ -72,7 +78,8 @@ export const applicantMemberNumberSchema = {
       titleSchema,
       applicantMemberNumber: {
         type: 'string',
-        pattern: '^[0-9a-zA-Z]{0,20}$',
+        pattern: '^[0-9a-zA-Z]+$',
+        maxLength: 20,
       },
     },
   },
@@ -83,6 +90,7 @@ export const applicantAddressSchema = {
     ...titleUI(
       ({ formData }) =>
         `${nameWording(formData, true, true, true)} mailing address`,
+      'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
       ...addressUI({
@@ -104,12 +112,15 @@ export const applicantAddressSchema = {
           return {
             'ui:title': `Has ${nameWording(
               formData,
+              true,
+              false,
+              true,
             )} mailing address changed since ${
               formData.certifierRole === 'applicant' ? 'your' : 'their'
             } last CHAMPVA claim or benefits application submission?`,
             'ui:options': {
               labels,
-              hint: `If the mailing address has changed, we’ll update our records with the new address`,
+              hint: `If the mailing address changed, we'll update our records with the new address.`,
             },
           };
         },
@@ -131,13 +142,13 @@ export const applicantPhoneSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        `${nameWording(formData, true, true, true)} contact information`,
+        `${nameWording(formData, true, true, true)} phone number`,
       ({ formData }) =>
         `We’ll use this information to contact ${
           formData?.certifierRole === 'applicant'
             ? 'you'
-            : nameWording(formData, true, true, true)
-        } if we have more questions.`,
+            : nameWording(formData, false, true, true)
+        } if we have any questions.`,
     ),
     applicantPhone: phoneUI(),
   },

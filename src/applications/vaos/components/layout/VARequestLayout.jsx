@@ -86,10 +86,11 @@ export default function VARequestLayout({ data: appointment }) {
         </Section>
         <Section heading="Details you’d like to share with your provider">
           <span>
-            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
         </Section>
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>

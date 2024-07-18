@@ -235,10 +235,6 @@ export const applicantMedicareABUploadSchema = {
               </li>
               <li>Medicare PACE card</li>
             </ul>
-            You can also upload any other supporting documents you may have for
-            this Medicare plan.
-            <br />
-            <br />
             If you don’t have a copy to upload now, you can send it by mail or
             fax.
           </>
@@ -262,11 +258,7 @@ export const applicantMedicareABUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantMedicarePartAPartBCard: fileWithMetadataSchema(
-        [
-          'Front of Medicare card',
-          'Back of Medicare card',
-          'Other supporting document',
-        ],
+        ['Front of Medicare card', 'Back of Medicare card'],
         2,
       ),
     },
@@ -347,10 +339,6 @@ export const applicantMedicareDUploadSchema = {
           Medicare Part D card.
           <br />
           <br />
-          You can also upload any other supporting documents you may have for
-          this Medicare plan.
-          <br />
-          <br />
           If you don’t have a copy to upload now, you can send it by mail or
           fax.
         </>
@@ -373,11 +361,7 @@ export const applicantMedicareDUploadSchema = {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
       applicantMedicarePartDCard: fileWithMetadataSchema(
-        [
-          'Front of Medicare Part D card',
-          'Back of Medicare Part D card',
-          'Other supporting document',
-        ],
+        ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
         2,
       ),
     },

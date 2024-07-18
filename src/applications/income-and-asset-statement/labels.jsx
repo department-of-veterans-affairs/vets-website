@@ -31,3 +31,9 @@ export const incomeTypeEarnedLabels = {
   DIVIDENDS: 'Dividends',
   OTHER: 'Other',
 };
+
+export const ownedAssetTypeLabels = {
+  BUSINESS: 'Business',
+  FARM: 'Farm',
+  RENTAL_PROPERTY: 'Rental property',
+};

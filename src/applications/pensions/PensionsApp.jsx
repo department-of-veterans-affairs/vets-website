@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -12,6 +12,9 @@ import { submit } from './config/submit';
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
+  const pensionMultiplePageResponse = useToggleValue(
+    TOGGLE_NAMES.pensionMultiplePageResponse,
+  );
   const pensionModuleEnabled = useToggleValue(
     TOGGLE_NAMES.pensionModuleEnabled,
   );
@@ -27,6 +30,18 @@ export default function PensionEntry({ location, children }) {
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
+
+  useEffect(
+    () => {
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showMultiplePageResponse',
+          pensionMultiplePageResponse,
+        );
+      }
+    },
+    [isLoadingFeatures, pensionMultiplePageResponse],
+  );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;
