@@ -83,7 +83,10 @@ const WhatToDoNext = props => {
                       {app === APP_NAMES.PRE_CHECK_IN ? (
                         actionableAppointments.map(actionableAppointment => {
                           return (
-                            <li key={actionableAppointment.ien}>
+                            <li
+                              data-testid="appointment-bullet"
+                              key={actionableAppointment.ien}
+                            >
                               {t('day-of-week-month-day-time', {
                                 date: new Date(actionableAppointment.startTime),
                               })}
@@ -91,7 +94,7 @@ const WhatToDoNext = props => {
                           );
                         })
                       ) : (
-                        <li>
+                        <li data-testid="appointment-bullet">
                           {t('day-of-week-month-day-time', {
                             date: new Date(appointment.startTime),
                           })}
