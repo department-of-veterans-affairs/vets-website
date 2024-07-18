@@ -161,7 +161,7 @@ const formConfig = {
           ...applicantHasMedicareSchema,
         },
         medicareClass: {
-          path: 'medicare-class',
+          path: 'medicare-plan',
           title: formData => `${fnp(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareClassSchema,
