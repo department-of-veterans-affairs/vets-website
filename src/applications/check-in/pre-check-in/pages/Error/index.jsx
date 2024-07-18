@@ -53,7 +53,7 @@ const Error = () => {
   const mixedModalityMessage = (
     <div data-testid="mixed-modality-message">
       <div>
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
       </div>
@@ -63,7 +63,7 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('video-appointment--title')}
         </span>
       </div>
@@ -79,7 +79,7 @@ const Error = () => {
         </ExternalLink>
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('phone-appointment')}
         </span>
       </div>
