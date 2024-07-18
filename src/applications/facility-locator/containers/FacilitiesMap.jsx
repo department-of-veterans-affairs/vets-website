@@ -345,6 +345,7 @@ const FacilitiesMap = props => {
 
   const renderMap = mobile => (
     <>
+      <h2 className="sr-only">Map of Results</h2>
       <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
       <div
