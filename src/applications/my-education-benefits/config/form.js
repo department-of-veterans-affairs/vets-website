@@ -270,13 +270,21 @@ function additionalConsiderationsQuestionTitleText(
   benefitSelection,
   order,
   rudisillFlag,
+  pageName,
 ) {
   const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
   let pageNumber;
   let totalPages;
 
   if (rudisillFlag) {
-    pageNumber = order;
+    // Adjust the order to handle duplicate step 1
+    if (pageName === 'active-duty-kicker') {
+      pageNumber = 1;
+    } else if (pageName === 'reserve-kicker') {
+      pageNumber = 2;
+    } else {
+      pageNumber = order;
+    }
     totalPages = 5;
   } else {
     pageNumber = isUnsure ? order - 1 : order;
@@ -290,11 +298,13 @@ function additionalConsiderationsQuestionTitle(
   benefitSelection,
   order,
   rudisillFlag,
+  pageName,
 ) {
   const titleText = additionalConsiderationsQuestionTitleText(
     benefitSelection,
     order,
     rudisillFlag,
+    pageName,
   );
 
   return (
