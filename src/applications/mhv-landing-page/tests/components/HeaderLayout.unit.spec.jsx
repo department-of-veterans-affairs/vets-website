@@ -122,4 +122,20 @@ describe('MHV Landing Page -- Header Layout', () => {
       });
     });
   });
+
+  describe('Learn More Alert', () => {
+    it('has a datadog action attribute', async () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <HeaderLayout showLearnMore />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const alertComponent = getByTestId('learn-more-alert');
+        expect(alertComponent.getAttribute('data-dd-action-name')).to.not.be
+          .null;
+      });
+    });
+  });
 });
