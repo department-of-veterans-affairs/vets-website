@@ -141,7 +141,18 @@ const VerificationReviewWrapper = ({
     },
     [enrollmentData, errorStatement],
   );
-
+  useEffect(
+    () => {
+      let timer;
+      if (showError) {
+        timer = setTimeout(() => {
+          focusElement('#enrollmentCheckbox');
+        }, 2500);
+      }
+      return () => clearTimeout(timer);
+    },
+    [showError, enrollmentData],
+  );
   return (
     <>
       <div name="topScrollElement" />
