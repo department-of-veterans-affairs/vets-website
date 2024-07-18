@@ -1078,15 +1078,15 @@ export function setTabDocumentTitle(claim, tabName) {
     const claimDate = buildDateFormatter()(claim.attributes.claimDate);
     const claimType = getClaimType(claim);
     const title =
-      tabName === 'Overview'
-        ? `${tabName} Of ${claimDate} ${claimType} Claim`
-        : `${tabName} For ${claimDate} ${claimType} Claim`;
+      tabName === 'Files'
+        ? `${tabName} For ${claimDate} ${claimType} Claim`
+        : `${tabName} Of ${claimDate} ${claimType} Claim`;
     setDocumentTitle(title);
   } else {
     const title =
-      tabName === 'Overview'
-        ? `${tabName} Of Your Claim`
-        : `${tabName} For Your Claim`;
+      tabName === 'Files'
+        ? `${tabName} For Your Claim`
+        : `${tabName} Of Your Claim`;
     setDocumentTitle(title);
   }
 }
