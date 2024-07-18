@@ -1,15 +1,8 @@
 import React from 'react';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const IntroductionPage = props => {
-  const { router } = props;
-
-  const handleClick = () => {
-    router.push('/goals');
-  };
-
+const IntroductionPage = () => {
   return (
     <article className="schemaform-intro">
       <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
@@ -24,7 +17,11 @@ const IntroductionPage = props => {
         We’ll ask you to answer a few quick questions to personalize our
         recommendations.
       </p>
-      <VaButton onClick={handleClick} uswds text="Get started" />
+      <va-link-action
+        href="/benefit-eligibility-questionnaire/goals"
+        message-aria-describedby="Get started"
+        text="Get started"
+      />
       <p />
     </article>
   );
