@@ -120,7 +120,7 @@ const Error = () => {
     case 'check-in-past-appointment':
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      header = t('this-link-has-expired');
+      header = t('sorry-this-link-has-expired');
       alerts = [
         {
           type: 'warning',
