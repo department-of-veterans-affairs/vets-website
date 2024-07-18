@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
@@ -44,12 +44,15 @@ const VerificationReviewWrapper = ({
   const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    if (isChecked) {
+  const handleCheckboxChange = e => {
+    const { checked } = e.detail;
+    dispatch({ type: 'RESET_ENROLLMENT_ERROR' });
+    setIsChecked(checked);
+    if (checked) {
       setShowError(false);
     }
     setErrorStatement(null);
@@ -78,6 +81,7 @@ const VerificationReviewWrapper = ({
     if (!isChecked) {
       setShowError(true);
     } else if (!error && isChecked) {
+      setShowError(false);
       handleVerification();
       dispatchUpdateToggleEnrollmentSuccess(true);
       history.push(VERIFICATION_RELATIVE_URL);
@@ -156,35 +160,44 @@ const VerificationReviewWrapper = ({
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
                 <div className="vads-u-margin-top--2">
-                  <label
-                    className="vads-u-font-weight--bold"
-                    htmlFor="enrollmentCheckbox"
+                  <div
+                    className={`${
+                      showError
+                        ? 'vads-u-margin-left--2p5 schemaform-field-template usa-input-error'
+                        : ''
+                    }`}
                   >
-                    Is this enrollment information correct?
-                    <span className="vads-u-color--secondary-dark">
-                      {' '}
-                      (*Required)
-                    </span>
-                    <VaCheckbox
-                      id="enrollmentCheckbox"
-                      label="Yes, this information is correct"
-                      checked={isChecked}
-                      onVaChange={handleCheckboxChange}
-                      aria-describedby="authorize-text"
-                      enable-analytics
-                      uswds
-                    />
-                  </label>
-                  <EnrollmentInformation />
-                  {showError && (
-                    <div
-                      id="required-error-message"
-                      style={{ color: '#b50909', marginTop: '8px' }}
+                    <label
+                      className="vads-u-font-weight--bold"
+                      htmlFor="enrollmentCheckbox"
                     >
-                      Please check the box to confirm the information is
-                      correct.
-                    </div>
-                  )}
+                      Is this enrollment information correct?
+                      <span className="vads-u-color--secondary-dark">
+                        {' '}
+                        (*Required)
+                      </span>
+                      {showError && (
+                        <span
+                          role="alert"
+                          className="usa-input-error-message"
+                          id="root_educationType-error-message"
+                        >
+                          <span className="sr-only">Error</span> Please check
+                          the box to confirm the information is correct.
+                        </span>
+                      )}
+                      <VaCheckbox
+                        id="enrollmentCheckbox"
+                        label="Yes, this information is correct"
+                        checked={isChecked}
+                        onVaChange={handleCheckboxChange}
+                        aria-describedby="authorize-text"
+                        enable-analytics
+                        uswds
+                      />
+                    </label>
+                  </div>
+                  <EnrollmentInformation />
                 </div>
                 <div
                   style={{
