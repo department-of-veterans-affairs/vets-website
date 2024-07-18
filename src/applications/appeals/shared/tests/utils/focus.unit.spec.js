@@ -14,6 +14,7 @@ import {
   focusRadioH3,
   focusAlertH3,
   focusH3,
+  focusOnAlert,
 } from '../../utils/focus';
 import { LAST_ISSUE } from '../../constants';
 
@@ -372,6 +373,41 @@ describe('focusH3', () => {
     await waitFor(() => {
       const target = $('h3', container);
       expect(document.activeElement).to.eq(target);
+    });
+  });
+});
+
+describe('focusOnAlert', () => {
+  const renderPage = (hasErrorAlert = true) =>
+    render(
+      <div id="main">
+        <div />
+        <va-alert status="info">
+          <h3>Test</h3>
+        </va-alert>
+        {hasErrorAlert && (
+          <va-alert status="error">
+            <h3>Test 2</h3>
+          </va-alert>
+        )}
+      </div>,
+    );
+
+  it('should focus on alert', async () => {
+    const { container } = await renderPage();
+
+    await focusOnAlert();
+    await waitFor(() => {
+      const target = $('va-alert[status="error"] h3', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+  it('should not focus on alert', async () => {
+    await renderPage(false);
+
+    await focusOnAlert();
+    await waitFor(() => {
+      expect(document.activeElement?.tagName).to.eq('BODY');
     });
   });
 });

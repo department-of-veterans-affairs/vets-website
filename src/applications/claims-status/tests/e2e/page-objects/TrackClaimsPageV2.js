@@ -579,7 +579,7 @@ class TrackClaimsPageV2 {
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
-  verifyDocRequestBreadcrumbs(previousPageFiles = false) {
+  verifyDocRequestBreadcrumbs(previousPageFiles = false, is5103Notice = false) {
     cy.get('va-breadcrumbs').should('be.visible');
     cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
     cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
@@ -601,11 +601,17 @@ class TrackClaimsPageV2 {
         'Status of your compensation claim',
       );
     }
-
-    cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
-      'contain',
-      'Document request',
-    );
+    if (is5103Notice) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        '5103 Evidence Notice',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        'Request for Submit Buddy Statement(s)',
+      );
+    }
   }
 
   submitEvidenceWaiver() {
