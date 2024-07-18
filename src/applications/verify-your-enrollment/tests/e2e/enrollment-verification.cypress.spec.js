@@ -79,10 +79,10 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    ).click();
+    ).click({ multiple: true });
     cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
       .first()
-      .click();
+      .click({ multiple: true });
     cy.url().should('not.include', '/benefits-profile');
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
@@ -193,7 +193,7 @@ describe('Enrollment Verification Page Tests', () => {
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('[text="Submit"]').click();
-    cy.get('[  id="required-error-message"]').should(
+    cy.get('[id="root_educationType-error-message"]').should(
       'contain',
       'Please check the box to confirm the information is correct.',
     );

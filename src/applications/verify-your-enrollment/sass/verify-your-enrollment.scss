@@ -109,3 +109,16 @@
         }
     }
 }
+.buttons-wrapper{
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    @media (max-width: $small-screen) {
+        flex-direction: column;
+        va-button[back]{
+            order: 2;
+            margin-top: 20px;
+        }
+    }
+}
