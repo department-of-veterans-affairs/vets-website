@@ -18,6 +18,8 @@ const HeaderLayout = ({
 
   const alertExpandableRef = useRef(null);
 
+  const learnMoreAlertTrigger = 'Learn more about My HealtheVet on VA.gov ';
+
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
     if (alertExpandable) {
@@ -91,7 +93,9 @@ const HeaderLayout = ({
                 <va-alert-expandable
                   status="info"
                   ref={alertExpandableRef}
-                  trigger="Learn more about My HealtheVet on VA.gov "
+                  trigger={learnMoreAlertTrigger}
+                  data-dd-action-name={learnMoreAlertTrigger}
+                  data-testid="learn-more-alert"
                 >
                   <div>
                     <p>
