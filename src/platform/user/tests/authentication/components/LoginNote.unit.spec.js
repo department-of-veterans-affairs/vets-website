@@ -4,9 +4,17 @@ import { expect } from 'chai';
 import LoginNote from 'platform/user/authentication/components/LoginNote';
 
 describe('LoginNote', () => {
-  it('renders LoginNote component', () => {
-    const wrapper = shallow(<LoginNote />);
-    expect(wrapper.find('LoginNote').exists()).to.be.true;
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = shallow(<LoginNote />);
+  });
+  afterEach(() => wrapper.unmount());
+
+  it('should render', () => {
+    expect(wrapper.find('p').text()).includes(
+      'remove the My HealtheVet option',
+    );
     wrapper.unmount();
   });
 });

@@ -3,10 +3,14 @@ import React from 'react';
 export default () => (
   <div className="row" id="loginNote">
     <p className="vads-u-font-size--base vads-u-margin-top--3 vads-u-padding-x--2">
-      <strong>Note:</strong> Starting December 31, 2024, you'll no longer be
-      able to sign in with your My HealthVet or DS Logon username and password.
-      You'll need to use either a <strong>Login.gov</strong> or{' '}
-      <strong>ID.me</strong> account.
+      <strong>Note:</strong> We're moving to a simpler and more modern sign-in
+      experience. We'll remove the My HealtheVet option after{' '}
+      <strong>January 31, 2025,</strong> and the DS Logon option after{' '}
+      <strong>September 30, 2025.</strong>
+      <br />
+      <a href="https://www.va.gov/resources/creating-an-account-for-vagov">
+        Learn more about creating a Login.gov or ID.me account
+      </a>
     </p>
   </div>
 );
