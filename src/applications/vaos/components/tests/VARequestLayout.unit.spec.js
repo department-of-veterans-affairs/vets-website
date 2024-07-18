@@ -44,11 +44,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              system: 'email',
+              type: 'email',
               value: 'user@va.gov',
             },
             {
-              system: 'phone',
+              type: 'phone',
               value: '1234567890',
             },
           ],
@@ -190,11 +190,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              system: 'email',
+              type: 'email',
               value: 'user@va.gov',
             },
             {
-              system: 'phone',
+              type: 'phone',
               value: '1234567890',
             },
           ],
@@ -310,11 +310,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              system: 'email',
+              type: 'email',
               value: 'user@va.gov',
             },
             {
-              system: 'phone',
+              type: 'phone',
               value: '1234567890',
             },
           ],

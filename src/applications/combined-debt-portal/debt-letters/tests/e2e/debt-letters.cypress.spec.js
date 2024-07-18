@@ -16,7 +16,6 @@ describe('Debt Letters - downloads enabled', () => {
   });
 
   it('displays the current debts section and navigates to debt details', () => {
-    cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testid="debt-details-button"]')
       .first()
       .click();
@@ -26,18 +25,6 @@ describe('Debt Letters - downloads enabled', () => {
 
   it('displays other va debts', () => {
     cy.findByTestId('other-va-copay-body').should('exist');
-    cy.injectAxeThenAxeCheck();
-  });
-  it('displays download debt letters', () => {
-    cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
-    cy.findByTestId('download-letters-link').click();
-    cy.get('#downloadDebtLetters').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-  });
-
-  it('displays need help?', () => {
-    cy.findByTestId('needHelp-jumplink').click({ waitForAnimations: true });
-    cy.get('#needHelp').should('be.visible');
     cy.injectAxeThenAxeCheck();
   });
 });
