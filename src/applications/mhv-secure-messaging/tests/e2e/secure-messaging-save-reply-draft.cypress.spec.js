@@ -11,7 +11,6 @@ describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     // declare pages & constants
     const draftPage = new PatientMessageDraftsPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
 
     const bodyText = ' Updated body text';
     const singleMessage = { data: mockSingleThread.data[0] };
@@ -23,7 +22,7 @@ describe('Secure Messaging Reply', () => {
     PatientInboxPage.loadSingleThread(mockSingleThread);
 
     // click reply btn
-    messageDetailsPage.clickReplyButton(mockSingleThread);
+    PatientMessageDetailsPage.clickReplyButton(mockSingleThread);
 
     // change message
     PatientReplyPage.getMessageBodyField().type(bodyText, {
@@ -40,18 +39,18 @@ describe('Secure Messaging Reply', () => {
     );
 
     // verify reply topic
-    messageDetailsPage.replyToMessageTo(singleMessage);
+    PatientMessageDetailsPage.replyToMessageTo(singleMessage);
 
     // verify saved draft details
-    messageDetailsPage.replyToMessageSenderName(singleMessage);
+    PatientMessageDetailsPage.replyToMessageSenderName(singleMessage);
 
-    messageDetailsPage.replyToMessageRecipientName(singleMessage);
+    PatientMessageDetailsPage.replyToMessageRecipientName(singleMessage);
 
-    messageDetailsPage.replyToMessageDate(singleMessage);
+    PatientMessageDetailsPage.replyToMessageDate(singleMessage);
 
-    messageDetailsPage.replyToMessageId(singleMessage);
+    PatientMessageDetailsPage.replyToMessageId(singleMessage);
 
-    messageDetailsPage.replyToMessageBody(singleMessage);
+    PatientMessageDetailsPage.replyToMessageBody(singleMessage);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
