@@ -229,15 +229,26 @@ class SaveInProgressIntro extends React.Component {
           {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
-              <Link
-                onClick={this.handleClick}
-                to={this.getStartPage}
-                className="schemaform-start-button"
-                aria-label={ariaLabel}
-                aria-describedby={ariaDescribedby}
-              >
-                Start your {appType} without signing in
-              </Link>
+              {this.props.formId === '22-5495' ? (
+                <a
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                  href="/education/apply-for-education-benefits/application/1995/introduction"
+                >
+                  Start your {appType} without signing in
+                </a>
+              ) : (
+                <Link
+                  onClick={this.handleClick}
+                  to={this.getStartPage}
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                >
+                  Start your {appType} without signing in
+                </Link>
+              )}
             </p>
           )}
         </>
@@ -285,15 +296,26 @@ class SaveInProgressIntro extends React.Component {
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
-                  <Link
-                    onClick={this.handleClick}
-                    to={this.getStartPage}
-                    className="schemaform-start-button"
-                    aria-label={ariaLabel}
-                    aria-describedby={ariaDescribedby}
-                  >
-                    Start your {appType} without signing in
-                  </Link>
+                  {this.props.formId === '22-5495' ? (
+                    <a
+                      className="schemaform-start-button"
+                      aria-label={ariaLabel}
+                      aria-describedby={ariaDescribedby}
+                      href="/education/apply-for-education-benefits/application/1995/introduction"
+                    >
+                      Start your {appType} without signing in
+                    </a>
+                  ) : (
+                    <Link
+                      onClick={this.handleClick}
+                      to={this.getStartPage}
+                      className="schemaform-start-button"
+                      aria-label={ariaLabel}
+                      aria-describedby={ariaDescribedby}
+                    >
+                      Start your {appType} without signing in
+                    </Link>
+                  )}
                 </p>
               )}
             </div>
