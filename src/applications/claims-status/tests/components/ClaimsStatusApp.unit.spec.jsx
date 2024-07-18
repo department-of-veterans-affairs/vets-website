@@ -48,7 +48,6 @@ describe('<AppContent>', () => {
     }));
     const props = {
       dispatchSetLastPage: sinon.spy(),
-
       featureFlagsLoading: false,
       user: {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
@@ -85,6 +84,5 @@ describe('<AppContent>', () => {
     unmount();
 
     expect(props.dispatchSetLastPage.called).to.be.true;
-    props.dispatchSetLastPage.restore();
   });
 });
