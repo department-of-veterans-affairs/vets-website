@@ -99,7 +99,6 @@ export default function MemorableDateField(props) {
 
         if (isMonthNotNumbers(newValues) || isDayNotNumbers(newValues)) {
           setErrorVal('Input numbers only');
-          setValues({ month: '', day: '', year: '1950' });
         }
 
         if (isYearInvalid(newValues)) {
