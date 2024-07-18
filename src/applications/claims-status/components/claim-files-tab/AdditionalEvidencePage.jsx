@@ -48,6 +48,10 @@ const { Element } = Scroll;
 const filesPath = `../files`;
 
 class AdditionalEvidencePage extends React.Component {
+  componentDidMount() {
+    this.props.resetUploads();
+  }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props) {
     if (props.uploadComplete) {

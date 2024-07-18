@@ -48,6 +48,7 @@ describe('<AppContent>', () => {
     }));
     const props = {
       dispatchSetLastPage: sinon.spy(),
+
       featureFlagsLoading: false,
       user: {
         login: { currentlyLoggedIn: true, hasCheckedKeepAlive: false },
@@ -68,7 +69,7 @@ describe('<AppContent>', () => {
       </Provider>
     );
 
-    const { getByTestId, queryByTestId } = render(
+    const { getByTestId, queryByTestId, unmount } = render(
       <MemoryRouter>
         <Routes>
           <Route element={element}>
@@ -80,6 +81,10 @@ describe('<AppContent>', () => {
 
     expect(queryByTestId('feature-flags-loading')).to.not.exist;
     expect(getByTestId('children')).to.exist;
+
+    unmount();
+
     expect(props.dispatchSetLastPage.called).to.be.true;
+    props.dispatchSetLastPage.restore();
   });
 });
