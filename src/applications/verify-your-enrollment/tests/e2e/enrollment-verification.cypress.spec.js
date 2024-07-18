@@ -59,7 +59,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show error message when submit button is clicked and something went wrong', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]')
+    cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
     cy.get(
@@ -186,7 +186,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('show required error message when button is click and the checkbox is not checked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]')
+    cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
     cy.get(

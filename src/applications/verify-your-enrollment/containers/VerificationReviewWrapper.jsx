@@ -210,8 +210,13 @@ const VerificationReviewWrapper = ({
                   </div>
                   <EnrollmentInformation />
                 </div>
-                <div className="buttons-wrapper">
-                  <va-button onClick={handleBackClick} back uswds />
+                <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column-reverse medium-screen:vads-u-flex-direction--row">
+                  <va-button
+                    onClick={handleBackClick}
+                    back
+                    uswds
+                    class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+                  />
                   <va-button
                     text="Submit"
                     onClick={handleSubmission}
