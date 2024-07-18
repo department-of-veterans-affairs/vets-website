@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  VaCheckbox,
+  VaCheckboxGroup,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelPayStatusCheckboxes(props) {
@@ -10,25 +14,24 @@ export default function TravelPayStatusCheckboxes(props) {
   } = props;
 
   return (
-    <va-checkbox-group
+    <VaCheckboxGroup
       id="status-checkboxes"
       name="status-filter"
       label="Filter by status"
+      onVaChange={e => onStatusFilterChange(e)}
       uswds
     >
       {statusesToFilterBy.map(status => (
-        <va-checkbox
+        <VaCheckbox
           checked={checkedStatusFilters.includes(status)}
-          data-testid="status-filter"
-          name="status-filter"
+          data-testid={`status-filter_${status}`}
+          name={status}
           key={status}
-          value={status}
           label={CLAIMS_STATUSES[status] || status}
-          onVaChange={e => onStatusFilterChange(e, status)}
           uswds
         />
       ))}
-    </va-checkbox-group>
+    </VaCheckboxGroup>
   );
 }
 

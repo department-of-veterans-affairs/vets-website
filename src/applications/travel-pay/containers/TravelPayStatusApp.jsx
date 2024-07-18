@@ -105,8 +105,10 @@ export default function App({ children }) {
     filterInfoRef.current.focus();
   };
 
-  const onStatusFilterChange = (e, statusName) => {
-    if (e.currentTarget.checked) {
+  const onStatusFilterChange = e => {
+    const statusName = e.target.name;
+
+    if (e.target.checked) {
       setCheckedStatusFilters([...checkedStatusFilters, statusName]);
     } else {
       setCheckedStatusFilters(
