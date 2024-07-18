@@ -1,15 +1,15 @@
-import { createSelector } from 'reselect';
 import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import { createSelector } from 'reselect';
 
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import unset from '@department-of-veterans-affairs/platform-utilities/unset';
 import {
+  addressFields,
   postOfficeOptions,
   regionOptions,
-  addressFields,
 } from '../../constants';
-import { radioUI, radioSchema } from './radioHelper';
+import { radioSchema, radioUI } from './radioHelper';
 
 import fullSchema from '../0873-schema.json';
 
@@ -63,8 +63,8 @@ export function schema(
       militaryAddress: {
         type: 'object',
         properties: {
-          militaryPostOffice: radioSchema(Object.keys(postOfficeOptions)),
-          militaryState: radioSchema(Object.keys(regionOptions)),
+          militaryPostOffice: radioSchema(Object.values(postOfficeOptions)),
+          militaryState: radioSchema(Object.values(regionOptions)),
         },
       },
       postalCode: {

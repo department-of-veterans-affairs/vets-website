@@ -101,10 +101,10 @@ export default function CancelPageLayoutRequest() {
         Details you’d like to share with your provider
       </h3>
       <span>
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+      <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Your contact details
       </h3>

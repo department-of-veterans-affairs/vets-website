@@ -15,7 +15,7 @@ import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember.pages.aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember;
 
 describe('aboutTheFamilyMemberPage', () => {
   it('should render', () => {

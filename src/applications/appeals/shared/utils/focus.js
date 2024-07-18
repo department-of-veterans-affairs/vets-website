@@ -4,6 +4,7 @@ import {
   focusByOrder,
   scrollTo,
   waitForRenderThenFocus,
+  scrollAndFocus,
 } from '~/platform/utilities/ui';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
@@ -110,4 +111,12 @@ export const focusAlertH3 = () => {
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
   waitForRenderThenFocus('h3');
+};
+
+// Used for onContinue callback on the contestable issues page
+export const focusOnAlert = () => {
+  const alert = $('va-alert[status="error"] h3');
+  if (alert) {
+    scrollAndFocus(alert);
+  }
 };

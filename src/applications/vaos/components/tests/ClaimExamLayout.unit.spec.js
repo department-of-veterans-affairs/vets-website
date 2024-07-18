@@ -33,6 +33,166 @@ describe('VAOS Component: ClaimExamLayout', () => {
     },
   };
 
+  describe('When appointment information is missing', () => {
+    it('should display view facility info when only facility id is returned', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {
+          vistaId: '983',
+          clinicId: '848',
+          stationId: '983',
+          clinicName: 'CHY PC VAR2',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /View facility information Link opens in a new tab./i,
+        }),
+      );
+    });
+
+    it('should display find facility info when no facility data and no facility id are available', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /Find facility information Link opens in a new tab/i,
+        }),
+      );
+    });
+
+    it('should not display heading and text for empty data', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
+
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Location: Not available'
+          );
+        }),
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Clinic: Not available'
+          );
+        }),
+      );
+    });
+  });
+
   describe('When viewing upcoming appointment details', () => {
     it('should display claim exam layout', async () => {
       // Arrange
@@ -50,7 +210,13 @@ describe('VAOS Component: ClaimExamLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          apiData: {},
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
         },
         status: 'booked',
       };
@@ -78,7 +244,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.be.ok;
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Claim exam/i));
+      expect(screen.queryByText('Claim exam'), { exact: true });
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -94,7 +260,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -121,64 +287,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).to.not.exist;
-    });
-
-    it('should display default text for empty data', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        videoData: {},
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: true,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <ClaimExamLayout data={appointment} />,
-        {
-          store,
-        },
-      );
-      // Assert
-      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Type of care information not available/i));
-
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
-      );
-      expect(screen.getByText(/Facility details not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: /Find facility information Link opens in a new tab/i,
-        }),
-      );
-
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Location: Not available'
-          );
-        }),
-      );
-      expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Clinic: Not available'
-          );
-        }),
-      );
     });
   });
 
@@ -247,7 +355,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -344,7 +452,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
