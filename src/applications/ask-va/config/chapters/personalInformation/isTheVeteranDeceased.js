@@ -1,6 +1,6 @@
 import React from 'react';
-import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import { CHAPTER_3, yesNoOptions } from '../../../constants';
+import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const questionHeader = (
   <h4 className="vads-u-margin-bottom--1 vads-u-display--inline">
@@ -21,7 +21,7 @@ const isTheVeteranDeceasedPage = {
     type: 'object',
     required: ['isVeteranDeceased'],
     properties: {
-      isVeteranDeceased: radioSchema(Object.keys(yesNoOptions)),
+      isVeteranDeceased: radioSchema(Object.values(yesNoOptions)),
     },
   },
 };

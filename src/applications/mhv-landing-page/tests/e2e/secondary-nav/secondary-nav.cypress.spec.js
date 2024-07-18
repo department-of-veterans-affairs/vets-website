@@ -12,11 +12,29 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     });
   });
 
+  describe('unverified user', () => {
+    it('does not render', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visit({ verified: false, registered: false });
+      LandingPage.secondaryNav().should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
   describe('unregistered user', () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit({ registered: false });
       LandingPage.secondaryNav().should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  describe('user without MHV account', () => {
+    it('renders', () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visit({ mhvAccountState: false });
+      LandingPage.secondaryNavRendered();
       cy.injectAxeThenAxeCheck();
     });
   });
