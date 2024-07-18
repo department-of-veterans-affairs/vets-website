@@ -1140,6 +1140,8 @@ export const selfServiceRecordsUI = {
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
+        hint:
+          'This field may clear if the branch of service or rank does not match a valid date range.',
       },
     }),
     dateRange: dateRangeUI(
@@ -1201,6 +1203,8 @@ export const preparerServiceRecordsUI = {
     serviceBranch: autosuggest.uiSchema('Applicant’s branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
+        hint:
+          'This field may clear if the branch of service or rank does not match a valid date range.',
       },
     }),
     dateRange: dateRangeUI(
