@@ -108,6 +108,8 @@ const ZipCodePage = ({
   const onBlurInput = () => {
     if (inputValid(zipCode)) {
       setFormError(false);
+    } else {
+      setFormError(true);
     }
   };
 
