@@ -284,7 +284,7 @@ function additionalConsiderationsQuestionTitleText(
       'rotc-commission': 4,
       'loan-payment': 5,
     };
-    pageNumber = pageOrder[pageName];
+    pageNumber = pageOrder[pageName] || order;
     totalPages = 5;
   } else {
     pageNumber = isUnsure ? order - 1 : order;
@@ -369,6 +369,7 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           'NotEligible',
         page.order,
         rudisillFlag,
+        page.name,
       );
     },
     uiSchema: {
@@ -381,6 +382,7 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           ],
           page.order,
           rudisillFlag,
+          page.name,
         );
       },
       [formFields[formField]]: {
