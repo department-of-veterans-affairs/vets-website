@@ -88,7 +88,7 @@ const formConfig = {
   },
   preSubmitInfo: {
     required: true,
-    CustomComponent: signatureProps => CustomAttestation(signatureProps),
+    CustomComponent: CustomAttestation,
   },
   saveInProgress: {
     messages: {

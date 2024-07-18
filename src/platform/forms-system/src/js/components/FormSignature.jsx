@@ -41,8 +41,11 @@ export const FormSignature = ({
   onSectionComplete,
 }) => {
   // Input states
-  const [signature, setSignature] = useState({ value: '', dirty: false });
-  const [checked, setChecked] = useState(false);
+  const [signature, setSignature] = useState({
+    value: formData.signature ?? '', // Pre-populate with existing signature if available
+    dirty: formData?.signature?.length > 0, // will be dirty if any prev signature is present
+  });
+  const [checked, setChecked] = useState(formData.AGREED ?? false);
 
   // Validation states
   const [signatureError, setSignatureError] = useState(null);
@@ -127,6 +130,7 @@ export const FormSignature = ({
         description={null}
         required={required}
         error={showError ? checkboxError : null}
+        checked={checked}
         onVaChange={event => setChecked(event.target.checked)}
       >
         {checkboxDescription && <p slot="description">{checkboxDescription}</p>}
