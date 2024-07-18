@@ -56,6 +56,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for health care benefits.',
   },
+
   title: 'File a Foreign Medical Program (FMP) claim',
   subTitle: 'FMP Claim Cover Sheet (VA Form 10-7959f-2)',
   defaultDefinitions: {},
@@ -215,6 +216,30 @@ const formConfig = {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
+            },
+          },
+        },
+      },
+    },
+    paymentSelection: {
+      title: 'Payment Selection',
+      pages: {
+        page6: {
+          path: 'payment',
+          title: 'Payment Selection',
+          uiSchema: {
+            ...titleUI('Where to send the payment'),
+            sendPayment: yesNoUI({
+              title: 'Tell us where to send the payment for this claim.',
+              description: 'WE ARE HERE',
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sendPayment'],
+            properties: {
+              titleSchema,
+              sendPayment: yesNoSchema,
             },
           },
         },
