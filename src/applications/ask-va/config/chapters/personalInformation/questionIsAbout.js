@@ -1,6 +1,6 @@
 import React from 'react';
-import { radioUI, radioSchema } from '../../schema-helpers/radioHelper';
 import { CHAPTER_3, whoYourQuestionIsAbout } from '../../../constants';
+import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const question = (
   <h3 className="vads-u-display--inline">
@@ -20,7 +20,7 @@ const whoQuestionAboutPage = {
     type: 'object',
     required: ['whoQuestionAbout'],
     properties: {
-      whoQuestionAbout: radioSchema(Object.keys(whoYourQuestionIsAbout)),
+      whoQuestionAbout: radioSchema(Object.values(whoYourQuestionIsAbout)),
     },
   },
 };

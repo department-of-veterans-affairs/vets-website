@@ -9,7 +9,10 @@ import WelcomeContainer from '../containers/WelcomeContainer';
 
 const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 
-const HeaderLayout = ({ showWelcomeMessage = false }) => {
+const HeaderLayout = ({
+  showWelcomeMessage = false,
+  showLearnMore = false,
+}) => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const goBackUrl = mhvUrl(ssoe, 'home');
 
@@ -83,52 +86,54 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                 {goBackLinkText}
               </a>
             </p>
-            <div>
-              <va-alert-expandable
-                status="info"
-                ref={alertExpandableRef}
-                trigger="Learn more about My HealtheVet on VA.gov "
-              >
-                <div>
-                  <p>
-                    <strong>What you can do now on VA.gov:</strong>
-                  </p>
-                  <ul className="vads-u-font-family--sans">
-                    <li>
-                      Schedule, cancel, and manage some health appointments
-                    </li>
-                    <li>Send secure messages to your health care team</li>
-                    <li>
-                      Refill your prescriptions and get a list of all your
-                      medications
-                    </li>
-                  </ul>
-                  <p>
-                    <strong>What’s coming soon:</strong>
-                  </p>
-                  <ul className="vads-u-font-family--sans">
-                    <li>Find, print, and download your medical records</li>
-                    <li>Get your lab and test results</li>
-                  </ul>
-                  <p className="vads-u-font-family--sans">
-                    We’re working to bring your medical records to VA.gov. For
-                    now, you can download your records using the previous
-                    version of My HealtheVet.{' '}
-                    <a
-                      onClick={() =>
-                        datadogRum.addAction(
-                          `Click on Landing Page: Learn More - ${goBackLinkText}`,
-                        )
-                      }
-                      data-testid="mhv-go-back-2"
-                      href={goBackUrl}
-                    >
-                      {goBackLinkText}
-                    </a>
-                  </p>
-                </div>
-              </va-alert-expandable>
-            </div>
+            {showLearnMore && (
+              <div>
+                <va-alert-expandable
+                  status="info"
+                  ref={alertExpandableRef}
+                  trigger="Learn more about My HealtheVet on VA.gov "
+                >
+                  <div>
+                    <p>
+                      <strong>What you can do now on VA.gov:</strong>
+                    </p>
+                    <ul className="vads-u-font-family--sans">
+                      <li>
+                        Schedule, cancel, and manage some health appointments
+                      </li>
+                      <li>Send secure messages to your health care team</li>
+                      <li>
+                        Refill your prescriptions and get a list of all your
+                        medications
+                      </li>
+                    </ul>
+                    <p>
+                      <strong>What’s coming soon:</strong>
+                    </p>
+                    <ul className="vads-u-font-family--sans">
+                      <li>Find, print, and download your medical records</li>
+                      <li>Get your lab and test results</li>
+                    </ul>
+                    <p className="vads-u-font-family--sans">
+                      We’re working to bring your medical records to VA.gov. For
+                      now, you can download your records using the previous
+                      version of My HealtheVet.{' '}
+                      <a
+                        onClick={() =>
+                          datadogRum.addAction(
+                            `Click on Landing Page: Learn More - ${goBackLinkText}`,
+                          )
+                        }
+                        data-testid="mhv-go-back-2"
+                        href={goBackUrl}
+                      >
+                        {goBackLinkText}
+                      </a>
+                    </p>
+                  </div>
+                </va-alert-expandable>
+              </div>
+            )}
           </div>
         </div>
         <div
@@ -147,20 +152,23 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
           />
         </div>
       </div>
-      <div
-        className={classnames(
-          'vads-u-border-color--gray-light',
-          'vads-u-border-bottom--1px',
-          'vads-u-margin-bottom--3',
-        )}
-      >
-        {showWelcomeMessage && <WelcomeContainer />}
-      </div>
+      {showWelcomeMessage && (
+        <div
+          className={classnames(
+            'vads-u-border-color--gray-light',
+            'vads-u-border-bottom--1px',
+            'vads-u-margin-bottom--3',
+          )}
+        >
+          <WelcomeContainer />
+        </div>
+      )}
     </>
   );
 };
 
 HeaderLayout.propTypes = {
+  showLearnMore: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
 };
 
