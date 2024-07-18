@@ -39,42 +39,44 @@ import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
-  const [error, setError] = useState('');
   const [file, setFile] = useState(null);
   const { formNumber } = getFormContent();
 
   const onFileUploaded = useCallback(
     uploadedFile => {
       if (uploadedFile.confirmationCode) {
-        setError('');
         props.childrenProps.onChange(uploadedFile);
       }
     },
     [props.childrenProps],
   );
 
+  const handleVaChangeBug = event => {
+    let newFile = event.detail.files[0];
+
+    if (file && newFile.name === file.name && newFile.size === file.size) {
+      newFile = null;
+    }
+
+    setFile(newFile);
+
+    return newFile;
+  };
+
   const handleVaChange = useCallback(
     e => {
-      const newFile = e.detail.files[0];
+      const newFile = handleVaChangeBug(e);
 
-      if (file && newFile.name === file.name && newFile.size === file.size) {
-        setFile(null);
-        return;
+      if (!props.onVaChange) {
+        return dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
       }
 
-      setFile(newFile);
-      if (props.onVaChange) {
-        props.onVaChange();
-      } else {
-        dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
-      }
+      return props.onVaChange();
     },
     [file, dispatch, onFileUploaded],
   );
 
-  return (
-    <VaFileInput {...mappedProps} error={error} onVaChange={handleVaChange} />
-  );
+  return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
 };
 
 export default VaFileInputField;
