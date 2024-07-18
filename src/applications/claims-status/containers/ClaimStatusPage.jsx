@@ -161,12 +161,13 @@ const generateEventTimeline = claim => {
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
-    const { claim, lastPage, loading } = this.props;
+    const { claim } = this.props;
     setTabDocumentTitle(claim, 'Status');
 
     setTimeout(() => {
+      const { lastPage, loading } = this.props;
       setPageFocus(lastPage, loading);
-    });
+    }, 100);
   }
 
   componentDidUpdate(prevProps) {

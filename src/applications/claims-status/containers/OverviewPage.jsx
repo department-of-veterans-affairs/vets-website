@@ -153,12 +153,13 @@ const generateEventTimeline = claim => {
 
 class OverviewPage extends React.Component {
   componentDidMount() {
-    const { claim, lastPage, loading } = this.props;
+    const { claim } = this.props;
     setTabDocumentTitle(claim, 'Overview');
 
     setTimeout(() => {
+      const { lastPage, loading } = this.props;
       setPageFocus(lastPage, loading);
-    });
+    }, 100);
   }
 
   componentDidUpdate(prevProps) {
