@@ -1,5 +1,19 @@
 import { VaFileInputField } from '../web-component-fields';
 
+export const filePresenceValidation = (
+  errors,
+  uploadedFile,
+  _uiSchema,
+  _schema,
+  errorMessages,
+) => {
+  if (
+    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
+  ) {
+    errors.addError(errorMessages.required);
+  }
+};
+
 /**
  * Web component v3 uiSchema for generic fileInput field
  *
@@ -63,7 +77,6 @@ export const fileInputUI = stringOrOptions => {
     description,
     errorMessages,
     required,
-    validations,
     reviewField,
     hidden,
     ...uiOptions
@@ -76,7 +89,7 @@ export const fileInputUI = stringOrOptions => {
     'ui:webComponentField': VaFileInputField,
     'ui:reviewField': reviewField,
     'ui:hidden': hidden,
-    'ui:validations': validations,
+    'ui:validations': [filePresenceValidation],
     'ui:options': {
       ...uiOptions,
     },
