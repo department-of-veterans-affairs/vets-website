@@ -24,7 +24,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     // a large number, like "eventDate": 976929600003, ???
     // can I test against the JSON or do I neeed to hard-code the date in the test?
     RadiologyDetailsPage.verifyDate('December 15, 2000');
-
+    RadiologyDetailsPage.verifyDate('December 15, 2000');
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
 
     // Regex: replace \r\n line terminating characters, with spaces
