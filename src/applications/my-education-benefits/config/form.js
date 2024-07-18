@@ -374,6 +374,121 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   };
 }
 
+const getPageOrder = rudisillFlag => {
+  if (rudisillFlag) {
+    return {
+      activeDutyKicker: 1,
+      reserveKicker: 2,
+      militaryAcademy: 3,
+      seniorRotc: 4,
+      loanPayment: 5,
+    };
+  }
+
+  return {
+    activeDutyKicker: 1,
+    reserveKicker: 1,
+    militaryAcademy: 2,
+    seniorRotc: 3,
+    loanPayment: 4,
+  };
+};
+
+const generatePageTitle = (benefitSelection, order, rudisillFlag) => {
+  const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
+  let pageNumber;
+  let totalPages;
+
+  if (rudisillFlag) {
+    pageNumber = order;
+    totalPages = 5;
+  } else if (isUnsure) {
+    pageNumber = order - 1;
+    totalPages = 3;
+  } else {
+    pageNumber = order;
+    totalPages = 4;
+  }
+
+  return `Question ${pageNumber} of ${totalPages}`;
+};
+
+const configurePage = (
+  pageConfig,
+  formField,
+  includeExclusionWidget = false,
+  order,
+  rudisillFlag,
+) => ({
+  ...AdditionalConsiderationTemplate(pageConfig, formField, {
+    includeExclusionWidget,
+  }),
+  depends: formData => {
+    if (rudisillFlag) return true;
+
+    const benefitRelinquished =
+      formData?.[formFields.viewBenefitSelection]?.[
+        formFields.benefitRelinquished
+      ];
+    if (formField === formFields.activeDutyKicker) {
+      return benefitRelinquished === 'Chapter30';
+    }
+    if (formField === formFields.selectedReserveKicker) {
+      return benefitRelinquished === 'Chapter1606';
+    }
+    return true;
+  },
+  title: data =>
+    generatePageTitle(
+      data?.[formFields.viewBenefitSelection]?.[formFields.benefitRelinquished],
+      order,
+      rudisillFlag,
+    ),
+});
+
+const configureAdditionalConsiderationsPages = formData => {
+  const rudisillFlag = formData?.dgiRudisillHideBenefitsSelectionStep;
+  const pageOrder = getPageOrder(rudisillFlag);
+
+  return {
+    [formPages.additionalConsiderations.activeDutyKicker.name]: configurePage(
+      formPages.additionalConsiderations.activeDutyKicker,
+      formFields.activeDutyKicker,
+      false,
+      pageOrder.activeDutyKicker,
+      rudisillFlag,
+    ),
+    [formPages.additionalConsiderations.reserveKicker.name]: configurePage(
+      formPages.additionalConsiderations.reserveKicker,
+      formFields.selectedReserveKicker,
+      false,
+      pageOrder.reserveKicker,
+      rudisillFlag,
+    ),
+    [formPages.additionalConsiderations.militaryAcademy.name]: configurePage(
+      formPages.additionalConsiderations.militaryAcademy,
+      formFields.federallySponsoredAcademy,
+      true,
+      pageOrder.militaryAcademy,
+      rudisillFlag,
+    ),
+    [formPages.additionalConsiderations.seniorRotc.name]: configurePage(
+      formPages.additionalConsiderations.seniorRotc,
+      formFields.seniorRotcCommission,
+      true,
+      pageOrder.seniorRotc,
+      rudisillFlag,
+    ),
+    [formPages.additionalConsiderations.loanPayment.name]: configurePage(
+      formPages.additionalConsiderations.loanPayment,
+      formFields.loanPayment,
+      true,
+      pageOrder.loanPayment,
+      rudisillFlag,
+    ),
+  };
+};
+
 function givingUpBenefitSelected(formData) {
   const benefitRelinquished =
     formData?.[formFields.viewBenefitSelection]?.[
@@ -1684,50 +1799,7 @@ const formConfig = {
     },
     additionalConsiderationsChapter: {
       title: 'Additional considerations',
-      pages: {
-        [formPages.additionalConsiderations.activeDutyKicker.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.activeDutyKicker,
-            formFields.activeDutyKicker,
-          ),
-          depends: formData =>
-            formData?.[formFields.viewBenefitSelection]?.[
-              formFields.benefitRelinquished
-            ] === 'Chapter30',
-        },
-        [formPages.additionalConsiderations.reserveKicker.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.reserveKicker,
-            formFields.selectedReserveKicker,
-          ),
-          depends: formData =>
-            formData?.[formFields.viewBenefitSelection]?.[
-              formFields.benefitRelinquished
-            ] === 'Chapter1606',
-        },
-        [formPages.additionalConsiderations.militaryAcademy.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.militaryAcademy,
-            formFields.federallySponsoredAcademy,
-            { includeExclusionWidget: true },
-          ),
-        },
-
-        [formPages.additionalConsiderations.seniorRotc.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.seniorRotc,
-            formFields.seniorRotcCommission,
-            { includeExclusionWidget: true },
-          ),
-        },
-        [formPages.additionalConsiderations.loanPayment.name]: {
-          ...AdditionalConsiderationTemplate(
-            formPages.additionalConsiderations.loanPayment,
-            formFields.loanPayment,
-            { includeExclusionWidget: true },
-          ),
-        },
-      },
+      pages: formData => configureAdditionalConsiderationsPages(formData),
     },
     bankAccountInfoChapter: {
       title: 'Direct Deposit',
