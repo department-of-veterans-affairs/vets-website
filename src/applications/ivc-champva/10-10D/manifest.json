@@ -2,6 +2,6 @@
   "appName": "10-10d Application for CHAMPVA benefits",
   "entryFile": "./app-entry.jsx",
   "entryName": "10-10D",
-  "rootUrl": "/health-care/champva/apply-form-10-10d",
+  "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d",
   "productId": "c485d6da-8094-433d-9cd3-3d31e7813650"
 }

@@ -277,3 +277,101 @@ export const getErrorTypeFromFormat = format => {
       return 'print';
   }
 };
+
+export const pharmacyPhoneNumber = prescription => {
+  if (prescription.cmopDivisionPhone) {
+    return prescription.cmopDivisionPhone;
+  }
+  if (prescription.dialCmopDivisionPhone) {
+    return prescription.dialCmopDivisionPhone;
+  }
+
+  if (prescription.rxRfRecords && prescription.rxRfRecords.length > 0) {
+    const cmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.cmopDivisionPhone) return item.cmopDivisionPhone;
+      return null;
+    })?.cmopDivisionPhone;
+    if (cmopDivisionPhone) return cmopDivisionPhone;
+
+    const dialCmopDivisionPhone = prescription.rxRfRecords.find(item => {
+      if (item.dialCmopDivisionPhone) return item.dialCmopDivisionPhone;
+      return null;
+    })?.dialCmopDivisionPhone;
+    if (dialCmopDivisionPhone) return dialCmopDivisionPhone;
+  }
+  return null;
+};
+
+/**
+ * This function sanitizes the input how we want it displayed when
+ * receiving the HTML string from the Krames API
+ *
+ * @param {String} htmlString - HTML string from the Krames API
+ */
+export const sanitizeKramesHtmlStr = htmlString => {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlString;
+
+  if (tempDiv.querySelector('body')) {
+    tempDiv.innerHTML = tempDiv.querySelector('body').innerHTML;
+  }
+  if (tempDiv.querySelector('page')) {
+    tempDiv.innerHTML = tempDiv.querySelector('page').innerHTML;
+  }
+
+  tempDiv.querySelectorAll('h1').forEach(h1 => {
+    const h2 = document.createElement('h2');
+    h2.innerHTML = h1.innerHTML;
+    h1.replaceWith(h2);
+  });
+
+  tempDiv.querySelectorAll('h3').forEach(h3 => {
+    let sibling = h3.nextElementSibling;
+    while (sibling) {
+      if (sibling.tagName.toLowerCase() === 'h2') {
+        const paragraph = document.createElement('p');
+        paragraph.innerHTML = h3.innerHTML;
+        h3.replaceWith(paragraph);
+        break;
+      }
+      sibling = sibling.nextElementSibling;
+    }
+  });
+
+  tempDiv.querySelectorAll('ul').forEach(ul => {
+    const nestedUls = ul.querySelectorAll('ul');
+
+    nestedUls.forEach(nestedUl => {
+      while (nestedUl.firstChild) {
+        ul.appendChild(nestedUl.firstChild);
+      }
+      nestedUl.remove();
+    });
+  });
+
+  tempDiv.querySelectorAll('h2').forEach(heading => {
+    const h2 = document.createElement('h2');
+    let words = heading.textContent.toLowerCase().split(' ');
+    words = words.map((word, index) => {
+      if (index === 0 || word === 'i') {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }
+      return word;
+    });
+    h2.textContent = words.join(' ');
+    heading.replaceWith(h2);
+  });
+
+  Array.from(tempDiv.childNodes).forEach(node => {
+    if (
+      node.nodeType === Node.TEXT_NODE &&
+      node.textContent.trim().length > 0
+    ) {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = node.textContent;
+      node.replaceWith(paragraph);
+    }
+  });
+
+  return tempDiv.innerHTML;
+};

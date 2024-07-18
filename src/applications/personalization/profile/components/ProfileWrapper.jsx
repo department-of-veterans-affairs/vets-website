@@ -50,13 +50,11 @@ const ProfileWrapper = ({
   const location = useLocation();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const profileContactsToggle = useToggleValue(TOGGLE_NAMES.profileContacts);
   const profileShowDirectDepositSingleFormToggle = useToggleValue(
     TOGGLE_NAMES.profileShowDirectDepositSingleForm,
   );
 
   const routesForNav = getRoutesForNav({
-    profileContacts: profileContactsToggle,
     profileShowDirectDepositSingleForm: profileShowDirectDepositSingleFormToggle,
   });
 

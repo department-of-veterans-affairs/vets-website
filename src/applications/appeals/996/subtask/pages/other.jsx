@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
 import DownloadLink from '../../content/DownloadLink';
+import { PageTitle } from '../../content/title';
 import { BENEFIT_OFFICES_URL } from '../../constants';
 
 const DecisionReviewPage = () => {
@@ -30,10 +31,7 @@ const DecisionReviewPage = () => {
 
   return (
     <div id={pageNames.other} className="vads-u-padding-bottom--2">
-      <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
-      <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0996
-      </div>
+      <PageTitle />
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Requesting a Higher-Level Review if it isn’t for a disability
       </h2>

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const complaintList = [
   {
     content: [
@@ -150,3 +152,8 @@ export const getHelpList = [
     ],
   },
 ];
+export const maxCharAllowed = char => (
+  <p className="max-char vads-u-color--gray-medium">
+    {`${char} characters maximum`}
+  </p>
+);

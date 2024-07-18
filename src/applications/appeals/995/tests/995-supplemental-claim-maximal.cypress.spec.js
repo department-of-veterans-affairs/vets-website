@@ -1,4 +1,4 @@
-/* import path from 'path';
+import path from 'path';
 
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
@@ -10,6 +10,7 @@ import { setupPerTest, pageHooks } from './995.cypress.helpers';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
     dataSets: ['maximal-test'],
     fixtures: {
@@ -24,4 +25,3 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
-*/

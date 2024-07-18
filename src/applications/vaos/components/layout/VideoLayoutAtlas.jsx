@@ -121,26 +121,26 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
+      <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
-      <Where
-        heading={
-          APPOINTMENT_STATUS.booked === status && !isPastAppointment
-            ? 'Where to attend'
-            : undefined
-        }
-      >
-        {!!facility && (
-          <>
-            <Address address={videoProviderAddress} />
-            <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
-            </div>
-          </>
-        )}
-      </Where>
+
+      {!!facility && (
+        <Where
+          heading={
+            APPOINTMENT_STATUS.booked === status && !isPastAppointment
+              ? 'Where to attend'
+              : undefined
+          }
+        >
+          <Address address={videoProviderAddress} />
+          <div className="vads-u-margin-top--1 vads-u-color--link-default">
+            <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+            <FacilityDirectionsLink location={facility} />
+          </div>
+        </Where>
+      )}
+
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
@@ -174,7 +174,12 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!!facility && (
+            {!facility && (
+              <>
+                <span>Facility not available</span>
+              </>
+            )}
+            {facility && (
               <>
                 {facility.name}
                 <br />
@@ -184,9 +189,19 @@ export default function VideoLayoutAtlas({ data: appointment }) {
               </>
             )}
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {clinicName && (
+              <>
+                <span>Clinic: {clinicName}</span>
+              </>
+            )}
+            {!clinicName && (
+              <>
+                <span>Clinic not available</span>
+              </>
+            )}
+            <br />
             {facilityPhone && (
-              <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+              <FacilityPhone heading="Phone:" contact={facilityPhone} />
             )}
           </Section>
         )}

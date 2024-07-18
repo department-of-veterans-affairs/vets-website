@@ -46,10 +46,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         data-testid="card-link"
       >
         {linkText}
-        <i
-          className="fas fa-angle-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
+        <va-icon icon="navigate_next" size={3} />
       </Link>
     </va-card>
   );

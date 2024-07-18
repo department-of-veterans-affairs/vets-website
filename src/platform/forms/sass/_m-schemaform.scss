@@ -711,35 +711,17 @@ select:disabled {
   background-color: var(--vads-color-base-lighter);
 }
 
-// To be removed after SoT is added to DS
-i.fa-arrow-up-right-from-square {
-  display: inline-block;
-  color: var(--color-link-default);
-  font-size: 0.75rem;
-  margin: 0.3125rem;
-}
-
-i.fa-arrow-up-right-from-square::before {
-  content: "\f35d";
-}
-
-// To be removed after button pair is added
-i.fa-angles-left::before {
-  content: "\F100";
-  margin-right: 8px;
-}
-
-i.fa-angles-right::before {
-  content: "\F101";
-  margin-left: 8px;
-}
-
 va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   max-width: 100%;
 }
 
 .action-bar-arrow {
   position: relative;
+  max-width: 75%;
+
+  @media (max-width: 767px) {
+    max-width: 90%;
+  }
 }
 
 .action-bar-arrow::after {
@@ -757,4 +739,8 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 /* Add space above */
 .rjsf-web-component-field[error]:not([error=""]) {
   margin-top: 1.5rem;
+}
+
+.usa-hint {
+  color: var(--vads-color-gray-medium);
 }

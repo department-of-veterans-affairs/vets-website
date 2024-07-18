@@ -54,6 +54,7 @@ button.va-crisis-line {
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 16px;
   margin: auto;
 
   @include media($small-desktop-screen) {

@@ -3,8 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages-response.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
-describe('Keyboard Navigation for Filter & Sort functionalities', () => {
-  const site = new SecureMessagingSite();
+describe('Inbox page keyboard navigation for filter & sort features', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -12,7 +11,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 

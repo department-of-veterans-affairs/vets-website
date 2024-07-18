@@ -1,12 +1,18 @@
 // START lighthouse_migration
 import featureToggleDisabled from '../fixtures/mocks/lighthouse/feature-toggle-disabled.json';
+import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPage {
-  loadPage(claimsList, mock = null, submitForm = false) {
+  loadPage(
+    claimsList,
+    mock = null,
+    submitForm = false,
+    cst5103UpdateEnabled = false,
+  ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
         body: {},
@@ -18,8 +24,16 @@ class TrackClaimsPage {
         'detailRequest',
       );
     }
-
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+    if (cst5103UpdateEnabled) {
+      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggle5103UpdateEnabled,
+      );
+    } else {
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);
+    }
     cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
@@ -248,19 +262,43 @@ class TrackClaimsPage {
     cy.axeCheck();
   }
 
-  submitFilesForReview() {
-    cy.get('.file-request-list-item .usa-button')
-      .first()
-      .click()
-      .then(() => {
-        cy.get('.file-requirements');
-        cy.injectAxeThenAxeCheck();
-      });
+  verifyPrimaryAlertforSubmitBuddyStatement() {
+    cy.get('[data-testid="item-5"]').should('be.visible');
+    cy.get('[data-testid="item-5"] a').should('contain', 'View Details');
+    cy.get('[data-testid="item-5"] .submission-description').should(
+      'contain',
+      'Submit Buddy Statement(s)',
+    );
+    cy.get('[data-testid="item-5"] a').click();
+    cy.url().should(
+      'contain',
+      '/track-claims/your-claims/189685/document-request/5',
+    );
+  }
+
+  verifyPrimaryAlertfor5103Notice() {
+    cy.get('[data-testid="item-13"]').should('be.visible');
+    cy.get('[data-testid="item-13"] a').should('contain', 'View Details');
+    cy.get('[data-testid="item-13"] .submission-description').should(
+      'contain',
+      'Automated 5103 Notice Response',
+    );
+    cy.get('[data-testid="item-13"] a').click();
+    cy.url().should(
+      'contain',
+      '/track-claims/your-claims/189685/document-request/13',
+    );
+  }
+
+  verifyDocRequestforDefaultPage(is5103Notice = false) {
+    cy.get('#default-page').should('be.visible');
+    cy.get('va-additional-info').should('be.visible');
     cy.get('.submit-files-button')
       .shadow()
       .find('button')
       .should('contain', 'Submit Files for Review')
       .click();
+    // Check that error messages are working
     cy.get('.submit-files-button')
       .click()
       .then(() => {
@@ -269,14 +307,109 @@ class TrackClaimsPage {
           .find('#error-message');
         cy.injectAxeThenAxeCheck();
       });
-
     cy.get('va-file-input')
       .shadow()
       .find('#error-message')
       .should('contain', 'Please select a file first');
-    // File uploads don't appear to work in Nightwatch/PhantomJS
-    // TODO: switch to something that does support uploads or figure out the problem
-    // The above comment lifted from the old Nightwatch test.  Cypress can test file uploads, however this would need to be written in a future effort after our conversion effort is complete.
+    if (is5103Notice) {
+      cy.get('.due-date-header').should(
+        'contain',
+        'Needed from you by July 14, 2024',
+      );
+    } else {
+      cy.get('.due-date-header').should(
+        'contain',
+        'Needed from you by February 4, 2022 - Due 2 years ago',
+      );
+    }
+  }
+
+  verifyDocRequestBreadcrumbs(is5103Notice = false) {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
+    cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
+      'contain',
+      'VA.gov home',
+    );
+    cy.get('.usa-breadcrumb__list > li:nth-child(2) a').should(
+      'contain',
+      'Check your claims and appeals',
+    );
+    cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+      'contain',
+      'Status of your compensation claim',
+    );
+    if (is5103Notice) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        '5103 Evidence Notice',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        'Request for Submit Buddy Statement(s)',
+      );
+    }
+  }
+
+  verifyDocRequestfor5103Notice() {
+    cy.get('#automated-5103-notice-page').should('be.visible');
+    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a[data-testid="upload-evidence-link"]').should(
+      'contain',
+      'Upload your evidence here',
+    );
+    cy.get('va-checkbox')
+      .shadow()
+      .find('label')
+      .should('contain', 'I’m finished adding evidence to support my claim.');
+  }
+
+  submitEvidenceWaiver() {
+    cy.get('va-checkbox')
+      .shadow()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
+      .then(() => {
+        cy.get('#submit').click();
+        cy.wait('@askVA');
+      });
+    cy.url().should('contain', 'files');
+    cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
+  }
+
+  submitFilesForReview() {
+    cy.intercept('POST', `/v0/evss_claims/189685/documents`, {
+      body: {},
+    }).as('documents');
+    cy.get('#file-upload')
+      .shadow()
+      .find('input')
+      .selectFile(
+        {
+          contents: Cypress.Buffer.from('test file contents'),
+          fileName: 'file-upload-test.txt',
+          mimeType: 'text/plain',
+          lastModified: Date.now(),
+        },
+        { force: true },
+      )
+      .then(() => {
+        cy.get('.document-item-container va-select')
+          .shadow()
+          .find('select')
+          .select('L029');
+      });
+    cy.get('va-checkbox')
+      .shadow()
+      .find('input[type="checkbox"]')
+      .check({ force: true });
+    cy.get('va-button.submit-files-button')
+      .shadow()
+      .find('button')
+      .click();
+    cy.wait('@documents');
+    cy.get('va-alert h2').should('contain', 'We have your evidence');
   }
 }
 

@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   getClaimType,
+  getClaimPhaseTypeHeaderText,
   buildDateFormatter,
   getStatusDescription,
+  isDisabilityCompensationClaim,
 } from '../utils/helpers';
 import ClaimCard from './ClaimCard';
 
@@ -52,15 +55,28 @@ CommunicationsItem.propTypes = {
 export default function ClaimsListItem({ claim }) {
   const {
     claimDate,
+    claimPhaseDates,
+    claimTypeCode,
     decisionLetterSent,
     developmentLetterSent,
     documentsNeeded,
     status,
   } = claim.attributes;
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  // When feature flag cstClaimPhases is enabled and claim type code is for a disability
+  // compensation claim we show 8 phases instead of 5 with updated description, link text
+  // and statuses
+  const showEightPhases =
+    cstClaimPhasesEnabled && isDisabilityCompensationClaim(claimTypeCode);
+
   const inProgress = !isClaimComplete(claim);
   const showPrecomms = showPreDecisionCommunications(claim);
   const formattedReceiptDate = formatDate(claimDate);
-  const humanStatus = getStatusDescription(status);
+  const humanStatus = showEightPhases
+    ? getClaimPhaseTypeHeaderText(claimPhaseDates.phaseType)
+    : getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
   const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;

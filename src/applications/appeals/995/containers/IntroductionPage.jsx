@@ -6,6 +6,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
+import OmbInfo from '../content/OmbInfo';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -33,7 +34,7 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
+      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle()} />
       <p className="va-introtext">
         If you disagree with our decision on your claim, a Supplemental Claim
         may be an option for you.
@@ -173,56 +174,8 @@ const IntroductionPage = props => {
         bottom
       />
 
-      <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
-        <p>
-          <strong>Respondent Burden:</strong> We need this information to
-          determine your eligibility for benefits (38 U.S.C. 3471). Title 38,
-          United States Code, allows us to ask for this information. We estimate
-          that you will need an average of 15 minutes to review the
-          instructions, find the information, and complete this form. The VA
-          cannot conduct or sponsor a collection of information unless a valid
-          OMB (Office of Management and Budget) control number is displayed. You
-          are not required to respond to a collection of information if this
-          number is not displayed. Valid OMB control numbers can be located on
-          the{' '}
-          <a href="www.reginfo.gov/public/do/PRAMain" target="_blank">
-            OMB Internet Page (opens in a new tab)
-          </a>
-          . If desired, you can call <va-telephone contact="8008271000" /> to
-          get information on where to send comments or suggestions about this
-          form.
-        </p>
-        <p>
-          <strong>Privacy Act Notice:</strong> VA will not disclose information
-          collected on this form to any source other than what has been
-          authorized under the Privacy Act of 1974 or title 38, Code of Federal
-          Regulations, section 1.576 for routine uses (i.e., civil or criminal
-          law enforcement, congressional communications, epidemiological or
-          research studies, the collection of money owed to the United States,
-          litigation in which the United States is a party or has an interest,
-          the administration of VA programs and delivery of VA benefits,
-          verification of identity and status, and personnel administration) as
-          identified in the following VA systems of records published in the
-          Federal Register, 58/VA21/22/28, Compensation, Pension, Education and
-          Veterans Readiness and Employment Records -VA; 55VA26 Loan Guaranty
-          Home, Condominium and Manufactured Home Loan Applicant Records,
-          Specially Adapted Housing Applicant Records, and Vendee Loan Applicant
-          Records -VA; and 36VA29, Veterans and Armed Forces Personnel Programs
-          of Government Life Insurance -VA. Your obligation to respond is
-          required to obtain or retain benefits. VA uses your SSN to identify
-          your claims file. Providing your SSN will help ensure that your
-          records are properly associated with your claim file. Giving us your
-          SSN account information is voluntary. Refusal to provide your SSN by
-          itself will not result in the denial of benefits. VA will not deny an
-          individual benefits for refusing to provide his or her SSN unless the
-          disclosure of the SSN is required by a Federal Statute of law in
-          effect prior to January 1, 1975, and still in effect. The requested
-          information is considered relevant and necessary to determine maximum
-          benefits under the law. The responses you submit are considered
-          confidential (38 U.S.C. 5701). Information submitted is subject to
-          verification through computer matching programs with other agencies.
-        </p>
-      </va-omb-info>
+      <OmbInfo />
+      <p />
     </div>
   );
 };
@@ -238,8 +191,8 @@ IntroductionPage.propTypes = {
       prefillEnabled: PropTypes.bool,
       rootUrl: PropTypes.string,
       savedFormMessages: PropTypes.shape({}),
-      subTitle: PropTypes.string,
-      title: PropTypes.string,
+      subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     }),
     pageList: PropTypes.array,
   }),

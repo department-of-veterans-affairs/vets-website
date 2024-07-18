@@ -120,11 +120,16 @@ class IntroductionPage extends React.Component {
               .
             </p>
           )}
-          <ol>
-            <li className="process-step list-one">
-              <h3 className="vads-u-font-size--h4">Prepare</h3>
+
+          <va-process-list class="vads-u-padding-y--0">
+            {/* Prepare */}
+            <va-process-list-item>
+              <h3 className="vads-u-padding-top--0">Prepare</h3>
               {!isBDDForm && (
-                <p data-testid="process-step1-prepare">
+                <p
+                  data-testid="process-step1-prepare"
+                  className="vads-u-margin-top--2"
+                >
                   When you file a disability claim, you’ll have a chance to
                   provide evidence to support your claim. Evidence could
                   include:
@@ -132,7 +137,10 @@ class IntroductionPage extends React.Component {
               )}
               {isBDDForm && (
                 <>
-                  <p data-testid="process-step1-prepare">
+                  <p
+                    data-testid="process-step1-prepare"
+                    className="vads-u-margin-top--2"
+                  >
                     When you file a BDD claim online, we’ll ask you to upload
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
@@ -231,12 +239,16 @@ class IntroductionPage extends React.Component {
                   </p>
                 </va-alert>
               )}
-            </li>
-            <li className="process-step list-two">
-              <h3 className="vads-u-font-size--h4">Apply</h3>
+            </va-process-list-item>
+            <va-process-list-item>
+              {/* Apply */}
+              <h3 className="vads-u-padding-top--0">Apply</h3>
               {isBDDForm ? (
                 <>
-                  <p>
+                  <p
+                    data-testid="process-step2-apply"
+                    className="vads-u-margin-top--2"
+                  >
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
                   </p>
@@ -251,33 +263,44 @@ class IntroductionPage extends React.Component {
                   You can print this for your records.
                 </>
               ) : (
-                <p>
+                <p
+                  data-testid="process-step2-apply"
+                  className="vads-u-margin-top--2"
+                >
                   Complete this disability compensation benefits form. After
                   submitting the form, you’ll get a confirmation message. You
                   can print this for your records.
                 </p>
               )}
-            </li>
-            <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">VA review</h3>
-              <p>
+            </va-process-list-item>
+            <va-process-list-item>
+              {/* VA review */}
+              <h3 className="vads-u-padding-top--0">VA review</h3>
+              <p
+                data-testid="process-step3-vareview"
+                className="vads-u-margin-top--2"
+              >
                 We process applications in the order we receive them. The amount
                 of time it takes to process your claim depends on how many
                 injuries or disabilities you claim and how long it takes us to
                 gather evidence needed to decide your claim.
               </p>
-            </li>
-            <li className="process-step list-four">
-              <h3 className="vads-u-font-size--h4">Decision</h3>
-              <p>
+            </va-process-list-item>
+            <va-process-list-item>
+              {/* Decision */}
+              <h3 className="vads-u-padding-top--0">Decision</h3>
+              <p
+                data-testid="process-step4-decision"
+                className="vads-u-margin-top--2"
+              >
                 Once we’ve processed your claim, you’ll get a notice in the mail
                 with our decision.
               </p>
-            </li>
-          </ol>
+            </va-process-list-item>
+          </va-process-list>
         </div>
         <SaveInProgressIntro buttonOnly {...sipProps} />
-        {itfNotice}
+        <div className="vads-u-margin-top--2">{itfNotice}</div>
         <va-omb-info
           res-burden={25}
           omb-number={OMB_CONTROL}
@@ -310,8 +333,8 @@ IntroductionPage.propTypes = {
   }).isRequired,
   isBDDForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
-  showWizard: PropTypes.bool,
   showMaxRating: PropTypes.bool,
+  showWizard: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);

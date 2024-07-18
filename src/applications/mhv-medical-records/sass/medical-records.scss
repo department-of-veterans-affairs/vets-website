@@ -96,7 +96,7 @@
   margin: 8px 0px 16px;
 }
 
-@media (max-width: $small-screen) {
+@media (max-width: $medium-screen) {
   .medical-records-container {
     flex-direction: column;
   }
@@ -130,6 +130,10 @@
 
 va-loading-indicator {
   margin: 200px auto;
+}
+
+#new-records-indicator va-loading-indicator {
+  margin: initial;
 }
 
 .initial-fhir-load {

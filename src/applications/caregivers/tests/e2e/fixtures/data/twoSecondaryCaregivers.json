@@ -4,8 +4,10 @@
     "street2": "Apt 1",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
+  "view:secondaryTwoHomeSameAsMailingAddress": true,
   "secondaryTwoPrimaryPhoneNumber": "9872247857",
   "secondaryTwoEmail": "minimouse@disney.com",
   "view:hasPrimaryCaregiver": true,
@@ -22,8 +24,17 @@
     "street2": "Apt 1",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
+  "secondaryOneMailingAddress": {
+    "street": "16301 Phil Ritson Way",
+    "city": "Winter Garden",
+    "state": "FL",
+    "postalCode": "34787",
+    "county": "Orange"
+  },
+  "view:secondaryOneHomeSameAsMailingAddress": false,
   "secondaryOnePrimaryPhoneNumber": "8785485485",
   "secondaryOneEmail": "minimouse@disney.com",
   "secondaryOneVetRelationship": "Friend/Neighbor",
@@ -31,18 +42,20 @@
   "secondaryOneFullName": {
     "first": "George",
     "middle": "Geef",
-    "last": "Goofus"
+    "last": "Goofus",
+    "suffix": "II"
   },
-  "secondaryOneSignature": "George Geef Goofus",
+  "secondaryOneSignature": "George Geef Goofus II",
   "secondaryOneDateOfBirth": "1932-05-12",
   "view:hasSecondaryCaregiverOne": true,
-  "primaryHasHealthInsurance": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
+  "view:primaryHomeSameAsMailingAddress": true,
   "primaryPrimaryPhoneNumber": "7887754588",
   "primaryVetRelationship": "Spouse",
   "primaryFullName": {
@@ -52,19 +65,14 @@
   "primarySignature": "Mini Mouse",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
-  "veteranLastTreatmentFacility": {
-    "name": "Magic Kingdom",
-    "type": "clinic"
-  },
-  "veteranPreferredFacility": {
-    "veteranFacilityState": "FL",
-    "plannedClinic": "675"
-  },
+  "view:plannedClinicState": "FL",
+  "veteranPlannedClinic": "675",
   "veteranAddress": {
     "street": "1375 E Buena Vista Dr",
     "city": "Orlando",
     "state": "FL",
-    "postalCode": "32830"
+    "postalCode": "32830",
+    "county": "Orange"
   },
   "veteranPrimaryPhoneNumber": "7153874113",
   "veteranFullName": {
