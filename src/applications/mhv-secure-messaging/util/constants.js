@@ -193,16 +193,6 @@ export const Errors = {
   },
 };
 
-export const Links = {
-  Link: {
-    CANNOT_REPLY: {
-      CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
-      TITLE: 'Start a new message',
-      TO: Paths.COMPOSE,
-    },
-  },
-};
-
 export const Prompts = {
   Attachment: {
     REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',

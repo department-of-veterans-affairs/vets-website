@@ -26,17 +26,16 @@ const Welcome = ({ loading, name }) => (
       )}
       {!name && <>Welcome</>}
     </h2>
-    <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-      <i
-        aria-hidden="true"
+    <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg vads-u-display--flex vads-u-align-items--center">
+      <span
         className={classnames(
-          'fas',
-          'fa-user',
           'vads-u-color--primary-darker',
           'vads-u-padding-left--4',
           'vads-u-padding-right--0p5',
         )}
-      />
+      >
+        <va-icon icon="account_circle" size={3} />
+      </span>
       <va-link
         href="/profile"
         text="Profile"
