@@ -129,7 +129,7 @@ const Error = () => {
       messageText = (
         <div data-testid="canceled-message">
           <p className="vads-u-margin-top--0">
-            <span className="vads-u-font-weight--bold">{openingText}</span>
+            <span className="vads-u-font-weight--bold">{openingText} </span>
             <Trans
               i18nKey="if-you-want-to-reschedule"
               components={[

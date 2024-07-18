@@ -210,7 +210,6 @@
   "something-went-wrong-on-our-end": "Something went wrong on our end",
   "son": "Son",
   "sorry-pre-check-in-is-no-longer-available": "Sorry, pre-check-in is no longer available",
-  "sorry-something-went-wrong-on-our-end-with-filing-your-travel-claim": "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment.",
   "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
   "sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob": "We’re sorry. We couldn’t find an account that matches that last name or date of birth. Please try again.",
   "start-again": "Start again",
@@ -404,5 +403,6 @@
   "were-sorry-something-went-wrong-on-our-end": "We’re sorry. Something went wrong on our end. Please try again.",
   "review-your-contact-information-for-your-appointment_one": "Review your contact information for your appointment",
   "review-your-contact-information-for-your-appointment_other": "Review your contact information for your appointments",
-  "sorry-this-link-has-expired": "We’re sorry. This link has expired."
+  "sorry-this-link-has-expired": "We’re sorry. This link has expired.",
+  "sorry-we-cant-file-now": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within <0>30 days</0> of the appointment."
 }
