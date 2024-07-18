@@ -454,7 +454,12 @@ const responses = {
   // WellHive api
   'GET /vaos/v2/wellhive/referralDetails': (req, res) => {
     return res.json({
-      patientDetails,
+      data: patientDetails.data,
+    });
+  },
+  'GET /vaos/v2/wellhive/referralDetails/:referralId': (req, res) => {
+    return res.json({
+      data: patientDetails.data,
     });
   },
   'GET /vaos/v2/wellhive/appointments': (req, res) => {

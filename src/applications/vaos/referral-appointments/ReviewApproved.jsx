@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { getPatientDetails } from '../services/referral';
+import { getReferralById } from '../services/referral';
 
 export default function ReviewApproved() {
   const [patientData, setPatientData] = useState({});
@@ -14,7 +14,7 @@ export default function ReviewApproved() {
       let details = {};
       setError(false);
       try {
-        details = await getPatientDetails();
+        details = await getReferralById(123);
       } catch (networkError) {
         setError(true);
       }
