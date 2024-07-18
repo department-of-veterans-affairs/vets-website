@@ -1,7 +1,6 @@
 import React from 'react';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import recordEvent from '~/platform/monitoring/record-event';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
@@ -35,19 +34,18 @@ const DebtSummaryCard = ({ debt }) => {
           </span>
         </h3>
         {debtCardSubHeading}
-        <Link
-          className="vads-u-font-weight--bold"
+        <va-link
+          active
           data-testid="debt-details-button"
           onClick={() => {
             recordEvent({ event: 'cta-link-click-debt-summary-card' });
             setActiveDebt(debt);
           }}
-          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+          href={`/manage-va-debt/summary/debt-balances/details/${debt.fileNumber +
+            debt.deductionCode}`}
+          text="Check details and resolve this debt"
           aria-label={`Check details and resolve this ${debtCardHeading}`}
-        >
-          Check details and resolve this debt
-          <va-icon icon="navigate_next" size={3} />
-        </Link>
+        />
       </va-card>
     </li>
   );
