@@ -95,6 +95,7 @@ const HeaderLayout = ({
                   ref={alertExpandableRef}
                   trigger={learnMoreAlertTrigger}
                   data-dd-action-name={learnMoreAlertTrigger}
+                  data-testid="learn-more-alert"
                 >
                   <div>
                     <p>
