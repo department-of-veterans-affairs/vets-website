@@ -277,26 +277,14 @@ function additionalConsiderationsQuestionTitleText(
   let totalPages;
 
   if (rudisillFlag) {
-    // Adjust the order to handle duplicate step 1
-    switch (pageName) {
-      case 'active-duty-kicker':
-        pageNumber = 1;
-        break;
-      case 'reserve-kicker':
-        pageNumber = 2;
-        break;
-      case 'academy-commission':
-        pageNumber = 3;
-        break;
-      case 'rotc-commission':
-        pageNumber = 4;
-        break;
-      case 'loan-payment':
-        pageNumber = 5;
-        break;
-      default:
-        pageNumber = order;
-    }
+    const pageOrder = {
+      'active-duty-kicker': 1,
+      'reserve-kicker': 2,
+      'academy-commission': 3,
+      'rotc-commission': 4,
+      'loan-payment': 5,
+    };
+    pageNumber = pageOrder[pageName];
     totalPages = 5;
   } else {
     pageNumber = isUnsure ? order - 1 : order;
