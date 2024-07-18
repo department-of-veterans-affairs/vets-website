@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import HowDoIPay from '../components/HowDoIPay';
+import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
 import { getCurrentDebt } from '../utils/page';
@@ -30,6 +32,13 @@ const DebtDetails = () => {
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
+
+  const howToUserData = {
+    fileNumber: currentDebt.fileNumber,
+    payeeNumber: currentDebt.payeeNumber,
+    personEntitled: currentDebt.personEntitled,
+    deductionCode: currentDebt.deductionCode,
+  };
 
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
@@ -145,6 +154,8 @@ const DebtDetails = () => {
             ) : null}
           </>
         )}
+        <HowDoIPay userData={howToUserData} />
+        <NeedHelp />
         <va-need-help id="needHelp" class="vads-u-margin-top--4">
           <div slot="content">
             <p>
