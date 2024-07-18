@@ -1640,6 +1640,7 @@ const formConfig = {
               'ui:description': (
                 <div>
                   <br />
+                  <br />
                   <ul>
                     <li>
                       You can select a date up to one year in the past. We may
