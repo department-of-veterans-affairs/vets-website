@@ -42,10 +42,10 @@ export const FormSignature = ({
 }) => {
   // Input states
   const [signature, setSignature] = useState({
-    value: formData.signature ?? '', // Pre-populate with existing signature if available
+    value: formData?.signature ?? '', // Pre-populate with existing signature if available
     dirty: formData?.signature?.length > 0, // will be dirty if any prev signature is present
   });
-  const [checked, setChecked] = useState(formData.AGREED ?? false);
+  const [checked, setChecked] = useState(formData?.AGREED ?? false);
 
   // Validation states
   const [signatureError, setSignatureError] = useState(null);
