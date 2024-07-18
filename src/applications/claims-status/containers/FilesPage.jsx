@@ -30,7 +30,7 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 class FilesPage extends React.Component {
   componentDidMount() {
     const { claim, lastPage, loading } = this.props;
-    setTabDocumentTitle(claim, 'Overview');
+    setTabDocumentTitle(claim, 'Files');
 
     setTimeout(() => {
       setPageFocus(lastPage, loading);
