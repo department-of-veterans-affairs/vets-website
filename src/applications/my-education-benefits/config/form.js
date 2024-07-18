@@ -278,12 +278,24 @@ function additionalConsiderationsQuestionTitleText(
 
   if (rudisillFlag) {
     // Adjust the order to handle duplicate step 1
-    if (pageName === 'active-duty-kicker') {
-      pageNumber = 1;
-    } else if (pageName === 'reserve-kicker') {
-      pageNumber = 2;
-    } else {
-      pageNumber = order;
+    switch (pageName) {
+      case 'active-duty-kicker':
+        pageNumber = 1;
+        break;
+      case 'reserve-kicker':
+        pageNumber = 2;
+        break;
+      case 'academy-commission':
+        pageNumber = 3;
+        break;
+      case 'rotc-commission':
+        pageNumber = 4;
+        break;
+      case 'loan-payment':
+        pageNumber = 5;
+        break;
+      default:
+        pageNumber = order;
     }
     totalPages = 5;
   } else {
