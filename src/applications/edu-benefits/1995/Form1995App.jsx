@@ -1,52 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import formConfig from './config/form';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 export default function Form1995Entry({ location, children }) {
-  const {
-    useToggleValue,
-    TOGGLE_NAMES,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-  const isAppToggleLoading = useToggleLoadingValue(
-    TOGGLE_NAMES.merge1995And5490,
-  );
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
   const toggleValue = useToggleValue(TOGGLE_NAMES.merge1995And5490);
-
-  const [currentToggleValue, setCurrentToggleValue] = useState(() => {
-    // Initialize state with the current toggle value or a default value
-    const storedToggleValue = localStorage.getItem('toggleValue');
-    return storedToggleValue ? JSON.parse(storedToggleValue) : toggleValue;
-  });
+  // eslint-disable-next-line no-unused-vars
+  const [_, setLocalToggleValue] = useLocalStorage('toggleValue', toggleValue);
 
   useEffect(
     () => {
-      if (!isAppToggleLoading && toggleValue !== null) {
-        setCurrentToggleValue(toggleValue);
-      }
+      setLocalToggleValue(toggleValue);
     },
-    [toggleValue, isAppToggleLoading],
-  );
-
-  useEffect(
-    () => {
-      if (!isAppToggleLoading) {
-        localStorage.setItem('toggleValue', JSON.stringify(currentToggleValue));
-      }
-    },
-    [currentToggleValue, isAppToggleLoading],
-  );
-
-  useEffect(
-    () => {
-      if (!isAppToggleLoading) {
-        setCurrentToggleValue(toggleValue);
-      }
-    },
-    [location.pathname, isAppToggleLoading, toggleValue],
+    [toggleValue, setLocalToggleValue],
   );
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

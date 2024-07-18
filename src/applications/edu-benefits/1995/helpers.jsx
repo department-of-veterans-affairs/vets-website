@@ -1,15 +1,15 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 
-// const toggle = localStorage.getItem('toggleValue');
-
 export const isProductionOfTestProdEnv = automatedTest => {
+  const toggle = localStorage.getItem('toggleValue');
   // console.log(toggle, 'toggleValue');
   return (
-    environment.isProduction() ||
+    // environment.isProduction() ||
+    toggle ||
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
