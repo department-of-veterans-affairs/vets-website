@@ -8,6 +8,8 @@ import {
   arpWebOAuthOptions,
 } from './constants';
 
+export const arpProdClientId = 'fe0d4b2cac7935e7eec5946b8ee31643';
+
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
@@ -103,6 +105,7 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
+      clientId: arpProdClientId,
     },
     OAuthEnabled: true,
     requiresVerification: false,

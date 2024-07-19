@@ -8,6 +8,8 @@ import {
   arpWebOAuthOptions,
 } from './constants';
 
+export const arpStagingClientId = 'ce6db4d7974daf061dccdd21ba9add14';
+
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
@@ -103,6 +105,7 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
+      clientId: arpStagingClientId,
     },
     OAuthEnabled: true,
     requiresVerification: false,
