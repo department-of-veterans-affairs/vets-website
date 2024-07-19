@@ -45,7 +45,7 @@ const ConfirmationDenied = ({
         <p>
           Your denial letter, which explains why you are ineligible, is now
           available. A physical copy will also be mailed to your mailing
-          address.
+          address.{' '}
         </p>
         <a
           type="button"

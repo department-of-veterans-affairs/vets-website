@@ -45,13 +45,13 @@ const ConfirmationApproved = ({
           We reviewed your application and have determined that you are entitled
           to educational benefits under the Post-9/11 GI Bill. Your Certificate
           of Eligibility is now available. A physical copy will also be mailed
-          to your mailing address.
+          to your mailing address.{' '}
         </p>
         <va-link
           download
           href={LETTER_URL}
           text="Download your Certificate of Eligibility"
-          className="vads-u-padding-bottom--2"
+          class="vads-u-padding-bottom--2"
         />
         <br />
         <br />
@@ -102,7 +102,11 @@ const ConfirmationApproved = ({
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}
-          <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+          <a
+            href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Building Your Future with the GI Bill Series
           </a>
           .
