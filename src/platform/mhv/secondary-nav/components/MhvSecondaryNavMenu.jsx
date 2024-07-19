@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
 /**
@@ -43,15 +42,6 @@ const MhvSecondaryNavMenu = ({ items }) => {
         );
       });
   };
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const secNavEnabled = useToggleValue(
-    TOGGLE_NAMES.mhvSecondaryNavigationEnabled,
-  );
-
-  if (!secNavEnabled) {
-    return null;
-  }
 
   const activeItem = findActiveItem();
   const navContent = items.map((item, index) => {

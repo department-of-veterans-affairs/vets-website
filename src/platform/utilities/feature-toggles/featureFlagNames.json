@@ -110,7 +110,6 @@
   "manageDependents": "dependents_management",
   "medicalCopaysHtmlMedicalStatementsViewEnabled": "medical_copays_html_medical_statements_view_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
-  "mhvSecondaryNavigationEnabled": "mhv_secondary_navigation_enabled",
   "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvHelpdeskInformationEnabled": "mhv_helpdesk_information_enabled",
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
