@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import formConfig from '../../../config/form';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
-import transformForSubmit from '../../config/submitTransformer';
+import transformForSubmit from '../../../config/submitTransformer';
 
 describe('Submit transformer', () => {
   it('should add the file type to submitted files', () => {
