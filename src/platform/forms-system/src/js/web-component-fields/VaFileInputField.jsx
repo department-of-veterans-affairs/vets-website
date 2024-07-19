@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   getFormContent,
@@ -41,6 +42,20 @@ const VaFileInputField = props => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const { formNumber } = getFormContent();
+  const formData = useSelector(state => state.form.data);
+
+  const areFilesEqual = (file1, file2) => {
+    if (file1 === null || file2 === null) {
+      return false;
+    }
+
+    return (
+      file1.name === file2.name &&
+      file1.size === file2.size &&
+      file1.type === file2.type &&
+      file1.lastModified === file2.lastModified
+    );
+  };
 
   const onFileUploaded = useCallback(
     uploadedFile => {
@@ -54,8 +69,20 @@ const VaFileInputField = props => {
   const handleVaChangeBug = event => {
     let newFile = event.detail.files[0];
 
-    if (file && newFile.name === file.name && newFile.size === file.size) {
+    // if the user is deleting the file, the files will be the same
+    if (areFilesEqual(file, newFile)) {
       newFile = null;
+      dispatch(
+        setData({
+          ...formData,
+          uploadedFile: {
+            confirmationCode: null,
+            isEncrypted: null,
+            name: null,
+            size: null,
+          },
+        }),
+      );
     }
 
     setFile(newFile);
@@ -67,13 +94,18 @@ const VaFileInputField = props => {
     e => {
       const newFile = handleVaChangeBug(e);
 
-      if (!props.onVaChange) {
-        return dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
+      if (!newFile) {
+        return;
       }
 
-      return props.onVaChange();
+      if (!props.onVaChange) {
+        dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
+        return;
+      }
+
+      props.onVaChange();
     },
-    [file, dispatch, onFileUploaded],
+    [file, dispatch, onFileUploaded, props.onVaChange],
   );
 
   return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
