@@ -14,6 +14,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
 import SubTaskContainer from '../subtask/SubTaskContainer';
 import InformalConference from '../components/InformalConference';
+import InformalConferenceContact from '../components/InformalConferenceContact';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -28,6 +29,8 @@ import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConferenceChoice';
 import InformalConferenceReview from '../components/InformalConferenceReview';
+import informalConferenceContact from '../pages/informalConference';
+import InformalConferenceContactReview from '../components/InformalConferenceContactReview';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
@@ -38,6 +41,7 @@ import {
   showNewHlrContent,
   hideNewHlrContent,
   onFormLoaded,
+  showConferenceContact,
   showConferenceVeteranPage,
   showConferenceRepPages,
 } from '../utils/helpers';
@@ -232,6 +236,17 @@ const formConfig = {
           // new page choices: 'yes' or 'no'
           CustomPage: InformalConference,
           CustomPageReview: InformalConferenceReview,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        conferenceContact: {
+          path: 'informal-conference/contact',
+          title: 'Scheduling your informal conference',
+          depends: showConferenceContact,
+          uiSchema: informalConferenceContact.uiSchema,
+          schema: informalConferenceContact.schema,
+          // new page choices: 'me' or 'rep'
+          CustomPage: InformalConferenceContact,
+          CustomPageReview: InformalConferenceContactReview,
           scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {
