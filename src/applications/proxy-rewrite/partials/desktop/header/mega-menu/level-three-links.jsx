@@ -70,7 +70,9 @@ const LevelThreeLinks = ({ section, aboutVA = false }) => {
             >
               {column.link.text}
             </a>
-            <p>{column.description}</p>
+            <p className="vads-u-padding--0 vads-u-margin--0">
+              {column.description}
+            </p>
           </div>
         </div>
       </div>

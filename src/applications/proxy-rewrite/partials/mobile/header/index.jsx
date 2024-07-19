@@ -6,9 +6,20 @@ import { keyDownHandler } from '../../../utilities/keydown';
 
 const MobileHeader = ({ isDesktop, megaMenuData }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
+  const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
 
-  const openMenu = () => {
+  const clearMenu = () => {
+    setLevelOneIndexOpen(null);
+    setLevelTwoMenuOpen(null);
+  };
+
+  const toggleMenu = () => {
     setMenuIsOpen(!menuIsOpen);
+
+    if (menuIsOpen) {
+      clearMenu();
+    }
   };
 
   return (
@@ -150,8 +161,8 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
               id="header-menu-button"
               className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
               type="button"
-              onClick={openMenu}
-              onKeyDown={event => keyDownHandler(event, openMenu)}
+              onClick={toggleMenu}
+              onKeyDown={event => keyDownHandler(event, toggleMenu)}
             >
               <span>{menuIsOpen ? 'Close' : 'Menu'}</span>
               <svg
@@ -196,8 +207,12 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
         </div>
         <MegaMenu
           isDesktop={isDesktop}
+          levelOneIndexOpen={levelOneIndexOpen}
+          levelTwoMenuOpen={levelTwoMenuOpen}
           megaMenuData={megaMenuData}
           menuIsOpen={menuIsOpen}
+          setLevelOneIndexOpen={setLevelOneIndexOpen}
+          setLevelTwoMenuOpen={setLevelTwoMenuOpen}
         />
       </nav>
     </header>

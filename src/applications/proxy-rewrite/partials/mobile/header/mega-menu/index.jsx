@@ -7,9 +7,15 @@ import LevelThreeLinks from './level-three-links';
 import { keyDownHandler } from '../../../../utilities/keydown';
 import Search from '../../../search';
 
-const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
-  const [levelOneIndexOpen, setLevelOneIndexOpen] = useState(null);
-  const [levelTwoMenuOpen, setLevelTwoMenuOpen] = useState(null);
+const MegaMenu = ({
+  isDesktop,
+  levelOneIndexOpen,
+  levelTwoMenuOpen,
+  megaMenuData,
+  menuIsOpen,
+  setLevelOneIndexOpen,
+  setLevelTwoMenuOpen,
+}) => {
   const [previouslyClickedMenu, setPreviouslyClickedMenu] = useState(null);
   const [linkShouldFocus, setLinkShouldFocus] = useState(false);
 
@@ -36,8 +42,15 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
     [levelTwoMenuOpen],
   );
 
-  const openLevelOne = index => {
-    setLevelOneIndexOpen(index === levelOneIndexOpen ? null : index);
+  const toggleLevelOne = index => {
+    // i.e. the click was meant to close the menu
+    const menuIsAlreadyOpen = index === levelOneIndexOpen;
+
+    setLevelOneIndexOpen(menuIsAlreadyOpen ? null : index);
+
+    if (menuIsAlreadyOpen) {
+      setLevelTwoMenuOpen();
+    }
   };
 
   const buildLevelOneLinks = (sectionData, index) => {
@@ -50,8 +63,8 @@ const MegaMenu = ({ isDesktop, megaMenuData, menuIsOpen }) => {
               className="header-menu-item-button level1 vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
               id={`${sectionData.title}--${index + 1}`}
               type="button"
-              onClick={() => openLevelOne(index)}
-              onKeyDown={event => keyDownHandler(event, openLevelOne, index)}
+              onClick={() => toggleLevelOne(index)}
+              onKeyDown={event => keyDownHandler(event, toggleLevelOne, index)}
             >
               {sectionData.title}
               <svg
@@ -165,6 +178,10 @@ MegaMenu.propTypes = {
   isDesktop: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.array.isRequired,
   menuIsOpen: PropTypes.bool.isRequired,
+  setLevelOneIndexOpen: PropTypes.func.isRequired,
+  setLevelTwoMenuOpen: PropTypes.func.isRequired,
+  levelOneIndexOpen: PropTypes.number,
+  levelTwoMenuOpen: PropTypes.string,
 };
 
 export default MegaMenu;
