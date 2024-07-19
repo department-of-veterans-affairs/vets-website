@@ -5,9 +5,10 @@ import applicantInformation from 'platform/forms/pages/applicantInformation';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as personId from 'platform/forms/definitions/personId';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -17,12 +18,9 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import sponsorFullNameUI from '../../definitions/sponsorFullName';
 
-import * as personId from 'platform/forms/definitions/personId';
-
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { transform } from '../helpers';
+import { transform, introductionPage } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
@@ -62,7 +60,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: introductionPage(),
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     fullName,
