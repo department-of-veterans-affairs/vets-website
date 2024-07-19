@@ -13,4 +13,19 @@ describe('Submit transformer', () => {
     expect(result.primaryEOB[0].documentType).to.equal('EOB');
     expect(result.secondaryEOB[0].documentType).to.equal('EOB');
   });
+
+  it('should set primary contact name to false if not present', () => {
+    const result = JSON.parse(
+      transformForSubmit(formConfig, {
+        ...mockData,
+        certifierName: undefined,
+        applicantName: undefined,
+      }),
+    );
+    expect(result.medicalUpload[0].documentType).to.equal(
+      'itemized billing statement',
+    );
+    expect(result.primaryEOB[0].documentType).to.equal('EOB');
+    expect(result.secondaryEOB[0].documentType).to.equal('EOB');
+  });
 });
