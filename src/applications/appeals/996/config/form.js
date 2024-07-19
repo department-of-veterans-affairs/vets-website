@@ -23,6 +23,7 @@ import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
+import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
@@ -30,7 +31,13 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
-import { mayHaveLegacyAppeals } from '../utils/helpers';
+import {
+  mayHaveLegacyAppeals,
+  showNewHlrContent,
+  hideNewHlrContent,
+  onFormLoaded,
+} from '../utils/helpers';
+import { homelessPageTitle } from '../content/homeless';
 import NeedHelp from '../content/NeedHelp';
 import { formTitle, FormSubTitle } from '../content/title';
 
@@ -39,7 +46,12 @@ import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
+import {
+  focusRadioH3,
+  focusH3,
+  focusHomelessHeader,
+  focusOnAlert,
+} from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -83,7 +95,7 @@ const formConfig = {
   verifyRequiredPrefill: true,
   transformForSubmit: transform,
 
-  // beforeLoad: props => { console.log('form config before load', props); },
+  onFormLoaded,
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
   //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
   // },
@@ -129,11 +141,11 @@ const formConfig = {
           // initialData,
         },
         homeless: {
-          title: 'Homelessness question',
+          title: homelessPageTitle,
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusHomelessHeader, // focusH3,
         },
         ...contactInfo,
       },
@@ -180,10 +192,19 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: formData => mayHaveLegacyAppeals(formData),
+          depends: formData =>
+            hideNewHlrContent(formData) && mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },
+          scrollAndFocusTarget: focusH3,
+        },
+        authorization: {
+          title: 'Authorization',
+          path: 'authorization',
+          uiSchema: authorization.uiSchema,
+          schema: authorization.schema,
+          depends: showNewHlrContent,
           scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
