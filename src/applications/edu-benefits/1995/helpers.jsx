@@ -1,15 +1,18 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 
+function convertToggle() {
+  const url = window.location.href;
+  const params = new URLSearchParams(new URL(url).search);
+  const toggleValues = params.get('toggle');
+  return toggleValues?.toLowerCase() === 'false';
+}
 export const isProductionOfTestProdEnv = automatedTest => {
-  return (
-    environment.isProduction() ||
-    automatedTest ||
-    (global && global?.window && global?.window?.buildType)
-  );
+  const toggle = convertToggle();
+  return toggle !== undefined ? toggle : automatedTest;
 };
 
 export const introductionPage = (automatedTest = false) => {
