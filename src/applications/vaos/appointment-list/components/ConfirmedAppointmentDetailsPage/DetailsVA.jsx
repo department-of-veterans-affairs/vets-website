@@ -28,6 +28,7 @@ import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
 
 function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -82,8 +83,9 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign && !isPhoneAppointment) {
+  if (featureAppointmentDetailsRedesign) {
     if (isCompAndPenAppointment) return <ClaimExamLayout data={appointment} />;
+    if (isPhoneAppointment) return <PhoneLayout data={appointment} />;
     return <InPersonLayout data={appointment} />;
   }
 
@@ -223,7 +225,7 @@ DetailsVA.propTypes = {
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
       clinicPhysicalLocation: PropTypes.string,
     }),
   }),

@@ -68,7 +68,11 @@ describe('<BenefitsForm>', () => {
   });
 
   it('should render spouse active duty field', () => {
-    const props = { ...defaultProps, militaryStatus: 'spouse' };
+    const props = {
+      ...defaultProps,
+      giBillChapter: '33b',
+      militaryStatus: 'spouse',
+    };
     const tree = mount(<BenefitsForm {...props} />);
     checkExpectedDropdowns(tree, [
       'militaryStatus',
@@ -193,5 +197,23 @@ describe('<BenefitsForm>', () => {
       },
     ]);
     wrapper.unmount();
+  });
+
+  it('should render info Post Bill when military status active duty ', () => {
+    const props = { ...defaultProps, militaryStatus: 'active duty' };
+    const tree = mount(<BenefitsForm {...props} />);
+    const div = tree.find('div.military-status-info.warning.form-group');
+    expect(div.text()).to.equal(
+      'Post 9/11 GI Bill recipients serving on Active Duty (or transferee spouses of a service member on active duty) are not eligible to receive a monthly housing allowance.',
+    );
+    tree.unmount();
+  });
+
+  it('should render header when showHeader is true', () => {
+    const props = { ...defaultProps, showHeader: true };
+    const tree = mount(<BenefitsForm {...props} />);
+    const header = tree.find('#benefits-header');
+    expect(header.text()).to.equal('Your benefits');
+    tree.unmount();
   });
 });

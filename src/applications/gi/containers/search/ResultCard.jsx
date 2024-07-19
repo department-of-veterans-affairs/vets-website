@@ -49,6 +49,7 @@ export function ResultCard({
     vetTecProvider,
     schoolProvider,
     employerProvider,
+    tuitionOutOfState,
     preferredProvider,
     programCount,
     programLengthInHours,
@@ -221,7 +222,10 @@ export function ResultCard({
     if (qualifier === null) {
       return value;
     }
-    return <span>{formatCurrency(value)}</span>;
+    const lesserVal = tuitionOutOfState
+      ? Math.min(value, tuitionOutOfState)
+      : value;
+    return <span>{formatCurrency(lesserVal)}</span>;
   };
 
   const tuition = estimate(estimated.tuition);

@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { scrubDescription } from '../../utils/helpers';
 
 import DueDate from '../DueDate';
 import AddFilesFormOld from '../AddFilesFormOld';
+import AddFilesForm from '../claim-files-tab/AddFilesForm';
+
+const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
 export default function DefaultPage({
   field,
@@ -20,8 +24,8 @@ export default function DefaultPage({
   uploading,
 }) {
   return (
-    <div id="default-page">
-      <h1 className="claims-header">{item.displayName}</h1>
+    <div id="default-page" className="vads-u-margin-bottom--3">
+      <h1 className="claims-header">Request for {item.displayName}</h1>
       {item.status === 'NEEDED_FROM_YOU' ? (
         <DueDate date={item.suspenseDate} />
       ) : null}
@@ -34,19 +38,38 @@ export default function DefaultPage({
         </div>
       ) : null}
       <p>{scrubDescription(item.description)}</p>
-      <AddFilesFormOld
-        field={field}
-        progress={progress}
-        uploading={uploading}
-        files={files}
-        backUrl={backUrl}
-        onSubmit={onSubmit}
-        onAddFile={onAddFile}
-        onRemoveFile={onRemoveFile}
-        onFieldChange={onFieldChange}
-        onCancel={onCancel}
-        onDirtyFields={onDirtyFields}
-      />
+      <Toggler toggleName={cstUseClaimDetailsV2}>
+        <Toggler.Disabled>
+          <AddFilesFormOld
+            field={field}
+            progress={progress}
+            uploading={uploading}
+            files={files}
+            backUrl={backUrl}
+            onSubmit={onSubmit}
+            onAddFile={onAddFile}
+            onRemoveFile={onRemoveFile}
+            onFieldChange={onFieldChange}
+            onCancel={onCancel}
+            onDirtyFields={onDirtyFields}
+          />
+        </Toggler.Disabled>
+        <Toggler.Enabled>
+          <AddFilesForm
+            field={field}
+            progress={progress}
+            uploading={uploading}
+            files={files}
+            backUrl={backUrl}
+            onSubmit={onSubmit}
+            onAddFile={onAddFile}
+            onRemoveFile={onRemoveFile}
+            onFieldChange={onFieldChange}
+            onCancel={onCancel}
+            onDirtyFields={onDirtyFields}
+          />
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 }

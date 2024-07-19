@@ -28,7 +28,7 @@ describe('<VAPServiceEditModalActionButtons/>', () => {
       'Children',
     );
 
-    expect(component.find('.fa-trash'), 'renders delete icon').to.have.lengthOf(
+    expect(component.find('va-icon'), 'renders delete icon').to.have.lengthOf(
       1,
     );
 
@@ -60,7 +60,7 @@ describe('<VAPServiceEditModalActionButtons/>', () => {
     ).to.not.contain('Children');
 
     expect(
-      component.find('.fa-trash'),
+      component.find('va-icon'),
       'hides delete icon correctly',
     ).to.have.lengthOf(0);
 

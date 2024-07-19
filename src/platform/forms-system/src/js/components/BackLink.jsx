@@ -71,7 +71,7 @@ const BackLink = ({ router, routes, location, form, setData }) => {
 
   return (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-      <a href={link} onClick={onClick}>
+      <a href={link} onClick={onClick} className="vads-u-padding--1">
         <va-icon icon="navigate_before" size={3} />
         Back
       </a>

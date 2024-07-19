@@ -7,8 +7,8 @@ import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 import {
-  reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
+  selectRadioWebComponent,
   getAllPages,
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
@@ -56,6 +56,10 @@ const testConfig = createTestConfig(
               'applicantAddress',
               data.applicantAddress,
             );
+            selectRadioWebComponent(
+              'applicantNewAddress',
+              data.applicantNewAddress,
+            );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -77,8 +81,17 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name = data.applicantName;
-            reviewAndSubmitPageFlow(name);
+            cy.get('va-text-input')
+              .shadow()
+              .get('#inputField')
+              .type(data.signature);
+            cy.get(`va-checkbox`)
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.findByText('Submit application', {
+              selector: 'button',
+            }).click();
           });
         });
       },

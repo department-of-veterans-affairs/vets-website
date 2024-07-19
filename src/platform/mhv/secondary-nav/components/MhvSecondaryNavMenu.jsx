@@ -71,7 +71,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
       className="vads-u-background-color--primary vads-u-color--white"
       aria-label="My HealtheVet"
     >
-      <div className="mhv-c-sec-nav-bar vads-u-display--flex vads-u-font-family--sans vads-font-weight-regular usa-grid usa-grid-full row">
+      <div className="vads-u-font-family--sans vads-font-weight-regular usa-grid usa-grid-full row">
         <div className="mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full">
           {navContent}
         </div>

@@ -12,7 +12,7 @@ export const authorizationAlertContent = onAnchorClick => (
       Authorize your doctor to release your records or upload them yourself
     </h3>
     <p className="vads-u-margin-bottom--0">
-      If you want us to request your private medical records from your doctor,
+      If you want us to request your non-VA medical records from your doctor,
       you must authorize the release.
     </p>
     <a href="#privacy-agreement" onClick={onAnchorClick} id="checkbox-anchor">
@@ -20,7 +20,8 @@ export const authorizationAlertContent = onAnchorClick => (
     </a>
     <p className="vads-u-margin-bottom--0">
       Or, go back a page and select <strong>No</strong> where we ask about
-      private medical records. Then you can upload your records.
+      non-VA medical records. Then you can upload your records or submit a
+      21-4142 and 21-4142a after submitting this form.Go back to upload records
     </p>
     <Link to={`/${EVIDENCE_PRIVATE_REQUEST}`}>Go back to upload records</Link>
   </>

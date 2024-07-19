@@ -2734,10 +2734,10 @@
     js-yaml "4.1.0"
     nyc "15.1.0"
 
-"@cypress/request@^2.88.11":
-  version "2.88.12"
-  resolved "https://registry.yarnpkg.com/@cypress/request/-/request-2.88.12.tgz#ba4911431738494a85e93fb04498cb38bc55d590"
-  integrity sha512-tOn+0mDZxASFM+cuAP9szGUGPI1HwWVSvdzm7V4cCsPdFTx6qMj29CwaQmRAMIEhORIUBFBsYROYJcveK4uOjA==
+"@cypress/request@^3.0.0":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@cypress/request/-/request-3.0.1.tgz#72d7d5425236a2413bd3d8bb66d02d9dc3168960"
+  integrity sha512-TWivJlJi8ZDx2wGOw1dbLuHJKUYX7bWySw377nlnGOW3hP9/MUKIsEdXT/YngWxVdgNCHRBmFlBipE+5/2ZZlQ==
   dependencies:
     aws-sign2 "~0.7.0"
     aws4 "^1.8.0"
@@ -2752,7 +2752,7 @@
     json-stringify-safe "~5.0.1"
     mime-types "~2.1.19"
     performance-now "^2.1.0"
-    qs "~6.10.3"
+    qs "6.10.4"
     safe-buffer "^5.1.2"
     tough-cookie "^4.1.3"
     tunnel-agent "^0.6.0"
@@ -2863,45 +2863,47 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^42.1.1":
-  version "42.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-42.1.1.tgz#9aa6ec4f7c69816e4aa512dae0f690a5d19503a4"
-  integrity sha512-UYb+jd9GJo/f++Kg00M2xqIQyTRNYJftzKWECJf60aFlETE+PAgpgA+pVrfbTWxIqb+ixJLRzkeDaLaYD14rpg==
+"@department-of-veterans-affairs/component-library@^43.0.1":
+  version "43.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-43.0.1.tgz#4675b74e90d38a8c320691bf623f7f75c303d667"
+  integrity sha512-LzqoKjysgXU9gCTdDKyrzoDyX2PugaJfv9tTxUwY3oaL4zXDfl/zMYdViKWWo76F5WQeN2o9Ss/eFPdR4mdbSQ==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "workspace:*"
-    "@department-of-veterans-affairs/web-components" "workspace:*"
+    "@department-of-veterans-affairs/react-components" "28.1.0"
+    "@department-of-veterans-affairs/web-components" "11.2.6"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.0.tgz#cfa903ab54b1a1728cd0226f9b9a6b6fd1e0b2b1"
-  integrity sha512-OAksaHLHwPMynDxjbuhhkGK85Y1rsdI335dFkyhyp5iq8Fcvr9MaVS4nrOEZ89mOYNOyMrq4cxfqmWWzVy1/UQ==
+"@department-of-veterans-affairs/css-library@^0.8.1":
+  version "0.8.3"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.3.tgz#b5bf4fe1cb0ac5193ae8182b0e14ef2da8b4645a"
+  integrity sha512-nQRTmjZKbFFHsBiW9kK6QlWKi9KJcPnDPvWLt2i6fJu8icNoET19n4TE5JPJPdR63zzMtgJUfYaAXd81HMB/uA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
+    "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.3.tgz#91673fe8a620addc5a83c2d744fbfba9332d83de"
-  integrity sha512-Sy/d+MhD0W/33DPrF/KBosukMHGK6grkTmbc0SdpdyrYpUDIdj5UqJspHGf1K6NW8zKtmlt72s8IVjxUKhW7Fw==
+"@department-of-veterans-affairs/css-library@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
+  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
+    "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.18.0":
-  version "1.18.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.0.tgz#4a013cfc06f50ee6abddec2ba87244e3ea0c8dc0"
-  integrity sha512-91QoWawCGm7REpUjShx1I4xwwYdJehCyjccokafVg/YczNSvEf28VVHYWvovhmCF5eCRRTZic+9adwbqdi0fkg==
+"@department-of-veterans-affairs/eslint-plugin@^1.18.2":
+  version "1.18.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.2.tgz#98c06b3146ce8c9c98cfd5de6ba7943cae0081ad"
+  integrity sha512-reeGP82EAEY4azLB3Og+o/KcWIbyDuKqShTT5NHHAgH9SvXsgqK/JTvrVmnvNDxWM0RV5UR3DkwmecuGU+8W+w==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.5":
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.5.tgz#20ce74597501244ba73f1e390b098c34854dd4b3"
-  integrity sha512-tYgmOKomXVqUEMN4ajXx/9mVfZwp8yTCjiC8UYG094jyWS2uQR2PhGEzpwp2XDCK1hRFFiV+CK5qROzeORfDWA==
+"@department-of-veterans-affairs/formation@11.0.12":
+  version "11.0.12"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.12.tgz#9f06fd3f4bb006fa001e0bc54a1391932610ca60"
+  integrity sha512-GIMB56GYDP9PrZvefw7VWGoWZsOI7l3otEQLaoPP/z3AxzkORoDWkrSn5+yHiuST3z4BQfiA8fEKLOl1/jZJ0w==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -2917,7 +2919,7 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@workspace:*":
+"@department-of-veterans-affairs/react-components@28.1.0":
   version "28.1.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
   integrity sha512-If25Cmvnt9R/9mG9MXKPLgmpkCI07mCRXZUilBJsIxty6k5Y5GKfEtyXESJgwsD+e2uSEJwFveHpzL7uD/wS7w==
@@ -2958,12 +2960,12 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@workspace:*":
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-9.1.2.tgz#237a8ef02c32a3d29ebcf4539d06e34db88a5884"
-  integrity sha512-qVYKkDifdPfRHibcFmXuxHo8dt0lIhX3NmO59G3hsfzDvKckqd/nL0XT7EhkOMtClLWpkrygE5NRCHKimOJxjA==
+"@department-of-veterans-affairs/web-components@11.2.6":
+  version "11.2.6"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-11.2.6.tgz#d865868c2faddfbe7b81e53609657685fa7ef09e"
+  integrity sha512-M8NBejw/U12ziBE4COWSR5JwBiuuvmIK752B9iKgBZotXpNElqg38aAqtWdRzc9BXrHohRkbwtFfm8+r6ZTEDA==
   dependencies:
-    "@department-of-veterans-affairs/css-library" "^0.7.3"
+    "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
@@ -4656,11 +4658,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.14.9.tgz#bc43c990c3c9be7281868bbc7b8fdd6e2b57adfa"
   integrity sha512-qjd88DrCxupx/kJD5yQgZdcYKZKSIGBVDIBE1/LTGcNm3d2Np/jxojkdePDdfnBHJc5W7vSMpbJ1aB7p/Py69A==
 
-"@types/node@^16.18.39":
-  version "16.18.40"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.40.tgz#968d64746d20cac747a18ca982c0f1fe518c031c"
-  integrity sha512-+yno3ItTEwGxXiS/75Q/aHaa5srkpnJaH+kdkTVJ3DtJEwv92itpKbxU+FjPoh2m/5G9zmUQfrL4A4C13c+iGA==
-
 "@types/node@^8.5.5":
   version "8.10.59"
   resolved "https://registry.npmjs.org/@types/node/-/node-8.10.59.tgz"
@@ -4857,6 +4854,16 @@
   integrity sha512-A1b8SU4D10uoPjwb0lnHmmu8wZhR9d+9o2PKBQT2jU5YPTKsxac6M2qGAdY7VcL+dHHhARVUDmeg0rOrcd9EjA==
   dependencies:
     "@types/node" "*"
+
+"@uswds/uswds@^3.7.1":
+  version "3.8.1"
+  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.8.1.tgz#3d834559498ae1bb7d3a618f3f85a5f4e9818497"
+  integrity sha512-bKG/B9mJF1v0yoqth48wQDzST5Xyu3OxxpePIPDyhKWS84oDrCehnu3Z88JhSjdIAJMl8dtjtH8YvdO9kZUpAg==
+  dependencies:
+    classlist-polyfill "1.2.0"
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
 
 "@webassemblyjs/ast@1.12.1", "@webassemblyjs/ast@^1.12.1":
   version "1.12.1"
@@ -6556,7 +6563,7 @@ buffer@^4.1.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.2.1, buffer@^5.5.0, buffer@^5.6.0:
+buffer@^5.2.1, buffer@^5.5.0, buffer@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
@@ -7069,10 +7076,10 @@ cjs-module-lexer@^1.2.2:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.3.tgz#6c370ab19f8a3394e318fe682686ec0ac684d107"
   integrity sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==
 
-classlist-polyfill@^1.0.3, classlist-polyfill@^1.2.0:
+classlist-polyfill@1.2.0, classlist-polyfill@^1.0.3, classlist-polyfill@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.npmjs.org/classlist-polyfill/-/classlist-polyfill-1.2.0.tgz"
-  integrity sha1-k1vC39lFiodrJ5YXUUY4vKqWSi4=
+  resolved "https://registry.npmjs.org/classlist-polyfill/-/classlist-polyfill-1.2.0.tgz#935bc2dfd9458a876b279617514638bcaa964a2e"
+  integrity sha512-GzIjNdcEtH4ieA2S8NmrSxv7DfEV5fmixQeyTmqmRmRJPGpRBaSnA2a0VrCjyT8iW8JjEdMbKzDotAJf+ajgaQ==
 
 classnames@^2.2.6, classnames@^2.3.1:
   version "2.3.1"
@@ -8058,30 +8065,29 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-real-events@^1.10.3:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.10.3.tgz#e2e949ea509cc4306df6c238de1a9982d67360e5"
-  integrity sha512-YN3fn+CJIAM638sE6uMvv2/n3PsWowdd0rOiN6ZoyezNAMyENfuQHvccLKZpN+apGfQZYetCml6QXLYgDid2fg==
+cypress-real-events@^1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.12.0.tgz#ffeb2b23686ba5b16ac91dd9bc3b6785d36d38d3"
+  integrity sha512-oiy+4kGKkzc2PT36k3GGQqkGxNiVypheWjMtfyi89iIk6bYmTzeqxapaLHS3pnhZOX1IEbTDUVxh8T4Nhs1tyQ==
 
 cypress-wait-until@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^12.17.3:
-  version "12.17.3"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.17.3.tgz#1e2b19037236fc60e4a4b3a14f0846be17a1fc0e"
-  integrity sha512-/R4+xdIDjUSLYkiQfwJd630S81KIgicmQOLXotFxVXkl+eTeVO+3bHXxdi5KBh/OgC33HWN33kHX+0tQR/ZWpg==
+cypress@^13.11.0:
+  version "13.11.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.11.0.tgz#17097366390424cba5db6bf0ee5e97503f036e07"
+  integrity sha512-NXXogbAxVlVje4XHX+Cx5eMFZv4Dho/2rIcdBHg9CNPFUGZdM4cRdgIgM7USmNYsC12XY0bZENEQ+KBk72fl+A==
   dependencies:
-    "@cypress/request" "^2.88.11"
+    "@cypress/request" "^3.0.0"
     "@cypress/xvfb" "^1.2.4"
-    "@types/node" "^16.18.39"
     "@types/sinonjs__fake-timers" "8.1.1"
     "@types/sizzle" "^2.3.2"
     arch "^2.2.0"
     blob-util "^2.0.2"
     bluebird "^3.7.2"
-    buffer "^5.6.0"
+    buffer "^5.7.1"
     cachedir "^2.3.0"
     chalk "^4.1.0"
     check-more-types "^2.24.0"
@@ -8099,7 +8105,7 @@ cypress@^12.17.3:
     figures "^3.2.0"
     fs-extra "^9.1.0"
     getos "^3.2.1"
-    is-ci "^3.0.0"
+    is-ci "^3.0.1"
     is-installed-globally "~0.4.0"
     lazy-ass "^1.6.0"
     listr2 "^3.8.3"
@@ -8108,6 +8114,7 @@ cypress@^12.17.3:
     minimist "^1.2.8"
     ospath "^1.2.2"
     pretty-bytes "^5.6.0"
+    process "^0.11.10"
     proxy-from-env "1.0.0"
     request-progress "^3.0.0"
     semver "^7.5.3"
@@ -9824,6 +9831,13 @@ eslint-plugin-unicorn@^35.0.0:
     regexp-tree "^0.1.23"
     safe-regex "^2.1.1"
     semver "^7.3.5"
+
+eslint-plugin-you-dont-need-momentjs@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-you-dont-need-momentjs/-/eslint-plugin-you-dont-need-momentjs-1.6.0.tgz#c5209783e8a9fa772f8e3c4d4d4a03813d8f9a1e"
+  integrity sha512-u12WanwuAL5B6/Kx6AtMDI04OojkS/twDueDwBgxsnKLy33VM4npP7ZlU2o7pxD1z8LbzPP6Y6/e7cPf6ZhatQ==
+  dependencies:
+    kebab-case "^1.0.0"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -12597,7 +12611,7 @@ is-ci@^2.0.0:
   dependencies:
     ci-info "^2.0.0"
 
-is-ci@^3.0.0:
+is-ci@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/is-ci/-/is-ci-3.0.1.tgz#db6ecbed1bd659c43dac0f45661e7674103d1867"
   integrity sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==
@@ -13615,6 +13629,11 @@ kdbush@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/kdbush/-/kdbush-3.0.0.tgz"
   integrity sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
+
+kebab-case@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/kebab-case/-/kebab-case-1.0.2.tgz#5eac97d5d220acf606d40e3c0ecfea21f1f9e1eb"
+  integrity sha512-7n6wXq4gNgBELfDCpzKc+mRrZFs7D+wgfF5WRFLNAr4DA/qtr9Js8uOAVAfHhuLMfAcQ0pRKqbpjx+TcJVdE1Q==
 
 keyboardevent-key-polyfill@^1.0.2:
   version "1.1.0"
@@ -15605,7 +15624,7 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@4.1.1, object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==
@@ -17233,7 +17252,7 @@ puppeteer@^3.3.0:
     unbzip2-stream "^1.3.3"
     ws "^7.2.3"
 
-qs@6.11.0, qs@6.7.0, qs@^6.0.4, qs@^6.4.0, qs@~6.10.3, qs@~6.5.2:
+qs@6.10.4, qs@6.11.0, qs@6.7.0, qs@^6.0.4, qs@^6.4.0, qs@~6.5.2:
   version "6.11.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.11.2.tgz#64bea51f12c1f5da1bc01496f48ffcff7c69d7d9"
   integrity sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==
@@ -17820,10 +17839,10 @@ recast@^0.14.4:
     private "~0.1.5"
     source-map "~0.6.1"
 
-receptor@^1.0.0:
+receptor@1.0.0, receptor@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmjs.org/receptor/-/receptor-1.0.0.tgz"
-  integrity sha1-v1RHfgOH5Evr84VRILvaWt6gj4s=
+  resolved "https://registry.npmjs.org/receptor/-/receptor-1.0.0.tgz#bf54477e0387e44bebf3855120bbda5adea08f8b"
+  integrity sha512-yvVEqVQDNzEmGkluCkEdbKSXqZb3WGxotI/VukXIQ+4/BXEeXVjWtmC6jWaR1BIsmEAGYQy3OTaNgDj2Svr01w==
   dependencies:
     element-closest "^2.0.1"
     keyboardevent-key-polyfill "^1.0.2"
@@ -18331,10 +18350,10 @@ resolve-from@^5.0.0:
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
   integrity sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==
 
-resolve-id-refs@^0.1.0:
+resolve-id-refs@0.1.0, resolve-id-refs@^0.1.0:
   version "0.1.0"
-  resolved "https://registry.npmjs.org/resolve-id-refs/-/resolve-id-refs-0.1.0.tgz"
-  integrity sha1-MSZiS4h0idqPwK6IljL4QTrGw+w=
+  resolved "https://registry.npmjs.org/resolve-id-refs/-/resolve-id-refs-0.1.0.tgz#3126624b887489da8fc0ae889632f8413ac6c3ec"
+  integrity sha512-hNS03NEmVpJheF7yfyagNh57XuKc0z+NkSO0oBbeO67o6IJKoqlDfnNIxhjp7aTWwjmSWZQhtiGrOgZXVyM90w==
 
 resolve-pathname@^2.2.0:
   version "2.2.0"
@@ -21239,9 +21258,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243":
-  version "22.3.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#271a09c5f6a1c89105e1ae130ffac641c30f162b":
+  version "24.1.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#271a09c5f6a1c89105e1ae130ffac641c30f162b"
   dependencies:
     minimist "^1.2.3"
 

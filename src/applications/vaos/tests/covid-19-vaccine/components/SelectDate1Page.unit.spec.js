@@ -13,7 +13,6 @@ import {
 } from '../../mocks/setup';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
-import { getAppointmentSlotMock } from '../../mocks/mock';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 import { mockEligibilityFetches } from '../../mocks/fetch';
 import { createMockClinic } from '../../mocks/data';
@@ -323,15 +322,18 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
-  // Test failure: https://github.com/department-of-veterans-affairs/va.gov-team/issues/86044
-  it.skip('should fetch slots when moving between months', async () => {
+  it('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
     });
 
-    const preferredDate = moment().day(15);
+    const preferredDate = moment();
+    const isLastDayOfMonth = preferredDate.isSame(
+      preferredDate.clone().endOf('month'),
+      'day',
+    );
     const slot308Date = preferredDate
       .clone()
       .add(1, 'day')
@@ -340,7 +342,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       .second(0);
     const secondSlotDate = slot308Date
       .clone()
-      .add(2, 'month')
+      .add(isLastDayOfMonth ? 1 : 2, 'month')
       .hour(10)
       .minute(0)
       .second(0);
@@ -349,14 +351,6 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       facilityId: '983',
       clinicId: '308',
       response: [
-        {
-          ...getAppointmentSlotMock(),
-          startDateTime: slot308Date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: slot308Date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        },
         {
           id: '308',
           type: 'slots',
@@ -376,14 +370,6 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       clinicId: '308',
       response: [
         {
-          ...getAppointmentSlotMock(),
-          startDateTime: secondSlotDate.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: secondSlotDate
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-        },
-        {
           id: '308',
           type: 'slots',
           attributes: {
@@ -395,13 +381,9 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
           },
         },
       ],
-      startDate: preferredDate
+      preferredDate: secondSlotDate.clone().startOf('month'),
+      endDate: secondSlotDate
         .clone()
-        .add('2', 'months')
-        .startOf('month'),
-      endDate: preferredDate
-        .clone()
-        .add('2', 'months')
         .endOf('month')
         .startOf('day'),
     });
@@ -416,9 +398,14 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
       store,
     });
 
+    // Need to move to the next month if today is the last day
     let overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
+    }
+
+    if (isLastDayOfMonth) {
+      userEvent.click(screen.getByText(/^Next/));
     }
 
     let dayOfMonthButton = screen.getByLabelText(
@@ -426,12 +413,18 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     );
     userEvent.click(dayOfMonthButton);
     userEvent.click(
-      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+      await screen.findByRole('radio', {
+        id: `dateTime_${slot308Date.format('YYYY-MM-DD')}_0`,
+      }),
     );
 
-    // Need to move two months to trigger second fetch
+    // To trigger the second fetch:
+    // 1. Need to move only one more month if today is the last day of the month
+    // 2. Need to move two months if today isn't the last day of the month
     userEvent.click(screen.getByText(/^Next/));
-    userEvent.click(screen.getByText(/^Next/));
+    if (!isLastDayOfMonth) {
+      userEvent.click(screen.getByText(/^Next/));
+    }
     overlay = screen.queryByTestId('loadingIndicator');
     if (overlay) {
       await waitForElementToBeRemoved(overlay);
@@ -443,19 +436,27 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     userEvent.click(dayOfMonthButton);
 
     userEvent.click(
-      await screen.findByRole('radio', { name: '10:00 AM option selected' }),
+      await screen.findByRole('radio', {
+        id: `dateTime_${secondSlotDate.format('YYYY-MM-DD')}_0`,
+      }),
     );
 
-    // Go back and select initial slot
+    // To go back and select initial slot:
+    // 1. Need to move back only one month if today is the last day of the month
+    // 2. Need to move back two months if today isn't the last day of the month
     userEvent.click(screen.getByText(/^Prev/));
-    userEvent.click(screen.getByText(/^Prev/));
+    if (!isLastDayOfMonth) {
+      userEvent.click(screen.getByText(/^Prev/));
+    }
 
     dayOfMonthButton = screen.getByLabelText(
       new RegExp(slot308Date.format('dddd, MMMM Do'), 'i'),
     );
     userEvent.click(dayOfMonthButton);
     userEvent.click(
-      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
+      await screen.findByRole('radio', {
+        id: `dateTime_${slot308Date.format('YYYY-MM-DD')}_0`,
+      }),
     );
 
     // Have a selected slot, can move to next screen

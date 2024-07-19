@@ -130,9 +130,6 @@ export const selectIsBlocked = state => {
     : getIsBlocked(cnpDirectDepositInformation(state)?.controlInformation);
 };
 
-export const selectProfileContactsToggle = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;
-
 export const selectProfileContacts = state => state?.profileContacts || {};
 
 export const selectHasRetiringSignInService = state => {

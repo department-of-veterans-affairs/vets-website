@@ -9,9 +9,8 @@ import mockThreadResponse from './fixtures/single-draft-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
 
 describe('SM back navigation', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
   it('user navigate to inbox folder after message sent', () => {

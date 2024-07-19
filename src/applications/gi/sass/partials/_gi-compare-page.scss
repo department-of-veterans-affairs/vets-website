@@ -259,12 +259,6 @@
   .field-label {
     vertical-align: middle;
 
-    .label-diff {
-      display: inline-block;
-      padding-right: .75em;
-      font-size: 14px;
-    }
-
     .label-cell {
       background-color: var(--vads-color-gray-light-alt);
       margin-right: 1.5em;
@@ -290,7 +284,6 @@
     .label-cell.has-diff {
       font-weight: bold;
       border-width: 2px;
-      padding-left: .8em;
     }
 
     @media (max-width: $small-screen) {
@@ -430,20 +423,24 @@
 
     .scroll-controls {
       width: 98vw;
-      text-align: center;
+      display: flex;
+      align-items: center;
 
       @media (max-width: $small-screen) {
         position: sticky;
         left: 0px;
       }
 
-      .fa-circle {
-        color: var(--vads-color-base-light);
+      .gi-compare-circle {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--vads-color-base-light);
         margin-left: 20px;
         margin-right: 20px;
 
         &.scroll-active{
-          color: var(--vads-color-base);
+          background-color: var(--vads-color-base);
         }
       }
 
@@ -452,9 +449,7 @@
       }
 
       .circles {
-        padding-top: 30px;
         width: 180px;
-        display: inline-block;
         margin-left: auto;
         margin-right: auto;
       }

@@ -304,7 +304,6 @@ describe('VAOS Page: AppointmentsPage', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
-        vaOnlineSchedulingStatusImprovement: true,
       },
       user: userState,
     };
@@ -325,7 +324,6 @@ describe('VAOS Page: AppointmentsPage', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingCommunityCare: false,
-        vaOnlineSchedulingStatusImprovement: true,
         vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       },
       user: userState,

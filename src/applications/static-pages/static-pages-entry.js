@@ -58,7 +58,6 @@ import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 import createNearByVALocations from './facilities/vet-center/createNearByVALocations';
-import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
@@ -97,6 +96,11 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
+
+import create1010DAccess from './ivc-champva/10-10D/entry';
+import create107959CAccess from './ivc-champva/10-7959c/entry';
+import create107959F1Access from './ivc-champva/10-7959f-1/entry';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -214,7 +218,6 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
   store,
@@ -242,6 +245,10 @@ createBurialsV2HowDoIApplyWidget(
 );
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
+
+create1010DAccess(store, widgetTypes.FORM_1010D);
+create107959CAccess(store, widgetTypes.FORM_107959C);
+create107959F1Access(store, widgetTypes.FORM_107959F1);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

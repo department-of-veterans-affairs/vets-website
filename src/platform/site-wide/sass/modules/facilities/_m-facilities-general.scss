@@ -286,9 +286,8 @@
 
 .circular-profile-missing-icon {
   position: absolute;
-  top: 33%;
-  left: 37%;
-  font-size: 32px;
+  top: 31px;
+  left: 31px;
 }
 
 // OPERATING STATUS
@@ -299,13 +298,17 @@
   transition: background 0.25s;
 }
 
+.operating-status-flag .os-icon {
+  padding-right: 7px;
+}
+
 a.operating-status-link {
   color: initial;
   display: inline-block;
   font-weight: 700;
 }
 
-.operating-status-flag .fa-chevron-right {
+.operating-status-flag .os-chevron-right {
   font-size: 12px;
 }
 

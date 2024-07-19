@@ -15,13 +15,6 @@ const IntroductionPage = ({ route }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start your Application"
-      />
       <p>
         As an attorney or claims agent, you can start the application process to
         become a VA accredited representative through our online tool.
@@ -45,6 +38,13 @@ const IntroductionPage = ({ route }) => {
           <p>
             You will need to fill out your personal information, up to date
             contact information, and any military service information.
+          </p>
+        </li>
+        <li>
+          <h3>Military history</h3>
+          <p>
+            If you served in a military branch of service, you will need to
+            provide information about your tours.
           </p>
         </li>
         <li>
@@ -101,12 +101,11 @@ const IntroductionPage = ({ route }) => {
         </li>
       </va-process-list>
       <SaveInProgressIntro
-        buttonOnly
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the Application"
+        startText="Start your Application"
       />
       <va-omb-info
         res-burden={45}
