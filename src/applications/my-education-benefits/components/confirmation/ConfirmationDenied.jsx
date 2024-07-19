@@ -1,13 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL } from '../../constants';
+import LoadingIndicator from '../LoadingIndicator';
 import FormFooter from '../FormFooter';
 
-export default function ConfirmationDenied({
+const ConfirmationDenied = ({
   claimantName,
   confirmationDate,
-  printPage,
-}) {
+  confirmationError,
+  confirmationLoading,
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'DENIED',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
   return (
     <div className="meb-confirmation-page meb-confirmation-page_denied">
       <va-alert status="info">
@@ -20,7 +45,7 @@ export default function ConfirmationDenied({
         <p>
           Your denial letter, which explains why you are ineligible, is now
           available. A physical copy will also be mailed to your mailing
-          address.{' '}
+          address.
         </p>
         <a
           type="button"
@@ -39,13 +64,13 @@ export default function ConfirmationDenied({
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
-        <button
+        <va-button
           className="usa-button meb-print"
-          onClick={printPage}
+          onClick={() => window.print()}
           type="button"
         >
           Print this page
-        </button>
+        </va-button>
       </div>
 
       <h2>What happens next?</h2>
@@ -74,10 +99,16 @@ export default function ConfirmationDenied({
       <FormFooter />
     </div>
   );
-}
+};
 
 ConfirmationDenied.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
-  printPage: PropTypes.func.isRequired,
+  confirmationError: PropTypes.bool.isRequired,
+  confirmationLoading: PropTypes.bool.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
 };
+
+export default ConfirmationDenied;

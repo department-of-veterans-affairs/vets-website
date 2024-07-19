@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+import { toSnakeCase } from '../helpers';
+
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/claimant_info`;
@@ -177,10 +179,15 @@ export function fetchEligibility() {
   };
 }
 
-export function sendConfirmation() {
+export function sendConfirmation(params) {
   return async dispatch => {
     dispatch({ type: SEND_CONFIRMATION });
-    return apiRequest(CONFIRMATION_ENDPOINT)
+    const snakeCaseParams = toSnakeCase(params);
+    return apiRequest(CONFIRMATION_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(snakeCaseParams),
+      headers: { 'Content-Type': 'application/json' },
+    })
       .then(response =>
         dispatch({
           type: SEND_CONFIRMATION_SUCCESS,

@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import {
   fetchClaimStatus,
+  sendConfirmation as sendConfirmationAction,
   CLAIM_STATUS_RESPONSE_ELIGIBLE,
   CLAIM_STATUS_RESPONSE_DENIED,
   CLAIM_STATUS_RESPONSE_IN_PROGRESS,
   CLAIM_STATUS_RESPONSE_ERROR,
-  sendConfirmation as sendConfirmationAction,
 } from '../actions';
+
 import ConfirmationApproved from '../components/confirmation/ConfirmationApproved';
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
+
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
 
@@ -20,26 +23,19 @@ export const ConfirmationPage = ({
   claimStatus,
   getClaimStatus,
   userFullName,
+  userEmail,
+  userFirstName,
   sendConfirmation,
   confirmationLoading,
   confirmationError,
 }) => {
-  // Use useCallback to ensure getClaimStatus is stable
-  const stableGetClaimStatus = useCallback(
-    () => {
-      getClaimStatus();
-    },
-    [getClaimStatus],
-  );
-
   useEffect(
     () => {
       if (!claimStatus) {
-        stableGetClaimStatus();
+        getClaimStatus();
       }
-      sendConfirmation();
     },
-    [stableGetClaimStatus, claimStatus, sendConfirmation],
+    [getClaimStatus, claimStatus],
   );
 
   const confirmationResult = claimStatus?.claimStatus;
@@ -48,27 +44,22 @@ export const ConfirmationPage = ({
     : undefined;
   const claimantName = `${userFullName?.first || ''} ${userFullName?.middle ||
     ''} ${userFullName?.last || ''} ${userFullName?.suffix || ''}`;
+
   const printPage = useCallback(() => {
     window.print();
   }, []);
-  if (confirmationLoading) {
-    return (
-      <LoadingIndicator
-        className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
-        message="Sending confirmation email..."
-      />
-    );
-  }
-  if (confirmationError) {
-    return <p>Error sending confirmation email: {confirmationError.message}</p>;
-  }
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
       return (
         <ConfirmationApproved
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
@@ -77,7 +68,12 @@ export const ConfirmationPage = ({
         <ConfirmationDenied
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
@@ -87,7 +83,12 @@ export const ConfirmationPage = ({
         <ConfirmationPending
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
@@ -107,8 +108,13 @@ const mapStateToProps = state => ({
   userFullName:
     state.user?.profile?.userFullName ||
     state.form?.data[formFields.viewUserFullName][formFields.userFullName],
-  confirmationLoading: state.data.confirmationLoading,
-  confirmationError: state.data.confirmationError,
+  userEmail: state.user?.profile?.email,
+  userFirstName:
+    state.user?.profile?.userFullName?.first ||
+    state.form?.data[formFields.viewUserFullName]?.first,
+  confirmationLoading: state.confirmationLoading,
+  confirmationSuccess: state.confirmationSuccess,
+  confirmationError: state.confirmationError,
 });
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
@@ -121,6 +127,8 @@ export default connect(
 )(ConfirmationPage);
 
 ConfirmationPage.propTypes = {
+  confirmationLoading: PropTypes.bool.isRequired,
+  confirmationSuccess: PropTypes.bool.isRequired,
   getClaimStatus: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   claimStatus: PropTypes.shape({
@@ -128,7 +136,8 @@ ConfirmationPage.propTypes = {
     receivedDate: PropTypes.string,
   }),
   confirmationError: PropTypes.object,
-  confirmationLoading: PropTypes.bool,
+  userEmail: PropTypes.string,
+  userFirstName: PropTypes.string,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
