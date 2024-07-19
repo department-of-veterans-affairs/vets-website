@@ -168,6 +168,15 @@ export const testNumberOfFieldsByType = (
   });
 };
 
+export const getWebComponentErrors = container => {
+  const nodes = Array.from(
+    container.querySelectorAll(
+      `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+    ),
+  );
+  return nodes.filter(node => node.error);
+};
+
 export const testNumberOfErrorsOnSubmitForWebComponents = (
   formConfig,
   schema,
@@ -191,24 +200,11 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
-      );
-      const errors = nodes.filter(node => node.error);
+
+      const errors = getWebComponentErrors(container);
       expect(errors).to.have.lengthOf(expectedNumberOfErrors);
     });
   });
-};
-
-export const getWebComponentErrors = container => {
-  const nodes = Array.from(
-    container.querySelectorAll(
-      `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-    ),
-  );
-  return nodes.filter(node => node.error);
 };
 
 export const testSubmitsWithoutErrors = (
