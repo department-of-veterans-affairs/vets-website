@@ -26,7 +26,7 @@ const DownloadLink = ({
       onClick={handler.onClick}
     >
       <va-icon
-        ///className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+        /// className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
         icon="file_download"
         size={3}
       />

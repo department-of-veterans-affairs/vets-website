@@ -52,10 +52,10 @@ const BehalfOfSomeoneElseContent = () => {
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"
             >
               <va-icon
-                ///className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                /// className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
                 icon="file_download"
                 size={3}
-               />
+              />
               Download VA Form 21-22 (PDF, 4 pages)
             </a>
           </div>
@@ -74,10 +74,10 @@ const BehalfOfSomeoneElseContent = () => {
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"
             >
               <va-icon
-                ///className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
+                /// className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
                 icon="file_download"
                 size={3}
-               />
+              />
               Download VA Form 21-22a (PDF, 3 pages)
             </a>
           </div>
@@ -159,7 +159,7 @@ const CollapsibleList = () => {
           </h3>
           <ul className="usa-unstyled-list">
             <li>
-              <CollapsiblePanel
+              (<CollapsiblePanel
                 header="If you're applying for yourself"
                 pageContent={
                   <p>
@@ -169,7 +169,7 @@ const CollapsibleList = () => {
                     or your sponsor’s military status and service history.
                   </p>
                 }
-              />
+              />)
             </li>
             <li>
               <CollapsiblePanel
