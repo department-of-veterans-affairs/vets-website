@@ -14,7 +14,7 @@ export default function ReviewApproved() {
       let details = {};
       setError(false);
       try {
-        details = await getReferralById(123);
+        details = await getReferralById('mock123');
       } catch (networkError) {
         setError(true);
       }
@@ -56,7 +56,7 @@ export default function ReviewApproved() {
         </p>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">What</div>
-        <div>{patientData?.referral?.typeOfCare}</div>
+        <div>{patientData?.typeOfCare}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred Facility</div>
         <div>{patientData?.detailsShared?.preferredFacility}</div>
@@ -79,31 +79,31 @@ export default function ReviewApproved() {
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referral number:
           </span>{' '}
-          {patientData?.referral?.referralNumber}
+          {patientData?.referralNumber}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Start date:
           </span>{' '}
-          {patientData?.referral?.startDate}
+          {patientData?.startDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Expiration date:
           </span>{' '}
-          {patientData?.referral?.expirationDate}
+          {patientData?.expirationDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referring VA facility:
           </span>{' '}
-          {patientData?.referral?.referringFacility}
+          {patientData?.referringFacility}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Phone number:
           </span>{' '}
-          {patientData?.referral?.phoneNumber}
+          {patientData?.phoneNumber}
         </div>
         <hr className="vads-u-margin-y--2" />
         <div>
