@@ -604,6 +604,18 @@ class PatientMessageDraftsPage {
       MESSAGE_WAS_SAVED,
     );
   };
+
+  verifySaveModalButtons = () => {
+    cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {
+      cy.wrap(el).should('be.visible');
+    });
+  };
+
+  closeModal = () => {
+    cy.get('va-modal[visible]')
+      .find('.va-modal-close')
+      .click();
+  };
 }
 
 export default new PatientMessageDraftsPage();
