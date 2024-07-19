@@ -2,6 +2,4 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 
 import formConfig from '../accreditation/21a/config/form';
 
-export default {
-  form: createSaveInProgressFormReducer(formConfig),
-};
+export default createSaveInProgressFormReducer(formConfig);

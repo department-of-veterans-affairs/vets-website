@@ -6,7 +6,7 @@ import form21aSaveInProgress from './form21aSaveInProgress';
 const rootReducer = combineReducers({
   user: arpUserReducer,
   featureToggles: FeatureToggleReducer,
-  form21aSaveInProgress,
+  form: form21aSaveInProgress,
 });
 
 export default rootReducer;
