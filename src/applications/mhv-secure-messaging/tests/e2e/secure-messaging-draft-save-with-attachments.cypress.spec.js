@@ -10,12 +10,16 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
-    const draftsPage = new PatientMessageDraftsPage();
-
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(
+      mockDraftResponse,
+      mockThreadResponse,
+    );
     PatientInterstitialPage.getContinueButton().should('not.exist');
     cy.intercept(
       'PUT',

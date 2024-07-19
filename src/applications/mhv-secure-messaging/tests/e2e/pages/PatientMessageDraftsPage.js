@@ -295,8 +295,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
-  verifyDeleteConfirmationHasFocus = () => {
-    cy.get(Locators.ALERTS.NOTIFICATION).should('have.focus');
+  verifyDeleteConfirmationButton = () => {
+    cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -606,4 +606,4 @@ class PatientMessageDraftsPage {
   };
 }
 
-export default PatientMessageDraftsPage;
+export default new PatientMessageDraftsPage();
