@@ -226,19 +226,21 @@ class SaveInProgressIntro extends React.Component {
       );
       alert = buttonOnly ? (
         <>
-          {unauthStartButton}
+          {this.props.formId !== '22-5495' ? (
+            unauthStartButton
+          ) : (
+            <a
+              className="usa-button"
+              label={ariaLabel}
+              uswds
+              href="/education/apply-for-education-benefits/application/1995/introduction"
+            >
+              {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+            </a>
+          )}
           {!this.props.hideUnauthedStartLink && (
             <p>
-              {this.props.formId === '22-5495' ? (
-                <a
-                  className="schemaform-start-button"
-                  aria-label={ariaLabel}
-                  aria-describedby={ariaDescribedby}
-                  href="/education/apply-for-education-benefits/application/1995/introduction"
-                >
-                  Start your {appType} without signing in
-                </a>
-              ) : (
+              {this.props.formId !== '22-5495' ? (
                 <Link
                   onClick={this.handleClick}
                   to={this.getStartPage}
@@ -248,6 +250,15 @@ class SaveInProgressIntro extends React.Component {
                 >
                   Start your {appType} without signing in
                 </Link>
+              ) : (
+                <a
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                  href="/education/apply-for-education-benefits/application/1995/introduction"
+                >
+                  Start your {appType} without signing in
+                </a>
               )}
             </p>
           )}
@@ -293,19 +304,21 @@ class SaveInProgressIntro extends React.Component {
                   </>
                 )}
               </p>
-              {unauthStartButton}
+              {this.props.formId !== '22-5495' ? (
+                unauthStartButton
+              ) : (
+                <a
+                  className="usa-button"
+                  label={ariaLabel}
+                  uswds
+                  href="/education/apply-for-education-benefits/application/1995/introduction"
+                >
+                  {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+                </a>
+              )}
               {!this.props.hideUnauthedStartLink && (
                 <p>
-                  {this.props.formId === '22-5495' ? (
-                    <a
-                      className="schemaform-start-button"
-                      aria-label={ariaLabel}
-                      aria-describedby={ariaDescribedby}
-                      href="/education/apply-for-education-benefits/application/1995/introduction"
-                    >
-                      Start your {appType} without signing in
-                    </a>
-                  ) : (
+                  {this.props.formId !== '22-5495' ? (
                     <Link
                       onClick={this.handleClick}
                       to={this.getStartPage}
@@ -315,6 +328,15 @@ class SaveInProgressIntro extends React.Component {
                     >
                       Start your {appType} without signing in
                     </Link>
+                  ) : (
+                    <a
+                      className="schemaform-start-button"
+                      aria-label={ariaLabel}
+                      aria-describedby={ariaDescribedby}
+                      href="/education/apply-for-education-benefits/application/1995/introduction"
+                    >
+                      Start your {appType} without signing in
+                    </a>
                   )}
                 </p>
               )}
