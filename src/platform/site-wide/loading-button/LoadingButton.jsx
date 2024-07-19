@@ -13,7 +13,7 @@ export default function LoadingButton({
     <>
       <va-icon
         // className="fa fa-spinner fa-spin"
-        icon ="autorenew"
+        icon="autorenew"
         aria-hidden="true"
         role="presentation"
       />

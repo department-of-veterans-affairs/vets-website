@@ -38,8 +38,8 @@ const MobileAppCallout = ({
               >
                 <va-icon
                   //  className="fab fa-app-store-ios fa-lg vads-u-margin--1"
-                  icon ="app_store"
-                  size ={3}
+                  icon="app_store"
+                  size={3}
                 />
                 <span className="vads-u-font-size--md">
                   {appleAppStoreLinkText}
@@ -54,8 +54,8 @@ const MobileAppCallout = ({
               >
                 <va-icon
                   //  className="fab fa-google-play fa-lg vads-u-margin--1"
-                  icon ="google_play"
-                  size ={3}
+                  icon="google_play"
+                  size={3}
                 />
                 <span className="vads-u-font-size--md">
                   {googlePlayStoreLinkText}
