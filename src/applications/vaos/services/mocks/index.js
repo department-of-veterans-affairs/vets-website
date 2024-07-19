@@ -459,7 +459,9 @@ const responses = {
   },
   'GET /vaos/v2/wellhive/referralDetails/:referralId': (req, res) => {
     return res.json({
-      data: patientDetails.data,
+      data: patientDetails.data.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
     });
   },
   'GET /vaos/v2/wellhive/appointments': (req, res) => {
