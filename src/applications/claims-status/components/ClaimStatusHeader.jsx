@@ -18,7 +18,7 @@ export default function ClaimStatusHeader({ claim }) {
 
   return (
     <div className="claim-status-header-container">
-      <h2 className="vads-u-margin-y--0">Claim status</h2>
+      <h2 className="tab-header vads-u-margin-y--0">Claim status</h2>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--3 va-introtext">
         Here’s the latest information on your claim.
       </p>

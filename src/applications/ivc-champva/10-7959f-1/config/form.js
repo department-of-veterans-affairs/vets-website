@@ -54,6 +54,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     reviewPageTitle: 'Review and sign',
+    submitButtonText: 'Submit',
   },
   preSubmitInfo: {
     statementOfTruth: {

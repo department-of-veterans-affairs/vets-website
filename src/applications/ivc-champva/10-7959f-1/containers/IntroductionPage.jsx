@@ -47,7 +47,13 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start"
+        alertTitle="Sign in now to save time and save your work in progress"
+        unauthStartText="Sign in to start your form"
+        formConfig={{
+          customText: {
+            appType: 'registration form',
+          },
+        }}
       />
 
       <va-omb-info

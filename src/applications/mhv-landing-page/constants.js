@@ -33,7 +33,7 @@ const HEALTH_TOOL_LINKS = freeze({
     },
     {
       href: '/my-health/secure-messages/new-message/',
-      text: 'Send a new message',
+      text: 'Start a new message',
     },
     {
       href: '/my-health/secure-messages/folders/',
