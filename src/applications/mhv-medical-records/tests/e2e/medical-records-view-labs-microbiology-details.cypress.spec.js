@@ -15,7 +15,7 @@ describe('Medical Records View Labs And Tests', () => {
     MicrobiologyDetailsPage.verifyLabDate('August 3, 1995');
     MicrobiologyDetailsPage.verifySampleTested('None noted');
     MicrobiologyDetailsPage.verifySampleFrom('None noted');
-    MicrobiologyDetailsPage.verifyOrderedBy('Beth M. Smith');
+    MicrobiologyDetailsPage.verifyOrderedBy('DOE, JANE A');
     // MicrobiologyDetailsPage.verifyOrderingLocation(
     //   '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     // );

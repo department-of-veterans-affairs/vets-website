@@ -31,19 +31,29 @@ describe('Direct deposit information', () => {
       .last()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
-    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
-    cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
+    cy.get('input[name="root_GI-Bill-Chapters-phone"]').type('4082037901');
+    cy.get('[name="root_GI-Bill-Chapters-email"]')
+      .first()
+      .type('uer01@mail.com');
     cy.get(
       'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
     ).click();
     cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-BankName"]').type('Bank Of America');
-    cy.get('[id="root_GI-Bill-Chapters-BankPhone"]').type('3155682345');
-    cy.get('[id="root_GI-Bill-Chapters-RoutingNumber"]').type('938235879');
-    cy.get('[id="root_GI-Bill-Chapters-AccountNumber"]').type('00026643207');
-    cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
-      '00026643207',
-    );
+    cy.get('[name="root_GI-Bill-Chapters-BankName"]')
+      .first()
+      .type('Bank Of America');
+    cy.get('[name="root_GI-Bill-Chapters-BankPhone"]')
+      .first()
+      .type('3155682345');
+    cy.get('[name="root_GI-Bill-Chapters-RoutingNumber"]')
+      .first()
+      .type('938235879');
+    cy.get('[name="root_GI-Bill-Chapters-AccountNumber"]')
+      .first()
+      .type('00026643207');
+    cy.get('[name="root_GI-Bill-Chapters-VerifyAccountNumber"]')
+      .first()
+      .type('00026643207');
   };
   it('should open bank info form when "Add or change account" buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
@@ -69,18 +79,18 @@ describe('Direct deposit information', () => {
   it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[id="VYE-add-new-account-button"]').click();
-    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
+    cy.get('input[name="root_GI-Bill-Chapters-phone"]').type('4082037901');
     cy.get(
       'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
     ).click();
     cy.get(
       '[aria-label="save your bank information for GI Bill® benefits"]',
     ).click();
-    cy.get('[id="root_GI-Bill-Chapters-email-error-message"]').should(
+    cy.get('[id="input-error-message"]').should(
       'contain',
       'Please enter an email address',
     );
-    cy.get('[id="root_GI-Bill-Chapters-BankName-error-message"]').should(
+    cy.get('[id="input-error-message"]').should(
       'contain',
       'Please enter the name of your Financial Institution',
     );
@@ -139,11 +149,10 @@ describe('Direct deposit information', () => {
       'Are you sure?',
     );
     cy.get('va-button[uswds]')
-      .last()
+      .first()
       .click({ force: true });
-    cy.get('[id="root_GI-Bill-Chapters-email-label"]').should(
-      'contain',
-      "Veteran's email address",
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'not.exist',
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {

@@ -88,7 +88,7 @@ const formConfig = {
   },
   preSubmitInfo: {
     required: true,
-    CustomComponent: signatureProps => CustomAttestation(signatureProps),
+    CustomComponent: CustomAttestation,
   },
   saveInProgress: {
     messages: {
@@ -161,7 +161,7 @@ const formConfig = {
           ...applicantHasMedicareSchema,
         },
         medicareClass: {
-          path: 'medicare-class',
+          path: 'medicare-plan',
           title: formData => `${fnp(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareClassSchema,
@@ -450,7 +450,7 @@ const formConfig = {
       },
     },
     formSignature: {
-      title: 'Form signature',
+      title: 'Signer information',
       pages: {
         formSignature: {
           path: 'form-signature',

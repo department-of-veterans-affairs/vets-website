@@ -45,6 +45,17 @@ describe('Health conditions list container', () => {
   it('displays active condition', () => {
     expect(screen.getAllByText('None noted', { exact: false })).to.exist;
   });
+
+  it('displays about codes info', () => {
+    expect(
+      screen.getByText(
+        'Some of your health conditions may have diagnosis codes',
+        {
+          exact: false,
+        },
+      ),
+    ).to.exist;
+  });
 });
 
 describe('Health conditions list container still loading', () => {
@@ -86,14 +97,11 @@ describe('Health conditions list container with no health conditions', () => {
       },
     };
 
-    const screen = renderWithStoreAndRouter(
-      <HealthConditions runningUnitTest />,
-      {
-        initialState,
-        reducers: reducer,
-        path: '/conditions',
-      },
-    );
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions',
+    });
 
     expect(
       screen.getByText(
@@ -145,36 +153,5 @@ describe('Health conditions container with errors', () => {
         ),
       ).to.exist;
     });
-  });
-});
-
-describe('Health conditions list container with no health conditions', () => {
-  it('displays a no health conditions message', () => {
-    const initialState = {
-      user,
-      mr: {
-        conditions: {
-          conditionsList: [],
-        },
-        alerts: {
-          alertList: [],
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<HealthConditions />, {
-      initialState,
-      reducers: reducer,
-      path: '/conditions',
-    });
-
-    expect(
-      screen.getByText(
-        'There are no health conditions in your VA medical records.',
-        {
-          exact: false,
-        },
-      ),
-    ).to.exist;
   });
 });

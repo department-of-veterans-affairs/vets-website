@@ -110,3 +110,6 @@ export const selectFeatureRecentLocationsFilter = state =>
 
 export const selectFeatureMhvSecondaryNavigationEnabled = state =>
   toggleValues(state).mhv_secondary_navigation_enabled;
+
+export const selectFeatureMedReviewInstructions = state =>
+  toggleValues(state).vaOnlineSchedulingMedReviewInstructions;

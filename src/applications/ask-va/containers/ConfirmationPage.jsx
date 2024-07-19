@@ -1,76 +1,73 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { connect } from 'react-redux';
-
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+const ConfirmationPage = () => {
+  const { user, form } = useSelector(state => state);
+  const { submission, data } = form;
+  const {
+    login: { currentlyLoggedIn },
+    profile: { loading },
+  } = user;
 
-  render() {
-    const { form } = this.props;
-    const { submission, data } = form;
+  useEffect(
+    () => {
+      focusElement('h2');
+      scrollToTop('topScrollElement');
+    },
+    [loading],
+  );
 
-    const contactOption = data?.contactPreference || 'email';
-    const referenceID = submission?.id || 'A-123456-7890';
+  const contactOption = data?.contactPreference || 'email';
+  const referenceID = submission?.id || 'A-123456-7890';
 
+  if (loading) {
     return (
-      <div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          className="vads-u-margin-bottom--2"
-          status="success"
-          visible
-          uswds
-        >
-          <p className="vads-u-margin-y--0">
-            Your question was submitted successfully.
-          </p>
-        </va-alert>
-        <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
-          Thank you for submitting a question to the U.S. Department of Veteran
-          Affairs. Your reference number is{' '}
-          <span className="vads-u-font-weight--bold">{referenceID}</span>
-        </p>
-        <p className="vads-u-margin-bottom--3">
-          You will also receive an email confirmation.
-        </p>
-        <p className="vads-u-margin-bottom--2">
-          You should receive a reply by {contactOption} within 7 business days.
-          If we need more information to answer your question, we'll contact
-          you.
-        </p>
-      </div>
+      <va-loading-indicator label="Loading" message="Loading..." set-focus />
     );
   }
-}
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+  const actionLink = currentlyLoggedIn ? (
+    <va-link-action
+      href="/contact-us/ask-va-too/introduction"
+      text="Return to dashboard"
+      type="primary"
+    />
+  ) : (
+    <va-link-action
+      href="/contact-us/ask-va-too"
+      text="Return to Ask VA"
+      type="secondary"
+    />
+  );
+
+  return (
+    <div>
+      <va-alert
+        className="vads-u-margin-bottom--2"
+        status="success"
+        visible
+        uswds
+      >
+        <p className="vads-u-margin-y--0">
+          Your question was submitted successfully.
+        </p>
+      </va-alert>
+      <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+        Your confirmation number is{' '}
+        <span className="vads-u-font-weight--bold">{referenceID}.</span> We’ll
+        also send you an email confirmation.
+      </p>
+      <p className="vads-u-margin-bottom--3">
+        You should receive a reply by {contactOption} within 7 business days. If
+        we need more information to answer your question, we’ll contact you.
+      </p>
+      <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+        {actionLink}
+      </div>
+    </div>
+  );
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

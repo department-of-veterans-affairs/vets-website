@@ -13,6 +13,17 @@ const Navigation = props => {
   const location = useLocation();
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
+  const checkScreenSize = useCallback(() => {
+    if (window.innerWidth <= 768) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+      setIsNavigationOpen(false);
+    }
+  }, []);
+
+  window.addEventListener('resize', checkScreenSize);
+
   function openNavigation() {
     setIsNavigationOpen(true);
   }
@@ -24,15 +35,6 @@ const Navigation = props => {
     },
     [navMenuButtonRef],
   );
-
-  function checkScreenSize() {
-    if (window.innerWidth <= 481 && setIsMobile !== false) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-      setIsNavigationOpen(false);
-    }
-  }
 
   function openNavigationBurgerButton() {
     return (
@@ -47,12 +49,9 @@ const Navigation = props => {
     );
   }
 
-  useEffect(
-    () => {
-      checkScreenSize();
-    },
-    [isMobile],
-  );
+  useEffect(() => {
+    checkScreenSize();
+  }, []);
 
   window.addEventListener('resize', checkScreenSize);
 
