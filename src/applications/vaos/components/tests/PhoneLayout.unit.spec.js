@@ -33,6 +33,86 @@ describe('VAOS Component: PhoneLayout', () => {
     },
   };
 
+  describe('When appointment information is missing', () => {
+    it('should not display heading and text for empty data', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
+        },
+        videoData: {},
+        practitioners: [
+          {
+            identifier: [
+              {
+                system: 'dfn-983',
+                value: '520647363',
+              },
+            ],
+            name: {
+              family: 'NADEAU',
+              given: ['MARCY'],
+            },
+            practiceName: 'Cheyenne VA Medical Center',
+          },
+        ],
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isPhoneAppointment: true,
+          isCancellable: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <PhoneLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Phone appointment/i,
+        }),
+      );
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Who/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /What/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Details you shared with your provider/i,
+        }),
+      );
+
+      expect(screen.getByText(/Clinic: Not available/i));
+      expect(screen.getByText(/Reason: Not available/i));
+      expect(screen.getByText(/Other details: Not available/i));
+    });
+  });
+
   describe('When viewing upcoming appointment details', () => {
     it('should display phone layout', async () => {
       // Arrange
@@ -97,7 +177,7 @@ describe('VAOS Component: PhoneLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -181,7 +261,7 @@ describe('VAOS Component: PhoneLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -203,7 +283,7 @@ describe('VAOS Component: PhoneLayout', () => {
       ).to.not.exist;
     });
 
-    it('should display default text for empty data', async () => {
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -230,8 +310,8 @@ describe('VAOS Component: PhoneLayout', () => {
       );
 
       // Assert
-      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Type of care information not available/i));
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Scheduling facility/i }),
@@ -345,7 +425,7 @@ describe('VAOS Component: PhoneLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -438,7 +518,7 @@ describe('VAOS Component: PhoneLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
