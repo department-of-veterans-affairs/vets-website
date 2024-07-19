@@ -244,21 +244,25 @@ export const minMaxItemsHint = ({
   maxItems,
 }) => {
   let hint = '';
-  const len = arrayData?.length;
+  const currItems = arrayData?.length;
+  const remainingTilMin = minItems - currItems;
+  const remainingTilMax = maxItems - currItems;
 
   if (minItems && maxItems) {
-    hint = `You need to add a minimum of ${minItems} and maximum of ${maxItems} ${nounPlural}.`;
+    hint = `You need a minimum of ${minItems} and maximum of ${maxItems} ${nounPlural}.`;
   } else if (minItems) {
-    hint = `You need to add a minimum of ${minItems} ${
-      minItems === 1 ? nounSingular : nounPlural
+    hint = `You need ${remainingTilMin} more ${
+      remainingTilMin === 1 ? nounSingular : nounPlural
     }.`;
   } else if (maxItems) {
-    if (!len || maxItems === 1 || len >= maxItems) {
-      hint = `You can add up to ${maxItems}.`;
-    } else if (len && maxItems - len === 1) {
-      hint = `You can add 1 more ${nounSingular}.`;
-    } else if (len && maxItems - len > 1) {
-      hint = `You can add ${maxItems - len} more ${nounPlural}.`;
+    if (!currItems || maxItems === 1 || currItems >= maxItems) {
+      hint = `You can add up to ${maxItems} ${
+        maxItems === 1 ? nounSingular : nounPlural
+      }.`;
+    } else {
+      hint = `You can add ${remainingTilMax} more ${
+        remainingTilMax === 1 ? nounSingular : nounPlural
+      }.`;
     }
   }
 

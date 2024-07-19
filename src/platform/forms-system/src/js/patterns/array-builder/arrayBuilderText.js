@@ -14,8 +14,8 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       : `${props.nounSingular} information has been deleted`;
   },
   alertMinItems: props =>
-    `You need to add at least ${props.itemData} ${
-      props.minItems === 1 ? props.nounSingular : props.nounPlural
+    `You need at least ${props.itemData} ${
+      props.itemData === 1 ? props.nounSingular : props.nounPlural
     }.`,
   cancelAddButtonText: props => `Cancel adding this ${props.nounSingular}`,
   cancelAddDescription: props =>

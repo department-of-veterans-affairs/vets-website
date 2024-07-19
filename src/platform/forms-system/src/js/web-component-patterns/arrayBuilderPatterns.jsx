@@ -264,28 +264,28 @@ export const arrayBuilderYesNoUI = (
       (errors, yesNoBoolean, formData) => {
         const arrayData = formData?.[arrayPath];
 
-        const len = arrayData?.length;
-        const remaining = minItems - len;
+        const currItems = arrayData?.length;
+        const remainingTilMin = minItems - currItems;
 
-        if (len && len === maxItems && yesNoBoolean) {
+        if (currItems && currItems === maxItems && yesNoBoolean) {
           errors.addError(
             `You cannot add more than ${maxItems} ${
               maxItems === 1 ? nounSingular : nounPlural
             }.`,
           );
-        } else if (len && len < minItems && !yesNoBoolean) {
+        } else if (currItems && currItems < minItems && !yesNoBoolean) {
           errors.addError(
-            `You need to add at least ${remaining} more ${
-              remaining === 1 ? nounSingular : nounPlural
+            `You need at least ${remainingTilMin} more ${
+              remainingTilMin === 1 ? nounSingular : nounPlural
             }.`,
           );
         }
 
         // This validation may not be visible,
         // but helps the review page error work correctly
-        if (!len && !yesNoBoolean && requiredFn(formData)) {
+        if (!currItems && !yesNoBoolean && requiredFn(formData)) {
           errors.addError(
-            `You need to add at least one ${nounSingular} for us to process this form.`,
+            `You need at least one ${nounSingular} for us to process this form.`,
           );
         }
       },
