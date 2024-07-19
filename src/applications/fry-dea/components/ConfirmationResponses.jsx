@@ -86,8 +86,8 @@ export function UnderReview(response, name) {
             If more than a month has passed since you gave us your application
             and you haven’t heard back, please don’t apply again. Call our
             toll-free Education Call Center at{' '}
-            <a href="tel:888-442-4551">1-888-442-4551</a> or{' '}
-            <a href="tel:001-918-781-5678">001-918-781-5678</a>
+            <va-telephone contact="8884424551"/> or{' '}
+            <va-telephone contact="9187815678" international/>
             if you are outside the U.S.
           </div>
         </va-alert>
