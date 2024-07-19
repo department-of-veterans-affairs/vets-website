@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -65,6 +65,18 @@ const VitalDetails = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   useIsDetails(dispatch);
+
+  const updatedRecordType = useMemo(
+    () => {
+      const typeMap = {
+        'heart-rate': 'PULSE',
+        'breathing-rate': 'RESPIRATION',
+        'blood-oxygen-level': 'PULSE_OXIMETRY',
+      };
+      return typeMap[vitalType] || vitalType;
+    },
+    [vitalType],
+  );
 
   useEffect(
     () => {
@@ -133,7 +145,11 @@ const VitalDetails = props => {
     () => {
       if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
       }
     },
     [currentPage, records],
@@ -143,8 +159,8 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (vitalType) {
-        const formattedVitalType = macroCase(vitalType);
+      if (updatedRecordType) {
+        const formattedVitalType = macroCase(updatedRecordType);
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
@@ -170,8 +186,7 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(
-        vital =>
-          `${txtLine}\n\n
+        vital => `${txtLine}\n\n
 Date entered: ${vital.date}\n
 Details about this test\n
 Result: ${vital.measurement}\n

@@ -10,7 +10,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.categoryAndTopic.pages.whoIsYourQuestionAbout;
+} = formConfig.chapters.yourQuestionPart1.pages.whoIsYourQuestionAbout;
 
 describe('questionAboutPage', () => {
   // Temporary skip until mural flow is complete and we are in manual qa tickets

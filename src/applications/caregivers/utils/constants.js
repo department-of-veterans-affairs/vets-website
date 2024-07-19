@@ -9,7 +9,7 @@ export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];
 
 export const DOWNLOAD_ERRORS_BY_CODE = {
   '5': content['alert-download-message--500'],
-  default: content['alert-download-message--default'],
+  generic: content['alert-download-message--generic'],
 };
 
 export const MAX_FILE_SIZE_MB = 10;
@@ -51,15 +51,16 @@ export const SIGNATURE_CERTIFICATION_STATEMENTS = {
       content['certification-statement--caregiver-2'],
       'Primary',
     ),
-    replaceStrValues(
-      content['certification-statement--caregiver-3'],
-      'Primary',
-    ),
+    content['certification-statement--caregiver-3'],
     replaceStrValues(
       content['certification-statement--caregiver-4'],
       'Primary',
     ),
-    content['certification-statement--caregiver-5'],
+    replaceStrValues(
+      content['certification-statement--caregiver-5'],
+      'Primary',
+    ),
+    content['certification-statement--caregiver-6'],
   ],
   secondary: [
     content['certification-statement--caregiver-1'],
@@ -67,15 +68,16 @@ export const SIGNATURE_CERTIFICATION_STATEMENTS = {
       content['certification-statement--caregiver-2'],
       'Secondary',
     ),
-    replaceStrValues(
-      content['certification-statement--caregiver-3'],
-      'Secondary',
-    ),
+    content['certification-statement--caregiver-3'],
     replaceStrValues(
       content['certification-statement--caregiver-4'],
       'Secondary',
     ),
-    content['certification-statement--caregiver-5'],
+    replaceStrValues(
+      content['certification-statement--caregiver-5'],
+      'Secondary',
+    ),
+    content['certification-statement--caregiver-6'],
   ],
   representative: [
     content['certification-statement--rep-1'],

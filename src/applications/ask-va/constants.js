@@ -223,7 +223,7 @@ export const yourRoleOptionsEducation = {
 
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
-  CHAPTER_TITLE: 'Category and Topic',
+  CHAPTER_TITLE: 'Category and topic',
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category',
@@ -232,13 +232,13 @@ export const CHAPTER_1 = {
   },
   PAGE_2: {
     PATH: 'category-topic-2',
-    TITLE: 'Topic selected',
+    TITLE: 'Topic',
     PAGE_DESCRIPTION: 'Topic',
     QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
-    TITLE: 'Subtopic selected',
+    TITLE: 'Subtopic',
     PAGE_DESCRIPTION: 'Subtopic',
     QUESTION_1: 'Select the subtopic that best describes your question:',
   },
@@ -246,7 +246,7 @@ export const CHAPTER_1 = {
 
 // Chapter 2 labels: titles, questions, descriptions
 export const CHAPTER_2 = {
-  CHAPTER_TITLE: 'Your Question',
+  CHAPTER_TITLE: 'Your question',
   PAGE_1: {
     PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
@@ -263,13 +263,13 @@ export const CHAPTER_2 = {
     PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
+    QUESTION_1: "What's your question?",
   },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'Personal Information',
+  CHAPTER_TITLE: 'Your Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
     TITLE: 'What is your relationship to the Veteran?',
@@ -441,29 +441,31 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
+  CHAPTER_2.PAGE_1.TITLE,
+  CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
-export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+export const homeBreadcrumbs = [{ href: '/', label: 'Home', key: 'home' }];
 
 export const contactUsBreadcrumbs = [
   ...homeBreadcrumbs,
-  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+  { href: '/contact-us', label: 'Contact Us', key: 'contactUs' },
 ];
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'Response Page', key: 'responsePage' },
+  { label: 'Response Page', key: 'responsePage' },
 ];
 
 export const newInquiryBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'New Inquiry', key: 'newInquiry' },
+  { label: 'New Inquiry', key: 'newInquiry' },
 ];
 
 export const breadcrumbsDictionary = {

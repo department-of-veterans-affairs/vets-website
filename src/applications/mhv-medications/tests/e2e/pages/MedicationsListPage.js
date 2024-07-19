@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import allergiesList from '../fixtures/allergies-list.json';
 
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
@@ -56,6 +57,78 @@ class MedicationsListPage {
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
+  };
+
+  clickGotoMedicationsLinkForUserWithAllergies = (waitForMeds = false) => {
+    // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergiesList,
+    ).as('allergiesList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  verifyAllergiesListNetworkResponseWithAllergyTypeReported = (
+    valueCode,
+    allergy,
+  ) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(res.body.entry[allergy].resource.extension[allergy]).to.include({
+          valueCode,
+        });
+      });
+  };
+
+  verifyAllergiesListNetworkResponseWithAllergyTypeObserved = (
+    valueCode,
+    allergy,
+    listNumber,
+  ) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.extension[listNumber],
+        ).to.include({
+          valueCode,
+        });
+      });
+  };
+
+  verifyAllergiesListNetworkResponseURL = (url, allergy) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.extension[allergy].url,
+        ).to.include(url);
+      });
+  };
+
+  verifyAllergiesListContainedResourceOrgName = (orgName, allergy) => {
+    cy.get('@allergiesList')
+      .its('response')
+      .then(res => {
+        expect(
+          res.body.entry[allergy].resource.contained[allergy].name,
+        ).to.include(orgName);
+      });
   };
 
   clickPrintThisPageOfTheListButtonOnListPage = () => {
