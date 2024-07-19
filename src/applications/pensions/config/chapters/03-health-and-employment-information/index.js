@@ -1,4 +1,5 @@
 import age from './age';
+import over65 from './over65';
 import socialSecurityDisability from './socialSecurityDisability';
 import medicalCondition from './medicalCondition';
 import nursingHome from './nursingHome';
@@ -17,6 +18,7 @@ export default {
   title: 'Health and employment information',
   pages: {
     age,
+    over65,
     socialSecurityDisability,
     medicalCondition,
     nursingHome,
