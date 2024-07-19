@@ -544,10 +544,6 @@ class PatientMessageDetailsPage {
     );
   };
 
-  verifyDeleteMessageConfirmationMessageHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
-  };
-
   clickReplyButton = singleThreadData => {
     cy.intercept(
       'GET',
@@ -560,4 +556,4 @@ class PatientMessageDetailsPage {
   };
 }
 
-export default PatientMessageDetailsPage;
+export default new PatientMessageDetailsPage();
