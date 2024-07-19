@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
@@ -21,18 +20,17 @@ import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 
 import { showClaimLettersFeature } from '../selectors';
 import {
-  buildDateFormatter,
   claimAvailable,
-  getClaimType,
   getItemDate,
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
   isClaimOpen,
   itemsNeedingAttentionFromVet,
-  setDocumentTitle,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab, setFocus } from '../utils/page';
+import { setUpPage, isTab } from '../utils/page';
 
 // HELPERS
 const STATUSES = getStatusMap();
@@ -163,29 +161,23 @@ const generateEventTimeline = claim => {
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
-    this.setTitle();
+    const { claim } = this.props;
+    setTabDocumentTitle(claim, 'Status');
 
-    if (!isTab(this.props.lastPage)) {
-      if (!this.props.loading) {
-        setUpPage();
-      } else {
-        scrollToTop();
-      }
-    } else {
-      setFocus('#tabPanelStatus');
-    }
+    setTimeout(() => {
+      const { lastPage, loading } = this.props;
+      setPageFocus(lastPage, loading);
+    }, 100);
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.loading &&
-      prevProps.loading &&
-      !isTab(this.props.lastPage)
-    ) {
+    const { claim, lastPage, loading } = this.props;
+
+    if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
-    if (this.props.loading !== prevProps.loading) {
-      this.setTitle();
+    if (loading !== prevProps.loading) {
+      setTabDocumentTitle(claim, 'Status');
     }
   }
 
@@ -267,19 +259,6 @@ class ClaimStatusPage extends React.Component {
         </Toggler>
       </div>
     );
-  }
-
-  setTitle() {
-    const { claim } = this.props;
-
-    if (claimAvailable(claim)) {
-      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-      const claimType = getClaimType(claim);
-      const title = `Status Of ${claimDate} ${claimType} Claim`;
-      setDocumentTitle(title);
-    } else {
-      setDocumentTitle('Status Of Your Claim');
-    }
   }
 
   render() {
