@@ -13,6 +13,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
 import SubTaskContainer from '../subtask/SubTaskContainer';
+import InformalConference from '../components/InformalConference';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -25,7 +26,8 @@ import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
 import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
-import informalConference from '../pages/informalConference';
+import informalConference from '../pages/informalConferenceChoice';
+import InformalConferenceReview from '../components/InformalConferenceReview';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
@@ -226,6 +228,10 @@ const formConfig = {
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+          // original page choices: 'me', 'rep' or 'no'
+          // new page choices: 'yes' or 'no'
+          CustomPage: InformalConference,
+          CustomPageReview: InformalConferenceReview,
           scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {
