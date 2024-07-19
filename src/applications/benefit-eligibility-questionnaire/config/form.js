@@ -29,6 +29,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import separation from '../pages/separation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -42,7 +43,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Disability',
+  stepLabels: 'Goals;Service;Separation;Disability',
   formId: 'T-QSTNR',
   saveInProgress: {
     messages: {
@@ -92,6 +93,17 @@ const formConfig = {
       },
     },
     chapter3: {
+      title: 'Separation',
+      pages: {
+        separation: {
+          path: 'separation',
+          title: 'Separation',
+          uiSchema: separation.uiSchema,
+          schema: separation.schema,
+        },
+      },
+    },
+    chapter4: {
       title: 'Disability',
       pages: {
         disabilityRating: {
