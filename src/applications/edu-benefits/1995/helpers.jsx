@@ -4,15 +4,15 @@ import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
 
+function convertToggle() {
+  const url = window.location.href;
+  const params = new URLSearchParams(new URL(url).search);
+  const toggleValues = params.get('toggle');
+  return toggleValues?.toLowerCase() === 'true';
+}
 export const isProductionOfTestProdEnv = automatedTest => {
-  const toggle = localStorage.getItem('toggleValue');
-  // console.log(toggle, 'toggleValue');
-  return (
-    // environment.isProduction() ||
-    toggle ||
-    automatedTest ||
-    (global && global?.window && global?.window?.buildType)
-  );
+  const toggle = convertToggle();
+  return !toggle || (automatedTest || window.isProd);
 };
 
 export const introductionPage = (automatedTest = false) => {

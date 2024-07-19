@@ -25,7 +25,18 @@ describe('Edu 1995 applicantInformation', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
   it('should render', () => {
+    sandbox.stub(window, 'location').value({
+      href: 'http://example.com?toggle=false',
+    });
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
