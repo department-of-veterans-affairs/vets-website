@@ -58,6 +58,12 @@ export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
   'FETCH_DUPLICATE_CONTACT_INFO_SUCCESS';
 export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
   'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
 export const UPDATE_GLOBAL_EMAIL = 'UPDATE_GLOBAL_EMAIL';
 export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
@@ -93,12 +99,6 @@ export function fetchPersonalInformation(showMebEnhancements09) {
   };
 }
 
-const CONFIRMATION_ENDPOINT = `${
-  environment.API_URL
-}/meb_api/v0/send_confirmation_email`;
-export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
-export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
-export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
 const poll = ({
   endpoint,
   validate = response => response && response.data,
