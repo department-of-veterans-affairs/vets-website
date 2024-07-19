@@ -33,6 +33,91 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     },
   };
 
+  describe('When appointment information is missing', () => {
+    it('should not display heading and text for empty data', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+
+      const store = createTestStore(state);
+      const appointment = {
+        comment: 'This is a test:Additional information',
+        location: {
+          stationId: '983',
+        },
+        videoData: {
+          atlasConfirmationCode: '1234',
+          atlasLocation: {
+            address: {
+              line: ['5929 Georgia Ave NW'],
+              city: 'Washington',
+              state: 'DC',
+              postalCode: '20011',
+            },
+          },
+          isVideo: true,
+          facilityId: '983',
+          isAtlas: true,
+          kind: VIDEO_TYPES.adhoc,
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isVideo: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <VideoLayoutAtlas data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Video appointment at an Atlas location/i,
+        }),
+      );
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Who/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /What/i,
+        }),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', { level: 2, name: /Where to attend/i }),
+      ).not.to.exist;
+
+      expect(screen.getByText(/Clinic not available/i));
+      expect(screen.getByText(/Facility not available/i));
+    });
+  });
+
   describe('When viewing upcomming appointment details', () => {
     it('should display VA video layout', async () => {
       // Arrange
@@ -61,6 +146,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -159,7 +253,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         .ok;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
@@ -200,6 +294,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -325,6 +428,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           extension: {
             patientHasMobileGfe: false,
           },
+          providers: [
+            {
+              name: {
+                firstName: ['TEST'],
+                lastName: 'PROV',
+              },
+              display: 'TEST PROV',
+            },
+          ],
         },
         vaos: {
           isCommunityCare: false,
