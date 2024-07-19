@@ -21,26 +21,31 @@ export default function TravelClaimCard(props) {
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   return (
-    <va-card tabIndex={0} key={id} class="vads-u-margin-bottom--2">
+    <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
       <h3
         className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
         data-testid="travel-claim-details"
       >
-        {appointmentDate} at {appointmentTime} appointment
+        {`${appointmentDate} at ${appointmentTime} appointment`}
       </h3>
       <h4 className="vads-u-margin-bottom--1">Where</h4>
       <p className="vads-u-margin-top--0">{facilityName}</p>
 
       <h4 className="vads-u-margin-bottom--1">Claim Details</h4>
-      <p className="vads-u-margin-top--0">
-        <strong>
-          Claim status: {CLAIMS_STATUSES[claimStatus] || claimStatus}
-        </strong>{' '}
-        <br />
-        Claim number: {claimNumber} <br />
-        Submitted on {createDate} at {createTime} <br />
-        Updated on {updateDate} at {updateTime}
-      </p>
+      <ul className="vads-u-margin-top--0">
+        <li>
+          <strong>
+            Claim status: {CLAIMS_STATUSES[claimStatus] || claimStatus}
+          </strong>
+        </li>
+        <li>Claim number: {claimNumber}</li>
+        <li>
+          Submitted on {createDate} at {createTime}
+        </li>
+        <li>
+          Updated on {updateDate} at {updateTime}
+        </li>
+      </ul>
     </va-card>
   );
 }

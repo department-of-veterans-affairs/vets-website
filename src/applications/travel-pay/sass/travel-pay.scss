@@ -32,8 +32,19 @@
 }
 
 h2#pagination-info {
-    font-size: 1.06rem;
-    font-weight: normal;
-    font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.5;
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
 }
+
+.travel-claim-card {
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
