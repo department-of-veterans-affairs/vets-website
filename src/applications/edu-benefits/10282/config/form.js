@@ -38,7 +38,7 @@ const formConfig = {
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // formId: '22-10282',
+  formId: '22-10282',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your 	education benefits application (22-10282) is in progress.',
