@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   getFormContent,
+  getOcrResults,
   uploadScannedForm,
 } from '~/applications/simple-forms/form-upload/helpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
@@ -43,9 +44,17 @@ const VaFileInputField = props => {
   const { formNumber } = getFormContent();
 
   const onFileUploaded = useCallback(
-    uploadedFile => {
-      if (uploadedFile.confirmationCode) {
-        props.childrenProps.onChange(uploadedFile);
+    async uploadedFile => {
+      const { confirmationCode } = uploadedFile;
+      if (confirmationCode) {
+        const ocrResults = await getOcrResults(uploadedFile.file);
+        const { name, size } = uploadedFile.file;
+        props.childrenProps.onChange({
+          name,
+          size,
+          confirmationCode,
+          ocrResults,
+        });
       }
     },
     [props.childrenProps],

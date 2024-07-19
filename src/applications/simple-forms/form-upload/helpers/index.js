@@ -2,6 +2,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import * as pdfjsLib from 'pdfjs-dist/webpack.mjs';
 import {
   SUBTITLE_0779,
   CHILD_CONTENT_0779,
@@ -71,6 +72,29 @@ export const mask = value => {
   );
 };
 
+export const getOcrResults = async file => {
+  const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise;
+  return pdf.numPages;
+};
+
+export const hideAlertTooManyPages = formData => {
+  const ocrResults = formData.uploadedFile?.ocrResults;
+  if (!ocrResults) {
+    return true;
+  }
+  // 2 is hardcoded here. When we go beyond 21-0779, make this flexible
+  return ocrResults <= 2;
+};
+
+export const hideAlertTooFewPages = formData => {
+  const ocrResults = formData.uploadedFile?.ocrResults;
+  if (!ocrResults) {
+    return true;
+  }
+  // 2 is hardcoded here. When we go beyond 21-0779, make this flexible
+  return ocrResults >= 2;
+};
+
 const createPayload = (file, formId) => {
   const payload = new FormData();
   payload.set('form_id', formId);
@@ -86,7 +110,9 @@ export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
     maxSize: MAX_FILE_SIZE_BYTES,
     createPayload,
-    parseResponse: ({ data }) => data?.attributes,
+    parseResponse: ({ data }, file) => {
+      return { file, confirmationCode: data?.attributes?.confirmationCode };
+    },
   };
 
   return dispatch => {
