@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 import {
   applicantInformationField,
@@ -25,18 +25,7 @@ describe('Edu 1995 applicantInformation', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.applicantInformation.pages.applicantInformation;
-  let sandbox;
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
   it('should render', () => {
-    sandbox.stub(window, 'location').value({
-      href: 'http://example.com?toggle=false',
-    });
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
@@ -65,10 +54,6 @@ describe('Edu 1995 applicantInformation', () => {
     );
     submitForm(form);
 
-    // Use Array find() for nodes with 'view:' in the id, and check for ok (truthiness) instead of null since
-    // not found nodes will return undefined instead of null
-
-    // VA file number input is not visible; error is shown for empty SSN input
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
       form,
       'input',
@@ -88,7 +73,6 @@ describe('Edu 1995 applicantInformation', () => {
       ),
     ).to.be.ok;
 
-    // Check no-SSN box
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(
       form,
       'input',
@@ -99,7 +83,6 @@ describe('Edu 1995 applicantInformation', () => {
       },
     });
 
-    // No error is shown for empty SSN input; error is shown for empty file number input
     const newErrors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
       form,
       'usa-input-error-message',
@@ -112,6 +95,7 @@ describe('Edu 1995 applicantInformation', () => {
     expect(newErrors.find(input => input.id.includes('root_vaFileNumber'))).to
       .be.ok;
   });
+
   it('should submit with no errors with all required fields filled in', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(

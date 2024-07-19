@@ -8,13 +8,12 @@ function convertToggle() {
   const url = window.location.href;
   const params = new URLSearchParams(new URL(url).search);
   const toggleValues = params.get('toggle');
-  return toggleValues?.toLowerCase() === 'true';
+  return toggleValues?.toLowerCase() === 'false';
 }
 export const isProductionOfTestProdEnv = automatedTest => {
   const toggle = convertToggle();
-  return !toggle || (automatedTest || window.isProd);
+  return toggle !== undefined ? toggle : automatedTest;
 };
-
 export const introductionPage = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? IntroductionPage

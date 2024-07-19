@@ -3,11 +3,10 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('Edu 1995 servicePeriods', () => {
@@ -16,6 +15,7 @@ describe('Edu 1995 servicePeriods', () => {
     uiSchema,
   } = formConfig.chapters.militaryService.pages.servicePeriods;
   const definitions = formConfig.defaultDefinitions;
+
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
