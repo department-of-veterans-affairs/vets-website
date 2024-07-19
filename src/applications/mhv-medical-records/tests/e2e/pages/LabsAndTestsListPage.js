@@ -31,6 +31,7 @@ class LabsAndTestsListPage extends BaseListPage {
   };
 
   loadVAPaginationNext = () => {
+    cy.get('#showingRecords').should('be.visible');
     cy.get('va-pagination').should('be.visible');
     cy.get('va-pagination')
       .shadow()
