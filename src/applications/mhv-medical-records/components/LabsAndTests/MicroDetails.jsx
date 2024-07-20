@@ -81,7 +81,7 @@ ${record.name}\n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date: ${record.dateAndTimeCollected}\n
+Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
 Site or sample tested: ${record.sampleTested}\n

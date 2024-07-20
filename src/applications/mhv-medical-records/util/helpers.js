@@ -191,25 +191,21 @@ export const extractContainedResource = (resource, referenceId) => {
 /**
  * Extract a specimen resource from a FHIR resource's "contained" array.
  * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
- * @returns the specified contained FHIR resource, or null if not found
- */
-export const extractSpecimen = record => {
-  const specimen =
-    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
-  return specimen || null;
-};
-
-/**
- * Extract a specimen resource from a FHIR resource's "contained" array.
- * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
  * @param {String} resourceType takes a resourceType to return a record from "contained"
  * @returns the specified contained FHIR resource, or null if not found
  */
-export const extractContainedByRecourceType = (record, resourceType) => {
-  const entry = record.contained.find(
-    data => data.resourceType === resourceType,
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  const refArray = [];
+  referenceArray.map(entry => refArray.push(entry.reference.replace('#', '')));
+  return (
+    record.contained
+      .filter(item => refArray.includes(item.id))
+      .filter(item => item.resourceType === resourceType) || null
   );
-  return entry || null;
 };
 
 /**

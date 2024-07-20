@@ -3,9 +3,9 @@ import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
+  formatDate,
   extractContainedByRecourceType,
   extractContainedResource,
-  extractSpecimen,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -114,6 +114,17 @@ const getSpecimen = record => {
   return null;
 };
 
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractSpecimen = record => {
+  const specimen =
+    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
+  return specimen || null;
+};
+
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
   return serviceReq?.code?.text || null;
@@ -164,8 +175,12 @@ const convertChemHemRecord = record => {
 const convertMicrobiologyRecord = record => {
   const specimenRef = extractSpecimen(record);
   const collectionRequest = extractContainedResource(record, specimenRef);
-  const getOrderedBy = extractContainedByRecourceType(record, 'Practitioner');
-  const orderedBy = getOrderedBy.name.map(name => name.text);
+  const getOrderedBy = extractContainedByRecourceType(
+    record,
+    'Practitioner',
+    record.performer,
+  );
+  const orderedBy = getOrderedBy.map(obj => obj.name.map(name => name.text));
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
@@ -177,9 +192,7 @@ const convertMicrobiologyRecord = record => {
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     date: collectionRequest.collection.collectedDateTime
-      ? dateFormatWithoutTimezone(
-          collectionRequest.collection.collectedDateTime,
-        )
+      ? formatDate(collectionRequest.collection.collectedDateTime)
       : EMPTY_FIELD,
     sampleFrom: getSpecimen(record) || EMPTY_FIELD,
     sampleTested: collectionRequest.collection.bodySite.text || EMPTY_FIELD,
@@ -187,7 +200,13 @@ const convertMicrobiologyRecord = record => {
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
-    results: record.presentedForm.map(form => `${form.data}`) || EMPTY_FIELD,
+    results:
+      record.presentedForm.map(
+        form =>
+          Buffer.from(`${form.data}`, 'base64')
+            .toString('utf-8')
+            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
+      ) || EMPTY_FIELD,
   };
 };
 
@@ -206,12 +225,18 @@ const convertPathologyRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: collectionRequest?.type.text || EMPTY_FIELD,
     labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
-    results: record.presentedForm.map(form => `${form.data}`) || EMPTY_FIELD,
+    results:
+      record.presentedForm.map(
+        form =>
+          Buffer.from(`${form.data}`, 'base64')
+            .toString('utf-8')
+            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
+      ) || EMPTY_FIELD,
   };
 };
 
