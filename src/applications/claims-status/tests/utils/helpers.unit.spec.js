@@ -3,6 +3,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as scroll from 'platform/utilities/ui/scroll';
+import * as page from '../../utils/page';
 
 import {
   groupTimelineActivity,
@@ -33,6 +35,9 @@ import {
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
   getClaimPhaseTypeDescription,
+  setDocumentRequestPageTitle,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../../utils/helpers';
 
 import {
@@ -1163,6 +1168,117 @@ describe('Disability benefits helpers: ', () => {
       const desc = getClaimPhaseTypeDescription('CLAIM_RECEIVED');
 
       expect(desc).to.equal('We received your claim in our system.');
+    });
+  });
+
+  describe('setDocumentRequestPageTitle', () => {
+    it('should display 5103 Evidence Notice', () => {
+      const displayName = 'Automated 5103 Notice Response';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
+    });
+    it('should display Request for Submit buddy statement(s)', () => {
+      const displayName = 'Submit buddy statement(s)';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
+    });
+  });
+
+  describe('setTabDocumentTitle', () => {
+    context('when there is no claim', () => {
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(null, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(null, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(null, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of Your Claim | Veterans Affairs',
+        );
+      });
+    });
+    context('when there is a claim', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+        },
+      };
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(claim, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(claim, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(claim, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+    });
+  });
+
+  describe('setPageFocus', () => {
+    context('when last page was not a tab and loading is false', () => {
+      it('should run setUpPage', () => {
+        const setUpPage = sinon.spy(page, 'setUpPage');
+        setPageFocus('/test', false);
+
+        expect(setUpPage.called).to.be.true;
+      });
+    });
+    context('when last page was not a tab and loading is true', () => {
+      it('should run scrollToTop', () => {
+        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        setPageFocus('/test', true);
+
+        expect(scrollToTop.called).to.be.true;
+      });
+    });
+    context('when last page was a tab', () => {
+      it('should run scrollAndFocus', () => {
+        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        setPageFocus('/status', false);
+
+        expect(scrollAndFocus.called).to.be.true;
+      });
     });
   });
 });

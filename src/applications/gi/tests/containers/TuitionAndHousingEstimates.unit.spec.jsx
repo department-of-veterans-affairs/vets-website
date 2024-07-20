@@ -36,7 +36,11 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(screen.getByText('Update tuition and housing estimates'));
+    fireEvent.click(
+      screen.getByText(
+        'Update tuition, housing, and monthly benefit estimates',
+      ),
+    );
     const actionsCalled = screen?.store?.getActions();
     expect(
       actionsCalled?.some(
@@ -60,7 +64,11 @@ describe('<TuitionAndHousingEstimates>', () => {
         },
       },
     );
-    fireEvent.click(screen.getByText('Update tuition and housing estimates'));
+    fireEvent.click(
+      screen.getByText(
+        'Update tuition, housing, and monthly benefit estimates',
+      ),
+    );
     const UpdateEstimatesButton = screen.getByRole('button', {
       name: 'Update estimates',
     });
@@ -86,7 +94,7 @@ describe('<TuitionAndHousingEstimates>', () => {
       },
     );
     const UpdateEstimatesButton = container.querySelector(
-      '#update-update-tuition-and-housing-estimates-button',
+      '#update-update-tuition\\,-housing\\,-and-monthly-benefit-estimates-button',
     );
     fireEvent.click(UpdateEstimatesButton);
 
@@ -111,7 +119,7 @@ describe('<TuitionAndHousingEstimates>', () => {
       },
     );
     const updateTuitionEstimatesButton = screen.getByRole('button', {
-      name: 'Update tuition and housing estimates',
+      name: 'Update tuition, housing, and monthly benefit estimates',
     });
     fireEvent.click(updateTuitionEstimatesButton); // first click opens accordion
     await waitFor(() => {

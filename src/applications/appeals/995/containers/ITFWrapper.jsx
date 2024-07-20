@@ -175,7 +175,7 @@ ITFWrapper.propTypes = {
   }).isRequired,
   accountUuid: PropTypes.string,
   benefitType: PropTypes.string,
-  inProgressFormId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  inProgressFormId: PropTypes.number,
   itf: PropTypes.shape({
     fetchCallState: PropTypes.oneOf(requestStateEnum).isRequired,
     creationCallState: PropTypes.oneOf(requestStateEnum).isRequired,

@@ -34,20 +34,20 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item => relationshipLabels[item.recipientRelationship],
-    reviewAddButtonText: 'Add another recurring income',
+    reviewAddButtonText: 'Add another unassociated income',
     alertMaxItems:
-      'You have added the maximum number of allowed recurring incomes for this application. You may edit or delete a recurring income or choose to continue the application.',
-    alertItemUpdated: 'Your recurring income information has been updated',
-    alertItemDeleted: 'Your recurring income information has been deleted',
-    cancelAddTitle: 'Cancel adding this recurring income',
-    cancelAddButtonText: 'Cancel adding this recurring income',
-    cancelAddYes: 'Yes, cancel adding this recurring income',
+      'You have added the maximum number of allowed unassociated incomes for this application. You may edit or delete an unassociated income or choose to continue the application.',
+    alertItemUpdated: 'Your unassociated income information has been updated',
+    alertItemDeleted: 'Your unassociated income information has been deleted',
+    cancelAddTitle: 'Cancel adding this unassociated income',
+    cancelAddButtonText: 'Cancel adding this unassociated income',
+    cancelAddYes: 'Yes, cancel adding this unassociated income',
     cancelAddNo: 'No',
-    cancelEditTitle: 'Cancel editing this recurring income',
-    cancelEditYes: 'Yes, cancel editing this recurring income',
+    cancelEditTitle: 'Cancel editing this unassociated income',
+    cancelEditYes: 'Yes, cancel editing this unassociated income',
     cancelEditNo: 'No',
-    deleteTitle: 'Delete this recurring income',
-    deleteYes: 'Yes, delete this recurring income',
+    deleteTitle: 'Delete this unassociated income',
+    deleteYes: 'Yes, delete this unassociated income',
     deleteNo: 'No',
   },
 };
@@ -59,7 +59,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasUnassociatedIncomes': arrayBuilderYesNoUI(
+    'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
       {
         title:
@@ -81,9 +81,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:hasUnassociatedIncomes': arrayBuilderYesNoSchema,
+      'view:isAddingUnassociatedIncomes': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasUnassociatedIncomes'],
+    required: ['view:isAddingUnassociatedIncomes'],
   },
 };
 
@@ -175,20 +175,19 @@ export const unassociatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
     unassociatedIncomePagesSummary: pageBuilder.summaryPage({
-      title:
-        'Review your recurring income not associated with accounts or assets',
+      title: 'Income not associated with accounts or assets',
       path: 'unassociated-incomes-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomeRecipientPage: pageBuilder.itemPage({
-      title: 'Income recipient',
+      title: 'Unassociated income recipient',
       path: 'unassociated-incomes/:index/income-recipient',
       uiSchema: incomeRecipientPage.uiSchema,
       schema: incomeRecipientPage.schema,
     }),
     unassociatedIncomeTypePage: pageBuilder.itemPage({
-      title: 'Income type',
+      title: 'Unassociated income type',
       path: 'unassociated-incomes/:index/income-type',
       uiSchema: incomeTypePage.uiSchema,
       schema: incomeTypePage.schema,

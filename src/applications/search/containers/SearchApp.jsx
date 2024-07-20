@@ -793,63 +793,25 @@ class SearchApp extends React.Component {
             </h2>
             <ul>
               <li>
-                <a
-                  className="right-nav-link"
+                <va-link
                   href="https://search.usa.gov/search?affiliate=bvadecisions"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Look up BVA decisions',
-                    })
-                  }
-                >
-                  Look up Board of Veterans' Appeals (BVA) decisions
-                </a>
+                  text="Look up Board of Veterans' Appeals (BVA) decisions"
+                />
               </li>
               <li>
-                <a
-                  className="right-nav-link"
-                  href="/find-forms/"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path': 'More VA Search Tools -> Find a VA form',
-                    })
-                  }
-                >
-                  Find a VA form
-                </a>
+                <va-link href="/find-forms/" text="Find a VA form" />
               </li>
               <li>
-                <a
-                  className="right-nav-link"
+                <va-link
                   href="https://www.va.gov/vapubs/"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> VA handbooks and other publications',
-                    })
-                  }
-                >
-                  VA handbooks and other publications
-                </a>
+                  text="VA handbooks and other publications"
+                />
               </li>
               <li>
-                <a
-                  className="right-nav-link"
+                <va-link
                   href="https://www.vacareers.va.gov/job-search/index.asp"
-                  onClick={() =>
-                    recordEvent({
-                      event: 'nav-searchresults',
-                      'nav-path':
-                        'More VA Search Tools -> Explore and apply for open VA jobs',
-                    })
-                  }
-                >
-                  Explore and apply for open VA jobs
-                </a>
+                  text="Explore and apply for open VA jobs"
+                />
               </li>
             </ul>
           </div>
