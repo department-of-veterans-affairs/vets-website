@@ -3,16 +3,11 @@ import React from 'react';
 import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
+import { convertToggle } from '../utils/helpers';
 
-function convertToggle() {
-  const url = window.location.href;
-  const params = new URLSearchParams(new URL(url).search);
-  const toggleValues = params.get('toggle');
-  return toggleValues?.toLowerCase() === 'false';
-}
 export const isProductionOfTestProdEnv = automatedTest => {
   const toggle = convertToggle();
-  return toggle !== undefined ? toggle : automatedTest;
+  return toggle || automatedTest || global?.window?.isProd;
 };
 
 export const introductionPage = (automatedTest = false) => {

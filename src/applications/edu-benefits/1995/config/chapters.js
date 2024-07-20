@@ -112,32 +112,6 @@ export const serviceHistoryTitle = (automatedTest = false) => {
   }
   return 'Applicant service history';
 };
-export const serviceHistory = (automatedTest = false) => {
-  if (isProductionOfTestProdEnv(automatedTest)) {
-    return {
-      servicePeriods: {
-        path: 'military/service',
-        title: 'Service periods',
-        uiSchema: servicePeriodsUiSchema(),
-        schema: servicePeriodsSchema(),
-      },
-    };
-  }
-  return {
-    servicePeriods: {
-      path: 'military/service',
-      title: 'Service periods',
-      uiSchema: servicePeriodsUiSchema(),
-      schema: servicePeriodsSchema(),
-    },
-    militaryHistory: {
-      title: 'Military history',
-      path: 'military/history',
-      uiSchema: militaryHistory.uiSchema,
-      schema: militaryHistory.schema,
-    },
-  };
-};
 const militaryService = {
   title: serviceHistoryTitle(),
   pages: {
@@ -188,24 +162,6 @@ export const chapters = {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
-  // militaryService: {
-  //   title: serviceHistoryTitle(),
-  //   pages: {
-  //     servicePeriods: {
-  //       path: 'military/service',
-  //       title: 'Service periods',
-  //       uiSchema: servicePeriodsUiSchema(),
-  //       schema: servicePeriodsSchema(),
-  //     },
-  //     // militaryHistory: {
-  //     //   title: 'Military history',
-  //     //   depends: () => console.log(isProductionOfTestProdEnv()),
-  //     //   path: 'military/history',
-  //     //   uiSchema: militaryHistory.uiSchema,
-  //     //   schema: militaryHistory.schema,
-  //     // },
-  //   },
-  // },
   militaryService,
   schoolSelection: {
     title: isProductionOfTestProdEnv()
