@@ -204,11 +204,3 @@ if (isProductionOfTestProdEnv()) {
     fullSchema1995,
   );
 }
-// if (isProductionOfTestProdEnv()) {
-//   chapters.militaryService.pages.militaryHistory = {
-//     title: 'Military history',
-//     path: 'military/history',
-//     uiSchema: militaryHistory.uiSchema,
-//     schema: militaryHistory.schema,
-//   };
-// }
