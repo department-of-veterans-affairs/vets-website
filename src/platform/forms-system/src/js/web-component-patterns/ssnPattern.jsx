@@ -10,17 +10,21 @@ const VA_FILE_NUMBER_DEFAULT_TITLE = 'VA file number';
 const SERVICE_NUMBER_DEFAULT_TITLE = 'Military Service number';
 
 /**
+ * @module IdentificationPatterns
+ */
+
+/**
  * Web component v3 for Social Security number
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
  *
- * ```js
+ * @example
  * example: ssnUI() // Social Security number
  * example: ssnUI("Veteran's Social Security number")
- * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
+ * @function
  */
 const ssnUI = title => {
   return {
@@ -39,12 +43,11 @@ const ssnUI = title => {
 /**
  * Schema for Social Security number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: ssnUI()
  * // schema
  * example: ssnSchema
- * ```
  * @returns `commonDefinitions.ssn`
  */
 const ssnSchema = commonDefinitions.ssn;
@@ -55,12 +58,12 @@ const ssnSchema = commonDefinitions.ssn;
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
  *
- * ```js
+ * @example
  * example: vaFileNumberUI() // VA file number
  * example: vaFileNumberUI("Veteran's VA file number")
- * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
+ * @function
  */
 const vaFileNumberUI = title => {
   return {
@@ -78,12 +81,11 @@ const vaFileNumberUI = title => {
 /**
  * Schema for VA File Number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: vaFileNumberUI()
  * // schema
  * example: vaFileNumberSchema
- * ```
  * @returns `commonDefinitions.centralMailVaFile`
  */
 const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
@@ -94,12 +96,12 @@ const vaFileNumberSchema = commonDefinitions.centralMailVaFile;
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
  *
- * ```js
+ * @example
  * example: serviceNumberUI() // Service number
  * example: serviceNumberUI("Veteran's Service number")
- * ```
  * @param {string} [title]
  * @returns {UISchemaOptions}
+ * @function
  */
 const serviceNumberUI = title => {
   return {
@@ -118,12 +120,11 @@ const serviceNumberUI = title => {
 /**
  * Schema for Service Number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: serviceNumberUI()
  * // schema
  * example: serviceNumberSchema
- * ```
  * @returns `commonDefinitions.veteranServiceNumber`
  */
 const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
@@ -135,10 +136,11 @@ const serviceNumberSchema = commonDefinitions.veteranServiceNumber;
  * rather than in the field names.
  *
  * A grouped object containing `ssn` and `vaFileNumber` properties
- * ```js
+ *
+ * @example
  * example: ssnOrVaFileNumberUI()
- * ```
  * @returns {UISchemaOptions}
+ * @function
  */
 const ssnOrVaFileNumberUI = () => {
   return {
@@ -177,10 +179,10 @@ const ssnOrVaFileNumberUI = () => {
  * rather than in the field names.
  *
  * A grouped object containing `ssn` and `vaFileNumber` properties
- * ```js
+ * @example
  * example: ssnOrVaFileNumberNoHintUI()
- * ```
  * @returns {UISchemaOptions}
+ * @function
  */
 const ssnOrVaFileNumberNoHintUI = () => {
   return {
@@ -207,12 +209,11 @@ const ssnOrVaFileNumberNoHintUI = () => {
 /**
  * Schema for SSN or VA File Number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: ssnOrVaFileNumberUI()
  * // schema
  * example: ssnOrVaFileNumberSchema
- * ```
  */
 const ssnOrVaFileNumberSchema = {
   type: 'object',
@@ -226,12 +227,11 @@ const ssnOrVaFileNumberSchema = {
 /**
  * Schema for SSN or VA File Number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: ssnOrVaFileNumberNoHintUI()
  * // schema
  * example: ssnOrVaFileNumberNoHintSchema
- * ```
  */
 const ssnOrVaFileNumberNoHintSchema = ssnOrVaFileNumberSchema;
 

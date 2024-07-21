@@ -7,7 +7,25 @@ import {
 } from '../patterns/array-builder/helpers';
 
 /**
+ * @typedef {Object} ArrayBuilderYesNoUIOptions
+ * @property {UITitle} [title]
+ * @property {Object} [labels]
+ * @property {string} [labels.Y]
+ * @property {string} [labels.N]
+ * @property {string} [hint]
+ * @property {UIErrorMessages} [errorMessages]
+ * @property {UILabelHeaderLevel} [labelHeaderLevel]
+ */
+
+/**
+ * @module ArrayBuilderPatterns
+ */
+
+/**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
+ * @param {Object} options
+ * @param {string} options.nounSingular
+ * @param {string} [options.description]
  */
 export function withAlertOrDescription({ description, nounSingular }) {
   return () => {
@@ -36,6 +54,9 @@ export function withAlertOrDescription({ description, nounSingular }) {
 
 /**
  * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present
+ * @param {UITitle} title
+ * @returns string
+ * @function
  */
 export const withEditTitle = title => {
   return props => {
@@ -55,8 +76,7 @@ export const withEditTitle = title => {
  * - Displays a warning alert if all items have been removed and is required
  * - Displays an additional description message for edit
  *
- * Usage:
- * ```
+ * @example
  * uiSchema: {
  *   ...arrayBuilderItemFirstPageTitleUI({
  *     title: 'Name and address of employer',
@@ -64,13 +84,13 @@ export const withEditTitle = title => {
  *   }),
  *   ...
  * }
- * ```
  *
- * @param {{
- *   title: string,
- *   nounSingular: string,
- * }} options
+ * @param {Object} options
+ * @param {UITitle} options.title
+ * @param {UIDescription} [options.description]
+ * @param {string} options.nounSingular
  * @returns {UISchemaOptions}
+ * @function
  */
 export const arrayBuilderItemFirstPageTitleUI = ({
   title,
@@ -87,51 +107,38 @@ export const arrayBuilderItemFirstPageTitleUI = ({
  * Title for the top of a subsequent page (not the first) of an item in array builder pattern
  * - Puts the title in the format "Edit {title}" when editing
  *
- * ```js
+ * @example
  * uiSchema: {
  *   ...arrayBuilderItemSubsequentPageTitleUI('Your contact information')
  *   ...arrayBuilderItemSubsequentPageTitleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
  *   ...arrayBuilderItemSubsequentPageTitleUI('Your contact information', 'We’ll send any important information to this address.')
  *   ...arrayBuilderItemSubsequentPageTitleUI('Previous deductible expenses', (<p>
-      Tell us more.
-          <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-            We understand in some cases your expenses might be higher than your
-            income. If your expenses exceed your income, we’ll adjust them to be
-            equal to your income. This won’t affect your application or benefits.
-          </AdditionalInfo>
-      </p>))
- * ```
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
- *
+ *    Tell us more.
+ *        <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+ *          We understand in some cases your expenses might be higher than your
+ *          income. If your expenses exceed your income, we’ll adjust them to be
+ *          equal to your income. This won’t affect your application or benefits.
+ *        </AdditionalInfo>
+ *    </p>))
+ * @param {UITitle} [title]
+ * @param {UIDescription} [description]
  * @returns {UISchemaOptions}
+ * @function
  */
 export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
   return titleUI(withEditTitle(title), description);
 };
 
 /**
- * @typedef {{
- *   title?: UISchemaOptions['ui:title'],
- *   labels?: {Y?: string, N?: string},
- *   hint?: string,
- *   errorMessages?: UISchemaOptions['ui:errorMessages'],
- *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel']
- * }} ArrayBuilderYesNoUIOptions
- */
-
-/**
- * @param {{
- *   arrayPath: string,
- *   nounSingular: string,
- *   required: boolean | (formData) => boolean,
- *   maxItems?: number,
- * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
+ * @param {Object} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
+ * @param {string} arrayBuilderOptions.arrayPath
+ * @param {string} arrayBuilderOptions.nounSingular
+ * @param {boolean | UIRequired} arrayBuilderOptions.required
+ * @param {number} [arrayBuilderOptions.maxItems]
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptions yesNoUI options for 0 items
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptionsMore yesNoUI options for more than 0 items
  * @returns {UISchemaOptions}
- * Usage:
- * ```
+ * @example
  * // simple
  * 'view:hasEmployment': arrayBuilderYesNoUI(arrayBuilderOptions)
  *
@@ -161,7 +168,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  *     },
  *   }
  * )
- * ```
+ * @function
  */
 export const arrayBuilderYesNoUI = (
   arrayBuilderOptions,

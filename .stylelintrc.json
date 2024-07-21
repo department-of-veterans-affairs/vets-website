@@ -4,6 +4,7 @@
     ".git/**",
     "src/applications/proxy-rewrite/sass/style-consolidated.scss",
     "src/applications/vaos/docs/styles/*.css",
+    "src/platform/forms-system/docs/**/*.css",
     "mochawesome-report/**/*.css"
   ],
   "rules": {

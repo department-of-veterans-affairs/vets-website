@@ -3,6 +3,10 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { radioUI, radioSchema } from './radioPattern';
 import { validateRoutingNumber } from '../validation';
 
+/**
+ * @module BankPattern
+ */
+
 const accountTypeLabels = {
   checking: 'Checking',
   savings: 'Savings',
@@ -19,7 +23,7 @@ const BankAccountDescription = () => (
 /**
  * Web component pattern for bank account information.
  *
- * ```js
+ * @example
  * // Simple usage:
  * bankAccount: bankAccountUI(),
  *
@@ -33,17 +37,15 @@ const BankAccountDescription = () => (
  *
  * * // Omit bank name field
  * bankAccount: bankAccountUI({ omitBankName: true })
- * ```
- * @param {{
- *   labels?: {
- *     accountTypeLabel?: string,
- *     bankNameLabel?: string,
- *     accountNumberLabel?: string,
- *     routingNumberLabel?: string,
- *   },
- *   omitBankName?: boolean, // Whether to omit the bank name field.
- * }} options
+ * @param {Object} options
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.accountTypeLabel='Account type']
+ * @param {string} [options.labels.bankNameLabel='Bank name']
+ * @param {string} [options.labels.accountNumberLabel='Bank account number']
+ * @param {string} [options.labels.routingNumberLabel='Bank routing number']
+ * @param {boolean} [options.omitBankName=false]
  * @returns {UISchemaOptions}
+ * @function
  */
 const bankAccountUI = ({
   labels: {
@@ -90,14 +92,15 @@ const bankAccountUI = ({
 };
 
 /**
- * ```js
+ * @example
  * schema: {
  *   accountInformation: bankAccountSchema(),
  *   accountInformationWithoutBankName: bankAccountSchema({ omitBankName: true })
  * }
- * ```
- * @param {{ omitBankName: boolean }} [options] - Options for customizing the bank account schema.
+ * @param {Object} [options] - Options for customizing the bank account schema.
+ * @param {boolean} [options.omitBankName=false] - Whether to omit the bank name field.
  * @returns {SchemaOptions}
+ * @function
  */
 const bankAccountSchema = ({ omitBankName = false } = {}) => {
   const schema = {

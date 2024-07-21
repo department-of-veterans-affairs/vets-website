@@ -3,6 +3,22 @@ import { validateBooleanGroup } from '../validation';
 import VaCheckboxGroupField from '../web-component-fields/VaCheckboxGroupField';
 
 /**
+ * @typedef {Object} CheckboxGroupUIOptions
+ * @property {UITitle} title
+ * @property {Record<string, string | UISchemaOptions>} labels
+ * @property {UIRequired} required
+ * @property {UIDescription} [description]
+ * @property {UIErrorMessages} [errorMessages]
+ * @property {UITile} [tile]
+ * @property {UILabelHeaderLevel} [labelHeaderLevel]
+ * @property {UIHint} [hint]
+ */
+
+/**
+ * @module CheckboxPatterns
+ */
+
+/**
  * @param {WebComponentFieldProps} props
  */
 const checkboxGroupItemUI = props => {
@@ -18,10 +34,9 @@ const checkboxGroupItemUI = props => {
 };
 
 /**
- * Web component v3 uiSchema for checkbox group
+ * @description Web component v3 uiSchema for checkbox group
  *
- * Usage uiSchema:
- * ```js
+ * @example
  * checkboxGroup: checkboxGroupUI({
  *    title: 'Checkbox group',
  *    required: true,
@@ -30,9 +45,8 @@ const checkboxGroupItemUI = props => {
  *      hasB: 'Option B',
  *    },
  *  })
- * ```
  *
- * ```js
+ * @example
  * checkboxGroup: checkboxGroupUI({
  *    title: 'Checkbox group',
  *    hint: 'This is a hint',
@@ -55,32 +69,33 @@ const checkboxGroupItemUI = props => {
  *    },
  *    validations: [validateBooleanGroup],
  *  })
- * ```
  *
- * Usage schema:
- * ```js
+ * @example
+ * // Use this if you need JSX description to be read by screen readers
+ * exampleRadio: radioUI({
+ *   title: 'Checkbox group',
+ *   required: true, // also need required in the schema
+ *   useFormsPattern: 'single',
+ *   formHeading: 'Form page title',
+ *   formHeadingLevel: 3,
+ *   formDescription: (<p>This is a description</p>)
+ * })
+ *
+ * @example
+ * // Usage schema:
  * checkboxGroup: checkboxGroupSchema(['hasA', 'hasB'])
- * ```
- * @param {UIOptions & {
- *  title?: UISchemaOptions['ui:title'],
- *  required: boolean | ((formData) => boolean),
- *  labels: Record<string, string | UISchemaOptions>,
- *  description?: UISchemaOptions['ui:description'],
- *  tile?: boolean,
- *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
- *  hint?: string,
- * }} options
+ *
+ * @param {UIOptions & CheckboxGroupUIOptions} options
  * @returns {UISchemaOptions}
  */
-export const checkboxGroupUI = ({
+export function checkboxGroupUI({
   title,
   description,
   errorMessages,
   labels,
   required,
   ...uiOptions
-}) => {
+}) {
   if (required === undefined) {
     throw new Error(
       `"required" property should be explicitly set for checkboxGroupUI for
@@ -127,15 +142,15 @@ export const checkboxGroupUI = ({
     'ui:required': typeof required === 'function' ? required : () => required,
     ...checkboxesUI,
   };
-};
+}
 
 /**
- * ```js
+ * @example
  * checkboxGroup: checkboxGroupSchema(['hasA', 'hasB'])
  * checkboxGroup: checkboxGroupSchema(['none', 'email', 'mobile', 'home', 'all'])
- * ```
  * @param {string[]} labels
  * @returns {SchemaOptions}
+ * @function
  */
 export const checkboxGroupSchema = labels => {
   const properties = {};

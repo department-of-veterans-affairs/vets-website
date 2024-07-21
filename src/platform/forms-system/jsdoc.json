@@ -1,0 +1,54 @@
+{
+  "source": {
+    "include": [
+      "./src/js/types.js",
+      "./src/js/web-component-patterns",
+      "./src/js/patterns/array-builder/arrayBuilder.jsx"
+    ],
+    "exclude": []
+  },
+  "opts": {
+    "template": "../../node_modules/docdash",
+    "destination": "./docs/types",
+    "recurse": true
+  },
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "plugins": [
+      "./scripts/jsdocPlugin.js"
+  ],
+  "docdash": {
+    "sort": true,
+    "search": true,
+    "collapse": true,
+    "typedefs": true,
+    "menu": {
+      "Platform Design System Storybook": {
+        "href": "https://design.va.gov/storybook/?path=/docs/about-introduction--docs"
+      },
+      "Staging mock-form-patterns": {
+        "href": "https://staging.va.gov/mock-form-patterns"
+      },
+      "Staging mock-form-patterns CODE": {
+        "href": "https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages"
+      },
+      "Staging mock-simple-forms-patterns": {
+        "href": "https://staging.va.gov/mock-simple-forms-patterns"
+      },
+      "Staging mock-simple-forms-patterns CODE": {
+        "href": "https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/simple-forms/mock-simple-forms-patterns/pages"
+      },
+      "Content style guide": {
+        "href": "https://design.va.gov/content-style-guide/"
+      },
+      "CSS classes": {
+        "href": "https://design.va.gov/foundation/utilities/"
+      },
+      "Array builder pattern README": {
+        "href": "https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md"
+      }
+    }
+  }
+}

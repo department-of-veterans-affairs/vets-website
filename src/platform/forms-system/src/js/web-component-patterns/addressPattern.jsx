@@ -13,9 +13,18 @@ import VaSelectField from '../web-component-fields/VaSelectField';
 import VaCheckboxField from '../web-component-fields/VaCheckboxField';
 
 /**
+ * @typedef {'country' | 'city' | 'isMilitary' | 'postalCode' | 'state' | 'street' | 'street2' | 'street3' } AddressProperty
+ */
+
+/**
+ * @module AddressPatterns
+ */
+
+/**
  * PATTERNS
  * NONBLANK_PATTERN - rejects white space only
  * POSTAL_CODE_PATTERNS - Matches US/Mexican/Canadian codes
+ * @private
  */
 const NONBLANK_PATTERN = '^.*\\S.*';
 const POSTAL_CODE_PATTERNS = {
@@ -137,8 +146,8 @@ const getAddressPath = path => {
  * @param {number} index - index, if form data array of addresses; also included
  *  in the path, but added here to make it easier to distinguish between
  *  addresses not in an array with addresses inside an array
- * @returns {object} - updated Form data with manipulated mailing address if the
- * military base checkbox state changes
+ * @returns {object} - updated Form data with manipulated mailing address if the military base checkbox state changes
+ * @ignore
  */
 export const updateFormDataAddress = (
   oldFormData,
@@ -190,13 +199,9 @@ export const updateFormDataAddress = (
 };
 
 /**
- * @typedef {'country' | 'city' | 'isMilitary' | 'postalCode' | 'state' | 'street' | 'street2' | 'street3' } AddressSchemaKey
- */
-
-/**
  * Web component v3 uiSchema for address
  *
- * ```js
+ * @example
  * schema: {
  *   address: addressUI()
  *   simpleAddress: addressUI({ omit: ['street2', 'street3'] })
@@ -213,17 +218,15 @@ export const updateFormDataAddress = (
  *     }
  *   })
  * }
- * ```
- * @param {{
- *   labels?: {
- *     militaryCheckbox?: string,
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ *
+ * @param {Object} [options]
+ * @param {Array<AddressProperty>} [options.omit]
+ * @param {Record<AddressProperty, UIRequired>} [options.required]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.militaryCheckbox]
+ * @param {string} [options.labels.street] Defaults to 'Street address'
+ * @param {string} [options.labels.street2] Defaults to 'Street address line 2'
+ * @param {string} [options.labels.street3] Defaults to 'Street address line 3'
  * @returns {UISchemaOptions}
  */
 export function addressUI(options) {
@@ -585,16 +588,15 @@ export function addressUI(options) {
 /**
  * Web component schema for address
  *
- * ```js
+ * @example
  * schema: {
  *   address: addressSchema()
  *   simpleAddress: addressSchema({ omit: ['street2', 'street3'] })
  * }
- * ```
- * @param {{
- *  omit: string[]
- * }} [options]
+ * @param {Object} [options]
+ * @param {string[]} [options.omit]
  * @returns {SchemaOptions}
+ * @function
  */
 export const addressSchema = options => {
   let schema = commonDefinitions.profileAddress;
@@ -614,7 +616,7 @@ export const addressSchema = options => {
 /**
  * Web component v3 uiSchema for address
  *
- * ```js
+ * @example
  * schema: {
  *   address: addressNoMilitaryUI()
  *   simpleAddress: addressNoMilitaryUI({ omit: ['street2', 'street3'] })
@@ -630,33 +632,40 @@ export const addressSchema = options => {
  *     }
  *   })
  * }
- * ```
- * @param {{
- *   labels?: {
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ *
+ * @param {Object} [options]
+ * @param {Array<AddressProperty>} [options.omit]
+ * @param {Record<AddressProperty, UIRequired>} [options.required]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.street] Defaults to 'Street address'
+ * @param {string} [options.labels.street2] Defaults to 'Street address line 2'
+ * @param {string} [options.labels.street3] Defaults to 'Street address line 3'
  * @returns {UISchemaOptions}
  */
-export const addressNoMilitaryUI = options =>
-  addressUI({
+export function addressNoMilitaryUI(options) {
+  return addressUI({
     ...options,
     omit: ['isMilitary', ...(options?.omit || [])],
   });
+}
+
+// export const addressNoMilitaryUI = options =>
+//   addressUI({
+//     ...options,
+//     omit: ['isMilitary', ...(options?.omit || [])],
+//   });
 
 /**
  * Web component schema for address
  *
- * ```js
+ * @example
  * schema: {
  *   address: addressNoMilitarySchema()
  *   simpleAddress: addressNoMilitarySchema({ omit: ['street2', 'street3'] })
  * }
- * ```
+ * @param {Object} [options]
+ * @param {Array<AddressProperty>} [options.omit]
+ * @function
  */
 export const addressNoMilitarySchema = options =>
   addressSchema({

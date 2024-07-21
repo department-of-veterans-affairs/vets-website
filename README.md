@@ -2,22 +2,25 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-- [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
-- [Supported Browsers](#supported-browsers)
-- [API Keys](#api-keys)
-- [Additional Resources](#additional-resources)
+- [VA.gov ](#vagov-)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Common commands](#common-commands)
+  - [Building `vets-website`](#building-vets-website)
+    - [Building applications](#building-applications)
+    - [Building static content](#building-static-content)
+    - [Building both together](#building-both-together)
+  - [Working in GitHub Codespaces](#working-in-github-codespaces)
+  - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+  - [Changing Virtual Agent backend URL](#changing-virtual-agent-backend-url)
+  - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+  - [More commands](#more-commands)
+  - [Supported Browsers](#supported-browsers)
+  - [API Keys](#api-keys)
+  - [Additional Resources](#additional-resources)
+  - [Not a member of the repository and want to be added?](#not-a-member-of-the-repository-and-want-to-be-added)
 
 ## What is this?
 
@@ -288,6 +291,7 @@ for doing very specific things.
 | generate a stats file for analysis by bundle analyzer                                                       | `NODE_ENV=production yarn build:webpack --env buildtype=vagovprod --env analyzer`.                                                                                                                                                        |
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                                            |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
+| Generate and open documentation for patterns, schemas, UI schemas, types | `yarn docs` |
 
 ## Supported Browsers
 

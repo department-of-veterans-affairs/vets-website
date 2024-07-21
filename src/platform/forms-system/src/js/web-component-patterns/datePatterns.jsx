@@ -7,9 +7,20 @@ import {
 } from '../validation';
 
 /**
+ * @typedef {Object} DateUIOptions
+ * @property {UITitle} [title]
+ * @property {UIDescription} [description]
+ * @property {UIHint} [hint]
+ */
+
+/**
+ * @module DatePatterns
+ */
+
+/**
  * Web component v3 uiSchema for current or past dates
  *
- * ```js
+ * @example
  * exampleDate: currentOrPastDateUI('Date of event')
  * exampleDate: currentOrPastDateUI({
  *  title: 'Date of event',
@@ -18,21 +29,19 @@ import {
  * exampleDate: {
  *  ...currentOrPastDateUI('Date of event')
  * }
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const currentOrPastDateUI = options => {
-  const { title, errorMessages, ...uiOptions } =
+  const { title, description, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   const uiTitle = title ?? 'Date';
 
   return {
     'ui:title': uiTitle,
+    'ui:description': description,
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastMemorableDate],
     'ui:errorMessages': {
@@ -67,7 +76,7 @@ const currentOrPastDateUI = options => {
 /**
  * Web component v3 uiSchema for current or past date range
  *
- * ```js
+ * @example
  * // Simple usage:
  * exampleDateRange: currentOrPastDateRangeUI(
  *   'Start date of event',
@@ -81,17 +90,11 @@ const currentOrPastDateUI = options => {
  *   { title: 'End date of event', hint: 'This is a hint' },
  *   'Custom error message'
  * })
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for start/from date title, or an object of options
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for to/end date title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [fromOptions] accepts a single string for start/from date title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [toOptions] accepts a single string for to/end date title, or an object of options
  * @param {string} [errorMessage] - Optional custom error message for the date range validation
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
   let fromLabel = 'From date';
@@ -136,7 +139,7 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
 /**
  * Web component v3 uiSchema for current or past dates with digit select for month
  *
- * ```js
+ * @example
  * exampleDate: currentOrPastDateDigitsUI('Date of event')
  * exampleDate: currentOrPastDateDigitsUI({
  *  title: 'Date of event',
@@ -145,19 +148,17 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
  * exampleDate: {
  *  ...currentOrPastDateDigitsUI('Date of event')
  * }
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const currentOrPastDateDigitsUI = options => {
-  const { title, ...uiOptions } =
+  const { title, description, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title,
+    description,
     monthSelect: false,
     ...uiOptions,
   });
@@ -166,26 +167,24 @@ const currentOrPastDateDigitsUI = options => {
 /**
  * Web component v3 uiSchema for date of birth
  *
- * ```js
+ * @example
  * dateOfBirth: dateOfBirthUI()
  * dateOfBirth: dateOfBirthUI('Stepchild’s date of birth')
  * dateOfBirth: dateOfBirthUI({
  *    title: 'Stepchild’s date of birth',
  *    hint: 'This is a hint'
  * })
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const dateOfBirthUI = options => {
-  const { title, ...uiOptions } =
+  const { title, description, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of birth',
+    description,
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of birth',
@@ -197,26 +196,23 @@ const dateOfBirthUI = options => {
 /**
  * Web component v3 uiSchema for date of death
  *
- * ```js
+ * @example
  * dateOfDeath: dateOfDeathUI()
  * dateOfDeath: dateOfDeathUI('Stepchild’s date of death')
  * dateOfBirth: dateOfDeathUI({
  *    title: 'Stepchild’s date of death',
  *    hint: 'This is a hint'
  * })
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | DateUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const dateOfDeathUI = options => {
-  const { title, ...uiOptions } =
+  const { title, description, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return currentOrPastDateUI({
     title: title || 'Date of death',
+    description,
     errorMessages: {
       pattern: 'Please provide a valid date',
       required: 'Please provide the date of death',

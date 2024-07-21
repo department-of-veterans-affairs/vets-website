@@ -2,28 +2,34 @@ import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 /**
+ * @typedef {Object} RelationshipToVeteranUIOptions
+ * @property {string} [personTitle='Veteran'] for the labels and title e.g. 'What’s your relationship to the ${person}?
+ * @property {UILabelHeaderLevel} [labelHeaderLevel]
+ */
+
+/**
+ * @module RelationshipToVeteranPatterns
+ */
+
+/**
  * Web component uiSchema for relationship to veteran
  *
  * Pattern recommendation: Use as a standalone on the page
  *
  * set `labelHeaderLevel: ''` if you just want to use it as a standard field instead
  *
- * ```js
+ * @example
  * relationshipToVeteran: relationshipToVeteran() // 'Veteran'
  * relationshipToClaimant: relationshipToVeteran('claimant')
  * relationshipAsField: relationshipToVeteran({
  *  personTitle: 'claimant',
  *  labelHeaderLevel: ''
  * })
- * ```
  *
- * @param {string | {
- *   personTitle?: string,
- *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
- * }} options - a string representing the person type, or an object with options
+ * @param {string | RelationshipToVeteranUIOptions} options - a string representing the person type, or an object with options
  * @returns {UISchemaOptions}
+ * @function
  */
-
 export const relationshipToVeteranUI = options => {
   const { personTitle, labelHeaderLevel } =
     typeof options === 'object' ? options : { personTitle: options };
@@ -70,6 +76,10 @@ export const relationshipToVeteranUI = options => {
   };
 };
 
+/**
+ * @param {string} [personTitle]
+ * @function
+ */
 export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 
@@ -88,6 +98,10 @@ export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   };
 };
 
+/**
+ * @param {string} [personTitle]
+ * @function
+ */
 export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 

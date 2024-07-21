@@ -14,20 +14,33 @@ import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
+ * @callback ArrayBuilderPagesCallback
+ * @param {FormConfigPage} formConfig
+ * @returns {FormConfigPage}
+ */
+
+/**
  * @typedef {Object} ArrayBuilderPages
- * @property {function(FormConfigPage): FormConfigPage} [introPage] Intro page which should be used for required flow
- * @property {function(FormConfigPage): FormConfigPage} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
- * @property {function(FormConfigPage): FormConfigPage} itemPage A repeated page corresponding to an item
+ * @property {ArrayBuilderPagesCallback} [introPage] Intro page which should be used for required flow
+ * @property {ArrayBuilderPagesCallback} itemPage A repeated page corresponding to an item
+ * @property {ArrayBuilderPagesCallback} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
  */
 
 /**
  * @typedef {Object} ArrayBuilderHelpers
- * @property {FormConfigPage['onNavBack']} navBackFirstItem
- * @property {FormConfigPage['onNavBack']} navBackKeepUrlParams
- * @property {FormConfigPage['onNavForward']} navForwardIntro
- * @property {FormConfigPage['onNavForward']} navForwardSummary
- * @property {FormConfigPage['onNavForward']} navForwardFinishedItem
- * @property {FormConfigPage['onNavForward']} navForwardKeepUrlParams
+ * @property {OnNavBack} navBackFirstItem
+ * @property {OnNavBack} navBackKeepUrlParams
+ * @property {OnNavForward} navForwardIntro
+ * @property {OnNavForward} navForwardSummary
+ * @property {OnNavForward} navForwardFinishedItem
+ * @property {OnNavForward} navForwardKeepUrlParams
+ */
+
+/**
+ * @callback ArrayBuilderPageBuilderCallback
+ * @param {ArrayBuilderPages} pageBuilder
+ * @param {ArrayBuilderHelpers} [helpers]
+ * @returns {FormConfigChapter}
  */
 
 function throwErrorPage(pageType, option) {
@@ -193,12 +206,58 @@ export function assignGetItemName(options) {
 }
 
 /**
+ * Use this to construct the object of form pages relevant to the array.
+ * - intro page (only for required flow)
+ * - summary page which includes a yes/no question and cards for each item if they exist
+ * - and a page for each item.
+ *
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
+ * @example
+ * // Example for "Required" flow
+ * export const nounPluralReplaceMePages = arrayBuilderPages(
+ *   options,
+ *   pageBuilder => ({
+ *     nounPluralReplaceMe: pageBuilder.introPage({
+ *       title: '[noun plural]',
+ *       path: 'noun-plural-replace-me',
+ *       uiSchema: introPage.uiSchema,
+ *       schema: introPage.schema,
+ *     }),
+ *     nounPluralReplaceMeSummary: pageBuilder.summaryPage({
+ *       title: 'Review your [noun plural]',
+ *       path: 'noun-plural-replace-me-summary',
+ *       uiSchema: summaryPage.uiSchema,
+ *       schema: summaryPage.schema,
+ *     }),
+ *     nounSingularReplaceMeNamePage: pageBuilder.itemPage({
+ *       title: 'Name',
+ *       path: 'noun-plural-replace-me/:index/name',
+ *       uiSchema: namePage.uiSchema,
+ *       schema: namePage.schema,
+ *     }),
+ *     nounSingularReplaceMeDatePage: pageBuilder.itemPage({
+ *       title: 'Date',
+ *       path: 'noun-plural-replace-me/:index/date',
+ *       uiSchema: datePage.uiSchema,
+ *       schema: datePage.schema,
+ *     }),
+ *   }),
+ * );
+ *
+ * // Usage in a formConfig
+ * export const formConfig = {
+ *  chapters: {
+ *    pages: {
+ *      ...nounPluralReplaceMePages,
+ *   },
+ * }
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
+ * @param {ArrayBuilderPageBuilderCallback} pageBuilderCallback
  * @returns {FormConfigChapter}
+ * @memberof module:ArrayBuilderPatterns
+ * @function
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
@@ -245,9 +304,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   });
 
   /**
-   * @type {{
-   *   [key: string]: (config: FormConfigPage) => FormConfigPage,
-   * }}
+   * @type {Object<string, ArrayBuilderPagesCallback>}
    */
   const pageBuilderVerifyAndSetup = {
     introPage: pageConfig => {
@@ -297,7 +354,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   // Didn't throw error so success: Validated and setup success
   const pageBuilder = pageBuilderVerifyAndSetup;
 
-  /** @type {FormConfigPage['onNavForward']} */
+  /** @type {OnNavForward} */
   const navForwardFinishedItem = ({ goPath, urlParams, pathname }) => {
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
@@ -312,14 +369,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     goPath(path);
   };
 
-  /** @type {FormConfigPage['onNavBack']} */
+  /** @type {OnNavBack} */
   const navBackFirstItem = onNavBackRemoveAddingItem({
     arrayPath,
     introRoute: introPath,
     summaryRoute: summaryPath,
   });
 
-  /** @type {FormConfigPage['onNavForward']} */
+  /** @type {OnNavForward} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
     const index = formData[arrayPath] ? formData[arrayPath].length : 0;
 
@@ -342,7 +399,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     }
   };
 
-  /** @type {FormConfigPage['onNavForward']} */
+  /** @type {OnNavForward} */
   const navForwardIntro = ({ formData, goPath, goNextPath }) => {
     // required flow:
     // intro -> items -> summary -> items -> summary

@@ -1,5 +1,20 @@
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
+/**
+ * @typedef {Object} NumberUIOptions
+ * @property {UITitle} title
+ * @property {UIDescription} description
+ * @property {UIHint} [hint]
+ * @property {UIWidth} [width]
+ * @property {UIErrorMessages} [errorMessages]
+ * @property {number} [min]
+ * @property {number} [max]
+ */
+
+/**
+ * @module NumberPattern
+ */
+
 export function minMaxValidation(min, max) {
   return (errors, formData, uiSchema, schema, errorMessages) => {
     const value = parseInt(formData, 10);
@@ -26,7 +41,7 @@ export function minMaxValidation(min, max) {
  *
  * Used for simple number amounts containing only digits
  *
- * ```js
+ * @example
  * exampleAmount: numberUI('Amount of documents')
  * exampleAmount: numberUI({
  *  title: 'Amount of documents',
@@ -36,26 +51,16 @@ export function minMaxValidation(min, max) {
  *  min: 0,
  *  max: 99
  * })
- * ```
  *
  * widths: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
  *
- * Web component schema for number input
- * ```js
+ * @example
+ * // Web component schema for number input
  * exampleAmount: numberSchema
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   description: UISchemaOptions['ui:description'],
- *   hint?: string,
- *   width?: UISchemaOptions['ui:options']['width'],
- *   errorMessages?: UISchemaOptions['ui:errorMessages'],
- *   min?: number,
- *   max?: number,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | NumberUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
  */
-export const numberUI = options => {
+export function numberUI(options) {
   const { title, description, errorMessages, min, max, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
@@ -86,7 +91,7 @@ export const numberUI = options => {
     },
     ...validations,
   };
-};
+}
 
 /**
  * ```js

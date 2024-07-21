@@ -1,9 +1,22 @@
 import VaSelectField from '../web-component-fields/VaSelectField';
 
 /**
+ * @typedef {Object} SelectUIOptions
+ * @property {string} title
+ * @property {UILabels} labels
+ * @property {UIDescription} [description]
+ * @property {UIHint} [hint]
+ * @property {UIErrorMessages} [errorMessages]
+ */
+
+/**
+ * @module SelectPattern
+ */
+
+/**
  * Web component v3 uiSchema for generic select field
  *
- * ```js
+ * @example
  * // uiSchema
  * exampleSelect: selectUI('Select animal')
  * exampleSelect: selectUI({
@@ -30,16 +43,10 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  *
  * // schema
  * exampleSelect: selectSchema(['cat', 'dog', 'octopus'])
- * ```
  *
- * @param {string | UIOptions & {
- *  title?: UISchemaOptions['ui:title'],
- *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
- *  hint?: string,
- *  labels?: UISchemaOptions['ui:options']['labels'],
- * }} options
+ * @param {string | UIOptions | SelectUIOptions} options
  * @returns {UISchemaOptions}
+ * @function
  */
 export const selectUI = options => {
   const { title, description, errorMessages, ...uiOptions } =
@@ -57,12 +64,13 @@ export const selectUI = options => {
 };
 
 /**
- * ```js
+ * @example
  * exampleSelect: selectSchema(['Cat', 'Dog', 'Octopus'])
  * exampleSelect: selectSchema(['cat', 'dog', 'octopus'])
- * ```
+ *
  * @param {string[]} labels
  * @returns {SchemaOptions}
+ * @function
  */
 export const selectSchema = labels => {
   return {

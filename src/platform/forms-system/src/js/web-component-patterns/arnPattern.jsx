@@ -11,12 +11,13 @@ const ARN_DEFAULT_TITLE = 'Alien registration number';
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.
  *
- * ```js
+ * @example
  * example: arnUI() // Alien registration number
  * example: arnUI("Veteran's Alien registration number")
- * ```
- * @param {string} [title]
+ * @param {string} [title="Alien registration number"] label for the field
  * @returns {UISchemaOptions}
+ * @memberof module:IdentificationPatterns
+ * @function
  */
 const arnUI = title => {
   return {
@@ -37,12 +38,11 @@ const arnUI = title => {
 /**
  * Schema for Alien registration number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: arnUI()
  * // schema
  * example: arnSchema
- * ```
  * @returns `commonDefinitions.arn`
  */
 const arnSchema = {
@@ -57,10 +57,11 @@ const arnSchema = {
  * rather than in the field names.
  *
  * A grouped object containing `arn` and `vaFileNumber` properties
- * ```js
+ * @example
  * example: arnOrVaFileNumberUI()
- * ```
  * @returns {UISchemaOptions}
+ * @memberof module:IdentificationPatterns
+ * @function
  */
 const arnOrVaFileNumberUI = () => {
   return {
@@ -93,12 +94,12 @@ const arnOrVaFileNumberUI = () => {
 /**
  * Schema for ARN or VA File Number
  *
- * ```js
+ * @example
  * // uiSchema
  * example: arnOrVaFileNumberUI()
  * // schema
  * example: arnOrVaFileNumberSchema
- * ```
+ * @memberof module:IdentificationPatterns
  */
 const arnOrVaFileNumberSchema = {
   type: 'object',

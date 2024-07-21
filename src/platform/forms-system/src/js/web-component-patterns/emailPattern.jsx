@@ -1,6 +1,21 @@
 import { isValidEmail } from 'platform/forms/validations';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
+/**
+ * @typedef {Object} EmailUIOptions
+ * @property {UITitle} title
+ * @property {UIDescription} [description]
+ * @property {UIHint} [hint]
+ * @property {Object} [errorMessages]
+ * @property {string} [errorMessages.required='Please enter an email address']
+ * @property {string} [errorMessages.format='Enter a valid email address without spaces using this format: email@domain.com']
+ * @property {string} [errorMessages.symbols='You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.']
+ */
+
+/**
+ * @module EmailPatterns
+ */
+
 export const symbolsValidation = (
   errors,
   value,
@@ -36,24 +51,14 @@ export const emailValidation = (
 
 /**
  * Web component v3 uiSchema for email
- * ```js
+ * @example
  * email: emailUI() // 'Email address'
  * email: emailUI('Your email address')
  * email: emailUI({
  *   title: "Custom email address",
  *   description: "By providing an email address, I agree to receive electronic correspondence from VA regarding my application",
  * })
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   description: UISchemaOptions['ui:description'],
- *   hint?: string
- *   errorMessages?: {
- *     required?: string
- *     format?: string
- *     symbols?: string
- *   }
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | EmailUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const emailUI = options => {
@@ -82,11 +87,10 @@ const emailUI = options => {
 };
 
 /**
- * ```js
+ * @example
  * schema: {
  *    exampleEmail: emailSchema
  * }
- * ```
  */
 const emailSchema = {
   type: 'string',

@@ -5,6 +5,7 @@ logs/
 tmp/
 out/
 src/applications/vaos/docs/
+src/platform/forms-system/docs/types/
 src/site/tests/html/
 
 # Files to ignore
@@ -15,7 +16,7 @@ src/site/tests/html/
 .env
 npm-debug.log
 *.log
-*.swp 
+*.swp
 
 config/config.proxy.js
 

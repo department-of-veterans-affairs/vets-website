@@ -1,10 +1,26 @@
 import VaRadioField from '../web-component-fields/VaRadioField';
 
 /**
+ * @typedef {Object} RadioUIOptions
+ * @property {string} title
+ * @property {UILabels} labels
+ * @property {UIDescription} [description]
+ * @property {UIHint} [hint]
+ * @property {UILabels} [descriptions]
+ * @property {UIRequired} [required]
+ * @property {UIErrorMessages} [errorMessages]
+ * @property {UILabelHeaderLevel} [labelHeaderLevel]
+ */
+
+/**
+ * @module RadioPattern
+ */
+
+/**
  * Web component v3 uiSchema for generic radio field
  *
  * Usage uiSchema:
- * ```js
+ * @example
  * exampleRadio: radioUI({
  *  title: 'Select animal',
  *  labels: {
@@ -12,40 +28,36 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  *      cat: 'Cat',
  *      octopus: 'Octopus',
  *  },
+ *  descriptions: {
+ *    dog: 'This is a dog',
+ *    cat: 'This is a cat',
+ *  },
  *  hint: 'This is a hint',
  *  required: () => true,
  *  errorMessages: {
  *     required: 'Please select an animal',
  *  },
+ *  labelHeaderLevel: '3',
+ *  useFormsPattern: true,
  * })
- * ```
  *
- * Advanced labels:
- * ```js
- * labels: {
- *    dog: 'Dog',
- *    cat: 'Cat',
- * },
- * descriptions: {
- *    dog: 'This is a dog',
- *    cat: 'This is a cat',
- * }
- * ```
+ * @example
+ * // Use this if you need JSX description to be read by screen readers
+ * exampleRadio: radioUI({
+ *   title: 'Select option',
+ *   useFormsPattern: 'single',
+ *   formHeading: 'Form page title',
+ *   formHeadingLevel: 3,
+ *   formDescription: (<p>This is a description</p>)
+ * })
  *
- * Usage schema:
- * ```js
+ * @example
+ * // Usage schema:
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
- * ```
- * @param {UIOptions & {
- *  title?: UISchemaOptions['ui:title'],
- *  labels?: UISchemaOptions['ui:options']['labels'],
- *  description?: UISchemaOptions['ui:description'],
- *  required?: UISchemaOptions['ui:required'],
- *  errorMessages?: UISchemaOptions['ui:errorMessages'],
- *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
- *  hint?: string,
- * }} options
+ *
+ * @param {UIOptions | RadioUIOptions} [options]
  * @returns {UISchemaOptions}
+ * @function
  */
 export const radioUI = ({
   title,
@@ -68,13 +80,13 @@ export const radioUI = ({
 };
 
 /**
- * ```js
+ * @example
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])
  * exampleRadio: radioSchema(['none', 'email', 'mobile', 'home', 'all'])
  * exampleRadio: radioSchema(['lowDisability', 'highDisability', 'none'])
- * ```
  * @param {string[]} labels
  * @returns {SchemaOptions}
+ * @function
  */
 export const radioSchema = labels => {
   return {

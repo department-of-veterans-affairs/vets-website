@@ -2,9 +2,20 @@ import VaTextInputField from '../web-component-fields/VaTextInputField';
 import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
 
 /**
+ * @typedef {Object} PhoneUIOptions
+ * @property {string} [title]
+ * @property {UIDescription} [description]
+ * @property {UIHint} [hint]
+ */
+
+/**
+ * @module PhonePatterns
+ */
+
+/**
  * Web component v3 uiSchema for phone number
  *
- * ```js
+ * @example
  * examplePhone: phoneUI() // Phone number
  * examplePhone: phoneUI('Cell phone number')
  * examplePhone: phoneUI({
@@ -14,15 +25,12 @@ import PhoneNumberReviewWidget from '../review/PhoneNumberWidget';
  * examplePhone: {
  *  ...phoneUI('Main phone number')
  * }
- * ```
- * @param {string | UIOptions & {
- *   title?: UISchemaOptions['ui:title'],
- *   hint?: string,
- * }} [options] accepts a single string for title, or an object of options
+ * @param {string | UIOptions | PhoneUIOptions} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions}
+ * @public
  */
-export const phoneUI = options => {
-  const { title, ...uiOptions } =
+export function phoneUI(options) {
+  const { title, description, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
@@ -30,6 +38,7 @@ export const phoneUI = options => {
     'ui:webComponentField': VaTextInputField,
     'ui:reviewWidget': PhoneNumberReviewWidget,
     'ui:autocomplete': 'tel',
+    'ui:description': description,
     'ui:options': {
       inputType: 'tel',
       ...uiOptions,
@@ -39,7 +48,7 @@ export const phoneUI = options => {
       pattern: 'Please enter a 10-digit phone number (with or without dashes)',
     },
   };
-};
+}
 
 export const phoneSchema = {
   type: 'string',

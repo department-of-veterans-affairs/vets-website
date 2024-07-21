@@ -2,6 +2,18 @@
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 
+/**
+ * @typedef {Object} TitleUIOptions
+ * @property {UITitle} [title]
+ * @property {UIDescription} [description]
+ * @property {number} [headerLevel]
+ * @property {string} [classNames]
+ */
+
+/**
+ * @module TitlePatterns
+ */
+
 export const Title = ({ title, description, headerLevel = 3, classNames }) => {
   const CustomHeader = `h${headerLevel}`;
   const color = headerLevel === 3 ? 'gray-dark' : 'black';
@@ -32,18 +44,9 @@ function isTitleObject(obj) {
 }
 
 /**
- * @typedef {{
- *   title?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
- *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
- *   headerLevel?: number,
- *   classNames?: string,
- * }} TitleObject
- */
-
-/**
  * Title for the top of a form page
  *
- * ```js
+ * @example
  * uiSchema: {
  *   ...titleUI('Your contact information')
  *   ...titleUI({
@@ -62,11 +65,10 @@ function isTitleObject(obj) {
             equal to your income. This won’t affect your application or benefits.
           </AdditionalInfo>
       </p>))
- * ```
- * @param {string | JSX.Element | TitleObject | ({ formData, formContext }) => (string | JSX.Element)} [titleOption] 'ui:title'
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [descriptionOption] 'ui:description'
- *
+ * @param {UITitle | TitleUIOptions} [titleOption] 'ui:title'
+ * @param {UIDescription} [descriptionOption] 'ui:description'
  * @returns {UISchemaOptions}
+ * @function
  */
 export const titleUI = (titleOption, descriptionOption) => {
   const { title, description, headerLevel, classNames } = isTitleObject(
@@ -105,25 +107,25 @@ export const titleUI = (titleOption, descriptionOption) => {
 };
 
 /**
- * Simple text description
+ * Simple text description - Prefer to use `titleUI` instead
  *
- * ```js
+ * @example
  * exampleText: descriptionUI('A block of text goes here')
  * exampleText: descriptionUI(<p>A block of text goes here</p>)
- * exampleText: descriptionUI(<p className="vads-u-margin-bottom--0">
-    Tell us more.
-        <va-additional-info trigger="What if my expenses are higher than my annual income?">
-          We understand ...
-        </va-additional-info>
-    </p>)
+ * exampleText: descriptionUI(
+ *  <p className="vads-u-margin-bottom--0">
+ *    <va-additional-info trigger="What if my expenses are higher than my annual income?">
+ *      We understand ...
+ *    </va-additional-info>
+ *  </p>
+ * )
  * exampleText: descriptionUI('A block of text goes here', {
  *    hideOnReview: true
  * })
- * ```
- * @param {string | JSX.Element} [text] 'ui:description'
+ * @param {UIDescription} [text] 'ui:description'
  * @param {UIOptions} [uiOptions] 'ui:options'
- *
  * @returns {UISchemaOptions}
+ * @function
  */
 export const descriptionUI = (text, uiOptions = {}) => {
   return {
@@ -136,8 +138,8 @@ export const descriptionUI = (text, uiOptions = {}) => {
 
 /**
  * Inline title for (in the middle of) a form page
- *
- * ```js
+ * This may not read out to screen readers correctly
+ * @example
  * exampleTitle: inlineTitleUI('Your contact information')
  * exampleTitle: inlineTitleUI('Your contact information', 'We’ll send any important information to this address.')
  * exampleTitle: inlineTitleUI('Previous deductible expenses', (<p>
@@ -148,11 +150,10 @@ export const descriptionUI = (text, uiOptions = {}) => {
           equal to your income. This won’t affect your application or benefits.
         </va-additional-info>
     </p>))
- * ```
- * @param {string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element} [description] 'ui:description'
- *
+ * @param {UITitle} [title] 'ui:title'
+ * @param {UIDescription} [description] 'ui:description'
  * @returns {UISchemaOptions}
+ * @function
  */
 export const inlineTitleUI = (title, description) => {
   return {

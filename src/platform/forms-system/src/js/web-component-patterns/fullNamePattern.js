@@ -5,6 +5,16 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 import VaSelectField from '../web-component-fields/VaSelectField';
 
+/**
+ * @callback FormatTitle
+ * @param {string} title - The respective form label in lowercase e.g. 'first name'
+ * @returns {string} final label to be displayed
+ */
+
+/**
+ * @module FullNamePatterns
+ */
+
 export function validateEmpty(errors, pageData) {
   const { first, last } = pageData;
   validateWhiteSpace(errors.first, first);
@@ -31,13 +41,13 @@ export function validateNameSymbols(errors, value, uiSchema, schema, messages) {
 /**
  * Web component v3 uiSchema for `first`, `middle`, and `last name`
  *
- * ```js
+ * @example
  * fullName: fullNameNoSuffixUI()
  * fullName: fullNameNoSuffixUI((title) => `Your ${title}`))
- * ```
- * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {FormatTitle} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
@@ -84,13 +94,13 @@ const fullNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 /**
  * Web component uiSchema for `first`, `last name` [no middle name]
  *
- * ```js
+ * @example
  * fullName: fullNameNoSuffixUI()
  * fullName: fullNameNoSuffixUI((title) => `Your ${title}`))
- * ```
- * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {FormatTitle} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
   return {
@@ -126,13 +136,13 @@ const firstNameLastNameNoSuffixUI = (formatTitle, uiOptions = {}) => {
 
 /**
  * Web component uiSchema for `first`, `middle`, `last name`, and `suffix`
- * ```js
+ * @example
  * fullName: fullNameUI()
  * fullName: fullNameUI((title) => `Your ${title}`))
- * ```
- * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {FormatTitle} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const fullNameUI = (formatTitle, uiOptions = {}) => {
   return {
@@ -153,13 +163,13 @@ const fullNameUI = (formatTitle, uiOptions = {}) => {
 /**
  * Web component uiSchema for `first`, `last name`, and `suffix`
  * [no middle name]
- * ```js
- * fullName: fullNameUI()
- * fullName: fullNameUI((title) => `Your ${title}`))
- * ```
- * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @example
+ * fullName: firstNameLastNameUI()
+ * fullName: firstNameLastNameUI((title) => `Your ${title}`))
+ * @param {FormatTitle} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
   return {
@@ -179,13 +189,13 @@ const firstNameLastNameUI = (formatTitle, uiOptions = {}) => {
 
 /**
  * Web component uiSchema for `first`, `middle`, `last name`, `suffix`, and `maiden name`
- * ```js
+ * @example
  * fullName: fullNameWithMaidenNameUI()
  * fullName: fullNameWithMaidenNameUI((title) => `Your ${title}`))
- * ```
- * @param {(title: string) => string} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
+ * @param {FormatTitle} [formatTitle] optional function to format the title. Prefer to use plain labels and specify person type in title of the page.
  * @param {UIOptions} [uiOptions] optional 'ui:options' to apply to every field
  * @returns {UISchemaOptions} uiSchema
+ * @function
  */
 const fullNameWithMaidenNameUI = (formatTitle, uiOptions) => {
   return {
