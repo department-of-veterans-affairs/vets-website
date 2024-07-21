@@ -45,6 +45,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
       radiologyRecordsMhv[2].radiologist,
     );
 
+    // Regex: replace \r\n line terminating characters, with spaces
     RadiologyDetailsPage.verifyRadiologyResults(
       radiologyRecordsMhv[2].impressionText.replace(/[\r\n]+/gm, ' '),
     );
