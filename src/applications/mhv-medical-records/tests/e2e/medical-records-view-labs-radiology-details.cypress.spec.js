@@ -14,6 +14,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   });
 
   it('Navigate to MHV Classic to view their Radiology Images', () => {
+    cy.reload();
     LabsAndTestsListPage.loadVAPaginationNext();
     // I think the second parameter doesn't do anything in this case...
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[2]);
