@@ -160,17 +160,17 @@ const CollapsibleList = () => {
           <ul className="usa-unstyled-list">
             <li>
               (
-                <CollapsiblePanel
-                  header="If you're applying for yourself"
-                  pageContent={
-                    <p>
-                      You can upload a copy of your or your sponsor’s DD214 or
-                      other separation papers. This will help us figure out if you
-                      qualify for burial in a VA national cemetery based on your
-                      or your sponsor’s military status and service history.
-                    </p>
-                  }
-                />
+              <CollapsiblePanel
+                header="If you're applying for yourself"
+                pageContent={
+                <p>
+                  You can upload a copy of your or your sponsor’s DD214 or
+                  other separation papers. This will help us figure out if you
+                  qualify for burial in a VA national cemetery based on your
+                  or your sponsor’s military status and service history.
+                </p>
+                }
+              />
               )
             </li>
             <li>
