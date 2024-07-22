@@ -91,13 +91,6 @@ export function ConfirmationPage(props) {
           </span>
         )}
         <br />
-        {data.statementOfTruthSignature && (
-          <span className="veterans-full-name">
-            <strong>Confirmation number</strong>
-            <br />
-            {form.submission?.response?.confirmationNumber || ''}
-          </span>
-        )}
         {isValid(submitDate) && (
           <p className="date-submitted">
             <strong>Date submitted</strong>
