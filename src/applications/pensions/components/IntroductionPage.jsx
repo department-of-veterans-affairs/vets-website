@@ -74,7 +74,10 @@ const IntroductionPage = props => {
             <li>The value of your household’s assets</li>
             <li>Your unreimbursed medical expenses</li>
           </ul>
-          <va-additional-info trigger="Other information we may ask for">
+          <va-additional-info
+            trigger="Other information we may ask for"
+            disable-border
+          >
             <p>
               Based on your answers, you may need to submit supporting documents
               and additional evidence.
@@ -126,8 +129,26 @@ const IntroductionPage = props => {
             depending your situation.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Apply">
-          <p>Complete and submit the pension benefits application form.</p>
+        <va-process-list-item header="Start your application">
+          <p>
+            We’ll take you through each step of the process. It should take
+            about 30 minutes.
+          </p>
+          <va-additional-info
+            trigger="What happens after you apply"
+            disable-border
+          >
+            <p>
+              We’ll process your application and send you a letter in the mail
+              with our decision.
+            </p>
+            <p>
+              We may request more information from you to make a decision about
+              your pension claim. If we request more information, you’ll need to
+              respond within 30 days. If you don’t, we may decide your pension
+              claim with the evidence that’s available to us.
+            </p>
+          </va-additional-info>
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
