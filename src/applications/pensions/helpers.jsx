@@ -118,3 +118,6 @@ export const isProductionEnv = () => {
     !window.Mocha
   );
 };
+
+export const showMultiplePageResponse = () =>
+  window.sessionStorage.getItem('showMultiplePageResponse') === 'true';

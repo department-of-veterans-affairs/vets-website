@@ -16,7 +16,7 @@ export const errorMessages = {
 
 export const content = {
   disagreementLegend:
-    'Tell us what you disagree with. You can choose more than one.',
+    'Tell us which part of the decision you disagree with. Select all that you disagree with.',
   disagreementHint: 'I disagree with this:',
   otherEntryHint: 'Explain in a few words',
   edit: 'Edit',

@@ -123,7 +123,7 @@ ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Entered on: ${record.date}\n
+Date entered: ${record.date}\n
 ${txtLine}\n
 Provider: ${record.provider}\n
 Location: ${record.facility}\n
@@ -164,7 +164,7 @@ Provider Notes: ${processList(record.comments)}\n`;
           <DateSubheading
             date={record.date}
             id="condition-date"
-            label="Entered on"
+            label="Date entered"
           />
 
           {downloadStarted && <DownloadSuccessAlert />}
