@@ -24,7 +24,7 @@ const IntroductionPage = props => {
   );
 
   return showUpdatedIntroduction ? (
-    <article className="schemaform-intro vads-u-margin-bottom--6">
+    <article className="schemaform-intro">
       <FormTitle
         title="Apply for Veterans Pension benefits"
         subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
@@ -82,52 +82,52 @@ const IntroductionPage = props => {
               Based on your answers, you may need to submit supporting documents
               and additional evidence.
             </p>
+            <p>
+              We’ll tell you if you need to submit any of these supporting
+              documents:
+            </p>
+            <ul>
+              <li>
+                Examination for Housebound Status or Permanent Need for Regular
+                Aid and Attendance (
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-2680/"
+                  text="VA Form 21-2680"
+                />
+                )
+              </li>
+              <li>
+                Request for Nursing Home Information in Connection with Claim
+                for Aid and Attendance (
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-0779/"
+                  text="VA Form 21-20779"
+                />
+                )
+              </li>
+              <li>
+                Request for Approval of School Attendance (
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21-674/"
+                  text="VA Form 21-2674"
+                />
+                )
+              </li>
+              <li>
+                Income and Asset Statement in Support of Claim for Pension or
+                Parents’ Dependency and Indemnity Compensation (
+                <va-link
+                  href="https://www.va.gov/find-forms/about-form-21p-0969/"
+                  text="VA Form 21P-0969"
+                />
+                )
+              </li>
+            </ul>
+            <p>
+              And we’ll tell you the additional evidence you’ll need to submit
+              depending your situation.
+            </p>
           </va-additional-info>
-          <p>
-            We’ll tell you if you need to submit any of these supporting
-            documents:
-          </p>
-          <ul>
-            <li>
-              Examination for Housebound Status or Permanent Need for Regular
-              Aid and Attendance (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21-2680/"
-                text="VA Form 21-2680"
-              />
-              )
-            </li>
-            <li>
-              Request for Nursing Home Information in Connection with Claim for
-              Aid and Attendance (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21-0779/"
-                text="VA Form 21-20779"
-              />
-              )
-            </li>
-            <li>
-              Request for Approval of School Attendance (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21-674/"
-                text="VA Form 21-2674"
-              />
-              )
-            </li>
-            <li>
-              Income and Asset Statement in Support of Claim for Pension or
-              Parents’ Dependency and Indemnity Compensation (
-              <va-link
-                href="https://www.va.gov/find-forms/about-form-21p-0969/"
-                text="VA Form 21P-0969"
-              />
-              )
-            </li>
-          </ul>
-          <p>
-            And we’ll tell you the additional evidence you’ll need to submit
-            depending your situation.
-          </p>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
           <p>
