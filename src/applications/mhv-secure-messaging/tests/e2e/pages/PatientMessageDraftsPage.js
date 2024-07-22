@@ -215,11 +215,31 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
+    cy.get(`#delete-draft-button`).should('be.visible');
+    cy.get(`#delete-draft-button`).click({
       force: true,
       waitForAnimations: true,
     });
+  };
+
+  clickMultipleDeleteButton = number => {
+    cy.get(`[data-testid="reply-form"]`)
+      .find('va-accordion-item')
+      .then(el => {
+        if (el.length > 1) {
+          cy.get(`#delete-draft-button-${number}`).should('be.visible');
+          cy.get(`#delete-draft-button-${number}`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        } else {
+          cy.get(`#delete-draft-button`).should('be.visible');
+          cy.get(`#delete-draft-button`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        }
+      });
   };
 
   sendDraftMessage = draftMessage => {
@@ -660,6 +680,13 @@ class PatientMessageDraftsPage {
     cy.get('[class^="attachments-section]').should('not.exist');
     cy.get(`#send-button-${number}`).should('not.exist');
     cy.get(`#save-draft-button-${number}`).should('not.exist');
+  };
+
+  verifySaveWithAttachmentAlert = () => {
+    cy.get('[data-testid="quit-compose-double-dare"]')
+      .shadow()
+      .find('h2')
+      .should('contain', `can't save attachment`);
   };
 }
 

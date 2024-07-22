@@ -190,6 +190,7 @@ export const Locators = {
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
