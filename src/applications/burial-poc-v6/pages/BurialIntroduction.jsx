@@ -15,10 +15,7 @@ export default function BurialIntroduction(props) {
             Follow the steps below to apply for burial benefits.
           </h2>
           <va-process-list>
-            <li>
-              <div>
-                <h3>Prepare</h3>
-              </div>
+            <va-process-list-item header="Prepare">
               <div>
                 <h4>
                   <a href="/burials-memorials/veterans-burial-allowance/">
@@ -73,11 +70,8 @@ export default function BurialIntroduction(props) {
                 </a>
                 .
               </p>
-            </li>
-            <li>
-              <div>
-                <h3>Apply</h3>
-              </div>
+            </va-process-list-item>
+            <va-process-list-item header="Apply">
               <div>
                 <p>Complete this burial benefits form.</p>
                 <p>
@@ -85,23 +79,17 @@ export default function BurialIntroduction(props) {
                   You can print this for your records.
                 </p>
               </div>
-            </li>
-            <li>
-              <div>
-                <h3>VA Review</h3>
-              </div>
+            </va-process-list-item>
+            <va-process-list-item header="VA Review">
               <p>We process claims in the order we receive them.</p>
               <p>We’ll let you know by mail if we need more information.</p>
-            </li>
-            <li>
-              <div>
-                <h3>Decision</h3>
-              </div>
+            </va-process-list-item>
+            <va-process-list-item header="Decision">
               <p>
                 After we process your claim, you’ll get a notice in the mail
                 about the decision.
               </p>
-            </li>
+            </va-process-list-item>
           </va-process-list>
           <va-omb-info
             exp-date="12/31/2077"
