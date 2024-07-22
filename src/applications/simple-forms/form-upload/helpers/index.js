@@ -14,7 +14,7 @@ export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 export const getFormNumber = () => {
   const path = window?.location?.pathname;
   const regex = /\/(\d{2}-\d{4})/;
-  return path.match(regex)[1];
+  return path.match(regex)?.[1] || '';
 };
 
 const formMappings = {
