@@ -5,7 +5,10 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 const IntroductionPage = () => {
   return (
     <article className="schemaform-intro">
-      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
+      <FormTitle
+        title="Complete the benefit eligibility questionnaire"
+        subtitle=""
+      />
       <p>
         Our recommendation tool can help you find benefits and resources that
         are specific to your goals, needs, and circumstances. This is our first

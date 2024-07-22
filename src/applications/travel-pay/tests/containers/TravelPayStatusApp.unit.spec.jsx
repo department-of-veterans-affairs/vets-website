@@ -56,7 +56,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'IN_PROCESS',
+          claimStatus: 'In Process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -67,7 +67,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132ig',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'INCOMPLETE',
+          claimStatus: 'Incomplete',
           appointmentDateTime: febDate,
           appointmentName: 'older',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -78,7 +78,7 @@ describe('App', () => {
           id: '6cecf332-65af-4495-b18e-7fd28ccb546a',
           claimNumber: '39b7b38f-b7cf-4d19-91cf-fb5360c0b8b8',
           claimName: '3583ec0e-34e0-4cf5-99d6-78930c2be969',
-          claimStatus: 'SAVED',
+          claimStatus: 'Saved',
           appointmentDateTime: previousYearDate,
           appointmentName: 'Medical imaging',
           appointmentLocation: 'Tomah VA Medical Center',
@@ -248,7 +248,7 @@ describe('App', () => {
     });
   });
 
-  it('displayed status filters correctly', async () => {
+  it('filters by status', async () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -259,16 +259,31 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    await waitFor(() => {
-      const statusFilters = screen.getAllByTestId('status-filter');
+    await waitFor(async () => {
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const statusFilters = document.querySelectorAll('va-checkbox');
+
+      // Only 3 unique statuses, so length should be 3
       expect(statusFilters.length).to.eq(3);
-      expect(statusFilters.map(filter => filter.label)).to.include(
-        'Incomplete',
-      );
-      expect(statusFilters.map(filter => filter.label)).to.include(
-        'In Process',
-      );
+
+      const checkboxGroup = $('#status-checkboxes');
+      checkboxGroup.__events.vaChange({
+        target: {
+          name: 'Incomplete',
+          checked: true,
+        },
+      });
     });
+
+    await userEvent.click(screen.getByTestId('status-filter_Incomplete'));
+    userEvent.click($('va-button[text="Apply filters"]'));
+
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
   });
 
   it('filters by date range', async () => {
@@ -285,18 +300,25 @@ describe('App', () => {
     await waitFor(() => {
       const [date, time] = formatDateTime(previousYearDate);
 
-      fireEvent.click(
+      userEvent.click(
         document.querySelector(
           'va-accordion-item[header="Filter travel claims"]',
         ),
       );
-      userEvent.selectOptions(screen.getByTestId('claimsDates'), [
-        'All of 2023',
-      ]);
+
+      const dateSelect = screen.getByTestId('claimsDates');
+      dateSelect.__events.vaSelect({
+        target: {
+          value: 'All of 2023',
+        },
+      });
+
+      userEvent.selectOptions(dateSelect, ['All of 2023']);
 
       expect(screen.getByRole('option', { name: 'All of 2023' }).selected).to
         .true;
-      fireEvent.click(
+
+      userEvent.click(
         document.querySelector('va-button[text="Apply filters"]'),
       );
 
