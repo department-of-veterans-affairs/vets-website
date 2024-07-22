@@ -74,9 +74,7 @@ export function ConfirmationPage(props) {
       {OverviewComp}
 
       <div className="inset">
-        <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-          Your submission information
-        </h3>
+        <h3 className="vads-u-margin-top--0">Your submission information</h3>
         {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
@@ -107,7 +105,7 @@ export function ConfirmationPage(props) {
         />
       </div>
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <h2>What to expect next</h2>
       <p>
         You should receive a notification confirming CHAMPVA's receipt of your
         application within 7 days.
@@ -120,9 +118,7 @@ export function ConfirmationPage(props) {
         If we have any questions, need additional information, or encounter any
         issues, we will contact you.
       </p>
-      <h2 className="vads-u-font-size--h3">
-        How to contact us about your CHAMPVA application
-      </h2>
+      <h2>How to contact us about your CHAMPVA application</h2>
       <p>
         If you have any questions about your application you can call the
         CHAMPVA call center at 800-733-8387. We’re here Monday through Friday,
