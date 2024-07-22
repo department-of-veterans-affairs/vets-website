@@ -5,8 +5,7 @@ import { AXE_CONTEXT, Data } from '../utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();

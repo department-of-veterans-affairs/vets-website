@@ -24,6 +24,8 @@
  * @property {string} [ariaDescribedBySubmit]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
+ * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
+ * @property {JSX.Element | React.ReactNode} [CustomTopContent]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
@@ -46,6 +48,7 @@
  * @property {SavedFormMessages} [savedFormMessages]
  * @property {SaveInProgress} [saveInProgress]
  * @property {boolean} [showReviewErrors]
+ * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
  * @property {(form: any, formConfig: any) => Promise<any>} [submit]
  * @property {(props: any) => JSX.Element} [submitErrorText]
@@ -161,6 +164,7 @@
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
+ * @property {boolean} [hideSaveLinkAndStatus] will hide the save application later and save in progress message near the back/continue buttons
  * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
@@ -380,14 +384,15 @@
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cancelYes?: (props: ArrayBuilderTextProps) => string,
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,

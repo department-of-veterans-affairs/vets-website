@@ -126,7 +126,7 @@
     "@babel/traverse": "^7.23.2",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.18.1",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
@@ -191,6 +191,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-sonarjs": "^0.12.0",
     "eslint-plugin-unicorn": "^35.0.0",
+    "eslint-plugin-you-dont-need-momentjs": "^1.6.0",
     "figlet": "^1.5.2",
     "file-loader": "^6.2.0",
     "find": "^0.3.0",
@@ -260,9 +261,9 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^42.2.2",
-    "@department-of-veterans-affairs/css-library": "^0.7.0",
-    "@department-of-veterans-affairs/formation": "11.0.5",
+    "@department-of-veterans-affairs/component-library": "^43.0.1",
+    "@department-of-veterans-affairs/css-library": "^0.8.5",
+    "@department-of-veterans-affairs/formation": "11.0.12",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -332,7 +333,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3965188e0a9303bd833fcd7ac3cb6c32bc98b243"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#271a09c5f6a1c89105e1ae130ffac641c30f162b"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

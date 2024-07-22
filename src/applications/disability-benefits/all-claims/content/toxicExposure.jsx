@@ -156,7 +156,7 @@ export function dateRangePageDescription(
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. prefilled indicator is true
+ *  1. 'startedFormVersion' has 2019 or 2022
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
  *
@@ -164,7 +164,8 @@ export function dateRangePageDescription(
  */
 export function showToxicExposurePages(formData) {
   return (
-    formData?.includeToxicExposure === true &&
+    (formData?.startedFormVersion === '2019' ||
+      formData?.startedFormVersion === '2022') &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );

@@ -16,6 +16,8 @@ import {
   createVAPharmacyText,
   fromToNumbs,
   createBreadcrumbs,
+  pharmacyPhoneNumber,
+  sanitizeKramesHtmlStr,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -252,5 +254,119 @@ describe('createBreadcrumbs', () => {
         label: 'Refill prescriptions',
       },
     ]);
+  });
+});
+
+describe('pharmacyPhoneNumber function', () => {
+  const rx = {
+    cmopDivisionPhone: '4436366919',
+    dialCmopDivisionPhone: '1786366871',
+    rxRfRecords: [
+      {
+        cmopDivisionPhone: null,
+        dialCmopDivisionPhone: '',
+      },
+      {
+        cmopDivisionPhone: '(465)895-6578',
+        dialCmopDivisionPhone: '5436386958',
+      },
+    ],
+  };
+  it('should return a phone number when object passed has a phone for the cmopDivisionPhone field', () => {
+    expect(pharmacyPhoneNumber(rx)).to.equal('4436366919');
+  });
+  it('should return a phone number when object passed has a phone for the dialCmopDivisionPhone field', () => {
+    const newRxNoCmop = { ...rx, cmopDivisionPhone: null };
+    expect(pharmacyPhoneNumber(newRxNoCmop)).to.equal('1786366871');
+  });
+  it('should return a phone number when object passed only has a phone for the cmopDivisionPhone field inside of the rxRfRecords array', () => {
+    const newRxNoDialCmop = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+    };
+    expect(pharmacyPhoneNumber(newRxNoDialCmop)).to.equal('(465)895-6578');
+  });
+  it('should return a phone number when object passed only has a phone for the dialCmopDivisionPhone field inside of the rxRfRecords array', () => {
+    const newRxNoCmopInRxRfRecord = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+      rxRfRecords: [
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '',
+        },
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '5436386958',
+        },
+      ],
+    };
+    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal('5436386958');
+  });
+  it('should return null when object passed has no phone numbers for all the cmopDivisionPhone, dialCmopDivisionPhone fields', () => {
+    const newRxNoCmopInRxRfRecord = {
+      ...rx,
+      cmopDivisionPhone: null,
+      dialCmopDivisionPhone: null,
+      rxRfRecords: [
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: '',
+        },
+        {
+          cmopDivisionPhone: null,
+          dialCmopDivisionPhone: null,
+        },
+      ],
+    };
+    expect(pharmacyPhoneNumber(newRxNoCmopInRxRfRecord)).to.equal(null);
+  });
+});
+
+describe('sanitizeKramesHtmlStr function', () => {
+  it('should remove <Page> tags', () => {
+    const inputHtml = '<Page>Page 1</Page>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('<Page>Page 1</Page>');
+  });
+
+  it('should convert h1 tags to h2 tags', () => {
+    const inputHtml = '<h1>Heading 1</h1>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<h2>Heading 1</h2>');
+  });
+
+  it('should convert h3 tags to paragraphs if followed by h2 tags', () => {
+    const inputHtml = '<h3>Subheading</h3><h2>Heading 2</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<p>Subheading</p><h2>Heading 2</h2>');
+  });
+
+  it('should combine nested ul tags into one', () => {
+    const inputHtml = '<ul><ul><li>Item 1</li></ul></ul>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<ul><li>Item 1</li></ul>');
+  });
+
+  it('should convert plain text nodes to paragraphs', () => {
+    const inputHtml = 'Some plain text';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<p>Some plain text</p>');
+  });
+
+  it('should convert h2 tags to sentence case', () => {
+    const inputHtml = '<h2>THIS IS A HEADING</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<h2>This is a heading</h2>');
+  });
+
+  it('should retain the capitalization of I in h2 tags', () => {
+    const inputHtml = '<h2>What SPECIAL PRECAUTIONS should I follow?</h2>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<h2>What special precautions should I follow?</h2>',
+    );
   });
 });

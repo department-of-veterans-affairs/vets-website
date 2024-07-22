@@ -8,14 +8,12 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 // TODO add before hook to clean-up duplicates
 describe('Navigate to Message Details ', () => {
   it('Keyboard Nav Access to Expended Messages', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessageWithAttachment);
-    messageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
+    PatientMessageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
     cy.contains('Print').should('be.visible');
     cy.tabToElement('button')
       .eq(0)
@@ -28,21 +26,19 @@ describe('Navigate to Message Details ', () => {
       .then(() => {
         cy.get(Locators.BUTTONS.BUTTON_TRASH).should('have.focus');
       });
-    messageDetailsPage.realPressForExpandAllButton();
-    messageDetailsPage.verifyClickAndExpandAllMessagesHasFocus();
+    PatientMessageDetailsPage.realPressForExpandAllButton();
+    PatientMessageDetailsPage.verifyClickAndExpandAllMessagesHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
   it('Keyboard Navigation to Print Button', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessageWithAttachment);
-    messageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
+    PatientMessageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
     cy.contains('Print').should('be.visible');
     cy.tabToElement('button')
       .eq(0)

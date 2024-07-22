@@ -88,7 +88,7 @@ const formConfig = {
   },
   preSubmitInfo: {
     required: true,
-    CustomComponent: signatureProps => CustomAttestation(signatureProps),
+    CustomComponent: CustomAttestation,
   },
   saveInProgress: {
     messages: {
@@ -161,7 +161,7 @@ const formConfig = {
           ...applicantHasMedicareSchema,
         },
         medicareClass: {
-          path: 'medicare-class',
+          path: 'medicare-plan',
           title: formData => `${fnp(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareClassSchema,
@@ -332,7 +332,9 @@ const formConfig = {
         },
         secondaryType: {
           path: 'secondary-insurance-plan',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
@@ -342,6 +344,7 @@ const formConfig = {
         secondaryMedigap: {
           path: 'secondary-insurance-medigap',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryInsuranceType', formData) === 'medigap',
           title: formData =>
@@ -352,14 +355,17 @@ const formConfig = {
         },
         secondaryProvider: {
           path: 'secondary-insurance-info',
-          depends: formData => get('applicantHasSecondary', formData),
-          title: formData =>
-            `${fnp(formData)} additional health insurance information`,
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
+          title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {
           path: 'secondary-insurance-type',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} type of insurance for ${
               formData.applicantSecondaryProvider
@@ -368,7 +374,9 @@ const formConfig = {
         },
         secondaryPrescription: {
           path: 'secondary-insurance-prescription',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
@@ -378,6 +386,7 @@ const formConfig = {
         secondaryEOB: {
           path: 'secondary-insurance-eob',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
           title: formData =>
@@ -389,6 +398,7 @@ const formConfig = {
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
             !get('applicantSecondaryEOB', formData),
@@ -402,7 +412,9 @@ const formConfig = {
         },
         secondaryCard: {
           path: 'secondary-insurance-card-upload',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData => `${fnp(formData)} health insurance card`,
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
@@ -410,7 +422,9 @@ const formConfig = {
         },
         secondaryComments: {
           path: 'secondary-insurance-comments',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
@@ -451,7 +465,7 @@ const formConfig = {
       },
     },
     formSignature: {
-      title: 'Form signature',
+      title: 'Signer information',
       pages: {
         formSignature: {
           path: 'form-signature',

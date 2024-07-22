@@ -15,6 +15,7 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
+import relationshipToVeteranPage from '../chapters/personalInformation/relationshipToVeteran';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
@@ -68,7 +69,7 @@ const ch3Pages = {
     title: CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
     uiSchema: moreAboutYourRelationshipToVeteranPage.uiSchema,
     schema: moreAboutYourRelationshipToVeteranPage.schema,
-    depends: form => form.personalRelationship !== 'VETERAN',
+    depends: form => form.personalRelationship !== "I'm the Veteran",
   },
   aboutTheVeteran: {
     title: CHAPTER_3.ABOUT_THE_VET.TITLE,
@@ -84,7 +85,7 @@ const ch3Pages = {
     title: CHAPTER_3.DEATH_DATE.TITLE,
     uiSchema: deathDatePage.uiSchema,
     schema: deathDatePage.schema,
-    depends: form => form.isVeteranDeceased === 'YES',
+    depends: form => form.isVeteranDeceased === 'Yes',
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
@@ -105,14 +106,14 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
     uiSchema: yourPostalCodePage.uiSchema,
     schema: yourPostalCodePage.schema,
-    depends: form => form.contactPreference !== 'US_MAIL',
+    depends: form => form.contactPreference !== 'U.S. mail',
   },
   isQuestionAboutVeteranOrSomeoneElse: {
     title: CHAPTER_3.WHO_QUES_IS_ABOUT.TITLE,
     uiSchema: whoQuestionAboutPage.uiSchema,
     schema: whoQuestionAboutPage.schema,
     onNavForward: ({ formData, goPath }) => {
-      if (formData.whoQuestionAbout === 'VETERAN') {
+      if (formData.whoQuestionAbout === "I'm the Veteran") {
         goPath(
           `/${
             flowPaths.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran
@@ -131,19 +132,16 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
-    // depends: () => hasSession(),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
-    // depends: () => hasSession(),
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
-    // depends: () => hasSession(),
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
@@ -188,19 +186,20 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_COUNTRY.TITLE,
     uiSchema: yourCountryPage.uiSchema,
     schema: yourCountryPage.schema,
-    depends: form => form.contactPreference === 'US_MAIL',
+    depends: form => form.contactPreference === 'U.S. mail',
   },
   yourMailingAddress: {
     title: CHAPTER_3.YOUR_MAILING_ADDRESS.TITLE,
     uiSchema: yourMailingAddressPage.uiSchema,
     schema: yourMailingAddressPage.schema,
-    depends: form => form.contactPreference === 'US_MAIL',
+    depends: form => form.contactPreference === 'U.S. mail',
   },
   addressValidation: {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
     uiSchema: addressValidationPage.uiSchema,
     schema: addressValidationPage.schema,
-    depends: form => form.contactPreference === 'US_MAIL',
+    depends: form => form.contactPreference === 'U.S. mail',
+    onNavForward: ({ goPath }) => goPath(CHAPTER_2.PAGE_3.PATH),
   },
   aboutYourFamilyMember: {
     title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
@@ -226,22 +225,173 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
+    depends: form => form.contactPreference !== 'U.S. mail',
   },
+  relationshipToVeteran: {
+    path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
+    title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
+    uiSchema: relationshipToVeteranPage.uiSchema,
+    schema: relationshipToVeteranPage.schema,
+  },
+};
+
+const aboutMyselfRelationshipVeteranCondition = formData => {
+  // console.log('aboutMyselfRelationshipVeteranCondition', conditionMet);
+  return (
+    formData.questionAbout === 'Myself' &&
+    formData.personalRelationship === "I'm the Veteran"
+  );
+};
+
+const aboutMyselfRelationshipFamilyMemberCondition = formData => {
+  // console.log('aboutMyselfRelationshipFamilyMemberCondition', conditionMet);
+  return (
+    formData.questionAbout === 'Myself' &&
+    formData.personalRelationship === "I'm a family member of a Veteran"
+  );
+};
+
+const aboutSomeoneElseRelationshipVeteranCondition = formData => {
+  // console.log('aboutSomeoneElseRelationshipVeteranCondition', conditionMet);
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship === "I'm the Veteran" &&
+    formData.selectCategory !==
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
+};
+
+const aboutSomeoneElseRelationshipFamilyMemberCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipFamilyMemberCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship === "I'm a family member of a Veteran" &&
+    formData.selectCategory !==
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
+};
+
+const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship === "I'm a family member of a Veteran"
+  );
+};
+
+const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship === "I'm a family member of a Veteran"
+  );
+};
+
+const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipConnectedThroughWorkCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship ===
+      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
+    formData.selectCategory !==
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
+};
+
+const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship ===
+      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
+    formData.selectCategory ===
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
+};
+
+const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = formData => {
+  // console.log(
+  //   'aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition',
+  //   conditionMet,
+  // );
+  return (
+    formData.questionAbout === 'Someone else' &&
+    formData.personalRelationship !==
+      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
+    formData.selectCategory ===
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
+};
+
+const generalQuestionCondition = formData => {
+  // console.log('generalQuestionCondition', conditionMet);
+  return (
+    formData.questionAbout === "It's a general question" ||
+    formData.selectCategory ===
+      'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
+  );
 };
 
 export const flowPages = (obj, list, path) => {
   const pages = _.cloneDeep(obj);
   const flowGroup = {};
+  const flowGroupName = path
+    .split('-')
+    .join('')
+    .toLowerCase();
+
+  const conditionMap = {
+    aboutmyselfrelationshipveteran: aboutMyselfRelationshipVeteranCondition,
+    aboutmyselfrelationshipfamilymember: aboutMyselfRelationshipFamilyMemberCondition,
+    aboutsomeoneelserelationshipveteran: aboutSomeoneElseRelationshipVeteranCondition,
+    aboutsomeoneelserelationshipfamilymember: aboutSomeoneElseRelationshipFamilyMemberCondition,
+    aboutsomeoneelserelationshipfamilymemberaboutveteran: aboutSomeoneElseRelationshipFamilyMemberAboutVeteranCondition,
+    aboutsomeoneelserelationshipfamilymemberaboutfamilymember: aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberCondition,
+    aboutsomeoneelserelationshipconnectedthroughwork: aboutSomeoneElseRelationshipConnectedThroughWorkCondition,
+    aboutsomeoneelserelationshipconnectedthroughworkeducation: aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition,
+    aboutsomeoneelserelationshipveteranorfamilymembereducation: aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition,
+    generalquestion: generalQuestionCondition,
+  };
+
   list.forEach((page, index) => {
-    const key = `${page}_${path.split('-').join('')}`;
+    const key = `${page}_${flowGroupName}`;
     flowGroup[key] = pages[page];
     flowGroup[key].path = `${path}-${index + 1}`;
 
-    if (list.length === index + 1) {
-      flowGroup[key].onNavForward = ({ goPath }) =>
-        goPath(CHAPTER_2.PAGE_3.PATH);
+    // Add depends clause based on flowGroupName
+    if (conditionMap[flowGroupName]) {
+      const newCondition = conditionMap[flowGroupName];
+      if (flowGroup[key].depends) {
+        const existingCondition = flowGroup[key].depends;
+        flowGroup[key].depends = formData =>
+          existingCondition(formData) && newCondition(formData);
+      } else {
+        flowGroup[key].depends = newCondition;
+      }
     }
 
+    // If last in the list, on nav forward go to the You question page
+    if (list.length === index + 1) {
+      flowGroup[key].onNavForward = ({ goPath }) =>
+        goPath(CHAPTER_2.PAGE_3.PATH); // your-question
+    }
+
+    // If first in the list, on nav backward go to the Who is your question about page
     if (index === 0) {
       flowGroup[key].onNavBack = ({ goPath }) =>
         goPath('/who-is-your-question-about');
@@ -399,7 +549,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 
 const generalQuestion = [
   'aboutYourselfGeneral',
-  // 'searchVAMedicalCenter',
+  'searchVAMedicalCenter',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',

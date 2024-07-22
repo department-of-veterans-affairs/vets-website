@@ -46,7 +46,7 @@ describe('<CompareScroller>', () => {
     expect(wrapper.find('.left-arrow')).to.have.lengthOf(1);
     expect(wrapper.find('.circles')).to.have.lengthOf(1);
     expect(wrapper.find('.right-arrow')).to.have.lengthOf(1);
-    expect(wrapper.find('.circles i')).to.have.lengthOf(divisions);
+    expect(wrapper.find('.gi-compare-circle')).to.have.lengthOf(divisions);
 
     const leftArrow = wrapper.find('.left-arrow');
     leftArrow.find('va-icon').simulate('click');

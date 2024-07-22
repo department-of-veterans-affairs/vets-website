@@ -2,6 +2,9 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 export const envUrl = environment.API_URL;
 
+// Used to test against dev
+// export const envUrl = 'https:///dev-api.va.gov';
+
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
@@ -36,6 +39,13 @@ export const requiredForSubtopicPage = [
   'Prosthetics',
 ];
 
+// Check to show Your Personal Information page and NOT About Yourself page
+export const hasPrefillInformation = form => {
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
+};
+
 // Response Page headers
 export const RESPONSE_PAGE = {
   QUESTION_DETAILS: 'Question details',
@@ -59,6 +69,14 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
+};
+
+export const pronounLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
 };
 
 // Used for yes/no radio questions
@@ -205,7 +223,7 @@ export const yourRoleOptionsEducation = {
 
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
-  CHAPTER_TITLE: 'Category and Topic',
+  CHAPTER_TITLE: 'Category and topic',
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category',
@@ -214,13 +232,13 @@ export const CHAPTER_1 = {
   },
   PAGE_2: {
     PATH: 'category-topic-2',
-    TITLE: 'Topic selected',
+    TITLE: 'Topic',
     PAGE_DESCRIPTION: 'Topic',
     QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
-    TITLE: 'Subtopic selected',
+    TITLE: 'Subtopic',
     PAGE_DESCRIPTION: 'Subtopic',
     QUESTION_1: 'Select the subtopic that best describes your question:',
   },
@@ -228,7 +246,7 @@ export const CHAPTER_1 = {
 
 // Chapter 2 labels: titles, questions, descriptions
 export const CHAPTER_2 = {
-  CHAPTER_TITLE: 'Your Question',
+  CHAPTER_TITLE: 'Your question',
   PAGE_1: {
     PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
@@ -245,13 +263,13 @@ export const CHAPTER_2 = {
     PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
+    QUESTION_1: "What's your question?",
   },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'Personal Information',
+  CHAPTER_TITLE: 'Your Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
     TITLE: 'What is your relationship to the Veteran?',
@@ -345,7 +363,7 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: {
       QUESTION: 'Preferred name',
-      HINT: 'Let us know how we should refer to you',
+      HINT: 'Let us know how we should refer to you.',
       ERROR: 'This field accepts alphabetic characters only',
     },
     QUESTION_2: 'How should we contact you?',
@@ -412,35 +430,42 @@ export const CHAPTER_3 = {
     TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
+  YOUR_PERSONAL_INFORMATION: {
+    PATH: 'your-personal-information',
+    TITLE: `Your personal information`,
+    DESCRIPTION: 'This is the personal information we have on file for you.',
+  },
 };
 
 export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
+  CHAPTER_2.PAGE_1.TITLE,
+  CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
-export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+export const homeBreadcrumbs = [{ href: '/', label: 'Home', key: 'home' }];
 
 export const contactUsBreadcrumbs = [
   ...homeBreadcrumbs,
-  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+  { href: '/contact-us', label: 'Contact Us', key: 'contactUs' },
 ];
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'Response Page', key: 'responsePage' },
+  { label: 'Response Page', key: 'responsePage' },
 ];
 
 export const newInquiryBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'New Inquiry', key: 'newInquiry' },
+  { label: 'New Inquiry', key: 'newInquiry' },
 ];
 
 export const breadcrumbsDictionary = {

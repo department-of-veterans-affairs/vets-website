@@ -67,6 +67,10 @@ export const AUTH_ERRORS = {
     errorCode: '111',
     message: `You’re not eligible for a My VA Health account.`,
   },
+  MHV_PROVISIONING_FAILURE: {
+    errorCode: '112',
+    message: `We’re having trouble provisioning your My HealtheVet account right now.`,
+  },
   OAUTH_DEFAULT_ERROR: {
     errorCode: '201',
     message: `Unknown OAuth Error`,

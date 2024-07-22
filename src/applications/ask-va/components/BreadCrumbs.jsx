@@ -1,3 +1,4 @@
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { breadcrumbsDictionary } from '../constants';
@@ -17,13 +18,16 @@ const BreadCrumbs = ({ currentLocation }) => {
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
 
   return (
-    <va-breadcrumbs uswds="false" label="Breadcrumbs">
-      {breadcrumbLinks.map(link => (
-        <a href={link.href} key={link.key}>
-          {link.title}
-        </a>
-      ))}
-    </va-breadcrumbs>
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <VaBreadcrumbs
+          home-veterans-affairs={false}
+          label="Breadcrumbs"
+          breadcrumbList={[...breadcrumbLinks]}
+          uswds
+        />
+      </div>
+    </div>
   );
 };
 

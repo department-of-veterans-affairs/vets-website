@@ -30,25 +30,24 @@ export default function transformForSubmit(formConfig, form) {
       copyOfData.applicantName?.middle?.charAt(0) ?? '';
   }
 
+  // Get today's date as YYYY-MM-DD
+  copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
+
   // Make sure all dates are in MM-DD-YYYY format
   Object.keys(copyOfData).forEach(key => {
     if (key.toLowerCase().includes('date')) {
-      copyOfData[key] = new Date(copyOfData[key])
-        // MM-DD-YYYY date w/ hyphens instead of slashes
-        .toLocaleDateString('es-pa')
-        .replace(/\//g, '-');
+      const date = copyOfData[key];
+      copyOfData[key] = `${date.slice(5)}-${date.slice(0, 4)}`;
     }
   });
-
-  copyOfData.certificationDate = new Date()
-    .toLocaleDateString('es-pa')
-    .replace(/\//g, '-');
 
   copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification
   copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
+
+  copyOfData.statementOfTruthSignature = copyOfData.signature;
 
   return JSON.stringify({
     ...copyOfData,

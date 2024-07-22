@@ -1,7 +1,6 @@
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import unset from 'platform/utilities/data/unset';
-import moment from 'moment';
 
 import fullSchema1990 from 'vets-json-schema/dist/22-1990-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
@@ -13,7 +12,6 @@ import {
   validateBooleanGroup,
   validateCurrentOrFutureDate,
 } from 'platform/forms-system/src/js/validation';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
@@ -33,25 +31,18 @@ import createDirectDepositPage1990 from '../pages/DirectDeposit';
 import * as toursOfDuty from '../../definitions/toursOfDuty';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import BenefitsRelinquishmentField from '../BenefitsRelinquishmentField';
+import { benefitsEligibilityUpdate } from '../pages/benefitsEligibilityUpdate';
 
 import {
   transform,
   benefitsEligibilityBox,
-  benefitsRelinquishmentWarning,
-  benefitsRelinquishmentLabels,
-  benefitsRelinquishedDescription,
   prefillTransformer,
-  reserveKickerWarning,
   SeventeenOrOlder,
   eighteenOrOver,
   ageWarning,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
-
-import { benefitsLabels } from '../../utils/labels';
 
 const {
   chapter33,
@@ -62,8 +53,6 @@ const {
   additionalContributions,
   activeDutyKicker,
   reserveKicker,
-  benefitsRelinquished,
-  benefitsRelinquishedDate,
   serviceAcademyGraduationYear,
 } = fullSchema1990.properties;
 
@@ -275,106 +264,17 @@ const formConfig = {
         benefitsEligibility: {
           title: 'Benefits eligibility',
           path: 'benefits-eligibility/benefits-selection',
-          uiSchema: {
-            'ui:description': benefitsEligibilityBox,
-            'view:selectedBenefits': {
-              'ui:title': 'Select the benefit that is the best match for you.',
-              'ui:validations': [validateBooleanGroup],
-              'ui:errorMessages': {
-                atLeastOne: 'Please select at least one benefit',
-              },
-              'ui:options': {
-                showFieldLabel: true,
-              },
-              chapter33: {
-                'ui:title': benefitsLabels.chapter33,
-                'ui:options': {
-                  expandUnderClassNames: 'schemaform-expandUnder-indent',
-                },
-              },
-              'view:chapter33ExpandedContent': {
-                'ui:description': benefitsLabels.chapter33Description,
-                'ui:options': {
-                  expandUnder: 'chapter33',
-                },
-              },
-              chapter30: {
-                'ui:title': benefitsLabels.chapter30,
-              },
-              chapter1606: {
-                'ui:title': benefitsLabels.chapter1606,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['view:selectedBenefits'],
-            properties: {
-              'view:selectedBenefits': {
-                type: 'object',
-                properties: {
-                  chapter33,
-                  'view:chapter33ExpandedContent': {
-                    type: 'object',
-                    properties: {},
-                  },
-                  chapter30,
-                  chapter1606,
-                },
-              },
-            },
-          },
-        },
-        benefitsRelinquishment: {
-          title: 'Benefits relinquishment',
-          path: 'benefits-eligibility/benefits-relinquishment',
-          depends: formData => formData['view:selectedBenefits'].chapter33,
-          initialData: {
-            'view:benefitsRelinquishedContainer': {
-              benefitsRelinquishedDate: moment().format('YYYY-MM-DD'),
-            },
-          },
-          uiSchema: {
-            'ui:title': 'Benefits relinquishment',
-            'ui:description': benefitsRelinquishmentWarning,
-            'view:benefitsRelinquishedContainer': {
-              'ui:field': BenefitsRelinquishmentField,
-              benefitsRelinquished: {
-                'ui:title': 'I choose to give up:',
-                'ui:widget': 'radio',
-                'ui:options': {
-                  labels: benefitsRelinquishmentLabels,
-                },
-              },
-              benefitsRelinquishedDate: merge({}, dateUI('Effective date'), {
-                'ui:required': formData =>
-                  get(
-                    'view:benefitsRelinquishedContainer.benefitsRelinquished',
-                    formData,
-                  ) !== 'unknown',
-              }),
-            },
-            'view:questionText': {
-              'ui:description': benefitsRelinquishedDescription,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:benefitsRelinquishedContainer': {
-                type: 'object',
-                required: ['benefitsRelinquished'],
-                properties: {
-                  benefitsRelinquished,
-                  benefitsRelinquishedDate,
-                },
-              },
-              'view:questionText': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: benefitsEligibilityUpdate(
+            benefitsEligibilityBox,
+            validateBooleanGroup,
+          ).uiSchema,
+          schema: benefitsEligibilityUpdate(
+            '',
+            null,
+            chapter33,
+            chapter30,
+            chapter1606,
+          ).schema,
         },
       },
     },
@@ -502,17 +402,6 @@ const formConfig = {
               'ui:title':
                 'I qualify for a Reserve Kicker (sometimes called a college fund).',
             },
-            'view:reserveKickerWarning': {
-              'ui:description': reserveKickerWarning,
-              'ui:options': {
-                expandUnder: 'reserveKicker',
-                hideIf: data =>
-                  get(
-                    'view:benefitsRelinquishedContainer.benefitsRelinquished',
-                    data,
-                  ) !== 'chapter30',
-              },
-            },
             'view:activeDutyRepayingPeriod': {
               'ui:title':
                 'I have a period of service that the Department of Defense counts toward an education loan payment.',
@@ -544,10 +433,6 @@ const formConfig = {
               additionalContributions,
               activeDutyKicker,
               reserveKicker,
-              'view:reserveKickerWarning': {
-                type: 'object',
-                properties: {},
-              },
               'view:activeDutyRepayingPeriod': {
                 type: 'boolean',
               },

@@ -31,7 +31,11 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { setDocumentTitle } from '../utils/helpers';
+import {
+  setDocumentRequestPageTitle,
+  setDocumentTitle,
+  getClaimType,
+} from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Automated5103Notice from '../components/claim-document-request-pages/Automated5103Notice';
@@ -43,12 +47,16 @@ const scrollToError = () => {
 const { Element } = Scroll;
 
 const filesPath = '../files';
+const statusPath = '../status';
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     if (this.props.trackedItem) {
-      setDocumentTitle(`Request for ${this.props.trackedItem.displayName}`);
+      const pageTitle = setDocumentRequestPageTitle(
+        this.props.trackedItem.displayName,
+      );
+      setDocumentTitle(pageTitle);
     } else {
       setDocumentTitle('Document Request');
     }
@@ -172,15 +180,37 @@ class DocumentRequestPage extends React.Component {
       );
     }
 
+    const { claim, params, trackedItem } = this.props;
+    const claimType = getClaimType(claim).toLowerCase();
+
+    const previousPageIsFilesTab = () => {
+      const previousPage = sessionStorage.getItem('previousPage');
+      if (previousPage === 'files') {
+        return true;
+      }
+      return false;
+    };
+
+    const filesBreadcrumb = {
+      href: filesPath,
+      label: `Files for your ${claimType} claim`,
+      isRouterLink: true,
+    };
+    const statusBreadcrumb = {
+      href: statusPath,
+      label: `Status of your ${claimType} claim`,
+      isRouterLink: true,
+    };
+
+    const previousPageBreadcrumb = previousPageIsFilesTab()
+      ? filesBreadcrumb
+      : statusBreadcrumb;
+
     const crumbs = [
+      previousPageBreadcrumb,
       {
-        href: filesPath,
-        label: 'Status details',
-        isRouterLink: true,
-      },
-      {
-        href: `../document-request/${this.props.params.trackedItemId}`,
-        label: 'Document request',
+        href: `../document-request/${params.trackedItemId}`,
+        label: setDocumentRequestPageTitle(trackedItem?.displayName),
         isRouterLink: true,
       },
     ];
@@ -188,21 +218,11 @@ class DocumentRequestPage extends React.Component {
     return (
       <div>
         <div name="topScrollElement" />
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs crumbs={crumbs} />
-            </div>
-          </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-bottom--4 medium-screen:vads-l-col--8">
-              {content}
-            </div>
-          </div>
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-              <NeedHelp />
-            </div>
+        <div className="row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <ClaimsBreadcrumbs crumbs={crumbs} />
+            <div>{content}</div>
+            <NeedHelp />
           </div>
         </div>
       </div>

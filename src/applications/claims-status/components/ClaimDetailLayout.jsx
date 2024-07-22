@@ -119,26 +119,12 @@ export default function ClaimDetailLayout(props) {
   return (
     <div>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-        <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs crumbs={[crumb]} />
-          </div>
-        </div>
-        {!!headingContent && (
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12">{headingContent}</div>
-          </div>
-        )}
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            {bodyContent}
-          </div>
-        </div>
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            <NeedHelp />
-          </div>
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <ClaimsBreadcrumbs crumbs={[crumb]} />
+          {!!headingContent && <div>{headingContent}</div>}
+          <div>{bodyContent}</div>
+          <NeedHelp />
         </div>
       </div>
     </div>
