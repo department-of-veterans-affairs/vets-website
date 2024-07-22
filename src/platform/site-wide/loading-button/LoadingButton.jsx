@@ -10,15 +10,10 @@ export default function LoadingButton({
   ...props
 }) {
   const contents = isLoading ? (
-    <>
-      <va-icon
-        // className="fa fa-spinner fa-spin"
-        icon="autorenew"
-        aria-hidden="true"
-        role="presentation"
-      />
+    <div className="rotate-icon-container">
+      <va-icon id="rotating-va-loading-icon" icon="autorenew" size={1} />
       {!!loadingText && <span className="sr-only">{loadingText}</span>}
-    </>
+    </div>
   ) : (
     children
   );

@@ -121,7 +121,7 @@ export default function VideoLayout({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not available'}</What>
+      <What>{typeOfCareName}</What>
 
       <Who>{videoProviderName}</Who>
       {APPOINTMENT_STATUS.booked === status &&
@@ -131,7 +131,12 @@ export default function VideoLayout({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!!facility && (
+            {!facility && (
+              <>
+                <span>Facility not available</span>
+              </>
+            )}
+            {facility && (
               <>
                 {facility.name}
                 <br />
@@ -141,9 +146,18 @@ export default function VideoLayout({ data: appointment }) {
               </>
             )}
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {clinicName && (
+              <>
+                <span>Clinic: {clinicName}</span> <br />
+              </>
+            )}
+            {!clinicName && (
+              <>
+                <span>Clinic not available</span>
+              </>
+            )}
             {facilityPhone && (
-              <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+              <FacilityPhone heading="Phone:" contact={facilityPhone} />
             )}
           </Section>
         )}
@@ -160,9 +174,18 @@ export default function VideoLayout({ data: appointment }) {
             </>
           )}
           <br />
-          <span>Clinic: {clinicName || 'Not available'}</span> <br />
+          {clinicName && (
+            <>
+              <span>Clinic: {clinicName}</span> <br />
+            </>
+          )}
+          {!clinicName && (
+            <>
+              <span>Clinic not available</span>
+            </>
+          )}
           {facilityPhone && (
-            <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+            <FacilityPhone heading="Phone:" contact={facilityPhone} />
           )}
         </Section>
       )}

@@ -19,21 +19,6 @@
   margin: 0;
 }
 
-.debt-card {
-  padding: 24px;
-  label {
-    display: inline-block !important;
-    user-select: none;
-  }
-  [type="checkbox"]:checked + label::before {
-    background-color: var(--vads-color-white);
-    color: var(--vads-color-primary);
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    padding-right: 2px;
-  }
-}
-
 .selected-debt {
   border: 4px solid var(--vads-color-primary);
   padding: 20px;

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../../constants';
 import { pageSetup } from '../../utilities/page-setup';
@@ -24,6 +23,11 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
     [router, viewedIntroPage],
   );
 
+  const resultsPageContinue = event => {
+    event.preventDefault();
+    router.push(ROUTES.RESULTS_1_2);
+  };
+
   return (
     <>
       <h1 data-testid="paw-results-1-1">{H1}</h1>
@@ -45,13 +49,11 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
         service caused the condition to get VA disability compensation. You only
         need to meet the service requirements for presumption.
       </p>
-      <Link
-        className="vads-c-action-link--green"
+      <va-link-action
         data-testid="paw-results-1-1-continue"
-        to={ROUTES.RESULTS_1_2}
-      >
-        Learn more about presumptive conditions and what to do next
-      </Link>
+        onClick={resultsPageContinue}
+        text="Learn more about presumptive conditions and what to do next"
+      />
       <va-button
         back
         class="vads-u-margin-top--3 vads-u-display--block"
