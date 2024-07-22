@@ -23,5 +23,3 @@ export const introductionPage = (automatedTest = false) => {
     ? IntroductionPage
     : IntroductionPageUpdate;
 };
-
-// IntroductionPage
