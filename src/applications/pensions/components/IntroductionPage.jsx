@@ -7,7 +7,8 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { FormReactivationAlert } from './FormAlerts';
 
-const IntroductionPage = ({ route }) => {
+const IntroductionPage = props => {
+  const { route } = props;
   const { formConfig, pageList } = route;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -15,14 +16,19 @@ const IntroductionPage = ({ route }) => {
     TOGGLE_NAMES.pensionIntroductionUpdate,
   );
 
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-  }, []);
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+    },
+    [props],
+  );
 
   return showUpdatedIntroduction ? (
-    <div className="schemaform-intro vads-u-margin-bottom--6">
-      <FormTitle title="Apply for Veterans Pension benefits" />
-      <p>Application for Veterans Pension (VA Form 21P-527EZ)</p>
+    <article className="schemaform-intro vads-u-margin-bottom--6">
+      <FormTitle
+        title="Apply for Veterans Pension benefits"
+        subTitle="Application for Veterans Pension (VA Form 21P-527EZ)"
+      />
       <p>
         Use our online tool to fill out and submit your application for Veterans
         Pension benefits. If you’re a wartime Veteran and you’re at least 65
@@ -138,7 +144,7 @@ const IntroductionPage = ({ route }) => {
         omb-number="2900-0002"
         exp-date="08/31/2025"
       />
-    </div>
+    </article>
   ) : (
     <div className="schemaform-intro">
       <FormTitle title="Apply for Veterans Pension benefits" />
