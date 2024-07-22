@@ -53,6 +53,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         code: 'New medical issue',
         text: 'A message from the patient',
       })
+      .setAdditionalAppointmentDetails('A message from the patient')
       .setContact({ phone: '2125551212', email: 'veteranemailtest@va.gov' })
       .setPreferredTimesForPhoneCall({ morning: true });
 

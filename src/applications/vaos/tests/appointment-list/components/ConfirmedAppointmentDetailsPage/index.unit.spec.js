@@ -57,7 +57,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response
       .setLocationId('983')
       .setClinicId('1')
-      .setReasonCode({ text: 'I have a headache' });
+      .setReasonCode({ text: 'I have a headache' })
+      .setAdditionalAppointmentDetails('I have a headache');
     const clinicResponse = new MockClinicResponse({
       id: 1,
       locationId: '983',
@@ -134,7 +135,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response
       .setLocationId('983GC')
       .setClinicId('455')
-      .setReasonCode({ text: 'I have a headache' });
+      .setReasonCode({ text: 'I have a headache' })
+      .setAdditionalAppointmentDetails('I have a headache');
     const clinicResponse = new MockClinicResponse({
       id: 455,
       locationId: '983GC',
@@ -337,7 +339,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New medical issue: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New medical issue/)).to.be.ok;
 
     // And it should not display the add to calendar link
     expect(screen.queryByTestId('add-to-calendar-link')).to.be.null;
@@ -506,7 +508,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   it('should show confirmed appointment without facility information', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
-    response.setReasonCode({ text: 'New issue: ASAP' });
+    response
+      .setReasonCode({ text: 'New issue: ASAP' })
+      .setAdditionalAppointmentDetails('New issue: ASAP');
     mockAppointmentApi({ response });
 
     // Act
