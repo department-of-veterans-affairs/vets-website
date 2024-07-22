@@ -14,10 +14,6 @@ export default {
             We’re asking because receivimg a service-connected disability rating
             from VA may make you eligible for additional benefits. Receiving
             these benefits won’t take away from other Veterans in need.
-            <br />
-            <a href="https://www.va.gov/disability/eligibility">
-              Learn more about disability ratings.
-            </a>
           </p>
         </>
       ),
@@ -29,6 +25,14 @@ export default {
         },
       },
     },
+    'view:disabilityEligibility': {
+      'ui:description': (
+        <va-link
+          href="https://www.va.gov/disability/eligibility"
+          text="Learn more about disability ratings."
+        />
+      ),
+    },
   },
   schema: {
     type: 'object',
@@ -36,6 +40,10 @@ export default {
       disabilityRating: {
         type: 'string',
         enum: ['Yes', 'No'],
+      },
+      'view:disabilityEligibility': {
+        type: 'object',
+        properties: {},
       },
     },
   },
