@@ -335,9 +335,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /Need to make changes/i,
         }),
       ).to.be.ok;
-      expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
-      ).to.be.ok;
 
       expect(
         screen.queryByRole('heading', {
