@@ -26,7 +26,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
   { name: 'vaOnlineSchedulingAppointmentDetailsRedesign', value: true },
-  { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
+  { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
