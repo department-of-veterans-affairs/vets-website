@@ -28,6 +28,13 @@ describe(`${appName} - helpdesk information component`, () => {
 
       cy.findByTestId('mhv-helpdesk-info').should.exist;
     });
+
+    it(`renders for users without an MHV account`, () => {
+      LandingPage.visit({ mhvAccountState: false });
+      cy.injectAxeThenAxeCheck();
+
+      cy.findByTestId('mhv-helpdesk-info').should.exist;
+    });
   });
 
   describe('display content based on feature toggle', () => {
