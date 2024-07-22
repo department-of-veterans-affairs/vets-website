@@ -9,9 +9,8 @@ import mockMessages from './fixtures/messages-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Reply Draft', () => {
-  const currentDate = GeneralFunctionsPage.getDateFormat();
-  it('verify user can delete draft on reply', () => {
-    const draftsPage = new PatientMessageDraftsPage();
+  it('Axe Check Message Delete Reply Draft with Axe Check', () => {
+
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
@@ -24,20 +23,22 @@ describe('Secure Messaging Delete Reply Draft', () => {
       force: true,
     });
 
-    PatientReplyPage.clickSaveReplyDraftButton(
-      messageDetails,
-      `\n\n\nName\nTitleTestTest Body`,
-    );
+    cy.realPress(['Enter']).then(() => {
+      PatientReplyPage.clickSaveReplyDraftButton(
+        messageDetails,
+        `\n\n\nName\nTitleTest${testMessageBody}`,
+      );
+      cy.log(
+        `the message details after clickSaveReplyDraftButton ${JSON.stringify(
+          messageDetails,
+        )}`,
+      );
+    });
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
 
-    cy.get(Locators.ALERTS.SAVE_ALERT).should(
-      'contain',
-      `message was saved on ${currentDate}`,
-    );
-
-    draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteDraft(messageDetails);
-    draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

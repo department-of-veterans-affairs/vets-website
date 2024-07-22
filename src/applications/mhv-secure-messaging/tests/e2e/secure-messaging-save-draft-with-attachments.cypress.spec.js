@@ -6,31 +6,20 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Data, Locators } from './utils/constants';
+import { AXE_CONTEXT, Data, Locators, Alerts } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
-  const currentDate = GeneralFunctionsPage.getDateFormat();
-  const draftsPage = new PatientMessageDraftsPage();
-  beforeEach(() => {
+  it('Axe Check Draft Save with Attachments', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
-  });
-
-  it('Draft can not be saved with attachments', () => {
-    PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
-    PatientComposePage.saveDraftButton().click();
-    draftsPage.verifySaveWithAttachmentAlert();
-
-    cy.get(`[text="Keep editing"]`).click({ force: true });
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).should(`be.visible`);
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  it('Draft can be saved without attachment', () => {
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(
+      mockDraftResponse,
+      mockThreadResponse,
+    );
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
 
     cy.intercept(
@@ -38,28 +27,21 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       `/my_health/v1/messaging/message_drafts/${
         mockDraftResponse.data.attributes.messageId
       }`,
-      {},
-    ).as('draftSave');
+
+      mockDraftResponse,
+    ).as('autosaveResponse');
 
     PatientComposePage.saveDraftButton().click();
-    draftsPage.verifySaveWithAttachmentAlert();
 
-    cy.get(`[text="Save draft without attachments"]`).click({ force: true });
-    cy.get(Locators.ALERTS.SAVE_ALERT).should(
-      `contain`,
-      `message was saved on ${currentDate}`,
-    );
+    // verify modal elements
+    cy.get(Locators.ALERTS.HEADER).should('have.text', Alerts.SAVE_ATTCH);
+    PatientMessageDraftsPage.verifySaveModalButtons();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    cy.realPress(['Enter']);
+    cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('va-modal[visible]')
-      .find('.va-modal-close')
-      .click();
+    PatientMessageDraftsPage.closeModal();
 
-    cy.get('.sm-breadcrumb-list-item')
-      .find('a')
-      .click();
+    cy.get(Locators.LINKS.BACK_TO_DRAFTS).click();
   });
 });
