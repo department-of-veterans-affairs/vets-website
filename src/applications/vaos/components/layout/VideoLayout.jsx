@@ -9,7 +9,13 @@ import {
 } from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
-import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
@@ -17,12 +23,13 @@ import {
 } from '../../appointment-list/components/AppointmentDateTime';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 import State from '../State';
 
 export default function VideoLayout({ data: appointment }) {
   const {
     clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
     isCanceledAppointment,
@@ -153,12 +160,14 @@ export default function VideoLayout({ data: appointment }) {
             )}
             {!clinicName && (
               <>
-                <span>Clinic not available</span>
+                <span>Clinic not available</span> <br />
               </>
             )}
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
+            <ClinicOrFacilityPhone
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
+            />
           </Section>
         )}
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
@@ -184,9 +193,11 @@ export default function VideoLayout({ data: appointment }) {
               <span>Clinic not available</span>
             </>
           )}
-          {facilityPhone && (
-            <FacilityPhone heading="Phone:" contact={facilityPhone} />
-          )}
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
+          />
         </Section>
       )}
     </DetailPageLayout>

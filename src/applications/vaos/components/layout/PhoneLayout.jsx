@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
@@ -12,11 +18,12 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
     clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
@@ -65,7 +72,7 @@ export default function PhoneLayout({ data: appointment }) {
       <Section heading="Scheduling facility">
         {!!facility === false && (
           <>
-            <span>Facility details not available</span>
+            <span>Facility not available</span>
             <br />
             <NewTabAnchor href="/find-locations">
               Find facility information
@@ -82,9 +89,11 @@ export default function PhoneLayout({ data: appointment }) {
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Phone:" contact={facilityPhone} />
-        )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Section>
       <Section heading="Details you shared with your provider">
         <span>

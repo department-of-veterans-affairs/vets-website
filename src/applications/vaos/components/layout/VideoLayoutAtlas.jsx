@@ -8,6 +8,7 @@ import DetailPageLayout, {
   When,
   Where,
   Who,
+  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
@@ -19,13 +20,14 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
-import FacilityPhone from '../FacilityPhone';
 import State from '../State';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
     atlasConfirmationCode,
     clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -159,10 +161,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <>
               {facility.name}
               <br />
-              {facilityPhone && (
-                <FacilityPhone heading="Phone:" contact={facilityPhone} />
-              )}
-              {!facilityPhone && <>Not available</>}
+              <ClinicOrFacilityPhone
+                clinicPhone={clinicPhone}
+                clinicPhoneExtension={clinicPhoneExtension}
+                facilityPhone={facilityPhone}
+              />
             </>
           )}
         </Section>
@@ -200,9 +203,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
               </>
             )}
             <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
+            <ClinicOrFacilityPhone
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
+            />
           </Section>
         )}
     </DetailPageLayout>
