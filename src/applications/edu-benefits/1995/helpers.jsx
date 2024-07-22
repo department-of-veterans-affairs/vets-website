@@ -1,5 +1,4 @@
 import React from 'react';
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';

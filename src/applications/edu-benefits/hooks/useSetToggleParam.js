@@ -4,11 +4,7 @@ export const useSetToggleParam = toggleValue => {
   useEffect(
     () => {
       const urlParams = new URLSearchParams(window.location.search);
-      if (
-        toggleValue !== undefined &&
-        toggleValue !== null &&
-        toggleValue !== 'undefined'
-      ) {
+      if (toggleValue != null && toggleValue !== 'undefined') {
         urlParams.set('toggle', toggleValue);
         const newUrl = `${window.location.origin}${
           window.location.pathname
