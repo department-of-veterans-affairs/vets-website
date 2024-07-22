@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { requiredFiles, optionalFiles } from '../config/requiredUploads';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
@@ -70,14 +73,6 @@ export function ConfirmationPage(props) {
 
       {OverviewComp}
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
-      <p>
-        We'll contact you by mail or phone if we have questions or need more
-        information.
-        <br />
-        <br />
-        And we'll send you a letter in the mail with our decision.
-      </p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
@@ -90,7 +85,6 @@ export function ConfirmationPage(props) {
             <br />
           </span>
         )}
-        <br />
         {isValid(submitDate) && (
           <p className="date-submitted">
             <strong>Date submitted</strong>
@@ -104,6 +98,7 @@ export function ConfirmationPage(props) {
           You can print this confirmation for page for your records.
         </span>
         <br />
+        <br />
         <va-button
           uswds
           className="usa-button screen-only"
@@ -111,6 +106,36 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
+
+      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <p>
+        You should receive a notification confirming CHAMPVA's receipt of your
+        application within 7 days.
+        <br />
+        <br />
+        It will take approximately 60 days to process your application once
+        received by CHAMPVA.
+        <br />
+        <br />
+        If we have any questions, need additional information, or encounter any
+        issues, we will contact you.
+      </p>
+      <h2 className="vads-u-font-size--h3">
+        How to contact us about your CHAMPVA application
+      </h2>
+      <p>
+        If you have any questions about your application you can call the
+        CHAMPVA call center at 800-733-8387. We’re here Monday through Friday,
+        8:05 a.m. to 7:30 p.m. ET.
+        <br />
+        <br />
+        You can also contact us online through our Ask VA tool.
+        <br />
+        <br />
+        <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      </p>
+      <br />
+      <br />
       <a className="vads-c-action-link--green" href="https://www.va.gov/">
         Go back to VA.gov
       </a>
