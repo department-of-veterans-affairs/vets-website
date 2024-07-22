@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
@@ -14,11 +14,24 @@ function App({
   vaFileNumber,
   featureToggles,
   savedForms,
+  formData,
 }) {
-  // Must match the H1
+  const [localFormData, setLocalFormData] = useState(formData);
+
+  useEffect(
+    () => {
+      if (featureToggles?.vaDependentsNewFieldsForPdf) {
+        setLocalFormData(prevFormData => ({
+          ...prevFormData,
+          useNewPDF: true,
+        }));
+      }
+    },
+    [featureToggles],
+  );
+
   document.title = DOC_TITLE;
 
-  // Handle loading
   if (isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
@@ -35,17 +48,20 @@ function App({
   if (shouldUseV2) {
     window.location.href =
       '/view-change-dependents/add-remove-form-21-686c-v2/';
-    return <></>;
   }
 
   const content = (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <RoutedSavableApp
+        formConfig={formConfig}
+        currentLocation={location}
+        formData={localFormData}
+      >
         {children}
       </RoutedSavableApp>
     </article>
   );
-  // If on intro page, just return
+
   if (location.pathname === '/introduction') {
     return content;
   }
@@ -66,14 +82,13 @@ function App({
   return content;
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    isLoading: state?.user?.profile?.loading,
-    vaFileNumber: state?.vaFileNumber,
-    featureToggles: state?.featureToggles,
-    savedForms: state?.user?.profile?.savedForms,
-  };
-};
+const mapStateToProps = state => ({
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
+  isLoading: state?.user?.profile?.loading,
+  vaFileNumber: state?.vaFileNumber,
+  featureToggles: state?.featureToggles,
+  savedForms: state?.user?.profile?.savedForms,
+  formData: state?.form?.data,
+});
 
 export default connect(mapStateToProps)(App);

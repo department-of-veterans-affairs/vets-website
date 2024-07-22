@@ -223,6 +223,7 @@
   "travelPayPowerSwitch": "travel_pay_power_switch",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsV2": "va_dependents_v2",
+  "vaDependentsNewFieldsForPdf": "va_dependents_new_fields_for_pdf",
   "vaOnlineScheduling": "va_online_scheduling",
   "vaOnlineSchedulingCancel": "va_online_scheduling_cancel",
   "vaOnlineSchedulingCheetah": "va_online_scheduling_cheetah",
