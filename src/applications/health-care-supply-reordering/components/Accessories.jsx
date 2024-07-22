@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 import moment from 'moment';
+
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
@@ -139,15 +140,17 @@ class Accessories extends Component {
                   </h3>
                 </va-alert>
               ) : (
-                <VaCheckbox
-                  id={accessorySupply.productId}
-                  className="vads-u-margin-left--0"
-                  onChange={e =>
-                    this.handleChecked(e.target.checked, accessorySupply)
-                  }
-                  checked={isAccessorySelected(accessorySupply.productId)}
-                  label="Order this hearing aid accessory"
-                />
+                <div>
+                  <VaCheckbox
+                    id={accessorySupply.productId}
+                    className="vads-u-margin-left--0"
+                    onVaChange={e =>
+                      this.handleChecked(e.target.checked, accessorySupply)
+                    }
+                    checked={isAccessorySelected(accessorySupply.productId)}
+                    label="Order this hearing aid accessory"
+                  />
+                </div>
               )}
             </div>
           ))}

@@ -33,6 +33,10 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);
 
+    cy.get('va-modal[visible]')
+      .find('.va-modal-close')
+      .click();
+
     cy.get('.sm-breadcrumb-list-item')
       .find('a')
       .click();

@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import { fullSchema } from '../../../../utils/imports';
 import { addressWithAutofillSchema } from '../../../../definitions/sharedSchema';
 import AddressWithAutofill from '../../../../components/FormFields/AddressWithAutofill';
 import content from '../../../../locales/en/content.json';

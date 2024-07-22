@@ -1,0 +1,135 @@
+{
+  "data": [
+    {
+      "id": "72547fdf19475265fe852066585b84339121ef26bf8f79b8d1f9a3deb438782c",
+      "type": "appointments",
+      "attributes": {
+        "id": "72547fdf19475265fe852066585b84339121ef26bf8f79b8d1f9a3deb438782c",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "523938333135333232"
+          },
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_85",
+            "value": "983:15322"
+          }
+        ],
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "1780671644"
+              }
+            ],
+            "address": {
+              "type": "physical",
+              "line": ["161 MADISON AVE STE 7SW"],
+              "city": "NEW YORK",
+              "state": "NY",
+              "postalCode": "10016-5448",
+              "text": "161 MADISON AVE STE 7SW,NEW YORK,NY,10016-5448"
+            }
+          }
+        ],
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "primaryCare",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "primaryCare"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "station id: 983GD|preferred modality: FACE TO FACE|phone number: 2013004000|email: VETERAN@ABC123.COM|preferred dates:03/11/2024 AM,03/12/2024 AM,03/13/2024 PM|reason code:ROUTINEVISIT|comments:routine visit.  office visit.  "
+        },
+        "patientIcn": "1013678363V916823",
+        "locationId": "983GD",
+        "start": "2024-03-11T00:00:00Z",
+        "minutesDuration": 0,
+        "created": "2024-03-06T17:32:43Z",
+        "requestedPeriods": [
+          {
+            "start": "2024-03-11T00:00:00Z",
+            "end": "2024-03-11T00:00:00Z"
+          }
+        ],
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          }
+        },
+        "localStartTime": "2024-03-10T18:00:00.000-06:00",
+        "location": {
+          "id": "983GD",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GD",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_health_facility",
+            "name": "Loveland VA Clinic",
+            "classification": "Primary Care CBOC",
+            "timezone": {
+              "timeZoneId": "America/Denver"
+            },
+            "lat": 40.412647,
+            "long": -105.003815,
+            "website": "https://www.cheyenne.va.gov/locations/Loveland.asp",
+            "phone": {
+              "main": "970-962-4900"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": ["5200 Hahns Peak Drive"],
+              "city": "Loveland",
+              "state": "CO",
+              "postalCode": "80538-8852"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 0,
+      "perPage": 0,
+      "totalPages": 0,
+      "totalEntries": 0
+    },
+    "failures": []
+  }
+}

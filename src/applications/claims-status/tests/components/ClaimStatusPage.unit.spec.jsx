@@ -110,6 +110,9 @@ describe('<ClaimStatusPage>', () => {
             const statusPage = $('#tabPanelStatus', container);
 
             expect(statusPage).to.exist;
+            expect(document.title).to.equal(
+              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+            );
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
@@ -163,6 +166,9 @@ describe('<ClaimStatusPage>', () => {
             const statusPage = $('#tabPanelStatus', container);
 
             expect(statusPage).to.exist;
+            expect(document.title).to.equal(
+              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+            );
             expect($('.claim-timeline', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
@@ -452,7 +458,6 @@ describe('<ClaimStatusPage>', () => {
       const { container } = renderWithRouter(
         <ClaimStatusPage {...props} loading params={params} />,
       );
-      // expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
       expect($('.claim-status', container)).to.not.exist;
       expect($('va-loading-indicator', container)).to.exist;
     });
