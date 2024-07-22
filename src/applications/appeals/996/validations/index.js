@@ -1,28 +1,28 @@
 import { isValidPhone } from '~/platform/forms/validations';
 
 import { errorMessages } from '../constants';
-import { hideNewHlrContent } from '../utils/helpers';
+import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
 
 import sharedErrorMessages from '../../shared/content/errorMessages';
 
-export const validateConferenceChoice = (errors, values, formData) => {
-  const conference = formData?.informalConference || values || '';
+export const validateConferenceChoice = (errors, _value, formData) => {
+  const conference = formData?.informalConference || '';
+  const choice = formData?.informalConferenceChoice || '';
   if (errors) {
     // "yes" option is only available in HLR update choices
-    if (
+    if (showNewHlrContent(formData) && !['yes', 'no'].includes(choice)) {
+      errors.addError?.(sharedErrorMessages.requiredYesNo);
+    } else if (
       hideNewHlrContent(formData) &&
-      (conference === 'yes' || conference === '')
+      !['me', 'rep', 'no'].includes(conference)
     ) {
       errors.addError?.(errorMessages.informalConferenceContactChoice);
-    }
-    if (conference === '') {
-      errors.addError?.(sharedErrorMessages.requiredYesNo);
     }
   }
 };
 
 export const validateConferenceContactChoice = (errors, values, formData) => {
-  const conference = formData?.informalConference || values || '';
+  const conference = formData?.informalConference || '';
   // "yes" option is only available in HLR update choices
   if (errors && conference !== 'me' && conference !== 'rep') {
     errors.addError?.(errorMessages.informalConferenceContactChoice);

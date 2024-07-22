@@ -4,22 +4,19 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 
 export const ContactRepresentativeTitle = (
   <h3 className="vads-u-margin-top--0">
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-      <Toggler.Enabled>
-        Your representative’s contact information
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        What’s the best time for us to call you?
-      </Toggler.Disabled>
-    </Toggler>
+    Your representative’s contact information
   </h3>
 );
 
 export const ContactRepresentativeDescription = (
-  <p className="vads-u-margin-top--0">
-    We’ll contact your accredited representative to schedule an informal
-    conference
-  </p>
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <p className="vads-u-margin-top--0">
+        We’ll contact your accredited representative to schedule an informal
+        conference
+      </p>
+    </Toggler.Enabled>
+  </Toggler>
 );
 
 export const RepresentativeNameTitle = 'Representative’s name';

@@ -236,7 +236,7 @@ const formConfig = {
           // new page choices: 'yes' or 'no'
           CustomPage: InformalConference,
           CustomPageReview: InformalConferenceReview,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusToggledHeader,
         },
         conferenceContact: {
           path: 'informal-conference/contact',

@@ -18,6 +18,8 @@ import { data996 } from '../../shared/props';
 const InformalConferenceReview = ({ data, editPage }) => {
   const showNewContent = showNewHlrContent(data);
 
+  // show 'me', 'rep' or 'no' for original content
+  // show 'yes' or 'no' for new content
   const value =
     showNewContent && ['me', 'rep'].includes(data.informalConference)
       ? data.informalConferenceChoice

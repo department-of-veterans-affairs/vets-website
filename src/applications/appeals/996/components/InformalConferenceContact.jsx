@@ -54,7 +54,7 @@ export const InformalConferenceContact = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (conference && !checkErrors()) {
+      if (!checkErrors() && conference !== '') {
         goForward(data);
       }
     },

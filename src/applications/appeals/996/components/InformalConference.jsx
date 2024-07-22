@@ -39,21 +39,25 @@ export const InformalConference = ({
   contentAfterButtons,
 }) => {
   let { informalConference } = data;
+  const showNewContent = showNewHlrContent(data);
   // Original informalConference ('no', 'me' or 'rep') is split into two pages;
   // informalConferenceChoice ('yes' or 'no') + informalConference ('me' or 'rep')
   // So if we have a SiP that doesn't have an informalConferenceChoice, we need
   // to determine it here
-  if (showNewHlrContent(data)) {
+  if (showNewContent) {
     if (
-      ['me', 'rep'].includes(data.informalConference) ||
-      data.informalConferenceChoice === 'yes'
+      data.informalConferenceChoice === 'yes' ||
+      ['me', 'rep'].includes(data.informalConference)
     ) {
       informalConference = 'yes';
-    } else if (data.informalConference === 'no') {
+    } else if (
+      data.informalConferenceChoice === 'no' ||
+      data.informalConference === 'no'
+    ) {
       informalConference = 'no';
     }
   }
-  const [conference, setConference] = useState(informalConference);
+  const [conference, setConference] = useState(informalConference || '');
   const [hasError, setHasError] = useState(null);
 
   const checkErrors = (formData = data) => {
@@ -84,7 +88,7 @@ export const InformalConference = ({
   const handlers = {
     onSubmit: event => {
       event.preventDefault();
-      if (conference && !checkErrors()) {
+      if (!checkErrors(data) && conference !== '') {
         goForward(data);
       }
     },
@@ -93,7 +97,7 @@ export const InformalConference = ({
       if (value) {
         const formData = {
           ...data,
-          informalConference: event.detail?.value,
+          informalConference: value,
         };
         update(formData, value, informalConferenceLabels[value]);
       }
@@ -103,7 +107,7 @@ export const InformalConference = ({
       if (value) {
         const formData = {
           ...data,
-          informalConferenceChoice: event.detail?.value,
+          informalConferenceChoice: value,
         };
         update(formData, value, newInformalConferenceLabels[value]);
       }
@@ -142,17 +146,16 @@ export const InformalConference = ({
                 id="yes-conference"
                 label={newInformalConferenceLabels.yes}
                 value="yes"
-                name="informalConference"
-                // v2 choices = 'me', 'rep', & 'no'; this maintains data
-                checked={conference === 'yes'}
+                name="informalConferenceChoice"
+                checked={data.informalConferenceChoice === 'yes'}
                 description={informalConferenceDescriptions.yes}
               />
               <va-radio-option
                 id="no-conference"
                 label={newInformalConferenceLabels.no}
                 value="no"
-                name="informalConference"
-                checked={conference === 'no'}
+                name="informalConferenceChoice"
+                checked={data.informalConferenceChoice === 'no'}
                 description={informalConferenceDescriptions.no}
               />
             </VaRadio>
@@ -171,21 +174,21 @@ export const InformalConference = ({
                 label={informalConferenceLabels.no}
                 value="no"
                 name="informalConference"
-                checked={conference === 'no'}
+                checked={data.informalConference === 'no'}
               />
               <va-radio-option
                 id="me-conference2"
                 label={informalConferenceLabels.me}
                 value="me"
                 name="informalConference"
-                checked={conference === 'me'}
+                checked={data.informalConference === 'me'}
               />
               <va-radio-option
                 id="rep-conference2"
                 label={informalConferenceLabels.rep}
                 value="rep"
                 name="informalConference"
-                checked={conference === 'rep'}
+                checked={data.informalConference === 'rep'}
               />
             </VaRadio>
           </Toggler.Disabled>
