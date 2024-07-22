@@ -16,7 +16,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 import {
   DependentSeriouslyDisabledDescription,
-  showDependentsMultiplePage,
+  showMultiplePageResponse,
 } from '../../../helpers';
 import {
   DisabilityDocsAlert,
@@ -43,7 +43,7 @@ export default {
   title: item => getDependentChildTitle(item, 'information'),
   path: 'household/dependents/children/information/:index',
   depends: formData =>
-    !showDependentsMultiplePage() && doesHaveDependents(formData),
+    !showMultiplePageResponse() && doesHaveDependents(formData),
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {
