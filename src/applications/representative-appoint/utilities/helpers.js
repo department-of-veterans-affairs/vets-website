@@ -45,6 +45,13 @@ export const preparerIsVeteran = ({ formData } = {}) => {
   return false;
 };
 
+export const isLoggedIn = ({ formData } = {}) => {
+  if (formData) {
+    return formData['view:isLoggedIn'];
+  }
+  return false;
+};
+
 export const hasVeteranPrefill = ({ formData } = {}) => {
   return (
     !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&

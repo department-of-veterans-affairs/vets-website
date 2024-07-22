@@ -12,13 +12,12 @@ describe('Secure Messaging Delete Reply Draft', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
   it('verify user can delete draft on reply', () => {
     const draftsPage = new PatientMessageDraftsPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
-    messageDetailsPage.loadMessageDetails(messageDetails);
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
+    PatientMessageDetailsPage.loadMessageDetails(messageDetails);
+    PatientMessageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();
     PatientReplyPage.getMessageBodyField().click();
     PatientReplyPage.getMessageBodyField().type(`Test Body`, {
