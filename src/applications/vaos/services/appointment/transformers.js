@@ -196,21 +196,6 @@ function getAtlasLocation(appt) {
   };
 }
 
-function getPatientContact(appt) {
-  if (appt.contact?.telecom?.length > 0) {
-    // for non acheron service
-    return {
-      telecom: appt.contact?.telecom.map(contact => ({
-        system: contact.type,
-        value: contact.value,
-      })),
-    };
-  }
-  return {
-    telecom: getAppointmentInfoFromComments(appt.reasonCode?.text, 'contact'),
-  };
-}
-
 /**
  * Gets the reasonCode from reasonCode.text field for DS
  *
@@ -322,7 +307,7 @@ export function transformVAOSAppointment(appt) {
           },
         ],
       },
-      contact: getPatientContact(appt),
+      contact: appt.contact,
     };
   }
 
