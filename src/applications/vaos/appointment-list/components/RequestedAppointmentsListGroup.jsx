@@ -104,8 +104,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     return 0;
   });
 
-  const paragraphText =
-    'Appointments that you request will show here until staff review and schedule them.';
+  const paragraphText = featureCCDirectScheduling
+    ? "These requests and referrals haven't been scheduled yet."
+    : 'Appointments that you request will show here until staff review and schedule them.';
 
   return (
     <>
