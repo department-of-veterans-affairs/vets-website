@@ -1,3 +1,4 @@
+import { parse } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
@@ -320,6 +321,14 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
+function sortByDate(array) {
+  return array.sort((a, b) => {
+    const dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
+    const dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
+    return dateA - dateB;
+  });
+}
+
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.LabsAndTests.GET: {
@@ -337,7 +346,10 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         action.radiologyResponse.map(record =>
           convertLabsAndTestsRecord(record),
         ) || [];
-      const allLabsAndTests = [...labsAndTestsList, ...radiologyTestsList];
+      const allLabsAndTests = sortByDate([
+        ...labsAndTestsList,
+        ...radiologyTestsList,
+      ]);
 
       return {
         ...state,

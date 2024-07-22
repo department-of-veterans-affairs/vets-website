@@ -187,7 +187,7 @@
           "subject" : {
             "reference" : "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "2021-01-20T16:38:59-05:00",
+          "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
           "performer" : [
             {
               "reference" : "#ex-MHV-organization-552"
@@ -311,7 +311,7 @@
           "subject" : {
             "reference" : "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "2021-01-20T16:38:59-05:00",
+          "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
           "performer" : [
             {
               "reference" : "#ex-MHV-organization-552"
@@ -372,14 +372,14 @@
             }
           ],
           "collection" : {
-            "collectedDateTime" : "2021-01-20T16:38:59-05:00"
+            "collectedDateTime" : "1994-01-20T16:38:59-05:00"
           }
         }
       ],
       "extension" : [
         {
           "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
-          "valueString" : "Jane's Test 1/20/2021 - Second lab"
+          "valueString" : "Jane's Test 1/20/1994 - Second lab"
         },
         {
           "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
@@ -438,8 +438,8 @@
       "subject" : {
         "reference" : "Patient/ex-MHV-patient-942104"
       },
-      "effectiveDateTime" : "2021-01-20T16:38:59-05:00",
-      "issued" : "2021-01-21T11:32:47-05:00",
+      "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
+      "issued" : "1994-01-21T11:32:47-05:00",
       "performer" : [
         {
           "reference" : "#ex-MHV-organization-989"
@@ -506,7 +506,7 @@
             }
           ],
           "collection" : {
-            "collectedDateTime" : "2017-08-02T09:50:57-04:00"
+            "collectedDateTime" : "1993-08-02T09:50:57-04:00"
           }
         },
         {
@@ -667,7 +667,7 @@
           "subject" : {
             "reference" : "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "2017-08-02T09:50:57-04:00",
+          "effectiveDateTime" : "1993-08-02T09:50:57-04:00",
           "performer" : [
             {
               "reference" : "#Organization-552"
@@ -758,8 +758,8 @@
       "subject" : {
         "reference" : "Patient/ex-MHV-patient-942104"
       },
-      "effectiveDateTime" : "2017-08-02T09:50:57-04:00",
-      "issued" : "2017-08-02T09:52:27.000-04:00",
+      "effectiveDateTime" : "1993-08-02T09:50:57-04:00",
+      "issued" : "1993-08-02T09:52:27.000-04:00",
       "performer" : [
         {
           "reference" : "#OrgPerformer-989"
@@ -786,7 +786,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
       },
       "contained": [
         {
@@ -821,7 +821,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00-0400",
+          "effectiveDateTime": "1998-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -854,7 +854,7 @@
             "text": "FECES"
           },
           "collection": {
-            "collectedDateTime": "1995-07-30"
+            "collectedDateTime": "1998-07-30"
           }
         }
       ],
@@ -888,8 +888,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00-0400",
-      "issued": "1995-08-03T14:49:00-0400",
+      "effectiveDateTime": "1998-08-03T14:49:00-0400",
+      "issued": "1998-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -905,7 +905,7 @@
           "reference": "#ex-MHV-labTest-1"
         }
       ],
-      "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
+      "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
     },
     {
       "resourceType": "DiagnosticReport",
@@ -917,7 +917,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
       },
       "contained": [
         {
@@ -952,7 +952,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1995-08-03T14:49:00-0400",
+          "effectiveDateTime": "1998-08-03T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -985,7 +985,7 @@
             "text": "FECES"
           },
           "collection": {
-            "collectedDateTime": "1995-07-30"
+            "collectedDateTime": "1998-07-30"
           }
         }
       ],
@@ -1019,8 +1019,8 @@
       "subject": {
         "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-03T14:49:00-0400",
-      "issued": "1995-08-03T14:49:00-0400",
+      "effectiveDateTime": "1998-08-03T14:49:00-0400",
+      "issued": "1998-08-03T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -1036,7 +1036,7 @@
           "reference": "#ex-MHV-labTest-1"
         }
       ],
-      "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
+      "conclusion": "Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND"
     },
     {
       "resourceType": "DocumentReference",
