@@ -10,7 +10,7 @@ export function fileUploadUi(content) {
       buttonText: 'Upload file',
       addAnotherLabel: 'Upload another file',
       itemDescription: content.description,
-      ffileUploadUrl: `${
+      fileUploadUrl: `${
         environment.API_URL
       }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       fileTypes: ['pdf'],
