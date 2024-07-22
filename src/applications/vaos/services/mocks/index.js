@@ -245,6 +245,13 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const tokens = req.body.reasonCode?.text.split('comments:');
+    let additionalAppointmentDetails;
+    if (tokens) {
+      if (tokens.length > 1) [, additionalAppointmentDetails] = tokens;
+      else [additionalAppointmentDetails] = tokens;
+    }
+
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
@@ -253,6 +260,7 @@ const responses = {
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        additionalAppointmentDetails,
       },
     };
     currentMockId += 1;
