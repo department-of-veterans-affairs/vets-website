@@ -54,6 +54,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     reviewPageTitle: 'Review and sign',
+    submitButtonText: 'Submit',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -194,7 +195,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Home address'),
             sameMailingAddress: yesNoUI({
-              title: 'Is your mailing address the same as your home address?',
+              title: 'Is your home address the same as your mailing address?',
               labels: {
                 Y: 'Yes',
                 N: 'No',

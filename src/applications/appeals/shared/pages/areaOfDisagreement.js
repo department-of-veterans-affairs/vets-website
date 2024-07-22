@@ -34,7 +34,6 @@ export default {
         // Not used by CustomPage, kept here for review & submit page render
         disagreementOptions: {
           'ui:title': content.disagreementLegend,
-          'ui:description': content.disagreementHint,
           serviceConnection: {
             'ui:title': DISAGREEMENT_TYPES.serviceConnection,
             'ui:reviewField': AreaOfDisagreementReviewField,

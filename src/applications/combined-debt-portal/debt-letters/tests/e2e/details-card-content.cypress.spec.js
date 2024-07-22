@@ -13,7 +13,6 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
     cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
-    cy.injectAxe();
   });
 
   it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
@@ -39,7 +38,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
@@ -61,7 +60,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
@@ -83,7 +82,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('not.exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 117', () => {
@@ -105,7 +104,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('renders expected content for diary code: 123', () => {
@@ -127,6 +126,6 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
