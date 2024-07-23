@@ -10,7 +10,7 @@ describe('Medical Records View LabsAndTestsListPage ', () => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[2]);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[7]);
   });
 
   it('Toggle Menu button Print or download ', () => {
