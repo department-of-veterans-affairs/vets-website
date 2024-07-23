@@ -24,8 +24,12 @@ describe('pension medical evidence', () => {
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 
   it('depends on medical evidence being required', () => {
-    expect(requiresAdditionalEvidence({ socialSecurityDisability: false })).to
-      .be.false;
+    expect(
+      requiresAdditionalEvidence({
+        socialSecurityDisability: false,
+        medicalCondition: false,
+      }),
+    ).to.be.false;
     expect(requiresAdditionalEvidence({ socialSecurityDisability: true })).to.be
       .true;
     expect(requiresAdditionalEvidence({ medicalCondition: true })).to.be.true;

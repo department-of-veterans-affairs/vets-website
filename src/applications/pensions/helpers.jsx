@@ -124,4 +124,4 @@ export const showMultiplePageResponse = () =>
 
 // TODO: Remove when pensions_medical_evidence_clarification flipper is removed
 export const showMedicalEvidenceClarification = () =>
-  window.sessionStorage.getItem('showMedicalEvidenceClarification') === 'true';
+  window.sessionStorage.getItem('showPensionEvidenceClarification') === 'true';

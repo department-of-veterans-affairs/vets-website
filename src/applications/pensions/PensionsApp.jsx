@@ -42,8 +42,8 @@ export default function PensionEntry({ location, children }) {
           pensionMultiplePageResponse,
         );
         window.sessionStorage.setItem(
-          'showMedicalEvidenceClarification',
-          pensionMedicalEvidenceClarification,
+          'showPensionEvidenceClarification',
+          !!pensionMedicalEvidenceClarification,
         );
       }
     },
