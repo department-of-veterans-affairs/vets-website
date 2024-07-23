@@ -50,7 +50,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     mockFetch();
     mockFacilitiesFetch();
   });
-
+  // Adds a comment to trigger CI
   it('should show confirmed appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
