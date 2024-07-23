@@ -118,7 +118,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
 
   describe('renders', () => {
     it('when window location pathname is not set', () => {
-      medNavItem.appRootUrl = '/my-health/medications/';
       delete window.location;
       expect(getOneLink(medNavItem)).to.exist;
     });
