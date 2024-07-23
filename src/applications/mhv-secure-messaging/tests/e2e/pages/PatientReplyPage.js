@@ -57,7 +57,7 @@ class PatientReplyPage {
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
         expect(message.body).to.contain(replyMessageBody);
-        // data-testid="Save-Draft-Button"
+        // data-testid="save-draft-button"
         // Your message was saved on February 17, 2023 at 12:21 p.m. CST.
       });
   };

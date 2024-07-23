@@ -122,7 +122,7 @@ describe('Compose container', () => {
       screen.getByTestId('Send-Button');
     });
     const saveDraftButton = waitFor(() => {
-      screen.getByTestId('Save-Draft-Button');
+      screen.getByTestId('save-draft-button');
     });
 
     expect(sendButton).to.exist;

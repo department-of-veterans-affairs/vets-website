@@ -102,7 +102,7 @@ describe('ReplyDrafts component', () => {
     expect(attachments.textContent).to.include('Attachments');
     const buttons = attachments.nextElementSibling;
     expect(buttons.querySelector('va-button[text="Send draft 3"]')).to.exist;
-    expect(within(buttons).getByTestId('Save-Draft-Button-3')).to.exist;
+    expect(within(buttons).getByTestId('save-draft-button-3')).to.exist;
     expect(within(buttons).getByTestId('delete-draft-button-3')).to.exist;
     expect(getByText('[Draft 2]')).to.exist;
     expect(getByText('[Draft 1]')).to.exist;
@@ -115,7 +115,7 @@ describe('ReplyDrafts component', () => {
     expect(attachments2.textContent).to.include('Attachments');
     const buttons2 = attachments2.nextElementSibling;
     expect(buttons2.querySelector('va-button[text="Send draft 2"]')).to.exist;
-    expect(within(buttons2).getByTestId('Save-Draft-Button-2')).to.exist;
+    expect(within(buttons2).getByTestId('save-draft-button-2')).to.exist;
     expect(within(buttons2).getByTestId('delete-draft-button-2')).to.exist;
     expect(getByText('[Draft 3]')).to.exist;
     expect(getByText('[Draft 1]')).to.exist;
@@ -185,7 +185,7 @@ describe('ReplyDrafts component', () => {
 
     const buttons = textarea.nextElementSibling;
     expect(buttons.querySelector('va-button[text="Send"]')).to.not.exist;
-    expect(within(buttons).queryByTestId('Save-Draft-Button')).to.not.exist;
+    expect(within(buttons).queryByTestId('save-draft-button')).to.not.exist;
     expect(within(buttons).getByTestId('delete-draft-button-3')).to.exist;
     expect(getByText('[Draft 2]')).to.exist;
     expect(getByText('[Draft 1]')).to.exist;
@@ -205,7 +205,7 @@ describe('ReplyDrafts component', () => {
     const buttons2 = textarea2.nextElementSibling;
     expect(buttons2.querySelector('va-button[text="Send draft 2"]')).to.not
       .exist;
-    expect(within(buttons2).queryByTestId('Save-Draft-Button')).to.not.exist;
+    expect(within(buttons2).queryByTestId('save-draft-button')).to.not.exist;
     expect(within(buttons2).getByTestId('delete-draft-button-2')).to.exist;
     expect(getByText('[Draft 3]')).to.exist;
     expect(getByText('[Draft 1]')).to.exist;

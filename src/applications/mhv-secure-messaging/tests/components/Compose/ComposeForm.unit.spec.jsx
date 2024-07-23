@@ -152,7 +152,7 @@ describe('Compose form component', () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
     const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const saveDraftButton = await screen.getByTestId('save-draft-button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -248,7 +248,7 @@ describe('Compose form component', () => {
     });
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
     });
     expect(saveDraftSpy.calledOnce).to.be.true;
   });
@@ -339,7 +339,7 @@ describe('Compose form component', () => {
     let modal = null;
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
       modal = screen.getByTestId('quit-compose-double-dare');
     });
 

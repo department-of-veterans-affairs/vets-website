@@ -34,6 +34,7 @@ const AlertBackgroundBox = props => {
   const folder = useSelector(state => state.sm.folders?.folder);
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
+  const [activeAlert, setActiveAlert] = useState(null);
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -56,7 +57,7 @@ const AlertBackgroundBox = props => {
             return b.datestamp - a.datestamp;
           });
         // The activeAlert is the most recent alert marked as active.
-        props.setActiveAlert(filteredSortedAlerts[0] || null);
+        setActiveAlert(filteredSortedAlerts[0] || null);
       }
     },
     [alertList],
@@ -82,10 +83,9 @@ const AlertBackgroundBox = props => {
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
     () => {
-      const isServiceOutage =
-        props.activeAlert?.response?.code === SERVICE_OUTAGE;
-      const isErrorAlert = props.activeAlert?.alertType === 'error';
-      let content = props.activeAlert?.content;
+      const isServiceOutage = activeAlert?.response?.code === SERVICE_OUTAGE;
+      const isErrorAlert = activeAlert?.alertType === 'error';
+      let content = activeAlert?.content;
 
       if (
         lastPathName !== 'Messages' &&
@@ -100,7 +100,7 @@ const AlertBackgroundBox = props => {
     [
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
-      props.activeAlert,
+      activeAlert,
       foldersViewPage,
       lastPathName,
       location.pathname,
@@ -110,7 +110,7 @@ const AlertBackgroundBox = props => {
 
   useInterval(() => {
     const shouldRetrieveFolders =
-      props.activeAlert?.response?.code === SERVICE_OUTAGE ||
+      activeAlert?.response?.code === SERVICE_OUTAGE ||
       folder?.folderId === undefined;
 
     if (shouldRetrieveFolders) {
@@ -127,7 +127,7 @@ const AlertBackgroundBox = props => {
 
   return (
     <>
-      {props.activeAlert && (
+      {activeAlert && (
         <VaAlert
           uswds
           ref={alertRef}
@@ -138,7 +138,7 @@ const AlertBackgroundBox = props => {
           disable-analytics="false"
           full-width="false"
           show-icon={handleShowIcon()}
-          status={props.activeAlert.alertType}
+          status={activeAlert.alertType}
           onCloseEvent={
             closeAlertBox // success, error, warning, info, continue
           }
