@@ -19,23 +19,29 @@ export const getFormNumber = () => {
 
 const formMappings = {
   '21-0779': {
-    subTitle: SUBTITLE_0779,
-    childContent: CHILD_CONTENT_0779,
     additionalChildContent: ADD_CHILD_CONTENT_0779,
+    childContent: CHILD_CONTENT_0779,
+    ombInfo: {},
+    subTitle: SUBTITLE_0779,
   },
 };
 
 export const getFormContent = () => {
   const formNumber = getFormNumber();
-  const { subTitle = '', childContent = null, additionalChildContent = null } =
-    formMappings[formNumber] || {};
+  const {
+    subTitle = '',
+    childContent = null,
+    additionalChildContent = null,
+    ombInfo = null,
+  } = formMappings[formNumber] || {};
 
   return {
-    title: `Upload VA Form ${formNumber}`,
-    subTitle,
-    childContent,
     additionalChildContent,
+    childContent,
     formNumber,
+    ombInfo,
+    subTitle,
+    title: `Upload VA Form ${formNumber}`,
   };
 };
 

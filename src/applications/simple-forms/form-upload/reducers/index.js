@@ -1,9 +1,7 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
-import { getFormContent } from '../helpers';
 
-const formContent = getFormContent();
-const config = formConfig(formContent);
+const config = formConfig();
 
 export default {
   form: createSaveInProgressFormReducer(config),

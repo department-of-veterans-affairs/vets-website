@@ -33,7 +33,7 @@ export const IntroductionPageView = ({
   devOnly,
   route,
   content,
-  ombInfo,
+  ombInfo = {},
   childContent,
   additionalChildContent = null,
 }) => {
@@ -80,7 +80,7 @@ export const IntroductionPageView = ({
       )}
       {additionalChildContent || null}
       <p />
-      {!customPrivacyActStmt ? (
+      {ombInfo.length > 0 && !customPrivacyActStmt ? (
         <va-omb-info
           res-burden={resBurden}
           omb-number={ombNumber}

@@ -12,24 +12,19 @@ const IntroductionPage = props => {
   const userIdVerified = useSelector(state => isLOA3(state));
   const {
     title,
-    subtitle,
+    subTitle,
     childContent,
     additionalChildContent,
+    ombInfo,
   } = getFormContent();
 
   const content = {
     formTitle: title,
-    formSubTitle: subtitle,
+    formSubTitle: subTitle,
     authStartFormText: 'Start your form upload',
     unauthStartText: 'Sign in to upload your form',
     displayNonVeteranMessaging: true,
     customLink: PrimaryActionLink,
-  };
-
-  const ombInfo = {
-    resBurden: '15',
-    ombNumber: '2900-0075',
-    expDate: '6/30/2024',
   };
 
   return (
