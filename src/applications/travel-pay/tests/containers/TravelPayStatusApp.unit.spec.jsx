@@ -248,6 +248,9 @@ describe('App', () => {
   });
 
   it('filters by status', async () => {
+    global.fetch.restore();
+    mockApiRequest(travelClaims);
+
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -265,10 +268,21 @@ describe('App', () => {
         ),
       );
 
-      const statusFilters = document.querySelectorAll('va-checkbox');
+      const statusFilters = screen.getAllByTestId(/status-filter_/);
+      const filterNames = statusFilters.map(filter => filter.name);
 
-      // Only 3 unique statuses, so length should be 3
-      expect(statusFilters.length).to.eq(3);
+      // Length should be equal to the number of unique statuses
+      const orderedStatuses = [
+        'On Hold',
+        'In Manual Review',
+        'Appealed',
+        'Claim Submitted',
+        'Closed',
+        'In Process',
+        'Incomplete',
+        'Saved',
+      ];
+      expect(filterNames).to.eql(orderedStatuses);
 
       const checkboxGroup = $('#status-checkboxes');
       checkboxGroup.__events.vaChange({

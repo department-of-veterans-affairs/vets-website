@@ -10,6 +10,8 @@ import {
   VaBackToTop,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// TODO switch to native Set operations once browser support is more widespread
+import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -20,7 +22,6 @@ import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
-import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -51,19 +52,24 @@ export default function App({ children }) {
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
-    const claimStatusesPresent = [
-      ...new Set(travelClaims.map(claim => claim.claimStatus)),
-    ];
-    const initialStatusFilters = [];
 
-    // Status order based on sorting of CLAIMS_STATUSES
-    for (const status of Object.keys(CLAIMS_STATUSES)) {
-      if (claimStatusesPresent.includes(status)) {
-        initialStatusFilters.push(status);
-      }
-    }
+    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
 
-    setStatusesToFilterBy(initialStatusFilters);
+    const availableTopStatuses = intersection(
+      Array.from(topStatuses),
+      Array.from(availableStatuses),
+    );
+
+    const availableNonTopStatuses = difference(
+      Array.from(availableStatuses),
+      Array.from(topStatuses),
+    ).sort(); // .sort() ensures statuses are alphabetized
+
+    const orderedStatusFilters = availableTopStatuses.concat(
+      availableNonTopStatuses,
+    );
+    setStatusesToFilterBy(orderedStatusFilters);
   }
 
   const dateFilters = getDateFilters();
