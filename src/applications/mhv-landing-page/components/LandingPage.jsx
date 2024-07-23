@@ -24,7 +24,6 @@ import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
@@ -37,7 +36,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && userRegistered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
@@ -83,7 +81,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
           {userRegistered && <CardLayout data={cards} />}
         </div>
-        {showHelpdeskInfo && (
+        {userRegistered && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
               <div className="vads-l-col medium-screen:vads-l-col--8">
