@@ -298,3 +298,18 @@ export function MedicalConditionDescription() {
     </div>
   );
 }
+
+export function MedicalEvidenceNotice() {
+  return (
+    <div>
+      <p>
+        Based on your answer, you’ll need to submit additional evidence about
+        your medical condition or disability.
+      </p>
+      <p>
+        We’ll give you instructions for submitting your additional evidence at
+        the end of this application.
+      </p>
+    </div>
+  );
+}

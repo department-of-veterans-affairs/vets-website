@@ -15,6 +15,7 @@ import vaMedicalCenters from './vaMedicalCenters';
 import federalMedicalCenters from './federalMedicalCenters';
 import currentEmploymentHistory from './currentEmploymentHistory';
 import previousEmploymentHistory from './previousEmploymentHistory';
+import additionalEvidence from './additionalEvidence';
 
 export default {
   title: 'Health and employment information',
@@ -25,6 +26,7 @@ export default {
     socialSupplementalSecurity,
     medicalCondition,
     medicalConditions,
+    additionalEvidence,
     nursingHome,
     medicaidCoverage,
     medicaidStatus,
