@@ -4,17 +4,13 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 const { fullName, ssn } = commonDefinitions;
 
 const applicantInformation = {
   uiSchema: {
-    // 'ui:description': data =>
-    //   conditionallyShowPrefillMessage(
-    //     PREFILL_FLAGS.APPLICANT_INFORMATION,
-    //     data,
-    //     PrefillMessage,
-    //   ),
+    'ui:description': PrefillMessage,
     fullName: fullNameUI,
     ssn: ssnUI,
   },

@@ -1,24 +1,16 @@
-// import fullSchema from 'vets-json-schema/dist/00-1234-schema.json';
-
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 // import emailUI from 'platform/forms-system/src/js/definitions/email';
 // import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 // import initialData from '../tests/fixtures/data/test-data.json';
 // import contactInformation1 from '../pages/contactInformation1';
-// import {
-//   conditionallyShowPrefillMessage,
-//   PREFILL_FLAGS,
-//   validateMatch,
-// } from '../helpers';
+
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import applicantInformation from '../pages/applicantInformation';
 import contactInfoSettings from '../pages/contactInfoSettings';
-import prefillTransformer from '../prefill-transformer';
 
 // const { } = fullSchema.properties;
 
@@ -48,7 +40,21 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillTransformer,
+  prefillTransformer(pages, formData, metadata) {
+    const fullName = {
+      first: formData.data.attributes.veteran.firstName,
+      middle: formData.data.attributes.veteran.middleName,
+      last: formData.data.attributes.veteran.lastName,
+    };
+
+    const newFormData = { fullName };
+
+    return {
+      metadata,
+      formData: newFormData,
+      pages,
+    };
+  },
   prefillEnabled: true,
   savedFormMessages: {
     notFound:

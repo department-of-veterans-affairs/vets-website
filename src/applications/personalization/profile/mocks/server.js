@@ -91,10 +91,6 @@ const responses = {
         data: {
           attributes: {
             veteran: {
-              fullName: {
-                first: 'Mitchell',
-                last: 'James',
-              },
               address: {
                 addressLine1: '623 Lesser Dr',
                 city: 'Fort Collins',
@@ -102,6 +98,9 @@ const responses = {
                 zipCode5: '80524',
                 countryName: 'USA',
               },
+              firstName: 'John',
+              lastName: 'Donut',
+              middleName: 'Jelly',
               phone: {
                 areaCode: '970',
                 phoneNumber: '5561289',
@@ -119,22 +118,6 @@ const responses = {
         version: 0,
         prefill: true,
         returnUrl: '/veteran-details',
-      },
-    });
-  },
-  'PUT /v0/in_progress_forms/mock-form-ae-design-patterns': (_req, res) => {
-    return res.json({
-      formData: {
-        data: {
-          attributes: {
-            veteran: {
-              fullName: {
-                first: 'Mitchell',
-                last: 'James',
-              },
-            },
-          },
-        },
       },
     });
   },
