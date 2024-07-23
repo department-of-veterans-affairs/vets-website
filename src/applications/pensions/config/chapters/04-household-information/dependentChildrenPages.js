@@ -63,7 +63,6 @@ const options = {
         !item.personWhoLivesWithChild.first ||
         !item.personWhoLivesWithChild.last)) ||
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
-  maxItems: 15,
   text: {
     getItemName: item => formatFullName(item.fullName),
   },
@@ -76,7 +75,10 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingDependents': arrayBuilderYesNoUI(options),
+    'view:isAddingDependents': arrayBuilderYesNoUI(options, {
+      title: 'Do you have any dependent children?',
+      hint: null,
+    }),
   },
   schema: {
     type: 'object',
