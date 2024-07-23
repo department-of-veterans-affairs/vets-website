@@ -21,7 +21,6 @@ const formMappings = {
   '21-0779': {
     additionalChildContent: ADD_CHILD_CONTENT_0779,
     childContent: CHILD_CONTENT_0779,
-    ombInfo: {},
     subTitle: SUBTITLE_0779,
   },
 };
@@ -32,7 +31,7 @@ export const getFormContent = () => {
     subTitle = '',
     childContent = null,
     additionalChildContent = null,
-    ombInfo = null,
+    ombInfo = {},
   } = formMappings[formNumber] || {};
 
   return {
