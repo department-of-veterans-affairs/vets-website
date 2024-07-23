@@ -7,21 +7,6 @@
             "name": "Launch Chrome Debugger",
             "url": "http://localhost:3001",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Mocha Tests specific",
-            "env": {"BABEL_ENV": "test"},
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/mocha",
-            "runtimeArgs": [
-                "--inspect",
-                "--config",
-                "${workspaceFolder}/config/mocha.json",
-                "--recursive",
-                "${workspaceFolder}/src/applications/mhv-secure-messaging/tests/containers/App.unit.spec.jsx"
-            ],
-            "port": 9229
         }
     ]
 }
