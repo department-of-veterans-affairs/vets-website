@@ -11,15 +11,16 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 describe('Secure Messaging Delete Reply Draft', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
   it('verify user can delete draft on reply', () => {
-    const draftsPage = new PatientMessageDraftsPage();
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
-
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
+
     PatientMessageDetailsPage.loadMessageDetails(messageDetails);
     PatientMessageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();
+
     PatientReplyPage.getMessageBodyField().click();
+
     PatientReplyPage.getMessageBodyField().type(`Test Body`, {
       force: true,
     });
@@ -34,11 +35,10 @@ describe('Secure Messaging Delete Reply Draft', () => {
       `message was saved on ${currentDate}`,
     );
 
-    draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteDraft(messageDetails);
-    draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDraftMessageBannerTextHasFocus();
-
+    PatientMessageDraftsPage.clickMultipleDeleteButton();
+    PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

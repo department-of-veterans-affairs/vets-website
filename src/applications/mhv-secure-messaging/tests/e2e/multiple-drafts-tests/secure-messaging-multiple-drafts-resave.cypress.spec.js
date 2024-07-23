@@ -6,8 +6,6 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('re-save multiple drafts in one thread', () => {
-  const draftPage = new PatientMessageDraftsPage();
-
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
     mockMultiDraftsResponse,
   );
@@ -15,46 +13,50 @@ describe('re-save multiple drafts in one thread', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
-  it('verify first draft could be re-saved', () => {
+  it('verify recent draft could be re-saved', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    draftPage.expandSingleDraft(2);
-
-    cy.get('[data-testid="message-body-field-2"]')
+    PatientMessageDraftsPage.expandSingleDraft(2);
+    cy.get('#reply-message-body-2')
       .shadow()
-      .find('#input-type-textarea')
-      .type('\n\nnewText', { force: true });
-
-    draftPage.saveMultiDraftMessage(
+      .find('textarea')
+      .type('newText', { force: true });
+    PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[0],
       updatedMultiDraftResponse.data[0].attributes.messageId,
       2,
     );
 
-    draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
+    PatientMessageDraftsPage.verifySavedMessageAlertText(
+      Data.MESSAGE_WAS_SAVED,
+    );
+    PatientInboxPage.verifyNotForPrintHeaderText();
   });
 
-  it('verify second draft could be re-saved', () => {
+  it('verify earlier draft could be re-saved', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    draftPage.expandSingleDraft(1);
-
-    cy.get('[data-testid="message-body-field-1"]')
+    PatientMessageDraftsPage.expandSingleDraft(1);
+    cy.get('#reply-message-body-1')
       .shadow()
-      .find('#input-type-textarea')
-      .type('\n\nnewText', { force: true });
+      .find('textarea')
+      .type('newText', { force: true });
 
-    draftPage.saveMultiDraftMessage(
+    PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[1],
       updatedMultiDraftResponse.data[1].attributes.messageId,
       1,
     );
 
-    draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
+    PatientMessageDraftsPage.verifySavedMessageAlertText(
+      Data.MESSAGE_WAS_SAVED,
+    );
+
+    PatientInboxPage.verifyNotForPrintHeaderText();
   });
 });

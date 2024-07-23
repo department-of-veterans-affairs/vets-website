@@ -28,11 +28,13 @@ describe('save draft feature tests', () => {
   });
 
   it('re-save existing draft', () => {
-    const draftsPage = new PatientMessageDraftsPage();
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse);
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(mockDraftResponse);
 
     PatientComposePage.selectCategory('COVID');
     PatientComposePage.getMessageSubjectField().type(`-updated`, {

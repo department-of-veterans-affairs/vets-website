@@ -5,12 +5,10 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts older than 45 days', () => {
-  const draftPage = new PatientMessageDraftsPage();
-
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(mockMultiDraftsResponse);
   });
 
   it('verify interface', () => {
@@ -25,10 +23,10 @@ describe('handle multiple drafts older than 45 days', () => {
 
     cy.get(Locators.BUTTONS.EDIT_DRAFTS).should('not.exist');
 
-    draftPage.expandSingleDraft(1);
-    draftPage.verifyExpandedOldDraftButtons(1);
+    PatientMessageDraftsPage.expandSingleDraft(1);
+    PatientMessageDraftsPage.verifyExpandedOldDraftButtons(1);
 
-    draftPage.expandSingleDraft(2);
-    draftPage.verifyExpandedOldDraftButtons(2);
+    PatientMessageDraftsPage.expandSingleDraft(2);
+    PatientMessageDraftsPage.verifyExpandedOldDraftButtons(2);
   });
 });

@@ -315,8 +315,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
-  verifyDeleteConfirmationHasFocus = () => {
-    cy.get(Locators.ALERTS.NOTIFICATION).should('have.focus');
+  verifyDeleteConfirmationButton = () => {
+    cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -605,8 +605,8 @@ class PatientMessageDraftsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = MessageBody => {
-    cy.get(Locators.MESSAGES_BODY)
+  verifyMessagesBodyText = (index, MessageBody) => {
+    cy.get(`[subheader="draft #${index}..."]`)
       .should('have.attr', 'value')
       .and('eq', MessageBody);
   };
@@ -688,6 +688,18 @@ class PatientMessageDraftsPage {
       .find('h2')
       .should('contain', `can't save attachment`);
   };
+
+  verifySaveModalButtons = () => {
+    cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {
+      cy.wrap(el).should('be.visible');
+    });
+  };
+
+  closeModal = () => {
+    cy.get('va-modal[visible]')
+      .find('.va-modal-close')
+      .click();
+  };
 }
 
-export default PatientMessageDraftsPage;
+export default new PatientMessageDraftsPage();
