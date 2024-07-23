@@ -5,7 +5,7 @@ import profileContactInfo from 'platform/forms-system/src/js/definitions/profile
 // import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 // import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import initialData from '../tests/fixtures/data/test-data.json';
+
 // import contactInformation1 from '../pages/contactInformation1';
 // import {
 //   conditionallyShowPrefillMessage,
@@ -38,7 +38,7 @@ const formConfig = {
   trackingPrefix: '_mock-form-ae-design-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '00-1234',
+  formId: 'mock-form-ae-design-patterns',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
@@ -48,6 +48,23 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer(pages, formData, metadata) {
+    // console.log({ pages, formData, metadata, state });
+
+    const fullName = {
+      first: formData.data.attributes.veteran.firstName,
+      middle: formData.data.attributes.veteran.middleName,
+      last: formData.data.attributes.veteran.lastName,
+    };
+
+    const newFormData = { fullName };
+
+    return {
+      metadata,
+      formData: newFormData,
+      pages,
+    };
+  },
   savedFormMessages: {
     notFound:
       'Please start over to apply for mock form ae design patterns benefits.',
@@ -65,7 +82,7 @@ const formConfig = {
           title: 'Section Title: Applicant Information',
           uiSchema: applicantInformation.uiSchema,
           schema: applicantInformation.schema,
-          initialData, // Add prefill data to form
+          initialData: {},
         },
       },
     },
