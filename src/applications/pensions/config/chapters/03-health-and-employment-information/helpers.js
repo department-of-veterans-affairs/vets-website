@@ -288,7 +288,7 @@ export function MedicalConditionDescription() {
         <ul>
           <li>
             Your medical condition is reasonably certain to continue throughout
-            your lifetime, and
+            your lifetime, <strong>and</strong>
           </li>
           <li>
             Your medical condition makes it impossible to be gainfully employed
