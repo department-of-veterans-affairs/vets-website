@@ -127,6 +127,7 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
+  [VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW]: 'form upload flow',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
