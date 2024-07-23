@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DeleteDraft from '../Draft/DeleteDraft';
 
@@ -15,16 +15,14 @@ const ComposeFormActionButtons = ({
   refreshThreadCallback,
   setNavigationError,
   setUnsavedNavigationError,
-  savedForm,
   messageBody,
   draftSequence,
   setHideDraft,
   setIsEditing,
-  setIsModalVisible,
-  isModalVisible,
-  setConfirmedDeleteClicked,
   savedComposeDraft,
 }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (
@@ -64,7 +62,7 @@ const ComposeFormActionButtons = ({
             xsmall-screen:vads-u-margin-bottom--0
             xsmall-screen:vads-u-margin-right--1
           `}
-          data-testid={`Save-Draft-Button${
+          data-testid={`save-draft-button${
             draftSequence ? `-${draftSequence}` : ''
           }`}
           onClick={e => onSaveDraft('manual', e)}
@@ -80,7 +78,6 @@ const ComposeFormActionButtons = ({
         formPopulated={formPopulated}
         navigationError={navigationError}
         refreshThreadCallback={refreshThreadCallback}
-        savedForm={savedForm}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
         setDeleteButtonClicked={setDeleteButtonClicked}
@@ -92,7 +89,6 @@ const ComposeFormActionButtons = ({
         setIsEditing={setIsEditing}
         setIsModalVisible={setIsModalVisible}
         isModalVisible={isModalVisible}
-        setConfirmedDeleteClicked={setConfirmedDeleteClicked}
         savedComposeDraft={savedComposeDraft}
       />
     </div>
@@ -112,7 +108,6 @@ ComposeFormActionButtons.propTypes = {
   refreshThreadCallback: PropTypes.func,
   savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,
-  setConfirmedDeleteClicked: PropTypes.func,
   setDeleteButtonClicked: PropTypes.func,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,

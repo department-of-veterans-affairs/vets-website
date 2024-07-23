@@ -9,6 +9,7 @@ import {
   Alerts,
   DefaultFolders,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import {
   navigateToFolderByFolderId,
@@ -32,17 +33,13 @@ const DeleteDraft = props => {
     formPopulated,
     navigationError,
     refreshThreadCallback,
-    // setDeleteButtonClicked,
     setNavigationError,
     messageBody,
-    showIcon = true,
-    // setUnsavedNavigationError,
     draftSequence,
     setHideDraft,
     setIsEditing,
     setIsModalVisible,
     isModalVisible,
-    setConfirmedDeleteClicked,
     savedComposeDraft,
   } = props;
 
@@ -55,6 +52,7 @@ const DeleteDraft = props => {
   const editableDraft = !!savedDraft === true && formPopulated === true;
   const newMessageNavErr = unsavedDraft && navigationError !== null;
   const unsavedNewDraftMsg = draftId === undefined && navigationError === null;
+  const showIcon = !!cannotReply;
 
   const unsavedDeleteSuccessful = () =>
     dispatch(
@@ -62,7 +60,6 @@ const DeleteDraft = props => {
     );
 
   const handleDeleteDraftConfirm = () => {
-    setConfirmedDeleteClicked(true);
     if (savedDraft) {
       setNavigationError(null);
       setIsModalVisible(false);
@@ -82,9 +79,9 @@ const DeleteDraft = props => {
 
           if (pathname.includes('/reply')) {
             history.goBack();
-          } else if (pathname.includes(`/thread/${draftId}`)) {
+          } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
             navigateToFolderByFolderId(defaultFolderId, history);
-          } else if (pathname.includes('/thread')) {
+          } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
             setIsEditing(false);
             setHideDraft(true);
           }
@@ -169,7 +166,6 @@ DeleteDraft.propTypes = {
   navigationError: PropType.object,
   refreshThreadCallback: PropType.func,
   savedComposeDraft: PropType.bool,
-  setConfirmedDeleteClicked: PropType.func,
   setHideDraft: PropType.func,
   setIsEditing: PropType.func,
   setIsModalVisible: PropType.func,

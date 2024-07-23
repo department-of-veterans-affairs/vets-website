@@ -571,7 +571,6 @@ ReplyDraftItem.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
-  toggleEditHandler: PropTypes.func,
 };
 
 export default ReplyDraftItem;

@@ -163,7 +163,7 @@ describe('Reply form component', () => {
 
     expect(uploader.files[0].name).to.equal('test.png');
     expect(uploader.files.length).to.equal(1);
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
       expect(
         document.querySelector(
@@ -192,8 +192,8 @@ describe('Reply form component', () => {
     fireEvent.focus(screen.getByTestId('message-body-field'));
     inputVaTextInput(screen.container, 'Test draft message', 'va-textarea');
     mockApiRequest(saveDraftResponse);
-    expect(screen.getByTestId('Save-Draft-Button')).to.exist;
-    fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+    expect(screen.getByTestId('save-draft-button')).to.exist;
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
       expect(screen.getByText('Your message was saved', { exact: false }));
     });
