@@ -162,8 +162,8 @@ jobs:
             -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/releases \
             -d '{
-              "tag_name": "${TAG_NAME}",
-              "name": "${RELEASE_NAME}",
+              "tag_name": "$TAG_NAME",
+              "name": "$RELEASE_NAME",
               "body": "Release notes go here.",
               "draft": false,
               "prerelease": false
