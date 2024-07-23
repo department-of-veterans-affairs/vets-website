@@ -265,3 +265,36 @@ export const generateEmployersSchemas = ({
     }),
   };
 };
+
+export function MedicalConditionDescription() {
+  return (
+    <div>
+      <p>
+        We need to know about any medical conditions that prevent you from
+        working.
+      </p>
+      <p>
+        A medical condition is an illness or injury that affects your mind or
+        body. It doesn't have to be service connected.
+      </p>
+      <va-additional-info
+        trigger="How we define a medical condition that prevents you from working"
+        uswds
+      >
+        <p>
+          If your medical condition prevents you from working, both of these
+          must be true:
+        </p>
+        <ul>
+          <li>
+            Your medical condition is reasonably certain to continue throughout
+            your lifetime, and
+          </li>
+          <li>
+            Your medical condition makes it impossible to be gainfully employed
+          </li>
+        </ul>
+      </va-additional-info>
+    </div>
+  );
+}

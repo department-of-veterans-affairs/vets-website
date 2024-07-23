@@ -1,7 +1,9 @@
 import age from './age';
 import over65 from './over65';
 import socialSecurityDisability from './socialSecurityDisability';
+import socialSupplementalSecurity from './socialSupplementalSecurity';
 import medicalCondition from './medicalCondition';
+import medicalConditions from './medicalConditions';
 import nursingHome from './nursingHome';
 import medicaidCoverage from './medicaidCoverage';
 import medicaidStatus from './medicaidStatus';
@@ -13,7 +15,6 @@ import vaMedicalCenters from './vaMedicalCenters';
 import federalMedicalCenters from './federalMedicalCenters';
 import currentEmploymentHistory from './currentEmploymentHistory';
 import previousEmploymentHistory from './previousEmploymentHistory';
-import socialSupplementalSecurity from './socialSupplementalSecurity';
 
 export default {
   title: 'Health and employment information',
@@ -23,6 +24,7 @@ export default {
     socialSecurityDisability,
     socialSupplementalSecurity,
     medicalCondition,
+    medicalConditions,
     nursingHome,
     medicaidCoverage,
     medicaidStatus,
