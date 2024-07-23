@@ -86,10 +86,10 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
+  [VA_FORM_IDS.FORM_10_7959A]: 'CHAMPVA claim form',
+  [VA_FORM_IDS.FORM_10_7959C]: 'other health insurance certification',
   [VA_FORM_IDS.FORM_10_7959F_1]:
     'Foreign Medical Program (FMP) Registration Form',
-  [VA_FORM_IDS.FORM_10_7959C]: 'other health insurance certification',
-  [VA_FORM_IDS.FORM_10_7959A]: 'CHAMPVA claim form',
   [VA_FORM_IDS.FORM_10182]: 'Board Appeal',
   [VA_FORM_IDS.FORM_20_0995]: 'Supplemental Claim',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
@@ -177,9 +177,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrlImpl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${getAppUrlImpl('10-10D')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrlImpl('hca')}/`,
-    [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
-    [VA_FORM_IDS.FORM_10_7959C]: `${getAppUrlImpl('10-7959C')}/`,
     [VA_FORM_IDS.FORM_10_7959A]: `${getAppUrlImpl('10-7959a')}/`,
+    [VA_FORM_IDS.FORM_10_7959C]: `${getAppUrlImpl('10-7959C')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
     [VA_FORM_IDS.FORM_10182]: `${getAppUrlImpl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${getAppUrlImpl('995-supplemental-claim')}/`,
     [VA_FORM_IDS.FORM_20_0996]: `${getAppUrlImpl('0996-higher-level-review')}/`,
@@ -323,6 +323,7 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FORM_5655,
+  VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
   VA_FORM_IDS.FORM_VA_2346A,
 ]);
 

@@ -12,14 +12,14 @@ export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 export const getFormNumber = () => {
-  const path = window?.location?.pathname;
+  const path = window?.location?.pathname || '';
   const regex = /\/(\d{2}-\d{4})/;
   return path.match(regex)?.[1] || '';
 };
 
 const formMappings = {
   '21-0779': {
-    subtitle: SUBTITLE_0779,
+    subTitle: SUBTITLE_0779,
     childContent: CHILD_CONTENT_0779,
     additionalChildContent: ADD_CHILD_CONTENT_0779,
   },
@@ -27,12 +27,12 @@ const formMappings = {
 
 export const getFormContent = () => {
   const formNumber = getFormNumber();
-  const { subtitle = '', childContent = null, additionalChildContent = null } =
+  const { subTitle = '', childContent = null, additionalChildContent = null } =
     formMappings[formNumber] || {};
 
   return {
     title: `Upload VA Form ${formNumber}`,
-    subtitle,
+    subTitle,
     childContent,
     additionalChildContent,
     formNumber,

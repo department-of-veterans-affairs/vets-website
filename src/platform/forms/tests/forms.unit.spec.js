@@ -48,6 +48,14 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_XX_123,
 ];
 
+const formConfigFunctionParams = {
+  'form-upload': {
+    title: 'Upload VA Form 21-0779',
+    subTitle: 'subtitle',
+    formNumber: '21-0779',
+  },
+};
+
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
@@ -67,6 +75,7 @@ const formConfigKeys = [
   'formOptions',
   'formSavedPage',
   'getHelp',
+  'hideReviewChapters',
   'hideUnauthedStartLink',
   'intentToFileUrl',
   'introduction',
@@ -325,6 +334,12 @@ const validSaveInProgressConfig = formConfig => {
   }
 };
 
+// Function to extract the key from the config file path
+const extractKey = configFilePath => {
+  const parts = configFilePath.split('/');
+  return parts[parts.length - 3];
+};
+
 describe('form:', () => {
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
@@ -338,6 +353,12 @@ describe('form:', () => {
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
+          if (typeof formConfig === 'function') {
+            const key = extractKey(configFilePath);
+            const defaultParams = formConfigFunctionParams[key] || {};
+            formConfig = formConfig(defaultParams); // eslint-disable-line no-param-reassign
+          }
+
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
           validObjectProperty(formConfig, 'dev', false);
           validFormConfigKeys(formConfig);

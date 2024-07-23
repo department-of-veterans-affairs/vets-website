@@ -13,7 +13,7 @@ import submitTransformer from './submit-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
 import { isUnverifiedUser, scrollAndFocusTarget } from '../helpers';
 
-const formConfig = ({ title, subtitle, formNumber }) => ({
+const formConfig = ({ title, subTitle, formNumber }) => ({
   rootUrl: manifest.rootUrl,
   urlPrefix: `/${formNumber}/`,
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
@@ -40,7 +40,7 @@ const formConfig = ({ title, subtitle, formNumber }) => ({
     noAuth: 'Please sign in again to continue uploading your form.',
   },
   title,
-  subtitle,
+  subTitle,
   defaultDefinitions: {},
   v3SegmentedProgressBar: {
     useDiv: true,
