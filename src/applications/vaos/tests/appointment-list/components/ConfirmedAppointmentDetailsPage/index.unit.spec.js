@@ -57,8 +57,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     MockDate.reset();
   });
 
-  // Adds a comment to trigger CI
-  it.skip('should show confirmed appointments detail page', async () => {
+  it('should show confirmed appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
     response
@@ -94,12 +93,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -133,7 +127,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should show confirmed phone appointments detail page', async () => {
+  it('should show confirmed phone appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: TYPE_OF_VISIT_ID.phone,
@@ -172,12 +166,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
