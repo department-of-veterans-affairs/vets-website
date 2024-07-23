@@ -277,7 +277,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
           store,
         },
       );
-      screen.debug();
       // Assert
       expect(
         screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
