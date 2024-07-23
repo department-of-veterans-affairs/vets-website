@@ -111,8 +111,7 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    # needs: [set-env, notify-start]
-    needs: [set-env]
+    needs: [set-env, notify-start]
 
     steps:
 
@@ -143,14 +142,6 @@ jobs:
         with:
           time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
 
-      # - name: Create release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
-      #     release_name: vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
-
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -170,84 +161,84 @@ jobs:
             }"
 
 
-  # deploy:
-  #   name: Deploy
-  #   runs-on: ubuntu-latest
-  #   needs: [set-env, create-release, get-workflow-environment]
-  #   environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [set-env, create-release, get-workflow-environment]
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
-  #   env:
-  #     DEPLOY_BUCKET: www.va.gov
-  #     ASSET_BUCKET: prod-va-gov-assets
+    env:
+      DEPLOY_BUCKET: www.va.gov
+      ASSET_BUCKET: prod-va-gov-assets
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Configure AWS credentials (1)
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS credentials (1)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
-  #     - name: Get AWS IAM role
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
-  #         env_variable_name: AWS_FRONTEND_PROD_ROLE
+      - name: Get AWS IAM role
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
+          env_variable_name: AWS_FRONTEND_PROD_ROLE
 
-  #     - name: Configure AWS Credentials (2)
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
-  #         role: ${{ env.AWS_FRONTEND_PROD_ROLE }}
-  #         role_duration: 900
-  #         session_name: vsp-frontendteam-githubaction
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_PROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
 
-  #     - name: Deploy
-  #       run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-  #       env:
-  #         SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
-  #         DEST: s3://${{ env.DEPLOY_BUCKET }}
-  #         ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
+      - name: Deploy
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
+          DEST: s3://${{ env.DEPLOY_BUCKET }}
+          ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
 
-  # notify-success:
-  #   name: Notify Success
-  #   runs-on: ubuntu-latest
-  #   needs: deploy
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: deploy
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Notify Slack
-  #       uses: ./.github/workflows/slack-notify
-  #       continue-on-error: true
-  #       with:
-  #         payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Successfully deployed vets-website to production"}}]}]}'
-  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Successfully deployed vets-website to production"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  # notify-failure:
-  #   name: Notify Failure
-  #   runs-on: ubuntu-latest
-  #   if: ${{ failure() || cancelled() }}
-  #   needs: deploy
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: deploy
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Notify Slack
-  #       if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
-  #       uses: ./.github/workflows/slack-notify
-  #       continue-on-error: true
-  #       with:
-  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
-  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack
+        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
