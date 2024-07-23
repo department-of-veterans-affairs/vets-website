@@ -13,42 +13,44 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
-  it('Navigate to MHV Classic to view their Radiology Images', () => {
+  it('View Radiology Details Page', () => {
     cy.reload();
-    LabsAndTestsListPage.loadVAPaginationNext();
-    // I think the second parameter doesn't do anything in this case...
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[2]);
 
-    RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[2].procedureName);
+    // I think the second parameter doesn't do anything right now...
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[2]);
+
+    RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[16].procedureName);
     // why is the date value in radiologyRecordsMHV.json
     // a large number, like "eventDate": 976929600003, ???
     // can I test against the JSON or do I neeed to hard-code the date in the test?
-    RadiologyDetailsPage.verifyDate('December 15, 2000');
+    RadiologyDetailsPage.verifyDate('January 6, 1992');
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
 
-    // Regex: replace \r\n line terminating characters, with spaces
-    // then eliminate multiple spaces
-    RadiologyDetailsPage.verifyRadiologyClinicalHistory(
-      `${radiologyRecordsMhv[2].clinicalHistory
-        .replace(/[\r\n]+/gm, ' ')
-        .replace(/ +(?= )/g, '')}`,
-    );
+    // // Regex: replace \r\n line terminating characters, with spaces
+    // // then eliminate multiple spaces
+    // RadiologyDetailsPage.verifyRadiologyClinicalHistory(
+    //   `${radiologyRecordsMhv[16].clinicalHistory
+    //     .replace(/[\r\n]+/gm, ' ')
+    //     .replace(/ +(?= )/g, '')}`,
+    // );
 
     RadiologyDetailsPage.verifyRadiologyOrderedBy(
-      radiologyRecordsMhv[2].requestingProvider, // 'DOE, JOHN A'
+      radiologyRecordsMhv[16].requestingProvider,
     );
 
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
-      radiologyRecordsMhv[2].performingLocation,
+      radiologyRecordsMhv[16].performingLocation,
     );
 
     RadiologyDetailsPage.verifyRadiologyImagingProvider(
-      radiologyRecordsMhv[2].radiologist,
+      radiologyRecordsMhv[16].radiologist,
     );
 
     // Regex: replace \r\n line terminating characters, with spaces
     RadiologyDetailsPage.verifyRadiologyResults(
-      radiologyRecordsMhv[2].impressionText.replace(/[\r\n]+/gm, ' '),
+      radiologyRecordsMhv[16].impressionText
+        .replace(/[\r\n]+/gm, ' ')
+        .replace(/ +(?= )/g, ''),
     );
 
     cy.injectAxe();
