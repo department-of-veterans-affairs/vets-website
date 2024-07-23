@@ -1,14 +1,3 @@
-// import PrefillCopy from '../../../helpers/PrefillCopy';
-// import { expect } from 'chai';
-// import React from 'react';
-
-// describe('l', () => {
-//   it('should', () => {
-//     let isLoggedIn = true;
-//     expect(<PrefillCopy />).to.exist;
-//   });
-// });
-
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
