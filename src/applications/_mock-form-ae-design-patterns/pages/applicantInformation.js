@@ -9,6 +9,12 @@ const { fullName, ssn } = commonDefinitions;
 
 const applicantInformation = {
   uiSchema: {
+    // 'ui:description': data =>
+    //   conditionallyShowPrefillMessage(
+    //     PREFILL_FLAGS.APPLICANT_INFORMATION,
+    //     data,
+    //     PrefillMessage,
+    //   ),
     fullName: fullNameUI,
     ssn: ssnUI,
   },

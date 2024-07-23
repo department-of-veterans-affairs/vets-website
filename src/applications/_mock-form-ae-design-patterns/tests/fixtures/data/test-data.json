@@ -1,4 +1,7 @@
 {
-  "data": {
+  "fullName": {
+    "first": "First",
+    "last": "Last",
+    "suffix": "Jr."
   }
 }

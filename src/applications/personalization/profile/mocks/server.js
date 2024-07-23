@@ -85,6 +85,59 @@ const logRequest = req => {
 };
 
 const responses = {
+  'GET /v0/in_progress_forms/mock-form-ae-design-patterns': (_req, res) => {
+    return res.json({
+      formData: {
+        data: {
+          attributes: {
+            veteran: {
+              fullName: {
+                first: 'Mitchell',
+                last: 'James',
+              },
+              address: {
+                addressLine1: '623 Lesser Dr',
+                city: 'Fort Collins',
+                stateCode: 'CO',
+                zipCode5: '80524',
+                countryName: 'USA',
+              },
+              phone: {
+                areaCode: '970',
+                phoneNumber: '5561289',
+              },
+              emailAddressText: 'sample@email.com',
+            },
+          },
+        },
+        nonPrefill: {
+          veteranSsnLastFour: '3607',
+          veteranVaFileNumberLastFour: '3607',
+        },
+      },
+      metadata: {
+        version: 0,
+        prefill: true,
+        returnUrl: '/veteran-details',
+      },
+    });
+  },
+  'PUT /v0/in_progress_forms/mock-form-ae-design-patterns': (_req, res) => {
+    return res.json({
+      formData: {
+        data: {
+          attributes: {
+            veteran: {
+              fullName: {
+                first: 'Mitchell',
+                last: 'James',
+              },
+            },
+          },
+        },
+      },
+    });
+  },
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
     delaySingleResponse(
