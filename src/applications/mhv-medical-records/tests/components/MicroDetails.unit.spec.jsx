@@ -55,7 +55,7 @@ describe('Microbiology details component', () => {
   });
 
   it('should display the lab results', () => {
-    const results = screen.getByText(record.results[0], {
+    const results = screen.getByText('Accession [UID]: PARAS 95 262 []', {
       exact: false,
       selector: 'p',
     });
