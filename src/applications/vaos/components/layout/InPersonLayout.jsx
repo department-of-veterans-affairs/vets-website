@@ -15,18 +15,20 @@ import DetailPageLayout, {
   Where,
   Section,
   Who,
+  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
@@ -76,8 +78,8 @@ export default function InPersonLayout({ data: appointment }) {
         }
       >
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!!facility === false &&
-          !!facilityId === false && (
+        {!facility &&
+          !facilityId && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -89,7 +91,7 @@ export default function InPersonLayout({ data: appointment }) {
             </>
           )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!!facility === false &&
+        {!facility &&
           !!facilityId && (
             <>
               <span>Facility details not available</span>
@@ -111,20 +113,20 @@ export default function InPersonLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+              <va-icon icon="directions" size="3" srtext="Directions icon" />
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>{' '}
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
             <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
           </>
         )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
