@@ -66,6 +66,11 @@ export default class MockAppointmentResponse {
       },
       kind,
       localStartTime: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
+      preferredDates: [
+        moment()
+          .startOf('day')
+          .format('ddd, MMMM DD, YYYY [in the morning]'),
+      ],
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
       serviceType,
