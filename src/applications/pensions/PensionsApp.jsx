@@ -35,7 +35,7 @@ export default function PensionEntry({ location, children }) {
     () => {
       if (!isLoadingFeatures) {
         window.sessionStorage.setItem(
-          'showDependentsMultiplePage',
+          'showMultiplePageResponse',
           pensionMultiplePageResponse,
         );
       }

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import {
+  VaRadioField,
+  VaTextInputField,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import { CHANGE_OF_DIRECT_DEPOSIT_TITLE } from '../constants';
 
 export function makeFormProperties(prefix) {
@@ -74,15 +77,23 @@ export function makeSchemas(prefix) {
   const uiSchema = {
     [properties.bankName]: {
       'ui:title': 'Name of financial institution ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required: 'Please enter the name of your Financial Institution',
       },
     },
-    [properties.phone]: phoneUI("Veteran's phone number "),
-    [properties.email]: emailUI("Veteran's email address "),
-    [properties.bankPhone]: phoneUI(
-      'Telephone number of financial institution',
-    ),
+    [properties.phone]: {
+      ...phoneUI("Veteran's phone number "),
+      'ui:webComponentField': VaTextInputField,
+    },
+    [properties.email]: {
+      ...emailUI("Veteran's email address "),
+      'ui:webComponentField': VaTextInputField,
+    },
+    [properties.bankPhone]: {
+      ...phoneUI('Telephone number of financial institution'),
+      'ui:webComponentField': VaTextInputField,
+    },
     [properties.accountType]: {
       'ui:title': 'Account type',
       'ui:webComponentField': VaRadioField,
@@ -92,6 +103,7 @@ export function makeSchemas(prefix) {
     },
     [properties.routingNumber]: {
       'ui:title': 'Routing number ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your bank’s 9-digit routing number',
         required: 'Please enter your bank’s 9-digit routing number',
@@ -99,6 +111,7 @@ export function makeSchemas(prefix) {
     },
     [properties.accountNumber]: {
       'ui:title': 'Account number (This should be no more than 17 digits) ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
@@ -106,6 +119,7 @@ export function makeSchemas(prefix) {
     },
     [properties.verifyAccountNumber]: {
       'ui:title': 'Verify account number ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
