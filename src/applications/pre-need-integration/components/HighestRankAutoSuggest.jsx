@@ -14,19 +14,16 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  // Extract the index from the id to identify the current service record
   const extractIndex = id => {
     const match = id.match(/serviceRecords_(\d+)_highestRank/);
     return match ? parseInt(match[1], 10) : 0;
   };
 
-  // Handle selection change in AutoSuggest component
   const handleSelectionChange = selection => {
     if (selection.key)
       setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
     else setRank('');
 
-    // Update the form data in the redux store with the selected rank
     if (formData.application.veteran.serviceRecords) {
       const updatedFormData = {
         ...formData,
@@ -52,7 +49,8 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
     }
   };
 
-  // Parse the date string into a Date object
+  // Parse the date string into a Date object. This is needed in order to play nicely
+  // with the Military Ranks.json file
   const parseDate = dateString => {
     if (!dateString) return null;
     const parts = dateString.split('/');
@@ -86,7 +84,6 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
       }));
   }, []);
 
-  // Update component state when formData or idSchema changes
   useEffect(
     () => {
       const serviceRecords = formData?.application?.veteran?.serviceRecords;
@@ -161,6 +158,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   );
 }
 
+// Added PropTypes Validation for eslint purposes
 HighestRankAutoSuggest.propTypes = {
   formData: PropTypes.shape({
     application: PropTypes.shape({
