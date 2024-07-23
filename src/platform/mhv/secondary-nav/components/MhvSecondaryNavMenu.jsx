@@ -18,7 +18,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
    * @param {String} path the path
    * @returns the path without a trailing slash
    */
-  const stripTrailingSlash = path => path.replace(/\/$/, '');
+  const stripTrailingSlash = path => path?.replace(/\/$/, '');
 
   /**
    * Find which navigation item needs to be set to active, if any. An item should be active
@@ -35,9 +35,9 @@ const MhvSecondaryNavMenu = ({ items }) => {
         const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
         // Remove the trailing slash as they are optional.
         const linkNoTrailing = stripTrailingSlash(item.href);
-        const urlNoTrailing = stripTrailingSlash(window.location.pathname);
+        const urlNoTrailing = stripTrailingSlash(window?.location?.pathname);
         return (
-          window.location.pathname.startsWith(appRootUrl) ||
+          window?.location?.pathname?.startsWith(appRootUrl) ||
           linkNoTrailing === urlNoTrailing
         );
       });

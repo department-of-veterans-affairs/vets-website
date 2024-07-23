@@ -48,7 +48,6 @@ describe('App', () => {
     delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
-      pathname: '/my-health/travel-claim-status',
     };
     const mockTravelClaims = {
       data: [
