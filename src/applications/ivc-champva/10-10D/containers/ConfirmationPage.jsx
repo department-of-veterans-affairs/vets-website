@@ -107,10 +107,6 @@ export function ConfirmationPage(props) {
 
       <h2>What to expect next</h2>
       <p>
-        You should receive a notification confirming CHAMPVA's receipt of your
-        application within 7 days.
-        <br />
-        <br />
         It will take approximately 60 days to process your application once
         received by CHAMPVA.
         <br />
