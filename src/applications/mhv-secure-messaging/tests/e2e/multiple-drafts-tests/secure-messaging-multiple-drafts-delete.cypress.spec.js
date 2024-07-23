@@ -23,7 +23,8 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(0, 1);
 
-    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.expandSingleDraft(2);
+    PatientMessageDraftsPage.clickMultipleDeleteButton(2);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
@@ -40,10 +41,8 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(1, 1);
 
-    draftPage.expandSingleDraft(1);
-    draftPage.clickMultipleDeleteButton(1);
-
-    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.expandSingleDraft(1);
+    PatientMessageDraftsPage.clickMultipleDeleteButton(1);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
@@ -65,14 +64,16 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     const noDraftsResponse = Cypress._.cloneDeep(updatedMultiDraftResponse);
     noDraftsResponse.data.splice(0, 2);
 
-    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.expandSingleDraft(2);
+    PatientMessageDraftsPage.clickMultipleDeleteButton(2);
     PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
     );
     PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
 
-    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.expandSingleDraft(1);
+    PatientMessageDraftsPage.clickMultipleDeleteButton(1);
     PatientMessageDraftsPage.deleteMultipleDraft(
       reducedMultiDraftResponse,
       noDraftsResponse,
