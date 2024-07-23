@@ -21,7 +21,7 @@
           "first": "Applicant",
           "last": "Jones"
         },
-        "applicantDOB": "2001-02-02",
+        "applicantDob": "2001-02-02",
         "applicantGender": {
           "gender": "female"
         },
@@ -49,7 +49,7 @@
       "first": "Sponsor",
       "last": "Jones"
     },
-    "sponsorDOB": "1950-01-01",
+    "sponsorDob": "1950-01-01",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": false,
