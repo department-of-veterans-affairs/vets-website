@@ -9,9 +9,7 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    // declare pages & constants
-    const draftPage = new PatientMessageDraftsPage();
-
+    // declare constants
     const bodyText = ' Updated body text';
     const singleMessage = { data: mockSingleThread.data[0] };
     singleMessage.data.attributes.body = bodyText;
@@ -30,7 +28,10 @@ describe('Secure Messaging Reply', () => {
     });
 
     // save changed message as a draft
-    draftPage.saveNewDraftMessage(mockSingleThread, singleMessage);
+    PatientMessageDraftsPage.saveNewDraftMessage(
+      mockSingleThread,
+      singleMessage,
+    );
 
     // assert message saved
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(

@@ -9,7 +9,6 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Delete Reply Draft', () => {
   it('Axe Check Message Delete Reply Draft with Axe Check', () => {
-    const draftsPage = new PatientMessageDraftsPage();
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
@@ -33,10 +32,10 @@ describe('Secure Messaging Delete Reply Draft', () => {
         )}`,
       );
     });
-    draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteDraft(messageDetails);
-    draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDraftMessageBannerTextHasFocus();
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
