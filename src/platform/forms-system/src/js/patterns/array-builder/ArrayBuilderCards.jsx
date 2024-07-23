@@ -75,6 +75,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -131,6 +132,7 @@ const ArrayBuilderCards = ({
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
+    forceRerender(newData);
   }
 
   const Card = ({ index, children }) => (
@@ -199,9 +201,9 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('removeTitle', currentItem)}
-        primaryButtonText={getText('removeYes', currentItem)}
-        secondaryButtonText={getText('removeNo', currentItem)}
+        modalTitle={getText('deleteTitle', currentItem)}
+        primaryButtonText={getText('deleteYes', currentItem)}
+        secondaryButtonText={getText('deleteNo', currentItem)}
         onCloseEvent={() =>
           hideRemoveConfirmationModal({
             focusRemoveButton: true,
@@ -217,8 +219,8 @@ const ArrayBuilderCards = ({
         uswds
       >
         {required(formData) && arrayData?.length === 1
-          ? getText('removeNeedAtLeastOneDescription', currentItem)
-          : getText('removeDescription', currentItem)}
+          ? getText('deleteNeedAtLeastOneDescription', currentItem)
+          : getText('deleteDescription', currentItem)}
       </VaModal>
     </div>
   );
@@ -241,6 +243,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.string,
   ]).isRequired,
   editItemPathUrl: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,

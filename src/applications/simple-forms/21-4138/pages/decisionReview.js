@@ -50,7 +50,7 @@ export const decisionReviewPage = {
 };
 
 /** @type {PageSchema} */
-export const decisionReviewTypePage = {
+export const selectDecisionReviewPage = {
   uiSchema: {
     decisionReviewType: radioUI({
       title: 'Which description is true for you?',

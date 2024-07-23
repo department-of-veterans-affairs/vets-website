@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { currency } from '../../utils/helpers';
 import { getMonthlyExpenses } from '../../utils/calculateExpenses';
-import { getMonthlyIncome } from '../../utils/calculateIncome';
+import { getCalculatedMonthlyIncomeApi } from '../../utils/calculateIncome';
 
 const FinancialOverview = ({ formData }) => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+  const { totalMonthlyNetIncome } = getCalculatedMonthlyIncomeApi(formData);
   const monthlyExpenses = getMonthlyExpenses(formData);
   const incomeMinusExpenses = totalMonthlyNetIncome - monthlyExpenses;
 

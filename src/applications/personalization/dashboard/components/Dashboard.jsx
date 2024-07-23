@@ -39,6 +39,7 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -54,16 +55,47 @@ import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 
-const DashboardHeader = ({ showNotifications }) => {
+const DashboardHeader = ({ showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
   );
+  const displayOnboardingInformation = useToggleValue(
+    TOGGLE_NAMES.veteranOnboardingBetaFlow,
+  );
 
   return (
     <div>
+      {displayOnboardingInformation && (
+        <VaAlert status="info" visible>
+          <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
+          <p>
+            We understand that transitioning out of the military can be a
+            daunting experience, which is why we offer a range of resources to
+            help you discover and apply for the benefits you deserve.
+          </p>
+          <div className="vads-l-row">
+            <div className="vads-l-col--4">
+              <a
+                className="vads-c-action-link--green"
+                href="/profile/contact-information"
+              >
+                Add your contact information
+              </a>
+            </div>
+            <div className="vads-l-col--8">
+              <a
+                className="vads-c-action-link--green"
+                href="/get-help-from-accredited-representative/find-rep"
+              >
+                Find a representative
+              </a>
+            </div>
+          </div>
+        </VaAlert>
+      )}
+
       <h1
         id="dashboard-title"
         data-testid="dashboard-title"
@@ -113,6 +145,7 @@ const LOA1Content = ({ isLOA1, isVAPatient }) => {
 
 DashboardHeader.propTypes = {
   showNotifications: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 LOA1Content.propTypes = {
@@ -235,7 +268,10 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader showNotifications={showNotifications} />
+              <DashboardHeader
+                showNotifications={showNotifications}
+                user={props.user}
+              />
 
               {showMPIConnectionError && (
                 <div className="vads-l-row">

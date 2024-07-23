@@ -5,12 +5,9 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
-    const landingPage = new PatientInboxPage();
-    // const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
@@ -34,14 +31,17 @@ describe('Start a new message With Attacments and Errors', () => {
 
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
+
     // Verify current attachments count
     PatientComposePage.verifyExpectedAttachmentsCount(2);
     PatientComposePage.attachMessageFromFile('sample_XLS.xls');
     PatientComposePage.attachMessageFromFile('test_image.gif');
     PatientComposePage.verifyExpectedAttachmentsCount(4);
+
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
     cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
-    // composePage.verifyAttachmentErrorMessage(
+
+    // PatientComposePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
 

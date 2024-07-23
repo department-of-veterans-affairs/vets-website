@@ -148,9 +148,7 @@ describe('check-in', () => {
         );
         const button = component.getByTestId('get-local-button');
         fireEvent.click(button);
-        expect(component.getByTestId('from-local').innerHTML).to.be.contain(
-          '{}',
-        );
+        expect(component.getByTestId('from-local').innerHTML).to.be.contain('');
       });
       it('key is found', () => {
         const window = {

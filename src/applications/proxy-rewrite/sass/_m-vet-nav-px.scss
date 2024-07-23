@@ -214,7 +214,7 @@ body.va-pos-fixed {
 
   @include media($medium-screen) {
     background-color: transparent;
-    background-size: 1rem auto;
+    background-size: 0.625rem auto;
   }
 
   &:active {
@@ -394,7 +394,7 @@ body.va-pos-fixed {
     margin-left: 10px;
 
     button {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 
@@ -476,7 +476,7 @@ body.va-pos-fixed {
       margin-top: 7px;
 
       svg {
-        margin-left: 0.8rem;
+        margin-left: 0.5rem;
       }
     }
 
@@ -500,9 +500,9 @@ body.va-pos-fixed {
 
     svg {
       display: inline-block;
-      height: 1.6rem;
-      margin-left: 0.8rem;
-      width: 1rem;
+      height: 1rem;
+      margin-left: 0.5rem;
+      width: 0.625rem;
       vertical-align: 0;
     }
 

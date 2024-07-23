@@ -14,11 +14,11 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
+  MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
-import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
-import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
@@ -46,6 +46,17 @@ const App = ({ isPilot }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
+
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
@@ -65,11 +76,14 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      dispatch(getScheduledDowntime());
+      const fetchAllData = async () => {
+        dispatch(getScheduledDowntime());
 
-      if (user.login.currentlyLoggedIn) {
-        dispatch(getAllTriageTeamRecipients());
-      }
+        if (user.login.currentlyLoggedIn) {
+          await dispatch(getAllTriageTeamRecipients());
+        }
+      };
+      fetchAllData();
     },
     [user.login.currentlyLoggedIn, dispatch],
   );
@@ -97,26 +111,27 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
+
+  useDatadogRum(datadogRumConfig);
+  useEffect(
     () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
     [user],
   );
-  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
-      <div className="vads-l-grid-container">
-        <va-loading-indicator
-          message="Loading your secure messages..."
-          setFocus
-          data-testid="feature-flag-loading-indicator"
-        />
-      </div>
+      <>
+        <MhvSecondaryNav />
+        <div className="vads-l-grid-container">
+          <va-loading-indicator
+            message="Loading your secure messages..."
+            setFocus
+            data-testid="feature-flag-loading-indicator"
+          />
+        </div>
+      </>
     );
   }
 
@@ -133,6 +148,7 @@ const App = ({ isPilot }) => {
     window.location.replace(manifest.rootUrl);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}
@@ -142,40 +158,40 @@ const App = ({ isPilot }) => {
       !userServices.includes(backendServices.MESSAGING) ? (
         window.location.replace('/health-care/secure-messaging')
       ) : (
-        <div className="vads-l-grid-container">
-          <SmBreadcrumbs />
-
-          {mhvSMDown === externalServiceStatus.down ? (
-            <>
-              <h1>Messages</h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvPlatform,
-                  externalServices.mhvSm,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <div
-              className="secure-messaging-container
+        <>
+          <MhvSecondaryNav />
+          <div className="vads-l-grid-container">
+            {mhvSMDown === externalServiceStatus.down ? (
+              <>
+                <h1>Messages</h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvPlatform,
+                    externalServices.mhvSm,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <div
+                className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-            >
-              <Navigation />
-              <ScrollToTop />
-              <Switch>
-                <AuthorizedRoutes />
-              </Switch>
-            </div>
-          )}
+              >
+                <ScrollToTop />
+                <Switch>
+                  <AuthorizedRoutes />
+                </Switch>
+              </div>
+            )}
 
-          <div className="bottom-container">
-            <va-back-to-top />
+            <div className="bottom-container">
+              <va-back-to-top />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </RequiredLoginView>
   );

@@ -14,11 +14,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .title-section {
-    padding: 0.5rem 0;
+    padding: 0.3125rem 0;
 
     h1:first-child {
       margin-top: 0;
-      padding: 0 0 0 1.5rem;
+      padding: 0 0 0 0.9375rem;
     }
   }
 
@@ -34,10 +34,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-top: 0;
   }
 
-  i.fa {
-    width: 18px;
-    text-align: center;
-    margin-right: 8px;
+  va-icon {
     color: var(--vads-color-link);
   }
 
@@ -81,7 +78,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     }
 
     span.fa {
-      margin-right: 0.5rem;
+      margin-right: 0.3125rem;
     }
 
     a {
@@ -108,7 +105,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result + .facility-result {
+    .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }
@@ -164,7 +161,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 0;
   }
 
-  .react-tabs__tab + .react-tabs__tab {
+  .react-tabs__tab+.react-tabs__tab {
     border-left: none;
   }
 
@@ -280,21 +277,21 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       input[type="submit"] {
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 0.625rem;
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
           margin-top: auto;
-          min-width: 67px;
+          min-width: 4.4rem;
           width: auto;
         }
       }
 
-      .typeahead + input[type="submit"] {
+      .typeahead+input[type="submit"] {
         margin-bottom: 30px;
       }
 
-      .typeahead:has(.usa-input-error) + input[type="submit"] {
+      .typeahead:has(.usa-input-error)+input[type="submit"] {
         margin-bottom: 38px;
       }
 
@@ -341,33 +338,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .facility-detail {
-    padding: 0 1.5rem;
+    padding: 0 0.9375rem;
 
     li.sublist {
       margin-left: 1.5em;
-    }
-
-    li.show-more {
-      list-style-type: none;
-    }
-
-    button.seeMore {
-      text-decoration: underline;
-
-      &:after {
-        font: normal normal normal 1em "Font Awesome 5 Free";
-        content: "\F078";
-        text-decoration: none;
-        display: inline-block;
-        padding: 0 0.5em;
-        font-weight: 900;
-      }
-
-      &.expanded {
-        &:after {
-          content: "\F077";
-        }
-      }
     }
 
     h5 {
@@ -390,13 +364,13 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
     hr {
       border-color: var(--vads-color-base-lighter);
-      margin: 0rem 0 2rem;
+      margin: 0rem 0 1.25rem;
       color: var(--vads-color-primary-dark);
     }
 
     hr.title {
       color: var(--vads-color-primary-dark);
-      margin: 0 0 2rem;
+      margin: 0 0 1.25rem;
       border: 1px solid var(--vads-color-primary-dark);
     }
   }
@@ -419,10 +393,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   color: var(--vads-color-base);
   display: block;
-  font-size: 1.6rem;
-  height: 4.2rem;
+  font-size: 1rem;
+  height: 2.625rem;
   line-height: 1.3;
-  margin: 0.2em 0 3rem;
+  margin: 0.2em 0 1.875rem;
   position: relative;
   width: 100%;
 
@@ -435,7 +409,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     background: var(--vads-color-white);
     border: solid 1px var(--vads-color-black);
     box-sizing: content-box;
-    font-size: 1.6rem;
+    font-size: 1rem;
     left: -1px;
     list-style: none;
     max-height: 25vh;
@@ -473,7 +447,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin: 0;
     max-width: 100%;
     overflow: hidden;
-    padding: 1rem 0.7em;
+    padding: 0.625rem 0.7em;
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -519,7 +493,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .notice-marg-pad {
-  padding: 0.5rem !important;
+  padding: 0.3125rem !important;
   margin-top: 0;
   font-size: 16px;
   font-weight: bold;
@@ -614,12 +588,15 @@ canvas.mapboxgl-canvas:focus {
   color: var(--vads-color-black);
   padding: 0;
   margin: 0;
-  font-family: "Font Awesome 5 Free";
 
   &:hover {
     background-color: unset;
     color: unset;
   }
+}
+
+.clear-button va-icon {
+  color: var(--vads-color-black);
 }
 
 #street-city-state-zip {
@@ -633,7 +610,6 @@ canvas.mapboxgl-canvas:focus {
   transition: none !important;
 }
 
-.search-result-emergency-care-subheader {
-  background: var(--vads-color-primary-alt-lightest);
-  padding: 20px
+.success-icon {
+  color: var(--vads-color-success) !important;
 }

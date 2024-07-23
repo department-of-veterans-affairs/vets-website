@@ -1,3 +1,7 @@
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -59,10 +63,9 @@ export const uiSchema = index => ({
           'ui:title': personDescriptionText,
           'ui:widget': 'textarea',
         },
-        'view:serviceMember': {
-          'ui:title': 'Were they a service member?',
-          'ui:widget': 'yesNo',
-        },
+        'view:serviceMember': yesNoUI({
+          title: 'Were they a service member?',
+        }),
         rank: {
           'ui:title': 'What was their rank at the time of the event?',
           'ui:options': {
@@ -133,9 +136,7 @@ export const schema = index => ({
                 ...personsInvolved.items.properties.injuryDeathOther,
                 'ui:collapsed': true,
               },
-              'view:serviceMember': {
-                type: 'boolean',
-              },
+              'view:serviceMember': yesNoSchema,
               'view:individualAddMsg': {
                 type: 'object',
                 properties: {},

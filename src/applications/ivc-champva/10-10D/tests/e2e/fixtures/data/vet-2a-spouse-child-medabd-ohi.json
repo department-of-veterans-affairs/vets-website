@@ -1,0 +1,140 @@
+{
+  "description": "Is veteran, 2 applicants, 1st applicant is spouse, 2nd applicant is child (bio), 1st applicant has Medicare A/B/D and OHI.",
+  "data": {
+    "applicants": [
+      {
+        "dateOfMarriageToSponsor": "2001-01-01",
+        "applicantPhone": "1232343456",
+        "applicantEmailAddress": "app1@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 App1 Street",
+          "city": "App1 Town",
+          "state": "MD",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "345345345"
+        },
+        "applicantName": {
+          "first": "Applicant",
+          "last": "Jones"
+        },
+        "applicantDob": "2001-01-01",
+        "applicantGender": {
+          "gender": "female"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "spouse"
+        },
+        "applicantSponsorMarriageDetails": {
+          "relationshipToVeteran": "marriedTillDeathNoRemarriage"
+        },
+        "missingUploads": [
+          {
+            "name": "applicantMarriageCert",
+            "path": "applicant-marriage-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCard",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartDCard",
+            "path": "applicant-medicare-d-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOtherInsuranceCertification",
+            "path": "applicant-other-insurance-10-7959c-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCard",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
+        "applicantMedicarePartD": {
+          "enrollment": "enrolled"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "yes"
+        }
+      },
+      {
+        "applicantPhone": "1231231234",
+        "applicantEmailAddress": "app2@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 App1 Street",
+          "city": "App1 Town",
+          "state": "MD",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "234123234"
+        },
+        "applicantName": {
+          "first": "Applicant2",
+          "last": "Jones2"
+        },
+        "applicantDob": "2000-04-03",
+        "missingUploads": [
+          {
+            "name": "applicantBirthCertOrSocialSecCard",
+            "path": "applicant-child-file/:index",
+            "required": false,
+            "uploaded": false
+          }
+        ],
+        "sharesAddressWith": "not-shared",
+        "applicantGender": {
+          "gender": "male"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "blood"
+        },
+        "applicantMedicareStatus": {
+          "eligibility": "ineligible"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "no"
+        }
+      }
+    ],
+    "sponsorPhone": "1231231234",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Veteran Lane",
+      "city": "Citytown",
+      "state": "AZ",
+      "postalCode": "12312"
+    },
+    "ssn": {
+      "ssn": "234234234"
+    },
+    "veteransFullName": {
+      "first": "Sponsor",
+      "last": "Jones"
+    },
+    "sponsorDob": "1950-04-01",
+    "certifierRole": "sponsor",
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Sponsor Jones",
+    "statementOfTruthCertified": true
+  }
+}

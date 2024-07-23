@@ -121,8 +121,6 @@ const SearchControls = props => {
     });
 
     onSubmit();
-
-    setSelectedServiceType(null);
   };
 
   const handleGeolocationButtonClick = e => {
@@ -164,11 +162,7 @@ const SearchControls = props => {
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="autorenew" size={3} />
               <span aria-live="assertive">Finding your location...</span>
             </div>
           ) : (
@@ -177,11 +171,7 @@ const SearchControls = props => {
               type="button"
               className="use-my-location-link"
             >
-              <i
-                className="use-my-location-button"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="near_me" size={3} />
               Use my location
             </button>
           )}
@@ -208,9 +198,11 @@ const SearchControls = props => {
               aria-label="Clear your city, state or postal code"
               type="button"
               id="clear-input"
-              className="fas fa-times-circle clear-button"
+              className="clear-button"
               onClick={handleClearInput}
-            />
+            >
+              <va-icon icon="cancel" size={3} />
+            </button>
           )}
         </div>
       </div>

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   itfMessage,
@@ -35,9 +33,9 @@ const ITFBanner = props => {
   switch (props.status) {
     case 'error':
       message = itfMessage(
-        'We’re sorry. Something went wrong on our end.',
+        'We can’t confirm if we have an intent to file on record for you right now',
         itfError,
-        'error',
+        'info',
       );
       break;
     case 'itf-found':
@@ -69,29 +67,13 @@ const ITFBanner = props => {
       <div className="usa-content">
         {message}
         <div className="vads-u-margin-top--2">{itfExpander}</div>
-        {props.status === 'error' ? (
-          <p>
-            <Link to={BASE_URL} className="vads-u-margin-top--2">
-              Back
-            </Link>
-            {!environment.isProduction() && (
-              <va-button
-                class="vads-u-margin-left--2"
-                onClick={dismissMessage}
-                text="Continue (testing only)"
-                uswds
-              />
-            )}
-          </p>
-        ) : (
-          <VaButtonPair
-            class="vads-u-margin-top--2"
-            continue
-            onPrimaryClick={dismissMessage}
-            onSecondaryClick={goHome}
-            uswds
-          />
-        )}
+        <VaButtonPair
+          class="vads-u-margin-top--2"
+          continue
+          onPrimaryClick={dismissMessage}
+          onSecondaryClick={goHome}
+          uswds
+        />
       </div>
     </div>
   );

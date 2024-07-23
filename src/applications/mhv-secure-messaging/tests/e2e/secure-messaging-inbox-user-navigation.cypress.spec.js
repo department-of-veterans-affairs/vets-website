@@ -6,15 +6,13 @@ import { AXE_CONTEXT, Data, Paths } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
 
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
       'signature',
     );
-    landingPage.navigateToComposePage();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient(
@@ -37,6 +35,6 @@ describe('Secure Messaging Compose', () => {
     });
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifySendMessageConfirmationMessageText();
-    // landingPage.verifyInboxHeader('Inbox');
+    // PatientInboxPage.verifyInboxHeader('Inbox');
   });
 });

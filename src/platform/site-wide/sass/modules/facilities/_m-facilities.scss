@@ -1,9 +1,9 @@
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
+
 // Facilities Hub
 .vads-facility-hub-cta {
   border-top: 1px solid var(--vads-color-primary-alt-light);
   height: 73px;
-  line-height: 73px;
   position: relative;
 
   & > a {
@@ -11,30 +11,20 @@
     display: inline-block;
   }
 }
+
 .vads-facility-hub-cta-label {
   display: inline-block;
   vertical-align: middle;
   line-height: 20px;
   margin-left: 48px;
 }
+
 .vads-facility-hub-cta-circle {
-  color: var(--vads-color-primary-dark);
-  height: 32px;
-  width: 32px;
   background-color: var(--vads-color-primary-alt-lightest);
   border-radius: 50%;
-  position: absolute;
-  top: 20px;
-  padding: 8px 10px;
-
-  &.fa-calendar-check,
-  &.fa-comments {
-    padding: 8px;
-  }
-  &.fa-file-medical {
-    padding: 8px 11px;
-  }
+  padding: 6px;
 }
+
 .vads-facility-hub-cta-arrow {
   font-size: 10px;
   padding-left: 4px;
@@ -42,8 +32,4 @@
 
 .vads-facility-hub-cta-last-line {
   border-bottom: 1px solid var(--vads-color-primary-alt-light);
-}
-
-.vads-facility-hub-button > a {
-  text-decoration: none;
 }

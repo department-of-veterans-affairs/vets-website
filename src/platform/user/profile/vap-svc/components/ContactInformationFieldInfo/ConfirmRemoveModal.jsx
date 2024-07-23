@@ -66,13 +66,11 @@ const ConfirmRemoveModal = ({
         </LoadingButton>
 
         {!isLoading && (
-          <button
-            type="button"
-            className="usa-button-secondary"
+          <va-button
+            secondary
             onClick={cancelAction}
-          >
-            No, cancel this change
-          </button>
+            text="No, cancel this change"
+          />
         )}
       </div>
     </VaModal>

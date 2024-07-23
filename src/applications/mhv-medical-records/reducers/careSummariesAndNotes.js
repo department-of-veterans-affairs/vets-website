@@ -22,9 +22,14 @@ const initialState = {
 
   /**
    * The list of care summaries and notes returned from the api
-   * @type {array}
+   * @type {Array}
    */
   careSummariesAndNotesList: undefined,
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The care summaries and notes currently being displayed to the user
    */
@@ -188,8 +193,8 @@ const convertProgressNote = record => {
     type: getType(record),
     date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     dateSigned: getDateSigned(record) || EMPTY_FIELD,
-    signedBy: extractAuthor(record) || EMPTY_FIELD,
-    coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
+    writtenBy: extractAuthor(record) || EMPTY_FIELD,
+    signedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: getNote(record) || EMPTY_FIELD,
     sortByDate: record.date ? new Date(record.date) : null,
@@ -254,27 +259,49 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {
+      const oldList = state.careSummariesAndNotesList;
+      const newList =
+        action.response.entry
+          ?.map(note => {
+            return convertCareSummariesAndNotesRecord(note.resource);
+          })
+          .filter(record => record.type !== noteTypes.OTHER)
+          .sort((a, b) => {
+            if (!a.sortByDate) return 1; // Push nulls to the end
+            if (!b.sortByDate) return -1; // Keep non-nulls at the front
+            return b.sortByDate.getTime() - a.sortByDate.getTime();
+          }) || [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         careSummariesAndNotesList:
-          action.response.entry
-            ?.map(note => {
-              return convertCareSummariesAndNotesRecord(note.resource);
-            })
-            .filter(record => record.type !== noteTypes.OTHER)
-            .sort((a, b) => {
-              if (!a.sortByDate) return 1; // Push nulls to the end
-              if (!b.sortByDate) return -1; // Keep non-nulls at the front
-              return b.sortByDate.getTime() - a.sortByDate.getTime();
-            }) || [],
+          typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.CareSummariesAndNotes.COPY_UPDATED_LIST: {
+      const originalList = state.careSummariesAndNotesList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          careSummariesAndNotesList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
       return {
         ...state,
-        careSummariesDetails: undefined,
+        careSummariesAndNotesDetails: undefined,
       };
     }
     case Actions.CareSummariesAndNotes.UPDATE_LIST_STATE: {

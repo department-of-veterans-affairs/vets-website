@@ -1,0 +1,38 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+$font-size: 16.96px;
+
+// Override widget styles to match v3 web components
+// until there is a web component pattern replacement
+.schemaform-currency-input-v3 {
+  margin-top: 24px;
+  .schemaform-widget-wrapper {
+    position: relative;
+    &:before {
+      content: "$";
+      display: block;
+      position: absolute;
+      top: 9px;
+      left: 10px;
+    }
+  }
+  label {
+    font-size: $font-size;
+  }
+  input {
+    width: 100%;
+    max-width: 480px;
+    font-size: $font-size;
+    padding-left: 25px;
+  }
+}
+
+.u-list-no-bullets {
+  list-style-type: none;
+}

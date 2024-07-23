@@ -43,13 +43,10 @@ describe('Chem Hem details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText(
-      'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const header = screen.getAllByText('Potassium, Sodium', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(header).to.exist;
   });
 
@@ -61,12 +58,80 @@ describe('Chem Hem details component', () => {
     expect(results).to.exist;
   });
 
+  it('should display the date label', () => {
+    expect(screen.getByText('Date and time collected', { exact: false })).to
+      .exist;
+  });
+
   it('should display the formatted date', () => {
-    const dateElement = screen.getByText('January', {
-      exact: false,
+    const dateElement = screen.getByText('January 20, 2021, 4:38 p.m.', {
+      exact: true,
       selector: 'span',
     });
     expect(dateElement).to.exist;
+  });
+
+  it('should display the site or sample tested', () => {
+    expect(screen.getByText('Site or sample tested', { selector: 'h3' })).to
+      .exist;
+    expect(screen.getByText('SERUM', { exact: false })).to.exist;
+  });
+
+  it('displays who the test was ordered by', () => {
+    expect(screen.getByText('Ordered by', { selector: 'h3' })).to.exist;
+    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+  });
+
+  it('displays the collecting location', () => {
+    expect(screen.getByText('Collecting location', { selector: 'h3' })).to
+      .exist;
+    expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
+  });
+
+  it('displays lab comments', () => {
+    expect(screen.getByText('Lab comments', { selector: 'h3' })).to.exist;
+    expect(screen.getByText("Jane's Test 1/20/2021 - Second lab")).to.exist;
+    expect(screen.getByText('Added Potassium test')).to.exist;
+    expect(screen.getAllByTestId('list-item-multiple')).to.have.length(2);
+  });
+
+  it('displays results label', () => {
+    expect(screen.getByText('Results', { exact: true, selector: 'h2' })).to
+      .exist;
+  });
+
+  it('displays a list of results', () => {
+    expect(screen.getAllByRole('listitem')).to.exist;
+  });
+
+  it('should display the result and interpretation in parentheses', () => {
+    expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
+    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
+  });
+
+  it('should display the reference range with units', () => {
+    expect(
+      screen.getAllByText('Reference range', { selector: 'h4' }).length,
+    ).to.eq(2);
+    expect(screen.getByText('3.6-5.1 mEq/L', { selector: 'p' })).to.exist;
+  });
+
+  it('should display the performing lab location', () => {
+    expect(
+      screen.getAllByText('Performing lab location', { selector: 'h4' }).length,
+    ).to.eq(2);
+    expect(screen.getAllByText('DAYTON, OH VAMC').length).to.eq(2);
+  });
+
+  it('should display lab comments', () => {
+    expect(
+      screen.getAllByText('Lab comments', { selector: 'h4' }).length,
+    ).to.eq(2);
+    expect(
+      screen.getByText('Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L.', {
+        selector: 'p',
+      }),
+    ).to.exist;
   });
 
   it('should display a download started message when the download pdf button is clicked', () => {

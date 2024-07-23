@@ -5,10 +5,8 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
-    checkInExperienceTravelLogic = true,
     checkInExperience45MinuteReminder = true,
     checkInExperienceBrowserMonitoring = false,
-    checkInExperiencePreCheckInActionLinkTopPlacement = true,
     checkInExperienceUnifiedLandingPage = false,
   } = toggles;
 
@@ -37,20 +35,12 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperienceTravelReimbursement,
         },
         {
-          name: 'check_in_experience_travel_logic',
-          value: checkInExperienceTravelLogic,
-        },
-        {
           name: 'check_in_experience_45_minute_reminder',
           value: checkInExperience45MinuteReminder,
         },
         {
           name: 'check_in_experience_browser_monitoring',
           value: checkInExperienceBrowserMonitoring,
-        },
-        {
-          name: 'check_in_experience_pre_check_in_action_link_top_placement',
-          value: checkInExperiencePreCheckInActionLinkTopPlacement,
         },
         {
           name: 'check_in_experience_unified_landing_page',

@@ -1,0 +1,17 @@
+{
+    "count": 2,
+    "networks": [
+      {
+        "id": "69cd9203-5e92-47a3-aa03-94b03752872a",
+        "name": "The Acme Health Referral Network",
+        "requiresReferralNumber": true
+      },
+      {
+        "id": "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9",
+        "name": "Acme Health Internal Providers",
+        "requiresReferralNumber": false
+      }
+    ],
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "total": 5
+  }

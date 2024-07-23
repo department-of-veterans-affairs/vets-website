@@ -1,16 +1,16 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 // Custom-style 'ui:title's as h3s, without using <h3> tags.
 // A11y best-practices say <label>s should not contain <h> tags.
 @mixin label-as-h3 {
   font-family: "Bitter", serif !important;
-  font-size: 2rem !important;
+  font-size: 1.25rem !important;
   font-weight: bold !important;
 }
 
@@ -19,14 +19,14 @@
 
   // some custom-labels need to be h4
   &.h4 {
-    font-size: 1.7rem !important;
+    font-size: 1.0625rem !important;
   }
 }
 .custom-required,
 .custom-description,
 .custom-hint {
   font-family: "Source Sans Pro", sans-serif !important;
-  font-size: 1.6rem !important;
+  font-size: 1rem !important;
   font-weight: normal !important;
 }
 .custom-required {
@@ -43,7 +43,7 @@
 }
 
 .form-review-panel-page #root_veteranSupportingDocuments__title > h3 {
-  font-size: 1.7rem !important;
+  font-size: 1.0625rem !important;
   margin-bottom: 0 !important;
 }
 .form-review-panel-page-header-row .supp-docs-description {
@@ -56,7 +56,7 @@
 
 input[name="root_certificates"],
 input[name="root_additionalCopies"] {
-  max-width: 7rem;
+  max-width: 4.375rem;
 }
 
 va-text-input[name="root_additionalCopies"]::part(label) {

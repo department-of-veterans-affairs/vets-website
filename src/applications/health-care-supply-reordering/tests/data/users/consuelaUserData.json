@@ -1,0 +1,92 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "appeals-status",
+        "identity-proofed"
+      ],
+      "account": {
+        "accountUuid": "a81fe668-cd08-4e01-b77f-e9ef98f2cff4"
+      },
+      "profile": {
+        "email": "vets.gov.user+111@gmail.com",
+        "firstName": "CONSUELA",
+        "middleName": "",
+        "lastName": "ALVAREZ",
+        "birthDate": "1983-09-22",
+        "gender": "F",
+        "zip": "22312",
+        "lastSignedIn": "2020-06-11T18:51:00.279Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19830922",
+        "familyName": "Alvarez",
+        "gender": "F",
+        "givenNames": ["Consuela"],
+        "isCernerPatient": false,
+        "facilities": [
+          {
+            "facilityId": "553",
+            "isCerner": false
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": [
+        "21-686C",
+        "40-10007",
+        "22-1990",
+        "22-1990N",
+        "22-1990E",
+        "22-1995",
+        "22-1995S",
+        "22-5490",
+        "22-5495",
+        "22-0993",
+        "22-0994",
+        "FEEDBACK-TOOL",
+        "22-10203",
+        "21-526EZ",
+        "1010ez",
+        "21P-530",
+        "21P-527EZ",
+        "686C-674",
+        "20-0996",
+        "MDOT"
+      ],
+      "vet360ContactInformation": {}
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}

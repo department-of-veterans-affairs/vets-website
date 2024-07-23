@@ -1,8 +1,7 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-next-previous";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 
 .discharge-wizard {
   padding-bottom: 3em;
@@ -98,25 +97,25 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
   va-radio::part(header) {
-    font-size: 1.7rem;
+    font-size: 1.0625rem;
   }
 
   // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
   va-select::part(label) {
     font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
       serif;
-    font-size: 1.7rem;
+    font-size: 1.0625rem;
     font-weight: bold;
   }
 
   .converted-h4 {
-    font-size: 1.7rem;
+    font-size: 1.0625rem;
   }
 }
 
 .discharge-wizard-v2 {
-  article {
-    padding: 0 0 3rem;
+  va-breadcrumbs {
+    padding-left: 0.9375rem;
   }
 
   //v2 styles
@@ -125,5 +124,10 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  va-button-pair {
+    margin-right: -4px;
+    margin-left: -4px;
   }
 }

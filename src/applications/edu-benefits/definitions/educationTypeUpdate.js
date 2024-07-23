@@ -3,7 +3,6 @@ const educationTypeLabelsUpdate = {
     'College, university, or other educational program, including online courses',
   nonCollegeDegree:
     'Non-college degree program (Vocational certificate or diploma)',
-  correspondence: 'Correspondence',
   apprenticeship: 'Apprenticeship or on-the-job training',
   flightTraining: 'Vocational flight training',
   testReimbursement: 'National test reimbursement (for example, SAT or CLEP)',
@@ -12,6 +11,7 @@ const educationTypeLabelsUpdate = {
   farmCoop: 'Farm cooperative',
   prepCourseForLoC:
     'Preparatory (PREP) Course for Licensing or Certification Test',
+  correspondence: 'Correspondence program',
 };
 
 const uiSchemaUpdate = {

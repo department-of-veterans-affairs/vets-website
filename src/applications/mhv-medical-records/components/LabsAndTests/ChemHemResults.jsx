@@ -16,7 +16,7 @@ const ChemHemResults = props => {
               </h4>
               <p className="data">{result.result}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                Standard range
+                Reference range
               </h4>
               <p className="range">{result.standardRange}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -24,13 +24,13 @@ const ChemHemResults = props => {
               </h4>
               <p className="data">{result.status}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                Lab location
+                Performing lab location
               </h4>
               <p className="data">{result.labLocation}</p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                Interpretation
+                Lab comments
               </h4>
-              <p className="data">{result.interpretation}</p>
+              <p className="data">{result.labComments}</p>
             </div>
           </li>
         );

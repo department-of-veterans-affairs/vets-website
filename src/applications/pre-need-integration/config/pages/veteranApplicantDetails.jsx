@@ -7,9 +7,9 @@ import {
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
-  // partial implementation of story resolving the address change:
-  // applicantDetailsCityTitle,
-  // applicantDetailsStateTitle,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
+  veteranApplicantDetailsSummary,
 } from '../../utils/helpers';
 
 const {
@@ -23,11 +23,12 @@ export function uiSchema(
   nameUI = nonPreparerFullMaidenNameUI,
   ssnUI = ssnDashesUI,
   dateOfBirthUI = nonPreparerDateOfBirthUI,
+  cityTitle = applicantDetailsCityTitle,
+  stateTitle = applicantDetailsStateTitle,
 ) {
-  // partial implementation of story resolving the address change:
-  // cityTitle = applicantDetailsCityTitle,
-  // stateTitle = applicantDetailsStateTitle,
   return {
+    'ui:title': (formContext, formData) =>
+      veteranApplicantDetailsSummary(formContext, formData),
     application: {
       'ui:title': subHeader,
       claimant: {
@@ -42,8 +43,11 @@ export function uiSchema(
         dateOfBirth: dateOfBirthUI,
       },
       veteran: {
-        placeOfBirth: {
-          'ui:title': 'Place of birth (city, state, territory)',
+        cityOfBirth: {
+          'ui:title': cityTitle,
+        },
+        stateOfBirth: {
+          'ui:title': stateTitle,
         },
       },
     },
@@ -72,8 +76,11 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['placeOfBirth'],
-          properties: pick(veteran.properties, ['placeOfBirth']),
+          required: ['cityOfBirth', 'stateOfBirth'],
+          properties: merge(
+            {},
+            pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),
+          ),
         },
       },
     },

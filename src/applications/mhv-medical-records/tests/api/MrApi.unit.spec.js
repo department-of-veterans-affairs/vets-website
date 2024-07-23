@@ -32,7 +32,7 @@ describe('Get labs and tests api call', () => {
     mockApiRequest(mockData);
 
     return getLabsAndTests(true).then(res => {
-      expect(res.entry.length).to.equal(13);
+      expect(res.entry.length).to.equal(14);
     });
   });
 });
@@ -54,7 +54,7 @@ describe('Get notes api call', () => {
     mockApiRequest(mockData);
 
     return getNotes(true).then(res => {
-      expect(res.entry.length).to.equal(4);
+      expect(res.entry.length).to.equal(6);
     });
   });
 });
@@ -87,7 +87,7 @@ describe('Get health conditions api call', () => {
     mockApiRequest(mockData);
 
     return getConditions(true).then(res => {
-      expect(res.entry.length).to.equal(4);
+      expect(res.entry.length).to.equal(5);
     });
   });
 });

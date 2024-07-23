@@ -39,11 +39,6 @@ export const getConferenceTime = (formData = {}) => {
   return CONFERENCE_TIMES_V2[informalConferenceTime]?.submit || '';
 };
 
-export const getTimeZone = () =>
-  // supports IE11
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 export const getContact = ({ informalConference }) => {
   if (informalConference === 'rep') {
     return 'representative';

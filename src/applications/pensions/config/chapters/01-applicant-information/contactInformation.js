@@ -6,6 +6,9 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { internationalPhone } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -31,9 +34,7 @@ export default {
       email: emailSchema,
       phone: phoneSchema,
       mobilePhone: phoneSchema,
-      internationalPhone: {
-        type: 'string',
-      },
+      internationalPhone,
     },
   },
 };

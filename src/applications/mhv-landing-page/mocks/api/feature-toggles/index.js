@@ -1,32 +1,37 @@
-const generateFeatureToggles = (toggles = {}) => {
-  const {
-    mhvLandingPageEnabled = true,
-    mhvLandingPagePersonalization = true,
-    mhvLandingPageEnableVaGovHealthToolsLinks = true,
-    mhvSecondaryNavigationEnabled = true,
-  } = toggles;
+const { snakeCase } = require('lodash');
+
+// Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
+const APPLICATION_FEATURE_TOGGLES = Object.freeze({
+  mhvLandingPagePersonalization: false,
+  mhvSecondaryNavigationEnabled: true,
+  mhvTransitionalMedicalRecordsLandingPage: true,
+});
+
+const generateFeatureToggles = ({
+  toggles = APPLICATION_FEATURE_TOGGLES,
+  enableAll = false,
+  disableAll = false,
+} = {}) => {
+  let overrideValue;
+  if (enableAll) overrideValue = true;
+  if (disableAll) overrideValue = false;
+
+  const override = enableAll || disableAll;
+
+  const snakeCaseToggles = Object.entries(toggles).map(([key, value]) => ({
+    name: key,
+    value: override ? overrideValue : value,
+  }));
+
+  const camelCaseToggles = Object.entries(toggles).map(([key, value]) => ({
+    name: snakeCase(key),
+    value: override ? overrideValue : value,
+  }));
 
   return {
     data: {
       type: 'feature_toggles',
-      features: [
-        {
-          name: 'mhv_landing_page_enabled',
-          value: mhvLandingPageEnabled,
-        },
-        {
-          name: 'mhv_landing_page_personalization',
-          value: mhvLandingPagePersonalization,
-        },
-        {
-          name: 'mhv_landing_page_enable_va_gov_health_tools_links',
-          value: mhvLandingPageEnableVaGovHealthToolsLinks,
-        },
-        {
-          name: 'mhv_secondary_navigation_enabled',
-          value: mhvSecondaryNavigationEnabled,
-        },
-      ],
+      features: [...snakeCaseToggles, ...camelCaseToggles],
     },
   };
 };

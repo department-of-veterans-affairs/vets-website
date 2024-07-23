@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
-const SubmissionErrorAlert = ({ form }) => {
+const SubmissionErrorAlert = () => {
   useEffect(() => {
     focusElement('.caregiver-error-message');
   }, []);
@@ -47,15 +46,11 @@ const SubmissionErrorAlert = ({ form }) => {
         </p>
 
         <div className="caregiver-application--download">
-          <ApplicationDownloadLink form={form} />
+          <ApplicationDownloadLink />
         </div>
       </va-alert>
     </div>
   );
-};
-
-SubmissionErrorAlert.propTypes = {
-  form: PropTypes.object,
 };
 
 export default SubmissionErrorAlert;

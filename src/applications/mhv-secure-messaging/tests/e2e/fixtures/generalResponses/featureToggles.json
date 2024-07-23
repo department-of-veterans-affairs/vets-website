@@ -267,22 +267,6 @@
         "value": true
       },
       {
-        "name": "combinedFinancialStatusReport",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report",
-        "value": true
-      },
-      {
-        "name": "combinedFinancialStatusReportEnhancements",
-        "value": true
-      },
-      {
-        "name": "combined_financial_status_report_enhancements",
-        "value": true
-      },
-      {
         "name": "communicationPreferences",
         "value": true
       },
@@ -783,14 +767,6 @@
         "value": true
       },
       {
-        "name": "financialStatusReportStreamlinedWaiver",
-        "value": true
-      },
-      {
-        "name": "financial_status_report_streamlined_waiver",
-        "value": true
-      },
-      {
         "name": "form526Legacy",
         "value": true
       },
@@ -1020,14 +996,6 @@
       },
       {
         "name": "medical_copay_notifications",
-        "value": true
-      },
-      {
-        "name": "mhvLandingPageEnabled",
-        "value": true
-      },
-      {
-        "name": "mhv_landing_page_enabled",
         "value": true
       },
       {
@@ -1627,10 +1595,6 @@
         "value": false
       },
       {
-        "name": "va_online_scheduling_clinic_location",
-        "value": false
-      },
-      {
         "name": "vaOnlineSchedulingStatusImprovement",
         "value": true
       },
@@ -1711,14 +1675,6 @@
         "value": true
       },
       {
-        "name": "vaOnlineSchedulingRequestFlowUpdate",
-        "value": false
-      },
-      {
-        "name": "va_online_scheduling_request_flow_update",
-        "value": false
-      },
-      {
         "name": "vaOnlineSchedulingPocTypeOfCare",
         "value": false
       },
@@ -1737,14 +1693,6 @@
       {
         "name": "va_online_scheduling_after_visit_summary",
         "value": false
-      },
-      {
-        "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
-        "name": "va_view_dependents_access",
-        "value": true
       },
       {
         "name": "yellowRibbonMvpEnhancement",

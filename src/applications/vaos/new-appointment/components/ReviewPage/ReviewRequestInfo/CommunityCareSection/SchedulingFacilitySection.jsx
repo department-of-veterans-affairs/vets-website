@@ -54,6 +54,7 @@ export default function SchedulingFacilitySection({ facility }) {
             aria-label="Edit provider preference"
             text="Edit"
             data-testid="edit-new-appointment"
+            tabindex="0"
           />
         </div>
       </div>

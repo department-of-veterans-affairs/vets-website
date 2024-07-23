@@ -5,26 +5,25 @@ import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/pr
 
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
+import { showValueOrNotSelected } from '../utils/confirmation';
 
-const ConfirmationPersonalInfo = ({ profile, data }) => {
-  const { userFullName, dob } = profile;
-  const { veteran } = data;
-
+const ConfirmationPersonalInfo = ({
+  dob = '',
+  homeless,
+  userFullName = {},
+  veteran = {},
+} = {}) => {
+  const { address = {}, email = '', phone = {}, vaFileLastFour = '' } = veteran;
   return (
     <>
-      <h3 className="vads-u-margin-top--2">Personal Information</h3>
+      <h3 className="vads-u-margin-top--2">Personal information</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
           <div className="page-title vads-u-color--gray">Name</div>
-          <div
-            className="page-value dd-privacy-hidden"
-            data-dd-action-name="full name"
-          >
-            {renderFullName(userFullName)}
-          </div>
+          {renderFullName(userFullName)}
         </li>
         <li>
           <div className="page-title vads-u-color--gray">VA File Number</div>
@@ -32,7 +31,7 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="VA file number"
           >
-            {maskVafn(veteran.vaFileLastFour || '')}
+            {maskVafn(vaFileLastFour || '')}
           </div>
         </li>
         <li>
@@ -52,7 +51,7 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="homeless"
           >
-            {data.homeless ? 'Yes' : 'No'}
+            {showValueOrNotSelected(homeless)}
           </div>
         </li>
         <li>
@@ -64,8 +63,8 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             data-dd-action-name="mobile phone number"
           >
             <va-telephone
-              contact={getPhoneString(veteran.phone)}
-              extension={veteran.phone.phoneNumberExt}
+              contact={getPhoneString(phone)}
+              extension={phone?.phoneNumberExt}
               not-clickable
             />
           </div>
@@ -76,7 +75,7 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="email address"
           >
-            {veteran.email}
+            {email}
           </div>
         </li>
         <li>
@@ -85,10 +84,13 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="mailing address"
           >
-            <div>{veteran.address?.addressLine1}</div>
+            <div>{address.addressLine1}</div>
             <div>
-              {veteran.address?.city}, {veteran.address?.stateCode}{' '}
-              {veteran.address?.zipCode}
+              {address.city}, {address.stateCode || address.province || ''}
+              {address.addressType === 'INTERNATIONAL'
+                ? `, ${address.countryName} `
+                : ' '}
+              {address.zipCode || address.internationalPostalCode || ''}
             </div>
           </div>
         </li>
@@ -98,43 +100,30 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
 };
 
 ConfirmationPersonalInfo.propTypes = {
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      // all DR forms
-      vaFileLastFour: PropTypes.string,
-      address: PropTypes.shape({
-        addressLine1: PropTypes.string,
-        addressLine2: PropTypes.string,
-        addressLine3: PropTypes.string,
-        addressType: PropTypes.string,
-        city: PropTypes.string,
-        countryName: PropTypes.string,
-        internationalPostalCode: PropTypes.string,
-        province: PropTypes.string,
-        stateCode: PropTypes.string,
-        zipCode: PropTypes.string,
-      }),
-      email: PropTypes.string,
-      phone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        phoneNumberExt: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
+  dob: PropTypes.string,
+  homeless: PropTypes.bool,
+  userFullName: PropTypes.shape({}),
+  veteran: PropTypes.shape({
+    vaFileLastFour: PropTypes.string,
+    address: PropTypes.shape({
+      addressLine1: PropTypes.string,
+      addressLine2: PropTypes.string,
+      addressLine3: PropTypes.string,
+      addressType: PropTypes.string,
+      city: PropTypes.string,
+      countryName: PropTypes.string,
+      internationalPostalCode: PropTypes.string,
+      province: PropTypes.string,
+      stateCode: PropTypes.string,
+      zipCode: PropTypes.string,
     }),
-    homeless: PropTypes.bool,
-  }),
-  hasHomelessQuestion: PropTypes.bool,
-  hasPrimaryPhoneQuestion: PropTypes.bool,
-  profile: PropTypes.shape({
-    userFullName: PropTypes.shape({}),
-    dob: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.shape({
+      countryCode: PropTypes.string,
+      areaCode: PropTypes.string,
+      phoneNumber: PropTypes.string,
+      phoneNumberExt: PropTypes.string,
+    }),
   }),
 };
 

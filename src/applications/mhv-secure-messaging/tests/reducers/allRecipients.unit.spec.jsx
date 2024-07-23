@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import { getAllTriageTeamRecipients } from '../../actions/recipients';
 import { recipientsReducer } from '../../reducers/recipients';
-import allRecipientsTriageTeams from '../e2e/fixtures/all-recipients-response.json';
+import allRecipientsTriageTeams from '../fixtures/mock-api-responses/all-triage-teams-response.json';
 import { RecipientStatus } from '../../util/constants';
 
 describe('allRecipients reducers', () => {
@@ -25,6 +25,7 @@ describe('allRecipients reducers', () => {
           blockedStatus: recipient.attributes.blockedStatus,
           preferredTeam: recipient.attributes.preferredTeam,
           relationshipType: recipient.attributes.relationshipType,
+          signatureRequired: undefined,
           type: 'Care Team',
           status: recipient.attributes.blockedStatus
             ? RecipientStatus.BLOCKED

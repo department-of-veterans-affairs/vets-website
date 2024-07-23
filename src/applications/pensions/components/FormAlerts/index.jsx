@@ -60,13 +60,13 @@ export const IncomeAssetStatementFormAlert = () => (
 );
 
 export const IncomeInformationAlert = () => (
-  <va-alert-expandable status="info" trigger="What is income?">
+  <va-additional-info trigger="What is income?">
     <p>
       Your income is how much you earn. It includes your Social Security
       benefits, investment and retirement payments, and any income your spouse
       and dependents receive.
     </p>
-  </va-alert-expandable>
+  </va-additional-info>
 );
 
 export const LandMarketableAlert = () => (
@@ -120,7 +120,7 @@ const RequestFormAlert = ({ title, formName, formLink, children }) => {
 };
 
 RequestFormAlert.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

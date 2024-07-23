@@ -14,8 +14,9 @@ import {
   setTypeOfFacility,
 } from '../../../mocks/setup';
 import {
-  mockCommunityCareEligibility,
   mockCCProviderFetch,
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
@@ -23,13 +24,9 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-} from '../../../mocks/helpers.v2';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
+import { createMockFacility } from '../../../mocks/data';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -70,11 +67,11 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       ids: ['983'],
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           address: {
             line: [],
@@ -177,7 +174,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     expect(await screen.findByText(/Displaying 5 of 16 providers/i)).to.be.ok;
     expect(screen.getAllByRole('radio').length).to.equal(5);
 
-    userEvent.click(await screen.findByText(/\+ 5 more providers/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers/i));
     expect((await screen.findAllByRole('radio')).length).to.equal(10);
     await waitFor(() => {
       expect(document.activeElement.id).to.equal(
@@ -185,7 +182,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       );
     });
 
-    userEvent.click(await screen.findByText(/\+ 5 more providers/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers/i));
     expect(await screen.findByText(/displaying 15 of 16 providers/i)).to.exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(15);
     await waitFor(() => {
@@ -194,7 +191,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       );
     });
 
-    userEvent.click(await screen.findByText(/\+ 1 more providers/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider/i));
     expect(await screen.findByText(/displaying 16 of 16 providers/i)).to.exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(16);
     await waitFor(() => {
@@ -502,9 +499,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Find a provider/i }),
     );
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     const miles = screen.queryAllByText(/miles$/);
 
@@ -560,9 +557,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     const currentLocButton = await screen.findByText(/your current location$/i);
     await screen.findByText(/Displaying 5 of /i);
     userEvent.click(currentLocButton);
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     const miles = screen.queryAllByText(/miles$/);
 
@@ -630,12 +627,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // remove the page and change the type of care
     await cleanup();
 
-    // Mock CC calls for Podiatry, now that we've switched
-    mockCommunityCareEligibility({
-      parentSites: ['983', '983GJ', '983GC'],
-      supportedSites: ['983', '983GJ'],
-      careType: 'Podiatry',
-    });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
       ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
@@ -746,9 +737,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // And the CC iterations toggle is on
     // And type of care is selected
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },

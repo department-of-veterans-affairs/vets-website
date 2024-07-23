@@ -1,0 +1,53 @@
+{
+  "data": {
+    "applicantSsn": "234234234",
+    "applicantName": {
+      "first": "Jimmy",
+      "last": "Alvin"
+    },
+    "applicantDOB": "1958-01-01",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
+    },
+    "applicantNewAddress": "yes",
+    "applicantPhone": "3331233456",
+    "applicantGender": "male",
+    "applicantMedicareStatus": true,
+    "applicantMedicarePartACarrier": "Test A Carrier",
+    "applicantMedicarePartBCarrier": "Test B Carrier",
+    "applicantMedicarePartAEffectiveDate": "2010-01-01",
+    "applicantMedicarePartBEffectiveDate": "2010-01-01",
+    "applicantMedicarePharmacyBenefits": false,
+    "applicantMedicareClass": "advantage",
+    "applicantMedicareStatusD": true,
+    "applicantMedicarePartDCarrier": "Test D Carrier",
+    "applicantMedicarePartDEffectiveDate": "2010-01-01",
+    "applicantHasPrimary": true,
+    "applicantPrimaryProvider": "Primary Provider",
+    "applicantPrimaryEffectiveDate": "2010-01-01",
+    "applicantPrimaryExpirationDate": "2010-01-01",
+    "applicantPrimaryThroughEmployer": false,
+    "applicantPrimaryHasPrescription": true,
+    "applicantPrimaryEOB": false,
+    "applicantPrimaryInsuranceType": "medigap",
+    "primaryMedigapPlan": "A",
+    "primaryAdditionalComments": "Additional primary comment",
+    "applicantHasSecondary": true,
+    "applicantSecondaryProvider": "Secondary Provider",
+    "applicantSecondaryEffectiveDate": "2010-01-01",
+    "applicantSecondaryExpirationDate": "2010-01-01",
+    "applicantSecondaryThroughEmployer": true,
+    "applicantSecondaryHasPrescription": true,
+    "applicantSecondaryEOB": true,
+    "applicantSecondaryInsuranceType": "medigap",
+    "secondaryMedigapPlan": "M",
+    "secondaryAdditionalComments": "Additional secondary comment",
+    "certifierRole": "other",
+    "signature": "Certifier Jones",
+    "consentToMailMissingRequiredFiles": true
+  }
+}

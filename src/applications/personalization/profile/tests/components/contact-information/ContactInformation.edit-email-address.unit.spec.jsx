@@ -1,13 +1,14 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { waitForElementToBeRemoved, fireEvent } from '@testing-library/react';
 import { beforeEach } from 'mocha';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DEFAULT_ERROR_MESSAGE } from '~/platform/user/profile/vap-svc/constants';
 import {
@@ -17,7 +18,6 @@ import {
 } from '../../unit-test-helpers';
 
 const newUserName = 'newemailaddress';
-const newUserNameRegex = new RegExp(newUserName);
 const newEmailAddress = `${newUserName}@domain.com`;
 const ui = (
   <MemoryRouter>
@@ -45,15 +45,15 @@ function editEmailAddress() {
   const editButton = getEditButton();
   editButton.click();
 
-  const emailAddressInput = view.getByLabelText(/email address/i);
+  const emailAddressInput = $('va-text-input[label^="Email"]', view.container);
   expect(emailAddressInput).to.exist;
 
   // enter a new email address in the form
-  user.clear(emailAddressInput);
-  user.type(emailAddressInput, newEmailAddress);
+  emailAddressInput.value = newEmailAddress;
+  fireEvent.input(emailAddressInput, { target: {} });
 
   // save
-  view.getByText('Save', { selector: 'button' }).click();
+  view.getByTestId('save-edit-button').click();
 
   return { emailAddressInput };
 }
@@ -62,7 +62,7 @@ function editEmailAddress() {
 async function testQuickSuccess() {
   server.use(...mocks.transactionSucceeded);
 
-  const { emailAddressInput } = editEmailAddress();
+  const { emailAddressInput } = await editEmailAddress();
 
   // wait for the edit mode to exit and the new address to show up
   await waitForElementToBeRemoved(emailAddressInput);
@@ -70,7 +70,7 @@ async function testQuickSuccess() {
   // the edit email button should exist
   expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(newUserNameRegex)).to.exist;
+  expect(view.container.textContent).to.contain(newEmailAddress);
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -81,7 +81,7 @@ async function testQuickSuccess() {
 async function testSlowSuccess() {
   server.use(...mocks.transactionPending);
 
-  const { emailAddressInput } = editEmailAddress();
+  const { emailAddressInput } = await editEmailAddress();
 
   // wait for the edit mode to exit and the new address to show up
   await waitForElementToBeRemoved(emailAddressInput);
@@ -103,7 +103,7 @@ async function testSlowSuccess() {
     }),
   ).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(newUserNameRegex)).to.exist;
+  expect(view.container.textContent).to.contain(newEmailAddress);
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -171,7 +171,7 @@ async function testSlowFailure() {
   ).to.exist;
 
   // and the new email address should not exist in the DOM
-  expect(view.queryByText(newUserNameRegex)).not.to.exist;
+  expect(view.container.textContent).to.not.contain(newEmailAddress);
   // and the add/edit email button should be back
   expect(getEditButton()).to.exist;
 }

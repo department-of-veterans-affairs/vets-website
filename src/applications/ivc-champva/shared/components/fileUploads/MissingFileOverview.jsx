@@ -37,35 +37,44 @@ import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
-const mailInfo = (
+const mailInfo = (showOpt = true, address, officeName, faxNum) => (
   <>
     <p>
       Your application will not be considered complete until VA receives all of
       your remaining required files.
     </p>
-    <p>
-      Optional files are not required to complete your application, but may
-      prevent delays in your processing time.
-    </p>
-    <br />
-    Mail your files to:
+    {showOpt ? (
+      <p>
+        Optional files are not required to complete your application, but may
+        prevent delays in your processing time.
+        <br />
+      </p>
+    ) : null}
+    Mail your documents to:
     <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
       <p className="vads-u-padding-x--10px vads-u-margin-left--1">
-        VHA Office of Community Care
-        <br />
-        CHAMPVA Eligibility
-        <br />
-        P.O. Box 469028
-        <br />
-        Denver, CO 80246-9028
-        <br />
-        United States of America
+        {address ?? (
+          <>
+            VHA Office of Community Care
+            <br />
+            CHAMPVA Eligibility
+            <br />
+            P.O. Box 469028
+            <br />
+            Denver, CO 80246-9028
+            <br />
+            United States of America
+          </>
+        )}
       </p>
     </address>
-    Or fax them to:{' '}
+    Or fax your documents here:
+    <br />
+    {officeName ? `${officeName},` : ''}
+    <br />
     <VaTelephone
       contact={JSON.stringify({
-        phoneNumber: '3033317809',
+        phoneNumber: faxNum ?? '3033317809',
         description: 'fax number',
       })}
     />
@@ -76,7 +85,7 @@ const mailInfo = (
 export const optionalDescription =
   'These documents help us process this application faster.';
 export const requiredDescription =
-  'We require these documents in order to process this application.';
+  'We require these documents in order to process this form.';
 
 // Return a boolean if there are any missing uploads where 'required'
 // matches expectedVal. Optionally use dropUploaded if you want to ignore
@@ -155,11 +164,17 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
  * @param {JSX.Element} param0.optionalWarningHeading - content to display when user is missing optional file uploads
  * @param {JSX.Element} param0.requiredWarningHeading - content to display when user is missing required file uploads
  * @param {boolean} param0.showMail - control whether mail/fax markup is displayed on the page
+ * @param {JSX.Element} param0.mailingAddress - Mailing address to send missing files to
+ * @param {string} param0.officeName - Name of office to mail documents to
+ * @param {string} param0.faxNum - Number where documents can be faxed
  * @param {boolean} param0.showConsent - control whether the "Consent to Mail Missing Documents" checkbox is added to the page
  * @param {object} param0.allPages - all formConfig page objects (if not provided, we fall back to form page data stored in `contentAfterButtons`)
  * @param {object} param0.fileNameMap - object with formConfig keys for all possible files (required and optional) mapped to a user-friendly string (e.g., `{schoolCert: 'School Certificate'}`). This should be a superset containing `requiredFiles`
  * @param {object} param0.requiredFiles - object with required file's formConfig keys mapped to a user-friendly string (e.g., `{birthCert: 'Birth Certificate'}`)
  * @param {string} param0.nonListNameKey - key in `data` that points to a name property to use in the page display (e.g., if nonListNameKey is `veteranFullName`, `data.veteranFullName` should be something like `{first: '', last: ''}`
+ * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
+ * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
+ * @param {boolean} param0.showRequirementHeaders - whether or not to show "[Required/Optional] documents" above each section
  * @returns {JSX.Element}
  */
 export default function MissingFileOverview({
@@ -173,11 +188,17 @@ export default function MissingFileOverview({
   optionalWarningHeading,
   requiredWarningHeading,
   showMail,
+  mailingAddress,
+  officeName,
+  faxNum,
   showConsent,
   allPages,
   fileNameMap,
   requiredFiles,
   nonListNameKey,
+  showNameHeader,
+  showFileBullets,
+  showRequirementHeaders,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -244,10 +265,11 @@ export default function MissingFileOverview({
     hasReq(sponsorMiss, true, showConsent) ||
     hasReq(applicantsWithMissingFiles, true, showConsent);
 
+  const optionalFilesStillMissing =
+    hasReq(sponsorMiss, false, showConsent) || hasReq(apps, false, showConsent);
+
   const filesAreMissing =
-    requiredFilesStillMissing ||
-    hasReq(sponsorMiss, false, showConsent) ||
-    hasReq(apps, false, showConsent);
+    requiredFilesStillMissing || optionalFilesStillMissing;
 
   const onGroupChange = event => {
     setIsChecked(event.detail.checked);
@@ -289,6 +311,13 @@ export default function MissingFileOverview({
   } else if (heading && !requiredFilesStillMissing && !showConsent) {
     displayHeading = heading;
   }
+
+  // Set up some display properties:
+  const rh = showRequirementHeaders ?? true ? 'Required documents' : '';
+  const oh = showRequirementHeaders ?? true ? 'Optional documents' : '';
+  const snh = showNameHeader ?? true;
+  const sfb = showFileBullets ?? false;
+
   return (
     <form onSubmit={onGoForward}>
       {displayHeading}
@@ -299,47 +328,64 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Required documents"
-              subset="required"
+              title={rh}
+              subset
               description={requiredDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(apps, true, showConsent) ? (
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title="Required documents"
-              subset="required"
+              title={rh}
+              subset
               description={requiredDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(sponsorMiss, false, showConsent) ? (
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Optional documents"
-              subset="optional"
+              title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
           {hasReq(apps, false, showConsent) ? (
             <MissingFileList
               data={apps}
               nameKey="applicantName"
-              title="Optional documents"
-              subset="optional"
+              title={oh}
+              subset={false}
               description={optionalDescription}
               disableLinks={disableLinks}
               fileNameMap={fileNameMap}
+              showNameHeader={snh}
+              showFileBullets={sfb}
             />
           ) : null}
-          {requiredFilesStillMissing && showMail ? <>{mailInfo}</> : null}
+          {requiredFilesStillMissing && showMail ? (
+            <>
+              {mailInfo(
+                optionalFilesStillMissing,
+                mailingAddress,
+                officeName,
+                faxNum,
+              )}
+            </>
+          ) : null}
           {requiredFilesStillMissing && showConsent ? (
             <>
               <h3>Supporting documents acknowledgement</h3>
@@ -349,7 +395,7 @@ export default function MissingFileOverview({
                     <va-checkbox
                       hint={null}
                       required
-                      label="I understand that my application is not complete until VA receives my remaining required file(s) in the mail or by fax."
+                      label="I understand that VA can’t process this form until they receive any required documents by mail or fax"
                       onBlur={function noRefCheck() {}}
                       checked={isChecked}
                       name="consent-checkbox"
@@ -373,15 +419,49 @@ MissingFileOverview.propTypes = {
   contentAfterButtons: PropTypes.object,
   data: PropTypes.object,
   disableLinks: PropTypes.bool,
+  faxNum: PropTypes.string,
   fileNameMap: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,
+  mailingAddress: PropTypes.any,
   nonListNameKey: PropTypes.string,
+  officeName: PropTypes.string,
   optionalWarningHeading: PropTypes.node,
   requiredFiles: PropTypes.any,
   requiredWarningHeading: PropTypes.node,
   setFormData: PropTypes.func,
   showConsent: PropTypes.bool,
+  showFileBullets: PropTypes.bool,
   showMail: PropTypes.bool,
+  showNameHeader: PropTypes.bool,
+  showRequirementHeaders: PropTypes.bool,
+};
+
+// For use by components that wrap MissingFileOverview in a custompage
+export const MissingFileConsentPagePropTypes = {
+  contentAfterButtons: PropTypes.object,
+  data: PropTypes.object,
+  form: PropTypes.shape({
+    pages: PropTypes.object,
+    data: PropTypes.shape({
+      applicants: PropTypes.array,
+      statementOfTruthSignature: PropTypes.string,
+      veteransFullName: {
+        first: PropTypes.string,
+        middle: PropTypes.string,
+        last: PropTypes.string,
+        suffix: PropTypes.string,
+      },
+    }),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
+      timestamp: PropTypes.string,
+    }),
+  }),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  name: PropTypes.string,
+  setFormData: PropTypes.func,
 };

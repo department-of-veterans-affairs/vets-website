@@ -12,7 +12,7 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsOtherIncome = ['amount', 'name'];
@@ -39,26 +39,11 @@ const OtherIncomeSummary = ({
       ? 'Continue to review page'
       : 'Continue';
 
-  // Calculate income properties as necessary
-  useEffect(
-    () => {
-      if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
-
-      const calculatedIncome = calculateTotalAnnualIncome(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-          incomeBelowOneFiftyGmt:
-            calculatedIncome < gmtData?.incomeUpperThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addlIncRecords, questions?.isMarried, gmtData?.isEligibleForStreamlined],
-  );
+  // Compare calculated income to thresholds
+  useEffect(() => {
+    if (questions?.isMarried || !gmtData?.isEligibleForStreamlined) return;
+    checkIncomeGmt(data, setFormData);
+  }, []);
 
   const onDelete = deleteIndex => {
     setFormData({

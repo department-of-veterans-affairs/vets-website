@@ -5,10 +5,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import set from 'platform/utilities/data/set';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-import { SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../../constants';
 
 import { updateFormData } from '../../pages/addDisabilities';
-import { showRevisedNewDisabilitiesPage } from '../../content/addDisabilities';
 
 describe('Add new disabilities', () => {
   const {
@@ -256,28 +254,6 @@ describe('Add new disabilities', () => {
       expect(result.vaTreatmentFacilities[0].treatedDisabilityNames).to.be
         .empty;
       expect(result['view:isPow'].powDisabilities).to.be.empty;
-    });
-  });
-});
-
-describe('showRevisedNewDisabilitiesPage', () => {
-  it('should return false if the toggle is not enabled', () => {
-    const formData = {};
-    expect(showRevisedNewDisabilitiesPage(formData)).to.be.false;
-  });
-
-  describe('toggle enabled', () => {
-    beforeEach(() => {
-      window.sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, true);
-    });
-
-    afterEach(() => {
-      window.sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
-    });
-
-    it('should return true if the toggle is enabled', () => {
-      const formData = {};
-      expect(showRevisedNewDisabilitiesPage(formData)).to.be.true;
     });
   });
 });

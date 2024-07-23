@@ -1332,5 +1332,45 @@
     "domain": "www.benefits.va.gov",
     "src": "/vso/index.asp",
     "dest": "/resources/va-accredited-representative-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_residentraterequirements.asp",
+    "dest": "/resources/in-state-tuition-rates-under-the-veterans-choice-act/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/foreign_Schools.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100120.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100120.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100120.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/FGIB/Reallocation.asp",
+    "dest": "/education/survivor-dependent-benefits/transferred-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/regional_processing.asp",
+    "dest": "/resources/regional-processing-office-addresses-for-gi-bill-applications/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/debt_info.asp",
+    "dest": "/resources/how-your-reason-for-withdrawing-from-a-class-affects-your-va-debt/"
   }
 ]

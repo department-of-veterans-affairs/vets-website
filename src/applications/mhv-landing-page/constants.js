@@ -1,17 +1,17 @@
 const { entries, freeze, values } = Object;
 
-export const HEALTH_TOOL_HEADINGS = freeze({
+const HEALTH_TOOL_HEADINGS = freeze({
   APPOINTMENTS: 'Appointments',
   MESSAGES: 'Messages',
   MEDICATIONS: 'Medications',
-  MEDICAL_RECORDS: 'Health records',
+  MEDICAL_RECORDS: 'Medical records',
   PAYMENTS: 'Payments',
   MEDICAL_SUPPLIES: 'Medical supplies',
 });
 
-export const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
+const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
 
-export const HEALTH_TOOL_LINKS = freeze({
+const HEALTH_TOOL_LINKS = freeze({
   APPOINTMENTS: freeze([
     {
       href: '/my-health/appointments/schedule/type-of-care',
@@ -19,7 +19,7 @@ export const HEALTH_TOOL_LINKS = freeze({
     },
     {
       href: '/health-care/schedule-view-va-appointments/appointments',
-      text: 'Upcoming VA appointments',
+      text: 'Manage upcoming appointments',
     },
     {
       href: '/find-locations',
@@ -29,11 +29,11 @@ export const HEALTH_TOOL_LINKS = freeze({
   MESSAGES: freeze([
     {
       href: '/my-health/secure-messages/inbox/',
-      text: 'Inbox',
+      text: 'Go to inbox',
     },
     {
       href: '/my-health/secure-messages/new-message/',
-      text: 'Send a new message',
+      text: 'Start a new message',
     },
     {
       href: '/my-health/secure-messages/folders/',
@@ -62,12 +62,14 @@ export const HEALTH_TOOL_LINKS = freeze({
   ]),
   PAYMENTS: freeze([
     {
-      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-      text: 'File a claim for travel reimbursement',
-    },
-    {
       href: '/manage-va-debt/summary/copay-balances',
       text: 'Pay copay bills',
+    },
+    {
+      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
+      text:
+        'File a claim for travel reimbursement on the Beneficiary Travel Self-Service System website',
+      isExternal: true,
     },
   ]),
   MEDICAL_SUPPLIES: freeze([
@@ -86,6 +88,14 @@ export const HEALTH_TOOL_LINKS = freeze({
   ]),
 });
 
-export const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(
-  ([key, name]) => ({ name, links: HEALTH_TOOL_LINKS[key] }),
-);
+const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(([key, name]) => ({
+  name,
+  links: HEALTH_TOOL_LINKS[key],
+}));
+
+module.exports = {
+  HEALTH_TOOL_HEADINGS,
+  HEALTH_TOOL_NAMES,
+  HEALTH_TOOL_LINKS,
+  HEALTH_TOOLS,
+};

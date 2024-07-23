@@ -2,19 +2,21 @@ import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import EKGDetailsPage from './pages/EKGDetailsPage';
+import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records Labs and Tests List Page', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('EKG Details page Toggle Menu button Print or download ', () => {
     // Given Navigate to EKG Details Page
 
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[3]);
 
     // should display a toggle menu button
     EKGDetailsPage.verifyPrintOrDownload();

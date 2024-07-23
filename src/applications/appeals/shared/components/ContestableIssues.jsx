@@ -98,11 +98,11 @@ const ContestableIssues = props => {
   useEffect(
     () => {
       if (showEditModeError) {
-        focusElement('va-alert[status="error"]');
+        focusElement(`va-alert[status="error"] h${onReviewPage ? 4 : 3}`);
         scrollTo('va-alert[status="error"]');
       }
     },
-    [showEditModeError, submitted],
+    [onReviewPage, showEditModeError, submitted],
   );
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
@@ -240,7 +240,7 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
+        <ul className="issues remove-bullets vads-u-border-top--1px vads-u-border-color--gray-light">
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (

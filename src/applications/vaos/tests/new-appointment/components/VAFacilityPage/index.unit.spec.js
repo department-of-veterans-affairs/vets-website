@@ -13,15 +13,17 @@ import {
   renderWithStoreAndRouter,
   setTypeOfEyeCare,
 } from '../../../mocks/setup';
-import { mockGetCurrentPosition } from '../../../mocks/helpers';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import {
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import { createMockFacility } from '../../../mocks/data';
 import {
-  mockEligibilityFetchesByVersion,
-  mockFacilitiesFetchByVersion,
+  mockEligibilityFetches,
+  mockFacilitiesFetch,
 } from '../../../mocks/fetch';
 
 describe('VAOS Page: VAFacilityPage', () => {
@@ -42,7 +44,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
     const facilities = facilityIds.map((id, index) =>
-      createMockFacilityByVersion({
+      createMockFacility({
         id: id.replace('vha_', ''),
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
@@ -64,15 +66,15 @@ describe('VAOS Page: VAFacilityPage', () => {
     beforeEach(() => mockFetch());
 
     it('should display error messaging if user denied location permissions', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility 983',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983GC',
             name: 'Facility 983GC',
           }),
@@ -93,7 +95,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       ]);
 
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -140,7 +142,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should not display show more button if < 6 locations', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: facilities.slice(0, 5),
@@ -173,13 +175,13 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       ]);
 
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
         limit: true,
         requestPastVisits: true,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -207,15 +209,15 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should display previous user choices when returning to page', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Fake facility name 1',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
           }),
         ],
@@ -233,13 +235,13 @@ describe('VAOS Page: VAFacilityPage', () => {
         }),
       ]);
 
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
         limit: true,
         requestPastVisits: true,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -280,16 +282,16 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility 983',
             lat: 39.1362562,
             long: -85.6804804,
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
             name: 'Facility 984',
             lat: 39.1362562,
@@ -350,7 +352,7 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show no facilities message with up to five unsupported facilities for users without address', async () => {
-      const facilityDetails = createMockFacilityByVersion({
+      const facilityDetails = createMockFacility({
         id: '123',
         name: 'Bozeman VA medical center',
       });
@@ -367,28 +369,28 @@ describe('VAOS Page: VAFacilityPage', () => {
       facilityDetails.attributes.phone = {
         main: '4065555858',
       };
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
           facilityDetails,
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '124',
             name: 'Facility 124',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '125',
             name: 'Facility 125',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '126',
             name: 'Facility 126',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '127',
             name: 'Facility 127',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '128',
             name: 'Facility 128',
           }),
@@ -440,19 +442,19 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility that is enabled',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983GC',
             name: 'Facility that is also enabled',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
             name: 'Facility that is disabled',
             lat: 39.1362562,
@@ -464,7 +466,7 @@ describe('VAOS Page: VAFacilityPage', () => {
             },
             phone: '5555555555x1234',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984GC',
             name: 'Facility that is over 100 miles away and disabled',
             lat: 39.1362562,
@@ -534,25 +536,25 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
     it('should close additional info and re-sort unsupported facilities when sort method changes', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility that is enabled',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983GC',
             name: 'Facility that is also enabled',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
             name: 'Disabled facility near residential address',
             lat: 39.1362562,
             long: -83.1804804,
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984GC',
             name: 'Disabled facility near current location',
             lat: 53.2734,
@@ -652,26 +654,24 @@ describe('VAOS Page: VAFacilityPage', () => {
           requestEnabled: true,
         }),
       ]);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'First cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
-          createMockFacilityByVersion({ id: '983GB' }),
-          createMockFacilityByVersion({
+          createMockFacility({ id: '983GB' }),
+          createMockFacility({
             id: '984',
             name: 'Second Cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
-          createMockFacilityByVersion({ id: '984GB' }),
+          createMockFacility({ id: '984GB' }),
         ],
       });
 
@@ -705,18 +705,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
         limit: true,
         requestPastVisits: true,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -762,7 +762,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
       // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('+ 1 more location');
+      const moreLocationsBtn = screen.getByText('Show 1 more location');
       expect(moreLocationsBtn).to.have.tagName('span');
       fireEvent.click(moreLocationsBtn);
 
@@ -780,7 +780,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       // Should validation message if no facility selected
       fireEvent.click(screen.getByText(/Continue/));
       expect(await screen.findByRole('alert')).to.contain.text(
-        'Please provide a response',
+        'You must provide a response',
       );
     });
 
@@ -794,18 +794,18 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: '323',
         limit: true,
         requestPastVisits: true,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -872,12 +872,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -955,12 +955,12 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -1027,16 +1027,16 @@ describe('VAOS Page: VAFacilityPage', () => {
       }, []);
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility 983',
             lat: 41.148179,
             long: -104.786159,
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
             name: 'Closest facility',
             lat: '39.7424427',
@@ -1120,11 +1120,11 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should show facility information without form', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'San Diego VA Medical Center',
             address: {
@@ -1137,7 +1137,7 @@ describe('VAOS Page: VAFacilityPage', () => {
           }),
         ],
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         limit: true,
@@ -1177,31 +1177,31 @@ describe('VAOS Page: VAFacilityPage', () => {
     });
 
     it('should switch to multi facility view when type of care changes to one that has multiple supported facilities', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Facility 1',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983GC',
             name: 'Facility 2',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983GD',
             name: 'Facility 3',
           }),
         ],
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'optometry',
         limit: true,
         directPastVisits: true,
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983GC',
         typeOfCareId: 'ophthalmology',
         limit: true,
@@ -1309,25 +1309,22 @@ describe('VAOS Page: VAFacilityPage', () => {
         },
       };
 
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'First cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
             name: 'Second Cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
         ],
-        version: 2,
       });
 
       mockSchedulingConfigurations([

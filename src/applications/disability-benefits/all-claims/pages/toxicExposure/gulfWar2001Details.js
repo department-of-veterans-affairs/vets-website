@@ -13,6 +13,7 @@ import {
   gulfWar2001PageTitle,
   showCheckboxLoopDetailsPage,
   teSubtitle,
+  notSureDatesDetails,
 } from '../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -24,7 +25,7 @@ import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 function makeUiSchema(locationId) {
   return {
     'ui:title': formTitle(gulfWar2001PageTitle),
-    'ui:description': formData =>
+    'ui:description': ({ formData }) =>
       dateRangePageDescription(
         getKeyIndex(locationId, 'gulfWar2001', formData),
         getSelectedCount('gulfWar2001', formData),
@@ -35,12 +36,13 @@ function makeUiSchema(locationId) {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
-            monthYearOnly: true,
           }),
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
-            monthYearOnly: true,
           }),
+          'view:notSure': {
+            'ui:title': notSureDatesDetails,
+          },
         },
       },
       'view:gulfWar2001AdditionalInfo': {
@@ -70,6 +72,9 @@ function makeSchema(locationId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
@@ -102,16 +107,17 @@ function makeSchema(locationId) {
  * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS).map(
-    locationId => {
+  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS)
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
+    .map(locationId => {
       const pageName = `gulf-war-2001-location-${locationId}`;
 
       return {
         [pageName]: {
           title: formData =>
             teSubtitle(
-              getKeyIndex(locationId, 'gulfWar2001', { formData }),
-              getSelectedCount('gulfWar2001', { formData }),
+              getKeyIndex(locationId, 'gulfWar2001', formData),
+              getSelectedCount('gulfWar2001', formData),
               GULF_WAR_2001_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,
@@ -121,8 +127,7 @@ export function makePages() {
             showCheckboxLoopDetailsPage(formData, 'gulfWar2001', locationId),
         },
       };
-    },
-  );
+    });
 
   return Object.assign({}, ...gulfWar2001DetailPagesList);
 }

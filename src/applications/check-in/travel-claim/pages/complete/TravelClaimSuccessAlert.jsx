@@ -1,20 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
-import { getUniqueFacilies } from '../../../utils/appointment';
-import { formatList } from '../../../utils/formatters';
+import { utcToZonedTime } from 'date-fns-tz';
+import { makeSelectForm } from '../../../selectors';
 
-const TravelClaimSuccessAlert = props => {
-  const { claims } = props;
-  const facilities = getUniqueFacilies(claims);
+const TravelClaimSuccessAlert = () => {
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+  const { appointmentToFile } = data;
   const { t } = useTranslation();
-
-  let appointmentCount = claims.length;
-
-  if (claims.length === 1) {
-    appointmentCount = claims[0].appointmentCount;
-  }
   return (
     <div className="vads-u-margin-y--4">
       <va-alert
@@ -23,36 +17,35 @@ const TravelClaimSuccessAlert = props => {
         status="success"
         uswds
       >
-        <h2 slot="headline">
-          {t('claim-submitted', { count: facilities.length })}
-        </h2>
+        <h2 slot="headline">{t('claim-submitted')}</h2>
         <p
           className="vads-u-margin-top--0"
-          data-testid={`travel-pay-${
-            facilities.length > 1 ? 'multi' : 'single'
-          }-claim-${
-            appointmentCount > 1 ? 'multi' : 'single'
-          }-appointment-submitted`}
+          data-testid="travel-pay--claim--submitted"
         >
-          {`${t('this-claim-is-for-your-appointment', {
-            date: format(new Date(), 'MMMM dd, yyyy'),
-            claims: facilities.length,
-            appointments: appointmentCount,
-          })} ${formatList([...facilities], t('and'))} ${t(
-            'well-send-you-a-text-to-let-you-know',
-            {
-              count: facilities.length,
+          {`${t('this-claim-is-for-your', {
+            facility: appointmentToFile.facility,
+            provider: appointmentToFile.doctorName
+              ? ` ${'with'} ${appointmentToFile.doctorName}`
+              : '',
+            date: {
+              date: utcToZonedTime(
+                appointmentToFile.startTime,
+                appointmentToFile.timezone,
+              ),
+              timezone: appointmentToFile.timezone,
             },
-          )}`}
+          })}${
+            appointmentToFile.clinicFriendlyName
+              ? `, ${appointmentToFile.clinicFriendlyName}`
+              : ''
+          }. 
+          ${t('well-send-you-a-text-to-let-you-know')}
+          `}
         </p>
         <p>{t('you-dont-need-to-do-anything-else')}</p>
       </va-alert>
     </div>
   );
-};
-
-TravelClaimSuccessAlert.propTypes = {
-  claims: PropTypes.array.isRequired,
 };
 
 export default TravelClaimSuccessAlert;

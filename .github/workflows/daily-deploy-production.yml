@@ -127,7 +127,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -164,27 +164,27 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
           env_variable_name: AWS_FRONTEND_PROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_PROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
 
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v

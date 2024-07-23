@@ -1,5 +1,8 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  VaSelect,
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -8,7 +11,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setTopicID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInTopics } from '../../constants';
+import { URL, requireSignInTopics, envUrl } from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const TopicSelect = props => {
@@ -64,9 +67,7 @@ const TopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${
-          URL.GET_TOPICS
-        }`,
+        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
       );
     },
     [loggedIn],
@@ -81,22 +82,43 @@ const TopicSelect = props => {
 
   return !error ? (
     <>
-      <VaSelect
-        id={id}
-        name={id}
-        value={value}
-        error={showError() || null}
-        onVaSelect={handleChange}
-        onBlur={handleBlur}
-        uswds
-      >
-        <option value="">&nbsp;</option>
-        {apiData.map(topic => (
-          <option key={topic.id} value={topic.attributes.name} id={topic.id}>
-            {topic.attributes.name}
-          </option>
-        ))}
-      </VaSelect>
+      {apiData.length > 15 ? (
+        <VaSelect
+          id={id}
+          name={id}
+          value={value}
+          error={showError() || null}
+          onVaSelect={handleChange}
+          onBlur={handleBlur}
+          uswds
+        >
+          <option value="">&nbsp;</option>
+          {apiData.map(topic => (
+            <option key={topic.id} value={topic.attributes.name} id={topic.id}>
+              {topic.attributes.name}
+            </option>
+          ))}
+        </VaSelect>
+      ) : (
+        <VaRadio
+          error={showError() || null}
+          onVaValueChange={handleChange}
+          onBlur={handleBlur}
+          className="vads-u-margin-top--neg3"
+          uswds
+        >
+          {apiData.map(topic => (
+            <VaRadioOption
+              key={topic.id}
+              name={topic.attributes.name}
+              id={topic.id}
+              value={topic.attributes.name}
+              label={topic.attributes.name}
+              uswds
+            />
+          ))}
+        </VaRadio>
+      )}
 
       <RequireSignInModal
         onClose={onModalNo}

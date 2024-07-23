@@ -5,7 +5,6 @@ import { ITF_STATUSES, ITF_SUPPORTED_BENEFIT_TYPES } from '../../constants';
 import {
   isNotExpired,
   isActiveITF,
-  shouldBlockITF,
   isSupportedBenefitType,
 } from '../../utils/itf';
 
@@ -65,25 +64,6 @@ describe('isActiveITF', () => {
         expirationDate: parseDateWithOffset({ months: -1 }),
       }),
     ).to.be.false;
-  });
-});
-
-describe('shouldBlockITF', () => {
-  it('should return true', () => {
-    expect(shouldBlockITF('/start')).to.be.true;
-    expect(shouldBlockITF('/introduction')).to.be.true;
-    expect(shouldBlockITF('/confirmation')).to.be.true;
-    expect(shouldBlockITF('/form-saved')).to.be.true;
-    expect(shouldBlockITF('/error')).to.be.true;
-    expect(shouldBlockITF('/resume')).to.be.true;
-  });
-  it('should return false', () => {
-    expect(shouldBlockITF('')).to.be.false;
-    expect(shouldBlockITF('/')).to.be.false;
-    expect(shouldBlockITF('/middle')).to.be.false;
-    expect(shouldBlockITF('/form')).to.be.false;
-    expect(shouldBlockITF('/resum')).to.be.false;
-    expect(shouldBlockITF('/err')).to.be.false;
   });
 });
 

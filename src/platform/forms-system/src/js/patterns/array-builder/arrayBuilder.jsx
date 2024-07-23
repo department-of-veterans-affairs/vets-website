@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -17,6 +18,16 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
  * @property {function(FormConfigPage): FormConfigPage} [introPage] Intro page which should be used for required flow
  * @property {function(FormConfigPage): FormConfigPage} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
  * @property {function(FormConfigPage): FormConfigPage} itemPage A repeated page corresponding to an item
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderHelpers
+ * @property {FormConfigPage['onNavBack']} navBackFirstItem
+ * @property {FormConfigPage['onNavBack']} navBackKeepUrlParams
+ * @property {FormConfigPage['onNavForward']} navForwardIntro
+ * @property {FormConfigPage['onNavForward']} navForwardSummary
+ * @property {FormConfigPage['onNavForward']} navForwardFinishedItem
+ * @property {FormConfigPage['onNavForward']} navForwardKeepUrlParams
  */
 
 function throwErrorPage(pageType, option) {
@@ -161,12 +172,32 @@ export function validateMinItems(minItems) {
   }
 }
 
+export function assignGetItemName(options) {
+  const safeGetItemName = getItemFn => {
+    return item => {
+      try {
+        return getItemFn(item);
+      } catch (e) {
+        return null;
+      }
+    };
+  };
+
+  if (options.getItemName) {
+    return safeGetItemName(options.getItemName);
+  }
+  if (options.text?.getItemName) {
+    return safeGetItemName(options.text.getItemName);
+  }
+  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
+}
+
 /**
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages) => FormConfigChapter} pageBuilderCallback
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
  * @returns {FormConfigChapter}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
@@ -196,7 +227,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     arrayPath,
     nounSingular,
     nounPlural,
-    getItemName = DEFAULT_ARRAY_BUILDER_TEXT.getItemName,
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
@@ -204,6 +234,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     reviewPath = 'review-and-submit',
     required: userRequired,
   } = options;
+
+  const getItemName = assignGetItemName(options);
 
   const getText = initGetText({
     getItemName,
@@ -289,16 +321,24 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
+    const index = formData[arrayPath] ? formData[arrayPath].length : 0;
+
     if (formData[hasItemsKey]) {
-      const index = formData[arrayPath] ? formData[arrayPath].length : 0;
       const path = createArrayBuilderItemAddPath({
         path: firstItemPagePath,
         index,
       });
       goPath(path);
     } else {
-      const nextPage = getPageAfterPageKey(pageList, itemLastPageKey);
-      goPath(nextPage?.path);
+      const nextPagePath = getNextPagePath(
+        pageList,
+        formData,
+        `/${lastItemPagePath.replace(
+          ':index',
+          index === 0 ? index : index - 1,
+        )}`,
+      );
+      goPath(nextPagePath);
     }
   };
 
@@ -414,5 +454,17 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
-  return pageBuilderCallback(pageBuilder);
+  /**
+   * @type {ArrayBuilderHelpers}
+   */
+  const helpers = {
+    navBackFirstItem,
+    navBackKeepUrlParams: onNavBackKeepUrlParams,
+    navForwardIntro,
+    navForwardSummary,
+    navForwardFinishedItem,
+    navForwardKeepUrlParams: onNavForwardKeepUrlParams,
+  };
+
+  return pageBuilderCallback(pageBuilder, helpers);
 }

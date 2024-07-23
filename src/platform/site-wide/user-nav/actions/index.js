@@ -5,6 +5,7 @@ export const TOGGLE_ACCOUNT_TRANSITION_MODAL =
   'TOGGLE_ACCOUNT_TRANSITION_MODAL';
 export const TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL =
   'TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL';
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 export function toggleFormSignInModal(isOpen) {
   return { type: TOGGLE_FORM_SIGN_IN_MODAL, isOpen };
@@ -27,5 +28,24 @@ export function toggleSearchHelpUserMenu(menu, isOpen) {
     type: UPDATE_SEARCH_HELP_USER_MENU,
     menu,
     isOpen,
+  };
+}
+
+export function updateRoute(location) {
+  if (!location) {
+    return {
+      type: UPDATE_ROUTE,
+      location: {},
+    };
+  }
+
+  return {
+    type: UPDATE_ROUTE,
+    location: {
+      base: location.base,
+      path: location.pathname,
+      search: location.search,
+      hash: location.hash,
+    },
   };
 }

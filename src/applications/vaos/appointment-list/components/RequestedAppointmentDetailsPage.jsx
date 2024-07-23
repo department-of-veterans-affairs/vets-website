@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import {
   VaAlert,
   VaTelephone,
@@ -28,14 +27,8 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import FacilityPhone from '../../components/FacilityPhone';
-import { VARequestLayout } from '../../components/layout/VARequestLayout';
-import { CCRequestLayout } from '../../components/layout/CCRequestLayout';
-
-const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
+import VARequestLayout from '../../components/layout/VARequestLayout';
+import CCRequestLayout from '../../components/layout/CCRequestLayout';
 
 function Content() {
   const { id } = useParams();
@@ -128,11 +121,8 @@ function Content() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {preferredDates.map((option, optionIndex) => (
-          <li key={`${id}-option-${optionIndex}`}>
-            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-          </li>
+        {preferredDates.map((date, index) => (
+          <li key={`${id}-option-${index}`}>{date}</li>
         ))}
       </ul>
       <div className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -287,10 +277,10 @@ export default function RequestedAppointmentDetailsPage() {
 
   if (featureAppointmentDetailsRedesign) {
     if (isCC && cancelInfo.showCancelModal === false) {
-      return <CCRequestLayout />;
+      return <CCRequestLayout data={appointment} />;
     }
     if (isCC === false && cancelInfo.showCancelModal === false) {
-      return <VARequestLayout />;
+      return <VARequestLayout data={appointment} />;
     }
     if (
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
@@ -338,7 +328,7 @@ export default function RequestedAppointmentDetailsPage() {
                     <FacilityAddress
                       facility={facility}
                       showPhone
-                      phoneHeading="Scheduling facility phone:"
+                      phoneHeading="Facility phone:"
                     />
                   </>
                 )}

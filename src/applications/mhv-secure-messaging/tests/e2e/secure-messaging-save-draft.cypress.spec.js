@@ -1,43 +1,49 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Save Draft', () => {
-  it('Axe Check Save Draft', () => {
-    const landingPage = new PatientInboxPage();
-    const draftsPage = new PatientMessageDraftsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse);
-    PatientInterstitialPage.getContinueButton().should('not.exist');
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    // composePage.getMessageSubjectField().type('message Test');
-    PatientComposePage.getMessageBodyField().type('Test message body', {
+describe('save draft feature tests', () => {
+  it('save new draft', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
+
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory('OTHER');
+    PatientComposePage.getMessageSubjectField().type(`test subject`, {
       force: true,
     });
-    cy.realPress(['Enter']);
+    PatientComposePage.getMessageBodyField().type(`test body`, { force: true });
+    PatientComposePage.saveNewDraft('OTHER', 'test subject');
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('contain', 'message was saved');
 
-    const mockDraftResponseUpdated = {
-      ...mockDraftResponse,
-      data: {
-        ...mockDraftResponse.data,
-        attributes: {
-          ...mockDraftResponse.data.attributes,
-          body: 'ststASertTest message body',
-        },
-      },
-    };
-    PatientComposePage.saveDraft(mockDraftResponseUpdated);
-    PatientComposePage.sendDraft(mockDraftResponseUpdated);
-    PatientComposePage.verifySendMessageConfirmationMessageText();
-    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('re-save existing draft', () => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(mockDraftResponse);
+
+    PatientComposePage.selectCategory('COVID');
+    PatientComposePage.getMessageSubjectField().type(`-updated`, {
+      force: true,
+    });
+
+    PatientComposePage.saveExistingDraft('COVID', 'test subject-updated');
+
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('contain', 'message was saved');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

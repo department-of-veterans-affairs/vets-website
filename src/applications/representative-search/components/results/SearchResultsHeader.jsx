@@ -26,7 +26,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Accredited Veterans Service Officer (VSO)',
+    veteran_service_officer: 'Accredited VSO Representative',
     attorney: 'Accredited attorney',
     claim_agents: 'Accredited claims agent',
   };
@@ -116,6 +116,7 @@ export const SearchResultsHeader = props => {
             <>
               {` `}
               named
+              {` `}
               <b>{context.repOrgName}</b>
             </>
           )}
@@ -164,11 +165,7 @@ export const SearchResultsHeader = props => {
               </div>
 
               <div className="sort-apply-button">
-                <va-button
-                  onClick={onClickApplyButton}
-                  text="Apply"
-                  secondary
-                />
+                <va-button onClick={onClickApplyButton} text="Sort" secondary />
               </div>
             </div>
           </div>

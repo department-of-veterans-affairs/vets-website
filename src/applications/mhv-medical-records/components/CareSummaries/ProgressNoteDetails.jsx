@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -28,6 +28,7 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { setIsDetails } from '../../actions/isDetails';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -39,6 +40,18 @@ const ProgressNoteDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(setIsDetails(true));
+      return () => {
+        dispatch(setIsDetails(false));
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -78,9 +91,9 @@ ${txtLine}\n\n
 Details\n
 Date: ${record.date}\n
 Location: ${record.location}\n
-Signed by: ${record.signedBy}\n
-${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
-Signed on: ${record.dateSigned}\n
+Written by: ${record.writtenBy}\n
+${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
+Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
@@ -101,13 +114,11 @@ ${record.note}`;
         {record.name}
       </h1>
 
-      {record.date !== EMPTY_FIELD ? (
-        <div>
-          <p id="progress-note-date">Entered on {record.date}</p>
-        </div>
-      ) : (
-        <DateSubheading date={record.date} id="progress-note-date" />
-      )}
+      <DateSubheading
+        date={record.date}
+        id="progress-note-date"
+        label="Date entered"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -124,19 +135,19 @@ ${record.note}`;
         </h3>
         <p data-testid="progress-location">{record.location}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed by
+          Written by
         </h3>
-        <p data-testid="note-record-signed-by">{record.signedBy}</p>
-        {record.coSignedBy !== EMPTY_FIELD && (
+        <p data-testid="note-record-written-by">{record.writtenBy}</p>
+        {record.signedBy !== EMPTY_FIELD && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Co-signed by
+              Signed by
             </h3>
-            <p data-testid="note-record-cosigned-by">{record.coSignedBy}</p>
+            <p data-testid="note-record-signed-by">{record.signedBy}</p>
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed on
+          Date signed
         </h3>
         <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>

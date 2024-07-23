@@ -4,6 +4,11 @@ import {
   SEARCH_STARTED,
 } from '../actions';
 import { FILTERS_EXCLUDED_FLIP } from '../selectors/filters';
+import { isShowVetTec } from '../utils/helpers';
+
+export const vetTecInitialValue = (automatedTest = false) => {
+  return !!isShowVetTec(automatedTest);
+};
 
 export const INITIAL_STATE = Object.freeze({
   expanded: false,
@@ -23,7 +28,7 @@ export const INITIAL_STATE = Object.freeze({
   studentVeteran: false,
   yellowRibbonScholarship: false,
   employers: true,
-  vettec: true,
+  vettec: vetTecInitialValue(),
   preferredProvider: false,
   country: 'ALL',
   state: 'ALL',

@@ -2,6 +2,9 @@ import * as adaptiveBenefits from './adaptiveBenefits';
 import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
+import * as additionalExposures from './toxicExposure/additionalExposures';
+import * as additionalExposuresDetails from './toxicExposure/additionalExposuresDetails';
+import * as additionalExposuresSummary from './toxicExposure/additionalExposuresSummary';
 import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
@@ -15,12 +18,17 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
+import * as fullyDevelopedClaim from './fullyDevelopedClaim';
 import * as gulfWar1990Locations from './toxicExposure/gulfWar1990Locations';
 import * as gulfWar1990Details from './toxicExposure/gulfWar1990Details';
 import * as gulfWar1990Summary from './toxicExposure/gulfWar1990Summary';
 import * as gulfWar2001Locations from './toxicExposure/gulfWar2001Locations';
 import * as gulfWar2001Details from './toxicExposure/gulfWar2001Details';
 import * as gulfWar2001Summary from './toxicExposure/gulfWar2001Summary';
+import * as herbicideLocations from './toxicExposure/herbicideLocations';
+import * as herbicideDetails from './toxicExposure/herbicideDetails';
+import * as herbicideOtherLocations from './toxicExposure/herbicideOtherLocations';
+import * as herbicideSummary from './toxicExposure/herbicideSummary';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -82,6 +90,7 @@ import * as separationPay from './separationPay';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
+import * as specifyOtherExposures from './toxicExposure/specifyOtherExposures';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
@@ -112,6 +121,9 @@ export {
   addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
+  additionalExposures,
+  additionalExposuresDetails,
+  additionalExposuresSummary,
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,
@@ -125,12 +137,17 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   gulfWar1990Locations,
   gulfWar1990Details,
   gulfWar1990Summary,
   gulfWar2001Locations,
   gulfWar2001Details,
   gulfWar2001Summary,
+  herbicideLocations,
+  herbicideDetails,
+  herbicideOtherLocations,
+  herbicideSummary,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,
@@ -192,6 +209,7 @@ export {
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
+  specifyOtherExposures,
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,

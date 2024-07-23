@@ -1,10 +1,12 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { RequestNursingHomeInformationAlert } from '../../../components/FormAlerts';
 import { medicaidDoesNotCoverNursingHome } from './helpers';
+
+const { medicaidStatus } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -26,7 +28,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      medicaidStatus: yesNoSchema,
+      medicaidStatus,
       'view:warningAlert': {
         type: 'object',
         properties: {},

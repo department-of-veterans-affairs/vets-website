@@ -19,6 +19,16 @@ export const mailingAddressPage = {
       },
       omit: ['street3'],
       required: true,
+      city: {
+        'ui:errorMessages': {
+          required: 'Select a post office type: APO, FPO, or DPO',
+        },
+      },
+      state: {
+        'ui:errorMessages': {
+          required: 'Please enter a valid State, Province, or Region',
+        },
+      },
     }),
   },
   schema: {

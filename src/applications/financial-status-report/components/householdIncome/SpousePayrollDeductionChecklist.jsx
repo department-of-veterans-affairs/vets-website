@@ -41,9 +41,7 @@ const SpousePayrollDeductionChecklist = props => {
     return selectedDeductions.some(incomeValue => incomeValue.name === option);
   };
 
-  const onChange = ({ target }) => {
-    const { name, checked } = target;
-
+  const onChange = ({ name, checked }) => {
     if (checked) {
       setSelectedDeductions([...selectedDeductions, { name, amount: '' }]);
     } else {

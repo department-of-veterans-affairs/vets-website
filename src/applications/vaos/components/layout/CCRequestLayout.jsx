@@ -1,93 +1,57 @@
 import React from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { useHistory } from 'react-router-dom';
-import { selectRequestedAppointmentDetails } from '../../appointment-list/redux/selectors';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
-import { TIME_TEXT } from '../../utils/appointment';
-import InfoAlert from '../InfoAlert';
-import { GA_PREFIX } from '../../utils/constants';
-import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
-import { startNewAppointmentFlow } from '../../new-appointment/redux/actions';
 import PageLayout from '../../appointment-list/components/PageLayout';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 
-function handleClick(history, dispatch, typeOfCare) {
-  return () => {
-    recordEvent({
-      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-    });
-    dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
-  };
-}
-
-export function CCRequestLayout() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const history = useHistory();
+export default function CCRequestLayout({ data: appointment }) {
+  const { search } = useLocation();
   const {
     comment,
     email,
+    facility,
+    isPendingAppointment,
     phone,
     preferredDates,
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
     providerAddress,
+    status,
     typeOfCareName,
   } = useSelector(
-    state => selectRequestedAppointmentDetails(state, id),
+    state => selectRequestedAppointmentData(state, appointment),
     shallowEqual,
   );
-  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
+  const { providerName, treatmentSpecialty } = provider || {};
+  const { name: facilityName } = facility || {};
+  const queryParams = new URLSearchParams(search);
+  const showConfirmMsg = queryParams.get('confirmMsg');
 
-  const { providerName, treatmentSpecialty } = provider;
   // There is no reason for appointment for CC appointment request.
   // const [reason, otherDetails] = comment?.split(':') || [];
   const reason = null;
   const otherDetails = comment;
 
+  let heading = 'We have received your request';
+  if (isPendingAppointment && !showConfirmMsg)
+    heading = 'Request for community care appointment';
+  else if (APPOINTMENT_STATUS.cancelled === status)
+    heading = 'Canceled request for community care appointment';
+
   return (
     <PageLayout showNeedHelp>
-      <DetailPageLayout header="We have received your request">
-        <InfoAlert backgroundOnly status="success">
-          <p>
-            We’ll try to schedule your appointment in the next 2 business days.
-            Check back here or call your facility for updates. Review your
-            appointments Schedule a new appointment
-          </p>
-          <div className="vads-u-margin-y--1">
-            <va-link
-              text="Review your appointments"
-              data-testid="review-appointments-link"
-              href={root.url}
-              onClick={() =>
-                recordEvent({
-                  event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-                })
-              }
-            />
-          </div>
-          <div>
-            <va-link
-              text="Schedule a new appointment"
-              data-testid="schedule-appointment-link"
-              onClick={handleClick(history, dispatch, typeOfCare)}
-            />
-          </div>
-        </InfoAlert>
+      <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
-            {preferredDates.map((option, optionIndex) => (
-              <li key={`${id}-option-${optionIndex}`}>
-                {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-              </li>
+            {preferredDates.map((date, index) => (
+              <li key={`${appointment.id}-option-${index}`}>{date}</li>
             ))}
           </ul>
         </Section>
@@ -95,35 +59,42 @@ export function CCRequestLayout() {
           {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="Scheduling facility">
-          <span>
-            This facility will contact you if we need more information about
-            your request.
-          </span>
+          {APPOINTMENT_STATUS.cancelled !== status && (
+            <span>
+              This facility will contact you if we need more information about
+              your request.
+              <br />
+              <br />
+            </span>
+          )}
+          {facilityName}
         </Section>
         <Section heading="Preferred community care provider">
-          <span>{`${providerName || 'Provider name not noted'}`}</span>
+          <span>{`${providerName || 'Provider name not available'}`}</span>
           <br />
           <span>
-            {`${treatmentSpecialty || 'Treatment specialty not noted'}`}
+            {`${treatmentSpecialty || 'Treatment specialty not available'}`}
           </span>
           <br />
           {providerAddress && <span>{providerAddress.line[0]}</span>}
-          {!providerAddress && <span>Address not noted</span>}
+          {!providerAddress && <span>Address not available</span>}
           <br />
         </Section>
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Section heading="Details you’d like to shared with your provider">
+        <Section heading="Details you’d like to share with your provider">
           <span>
-            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
         </Section>
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />
+          Phone number:{' '}
           <VaTelephone
             data-dd-privacy="mask"
             notClickable
@@ -138,3 +109,6 @@ export function CCRequestLayout() {
     </PageLayout>
   );
 }
+CCRequestLayout.propTypes = {
+  data: PropTypes.object.isRequired,
+};

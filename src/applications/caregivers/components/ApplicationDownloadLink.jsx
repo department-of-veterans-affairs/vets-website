@@ -1,70 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { downloadErrorsByCode } from '../definitions/content';
+import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import { submitTransform } from '../utils/helpers';
 import formConfig from '../config/form';
+import content from '../locales/en/content.json';
 
 const apiURL = `${
   environment.API_URL
 }/v0/caregivers_assistance_claims/download_pdf`;
 
-const ApplicationDownloadLink = ({ form }) => {
-  const [PDFLink, setPDFLink] = useState(null);
+const ApplicationDownloadLink = () => {
   const [loading, isLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   // define local use variables
+  const form = useSelector(state => state.form);
   const formData = submitTransform(formConfig, form);
   const { veteranFullName: name } = form.data;
 
   // fetch a custom error message based on status code
   const errorMessage = () => {
     const code = errors[0].status.split('')[0];
-    const { generic } = downloadErrorsByCode;
-    return downloadErrorsByCode[code] || generic;
+    const { generic } = DOWNLOAD_ERRORS_BY_CODE;
+    return DOWNLOAD_ERRORS_BY_CODE[code] || generic;
   };
 
-  // define our method of retrieving the link to download
-  const fetchDownloadUrl = body => {
+  const handlePdfDownload = blob => {
+    const downloadUrl = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+
+    downloadLink.className = 'cg-application-download-link';
+    downloadLink.href = downloadUrl;
+    downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(downloadUrl);
+  };
+
+  const fetchPdf = event => {
+    // Prevents browser from navigating to top of page due to href='#'
+    event.preventDefault();
     isLoading(true);
 
-    // create the application link
+    // get pdf file to download
     apiRequest(apiURL, {
       method: 'POST',
-      body,
+      body: formData,
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then(response => response.blob())
       .then(blob => {
-        const linkUrl = URL.createObjectURL(blob);
-        setPDFLink(linkUrl);
-        isLoading(false);
-        setErrors([]);
+        handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(response => {
-        isLoading(false);
         setErrors(response.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
         Sentry.withScope(scope => scope.setExtra('error', response));
+      })
+      .finally(() => {
+        isLoading(false);
       });
   };
-
-  // get application download link when form data is transformed
-  useEffect(
-    () => {
-      fetchDownloadUrl(formData);
-    },
-    [formData],
-  );
 
   // apply focus to the error alert if we have errors set
   useEffect(
@@ -80,8 +87,8 @@ const ApplicationDownloadLink = ({ form }) => {
   if (loading) {
     return (
       <va-loading-indicator
-        label="Loading application"
-        message="Preparing your application for download..."
+        label={content['app-loading-text']}
+        message={content['app-download--loading-text']}
       />
     );
   }
@@ -91,9 +98,7 @@ const ApplicationDownloadLink = ({ form }) => {
     return (
       <div className="caregiver-download-error">
         <va-alert status="error" uswds>
-          <h3 slot="headline" className="vads-u-font-size--h4">
-            Something went wrong
-          </h3>
+          <h4 slot="headline">{content['alert-heading--generic']}</h4>
           {errorMessage()}
         </va-alert>
       </div>
@@ -102,17 +107,13 @@ const ApplicationDownloadLink = ({ form }) => {
 
   return (
     <va-link
-      href={PDFLink}
-      text="Download your completed application"
-      filename={`10-10CG_${name.first}_${name.last}`}
+      text={content['button-download']}
+      onClick={fetchPdf}
       filetype="PDF"
+      href="#"
       download
     />
   );
-};
-
-ApplicationDownloadLink.propTypes = {
-  form: PropTypes.object,
 };
 
 export default ApplicationDownloadLink;

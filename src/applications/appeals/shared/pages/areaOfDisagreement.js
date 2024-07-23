@@ -1,5 +1,6 @@
 import {
   issueTitle,
+  getIssueTitle,
   content,
   errorMessages,
   AreaOfDisagreementReviewField,
@@ -27,10 +28,12 @@ export default {
         'ui:errorMessages': {
           required: errorMessages.missingDisagreement,
         },
+        'ui:options': {
+          itemAriaLabel: data => getIssueTitle(data, { plainText: true }),
+        },
         // Not used by CustomPage, kept here for review & submit page render
         disagreementOptions: {
           'ui:title': content.disagreementLegend,
-          'ui:description': content.disagreementHint,
           serviceConnection: {
             'ui:title': DISAGREEMENT_TYPES.serviceConnection,
             'ui:reviewField': AreaOfDisagreementReviewField,

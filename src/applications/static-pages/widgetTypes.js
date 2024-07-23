@@ -47,6 +47,9 @@ export default {
   FORM_264555_CTA: 'form264555',
   FORM_400247_CTA: 'form400247',
   FORM_UPLOAD: 'form-upload',
+  FORM_1010D: 'form1010d',
+  FORM_107959C: 'form107959c',
+  FORM_107959F1: 'form107959F1',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HCA_PERFORMANCE_WARNING: 'hca-performance-warning',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
@@ -82,4 +85,5 @@ export default {
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_ENROLLMENT_VERIFICATION_LOGIN: 'view-enrollment-verification-login',
   VIEW_EDUCATION_LETTERS_LOGIN: 'view-education-letters-login',
+  VYE_ENROLLMENT_LOGIN_WIDGET: 'vye-enrollment-login-widget',
 };

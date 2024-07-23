@@ -1,0 +1,196 @@
+{
+  "data": {
+    "role": "ATTORNEY",
+    "barStanding": true,
+    "fullName": {
+      "first": "First",
+      "middle": "Middle",
+      "last": "Last",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1995-01-09",
+    "placeOfBirthAddress": {
+      "country": "USA",
+      "street": "1234 Main St",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phone": "3453453455",
+    "typeOfPhone": "HOME",
+    "email": "person.name@testmail.com",
+    "homeAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "employmentStatus": "UNEMPLOYED",
+    "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
+    "workAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "communicationAddress": "OTHER",
+    "otherAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "militaryServiceExperiences": [
+      {
+        "serviceBranch": "Army",
+        "serviceDateRange": {
+          "from": "2000-01-01",
+          "to": "2004-12-31"
+        },
+        "characterOfDischarge": "Honorable"
+      }
+    ],
+    "employers": [
+      {
+        "name": "Company",
+        "positionTitle": "Manager",
+        "supervisorName": "Supervisor",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "phone": "3453453455",
+        "extension": "1234",
+        "dateRange": {
+          "from": "2000-01-01",
+          "to": "2004-12-31"
+        }
+      }
+    ],
+    "view:hasEmployers": false,
+    "educationalInstitutions": [
+      {
+        "name": "University of California, Berkeley",
+        "dateRange": {
+          "from": "2010-01-01",
+          "to": "2014-12-31"
+        },
+        "degree": "Bachelor of Science",
+        "major": "Computer Science"
+      }
+    ],
+    "view:hasEducationalInstitutions": false,
+    "jurisdictions": [
+      {
+        "name": "California",
+        "admissionDate": "2000-01-01",
+        "membershipOrRegistrationNumber": "12345"
+      }
+    ],
+    "view:hasJurisdictions": false,
+    "agenciesOrCourts": [
+      {
+        "name": "California State Bar",
+        "admissionDate": "2010-01-01",
+        "membershipOrRegistrationNumber": "54321"
+      }
+    ],
+    "conviction": true,
+    "convictionPlace": "Kansas City, Missouri",
+    "convictionDate": "2010-01-01",
+    "convictionExplanation": "Violation explanation",
+    "courtMartialed": true,
+    "militaryAuthorityName": "U.S. Army",
+    "militaryAuthorityAddress": {
+      "country": "USA",
+      "street": "1234 Main St",
+      "street2": "Apt 1",
+      "city": "City",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "underCharges": false,
+    "resignedFromEducation": false,
+    "disciplinedForDishonesty": false,
+    "resignedForDishonesty": false,
+    "representativeForAgency": false,
+    "reprimandedInAgency": false,
+    "appliedForVaAccreditation": false,
+    "terminatedByVsorg": false,
+    "conditionThatAffectsRepresentation": true,
+    "conditionThatAffectsRepresentationDetails": "Condition that affects representation details",
+    "conditionThatAffectsExamination": true,
+    "conditionThatAffectsExaminationDetails": "Condition that affects examination details",
+    "characterReferences": [
+      {
+        "fullName": {
+          "first": "Person",
+          "middle": "Middle",
+          "last": "LastName",
+          "suffix": "Jr."
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        },
+        "phone": "3453453455",
+        "email": "person.name@testmail.com"
+      },
+      {
+        "fullName": {
+          "first": "John",
+          "middle": "A.",
+          "last": "Doe",
+          "suffix": "Sr."
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "5678 Elm St",
+          "street2": "Suite 2",
+          "city": "AnotherCity",
+          "state": "NY",
+          "postalCode": "67890"
+        },
+        "phone": "1234567890",
+        "email": "john.doe@example.com"
+      },
+      {
+        "fullName": {
+          "first": "Jane",
+          "middle": "B.",
+          "last": "Smith"
+        },
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "9101 Oak St",
+          "city": "YetAnotherCity",
+          "state": "TX",
+          "postalCode": "11223"
+        },
+        "phone": "0987654321",
+        "email": "jane.smith@example.com"
+      }
+    ]
+  }
+}

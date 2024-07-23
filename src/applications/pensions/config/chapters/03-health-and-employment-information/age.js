@@ -1,7 +1,7 @@
-import {
-  yesNoUI,
-  yesNoSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { isOver65 } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -17,7 +17,7 @@ export default {
     type: 'object',
     required: ['isOver65'],
     properties: {
-      isOver65: yesNoSchema,
+      isOver65,
     },
   },
 };

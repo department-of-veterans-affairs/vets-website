@@ -27,18 +27,6 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });
@@ -59,6 +47,10 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: 0.0,
       });
 
       cy.intercept('GET', '/v0/debts', debts);

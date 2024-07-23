@@ -24,6 +24,8 @@
  * @property {string} [ariaDescribedBySubmit]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
+ * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
+ * @property {JSX.Element | React.ReactNode} [CustomTopContent]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
@@ -46,6 +48,7 @@
  * @property {SavedFormMessages} [savedFormMessages]
  * @property {SaveInProgress} [saveInProgress]
  * @property {boolean} [showReviewErrors]
+ * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
  * @property {(form: any, formConfig: any) => Promise<any>} [submit]
  * @property {(props: any) => JSX.Element} [submitErrorText]
@@ -56,7 +59,8 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
- * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
+ * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
+ * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2. Also accepts an object with options.
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -160,6 +164,7 @@
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
+ * @property {boolean} [hideSaveLinkAndStatus] will hide the save application later and save in progress message near the back/continue buttons
  * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
@@ -374,28 +379,29 @@
 /**
  * @typedef {{
  *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
- *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemDeleted?: (props: ArrayBuilderTextProps) => string,
  *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cancelYes?: (props: ArrayBuilderTextProps) => string,
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any) => string,
- *   removeDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNo?: (props: ArrayBuilderTextProps) => string,
- *   removeTitle?: (props: ArrayBuilderTextProps) => string,
- *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNo?: (props: ArrayBuilderTextProps) => string,
+ *   deleteTitle?: (props: ArrayBuilderTextProps) => string,
+ *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,

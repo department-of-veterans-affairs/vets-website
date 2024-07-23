@@ -4,7 +4,7 @@ const MedicareClaimNumberDescription = (
   <>
     <va-additional-info
       trigger="Why we ask for this information"
-      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+      class="vads-u-margin-top--3 vads-u-margin-bottom--4 hydrated"
       uswds
     >
       <div>

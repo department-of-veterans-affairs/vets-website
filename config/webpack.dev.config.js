@@ -11,6 +11,19 @@ function generateWebpackDevConfig(buildOptions) {
     }))
     .sort((a, b) => b.from.length - a.from.length);
 
+  const webSocketURL = {};
+  try {
+    const publicUrl = new URL(buildOptions.public);
+    webSocketURL.hostname = publicUrl.hostname;
+    webSocketURL.port = publicUrl.port || undefined;
+    if (!webSocketURL.port) {
+      webSocketURL.port = publicUrl.protocol === 'https:' ? 443 : 80;
+    }
+    webSocketURL.protocol = publicUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+  } catch {
+    webSocketURL.hostname = buildOptions.public || undefined;
+  }
+
   // If in watch mode, use webpack devserver.
   return {
     historyApiFallback: {
@@ -39,11 +52,7 @@ function generateWebpackDevConfig(buildOptions) {
     },
     port: buildOptions.port,
     host: buildOptions.host,
-    client: {
-      webSocketURL: {
-        hostname: buildOptions.public || undefined,
-      },
-    },
+    client: { webSocketURL },
     devMiddleware: {
       publicPath: '/generated/',
       stats: {

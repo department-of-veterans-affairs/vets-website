@@ -1,3 +1,5 @@
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
+
 // Produce a string that is either an applicant's name or
 // "your" depending on additional context provided.
 export function applicantWording(
@@ -31,6 +33,33 @@ export function applicantWording(
   return isPosessive ? `${retVal}’s` : retVal;
 }
 
+// Return either 'your' or the applicant's name depending
+// TODO: combine with `applicantWording` fn above
+export function nameWording(
+  formData,
+  isPosessive = true,
+  cap = true,
+  firstNameOnly = false,
+) {
+  let retVal = '';
+  // NOTE: certifierRole isn't used in this form anymore so this will always
+  // skip to else clause
+  if (formData?.certifierRole === 'applicant') {
+    retVal = isPosessive ? 'your' : 'you';
+  } else {
+    // Concatenate all parts of applicant's name (first, middle, etc...)
+    retVal = firstNameOnly
+      ? formData?.applicantName?.first
+      : Object.values(formData?.applicantName || {})
+          .filter(el => el)
+          .join(' ');
+    retVal = isPosessive ? `${retVal}’s` : retVal;
+  }
+
+  // Optionally capitalize first letter and return
+  return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
+}
+
 // Turn camelCase into capitalized words ("camelCase" => "Camel Case")
 export function makeHumanReadable(inputStr) {
   return inputStr
@@ -59,4 +88,47 @@ export function getConditionalPages(pages, data, index) {
 export function getAgeInYears(date) {
   const difference = Date.now() - Date.parse(date);
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+}
+
+/**
+ * Injects custom CSS into shadow DOMs of specific elements at specific URLs
+ * within an application. Convenience helper for the problem of custom styles
+ * in apps' .sass files not applying to elements with shadow DOMs.
+ *
+ * So for instance, if you wanted to hide the 'For example: January 19 2000'
+ * hint text that cannot be overridden normally:
+ * ```
+ * addStyleToShadowDomOnPages(
+ *   ['/insurance-info'],
+ *   ['va-memorable-date'],
+ *   '#dateHint {display: none}'
+ * )
+ * ```
+ *
+ * @param {Array} urlArray Array of page URLs where these styles should be applied - to target all URLs, use value: ['']
+ * @param {Array} targetElements Array of HTML elements we want to inject styles into, e.g.: ['va-select', 'va-radio']
+ * @param {String} style String of CSS to inject into the specified elements on the specified pages
+ */
+export async function addStyleToShadowDomOnPages(
+  urlArray,
+  targetElements,
+  style,
+) {
+  // If we're on one of the desired pages (per URL array), inject CSS
+  // into the specified target elements' shadow DOMs:
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.map(async e => {
+      try {
+        document.querySelectorAll(e).forEach(async item => {
+          const el = await waitForShadowRoot(item);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        });
+      } catch (err) {
+        // Fail silently (styles just won't be applied)
+      }
+    });
 }

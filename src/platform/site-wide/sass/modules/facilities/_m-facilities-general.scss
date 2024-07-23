@@ -15,7 +15,8 @@
   display: inline-block;
 }
 
-.duotone::before, .duotone::after {
+.duotone::before,
+.duotone::after {
   content: "";
   width: 100%;
   height: 100%;
@@ -30,9 +31,12 @@
   mix-blend-mode: screen;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+
   /* Cheat to restrict to IE10+ CSS styles. */
-  .duotone::before, .duotone::after {
+  .duotone::before,
+  .duotone::after {
     width: 0%;
     height: 0%;
   }
@@ -45,15 +49,17 @@
 }
 
 @supports (-ms-ime-align: auto) {
+
   /* Cheat to restrict to IE Edge CSS styles. */
-  .duotone::before, .duotone::after {
+  .duotone::before,
+  .duotone::after {
     width: 0%;
     height: 0%;
   }
 }
 
-.usa-accordion > ul li ul.usa-unstyled-list,
-.usa-accordion-bordered > ul li ul.usa-unstyled-list {
+.usa-accordion>ul li ul.usa-unstyled-list,
+.usa-accordion-bordered>ul li ul.usa-unstyled-list {
   list-style: none;
 }
 
@@ -155,6 +161,7 @@
     width: 50%;
     padding-right: 12px;
     padding-left: 0;
+
     &:not(:only-child):last-child {
       padding-right: 0;
       padding-left: 12px;
@@ -167,12 +174,14 @@
 
   @include media($medium-screen) {
     width: 65%;
+
     &.event,
     &.facility {
       width: 50%;
     }
 
     &:not(:only-child):last-child {
+
       &.event,
       &.facility {
         width: 50%;
@@ -219,12 +228,6 @@
   }
 }
 
-.social-links {
-  &:last-child.vads-u-margin-bottom--2 {
-    margin-bottom: 0 !important;
-  }
-}
-
 // featured content
 .featured-content-list-item {
   width: 100%;
@@ -235,7 +238,7 @@
     margin-right: 0;
   }
 
-  @include media($medium-screen){
+  @include media($medium-screen) {
     width: 33%;
   }
 }
@@ -266,7 +269,7 @@
 
 .va-facility-page {
   .va-address-block {
-    margin-left: 1rem;
+    margin-left: 0.625rem;
     border-left: none;
   }
 }
@@ -283,9 +286,8 @@
 
 .circular-profile-missing-icon {
   position: absolute;
-  top: 33%;
-  left: 37%;
-  font-size: 32px;
+  top: 31px;
+  left: 31px;
 }
 
 // OPERATING STATUS
@@ -296,13 +298,17 @@
   transition: background 0.25s;
 }
 
+.operating-status-flag .os-icon {
+  padding-right: 7px;
+}
+
 a.operating-status-link {
   color: initial;
   display: inline-block;
   font-weight: 700;
 }
 
-.operating-status-flag .fa-chevron-right {
+.operating-status-flag .os-chevron-right {
   font-size: 12px;
 }
 

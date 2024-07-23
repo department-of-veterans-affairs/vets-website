@@ -3,6 +3,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as scroll from 'platform/utilities/ui/scroll';
+import * as page from '../../utils/page';
 
 import {
   groupTimelineActivity,
@@ -22,6 +24,7 @@ import {
   getItemDate,
   isClaimComplete,
   isClaimOpen,
+  isDisabilityCompensationClaim,
   itemsNeedingAttentionFromVet,
   makeAuthRequest,
   getClaimType,
@@ -29,6 +32,12 @@ import {
   roundToNearest,
   groupClaimsByDocsNeeded,
   claimAvailable,
+  getClaimPhaseTypeHeaderText,
+  getPhaseItemText,
+  getClaimPhaseTypeDescription,
+  setDocumentRequestPageTitle,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../../utils/helpers';
 
 import {
@@ -581,6 +590,42 @@ describe('Disability benefits helpers: ', () => {
     });
   });
 
+  describe('isDisabilityCompensationClaim', () => {
+    context('when claimTypeCode is a disability compensation claim', () => {
+      context('when claimTypeCode is null', () => {
+        it('should return false', () => {
+          expect(isDisabilityCompensationClaim(null)).to.be.false;
+        });
+      });
+      // Submit Buddy Statement
+      context(
+        'when claimTypeCode is eBenefits 526EZ-Supplemental (020)',
+        () => {
+          const claimTypeCode = '020SUPP';
+          it('should return true', () => {
+            expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.true;
+          });
+        },
+      );
+      // 5103 Notice
+      context('when claimTypeCode is IDES Initial Live Comp <8 Issues', () => {
+        const claimTypeCode = '110LCMP7IDES';
+        it('should return true', () => {
+          expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.true;
+        });
+      });
+    });
+
+    context('when claimTypeCode is not a disability compensation claim', () => {
+      context('when claimTypeCode is a claim for dependency', () => {
+        const claimTypeCode = '400PREDSCHRG';
+        it('should return true', () => {
+          expect(isDisabilityCompensationClaim(claimTypeCode)).to.be.false;
+        });
+      });
+    });
+  });
+
   describe('isClaimOpen', () => {
     context('when status is COMPLETE', () => {
       const status = 'COMPLETE';
@@ -1027,6 +1072,213 @@ describe('Disability benefits helpers: ', () => {
       const isClaimAvaliable = claimAvailable(claim);
 
       expect(isClaimAvaliable).to.be.true;
+    });
+  });
+
+  describe('getClaimPhaseTypeHeaderText', () => {
+    it('should display claim phase type header text from map', () => {
+      const desc = getClaimPhaseTypeHeaderText('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('Step 1 of 8: Claim received');
+    });
+  });
+
+  describe('getPhaseItemText', () => {
+    context('when showEightPhases false - 5 steps', () => {
+      it('should display phase item text from map when step 1', () => {
+        const desc = getPhaseItemText(1);
+        expect(desc).to.equal('Step 1: Claim received');
+      });
+      it('should display phase item text from map when step 2', () => {
+        const desc = getPhaseItemText(2);
+
+        expect(desc).to.equal('Step 2: Initial review');
+      });
+      it('should display phase item text from map when step 3', () => {
+        const desc = getPhaseItemText(3);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 4', () => {
+        const desc = getPhaseItemText(4);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 5', () => {
+        const desc = getPhaseItemText(5);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 6', () => {
+        const desc = getPhaseItemText(6);
+        expect(desc).to.equal(
+          'Step 3: Evidence gathering, review, and decision',
+        );
+      });
+      it('should display phase item text from map when step 7', () => {
+        const desc = getPhaseItemText(7);
+        expect(desc).to.equal('Step 4: Preparation for notification');
+      });
+      it('should display phase item text from map when step 8', () => {
+        const desc = getPhaseItemText(8);
+        expect(desc).to.equal('Step 5: Closed');
+      });
+    });
+    context('when showEightPhases true - 8 steps', () => {
+      it('should display phase item text from map when step 1', () => {
+        const desc = getPhaseItemText(1, true);
+        expect(desc).to.equal('We received your claim in our system');
+      });
+      it('should display phase item text from map when step 2', () => {
+        const desc = getPhaseItemText(2, true);
+        expect(desc).to.equal('Step 2: Initial review');
+      });
+      it('should display phase item text from map when step 3', () => {
+        const desc = getPhaseItemText(3, true);
+        expect(desc).to.equal('Step 3: Evidence gathering');
+      });
+      it('should display phase item text from map when step 4', () => {
+        const desc = getPhaseItemText(4, true);
+        expect(desc).to.equal('Step 4: Evidence review');
+      });
+      it('should display phase item text from map when step 5', () => {
+        const desc = getPhaseItemText(5, true);
+        expect(desc).to.equal('Step 5: Rating');
+      });
+      it('should display phase item text from map when step 6', () => {
+        const desc = getPhaseItemText(6, true);
+        expect(desc).to.equal('Step 6: Preparing decision letter');
+      });
+      it('should display phase item text from map when step 7', () => {
+        const desc = getPhaseItemText(7, true);
+        expect(desc).to.equal('Step 7: Final review');
+      });
+      it('should display phase item text from map when step 8', () => {
+        const desc = getPhaseItemText(8, true);
+        expect(desc).to.equal('Your claim was decided');
+      });
+    });
+  });
+
+  describe('getClaimPhaseTypeDescription', () => {
+    it('should display claim phase type description from map', () => {
+      const desc = getClaimPhaseTypeDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('We received your claim in our system.');
+    });
+  });
+
+  describe('setDocumentRequestPageTitle', () => {
+    it('should display 5103 Evidence Notice', () => {
+      const displayName = 'Automated 5103 Notice Response';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
+    });
+    it('should display Request for Submit buddy statement(s)', () => {
+      const displayName = 'Submit buddy statement(s)';
+      const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
+
+      expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
+    });
+  });
+
+  describe('setTabDocumentTitle', () => {
+    context('when there is no claim', () => {
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(null, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(null, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(null, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of Your Claim | Veterans Affairs',
+        );
+      });
+    });
+    context('when there is a claim', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+        },
+      };
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(claim, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(claim, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(claim, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+    });
+  });
+
+  describe('setPageFocus', () => {
+    context('when last page was not a tab and loading is false', () => {
+      it('should run setUpPage', () => {
+        const setUpPage = sinon.spy(page, 'setUpPage');
+        setPageFocus('/test', false);
+
+        expect(setUpPage.called).to.be.true;
+      });
+    });
+    context('when last page was not a tab and loading is true', () => {
+      it('should run scrollToTop', () => {
+        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        setPageFocus('/test', true);
+
+        expect(scrollToTop.called).to.be.true;
+      });
+    });
+    context('when last page was a tab', () => {
+      it('should run scrollAndFocus', () => {
+        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        setPageFocus('/status', false);
+
+        expect(scrollAndFocus.called).to.be.true;
+      });
     });
   });
 });

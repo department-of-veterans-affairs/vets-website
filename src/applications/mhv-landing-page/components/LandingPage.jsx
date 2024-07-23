@@ -8,7 +8,6 @@ import {
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { isLOA1 } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
@@ -19,43 +18,44 @@ import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import { hasHealthData, personalizationEnabled } from '../selectors';
+import HelpdeskInfo from './HelpdeskInfo';
+import MhvRegistrationAlert from './MhvRegistrationAlert';
+import {
+  isLOA3,
+  isVAPatient,
+  personalizationEnabled,
+  hasMhvAccount,
+} from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
-  const isUnverified = useSelector(isLOA1);
-  const hasHealth = useSelector(hasHealthData);
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const userRegistered = userVerified && vaPatient;
   const signInService = useSelector(signInServiceName);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = isUnverified ? (
-    <IdentityNotVerified
-      headline={unVerifiedHeadline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={signInService}
-    />
-  ) : (
-    <UnregisteredAlert />
-  );
 
-  useEffect(() => {
-    if (isUnverified) {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': unVerifiedHeadline,
-        'alert-box-status': 'continue',
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (!userVerified) {
+        recordEvent({
+          event: 'nav-alert-box-load',
+          action: 'load',
+          'alert-box-headline': unVerifiedHeadline,
+          'alert-box-status': 'continue',
+        });
+      }
+    },
+    [recordEvent, unVerifiedHeadline, userVerified],
+  );
 
   return (
     <>
-      {!isUnverified && <MhvSecondaryNav />}
+      {userRegistered && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"
@@ -65,11 +65,33 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+          <HeaderLayout
+            showWelcomeMessage={showWelcomeMessage}
+            showLearnMore={userRegistered}
+          />
+          {!userVerified && (
+            <IdentityNotVerified
+              headline={unVerifiedHeadline}
+              showHelpContent={false}
+              showVerifyIdenityHelpInfo
+              signInService={signInService}
+            />
+          )}
+          {userVerified && !userRegistered && <UnregisteredAlert />}
+          {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          {userRegistered && <CardLayout data={cards} />}
         </div>
-        <HubLinks hubs={hubs} />
-        <NewsletterSignup />
+        {userRegistered && (
+          <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+            <div className="vads-l-row vads-u-margin-top--3">
+              <div className="vads-l-col medium-screen:vads-l-col--8">
+                <HelpdeskInfo />
+              </div>
+            </div>
+          </div>
+        )}
+        {userRegistered && <HubLinks hubs={hubs} />}
+        {userRegistered && <NewsletterSignup />}
       </div>
     </>
   );
