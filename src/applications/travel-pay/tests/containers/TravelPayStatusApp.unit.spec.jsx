@@ -271,7 +271,6 @@ describe('App', () => {
       const statusFilters = screen.getAllByTestId(/status-filter_/);
       const filterNames = statusFilters.map(filter => filter.name);
 
-      // Length should be equal to the number of unique statuses
       const orderedStatuses = [
         'On Hold',
         'In Manual Review',
