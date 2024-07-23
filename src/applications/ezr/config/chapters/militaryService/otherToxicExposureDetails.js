@@ -5,6 +5,7 @@ import OtherToxicExposureDescription from '../../../components/FormDescriptions/
 import content from '../../../locales/en/content.json';
 
 const { otherToxicExposure } = ezrSchema.properties;
+const alphaNumericSpaceRegex = '^[a-zA-Z0-9 ]{1,100}$';
 
 export default {
   uiSchema: {
@@ -22,6 +23,15 @@ export default {
       'ui:options': {
         hint: content['military-service-other-exposure-description-2-hint'],
       },
+      'ui:validations': [
+        (errors, field) => {
+          if (field && !field.match(alphaNumericSpaceRegex)) {
+            errors.addError(
+              content['military-service-other-exposure-error-message'],
+            );
+          }
+        },
+      ],
     },
   },
   schema: {
