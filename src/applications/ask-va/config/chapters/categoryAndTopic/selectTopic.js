@@ -1,6 +1,6 @@
-import TopicSelect from '../../../components/FormFields/TopicSelect';
-import FormElementTitle from '../../../components/FormElementTitle';
 import CatAndTopicSummary from '../../../components/CatAndTopicSummary';
+import FormElementTitle from '../../../components/FormElementTitle';
+import TopicSelect from '../../../components/FormFields/TopicSelect';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_1 } from '../../../constants';
 

@@ -304,13 +304,12 @@ class PatientMessageCustomFolderPage {
   };
 
   verifyEmptyFolderAlert = () => {
-    cy.get('#heading').should('have.text', Assertions.EMPTY_THIS_FOLDER);
+    cy.get(Locators.ALERTS.HEADER).should(
+      'have.text',
+      Assertions.EMPTY_THIS_FOLDER,
+    );
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
-  };
-
-  verifyFocusToCloseIcon = () => {
-    cy.focused().should('contain.class', 'va-modal-close');
   };
 
   clickOnCloseIcon = () => {

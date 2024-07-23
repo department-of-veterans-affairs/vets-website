@@ -9,7 +9,6 @@ import {
   debtLettersShowLettersVBMS,
 } from '../../combined/utils/helpers';
 import DebtCardsList from '../components/DebtCardsList';
-import OnThisPageLinks from '../components/OnThisPageLinks';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -139,10 +138,6 @@ const DebtLettersSummary = () => {
             </>
           ) : (
             <>
-              <OnThisPageLinks
-                showDebtLetterDownload={showDebtLetterDownload}
-              />
-
               <DebtCardsList />
 
               {renderOtherVA(mcpStatements?.length, mcpError)}

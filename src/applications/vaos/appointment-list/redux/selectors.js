@@ -696,6 +696,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isVA,
     isVideo,
     isPhone,
+    locationId,
     phone,
     providerAddress,
     showCancelButton: selectFeatureCancel(state),
@@ -746,7 +747,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
   const providerAddress = selectProviderAddress(appointment);
-  const requestedPeriod = appointment?.requestedPeriod || [];
+  const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
@@ -770,7 +771,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     isPastAppointment,
     isPendingAppointment,
     phone,
-    preferredDates: requestedPeriod,
+    preferredDates,
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
@@ -815,7 +816,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
   const providerAddress = selectProviderAddress(appointment);
-  const requestedPeriod = appointment?.requestedPeriod || [];
+  const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
@@ -838,7 +839,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     isCanceled,
     isPastAppointment,
     phone,
-    preferredDates: requestedPeriod,
+    preferredDates,
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
