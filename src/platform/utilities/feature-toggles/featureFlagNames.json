@@ -49,6 +49,7 @@
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstUseClaimDetailsV2": "cst_use_claim_details_v2",
   "cstUseDataDogRUM": "cst_use_dd_rum",
+  "cstSynchronousEvidenceUploads": "cst_synchronous_evidence_uploads",
   "debtLettersShowLetters": "debt_letters_show_letters",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
   "dependencyVerification": "dependency_verification",
