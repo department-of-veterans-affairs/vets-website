@@ -204,8 +204,8 @@ export default class MockAppointmentResponse {
     });
   }
 
-  setAdditionalAppointmentDetails(value) {
-    this.attributes.additionalAppointmentDetails = value;
+  setPatientComments(value) {
+    this.attributes.patientComments = value;
     return this;
   }
 

@@ -257,10 +257,10 @@ const responses = {
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
     const tokens = req.body.reasonCode?.text.split('comments:');
-    let additionalAppointmentDetails;
+    let patientComments;
     if (tokens) {
-      if (tokens.length > 1) [, additionalAppointmentDetails] = tokens;
-      else [additionalAppointmentDetails] = tokens;
+      if (tokens.length > 1) [, patientComments] = tokens;
+      else [patientComments] = tokens;
     }
 
     const submittedAppt = {
@@ -283,7 +283,7 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
-        additionalAppointmentDetails,
+        patientComments,
       },
     };
     currentMockId += 1;

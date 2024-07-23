@@ -67,7 +67,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       reasonCode: {
         text: 'test comment',
       },
-      additionalAppointmentDetails: 'test comment',
+      patientComments: 'test comment',
     };
 
     const appointment = createMockAppointment({

@@ -328,7 +328,7 @@ export function transformVAOSAppointment(appt) {
       purpose.serviceName === (coding?.[0]?.code || coding) ||
       purpose.commentShort === (coding?.[0]?.code || coding),
   )?.short;
-  const text = appt.reasonCode ? appt.additionalAppointmentDetails : null;
+  const text = appt.reasonCode ? appt.patientComments : null;
   if (coding && code && text) {
     comment = `${code}: ${text}`;
   } else if (coding && code) {
