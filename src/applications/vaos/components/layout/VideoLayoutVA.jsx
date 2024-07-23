@@ -75,8 +75,8 @@ export default function VideoLayoutVA({ data: appointment }) {
       <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!!facility === false &&
-          !!facilityId === false && (
+        {!facility &&
+          !facilityId && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -88,7 +88,7 @@ export default function VideoLayoutVA({ data: appointment }) {
             </>
           )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!!facility === false &&
+        {!facility &&
           !!facilityId && (
             <>
               <span>Facility details not available</span>

@@ -70,7 +70,7 @@ export default function PhoneLayout({ data: appointment }) {
       <What>{typeOfCareName}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Section heading="Scheduling facility">
-        {!!facility === false && (
+        {!facility && (
           <>
             <span>Facility not available</span>
             <br />

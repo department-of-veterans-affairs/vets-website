@@ -146,7 +146,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
-          {!!facility === false && (
+          {!facility && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -177,12 +177,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!facility && (
-              <>
-                <span>Facility not available</span>
-              </>
-            )}
-            {facility && (
+            {facility ? (
               <>
                 {facility.name}
                 <br />
@@ -190,18 +185,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
                   {address.city}, <State state={address.state} />
                 </span>
               </>
+            ) : (
+              'Facility not available'
             )}
             <br />
-            {clinicName && (
-              <>
-                <span>Clinic: {clinicName}</span>
-              </>
-            )}
-            {!clinicName && (
-              <>
-                <span>Clinic not available</span>
-              </>
-            )}
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
             <br />
             <ClinicOrFacilityPhone
               clinicPhone={clinicPhone}
