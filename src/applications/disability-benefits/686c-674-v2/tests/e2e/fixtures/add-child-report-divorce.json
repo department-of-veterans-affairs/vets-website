@@ -12,11 +12,11 @@
           "address": {
             "view:livesOnMilitaryBase": true,
             "view:livesOnMilitaryBaseInfo": {},
-            "country": "USA",
-            "street": "123 athome dr",
+            "countryName": "USA",
+            "addressLine1": "123 athome dr",
             "city": "APO",
-            "state": "AA",
-            "postalCode": "34012"
+            "stateCode": "AA",
+            "zipCode": "34012"
           }
         },
         "placeOfBirth": {
@@ -63,7 +63,9 @@
         "state": "DC",
         "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "veteranContactInformation": {
+        "phoneNumber": "1231231234"
+      }
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {

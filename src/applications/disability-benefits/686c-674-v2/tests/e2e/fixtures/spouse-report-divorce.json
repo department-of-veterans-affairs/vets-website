@@ -49,11 +49,11 @@
       "currentSpouseReasonForSeparation": "Divorce",
       "address": {
         "view:livesOnMilitaryBaseInfo": {},
-        "country": "USA",
-        "street": "1600 Pennsylvania Av",
+        "countryName": "USA",
+        "addressLine1": "1600 Pennslyvania Av",
         "city": "Washington",
-        "state": "DC",
-        "postalCode": "20500"
+        "stateCode": "DC",
+        "zipCode": "20500"
       },
       "spouseIncome": true
     },
@@ -87,7 +87,9 @@
         "state": "DC",
         "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "veteranContactInformation": {
+        "phoneNumber": "1231231234"
+      }
     },
     "view:686Information": {},
     "view:addOrRemoveDependents": {
