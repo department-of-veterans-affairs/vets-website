@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import { apiRequest } from 'platform/utilities/api';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
@@ -16,25 +17,70 @@ function App({
   savedForms,
   formData,
 }) {
-  const [localFormData, setLocalFormData] = useState(formData);
+  const [localFormData, setLocalFormData] = useState(formData || {});
+  const [loading, setLoading] = useState(true);
 
   useEffect(
     () => {
-      if (featureToggles?.vaDependentsNewFieldsForPdf) {
-        setLocalFormData(prevFormData => ({
-          ...prevFormData,
-          useNewPDF: true,
-        }));
-      }
+      const resource = '/in_progress_forms/686C-674';
+
+      apiRequest(resource)
+        .then(responseData => {
+          const fetchedFormData = responseData?.formData || {};
+
+          if (featureToggles?.vaDependentsNewFieldsForPdf) {
+            // If feature toggle is true and useNewPDF doesn't exist, add it
+            if (!fetchedFormData.useNewPDF) {
+              const updatedData = {
+                formData: { ...fetchedFormData, useNewPDF: true },
+                metaData: { ...responseData.metaData },
+              };
+
+              return apiRequest(resource, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedData),
+              }).then(() => updatedData);
+            }
+          } else if (fetchedFormData.useNewPDF) {
+            // If feature toggle is false and useNewPDF exists, remove it
+            // eslint-disable-next-line no-unused-vars
+            const { useNewPDF, ...updatedFormData } = fetchedFormData;
+            const updatedData = {
+              formData: { ...fetchedFormData, useNewPDF: false },
+              metaData: { ...responseData.metaData },
+            };
+
+            return apiRequest(resource, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(updatedData),
+            }).then(() => updatedData);
+          }
+
+          return responseData;
+        })
+        .then(responseData => {
+          // Set the updated formData to local state
+          setLocalFormData(responseData.formData);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     },
     [featureToggles],
   );
 
-  document.title = DOC_TITLE;
-
-  if (isLoading || !featureToggles || featureToggles.loading) {
+  if (loading || isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
   }
+
+  document.title = DOC_TITLE;
 
   const flipperV2 = featureToggles.vaDependentsV2;
   const hasV1Form = savedForms.some(
@@ -48,6 +94,7 @@ function App({
   if (shouldUseV2) {
     window.location.href =
       '/view-change-dependents/add-remove-form-21-686c-v2/';
+    return null;
   }
 
   const content = (
@@ -66,9 +113,6 @@ function App({
     return content;
   }
 
-  // If a user is not logged in OR
-  // a user is logged in, but hasn't gone through va file number validation
-  // redirect them to the introduction page.
   if (
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
