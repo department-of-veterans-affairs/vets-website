@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
@@ -24,7 +24,7 @@ const DeleteDraft = props => {
   const dispatch = useDispatch();
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const {
     cannotReply,
     draftId,
@@ -38,8 +38,6 @@ const DeleteDraft = props => {
     draftSequence,
     setHideDraft,
     setIsEditing,
-    setIsModalVisible,
-    isModalVisible,
     savedComposeDraft,
   } = props;
 

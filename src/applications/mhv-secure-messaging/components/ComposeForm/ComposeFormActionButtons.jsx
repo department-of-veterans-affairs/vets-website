@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import DeleteDraft from '../Draft/DeleteDraft';
 
@@ -21,8 +21,6 @@ const ComposeFormActionButtons = ({
   setIsEditing,
   savedComposeDraft,
 }) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (
@@ -87,8 +85,6 @@ const ComposeFormActionButtons = ({
         draftSequence={draftSequence}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
-        setIsModalVisible={setIsModalVisible}
-        isModalVisible={isModalVisible}
         savedComposeDraft={savedComposeDraft}
       />
     </div>

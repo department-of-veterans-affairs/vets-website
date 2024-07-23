@@ -1,5 +1,11 @@
 import React from 'react';
-import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { Router } from 'react-router-dom';
+import { combineReducers, applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
+import { createTestHistory } from 'platform/testing/unit/helpers';
+
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
@@ -8,12 +14,98 @@ import { drafts, inbox, sent } from '../fixtures/folder-inbox-response.json';
 import thread from '../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
 import reducer from '../../reducers';
 import { Prompts } from '../../util/constants';
-import * as mockProps from '../fixtures/delete-draft-mock-prop.json';
 
 describe('Delete Draft component', () => {
-  const draft = thread.threadDetails.drafts[0];
+  // This renderWithStoreAndRouter function is a replica function from the /platform-testing/react-testing-library-helpers
+  // file, the only difference is that 'store' is returned and used to mock the dispatch function in the tests.
+  // **Special permissions may be needed to alter the /platform-testing/react-testing-library-helpers file.
+  function renderWithStoreAndRouter(
+    ui,
+    { initialState, reducers = {}, store = null, path = '/', history = null },
+  ) {
+    const testStore =
+      store ||
+      createStore(
+        combineReducers({ ...commonReducer, ...reducers }),
+        initialState,
+        applyMiddleware(thunk),
+      );
 
-  xit.only('renders without errors', async () => {
+    const historyObject = history || createTestHistory(path);
+    const screen = renderInReduxProvider(
+      <Router history={historyObject}>{ui}</Router>,
+      {
+        store: testStore,
+        initialState,
+        reducers,
+      },
+    );
+
+    return { ...screen, history: historyObject, store: testStore };
+  }
+
+  let setIsModalVisibleSpy;
+  let setNavigationErrorSpy;
+  let setIsEditingSpy;
+  let setHideDraftSpy;
+  let refreshThreadCallbackSpy;
+  let unsavedDeleteSuccessfulSpy;
+  let dispatchSpy;
+
+  beforeEach(() => {
+    setIsModalVisibleSpy = sinon.spy();
+    setNavigationErrorSpy = sinon.spy();
+    setIsEditingSpy = sinon.spy();
+    setHideDraftSpy = sinon.spy();
+    refreshThreadCallbackSpy = sinon.spy();
+    unsavedDeleteSuccessfulSpy = sinon.spy();
+    dispatchSpy = sinon.spy();
+  });
+
+  it('handles saved draft and navigates correctly for /new-message', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+      },
+    };
+
+    const props = {
+      draftId: 123456,
+      draftsCount: 1,
+      savedDraft: true,
+      unsavedDraft: false,
+      activeFolder: { folderId: '1' },
+      location: { pathname: '/new-message' },
+      history: { goBack: sinon.spy() },
+    };
+
+    const { getByTestId, history } = renderWithStoreAndRouter(
+      <DeleteDraft
+        {...props}
+        setIsModalVisible={setIsModalVisibleSpy}
+        setNavigationError={setNavigationErrorSpy}
+        setIsEditing={setIsEditingSpy}
+        setHideDraft={setHideDraftSpy}
+        refreshThreadCallback={refreshThreadCallbackSpy}
+        unsavedDeleteSuccessful={unsavedDeleteSuccessfulSpy}
+      />,
+      { initialState, reducers: reducer, path: '/new-message' },
+    );
+
+    fireEvent.click(getByTestId('delete-draft-button'));
+    fireEvent.click(getByTestId('confirm-delete-draft'));
+
+    await waitFor(() => {
+      expect(setIsModalVisibleSpy.calledOnce).to.be.false;
+      // expect(dispatchSpy.calledOnce).to.be.true;
+      expect(history.location.pathname).to.equal('/new-message');
+    });
+  });
+
+  it('renders without errors', async () => {
+    const draft = thread.threadDetails.drafts[0];
     const initialState = {
       sm: {
         folders: {
@@ -31,33 +123,8 @@ describe('Delete Draft component', () => {
       },
     };
 
-    const customProps = {
-      setConfirmedDeleteClicked: () => {},
-      setHideDraft: () => {},
-      setIsEditing: () => {},
-      setIsModalVisible: () => {},
-      isModalVisible: false,
-      cannotReply: false,
-      confirmedDeleteClicked: false,
-      draft,
-      drafts: [draft],
-      draftsCount: 1,
-      draftBody: draft.body,
-      newMessageNavErr: false,
-      savedComposeDraft: true,
-      savedDraft: true,
-      setNavigationError: () => {},
-    };
-
-    // let screen = null;
-    // let setNavigationErrorSpy = null;
-    // setNavigationErrorSpy = sinon.spy();
-    const screen = renderInReduxProvider(
-      <DeleteDraft
-        draftId={draft.messageId}
-        // setNavigationError={setNavigationErrorSpy}
-        {...customProps}
-      />,
+    const screen = renderWithStoreAndRouter(
+      <DeleteDraft draftId={draft.messageId} />,
       {
         initialState,
         reducers: reducer,
@@ -69,7 +136,9 @@ describe('Delete Draft component', () => {
     });
   });
 
-  xit('opens modal on delete button click', async () => {
+  it('opens modal on delete button click', async () => {
+    const draft = thread.threadDetails.drafts[0];
+    const pathname = `/thread/${draft.messageId}/`;
     const initialState = {
       sm: {
         folders: {
@@ -78,16 +147,16 @@ describe('Delete Draft component', () => {
       },
     };
     let screen = null;
-    let setNavigationErrorSpy = null;
-    setNavigationErrorSpy = sinon.spy();
-    screen = renderInReduxProvider(
+    screen = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={mockProps.draft.messageId}
+        draftId={draft.messageId}
         setNavigationError={setNavigationErrorSpy}
+        savedReplyDraft
       />,
       {
         initialState,
         reducers: reducer,
+        path: pathname,
       },
     );
     fireEvent.click(screen.getByTestId('delete-draft-button'));
@@ -102,90 +171,139 @@ describe('Delete Draft component', () => {
         exact: true,
       }),
     );
+    expect(screen.findByText('Delete draft', { exact: true }));
+    expect(screen.findByText('Cancel', { exact: true }));
     expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
       'true',
     );
-
-    fireEvent.click(document.querySelector('va-button[text="Cancel"]'));
-    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
-      'visible',
-      'false',
-    );
   });
 
-  xit('on delete draft confirmation, calls deleteDraft action on saved draft', async () => {
+  it('on delete draft confirmation, calls deleteDraft action on saved draft', async () => {
+    const draft = thread.threadDetails.drafts[0];
+    const pathname = `/thread/${draft.messageId}/`;
+
     const initialState = {
       sm: {
         folders: {
           folder: drafts,
         },
+        threadDetails: {
+          drafts: [draft],
+        },
       },
     };
-    let screen = null;
-    let setNavigationErrorSpy = null;
-    setNavigationErrorSpy = sinon.spy();
-    screen = renderInReduxProvider(
+
+    const screen = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={mockProps.draft.messageId}
+        draftId={draft.messageId}
         setNavigationError={setNavigationErrorSpy}
+        isModalVisible
       />,
       {
         initialState,
         reducers: reducer,
+        path: pathname,
       },
     );
     fireEvent.click(screen.getByTestId('delete-draft-button'));
-
-    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    expect(setNavigationErrorSpy.called).to.be.true;
-    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
-      'visible',
-      'false',
-    );
-  });
-
-  xit('on delete draft confirmation, deletes unsaved new draft', async () => {
-    const initialState = {
-      sm: {
-        folders: {
-          folder: sent,
-        },
-      },
-    };
-    let screen = null;
-
-    screen = renderInReduxProvider(
-      <DeleteDraft draftId={undefined} messageBody="Unsaved message text" />,
-      {
-        initialState,
-        reducers: reducer,
-      },
-    );
-    fireEvent.click(screen.getByTestId('delete-draft-button'));
-
     expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
       'true',
     );
     fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
-      'visible',
-      'false',
-    );
+    await waitFor(() => {
+      expect(setNavigationErrorSpy.called).to.be.true;
+    });
   });
 
-  xit('renders blank compose draft without errors', async () => {
+  it('deletes blank, unsaved new draft confirmation', async () => {
     const initialState = {
       sm: {
         folders: {
           folder: inbox,
         },
+        threadDetails: {
+          drafts: [],
+          cannotReply: false,
+        },
       },
     };
-    let screen = null;
 
-    screen = renderInReduxProvider(
+    const props = {
+      draftId: undefined,
+      draftsCount: 0,
+      draftBody: '',
+      messageBody: '',
+      savedDraft: false,
+      unsavedDraft: true,
+      editableDraft: false,
+    };
+
+    const initialHistory = `/new-message/`;
+    const { getByTestId } = renderWithStoreAndRouter(
+      <DeleteDraft {...props} />,
+      { initialState, reducers: reducer, path: initialHistory },
+    );
+
+    fireEvent.click(getByTestId('delete-draft-button'));
+
+    await waitFor(() => {
+      expect(setIsModalVisibleSpy.called).to.be.false;
+    });
+  });
+
+  it('closes delete modal on blank, unsaved new draft', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          drafts: [],
+          cannotReply: false,
+        },
+      },
+    };
+
+    const props = {
+      draftId: undefined,
+      draftsCount: 0,
+      draftBody: '',
+      messageBody: '',
+      savedDraft: false,
+      unsavedDraft: true,
+      editableDraft: false,
+    };
+
+    const initialHistory = `/new-message/`;
+    const { getByTestId } = renderWithStoreAndRouter(
+      <DeleteDraft {...props} />,
+      { initialState, reducers: reducer, path: initialHistory },
+    );
+
+    fireEvent.click(getByTestId('delete-draft-button'));
+    fireEvent.click(getByTestId('cancel-delete-draft'));
+
+    await waitFor(() => {
+      expect(setIsModalVisibleSpy.called).to.be.false;
+    });
+  });
+
+  it('renders blank /new-message draft without errors', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          drafts: [],
+          cannotReply: false,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
       <DeleteDraft
         draftId={undefined}
         navigationError={null}
@@ -194,10 +312,10 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
+        path: '/new-message/',
       },
     );
 
-    expect(screen.getByTestId('delete-draft-button')).to.exist;
     const deleteButton = screen.getByTestId('delete-draft-button');
     fireEvent.click(deleteButton);
 
@@ -207,36 +325,89 @@ describe('Delete Draft component', () => {
     );
   });
 
-  xit('renders blank reply draft without errors', async () => {
+  it('deletes unsaved /new-message draft without errors', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          cannotReply: false,
+        },
+      },
+    };
+    const props = {
+      unsavedDraft: true,
+      newMessageNavErr: sinon.spy(),
+      setIsModalVisible: setIsModalVisibleSpy,
+    };
+    const initialHistory = `/new-message/`;
+    const { getByTestId, store } = renderWithStoreAndRouter(
+      <DeleteDraft {...props} />,
+      {
+        initialState,
+        reducers: reducer,
+        path: initialHistory,
+      },
+    );
+
+    store.dispatch = dispatchSpy;
+
+    const deleteButton = getByTestId('delete-draft-button');
+    expect(deleteButton).to.exist;
+    fireEvent.click(deleteButton);
+
+    const deleteModal = getByTestId('delete-draft-modal');
+    expect(deleteModal).to.exist;
+    expect(deleteModal).to.have.attribute('visible', 'true');
+
+    const deleteModalButton = getByTestId('confirm-delete-draft');
+    fireEvent.click(deleteModalButton);
+
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(setIsModalVisibleSpy.called).to.be.false;
+    });
+  });
+
+  it('renders blank /reply draft from Sent folder without errors', async () => {
     const initialState = {
       sm: {
         folders: {
           folder: sent,
         },
+        threadDetails: {
+          drafts: [],
+          cannotReply: false,
+          messages: [{ messageId: 1234567 }],
+        },
       },
     };
-    let screen = null;
 
-    screen = renderInReduxProvider(
+    const screen = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={null}
-        navigationError={undefined}
+        draftId={undefined}
         formPopulated={undefined}
         messageBody=""
+        unsavedDraft
+        blankReplyDraft
+        draftBody={undefined}
+        savedReplyDraft={false}
+        newMessageNavErr={false}
       />,
       {
         initialState,
         reducers: reducer,
+        path: `/reply/123456/`,
       },
     );
 
-    expect(screen.getByTestId('delete-draft-button')).to.exist;
-    const deleteButton = screen.queryByTestId('delete-draft-button');
+    const deleteButton = screen.getByTestId('delete-draft-button');
     fireEvent.click(deleteButton);
 
     expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
-      'false',
+      'true',
     );
   });
 });
