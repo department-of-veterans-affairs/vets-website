@@ -605,8 +605,8 @@ class PatientMessageDraftsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = MessageBody => {
-    cy.get(Locators.MESSAGES_BODY)
+  verifyMessagesBodyText = (index, MessageBody) => {
+    cy.get(`[subheader="draft #${index}..."]`)
       .should('have.attr', 'value')
       .and('eq', MessageBody);
   };
@@ -687,6 +687,7 @@ class PatientMessageDraftsPage {
       .shadow()
       .find('h2')
       .should('contain', `can't save attachment`);
+  };
 
   verifySaveModalButtons = () => {
     cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {

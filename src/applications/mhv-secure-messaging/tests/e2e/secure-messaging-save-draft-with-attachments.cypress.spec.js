@@ -1,7 +1,6 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
-import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
@@ -28,13 +27,17 @@ describe('Secure Messaging Draft Save with Attachments', () => {
         mockDraftResponse.data.attributes.messageId
       }`,
 
-      mockDraftResponse,
-    ).as('autosaveResponse');
+      {},
+    ).as('draftSave');
 
     PatientComposePage.saveDraftButton().click();
+    PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
     // verify modal elements
-    cy.get(Locators.ALERTS.HEADER).should('have.text', Alerts.SAVE_ATTCH);
+    cy.get(`[data-testid="quit-compose-double-dare"]`)
+      .shadow()
+      .find(`h2`)
+      .should('have.text', Alerts.SAVE_ATTCH);
     PatientMessageDraftsPage.verifySaveModalButtons();
 
     cy.injectAxe();

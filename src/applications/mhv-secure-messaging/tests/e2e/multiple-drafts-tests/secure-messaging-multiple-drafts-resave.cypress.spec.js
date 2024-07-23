@@ -16,11 +16,15 @@ describe('re-save multiple drafts in one thread', () => {
     PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
-  it('verify first draft could be re-saved', () => {
+  it('verify recent draft could be re-saved', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('textarea').type('newText', { force: true });
+    PatientMessageDraftsPage.expandSingleDraft(2);
+    cy.get('#reply-message-body-2')
+      .shadow()
+      .find('textarea')
+      .type('newText', { force: true });
     PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[0],
       updatedMultiDraftResponse.data[0].attributes.messageId,
@@ -30,13 +34,18 @@ describe('re-save multiple drafts in one thread', () => {
     PatientMessageDraftsPage.verifySavedMessageAlertText(
       Data.MESSAGE_WAS_SAVED,
     );
+    PatientInboxPage.verifyNotForPrintHeaderText();
   });
 
-  it('verify second draft could be re-saved', () => {
+  it('verify earlier draft could be re-saved', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.get('#edit-draft-button').click({ waitForAnimations: true });
-    cy.get('textarea').type('newText', { force: true });
+
+    PatientMessageDraftsPage.expandSingleDraft(1);
+    cy.get('#reply-message-body-1')
+      .shadow()
+      .find('textarea')
+      .type('newText', { force: true });
 
     PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[1],
