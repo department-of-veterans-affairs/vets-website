@@ -112,9 +112,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -199,9 +197,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -528,9 +524,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
