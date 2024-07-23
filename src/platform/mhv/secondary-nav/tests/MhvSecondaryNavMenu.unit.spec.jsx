@@ -44,26 +44,26 @@ const setWindowUrl = pathname => {
 };
 
 describe('MHV Secondary Navigation Menu Component', () => {
+  const activeClassString = 'active';
+  const medNavItem = {
+    title: 'Medications',
+    abbreviation: 'Meds',
+    icon: 'fas fa-prescription-bottle',
+    href: '/my-health/records',
+    appRootUrl: '/my-health/medications',
+  };
+
+  /**
+   * Gets the one sec nav item by rendering it with a given item.
+   * @param {Object} item the item to render
+   * @returns the link to the item
+   */
+  const getOneLink = item => {
+    const { getByTestId } = render(<MhvSecondaryNavMenu items={[item]} />);
+    return getByTestId('mhv-sec-nav-item');
+  };
+
   describe('set active item', () => {
-    const activeClassString = 'active';
-    const medNavItem = {
-      title: 'Medications',
-      abbreviation: 'Meds',
-      icon: 'fas fa-prescription-bottle',
-      href: '/my-health/records',
-      appRootUrl: '/my-health/medications',
-    };
-
-    /**
-     * Gets the one sec nav item by rendering it with a given item.
-     * @param {Object} item the item to render
-     * @returns the link to the item
-     */
-    const getOneLink = item => {
-      const { getByTestId } = render(<MhvSecondaryNavMenu items={[item]} />);
-      return getByTestId('mhv-sec-nav-item');
-    };
-
     it('based on href', () => {
       testSecNavItems.forEach((item, itemIndex) => {
         setWindowUrl(item.href);
@@ -113,6 +113,14 @@ describe('MHV Secondary Navigation Menu Component', () => {
       medNavItem.appRootUrl = '/my-health/medications/';
       setWindowUrl('/my-health/medications');
       expect(getOneLink(medNavItem).className).to.include(activeClassString);
+    });
+  });
+
+  describe('renders', () => {
+    it('when window location pathname is not set', () => {
+      medNavItem.appRootUrl = '/my-health/medications/';
+      delete window.location;
+      expect(getOneLink(medNavItem)).to.exist;
     });
   });
 });
