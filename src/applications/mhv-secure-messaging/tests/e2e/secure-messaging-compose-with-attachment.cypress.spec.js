@@ -28,10 +28,8 @@ describe('Compose a new message with attachments', () => {
   });
 
   it('verify attachments info', () => {
-    const optList = Data.ATTACH_INFO;
-
     cy.get(Locators.INFO.ATTACH_INFO).click({ force: true });
-    PatientComposePage.verifyAttachmentInfo(optList);
+    PatientComposePage.verifyAttachmentInfo(Data.ATTACH_INFO);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

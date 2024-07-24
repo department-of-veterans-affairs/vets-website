@@ -559,14 +559,14 @@ const formConfig = {
               },
               items: {
                 applicantName: fullNameUI(),
-                applicantDOB: dateOfBirthUI({ required: true }),
+                applicantDob: dateOfBirthUI({ required: true }),
               },
             },
           },
-          schema: applicantListSchema(['applicantDOB'], {
+          schema: applicantListSchema(['applicantDob'], {
             titleSchema,
             applicantName: fullNameSchema,
-            applicantDOB: dateOfBirthSchema,
+            applicantDob: dateOfBirthSchema,
           }),
         },
         page13a: {
@@ -894,7 +894,7 @@ const formConfig = {
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
-                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                getAgeInYears(formData.applicants[index]?.applicantDob),
                 18,
                 23,
               )
@@ -937,7 +937,7 @@ const formConfig = {
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
-                getAgeInYears(formData.applicants[index]?.applicantDOB),
+                getAgeInYears(formData.applicants[index]?.applicantDob),
                 18,
                 23,
               ) &&
@@ -968,7 +968,7 @@ const formConfig = {
             return (
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
-              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 18 &&
+              getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
               formData.applicants[index]?.applicantDependentStatus?.status ===
                 'over18HelplessChild'
             );
@@ -1297,7 +1297,7 @@ const formConfig = {
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'ineligible' &&
-              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65
             );
           },
           CustomPage: FileFieldWrapped,
