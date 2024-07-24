@@ -32,7 +32,6 @@ const UpcomingAppointmentsListItemAction = props => {
       goToNextPage();
     }
   };
-
   if (
     appointment.eligibility &&
     areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)
@@ -45,6 +44,9 @@ const UpcomingAppointmentsListItemAction = props => {
           onClick={e => action(e, getAppointmentId(appointment))}
           text={t('check-in-now')}
           data-testid="action-link"
+          label={t('check-in-now-for-your-date-time-appointment', {
+            date: new Date(appointment.startTime),
+          })}
         />
       </p>
     );
