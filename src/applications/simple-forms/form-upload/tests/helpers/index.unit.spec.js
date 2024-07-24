@@ -1,6 +1,5 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as actions from 'platform/forms-system/src/js/actions';
 import { shallow } from 'enzyme';
 import {
   getFileSize,
@@ -8,7 +7,6 @@ import {
   getFormContent,
   handleRouteChange,
   mask,
-  uploadScannedForm,
 } from '../../helpers';
 
 describe('Helpers', () => {
@@ -63,26 +61,6 @@ describe('Helpers', () => {
       expect(node.text()).to.contain('●●●–●●–stuf');
 
       node.unmount();
-    });
-  });
-
-  describe('uploadScannedForm', () => {
-    it('should call uploadFile', () => {
-      const uploadFileStub = sinon
-        .stub(actions, 'uploadFile')
-        .returns(() => {});
-      const formNumber = '21-0779';
-      const fileToUpload = {};
-      const onFileUploaded = () => {};
-      const dispatch = uploadScannedForm(
-        formNumber,
-        fileToUpload,
-        onFileUploaded,
-      );
-
-      dispatch();
-
-      expect(uploadFileStub.called).to.be.true;
     });
   });
 
