@@ -7,6 +7,8 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
   VaLink,
+  VaLinkAction,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { requiredFiles, optionalFiles } from '../config/requiredUploads';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
@@ -117,8 +119,8 @@ export function ConfirmationPage(props) {
       <h2>How to contact us about your CHAMPVA application</h2>
       <p>
         If you have any questions about your application you can call the
-        CHAMPVA call center at 800-733-8387. We’re here Monday through Friday,
-        8:05 a.m. to 7:30 p.m. ET.
+        CHAMPVA call center at <VaTelephone contact="800-733-8387" />. We’re
+        here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
         <br />
         <br />
         You can also contact us online through our Ask VA tool.
@@ -128,9 +130,7 @@ export function ConfirmationPage(props) {
       </p>
       <br />
       <br />
-      <a className="vads-c-action-link--green" href="https://www.va.gov/">
-        Go back to VA.gov
-      </a>
+      <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );
 }
