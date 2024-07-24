@@ -146,6 +146,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/line 1/i));
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
+      const link = screen.getByRole('link', { name: /Directions/i });
+      const href = link.getAttribute('href');
+      const urlParams = new URLSearchParams(href);
+      expect(urlParams.get('daddr')).to.be.ok;
 
       expect(
         screen.container.querySelector('va-telephone[contact="123-456-7890"]'),
