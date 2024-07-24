@@ -87,7 +87,7 @@ export const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
-  version: 2,
+  version: migrations.length,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
