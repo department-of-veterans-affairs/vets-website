@@ -27,10 +27,13 @@ export default {
     },
     'view:disabilityEligibility': {
       'ui:description': (
-        <va-link
+        <a
           href="https://www.va.gov/disability/eligibility"
-          text="Learn more about disability ratings."
-        />
+          target="_blank"
+          rel="noreferrer"
+        >
+          Learn more about disability ratings.
+        </a>
       ),
     },
   },
