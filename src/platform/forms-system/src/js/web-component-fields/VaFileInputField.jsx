@@ -2,11 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  getFormContent,
-  uploadScannedForm,
-} from '~/applications/simple-forms/form-upload/helpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
+import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 
 /**
  * Usage uiSchema:
@@ -41,21 +38,8 @@ const VaFileInputField = props => {
   const mappedProps = vaFileInputFieldMapping(props);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
-  const { formNumber } = getFormContent();
   const formData = useSelector(state => state.form.data);
-
-  const areFilesEqual = (file1, file2) => {
-    if (file1 === null || file2 === null) {
-      return false;
-    }
-
-    return (
-      file1.name === file2.name &&
-      file1.size === file2.size &&
-      file1.type === file2.type &&
-      file1.lastModified === file2.lastModified
-    );
-  };
+  const { formNumber } = formData;
 
   const onFileUploaded = useCallback(
     uploadedFile => {

@@ -1,5 +1,3 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { uploadFile } from 'platform/forms-system/src/js/actions';
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
 import {
@@ -7,9 +5,6 @@ import {
   CHILD_CONTENT_0779,
   ADD_CHILD_CONTENT_0779,
 } from '../config/constants';
-
-export const MAX_FILE_SIZE_MB = 25;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 export const getFormNumber = () => {
   const path = window?.location?.pathname || '';
@@ -74,34 +69,4 @@ export const mask = value => {
     `●●●–●●–${number}`,
     `ending with ${number.split('').join(' ')}`,
   );
-};
-
-const createPayload = (file, formId) => {
-  const payload = new FormData();
-  payload.set('form_id', formId);
-  payload.append('file', file);
-  return payload;
-};
-
-export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
-  const uiOptions = {
-    fileUploadUrl: `${
-      environment.API_URL
-    }/simple_forms_api/v1/scanned_form_upload`,
-    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-    maxSize: MAX_FILE_SIZE_BYTES,
-    createPayload,
-    parseResponse: ({ data }) => data?.attributes,
-  };
-
-  return dispatch => {
-    const uploadRequest = uploadFile(
-      fileToUpload,
-      uiOptions,
-      () => {}, // onProgress
-      file => onFileUploaded(file),
-      () => {}, // onError
-    );
-    uploadRequest(dispatch, () => ({ form: { formId: formNumber } }));
-  };
 };
