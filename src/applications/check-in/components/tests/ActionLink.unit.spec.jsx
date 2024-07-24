@@ -3,9 +3,16 @@ import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import ActionLink from '../ActionLink';
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('ActionLink', () => {
     it('display the correct label for preCheckIn', () => {
       const { getByTestId } = render(
