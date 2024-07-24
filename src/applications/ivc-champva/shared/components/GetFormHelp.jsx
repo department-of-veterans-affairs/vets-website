@@ -2,7 +2,18 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export default function GetFormHelp() {
-  return (
+  // Is the current page a confirmation page under a CHAMPVA form?
+  const isChampvaConfirmation = /.*champva.*confirmation(\/)?$/.test(
+    window.location.href,
+  );
+  const isFMPConfirmation = /.*foreign-medical-program.*confirmation(\/)?$/.test(
+    window.location.href,
+  );
+  // Don't show footers on CHAMPVA confirmation pages (we still want them
+  // on all other pages though).
+  return isChampvaConfirmation || isFMPConfirmation ? (
+    <div className="row vads-u-margin-bottom--4" />
+  ) : (
     <div className="row vads-u-margin-bottom--4">
       <div className="form-panel">
         <h2 className="vads-u-font-size--h3">Need help?</h2>
