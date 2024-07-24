@@ -1,5 +1,5 @@
 import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
-import { mockUser } from './login';
+import { mockUser, notVerifiedUser } from './login';
 
 // Testing Start enrollment verification
 describe('Enrollment Verification Page Tests', () => {
@@ -197,5 +197,16 @@ describe('Enrollment Verification Page Tests', () => {
       'contain',
       'Please check the box to confirm the information is correct.',
     );
+  });
+  it('should show not verified Alert if user is not verified', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login(notVerifiedUser);
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
   });
 });
