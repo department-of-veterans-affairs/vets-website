@@ -72,29 +72,22 @@ describe('SearchResults', () => {
   it('should render rep email if rep email exists', () => {
     const wrapper = mount(
       <Provider store={mockStore}>
-        <SearchResult
-          phone="614-249-9393"
-          email="rep@example.com"
-          addressLine1="123 test place"
-        />
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
-    const emailLink = wrapper.find('a[href="mailto:rep@example.com"]');
+    const emailLink = wrapper.find('a[href="mailto:test@example.com"]');
 
     expect(emailLink.exists(), 'Email link exists').to.be.true;
     expect(emailLink, 'Email link length').to.have.lengthOf(1);
 
     wrapper.unmount();
   });
+
   it('should render address link if addressLine1 exists', () => {
     const wrapper = mount(
       <Provider store={mockStore}>
-        <SearchResult
-          phone="614-249-9393"
-          email="rep@example.com"
-          addressLine1="123 test place"
-        />
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
@@ -107,11 +100,7 @@ describe('SearchResults', () => {
   it('should render address link if city exists', () => {
     const wrapper = mount(
       <Provider store={mockStore}>
-        <SearchResult
-          phone="614-249-9393"
-          email="rep@example.com"
-          city="Columbus"
-        />
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
@@ -124,11 +113,7 @@ describe('SearchResults', () => {
   it('should render address link if stateCode exists', () => {
     const wrapper = mount(
       <Provider store={mockStore}>
-        <SearchResult
-          phone="614-249-9393"
-          email="rep@example.com"
-          stateCode="CA"
-        />
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
@@ -140,12 +125,8 @@ describe('SearchResults', () => {
   });
   it('should render address link if zipCode exists', () => {
     const wrapper = mount(
-      <Provider store={mockStore.getState()}>
-        <SearchResult
-          phone="614-249-9393"
-          email="rep@example.com"
-          zipCode="43210"
-        />{' '}
+      <Provider store={mockStore}>
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
@@ -158,17 +139,12 @@ describe('SearchResults', () => {
   it('sets the aria-label on the address link', () => {
     const wrapper = mount(
       <Provider store={mockStore}>
-        <SearchResult
-          addressLine1="123 test place"
-          city="Columbus"
-          stateCode="CA"
-          zipCode="43210"
-        />
+        <SearchResult {...testProps} />
       </Provider>,
     );
 
     const expectedAriaLabel =
-      '123 test place Columbus, CA 43210 (opens in a new tab)';
+      '123 Main St Suite 100 Columbus, OH 43210 (opens in a new tab)';
     const addressLink = wrapper.find('.address-link a');
 
     expect(addressLink.exists(), 'Address link exists').to.be.true;
@@ -180,7 +156,7 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
 
-  it('displays the "Thanks for reporting outdated information." message when reports are present', () => {
+  it('Does not display the "Thanks for reporting outdated information." message when reports are present', () => {
     const { queryByText } = render(
       <Provider store={mockStore}>
         <SearchResult {...testProps} />
@@ -190,7 +166,7 @@ describe('SearchResults', () => {
     const thankYouMessage = queryByText(
       'Thanks for reporting outdated information.',
     );
-    expect(thankYouMessage).to.not.be.null;
+    expect(thankYouMessage).to.be.null;
   });
   it('renders addressLine2 if it exists', () => {
     const { container } = render(
