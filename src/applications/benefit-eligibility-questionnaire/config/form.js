@@ -4,26 +4,12 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../../simple-forms/shared/components/GetFormHelp';
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/NA-schema.json';
-
-// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import * as address from 'platform/forms-system/src/js/definitions/address';
-// import fullSchema from '../NA-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/NA-schema.json';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 // pages
 import goals from '../pages/goals';
@@ -31,6 +17,14 @@ import disabilityRating from '../pages/disabilityRating';
 import separation from '../pages/separation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const isOnReviewPage = currentLocation => {
+  return currentLocation?.pathname.includes('/review-and-submit');
+};
+
+const isOnConfirmationPage = currentLocation => {
+  return currentLocation?.pathname.includes('/confirmation');
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -44,6 +38,14 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   stepLabels: 'Goals;Disability;Separation',
   formId: 'T-QSTNR',
+  customText: {
+    submitButtonText: 'Submit',
+  },
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your benefits questionnaire is in progress.',
@@ -58,9 +60,23 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Complete the benefit eligibility questionnaire',
-  subTitle:
-    'Please answer the questions to help us recommend helpful resources and benefits.',
+  title: ({ currentLocation }) => {
+    if (isOnConfirmationPage(currentLocation)) {
+      return 'Your benefits and resources';
+    }
+    if (isOnReviewPage(currentLocation)) {
+      return 'Review your entries';
+    }
+    return 'Complete the benefit eligibility questionnaire';
+  },
+  subTitle: ({ currentLocation }) => {
+    if (
+      isOnReviewPage(currentLocation) ||
+      isOnConfirmationPage(currentLocation)
+    )
+      return '';
+    return 'Please answer the questions to help us recommend helpful resources and benefits.';
+  },
   defaultDefinitions: {
     fullName,
     ssn,
