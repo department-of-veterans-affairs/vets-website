@@ -846,3 +846,12 @@ export function hasAddressFormChanged(currentState) {
   };
   return !deepEqual(initialState, filledCurrentState);
 }
+export const delDateHandler = (delDate, indicator) => {
+  if (delDate === null) {
+    if (indicator?.toUpperCase() === 'B') {
+      return 'You currently do not have a delimiting date.';
+    }
+    return 'n/a';
+  }
+  return delDate;
+};

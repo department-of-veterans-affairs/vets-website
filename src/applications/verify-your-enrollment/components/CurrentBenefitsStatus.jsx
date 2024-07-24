@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Paragraph } from '../constants';
+import { delDateHandler } from '../helpers';
 
 const CurrentBenefitsStatus = ({
   updated,
   remainingBenefits,
   expirationDate,
   link,
+  indicator,
 }) => {
   const response = useSelector(state => state.personalInfo);
   if (response?.error?.error === 'Forbidden') return null;
@@ -22,7 +24,7 @@ const CurrentBenefitsStatus = ({
           <Paragraph title=" Remaining benefits" date={remainingBenefits} />
           <Paragraph
             title=" Expiration date"
-            date={expirationDate}
+            date={delDateHandler(expirationDate, indicator)}
             className="vads-u-margin-top--neg2"
           />
         </div>
@@ -38,6 +40,7 @@ const CurrentBenefitsStatus = ({
 
 CurrentBenefitsStatus.propTypes = {
   expirationDate: PropTypes.string,
+  indicator: PropTypes.string,
   link: PropTypes.func,
   remainingBenefits: PropTypes.string,
   updated: PropTypes.string,
