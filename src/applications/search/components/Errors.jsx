@@ -17,7 +17,7 @@ const Errors = ({ userInput, searchInput }) => {
   return (
     <div className="columns vads-u-margin-bottom--4">
       {/* this is the alert box for when searches fail due to server issues */}
-      <va-alert status="error" data-e2e-id="alert-box" uswds>
+      <va-alert status="error" data-e2e-id="alert-box">
         <h2 slot="headline">Your search didn’t go through</h2>
         <p>{errorMessage}</p>
       </va-alert>

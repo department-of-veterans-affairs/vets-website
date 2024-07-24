@@ -13,7 +13,6 @@ const Breadcrumbs = () => {
         class="vads-u-margin-left--1p5"
         id="search-breadcrumbs"
         label="Breadcrumbs"
-        uswds
         breadcrumbList={[
           {
             href: '/',

@@ -232,7 +232,6 @@ class SearchApp extends Component {
               onInput={this.handleInputChange}
               onSubmit={this.handleSearch}
               value={userInput}
-              uswds
             />
           )}
           {this.props.searchDropdownComponentEnabled && (
@@ -240,7 +239,6 @@ class SearchApp extends Component {
               id="search-results-page-dropdown"
               onInputSubmit={this.onInputSubmit}
               startingValue={userInput}
-              uswds
             />
           )}
         </div>
@@ -307,7 +305,6 @@ class SearchApp extends Component {
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={7}
-                uswds
               />
             )}
           <span className="powered-by">Powered by Search.gov</span>
