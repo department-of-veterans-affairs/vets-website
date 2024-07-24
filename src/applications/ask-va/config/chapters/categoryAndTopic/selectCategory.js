@@ -8,7 +8,7 @@ const selectCategoryPage = {
   uiSchema: {
     'ui:title': SignInMayBeRequiredCategoryPage,
     'ui:description': FormElementTitle({
-      title: CHAPTER_1.PAGE_2.PAGE_DESCRIPTION,
+      title: CHAPTER_1.PAGE_1.PAGE_DESCRIPTION,
     }),
     'ui:objectViewField': PageFieldSummary,
     selectCategory: {
