@@ -69,6 +69,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK: '00-1234',
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
+  FORM_MOCK_AE_DESIGN_PATTERNS: 'FORM_MOCK_AE_DESIGN_PATTERNS',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([

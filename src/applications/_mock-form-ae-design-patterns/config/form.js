@@ -5,6 +5,7 @@ import profileContactInfo from 'platform/forms-system/src/js/definitions/profile
 // import initialData from '../tests/fixtures/data/test-data.json';
 // import contactInformation1 from '../pages/contactInformation1';
 
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -31,7 +32,7 @@ const formConfig = {
   trackingPrefix: '_mock-form-ae-design-patterns-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: 'mock-form-ae-design-patterns',
+  formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
