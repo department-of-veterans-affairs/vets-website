@@ -238,9 +238,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 
       return (
         <div
-          className={
-            review ? 'vads-u-margin-y--2 vye-left-border' : 'vads-u-margin-y--2'
-          }
+          className="vads-u-margin-y--2"
           key={`Enrollment-to-be-verified-${myUUID}`}
         >
           <p
