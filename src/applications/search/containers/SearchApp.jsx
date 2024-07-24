@@ -294,6 +294,7 @@ class SearchApp extends Component {
           />
         )}
         <ResultsList
+          loading={loading}
           query={query}
           searchData={this.props.search}
           typeaheadUsed={this.state.typeaheadUsed}
@@ -391,6 +392,7 @@ SearchApp.propTypes = {
     push: PropTypes.func,
   }),
   searchDropdownComponentEnabled: PropTypes.bool,
+  searchGovMaintenance: PropTypes.bool,
 };
 
 const SearchAppContainer = withRouter(

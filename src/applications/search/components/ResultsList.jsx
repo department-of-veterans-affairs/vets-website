@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Result from './Result';
 
-const ResultsList = ({ query, searchData, typeaheadUsed }) => {
+const ResultsList = ({ loading, query, searchData, typeaheadUsed }) => {
   const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
   const { results } = searchData;
+
+  if (loading) {
+    return <va-loading-indicator message="Loading results..." />;
+  }
 
   if (results && results.length > 0) {
     return (
@@ -52,6 +56,7 @@ const ResultsList = ({ query, searchData, typeaheadUsed }) => {
 };
 
 ResultsList.propTypes = {
+  loading: PropTypes.bool,
   query: PropTypes.string,
   searchData: PropTypes.object,
   typeaheadUsed: PropTypes.bool,
