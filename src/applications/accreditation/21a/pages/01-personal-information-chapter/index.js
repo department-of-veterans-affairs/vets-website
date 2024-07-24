@@ -1,6 +1,8 @@
+import intro from './intro';
 import role from './role';
 import yesNoPageSchema from '../helpers/yesNoPageSchema';
-import personalInformation from './personalInformation';
+import notInGoodStanding from './notInGoodStanding';
+import nameDateOfBirth from './nameDateOfBirth';
 import placeOfBirth from './placeOfBirth';
 import contactInformation from './contactInformation';
 import homeAddress from './homeAddress';
@@ -13,14 +15,16 @@ import otherAddress from './otherAddress';
 export default {
   title: 'Personal information',
   pages: {
+    intro,
     role,
-    barStanding: yesNoPageSchema({
+    standingWithBar: yesNoPageSchema({
       title: 'Standing with the bar',
-      path: 'bar-standing',
+      path: 'standing-with-bar',
       question:
         'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
     }),
-    personalInformation,
+    notInGoodStanding,
+    nameDateOfBirth,
     placeOfBirth,
     contactInformation,
     homeAddress,
