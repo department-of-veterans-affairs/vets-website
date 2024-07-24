@@ -8,6 +8,7 @@ const ConfirmationPending = ({
   confirmationDate,
   confirmationError,
   confirmationLoading,
+  form1990mebConfirmationEmail,
   printPage,
   sendConfirmation,
   userEmail,
@@ -15,13 +16,15 @@ const ConfirmationPending = ({
 }) => {
   useEffect(
     () => {
-      sendConfirmation({
-        claimStatus: 'IN_PROGRESS',
-        email: userEmail,
-        firstName: userFirstName,
-      });
+      if (form1990mebConfirmationEmail) {
+        sendConfirmation({
+          claimStatus: 'IN_PROGRESS',
+          email: userEmail,
+          firstName: userFirstName,
+        });
+      }
     },
-    [sendConfirmation, userEmail, userFirstName],
+    [sendConfirmation, userEmail, userFirstName, form1990mebConfirmationEmail],
   );
 
   if (confirmationLoading) {
@@ -128,6 +131,7 @@ const ConfirmationPending = ({
 ConfirmationPending.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
+  form1990mebConfirmationEmail: PropTypes.bool.isRequired,
   printPage: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,

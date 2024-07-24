@@ -28,6 +28,7 @@ export const ConfirmationPage = ({
   sendConfirmation,
   confirmationLoading,
   confirmationError,
+  form1990mebConfirmationEmail,
 }) => {
   useEffect(
     () => {
@@ -56,6 +57,7 @@ export const ConfirmationPage = ({
           confirmationDate={confirmationDate}
           confirmationError={confirmationError}
           confirmationLoading={confirmationLoading}
+          form1990mebConfirmationEmail={form1990mebConfirmationEmail}
           printPage={printPage}
           sendConfirmation={sendConfirmation}
           userEmail={userEmail}
@@ -70,6 +72,7 @@ export const ConfirmationPage = ({
           confirmationDate={confirmationDate}
           confirmationError={confirmationError}
           confirmationLoading={confirmationLoading}
+          form1990mebConfirmationEmail={form1990mebConfirmationEmail}
           printPage={printPage}
           sendConfirmation={sendConfirmation}
           userEmail={userEmail}
@@ -85,6 +88,7 @@ export const ConfirmationPage = ({
           confirmationDate={confirmationDate}
           confirmationError={confirmationError}
           confirmationLoading={confirmationLoading}
+          form1990mebConfirmationEmail={form1990mebConfirmationEmail}
           printPage={printPage}
           sendConfirmation={sendConfirmation}
           userEmail={userEmail}
@@ -115,6 +119,8 @@ const mapStateToProps = state => ({
   confirmationError: state.confirmationError || null,
   confirmationLoading: state.confirmationLoading || false,
   confirmationSuccess: state.confirmationSuccess || false,
+  form1990mebConfirmationEmail:
+    state.featureFlags?.form1990mebConfirmationEmail,
 });
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,

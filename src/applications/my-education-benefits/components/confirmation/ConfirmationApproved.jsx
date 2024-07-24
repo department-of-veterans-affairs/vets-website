@@ -10,6 +10,7 @@ const ConfirmationApproved = ({
   confirmationDate,
   confirmationError,
   confirmationLoading,
+  form1990mebConfirmationEmail,
   printPage,
   sendConfirmation,
   userEmail,
@@ -17,13 +18,15 @@ const ConfirmationApproved = ({
 }) => {
   useEffect(
     () => {
-      sendConfirmation({
-        claimStatus: 'ELIGIBLE',
-        email: userEmail,
-        firstName: userFirstName,
-      });
+      if (form1990mebConfirmationEmail) {
+        sendConfirmation({
+          claimStatus: 'ELIGIBLE',
+          email: userEmail,
+          firstName: userFirstName,
+        });
+      }
     },
-    [sendConfirmation, userEmail, userFirstName],
+    [sendConfirmation, userEmail, userFirstName, form1990mebConfirmationEmail],
   );
 
   if (confirmationLoading) {
@@ -143,6 +146,7 @@ ConfirmationApproved.propTypes = {
   confirmationDate: PropTypes.string.isRequired,
   confirmationError: PropTypes.bool.isRequired,
   confirmationLoading: PropTypes.bool.isRequired,
+  form1990mebConfirmationEmail: PropTypes.bool.isRequired,
   printPage: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
