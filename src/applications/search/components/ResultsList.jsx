@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Result from './Result';
 
 const ResultsList = ({ query, searchData, typeaheadUsed }) => {
+  const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
   const { results } = searchData;
 
   if (results && results.length > 0) {
@@ -26,7 +27,28 @@ const ResultsList = ({ query, searchData, typeaheadUsed }) => {
     );
   }
 
-  return null;
+  if (query) {
+    return (
+      <p
+        className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+        data-e2e-id="search-results-empty"
+      >
+        We didn’t find any results for "<strong>{query}</strong>
+        ." Try using different words or checking the spelling of the words
+        you’re using.
+      </p>
+    );
+  }
+
+  return (
+    <p
+      className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+      data-e2e-id="search-results-empty"
+    >
+      We didn’t find any results. Enter a keyword in the search box to try
+      again.
+    </p>
+  );
 };
 
 ResultsList.propTypes = {
