@@ -9,6 +9,7 @@ const ConfirmationDenied = ({
   confirmationDate,
   confirmationError,
   confirmationLoading,
+  printPage,
   sendConfirmation,
   userEmail,
   userFirstName,
@@ -65,12 +66,11 @@ const ConfirmationDenied = ({
           <dd>{confirmationDate}</dd>
         </dl>
         <va-button
+          uswds
           className="usa-button meb-print"
-          onClick={() => window.print()}
-          type="button"
-        >
-          Print this page
-        </va-button>
+          text="Print this page"
+          onClick={printPage}
+        />
       </div>
 
       <h2>What happens next?</h2>
@@ -104,11 +104,17 @@ const ConfirmationDenied = ({
 ConfirmationDenied.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
-  confirmationError: PropTypes.bool.isRequired,
-  confirmationLoading: PropTypes.bool.isRequired,
+  printPage: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
   userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool,
+  confirmationLoading: PropTypes.bool,
+};
+
+ConfirmationDenied.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
 };
 
 export default ConfirmationDenied;

@@ -112,9 +112,9 @@ const mapStateToProps = state => ({
   userFirstName:
     state.user?.profile?.userFullName?.first ||
     state.form?.data[formFields.viewUserFullName]?.first,
-  confirmationLoading: state.confirmationLoading,
-  confirmationSuccess: state.confirmationSuccess,
-  confirmationError: state.confirmationError,
+  confirmationError: state.confirmationError || null,
+  confirmationLoading: state.confirmationLoading || false,
+  confirmationSuccess: state.confirmationSuccess || false,
 });
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
@@ -127,8 +127,6 @@ export default connect(
 )(ConfirmationPage);
 
 ConfirmationPage.propTypes = {
-  confirmationLoading: PropTypes.bool.isRequired,
-  confirmationSuccess: PropTypes.bool.isRequired,
   getClaimStatus: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   claimStatus: PropTypes.shape({
@@ -136,6 +134,8 @@ ConfirmationPage.propTypes = {
     receivedDate: PropTypes.string,
   }),
   confirmationError: PropTypes.object,
+  confirmationLoading: PropTypes.bool,
+  confirmationSuccess: PropTypes.bool,
   userEmail: PropTypes.string,
   userFirstName: PropTypes.string,
   userFullName: PropTypes.shape({
@@ -144,4 +144,10 @@ ConfirmationPage.propTypes = {
     last: PropTypes.string,
     suffix: PropTypes.string,
   }),
+};
+
+ConfirmationPage.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+  confirmationSuccess: false,
 };

@@ -65,4 +65,7 @@ export const getAppData = state => ({
   dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
   ],
+  form1990mebConfirmationEmail: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.form1990mebConfirmationEmail
+  ],
 });

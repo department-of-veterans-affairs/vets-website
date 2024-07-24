@@ -52,12 +52,11 @@ const ConfirmationPending = ({
           <dd>{confirmationDate}</dd>
         </dl>
         <va-button
+          uswds
           className="usa-button meb-print"
+          text="Print this page"
           onClick={printPage}
-          type="button"
-        >
-          Print this page
-        </va-button>
+        />
       </div>
 
       <h2>When will I hear back about my application?</h2>
@@ -129,12 +128,17 @@ const ConfirmationPending = ({
 ConfirmationPending.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
-  confirmationError: PropTypes.bool.isRequired,
-  confirmationLoading: PropTypes.bool.isRequired,
   printPage: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
   userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool,
+  confirmationLoading: PropTypes.bool,
+};
+
+ConfirmationPending.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
 };
 
 export default ConfirmationPending;
