@@ -1,7 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
 import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
@@ -17,7 +16,15 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     cy.reload();
 
     // I think the second parameter doesn't do anything right now...
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[2]);
+    // "Radiology results are coming from an MHV (legacy) API, however,
+    // that endpoint is not working for us yet so we are just using
+    // mocked data for radiology (radiologyRecordsMhv.json). They are
+    // being mixed in with the labs and tests records from FHIR when
+    // viewed on the labs and tests list page."
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(
+      0,
+      radiologyRecordsMhv[16],
+    );
 
     RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[16].procedureName);
     // why is the date value in radiologyRecordsMHV.json
