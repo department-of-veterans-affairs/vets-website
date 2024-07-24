@@ -15,7 +15,7 @@ const ActionLink = props => {
       : t('check-in-now');
 
   const attrs = {};
-  if (startTime) {
+  if (app === APP_NAMES.CHECK_IN && startTime) {
     attrs['aria-label'] = t('check-in-now-for-your-date-time-appointment', {
       date: new Date(startTime),
     });
