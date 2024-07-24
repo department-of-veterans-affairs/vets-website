@@ -99,7 +99,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C', 'mock-form-ae-design-patterns'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -323,7 +323,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C', 'mock-form-ae-design-patterns'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -535,7 +535,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -747,7 +747,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -955,7 +955,7 @@ const baseUserResponses = {
         },
         veteranStatus: 'NOT_AUTHORIZED',
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -1167,7 +1167,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',
@@ -1382,7 +1382,7 @@ const mockErrorResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'FORM_MOCK_AE_DESIGN_PATTERNS'],
         vet360ContactInformation: null,
         session: {
           ssoe: true,
