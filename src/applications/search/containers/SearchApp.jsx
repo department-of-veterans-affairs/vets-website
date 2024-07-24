@@ -214,6 +214,7 @@ class SearchApp extends Component {
       totalPages,
     } = this.props.search;
 
+    const { searchGovMaintenance } = this.props;
     const hasErrors = !!(errors && errors.length > 0);
     const { userInput } = this.state;
 
@@ -245,12 +246,18 @@ class SearchApp extends Component {
       </div>
     );
 
-    if (
+    const searchGovIssuesWithinMaintenanceWindow =
       isWithinMaintenanceWindow() &&
       results &&
       results.length === 0 &&
       !hasErrors &&
-      !loading
+      !loading;
+
+    const searchGovIssuesOutsideMaintenanceWindow = searchGovMaintenance;
+
+    if (
+      searchGovIssuesWithinMaintenanceWindow ||
+      searchGovIssuesOutsideMaintenanceWindow
     ) {
       return <MaintenanceWindow searchInput={searchInput} />;
     }
