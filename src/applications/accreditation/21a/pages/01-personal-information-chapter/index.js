@@ -8,7 +8,7 @@ import contactInformation from './contactInformation';
 import homeAddress from './homeAddress';
 import employmentStatus from './employmentStatus';
 import workAddress from './workAddress';
-import communicationAddress from './communicationAddress';
+import primaryMailingAddress from './primaryMailingAddress';
 import otherAddress from './otherAddress';
 
 /** @type {PageSchema} */
@@ -30,7 +30,7 @@ export default {
     homeAddress,
     employmentStatus,
     workAddress,
-    communicationAddress,
+    primaryMailingAddress,
     otherAddress,
   },
 };
