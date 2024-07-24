@@ -68,14 +68,14 @@ const ResultsCounter = ({
 };
 
 ResultsCounter.propTypes = {
-  currentPage: PropTypes.number.isRequired,
   loading: PropTypes.bool.isRequired,
-  perPage: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
-  results: PropTypes.array.isRequired,
-  spellingCorrection: PropTypes.bool.isRequired,
-  totalEntries: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
+  currentPage: PropTypes.number,
+  perPage: PropTypes.number,
+  results: PropTypes.array,
+  spellingCorrection: PropTypes.bool,
+  totalEntries: PropTypes.number,
+  totalPages: PropTypes.number,
 };
 
 export default ResultsCounter;
