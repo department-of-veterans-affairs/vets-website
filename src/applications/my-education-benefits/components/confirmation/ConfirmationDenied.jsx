@@ -9,7 +9,6 @@ const ConfirmationDenied = ({
   confirmationDate,
   confirmationError,
   confirmationLoading,
-  form1990mebConfirmationEmail,
   printPage,
   sendConfirmation,
   userEmail,
@@ -17,15 +16,13 @@ const ConfirmationDenied = ({
 }) => {
   useEffect(
     () => {
-      if (form1990mebConfirmationEmail) {
-        sendConfirmation({
-          claimStatus: 'DENIED',
-          email: userEmail,
-          firstName: userFirstName,
-        });
-      }
+      sendConfirmation({
+        claimStatus: 'DENIED',
+        email: userEmail,
+        firstName: userFirstName,
+      });
     },
-    [sendConfirmation, userEmail, userFirstName, form1990mebConfirmationEmail],
+    [sendConfirmation, userEmail, userFirstName],
   );
 
   if (confirmationLoading) {
@@ -111,7 +108,6 @@ const ConfirmationDenied = ({
 ConfirmationDenied.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
-  form1990mebConfirmationEmail: PropTypes.bool.isRequired,
   printPage: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
   userEmail: PropTypes.string.isRequired,
