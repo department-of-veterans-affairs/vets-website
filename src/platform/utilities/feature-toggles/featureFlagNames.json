@@ -251,6 +251,7 @@
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingMedReviewInstructions": "va_online_scheduling_med_review_instructions",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
+  "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
   "virtualAgentVoice": "virtual_agent_voice",
