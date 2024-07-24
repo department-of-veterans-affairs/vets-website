@@ -27,7 +27,7 @@ const mask = value => {
   );
 };
 
-const VeteranInformation = ({ formData }) => {
+export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour, vaFileLastFour } = formData?.veteran || {};
   const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
