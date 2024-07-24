@@ -1,6 +1,6 @@
+import { lowerCase } from 'lodash';
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 const ConfirmationPage = () => {
@@ -10,16 +10,18 @@ const ConfirmationPage = () => {
     login: { currentlyLoggedIn },
     profile: { loading },
   } = user;
+  const alertRef = useRef(null);
 
   useEffect(
     () => {
-      focusElement('h2');
-      scrollToTop('topScrollElement');
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
     },
-    [loading],
+    [alertRef],
   );
 
-  const contactOption = data?.contactPreference || 'email';
+  const contactOption = lowerCase(data?.contactPreference) || 'email';
   const referenceID = submission?.id || 'A-123456-7890';
 
   if (loading) {
@@ -49,6 +51,7 @@ const ConfirmationPage = () => {
         status="success"
         visible
         uswds
+        ref={alertRef}
       >
         <p className="vads-u-margin-y--0">
           Your question was submitted successfully.

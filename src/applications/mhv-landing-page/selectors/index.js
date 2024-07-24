@@ -13,7 +13,7 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled, helpdeskInfoEnabled } from './featureToggles';
+import { personalizationEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
@@ -29,7 +29,6 @@ export {
   isProfileLoading,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,

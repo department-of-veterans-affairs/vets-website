@@ -8,6 +8,7 @@ import DetailPageLayout, {
   When,
   Where,
   Who,
+  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
@@ -19,13 +20,14 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
-import FacilityPhone from '../FacilityPhone';
 import State from '../State';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
     atlasConfirmationCode,
     clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -144,7 +146,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
-          {!!facility === false && (
+          {!facility && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -159,10 +161,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <>
               {facility.name}
               <br />
-              {facilityPhone && (
-                <FacilityPhone heading="Phone:" contact={facilityPhone} />
-              )}
-              {!facilityPhone && <>Not available</>}
+              <ClinicOrFacilityPhone
+                clinicPhone={clinicPhone}
+                clinicPhoneExtension={clinicPhoneExtension}
+                facilityPhone={facilityPhone}
+              />
             </>
           )}
         </Section>
@@ -174,12 +177,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {!facility && (
-              <>
-                <span>Facility not available</span>
-              </>
-            )}
-            {facility && (
+            {facility ? (
               <>
                 {facility.name}
                 <br />
@@ -187,22 +185,17 @@ export default function VideoLayoutAtlas({ data: appointment }) {
                   {address.city}, <State state={address.state} />
                 </span>
               </>
+            ) : (
+              'Facility not available'
             )}
             <br />
-            {clinicName && (
-              <>
-                <span>Clinic: {clinicName}</span>
-              </>
-            )}
-            {!clinicName && (
-              <>
-                <span>Clinic not available</span>
-              </>
-            )}
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
             <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
+            <ClinicOrFacilityPhone
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
+            />
           </Section>
         )}
     </DetailPageLayout>
