@@ -18,6 +18,8 @@ const HeaderLayout = ({
 
   const alertExpandableRef = useRef(null);
 
+  const learnMoreAlertTrigger = 'Learn more about My HealtheVet on VA.gov ';
+
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
     if (alertExpandable) {
@@ -59,7 +61,7 @@ const HeaderLayout = ({
                 <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
               </div>
               <div className="vads-l-col-2 vads-u-margin-left--2 vads-u-margin-top--2">
-                <span className="usa-label vads-u-background-color--cool-blue">
+                <span className="usa-label vads-u-background-color--primary">
                   New
                 </span>
               </div>
@@ -91,7 +93,9 @@ const HeaderLayout = ({
                 <va-alert-expandable
                   status="info"
                   ref={alertExpandableRef}
-                  trigger="Learn more about My HealtheVet on VA.gov "
+                  trigger={learnMoreAlertTrigger}
+                  data-dd-action-name={learnMoreAlertTrigger}
+                  data-testid="learn-more-alert"
                 >
                   <div>
                     <p>

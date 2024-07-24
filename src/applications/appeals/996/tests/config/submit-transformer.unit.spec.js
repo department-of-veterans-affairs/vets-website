@@ -33,6 +33,35 @@ describe('transform', () => {
     expect(transformedResult).to.deep.equal(result);
   });
 
+  it('should always return socOptIn value from formData', () => {
+    const maxData = cloneDeep(maximalDataV2);
+    const transformedResult = JSON.parse(transform(formConfig, maxData));
+    expect(transformedResult.data.attributes.socOptIn).to.be.true;
+
+    const transformedResult2 = JSON.parse(
+      transform(formConfig, {
+        ...maxData,
+        data: { ...maxData.data, socOptIn: false },
+      }),
+    );
+    expect(transformedResult2.data.attributes.socOptIn).to.be.false;
+  });
+
+  it('should always return socOptIn true for updated form', () => {
+    const maxData = cloneDeep(maximalDataV2);
+    maxData.data.hlrUpdatedContent = true;
+    const transformedResult = JSON.parse(transform(formConfig, maxData));
+    expect(transformedResult.data.attributes.socOptIn).to.be.true;
+
+    const transformedResult2 = JSON.parse(
+      transform(formConfig, {
+        ...maxData,
+        data: { ...maxData.data, socOptIn: false },
+      }),
+    );
+    expect(transformedResult2.data.attributes.socOptIn).to.be.true;
+  });
+
   it('should ignore informal conference', () => {
     const maxData = cloneDeep(maximalDataV2);
     maxData.data.informalConference = 'no';

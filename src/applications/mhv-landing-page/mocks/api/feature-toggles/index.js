@@ -5,7 +5,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPagePersonalization: false,
   mhvSecondaryNavigationEnabled: true,
   mhvTransitionalMedicalRecordsLandingPage: true,
-  mhvHelpdeskInformationEnabled: true,
 });
 
 const generateFeatureToggles = ({
