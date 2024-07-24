@@ -61,6 +61,7 @@ const Index = ({ router }) => {
         setSession,
         app,
         updateError,
+        setDobError,
       );
     },
     [
@@ -72,6 +73,7 @@ const Index = ({ router }) => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -91,6 +93,7 @@ const Index = ({ router }) => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}

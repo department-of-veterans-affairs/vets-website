@@ -97,6 +97,7 @@ const Validate = ({ router }) => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}
