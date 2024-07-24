@@ -89,6 +89,7 @@
   "form264555": "form264555",
   "form400247": "form400247",
   "form1010d": "form1010d",
+  "form107959c": "form107959c",
   "form107959F1": "form107959f1",
   "formUploadFlow": "form_upload_flow",
   "fsrConfirmationEmail": "fsr_confirmation_email",
@@ -112,7 +113,6 @@
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvSecondaryNavigationEnabled": "mhv_secondary_navigation_enabled",
   "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
-  "mhvHelpdeskInformationEnabled": "mhv_helpdesk_information_enabled",
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
@@ -235,7 +235,6 @@
   "vaOnlineSchedulingFacilitiesServiceV2": "va_online_scheduling_facilities_service_v2",
   "vaOnlineSchedulingStatusImprovement": "va_online_scheduling_status_improvement",
   "vaOnlineSchedulingStatusImprovementCanceled": "va_online_scheduling_status_improvement_canceled",
-  "vaOnlineSchedulingClinicLocation": "va_online_scheduling_clinic_location",
   "vaOnlineSchedulingVaosV2Next": "va_online_scheduling_vaos_v2_next",
   "vaOnlineSchedulingClinicFilter": "va_online_scheduling_clinic_filter",
   "vaOnlineSchedulingPocTypeOfCare": "va_online_scheduling_poc_type_of_care",
@@ -251,6 +250,7 @@
   "vaOnlineSchedulingAppointmentDetailsRedesign": "va_online_scheduling_appointment_details_redesign",
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
+  "vaOnlineSchedulingMedReviewInstructions": "va_online_scheduling_med_review_instructions",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
@@ -264,5 +264,6 @@
   "vyeLoginWidget": "vye_login_widget",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "toggleVyeApplication": "toggle_vye_application",
-  "militaryBenefitEstimates": "military_benefit_estimates"
+  "militaryBenefitEstimates": "military_benefit_estimates",
+  "merge1995And5490": "merge_1995_and_5490"
 }

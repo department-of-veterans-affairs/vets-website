@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import {
   selectModalityText,
@@ -14,7 +13,6 @@ import DetailPageLayout, { Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { TIME_TEXT } from '../../utils/appointment';
 import FacilityPhone from '../FacilityPhone';
 
 export default function VARequestLayout({ data: appointment }) {
@@ -49,11 +47,8 @@ export default function VARequestLayout({ data: appointment }) {
       <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
-            {preferredDates.map((option, optionIndex) => (
-              <li key={`${appointment.id}-option-${optionIndex}`}>
-                {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-              </li>
+            {preferredDates.map((date, index) => (
+              <li key={`${appointment.id}-option-${index}`}>{date}</li>
             ))}
           </ul>
         </Section>
@@ -86,10 +81,11 @@ export default function VARequestLayout({ data: appointment }) {
         </Section>
         <Section heading="Details you’d like to share with your provider">
           <span>
-            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
         </Section>
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>

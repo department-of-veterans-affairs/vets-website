@@ -207,8 +207,8 @@ export const Auth = ({
 
         <p className="vads-u-margin-y--0">
           If it still doesn’t work, call us at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} extension={0} /> to check
-          if you have an accredited representative.
+          <va-telephone contact={CONTACTS.VA_BENEFITS} /> to check if you have
+          an accredited representative.
         </p>
       </React.Fragment>
     </va-alert>

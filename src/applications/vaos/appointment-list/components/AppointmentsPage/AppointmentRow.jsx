@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function AppointmentRow({
   children,
-  className,
+  className = '',
   id,
   style,
   ...props
