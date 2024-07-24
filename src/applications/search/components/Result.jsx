@@ -105,6 +105,7 @@ const Result = ({
           data-e2e-id="result-title"
         >
           <va-link
+            disable-analytics
             href={replaceWithStagingDomain(result.url)}
             text={strippedTitle}
             onClick={onSearchResultClick({
