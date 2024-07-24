@@ -121,3 +121,6 @@ export const isProductionEnv = () => {
 
 export const showMultiplePageResponse = () =>
   window.sessionStorage.getItem('showMultiplePageResponse') === 'true';
+
+export const showIncomeAndAssetsClarification = () =>
+  window.sessionStorage.getItem('showIncomeAndAssetsClarification') === 'true';

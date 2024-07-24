@@ -15,6 +15,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
+  const pensionIncomeAndAssetsClarification = useToggleValue(
+    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
+  );
   const pensionModuleEnabled = useToggleValue(
     TOGGLE_NAMES.pensionModuleEnabled,
   );
@@ -38,9 +41,17 @@ export default function PensionEntry({ location, children }) {
           'showMultiplePageResponse',
           pensionMultiplePageResponse,
         );
+        window.sessionStorage.setItem(
+          'showIncomeAndAssetsClarification',
+          pensionIncomeAndAssetsClarification,
+        );
       }
     },
-    [isLoadingFeatures, pensionMultiplePageResponse],
+    [
+      isLoadingFeatures,
+      pensionMultiplePageResponse,
+      pensionIncomeAndAssetsClarification,
+    ],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
