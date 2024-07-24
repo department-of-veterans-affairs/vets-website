@@ -184,15 +184,24 @@ describe('Enrollment Verification Page Tests', () => {
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
   });
-  it('should show n/a if deldate is null and indicator is A', () => {
+  it('should show n/a. if deldate is null and indicator is not a B', () => {
     cy.injectAxeThenAxeCheck();
     const enrollmentData = {
       ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
+      delDate: null,
+      indicator: 'A',
     };
     cy.intercept('GET', '/vye/v1', {
       statusCode: 200,
       body: enrollmentData,
     });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get('span[data-testid="del-date"]').should('contain', 'n/a');
   });
   it('show required error message when button is click and the checkbox is not checked', () => {
     cy.injectAxeThenAxeCheck();
