@@ -17,7 +17,6 @@ const options = {
   required: false,
   isItemIncomplete: item =>
     !item?.previousFullName?.first || !item.previousFullName?.last, // include all required fields here
-  maxItems: 5,
   text: {
     getItemName: item => formatFullName(item.previousFullName),
   },
@@ -34,7 +33,7 @@ const summaryPage = {
       options,
       {
         title: 'Did you serve under another name?',
-        hint: ' ',
+        hint: null,
         labels: {
           Y: 'Yes, I have a previous name to report',
           N: 'No, I don’t have a previous name to report',

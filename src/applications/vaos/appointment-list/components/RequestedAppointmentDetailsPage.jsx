@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import {
   VaAlert,
   VaTelephone,
@@ -30,12 +29,6 @@ import FacilityAddress from '../../components/FacilityAddress';
 import FacilityPhone from '../../components/FacilityPhone';
 import VARequestLayout from '../../components/layout/VARequestLayout';
 import CCRequestLayout from '../../components/layout/CCRequestLayout';
-
-const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
 
 function Content() {
   const { id } = useParams();
@@ -128,11 +121,8 @@ function Content() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {preferredDates.map((option, optionIndex) => (
-          <li key={`${id}-option-${optionIndex}`}>
-            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-          </li>
+        {preferredDates.map((date, index) => (
+          <li key={`${id}-option-${index}`}>{date}</li>
         ))}
       </ul>
       <div className="vaos-u-word-break--break-word" data-dd-privacy="mask">
