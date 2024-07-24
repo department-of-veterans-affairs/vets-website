@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
@@ -9,30 +9,38 @@ const DraftSavedInfo = props => {
 
   const threadDetails = useSelector(state => state.sm.threadDetails);
 
-  let isSaving;
-  let saveError;
-  let lastSaveTime;
-  const draft = messageId ? drafts?.find(d => d.messageId === messageId) : null;
+  const { isSaving = null, saveError = null, lastSaveTime = null } = useMemo(
+    () => {
+      const draft = messageId
+        ? drafts?.find(d => d.messageId === messageId)
+        : null;
 
-  if (drafts?.length > 1) {
-    isSaving = draft?.isSaving;
-    saveError = draft?.saveError;
-    lastSaveTime = draft?.lastSaveTime;
-  } else {
-    ({ isSaving, saveError, lastSaveTime } = threadDetails);
-  }
+      if (drafts?.length > 1) {
+        return {
+          isSaving: draft?.isSaving,
+          saveError: draft?.saveError,
+          lastSaveTime: draft?.lastSaveTime,
+        };
+      }
+      return threadDetails;
+    },
+    [drafts, messageId, threadDetails],
+  );
 
-  const content = () => {
-    if (isSaving) return 'Saving...';
+  const content = useMemo(
+    () => {
+      if (isSaving) return 'Saving...';
 
-    if (lastSaveTime) {
-      return `Your message was saved on ${dateFormat(
-        lastSaveTime,
-        'MMMM D, YYYY [at] h:mm a z',
-      )}.`;
-    }
-    return '';
-  };
+      if (lastSaveTime) {
+        return `Your message was saved on ${dateFormat(
+          lastSaveTime,
+          'MMMM D, YYYY [at] h:mm a z',
+        )}.`;
+      }
+      return '';
+    },
+    [isSaving, lastSaveTime],
+  );
 
   if (saveError) {
     return (
@@ -65,7 +73,7 @@ const DraftSavedInfo = props => {
           data-test-id="save-alert-message"
         >
           <p className="vads-u-margin-y--0" id="messagetext">
-            {content()}
+            {content}
           </p>
         </va-alert>
       </>
