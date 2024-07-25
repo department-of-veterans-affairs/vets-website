@@ -33,7 +33,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {

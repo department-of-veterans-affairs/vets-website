@@ -52,11 +52,10 @@ describe('ConfirmationPageV2', () => {
     expect($('va-alert[status="success"]', container)).to.exist;
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(9);
+    expect(items.length).to.eq(8);
     expect(
-      items.map((el, index) => el[index === 4 ? 'innerHTML' : 'textContent']),
+      items.map((el, index) => el[index === 3 ? 'innerHTML' : 'textContent']),
     ).to.deep.equal([
-      '●●●–●●–V A file number ending with ',
       '',
       'Not selected',
       '',
@@ -86,13 +85,13 @@ describe('ConfirmationPageV2', () => {
       `You submitted your Board Appeal request on ${date}`,
       'What to expect next',
       'How to contact us if you have questions',
-      'You submitted the following information for the Board Appeal',
+      'Your Board Appeal request',
     ]);
 
     const h3s = $$('h3', container);
     expect(h3s.length).to.eq(5);
     expect(h3s.map(el => el.textContent)).to.deep.equal([
-      'Save a PDF copy of your Board Appeal',
+      'Save a PDF copy of your Board Appeal request',
       'Print this confirmation page',
       'Personal information',
       'Issues for review',
