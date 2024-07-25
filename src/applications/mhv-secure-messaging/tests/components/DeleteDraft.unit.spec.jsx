@@ -1,56 +1,22 @@
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { Router } from 'react-router-dom';
-import { combineReducers, applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import { commonReducer } from 'platform/startup/store';
-import { createTestHistory } from 'platform/testing/unit/helpers';
-
+import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
 import DeleteDraft from '../../components/Draft/DeleteDraft';
 import { drafts, inbox, sent } from '../fixtures/folder-inbox-response.json';
 import thread from '../fixtures/reducers/thread-with-multiple-drafts-reducer.json';
 import reducer from '../../reducers';
-import { Prompts } from '../../util/constants';
+import { Prompts, Paths } from '../../util/constants';
+import { drafts as mockDraft } from '../fixtures/saved-draft-mock-prop.json';
 
 describe('Delete Draft component', () => {
-  // This renderWithStoreAndRouter function is a replica function from the /platform-testing/react-testing-library-helpers
-  // file, the only difference is that 'store' is returned and used to mock the dispatch function in the tests.
-  // **Special permissions may be needed to alter the /platform-testing/react-testing-library-helpers file.
-  function renderWithStoreAndRouter(
-    ui,
-    { initialState, reducers = {}, store = null, path = '/', history = null },
-  ) {
-    const testStore =
-      store ||
-      createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        initialState,
-        applyMiddleware(thunk),
-      );
-
-    const historyObject = history || createTestHistory(path);
-    const screen = renderInReduxProvider(
-      <Router history={historyObject}>{ui}</Router>,
-      {
-        store: testStore,
-        initialState,
-        reducers,
-      },
-    );
-
-    return { ...screen, history: historyObject, store: testStore };
-  }
-
   let setIsModalVisibleSpy;
   let setNavigationErrorSpy;
   let setIsEditingSpy;
   let setHideDraftSpy;
   let refreshThreadCallbackSpy;
   let unsavedDeleteSuccessfulSpy;
-  let dispatchSpy;
 
   beforeEach(() => {
     setIsModalVisibleSpy = sinon.spy();
@@ -59,50 +25,9 @@ describe('Delete Draft component', () => {
     setHideDraftSpy = sinon.spy();
     refreshThreadCallbackSpy = sinon.spy();
     unsavedDeleteSuccessfulSpy = sinon.spy();
-    dispatchSpy = sinon.spy();
   });
 
-  it('handles saved draft and navigates correctly for /new-message', async () => {
-    const initialState = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-      },
-    };
-
-    const props = {
-      draftId: 123456,
-      draftsCount: 1,
-      savedDraft: true,
-      unsavedDraft: false,
-      activeFolder: { folderId: '1' },
-      location: { pathname: '/new-message' },
-      history: { goBack: sinon.spy() },
-    };
-
-    const { getByTestId, history } = renderWithStoreAndRouter(
-      <DeleteDraft
-        {...props}
-        setIsModalVisible={setIsModalVisibleSpy}
-        setNavigationError={setNavigationErrorSpy}
-        setIsEditing={setIsEditingSpy}
-        setHideDraft={setHideDraftSpy}
-        refreshThreadCallback={refreshThreadCallbackSpy}
-        unsavedDeleteSuccessful={unsavedDeleteSuccessfulSpy}
-      />,
-      { initialState, reducers: reducer, path: '/new-message' },
-    );
-
-    fireEvent.click(getByTestId('delete-draft-button'));
-    fireEvent.click(getByTestId('confirm-delete-draft'));
-
-    await waitFor(() => {
-      expect(setIsModalVisibleSpy.calledOnce).to.be.false;
-      // expect(dispatchSpy.calledOnce).to.be.true;
-      expect(history.location.pathname).to.equal('/new-message');
-    });
-  });
+  afterEach(() => cleanup());
 
   it('renders without errors', async () => {
     const draft = thread.threadDetails.drafts[0];
@@ -179,117 +104,46 @@ describe('Delete Draft component', () => {
     );
   });
 
-  it('on delete draft confirmation, calls deleteDraft action on saved draft', async () => {
-    const draft = thread.threadDetails.drafts[0];
-    const pathname = `/thread/${draft.messageId}/`;
-
+  it('renders saved /new-message draft without errors', async () => {
     const initialState = {
       sm: {
         folders: {
-          folder: drafts,
-        },
-        threadDetails: {
-          drafts: [draft],
+          folder: inbox,
         },
       },
     };
 
-    const screen = renderWithStoreAndRouter(
+    const props = {
+      draftId: 123456,
+      draftsCount: 1,
+      savedDraft: true,
+      unsavedDraft: false,
+      activeFolder: { folderId: '1' },
+    };
+
+    const { getByTestId, queryByTestId } = renderWithStoreAndRouter(
       <DeleteDraft
-        draftId={draft.messageId}
+        {...props}
+        setIsModalVisible={setIsModalVisibleSpy}
         setNavigationError={setNavigationErrorSpy}
-        isModalVisible
+        setIsEditing={setIsEditingSpy}
+        setHideDraft={setHideDraftSpy}
+        refreshThreadCallback={refreshThreadCallbackSpy}
+        unsavedDeleteSuccessful={unsavedDeleteSuccessfulSpy}
       />,
-      {
-        initialState,
-        reducers: reducer,
-        path: pathname,
-      },
+      { initialState, reducers: reducer, path: Paths.COMPOSE },
     );
-    fireEvent.click(screen.getByTestId('delete-draft-button'));
-    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
+
+    fireEvent.click(getByTestId('delete-draft-button'));
+    fireEvent.click(getByTestId('confirm-delete-draft'));
+
+    expect(queryByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
-      'true',
+      'false',
     );
-    fireEvent.click(document.querySelector('va-button[text="Delete draft"]'));
-    await waitFor(() => {
-      expect(setNavigationErrorSpy.called).to.be.true;
-    });
   });
 
-  it('deletes blank, unsaved new draft confirmation', async () => {
-    const initialState = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        threadDetails: {
-          drafts: [],
-          cannotReply: false,
-        },
-      },
-    };
-
-    const props = {
-      draftId: undefined,
-      draftsCount: 0,
-      draftBody: '',
-      messageBody: '',
-      savedDraft: false,
-      unsavedDraft: true,
-      editableDraft: false,
-    };
-
-    const initialHistory = `/new-message/`;
-    const { getByTestId } = renderWithStoreAndRouter(
-      <DeleteDraft {...props} />,
-      { initialState, reducers: reducer, path: initialHistory },
-    );
-
-    fireEvent.click(getByTestId('delete-draft-button'));
-
-    await waitFor(() => {
-      expect(setIsModalVisibleSpy.called).to.be.false;
-    });
-  });
-
-  it('closes delete modal on blank, unsaved new draft', async () => {
-    const initialState = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        threadDetails: {
-          drafts: [],
-          cannotReply: false,
-        },
-      },
-    };
-
-    const props = {
-      draftId: undefined,
-      draftsCount: 0,
-      draftBody: '',
-      messageBody: '',
-      savedDraft: false,
-      unsavedDraft: true,
-      editableDraft: false,
-    };
-
-    const initialHistory = `/new-message/`;
-    const { getByTestId } = renderWithStoreAndRouter(
-      <DeleteDraft {...props} />,
-      { initialState, reducers: reducer, path: initialHistory },
-    );
-
-    fireEvent.click(getByTestId('delete-draft-button'));
-    fireEvent.click(getByTestId('cancel-delete-draft'));
-
-    await waitFor(() => {
-      expect(setIsModalVisibleSpy.called).to.be.false;
-    });
-  });
-
+  // Unsaved /new-message draft
   it('renders blank /new-message draft without errors', async () => {
     const initialState = {
       sm: {
@@ -312,7 +166,7 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: '/new-message/',
+        path: Paths.COMPOSE,
       },
     );
 
@@ -324,7 +178,48 @@ describe('Delete Draft component', () => {
       'false',
     );
   });
+  it('closes blank, unsaved /new-message draft delete modal,', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails: {
+          drafts: [],
+          cannotReply: false,
+        },
+      },
+    };
 
+    const props = {
+      draftId: undefined,
+      draftsCount: 0,
+      draftBody: '',
+      messageBody: '',
+      savedDraft: false,
+      unsavedDraft: true,
+      editableDraft: false,
+    };
+
+    const initialHistory = Paths.COMPOSE;
+    const { getByTestId, queryByTestId, history } = renderWithStoreAndRouter(
+      <DeleteDraft {...props} />,
+      { initialState, reducers: reducer, path: initialHistory },
+    );
+
+    fireEvent.click(getByTestId('delete-draft-button'));
+    fireEvent.click(getByTestId('cancel-delete-draft'));
+
+    expect(queryByTestId('delete-draft-modal')).to.have.attribute(
+      'visible',
+      'false',
+    );
+
+    await waitFor(() => {
+      expect(setIsModalVisibleSpy.called).to.be.false;
+      expect(history.location.pathname).to.equal(initialHistory);
+    });
+  });
   it('deletes unsaved /new-message draft without errors', async () => {
     const initialState = {
       sm: {
@@ -336,22 +231,13 @@ describe('Delete Draft component', () => {
         },
       },
     };
-    const props = {
-      unsavedDraft: true,
-      newMessageNavErr: sinon.spy(),
-      setIsModalVisible: setIsModalVisibleSpy,
-    };
-    const initialHistory = `/new-message/`;
-    const { getByTestId, store } = renderWithStoreAndRouter(
-      <DeleteDraft {...props} />,
-      {
-        initialState,
-        reducers: reducer,
-        path: initialHistory,
-      },
-    );
-
-    store.dispatch = dispatchSpy;
+    const initialHistory = Paths.COMPOSE;
+    const { getByTestId, history } = renderWithStoreAndRouter(<DeleteDraft />, {
+      initialState,
+      reducers: reducer,
+      path: initialHistory,
+    });
+    const historySpy = sinon.spy(history, 'goBack');
 
     const deleteButton = getByTestId('delete-draft-button');
     expect(deleteButton).to.exist;
@@ -363,11 +249,10 @@ describe('Delete Draft component', () => {
 
     const deleteModalButton = getByTestId('confirm-delete-draft');
     fireEvent.click(deleteModalButton);
-
     await waitFor(() => {
-      expect(dispatchSpy.called).to.be.true;
-      expect(setIsModalVisibleSpy.called).to.be.false;
+      expect(historySpy.called).to.be.true;
     });
+    expect(deleteModal).to.have.attribute('visible', 'false');
   });
 
   it('renders blank /reply draft from Sent folder without errors', async () => {
@@ -398,16 +283,130 @@ describe('Delete Draft component', () => {
       {
         initialState,
         reducers: reducer,
-        path: `/reply/123456/`,
+        path: `${Paths.REPLY}123456/`,
       },
     );
 
     const deleteButton = screen.getByTestId('delete-draft-button');
-    fireEvent.click(deleteButton);
 
-    expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
+    fireEvent.click(deleteButton);
+    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
       'visible',
       'true',
     );
+    expect(screen.getByTestId('delete-draft-modal')).to.have.text(
+      Prompts.Draft.DELETE_NEW_DRAFT_CONTENT,
+    );
+    fireEvent.click(screen.getByTestId('cancel-delete-draft'));
+    expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
+      'visible',
+      'false',
+    );
+  });
+
+  it('renders saved /reply draft from Sent folder without errors', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: sent,
+        },
+        threadDetails: {
+          drafts: mockDraft,
+          cannotReply: false,
+          messages: [{ messageId: 1234567 }],
+          threadFolderId: -1,
+          replyToMessageId: 1234567,
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: 1721914522123,
+        },
+      },
+    };
+    const screen = renderWithStoreAndRouter(
+      <DeleteDraft
+        draftId={mockDraft[0].messageId}
+        messageBody={mockDraft[0].body}
+        unsavedDraft={false}
+        blankReplyDraft={false}
+        draftBody={mockDraft[0].body}
+        savedReplyDraft
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: `${Paths.REPLY}1234567/`,
+      },
+    );
+
+    const deleteButton = screen.getByTestId('delete-draft-button');
+
+    fireEvent.click(deleteButton);
+    expect(screen.getByTestId('delete-draft-modal')).to.have.attribute(
+      'visible',
+      'true',
+    );
+
+    expect(screen.getByTestId('delete-draft-modal')).to.have.text(
+      Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE,
+    );
+    fireEvent.click(screen.getByTestId('cancel-delete-draft'));
+    expect(screen.queryByTestId('delete-draft-modal')).to.have.attribute(
+      'visible',
+      'false',
+    );
+  });
+
+  it('deletes saved /reply draft from Sent folder without errors', async () => {
+    const initialState = {
+      sm: {
+        folders: {
+          folder: sent,
+        },
+        threadDetails: {
+          drafts: mockDraft,
+          cannotReply: false,
+          messages: [{ messageId: 1234567 }],
+          threadFolderId: -1,
+          replyToMessageId: 1234567,
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: 1721914522123,
+        },
+      },
+    };
+    const { getByTestId } = renderWithStoreAndRouter(
+      <DeleteDraft
+        draftId={mockDraft[0].messageId}
+        messageBody={mockDraft[0].body}
+        unsavedDraft={false}
+        blankReplyDraft={false}
+        draftBody={mockDraft[0].body}
+        savedReplyDraft
+        inProgressReplyDraft={false}
+        draftsCount={1}
+        setNavigationError={setNavigationErrorSpy}
+        setIsModalVisible={setIsModalVisibleSpy}
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: `${Paths.REPLY}1234567/`,
+      },
+    );
+
+    const deleteButton = getByTestId('delete-draft-button');
+
+    fireEvent.click(deleteButton);
+
+    const deleteModal = getByTestId('delete-draft-modal');
+    expect(deleteModal).to.exist;
+    expect(deleteModal).to.have.attribute('visible', 'true');
+    expect(deleteModal).to.have.text(Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE);
+
+    const deleteModalButton = getByTestId('confirm-delete-draft');
+    fireEvent.click(deleteModalButton);
+    await waitFor(() => {
+      expect(setNavigationErrorSpy.calledWith(null)).to.be.true;
+    });
   });
 });

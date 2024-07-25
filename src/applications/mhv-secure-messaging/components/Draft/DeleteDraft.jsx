@@ -75,7 +75,7 @@ const DeleteDraft = props => {
             );
           }
 
-          if (pathname.includes('/reply')) {
+          if (pathname.includes(Paths.REPLY)) {
             history.goBack();
           } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
             navigateToFolderByFolderId(defaultFolderId, history);
