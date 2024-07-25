@@ -5,7 +5,10 @@ import {
   checkValidPagePath,
 } from 'platform/forms-system/src/js/routing';
 
-import { processContestableIssues } from '../../shared/utils/issues';
+import {
+  processContestableIssues,
+  isDisqualifyingIssue,
+} from '../../shared/utils/issues';
 import { parseDateToDateObj } from '../../shared/utils/dates';
 import '../../shared/definitions';
 import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
@@ -20,7 +23,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
 /**
  * Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
- * - remove issues that are deferred
+ * - remove issues that are disqualifying
  * @param {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
  * @return {ContestableIssues} - filtered list
@@ -34,11 +37,12 @@ export const getEligibleContestableIssues = issues => {
       description = '',
     } = issue?.attributes || {};
 
-    const isDeferred = [ratingIssueSubjectText, description]
-      .join(' ')
-      .includes('deferred');
     const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
-    if (isDeferred || !isValid(date) || !ratingIssueSubjectText) {
+    if (
+      !ratingIssueSubjectText ||
+      isDisqualifyingIssue(ratingIssueSubjectText, description) ||
+      !isValid(date)
+    ) {
       return false;
     }
     return isAfter(addYears(date, 1), today);
@@ -57,8 +61,21 @@ export const mayHaveLegacyAppeals = ({
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
-export const showNewHlrContent = formData => formData.hlrUpdatedContent;
+export const showNewHlrContent = formData => !!formData.hlrUpdatedContent;
 export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;
+
+export const showConferenceContact = formData =>
+  showNewHlrContent(formData) && formData.informalConferenceChoice === 'yes';
+export const showConferenceVeteranPage = formData =>
+  (showNewHlrContent(formData) &&
+    formData.informalConferenceChoice === 'yes' &&
+    formData.informalConference === 'me') ||
+  (hideNewHlrContent(formData) && formData.informalConference === 'me');
+export const showConferenceRepPages = formData =>
+  (showNewHlrContent(formData) &&
+    formData.informalConferenceChoice === 'yes' &&
+    formData.informalConference === 'rep') ||
+  (hideNewHlrContent(formData) && formData.informalConference === 'rep');
 
 /**
  * Redirect from "/opt-in" to "/authorization" in HLR update
@@ -69,35 +86,45 @@ export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;
  * @param {Object} formConfig - Full form config
  * @param {Object} router - React router
  */
-export const onFormLoaded = props => {
-  const { formData } = props;
+export const checkNeedsRedirect = props => {
+  const { formData, routes, router } = props;
   let { returnUrl } = props;
 
-  // Check feature for showing new HLR content & check the return URL
+  const showNewContent = showNewHlrContent(formData);
+  const socOptIn = '/opt-in';
+  const socAuth = '/authorization';
+
+  // *** Check feature for showing new HLR content & check the return URL
   // "/authorization" will replace "/opt-in" path
-  if (showNewHlrContent(formData) && returnUrl === '/opt-in') {
-    returnUrl = '/authorization';
-  } else if (hideNewHlrContent(formData) && returnUrl === '/authorization') {
+  if (showNewContent && props.returnUrl === socOptIn) {
+    returnUrl = socAuth;
+  } else if (!showNewContent && props.returnUrl === socAuth) {
     // return to opt in page if toggle is disabled
-    returnUrl = '/opt-in';
+    returnUrl = socOptIn;
   }
 
   // Check valid return URL; copied from RoutedSavableApp
   const isValidReturnUrl = checkValidPagePath(
-    props.routes[props.routes.length - 1].pageList,
+    routes[routes.length - 1].pageList,
     formData,
     returnUrl,
   );
+
   if (isValidReturnUrl) {
-    props.router.push(returnUrl);
+    // Push to router if we changed the returnUrl
+    router.push(returnUrl);
   } else {
     // redirect back to first page after introduction if returnUrl isn't
     // recognized as a valid path within the form
     const nextPagePath = getNextPagePath(
-      props.routes[props.routes.length - 1].pageList,
+      routes[routes.length - 1].pageList,
       formData,
       '/introduction',
     );
-    props.router.push(nextPagePath);
+    router.push(nextPagePath);
   }
+};
+
+export const onFormLoaded = props => {
+  checkNeedsRedirect(props);
 };

@@ -30,21 +30,18 @@ export default function NeedHelp() {
           <va-telephone contact={CONTACTS['711']} tty />.
         </p>
         <p>
-          To learn more about VA health care services, visit{' '}
           <a href={HEALTH_BENEFITS_URL}>
-            www.va.gov/health-care/about-va-health-benefits
+            Learn more about Veterans Health Administration (VHA) health care
+            services
           </a>
           .
         </p>
         <p>
-          To learn about VA benefits and services related to military sexual
-          trauma (MST), contact a Veterans Health Administration MST
-          coordinator.
+          To learn about VHA health care services available related to military
+          sexual trauma (MST), contact a VHA MST Coordinator.
         </p>
         <p>
-          <a href={MST_COORD_URL}>
-            Find a Veterans Health Administration MST coordinator
-          </a>
+          <a href={MST_COORD_URL}>Find a VHA MST coordinator</a>
         </p>
         <p>
           Or contact your local VA medical facility and ask to speak to a MST
