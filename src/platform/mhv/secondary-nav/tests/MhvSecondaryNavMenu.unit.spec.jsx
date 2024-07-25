@@ -64,7 +64,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
   };
 
   describe('set active item', () => {
-
     it('based on href', () => {
       testSecNavItems.forEach((item, itemIndex) => {
         setWindowUrl(item.href);
