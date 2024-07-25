@@ -3,9 +3,9 @@ import mockUser from '../fixtures/user.json';
 // import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
 
 class MedicalRecordsSite {
-  login = (userFixtue = mockUser) => {
+  login = (userFixture = mockUser) => {
     this.mockFeatureToggles();
-    cy.login(userFixtue);
+    cy.login(userFixture);
     // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
     // window.localStorage.setItem('isLoggedIn', true);
     // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
