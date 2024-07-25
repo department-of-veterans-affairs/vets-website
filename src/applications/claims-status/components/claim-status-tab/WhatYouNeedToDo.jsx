@@ -1,12 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { getFilesNeeded } from '../../utils/helpers';
 
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
+import Standard5103Alert from '../claim-files-tab/Standard5103Alert';
 
 function WhatYouNeedToDo({ claim }) {
-  const { trackedItems } = claim.attributes;
+  const {
+    claimPhaseDates,
+    evidenceWaiverSubmitted5103,
+    trackedItems,
+  } = claim.attributes;
   const filesNeeded = getFilesNeeded(trackedItems);
+  const standard5103NoticeExists =
+    claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
+    evidenceWaiverSubmitted5103 === false;
+  const automated5103NoticeExists = filesNeeded.some(
+    i => i.displayName === 'Automated 5103 Notice Response',
+  );
 
   return (
     <>
@@ -26,12 +38,18 @@ function WhatYouNeedToDo({ claim }) {
           key={item.id}
           id={claim.id}
           item={item}
-          evidenceWaiverSubmitted5103={
-            claim.attributes.evidenceWaiverSubmitted5103
-          }
+          evidenceWaiverSubmitted5103={evidenceWaiverSubmitted5103}
           previousPage="status"
         />
       ))}
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+        <Toggler.Enabled>
+          {standard5103NoticeExists &&
+            !automated5103NoticeExists && (
+              <Standard5103Alert previousPage="status" />
+            )}
+        </Toggler.Enabled>
+      </Toggler>
     </>
   );
 }

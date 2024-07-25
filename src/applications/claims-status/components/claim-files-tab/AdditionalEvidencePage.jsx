@@ -5,11 +5,13 @@ import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
+import Standard5103Alert from './Standard5103Alert';
 
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
 import { setFocus, setPageFocus } from '../../utils/page';
@@ -80,12 +82,21 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const { claim, lastPage } = this.props;
+    const { claim, lastPage, filesNeeded } = this.props;
+    const { claimPhaseDates, evidenceWaiverSubmitted5103 } = claim.attributes;
+
     let content;
 
     const isOpen = isClaimOpen(
       claim.attributes.status,
       claim.attributes.closeDate,
+    );
+
+    const standard5103NoticeExists =
+      claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
+      evidenceWaiverSubmitted5103 === false;
+    const automated5103NoticeExists = filesNeeded.some(
+      i => i.displayName === 'Automated 5103 Notice Response',
     );
 
     if (this.props.loading) {
@@ -113,7 +124,7 @@ class AdditionalEvidencePage extends React.Component {
           <h3 className="vads-u-margin-bottom--3">Additional evidence</h3>
           {isOpen ? (
             <>
-              {this.props.filesNeeded.map(item => (
+              {filesNeeded.map(item => (
                 <FilesNeeded
                   key={item.id}
                   id={claim.id}
@@ -124,6 +135,14 @@ class AdditionalEvidencePage extends React.Component {
                   previousPage="files"
                 />
               ))}
+              <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+                <Toggler.Enabled>
+                  {standard5103NoticeExists &&
+                    !automated5103NoticeExists && (
+                      <Standard5103Alert previousPage="status" />
+                    )}
+                </Toggler.Enabled>
+              </Toggler>
               {this.props.filesOptional.map(item => (
                 <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
