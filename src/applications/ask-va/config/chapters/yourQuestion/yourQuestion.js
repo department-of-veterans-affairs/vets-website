@@ -1,3 +1,4 @@
+import CustomYourQuestionReviewField from '../../../components/CustomYourQuestionReviewField';
 import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
 import { CHAPTER_2 } from '../../../constants';
@@ -32,6 +33,7 @@ export const fileSchema = {
 const yourQuestionPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
+    'ui:objectViewField': CustomYourQuestionReviewField,
     subject: {
       'ui:title': 'Subject',
       'ui:required': formData =>

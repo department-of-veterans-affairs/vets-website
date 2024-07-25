@@ -141,8 +141,10 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
   },
   ALERTS: {
+    HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
@@ -228,6 +230,9 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  TRY_SEARCH: 'Try the search box or one of the common questions below.',
+  SAVE_ATTCH: `We can't save attachments in a draft message`,
 };
 
 export const Data = {

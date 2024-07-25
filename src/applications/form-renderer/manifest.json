@@ -1,0 +1,7 @@
+{
+  "appName": "Form Renderer",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "form-renderer",
+  "rootUrl": "/digital-form",
+  "productId": "8e41524c-d835-476c-ba0f-040037380911"
+}

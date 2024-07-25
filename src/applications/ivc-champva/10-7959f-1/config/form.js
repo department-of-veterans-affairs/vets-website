@@ -11,10 +11,10 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
@@ -23,13 +23,18 @@ import prefillTransformer from './prefillTransformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import PrefilledAddress from '../helpers/prefilledAddress';
+import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
   ssnOrVaFileNumberCustomUI,
   CustomSSNReviewPage,
 } from '../helpers/CustomSSN';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../../shared/components/InternationalPhone';
+import PrefillCopy from '../helpers/PrefillCopy';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -49,6 +54,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     reviewPageTitle: 'Review and sign',
+    submitButtonText: 'Submit',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -94,16 +100,30 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
+            'view:prefilledAddress': {
+              'ui:description': prefilledAddress,
+            },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            'view:PrefillCopy': {
+              'ui:description': PrefillCopy,
+            },
           },
           schema: {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
+              'view:prefilledAddress': {
+                type: 'object',
+                properties: {},
+              },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
+              'view:PrefillCopy': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },
@@ -154,9 +174,6 @@ const formConfig = {
                 state: () => true,
               },
             }),
-            'view:prefilledAddress': {
-              'ui:description': PrefilledAddress,
-            },
           },
           schema: {
             type: 'object',
@@ -164,10 +181,6 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranAddress: addressSchema(),
-              'view:prefilledAddress': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
@@ -177,8 +190,31 @@ const formConfig = {
       title: 'Home address',
       pages: {
         page4: {
+          path: 'same-as-mailing-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI('Home address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your home address the same as your mailing address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
+            },
+          },
+        },
+        page4a: {
           path: 'home-address',
           title: 'Home address ',
+          depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
               `Home address`,
@@ -218,7 +254,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
@@ -226,7 +262,7 @@ const formConfig = {
             required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
             },
           },

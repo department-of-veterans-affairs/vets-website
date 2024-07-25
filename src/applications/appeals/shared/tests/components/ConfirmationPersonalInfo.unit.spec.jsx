@@ -108,18 +108,11 @@ describe('ConfirmationPersonalInfo', () => {
     expect($$('ul[role="list"]', container).length).to.eq(1);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(6);
+    expect(items.length).to.eq(5);
     expect(
       items.map(
-        (item, index) => item[index === 4 ? 'innerHTML' : 'textContent'],
+        (item, index) => item[index === 3 ? 'innerHTML' : 'textContent'],
       ),
-    ).to.deep.equal([
-      '●●●–●●–V A file number ending with ',
-      '',
-      'Not selected',
-      '',
-      '',
-      ',  ',
-    ]);
+    ).to.deep.equal(['', 'Not selected', '', '', ',  ']);
   });
 });

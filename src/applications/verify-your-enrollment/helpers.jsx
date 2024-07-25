@@ -437,7 +437,10 @@ export const getGroupedPreviousEnrollments = month => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -565,7 +568,10 @@ export const getSignlePreviousEnrollments = awards => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -639,7 +645,8 @@ export const noSuggestedAddress = deliveryPointValidation => {
   return (
     deliveryPointValidation === BAD_UNIT_NUMBER ||
     deliveryPointValidation === MISSING_UNIT_NUMBER ||
-    deliveryPointValidation === 'MISSING_ZIP'
+    deliveryPointValidation === 'MISSING_ZIP' ||
+    deliveryPointValidation === 'UNDELIVERABLE'
   );
 };
 

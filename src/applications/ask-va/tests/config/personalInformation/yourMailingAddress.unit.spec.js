@@ -15,7 +15,7 @@ import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourMailingAddress_aboutsomeoneelserelationshipveteran;
+} = formConfig.chapters.aboutSomeoneElseRelationshipVeteran.pages.yourMailingAddress_aboutsomeoneelserelationshipveteran;
 
 describe('yourAddressMailingPage', () => {
   it('should render', () => {

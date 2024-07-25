@@ -29,9 +29,7 @@ export const App = ({ formNumber, hasOnlineTool }) => {
     return (
       <>
         <h3>Submit completed form</h3>
-        <p>
-          Once you’ve completed the form you can return here to upload it to us.
-        </p>
+        <p>After you complete the form, you can upload and submit it here.</p>
         {userLoggedIn ? (
           <div className="action-bar-arrow">
             <div className="vads-u-background-color--primary vads-u-padding--1">
@@ -49,7 +47,6 @@ export const App = ({ formNumber, hasOnlineTool }) => {
             <p>By signing in you will be able to submit a completed PDF form</p>
             <VaButton
               onClick={onSignInClicked}
-              label="ariaLabel"
               uswds
               text="Sign in to upload your form"
             />

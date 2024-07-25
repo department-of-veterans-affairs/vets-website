@@ -1,10 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
 .btsss-portal-link {
   display: inline-flex;
@@ -15,9 +16,9 @@
   margin-left: 4px;
 }
 
-.btsss-claims-order-container {
+.btsss-claims-sort-and-filter-container {
   min-width: fit-content;
-  max-width: 67%;
+  max-width: 35rem;
 }
 
 .btsss-claims-order-select-container {
@@ -26,6 +27,24 @@
   column-gap: 20px;
 }
 
-.travel-claim-card {
+.travel-claim-list-container {
   max-width: 35rem;
 }
+
+h2#pagination-info {
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.travel-claim-card {
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+

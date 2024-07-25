@@ -16,6 +16,7 @@ const AlertModal = ({ showModal, cancelEditClick, setShowModal, formType }) => {
       }}
       primaryButtonText="Yes, cancel my changes"
       secondaryButtonText="No, go back to editing"
+      id="vye-alert-btn"
       status="warning"
     >
       <p>

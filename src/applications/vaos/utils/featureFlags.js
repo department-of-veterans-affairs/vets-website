@@ -25,11 +25,11 @@ module.exports = [
   { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
-  { name: 'vaOnlineSchedulingAppointmentDetailsRedesign', value: false },
+  { name: 'vaOnlineSchedulingAppointmentDetailsRedesign', value: true },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
-  { name: 'mhv_secondary_navigation_enabled', value: true },
+  { name: 'vaOnlineSchedulingMedReviewInstructions', value: true },
 ];

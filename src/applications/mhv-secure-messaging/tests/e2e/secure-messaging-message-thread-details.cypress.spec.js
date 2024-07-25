@@ -8,14 +8,11 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details', () => {
-  const detailsPage = new PatientMessageDetailsPage();
-  const site = new SecureMessagingSite();
-
   let messageDetails = mockMessageDetails;
   const date = new Date();
 
   before('Axe Check Message Details Page', () => {
-    site.login();
+    SecureMessagingSite.login();
     date.setDate(date.getDate() - 2);
     messageDetails = {
       data: {
@@ -28,7 +25,7 @@ describe('Secure Messaging Message Details', () => {
     };
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       messageDetails,
       defaultMockThread,
       1,
@@ -37,14 +34,20 @@ describe('Secure Messaging Message Details', () => {
   });
 
   it('Has correct behavior when expanding one child thread message', () => {
-    const updatedMockThread = detailsPage.getCurrentThread();
-    detailsPage.expandThreadMessageDetails(updatedMockThread, 1);
-    detailsPage.verifyExpandedMessageTo(mockParentMessageDetails, 1);
-    detailsPage.verifyExpandedMessageFrom(messageDetails);
-    detailsPage.verifyExpandedMessageId(messageDetails);
-    detailsPage.verifyExpandedMessageDate(mockParentMessageDetails, 1);
+    const updatedMockThread = PatientMessageDetailsPage.getCurrentThread();
+    PatientMessageDetailsPage.expandThreadMessageDetails(updatedMockThread, 1);
+    PatientMessageDetailsPage.verifyExpandedMessageTo(
+      mockParentMessageDetails,
+      1,
+    );
+    PatientMessageDetailsPage.verifyExpandedMessageFrom(messageDetails);
+    PatientMessageDetailsPage.verifyExpandedMessageId(messageDetails);
+    PatientMessageDetailsPage.verifyExpandedMessageDate(
+      mockParentMessageDetails,
+      1,
+    );
 
-    detailsPage.verifyUnexpandedMessageAttachment(2);
+    PatientMessageDetailsPage.verifyUnexpandedMessageAttachment(2);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

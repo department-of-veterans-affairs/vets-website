@@ -33,7 +33,7 @@ const HEALTH_TOOL_LINKS = freeze({
     },
     {
       href: '/my-health/secure-messages/new-message/',
-      text: 'Send a new message',
+      text: 'Start a new message',
     },
     {
       href: '/my-health/secure-messages/folders/',
@@ -82,8 +82,8 @@ const HEALTH_TOOL_LINKS = freeze({
       text: 'Order CPAP supplies',
     },
     {
-      href: '/health-care/order-prosthetic-socks/',
-      text: 'Order prosthetic socks',
+      href: '/health-care/order-medical-supplies/',
+      text: 'Learn how to order other medical supplies',
     },
   ]),
 });

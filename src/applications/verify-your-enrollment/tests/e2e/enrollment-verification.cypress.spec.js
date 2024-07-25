@@ -1,5 +1,5 @@
 import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
-import { mockUser } from './login';
+import { mockUser, notVerifiedUser } from './login';
 
 // Testing Start enrollment verification
 describe('Enrollment Verification Page Tests', () => {
@@ -48,7 +48,9 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
-    cy.get('[class="usa-button usa-button--outline"]').click();
+    cy.get('[class="usa-button usa-button--outline"]').click({
+      multiple: true,
+    });
     cy.url().should('include', '/mgib-enrollments');
     cy.get('[id="montgomery-gi-bill-enrollment-statement"]').should(
       'contain',
@@ -57,7 +59,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show error message when submit button is clicked and something went wrong', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]')
+    cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
     cy.get(
@@ -77,10 +79,10 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    ).click();
+    ).click({ multiple: true });
     cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
       .first()
-      .click();
+      .click({ multiple: true });
     cy.url().should('not.include', '/benefits-profile');
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
@@ -181,5 +183,30 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
+  });
+  it('show required error message when button is click and the checkbox is not checked', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('[data-testid="have-not-verified"]')
+      .should('be.visible')
+      .and('contain', 'You haven’t verified your enrollment for the month.');
+    cy.get(
+      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
+    ).click();
+    cy.get('[text="Submit"]').click();
+    cy.get('[id="root_educationType-error-message"]').should(
+      'contain',
+      'Please check the box to confirm the information is correct.',
+    );
+  });
+  it('should show not verified Alert if user is not verified', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login(notVerifiedUser);
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
   });
 });

@@ -29,7 +29,7 @@ const ReportModal = ({
 
   // render conditions
   const totalReportableItems =
-    (address !== null) + (phone !== null) + (email !== null) + 1;
+    (address !== null) + (phone !== null) + (email !== null);
   const someItemsReported = existingReports;
   const notAllItemsReported =
     !someItemsReported ||
@@ -102,10 +102,12 @@ const ReportModal = ({
     <>
       <VaModal
         onCloseEvent={onCancelOrClose}
-        onPrimaryButtonClick={onSubmitModal}
+        onPrimaryButtonClick={
+          notAllItemsReported ? onSubmitModal : onCancelOrClose
+        }
         onSecondaryButtonClick={onCancelOrClose}
-        primaryButtonText="Submit"
-        secondaryButtonText="Cancel"
+        primaryButtonText={notAllItemsReported ? 'Submit' : 'Close'}
+        secondaryButtonText={notAllItemsReported ? 'Cancel' : null}
         visible
         uswds
       >

@@ -1,4 +1,8 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaRadio,
+  VaRadioOption,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -48,7 +52,9 @@ const SubtopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${envUrl}${URL.GET_SUBTOPICS}/${topicID}/subtopics?mock=true`,
+        `${envUrl}${
+          URL.GET_SUBTOPICS
+        }/${topicID}/subtopics?user_mock_data=true`,
       );
     },
     [loggedIn],
@@ -62,26 +68,49 @@ const SubtopicSelect = props => {
   }
 
   return !error ? (
-    <VaSelect
-      id={id}
-      name={id}
-      value={value}
-      error={showError() || null}
-      onVaSelect={handleChange}
-      onBlur={handleBlur}
-      uswds
-    >
-      <option value="">&nbsp;</option>
-      {apiData.map(subTopic => (
-        <option
-          key={subTopic.id}
-          value={subTopic.attributes.name}
-          id={subTopic.id}
+    <>
+      {apiData.length > 15 ? (
+        <VaSelect
+          id={id}
+          name={id}
+          value={value}
+          error={showError() || null}
+          onVaSelect={handleChange}
+          onBlur={handleBlur}
+          uswds
         >
-          {subTopic.attributes.name}
-        </option>
-      ))}
-    </VaSelect>
+          <option value="">&nbsp;</option>
+          {apiData.map(subTopic => (
+            <option
+              key={subTopic.id}
+              value={subTopic.attributes.name}
+              id={subTopic.id}
+            >
+              {subTopic.attributes.name}
+            </option>
+          ))}
+        </VaSelect>
+      ) : (
+        <VaRadio
+          error={showError() || null}
+          onVaValueChange={handleChange}
+          onBlur={handleBlur}
+          className="vads-u-margin-top--neg3"
+          uswds
+        >
+          {apiData.map(subTopic => (
+            <VaRadioOption
+              key={subTopic.id}
+              name={subTopic.attributes.name}
+              id={subTopic.id}
+              value={subTopic.attributes.name}
+              label={subTopic.attributes.name}
+              uswds
+            />
+          ))}
+        </VaRadio>
+      )}
+    </>
   ) : (
     <ServerErrorAlert />
   );

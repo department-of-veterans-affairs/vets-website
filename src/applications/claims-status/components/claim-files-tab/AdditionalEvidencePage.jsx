@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
 import AddFilesForm from './AddFilesForm';
@@ -13,7 +12,7 @@ import FilesOptional from './FilesOptional';
 import FilesNeeded from './FilesNeeded';
 
 import { benefitsDocumentsUseLighthouse } from '../../selectors';
-import { setFocus, setPageFocus, setUpPage } from '../../utils/page';
+import { setFocus, setPageFocus } from '../../utils/page';
 import {
   addFile,
   removeFile,
@@ -51,11 +50,6 @@ const filesPath = `../files`;
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    if (!this.props.loading) {
-      setUpPage();
-    } else {
-      scrollToTop();
-    }
   }
 
   // eslint-disable-next-line camelcase
@@ -127,6 +121,7 @@ class AdditionalEvidencePage extends React.Component {
                   evidenceWaiverSubmitted5103={
                     claim.attributes.evidenceWaiverSubmitted5103
                   }
+                  previousPage="files"
                 />
               ))}
               {this.props.filesOptional.map(item => (

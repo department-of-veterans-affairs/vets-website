@@ -6,17 +6,14 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('re-save multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
-  const draftPage = new PatientMessageDraftsPage();
-
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
     mockMultiDraftsResponse,
   );
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify first draft could be re-saved', () => {
@@ -24,12 +21,14 @@ describe('re-save multiple drafts in one thread', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     cy.get('textarea').type('newText', { force: true });
-    draftPage.saveMultiDraftMessage(
+    PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[0],
       updatedMultiDraftResponse.data[0].attributes.messageId,
     );
 
-    draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
+    PatientMessageDraftsPage.verifySavedMessageAlertText(
+      Data.MESSAGE_WAS_SAVED,
+    );
   });
 
   it('verify second draft could be re-saved', () => {
@@ -38,12 +37,14 @@ describe('re-save multiple drafts in one thread', () => {
 
     cy.get('#edit-draft-button').click({ waitForAnimations: true });
     cy.get('textarea').type('newText', { force: true });
-    draftPage.saveMultiDraftMessage(
+    PatientMessageDraftsPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[1],
       updatedMultiDraftResponse.data[1].attributes.messageId,
     );
 
-    draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
+    PatientMessageDraftsPage.verifySavedMessageAlertText(
+      Data.MESSAGE_WAS_SAVED,
+    );
     PatientInboxPage.verifyNotForPrintHeaderText();
   });
 });

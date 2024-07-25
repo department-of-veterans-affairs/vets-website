@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { parseISO, isWithinInterval } from 'date-fns';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import {
   VaBackToTop,
   VaPagination,
@@ -14,14 +16,17 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
-import TravelPayFilters from '../components/TravelPayFilters';
+import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import HelpText from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
+import { getDateFilters } from '../util/dates';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
   const profileLoading = useSelector(state => isProfileLoading(state));
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+
+  const filterInfoRef = useRef();
 
   // TODO: utilize user info for authenticated requests
   // and validating logged in status
@@ -36,8 +41,12 @@ export default function App({ children }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [statusesToFilterBy, setStatusesToFilterBy] = useState([]);
-  const [checkedStatuses, setCheckedStatuses] = useState([]);
-  const [appliedStatuses, setAppliedStatuses] = useState([]);
+  const [checkedStatusFilters, setCheckedStatusFilters] = useState([]);
+  const [appliedStatusFilters, setAppliedStatusFilters] = useState([]);
+
+  const [datesToFilterBy, setDatesToFilterBy] = useState([]);
+  const [selectedDateFilter, setSelectedDateFilter] = useState('all');
+  const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
@@ -45,8 +54,21 @@ export default function App({ children }) {
       ...new Set(travelClaims.map(claim => claim.claimStatus)),
     ];
     setStatusesToFilterBy(initialStatusFilters);
-    setAppliedStatuses(initialStatusFilters);
-    setCheckedStatuses(initialStatusFilters);
+  }
+
+  const dateFilters = getDateFilters();
+
+  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+    // Sets initial date filters after travelClaims load
+    const initialDateFilters = dateFilters.filter(filter =>
+      travelClaims.some(claim =>
+        isWithinInterval(new Date(claim.appointmentDateTime), {
+          start: filter.start,
+          end: filter.end,
+        }),
+      ),
+    );
+    setDatesToFilterBy(initialDateFilters);
   }
 
   // TODO: Move this logic to the API-side
@@ -68,22 +90,43 @@ export default function App({ children }) {
   }
 
   const resetSearch = () => {
-    setAppliedStatuses(statusesToFilterBy);
-    setCheckedStatuses(statusesToFilterBy);
+    setAppliedStatusFilters([]);
+    setCheckedStatusFilters([]);
+    setAppliedDateFilter('all');
+    setSelectedDateFilter('all');
+    setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
   const applyFilters = () => {
-    setAppliedStatuses(checkedStatuses);
+    setAppliedStatusFilters(checkedStatusFilters);
+    setAppliedDateFilter(selectedDateFilter);
+    setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
-  const onStatusFilterChange = (e, statusName) => {
-    if (e.currentTarget.checked) {
-      setCheckedStatuses([...checkedStatuses, statusName]);
+  const onStatusFilterChange = e => {
+    const statusName = e.target.name;
+
+    if (e.target.checked) {
+      setCheckedStatusFilters([...checkedStatusFilters, statusName]);
     } else {
-      setCheckedStatuses(
-        checkedStatuses.filter(statusFilter => statusFilter !== statusName),
+      setCheckedStatusFilters(
+        checkedStatusFilters.filter(
+          statusFilter => statusFilter !== statusName,
+        ),
       );
     }
+  };
+
+  const onDateFilterChange = e => {
+    setSelectedDateFilter(e.target.value);
+  };
+
+  const onSortClick = () => {
+    setOrderClaimsBy(selectedClaimsOrder);
+    setCurrentPage(1);
+    filterInfoRef.current.focus();
   };
 
   const {
@@ -106,9 +149,26 @@ export default function App({ children }) {
 
   const CLAIMS_PER_PAGE = 10;
 
-  let displayedClaims = travelClaims.filter(claim =>
-    appliedStatuses.includes(claim.claimStatus),
+  const dateFilter = dateFilters.find(
+    filter => filter.label === appliedDateFilter,
   );
+
+  let displayedClaims = travelClaims.filter(claim => {
+    const statusFilterIncludesClaim =
+      appliedStatusFilters.length === 0 ||
+      appliedStatusFilters.includes(claim.claimStatus);
+
+    const daterangeIncludesClaim =
+      appliedDateFilter === 'all'
+        ? true
+        : isWithinInterval(parseISO(claim.appointmentDateTime), {
+            start: dateFilter.start,
+            end: dateFilter.end,
+          });
+
+    return statusFilterIncludesClaim && daterangeIncludesClaim;
+  });
+
   const numResults = displayedClaims.length;
   const shouldPaginate = displayedClaims.length > CLAIMS_PER_PAGE;
   const numPages = Math.ceil(displayedClaims.length / CLAIMS_PER_PAGE);
@@ -123,6 +183,7 @@ export default function App({ children }) {
   const onPageSelect = useCallback(
     selectedPage => {
       setCurrentPage(selectedPage);
+      filterInfoRef.current.focus();
     },
     [setCurrentPage],
   );
@@ -145,8 +206,9 @@ export default function App({ children }) {
   }
 
   return (
-    <div>
-      <article className="vads-l-col--9 vads-u-margin-x--auto vads-u-padding-bottom--0">
+    <>
+      <MhvSecondaryNav />
+      <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
         <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
@@ -172,7 +234,7 @@ export default function App({ children }) {
           !isLoading &&
           travelClaims.length > 0 && (
             <>
-              <div className="btsss-claims-order-container">
+              <div className="btsss-claims-sort-and-filter-container">
                 <label
                   htmlFor="claimsOrder"
                   className="vads-u-margin-bottom--0"
@@ -193,29 +255,39 @@ export default function App({ children }) {
                     <option value="oldest">Oldest</option>
                   </select>
                   <va-button
-                    onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                    onClick={() => onSortClick()}
                     data-testid="Sort travel claims"
                     text="Sort"
                     label="Sort"
                   />
                 </div>
-              </div>
-              <div id="travel-claims-list">
-                <p id="pagination-info">
-                  Showing {pageStart} ‒ {pageEnd} of {travelClaims.length}{' '}
-                  events
-                </p>
-                <TravelPayFilters
+
+                <TravelPayClaimFilters
                   statusesToFilterBy={statusesToFilterBy}
-                  checkedStatuses={checkedStatuses}
+                  checkedStatusFilters={checkedStatusFilters}
                   onStatusFilterChange={onStatusFilterChange}
                   applyFilters={applyFilters}
                   resetSearch={resetSearch}
+                  selectedDateFilter={selectedDateFilter}
+                  datesToFilterBy={datesToFilterBy}
+                  onDateFilterChange={onDateFilterChange}
                 />
+              </div>
+
+              <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                {numResults === 0
+                  ? `Showing ${numResults} events`
+                  : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
+              </h2>
+
+              <section
+                id="travel-claims-list"
+                className="travel-claim-list-container"
+              >
                 {displayedClaims.map(travelClaim =>
                   TravelClaimCard(travelClaim),
                 )}
-              </div>
+              </section>
               {shouldPaginate && (
                 <VaPagination
                   onPageSelect={e => onPageSelect(e.detail.page)}
@@ -233,7 +305,7 @@ export default function App({ children }) {
       </article>
 
       {children}
-    </div>
+    </>
   );
 }
 

@@ -6,17 +6,14 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
-  const draftPage = new PatientMessageDraftsPage();
-
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
     mockMultiDraftsResponse,
   );
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify headers', () => {
@@ -47,23 +44,23 @@ describe('handle multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    draftPage.verifyMessagesBodyText(
+    PatientMessageDraftsPage.verifyMessagesBodyText(
       updatedMultiDraftResponse.data[0].attributes.body,
     );
 
     cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    draftPage.verifyMessagesBodyText(
+    PatientMessageDraftsPage.verifyMessagesBodyText(
       updatedMultiDraftResponse.data[1].attributes.body,
     );
-    draftPage.verifyDraftMessageBodyText(
+    PatientMessageDraftsPage.verifyDraftMessageBodyText(
       updatedMultiDraftResponse.data[0].attributes.body,
     );
 
     cy.get('[text="Edit draft 2"]').click();
-    draftPage.verifyMessagesBodyText(
+    PatientMessageDraftsPage.verifyMessagesBodyText(
       updatedMultiDraftResponse.data[0].attributes.body,
     );
-    draftPage.verifyDraftMessageBodyText(
+    PatientMessageDraftsPage.verifyDraftMessageBodyText(
       updatedMultiDraftResponse.data[1].attributes.body,
     );
   });
