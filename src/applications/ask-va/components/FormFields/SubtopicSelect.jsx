@@ -1,7 +1,7 @@
 import {
-  VaSelect,
   VaRadio,
   VaRadioOption,
+  VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -52,7 +52,9 @@ const SubtopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${envUrl}${URL.GET_SUBTOPICS}/${topicID}/subtopics?mock=true`,
+        `${envUrl}${
+          URL.GET_SUBTOPICS
+        }/${topicID}/subtopics?user_mock_data=true`,
       );
     },
     [loggedIn],
