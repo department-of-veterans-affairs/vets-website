@@ -127,7 +127,7 @@ const FileInput = props => {
       }
       return 'Attach file';
     },
-    [Attachments],
+    [attachments.length],
   );
 
   return (
