@@ -49,10 +49,6 @@ const testConfig = createTestConfig(
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
 
-      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
-        totalMonthlyNetIncome: 0.0,
-      });
-
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
 

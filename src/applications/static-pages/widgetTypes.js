@@ -48,7 +48,6 @@ export default {
   FORM_400247_CTA: 'form400247',
   FORM_UPLOAD: 'form-upload',
   FORM_1010D: 'form1010d',
-  FORM_107959C: 'form107959c',
   FORM_107959F1: 'form107959F1',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HCA_PERFORMANCE_WARNING: 'hca-performance-warning',

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
 /**
@@ -18,7 +19,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
    * @param {String} path the path
    * @returns the path without a trailing slash
    */
-  const stripTrailingSlash = path => path?.replace(/\/$/, '');
+  const stripTrailingSlash = path => path.replace(/\/$/, '');
 
   /**
    * Find which navigation item needs to be set to active, if any. An item should be active
@@ -35,13 +36,22 @@ const MhvSecondaryNavMenu = ({ items }) => {
         const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
         // Remove the trailing slash as they are optional.
         const linkNoTrailing = stripTrailingSlash(item.href);
-        const urlNoTrailing = stripTrailingSlash(window?.location?.pathname);
+        const urlNoTrailing = stripTrailingSlash(window.location.pathname);
         return (
-          window?.location?.pathname?.startsWith(appRootUrl) ||
+          window.location.pathname.startsWith(appRootUrl) ||
           linkNoTrailing === urlNoTrailing
         );
       });
   };
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const secNavEnabled = useToggleValue(
+    TOGGLE_NAMES.mhvSecondaryNavigationEnabled,
+  );
+
+  if (!secNavEnabled) {
+    return null;
+  }
 
   const activeItem = findActiveItem();
   const navContent = items.map((item, index) => {

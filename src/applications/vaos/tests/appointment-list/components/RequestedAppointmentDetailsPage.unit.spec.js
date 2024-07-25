@@ -387,11 +387,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         name: 'Preferred date and time',
       }),
     ).to.be.ok;
+
     expect(
       screen.getByText(
-        moment()
-          .startOf('day')
-          .format('ddd, MMMM DD, YYYY [in the morning]'),
+        `${moment(
+          response.attributes.requestedPeriods[0].start.replace('Z', ''),
+        ).format('ddd, MMMM D, YYYY')} in the morning`,
       ),
     ).to.be.ok;
   });

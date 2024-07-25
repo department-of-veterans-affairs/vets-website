@@ -23,7 +23,6 @@ import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
 import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
-import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
 import informalConference from '../pages/informalConference';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
@@ -31,15 +30,7 @@ import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
-import {
-  mayHaveLegacyAppeals,
-  showNewHlrContent,
-  hideNewHlrContent,
-  onFormLoaded,
-  showConferenceVeteranPage,
-  showConferenceRepPages,
-} from '../utils/helpers';
-import { homelessPageTitle } from '../content/homeless';
+import { mayHaveLegacyAppeals } from '../utils/helpers';
 import NeedHelp from '../content/NeedHelp';
 import { formTitle, FormSubTitle } from '../content/title';
 
@@ -48,12 +39,7 @@ import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import {
-  focusRadioH3,
-  focusH3,
-  focusToggledHeader,
-  focusOnAlert,
-} from '../../shared/utils/focus';
+import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -97,7 +83,7 @@ const formConfig = {
   verifyRequiredPrefill: true,
   transformForSubmit: transform,
 
-  onFormLoaded,
+  // beforeLoad: props => { console.log('form config before load', props); },
   // onFormLoaded: ({ formData, savedForms, returnUrl, formConfig, router }) => {
   //   console.log('form loaded', formData, savedForms, returnUrl, formConfig, router);
   // },
@@ -143,11 +129,11 @@ const formConfig = {
           // initialData,
         },
         homeless: {
-          title: homelessPageTitle,
+          title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusToggledHeader, // focusH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         ...contactInfo,
       },
@@ -194,19 +180,10 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: formData =>
-            hideNewHlrContent(formData) && mayHaveLegacyAppeals(formData),
+          depends: formData => mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },
-          scrollAndFocusTarget: focusH3,
-        },
-        authorization: {
-          title: 'Authorization',
-          path: 'authorization',
-          uiSchema: authorization.uiSchema,
-          schema: authorization.schema,
-          depends: showNewHlrContent,
           scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
@@ -233,7 +210,7 @@ const formConfig = {
           // migration code returns the Veteran to the contact info page
           path: 'informal-conference/representative-info',
           title: 'Representative’s information',
-          depends: showConferenceRepPages,
+          depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceRepV2.uiSchema,
           schema: informalConferenceRepV2.schema,
           scrollAndFocusTarget: focusH3,
@@ -241,7 +218,7 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: showConferenceVeteranPage,
+          depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
           scrollAndFocusTarget: focusH3,
@@ -249,7 +226,7 @@ const formConfig = {
         conferenceTimeRep: {
           path: 'informal-conference/conference-rep-availability',
           title: 'Scheduling availability',
-          depends: showConferenceRepPages,
+          depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceTimeRep.uiSchema,
           schema: informalConferenceTimeRep.schema,
           scrollAndFocusTarget: focusH3,

@@ -1,6 +1,9 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [{}]
+    "features": [{
+      "name": "nod_part3_update",
+      "value": true
+    }]
   }
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -197,7 +196,7 @@ class RoutedSavableApp extends React.Component {
     return getNextPagePath(
       props.routes[props.routes.length - 1].pageList,
       props.formData,
-      `${props.formConfig?.urlPrefix || '/'}introduction`,
+      '/introduction',
     );
   }
 
@@ -315,30 +314,5 @@ export default withRouter(
     mapDispatchToProps,
   )(RoutedSavableApp),
 );
-
-RoutedSavableApp.propTypes = {
-  autoSavedStatus: PropTypes.string,
-  children: PropTypes.any,
-  currentLocation: PropTypes.shape({
-    pathname: PropTypes.string,
-    search: PropTypes.string,
-  }),
-  FormApp: PropTypes.any,
-  formConfig: PropTypes.shape({
-    additionalRoutes: PropTypes.object,
-    customText: PropTypes.shape({
-      appType: PropTypes.string,
-    }),
-    disableSave: PropTypes.bool,
-  }),
-  loadedStatus: PropTypes.string,
-  location: PropTypes.object,
-  prefillStatus: PropTypes.string,
-  profileIsLoading: PropTypes.bool,
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }),
-  savedStatus: PropTypes.string,
-};
 
 export { RoutedSavableApp };

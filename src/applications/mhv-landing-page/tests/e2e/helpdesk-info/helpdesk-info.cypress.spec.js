@@ -28,9 +28,20 @@ describe(`${appName} - helpdesk information component`, () => {
 
       cy.findByTestId('mhv-helpdesk-info').should.exist;
     });
+  });
 
-    it(`renders for users without an MHV account`, () => {
-      LandingPage.visit({ mhvAccountState: false });
+  describe('display content based on feature toggle', () => {
+    it(`toggle is off`, () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
+      LandingPage.visit();
+      cy.injectAxeThenAxeCheck();
+
+      cy.findByTestId('mhv-helpdesk-info').should('not.exist');
+    });
+
+    it(`toggle is on`, () => {
+      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      LandingPage.visit();
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should.exist;

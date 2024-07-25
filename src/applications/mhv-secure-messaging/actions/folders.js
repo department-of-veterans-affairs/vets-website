@@ -1,5 +1,4 @@
 import { Actions } from '../util/actionTypes';
-import { getIsPilotFromState } from '.';
 import {
   getFolderList,
   getFolder,
@@ -22,10 +21,9 @@ const handleErrors = err => async dispatch => {
   });
 };
 
-export const getFolders = () => async (dispatch, getState) => {
-  const isPilot = getIsPilotFromState(getState);
+export const getFolders = () => async dispatch => {
   try {
-    const response = await getFolderList(isPilot);
+    const response = await getFolderList();
     if (response.data) {
       dispatch({
         type: Actions.Folder.GET_LIST,
@@ -45,9 +43,8 @@ export const getFolders = () => async (dispatch, getState) => {
   }
 };
 
-export const retrieveFolder = folderId => async (dispatch, getState) => {
-  const isPilot = getIsPilotFromState(getState);
-  await getFolder({ folderId, isPilot })
+export const retrieveFolder = folderId => async dispatch => {
+  await getFolder(folderId)
     .then(response => {
       if (response.data) {
         if (

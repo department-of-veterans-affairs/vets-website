@@ -12,9 +12,7 @@ it('should still render when an unknown status is given', () => {
     checkedStatusFilters: [],
     onStatusFilterChange,
   };
+  const screen = render(<TravelPayStatusCheckboxes {...props} />);
 
-  render(<TravelPayStatusCheckboxes {...props} />);
-  const statusFilters = document.querySelectorAll('va-checkbox');
-
-  expect(statusFilters.length).to.eq(3);
+  expect(screen.getAllByTestId('status-filter').length).to.eq(3);
 });

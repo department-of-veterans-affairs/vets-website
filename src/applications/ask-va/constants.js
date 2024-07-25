@@ -10,8 +10,8 @@ export const baseURL = '/ask_va_api/v0';
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics`,
+  GET_TOPICS: `/topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -34,11 +34,9 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'VA Caregiver Support Program',
+  'Caregiver support',
   'Family member health benefits',
-  'VHA Prosthetics',
-  'Veteran Health ID (VHIC – Facility Access/Check-In)',
-  'Veteran ID (Retailer Discount)',
+  'Prosthetics',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page

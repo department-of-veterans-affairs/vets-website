@@ -108,5 +108,8 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 
+export const selectFeatureMhvSecondaryNavigationEnabled = state =>
+  toggleValues(state).mhv_secondary_navigation_enabled;
+
 export const selectFeatureMedReviewInstructions = state =>
   toggleValues(state).vaOnlineSchedulingMedReviewInstructions;

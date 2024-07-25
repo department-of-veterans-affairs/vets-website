@@ -39,9 +39,7 @@ const PrescriptionDetailsDocumentation = () => {
         getDocumentation(prescriptionId, ndcNumber)
           .then(response => {
             setHasDocApiError(false);
-            setHtmlContent(
-              sanitizeKramesHtmlStr(response.data.attributes.html),
-            );
+            setHtmlContent(sanitizeKramesHtmlStr(response.data));
           })
           .catch(() => {
             setHasDocApiError(true);

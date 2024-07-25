@@ -41,11 +41,8 @@ export const FormSignature = ({
   onSectionComplete,
 }) => {
   // Input states
-  const [signature, setSignature] = useState({
-    value: formData?.signature ?? '', // Pre-populate with existing signature if available
-    dirty: formData?.signature?.length > 0, // will be dirty if any prev signature is present
-  });
-  const [checked, setChecked] = useState(formData?.AGREED ?? false);
+  const [signature, setSignature] = useState({ value: '', dirty: false });
+  const [checked, setChecked] = useState(false);
 
   // Validation states
   const [signatureError, setSignatureError] = useState(null);
@@ -130,7 +127,6 @@ export const FormSignature = ({
         description={null}
         required={required}
         error={showError ? checkboxError : null}
-        checked={checked}
         onVaChange={event => setChecked(event.target.checked)}
       >
         {checkboxDescription && <p slot="description">{checkboxDescription}</p>}
@@ -141,10 +137,29 @@ export const FormSignature = ({
 
 FormSignature.propTypes = {
   formData: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/sort-prop-types
   onSectionComplete: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
+  submission: PropTypes.shape({
+    hasAttemptedSubmit: PropTypes.bool,
+    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  }),
+  /**
+   * The label for the signature input
+   */
+  signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+  /**
+   * The path in the formData to the signature value
+   */
+  signaturePath: PropTypes.string,
+
+  /**
+   * The label for the checkbox input
+   */
+  checkboxLabel: PropTypes.string,
+
   /**
    * The description for the checkbox input
    */
@@ -152,24 +167,7 @@ FormSignature.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]),
-  /**
-   * The label for the checkbox input
-   */
-  checkboxLabel: PropTypes.string,
-  required: PropTypes.bool,
-  /**
-   * The label for the signature input
-   */
-  signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  /**
-   * The path in the formData to the signature value
-   */
-  signaturePath: PropTypes.string,
-  submission: PropTypes.shape({
-    hasAttemptedSubmit: PropTypes.bool,
-    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  }),
+
   /**
    * An array of validator functions. Each function returns a string for the
    * validation message if the input is invalid, or undefined if the input is
@@ -191,7 +189,6 @@ FormSignature.defaultProps = {
     'I certify the information above is correct and true to the best of my knowledge and belief.',
   required: true,
   validations: [],
-  // eslint-disable-next-line react/default-props-match-prop-types
   setFormData: () => {},
 };
 

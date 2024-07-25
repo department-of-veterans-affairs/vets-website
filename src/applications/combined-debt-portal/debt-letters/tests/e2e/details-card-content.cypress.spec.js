@@ -13,15 +13,16 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
     cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
+    cy.injectAxe();
   });
 
   it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
     // Get Summary Card & navigate to it's details page
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'Contact the U.S. Department of the Treasury’s Debt Management Services at',
+      'Contact the U.S. Department of the Treasury to pay this debt',
     )
-      .find('va-link')
+      .find('a')
       .click({ waitForAnimations: true });
     // Get Alert's Children
     cy.get('va-alert').as('alert-content');
@@ -38,7 +39,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.injectAxeThenAxeCheck();
+    cy.axeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
@@ -60,13 +61,13 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.injectAxeThenAxeCheck();
+    cy.axeCheck();
   });
 
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'We’re reducing your benefit payments each month until your debt is paid',
+      'We’re offsetting your benefit payments each month until your debt is paid',
     )
       .find('a')
       .click({ waitForAnimations: true });
@@ -74,7 +75,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('h2')
       .contains(
-        `We're reducing your benefit payments each month until your debt is paid`,
+        `We're offsetting your benefit payments each month until your debt is paid`,
       );
     cy.get('@alert-content')
       .find('[data-testid="link-make-payment"]')
@@ -82,7 +83,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('not.exist');
-    cy.injectAxeThenAxeCheck();
+    cy.axeCheck();
   });
 
   it('renders expected content for diary code: 117', () => {
@@ -104,7 +105,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.injectAxeThenAxeCheck();
+    cy.axeCheck();
   });
 
   it('renders expected content for diary code: 123', () => {
@@ -126,6 +127,6 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('[data-testid="link-request-help"]')
       .should('exist');
-    cy.injectAxeThenAxeCheck();
+    cy.axeCheck();
   });
 });

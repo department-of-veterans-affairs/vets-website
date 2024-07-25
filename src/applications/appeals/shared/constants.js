@@ -129,7 +129,7 @@ export const DISAGREEMENT_TYPES = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
-  otherEntry: 'Something else',
+  otherEntry: 'Something else:',
 };
 
 // Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,

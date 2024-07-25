@@ -1,10 +1,11 @@
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
+// import * as Sentry from '@sentry/browser';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
-import { setUpPage, isTab } from './page';
+// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -1070,58 +1071,3 @@ export function setDocumentRequestPageTitle(displayName) {
     ? '5103 Evidence Notice'
     : `Request for ${displayName}`;
 }
-
-// Used to set page title for the CST Tabs
-export function setTabDocumentTitle(claim, tabName) {
-  if (claimAvailable(claim)) {
-    const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-    const claimType = getClaimType(claim);
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For ${claimDate} ${claimType} Claim`
-        : `${tabName} Of ${claimDate} ${claimType} Claim`;
-    setDocumentTitle(title);
-  } else {
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For Your Claim`
-        : `${tabName} Of Your Claim`;
-    setDocumentTitle(title);
-  }
-}
-// Used to set the page focus on the CST Tabs
-export function setPageFocus(lastPage, loading) {
-  if (!isTab(lastPage)) {
-    if (!loading) {
-      setUpPage();
-    } else {
-      scrollToTop();
-    }
-  } else {
-    scrollAndFocus(document.querySelector('.tab-header'));
-  }
-}
-// Used to get the oldest document date
-// Logic used in getTrackedItemDateFromStatus()
-const getOldestDocumentDate = item => {
-  const arrDocumentDates = item.documents.map(document => document.uploadDate);
-  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
-};
-// Logic here uses a given tracked items status to determine what the date should be.
-// This logic is used in RecentActivity and on the ClaimStatusHeader
-export const getTrackedItemDateFromStatus = item => {
-  switch (item.status) {
-    case 'NEEDED_FROM_YOU':
-    case 'NEEDED_FROM_OTHERS':
-      return item.requestedDate;
-    case 'NO_LONGER_REQUIRED':
-      return item.closedDate;
-    case 'SUBMITTED_AWAITING_REVIEW':
-      return getOldestDocumentDate(item);
-    case 'INITIAL_REVIEW_COMPLETE':
-    case 'ACCEPTED':
-      return item.receivedDate;
-    default:
-      return item.requestedDate;
-  }
-};

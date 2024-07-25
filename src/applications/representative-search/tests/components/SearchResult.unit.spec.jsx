@@ -1,22 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+
+import { shallow, mount } from 'enzyme';
 import SearchResult from '../../components/results/SearchResult';
 
 describe('SearchResults', () => {
-  const mockStore = {
-    getState: () => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        find_a_representative_flagging_feature_enabled: true,
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-
   const testProps = {
     officer: 'Test Officer',
     addressLine1: '123 Main St',
@@ -35,11 +24,7 @@ describe('SearchResults', () => {
   };
 
   it('should push to datalayer on click of contact link', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
-    );
+    const wrapper = mount(<SearchResult {...testProps} />);
 
     const addressLink = wrapper.find('.address-anchor');
 
@@ -54,12 +39,7 @@ describe('SearchResults', () => {
   });
 
   it('should push to datalayer on click of report button', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
-    );
-
+    const wrapper = mount(<SearchResult {...testProps} />);
     const priorEvent = window.dataLayer;
 
     wrapper.find('#open-modal-test-button').simulate('click');
@@ -70,25 +50,28 @@ describe('SearchResults', () => {
   });
 
   it('should render rep email if rep email exists', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        addressLine1="123 test place"
+      />,
     );
 
-    const emailLink = wrapper.find('a[href="mailto:test@example.com"]');
+    const emailLink = wrapper.find('a[href="mailto:rep@example.com"]');
 
     expect(emailLink.exists(), 'Email link exists').to.be.true;
     expect(emailLink, 'Email link length').to.have.lengthOf(1);
 
     wrapper.unmount();
   });
-
   it('should render address link if addressLine1 exists', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        addressLine1="123 test place"
+      />,
     );
 
     const addressLink = wrapper.find('.address-link');
@@ -98,10 +81,12 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
   it('should render address link if city exists', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        city="Columbus"
+      />,
     );
 
     const addressLink = wrapper.find('.address-link');
@@ -111,10 +96,12 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
   it('should render address link if stateCode exists', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        stateCode="CA"
+      />,
     );
 
     const addressLink = wrapper.find('.address-link');
@@ -124,10 +111,12 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
   it('should render address link if zipCode exists', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        phone="614-249-9393"
+        email="rep@example.com"
+        zipCode="43210"
+      />,
     );
 
     const addressLink = wrapper.find('.address-link');
@@ -137,14 +126,17 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
   it('sets the aria-label on the address link', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
+    const wrapper = shallow(
+      <SearchResult
+        addressLine1="123 test place"
+        city="Columbus"
+        stateCode="CA"
+        zipCode="43210"
+      />,
     );
 
     const expectedAriaLabel =
-      '123 Main St Suite 100 Columbus, OH 43210 (opens in a new tab)';
+      '123 test place Columbus, CA 43210 (opens in a new tab)';
     const addressLink = wrapper.find('.address-link a');
 
     expect(addressLink.exists(), 'Address link exists').to.be.true;
@@ -156,24 +148,16 @@ describe('SearchResults', () => {
     wrapper.unmount();
   });
 
-  it('Does not display the "Thanks for reporting outdated information." message when reports are present', () => {
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
-    );
+  it('displays the "Thanks for reporting outdated information." message when reports are present', () => {
+    const { queryByText } = render(<SearchResult {...testProps} />);
 
     const thankYouMessage = queryByText(
       'Thanks for reporting outdated information.',
     );
-    expect(thankYouMessage).to.be.null;
+    expect(thankYouMessage).to.not.be.null;
   });
   it('renders addressLine2 if it exists', () => {
-    const { container } = render(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
-    );
+    const { container } = render(<SearchResult {...testProps} />);
 
     const addressLink = container.querySelector('.address-link > a');
     expect(addressLink).to.not.be.null;
@@ -195,13 +179,11 @@ describe('SearchResults', () => {
     };
 
     const { queryByText } = render(
-      <Provider store={mockStore}>
-        <SearchResult
-          {...testPropsWithoutAddressLine2}
-          initializeRepresentativeReport={() => {}}
-          reportSubmissionStatus="INITIAL"
-        />
-      </Provider>,
+      <SearchResult
+        {...testPropsWithoutAddressLine2}
+        initializeRepresentativeReport={() => {}}
+        reportSubmissionStatus="INITIAL"
+      />,
     );
 
     const addressLine2Text = queryByText('Suite 100');
@@ -210,13 +192,7 @@ describe('SearchResults', () => {
 
   it('renders the trigger button text for associated organizations', () => {
     const { container } = render(
-      <Provider store={mockStore}>
-        <SearchResult
-          {...testProps}
-          associatedOrgs={['Org1', 'Org2', 'Org3']}
-        />
-        ,
-      </Provider>,
+      <SearchResult {...testProps} associatedOrgs={['Org1', 'Org2', 'Org3']} />,
     );
 
     const triggerButton = container
@@ -227,9 +203,7 @@ describe('SearchResults', () => {
 
   it('renders distance information when distance is provided', () => {
     const { container } = render(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} distance="5.5" />
-      </Provider>,
+      <SearchResult {...testProps} distance="5.5" />,
     );
 
     const distanceElement = container.querySelector(
@@ -244,11 +218,7 @@ describe('SearchResults', () => {
   });
 
   it('renders modal when appropriate', () => {
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <SearchResult {...testProps} />
-      </Provider>,
-    );
+    const wrapper = mount(<SearchResult {...testProps} />);
 
     wrapper.find('#open-modal-test-button').simulate('click');
 

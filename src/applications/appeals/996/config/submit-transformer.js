@@ -14,8 +14,6 @@ import {
   getTimeZone,
 } from '../../shared/utils/submit';
 
-import { showNewHlrContent } from '../utils/helpers';
-
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
@@ -34,9 +32,7 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      // Newer HLR gives no choice; defaulting to true until new Lighthouse API
-      // is ready
-      socOptIn: showNewHlrContent(formData) || formData.socOptIn,
+      socOptIn: formData.socOptIn,
     };
 
     const included = addAreaOfDisagreement(

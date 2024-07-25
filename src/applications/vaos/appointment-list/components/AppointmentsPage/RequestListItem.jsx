@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,7 +33,9 @@ export default function RequestListItem({ appointment, facility }) {
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
   const ccFacilityName = getPreferredCommunityCareProviderName(appointment);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const preferredDate = appointment?.preferredDate;
+  const preferredDate = moment(appointment.requestedPeriod[0].start).format(
+    'MMMM D, YYYY',
+  );
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
 
   const featureBreadcrumbUrlUpdate = useSelector(state =>

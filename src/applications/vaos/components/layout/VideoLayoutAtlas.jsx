@@ -8,7 +8,6 @@ import DetailPageLayout, {
   When,
   Where,
   Who,
-  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
@@ -20,14 +19,13 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
+import FacilityPhone from '../FacilityPhone';
 import State from '../State';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
     atlasConfirmationCode,
     clinicName,
-    clinicPhone,
-    clinicPhoneExtension,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -123,30 +121,30 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName}</What>
+      <What>{typeOfCareName || 'Type of care not noted'}</What>
 
       <Who>{videoProviderName}</Who>
-
-      {!!facility && (
-        <Where
-          heading={
-            APPOINTMENT_STATUS.booked === status && !isPastAppointment
-              ? 'Where to attend'
-              : undefined
-          }
-        >
-          <Address address={videoProviderAddress} />
-          <div className="vads-u-margin-top--1 vads-u-color--link-default">
-            <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-            <FacilityDirectionsLink location={facility} />
-          </div>
-        </Where>
-      )}
-
+      <Where
+        heading={
+          APPOINTMENT_STATUS.booked === status && !isPastAppointment
+            ? 'Where to attend'
+            : undefined
+        }
+      >
+        {!!facility && (
+          <>
+            <Address address={videoProviderAddress} />
+            <div className="vads-u-margin-top--1 vads-u-color--link-default">
+              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+              <FacilityDirectionsLink location={facility} />
+            </div>
+          </>
+        )}
+      </Where>
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
-          {!facility && (
+          {!!facility === false && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -161,11 +159,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             <>
               {facility.name}
               <br />
-              <ClinicOrFacilityPhone
-                clinicPhone={clinicPhone}
-                clinicPhoneExtension={clinicPhoneExtension}
-                facilityPhone={facilityPhone}
-              />
+              {facilityPhone && (
+                <FacilityPhone heading="Phone:" contact={facilityPhone} />
+              )}
+              {!facilityPhone && <>Not available</>}
             </>
           )}
         </Section>
@@ -177,7 +174,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             appointment.
             <br />
             <br />
-            {facility ? (
+            {!!facility && (
               <>
                 {facility.name}
                 <br />
@@ -185,17 +182,12 @@ export default function VideoLayoutAtlas({ data: appointment }) {
                   {address.city}, <State state={address.state} />
                 </span>
               </>
-            ) : (
-              'Facility not available'
             )}
             <br />
-            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
-            <br />
-            <ClinicOrFacilityPhone
-              clinicPhone={clinicPhone}
-              clinicPhoneExtension={clinicPhoneExtension}
-              facilityPhone={facilityPhone}
-            />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {facilityPhone && (
+              <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+            )}
           </Section>
         )}
     </DetailPageLayout>

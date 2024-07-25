@@ -42,7 +42,6 @@ export default function YesNoField(props) {
         props.childrenProps.onChange(newVal);
       }}
     >
-      {mappedProps?.children}
       <va-radio-option
         name={props.childrenProps.idSchema.$id}
         key={`${props.childrenProps.idSchema.$id}Yes`}

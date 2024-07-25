@@ -1,15 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-
-import { mockStore } from '../../../shared/tests/test-helpers';
 
 describe('HLR conference times page', () => {
   const {
@@ -19,15 +16,13 @@ describe('HLR conference times page', () => {
 
   it('should render', () => {
     const { container } = render(
-      <Provider store={mockStore()}>
-        <DefinitionTester
-          definitions={{}}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-        />
-      </Provider>,
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+      />,
     );
 
     expect($$('va-radio-option', container).length).to.equal(2);
@@ -36,16 +31,14 @@ describe('HLR conference times page', () => {
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
-      <Provider store={mockStore()}>
-        <DefinitionTester
-          definitions={{}}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
     );
     const changeEvent = new CustomEvent('selected', {
       detail: { value: 'time0800to1200' },
@@ -60,16 +53,14 @@ describe('HLR conference times page', () => {
   it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
-      <Provider store={mockStore()}>
-        <DefinitionTester
-          definitions={{}}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
     );
 
     fireEvent.submit($('form', container));

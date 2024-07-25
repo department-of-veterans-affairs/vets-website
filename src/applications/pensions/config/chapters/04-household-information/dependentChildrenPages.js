@@ -34,7 +34,7 @@ import { isBetween18And23 } from './helpers';
 import {
   DependentSeriouslyDisabledDescription,
   formatFullName,
-  showMultiplePageResponse,
+  showDependentsMultiplePage,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -63,6 +63,7 @@ const options = {
         !item.personWhoLivesWithChild.first ||
         !item.personWhoLivesWithChild.last)) ||
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
+  maxItems: 15,
   text: {
     getItemName: item => formatFullName(item.fullName),
   },
@@ -75,10 +76,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingDependents': arrayBuilderYesNoUI(options, {
-      title: 'Do you have any dependent children?',
-      hint: null,
-    }),
+    'view:isAddingDependents': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
@@ -345,35 +343,35 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildrenSummary: pageBuilder.summaryPage({
       title: 'Dependent children',
       path: 'household/dependents/summary',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     dependentChildFullNamePage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/name',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: fullNamePage.uiSchema,
       schema: fullNamePage.schema,
     }),
     dependentChildBirthInformationPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/birth',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: birthInformationPage.uiSchema,
       schema: birthInformationPage.schema,
     }),
     dependentChildSocialSecurityNumberPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/social-security-number',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: socialSecurityNumberPage.uiSchema,
       schema: socialSecurityNumberPage.schema,
     }),
     dependentChildRelationshipPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/relationship',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: relationshipPage.uiSchema,
       schema: relationshipPage.schema,
     }),
@@ -381,7 +379,7 @@ export const dependentChildrenPages = arrayBuilderPages(
       title: 'Dependent children',
       path: 'household/dependents/:index/school',
       depends: (formData, index) =>
-        showMultiplePageResponse() &&
+        showDependentsMultiplePage() &&
         isBetween18And23(
           get(['dependents', index, 'childDateOfBirth'], formData),
         ),
@@ -391,21 +389,21 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildDisabledPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/disabled',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: disabledPage.uiSchema,
       schema: disabledPage.schema,
     }),
     dependentChildPreviouslyMarriedPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/married',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: previouslyMarriedPage.uiSchema,
       schema: previouslyMarriedPage.schema,
     }),
     dependentChildInHouseholdPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/in-household',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       onNavForward: props => {
         return props.formData.childInHousehold
           ? helpers.navForwardFinishedItem(props) // go to next page
@@ -417,7 +415,7 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildAddressPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/address',
-      depends: () => showMultiplePageResponse(),
+      depends: () => showDependentsMultiplePage(),
       uiSchema: addressPage.uiSchema,
       schema: addressPage.schema,
     }),

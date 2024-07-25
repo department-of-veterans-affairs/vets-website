@@ -9,7 +9,6 @@ import { ITEMS_PER_PAGE } from '../../constants';
 import {
   buildDateFormatter,
   getPhaseItemText,
-  getTrackedItemDateFromStatus,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -25,6 +24,29 @@ export default function RecentActivity({ claim }) {
   const showEightPhases =
     cstClaimPhasesEnabled &&
     isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
+  const getOldestDocumentDate = item => {
+    const arrDocumentDates = item.documents.map(
+      document => document.uploadDate,
+    );
+    return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
+  };
+
+  const getTrackedItemDateFromStatus = item => {
+    switch (item.status) {
+      case 'NEEDED_FROM_YOU':
+      case 'NEEDED_FROM_OTHERS':
+        return item.requestedDate;
+      case 'NO_LONGER_REQUIRED':
+        return item.closedDate;
+      case 'SUBMITTED_AWAITING_REVIEW':
+        return getOldestDocumentDate(item);
+      case 'INITIAL_REVIEW_COMPLETE':
+      case 'ACCEPTED':
+        return item.receivedDate;
+      default:
+        return item.requestedDate;
+    }
+  };
 
   const is5103Notice = item => {
     return (

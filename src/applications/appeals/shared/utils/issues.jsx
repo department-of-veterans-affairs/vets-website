@@ -90,9 +90,9 @@ export const hasDuplicates = (data = {}) => {
 };
 
 /**
- * Removes disqualifying issues and issues > 1 year past their decision date.
- * This function removes issues with no title, cleans up whitespace & sorts the
- * list by descending (newest first) decision date, then ensures the list only
+ * Removes deferred issues and issues > 1 year past their decision date. This
+ * function removes issues with no title, cleans up whitespace & sorts the list
+ * by descending (newest first) decision date, then ensures the list only
  * includes unique entries
  * @param {ContestableIssues} contestableIssues
  * @returns {ContestableIssues} Cleaned up & sorted list
@@ -185,55 +185,29 @@ export const appStateSelector = state => ({
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
 
-export const isDeferredIssue = (text, description) =>
-  ['', text, description, '']
-    .join(' ')
-    .replace(REGEXP.WHITESPACE, ' ')
-    .includes(' deferred ');
-
-export const isDisqualifyingIssue = (text, description) => {
-  const content = ['', text, description, '']
-    .join(' ')
-    .replace(REGEXP.WHITESPACE, ' ');
-  return (
-    content.includes(' deferred ') ||
-    content.includes(' apportionment ') ||
-    content.includes(' attorney fees ')
-  );
-};
-
-/**
- * @typedef EligibleOptions
- * @type {Object}
- * @property {Boolean} isNod - bool indicating that the function call originated
- *  from within the NOD form; as far as we know, all DR forms need "deferred"
- *  issues filtered out and only HLR & Supplemental Claims need "apportionment"
- *  and "attorney fees" issues filtered out. See va.gov-team/issues/88513
- */
 /**
  * Filter out ineligible contestable issues (used by 995 & 10182):
  * - remove issues with an invalid decision date
- * - remove issues that are disqualifying
+ * - remove issues that are deferred
  * @param {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
- * @param {EligibleOptions} - options
  * @return {ContestableIssues} - filtered list
  */
-export const getEligibleContestableIssues = (issues, options = {}) => {
+export const getEligibleContestableIssues = issues => {
   const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate,
       ratingIssueSubjectText = '',
       description = '',
     } = issue?.attributes || {};
-    const isDisqualifying = options?.isNod
-      ? isDeferredIssue
-      : isDisqualifyingIssue;
 
+    const isDeferred = [ratingIssueSubjectText, description]
+      .join(' ')
+      .includes('deferred');
     return (
+      !isDeferred &&
       ratingIssueSubjectText &&
       approxDecisionDate &&
-      !isDisqualifying(ratingIssueSubjectText, description) &&
       isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
     );
   });

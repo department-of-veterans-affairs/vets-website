@@ -9,12 +9,14 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Delete Reply Draft', () => {
   it('Axe Check Message Delete Reply Draft with Axe Check', () => {
+    const draftsPage = new PatientMessageDraftsPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
-    PatientMessageDetailsPage.loadMessageDetails(messageDetails);
-    PatientMessageDetailsPage.loadReplyPageDetails(messageDetails);
+    messageDetailsPage.loadMessageDetails(messageDetails);
+    messageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();
     const testMessageBody = 'Test body';
     PatientReplyPage.getMessageBodyField().click();
@@ -32,10 +34,10 @@ describe('Secure Messaging Delete Reply Draft', () => {
         )}`,
       );
     });
-    PatientMessageDraftsPage.clickDeleteButton();
-    PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
-    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
-    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
+    draftsPage.clickDeleteButton();
+    draftsPage.confirmDeleteDraft(messageDetails);
+    draftsPage.verifyDeleteConfirmationMessage();
+    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

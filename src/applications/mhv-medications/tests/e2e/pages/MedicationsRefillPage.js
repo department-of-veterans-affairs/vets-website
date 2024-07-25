@@ -121,11 +121,10 @@ class MedicationsRefillPage {
 
   clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[data-testid="rx-breadcrumb"]')
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
-      .click({
-        waitForAnimations: true,
-      });
+
+    cy.get(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`).click({
+      waitForAnimations: true,
+    });
   };
 
   verifyShippedMedicationOnRefillPage = () => {

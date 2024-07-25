@@ -14,8 +14,8 @@ export const renderAdditionalInfo = deductionCode => {
   switch (deductionCode) {
     case '30':
       return (
-        <section>
-          <p className="vads-u-margin-top--0">
+        <section className="vads-u-font-family--sans">
+          <p>
             The compensation and pension offices sent you a letter explaining
             why you have this debt. Some common reasons for this type of debt
             are:
@@ -71,8 +71,8 @@ export const renderAdditionalInfo = deductionCode => {
     case '41':
     case '44':
       return (
-        <section>
-          <p className="vads-u-margin-top--0">
+        <section className="vads-u-font-family--sans">
+          <p>
             The Education office sent you a letter explaining why you have this
             debt. Some common reasons for this type of debt are:
           </p>
@@ -118,8 +118,8 @@ export const renderAdditionalInfo = deductionCode => {
     case '74':
     case '75':
       return (
-        <section>
-          <p className="vads-u-margin-top--0">
+        <section className="vads-u-font-family--sans">
+          <p>
             The Education office sent you a letter explaining why you have this
             debt. Some common reasons for this type of debt are:
           </p>
@@ -170,7 +170,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
     case '30':
       return (
         <section>
-          <p className="vads-u-margin-top--0">
+          <p>
             Some reasons you have debt related to your compensation and pension
             benefits might include:
           </p>
@@ -206,7 +206,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
     case '75':
       return (
         <section>
-          <p className="vads-u-margin-top--0">
+          <p>
             Some reasons you have debt related to your education benefits might
             include:
           </p>
@@ -215,8 +215,7 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
             <li>You were suspended or put on academic probation.</li>
             <li>
               You made a change in your course enrollment or withdrew from a
-              class. <br />
-              <strong>Note:</strong> A change in course enrollment can cause an
+              class. o Note: A change in course enrollment can cause an
               overpayment in tuition, housing, and book and supplies.
             </li>
             <li>There was a change in your housing situation.</li>

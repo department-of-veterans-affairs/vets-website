@@ -295,8 +295,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
-  verifyDeleteConfirmationButton = () => {
-    cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
+  verifyDeleteConfirmationHasFocus = () => {
+    cy.get(Locators.ALERTS.NOTIFICATION).should('have.focus');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -604,18 +604,6 @@ class PatientMessageDraftsPage {
       MESSAGE_WAS_SAVED,
     );
   };
-
-  verifySaveModalButtons = () => {
-    cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {
-      cy.wrap(el).should('be.visible');
-    });
-  };
-
-  closeModal = () => {
-    cy.get('va-modal[visible]')
-      .find('.va-modal-close')
-      .click();
-  };
 }
 
-export default new PatientMessageDraftsPage();
+export default PatientMessageDraftsPage;

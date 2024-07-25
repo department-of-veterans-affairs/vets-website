@@ -78,7 +78,7 @@ const testConfig = createTestConfig(
               'veteransFullName',
               data.veteransFullName,
             );
-            fillDateWebComponentPattern('sponsorDob', data.sponsorDob);
+            fillDateWebComponentPattern('sponsorDOB', data.sponsorDOB);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -133,8 +133,8 @@ const testConfig = createTestConfig(
                 data.applicants[i].applicantName,
               );
               fillDateWebComponentPattern(
-                `applicants_${i}_applicantDob`,
-                data.applicants[i].applicantDob,
+                `applicants_${i}_applicantDOB`,
+                data.applicants[i].applicantDOB,
               );
               // Add another if we're not out of applicants:
               if (i < numApps - 1)

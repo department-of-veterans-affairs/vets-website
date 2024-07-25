@@ -50,7 +50,7 @@ export const IntroductionPageView = ({
     verifiedPrefillAlert = null,
     customLink = null,
   } = content;
-  const { resBurden, ombNumber, expDate, customPrivacyActStmt } = ombInfo || {};
+  const { resBurden, ombNumber, expDate, customPrivacyActStmt } = ombInfo;
 
   useEffect(() => {
     focusElement(breadcrumbsRef.current);
@@ -80,7 +80,7 @@ export const IntroductionPageView = ({
       )}
       {additionalChildContent || null}
       <p />
-      {ombInfo && !customPrivacyActStmt ? (
+      {!customPrivacyActStmt ? (
         <va-omb-info
           res-burden={resBurden}
           omb-number={ombNumber}

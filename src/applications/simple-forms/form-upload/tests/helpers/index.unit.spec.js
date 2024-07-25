@@ -1,66 +1,22 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
+import * as actions from 'platform/forms-system/src/js/actions';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import { shallow } from 'enzyme';
 import {
+  createPayload,
   getFileSize,
-  getFormNumber,
-  getFormContent,
+  getFormUploadContent,
   handleRouteChange,
   mask,
+  submitForm,
+  uploadScannedForm,
 } from '../../helpers';
 
 describe('Helpers', () => {
-  describe('getFormNumber', () => {
-    it('returns correct path when formNumber matches', () => {
-      global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
-      };
-      expect(getFormNumber()).to.eq('21-0779');
-    });
-
-    it('returns empty string when formNumber does not match', () => {
-      global.window.location = {
-        pathname: '/form-upload/fake-form/upload',
-      };
-      expect(getFormNumber()).to.eq('');
-    });
-  });
-
-  describe('getFormContent', () => {
-    it('returns appropriate content when the form number is mapped', () => {
-      global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
-      };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 21-0779' });
-    });
-
-    it('returns default content when the form number is not mapped', () => {
-      global.window.location = {
-        pathname: '/form-upload/99-9999/upload',
-      };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 99-9999' });
-    });
-  });
-
-  describe('getFileSize', () => {
-    it('should be in bytes for values < 999', () => {
-      expect(getFileSize(998)).to.equal('998 B');
-    });
-    it('should be in KB for values between a thousand and a million', () => {
-      expect(getFileSize(1024)).to.equal('1 KB');
-    });
-    it('should be in MB for values greater than a million', () => {
-      expect(getFileSize(2000000)).to.equal('2.0 MB');
-    });
-  });
-
-  describe('mask', () => {
-    it('should return a masked string', () => {
-      const node = shallow(mask('secret-stuf'));
-
-      expect(node.text()).to.contain('●●●–●●–stuf');
-
-      node.unmount();
+  describe('getFormUploadContent', () => {
+    it('returns the empty string when formNumber does not match', () => {
+      expect(getFormUploadContent('fake-form')).to.eq('');
     });
   });
 
@@ -76,6 +32,72 @@ describe('Helpers', () => {
       handleRouteChange(route, history);
 
       expect(historySpy.calledWith(fakeHref)).to.be.true;
+    });
+  });
+
+  describe('getFileSize', () => {
+    it('should be in bytes for values < 999', () => {
+      expect(getFileSize(998)).to.equal('998 B');
+    });
+    it('should be in KB for values between a thousand and a million', () => {
+      expect(getFileSize(1024)).to.equal('1 KB');
+    });
+    it('should be in MB for values greater than a million', () => {
+      expect(getFileSize(2000000)).to.equal('2.0 MB');
+    });
+  });
+
+  describe('createPayload', () => {
+    it('should return the appropriate payload', () => {
+      const formId = '21-0779';
+      const file = {};
+
+      const payload = createPayload(file, formId);
+
+      expect(payload.get('form_id')).to.eq(formId);
+    });
+  });
+
+  describe('uploadScannedForm', () => {
+    it('should call uploadFile', () => {
+      const uploadFileStub = sinon
+        .stub(actions, 'uploadFile')
+        .returns(() => {});
+      const formNumber = '21-0779';
+      const fileToUpload = {};
+      const onFileUploaded = () => {};
+      const dispatch = uploadScannedForm(
+        formNumber,
+        fileToUpload,
+        onFileUploaded,
+      );
+
+      dispatch();
+
+      expect(uploadFileStub.called).to.be.true;
+    });
+  });
+
+  describe('submitForm', () => {
+    it('should make an api request', () => {
+      const apiRequestStub = sinon.stub(api, 'apiRequest').resolves({});
+      const formNumber = '21-0779';
+      const confirmationCode = 'some-confirmation-code';
+      const history = [];
+
+      submitForm(formNumber, confirmationCode, history);
+
+      expect(apiRequestStub.called).to.be.true;
+    });
+  });
+
+  describe('mask', () => {
+    it('should return a masked string', () => {
+      const node = shallow(mask('secret-stuf'));
+
+      expect(node.text()).to.contain('●●●–●●–stuf');
+
+      node.unmount();
     });
   });
 });

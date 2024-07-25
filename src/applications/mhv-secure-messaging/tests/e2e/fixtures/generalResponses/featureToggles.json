@@ -1595,6 +1595,10 @@
         "value": false
       },
       {
+        "name": "va_online_scheduling_clinic_location",
+        "value": false
+      },
+      {
         "name": "vaOnlineSchedulingStatusImprovement",
         "value": true
       },

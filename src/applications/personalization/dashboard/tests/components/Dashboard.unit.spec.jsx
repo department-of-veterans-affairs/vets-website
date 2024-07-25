@@ -156,4 +156,32 @@ describe('<Dashboard />', () => {
       expect(getByTestId('req-loader')).to.exist;
     });
   });
+
+  it('shows downtime va-alert and hides Claims, Debts, and Benefit payment sections', async () => {
+    mockFetch();
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: true,
+    };
+
+    const { getByTestId, queryByTestId } = renderInReduxProvider(
+      <Dashboard />,
+      {
+        initialState,
+        reducers,
+      },
+    );
+
+    await waitFor(() => {
+      expect(getByTestId('dashboard-title')).to.exist;
+      expect(getByTestId('downtime-alert')).to.exist;
+      expect(queryByTestId('dashboard-section-claims-and-appeals')).not.to
+        .exist;
+      expect(getByTestId('dashboard-section-health-care')).to.exist;
+      expect(queryByTestId('dashboard-section-debts')).not.to.exist;
+      expect(queryByTestId('dashboard-section-payment')).not.to.exist;
+      expect(getByTestId('dashboard-section-benefit-application-drafts')).to
+        .exist;
+      expect(getByTestId('dashboard-section-education-and-training')).to.exist;
+    });
+  });
 });

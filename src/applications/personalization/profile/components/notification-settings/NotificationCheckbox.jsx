@@ -56,9 +56,9 @@ export const NotificationCheckbox = ({
         id={loadingSpanId}
         classes="vads-u-font-weight--normal"
       >
-        <va-loading-indicator
-          label="Loading"
-          className="vads-u-margin-right--1"
+        <i
+          className="fas fa-spinner fa-spin vads-u-margin-right--1"
+          aria-hidden="true"
         />{' '}
         {loadingMessage}
       </NotificationStatusMessage>

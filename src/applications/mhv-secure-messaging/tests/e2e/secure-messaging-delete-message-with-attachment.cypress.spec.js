@@ -9,6 +9,7 @@ import { AXE_CONTEXT, Paths } from './utils/constants';
 
 describe('Secure Messaging - Delete Message with Attachment', () => {
   it('delete message with attachment', () => {
+    const detailsPage = new PatientMessageDetailsPage();
     // const composePage = new PatientComposePage();
 
     SecureMessagingSite.login();
@@ -32,7 +33,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
     ).as('deleteMessagewithAttachment');
 
-    PatientMessageDetailsPage.loadMessageDetails(
+    detailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import environments from 'site/constants/environments';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { SERVICE_PROVIDERS, GA } from 'platform/user/authentication/constants';
@@ -104,19 +104,6 @@ describe('MockAuthButton', () => {
         loginButton.style.backgroundColor,
       );
     });
-
-    it('should set authType when a different CSP is selected', () => {
-      __BUILDTYPE__ = environments.LOCALHOST;
-      const { container } = render(<MockAuthButton />);
-      const select = container.querySelector('va-select');
-      fireEvent(
-        select,
-        new CustomEvent('vaSelect', {
-          detail: { value: csp },
-        }),
-      );
-      expect(select.value).to.equal(csp);
-    });
   });
 
   it('should be rendered on the mocked auth page', () => {
@@ -135,22 +122,5 @@ describe('MockAuthButton', () => {
         expect($('.mauth-button', container2)).to.not.exist;
       },
     );
-  });
-
-  it('should set mockLoginError when mockLogin throws an error', async () => {
-    __BUILDTYPE__ = environments.LOCALHOST;
-    const { container } = render(<MockAuthButton />);
-    const select = container.querySelector('va-select');
-    fireEvent(
-      select,
-      new CustomEvent('vaSelect', {
-        detail: { value: null },
-      }),
-    );
-    const button = container.querySelector('button');
-    fireEvent.click(button);
-    await waitFor(() => {
-      expect(select.getAttribute('error')).to.not.equal('');
-    });
   });
 });

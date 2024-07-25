@@ -15,8 +15,6 @@ import {
   getSelectedCount,
   hasDuplicates,
   hasSomeSelected,
-  isDeferredIssue,
-  isDisqualifyingIssue,
   issuesNeedUpdating,
   mayHaveLegacyAppeals,
   processContestableIssues,
@@ -89,11 +87,7 @@ describe('getEligibleContestableIssues', () => {
   });
   const olderIssue = getIssue('Issue 1', '', -25);
   const eligibleIssue = getIssue('Issue 2', '', -10);
-  const disqualifyingIssues = [
-    getIssue('Issue 3', 'this is a deferred issue', -1),
-    getIssue('Issue 4', 'this issue needs apportionment', -3),
-    getIssue('Issue 5', 'this issue has attorney fees', -5),
-  ];
+  const deferredIssue = getIssue('Issue 3', 'this is a deferred issue', -1);
   const emptyDateIssue = getIssue('Issue 4');
 
   it('should return empty array', () => {
@@ -111,26 +105,10 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([emptyDateIssue, eligibleIssue]),
     ).to.deep.equal([eligibleIssue]);
   });
-  it('should filter out disqualifying issues', () => {
+  it('should filter out deferred issues', () => {
     expect(
-      getEligibleContestableIssues([
-        olderIssue,
-        eligibleIssue,
-        ...disqualifyingIssues,
-      ]),
+      getEligibleContestableIssues([eligibleIssue, deferredIssue, olderIssue]),
     ).to.deep.equal([eligibleIssue, olderIssue]);
-  });
-  it('should filter out only deferred issues for NOD', () => {
-    expect(
-      getEligibleContestableIssues(
-        [olderIssue, eligibleIssue, ...disqualifyingIssues],
-        { isNod: true },
-      ),
-    ).to.deep.equal([
-      ...disqualifyingIssues.slice(1),
-      eligibleIssue,
-      olderIssue,
-    ]);
   });
 });
 
@@ -687,45 +665,5 @@ describe('appStateSelector', () => {
     expect(appStateSelector(data2.state)).to.deep.equal(data2.result);
     const data3 = getIssues([1, 2], [3, 4, 5]);
     expect(appStateSelector(data3.state)).to.deep.equal(data3.result);
-  });
-});
-
-describe('isDeferredIssue', () => {
-  it('should not filter non-deferred issues', () => {
-    expect(isDeferredIssue('test', 'non-deferred')).to.be.false;
-    expect(isDeferredIssue('test', 'issue')).to.be.false;
-    expect(isDeferredIssue('non-deferred', 'test')).to.be.false;
-    expect(isDeferredIssue('', 'issue')).to.be.false;
-  });
-  it('should filter out deferred issues', () => {
-    expect(isDeferredIssue('test', 'is deferred')).to.be.true;
-    expect(isDeferredIssue('test', 'is deferred issue')).to.be.true;
-    expect(isDeferredIssue('deferred', 'issue')).to.be.true;
-    expect(isDeferredIssue('is deferred issue', 'test')).to.be.true;
-  });
-});
-
-describe('isDisqualifyingIssue', () => {
-  it('should not filter non-disqualifying issues', () => {
-    expect(isDisqualifyingIssue('test', 'non-deferred')).to.be.false;
-    expect(isDisqualifyingIssue('test', 'no attorney fee')).to.be.false;
-    expect(isDisqualifyingIssue('non-deferred', 'test')).to.be.false;
-    expect(isDisqualifyingIssue('apportionments', 'issue')).to.be.false;
-  });
-  it('should filter out disqualifying issues', () => {
-    expect(isDisqualifyingIssue('test', 'is deferred')).to.be.true;
-    expect(isDisqualifyingIssue('test', 'is deferred issue')).to.be.true;
-    expect(isDisqualifyingIssue('deferred', 'issue')).to.be.true;
-    expect(isDisqualifyingIssue('is deferred issue', 'test')).to.be.true;
-
-    expect(isDisqualifyingIssue('test', 'is apportionment')).to.be.true;
-    expect(isDisqualifyingIssue('test', 'apportionment issue')).to.be.true;
-    expect(isDisqualifyingIssue('apportionment', 'issue')).to.be.true;
-    expect(isDisqualifyingIssue('is apportionment issue', 'test')).to.be.true;
-
-    expect(isDisqualifyingIssue('test', 'has attorney fees')).to.be.true;
-    expect(isDisqualifyingIssue('test', 'has attorney fees issue')).to.be.true;
-    expect(isDisqualifyingIssue('attorney fees', 'issue')).to.be.true;
-    expect(isDisqualifyingIssue('has attorney fees issue', 'test')).to.be.true;
   });
 });

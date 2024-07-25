@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import moment from 'moment';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -36,17 +37,18 @@ describe('VAOS Component: VARequestLayout', () => {
   describe('When viewing request details page', () => {
     it('should display VA request layout', async () => {
       // Arrange
+      const startDate = moment.utc();
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
         contact: {
           telecom: [
             {
-              type: 'email',
+              system: 'email',
               value: 'user@va.gov',
             },
             {
-              type: 'phone',
+              system: 'phone',
               value: '1234567890',
             },
           ],
@@ -56,7 +58,18 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
-        preferredDates: [],
+        requestedPeriods: [
+          {
+            start: moment(startDate)
+              .subtract(3, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+          {
+            start: moment(startDate)
+              .subtract(4, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -177,11 +190,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              type: 'email',
+              system: 'email',
               value: 'user@va.gov',
             },
             {
-              type: 'phone',
+              system: 'phone',
               value: '1234567890',
             },
           ],
@@ -191,7 +204,6 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
-        preferredDates: [],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -291,17 +303,18 @@ describe('VAOS Component: VARequestLayout', () => {
   describe('When scheduling an appointment request', () => {
     it('should display VA request layout', async () => {
       // Arrange
+      const startDate = moment.utc();
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
         contact: {
           telecom: [
             {
-              type: 'email',
+              system: 'email',
               value: 'user@va.gov',
             },
             {
-              type: 'phone',
+              system: 'phone',
               value: '1234567890',
             },
           ],
@@ -311,7 +324,18 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
-        preferredDates: [],
+        requestedPeriods: [
+          {
+            start: moment(startDate)
+              .add(3, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+          {
+            start: moment(startDate)
+              .add(4, 'days')
+              .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,

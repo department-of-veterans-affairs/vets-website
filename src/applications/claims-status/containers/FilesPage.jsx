@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
@@ -14,14 +15,16 @@ import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
 import { clearNotification } from '../actions';
 import {
-  claimAvailable,
+  buildDateFormatter,
+  getClaimType,
+  setDocumentTitle,
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
-  setPageFocus,
-  setTabDocumentTitle,
+  claimAvailable,
 } from '../utils/helpers';
-import { setUpPage, isTab } from '../utils/page';
+import { setUpPage, isTab, setFocus } from '../utils/page';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -29,23 +32,28 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 
 class FilesPage extends React.Component {
   componentDidMount() {
-    const { claim } = this.props;
-    setTabDocumentTitle(claim, 'Files');
-
-    setTimeout(() => {
-      const { lastPage, loading } = this.props;
-      setPageFocus(lastPage, loading);
-    }, 100);
+    this.setTitle();
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('#tabPanelFiles');
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { claim, lastPage, loading } = this.props;
-
-    if (!loading && prevProps.loading && !isTab(lastPage)) {
+    if (
+      !this.props.loading &&
+      prevProps.loading &&
+      !isTab(this.props.lastPage)
+    ) {
       setUpPage(false);
     }
-    if (loading !== prevProps.loading) {
-      setTabDocumentTitle(claim, 'Files');
+    if (this.props.loading !== prevProps.loading) {
+      this.setTitle();
     }
   }
 
@@ -126,6 +134,19 @@ class FilesPage extends React.Component {
         </Toggler>
       </div>
     );
+  }
+
+  setTitle() {
+    const { claim } = this.props;
+
+    if (claimAvailable(claim)) {
+      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
+      const claimType = getClaimType(claim);
+      const title = `Files For ${claimDate} ${claimType} Claim`;
+      setDocumentTitle(title);
+    } else {
+      setDocumentTitle('Files For Your Claim');
+    }
   }
 
   render() {

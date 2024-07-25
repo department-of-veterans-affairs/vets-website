@@ -45,13 +45,6 @@ function ReferralAppLinkComponent({ linkPath, linkText }) {
 }
 
 export default function ReferralAppLink({ linkPath, linkText }) {
-  // Only display on upcoming appointments page
-  if (
-    location.pathname.endsWith('pending') ||
-    location.pathname.endsWith('past')
-  ) {
-    return null;
-  }
   return <ReferralAppLinkComponent linkPath={linkPath} linkText={linkText} />;
 }
 

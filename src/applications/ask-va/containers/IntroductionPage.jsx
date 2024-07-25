@@ -41,7 +41,7 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.schemaform-title > h1');
+      focusElement('.va-nav-breadcrumbs-list');
     },
     [props],
   );

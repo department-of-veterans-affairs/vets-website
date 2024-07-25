@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 import {
   aboutMyselfRelationshipVeteranPages,
@@ -48,10 +48,9 @@ const findFlowPages = flows => {
   return allFlowPages.flat();
 };
 
-const ProgressBar = ({ pathname }) => {
+const ProgressBar = ({ pathname, categoryID }) => {
   const [percent, setPercent] = useState(0);
   const [viewedPages, setViewedPages] = useState([]);
-  const [pagePercent, setPagePercent] = useState({});
 
   const currentPath = pathname.replace('/', '');
   const constantPaths = [
@@ -63,56 +62,31 @@ const ProgressBar = ({ pathname }) => {
   const flowPaths = findFlowPages(formPages);
   const isFlowPath = showProgressBar(currentPath, flowPaths);
   const onReviewPage = currentPath === 'review-then-submit';
-  const onCategoryPage = currentPath === CHAPTER_1.PAGE_1.PATH;
 
   useEffect(
     () => {
-      document.activeElement.blur();
-      focusElement('.ava-progress-bar > h2');
       setViewedPages([...viewedPages, currentPath]);
 
-      if (!viewedPages.includes(currentPath) && percent < 100) {
-        if (onCategoryPage) {
-          setPercent(0);
-          setPagePercent({ ...pagePercent, [currentPath]: percent });
-        }
-        if (
-          isConstantPath &&
-          currentPath !== CHAPTER_2.PAGE_3.PATH &&
-          currentPath !== CHAPTER_1.PAGE_1.PATH
-        ) {
+      if (!viewedPages.includes(currentPath)) {
+        if (isConstantPath && currentPath !== CHAPTER_2.PAGE_3.PATH)
           setPercent(percent + 5);
-          setPagePercent({ ...pagePercent, [currentPath]: percent + 5 });
-        }
-        if (isFlowPath) {
-          setPercent(percent + 3);
-          setPagePercent({ ...pagePercent, [currentPath]: percent + 3 });
-        }
-        if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH) {
-          setPercent(90);
-          setPagePercent({ ...pagePercent, [currentPath]: 90 });
-        }
-        if (onReviewPage) {
-          setPercent(98);
-          setPagePercent({ ...pagePercent, [currentPath]: 98 });
-        }
-      }
-
-      if (viewedPages.includes(currentPath) && percent < 100 && percent >= 0) {
-        if (onCategoryPage) setPercent(pagePercent[currentPath]);
-        if (
-          isConstantPath &&
-          currentPath !== CHAPTER_2.PAGE_3.PATH &&
-          currentPath !== CHAPTER_1.PAGE_1.PATH
-        )
-          setPercent(pagePercent[currentPath]);
-        if (isFlowPath) setPercent(pagePercent[currentPath]);
+        if (isFlowPath) setPercent(percent + 3);
         if (isConstantPath && currentPath === CHAPTER_2.PAGE_3.PATH)
-          setPercent(pagePercent[currentPath]);
-        if (onReviewPage) setPercent(pagePercent[currentPath]);
+          setPercent(90);
+        if (onReviewPage) setPercent(98);
       }
     },
     [currentPath],
+  );
+
+  useEffect(
+    () => {
+      if (currentPath === CHAPTER_1.PAGE_1.PATH && viewedPages.length > 1) {
+        setPercent(5);
+        setViewedPages([]);
+      }
+    },
+    [categoryID],
   );
 
   return isConstantPath || isFlowPath || onReviewPage ? (
@@ -127,7 +101,14 @@ const ProgressBar = ({ pathname }) => {
 };
 
 ProgressBar.propTypes = {
+  categoryID: PropTypes.string,
   pathname: PropTypes.string,
 };
 
-export default ProgressBar;
+function mapStateToProps(state) {
+  return {
+    categoryID: state.askVA.categoryID,
+  };
+}
+
+export default connect(mapStateToProps)(ProgressBar);

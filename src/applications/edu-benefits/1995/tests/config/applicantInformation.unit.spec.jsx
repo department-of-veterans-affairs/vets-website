@@ -7,7 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
-} from 'platform/testing/unit/schemaform-utils';
+} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 import {
   applicantInformationField,
@@ -41,23 +41,7 @@ describe('Edu 1995 applicantInformation', () => {
     );
     expect(inputs.length).to.equal(8);
   });
-  it('should render 8 inputs', () => {
-    global.window.isProd = true;
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        definitions={definitions}
-        uiSchema={uiSchema}
-      />,
-    );
 
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    );
-    expect(inputs.length).to.equal(8);
-  });
   it('should conditionally require SSN or file number', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester

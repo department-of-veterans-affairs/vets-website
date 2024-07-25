@@ -9,7 +9,10 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    // declare constants
+    // declare pages & constants
+    const draftPage = new PatientMessageDraftsPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
+
     const bodyText = ' Updated body text';
     const singleMessage = { data: mockSingleThread.data[0] };
     singleMessage.data.attributes.body = bodyText;
@@ -20,7 +23,7 @@ describe('Secure Messaging Reply', () => {
     PatientInboxPage.loadSingleThread(mockSingleThread);
 
     // click reply btn
-    PatientMessageDetailsPage.clickReplyButton(mockSingleThread);
+    messageDetailsPage.clickReplyButton(mockSingleThread);
 
     // change message
     PatientReplyPage.getMessageBodyField().type(bodyText, {
@@ -28,10 +31,7 @@ describe('Secure Messaging Reply', () => {
     });
 
     // save changed message as a draft
-    PatientMessageDraftsPage.saveNewDraftMessage(
-      mockSingleThread,
-      singleMessage,
-    );
+    draftPage.saveNewDraftMessage(mockSingleThread, singleMessage);
 
     // assert message saved
     cy.get(Locators.ALERTS.SAVE_DRAFT).should(
@@ -40,18 +40,18 @@ describe('Secure Messaging Reply', () => {
     );
 
     // verify reply topic
-    PatientMessageDetailsPage.replyToMessageTo(singleMessage);
+    messageDetailsPage.replyToMessageTo(singleMessage);
 
     // verify saved draft details
-    PatientMessageDetailsPage.replyToMessageSenderName(singleMessage);
+    messageDetailsPage.replyToMessageSenderName(singleMessage);
 
-    PatientMessageDetailsPage.replyToMessageRecipientName(singleMessage);
+    messageDetailsPage.replyToMessageRecipientName(singleMessage);
 
-    PatientMessageDetailsPage.replyToMessageDate(singleMessage);
+    messageDetailsPage.replyToMessageDate(singleMessage);
 
-    PatientMessageDetailsPage.replyToMessageId(singleMessage);
+    messageDetailsPage.replyToMessageId(singleMessage);
 
-    PatientMessageDetailsPage.replyToMessageBody(singleMessage);
+    messageDetailsPage.replyToMessageBody(singleMessage);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

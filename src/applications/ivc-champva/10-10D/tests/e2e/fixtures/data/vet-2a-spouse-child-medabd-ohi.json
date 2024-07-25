@@ -20,7 +20,7 @@
           "first": "Applicant",
           "last": "Jones"
         },
-        "applicantDob": "2001-01-01",
+        "applicantDOB": "2001-01-01",
         "applicantGender": {
           "gender": "female"
         },
@@ -89,7 +89,7 @@
           "first": "Applicant2",
           "last": "Jones2"
         },
-        "applicantDob": "2000-04-03",
+        "applicantDOB": "2000-04-03",
         "missingUploads": [
           {
             "name": "applicantBirthCertOrSocialSecCard",
@@ -131,7 +131,7 @@
       "first": "Sponsor",
       "last": "Jones"
     },
-    "sponsorDob": "1950-04-01",
+    "sponsorDOB": "1950-04-01",
     "certifierRole": "sponsor",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthSignature": "Sponsor Jones",

@@ -9,7 +9,7 @@ function ClaimFileHeader({ isOpen }) {
   };
   return (
     <div className="claim-file-header-container">
-      <h2 className="tab-header vads-u-margin-y--0">Claim files</h2>
+      <h2 className="vads-u-margin-y--0">Claim files</h2>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--4 va-introtext">
         {headerDescription(isOpen)}
       </p>

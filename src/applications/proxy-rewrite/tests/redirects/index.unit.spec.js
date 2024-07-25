@@ -1,4 +1,6 @@
+// Node modules.
 import { expect } from 'chai';
+// Relative imports.
 import redirectIfNecessary from '../../redirects';
 import redirects from '../../redirects/crossDomainRedirects.json';
 

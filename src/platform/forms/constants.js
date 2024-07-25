@@ -37,7 +37,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_0993: '22-0993',
   FORM_22_0994: '22-0994',
   FORM_22_10203: '22-10203',
-  FORM_22_10282: '22-10282',
   FORM_22_1990: '22-1990',
   FORM_22_1990E: '22-1990E',
   FORM_22_1990EMEB: '22-1990EMEB',
@@ -59,15 +58,14 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
   FORM_COVID_VACCINE_TRIAL_UPDATE: 'COVID-VACCINE-TRIAL-UPDATE',
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
-  FORM_FORM_UPLOAD_FLOW: 'FORM-UPLOAD-FLOW',
   FORM_HC_QSTNR: 'HC-QSTNR',
+  FORM_T_QSTNR: 'T-QSTNR',
   FORM_MOCK_ALT_HEADER: 'FORM_MOCK_ALT_HEADER',
   FORM_MOCK_APPEALS: 'FORM_MOCK_APPEALS',
   FORM_MOCK_HLR: 'FORM_MOCK_HLR',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
   FORM_MOCK: '00-1234',
-  FORM_T_QSTNR: 'T-QSTNR',
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
 });
@@ -86,10 +84,10 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
   [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
   [VA_FORM_IDS.FORM_10_10EZ]: 'health care benefits',
-  [VA_FORM_IDS.FORM_10_7959A]: 'CHAMPVA claim form',
-  [VA_FORM_IDS.FORM_10_7959C]: 'other health insurance certification',
   [VA_FORM_IDS.FORM_10_7959F_1]:
     'Foreign Medical Program (FMP) Registration Form',
+  [VA_FORM_IDS.FORM_10_7959C]: 'other health insurance certification',
+  [VA_FORM_IDS.FORM_10_7959A]: 'CHAMPVA claim form',
   [VA_FORM_IDS.FORM_10182]: 'Board Appeal',
   [VA_FORM_IDS.FORM_20_0995]: 'Supplemental Claim',
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
@@ -127,7 +125,6 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
-  [VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW]: 'form upload flow',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
 };
 
@@ -178,9 +175,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrlImpl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${getAppUrlImpl('10-10D')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrlImpl('hca')}/`,
-    [VA_FORM_IDS.FORM_10_7959A]: `${getAppUrlImpl('10-7959a')}/`,
-    [VA_FORM_IDS.FORM_10_7959C]: `${getAppUrlImpl('10-7959C')}/`,
     [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
+    [VA_FORM_IDS.FORM_10_7959C]: `${getAppUrlImpl('10-7959C')}/`,
+    [VA_FORM_IDS.FORM_10_7959A]: `${getAppUrlImpl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10182]: `${getAppUrlImpl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${getAppUrlImpl('995-supplemental-claim')}/`,
     [VA_FORM_IDS.FORM_20_0996]: `${getAppUrlImpl('0996-higher-level-review')}/`,
@@ -324,7 +321,6 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FORM_5655,
-  VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
   VA_FORM_IDS.FORM_VA_2346A,
 ]);
 

@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getRealFacilityId } from '../../utils/appointment';
-
 import {
   AppointmentDate,
   AppointmentTime,
@@ -15,24 +13,21 @@ import DetailPageLayout, {
   Where,
   Section,
   Who,
-  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
+import FacilityPhone from '../FacilityPhone';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
-    clinicPhone,
-    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
-    locationId,
     isPastAppointment,
     startDate,
     status,
@@ -45,7 +40,6 @@ export default function InPersonLayout({ data: appointment }) {
   if (!appointment) return null;
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
-  const facilityId = locationId;
   const oracleHealthProviderName = null;
 
   let heading = 'In-person appointment';
@@ -70,63 +64,42 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
+      <What>{typeOfCareName || 'Type of care information not available'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
         }
       >
-        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!facility &&
-          !facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor href="/find-locations">
-                Find facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
-        {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!facility &&
-          !!facilityId && (
-            <>
-              <span>Facility details not available</span>
-              <br />
-              <NewTabAnchor
-                href={`/find-locations/facility/vha_${getRealFacilityId(
-                  facilityId,
-                )}`}
-              >
-                View facility information
-              </NewTabAnchor>
-              <br />
-              <br />
-            </>
-          )}
+        {!!facility === false && (
+          <>
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
+            <br />
+          </>
+        )}
         {!!facility && (
           <>
             {facility.name}
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />
+              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
-            <br />
           </>
         )}
-        <ClinicOrFacilityPhone
-          clinicPhone={clinicPhone}
-          clinicPhoneExtension={clinicPhoneExtension}
-          facilityPhone={facilityPhone}
-        />
+        <span>Clinic: {clinicName || 'Not available'}</span> <br />
+        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
+        <br />
+        {facilityPhone && (
+          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+        )}
       </Where>
       <Section heading="Details you shared with your provider">
         <span>

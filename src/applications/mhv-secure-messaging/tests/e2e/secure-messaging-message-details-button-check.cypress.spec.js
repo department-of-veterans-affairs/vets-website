@@ -10,22 +10,17 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details Buttons Check', () => {
   it('Message Details Buttons Check', () => {
+    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     const messageDetails = PatientInboxPage.setMessageDateToYesterday(
       mockMessageDetails,
     );
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
-    PatientMessageDetailsPage.loadMessageDetails(
-      messageDetails,
-      defaultMockThread,
-    );
-    PatientMessageDetailsPage.verifyTrashButtonModal();
-    PatientMessageDetailsPage.verifyMoveToButtonModal();
-    PatientMessageDetailsPage.loadReplyPageDetails(
-      messageDetails,
-      defaultMockThread,
-    );
+    messageDetailsPage.loadMessageDetails(messageDetails, defaultMockThread);
+    messageDetailsPage.verifyTrashButtonModal();
+    messageDetailsPage.verifyMoveToButtonModal();
+    messageDetailsPage.loadReplyPageDetails(messageDetails, defaultMockThread);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });

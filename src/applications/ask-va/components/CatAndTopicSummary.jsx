@@ -3,21 +3,21 @@ import React from 'react';
 
 const CatAndTopicSummary = ({ category, topic }) => {
   return (
-    <dl className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--2p5">
-      <dt className="vads-u-font-size--md vads-u-font-weight--bold vads-u-margin-bottom--1p5 vads-u-font-family--serif">
+    <div className="vads-u-background-color--gray-light-alt vads-u-width--full vads-u-padding--2">
+      <h3 className="vads-u-margin-y--1 vads-u-font-size--h4">
         Your category and topic
-      </dt>
-      <dd className="vads-u-margin-bottom--1">
+      </h3>
+      <p>
         <strong>Category: </strong>
         {category}
-      </dd>
+      </p>
       {topic && (
-        <dd>
+        <p>
           <strong>Topic: </strong>
           {topic}
-        </dd>
+        </p>
       )}
-    </dl>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FacilityApiAlert = () => (
-  <va-alert status="info" visible>
+  <va-alert status="info" visible uswds="false">
     <h2 slot="headline">There was a problem retrieving locations</h2>
     <div>
       <p>

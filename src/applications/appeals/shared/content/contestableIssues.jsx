@@ -10,7 +10,7 @@ import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
-// case we end up filtering out disqualifying and expired issues
+// case we end up filtering out deferred and expired issues
 export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   let Wrap = 'h3';
   const wrapClassNames = ['vads-u-font-size--h3'];

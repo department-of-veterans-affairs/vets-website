@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { checkIncomeGmt } from '../../utils/streamlinedDepends';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
 
 const AdditionalIncomeCheckList = ({
   data,
@@ -16,24 +17,47 @@ const AdditionalIncomeCheckList = ({
   contentAfterButtons,
 }) => {
   const {
-    additionalIncome,
     gmtData,
+    additionalIncome,
     questions,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
-  // Compare calculated income to thresholds
+  // Calculate income properties as necessary
   useEffect(() => {
-    if (
-      questions?.isMarried ||
-      addlIncRecords?.length ||
-      !gmtData?.isEligibleForStreamlined
-    )
-      return;
+    const calculateIncome = async () => {
+      if (
+        questions?.isMarried ||
+        addlIncRecords?.length ||
+        !gmtData?.isEligibleForStreamlined
+      )
+        return;
 
-    checkIncomeGmt(data, setFormData);
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in AdditionalIncomeChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
   }, []);
 
   const onChange = ({ name, checked }) => {
@@ -115,7 +139,6 @@ AdditionalIncomeCheckList.propTypes = {
       isMarried: PropTypes.bool,
     }),
     reviewNavigation: PropTypes.bool,
-    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

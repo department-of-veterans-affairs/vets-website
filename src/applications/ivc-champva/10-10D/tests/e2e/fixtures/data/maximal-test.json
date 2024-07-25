@@ -19,7 +19,7 @@
           "first": "Applicant1",
           "last": "Jones"
         },
-        "applicantDob": "2004-04-03",
+        "applicantDOB": "2004-04-03",
         "applicantGender": {
           "gender": "male"
         },
@@ -71,7 +71,7 @@
           "first": "Applicant2",
           "last": "Jones"
         },
-        "applicantDob": "1955-04-02",
+        "applicantDOB": "1955-04-02",
         "missingUploads": [
           {
             "name": "applicantMedicareIneligibleProof",
@@ -129,7 +129,7 @@
           "first": "Applicant3",
           "last": "Jones"
         },
-        "applicantDob": "2000-01-02",
+        "applicantDOB": "2000-01-02",
         "missingUploads": [
           {
             "name": "applicantMedicarePartAPartBCard",
@@ -190,7 +190,7 @@
       "first": "Sponsor",
       "last": "Jones"
     },
-    "sponsorDob": "1950-01-01",
+    "sponsorDOB": "1950-01-01",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,

@@ -105,7 +105,7 @@ describe('AreaOfDisagreementReviewField', () => {
   });
 
   it('should render AreaOfDisagreementReviewField with hidden Datadog class', () => {
-    const title = 'Something else';
+    const title = 'Something else:';
     const { container } = render(
       <AreaOfDisagreementReviewField>
         {React.createElement(

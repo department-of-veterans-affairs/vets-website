@@ -33,258 +33,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
     },
   };
 
-  describe('When appointment information is missing', () => {
-    it('should display view facility info when only facility id is returned', async () => {
-      // Arrange
-      const state = {
-        ...initialState,
-        appointments: {
-          facilityData: {},
-        },
-      };
-      const store = createTestStore(state);
-
-      const appointment = {
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-
-      // Assert
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
-      );
-      expect(screen.getByText(/Facility details not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: /View facility information Link opens in a new tab./i,
-        }),
-      );
-    });
-
-    it('should display find facility info when no facility data and no facility id are available', async () => {
-      // Arrange
-      const state = {
-        ...initialState,
-        appointments: {
-          facilityData: {},
-        },
-      };
-      const store = createTestStore(state);
-
-      const appointment = {
-        location: {},
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-
-      // Assert
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
-      );
-      expect(screen.getByText(/Facility details not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: /Find facility information Link opens in a new tab/i,
-        }),
-      );
-    });
-
-    it('should not display heading and text for empty data', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        comment: 'This is a test:Additional information',
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-
-      // Assert
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /Video appointment at VA location/i,
-        }),
-      );
-
-      expect(
-        screen.queryByRole('heading', {
-          level: 2,
-          name: /Who/i,
-        }),
-      ).not.to.exist;
-
-      expect(
-        screen.queryByRole('heading', {
-          level: 2,
-          name: /What/i,
-        }),
-      ).not.to.exist;
-    });
-    it('should display facility phone when clinic phone is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        location: {
-          stationId: '983',
-        },
-        videoData: {
-          isVideo: true,
-          facilityId: '983',
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-      // Assert
-      expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
-      ).to.be.ok;
-    });
-    it('should display VA main phone when facility id is missing', async () => {
-      // Arrange
-      const store = createTestStore(initialState);
-      const appointment = {
-        location: {},
-        videoData: {
-          isVideo: true,
-          facilityId: null,
-          kind: VIDEO_TYPES.clinic,
-          extension: {
-            patientHasMobileGfe: false,
-          },
-        },
-        vaos: {
-          isCommunityCare: false,
-          isCompAndPenAppointment: false,
-          isCOVIDVaccine: false,
-          isPendingAppointment: false,
-          isUpcomingAppointment: true,
-          isVideo: true,
-          apiData: {},
-        },
-        status: 'booked',
-      };
-
-      // Act
-      const screen = renderWithStoreAndRouter(
-        <VideoLayoutVA data={appointment} />,
-        {
-          store,
-        },
-      );
-      // Assert
-      expect(
-        screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
-      ).to.be.ok;
-    });
-  });
-
-  describe('When viewing upcoming appointment details', () => {
+  describe('When viewing upcomming appointment details', () => {
     describe('And video type is clinic', () => {
       it('should display VA video layout', async () => {
         // Arrange
@@ -295,8 +44,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             stationId: '983',
             clinicName: 'Clinic 1',
             clinicPhysicalLocation: 'CHEYENNE',
-            clinicPhone: '500-500-5000',
-            clinicPhoneExtension: '1234',
           },
           videoData: {
             isVideo: true,
@@ -305,15 +52,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             extension: {
               patientHasMobileGfe: false,
             },
-            providers: [
-              {
-                name: {
-                  firstName: ['TEST'],
-                  lastName: 'PROV',
-                },
-                display: 'TEST PROV',
-              },
-            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -389,14 +127,12 @@ describe('VAOS Component: VideoLayoutVA', () => {
           .be.ok;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Phone:/i));
+        expect(screen.getByText(/Clinic phone:/i));
         expect(
           screen.container.querySelector(
-            'va-telephone[contact="500-500-5000"]',
+            'va-telephone[contact="307-778-7550"]',
           ),
         ).to.be.ok;
-        expect(screen.container.querySelector('va-telephone[extension="1234"]'))
-          .to.be.ok;
 
         expect(screen.container.querySelector('va-button[text="Print"]')).to.be
           .ok;
@@ -418,8 +154,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             stationId: '983',
             clinicName: 'Clinic 1',
             clinicPhysicalLocation: 'CHEYENNE',
-            clinicPhone: '500-500-5000',
-            clinicPhoneExtension: '1234',
           },
           videoData: {
             isVideo: true,
@@ -428,15 +162,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
             extension: {
               patientHasMobileGfe: false,
             },
-            providers: [
-              {
-                name: {
-                  firstName: ['TEST'],
-                  lastName: 'PROV',
-                },
-                display: 'TEST PROV',
-              },
-            ],
           },
           vaos: {
             isCommunityCare: false,
@@ -512,10 +237,10 @@ describe('VAOS Component: VideoLayoutVA', () => {
           .be.ok;
 
         expect(screen.getByText(/Clinic: Clinic 1/i));
-        expect(screen.getByText(/Phone:/i));
+        expect(screen.getByText(/Clinic phone:/i));
         expect(
           screen.container.querySelector(
-            'va-telephone[contact="500-500-5000"]',
+            'va-telephone[contact="307-778-7550"]',
           ),
         ).to.be.ok;
 
@@ -540,8 +265,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
         },
         videoData: {
           isVideo: true,
@@ -550,15 +273,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
           extension: {
             patientHasMobileGfe: false,
           },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -642,9 +356,9 @@ describe('VAOS Component: VideoLayoutVA', () => {
         .ok;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Phone:/i));
+      expect(screen.getByText(/Clinic phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
+        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
@@ -665,8 +379,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
         },
         videoData: {
           isVideo: true,
@@ -675,15 +387,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
           extension: {
             patientHasMobileGfe: true,
           },
-          providers: [
-            {
-              name: {
-                firstName: ['TEST'],
-                lastName: 'PROV',
-              },
-              display: 'TEST PROV',
-            },
-          ],
         },
         vaos: {
           isCommunityCare: false,
@@ -773,9 +476,9 @@ describe('VAOS Component: VideoLayoutVA', () => {
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
       expect(screen.getByText(/Location: CHEYENNE/i));
-      expect(screen.getByText(/Phone:/i));
+      expect(screen.getByText(/Clinic phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
+        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be

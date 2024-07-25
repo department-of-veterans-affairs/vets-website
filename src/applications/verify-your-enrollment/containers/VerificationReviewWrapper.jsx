@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
@@ -34,7 +34,6 @@ const VerificationReviewWrapper = ({
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
-  const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
@@ -44,17 +43,11 @@ const VerificationReviewWrapper = ({
   const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
-  const dispatch = useDispatch();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  const handleCheckboxChange = e => {
-    const { checked } = e.detail;
-    dispatch({ type: 'RESET_ENROLLMENT_ERROR' });
-    setIsChecked(checked);
-    if (checked) {
-      setShowError(false);
-    }
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
     setErrorStatement(null);
   };
   // used with mock data to mock what happens after
@@ -78,14 +71,11 @@ const VerificationReviewWrapper = ({
   };
 
   const handleSubmission = () => {
-    if (!isChecked) {
-      setShowError(true);
-    } else if (!error && isChecked) {
-      setShowError(false);
-      handleVerification();
+    handleVerification();
+    if (!error) {
       dispatchUpdateToggleEnrollmentSuccess(true);
-      history.push(VERIFICATION_RELATIVE_URL);
     }
+    history.push(VERIFICATION_RELATIVE_URL);
   };
 
   useEffect(
@@ -141,18 +131,7 @@ const VerificationReviewWrapper = ({
     },
     [enrollmentData, errorStatement],
   );
-  useEffect(
-    () => {
-      let timer;
-      if (showError) {
-        timer = setTimeout(() => {
-          focusElement('#enrollmentCheckbox');
-        }, 2500);
-      }
-      return () => clearTimeout(timer);
-    },
-    [showError, enrollmentData],
-  );
+
   return (
     <>
       <div name="topScrollElement" />
@@ -171,57 +150,42 @@ const VerificationReviewWrapper = ({
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
                 <div className="vads-u-margin-top--2">
-                  <div
-                    className={`${
-                      showError
-                        ? 'vads-u-margin-left--2p5 schemaform-field-template usa-input-error'
-                        : ''
-                    }`}
+                  <label
+                    className="vads-u-font-weight--bold"
+                    htmlFor="enrollmentCheckbox"
                   >
-                    <label
-                      className="vads-u-font-weight--bold"
-                      htmlFor="enrollmentCheckbox"
-                    >
-                      Is this enrollment information correct?
-                      <span className="vads-u-color--secondary-dark">
-                        {' '}
-                        (*Required)
-                      </span>
-                      {showError && (
-                        <span
-                          role="alert"
-                          className="usa-input-error-message"
-                          id="root_educationType-error-message"
-                        >
-                          <span className="sr-only">Error</span> Please check
-                          the box to confirm the information is correct.
-                        </span>
-                      )}
-                      <VaCheckbox
-                        id="enrollmentCheckbox"
-                        label="Yes, this information is correct"
-                        checked={isChecked}
-                        onVaChange={handleCheckboxChange}
-                        aria-describedby="authorize-text"
-                        enable-analytics
-                        uswds
-                      />
-                    </label>
-                  </div>
+                    Is this enrollment information correct?
+                    <span className="vads-u-color--secondary-dark">
+                      {' '}
+                      (*Required)
+                    </span>
+                    <VaCheckbox
+                      id="enrollmentCheckbox"
+                      label="Yes, this information is correct"
+                      checked={isChecked}
+                      onVaChange={handleCheckboxChange}
+                      aria-describedby="authorize-text"
+                      enable-analytics
+                      uswds
+                    />
+                  </label>
                   <EnrollmentInformation />
                 </div>
-                <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column-reverse medium-screen:vads-u-flex-direction--row">
+                <div
+                  style={{
+                    paddingLeft: '8px',
+                    marginTop: '24px',
+                    display: 'flex',
+                    columnGap: '10px',
+                  }}
+                >
+                  <va-button onClick={handleBackClick} back uswds />
                   <va-button
-                    onClick={handleBackClick}
-                    back
-                    uswds
-                    class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
-                  />
-                  <va-button
-                    text="Submit"
                     onClick={handleSubmission}
+                    text="Submit"
                     submit
                     uswds
+                    disabled={!isChecked}
                   />
                 </div>
               </>

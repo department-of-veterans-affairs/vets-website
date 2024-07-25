@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OMBInfo = () => {
-  const expDate = '07/31/2027';
+  const expDate = '07/31/2024';
   const ombNum = '2900-0091';
   const resBurden = '35';
   return (

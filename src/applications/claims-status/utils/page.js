@@ -29,9 +29,6 @@ export function setUpPage(scroll = true, focusSelector = 'va-breadcrumbs') {
 export function isTab(url) {
   return (
     url &&
-    (url.endsWith('status') ||
-      url.endsWith('files') ||
-      url.endsWith('details') ||
-      url.endsWith('overview'))
+    (url.endsWith('status') || url.endsWith('files') || url.endsWith('details'))
   );
 }

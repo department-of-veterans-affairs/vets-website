@@ -1,14 +1,15 @@
 import React from 'react';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-const IntroductionPage = () => {
+const IntroductionPage = props => {
+  const { route } = props;
+  const { formConfig, pageList } = route;
+
   return (
     <article className="schemaform-intro">
-      <FormTitle
-        title="Complete the benefit eligibility questionnaire"
-        subtitle=""
-      />
+      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
       <p>
         Our recommendation tool can help you find benefits and resources that
         are specific to your goals, needs, and circumstances. This is our first
@@ -20,10 +21,12 @@ const IntroductionPage = () => {
         We’ll ask you to answer a few quick questions to personalize our
         recommendations.
       </p>
-      <va-link-action
-        href="/benefit-eligibility-questionnaire/goals"
-        message-aria-describedby="Get started"
-        text="Get started"
+      <SaveInProgressIntro
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        formConfig={formConfig}
       />
       <p />
     </article>

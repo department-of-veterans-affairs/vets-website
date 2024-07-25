@@ -2392,7 +2392,7 @@
     },
     {
       "id": "180402",
-      "type": "appointments",
+      "type": "apfrepointments",
       "attributes": {
         "id": "180402",
         "identifier": [

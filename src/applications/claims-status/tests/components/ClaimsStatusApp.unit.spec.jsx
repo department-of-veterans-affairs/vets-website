@@ -68,7 +68,7 @@ describe('<AppContent>', () => {
       </Provider>
     );
 
-    const { getByTestId, queryByTestId, unmount } = render(
+    const { getByTestId, queryByTestId } = render(
       <MemoryRouter>
         <Routes>
           <Route element={element}>
@@ -80,9 +80,6 @@ describe('<AppContent>', () => {
 
     expect(queryByTestId('feature-flags-loading')).to.not.exist;
     expect(getByTestId('children')).to.exist;
-
-    unmount();
-
     expect(props.dispatchSetLastPage.called).to.be.true;
   });
 });

@@ -9,11 +9,12 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging navigate away from unsaved draft', () => {
   it(' Check navigation away from unsaved draft', () => {
+    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
+    messageDetailsPage.loadMessageDetails(testMessage);
+    messageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });

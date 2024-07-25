@@ -193,7 +193,7 @@ const formConfig = {
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
   title: 'Apply for CHAMPVA benefits',
-  subTitle: 'Application for CHAMPVA benefits (VA Form 10-10d)',
+  subTitle: 'Form 10-10d',
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -559,14 +559,14 @@ const formConfig = {
               },
               items: {
                 applicantName: fullNameUI(),
-                applicantDob: dateOfBirthUI({ required: true }),
+                applicantDOB: dateOfBirthUI({ required: true }),
               },
             },
           },
-          schema: applicantListSchema(['applicantDob'], {
+          schema: applicantListSchema(['applicantDOB'], {
             titleSchema,
             applicantName: fullNameSchema,
-            applicantDob: dateOfBirthSchema,
+            applicantDOB: dateOfBirthSchema,
           }),
         },
         page13a: {
@@ -894,7 +894,7 @@ const formConfig = {
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
-                getAgeInYears(formData.applicants[index]?.applicantDob),
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
                 18,
                 23,
               )
@@ -937,7 +937,7 @@ const formConfig = {
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
               isInRange(
-                getAgeInYears(formData.applicants[index]?.applicantDob),
+                getAgeInYears(formData.applicants[index]?.applicantDOB),
                 18,
                 23,
               ) &&
@@ -968,7 +968,7 @@ const formConfig = {
             return (
               formData.applicants[index]?.applicantRelationshipToSponsor
                 ?.relationshipToVeteran === 'child' &&
-              getAgeInYears(formData.applicants[index]?.applicantDob) >= 18 &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 18 &&
               formData.applicants[index]?.applicantDependentStatus?.status ===
                 'over18HelplessChild'
             );
@@ -1297,7 +1297,7 @@ const formConfig = {
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
               ) === 'ineligible' &&
-              getAgeInYears(formData.applicants[index]?.applicantDob) >= 65
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
           CustomPage: FileFieldWrapped,

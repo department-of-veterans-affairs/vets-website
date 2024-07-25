@@ -31,17 +31,18 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
-      newRoute = {
-        ...route,
+      newRoute = Object.assign({}, route, {
         component: RoutedSavablePage,
         formConfig,
-      };
+      });
       newRoutes[index] = newRoute;
     }
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
-      newRoute = { ...route, component: RoutedSavableReviewPage };
+      newRoute = Object.assign({}, route, {
+        component: RoutedSavableReviewPage,
+      });
       newRoutes[index] = newRoute;
     }
   });

@@ -32,15 +32,11 @@ describe('SM back navigation', () => {
   });
 
   it('user navigate to drafts folder after message sent', () => {
-    PatientMessageDraftsPage.loadDraftMessages();
-    PatientMessageDraftsPage.loadMessageDetails(
-      mockDraftResponse,
-      mockThreadResponse,
-    );
-    PatientMessageDraftsPage.sendDraftMessage(mockDraftResponse);
-    PatientMessageDraftsPage.verifyConfirmationMessage(
-      Alerts.Message.SEND_MESSAGE_SUCCESS,
-    );
+    const draftPage = new PatientMessageDraftsPage();
+    draftPage.loadDraftMessages();
+    draftPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    draftPage.sendDraftMessage(mockDraftResponse);
+    draftPage.verifyConfirmationMessage(Alerts.Message.SEND_MESSAGE_SUCCESS);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

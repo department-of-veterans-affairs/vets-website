@@ -87,7 +87,7 @@ describe('selectTopic config', () => {
     );
 
     await waitFor(() => {
-      expect($('dt', container).textContent).to.eq('Your category and topic');
+      expect($('h3', container).textContent).to.eq('Your category and topic');
     });
   });
 });

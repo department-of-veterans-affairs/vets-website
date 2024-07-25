@@ -1,4 +1,5 @@
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { customizeTitle } from './customize-title';
 
 // source: https://github.com/department-of-veterans-affairs/component-library/blob/main/packages/storybook/stories/wc-helpers.jsx#L285-L290
 export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
@@ -35,8 +36,8 @@ export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
     }, 500);
   }
 };
-export const pageSetup = () => {
+export const pageSetup = H1 => {
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   waitForRenderThenFocus('h1');
-  document.title = 'Learn how the PACT Act may affect you | Veterans Affairs';
+  document.title = customizeTitle(H1);
 };

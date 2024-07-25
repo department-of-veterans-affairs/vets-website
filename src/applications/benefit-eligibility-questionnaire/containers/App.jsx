@@ -15,7 +15,7 @@ export default function App({ location, children }) {
           },
           {
             href: '/benefit-eligibility-questionnaire',
-            label: 'Complete the benefit eligibility questionnaire',
+            label: 'Benefit eligibility questionnaire',
           },
         ]}
         label="Breadcrumb"

@@ -119,5 +119,5 @@ export const isProductionEnv = () => {
   );
 };
 
-export const showMultiplePageResponse = () =>
-  window.sessionStorage.getItem('showMultiplePageResponse') === 'true';
+export const showDependentsMultiplePage = () =>
+  window.sessionStorage.getItem('showDependentsMultiplePage') === 'true';

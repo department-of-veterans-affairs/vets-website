@@ -11,7 +11,7 @@ import ListItemView from '../../../components/ListItemView';
 import {
   DependentsMinItem,
   formatFullName,
-  showMultiplePageResponse,
+  showDependentsMultiplePage,
 } from '../../../helpers';
 import { doesHaveDependents } from './helpers';
 
@@ -30,7 +30,7 @@ export default {
   title: 'Dependent children',
   path: 'household/dependents/add',
   depends: formData =>
-    !showMultiplePageResponse() && doesHaveDependents(formData),
+    !showDependentsMultiplePage() && doesHaveDependents(formData),
   uiSchema: {
     ...titleUI('Dependent children'),
     dependents: {

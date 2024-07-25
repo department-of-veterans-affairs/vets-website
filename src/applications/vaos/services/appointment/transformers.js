@@ -59,6 +59,39 @@ export function getAppointmentInfoFromComments(comments, key) {
     return data;
   }
 
+  if (key === 'preferredDate') {
+    const preferredDates = appointmentInfo
+      ? appointmentInfo
+          .filter(item => item.includes('preferred dates:'))[0]
+          ?.split(':')[1]
+          ?.split(',')
+      : null;
+    preferredDates?.map(date => {
+      const preferredDatePeriod = date?.split(' ');
+      if (preferredDatePeriod[1] === 'AM') {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T00:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T11:59:00Z"`,
+        };
+        data.push(transformedDate);
+      } else {
+        const transformedDate = {
+          start: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T12:00:00Z`,
+          end: `${moment(preferredDatePeriod[0], 'MM/DD/YYYY').format(
+            'YYYY-MM-DD',
+          )}T23:59:00Z`,
+        };
+        data.push(transformedDate);
+      }
+      return data;
+    });
+  }
   if (key === 'reasonCode') {
     const reasonCode = appointmentInfo
       ? appointmentInfo
@@ -172,6 +205,21 @@ function getAtlasLocation(appt) {
   };
 }
 
+function getPatientContact(appt) {
+  if (appt.contact?.telecom?.length > 0) {
+    // for non acheron service
+    return {
+      telecom: appt.contact?.telecom.map(contact => ({
+        system: contact.type,
+        value: contact.value,
+      })),
+    };
+  }
+  return {
+    telecom: getAppointmentInfoFromComments(appt.reasonCode?.text, 'contact'),
+  };
+}
+
 /**
  * Gets the reasonCode from reasonCode.text field for DS
  *
@@ -246,10 +294,16 @@ export function transformVAOSAppointment(appt) {
     appt.reasonCode?.text,
     'comments',
   );
-
+  const commentsPreferredDate = getAppointmentInfoFromComments(
+    appt.reasonCode?.text,
+    'preferredDate',
+  );
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const { requestedPeriods } = appt;
+    const requestedPeriods =
+      commentsPreferredDate.length > 0
+        ? commentsPreferredDate
+        : appt.requestedPeriods;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring
@@ -289,8 +343,7 @@ export function transformVAOSAppointment(appt) {
           },
         ],
       },
-      contact: appt.contact,
-      preferredDates: appt?.preferredDates || [],
+      contact: getPatientContact(appt),
     };
   }
 
@@ -345,9 +398,6 @@ export function transformVAOSAppointment(appt) {
       stationId: appt.locationId,
       clinicName: appt.friendlyName || appt.serviceName || null,
       clinicPhysicalLocation: appt.physicalLocation || null,
-      clinicPhone: appt.extension?.clinic?.phoneNumber || null,
-      clinicPhoneExtension:
-        appt.extension?.clinic?.phoneNumberExtension || null,
     },
     comment:
       isVideo && !!appt.patientInstruction

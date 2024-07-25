@@ -11,7 +11,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         data-testid="other-va-debts-head"
         id="other-va-debts"
       >
-        Your VA {`${module === APP_TYPES.DEBT ? `debt` : 'copay bills'}`}
+        Your other VA {`${module === APP_TYPES.DEBT ? `debt` : 'bills'}`}
       </h3>
       <p className="vads-u-font-family--sans">
         Our records show you have
@@ -40,7 +40,6 @@ const OtherVADebts = ({ module, subHeading }) => {
           </span>
         )}
       </p>
-
       <Link
         className="vads-u-font-weight--bold"
         aria-label="View all your VA debt and bills"

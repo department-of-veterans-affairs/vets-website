@@ -16,89 +16,86 @@ const remapFormId = {
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
-  VA_FORM_IDS.FORM_10_10D,
-  VA_FORM_IDS.FORM_10_3542,
-  VA_FORM_IDS.FORM_10_7959A,
   VA_FORM_IDS.FORM_10_7959C,
-  VA_FORM_IDS.FORM_10_7959F_1,
-  VA_FORM_IDS.FORM_10_7959F_2,
+  VA_FORM_IDS.FORM_10_7959A,
+  VA_FORM_IDS.FORM_HC_QSTNR,
+  VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_10182,
+  VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
+  VA_FORM_IDS.FORM_21_0966,
+  VA_FORM_IDS.FORM_21_0972,
+  VA_FORM_IDS.FORM_21_4138,
+  VA_FORM_IDS.FORM_21_10210,
+  VA_FORM_IDS.FORM_21A,
+  VA_FORM_IDS.FORM_21P_0847,
+  VA_FORM_IDS.FORM_XX_123,
+  VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_20_10207,
-  VA_FORM_IDS.FORM_21_0845,
-  VA_FORM_IDS.FORM_21_0966,
-  VA_FORM_IDS.FORM_21_0972,
-  VA_FORM_IDS.FORM_21_10210,
-  VA_FORM_IDS.FORM_21_4138,
-  VA_FORM_IDS.FORM_21A,
-  VA_FORM_IDS.FORM_21P_0847,
-  VA_FORM_IDS.FORM_22_10282,
   VA_FORM_IDS.FORM_40_0247,
-  VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
-  VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
-  VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
+  VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
+  VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
   VA_FORM_IDS.FORM_MOCK_HLR,
-  VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
-  VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
-  VA_FORM_IDS.FORM_MOCK,
+  VA_FORM_IDS.FORM_10_10D,
+  VA_FORM_IDS.FORM_10_3542,
+  VA_FORM_IDS.FORM_10_7959F_1,
+  VA_FORM_IDS.FORM_10_7959F_2,
   VA_FORM_IDS.FORM_T_QSTNR,
-  VA_FORM_IDS.FORM_XX_123,
 ];
 
 const root = path.join(__dirname, '../../../');
 
 const formConfigKeys = [
-  'additionalRoutes',
   'ariaDescribedBySubmit',
-  'chapters',
-  'confirmation',
-  'CustomReviewTopContent',
-  'customText',
-  'CustomTopContent',
-  'defaultDefinitions',
   'dev',
-  'downtime',
-  'errorText',
-  'footerContent',
+  'rootUrl',
   'formId',
-  'formOptions',
-  'formSavedPage',
-  'getHelp',
-  'hideReviewChapters',
-  'hideUnauthedStartLink',
-  'intentToFileUrl',
-  'introduction',
+  'version',
   'migrations',
-  'onFormLoaded',
+  'chapters',
+  'defaultDefinitions',
+  'introduction',
+  'signInHelpList',
   'prefillEnabled',
   'prefillTransformer',
-  'preSubmitInfo',
-  'reviewErrors',
-  'rootUrl',
-  'savedFormMessages',
-  'saveInProgress',
-  'showReviewErrors',
-  'showSaveLinkAfterButtons',
-  'signInHelpList',
-  'stepLabels',
-  'submissionError',
-  'submit',
-  'submitErrorText',
-  'submitUrl',
-  'subTitle',
-  'title',
   'trackingPrefix',
-  'transformForSubmit',
+  'title',
+  'subTitle',
   'urlPrefix',
+  'submitUrl',
+  'submit',
+  'savedFormMessages',
+  'transformForSubmit',
+  'confirmation',
+  'preSubmitInfo',
+  'footerContent',
+  'getHelp',
+  'errorText',
+  'verifyRequiredPrefill',
+  'downtime',
+  'intentToFileUrl',
+  'onFormLoaded',
+  'formSavedPage',
+  'additionalRoutes',
+  'submitErrorText',
+  'CustomReviewTopContent',
+  'CustomTopContent',
+  'customText',
+  'submissionError',
+  'saveInProgress',
+  'hideUnauthedStartLink',
+  'wizardStorageKey',
+  'showReviewErrors',
+  'reviewErrors',
   'useCustomScrollAndFocus',
   'useTopBackLink',
   'v3SegmentedProgressBar',
-  'verifyRequiredPrefill',
-  'version',
-  'wizardStorageKey',
+  'formOptions',
+  'stepLabels',
+  'showSaveLinkAfterButtons',
 ];
 
 const validProperty = (
@@ -326,16 +323,6 @@ const validSaveInProgressConfig = formConfig => {
   }
 };
 
-// Function to extract the key from the config file path
-const extractKey = configFilePath => {
-  const parts = configFilePath.split('/');
-  return parts[parts.length - 3];
-};
-
-const formConfigFnParams = {
-  'form-upload': '/form-upload/21-0779/upload',
-};
-
 describe('form:', () => {
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
@@ -349,12 +336,6 @@ describe('form:', () => {
       return expect(
         // Dynamically import the module and perform tests on its default export
         import(configFilePath).then(({ default: formConfig }) => {
-          if (typeof formConfig === 'function') {
-            const key = extractKey(configFilePath);
-            const options = formConfigFnParams[key];
-            formConfig = options ? formConfig(options) : formConfig(); // eslint-disable-line no-param-reassign
-          }
-
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);
           validObjectProperty(formConfig, 'dev', false);
           validFormConfigKeys(formConfig);

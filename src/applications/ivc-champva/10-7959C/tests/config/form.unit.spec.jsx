@@ -195,7 +195,6 @@ describe('Healthcare Medigap screens depends functions', () => {
   it('should return true if applicant has secondary insurance and Medigap', () => {
     const depRes = formConfig.chapters.healthcareInformation.pages.secondaryMedigap.depends(
       {
-        applicantHasPrimary: true,
         applicantHasSecondary: true,
         applicantSecondaryInsuranceType: 'medigap',
       },

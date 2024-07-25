@@ -11,7 +11,6 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
-import { getIsPilotFromState } from '.';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -45,14 +44,10 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async (
-  dispatch,
-  getState,
-) => {
-  const isPilot = getIsPilotFromState(getState);
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
+    const response = await getMessageThreadWithFullBody(messageId);
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;

@@ -28,7 +28,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
-import separation from '../pages/separation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -42,7 +41,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Disability;Separation',
+  stepLabels: 'Goals;Disability',
   formId: 'T-QSTNR',
   saveInProgress: {
     messages: {
@@ -88,17 +87,6 @@ const formConfig = {
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
-        },
-      },
-    },
-    chapter3: {
-      title: 'Separation',
-      pages: {
-        separation: {
-          path: 'separation',
-          title: 'Separation',
-          uiSchema: separation.uiSchema,
-          schema: separation.schema,
         },
       },
     },

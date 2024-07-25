@@ -36,7 +36,7 @@ function transformApplicants(applicants) {
     const transformedApp = {
       fullName: app.applicantName ?? '',
       ssnOrTin: app.applicantSSN?.ssn ?? '',
-      dateOfBirth: fmtDate(app.applicantDob) ?? '',
+      dateOfBirth: fmtDate(app.applicantDOB) ?? '',
       phoneNumber: app.applicantPhone ?? '',
       email: app.applicantEmailAddress ?? '',
       vetRelationship: transformRelationship(
@@ -136,7 +136,7 @@ export default function transformForSubmit(formConfig, form) {
       fullName: transformedData?.veteransFullName || {},
       ssnOrTin: transformedData?.ssn?.ssn || '',
       vaClaimNumber: transformedData?.ssn?.vaFileNumber || '',
-      dateOfBirth: fmtDate(transformedData?.sponsorDob) || '',
+      dateOfBirth: fmtDate(transformedData?.sponsorDOB) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {
         street: 'NA',

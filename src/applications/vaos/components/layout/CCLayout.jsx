@@ -57,14 +57,12 @@ export default function CCLayout({ data: appointment }) {
               </div>
             )}
         </When>
-        <What>{typeOfCareName}</What>
+        <What>{typeOfCareName || 'Type of care not noted'}</What>
         <Section heading="Provider">
-          <span>
-            {`${providerName || 'Provider information not available'}`}
-          </span>
+          <span>{`${providerName || 'Provider name not noted'}`}</span>
           <br />
           <span>
-            {`${treatmentSpecialty || 'Treatment specialty not available'}`}
+            {`${treatmentSpecialty || 'Treatment specialty not noted'}`}
           </span>
           <br />
           {address && (
@@ -72,11 +70,11 @@ export default function CCLayout({ data: appointment }) {
               <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
                 <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={{ address }} />
+                <FacilityDirectionsLink location={address} />
               </div>
             </>
           )}
-          {!address && <span>Address not available</span>}
+          {!address && <span>Address not noted</span>}
           {!!ccProvider && (
             <>
               <br />
@@ -86,11 +84,10 @@ export default function CCLayout({ data: appointment }) {
         </Section>
         <Section heading="Details you shared with your provider">
           <span>
-            Reason:{' '}
-            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
+            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
         </Section>
         {APPOINTMENT_STATUS.booked === status &&
           !isPastAppointment && (

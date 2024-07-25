@@ -223,10 +223,20 @@ export class CernerCallToAction extends Component {
                       ehrDataByVhaId={ehrDataByVhaId}
                     />
                   </ul>
-                  <va-link-action
+                  <a
+                    className="vads-c-action-link--blue"
                     href={myVAHealthLink}
-                    text="Go to My VA Health"
-                  />
+                    onClick={() => {
+                      recordEvent({
+                        event: `vaos-cerner-redirect-static-landing-page`,
+                      });
+                      onCTALinkClick();
+                    }}
+                    rel="noreferrer noopener"
+                    target="_blank"
+                  >
+                    Go to My VA Health
+                  </a>
                 </div>
                 <va-additional-info trigger="Having trouble opening My VA health?">
                   Try these steps:
@@ -243,10 +253,13 @@ export class CernerCallToAction extends Component {
                     fillins.featureLocation
                   }.`}
                 </p>
-                <va-link-action
+                <a
+                  className="vads-c-action-link--blue"
                   href={myHealtheVetLink}
-                  text={`Go to ${fillins.cta2} on VA.gov`}
-                />
+                  onClick={onCTALinkClick}
+                >
+                  {`Go to ${fillins.cta2} on VA.gov`}
+                </a>
               </>
             )}
           {((featureStaticLandingPage &&

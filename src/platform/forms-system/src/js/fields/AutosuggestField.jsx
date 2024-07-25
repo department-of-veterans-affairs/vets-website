@@ -213,7 +213,6 @@ export default class AutosuggestField extends React.Component {
     const highlightText = uiSchema['ui:options']?.highlightText ?? true;
     const { inputProps } = uiSchema['ui:options'];
     const value = this.state.input?.toLowerCase() || '';
-    const hint = uiSchema['ui:options'].hint || null;
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
@@ -251,68 +250,64 @@ export default class AutosuggestField extends React.Component {
     }
 
     return (
-      <>
-        {hint && <div className="usa-hint">{hint}</div>}
-        <Downshift
-          onChange={this.handleChange}
-          onInputValueChange={this.handleInputValueChange}
-          inputValue={this.state.input}
-          selectedItem={this.state.input}
-          onOuterClick={this.handleBlur}
-          itemToString={item => {
-            if (typeof item === 'string') {
-              return item;
-            }
+      <Downshift
+        onChange={this.handleChange}
+        onInputValueChange={this.handleInputValueChange}
+        inputValue={this.state.input}
+        selectedItem={this.state.input}
+        onOuterClick={this.handleBlur}
+        itemToString={item => {
+          if (typeof item === 'string') {
+            return item;
+          }
 
-            return item.label;
-          }}
-          render={({
-            getInputProps,
-            getItemProps,
-            isOpen,
-            selectedItem,
-            highlightedIndex,
-          }) => (
-            <div className="autosuggest-container">
-              <input
-                {...getInputProps({
-                  autoComplete: 'off',
-                  id,
-                  name: id,
-                  className: 'autosuggest-input',
-                  onBlur: isOpen ? undefined : this.handleBlur,
-                  onKeyDown: this.handleKeyDown,
-                  ...inputProps,
-                })}
-              />
-              {isOpen && (
-                <div className="autosuggest-list" role="listbox">
-                  {this.state.suggestions.map((item, index) => (
-                    <div
-                      {...getItemProps({ item })}
-                      role="option"
-                      aria-selected={
-                        selectedItem === item.label ? 'true' : 'false'
-                      }
-                      className={classNames('autosuggest-item', {
-                        'autosuggest-item-highlighted':
-                          highlightedIndex === index,
-                        'autosuggest-item-selected':
-                          selectedItem === item.label,
-                      })}
-                      key={item.id}
-                    >
-                      {highlightText
-                        ? highLightMatchingText(item.label)
-                        : item.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        />
-      </>
+          return item.label;
+        }}
+        render={({
+          getInputProps,
+          getItemProps,
+          isOpen,
+          selectedItem,
+          highlightedIndex,
+        }) => (
+          <div className="autosuggest-container">
+            <input
+              {...getInputProps({
+                autoComplete: 'off',
+                id,
+                name: id,
+                className: 'autosuggest-input',
+                onBlur: isOpen ? undefined : this.handleBlur,
+                onKeyDown: this.handleKeyDown,
+                ...inputProps,
+              })}
+            />
+            {isOpen && (
+              <div className="autosuggest-list" role="listbox">
+                {this.state.suggestions.map((item, index) => (
+                  <div
+                    {...getItemProps({ item })}
+                    role="option"
+                    aria-selected={
+                      selectedItem === item.label ? 'true' : 'false'
+                    }
+                    className={classNames('autosuggest-item', {
+                      'autosuggest-item-highlighted':
+                        highlightedIndex === index,
+                      'autosuggest-item-selected': selectedItem === item.label,
+                    })}
+                    key={item.id}
+                  >
+                    {highlightText
+                      ? highLightMatchingText(item.label)
+                      : item.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      />
     );
   }
 }

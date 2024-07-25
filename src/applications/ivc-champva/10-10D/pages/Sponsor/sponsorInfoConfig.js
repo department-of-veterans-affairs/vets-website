@@ -35,15 +35,15 @@ export const sponsorNameDobConfig = {
       ({ formData }) => descriptionText(formData),
     ),
     veteransFullName: fullNameUI(),
-    sponsorDob: dateOfBirthUI(),
+    sponsorDOB: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
-    required: ['sponsorDob'],
+    required: ['sponsorDOB'],
     properties: {
       titleSchema,
       veteransFullName: fullNameSchema,
-      sponsorDob: dateOfBirthSchema,
+      sponsorDOB: dateOfBirthSchema,
     },
   },
 };

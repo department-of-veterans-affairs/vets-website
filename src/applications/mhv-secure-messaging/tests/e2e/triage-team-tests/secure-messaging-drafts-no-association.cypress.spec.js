@@ -8,6 +8,7 @@ import mockThread from '../fixtures/thread-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
+  const draftPage = new PatientMessageDraftsPage();
   const newDate = new Date().toISOString();
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
@@ -179,10 +180,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     mockSingeDraft.data.attributes.draftDate = newDate;
     mockSingeDraft.data.attributes.sentDate = null;
 
-    PatientMessageDraftsPage.loadSingleDraft(
-      mockSingleDraftThread,
-      mockSingeDraft,
-    );
+    draftPage.loadSingleDraft(mockSingleDraftThread, mockSingeDraft);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

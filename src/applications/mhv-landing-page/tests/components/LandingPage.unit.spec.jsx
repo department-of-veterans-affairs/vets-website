@@ -43,8 +43,8 @@ const setup = ({ initialState = stateFn(), props = {} } = {}) =>
 
 describe('LandingPage component', () => {
   it('renders', () => {
-    const { getByRole } = setup();
-    getByRole('heading', { level: 1, name: /My HealtheVet/ });
+    const { getByText } = setup();
+    getByText('My HealtheVet');
   });
 
   it('shows the Welcome component, when enabled', () => {

@@ -3,21 +3,15 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { showNewHlrContent } from '../utils/helpers';
-import { homelessPageHeader } from '../content/homeless';
-
 import errorMessages from '../../shared/content/errorMessages';
 import {
   homelessTitle,
-  homelessRiskTitle,
-  homelessLabels,
   homelessReviewField,
-  homelessDescription,
 } from '../../shared/content/homeless';
 
 export default {
   uiSchema: {
-    'ui:title': homelessPageHeader,
+    'ui:title': ' ',
     'ui:options': {
       forceDivWrapper: true,
     },
@@ -26,21 +20,15 @@ export default {
         title: homelessTitle,
         enableAnalytics: true,
         labelHeaderLevel: '3',
-        labels: homelessLabels,
+        labels: {
+          Y: 'Yes',
+          N: 'No',
+        },
         required: () => true,
         errorMessages: {
           required: errorMessages.requiredYesNo,
         },
-        updateUiSchema: formData => {
-          const showNew = showNewHlrContent(formData);
-          return {
-            'ui:title': showNew ? homelessRiskTitle : homelessTitle,
-            'ui:options': {
-              hint: showNew ? homelessDescription : '',
-              labelHeaderLevel: showNew ? '' : '3',
-            },
-          };
-        },
+        uswds: true,
       }),
       'ui:reviewField': homelessReviewField,
     },

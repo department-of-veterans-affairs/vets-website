@@ -37,60 +37,50 @@ import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
-const mailInfo = (showOpt = true, address, officeName, faxNum) => {
-  const faxNumMarkup = (
+const mailInfo = (showOpt = true, address, officeName, faxNum) => (
+  <>
+    <p>
+      Your application will not be considered complete until VA receives all of
+      your remaining required files.
+    </p>
+    {showOpt ? (
+      <p>
+        Optional files are not required to complete your application, but may
+        prevent delays in your processing time.
+        <br />
+      </p>
+    ) : null}
+    Mail your documents to:
+    <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
+      <p className="vads-u-padding-x--10px vads-u-margin-left--1">
+        {address ?? (
+          <>
+            VHA Office of Community Care
+            <br />
+            CHAMPVA Eligibility
+            <br />
+            P.O. Box 469028
+            <br />
+            Denver, CO 80246-9028
+            <br />
+            United States of America
+          </>
+        )}
+      </p>
+    </address>
+    Or fax your documents here:
+    <br />
+    {officeName ? `${officeName},` : ''}
+    <br />
     <VaTelephone
       contact={JSON.stringify({
         phoneNumber: faxNum ?? '3033317809',
         description: 'fax number',
       })}
     />
-  );
-  return (
-    <>
-      <p>
-        Your application will not be considered complete until VA receives all
-        of your remaining required files.
-      </p>
-      {showOpt ? (
-        <p>
-          Optional files are not required to complete your application, but may
-          prevent delays in your processing time.
-          <br />
-        </p>
-      ) : null}
-      Mail your application and supporting document copies to:
-      <address className="vads-u-border-color--primary vads-u-border-left--4px vads-u-margin-left--3">
-        <p className="vads-u-padding-x--10px vads-u-margin-left--1">
-          {address ?? (
-            <>
-              VHA Office of Community Care
-              <br />
-              CHAMPVA Eligibility
-              <br />
-              P.O. Box 469028
-              <br />
-              Denver, CO 80246-9028
-              <br />
-              United States of America
-            </>
-          )}
-        </p>
-      </address>
-      Or fax it to:
-      {officeName ? (
-        <>
-          <br />
-          {officeName}
-          <br />
-          {faxNumMarkup}
-        </>
-      ) : (
-        <> {faxNumMarkup}</>
-      )}
-    </>
-  );
-};
+    <br />
+  </>
+);
 
 export const optionalDescription =
   'These documents help us process this application faster.';
@@ -304,13 +294,7 @@ export default function MissingFileOverview({
 
   const defaultHeading = (
     <>
-      {
-        titleUI(
-          showConsent
-            ? 'Supporting documents summary'
-            : 'Upload your supporting documents',
-        )['ui:title']
-      }
+      {titleUI('Upload your supporting documents')['ui:title']}
       {filesAreMissing && !showConsent ? (
         <p>
           Upload now for faster processing. Or you can send them by mail or fax.

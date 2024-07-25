@@ -8,7 +8,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { showMultiplePageResponse } from '../../../helpers';
+import { showDependentsMultiplePage } from '../../../helpers';
 import { getDependentChildTitle, dependentIsOutsideHousehold } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
@@ -21,7 +21,8 @@ export default {
   title: item => getDependentChildTitle(item, 'address'),
   path: 'household/dependents/children/address/:index',
   depends: (formData, index) =>
-    !showMultiplePageResponse() && dependentIsOutsideHousehold(formData, index),
+    !showDependentsMultiplePage() &&
+    dependentIsOutsideHousehold(formData, index),
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {

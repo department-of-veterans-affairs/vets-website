@@ -13,12 +13,6 @@ import { nameWording } from '../../shared/utilities';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
 
-// Wrap shared fileFieldCustom so we can pass the form-specific
-// list of required uploads (for use with MissingFileOverview)
-function FileFieldWrapped(props) {
-  return FileFieldCustom({ ...props, requiredFiles: [] });
-}
-
 const additionalNotesClaims = (
   <va-additional-info
     trigger="Additional notes regarding claims"
@@ -116,7 +110,7 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
+  CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
   CustomPageReview: null,
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
@@ -190,7 +184,7 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: FileFieldWrapped,
+    CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
     CustomPageReview: null,
     uiSchema: {
       ...titleUI(
@@ -267,7 +261,7 @@ export const eobUploadSchema = isPrimary => {
 
 // TODO: Pharmacy upload page
 export const pharmacyClaimUploadSchema = {
-  CustomPage: FileFieldWrapped,
+  CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
   CustomPageReview: null,
   uiSchema: {
     ...titleUI(

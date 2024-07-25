@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +13,7 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { checkIncomeGmt } from '../../utils/streamlinedDepends';
+import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 const keyFieldsSpouseOtherIncome = ['amount', 'name'];
@@ -41,8 +42,32 @@ const SpouseOtherIncomeSummary = ({
   // useEffect to set incomeBelowGmt if income records changes
   // Calculate income properties as necessary
   useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined) return;
-    checkIncomeGmt(data, setFormData);
+    const calculateIncome = async () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
+
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in SpouseOtherIncomeSummary: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
   }, []);
 
   const onDelete = deleteIndex => {

@@ -50,7 +50,12 @@ function ViewDependentsListItem(props) {
         {manageDependentsToggle && submittedDependents.includes(stateKey) ? (
           <div aria-live="polite">
             <dt>
-              <va-icon icon="warning" size={3} /> Status:&nbsp;
+              <i
+                aria-hidden="true"
+                role="img"
+                className="fas fa-exclamation-triangle"
+              />{' '}
+              Status:&nbsp;
             </dt>
             <dd>Removal of dependent pending</dd>
           </div>

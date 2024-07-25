@@ -15,7 +15,7 @@ const MissingEDIPI = () => {
   });
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds="false">
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
         We need more information for your application
       </h2>

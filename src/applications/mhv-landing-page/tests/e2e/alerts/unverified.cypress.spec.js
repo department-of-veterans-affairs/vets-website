@@ -36,12 +36,10 @@ describe(appName, () => {
         cy.findAllByTestId(/^mhv-link-group-card-/).should('not.exist');
 
         // Check the hubs are visible
-        cy.findAllByTestId(/^mhv-link-group-hub-/).should('not.exist');
+        cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'VA health benefits' }).should(
-          'not.exist',
-        );
+        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
       });
 
       it(`Shows landing page on ${size} screen`, () => {

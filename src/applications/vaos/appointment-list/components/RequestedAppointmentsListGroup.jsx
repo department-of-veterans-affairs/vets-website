@@ -19,9 +19,6 @@ import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import referralDetails from '../../services/mocks/wellHive/basicReferralDetails.json';
-import PendingReferralCard from '../../referral-appointments/components/PendingReferralCard';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
@@ -34,12 +31,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   );
 
   const dispatch = useDispatch();
-
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
-
-  const pendingReferrals = referralDetails.data.referrals;
 
   useEffect(
     () => {
@@ -104,9 +95,8 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     return 0;
   });
 
-  const paragraphText = featureCCDirectScheduling
-    ? "These requests and referrals haven't been scheduled yet."
-    : 'Appointments that you request will show here until staff review and schedule them.';
+  const paragraphText =
+    'Appointments that you request will show here until staff review and schedule them.';
 
   return (
     <>
@@ -136,18 +126,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
           <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
             {paragraphText}
           </p>
-        )}
-        {featureCCDirectScheduling && (
-          <ul
-            className={classNames(
-              'vads-u-padding-left--0 vads-u-margin-top--0',
-            )}
-            data-cy="requested-appointment-list"
-          >
-            {pendingReferrals.map((referral, index) => {
-              return <PendingReferralCard key={index} referral={referral} />;
-            })}
-          </ul>
         )}
         {appointmentsByStatus.map(statusBucket => {
           return (

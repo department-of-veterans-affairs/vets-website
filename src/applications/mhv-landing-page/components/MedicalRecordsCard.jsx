@@ -30,7 +30,7 @@ const MedicalRecordsCard = ({ href }) => {
           <span
             className={classnames(
               'usa-label',
-              'vads-u-background-color--primary',
+              'vads-u-background-color--hub-burials',
               'vads-u-display--none',
               'small-desktop-screen:vads-u-display--block',
             )}
@@ -43,7 +43,7 @@ const MedicalRecordsCard = ({ href }) => {
         <span
           className={classnames(
             'usa-label',
-            'vads-u-background-color--primary',
+            'vads-u-background-color--hub-burials',
             'vads-u-display--inline-block',
             'small-desktop-screen:vads-u-display--none',
           )}

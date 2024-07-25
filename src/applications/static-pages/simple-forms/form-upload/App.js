@@ -47,6 +47,7 @@ export const App = ({ formNumber, hasOnlineTool }) => {
             <p>By signing in you will be able to submit a completed PDF form</p>
             <VaButton
               onClick={onSignInClicked}
+              label="ariaLabel"
               uswds
               text="Sign in to upload your form"
             />

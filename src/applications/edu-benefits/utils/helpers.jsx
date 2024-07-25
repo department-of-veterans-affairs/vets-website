@@ -8,12 +8,7 @@ export function getLabel(options, value) {
 
   return matched ? matched.label : null;
 }
-export function convertToggle() {
-  const url = window.location.href;
-  const params = new URLSearchParams(new URL(url).search);
-  const toggleValues = params.get('toggle');
-  return toggleValues?.toLowerCase() === 'false';
-}
+
 export function showSchoolAddress(educationType) {
   return (
     educationType === 'college' ||

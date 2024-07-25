@@ -5,10 +5,12 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts older than 45 days', () => {
+  const draftPage = new PatientMessageDraftsPage();
+
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageDraftsPage.loadMultiDraftThread(mockMultiDraftsResponse);
+    draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
   });
 
   it('verify interface', () => {

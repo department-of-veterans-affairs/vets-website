@@ -4,7 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-import { showMultiplePageResponse } from '../../../helpers';
+import { showDependentsMultiplePage } from '../../../helpers';
 import { doesHaveDependents, getDependentChildTitle } from './helpers';
 
 const {
@@ -15,7 +15,7 @@ export default {
   title: item => getDependentChildTitle(item, 'household'),
   path: 'household/dependents/children/inhousehold/:index',
   depends: formData =>
-    !showMultiplePageResponse() && doesHaveDependents(formData),
+    !showDependentsMultiplePage() && doesHaveDependents(formData),
   showPagePerItem: true,
   arrayPath: 'dependents',
   uiSchema: {

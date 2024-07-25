@@ -9,3 +9,12 @@ import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlag
 export const personalizationEnabled = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.mhvLandingPagePersonalization];
 };
+
+/**
+ * Determines if the helpdesk information changes are enabled.
+ * @param {Object} state Current redux state.
+ * @returns {Boolean} true if the helpdesk information is enabled
+ */
+export const helpdeskInfoEnabled = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.mhvHelpdeskInformationEnabled];
+};

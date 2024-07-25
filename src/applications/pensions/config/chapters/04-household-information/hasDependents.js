@@ -3,13 +3,13 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { showMultiplePageResponse } from '../../../helpers';
+import { showDependentsMultiplePage } from '../../../helpers';
 
 /** @type {PageSchema} */
 export default {
   title: 'Dependents',
   path: 'household/dependents',
-  depends: () => !showMultiplePageResponse(),
+  depends: () => !showDependentsMultiplePage(),
   uiSchema: {
     ...titleUI('Dependent children'),
     'view:hasDependents': yesNoUI({

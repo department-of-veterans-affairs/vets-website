@@ -181,7 +181,7 @@ describe('<AdditionalEvidencePage>', () => {
       expect(onSubmit.calledWith(1, null, files)).to.be.true;
     });
 
-    it('should reset uploads on mount', () => {
+    it('should reset uploads and set title on mount', () => {
       const resetUploads = sinon.spy();
       const mainDiv = document.createElement('div');
       mainDiv.classList.add('va-nav-breadcrumbs');

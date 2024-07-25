@@ -13,7 +13,7 @@ const burialsLocation = {
   action: 'POP',
   key: null,
   basename:
-    '/burials-memorials/veterans-burial-allowance/apply-for-allowance-form-21p-530ez',
+    '/burials-memorials/veterans-burial-allowance/apply-for-burial-benefits',
   query: '{}',
 };
 

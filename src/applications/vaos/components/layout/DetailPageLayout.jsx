@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaButton,
-  VaTelephone,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useParams } from 'react-router-dom';
@@ -17,7 +14,6 @@ import {
   selectIsPast,
 } from '../../appointment-list/redux/selectors';
 import StatusAlert from '../StatusAlert';
-import FacilityPhone from '../FacilityPhone';
 
 export function Section({ children, heading }) {
   return (
@@ -42,9 +38,6 @@ When.propTypes = {
 };
 
 export function What({ children }) {
-  if (!children) {
-    return null;
-  }
   return <Section heading="What">{children}</Section>;
 }
 What.propTypes = {
@@ -52,9 +45,6 @@ What.propTypes = {
 };
 
 export function Who({ children }) {
-  if (!children) {
-    return null;
-  }
   return <Section heading="Who">{children}</Section>;
 }
 Who.propTypes = {
@@ -67,36 +57,6 @@ export function Where({ children, heading = 'Where' } = {}) {
 Where.propTypes = {
   children: PropTypes.node,
   heading: PropTypes.string,
-};
-
-export function ClinicOrFacilityPhone({
-  clinicPhone,
-  clinicPhoneExtension,
-  facilityPhone,
-}) {
-  if (clinicPhone) {
-    return (
-      <FacilityPhone
-        heading="Clinic phone:"
-        contact={clinicPhone}
-        extension={clinicPhoneExtension}
-      />
-    );
-  }
-  if (facilityPhone) {
-    return <FacilityPhone heading="Phone:" contact={facilityPhone} />;
-  }
-  return (
-    <div>
-      Phone: &nbsp;
-      <VaTelephone contact="800-698-2411" data-testid="main-va-telephone" />
-    </div>
-  );
-}
-ClinicOrFacilityPhone.propTypes = {
-  clinicPhone: PropTypes.string,
-  clinicPhoneExtension: PropTypes.string,
-  facilityPhone: PropTypes.string,
 };
 
 function CancelButton({ appointment }) {

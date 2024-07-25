@@ -40,18 +40,6 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.secondaryEOB = secondaryEOB;
   // ---
 
-  // Date of signature
-  copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
-
-  // Compile files
-  copyOfData.supportingDocs = [
-    copyOfData.medicalUpload,
-    copyOfData.primaryEOB,
-    copyOfData.secondaryEOB,
-  ]
-    .flat(Infinity) // Flatten nested lists of files
-    .filter(el => el); // drop any nulls
-
   return JSON.stringify({
     ...copyOfData,
     form_number: formConfig.formId,

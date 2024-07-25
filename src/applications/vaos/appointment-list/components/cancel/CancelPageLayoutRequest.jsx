@@ -1,4 +1,5 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
@@ -7,6 +8,7 @@ import FacilityPhone from '../../../components/FacilityPhone';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
+import { TIME_TEXT } from '../../../utils/appointment';
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
@@ -43,8 +45,11 @@ export default function CancelPageLayoutRequest() {
         Preferred date and time
       </h3>
       <ul className="usa-unstyled-list">
-        {preferredDates.map((date, index) => (
-          <li key={`${id}-option-${index}`}>{date}</li>
+        {preferredDates.map((option, optionIndex) => (
+          <li key={`${id}-option-${optionIndex}`}>
+            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
+            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
+          </li>
         ))}
       </ul>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
@@ -96,10 +101,10 @@ export default function CancelPageLayoutRequest() {
         Details you’d like to share with your provider
       </h3>
       <span>
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+      <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Your contact details
       </h3>

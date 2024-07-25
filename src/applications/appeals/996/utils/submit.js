@@ -1,4 +1,4 @@
-import { CONFERENCE_TIMES_V3 } from '../constants';
+import { CONFERENCE_TIMES_V2 } from '../constants';
 
 import { MAX_LENGTH } from '../../shared/constants';
 import '../../shared/definitions';
@@ -36,7 +36,7 @@ export const getRep = formData => {
 // schema v2
 export const getConferenceTime = (formData = {}) => {
   const { informalConferenceTime = '' } = formData;
-  return CONFERENCE_TIMES_V3[informalConferenceTime]?.submit || '';
+  return CONFERENCE_TIMES_V2[informalConferenceTime]?.submit || '';
 };
 
 export const getContact = ({ informalConference }) => {

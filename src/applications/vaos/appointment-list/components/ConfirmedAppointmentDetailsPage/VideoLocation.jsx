@@ -32,8 +32,6 @@ export default function VideoLocation({ appointment, facility }) {
             clinicPhysicalLocation={
               appointment.location?.clinicPhysicalLocation
             }
-            clinicPhone={appointment.location?.clinicPhone}
-            clinicPhoneExtension={appointment.location?.clinicPhoneExtension}
           />
         </div>
       </>

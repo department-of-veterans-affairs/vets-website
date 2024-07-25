@@ -51,6 +51,7 @@ export default {
     }),
     wcv3VaTileCompensationType: radioUI({
       title: 'Do you receive VA disability compensation?',
+      description: CompensationTypeDescription,
       tile: true,
       labels: {
         lowDisability:
@@ -62,7 +63,6 @@ export default {
     }),
     wcv3IsCurrentlyActiveDuty: yesNoUI({
       title: 'Are you on active duty now?',
-      description: 'This is a description',
       labels: {
         Y: 'Yes, the Veteran is on active duty now',
         N: 'No, the Veteran is not on active duty now',

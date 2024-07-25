@@ -32,8 +32,7 @@ import PhoneLayout from '../../../components/layout/PhoneLayout';
 
 function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
-  const facility =
-    facilityData?.[locationId] || appointment?.vaos?.facilityData;
+  const facility = facilityData?.[locationId];
   const isCovid = appointment?.vaos?.isCOVIDVaccine;
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const header = formatHeader(appointment);
@@ -106,8 +105,6 @@ function Content({ appointment, facilityData }) {
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
         clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
-        clinicPhone={appointment.location?.clinicPhone}
-        clinicPhoneExtension={appointment.location?.clinicPhoneExtension}
         showCovidPhone={isCovid}
         isPhone={isPhoneAppointment}
       />
@@ -228,7 +225,7 @@ DetailsVA.propTypes = {
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string,
+      clinicName: PropTypes.string.isRequired,
       clinicPhysicalLocation: PropTypes.string,
     }),
   }),

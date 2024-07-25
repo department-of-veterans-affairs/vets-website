@@ -8,12 +8,13 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 // TODO add before hook to clean-up duplicates
 describe('Navigate to Message Details ', () => {
   it('Keyboard Nav Access to Expended Messages', () => {
+    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessageWithAttachment);
-    PatientMessageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
+    messageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
     cy.contains('Print').should('be.visible');
     cy.tabToElement('button')
       .eq(0)
@@ -26,19 +27,20 @@ describe('Navigate to Message Details ', () => {
       .then(() => {
         cy.get(Locators.BUTTONS.BUTTON_TRASH).should('have.focus');
       });
-    PatientMessageDetailsPage.realPressForExpandAllButton();
-    PatientMessageDetailsPage.verifyClickAndExpandAllMessagesHasFocus();
+    messageDetailsPage.realPressForExpandAllButton();
+    messageDetailsPage.verifyClickAndExpandAllMessagesHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
   it('Keyboard Navigation to Print Button', () => {
+    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';
     mockMessageWithAttachment.data.attributes.attachment = true;
     mockMessageWithAttachment.data.attributes.body = 'attachment';
     PatientInboxPage.loadInboxMessages(mockMessages, mockMessageWithAttachment);
-    PatientMessageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
+    messageDetailsPage.loadMessageDetails(mockMessageWithAttachment);
     cy.contains('Print').should('be.visible');
     cy.tabToElement('button')
       .eq(0)

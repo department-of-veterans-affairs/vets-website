@@ -6,7 +6,6 @@ import {
   focusElement,
   scrollTo,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import ReportModal from './ReportModal';
@@ -36,12 +35,6 @@ const SearchResult = ({
   setReportModalTester,
 }) => {
   const [reportModalIsShowing, setReportModalIsShowing] = useState(false);
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const reportFeatureEnabled = useToggleValue(
-    TOGGLE_NAMES.findARepresentativeFlagResultsEnabled,
-  );
 
   const { contact, extension } = parsePhoneNumber(phone);
 
@@ -239,43 +232,41 @@ const SearchResult = ({
               </div>
             )}
           </div>
-          {reportFeatureEnabled && (
-            <div className="experimental-parent">
-              {reports && (
-                <div className="report-thank-you-alert">
-                  <va-alert
-                    class="thank-you-alert vads-u-margin-bottom--2"
-                    id={`thank-you-alert-${representativeId}`}
-                    close-btn-aria-label="Close notification"
-                    disable-analytics="false"
-                    full-width="false"
-                    slim
-                    status="info"
-                    uswds
-                    visible="true"
-                  >
-                    <p className="vads-u-margin-y--0">
-                      Thanks for reporting outdated information.
-                    </p>
-                  </va-alert>
-                </div>
-              )}
-              <div className="report-outdated-information-button">
-                <va-button
-                  onClick={() => {
-                    recordReportButtonClick();
-                    setReportModalIsShowing(true);
-                  }}
-                  id={`report-button-${representativeId}`}
-                  secondary
-                  text="Report outdated information"
-                  label={`Report outdated information for ${officer}`}
+          <div className="experimental-parent">
+            {reports && (
+              <div className="report-thank-you-alert">
+                <va-alert
+                  class="thank-you-alert vads-u-margin-bottom--2"
+                  id={`thank-you-alert-${representativeId}`}
+                  close-btn-aria-label="Close notification"
+                  disable-analytics="false"
+                  full-width="false"
+                  slim
+                  status="info"
                   uswds
-                  disable-analytics
-                />
+                  visible="true"
+                >
+                  <p className="vads-u-margin-y--0">
+                    Thanks for reporting outdated information.
+                  </p>
+                </va-alert>
               </div>
+            )}
+            <div className="report-outdated-information-button">
+              <va-button
+                onClick={() => {
+                  recordReportButtonClick();
+                  setReportModalIsShowing(true);
+                }}
+                id={`report-button-${representativeId}`}
+                secondary
+                text="Report outdated information"
+                label={`Report outdated information for ${officer}`}
+                uswds
+                disable-analytics
+              />
             </div>
-          )}
+          </div>
         </div>
       </va-card>
     </div>

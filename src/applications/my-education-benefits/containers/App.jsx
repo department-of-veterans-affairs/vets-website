@@ -378,12 +378,7 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (
-          showDgiDirectDeposit1990EZ &&
-          isLoggedIn &&
-          isLOA3 &&
-          !fetchedDirectDeposit
-        ) {
+        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }

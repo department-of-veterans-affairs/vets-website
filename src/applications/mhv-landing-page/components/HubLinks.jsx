@@ -41,7 +41,7 @@ const HubLinks = ({ hubs }) => {
   ));
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row">{hubLayout}</div>
+      <div className="vads-l-row vads-u-margin-bottom--3">{hubLayout}</div>
     </div>
   );
 };

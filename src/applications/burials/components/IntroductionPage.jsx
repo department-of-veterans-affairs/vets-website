@@ -26,8 +26,9 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h4">
           Follow the steps below to apply for burial benefits.
         </h2>
-        <va-process-list>
-          <va-process-list-item header="Prepare">
+        <va-process-list uswds="false">
+          <li>
+            <h3>Prepare</h3>
             <a
               className="vads-c-action-link--blue"
               href="/burials-memorials/veterans-burial-allowance/"
@@ -78,25 +79,27 @@ class IntroductionPage extends React.Component {
               </a>
               .
             </p>
-          </va-process-list-item>
-          <va-process-list-item title="Apply">
+          </li>
+          <li>
+            <h3>Apply</h3>
             <p>Complete this burial benefits form.</p>
             <p>
               After submitting the form, you’ll get a confirmation message. You
               can print this for your records.
             </p>
-          </va-process-list-item>
-          <va-process-list-item title="VA Review">
+          </li>
+          <li>
+            <h3>VA Review</h3>
             <p>We process claims in the order we receive them.</p>
             <p>We’ll let you know by mail if we need more information.</p>
-          </va-process-list-item>
-          <va-process-list-item title="Decision">
+          </li>
+          <li>
             <h3>Decision</h3>
             <p>
               After we process your claim, you’ll get a notice in the mail about
               the decision.
             </p>
-          </va-process-list-item>
+          </li>
         </va-process-list>
         <SaveInProgressIntro
           buttonOnly

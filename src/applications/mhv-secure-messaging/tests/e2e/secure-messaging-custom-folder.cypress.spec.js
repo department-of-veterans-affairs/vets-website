@@ -28,6 +28,7 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
   it('Verify Remove Non-empty Folder', () => {
     PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
     PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
+    PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
     cy.injectAxe();

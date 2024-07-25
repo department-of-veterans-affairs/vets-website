@@ -33,8 +33,9 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow the steps below to apply for beneficiary travel claim.
         </h2>
-        <va-process-list>
-          <va-process-list-item header="Prepare">
+        <va-process-list uswds="false">
+          <li>
+            <h3>Prepare</h3>
             <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number (required)</li>
@@ -47,27 +48,30 @@ class IntroductionPage extends React.Component {
                 Get help filing your claim
               </a>
             </p>
-          </va-process-list-item>
-          <va-process-list-item header="Apply">
+          </li>
+          <li>
+            <h3>Apply</h3>
             <p>Complete this beneficiary travel claim form.</p>
             <p>
               After submitting the form, you’ll get a confirmation message. You
               can print this for your records.
             </p>
-          </va-process-list-item>
-          <va-process-list-item header="VA Review">
+          </li>
+          <li>
+            <h3>VA Review</h3>
             <p>
               We process claims within a week. If more than a week has passed
               since you submitted your application and you haven’t heard back,
               please don’t apply again. Call us at.
             </p>
-          </va-process-list-item>
-          <va-process-list-item header="Decision">
+          </li>
+          <li>
+            <h3>Decision</h3>
             <p>
               Once we’ve processed your claim, you’ll get a notice in the mail
               with our decision.
             </p>
-          </va-process-list-item>
+          </li>
         </va-process-list>
         <SaveInProgressIntro
           buttonOnly
