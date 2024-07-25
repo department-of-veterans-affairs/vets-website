@@ -157,7 +157,7 @@ export const applicantMedicarePartACarrierSchema = {
     applicantMedicarePartACarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',

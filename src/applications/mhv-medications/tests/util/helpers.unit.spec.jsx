@@ -369,4 +369,32 @@ describe('sanitizeKramesHtmlStr function', () => {
       '<h2>What special precautions should I follow?</h2>',
     );
   });
+
+  it('should properly manage <p> tags inside of <ul> tags by restructuring the DOM', () => {
+    const inputHtml = `<ul>
+                        <li>Item 1</li>
+                        <p>Paragraph inside list</p>
+                        <li>Item 2</li>
+                      </ul>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li></ul>',
+    );
+  });
+
+  it('should properly manage <p> tags inside of nested <ul> tags by restructuring the DOM', () => {
+    const inputHtml = `<ul>
+                        <li>Item 1</li>
+                        <ul>
+                        <li>Item 1.1</li>
+                        <p>Paragraph inside nested list</p>
+                        </ul>
+                        <p>Paragraph inside list</p>
+                        <li>Item 2</li>
+                      </ul>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include(
+      '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
+    );
+  });
 });
