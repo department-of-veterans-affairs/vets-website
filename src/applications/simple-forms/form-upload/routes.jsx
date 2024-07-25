@@ -1,22 +1,23 @@
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom-v5-compat';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import formConfig from './config/form';
+import App from './containers/App.jsx';
 
-import FormUploadApp from './containers/FormUploadApp';
-import UploadPage from './containers/UploadPage';
-import ReviewPage from './containers/ReviewPage';
-import SubmitPage from './containers/SubmitPage';
-import ConfirmationPage from './containers/ConfirmationPage';
+const config = formConfig();
 
-const routes = (
-  <Routes>
-    <Route path="/:id" element={<FormUploadApp />}>
-      <Route index element={<Navigate to="upload" replace />} />
-      <Route path="upload" element={<UploadPage />} />
-      <Route path="review" element={<ReviewPage />} />
-      <Route path="submit" element={<SubmitPage />} />
-      <Route path="confirmation" element={<ConfirmationPage />} />
-    </Route>
-  </Routes>
-);
+const routes = [
+  {
+    path: '/21-0779',
+    component: App,
+    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+    childRoutes: createRoutesWithSaveInProgress(config),
+  },
+  // or dynamic
+  // {
+  //   path: '/:formId',
+  //   component: App,
+  //   indexRoute: {},
+  //   childRoutes: createRoutesWithSaveInProgress(config),
+  // },
+];
 
 export default routes;

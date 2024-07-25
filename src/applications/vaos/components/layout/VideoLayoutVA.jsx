@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import { getRealFacilityId } from '../../utils/appointment';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
@@ -13,24 +20,28 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import FacilityPhone from '../FacilityPhone';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
+    locationId,
     isPastAppointment,
     startDate,
     status,
     typeOfCareName,
+    videoProviderName,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
 
   let heading = 'Video appointment at VA location';
+  const facilityId = locationId;
   if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment at VA location';
@@ -60,21 +71,38 @@ export default function VideoLayoutVA({ data: appointment }) {
           )}
       </When>
 
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
-
-      <Who />
+      <What>{typeOfCareName}</What>
+      <Who>{videoProviderName}</Who>
       <Section heading="Where to attend">
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!facility &&
+          !facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!facility &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+            </>
+          )}
         {!!facility && (
           <>
             {facility.name}
@@ -85,15 +113,16 @@ export default function VideoLayoutVA({ data: appointment }) {
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <br />
           </>
         )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-        <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
-        )}
-        {!facilityPhone && <>Not available</>}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Section>
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
