@@ -250,6 +250,8 @@
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingMedReviewInstructions": "va_online_scheduling_med_review_instructions",
+  "vaOnlineSchedulingOHDirectSchedule": "va_online_scheduling_OH_direct_schedule",
+  "vaOnlineSchedulingOHRequest": "va_online_scheduling_OH_request",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
