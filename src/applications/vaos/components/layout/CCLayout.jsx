@@ -72,7 +72,7 @@ export default function CCLayout({ data: appointment }) {
               <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
                 <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={address} />
+                <FacilityDirectionsLink location={{ address }} />
               </div>
             </>
           )}
