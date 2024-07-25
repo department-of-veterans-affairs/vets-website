@@ -120,26 +120,34 @@ const ManageFolderButtons = props => {
   return (
     <>
       {folder.folderId > 0 && (
-        // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
-        <div className="manage-folder-container">
+        <div
+          className="            
+            vads-u-display--flex
+            vads-u-flex-direction--column
+            small-screen:vads-u-flex-direction--row
+            small-screen:vads-u-align-content--flex-start
+          "
+        >
           {/* TODO add GA event for both buttons */}
-          <button
-            type="button"
-            className="left-button usa-button-secondary"
+          <va-button
+            text="Edit folder name"
+            class="
+              vads-u-margin-bottom--1
+              small-screen:vads-u-margin-bottom--0
+            "
+            secondary
             data-testid="edit-folder-button"
             onClick={openRenameModal}
             ref={renameModalReference}
-          >
-            Edit folder name
-          </button>
-          <button
-            type="button"
-            className="right-button usa-button-secondary"
+            data-dd-action-name="Edit Folder Name Button"
+          />
+          <va-button
+            text="Remove folder"
+            secondary
             data-testid="remove-folder-button"
             onClick={openDelModal}
-          >
-            Remove folder
-          </button>
+            data-dd-action-name="Remove Folder Button"
+          />
         </div>
       )}
       {isEmptyWarning && (
