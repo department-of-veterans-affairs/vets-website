@@ -41,56 +41,42 @@ const DeleteDraft = props => {
     savedComposeDraft,
   } = props;
 
+  const showIcon = useState(!!cannotReply);
+
   // Navigation props
-  const savedDraft = useMemo(
-    () => {
-      return draftId;
-    },
-    [draftId],
-  );
-  const unsavedDraft = useMemo(
-    () => {
-      return draftId === undefined;
-    },
-    [draftId],
-  );
+  const savedDraft = useMemo(() => draftId, [draftId]);
+
+  const unsavedDraft = useMemo(() => draftId === undefined, [draftId]);
+
   const savedReplyDraft = useMemo(
-    () => {
-      return !!savedDraft === true && formPopulated === undefined;
-    },
+    () => !!savedDraft && formPopulated === undefined,
     [savedDraft, formPopulated],
   );
+
   const blankReplyDraft = useMemo(
-    () => {
-      return draftBody === undefined && messageBody === '';
-    },
+    () => draftBody === undefined && messageBody === '',
     [draftBody, messageBody],
   );
+
   const inProgressReplyDraft = useMemo(
-    () => {
-      return !blankReplyDraft && messageBody !== draftBody;
-    },
+    () => !blankReplyDraft && messageBody !== draftBody,
     [blankReplyDraft, messageBody, draftBody],
   );
-  const editableDraft = useMemo(
-    () => {
-      return !!savedDraft === true && formPopulated === true;
-    },
-    [savedDraft, formPopulated],
-  );
+
+  const editableDraft = useMemo(() => !!savedDraft && formPopulated === true, [
+    savedDraft,
+    formPopulated,
+  ]);
+
   const newMessageNavErr = useMemo(
-    () => {
-      return unsavedDraft && navigationError !== null;
-    },
+    () => unsavedDraft && navigationError !== null,
     [unsavedDraft, navigationError],
   );
+
   const unsavedNewDraftMsg = useMemo(
-    () => {
-      return draftId === undefined && navigationError === null;
-    },
+    () => draftId === undefined && navigationError === null,
     [draftId, navigationError],
   );
-  const showIcon = !!cannotReply;
 
   const unsavedDeleteSuccessful = () =>
     dispatch(
