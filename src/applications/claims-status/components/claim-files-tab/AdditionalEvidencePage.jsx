@@ -82,7 +82,7 @@ class AdditionalEvidencePage extends React.Component {
   }
 
   render() {
-    const { claim, lastPage, filesNeeded } = this.props;
+    const { claim, lastPage } = this.props;
     const { claimPhaseDates, evidenceWaiverSubmitted5103 } = claim.attributes;
 
     let content;
@@ -90,13 +90,6 @@ class AdditionalEvidencePage extends React.Component {
     const isOpen = isClaimOpen(
       claim.attributes.status,
       claim.attributes.closeDate,
-    );
-
-    const standard5103NoticeExists =
-      claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
-      evidenceWaiverSubmitted5103 === false;
-    const automated5103NoticeExists = filesNeeded.some(
-      i => i.displayName === 'Automated 5103 Notice Response',
     );
 
     if (this.props.loading) {
@@ -107,7 +100,14 @@ class AdditionalEvidencePage extends React.Component {
         />
       );
     } else {
-      const { message } = this.props;
+      const { message, filesNeeded } = this.props;
+
+      const standard5103NoticeExists =
+        claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
+        evidenceWaiverSubmitted5103 === false;
+      const automated5103NoticeExists = filesNeeded.some(
+        i => i.displayName === 'Automated 5103 Notice Response',
+      );
 
       content = (
         <div className="additional-evidence-container">

@@ -23,7 +23,7 @@ function Standard5103Alert({ previousPage = null }) {
   };
   return (
     <va-alert
-      data-testid="item-standard-5103-notice-response"
+      data-testid="standard-5103-notice-alert"
       class="primary-alert vads-u-margin-bottom--2"
       status="warning"
     >
