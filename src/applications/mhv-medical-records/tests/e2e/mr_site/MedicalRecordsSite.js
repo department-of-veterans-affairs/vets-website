@@ -5,6 +5,7 @@ import mockUser from '../fixtures/user.json';
 class MedicalRecordsSite {
   login = (userFixture = mockUser) => {
     this.mockFeatureToggles();
+    this.mockVamcEhr();
     cy.login(userFixture);
     // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
     // window.localStorage.setItem('isLoggedIn', true);
@@ -79,6 +80,10 @@ class MedicalRecordsSite {
         ],
       },
     }).as('featureToggle');
+  };
+
+  mockVamcEhr = () => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
