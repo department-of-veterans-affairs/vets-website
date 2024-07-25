@@ -126,28 +126,55 @@ const StepThree = ({ formValues }) => {
   };
 
   return (
-    <va-process-list-item header="Mail your completed form and all supporting materials">
+    <va-process-list-item header="Submit your completed application form and all supporting documents online or by mail">
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to
         apply to {boardExplanation}
       </p>
-      {prevAppYear === '1' &&
-      ['BCNR', 'BCMR'].includes(board(formValues).abbr) ? (
-        <p>
-          Your last application was made before the release of DoD guidance
-          related to discharges like yours. As a result, the Board may treat
-          your application as a new case. If possible, review the new policies
-          and state in your application how the change in policy is relevant to
-          your case.
-        </p>
-      ) : null}
-      <p>
-        Mail your completed form and all supporting documents to the{' '}
-        {boardToSubmit.abbr} at:
-      </p>
-      {venueAddress(formValues)}
-      {onlineSubmissionMsg}
+      {boardToSubmit.abbr === 'AFDRB' ? (
+        <>
+          <p>
+            You can submit your completed application form and all supporting
+            documents through the Air Force Review Boards Agency website. The
+            online application portal allows the Board’s intake staff to
+            securely work with your digital application and build your case file
+            more quickly and efficiently than with a hardcopy application.
+          </p>
+          <a
+            className="vads-u-margin-top--3 vads-u-display--block"
+            href="https://afrba-portal.cce.af.mil/#application-submission-drb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Submit your application online (opens in a new tab)
+          </a>
+          <p>
+            If you cannot access the website, you may mail your completed form
+            and all supporting documents to the AFDRB to:
+          </p>
+          {venueAddress(formValues)}
+        </>
+      ) : (
+        <>
+          {prevAppYear === '1' &&
+          ['BCNR', 'BCMR'].includes(board(formValues).abbr) ? (
+            <p>
+              Your last application was made before the release of DoD guidance
+              related to discharges like yours. As a result, the Board may treat
+              your application as a new case. If possible, review the new
+              policies and state in your application how the change in policy is
+              relevant to your case.
+            </p>
+          ) : null}
+          <p>
+            Mail your completed form and all supporting documents to the{' '}
+            {boardToSubmit.abbr} at:
+          </p>
+          {venueAddress(formValues)}
+          {onlineSubmissionMsg}
+        </>
+      )}
       <va-button onClick={handlePrint} text="Print this page" />
     </va-process-list-item>
   );

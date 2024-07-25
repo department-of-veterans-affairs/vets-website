@@ -198,7 +198,7 @@ export const venueAddress = (formValues, noDRB) => {
 
 export const formData = formValues => {
   const boardData = board(formValues);
-  if (boardData?.abbr === 'DRB') {
+  if (['DRB', 'AFDRB'].includes(boardData?.abbr)) {
     return {
       num: 293,
       link:
