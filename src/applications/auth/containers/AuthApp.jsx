@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
@@ -39,153 +39,47 @@ const REDIRECT_IGNORE_PATTERN = new RegExp(
 const generateSentryAuthError = ({
   error = {},
   loginType,
-  code,
+  authErrorCode,
   requestId,
 }) => {
-  const { message, errorCode } = getAuthError(code);
-
+  const { message, errorCode: detailedErrorCode } = getAuthError(authErrorCode);
   Sentry.withScope(scope => {
     scope.setExtra('error', error);
     scope.setExtra(SENTRY_TAGS.REQUEST_ID, requestId);
     scope.setTag(SENTRY_TAGS.LOGIN_TYPE, loginType);
-    scope.setTag(SENTRY_TAGS.ERROR_CODE, errorCode);
-    Sentry.captureMessage(`Auth Error: ${errorCode} - ${message}`);
+    scope.setTag(SENTRY_TAGS.ERROR_CODE, detailedErrorCode);
+    Sentry.captureMessage(`Auth Error: ${detailedErrorCode} - ${message}`);
   });
 };
-
-export class AuthApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasError: this.props.location.query.auth === 'fail',
-      loginType: this.props.location.query.type || 'Login type not found',
-      returnUrl: sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '',
-      auth: this.props.location.query.auth || 'fail',
-      code: this.props.location.query.code || '',
-      state: this.props.location.query.state || '',
-      requestId:
-        this.props.location.query.request_id ||
-        'No corresponding Request ID was found',
-    };
-  }
-
-  componentDidMount() {
-    if (this.state.hasError) {
-      this.handleAuthError();
-    } else if (!this.state.hasError) {
-      this.validateSession();
-    }
-  }
-
-  handleAuthError = error => {
-    const { loginType, code, requestId } = this.state;
-    const { errorCode } = getAuthError(code);
-
+const AuthApp = ({ location }) => {
+  const [hasError, setHasError] = useState(location.query.auth === 'fail');
+  const [loginType] = useState(location.query.type || 'Login type not found');
+  const [returnUrl] = useState(
+    sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '',
+  );
+  const [auth, setAuth] = useState(location.query.auth || 'fail');
+  const [errorCode, setErrorCode] = useState(location.query.code || '');
+  const [state, setState] = useState(location.query.state || '');
+  const [requestId] = useState(
+    location.query.request_id || 'No corresponding Request ID was found',
+  );
+  const dispatch = useDispatch();
+  const handleAuthError = error => {
+    const { errorCode: detailedErrorCode } = getAuthError(errorCode);
     generateSentryAuthError({
       error,
       loginType,
-      code,
+      authErrorCode: errorCode,
       requestId,
     });
 
     recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
 
-    this.setState(prevState => ({
-      ...prevState,
-      code: errorCode,
-      hasError: true,
-    }));
+    setErrorCode(detailedErrorCode);
+    setHasError(true);
   };
 
-  handleAuthForceNeeded = () => {
-    // Handle redirect in the callback of the event data to ensure we process the even before navigation occurs
-    recordEvent({
-      event: AUTH_EVENTS.ERROR_FORCE_NEEDED,
-      eventCallback: this.redirect,
-      eventTimeout: 2000,
-    });
-  };
-
-  handleAuthSuccess = ({ response = {}, skipToRedirect = false } = {}) => {
-    sessionStorage.setItem('shouldRedirectExpiredSession', true);
-    const { loginType, requestId, code } = this.state;
-    const authMetrics = new AuthMetrics(loginType, response, requestId, code);
-    authMetrics.run();
-    if (!skipToRedirect) {
-      setupProfileSession(authMetrics.userProfile);
-    }
-    this.redirect();
-  };
-
-  redirect = () => {
-    const { returnUrl } = this.state;
-
-    // remove from session storage
-    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
-
-    // redirect to my-va if necessary
-    const updatedUrl = generateReturnURL(returnUrl);
-
-    // check if usip client
-    const postAuthUrl = this.checkReturnUrl(updatedUrl)
-      ? updatedUrl
-      : appendQuery(updatedUrl, 'postLogin=true');
-
-    const redirectUrl =
-      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
-
-    window.location.replace(redirectUrl);
-  };
-
-  handleTokenRequest = async ({ code, state, csp }) => {
-    // Verify the state matches in storage
-    if (
-      !localStorage.getItem(OAUTH_KEYS.STATE) ||
-      localStorage.getItem(OAUTH_KEYS.STATE) !== state
-    ) {
-      this.generateOAuthError({
-        code: AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
-        event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
-      });
-    } else {
-      // Matches - requestToken exchange
-      try {
-        await requestToken({ code, csp });
-      } catch (error) {
-        const { errors } = await error.json();
-        const errorCode = OAUTH_ERROR_RESPONSES[errors];
-        const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR.DEFAULT;
-        this.generateOAuthError({
-          code: errorCode,
-          event,
-        });
-      }
-    }
-  };
-
-  // Fetch the user to get the login policy and validate the session.
-  validateSession = async () => {
-    const { code, state, auth, hasError, returnUrl } = this.state;
-
-    if (code && state) {
-      await this.handleTokenRequest({ code, state, csp: this.state.loginType });
-    }
-
-    if (auth === FORCE_NEEDED) {
-      this.handleAuthForceNeeded();
-    } else if (!hasError && this.checkReturnUrl(returnUrl)) {
-      this.handleAuthSuccess({ skipToRedirect: true });
-    } else {
-      try {
-        const response = await apiRequest('/user');
-        this.handleAuthSuccess({ response });
-      } catch (error) {
-        this.handleAuthError(error);
-      }
-    }
-  };
-
-  checkReturnUrl = passedUrl => {
+  const checkReturnUrl = passedUrl => {
     return (
       passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
       passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
@@ -195,41 +89,131 @@ export class AuthApp extends React.Component {
     );
   };
 
-  generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
-    recordEvent({ event });
-    const { errorCode } = getAuthError(code);
+  const redirect = () => {
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-    this.setState(prevState => ({
-      ...prevState,
-      code: errorCode,
-      auth: AUTH_LEVEL.FAIL,
-      hasError: true,
-    }));
+    const updatedUrl = generateReturnURL(returnUrl);
+
+    const postAuthUrl = checkReturnUrl(updatedUrl)
+      ? updatedUrl
+      : appendQuery(updatedUrl, 'postLogin=true');
+
+    const redirectUrl =
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
+
+    window.location.replace(redirectUrl);
   };
 
-  render() {
-    const renderErrorProps = {
-      code: getAuthError(this.state.code).errorCode,
-      auth: this.state.auth,
-      requestId: this.state.requestId,
-      recordEvent,
-      openLoginModal: this.props.openLoginModal,
-    };
+  const generateOAuthError = ({
+    oauthErrorCode,
+    event = OAUTH_EVENTS.ERROR_DEFAULT,
+  }) => {
+    recordEvent({ event });
+    const { errorCode: detailedErrorCode } = getAuthError(oauthErrorCode);
+    setErrorCode(detailedErrorCode);
+    setAuth(AUTH_LEVEL.FAIL);
+    setHasError(true);
+    setState(state);
+  };
 
-    const view = this.state.hasError ? (
-      <RenderErrorUI {...renderErrorProps} />
-    ) : (
-      <va-loading-indicator message="Signing in to VA.gov..." />
+  const handleTokenRequest = async ({
+    code: authCode,
+    state: authState,
+    csp,
+  }) => {
+    if (
+      !localStorage.getItem(OAUTH_KEYS.STATE) ||
+      localStorage.getItem(OAUTH_KEYS.STATE) !== authState
+    ) {
+      generateOAuthError({
+        oauthErrorCode: AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode,
+        event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+      });
+    } else {
+      try {
+        await requestToken({ code: authCode, csp });
+      } catch (error) {
+        const { errors } = await error.json();
+        const oauthErrorCode = OAUTH_ERROR_RESPONSES[errors];
+        const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR_DEFAULT;
+        generateOAuthError({ oauthErrorCode, event });
+      }
+    }
+  };
+
+  const handleAuthForceNeeded = () => {
+    recordEvent({
+      event: AUTH_EVENTS.ERROR_FORCE_NEEDED,
+      eventCallback: redirect,
+      eventTimeout: 2000,
+    });
+  };
+
+  const handleAuthSuccess = ({
+    response = {},
+    skipToRedirect = false,
+  } = {}) => {
+    sessionStorage.setItem('shouldRedirectExpiredSession', true);
+    const authMetrics = new AuthMetrics(
+      loginType,
+      response,
+      requestId,
+      errorCode,
     );
-    return <div className="row vads-u-padding-y--5">{view}</div>;
-  }
-}
+    authMetrics.run();
+    if (!skipToRedirect) {
+      setupProfileSession(authMetrics.userProfile);
+    }
+    redirect();
+  };
 
-const mapDispatchToProps = dispatch => ({
-  openLoginModal: () => dispatch(toggleLoginModal(true)),
-});
+  const validateSession = async () => {
+    if (errorCode && state) {
+      await handleTokenRequest({ code: errorCode, state, csp: loginType });
+    }
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(AuthApp);
+    if (auth === FORCE_NEEDED) {
+      handleAuthForceNeeded();
+    } else if (!hasError && checkReturnUrl(returnUrl)) {
+      handleAuthSuccess({ skipToRedirect: true });
+    } else {
+      try {
+        const response = await apiRequest('/user');
+        handleAuthSuccess({ response });
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (hasError) {
+      handleAuthError();
+    } else {
+      validateSession();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const openLoginModal = () => {
+    dispatch(toggleLoginModal(true));
+  };
+  const renderErrorProps = {
+    code: getAuthError(errorCode).errorCode,
+    auth,
+    requestId,
+    recordEvent,
+    openLoginModal,
+  };
+
+  return (
+    <div className="row vads-u-padding-y--5">
+      {hasError ? (
+        <RenderErrorUI {...renderErrorProps} />
+      ) : (
+        <va-loading-indicator message="Signing in to VA.gov..." />
+      )}
+    </div>
+  );
+};
+export default AuthApp;
