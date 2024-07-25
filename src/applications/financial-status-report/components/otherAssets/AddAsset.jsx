@@ -122,7 +122,7 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             name="add-other-asset-amount"
             onInput={handlers.onAssetAmountChange}
             required
-            type="text"
+            type="decimal"
             value={assetAmount || ''}
           />
           <br />

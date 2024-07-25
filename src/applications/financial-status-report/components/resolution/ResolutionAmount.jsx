@@ -126,7 +126,7 @@ const ResolutionAmount = ({ formContext }) => {
         onInput={onAmountChange}
         required
         currency
-        type="text"
+        type="decimal"
         value={resolutionAmount || ''}
       />
     </div>

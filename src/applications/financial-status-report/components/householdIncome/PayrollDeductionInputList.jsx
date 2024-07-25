@@ -177,6 +177,7 @@ const PayrollDeductionInputList = props => {
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               currency

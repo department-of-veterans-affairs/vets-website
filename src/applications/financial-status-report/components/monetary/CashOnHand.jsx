@@ -135,6 +135,7 @@ const CashOnHand = ({
           hint={null}
           id="cash"
           inputmode="decimal"
+          type="decimal"
           label="What is the dollar amount of available cash (not in a bank) you currently have?"
           name="cash"
           onBlur={onBlur}

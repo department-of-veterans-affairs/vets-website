@@ -130,7 +130,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
             required
-            type="text"
+            type="decimal"
             value={assetAmount || ''}
           />
           <br />

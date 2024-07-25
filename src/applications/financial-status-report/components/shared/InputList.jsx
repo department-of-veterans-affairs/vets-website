@@ -38,6 +38,7 @@ const InputList = ({
             onInput={onChange}
             required
             value={input.amount}
+            type="decimal"
             min={min}
             max={max}
             width="md"

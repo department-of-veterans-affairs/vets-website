@@ -92,6 +92,7 @@ const CashInBank = ({
           hint={null}
           id="cash"
           inputmode="decimal"
+          type="decimal"
           label="What is the total amount you have in all checking and savings accounts?"
           name="cash"
           onBlur={onBlur}

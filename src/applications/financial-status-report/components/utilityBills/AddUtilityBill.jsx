@@ -124,7 +124,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             name="add-utility-bill-amount"
             onInput={handlers.onUtilityAmountChange}
             required
-            type="text"
+            type="decimal"
             value={utilityAmount || ''}
           />
 
