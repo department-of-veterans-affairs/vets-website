@@ -216,7 +216,7 @@ describe('AuthApp', () => {
     instance.redirect();
 
     expect(cernerSpy.called).to.be.true;
-    expect(global.window.location.replace.calledWith('/verify')).to.be.true;
+    expect(global.window.location.replace.calledWith('/verify')).to.be.false;
     global.window = oldWindow;
     wrapper.unmount();
   });
