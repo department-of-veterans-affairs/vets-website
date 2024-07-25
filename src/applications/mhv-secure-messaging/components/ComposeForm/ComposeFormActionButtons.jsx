@@ -81,7 +81,6 @@ const ComposeFormActionButtons = ({
         setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
-        showIcon={cannotReply}
         draftSequence={draftSequence}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}

@@ -22,16 +22,12 @@ describe('Alert Backround Box component', () => {
         },
       },
     };
-    const customProps = {
-      activeAlert: activeAlertObj,
-      setActiveAlert: () => {},
-    };
-
-    const setup = ({ state = initialState, props = customProps }) =>
-      renderWithStoreAndRouter(
-        <AlertBackgroundBox closeable visible {...props} />,
-        { state, reducers: reducer, path: Paths.INBOX },
-      );
+    const setup = ({ state = initialState }) =>
+      renderWithStoreAndRouter(<AlertBackgroundBox closeable />, {
+        state,
+        reducers: reducer,
+        path: Paths.INBOX,
+      });
     const { findByText } = setup({});
     expect(findByText(Alerts.Message.DELETE_MESSAGE_ERROR));
   });

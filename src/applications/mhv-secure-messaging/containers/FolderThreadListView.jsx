@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -34,7 +34,6 @@ const FolderThreadListView = props => {
   const dispatch = useDispatch();
   const error = null;
   const threadsPerPage = 10;
-  const [activeAlert, setActiveAlert] = useState(null);
   const { threadList, threadSort, isLoading } = useSelector(
     state => state.sm.threads,
   );
@@ -310,11 +309,7 @@ const FolderThreadListView = props => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
-        <AlertBackgroundBox
-          activeAlert={activeAlert}
-          setActiveAlert={setActiveAlert}
-          closeable
-        />
+        <AlertBackgroundBox closeable />
         {folder === null ? (
           <></>
         ) : (

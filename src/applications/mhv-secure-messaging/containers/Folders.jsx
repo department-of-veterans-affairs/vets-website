@@ -25,7 +25,6 @@ const Folders = () => {
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [activeAlert, setActiveAlert] = useState(null);
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
@@ -152,11 +151,7 @@ const Folders = () => {
 
   return (
     <div className="folders-container">
-      <AlertBackgroundBox
-        activeAlert={activeAlert}
-        setActiveAlert={setActiveAlert}
-        closeable
-      />
+      <AlertBackgroundBox closeable />
       {folders?.length > 0 && content()}
     </div>
   );

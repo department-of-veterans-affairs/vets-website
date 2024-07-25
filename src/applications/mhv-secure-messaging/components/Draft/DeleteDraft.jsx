@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
@@ -42,14 +42,54 @@ const DeleteDraft = props => {
   } = props;
 
   // Navigation props
-  const savedDraft = draftId;
-  const unsavedDraft = draftId === undefined;
-  const savedReplyDraft = !!savedDraft === true && formPopulated === undefined;
-  const blankReplyDraft = draftBody === undefined && messageBody === '';
-  const inProgressReplyDraft = !blankReplyDraft && messageBody !== draftBody;
-  const editableDraft = !!savedDraft === true && formPopulated === true;
-  const newMessageNavErr = unsavedDraft && navigationError !== null;
-  const unsavedNewDraftMsg = draftId === undefined && navigationError === null;
+  const savedDraft = useMemo(
+    () => {
+      return draftId;
+    },
+    [draftId],
+  );
+  const unsavedDraft = useMemo(
+    () => {
+      return draftId === undefined;
+    },
+    [draftId],
+  );
+  const savedReplyDraft = useMemo(
+    () => {
+      return !!savedDraft === true && formPopulated === undefined;
+    },
+    [savedDraft, formPopulated],
+  );
+  const blankReplyDraft = useMemo(
+    () => {
+      return draftBody === undefined && messageBody === '';
+    },
+    [draftBody, messageBody],
+  );
+  const inProgressReplyDraft = useMemo(
+    () => {
+      return !blankReplyDraft && messageBody !== draftBody;
+    },
+    [blankReplyDraft, messageBody, draftBody],
+  );
+  const editableDraft = useMemo(
+    () => {
+      return !!savedDraft === true && formPopulated === true;
+    },
+    [savedDraft, formPopulated],
+  );
+  const newMessageNavErr = useMemo(
+    () => {
+      return unsavedDraft && navigationError !== null;
+    },
+    [unsavedDraft, navigationError],
+  );
+  const unsavedNewDraftMsg = useMemo(
+    () => {
+      return draftId === undefined && navigationError === null;
+    },
+    [draftId, navigationError],
+  );
   const showIcon = !!cannotReply;
 
   const unsavedDeleteSuccessful = () =>

@@ -22,7 +22,6 @@ const Compose = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
-  const [activeAlert, setActiveAlert] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -135,11 +134,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBackgroundBox
-                activeAlert={activeAlert}
-                setActiveAlert={setActiveAlert}
-                closeable
-              />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>
