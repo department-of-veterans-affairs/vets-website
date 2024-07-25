@@ -1,5 +1,4 @@
 import { uploadFile } from 'platform/forms-system/src/js/actions';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -24,11 +23,14 @@ const createPayload = (file, formId) => {
   return payload;
 };
 
-export const uploadScannedForm = (formNumber, fileToUpload, onFileUploaded) => {
+export const uploadScannedForm = (
+  fileUploadUrl,
+  formNumber,
+  fileToUpload,
+  onFileUploaded,
+) => {
   const uiOptions = {
-    fileUploadUrl: `${
-      environment.API_URL
-    }/simple_forms_api/v1/scanned_form_upload`,
+    fileUploadUrl,
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
     maxSize: MAX_FILE_SIZE_BYTES,
     createPayload,

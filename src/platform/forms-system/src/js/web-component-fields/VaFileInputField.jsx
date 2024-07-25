@@ -40,6 +40,7 @@ const VaFileInputField = props => {
   const [file, setFile] = useState(null);
   const formData = useSelector(state => state.form.data);
   const { formNumber } = formData;
+  const { fileUploadUrl } = mappedProps;
 
   const onFileUploaded = useCallback(
     uploadedFile => {
@@ -83,7 +84,9 @@ const VaFileInputField = props => {
       }
 
       if (!props.onVaChange) {
-        dispatch(uploadScannedForm(formNumber, newFile, onFileUploaded));
+        dispatch(
+          uploadScannedForm(fileUploadUrl, formNumber, newFile, onFileUploaded),
+        );
         return;
       }
 

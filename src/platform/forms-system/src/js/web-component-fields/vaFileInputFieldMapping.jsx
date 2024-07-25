@@ -12,6 +12,7 @@ const vaFileInputFieldMapping = props => {
     ...formsPatternProps,
     accept: uiOptions?.accept || '.pdf,.jpeg,.png', // A comma-separated list of unique file type specifiers.
     buttonText: uiOptions?.buttonText,
+    fileUploadUrl: uiOptions?.fileUploadUrl,
     headerSize: commonFieldProps.labelHeaderLevel,
     messageAriaDescribedby:
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
