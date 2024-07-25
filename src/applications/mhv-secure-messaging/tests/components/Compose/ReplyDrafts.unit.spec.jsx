@@ -49,7 +49,7 @@ describe('ReplyDrafts component', () => {
     expect(getByText('Attachments')).to.exist;
     expect(getByText('Attachments input')).to.exist;
     expect(getByTestId('attach-file-input')).to.exist;
-    expect(getByTestId('Send-Button')).to.exist;
+    expect(getByTestId('send-button')).to.exist;
     expect(getByText('Save draft', { selector: 'button' })).to.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
 

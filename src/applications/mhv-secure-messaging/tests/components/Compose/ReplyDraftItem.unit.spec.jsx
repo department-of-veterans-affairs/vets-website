@@ -72,7 +72,7 @@ describe('ReplyDraftItem component', () => {
     expect(getByText('Attachments')).to.exist;
     expect(getByText('Attachments input')).to.exist;
     expect(getByTestId('attach-file-input')).to.exist;
-    expect(getByTestId('Send-Button')).to.exist;
+    expect(getByTestId('send-button')).to.exist;
     expect(getByText('Save draft', { selector: 'button' })).to.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
   });
@@ -91,7 +91,7 @@ describe('ReplyDraftItem component', () => {
     expect(queryByTestId('message-body-field')).to.not.exist;
     expect(getByText('Delete draft', { selector: 'button' })).to.exist;
     expect(queryByTestId('attach-file-input')).to.not.exist;
-    expect(queryByTestId('Send-Button')).to.not.exist;
+    expect(queryByTestId('send-button')).to.not.exist;
   });
 
   it('dispays "Saving..." message on draft save', async () => {

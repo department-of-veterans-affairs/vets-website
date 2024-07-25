@@ -119,7 +119,7 @@ describe('Compose container', () => {
     const screen = setup();
 
     const sendButton = waitFor(() => {
-      screen.getByTestId('Send-Button');
+      screen.getByTestId('send-button');
     });
     const saveDraftButton = waitFor(() => {
       screen.getByTestId('save-draft-button');
