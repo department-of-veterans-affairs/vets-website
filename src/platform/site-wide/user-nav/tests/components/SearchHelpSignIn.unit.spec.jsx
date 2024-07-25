@@ -38,6 +38,18 @@ describe('<SearchHelpSignIn>', () => {
     global.window = oldWindow;
   });
 
+  it('should present login links when not logged in on VA subdomain', () => {
+    window.location.hostname = 'www.benefits.va.gov';
+    const wrapper = shallow(<SearchHelpSignIn {...defaultProps} />);
+    expect(
+      wrapper
+        .find('.sign-in-link')
+        .at(0)
+        .prop('href'),
+    ).to.equal('https://www.va.gov/my-va');
+    wrapper.unmount();
+  });
+
   it('should render <SignInProfileMenu/> when logged in', () => {
     const wrapper = shallow(<SearchHelpSignIn {...defaultProps} isLoggedIn />);
     expect(wrapper.find('SignInProfileMenu').exists()).to.be.true;

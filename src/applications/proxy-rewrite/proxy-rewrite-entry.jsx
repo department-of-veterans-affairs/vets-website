@@ -1,27 +1,24 @@
-// eslint-disable no-param-reassign
+// Node modules.
 import 'platform/polyfills';
-import React from 'react';
-import { Provider } from 'react-redux';
 import cookie from 'cookie';
-import { debounce } from 'lodash';
+// Relative imports.
+import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
 import bucketsContent from 'site/constants/buckets-content';
-import environments from 'site/constants/environments';
-import environment from 'platform/utilities/environment';
 import createCommonStore from 'platform/startup/store';
-import startReactApp from 'platform/startup/react';
-import {
-  addOverlayTriggers,
-  addFocusBehaviorToCrisisLineModal,
-} from './utilities/vcl-modal-behavior';
-import { getAssetPath } from './utilities/get-asset-path';
-import { getTargetEnv } from './utilities/get-target-env';
+import environment from 'platform/utilities/environment';
+import environments from 'site/constants/environments';
+import startHeader from 'platform/site-wide/header';
+import startMegaMenuWidget from 'platform/site-wide/mega-menu';
+import startMobileMenuButton from 'platform/site-wide/mobile-menu-button';
+import startUserNavWidget from 'platform/site-wide/user-nav';
+import startVAFooter, { footerElemementId } from 'platform/site-wide/va-footer';
+import { addOverlayTriggers } from 'platform/site-wide/legacy/menu';
+import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
+import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
 import redirectIfNecessary from './redirects';
+import headerPartial from './partials/header';
+import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import Header from './Header';
-import Footer from './Footer';
-import CrisisLineModal from './partials/crisis-line-modal';
-
-const store = createCommonStore();
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -34,7 +31,6 @@ function createMutationObserverCallback() {
   ];
 
   let deprecatedSelector;
-
   for (const config of DEPRECATED_SELECTOR_CONFIG) {
     if (document.location.pathname.match(config.path) !== null) {
       deprecatedSelector = config.selector;
@@ -46,14 +42,11 @@ function createMutationObserverCallback() {
   return function mutationObserved(mutations) {
     mutations.forEach(mutation => {
       Array.from(mutation.addedNodes).forEach(node => {
-        const addedNode = node;
-
         if (node.nodeType === Node.ELEMENT_NODE) {
-          if (addedNode.tagName === 'BODY') {
-            addedNode.classList.add('merger');
-            addedNode.style.fontSize = '12px';
-          } else if (addedNode.matches(deprecatedSelector)) {
-            addedNode.classList.add('brand-consolidation-deprecated');
+          if (node.tagName === 'BODY') {
+            node.classList.add('merger');
+          } else if (node.matches(deprecatedSelector)) {
+            node.classList.add('brand-consolidation-deprecated');
           }
         }
       });
@@ -61,51 +54,77 @@ function createMutationObserverCallback() {
   };
 }
 
-function renderHeader(megaMenuData, headerContainer) {
-  startReactApp(
-    <Provider store={store}>
-      <Header megaMenuData={megaMenuData} />
-    </Provider>,
-    headerContainer,
-  );
+function activateHeaderFooter() {
+  // Set up elements for the new header and footer
+  const headerContainer = document.createElement('div');
+  const skipLink = document.getElementById('skiplink');
+  headerContainer.innerHTML = headerPartial;
+  headerContainer.classList.add('consolidated');
+
+  const footerContainer = document.createElement('div');
+  footerContainer.innerHTML = footerPartial;
+  footerContainer.classList.add('consolidated');
+
+  if (skipLink) {
+    skipLink.after(headerContainer);
+  } else if (document.body.firstChild) {
+    document.body.firstChild.before(headerContainer);
+  }
+  document.body.appendChild(footerContainer);
 }
 
-function renderFooter(footerData, footerContainer) {
+function renderFooter(data, commonStore) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
-  const lastUpdated = (subFooter && subFooter.item(0).textContent) || null;
+  const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startReactApp(
-    <Provider store={store}>
-      <Footer footerData={footerData} lastUpdated={lastUpdated} />
-    </Provider>,
-    footerContainer,
-  );
-}
+  startVAFooter(data, commonStore, () => {
+    if (lastUpdated) {
+      const lastUpdatedPanel = document.createElement('div');
+      const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
 
-function addFonts() {
-  const fonts = [
-    'sourcesanspro-bold-webfont.woff2',
-    'sourcesanspro-regular-webfont.woff2',
-    'bitter-bold.woff2',
-    'fa-solid-900.woff2',
-  ];
+      lastUpdatedPanel.innerHTML = `
+        <div class="footer-lastupdated">
+          <div class="usa-grid">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+              Last updated: ${lastUpdatedDate}
+            </div>
+          </div>
+        </div>
+      `;
 
-  fonts.forEach(font => {
-    const link = document.createElement('link');
-    link.type = 'font/woff2';
-    link.rel = 'preload';
-    link.href = `https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/${font}`;
-    link.as = 'font';
-    link.crossOrigin = true;
+      const footer = document.getElementById(footerElemementId);
 
-    document.head.appendChild(link);
+      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
+    }
   });
 }
 
-function teamsitesSetup() {
+function mountReactComponents(headerFooterData, commonStore) {
+  const crisisModal = document.getElementById('modal-crisisline');
+  if (crisisModal) {
+    crisisModal.parentNode.removeChild(crisisModal);
+  }
+
+  // New navigation menu
+  if (document.querySelector('#vetnav')) {
+    require('../../platform/site-wide/legacy/mega-menu');
+  }
+
   // set up sizes for rem
-  document.getElementsByTagName('html')[0].style.fontSize = '10px';
+  document.documentElement.style.fontSize = '10px';
   document.getElementsByTagName('body')[0].style.fontSize = '12px';
+
+  // Start site-wide widgets.
+  startUserNavWidget(commonStore);
+  startMegaMenuWidget(headerFooterData.megaMenuData, commonStore);
+  startMobileMenuButton(commonStore);
+  renderFooter(headerFooterData.footerData, commonStore);
+  startHeader(commonStore, headerFooterData.megaMenuData);
+
+  // Start Veteran Crisis Line modal functionality.
+  addFocusBehaviorToCrisisLineModal();
+  addOverlayTriggers();
 }
 
 function getContentHostName() {
@@ -115,6 +134,15 @@ function getContentHostName() {
 
   return bucketsContent[environment.BUILDTYPE];
 }
+
+// TO DO remove on clean up
+// function getAssetHostName() {
+//   if (environment.BUILDTYPE === environments.LOCALHOST) {
+//     return environment.BASE_URL;
+//   }
+
+//   return buckets[environment.BUILDTYPE];
+// }
 
 function removeCurrentHeaderFooter() {
   const observer = new MutationObserver(createMutationObserverCallback());
@@ -129,22 +157,8 @@ function removeCurrentHeaderFooter() {
   });
 }
 
-const startVCLModal = () => {
-  const vclContainer = document?.getElementById('ts-vcl-container');
-
-  startReactApp(
-    <Provider store={store}>
-      <CrisisLineModal />
-    </Provider>,
-    vclContainer,
-  );
-
-  addFocusBehaviorToCrisisLineModal();
-  addOverlayTriggers();
-};
-
-// Add modernized header and footer
 function activateInjectedAssets() {
+  activateHeaderFooter();
   fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
       if (resp.ok) {
@@ -158,35 +172,7 @@ function activateInjectedAssets() {
       );
     })
     .then(headerFooterData => {
-      teamsitesSetup();
-
-      const skipLink = document.getElementById('skiplink');
-
-      const headerContainer = document.createElement('div');
-      headerContainer.classList.add('ts-header-container');
-
-      const vclContainer = document.createElement('div');
-      vclContainer.setAttribute('id', 'ts-vcl-container');
-
-      document.body.appendChild(vclContainer);
-
-      const footerContainer = document.createElement('div');
-      footerContainer.classList.add('ts-footer-container');
-
-      document.body.appendChild(footerContainer);
-
-      if (skipLink) {
-        skipLink.after(headerContainer);
-      } else if (document.body.firstChild) {
-        document.body.firstChild.before(headerContainer);
-      }
-
-      renderHeader(headerFooterData.megaMenuData, headerContainer);
-      renderFooter(headerFooterData.footerData, footerContainer);
-
-      startVCLModal();
-
-      window.addEventListener('resize', debounce(startVCLModal, 100));
+      mountReactComponents(headerFooterData, createCommonStore());
     });
 }
 
@@ -227,7 +213,7 @@ const scriptPaths = [
   '/generated/proxy-rewrite.entry.js',
 ];
 
-const linkPaths = ['/generated/style-consolidated.css'];
+const linkPaths = ['/generated/styleConsolidated.css'];
 
 function removeInjectedHeaderFooter(docHead = document.head) {
   Array.from(
@@ -282,7 +268,6 @@ function main() {
   ) {
     redirectIfNecessary(window);
     removeCurrentHeaderFooter();
-    addFonts();
 
     if (
       document.readyState === 'complete' ||

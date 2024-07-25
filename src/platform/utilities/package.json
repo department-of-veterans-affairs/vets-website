@@ -5,6 +5,7 @@
         ".": "./exportsFile.js",
         "./environment": "./environment/index.js",
         "./stagingDomains": "./environment/stagingDomains.js",
+        "./va-subdomain": "./environment/va-subdomain.js",
         "./feature-toggles": "./feature-toggles/index.js",
         "./feature-toggles/helpers": "./feature-toggles/helpers.js",
         "./flipper-client": "./feature-toggles/flipper-client.js",

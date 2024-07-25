@@ -8,6 +8,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
+import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
 
 class SearchHelpSignIn extends Component {
   static propTypes = {
@@ -78,6 +79,8 @@ class SearchHelpSignIn extends Component {
   };
 
   renderSignInContent = () => {
+    const isSubdomain = isVATeamSiteSubdomain();
+
     // Render if (1) profile has loaded and the user is confirmed logged in or
     // (2) loading is in progress and the session is still considered active.
     if (this.shouldRenderSignedInContent()) {
@@ -93,9 +96,20 @@ class SearchHelpSignIn extends Component {
     }
     return (
       <div className="sign-in-links">
-        <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-          Sign in
-        </button>
+        {!isSubdomain && (
+          <button className="sign-in-link" onClick={this.handleSignInSignUp}>
+            Sign in
+          </button>
+        )}
+        {isSubdomain && (
+          <a
+            className="usa-button sign-in-link"
+            href="https://www.va.gov/my-va"
+            onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+          >
+            Sign in
+          </a>
+        )}
       </div>
     );
   };
