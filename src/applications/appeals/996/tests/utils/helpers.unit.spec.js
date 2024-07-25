@@ -32,14 +32,32 @@ describe('getEligibleContestableIssues', () => {
       },
     },
   ];
-  const deferredIssue = {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'Issue 2',
-      description: 'this is a deferred issue',
-      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+  const disqualifyingIssues = [
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 3',
+        description: 'this is a deferred issue',
+        approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+      },
     },
-  };
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 4',
+        description: 'this issue needs apportionment',
+        approxDecisionDate: parseDateWithOffset({ months: -3 }, date),
+      },
+    },
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 5',
+        description: 'this issue has attorney fees',
+        approxDecisionDate: parseDateWithOffset({ months: -5 }, date),
+      },
+    },
+  ];
 
   it('should return empty array', () => {
     expect(getEligibleContestableIssues()).to.have.lengthOf(0);
@@ -56,12 +74,12 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([eligibleIssue, ineligibleIssue]),
     ).to.deep.equal([eligibleIssue]);
   });
-  it('should filter out deferred issues', () => {
+  it('should filter out disqualifying issues', () => {
     expect(
       getEligibleContestableIssues([
-        eligibleIssue,
-        deferredIssue,
         ineligibleIssue,
+        eligibleIssue,
+        ...disqualifyingIssues,
       ]),
     ).to.deep.equal([eligibleIssue]);
   });
