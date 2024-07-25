@@ -319,6 +319,7 @@ module.exports = async (env = {}) => {
               cacheDirectory: '.babelcache',
               cacheCompression: false,
               // Also see .babelrc
+              presets: ['@babel/env','@babel/preset-react'],
             },
           },
         },
