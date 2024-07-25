@@ -61,6 +61,7 @@ const ValidateVeteran = props => {
         setSession,
         app,
         updateError,
+        setDobError,
       );
     },
     [
@@ -72,6 +73,7 @@ const ValidateVeteran = props => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -90,6 +92,7 @@ const ValidateVeteran = props => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}

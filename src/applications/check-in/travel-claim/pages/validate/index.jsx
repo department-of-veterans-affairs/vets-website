@@ -65,6 +65,7 @@ const Validate = ({ router }) => {
         setSession,
         APP_NAMES.TRAVEL_CLAIM,
         updateError,
+        setDobError,
       );
     },
     [
@@ -75,6 +76,7 @@ const Validate = ({ router }) => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -95,6 +97,7 @@ const Validate = ({ router }) => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}
