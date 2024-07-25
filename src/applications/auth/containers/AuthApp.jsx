@@ -92,8 +92,10 @@ const AuthApp = ({ location }) => {
   const redirect = () => {
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
+    // remove from session storage
     const updatedUrl = generateReturnURL(returnUrl);
 
+    // check if usip client
     const postAuthUrl = checkReturnUrl(updatedUrl)
       ? updatedUrl
       : appendQuery(updatedUrl, 'postLogin=true');
@@ -166,6 +168,8 @@ const AuthApp = ({ location }) => {
     }
     redirect();
   };
+
+  // Fetch the user to get the login policy and validate the session.
 
   const validateSession = async () => {
     if (errorCode && state) {
