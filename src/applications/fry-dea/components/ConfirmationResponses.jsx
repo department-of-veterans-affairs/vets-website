@@ -180,11 +180,9 @@ export function Approved(name) {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <va-icon
-                //  className="fa fa-download vads-u-margin-right--1"
-                icon="file_download"
-                size={3}
-              />
+              <span className="vads-u-margin-right--1">
+                <va-icon icon="file_download" size={3} />
+              </span>
               <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
                 Download your decision letter (PDF)
               </span>
@@ -295,11 +293,9 @@ export function NotEligible(name) {
               rel="noopener noreferrer"
               target="_blank"
             >
-              <va-icon
-                //  className="fa fa-download vads-u-margin-right--1"
-                icon="file_download"
-                size={3}
-              />
+              <span className="vads-u-margin-right--1">
+                <va-icon icon="file_download" size={3} />
+              </span>
               <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
                 Download your decision letter (PDF)
               </span>

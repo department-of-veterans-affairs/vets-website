@@ -42,11 +42,9 @@ export const HasLetters = ({ claimStatus, showMebLettersMaintenanceAlert }) => {
         <p>You applied for benefits on {receivedDate()}</p>
         <div>
           <a className="vads-u-flex--1" download href={LETTER_ENDPOINT}>
-            <va-icon
-              //  className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
-              icon="file_download"
-              size={3}
-            />
+            <span className="vads-u-display--inline-block vads-u-margin-right--1">
+              <va-icon icon="file_download" size={3} />
+            </span>
             Download your education decision letter (PDF)
           </a>
         </div>
