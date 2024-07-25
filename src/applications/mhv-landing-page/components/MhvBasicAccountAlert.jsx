@@ -73,9 +73,9 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
             Then, <b>ID.me</b> will help you finish creating your account.
           </li>
           <li>
-            Come back to VA.gov and sign in with your <b>ID.me</b> account.
-            We’ll help you verify your identity and register your account to
-            access My HealtheVet on VA.gov.
+            Come back to <b>VA.gov</b> and sign in with your <b>ID.me</b>{' '}
+            account. We’ll help you verify your identity and register your
+            account to access My HealtheVet on VA.gov.
           </li>
         </ul>
         <div className="vads-u-margin-top--2">
