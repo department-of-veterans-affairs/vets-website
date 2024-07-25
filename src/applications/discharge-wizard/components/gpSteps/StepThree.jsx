@@ -125,8 +125,13 @@ const StepThree = ({ formValues }) => {
     }
   };
 
+  const headerText =
+    boardToSubmit.abbr === 'AFDRB'
+      ? 'Submit your completed application form and all supporting documents online or by mail'
+      : 'Mail your completed form and all supporting materials';
+
   return (
-    <va-process-list-item header="Submit your completed application form and all supporting documents online or by mail">
+    <va-process-list-item header={headerText}>
       <p>
         There are a number of different boards that handle discharge upgrades
         and corrections. Based on your answers on the previous page, you need to
