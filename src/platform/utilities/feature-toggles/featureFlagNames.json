@@ -116,6 +116,7 @@
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
+  "mhvSecureMessagingEditContactList": "mhv_secure_messaging_edit_contact_list",
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
   "mhvMedicalRecordsDisplayConditions": "mhv_medical_records_display_conditions",
   "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
