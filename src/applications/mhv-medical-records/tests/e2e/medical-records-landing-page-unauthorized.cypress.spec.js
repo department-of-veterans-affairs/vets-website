@@ -8,11 +8,12 @@ let site;
 describe('Medical Records Landing Page', () => {
   beforeEach(() => {
     cy.intercept('/health-care/get-medical-records', cy.spy().as('staticPage'));
-    cy.intercept('/my-health', cy.spy().as('myHealthPath')).as('redirect');
+    cy.intercept('/my-health', cy.spy().as('myHealthPath'));
     site = new MedicalRecordsSite();
   });
 
   describe('as a user without an associated MHV account', () => {
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('redirects to /my-health to render an alert', () => {
       site.login(mockNonMhvUser);
       site.loadPage();
@@ -22,6 +23,7 @@ describe('Medical Records Landing Page', () => {
   });
 
   describe('as an unauthorized user', () => {
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('redirects to the /health-care/get-medical-records static page', () => {
       site.login(mockNonMrUser);
       site.loadPage();
