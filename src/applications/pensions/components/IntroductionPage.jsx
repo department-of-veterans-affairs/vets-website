@@ -39,11 +39,12 @@ const IntroductionPage = props => {
         <strong>Note:</strong> A Veterans Pension is different from a military
         retirement pension.
       </p>
+      {/* Add href when content has this page ready */}
       <va-link href="" text="Learn about the different types of pensions" />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p className="vads-u-margin-y--1">
             Check our eligibility requirements before you apply. If you think
@@ -109,7 +110,7 @@ const IntroductionPage = props => {
                 Request for Approval of School Attendance (
                 <va-link
                   href="https://www.va.gov/find-forms/about-form-21-674/"
-                  text="VA Form 21-2674"
+                  text="VA Form 21-674"
                 />
                 )
               </li>
@@ -125,7 +126,7 @@ const IntroductionPage = props => {
             </ul>
             <p>
               And we’ll tell you the additional evidence you’ll need to submit
-              depending your situation.
+              depending on your situation.
             </p>
           </va-additional-info>
         </va-process-list-item>
@@ -227,7 +228,7 @@ const IntroductionPage = props => {
               )
             </li>
             <li>
-              Claim for Medicare Nursing Home and/por $90.00 Rate Reduction
+              Claim for Medicare Nursing Home and/or $90.00 Rate Reduction
               Request (
               <a
                 href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
