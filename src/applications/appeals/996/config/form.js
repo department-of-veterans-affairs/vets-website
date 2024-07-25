@@ -36,6 +36,8 @@ import {
   showNewHlrContent,
   hideNewHlrContent,
   onFormLoaded,
+  showConferenceVeteranPage,
+  showConferenceRepPages,
 } from '../utils/helpers';
 import { homelessPageTitle } from '../content/homeless';
 import NeedHelp from '../content/NeedHelp';
@@ -49,7 +51,7 @@ import reviewErrors from '../../shared/content/reviewErrors';
 import {
   focusRadioH3,
   focusH3,
-  focusHomelessHeader,
+  focusToggledHeader,
   focusOnAlert,
 } from '../../shared/utils/focus';
 
@@ -145,7 +147,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusHomelessHeader, // focusH3,
+          scrollAndFocusTarget: focusToggledHeader, // focusH3,
         },
         ...contactInfo,
       },
@@ -231,7 +233,7 @@ const formConfig = {
           // migration code returns the Veteran to the contact info page
           path: 'informal-conference/representative-info',
           title: 'Representative’s information',
-          depends: formData => formData?.informalConference === 'rep',
+          depends: showConferenceRepPages,
           uiSchema: informalConferenceRepV2.uiSchema,
           schema: informalConferenceRepV2.schema,
           scrollAndFocusTarget: focusH3,
@@ -239,7 +241,7 @@ const formConfig = {
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference === 'me',
+          depends: showConferenceVeteranPage,
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
           scrollAndFocusTarget: focusH3,
@@ -247,7 +249,7 @@ const formConfig = {
         conferenceTimeRep: {
           path: 'informal-conference/conference-rep-availability',
           title: 'Scheduling availability',
-          depends: formData => formData?.informalConference === 'rep',
+          depends: showConferenceRepPages,
           uiSchema: informalConferenceTimeRep.uiSchema,
           schema: informalConferenceTimeRep.schema,
           scrollAndFocusTarget: focusH3,
