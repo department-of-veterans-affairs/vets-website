@@ -35,7 +35,6 @@ export default function ValidateDisplay({
 
   useEffect(
     () => {
-      setDobError(false);
       if (lastNameError) {
         const nestedShadowElement = document
           .getElementById('last-name-input')
@@ -54,6 +53,7 @@ export default function ValidateDisplay({
           focusElement(firstError.shadowRoot.getElementById('inputField'));
         }
       }
+      setDobError(false);
     },
     [lastNameError, dobError, setDobError],
   );
@@ -74,15 +74,15 @@ export default function ValidateDisplay({
     if (e.key === 'Enter') {
       e.preventDefault();
       // doing this to trigger validation within the webcomponent on enter
-      if (e.target.name === 'date-of-birth') {
-        const nestedShadowElement = e.target.shadowRoot.activeElement.shadowRoot.getElementById(
-          'inputField',
-        );
-        focusElement(document.getElementById('check-in-button'));
-        setTimeout(() => {
-          nestedShadowElement.focus();
-        }, 1);
-      }
+      // if (e.target.name === 'date-of-birth') {
+      //   const nestedShadowElement = e.target.shadowRoot.activeElement.shadowRoot.getElementById(
+      //     'inputField',
+      //   );
+      //   focusElement(document.getElementById('check-in-button'));
+      //   setTimeout(() => {
+      //     nestedShadowElement.focus();
+      //   }, 1);
+      // }
       validateHandler();
     }
   };
