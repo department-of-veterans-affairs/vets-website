@@ -4,9 +4,10 @@ import mockNonMRuser from '../fixtures/non_mr_user.json';
 class MedicalRecordsSite {
   login = (isMRUser = true) => {
     if (isMRUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.login(mockUser);
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+      // window.localStorage.setItem('isLoggedIn', true);
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
@@ -76,9 +77,10 @@ class MedicalRecordsSite {
       }).as('featureToggle');
       return;
     }
-    cy.login();
-    window.localStorage.setItem('isLoggedIn', true);
-    cy.intercept('GET', '/v0/user', mockNonMRuser).as('mockNonMRUser');
+    cy.login(mockNonMRuser);
+    // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+    // window.localStorage.setItem('isLoggedIn', true);
+    // cy.intercept('GET', '/v0/user', mockNonMRuser).as('mockNonMRUser');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -168,7 +170,7 @@ class MedicalRecordsSite {
 
   loadPageUnauthenticated = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@mockNonMRUser');
+    cy.wait('@mockUser');
   };
 
   loadPageAuthenticated = () => {
