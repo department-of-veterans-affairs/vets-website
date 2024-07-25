@@ -57,7 +57,7 @@ export function getTimezoneAbbrByFacilityId(id) {
   let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
 
   // Strip out middle char in abbreviation so we can ignore DST
-  if (matchingZone.includes('America')) {
+  if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
     abbreviation = stripDST(abbreviation);
   }
 
