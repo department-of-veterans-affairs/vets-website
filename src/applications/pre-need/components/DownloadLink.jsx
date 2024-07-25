@@ -25,11 +25,9 @@ const DownloadLink = ({
       type="application/pdf"
       onClick={handler.onClick}
     >
-      <va-icon
-        // className="fas fa-download vads-u-padding-right--1"
-        icon="file_download"
-        size={4}
-      />
+      <span className="vads-u-padding-right--1">
+        <va-icon icon="file_download" size={3} />
+      </span>
       {content}{' '}
       <dfn>
         (<abbr title="Portable Document Format">PDF</abbr>, 3 pages)
