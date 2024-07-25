@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import MicrobiologyDetailsPage from './pages/MicrobiologyDetailsPage';
-import microbio from './fixtures/microbio.json'; // comes from labsAndTests.entry[7]
+import microbio from './fixtures/labs-and-tests/microbio.json'; // comes from labsAndTests.entry[7]
 
 describe('Medical Records View Labs And Tests', () => {
   it('Visits Medical Records View Microbiology Details', () => {
