@@ -5,7 +5,10 @@ import {
   checkValidPagePath,
 } from 'platform/forms-system/src/js/routing';
 
-import { processContestableIssues } from '../../shared/utils/issues';
+import {
+  processContestableIssues,
+  isDisqualifyingIssue,
+} from '../../shared/utils/issues';
 import { parseDateToDateObj } from '../../shared/utils/dates';
 import '../../shared/definitions';
 import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
@@ -20,7 +23,7 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
 /**
  * Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
- * - remove issues that are deferred
+ * - remove issues that are disqualifying
  * @param {ContestableIssues} - Array of both eligible & ineligible contestable
  *  issues, plus legacy issues
  * @return {ContestableIssues} - filtered list
@@ -34,11 +37,12 @@ export const getEligibleContestableIssues = issues => {
       description = '',
     } = issue?.attributes || {};
 
-    const isDeferred = [ratingIssueSubjectText, description]
-      .join(' ')
-      .includes('deferred');
     const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
-    if (isDeferred || !isValid(date) || !ratingIssueSubjectText) {
+    if (
+      !ratingIssueSubjectText ||
+      isDisqualifyingIssue(ratingIssueSubjectText, description) ||
+      !isValid(date)
+    ) {
       return false;
     }
     return isAfter(addYears(date, 1), today);
