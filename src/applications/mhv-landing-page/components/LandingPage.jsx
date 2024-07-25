@@ -67,7 +67,10 @@ const LandingPage = ({
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
+          <HeaderLayout
+            showWelcomeMessage={showWelcomeMessage}
+            showLearnMore={registered}
+          />
           <LandingPageAlerts
             registered={registered}
             verified={verified}
