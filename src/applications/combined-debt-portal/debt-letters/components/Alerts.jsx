@@ -8,12 +8,12 @@ export const DownloadLettersAlert = () => (
     <h3 slot="headline">
       Downloadable letters have incorrect repayment plan terms
     </h3>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <p>
       We’re sorry. The length of time listed for repayment plans in these
       letters is too short. Use the letters you get in the mail to find the
       correct repayment plan terms.
     </p>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <p>
       If you have any questions, call us at{' '}
       <va-telephone contact={CONTACTS.DMC} /> (or{' '}
       <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
@@ -21,7 +21,7 @@ export const DownloadLettersAlert = () => (
       you have hearing loss, call TTY:{' '}
       <va-telephone contact={CONTACTS['711']} />.
     </p>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <p>
       We’re working to fix this problem as fast as we can. Check back soon for
       updates.
     </p>
@@ -32,25 +32,21 @@ export const DowntimeMessage = () => {
   return (
     <va-alert status="error">
       <h3 slot="headline">Nightly tool maintenance</h3>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         We’re working on this tool right now. If you have trouble signing in or
         using this tool, check back after we’re finished.
       </p>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         Please note that we’ll be doing maintenance at this time each night from
         12:30 a.m. to 3 a.m. ET. Thank you for your patience.
       </p>
 
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
-        Date: {moment().format('dddd, MMMM D, YYYY')}
-      </p>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
-        Start/End time: 12:30 a.m. to 3:00 a.m. ET
-      </p>
+      <p>Date: {moment().format('dddd, MMMM D, YYYY')}</p>
+      <p>Start/End time: 12:30 a.m. to 3:00 a.m. ET</p>
 
       <h4>What can you do</h4>
 
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         You can still
         <Link to="/debt-balances/letters" className="vads-u-margin-x--0p5">
           download your debt letters.

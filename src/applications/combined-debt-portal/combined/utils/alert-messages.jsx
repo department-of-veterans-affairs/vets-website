@@ -10,7 +10,7 @@ const alertMessage = (alertType, appType) => {
         header: `You don’t have any current VA debt or copay bills`,
         body: (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans">
+            <p>
               Our records show you don’t have any current VA benefit debt and
               you haven’t received a copay bill in the past 6 months.
             </p>
@@ -46,7 +46,7 @@ const alertMessage = (alertType, appType) => {
           <>
             {appType === APP_TYPES.DEBT ? (
               <>
-                <p className="vads-u-font-size--base vads-u-font-family--sans">
+                <p>
                   We’re sorry. Information about{' '}
                   {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you
                   might have is unavailable because something went wrong on our
@@ -106,7 +106,7 @@ const alertMessage = (alertType, appType) => {
         header: `We can’t access your debt and copay records right now`,
         body: (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans">
+            <p>
               We’re sorry. Information about debts and copays you might have is
               unavailable because something went wrong on our end. Please check
               back soon.
@@ -115,12 +115,19 @@ const alertMessage = (alertType, appType) => {
         ),
         secondHeader: `What you can do`,
         secondBody: (
-          <p className="vads-u-font-family--sans">
-            If you continue having trouble viewing information about your
-            current debts and bills, contact us online through{' '}
-            <a href="https://ask.va.gov">Ask VA</a>
-            ..
-          </p>
+          <>
+            <p className="vads-u-font-family--sans">
+              If you continue hav ing trouble viewing information about your
+              current debts and bills, contact us online through{' '}
+              <a href="https://ask.va.gov">Ask VA</a>.
+            </p>
+            <va-link
+              href="https://ask.va.gov"
+              active
+              text="Contact us at Ask VA"
+              class="vads-u-margin-top--2"
+            />
+          </>
         ),
       };
   }
