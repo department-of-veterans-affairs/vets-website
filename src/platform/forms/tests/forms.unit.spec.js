@@ -332,6 +332,10 @@ const extractKey = configFilePath => {
   return parts[parts.length - 3];
 };
 
+const formConfigFnParams = {
+  'form-upload': '/form-upload/21-0779/upload',
+};
+
 describe('form:', () => {
   // Find all config/form.js or config/form.jsx files within src/applications
   const configFiles = find.fileSync(
@@ -347,10 +351,8 @@ describe('form:', () => {
         import(configFilePath).then(({ default: formConfig }) => {
           if (typeof formConfig === 'function') {
             const key = extractKey(configFilePath);
-            if (key === 'form-upload') {
-              global.window.location.pathname = '/form-upload/21-0779/upload';
-            }
-            formConfig = formConfig(); // eslint-disable-line no-param-reassign
+            const options = formConfigFnParams[key];
+            formConfig = options ? formConfig(options) : formConfig(); // eslint-disable-line no-param-reassign
           }
 
           validStringProperty(formConfig, 'ariaDescribedBySubmit', false);

@@ -17,8 +17,8 @@ import {
   getFormContent,
 } from '../helpers';
 
-const formConfig = () => {
-  const { title, subTitle, formNumber } = getFormContent();
+const formConfig = (pathname = null) => {
+  const { title, subTitle, formNumber } = getFormContent(pathname);
 
   return {
     rootUrl: manifest.rootUrl,

@@ -6,8 +6,8 @@ import {
   ADD_CHILD_CONTENT_0779,
 } from '../config/constants';
 
-export const getFormNumber = () => {
-  const path = window?.location?.pathname || '';
+export const getFormNumber = (pathname = null) => {
+  const path = pathname || window?.location?.pathname;
   const regex = /\/(\d{2}-\d{4})/;
   return path.match(regex)?.[1] || '';
 };
@@ -20,8 +20,8 @@ const formMappings = {
   },
 };
 
-export const getFormContent = () => {
-  const formNumber = getFormNumber();
+export const getFormContent = (pathname = null) => {
+  const formNumber = getFormNumber(pathname);
   const {
     subTitle = '',
     childContent = null,
