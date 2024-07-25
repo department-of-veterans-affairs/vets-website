@@ -10,7 +10,6 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
-import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
@@ -19,14 +18,13 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
-import MhvRegistrationAlert from './MhvRegistrationAlert';
+import LandingPageAlerts from './LandingPageAlerts';
 import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
   hasMhvAccount,
 } from '../selectors';
-import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
@@ -69,16 +67,13 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             showWelcomeMessage={showWelcomeMessage}
             showLearnMore={userRegistered}
           />
-          {!userVerified && (
-            <IdentityNotVerified
-              headline={unVerifiedHeadline}
-              showHelpContent={false}
-              showVerifyIdenityHelpInfo
-              signInService={signInService}
-            />
-          )}
-          {userVerified && !userRegistered && <UnregisteredAlert />}
-          {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          <LandingPageAlerts
+            userVerified={userVerified}
+            userRegistered={userRegistered}
+            userHasMhvAccount={userHasMhvAccount}
+            unVerifiedHeadline={unVerifiedHeadline}
+            signInService={signInService}
+          />
           {userRegistered && <CardLayout data={cards} />}
         </div>
         {userRegistered && (
