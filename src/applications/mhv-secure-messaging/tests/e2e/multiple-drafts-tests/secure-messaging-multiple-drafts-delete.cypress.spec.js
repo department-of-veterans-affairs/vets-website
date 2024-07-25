@@ -7,8 +7,6 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 import { Alerts } from '../../../util/constants';
 
 describe('verify delete functionality of multiple drafts in one thread', () => {
-  const draftPage = new PatientMessageDraftsPage();
-
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
     mockMultiDraftsResponse,
   );
@@ -16,7 +14,7 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify user can delete recent draft', () => {
@@ -25,12 +23,12 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     );
     reducedMultiDraftResponse.data.splice(0, 1);
 
-    draftPage.clickDeleteButton();
-    draftPage.deleteMultipleDraft(
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
     );
-    draftPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -44,13 +42,15 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
 
     cy.get('[text="Edit draft 1"]').click();
 
-    draftPage.clickDeleteButton();
-    draftPage.deleteMultipleDraft(
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
       1,
     );
-    draftPage.verifyConfirmationMessage(Alerts.Message.DELETE_DRAFT_SUCCESS);
+    PatientMessageDraftsPage.verifyConfirmationMessage(
+      Alerts.Message.DELETE_DRAFT_SUCCESS,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -65,16 +65,19 @@ describe('verify delete functionality of multiple drafts in one thread', () => {
     const noDraftsResponse = Cypress._.cloneDeep(updatedMultiDraftResponse);
     noDraftsResponse.data.splice(0, 2);
 
-    draftPage.clickDeleteButton();
-    draftPage.deleteMultipleDraft(
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.deleteMultipleDraft(
       updatedMultiDraftResponse,
       reducedMultiDraftResponse,
     );
-    draftPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
 
-    draftPage.clickDeleteButton();
-    draftPage.deleteMultipleDraft(reducedMultiDraftResponse, noDraftsResponse);
-    draftPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.deleteMultipleDraft(
+      reducedMultiDraftResponse,
+      noDraftsResponse,
+    );
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
 
     cy.get(Locators.BUTTONS.DELETE_DRAFT).should('not.exist');
 

@@ -61,7 +61,7 @@ const HeaderLayout = ({
                 <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
               </div>
               <div className="vads-l-col-2 vads-u-margin-left--2 vads-u-margin-top--2">
-                <span className="usa-label vads-u-background-color--cool-blue">
+                <span className="usa-label vads-u-background-color--primary">
                   New
                 </span>
               </div>
