@@ -73,19 +73,10 @@ export default function ValidateDisplay({
   const handleEnter = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      // doing this to trigger validation within the webcomponent on enter
-      // if (e.target.name === 'date-of-birth') {
-      //   const nestedShadowElement = e.target.shadowRoot.activeElement.shadowRoot.getElementById(
-      //     'inputField',
-      //   );
-      //   focusElement(document.getElementById('check-in-button'));
-      //   setTimeout(() => {
-      //     nestedShadowElement.focus();
-      //   }, 1);
-      // }
       validateHandler();
     }
   };
+
   const handleFormSubmit = e => {
     e.preventDefault();
     validateHandler();
