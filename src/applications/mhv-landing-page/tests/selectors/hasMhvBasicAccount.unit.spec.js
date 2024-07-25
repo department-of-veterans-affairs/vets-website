@@ -3,12 +3,15 @@ import { hasMhvBasicAccount } from '../../selectors';
 import { appName } from '../../manifest.json';
 
 describe(`${appName} -- hasMhvBasicAccount`, () => {
-  it('returns true when user is LOA1 and has an MHV account', () => {
+  it('returns true when user is LOA1 and has a basic MHV account', () => {
     const state = {
       user: {
         profile: {
           loa: { current: 1 },
           mhvAccountState: 'OK',
+          signIn: {
+            serviceName: 'mhv',
+          },
         },
       },
     };
@@ -22,19 +25,9 @@ describe(`${appName} -- hasMhvBasicAccount`, () => {
         profile: {
           loa: { current: 3 },
           mhvAccountState: 'OK',
-        },
-      },
-    };
-    const result = hasMhvBasicAccount(state);
-    expect(result).to.be.false;
-  });
-
-  it('returns false when user does not have an MHV account', () => {
-    const state = {
-      user: {
-        profile: {
-          loa: { current: 1 },
-          mhvAccountState: 'NONE',
+          signIn: {
+            serviceName: 'idme',
+          },
         },
       },
     };

@@ -67,12 +67,14 @@ describe('LandingPage component', () => {
     );
   });
 
-  it('shows an alert when the user is loa1 and has mhvAccountState = OK', () => {
-    const initialState = stateFn({ loa: 1, mhvAccountState: 'OK' });
+  it('shows the MhvBasicAccountAlert', async () => {
+    const initialState = stateFn({ loa: 1, serviceName: 'mhv' });
     const { getByText } = setup({ initialState });
-    getByText(
-      'You need to sign in with a different account to access My HealtheVet',
-    );
+    await waitFor(() => {
+      getByText(
+        'You need to sign in with a different account to access My HealtheVet',
+      );
+    });
   });
 
   it('shows the VerifyAndRegisterAlert', async () => {
