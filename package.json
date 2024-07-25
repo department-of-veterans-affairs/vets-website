@@ -231,6 +231,7 @@
     "sass-lint": "^1.13.1",
     "sass-loader": "^8.0.2",
     "semver": "^7.3.5",
+    "shadow-dom-testing-library": "^1.11.2",
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
     "stylelint": "^13.13.1",
