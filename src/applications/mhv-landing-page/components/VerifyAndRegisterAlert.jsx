@@ -20,7 +20,7 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
           you can access My HealtheVet. These steps help us keep your health
           information safe and prevent fraud and identity theft.
         </p>
-        <ol className="custom-ordered-list">
+        <ul>
           <li>
             Verify your identity for your {serviceProviderLabel} account. This
             one-time process often takes about 10 minutes. You’ll need to
@@ -32,7 +32,7 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
             need to register before you can access your messages, medications,
             and medical records.
           </li>
-        </ol>
+        </ul>
         <p>
           <a href="/verify" className="vads-c-action-link--green">
             Verify your identity with {serviceProviderLabel}

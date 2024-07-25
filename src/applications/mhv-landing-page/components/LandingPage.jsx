@@ -18,6 +18,7 @@ import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import LandingPageAlerts from './LandingPageAlerts';
+import CardLayout from './CardLayout';
 import {
   isLOA3,
   isVAPatient,
@@ -76,9 +77,9 @@ const LandingPage = ({
             userHasMhvBasicAccount={userHasMhvBasicAccount}
             showsVerifyAndRegisterAlert={showsVerifyAndRegisterAlert}
             signInService={signInService}
-            cards={cards}
             unVerifiedHeadline={unVerifiedHeadline}
           />
+          {registered && <CardLayout data={cards} />}
         </div>
         {showHelpdeskInfo && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

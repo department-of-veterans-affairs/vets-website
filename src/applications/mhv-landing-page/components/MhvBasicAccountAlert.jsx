@@ -41,7 +41,7 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
         <p>
           <b>If you want to create a Login.gov account</b>, follow these steps:
         </p>
-        <ol className="custom-ordered-list">
+        <ul>
           <li>Sign out of VA.gov</li>
           <li>
             On the VA.gov homepage, select <b>Create an account</b>. Create a{' '}
@@ -52,13 +52,13 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
             account. We’ll help you verify your identity and register your
             account to access My HealtheVet on VA.gov.
           </li>
-        </ol>
+        </ul>
         <p>
           <b>If you want to create an ID.me account</b>, you should know that we
           started this process for you when you signed in to VA.gov. Follow
           these steps to finish creating your account:
         </p>
-        <ol className="custom-ordered-list">
+        <ul>
           <li>Sign out of VA.gov</li>
           <li>
             On the VA.gov homepage, select <b>Sign in</b>. Select <b>Sign in</b>{' '}
@@ -77,7 +77,7 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
             We’ll help you verify your identity and register your account to
             access My HealtheVet on VA.gov.
           </li>
-        </ol>
+        </ul>
         <div className="vads-u-margin-top--2">
           <va-button label="Sign out" onClick={signOut} text="Sign out" />
         </div>

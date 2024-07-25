@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import CardLayout from './CardLayout';
 import MhvRegistrationAlert from './MhvRegistrationAlert';
 import UnregisteredAlert from './UnregisteredAlert';
 import MhvBasicAccountAlert from './MhvBasicAccountAlert';
@@ -14,7 +13,6 @@ const LandingPageAlerts = ({
   userHasMhvBasicAccount,
   showsVerifyAndRegisterAlert,
   signInService,
-  cards,
   unVerifiedHeadline,
 }) => {
   const noCardsDisplay = verified ? (
@@ -31,7 +29,7 @@ const LandingPageAlerts = ({
   return (
     <>
       {registered && !userHasMhvAccount && <MhvRegistrationAlert />}
-      {registered ? <CardLayout data={cards} /> : noCardsDisplay}
+      {!registered && noCardsDisplay}
       {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
       {showsVerifyAndRegisterAlert && (
         <VerifyAndRegisterAlert cspId={signInService} />
@@ -41,7 +39,6 @@ const LandingPageAlerts = ({
 };
 
 LandingPageAlerts.propTypes = {
-  cards: PropTypes.array.isRequired,
   registered: PropTypes.bool.isRequired,
   showsVerifyAndRegisterAlert: PropTypes.bool.isRequired,
   signInService: PropTypes.string.isRequired,

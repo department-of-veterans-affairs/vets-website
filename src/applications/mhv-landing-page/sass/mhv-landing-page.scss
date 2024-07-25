@@ -109,11 +109,6 @@ $anchor-font-size: 1.25rem; // == 20px
   visibility: hidden;
 }
 
-.custom-ordered-list {
-  margin-left: 0px;
-  padding-left: 24px;
-}
-
 @media (max-width: $medium-screen) {
   .mhv-c-navlink {
     display: flex;
