@@ -4,12 +4,9 @@ import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: 'Your form has been submitted and is pending processing',
+  headlineText: "You've submitted your form",
   nextStepsText: (
-    <p>
-      Right now your form is pending processing. We’ll review your submission
-      and contact you if we have any questions.
-    </p>
+    <p>We’ll review your form and contact you if we need more information.</p>
   ),
 };
 
