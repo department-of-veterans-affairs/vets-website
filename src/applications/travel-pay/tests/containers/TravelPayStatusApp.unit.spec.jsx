@@ -273,6 +273,7 @@ describe('App', () => {
 
       const orderedStatuses = [
         'On Hold',
+        'Denied',
         'In Manual Review',
         'Appealed',
         'Claim Submitted',
@@ -296,6 +297,119 @@ describe('App', () => {
     userEvent.click($('va-button[text="Apply filters"]'));
 
     expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
+  });
+
+  it('Orders status filters correctly when claims only have a subset of "top" statuses', async () => {
+    global.fetch.restore();
+    const topStatusesSubset = travelClaims.data.filter(
+      claim =>
+        claim.claimStatus === 'On Hold' ||
+        claim.claimStatus === 'In Manual Review',
+    );
+    mockApiRequest({ data: topStatusesSubset });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const statusFilters = screen.getAllByTestId(/status-filter_/);
+      const filterNames = statusFilters.map(filter => filter.name);
+
+      const orderedStatuses = ['On Hold', 'In Manual Review'];
+      expect(filterNames).to.eql(orderedStatuses);
+    });
+  });
+  it('Orders status filters correctly when claims have no "top" statuses', async () => {
+    global.fetch.restore();
+    const nonTopStatuses = travelClaims.data.filter(
+      claim =>
+        !['On Hold', 'Denied', 'In Manual Review'].includes(claim.claimStatus),
+    );
+    mockApiRequest({ data: nonTopStatuses });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const statusFilters = screen.getAllByTestId(/status-filter_/);
+      const filterNames = statusFilters.map(filter => filter.name);
+
+      const orderedStatuses = [
+        'Appealed',
+        'Claim Submitted',
+        'Closed',
+        'In Process',
+        'Incomplete',
+        'Saved',
+      ];
+      expect(filterNames).to.eql(orderedStatuses);
+    });
+  });
+  it('Orders status filters correctly when claims have a subset of top statuses and non-top statuses', async () => {
+    global.fetch.restore();
+    const topStatusesSubset = travelClaims.data.filter(
+      claim =>
+        claim.claimStatus === 'On Hold' ||
+        claim.claimStatus === 'In Manual Review' ||
+        claim.claimStatus === 'Closed' ||
+        claim.claimStatus === 'Saved',
+    );
+    mockApiRequest({ data: topStatusesSubset });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const statusFilters = screen.getAllByTestId(/status-filter_/);
+      const filterNames = statusFilters.map(filter => filter.name);
+
+      const orderedStatuses = [
+        'On Hold',
+        'In Manual Review',
+        'Closed',
+        'Saved',
+      ];
+      expect(filterNames).to.eql(orderedStatuses);
+    });
   });
 
   it('filters by date range', async () => {
