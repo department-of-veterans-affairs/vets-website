@@ -15,6 +15,8 @@ export const getAppData = state => ({
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   openModal: state?.data?.openModal,
+
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
   savedForms: state?.user?.profile?.savedForms,
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements: !!toggleValues(state)[

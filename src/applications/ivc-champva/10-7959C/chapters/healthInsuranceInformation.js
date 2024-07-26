@@ -426,13 +426,14 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
             )} health insurance?`,
           };
         },
+        charcount: true,
       }),
     },
     schema: {
       type: 'object',
       properties: {
         titleSchema,
-        [keyname]: { type: 'string' },
+        [keyname]: { type: 'string', maxLength: 200 },
       },
     },
   };
@@ -454,10 +455,6 @@ export function applicantInsuranceCardSchema(isPrimary) {
             <>
               You’ll need to submit a copy of the front and back of this health
               insurance card.
-              <br />
-              <br />
-              You can also upload any other supporting documents you may have
-              for this health insurance.
               <br />
               <br />
               If you don’t have a copy to upload now, you can send it by mail or

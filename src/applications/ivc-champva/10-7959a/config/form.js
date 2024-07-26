@@ -33,7 +33,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -213,7 +213,7 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimIsWorkRelated', formData),
+          depends: formData => get('claimType', formData) === 'medical',
           ...medicalClaimUploadSchema,
         },
         page8: {
@@ -237,7 +237,8 @@ const formConfig = {
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
-            get('policies', formData).length > 1,
+            get('policies', formData) &&
+            formData?.policies?.length > 1,
           ...eobUploadSchema(false),
         },
         page10: {

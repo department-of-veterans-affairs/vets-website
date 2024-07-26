@@ -71,8 +71,8 @@ const OnThisPageLinks = ({
             How do I pay my VA debt?
           </a>
           <a
-            href="#howDoIGetHelp"
-            data-testid="howto-help-jumplink"
+            href="#needHelp"
+            data-testid="needHelp-jumplink"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
@@ -80,19 +80,7 @@ const OnThisPageLinks = ({
               aria-hidden="true"
               class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
-            How do I get financial help?
-          </a>
-          <a
-            href="#howDoIDispute"
-            data-testid="howto-dispute-jumplink"
-            className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
-          >
-            <va-icon
-              icon="arrow_downward"
-              aria-hidden="true"
-              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
-            />
-            How do I dispute a debt?
+            Need help?
           </a>
         </dd>
       </dl>

@@ -25,6 +25,7 @@ function ToeApp({
   getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
+  isLoggedIn,
   location,
   setFormData,
   sponsors,
@@ -211,12 +212,14 @@ function ToeApp({
         return;
       }
 
-      if (!fetchedDirectDeposit && lightHouseFlag) {
+      if (!fetchedDirectDeposit && lightHouseFlag && isLoggedIn && isLOA3) {
         setFetchedDirectDeposit(true);
         getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
     [
+      isLoggedIn,
+      isLOA3,
       fetchedDirectDeposit,
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
@@ -270,6 +273,7 @@ ToeApp.propTypes = {
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
