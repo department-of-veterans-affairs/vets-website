@@ -1,9 +1,5 @@
 import { apiRequestWithUrl } from '../utils';
 
-const acheronHeader = {
-  headers: { ACHERON_REQUESTS: 'true' },
-};
-
 export async function getPatientDetails(
   facilityId,
   clinicId,
@@ -15,14 +11,53 @@ export async function getPatientDetails(
       `/vaos/v2/wellhive/referralDetails?facilityId=${facilityId}&clinicId=${clinicId}&start=${startDate}&end=${endDate}`,
       {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...acheronHeader.headers,
-        },
       },
     );
 
     return response.patientDetails.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getReferralByReferralId(referralId) {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/referral/${referralId}`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderOrgs() {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/provider-organization`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderServices() {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/provider-services`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderServiceSlotById(providerServiceId) {
+  try {
+    return await apiRequestWithUrl(
+      `/vaos/v2/wellhive/provider-services/${providerServiceId}/slots`,
+      {
+        method: 'GET',
+      },
+    );
   } catch (error) {
     return null;
   }

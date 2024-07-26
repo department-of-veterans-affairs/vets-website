@@ -600,7 +600,7 @@ const responses = {
     res,
   ) => {
     return res.json({
-      data: providerSlots.slots.find(
+      data: providerSlots.slots.filter(
         slots => slots?.providerServiceId === req.params.providerServiceId,
       ),
     });
