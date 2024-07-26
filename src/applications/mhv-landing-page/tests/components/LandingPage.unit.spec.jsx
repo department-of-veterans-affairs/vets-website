@@ -26,6 +26,7 @@ const stateFn = ({
       loa: { current: loa },
       signIn: { serviceName },
       vaPatient,
+      mhvAccountState: 'OK',
     },
   },
 });

@@ -24,9 +24,15 @@ import {
   isVAPatient,
   personalizationEnabled,
   hasMhvAccount,
+  hasMhvBasicAccount,
+  showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
 } from '../selectors';
 
-const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+const LandingPage = ({
+  data = {},
+  recordEvent = recordEventFn,
+  showVerifyAndRegisterAlert = showVerifyAndRegisterAlertFn,
+}) => {
   const { cards = [], hubs = [] } = data;
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
@@ -34,6 +40,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
+  const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
+  const showsVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
@@ -73,6 +81,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             userHasMhvAccount={userHasMhvAccount}
             unVerifiedHeadline={unVerifiedHeadline}
             signInService={signInService}
+            userHasMhvBasicAccount={userHasMhvBasicAccount}
+            showsVerifyAndRegisterAlert={showsVerifyAndRegisterAlert}
           />
           {userRegistered && <CardLayout data={cards} />}
         </div>
@@ -95,6 +105,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 LandingPage.propTypes = {
   data: PropTypes.object,
   recordEvent: PropTypes.func,
+  showVerifyAndRegisterAlert: PropTypes.func,
 };
 
 export default LandingPage;
