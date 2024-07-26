@@ -32,7 +32,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
       <h1>{H1}</h1>
       <div className="medium-8">
         <ResultsSummary formResponses={formResponses} />
-        <CarefulConsiderationStatement formResponsese={formResponses} />
+        <CarefulConsiderationStatement formResponses={formResponses} />
       </div>
     </article>
   );
