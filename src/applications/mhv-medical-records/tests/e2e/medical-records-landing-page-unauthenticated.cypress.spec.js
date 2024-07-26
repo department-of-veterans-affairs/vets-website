@@ -7,13 +7,14 @@ describe('Medical Records Landing Page', () => {
 
   describe('as an unauthenticated user', () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('redirects the user to /?next=* to prompt to sign in', () => {
+    it('redirects the user to /?next=* and prompts to sign in', () => {
       const site = new MedicalRecordsSite();
       site.mockFeatureToggles();
       site.mockVamcEhr();
       cy.visit('/my-health/medical-records/');
       cy.wait(['@featureToggles', '@vamcEhr', '@redirect']);
       cy.get('@rootPath').should('have.been.called');
+      // The next line passes locally, but doesn't pass in CI
       // cy.findByRole('heading', { level: 1, name: 'Sign in' });
     });
   });
