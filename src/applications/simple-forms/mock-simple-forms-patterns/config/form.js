@@ -36,6 +36,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
+import ConfirmationPageV2 from '../../form-upload/containers/ConfirmationPageV2';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -249,6 +250,14 @@ const formConfig = {
           path: 'mock-custom-page',
           title: 'Mock Custom Page', // for review page (has to be more than one word)
           CustomPage: MockCustomPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          depends: includeChapter('miscellaneous'),
+        },
+        confirmationPagev2: {
+          path: 'confirmation-page-v2',
+          title: 'Confirmation Page V2',
+          CustomPage: ConfirmationPageV2,
           uiSchema: mockCustomPage.uiSchema,
           schema: mockCustomPage.schema,
           depends: includeChapter('miscellaneous'),

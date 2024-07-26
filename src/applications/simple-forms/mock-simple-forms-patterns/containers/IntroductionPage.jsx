@@ -69,6 +69,9 @@ class IntroductionPage extends React.Component {
               <Link to="/mock-custom-page">CustomPage</Link>
             </li>
             <li>
+              <Link to="/confirmation-page-v2">Confirmation Page V2</Link>
+            </li>
+            <li>
               <Link to="/select">Select</Link>
             </li>
             <li>
