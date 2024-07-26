@@ -10,10 +10,7 @@ export const marriageTypeInformation = (
       or if you don’t live in the U.S. or a territory of the U.S., we require
       additional evidence to establish a spouse.
     </p>
-    <va-additional-info
-      trigger="Additional evidence needed to add spouse"
-      uswds="false"
-    >
+    <va-additional-info trigger="Additional evidence needed to add spouse">
       <p>
         Examples of additional information includes a copy of the public record,
         or a copy of the church record that shows:
