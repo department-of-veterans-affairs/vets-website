@@ -290,13 +290,13 @@ export function transformVAOSAppointment(appt) {
       purpose.serviceName === (coding?.[0]?.code || coding) ||
       purpose.commentShort === (coding?.[0]?.code || coding),
   )?.short;
-  const text = appt.reasonCode ? appt.patientComments : null;
-  if (coding && code && text) {
-    comment = `${code}: ${text}`;
+  const patientComments = appt.reasonCode ? appt.patientComments : null;
+  if (coding && code && patientComments) {
+    comment = `${code}: ${patientComments}`;
   } else if (coding && code) {
     comment = code;
   } else {
-    comment = text;
+    comment = patientComments;
   }
   return {
     resourceType: 'Appointment',
