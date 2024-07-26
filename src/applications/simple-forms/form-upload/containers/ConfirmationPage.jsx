@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
 const content = {
-  headlineText: "You've submitted your form",
+  headlineText: 'You’ve submitted your form',
   nextStepsText: (
     <p>We’ll review your form and contact you if we need more information.</p>
   ),
