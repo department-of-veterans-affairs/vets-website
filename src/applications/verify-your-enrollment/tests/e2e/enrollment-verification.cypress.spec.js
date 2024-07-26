@@ -11,7 +11,11 @@ describe('Enrollment Verification Page Tests', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
-        features: [{ name: 'toggle_vye_application', value: true }],
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+        ],
       },
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
