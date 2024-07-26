@@ -134,6 +134,7 @@ const AuthApp = ({ location }) => {
         event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
       });
     } else {
+      // Matches - requestToken exchange
       try {
         await requestToken({ code: authCode, csp });
       } catch (error) {
