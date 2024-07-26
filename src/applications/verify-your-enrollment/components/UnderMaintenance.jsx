@@ -17,13 +17,14 @@ const UnderMaintenance = () => {
           System Maintenance
         </h2>
         <p>
-          We are currently updating the MGIB enrollments platform from July 31st
-          to August 5th. In the meantime you can use{' '}
+          We are currently updating the Montgomery GI Bill enrollment
+          verification application from July 29th to August 5th. In the
+          meantime, you can use the{' '}
           <VaLink
-            text="wave appliction"
+            text="WAVE appliction"
             href="https://gibill.va.gov/wave/index.do"
           />{' '}
-          to verify your enrollment. We apologize for any inconvenience this may
+          to verify your enrollment. We’re sorry for any inconvenience this may
           cause.{' '}
         </p>
       </VaAlert>

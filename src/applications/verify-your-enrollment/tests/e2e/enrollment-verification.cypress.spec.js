@@ -208,7 +208,10 @@ describe('Enrollment Verification Page Tests', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'toggle_vye_application', value: false }],
+        features: [
+          { name: 'toggle_vye_application', value: false },
+          { name: 'mgib_verifications_maintenance', value: true },
+        ],
       },
     });
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/');

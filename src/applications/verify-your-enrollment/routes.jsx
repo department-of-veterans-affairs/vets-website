@@ -4,7 +4,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
-// import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useSelector } from 'react-redux';
 import { isLOA1 } from '~/platform/user/selectors';
 import {
@@ -25,6 +25,10 @@ const IsUserLoggedIn = () => {
   const response = useSelector(state => state.personalInfo);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
+  const mgibVerificationsMaintenance = useToggleValue(
+    TOGGLE_NAMES?.mgibVerificationsMaintenance,
+  );
+
   const serverError = response?.error?.errors
     ? response?.error?.errors[0]
     : response?.error;
@@ -60,11 +64,13 @@ const IsUserLoggedIn = () => {
   if (isUserLOA1) {
     return <IdentityVerificationAlert />;
   }
-  if (toggleValue === undefined && !window.isProduction) {
+  if (toggleValue === undefined) {
     return <Loader />;
   }
-
-  return toggleValue || window.isProduction ? (
+  if (mgibVerificationsMaintenance) {
+    return <UnderMaintenance />;
+  }
+  return toggleValue ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
@@ -73,8 +79,8 @@ const IsUserLoggedIn = () => {
     </RequiredLoginView>
   ) : (
     <div className="not-found">
-      {/* <PageNotFound /> */}
-      <UnderMaintenance />
+      <PageNotFound />
+      {/* <UnderMaintenance /> */}
     </div>
   );
 };
