@@ -9,14 +9,13 @@ describe('Enrollment Verification Page Tests', () => {
       statusCode: 200,
       body: UPDATED_USER_MOCK_DATA,
     });
-    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        features: [{ name: 'toggle_vye_application', value: true }],
       },
     });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
   });
 
   it('should display the enrollment verification breadcrumbs', () => {
@@ -201,12 +200,21 @@ describe('Enrollment Verification Page Tests', () => {
   it('should show not verified Alert if user is not verified', () => {
     cy.injectAxeThenAxeCheck();
     cy.login(notVerifiedUser);
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
+  });
+  it('should show Maintenance Alet if toggle is off', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{ name: 'toggle_vye_application', value: false }],
       },
     });
-    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.get('h2[id="maintenance-alert"]').should(
+      'contain',
+      'System Maintenance',
+    );
   });
 });

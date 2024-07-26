@@ -267,5 +267,7 @@
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "toggleVyeApplication": "toggle_vye_application",
   "militaryBenefitEstimates": "military_benefit_estimates",
-  "merge1995And5490": "merge_1995_and_5490"
+  "merge1995And5490": "merge_1995_and_5490",
+  "mgibMaintenance": "mgib_maintenance"
+  
 }

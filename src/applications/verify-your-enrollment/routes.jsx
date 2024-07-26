@@ -4,7 +4,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+// import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useSelector } from 'react-redux';
 import { isLOA1 } from '~/platform/user/selectors';
 import {
@@ -17,6 +17,7 @@ import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
 import IdentityVerificationAlert from './components/IdentityVerificationAlert';
+import UnderMaintenance from './components/UnderMaintenance';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
@@ -72,7 +73,8 @@ const IsUserLoggedIn = () => {
     </RequiredLoginView>
   ) : (
     <div className="not-found">
-      <PageNotFound />
+      {/* <PageNotFound /> */}
+      <UnderMaintenance />
     </div>
   );
 };
