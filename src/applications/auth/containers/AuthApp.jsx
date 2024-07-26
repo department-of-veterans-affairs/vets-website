@@ -59,7 +59,7 @@ const AuthApp = ({ location }) => {
   );
   const [auth, setAuth] = useState(location.query.auth || 'fail');
   const [errorCode, setErrorCode] = useState(location.query.code || '');
-  const [state, setState] = useState(location.query.state || '');
+  const [state] = useState(location.query.state || '');
   const [requestId] = useState(
     location.query.request_id || 'No corresponding Request ID was found',
   );
@@ -116,7 +116,6 @@ const AuthApp = ({ location }) => {
     setErrorCode(detailedErrorCode);
     setAuth(AUTH_LEVEL.FAIL);
     setHasError(true);
-    setState(state);
   };
 
   const handleTokenRequest = async ({
