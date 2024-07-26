@@ -12,7 +12,7 @@ const content = {
   ),
 };
 
-const ConfirmationPageV2 = () => {
+const ConfirmationPage = () => {
   const form = {
     data: { veteran: { fullName: { first: 'John', last: 'Veteran' } } },
     submission: {
@@ -36,7 +36,7 @@ const ConfirmationPageV2 = () => {
   );
 };
 
-ConfirmationPageV2.propTypes = {
+ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       veteran: PropTypes.shape({
@@ -56,4 +56,4 @@ ConfirmationPageV2.propTypes = {
   }),
 };
 
-export default ConfirmationPageV2;
+export default ConfirmationPage;

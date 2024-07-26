@@ -69,9 +69,6 @@ class IntroductionPage extends React.Component {
               <Link to="/mock-custom-page">CustomPage</Link>
             </li>
             <li>
-              <Link to="/confirmation-page-v2">Confirmation Page V2</Link>
-            </li>
-            <li>
               <Link to="/select">Select</Link>
             </li>
             <li>
@@ -100,6 +97,14 @@ class IntroductionPage extends React.Component {
               <Link to="/array-multiple-page-builder-choose-flow">
                 Array - multiple page - builder pattern
               </Link>
+            </li>
+          </ul>
+        </div>
+        <div className="vads-u-margin-bottom--4">
+          <h3>Additional Pages</h3>
+          <ul>
+            <li>
+              <Link to="/confirmation-page-new">New Confirmation Page</Link>
             </li>
           </ul>
         </div>

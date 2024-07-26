@@ -325,7 +325,7 @@ RoutedSavableApp.propTypes = {
   }),
   FormApp: PropTypes.any,
   formConfig: PropTypes.shape({
-    additionalRoutes: PropTypes.object,
+    additionalRoutes: PropTypes.array,
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
