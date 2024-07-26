@@ -1,26 +1,26 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
-import mockFolders from './fixtures/generalResponses/folders.json';
+import mockFolders from './fixtures/folder-response.json';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT, Locators } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('remove folder error modal', () => {
-  const site = new SecureMessagingSite();
   const folderName =
     mockFolders.data[mockFolders.data.length - 1].attributes.name;
   const { folderId } = mockFolders.data[mockFolders.data.length - 1].attributes;
 
   before(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList(mockFolders);
+    FolderLoadPage.loadFolders();
   });
 
   it('verify modal message', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    // cy.pause();
+
     PatientMessageCustomFolderPage.loadSingleFolderWithMessages(
       folderId,
       folderName,

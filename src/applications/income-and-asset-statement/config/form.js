@@ -6,8 +6,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { submit } from './submit';
-import applicantInformation from './chapters/01-applicant-information';
+import veteranInformation from './chapters/01-veteran-information';
 import claimantInformation from './chapters/02-claimant-information';
+import unassociatedIncomes from './chapters/03-unassociated-incomes';
+import associatedIncomes from './chapters/04-associated-incomes';
+import ownedAssets from './chapters/05-owned-assets';
 
 // const { } = fullSchema.properties;
 
@@ -16,6 +19,7 @@ import claimantInformation from './chapters/02-claimant-information';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submitUrl: 'form0969',
   submit,
   trackingPrefix: 'income-and-asset-statement-',
   v3SegmentedProgressBar: true,
@@ -47,8 +51,11 @@ const formConfig = {
   title: '21P-0969 Income and Asset Statement Form',
   defaultDefinitions: {},
   chapters: {
-    applicantInformation,
+    veteranInformation,
     claimantInformation,
+    unassociatedIncomes,
+    associatedIncomes,
+    ownedAssets,
   },
 };
 

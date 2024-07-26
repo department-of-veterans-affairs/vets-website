@@ -6,15 +6,16 @@ import { ROUTES } from '../../../../constants';
 // Agent Orange 2.2.A - No
 // Agent Orange 2.2.1.A - No
 // Agent Orange 2.2.2 - No
-// Agent Orange 2.2.3 - No
-// Radiation 2.3 - No
-// Camp Lejeune 2.4 - Yes
-// Results 2
+// Agent Orange 2.2.3 - Yes
+// Radiation 2.3.A - No
+// Camp Lejeune 2.4 - No
+// Main Flow 2.5 - No
+// Results 1
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe('1989 or earlier - "No" to all questions except 1 Camp Lejeune (Results Screen 2)', () => {
+  describe('1989 or earlier - "Yes" to 1 Agent Orange (Results page 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -45,7 +46,7 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_3
       h.verifyUrl(ROUTES.ORANGE_2_2_3);
-      h.selectRadio(h.ORANGE_2_2_3_INPUT, 1);
+      h.selectRadio(h.ORANGE_2_2_3_INPUT, 0);
       h.clickContinue();
 
       // RADIATION_2_3_A
@@ -55,13 +56,31 @@ describe('PACT Act', () => {
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
-      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 1);
       h.clickContinue();
 
-      // RESULTS 2
-      h.verifyUrl(ROUTES.RESULTS_2);
-      h.verifyElement(h.RESULTS_2_HEADER);
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 1);
+      h.clickContinue();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_1);
+      h.verifyElement(h.RESULTS_1_1_HEADER);
+      h.clickResultsContinue();
+
+      // RESULTS 1, P2
+      h.verifyUrl(ROUTES.RESULTS_1_2);
+      h.verifyElement(h.RESULTS_1_2_HEADER);
       h.clickResultsBack();
+
+      // RESULTS 1, P1
+      h.verifyUrl(ROUTES.RESULTS_1_1);
+      h.clickResultsBack();
+
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);

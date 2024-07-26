@@ -10,8 +10,12 @@ import {
 export const API_VERSION = 'v1';
 export const FORCE_NEEDED = 'force-needed';
 
-export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
-  `${environment.API_URL}/${version}/sessions/${type}/new`;
+export const API_SESSION_URL = ({ version = API_VERSION, type = null }) => {
+  if (!type) {
+    throw new Error('Attempted to call API_SESSION_URL without a type');
+  }
+  return `${environment.API_URL}/${version}/sessions/${type}/new`;
+};
 
 export const AUTH_EVENTS = {
   MOCK_LOGIN: 'mock-login-link-clicked-modal',

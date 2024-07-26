@@ -2,11 +2,12 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
+import MockDate from 'mockdate';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
-import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import reducer from '../../redux/reducer';
@@ -40,6 +41,7 @@ describe('App', () => {
 
   const aprDate = '2024-04-22T16:45:34.465Z';
   const febDate = '2024-02-22T16:45:34.465Z';
+  const previousYearDate = '2023-09-21T17:11:43.034Z';
 
   beforeEach(() => {
     oldLocation = global.window.location;
@@ -53,7 +55,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'IN_PROCESS',
+          claimStatus: 'In Process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -64,20 +66,33 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132ig',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'IN_PROCESS',
+          claimStatus: 'Incomplete',
           appointmentDateTime: febDate,
           appointmentName: 'older',
           appointmentLocation: 'Cheyenne VA Medical Center',
           createdOn: '2024-02-22T21:22:34.465Z',
           modifiedOn: '2024-02-23T16:44:34.465Z',
         },
+        {
+          id: '6cecf332-65af-4495-b18e-7fd28ccb546a',
+          claimNumber: '39b7b38f-b7cf-4d19-91cf-fb5360c0b8b8',
+          claimName: '3583ec0e-34e0-4cf5-99d6-78930c2be969',
+          claimStatus: 'Saved',
+          appointmentDateTime: previousYearDate,
+          appointmentName: 'Medical imaging',
+          appointmentLocation: 'Tomah VA Medical Center',
+          createdOn: '2023-09-22T17:11:43.034Z',
+          modifiedOn: '2023-09-27T17:11:43.034Z',
+        },
       ],
     };
     mockApiRequest(mockTravelClaims);
+    MockDate.set('2024-06-25');
   });
 
   afterEach(() => {
     global.window.location = oldLocation;
+    MockDate.reset();
   });
 
   it('should redirect if feature flag is off', async () => {
@@ -135,7 +150,7 @@ describe('App', () => {
 
   it('handles a failed fetch of claims', async () => {
     global.fetch.restore();
-    mockApiRequest({ error: 'oh no' }, false);
+    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
@@ -200,13 +215,18 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(febDate);
-      userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
+      const [date, time] = formatDateTime(previousYearDate);
+      userEvent.selectOptions(
+        screen.getByLabelText(
+          'Show appointments with travel claims in this order',
+        ),
+        ['oldest'],
+      );
       expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
 
-      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
@@ -214,16 +234,105 @@ describe('App', () => {
 
     await waitFor(() => {
       const [date, time] = formatDateTime(aprDate);
-      userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
+      userEvent.selectOptions(
+        screen.getByLabelText(
+          'Show appointments with travel claims in this order',
+        ),
+        ['mostRecent'],
+      );
       expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
 
-      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
     });
+  });
+
+  it('filters by status', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const statusFilters = document.querySelectorAll('va-checkbox');
+
+      // Only 3 unique statuses, so length should be 3
+      expect(statusFilters.length).to.eq(3);
+
+      const checkboxGroup = $('#status-checkboxes');
+      checkboxGroup.__events.vaChange({
+        target: {
+          name: 'Incomplete',
+          checked: true,
+        },
+      });
+    });
+
+    await userEvent.click(screen.getByTestId('status-filter_Incomplete'));
+    userEvent.click($('va-button[text="Apply filters"]'));
+
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
+  });
+
+  it('filters by date range', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(() => {
+      const [date, time] = formatDateTime(previousYearDate);
+
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const dateSelect = screen.getByTestId('claimsDates');
+      dateSelect.__events.vaSelect({
+        target: {
+          value: 'All of 2023',
+        },
+      });
+
+      userEvent.selectOptions(dateSelect, ['All of 2023']);
+
+      expect(screen.getByRole('option', { name: 'All of 2023' }).selected).to
+        .true;
+
+      userEvent.click(
+        document.querySelector('va-button[text="Apply filters"]'),
+      );
+
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[0].textContent,
+      ).to.eq(`${date} at ${time} appointment`);
+    });
+
+    fireEvent.click(document.querySelector('va-button[text="Reset search"]'));
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
   });
 
   it('renders pagination correctly', async () => {

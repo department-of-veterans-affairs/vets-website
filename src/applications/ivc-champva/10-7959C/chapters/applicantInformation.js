@@ -75,12 +75,38 @@ export const applicantAddressInfoSchema = {
     applicantAddress: {
       ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
     },
+    applicantNewAddress: {
+      ...radioUI({
+        updateUiSchema: formData => {
+          const labels = {
+            yes: 'Yes',
+            no: 'No',
+            unknown: 'I’m not sure',
+          };
+
+          return {
+            'ui:title': `Has ${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} mailing address changed since their last CHAMPVA form submission?`,
+            'ui:options': {
+              labels,
+              hint: `If yes, we will update our records with the new mailing address`,
+            },
+          };
+        },
+      }),
+    },
   },
   schema: {
     type: 'object',
+    required: ['applicantNewAddress'],
     properties: {
       titleSchema,
       applicantAddress: addressSchema(),
+      applicantNewAddress: radioSchema(['yes', 'no', 'unknown']),
     },
   },
 };

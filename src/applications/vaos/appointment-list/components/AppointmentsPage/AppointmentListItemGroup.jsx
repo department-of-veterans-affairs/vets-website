@@ -68,7 +68,7 @@ function getGridData(appointment) {
     return {
       appointmentDetails: 'VA Appointment',
       appointmentType: 'Phone call',
-      icon: 'fas fa-phone vads-u-margin-right--1',
+      icon: '',
     };
   }
   if (isInPersonVAAppointment()) {
@@ -131,7 +131,6 @@ export default function AppointmentListItemGroup({ data }) {
       },
     };
     const { appointmentDetails, appointmentType } = getGridData(appointment);
-    const { isCommunityCare, isVideo } = appointment.vaos;
 
     return (
       <ListItem
@@ -214,19 +213,7 @@ export default function AppointmentListItemGroup({ data }) {
                 'vads-u-border-color--gray-medium': isBorderBottom,
               })}
             >
-              <div style={styles.canceled}>
-                <i
-                  aria-hidden="true"
-                  className={classNames('fas', 'vads-u-margin-right--1', {
-                    'fa-phone': isVAPhoneAppointment(appointment),
-                    'fa-video': isVideo,
-                    'fa-building': isInPersonVAAppointment() || isCommunityCare,
-                    'fa-blank': isCommunityCare,
-                  })}
-                />
-
-                {appointmentType}
-              </div>
+              <div style={styles.canceled}>{appointmentType}</div>
             </div>
             <div
               className={classNames(

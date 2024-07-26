@@ -5,11 +5,8 @@ import inboxFilterResponse from '../fixtures/inboxResponse/sorted-inbox-messages
 import { AXE_CONTEXT } from '../utils/constants';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
-// import below have to be deleted after merge with MHV-57520
-import mockMessages from '../fixtures/messages-response.json';
 
-describe('Keyboard Navigation for Filter & Sort functionalities', () => {
-  const site = new SecureMessagingSite();
+describe('Trash page keyboard navigation for filter & sort features', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -17,7 +14,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockTrashMessages);
     FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });
@@ -45,9 +42,8 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    // mockMessages.data shuld be replaced by mockTrashMessages.data after merge with MHV-57520
     const testData = {
-      data: Array.from(mockMessages.data).sort(
+      data: Array.from(mockTrashMessages.data).sort(
         (a, b) =>
           new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
       ),

@@ -5,8 +5,10 @@ users to be able to opt into mailing these documents. This object
 performs double duty by also providing a map to presentable names. */
 export const requiredFiles = {
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
-  applicantMedicarePartAPartBCard: 'Medicare Parts A and B card',
+  applicantMedicarePartAPartBCard: 'Medicare card',
   applicantMedicarePartDCard: 'Medicare Part D card',
+  // Note: The text 'Primary health insurance' and 'Secondary health insurance'
+  // are replaced via regex in `MissingFileConsentPage > prefixFileNames()`
   primaryInsuranceCard: 'Primary health insurance card',
   secondaryInsuranceCard: 'Secondary health insurance card',
   primaryInsuranceScheduleOfBenefits:

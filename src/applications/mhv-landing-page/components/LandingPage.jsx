@@ -19,50 +19,43 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
+import MhvRegistrationAlert from './MhvRegistrationAlert';
 import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
+  hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
-  const verified = useSelector(isLOA3);
-  const registered = useSelector(isVAPatient);
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const userRegistered = userVerified && vaPatient;
   const signInService = useSelector(signInServiceName);
+  const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo =
-    useSelector(helpdeskInfoEnabled) && verified && registered;
-  const showCards = verified && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = !verified ? (
-    <IdentityNotVerified
-      headline={unVerifiedHeadline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={signInService}
-    />
-  ) : (
-    <UnregisteredAlert />
-  );
 
-  useEffect(() => {
-    if (!verified) {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': unVerifiedHeadline,
-        'alert-box-status': 'continue',
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (!userVerified) {
+        recordEvent({
+          event: 'nav-alert-box-load',
+          action: 'load',
+          'alert-box-headline': unVerifiedHeadline,
+          'alert-box-status': 'continue',
+        });
+      }
+    },
+    [recordEvent, unVerifiedHeadline, userVerified],
+  );
 
   return (
     <>
-      {verified && registered && <MhvSecondaryNav />}
+      {userRegistered && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"
@@ -72,10 +65,23 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+          <HeaderLayout
+            showWelcomeMessage={showWelcomeMessage}
+            showLearnMore={userRegistered}
+          />
+          {!userVerified && (
+            <IdentityNotVerified
+              headline={unVerifiedHeadline}
+              showHelpContent={false}
+              showVerifyIdenityHelpInfo
+              signInService={signInService}
+            />
+          )}
+          {userVerified && !userRegistered && <UnregisteredAlert />}
+          {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
+          {userRegistered && <CardLayout data={cards} />}
         </div>
-        {showHelpdeskInfo && (
+        {userRegistered && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
               <div className="vads-l-col medium-screen:vads-l-col--8">
@@ -84,8 +90,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             </div>
           </div>
         )}
-        <HubLinks hubs={hubs} />
-        <NewsletterSignup />
+        {userRegistered && <HubLinks hubs={hubs} />}
+        {userRegistered && <NewsletterSignup />}
       </div>
     </>
   );

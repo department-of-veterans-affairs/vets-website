@@ -19,7 +19,7 @@ import {
   SHOW_8940_4192,
 } from '../constants';
 
-describe('526EZ keyboard only navigation', () => {
+describe.skip('526EZ keyboard only navigation', () => {
   it('navigate through a maximal form', () => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);

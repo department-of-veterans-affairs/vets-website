@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 
 const AdditionalIncomeCheckList = ({
   data,
@@ -17,68 +16,36 @@ const AdditionalIncomeCheckList = ({
   contentAfterButtons,
 }) => {
   const {
-    gmtData,
     additionalIncome,
+    gmtData,
     questions,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
-  // Calculate income properties as necessary
+  // Compare calculated income to thresholds
   useEffect(() => {
-    const calculateIncome = async () => {
-      if (
-        questions?.isMarried ||
-        addlIncRecords?.length ||
-        !gmtData?.isEligibleForStreamlined
-      )
-        return;
+    if (
+      questions?.isMarried ||
+      addlIncRecords?.length ||
+      !gmtData?.isEligibleForStreamlined
+    )
+      return;
 
-      try {
-        const calculatedIncome = await calculateTotalAnnualIncome(data);
-
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-            incomeBelowOneFiftyGmt:
-              calculatedIncome < gmtData?.incomeUpperThreshold,
-          },
-        });
-      } catch (error) {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(
-            `calculateTotalAnnualIncome failed in AdditionalIncomeChecklist: ${error}`,
-          );
-        });
-      }
-    };
-
-    calculateIncome();
+    checkIncomeGmt(data, setFormData);
   }, []);
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: addlIncRecords.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      additionalIncome: {
+        ...additionalIncome,
+        addlIncRecords: checked
+          ? [...addlIncRecords, { name, amount: '' }]
+          : addlIncRecords.filter(source => source.name !== name),
+      },
+    });
   };
 
   const onSubmit = event => {
@@ -115,6 +82,7 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons
@@ -147,6 +115,7 @@ AdditionalIncomeCheckList.propTypes = {
       isMarried: PropTypes.bool,
     }),
     reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

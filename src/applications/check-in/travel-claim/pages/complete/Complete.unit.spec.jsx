@@ -26,6 +26,7 @@ describe('Check-in experience', () => {
       const store = {
         appointmentToFile: {
           startTime: '2024-03-12T10:18:02.422Z',
+          timezone: 'America/Los_Angeles',
         },
         travelAddress: 'yes',
         travelVehicle: 'yes',
@@ -96,6 +97,7 @@ describe('Check-in experience', () => {
         const skippedQuestionsStore = {
           appointmentToFile: {
             startTime: '2024-03-12T10:18:02.422Z',
+            timezone: 'America/Los_Angeles',
           },
           travelAddress: '',
           travelVehicle: '',

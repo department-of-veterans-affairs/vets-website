@@ -266,18 +266,45 @@ function phoneSchema() {
   };
 }
 
-function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
+function additionalConsiderationsQuestionTitleText(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
-  const pageNumber = isUnsure ? order - 1 : order;
-  const totalPages = isUnsure ? 3 : 4;
+  let pageNumber;
+  let totalPages;
+
+  if (rudisillFlag) {
+    const pageOrder = {
+      'active-duty-kicker': 1,
+      'reserve-kicker': 2,
+      'academy-commission': 3,
+      'rotc-commission': 4,
+      'loan-payment': 5,
+    };
+    pageNumber = pageOrder[pageName] || order;
+    totalPages = 5;
+  } else {
+    pageNumber = isUnsure ? order - 1 : order;
+    totalPages = isUnsure ? 3 : 4;
+  }
 
   return `Question ${pageNumber} of ${totalPages}`;
 }
 
-function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+function additionalConsiderationsQuestionTitle(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const titleText = additionalConsiderationsQuestionTitleText(
     benefitSelection,
     order,
+    rudisillFlag,
+    pageName,
   );
 
   return (
@@ -290,7 +317,7 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
       </h4>
       <p className="meb-review-page-only">
         If you’d like to update your answer to {titleText}, edit your answer to
-        to the question below.
+        the question below.
       </p>
     </>
   );
@@ -304,7 +331,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     [formFields.seniorRotcCommission]: 'ROTC',
     [formFields.loanPayment]: 'LRP',
   };
-  // Use the mapping to determine the display type
   const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
@@ -330,9 +356,11 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       },
     };
   }
+
   return {
     path: page.name,
     title: data => {
+      const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
       return additionalConsiderationsQuestionTitleText(
         (data[(formFields?.viewBenefitSelection)] &&
           data[(formFields?.viewBenefitSelection)][
@@ -340,15 +368,21 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           ]) ||
           'NotEligible',
         page.order,
+        rudisillFlag,
+        page.name,
       );
     },
     uiSchema: {
       'ui:description': data => {
+        const rudisillFlag =
+          data.formData?.dgiRudisillHideBenefitsSelectionStep;
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
             formFields.benefitRelinquished
           ],
           page.order,
+          rudisillFlag,
+          page.name,
         );
       },
       [formFields[formField]]: {
@@ -1516,6 +1550,10 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
+            // If the dgiRudisillHideBenefitsSelectionStep feature flag is turned on, hide the page
+            if (formData.dgiRudisillHideBenefitsSelectionStep) {
+              return false;
+            }
             // If the showMebEnhancements09 feature flag is turned on, show the page
             if (formData.showMebEnhancements09) {
               return true;
@@ -1572,7 +1610,7 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon size={3} icon="warning" aria-hidden="true" />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
@@ -1688,6 +1726,7 @@ const formConfig = {
             formFields.activeDutyKicker,
           ),
           depends: formData =>
+            formData.dgiRudisillHideBenefitsSelectionStep ||
             formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter30',
@@ -1698,6 +1737,7 @@ const formConfig = {
             formFields.selectedReserveKicker,
           ),
           depends: formData =>
+            formData.dgiRudisillHideBenefitsSelectionStep ||
             formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter1606',
@@ -1709,7 +1749,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,

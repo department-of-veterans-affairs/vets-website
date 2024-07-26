@@ -21,74 +21,10 @@ describe('toxicExposure', () => {
   let formData;
 
   describe('showToxicExposurePages', () => {
-    describe('includeToxicExposure indicator omitted', () => {
-      beforeEach(() => {
-        formData = {};
-      });
-
-      it('returns false when claim type is new', () => {
-        formData = {
-          ...formData,
-          'view:claimType': {
-            'view:claimingIncrease': false,
-            'view:claimingNew': true,
-          },
-          newDisabilities: [
-            {
-              cause: 'NEW',
-              primaryDescription: 'Test description',
-              'view:serviceConnectedDisability': {},
-              condition: 'anemia',
-            },
-          ],
-        };
-
-        expect(showToxicExposurePages(formData)).to.be.false;
-      });
-
-      it('returns false when claim type is CFI', () => {
-        formData = {
-          ...formData,
-          'view:claimType': {
-            'view:claimingIncrease': true,
-            'view:claimingNew': false,
-          },
-        };
-
-        expect(showToxicExposurePages(formData)).to.be.false;
-      });
-
-      it('returns false when using both claim types', () => {
-        formData = {
-          ...formData,
-          'view:claimType': {
-            'view:claimingIncrease': true,
-            'view:claimingNew': true,
-          },
-          newDisabilities: [
-            {
-              cause: 'NEW',
-              primaryDescription: 'Test description',
-              'view:serviceConnectedDisability': {},
-              condition: 'anemia',
-            },
-          ],
-        };
-
-        expect(showToxicExposurePages(formData)).to.be.false;
-      });
-    });
-
-    describe('includeToxicExposure indicator is true', () => {
-      beforeEach(() => {
-        formData = {
-          includeToxicExposure: true,
-        };
-      });
-
+    describe('startedFormVersion is 2019', () => {
       it('returns true when claiming one or more new conditions', () => {
         formData = {
-          ...formData,
+          startedFormVersion: '2019',
           'view:claimType': {
             'view:claimingIncrease': false,
             'view:claimingNew': true,
@@ -106,9 +42,9 @@ describe('toxicExposure', () => {
         expect(showToxicExposurePages(formData)).to.be.true;
       });
 
-      it('returns false when claim type is CFI', () => {
+      it('returns false when claim type is CFI only', () => {
         formData = {
-          ...formData,
+          startedFormVersion: '2019',
           'view:claimType': {
             'view:claimingIncrease': true,
             'view:claimingNew': false,
@@ -120,7 +56,7 @@ describe('toxicExposure', () => {
 
       it('returns true when both claim types', () => {
         formData = {
-          ...formData,
+          startedFormVersion: '2019',
           'view:claimType': {
             'view:claimingIncrease': true,
             'view:claimingNew': true,
@@ -131,6 +67,80 @@ describe('toxicExposure', () => {
               primaryDescription: 'Test description',
               'view:serviceConnectedDisability': {},
               condition: 'anemia',
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+    });
+
+    describe('startedFormVersion is 2022', () => {
+      it('returns true when claiming one or more new conditions', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': false,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              condition: 'asthma',
+              'view:descriptionInfo': {},
+            },
+            {
+              cause: 'SECONDARY',
+              'view:secondaryFollowUp': {
+                causedByDisability: 'Diabetes Mellitus0',
+                causedByDisabilityDescription: 'Test description 2',
+              },
+              condition:
+                'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
+              'view:descriptionInfo': {},
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+
+      it('returns false when claim type is CFI only', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': false,
+          },
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
+
+      it('returns true when both claim types', () => {
+        formData = {
+          startedFormVersion: '2022',
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+            {
+              cause: 'WORSENED',
+              'view:worsenedFollowUp': {
+                worsenedDescription: 'My knee was strained in the service',
+                worsenedEffects:
+                  "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it.",
+              },
+              condition: 'ankylosis in knee, bilateral',
+              'view:descriptionInfo': {},
             },
           ],
         };
@@ -143,7 +153,7 @@ describe('toxicExposure', () => {
   describe('isClaimingTECondition', () => {
     beforeEach(() => {
       formData = {
-        includeToxicExposure: true,
+        startedFormVersion: '2022',
       };
     });
 
@@ -524,7 +534,7 @@ describe('toxicExposure', () => {
   });
 
   describe('showCheckboxLoopDetailsPage', () => {
-    describe('includeToxicExposure indicator omitted', () => {
+    describe('toxic exposure not enabled', () => {
       beforeEach(() => {
         formData = {};
       });
@@ -557,10 +567,10 @@ describe('toxicExposure', () => {
       });
     });
 
-    describe('includeToxicExposure indicator is true', () => {
+    describe('toxic exposure is enabled', () => {
       beforeEach(() => {
         formData = {
-          includeToxicExposure: true,
+          startedFormVersion: '2022',
         };
       });
 
@@ -726,7 +736,7 @@ describe('toxicExposure', () => {
   });
 
   describe('showSummaryPage', () => {
-    describe('includeToxicExposure indicator omitted', () => {
+    describe('toxic exposure is not enabled', () => {
       beforeEach(() => {
         formData = {};
       });
@@ -758,10 +768,10 @@ describe('toxicExposure', () => {
       });
     });
 
-    describe('includeToxicExposure indicator is true', () => {
+    describe('toxic exposure is enabled', () => {
       beforeEach(() => {
         formData = {
-          includeToxicExposure: true,
+          startedFormVersion: '2022',
         };
       });
 

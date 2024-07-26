@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import {
-  VaRadio,
   VaPagination,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const SearchItem = ({
@@ -29,14 +29,14 @@ const SearchItem = ({
     const facilityAddress = `${info.attributes.address.physical.city}, ${
       info.attributes.address.physical.state
     } ${facilityZip}`;
-    return `${facilityName}
+    return `${facilityName},
     ${facilityAddress}`;
   };
   return (
     facilityData.data.length > 0 && (
       <>
         <p>
-          {`Showing ${facilityData.data.length} results for`}
+          {`Showing ${facilityData.data.length} results for `}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
         <p>

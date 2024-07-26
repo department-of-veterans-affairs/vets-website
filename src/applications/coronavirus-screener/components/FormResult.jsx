@@ -55,7 +55,7 @@ export default function FormResult({
       selectedLanguage={selectedLanguage}
       selectedColors={passFormResultsColors}
     >
-      <i aria-hidden="true" role="presentation" className="fas fa-check" />
+      <va-icon icon="check" size={9} />
       <h2 className="vads-u-font-size--2xl">
         {resultText.passText[selectedLanguage]}
       </h2>

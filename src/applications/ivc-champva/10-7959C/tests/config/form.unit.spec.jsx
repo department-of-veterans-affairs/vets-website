@@ -71,7 +71,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
-  8,
+  9,
   'Applicant address info',
   { ...mockData.data },
 );
@@ -195,6 +195,7 @@ describe('Healthcare Medigap screens depends functions', () => {
   it('should return true if applicant has secondary insurance and Medigap', () => {
     const depRes = formConfig.chapters.healthcareInformation.pages.secondaryMedigap.depends(
       {
+        applicantHasPrimary: true,
         applicantHasSecondary: true,
         applicantSecondaryInsuranceType: 'medigap',
       },
@@ -334,16 +335,18 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-describe('fullNamePath', () => {
-  it('should be "applicantName"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
-    expect(v).to.equal('applicantName');
-  });
-});
-
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
     const ffw = FileFieldWrapped({});
     expect(ffw).to.not.be.undefined;
   });
 });
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.formSignature.pages.formSignature.schema,
+  formConfig.chapters.formSignature.pages.formSignature.uiSchema,
+  1,
+  'Form signature page',
+  { ...mockData.data },
+);

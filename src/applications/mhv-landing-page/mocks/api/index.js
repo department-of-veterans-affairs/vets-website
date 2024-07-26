@@ -4,6 +4,7 @@ const delay = require('mocker-api/lib/delay');
 const MOCK_TYPES = Object.freeze({
   UNVERIFIED_USER: 'unverified',
   UNREGISTERED_USER: 'unregistered',
+  VERIFIED_NO_MHV_USER: 'verified_no_mhv',
   VERIFIED_USER: 'verified',
   VERIFIED_USER_ALL_FEATURES: 'verified_all',
 });
@@ -21,6 +22,8 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
         return generateUser({ loa: 1, vaPatient: false });
       case MOCK_TYPES.UNREGISTERED_USER:
         return generateUser({ vaPatient: false });
+      case MOCK_TYPES.VERIFIED_NO_MHV_USER:
+        return generateUser({ mhvAccountState: 'NONE' });
       default:
         return generateUser();
     }

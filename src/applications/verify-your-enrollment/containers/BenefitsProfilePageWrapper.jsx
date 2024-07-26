@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
@@ -57,8 +58,13 @@ const BenefitsProfileWrapper = ({ children }) => {
     };
     getUserData();
   }, []);
-
   const { signIn } = userData;
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [userData],
+  );
   return (
     <>
       <div />
@@ -72,7 +78,7 @@ const BenefitsProfileWrapper = ({ children }) => {
           <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
             <BenefitsProfileStatement />
             {loading ? (
-              <Loader />
+              <Loader aria-hidden="true" />
             ) : (
               <CurrentBenefitsStatus
                 updated={updated}

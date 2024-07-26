@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
+  EMPTY_FIELD,
 } from '../../util/constants';
-import { validateField, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  pharmacyPhoneNumber,
+} from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
-  const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
+
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -53,7 +59,7 @@ const PrescriptionPrintOnly = props => {
         <strong>Documented by: </strong>
         {pres.providerLastName
           ? `${pres.providerLastName}, ${pres.providerFirstName || ''}`
-          : 'None noted'}
+          : EMPTY_FIELD}
       </p>
       <p>
         <strong>Documented at this facility: </strong>
@@ -134,17 +140,20 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Prescribed by:</strong>{' '}
-              {(rx.providerFirstName && rx.providerLastName) || 'None noted'}
+              {(rx.providerFirstName && rx.providerLastName) || EMPTY_FIELD}
             </p>
             <p>
               <strong>Facility:</strong> {validateField(rx.facilityName)}
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {phoneNumber ? (
-                <va-telephone contact={phoneNumber} not-clickable />
+              {pharmacyPhone ? (
+                <>
+                  <va-telephone contact={pharmacyPhone} not-clickable /> (
+                  <va-telephone tty contact="711" not-clickable />)
+                </>
               ) : (
-                'None noted'
+                EMPTY_FIELD
               )}
             </p>
           </div>
@@ -179,13 +188,13 @@ const PrescriptionPrintOnly = props => {
                         <strong>Filled by pharmacy on:</strong>{' '}
                         {entry?.dispensedDate
                           ? dateFormat(entry.dispensedDate)
-                          : 'None noted'}
+                          : EMPTY_FIELD}
                       </p>
                       <p>
                         <strong>Shipped on:</strong>{' '}
                         {entry?.trackingList?.[0]?.completeDateTime
                           ? dateFormat(entry.trackingList[0].completeDateTime)
-                          : 'None noted'}
+                          : EMPTY_FIELD}
                       </p>
                       <p className="vads-u-margin--0">
                         <strong>Medication description: </strong>
@@ -198,7 +207,7 @@ const PrescriptionPrintOnly = props => {
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
                             <VaPharmacyText
-                              phone={phoneNumber}
+                              phone={pharmacyPhone}
                               isNotClickable
                             />
                             .
@@ -227,7 +236,10 @@ const PrescriptionPrintOnly = props => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phoneNumber} isNotClickable />{' '}
+                          <VaPharmacyText
+                            phone={pharmacyPhone}
+                            isNotClickable
+                          />{' '}
                           if you need help identifying this medication.
                         </>
                       )}

@@ -7,7 +7,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   getRefillablePrescriptionsList,
@@ -56,6 +59,8 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
+  const userName = useSelector(state => state.user.profile.userFullName);
+  const dob = useSelector(state => state.user.profile.dob);
 
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
@@ -168,6 +173,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     [refillablePrescriptionsList],
   );
 
+  const baseTitle = 'Medications | Veterans Affairs';
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
+
   const content = () => {
     if (!showRefillContent) {
       return <PageNotFound />;
@@ -237,7 +245,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     data-testid="select-all-checkbox"
                     label={`Select all ${fullRefillList.length} refills`}
                     name="select-all-checkbox"
-                    className="vads-u-margin-bottom--3 select-all-checkbox"
+                    className="vads-u-margin-bottom--3 select-all-checkbox no-print"
                     data-dd-action-name={`Select All Checkbox - ${
                       DD_ACTIONS_PAGE_TYPE.REFILL
                     }`}
@@ -269,11 +277,16 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                       checkbox-description={`Prescription number: ${
                         prescription.prescriptionNumber
                       }
-                        Last filled on ${dateFormat(
+                        ${
                           prescription.sortedDispensedDate ||
-                            prescription.dispensedDate,
-                          'MMMM D, YYYY',
-                        )}
+                          prescription.dispensedDate
+                            ? `Last filled on ${dateFormat(
+                                prescription.sortedDispensedDate ||
+                                  prescription.dispensedDate,
+                                'MMMM D, YYYY',
+                              )}`
+                            : 'Not filled yet'
+                        }
                         ${prescription.refillRemaining} refills left`}
                     />
                   </div>
@@ -281,7 +294,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 <VaButton
                   uswds
                   type="button"
-                  className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1"
+                  className="vads-u-background-color--white vads-u-padding--0 vads-u-margin-top--1 no-print"
                   id="request-refill-button"
                   data-testid="request-refill-button"
                   data-dd-action-name={`Request Refills Button - ${
@@ -325,6 +338,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           }
         >
           {content()}
+          <hr className="vads-u-margin-y--3 print-only" />
           <AllergiesPrintOnly allergies={allergies} />
         </div>
         {(prescriptionsApiError || allergiesError) && (

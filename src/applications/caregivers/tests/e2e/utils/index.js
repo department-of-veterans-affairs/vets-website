@@ -1,63 +1,61 @@
-/* eslint-disable cypress/unsafe-to-chain-command */
-import { format } from 'date-fns';
-
-// Keyboard-only pattern helpers
-export const fillAddressWithKeyboard = (fieldName, value) => {
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street"]`, value.street);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street2"]`, value.street2);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_street3"]`, value.street3);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_city"]`, value.city);
-  cy.tabToElement(`[name="root_${fieldName}_state"]`);
-  cy.chooseSelectOptionUsingValue(value.state);
-  cy.typeInIfDataExists(
-    `[name="root_${fieldName}_postalCode"]`,
-    value.postalCode,
-  );
-};
-
-export const fillDateWithKeyboard = (fieldName, value) => {
-  const [year, , day] = value
-    .split('-')
-    .map(num => parseInt(num, 10).toString());
-  const month = format(new Date(value), 'MMM');
-  cy.tabToElement(`va-memorable-date[name="root_${fieldName}"]`)
-    .shadow()
-    .find('va-select.usa-form-group--month-select')
-    .shadow()
-    .find('select')
-    .realType(month)
-    .realPress('Tab')
-    .realType(day)
-    .realPress('Tab')
-    .realType(year);
-};
-
-export const fillNameWithKeyboard = (fieldName, value) => {
-  cy.typeInIfDataExists(`[name="root_${fieldName}_first"]`, value.first);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_middle"]`, value.middle);
-  cy.typeInIfDataExists(`[name="root_${fieldName}_last"]`, value.last);
-  if (value.suffix) {
-    cy.tabToElement(`[name="root_${fieldName}_suffix"]`);
-    cy.chooseSelectOptionUsingValue(value.suffix);
+// navigation helpers
+export const goToNextPage = pagePath => {
+  // clicks Continue button, and optionally checks destination path.
+  cy.findAllByText(/continue/i, { selector: 'button' }).click();
+  if (pagePath) {
+    cy.location('pathname').should('include', pagePath);
   }
 };
 
-export const selectDropdownWithKeyboard = (fieldName, value) => {
-  cy.tabToElement(`[name="root_${fieldName}"]`);
-  cy.chooseSelectOptionUsingValue(value);
+// single field fill helpers
+export const selectCheckboxWebComponent = (fieldName, condition) => {
+  if (condition) {
+    cy.get(`va-checkbox[name="root_${fieldName}"]`)
+      .shadow()
+      .find('label')
+      .click();
+  }
 };
 
-export const selectRadioWithKeyboard = (fieldName, value) => {
-  cy.tabToElement(`[name="root_${fieldName}"]`);
-  cy.findOption(value);
-  cy.realPress('Space');
+export const selectDropdownWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-select[name="root_${fieldName}"]`)
+      .shadow()
+      .find('select')
+      .select(value);
+  }
 };
 
-export const selectCheckboxWithKeyboard = selector => {
-  cy.tabToElement(`va-checkbox${selector}`);
-  cy.get(':focus').then($el => {
-    if ($el[0].checked !== true) {
-      cy.realPress('Space');
-    }
-  });
+export const selectRadioWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(
+      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
+    ).click();
+  }
+};
+
+export const selectYesNoWebComponent = (fieldName, value) => {
+  const selection = value ? 'Y' : 'N';
+  selectRadioWebComponent(fieldName, selection);
+};
+
+// pattern fill helpers
+export const fillAddressWebComponentPattern = (fieldName, { state }) => {
+  cy.fillPage();
+  selectDropdownWebComponent(`${fieldName}_state`, state);
+};
+
+export const fillStatementOfTruthPattern = (label, signature) => {
+  cy.findByTestId(label)
+    .find('.signature-input')
+    .shadow()
+    .find('input')
+    .first()
+    .type(signature);
+
+  cy.findByTestId(label)
+    .find('.signature-checkbox')
+    .shadow()
+    .find('label')
+    .click();
 };

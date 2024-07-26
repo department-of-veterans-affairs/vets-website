@@ -2,7 +2,10 @@ import { customButtonGroupContinue } from '../fixtures/helpers';
 
 const fillChecklist = values => {
   values.forEach(value => {
-    cy.get(`input[type="checkbox"][value='${value.name}']`).check();
+    cy.get(`va-checkbox[name="${value.name}"]`)
+      .shadow()
+      .find('input')
+      .check({ force: true });
   });
 };
 

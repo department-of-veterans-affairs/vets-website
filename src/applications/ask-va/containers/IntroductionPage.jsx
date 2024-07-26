@@ -10,12 +10,15 @@ import {
   isLoggedIn,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { envUrl } from '../constants';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
 
@@ -38,34 +41,22 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.va-nav-breadcrumbs-list');
+      focusElement('.schemaform-title > h1');
     },
     [props],
   );
 
-  // const getApiData = url => {
-  //   return apiRequest(url)
-  //     .then(() => {
-  //       setInquiryData(res);
-  //     })
-  //     .catch(() => setHasError(true));
-  // };
+  const getApiData = url => {
+    return apiRequest(url)
+      .then(res => {
+        setInquiryData(res.data);
+      })
+      .catch(() => setHasError(true));
+  };
 
-  const handleSearchByReferenceNumber = () => {
-    // const url = `${
-    //   envUrl
-    // }/inquiries/${searchReferenceNumber}/status`;
-    // getApiData(url);
-    const mockResponse = {
-      id: 12345,
-      type: 'inquiryStatus',
-      attributes: {
-        status: 'New',
-        levelOfAuthentication: '12389467687',
-      },
-    };
-    setHasError(false);
-    setInquiryData(mockResponse);
+  const handleSearchByReferenceNumber = async () => {
+    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    await getApiData(url);
   };
 
   const handleSearchInputChange = async e => {
@@ -92,8 +83,8 @@ const IntroductionPage = props => {
       );
     }
 
-    if (inquiryData.id && searchReferenceNumber) {
-      const { status, levelOfAuthentication } = inquiryData.attributes;
+    if (inquiryData?.attributes?.status) {
+      const { status } = inquiryData.attributes;
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -134,18 +125,6 @@ const IntroductionPage = props => {
               </p>
             )}
           </div>
-          {levelOfAuthentication !== 'Unauthenticated' && (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a
-              role="button"
-              className="vads-c-action-link--green vads-u-margin-top--2"
-              // eslint-disable-next-line no-script-url
-              href="javascript:void(0)"
-              onClick={showSignInModal}
-            >
-              Sign in to check your application status{' '}
-            </a>
-          )}
         </>
       );
     }
@@ -159,10 +138,6 @@ const IntroductionPage = props => {
       <p className="">
         You can use Ask VA to ask a question online. You can ask about
         education, disability compensation, health care and many other topics.
-      </p>
-      <p>
-        We will review your information and reply back in up to{' '}
-        <span className="vads-u-font-weight--bold">7 business days.</span>
       </p>
 
       <h3 className="vads-u-margin-top--1">
@@ -257,9 +232,11 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <Link className="vads-c-action-link--green" to={getStartPage}>
-        Ask a new question
-      </Link>
+      <SaveInProgressIntro
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+      />
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
         <va-accordion
           disable-analytics={{
@@ -273,13 +250,11 @@ const IntroductionPage = props => {
             value: 'true',
           }}
         >
-          <va-accordion-item
-            header="Only use Ask VA for non-urgent questions"
-            id="first"
-          >
+          <va-accordion-item header="When to use Ask VA" id="first">
             <p>
-              It can take up to
-              <strong>7 business days</strong> to get a response.
+              You can use Ask VA to ask a question online. You can ask about
+              education, disability compensation, health care and many other
+              topics.
             </p>
             <p>
               If you need help now, use one of these urgent communication
@@ -314,10 +289,12 @@ const IntroductionPage = props => {
     </>
   );
 
+  const subTitle =
+    'Get answers to your questions about VA benefits and service. You should receive a reply within 7 business days.';
+
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-
+      <FormTitle title={formConfig.title} subTitle={subTitle} />
       {loggedIn ? authenticatedUI : unAuthenticatedUI}
     </div>
   );

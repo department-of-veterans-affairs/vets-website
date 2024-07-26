@@ -106,8 +106,8 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'Note: You can submit evidence at any time. But if you submit evidence after this step, your claim will go back to this step for review.',
     );
-    expect(getByTestId('submit-evidence-link').textContent).to.equal(
-      'Submit evidence now',
+    expect(getByTestId('upload-evidence-link').textContent).to.equal(
+      'Upload your evidence here',
     );
     expect(within($('#phase3 ul', container)).getByRole('link')).to.have.text(
       'Learn more about VA claim exams',

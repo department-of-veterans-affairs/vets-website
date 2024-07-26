@@ -5,6 +5,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useTranslation } from 'react-i18next';
+import { getApptLabel } from '../../../utils/appointment';
 
 const MultipleAppointmentBody = props => {
   const {
@@ -23,21 +24,15 @@ const MultipleAppointmentBody = props => {
     },
     [appointments, setSelectedAppointment],
   );
-  const getAppointmentsLabel = appointment => {
-    return appointment.clinicStopCodeName
-      ? ` ${appointment.clinicStopCodeName}`
-      : ` ${t('VA-appointment')}`;
-  };
 
   return (
     <div data-testid="multi-appointment-context">
-      <p>{t('if-youre-filing-only-mileage-no-other-file-all-claims-now')}</p>
       <VaRadio
         data-testid="radio-set"
         error={error ? t('select-at-least-one-appointment') : ''}
         uswds
         class="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        label={t('select-the-appointments-you-want')}
+        label={t('select-the-appointment-you-want')}
         onVaValueChange={onCheck}
       >
         {appointments.map((appointment, index) => (
@@ -48,9 +43,12 @@ const MultipleAppointmentBody = props => {
             key={`${appointment.stationNo}-${appointment.appointmentIen}`}
             uswds
             value={index}
-            label={`${getAppointmentsLabel(appointment)} at ${
-              appointment.startTime
-            } `}
+            tile
+            label={getApptLabel(appointment)}
+            description={`${t('in-person-at')} ${
+              appointment.facility
+            }${appointment.doctorName &&
+              ` ${t('with')} ${appointment.doctorName}`}`}
             checked={
               `${selectedAppointment?.stationNo}-${
                 selectedAppointment?.appointmentIen

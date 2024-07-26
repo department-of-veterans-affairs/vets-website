@@ -437,7 +437,10 @@ export const getGroupedPreviousEnrollments = month => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -565,7 +568,10 @@ export const getSignlePreviousEnrollments = awards => {
               visible="true"
               slim
             >
-              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+              <p
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+                data-testid="have-not-verified"
+              >
                 You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
@@ -639,7 +645,8 @@ export const noSuggestedAddress = deliveryPointValidation => {
   return (
     deliveryPointValidation === BAD_UNIT_NUMBER ||
     deliveryPointValidation === MISSING_UNIT_NUMBER ||
-    deliveryPointValidation === 'MISSING_ZIP'
+    deliveryPointValidation === 'MISSING_ZIP' ||
+    deliveryPointValidation === 'UNDELIVERABLE'
   );
 };
 
@@ -706,19 +713,13 @@ export const addressLabel = address => {
 
   return (
     <span>
-      {line1 && (
+      {line1 && <>{line1} </>}
+      {line2 && <>{` ${line2}`}</>}
+      {cityState && (
         <>
-          {line1}
-          <br />
+          <br /> {cityState}
         </>
       )}
-      {line2 && (
-        <>
-          {line2}
-          <br />
-        </>
-      )}
-      {cityState && <>{cityState}</>}
       {state && <>{state}</>}
       {postalCode && (state || cityState) && ' '}
       {postalCode}
@@ -781,4 +782,67 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   return false;
+}
+
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+
+  if (
+    typeof obj1 !== 'object' ||
+    obj1 === null ||
+    typeof obj2 !== 'object' ||
+    obj2 === null
+  ) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (const key of keys1) {
+    if (
+      key === 'view:livesOnMilitaryBaseInfo' ||
+      key === 'view:livesOnMilitaryBase'
+    ) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const initialState = {
+  addressLine1: undefined,
+  addressLine2: undefined,
+  addressLine3: undefined,
+  addressLine4: undefined,
+  city: undefined,
+  countryCodeIso3: 'USA',
+  internationalPostalCode: undefined,
+  province: undefined,
+  stateCode: '- Select -',
+  'view:livesOnMilitaryBase': undefined,
+  'view:livesOnMilitaryBaseInfo': {},
+  zipCode: undefined,
+};
+
+// Function to check if the object has changed
+export function hasAddressFormChanged(currentState) {
+  const filledCurrentState = {
+    ...initialState,
+    ...currentState,
+    stateCode:
+      currentState.stateCode !== undefined
+        ? currentState.stateCode
+        : initialState.stateCode,
+  };
+  return !deepEqual(initialState, filledCurrentState);
 }

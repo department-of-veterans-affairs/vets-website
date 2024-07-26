@@ -8,7 +8,7 @@ const FoldersList = props => {
   const { folders, showUnread } = props;
 
   return (
-    <div>
+    <div className="vads-u-margin-top--2">
       <ul className="folders-list">
         {!!folders.length &&
           folders.map(folder => (

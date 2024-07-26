@@ -5,6 +5,8 @@ import {
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as apiCalls from '../../api/SmApi';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -38,6 +40,37 @@ describe('threads actions', () => {
       type: Actions.Thread.GET_LIST,
       response: threadResponse,
     });
+  });
+
+  it('should call getThreadList with arg true when isPilot', async () => {
+    const folderId = 0;
+    const pageSize = 10;
+    const pageNumber = 1;
+    const isPilot = true;
+    const isPilotState = {
+      sm: {
+        app: {
+          isPilot,
+        },
+      },
+    };
+    const getThreadListSpy = sinon.spy(apiCalls, 'getThreadList');
+    const store = mockStore(isPilotState);
+    mockApiRequest(threadResponse);
+
+    await store
+      .dispatch(getListOfThreads(folderId, pageSize, pageNumber))
+      .then(() => {
+        expect(
+          getThreadListSpy.calledWith({
+            folderId,
+            pageSize,
+            pageNumber,
+            isPilot,
+            threadSort: undefined,
+          }),
+        ).to.be.true;
+      });
   });
 
   it('should dispatch empty list on getListOfThreads action when no threads', async () => {

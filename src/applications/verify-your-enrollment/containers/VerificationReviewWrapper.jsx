@@ -2,11 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect, useDispatch } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import VerifyEnrollmentStatement from '../components/VerifyEnrollmentStatement';
@@ -20,7 +18,6 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
-  // updateVerificationsData,
 } from '../actions';
 import {
   toLocalISOString,
@@ -36,7 +33,8 @@ const VerificationReviewWrapper = ({
   verifyEnrollment,
 }) => {
   useScrollToTop();
-  const [radioValue, setRadioValue] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
@@ -46,15 +44,19 @@ const VerificationReviewWrapper = ({
   const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
-  const handleRadioClick = e => {
-    const { value } = e.detail;
-    setRadioValue(value);
+  const handleCheckboxChange = e => {
+    const { checked } = e.detail;
+    dispatch({ type: 'RESET_ENROLLMENT_ERROR' });
+    setIsChecked(checked);
+    if (checked) {
+      setShowError(false);
+    }
     setErrorStatement(null);
   };
-
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
@@ -76,11 +78,14 @@ const VerificationReviewWrapper = ({
   };
 
   const handleSubmission = () => {
-    handleVerification();
-    if (!error) {
+    if (!isChecked) {
+      setShowError(true);
+    } else if (!error && isChecked) {
+      setShowError(false);
+      handleVerification();
       dispatchUpdateToggleEnrollmentSuccess(true);
+      history.push(VERIFICATION_RELATIVE_URL);
     }
-    history.push(VERIFICATION_RELATIVE_URL);
   };
 
   useEffect(
@@ -130,11 +135,24 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
-  // This Effect  add class for bloding Label only for this label
-  useEffect(() => {
-    document.body.classList.add('verify-information-path');
-  }, []);
-
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [enrollmentData, errorStatement],
+  );
+  useEffect(
+    () => {
+      let timer;
+      if (showError) {
+        timer = setTimeout(() => {
+          focusElement('#enrollmentCheckbox');
+        }, 2500);
+      }
+      return () => clearTimeout(timer);
+    },
+    [showError, enrollmentData],
+  );
   return (
     <>
       <div name="topScrollElement" />
@@ -153,39 +171,57 @@ const VerificationReviewWrapper = ({
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
                 <div className="vads-u-margin-top--2">
-                  <VaRadio
-                    className="bold-label"
-                    error={errorStatement}
-                    hint=""
-                    label="Is this enrollment information correct?"
-                    required
-                    onVaValueChange={handleRadioClick}
+                  <div
+                    className={`${
+                      showError
+                        ? 'vads-u-margin-left--2p5 schemaform-field-template usa-input-error'
+                        : ''
+                    }`}
                   >
-                    <VaRadioOption
-                      id="vye-radio-button-yes"
-                      label="Yes, this information is correct."
-                      name="vye-radio-group1"
-                      tile
-                      value="true"
-                    />
-                  </VaRadio>
+                    <label
+                      className="vads-u-font-weight--bold"
+                      htmlFor="enrollmentCheckbox"
+                    >
+                      Is this enrollment information correct?
+                      <span className="vads-u-color--secondary-dark">
+                        {' '}
+                        (*Required)
+                      </span>
+                      {showError && (
+                        <span
+                          role="alert"
+                          className="usa-input-error-message"
+                          id="root_educationType-error-message"
+                        >
+                          <span className="sr-only">Error</span> Please check
+                          the box to confirm the information is correct.
+                        </span>
+                      )}
+                      <VaCheckbox
+                        id="enrollmentCheckbox"
+                        label="Yes, this information is correct"
+                        checked={isChecked}
+                        onVaChange={handleCheckboxChange}
+                        aria-describedby="authorize-text"
+                        enable-analytics
+                        uswds
+                      />
+                    </label>
+                  </div>
                   <EnrollmentInformation />
                 </div>
-                <div
-                  style={{
-                    paddingLeft: '8px',
-                    marginTop: '24px',
-                    display: 'flex',
-                    columnGap: '10px',
-                  }}
-                >
-                  <va-button onClick={handleBackClick} back uswds />
+                <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column-reverse medium-screen:vads-u-flex-direction--row">
                   <va-button
-                    onClick={handleSubmission}
+                    onClick={handleBackClick}
+                    back
+                    uswds
+                    class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+                  />
+                  <va-button
                     text="Submit"
+                    onClick={handleSubmission}
                     submit
                     uswds
-                    disabled={!radioValue}
                   />
                 </div>
               </>

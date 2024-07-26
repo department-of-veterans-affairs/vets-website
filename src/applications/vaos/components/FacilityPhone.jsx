@@ -4,6 +4,7 @@ import { VaTelephone } from '@department-of-veterans-affairs/component-library/d
 
 export default function FacilityPhone({
   contact,
+  extension,
   className = 'vads-u-font-weight--bold',
   level,
   icon,
@@ -12,8 +13,7 @@ export default function FacilityPhone({
   if (!contact) {
     return null;
   }
-
-  const [number, extension] = contact.split('x');
+  const isClinic = !!heading.includes('Clinic');
   const Heading = `h${level}`;
 
   return (
@@ -36,16 +36,17 @@ export default function FacilityPhone({
           <va-icon icon="phone" size="3" srtext="Phone icon" />{' '}
         </span>
       )}
-      <span>
-        <VaTelephone
-          contact={number}
-          extension={extension}
-          data-testid="facility-telephone"
-        />{' '}
-      </span>
-      <span>
-        (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
-      </span>
+      <VaTelephone
+        contact={contact}
+        extension={extension}
+        data-testid={!isClinic ? 'facility-telephone' : 'clinic-telephone'}
+      />
+      {!isClinic && (
+        <span>
+          &nbsp;(
+          <VaTelephone contact="711" tty data-testid="tty-telephone" />)
+        </span>
+      )}
     </>
   );
 }
@@ -53,6 +54,7 @@ export default function FacilityPhone({
 FacilityPhone.propTypes = {
   className: PropTypes.string,
   contact: PropTypes.string,
+  extension: PropTypes.string,
   heading: PropTypes.string,
   icon: PropTypes.bool,
   level: PropTypes.number,

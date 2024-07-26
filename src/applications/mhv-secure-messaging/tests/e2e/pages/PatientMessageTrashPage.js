@@ -3,7 +3,6 @@ import mockTrashFolderMetaResponse from '../fixtures/trashResponse/folder-delete
 import mockThreadResponse from '../fixtures/trashResponse/trash-thread-response.json';
 import mockSingleMessageResponse from '../fixtures/trashResponse/trash-single-message-response.json';
 import trashSearchResponse from '../fixtures/trashResponse/trash-search-response.json';
-import mockSortedMessages from '../fixtures/trashResponse/sorted-trash-message-response.json';
 import { Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 
@@ -69,13 +68,13 @@ class PatientMessageTrashPage {
   };
 
   clickSortMessagesByDateButton = (
-    text,
-    sortedResponse = mockSortedMessages,
+    option = 'Oldest to newest',
+    sortedResponse,
   ) => {
     cy.get(Locators.DROPDOWN)
       .shadow()
       .find('select')
-      .select(`${text}`, { force: true });
+      .select(`${option}`, { force: true });
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-3/threads**`,
@@ -84,7 +83,7 @@ class PatientMessageTrashPage {
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
   };
 
-  verifySorting = () => {
+  verifySorting = (option, data) => {
     let listBefore;
     let listAfter;
     cy.get(Locators.THREAD_LIST)
@@ -94,7 +93,7 @@ class PatientMessageTrashPage {
         cy.log(JSON.stringify(listBefore));
       })
       .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
+        this.clickSortMessagesByDateButton(option, data);
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {

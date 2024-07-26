@@ -2,14 +2,16 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { datadogRum } from '@datadog/browser-rum';
+
 const MedicalRecordsCard = ({ href }) => {
   const slug = 'mhv-c-card-medical-records';
   return (
     <div
       className={classnames(
         'vads-u-height--full',
-        'vads-u-padding-x--5',
-        'vads-u-padding-top--4',
+        'vads-u-padding-x--4',
+        'vads-u-padding-top--3',
         'vads-u-padding-bottom--2',
         'vads-u-background-color--gray-lightest',
       )}
@@ -28,7 +30,7 @@ const MedicalRecordsCard = ({ href }) => {
           <span
             className={classnames(
               'usa-label',
-              'vads-u-background-color--hub-burials',
+              'vads-u-background-color--primary',
               'vads-u-display--none',
               'small-desktop-screen:vads-u-display--block',
             )}
@@ -41,7 +43,7 @@ const MedicalRecordsCard = ({ href }) => {
         <span
           className={classnames(
             'usa-label',
-            'vads-u-background-color--hub-burials',
+            'vads-u-background-color--primary',
             'vads-u-display--inline-block',
             'small-desktop-screen:vads-u-display--none',
           )}
@@ -54,6 +56,7 @@ const MedicalRecordsCard = ({ href }) => {
           'vads-u-padding-left--0',
           'vads-u-margin-top--2',
           'vads-u-margin-bottom--0',
+          'vads-u-font-size--lg',
         )}
       >
         The new version of this tool isn’t ready yet. For now, you can get your
@@ -61,7 +64,12 @@ const MedicalRecordsCard = ({ href }) => {
       </p>
       <p>
         <a
-          data-dd-action-name="Medical Records Card – Go back to the previous version of My HealtheVet"
+          onClick={() =>
+            datadogRum.addAction(
+              'Click on Medical Records Card - Go back to the previous version of My HealtheVet',
+            )
+          }
+          className="mhv-c-link"
           href={href}
         >
           Go back to the previous version of My HealtheVet

@@ -121,10 +121,11 @@ class MedicationsRefillPage {
 
   clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-
-    cy.get(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`).click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="rx-breadcrumb"]')
+      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   verifyShippedMedicationOnRefillPage = () => {
@@ -315,7 +316,7 @@ class MedicationsRefillPage {
       'PATCH',
       `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       failedRequest,
-    );
+    ).as('failedRefillRequest');
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
@@ -345,7 +346,7 @@ class MedicationsRefillPage {
       'PATCH',
       `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
       success,
-    );
+    ).as('refillSuccess');
     cy.get('[data-testid="request-refill-button"]').should('exist');
     cy.get('[data-testid="request-refill-button"]').click({
       waitForAnimations: true,
@@ -383,6 +384,14 @@ class MedicationsRefillPage {
     );
   };
 
+  verifyNetworkResponseForFailedRefillRequest = failedId => {
+    cy.get('@failedRefillRequest')
+      .its('response')
+      .then(res => {
+        expect(res.body.failedIds[0]).to.contain(failedId);
+      });
+  };
+
   verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
     cy.get('[data-testid="select-rx-error-message"]').should(
       'contain',
@@ -402,6 +411,14 @@ class MedicationsRefillPage {
       'contain',
       refillName,
     );
+  };
+
+  verifyNetworkResponseForSuccessfulRefillRequest = successfulId => {
+    cy.get('@refillSuccess')
+      .its('response')
+      .then(res => {
+        expect(res.body.successfulIds[0]).to.contain(successfulId);
+      });
   };
 
   verifyNoMedicationsAvailableMessageOnRefillPage = () => {
@@ -427,6 +444,17 @@ class MedicationsRefillPage {
       'contain',
       'Prescriptions you may need to renew',
     );
+  };
+
+  verifyRenewableSectionDescriptionOnRefillPage = () => {
+    cy.get('[data-testid="renew-section-description"]').should(
+      'contain',
+      'find medications with a status of Active: Submitted or Active: Refill in process.',
+    );
+  };
+
+  verifyShippedRxInformationOnRenewSectionRefillsPage = shippedDate => {
+    cy.get('[data-testid="shipped-date"]').should('contain', shippedDate);
   };
 }
 

@@ -45,7 +45,7 @@ describe('transform', () => {
 
         // special logic for unreleased pages. set the indicator, otherwise the test considers TE pages as inactive
         if (fileName === 'maximal-toxic-exposure-test.json') {
-          rawData.data.includeToxicExposure = true;
+          rawData.data.startedFormVersion = '2022';
         }
 
         let transformedData;
