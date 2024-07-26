@@ -88,6 +88,7 @@ const formConfig = {
       title: 'New Confirmation Page',
       component: NewConfirmationPage,
       pageKey: 'confirmation-page-new',
+      depends: () => true,
     },
   ],
   chapters: {
