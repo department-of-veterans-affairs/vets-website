@@ -66,8 +66,8 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City, state or postal code{' '}
-            <span className="form-required-span">(*Required)</span>
+            City or postal code{' '}
+            {/* <span className="form-required-span">(*Required)</span> */}
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
@@ -83,10 +83,11 @@ const SearchControls = props => {
               type="button"
               className="use-my-location-link"
             >
-              <i
+              <va-icon
+                size={4}
+                icon="null"
                 className="use-my-location-button"
                 aria-hidden="true"
-                role="presentation"
               />
               Use my location
             </button>
@@ -95,7 +96,7 @@ const SearchControls = props => {
         {geoCodeError && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
+            Please fill in a city or postal code.
           </span>
         )}
         <div className="search-input">
