@@ -1,7 +1,7 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
 
   @include media($small-desktop-screen) {
     max-width: 975px;
@@ -10,7 +10,7 @@
 }
 
 button.va-crisis-line {
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
   display: block;
   border-radius: 0;
   color: var(--vads-color-white);

@@ -26,10 +26,10 @@ const HowDoIPay = ({ userData }) => (
         website.
       </p>
       <p>
-        You will need to provide the following details to pay this debt online:
+        You’ll need to provide the following details to pay this debt online:
       </p>
       {userData ? (
-        <ul className="no-bullets">
+        <ul>
           <li>
             <strong>File Number: </strong>
             {userData.fileNumber}
@@ -59,7 +59,7 @@ const HowDoIPay = ({ userData }) => (
       <va-link-action
         href="https://www.pay.va.gov/"
         message-aria-describedby="Opens pay.va.gov"
-        text="Pay on pay.va.gov"
+        text="Pay at pay.va.gov"
       />
 
       <h3>Pay by phone</h3>
@@ -87,7 +87,7 @@ const HowDoIPay = ({ userData }) => (
         <br />
         St. Paul, MN 55111
         <br />
-        United States of America
+        USA
       </p>
     </article>
   </>
