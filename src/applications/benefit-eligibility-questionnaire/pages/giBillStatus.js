@@ -6,7 +6,7 @@ export default {
       'ui:title': (
         <>
           <p>
-            <b>Have you applied for and beeen approved for GI Bill benefits?</b>
+            <b>Have you applied for and been approved for GI Bill benefits?</b>
           </p>
           <p>
             This includes the Post-9/11 GI Bill, Montgomery GI Bill Active Duty
