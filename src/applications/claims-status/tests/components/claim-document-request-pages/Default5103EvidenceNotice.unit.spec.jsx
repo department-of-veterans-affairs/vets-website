@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithRouter, rerenderWithRouter } from '../../utils';
-import { Automated5103Notice } from '../../../components/claim-document-request-pages/Automated5103Notice';
+import { Default5103EvidenceNotice } from '../../../components/claim-document-request-pages/Default5103EvidenceNotice';
 
 const claimId = 1;
 
@@ -31,11 +31,11 @@ const item5103 = {
   date: '2024-03-07',
 };
 
-describe('<Automated5103Notice>', () => {
+describe('<Default5103EvidenceNotice>', () => {
   it('should render component when item is a 5103 notice', () => {
     const { getByText, getByTestId, container } = renderWithRouter(
       <Provider store={store}>
-        <Automated5103Notice item={item5103} params={{ id: claimId }} />,
+        <Default5103EvidenceNotice item={item5103} params={{ id: claimId }} />,
       </Provider>,
     );
     expect($('#automated-5103-notice-page', container)).to.exist;
@@ -68,7 +68,7 @@ describe('<Automated5103Notice>', () => {
 
     const { container } = renderWithRouter(
       <Provider store={store}>
-        <Automated5103Notice item={item} params={{ id: claimId }} />,
+        <Default5103EvidenceNotice item={item} params={{ id: claimId }} />,
       </Provider>,
     );
     expect($('#automated-5103-notice-page', container)).to.not.exist;
@@ -89,7 +89,7 @@ describe('<Automated5103Notice>', () => {
 
         const { container, rerender } = renderWithRouter(
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}
@@ -109,7 +109,7 @@ describe('<Automated5103Notice>', () => {
         rerenderWithRouter(
           rerender,
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}
@@ -134,7 +134,7 @@ describe('<Automated5103Notice>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}
@@ -181,7 +181,7 @@ describe('<Automated5103Notice>', () => {
 
         const { container, rerender } = renderWithRouter(
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}
@@ -201,7 +201,7 @@ describe('<Automated5103Notice>', () => {
         rerenderWithRouter(
           rerender,
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}
@@ -226,7 +226,7 @@ describe('<Automated5103Notice>', () => {
 
         const { container } = renderWithRouter(
           <Provider store={store}>
-            <Automated5103Notice
+            <Default5103EvidenceNotice
               {...props}
               submit5103={submit5103}
               submitRequest={submitRequest}

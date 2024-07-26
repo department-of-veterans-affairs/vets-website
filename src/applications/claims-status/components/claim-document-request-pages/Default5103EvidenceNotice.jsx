@@ -20,7 +20,10 @@ import { setUpPage } from '../../utils/page';
 
 import withRouter from '../../utils/withRouter';
 
-function Automated5103Notice({
+function Default5103EvidenceNotice({
+  decisionRequestError,
+  decisionRequested,
+  loadingDecisionRequest,
   item,
   navigate,
   params,
@@ -31,13 +34,22 @@ function Automated5103Notice({
   const [addedEvidence, setAddedEvidence] = useState(false);
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
 
+  const goToFilesPage = () => {
+    navigate('../files');
+  };
+
   useEffect(() => {
     setUpPage();
   }, []);
 
-  const goToFilesPage = () => {
-    navigate('../files');
-  };
+  useEffect(
+    () => {
+      if (!loadingDecisionRequest && decisionRequested) {
+        goToFilesPage();
+      }
+    },
+    [loadingDecisionRequest],
+  );
 
   const submit = () => {
     if (addedEvidence) {
@@ -46,7 +58,6 @@ function Automated5103Notice({
       } else {
         submitRequest(params.id, true);
       }
-      goToFilesPage();
     } else {
       setCheckboxErrorMessage(
         `You must confirm you’re done adding evidence before submitting the evidence waiver`,
@@ -54,9 +65,23 @@ function Automated5103Notice({
     }
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  if (item.displayName !== 'Automated 5103 Notice Response') {
+  const isAutomated5103Notice =
+    item.displayName === 'Automated 5103 Notice Response';
+  const isStandard5103Notice = item.displayName === '5103 Evidence Notice';
+
+  if (!isAutomated5103Notice && !isStandard5103Notice) {
     return null;
   }
+
+  const submitDisabled = loadingDecisionRequest || decisionRequestError;
+
+  let buttonMsg = 'Submit evidence waiver';
+  if (loadingDecisionRequest) {
+    buttonMsg = 'Submitting evidence waiver...';
+  } else if (decisionRequestError !== null) {
+    buttonMsg = 'Something went wrong...';
+  }
+
   return (
     <div id="automated-5103-notice-page" className="vads-u-margin-bottom--3">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
@@ -70,11 +95,13 @@ function Automated5103Notice({
         Go to claim letters
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
-      <p>
-        You don’t need to do anything on this page. We’ll wait until{' '}
-        <strong>{formattedDueDate}</strong>, to move your claim to the next
-        step.
-      </p>
+      {isAutomated5103Notice && (
+        <p>
+          You don’t need to do anything on this page. We’ll wait until{' '}
+          <strong>{formattedDueDate}</strong>, to move your claim to the next
+          step.
+        </p>
+      )}
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2">
         If you have more evidence to submit
       </h2>
@@ -110,14 +137,23 @@ function Automated5103Notice({
           setAddedEvidence(event.detail.checked);
         }}
       />
-      <VaButton id="submit" text="Submit evidence waiver" onClick={submit} />
+      <VaButton
+        id="submit"
+        disabled={submitDisabled}
+        text={buttonMsg}
+        onClick={submit}
+      />
     </div>
   );
 }
-// }
 
 function mapStateToProps(state) {
+  const claimsState = state.disability.status;
+
   return {
+    decisionRequested: claimsState.claimAsk.decisionRequested,
+    decisionRequestError: claimsState.claimAsk.decisionRequestError,
+    loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
     // START lighthouse_migration
     useLighthouse5103: cstUseLighthouse(state, '5103'),
     // END lighthouse_migration
@@ -135,11 +171,14 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(Automated5103Notice),
+  )(Default5103EvidenceNotice),
 );
 
-Automated5103Notice.propTypes = {
+Default5103EvidenceNotice.propTypes = {
+  decisionRequestError: PropTypes.string,
+  decisionRequested: PropTypes.bool,
   item: PropTypes.object,
+  loadingDecisionRequest: PropTypes.bool,
   navigate: PropTypes.func,
   params: PropTypes.object,
   // START lighthouse_migration
@@ -149,4 +188,4 @@ Automated5103Notice.propTypes = {
   // END lighthouse_migration
 };
 
-export { Automated5103Notice };
+export { Default5103EvidenceNotice };

@@ -19,6 +19,7 @@ import AppealsV2DetailPage from './containers/AppealsV2DetailPage';
 import AppealInfo from './containers/AppealInfo';
 import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
+import Standard5103NoticePage from './containers/Standard5103NoticePage';
 
 const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
 
@@ -47,6 +48,10 @@ const routes = (
       <Route path="your-claims/:id" element={<ClaimPage />}>
         <Route index element={<Navigate to="status" replace />} />
         <Route path="ask-va-to-decide" element={<AskVAPage />} />
+        <Route
+          path="5103-evidence-notice"
+          element={<Standard5103NoticePage />}
+        />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
         <Route path="details" element={detailsRoute} />
         <Route

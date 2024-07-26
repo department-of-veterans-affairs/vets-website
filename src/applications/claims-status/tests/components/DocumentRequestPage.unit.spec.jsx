@@ -46,7 +46,7 @@ describe('<DocumentRequestPage>', () => {
     }));
 
   context('when cst5103UpdateEnabled is true', () => {
-    it('should render Automated5103Notice component when item is a 5103 notice', () => {
+    it('should render Default5103EvidenceNotice component when item is a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Automated 5103 Notice Response',
@@ -80,7 +80,7 @@ describe('<DocumentRequestPage>', () => {
       );
     });
 
-    it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
+    it('should not render Default5103EvidenceNotice component when item is a not a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Buddy statement text',

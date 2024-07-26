@@ -2,25 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
+import { standard5103Item } from '../../constants';
+
 function Standard5103Alert({ previousPage = null }) {
-  // The Standard 5103 Notice Response doesnt come through as a tracked item from our API until it is closed so we need to make a
-  // mocked item with information.
-  const standard5103Item = {
-    displayName: '5103 Evidence Notice',
-    type: '5103 Notice Response',
-    description: (
-      <>
-        <p>
-          We sent you a "5103 notice" letter that lists the types of evidence we
-          may need to decide your claim.
-        </p>
-        <p>
-          Upload the waiver attached to the letter if you’re finished adding
-          evidence.
-        </p>
-      </>
-    ),
-  };
   return (
     <va-alert
       data-testid="standard-5103-notice-alert"
