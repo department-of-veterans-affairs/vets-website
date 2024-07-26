@@ -10,13 +10,6 @@ describe('TestCheckBox', () => {
   });
   it('focus is on checkbox', () => {
     cy.mount(<TestCheckBox />);
-
-    cy.focused().then(($el) => {
-      console.log($el);
-    })
-
-
-    // Check if focus is on the checkbox
     cy.focused().should('have.attr', 'name', 'checkbox');
   });
 });
