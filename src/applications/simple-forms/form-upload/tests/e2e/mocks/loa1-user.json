@@ -1,0 +1,124 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "signIn": {
+          "serviceName": "idme"
+        },
+        "email": "john.preparer@example.com",
+        "loa": { "current": 1 },
+        "firstName": "John",
+        "middleName": "",
+        "lastName": "Preparer",
+        "gender": "M",
+        "birthDate": "1985-01-01",
+        "verified": true
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": true,
+        "servedIn_military": true
+      },
+      "inProgress_forms": [],
+      "prefillsAvailable": ["FORM-UPLOAD-FLOW"],
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "health-records",
+        "rx",
+        "messaging"
+      ],
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19850101",
+        "familyName": "Preparer",
+        "gender": "M",
+        "givenNames": ["John", ""],
+        "activeStatus": "active",
+        "facilities": [
+          {
+            "facilityId": "983",
+            "isCerner": false
+          },
+          {
+            "facilityId": "984",
+            "isCerner": false
+          }
+        ]
+      },
+      "vet360ContactInformation": {
+        "vet360Id": "223141",
+        "email": {
+          "createdAt": "2021-07-20T21:07:53.000+00:00",
+          "emailAddress": "john.preparer@example.com",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-09-15T17:36:19.000+00:00",
+          "id": 187136,
+          "sourceDate": "2022-09-15T17:36:19.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "f62b0a80-e92e-4100-9469-485d51103028",
+          "updatedAt": "2022-09-15T17:36:19.000+00:00",
+          "vet360Id": "223141"
+        },
+        "residentialAddress": null,
+        "mailingAddress": {
+          "addressLine1": "32187 Western Ave.",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "San Diego",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": "39049",
+          "countyName": "Franklin County",
+          "createdAt": "2020-05-25T07:06:58.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-09-15T17:34:47.000+00:00",
+          "geocodeDate": "2022-09-15T17:34:48.000+00:00",
+          "id": 172330,
+          "internationalPostalCode": null,
+          "province": null,
+          "stateCode": "CA",
+          "vet360Id": "223141",
+          "zipCode": "92123",
+          "zipCodeSuffix": "1832",
+          "badAddress": false
+        },
+        "mobilePhone": {
+          "areaCode": "123",
+          "countryCode": "1",
+          "createdAt": "2021-09-13T21:04:54.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2021-09-13T21:04:53.000+00:00",
+          "id": 258589,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "5555555",
+          "phoneType": "MOBILE",
+          "sourceDate": "2021-09-13T21:04:53.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "690d7bfd-9d2b-4702-93e3-9c85c8892055",
+          "updatedAt": "2021-09-13T21:04:54.000+00:00",
+          "vet360Id": "223141"
+        },
+        "homePhone": null,
+        "workPhone": null,
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      }
+    }
+  },
+  "meta": { "errors": null }
+}
