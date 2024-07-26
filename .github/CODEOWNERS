@@ -62,6 +62,10 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Authenticated Experience Design Patterns
+
+src/applications/_mock-form-ae-design-patterns department-of-veterans-affairs/tmf-auth-exp-design-patterns @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Disability Benefits Experience
 src/applications/disability-benefits @department-of-veterans-affairs/disability-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
