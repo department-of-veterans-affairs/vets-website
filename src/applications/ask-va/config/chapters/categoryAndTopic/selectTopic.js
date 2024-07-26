@@ -15,6 +15,9 @@ const selectTopicPage = {
     selectTopic: {
       'ui:title': CHAPTER_1.PAGE_2.QUESTION_1,
       'ui:widget': TopicSelect,
+      'ui:errorMessages': {
+        required: 'Please select a topic',
+      },
     },
   },
   schema: {

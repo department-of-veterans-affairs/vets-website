@@ -13,6 +13,10 @@ export default function GetFormHelp() {
   // Don't show footers on CHAMPVA confirmation pages (we still want them
   // on all other pages though).
   return isChampvaConfirmation || isFMPConfirmation ? (
+
+  // Don't show footers on CHAMPVA confirmation pages (we still want them
+  // on all other pages though).
+  return isChampvaConfirmation ? (
     <div className="row vads-u-margin-bottom--4" />
   ) : (
     <div className="row vads-u-margin-bottom--4">
