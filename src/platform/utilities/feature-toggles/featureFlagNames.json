@@ -144,6 +144,7 @@
   "nodConfirmationUpdate": "nod_confirmation_update",
   "pdfWarningBanner": "pdf_warning_banner",
   "pensionFormEnabled": "pension_form_enabled",
+  "pensionMedicalEvidenceClarification": "pension_medical_evidence_clarification",
   "pensionIntroductionUpdate": "pension_introduction_update",
   "pensionMultiplePageResponse": "pension_multiple_page_response",
   "pensionIncomeAndAssetsClarification": "pension_income_and_assets_clarification",
@@ -253,6 +254,8 @@
   "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaOnlineSchedulingRecentLocationsFilter": "va_online_scheduling_recent_locations_filter",
   "vaOnlineSchedulingMedReviewInstructions": "va_online_scheduling_med_review_instructions",
+  "vaOnlineSchedulingOHDirectSchedule": "va_online_scheduling_OH_direct_schedule",
+  "vaOnlineSchedulingOHRequest": "va_online_scheduling_OH_request",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
@@ -268,5 +271,8 @@
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "toggleVyeApplication": "toggle_vye_application",
   "militaryBenefitEstimates": "military_benefit_estimates",
-  "merge1995And5490": "merge_1995_and_5490"
+  "merge1995And5490": "merge_1995_and_5490",
+  "askVaFormFeature": "ask_va_form_feature",
+  "askVaDashboardFeature": "ask_va_dashboard_feature",
+  "askVaIntroductionPageFeature": "ask_va_introduction_page_feature"
 }

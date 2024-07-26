@@ -18,6 +18,9 @@ export default function PensionEntry({ location, children }) {
   const pensionIncomeAndAssetsClarification = useToggleValue(
     TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
   );
+  const pensionMedicalEvidenceClarification = useToggleValue(
+    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
+  );
   const pensionModuleEnabled = useToggleValue(
     TOGGLE_NAMES.pensionModuleEnabled,
   );
@@ -45,12 +48,17 @@ export default function PensionEntry({ location, children }) {
           'showIncomeAndAssetsClarification',
           pensionIncomeAndAssetsClarification,
         );
+        window.sessionStorage.setItem(
+          'showPensionEvidenceClarification',
+          !!pensionMedicalEvidenceClarification,
+        );
       }
     },
     [
       isLoadingFeatures,
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
+      pensionMedicalEvidenceClarification,
     ],
   );
 

@@ -1,7 +1,8 @@
-import { RESPONSES } from '../question-data-map';
+import { RESPONSES, SHORT_NAME_MAP } from '../question-data-map';
 import { BATCHES } from '../question-batches';
 
 const { BURN_PITS, ORANGE, RADIATION, CAMP_LEJEUNE } = BATCHES;
+const { BURN_PIT_2_1, MAIN_FLOW_2_5 } = SHORT_NAME_MAP;
 export const NONE = 'None';
 
 const {
@@ -46,6 +47,22 @@ export const resultsDCs = Object.freeze({
         },
         [DURING_BOTH_PERIODS]: {
           YES: NONE,
+        },
+      },
+    },
+    // Because results page 4 requires answers to specific questions rather than any answer in a batch,
+    // it must be evaluated first when determining the results page as other results pages'
+    // display conditions may also be true
+    RESULTS_4: {
+      SERVICE_PERIOD_SELECTION: {
+        [NINETY_OR_LATER]: {
+          YES: [BURN_PIT_2_1, MAIN_FLOW_2_5],
+        },
+        [EIGHTYNINE_OR_EARLIER]: {
+          YES: [BURN_PIT_2_1, MAIN_FLOW_2_5],
+        },
+        [DURING_BOTH_PERIODS]: {
+          YES: [BURN_PIT_2_1, MAIN_FLOW_2_5],
         },
       },
     },
