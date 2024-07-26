@@ -6,14 +6,16 @@ export const BATCHES = Object.freeze({
   BURN_PITS: 'Burn pits',
   CAMP_LEJEUNE: 'Lejeune',
   RADIATION: 'Radiation',
+  MAIN: 'Main',
 });
 
-// This maps SNAKE_CASE name for a question to the batch for results screen branching
+// This maps SNAKE_CASE name for a question to the batch for results page branching
 export const BATCH_MAP = Object.freeze({
   [BATCHES.BURN_PITS]: [
     SHORT_NAME_MAP.BURN_PIT_2_1,
     SHORT_NAME_MAP.BURN_PIT_2_1_1,
     SHORT_NAME_MAP.BURN_PIT_2_1_2,
+    SHORT_NAME_MAP.BURN_PIT_2_1_3,
   ],
   [BATCHES.ORANGE]: [
     SHORT_NAME_MAP.ORANGE_2_2_A,
@@ -28,4 +30,5 @@ export const BATCH_MAP = Object.freeze({
     SHORT_NAME_MAP.RADIATION_2_3_B,
   ],
   [BATCHES.CAMP_LEJEUNE]: [SHORT_NAME_MAP.LEJEUNE_2_4],
+  [BATCHES.MAIN]: [SHORT_NAME_MAP.MAIN_FLOW_2_5],
 });

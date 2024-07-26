@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getThreadList } from '../api/SmApi';
+import { getIsPilotFromState } from '.';
 
 export const getListOfThreads = (
   folderId,
@@ -9,17 +10,19 @@ export const getListOfThreads = (
   pageNumber,
   threadSort,
   update = false,
-) => async dispatch => {
+) => async (dispatch, getState) => {
   if (!update) {
     dispatch({ type: Actions.Thread.IS_LOADING, payload: true });
   }
   try {
-    const response = await getThreadList(
+    const isPilot = getIsPilotFromState(getState);
+    const response = await getThreadList({
       folderId,
       pageSize,
       pageNumber,
       threadSort,
-    );
+      isPilot,
+    });
     dispatch({
       type: Actions.Thread.GET_LIST,
       response,
