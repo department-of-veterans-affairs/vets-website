@@ -19,7 +19,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
             <span className="vads-u-width--fit">{payment.transactionDate}</span>
             <span>
               <div className="vads-u-margin-top--0">
-                {renderPaymentHistoryDescription(payment.hinesCode)}
+                {renderPaymentHistoryDescription(payment.transactionFiscalCode)}
               </div>
             </span>
             <span>{payment.transactionTotalAmount}</span>

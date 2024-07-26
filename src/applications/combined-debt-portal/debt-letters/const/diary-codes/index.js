@@ -61,8 +61,8 @@ export const renderLetterHistory = diaryCode => {
   }
 };
 
-export const renderPaymentHistoryDescription = hinesCode => {
-  switch (hinesCode) {
+export const renderPaymentHistoryDescription = transactionFiscalCode => {
+  switch (transactionFiscalCode) {
     case '04Q':
       return (
         <>
