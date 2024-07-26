@@ -1,5 +1,3 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 const DATA_DOG_TOKEN = 'pube9cdb0054ba0126c0adac86ff8ac50e2';
 const DATA_DOG_SERVICE = 'octo-identity';
 
@@ -90,6 +88,8 @@ export const newError = ({ message, code, requestId }) => {
 };
 
 const initializeDataDog = () => {
+  const environment = require('@department-of-veterans-affairs/platform-utilities/environment')
+    .default;
   if (
     !environment.BASE_URL.includes('localhost') &&
     !window.Mocha &&
