@@ -66,7 +66,7 @@ export const getLastQuestionAnswered = formResponses => {
 };
 
 /** ================================================================
- * Used for results screens
+ * Used for results pages
  * When the Back button is clicked, find the last question that was answered
  * in the flow based on service period response and direct user back there
  * @param {object} formResponses - all answers in the store
