@@ -3,8 +3,16 @@ import {
   fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { UPLOAD_GUIDELINES } from '../config/constants';
-import { getFormContent } from '../helpers';
+import {
+  UPLOAD_GUIDELINES,
+  ALERT_TOO_MANY_PAGES,
+  ALERT_TOO_FEW_PAGES,
+} from '../config/constants';
+import {
+  getFormContent,
+  hideAlertTooManyPages,
+  hideAlertTooFewPages,
+} from '../helpers';
 
 const { formNumber, title } = getFormContent();
 
@@ -24,6 +32,18 @@ export const uploadPage = {
         required: () => true,
       }),
     },
+    'view:alertTooManyPages': {
+      'ui:description': ALERT_TOO_MANY_PAGES(formNumber),
+      'ui:options': {
+        hideIf: formData => hideAlertTooManyPages(formData),
+      },
+    },
+    'view:alertTooFewPages': {
+      'ui:description': ALERT_TOO_FEW_PAGES(formNumber),
+      'ui:options': {
+        hideIf: formData => hideAlertTooFewPages(formData),
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -33,6 +53,14 @@ export const uploadPage = {
         properties: {},
       },
       uploadedFile: fileInputSchema,
+      'view:alertTooManyPages': {
+        type: 'object',
+        properties: {},
+      },
+      'view:alertTooFewPages': {
+        type: 'object',
+        properties: {},
+      },
     },
     required: ['uploadedFile'],
   },

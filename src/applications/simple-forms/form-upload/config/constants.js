@@ -1,3 +1,4 @@
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
@@ -27,6 +28,50 @@ export const UPLOAD_GUIDELINES = Object.freeze(
     </div>
   </>,
 );
+
+export const ALERT_TOO_MANY_PAGES = formNumber =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded has more pages than the form usually has. Please
+          check the file you uploaded is a recent VA Form {formNumber}.
+        </p>
+        <p>LINK HERE!</p>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );
+
+export const ALERT_TOO_FEW_PAGES = formNumber =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded has fewer pages than the original form. Please
+          check your uploaded form to be sure it is the correct form.
+        </p>
+        <p>LINK HERE!</p>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );
 
 export const SAVE_IN_PROGRESS_CONFIG = {
   messages: {

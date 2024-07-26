@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getOcrResults } from '~/applications/simple-forms/form-upload/helpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 
@@ -43,9 +44,17 @@ const VaFileInputField = props => {
   const { fileUploadUrl } = mappedProps;
 
   const onFileUploaded = useCallback(
-    uploadedFile => {
-      if (uploadedFile.confirmationCode) {
-        props.childrenProps.onChange(uploadedFile);
+    async uploadedFile => {
+      const { confirmationCode } = uploadedFile;
+      if (confirmationCode) {
+        const ocrResults = await getOcrResults(uploadedFile.file);
+        const { name, size } = uploadedFile.file;
+        props.childrenProps.onChange({
+          name,
+          size,
+          confirmationCode,
+          ocrResults,
+        });
       }
     },
     [props.childrenProps],
