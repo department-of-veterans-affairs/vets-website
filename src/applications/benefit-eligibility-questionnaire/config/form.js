@@ -143,17 +143,17 @@ const formConfig = {
         },
       },
     },
-    chapter5: {
+    chapter6: {
       title: 'GI Bill Status',
       pages: {
         giBillStatus: {
           path: 'gi-bill-status',
-          title: 'gi-bill-status',
+          title: 'GI Bill Status',
           uiSchema: giBillStatus.uiSchema,
           schema: giBillStatus.schema,
         },
+      },
     },
-  },
   },
   footerContent,
   getHelp,
