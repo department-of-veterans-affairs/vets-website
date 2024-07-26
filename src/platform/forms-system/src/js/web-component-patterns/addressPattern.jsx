@@ -527,7 +527,7 @@ export function addressUI(options) {
   if (!omit('postalCode')) {
     uiSchema.postalCode = {
       'ui:required': requiredFunc('postalCode', true),
-      'ui:title': 'Postal code',
+      'ui:title': options?.labels?.postalCode ?? 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
