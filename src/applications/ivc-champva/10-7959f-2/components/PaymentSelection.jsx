@@ -1,9 +1,28 @@
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import React from 'react';
 
 const PaymentSelectionUI = () => {
   return yesNoUI({
     title: 'Tell us where to send the payment for this claim',
-    'ui:description': 'Choose Veteran if you want to',
+    description: (
+      <>
+        <ul>
+          <li>
+            Select <strong>Veteran</strong> if you’ve already paid this
+            provider. We’ll send a check to your mailing address to pay you back
+            (also called reimbursement).
+          </li>
+          <li>
+            Select <strong>Provider</strong> if you haven’t paid the provider.
+            We’ll send a check to the provider’s mailing address to pay them
+            directly.
+          </li>
+        </ul>
+        <p>
+          <strong>Send payment to:</strong>
+        </p>
+      </>
+    ),
     labels: {
       Y: 'Veteran',
       N: 'Provider',
@@ -12,40 +31,43 @@ const PaymentSelectionUI = () => {
 };
 
 export default PaymentSelectionUI;
+// 'ui:description': (
+//       <ul>
+//         <li>
+//           Select Veteran if you've already paid this provider. We'll send a
+//           check to your mailing address to pay you back (also called
+//           reimbursement).
+//         </li>
+//         <li>
+//           Select Provider if you haven't paid the provider. We'll send a check
+//           to the provider's mailing address to pay them directly.
+//         </li>
+//       </ul>
+//     ),
 
-/**
- * Web component v3 uiSchema for yes or no questions
- *
- * ```js
- * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
- * hasHealthInsurance: yesNoUI({
- *   title: 'Do you have health insurance coverage?'
- *   labels: {
- *     Y: 'Yes, I have health insurance',
- *     N: 'No, I do not have health insurance',
- *   },
- *   required: () => true,
- *   errorMessages: {
- *     required: 'Make a selection',
- *   },
- * })
- * ```
- *
- * if `yesNoReverse` is set to true, selecting `yes` will result in `false` instead of `true`
+// export default PaymentSelectionUI;
+
+// /**
+//  * Web component v3 uiSchema for yes or no questions
 //  *
-//  * @param {UIOptions & {
-//  *   title?: UISchemaOptions['ui:title'],
-//  *   description?: UISchemaOptions['ui:description'],
-//  *   labels?: {Y?: string, N?: string},
-//  *   tile?: boolean,
-//  *   required?: UISchemaOptions['ui:required'],
-//  *   yesNoReverse?: boolean,
-//  *   hint?: string,
-//  *   errorMessages?: UISchemaOptions['ui:errorMessages'],
-//  *   labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
-//  * }} options - a string to use as the title or an object with options
-//  * @returns {UISchemaOptions}
-//  */
+//  * ```js
+//  * hasHealthInsurance: yesNoUI('Do you have health insurance coverage?')
+//  * hasHealthInsurance: yesNoUI({
+//  *   title: 'Do you have health insurance coverage?'
+//  *   labels: {
+//  *     Y: 'Yes, I have health insurance',
+//  *     N: 'No, I do not have health insurance',
+//  *   },
+//  *   required: () => true,
+//  *   errorMessages: {
+//  *     required: 'Make a selection',
+//  *   },
+//  * })
+//  * ```
+//  *
+//  * if `yesNoReverse` is set to true, selecting `yes` will result in `false` instead of `true`
+// //  *
+
 // export const PaymentSelectionUI = options => {
 //   const {
 //     title,
@@ -61,14 +83,17 @@ export default PaymentSelectionUI;
 //   return {
 //     'ui:title': 'Tell us where to send the payment for this claim',
 //     'ui:description': (
-//         <ul>
-//             <li>
-//                 Select Veteran if you've already paid this provider. We'll send a check to your mailing address to pay you back (also called reimbursement).
-//             </li>
-//             <li>
-//                 Select Provider if you haven't paid the provider. We'll send a check to the provider's mailing address to pay them directly.
-//             </li>
-//         </ul>
+//       <ul>
+//         <li>
+//           Select Veteran if you've already paid this provider. We'll send a
+//           check to your mailing address to pay you back (also called
+//           reimbursement).
+//         </li>
+//         <li>
+//           Select Provider if you haven't paid the provider. We'll send a check
+//           to the provider's mailing address to pay them directly.
+//         </li>
+//       </ul>
 //     ),
 //     'ui:widget': 'yesNo', // This is required for the review page to render the field properly
 //     'ui:webComponentField': YesNoField,
