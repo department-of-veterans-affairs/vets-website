@@ -742,7 +742,6 @@ export function memorableDateUI(title) {
     'ui:title': title,
     'ui:webComponentField': MemorableDateField,
     'ui:options': {
-      hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
       monthSelect: false,
     },
     // 'ui:validations': [validateMemorableDate],
@@ -754,6 +753,8 @@ export const nonPreparerDateOfBirthUI = memorableDateUI('Your date of birth');
 export const preparerDateOfBirthUI = memorableDateUI(
   'Applicant’s date of birth',
 );
+
+export const sponsorDateOfBirthUI = memorableDateUI('Sponsor’s date of birth');
 
 class SSNWidget extends React.Component {
   constructor(props) {

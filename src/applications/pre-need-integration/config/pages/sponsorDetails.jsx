@@ -1,10 +1,9 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
+  sponsorDateOfBirthUI,
   veteranUI,
   sponsorDetailsSubHeader,
   ssnDashesUI,
@@ -46,7 +45,7 @@ export const uiSchema = {
         ...ssnDashesUI,
         'ui:title': 'Sponsor’s Social Security number',
       },
-      dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
+      dateOfBirth: sponsorDateOfBirthUI,
       cityOfBirth: {
         'ui:title': "Sponsor's birth city or county",
       },
