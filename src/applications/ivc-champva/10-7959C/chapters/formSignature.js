@@ -6,7 +6,7 @@ import {
 
 export const formSignatureSchema = {
   uiSchema: {
-    ...titleUI('Signer information'),
+    ...titleUI('Form signature'),
     certifierRole: {
       ...radioUI({
         updateUiSchema: formData => {
