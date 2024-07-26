@@ -16,6 +16,7 @@ import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
 import separation from '../pages/separation';
+import giBillStatus from '../pages/giBillStatus';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -37,7 +38,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Disability',
+  stepLabels: 'Goals;Service;Separation;Disability;GI Bill',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -127,6 +128,17 @@ const formConfig = {
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
+        },
+      },
+    },
+    chapter5: {
+      title: 'GI Bill Status',
+      pages: {
+        giBillStatus: {
+          path: 'gi-bill-status',
+          title: 'gi-bill-status',
+          uiSchema: giBillStatus.uiSchema,
+          schema: giBillStatus.schema,
         },
       },
     },
