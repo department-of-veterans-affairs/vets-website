@@ -40,3 +40,12 @@ h1:focus {
   }
 }
 
+.icon-color--warning {
+  color: var(--vads-color-warning-dark);
+}
+.icon-color--info {
+  color: var(--vads-color-primary);
+}
+.icon-color--success {
+  color: var(--vads-color-success);
+}
