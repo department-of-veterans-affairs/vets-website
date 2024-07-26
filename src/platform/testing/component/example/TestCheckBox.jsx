@@ -2,25 +2,23 @@ import React, { useEffect } from 'react';
 
 import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// import { focusElement } from 'platform/utilities/ui';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 function TestCheckBox() {
   useEffect(() => {
-    // focusElement('.checkbox-test');
+    focusElement('.va-checkbox');
   }, []);
 
   return (
     <div>
-      <VaCheckboxGroup label="VA Checkbox Grouping" uswds>
-        <va-checkbox
-          data-testid="checkbox-component"
-          class="checkbox-test"
-          name="checkbox"
-          label="VA Checkbox"
-          checked={false}
-          uswds
-        />
-      </VaCheckboxGroup>
+      <h1>Checkbox Test Component</h1>
+      <va-checkbox
+        class="va-checkbox"
+        name="checkbox"
+        label="VA Checkbox"
+        checked={false}
+        uswds
+      />
     </div>
   );
 }
