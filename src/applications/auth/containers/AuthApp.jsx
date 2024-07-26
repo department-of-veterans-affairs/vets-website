@@ -90,9 +90,10 @@ const AuthApp = ({ location }) => {
   };
 
   const redirect = () => {
+    // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-    // remove from session storage
+    // redirect to my-va if necessary
     const updatedUrl = generateReturnURL(returnUrl);
 
     // check if usip client
@@ -123,6 +124,7 @@ const AuthApp = ({ location }) => {
     state: authState,
     csp,
   }) => {
+    // Verify the state matches in storage
     if (
       !localStorage.getItem(OAUTH_KEYS.STATE) ||
       localStorage.getItem(OAUTH_KEYS.STATE) !== authState
@@ -196,7 +198,6 @@ const AuthApp = ({ location }) => {
     } else {
       validateSession();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openLoginModal = () => {
