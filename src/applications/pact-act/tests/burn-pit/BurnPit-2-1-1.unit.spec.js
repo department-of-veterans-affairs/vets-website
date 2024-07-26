@@ -16,7 +16,6 @@ const {
   NINETY_OR_LATER,
   NO,
   NOT_SURE,
-  YES,
 } = RESPONSES;
 
 // Form data is intentionally skipped for the render tests since these are very basic "does it load?" tests
@@ -143,7 +142,6 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
     const formResponses = {
-      BURN_PIT_2_1: YES,
       SERVICE_PERIOD: NINETY_OR_LATER,
     };
 
@@ -152,7 +150,7 @@ describe('displayConditionsAreMet', () => {
 
   it('BURN_PIT_2_1_1: should return false when the display conditions are not met', () => {
     const formResponses = {
-      BURN_PIT_2_1: YES,
+      BURN_PIT_2_1: null,
       SERVICE_PERIOD: DURING_BOTH_PERIODS,
     };
 

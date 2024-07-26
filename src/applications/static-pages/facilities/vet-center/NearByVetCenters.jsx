@@ -99,6 +99,9 @@ const NearByVetCenters = props => {
         });
 
       const fetchDrivingData = async () => {
+        if (vetCentersCoordinates.length === 0) {
+          return;
+        }
         const response = await fetch(
           distancesToNearbyVetCenters(
             originalCoordinates,
@@ -222,15 +225,31 @@ const NearByVetCenters = props => {
     );
     return renderNearbyVetCenterContainer(normalizedFetchedVetCenters);
   }
+  if (originalCoordinates && fetchedVetCenters.length > 0) {
+    return (
+      <>
+        <h2
+          className="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                  medium-screen:vads-u-margin-bottom--3"
+          id="other-near-locations-not-found"
+          data-testid="other-near-locations-not-found"
+        >
+          Other nearby Vet Centers
+        </h2>
+        <p>No nearby Vet Center locations found.</p>
+      </>
+    );
+  }
   return null;
 };
 
 NearByVetCenters.propTypes = {
-  vetCenters: PropTypes.array,
-  mainVetCenterPhone: PropTypes.string,
+  facilitiesLoading: PropTypes.bool,
   mainVetCenterAddress: PropTypes.object,
   mainVetCenterId: PropTypes.string,
+  mainVetCenterPhone: PropTypes.string,
   satteliteVetCenters: PropTypes.array,
+  vetCenters: PropTypes.array,
 };
 
 const mapStateToProps = store => ({

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { getRealFacilityId } from '../../utils/appointment';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -12,6 +13,7 @@ import DetailPageLayout, {
   What,
   Where,
   Section,
+  ClinicOrFacilityPhone,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -24,8 +26,11 @@ export default function ClaimExamLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     facility,
     facilityPhone,
+    locationId,
     isPastAppointment,
     startDate,
     status,
@@ -38,6 +43,7 @@ export default function ClaimExamLayout({ data: appointment }) {
   if (!appointment) return null;
 
   let heading = 'Claim exam';
+  const facilityId = locationId;
   if (isPastAppointment) heading = 'Past claim exam';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled claim exam';
@@ -69,7 +75,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care information not available'}</What>
+      <What>{typeOfCareName}</What>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status && !isPastAppointment
@@ -77,40 +83,61 @@ export default function ClaimExamLayout({ data: appointment }) {
             : 'Where'
         }
       >
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
+        {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
+        {!facility &&
+          !facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+        {/* When the services return a null value for the facility (but receive the facility ID) */}
+        {!facility &&
+          !!facilityId && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor
+                href={`/find-locations/facility/vha_${getRealFacilityId(
+                  facilityId,
+                )}`}
+              >
+                View facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
         {!!facility && (
           <>
             {facility.name}
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+              <va-icon icon="directions" size="3" srtext="Directions icon" />
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
+            <br />
           </>
         )}
-        <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-        <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
-        )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Where>
       {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
         APPOINTMENT_STATUS.cancelled === status) && (
         <Section heading="Scheduling facility">
-          {!!facility === false && (
+          {!facility && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -139,15 +166,12 @@ export default function ClaimExamLayout({ data: appointment }) {
             Contact this facility compensation and pension office if you need to
             reschedule or cancel your appointment.
             <br />
-            {!!facility && (
-              <>
-                <br />
-                {facilityPhone && (
-                  <FacilityPhone heading="Phone:" contact={facilityPhone} />
-                )}
-                {!facilityPhone && <>Not available</>}
-              </>
-            )}
+            <br />
+            <ClinicOrFacilityPhone
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
+            />
           </Section>
         )}
     </DetailPageLayout>
