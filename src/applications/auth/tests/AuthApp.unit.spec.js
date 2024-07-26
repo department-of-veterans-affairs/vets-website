@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-import { AuthApp } from '../containers/AuthApp';
+import AuthApp from '../containers/AuthApp';
 
 const oldWindow = global.window;
 const generateAuthApp = ({
