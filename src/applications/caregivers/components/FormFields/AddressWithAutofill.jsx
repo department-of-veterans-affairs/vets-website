@@ -111,7 +111,7 @@ const PrimaryAddressWithAutofill = props => {
         }
       }
     }
-    return false;
+    return null;
   };
 
   return reviewMode ? (
@@ -149,7 +149,7 @@ const PrimaryAddressWithAutofill = props => {
         )}
         hint={content['caregiver-address-street-hint']}
         className="cg-address-input"
-        error={showError('street') || null}
+        error={showError('street')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
@@ -171,7 +171,7 @@ const PrimaryAddressWithAutofill = props => {
         value={formData.city}
         label={content['form-address-city-label']}
         className="cg-address-input"
-        error={showError('city') || null}
+        error={showError('city')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
@@ -183,7 +183,7 @@ const PrimaryAddressWithAutofill = props => {
         value={formData.state}
         label={content['form-address-state-label']}
         className="cg-address-select"
-        error={showError('state') || null}
+        error={showError('state')}
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
@@ -201,7 +201,7 @@ const PrimaryAddressWithAutofill = props => {
         value={formData.postalCode}
         label={content['form-address-postalCode-label']}
         className="cg-address-input"
-        error={showError('postalCode') || null}
+        error={showError('postalCode')}
         pattern={schemaProps.postalCode.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
@@ -214,7 +214,7 @@ const PrimaryAddressWithAutofill = props => {
         value={formData.county}
         label={content['form-address-county-label']}
         className="cg-address-input"
-        error={showError('county') || null}
+        error={showError('county')}
         onInput={handleChange}
         onBlur={handleBlur}
         required

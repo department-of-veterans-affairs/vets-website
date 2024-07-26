@@ -8,6 +8,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
+import content from '../../locales/en/content.json';
 
 const apiRequestWithUrl = `${
   environment.API_URL
@@ -22,9 +23,6 @@ const VaMedicalCenter = props => {
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
 
-  // define our error message(s)
-  const errorMessages = { required: 'Please provide a response' };
-
   // define our custom onchange event
   const handleChange = event => {
     setDirty(true);
@@ -38,7 +36,9 @@ const VaMedicalCenter = props => {
 
   // check field for validation errors only if field is dirty or form has been submitted
   const showError = () => {
-    return (submitted || dirty) && !value ? errorMessages.required : false;
+    return (submitted || dirty) && !value
+      ? content['validation-default-required']
+      : false;
   };
 
   // grab the facility name based upon the selected value
@@ -72,7 +72,7 @@ const VaMedicalCenter = props => {
             Sentry.withScope(scope => {
               scope.setExtra('state', veteranFacilityState);
               scope.setExtra('error', err);
-              Sentry.captureMessage('Caregiver facilities failed to load');
+              Sentry.captureMessage(content['error--facilities-fetch-alt']);
             });
             focusElement('.caregivers-error-message');
           });
@@ -86,15 +86,23 @@ const VaMedicalCenter = props => {
 
   // render the static facility name on review page
   if (reviewMode) {
-    return <span data-testid="cg-facility-name">{getFacilityName(value)}</span>;
+    return (
+      <span
+        className="dd-privacy-hidden"
+        data-testid="cg-facility-name"
+        data-dd-action-name="data value"
+      >
+        {getFacilityName(value)}
+      </span>
+    );
   }
 
   // render loading indicator while we fetch
   if (loading) {
     return (
       <va-loading-indicator
-        label="Loading"
-        message="Loading available facilities..."
+        label={content['app-loading-generic-text']}
+        message={content['facilities-loading-text']}
         set-focus
       />
     );
@@ -105,7 +113,7 @@ const VaMedicalCenter = props => {
       id={id}
       name={id}
       value={value}
-      label="VA medical center"
+      label={content['form-va-med-center-label']}
       error={showError() || null}
       onVaSelect={handleChange}
       onBlur={handleBlur}
