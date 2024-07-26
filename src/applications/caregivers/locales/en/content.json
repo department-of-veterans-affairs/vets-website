@@ -43,7 +43,7 @@
   "error--no-results-found": "No search results found.",
   "form-address-same-as-label": "Is the %s mailing address the same as their home address? ",
   "form-address-street-label": "%s street address",
-  "form-address-street2-label": "street address line 2",
+  "form-address-street2-label": "Street address line 2",
   "form-address-city-label": "City",
   "form-address-state-label": "State",
   "form-address-postalCode-label": "Postal code",

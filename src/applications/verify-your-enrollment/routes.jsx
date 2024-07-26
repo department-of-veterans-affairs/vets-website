@@ -6,6 +6,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { useSelector } from 'react-redux';
+import { isLOA1 } from '~/platform/user/selectors';
 import {
   BENEFITS_PROFILE_RELATIVE_URL,
   VERIFICATION_REVIEW_RELATIVE_URL,
@@ -15,9 +16,11 @@ import BenefitsProfileWrapper from './containers/BenefitsProfilePageWrapper';
 import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
+import IdentityVerificationAlert from './components/IdentityVerificationAlert';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
+  const isUserLOA1 = useSelector(isLOA1);
   const response = useSelector(state => state.personalInfo);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
@@ -53,6 +56,9 @@ const IsUserLoggedIn = () => {
     ),
     [],
   );
+  if (isUserLOA1) {
+    return <IdentityVerificationAlert />;
+  }
   if (toggleValue === undefined && !window.isProduction) {
     return <Loader />;
   }
