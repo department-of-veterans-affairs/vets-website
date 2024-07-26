@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   titleUI,
   titleSchema,
@@ -6,6 +7,8 @@ import {
   radioSchema,
   yesNoUI,
   yesNoSchema,
+  fileInputUI,
+  fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { fileUploadBlurbCustom } from '../../shared/components/fileUploads/attachments';
@@ -160,29 +163,41 @@ export const medicalClaimUploadSchema = {
       </>
     )),
     ...fileUploadBlurbCustom(null, additionalNotesClaims),
-    medicalUpload: fileUploadUI({
-      label: 'Upload supporting document',
-      attachmentName: true,
-    }),
+    // medicalUpload: fileUploadUI({
+    //   label: 'Upload supporting document',
+    //   attachmentName: true,
+    // }),
+    medicalUpload: {
+      ...fileInputUI({
+        errorMessages: { required: `Upload this file` },
+        name: 'form-upload-med-file-input',
+        fileUploadUrl: `${
+          environment.API_URL
+        }/ivc_champva/v1/forms/submit_supporting_documents`,
+        title: 'File upload title',
+        required: () => false,
+      }),
+    },
   },
   schema: {
     type: 'object',
-    required: ['medicalUpload'],
+    // required: ['medicalUpload'],
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
-      medicalUpload: {
-        type: 'array',
-        minItems: 1,
-        items: {
-          type: 'object',
-          properties: {
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
+      medicalUpload: fileInputSchema,
+      // medicalUpload: {
+      //   type: 'array',
+      //   minItems: 1,
+      //   items: {
+      //     type: 'object',
+      //     properties: {
+      //       name: {
+      //         type: 'string',
+      //       },
+      //     },
+      //   },
+      // },
     },
   },
 };

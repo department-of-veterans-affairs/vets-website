@@ -1,5 +1,6 @@
-// import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -16,6 +17,8 @@ import {
   insuranceStatusSchema,
   insurancePages,
 } from '../chapters/healthInsuranceInformation';
+import { claimsPages } from '../chapters/claimInformationListLoop';
+/*
 import {
   claimTypeSchema,
   claimWorkSchema,
@@ -24,6 +27,7 @@ import {
   eobUploadSchema,
   pharmacyClaimUploadSchema,
 } from '../chapters/claimInformation';
+*/
 import {
   applicantNameDobSchema,
   applicantMemberNumberSchema,
@@ -33,7 +37,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/test-data.json';
+import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -43,13 +47,18 @@ function fnp(formData) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  dev: {
+    showNavLinks: true,
+    collapsibleNavLinks: true,
+  },
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '10-7959A',
+  transformForSubmit,
   saveInProgress: {
     messages: {
       inProgress:
@@ -88,8 +97,8 @@ const formConfig = {
         page1: {
           path: 'signer-type',
           title: 'Your information',
-          // initialData: mockData.data,
-          // Placeholder data so that we display "beneficiary" in title when `fnp` is used
+          // Must include `initialData.formNumber` as v3 file upload expects it
+          initialData: { ...mockData.data, formNumber: '10-7959A' },
           ...certifierRoleSchema,
         },
         page1a: {
@@ -192,6 +201,13 @@ const formConfig = {
         ...insurancePages, // Array builder/list loop pages
       },
     },
+    claimListLoop: {
+      title: 'Claim information (list loop)',
+      pages: {
+        ...claimsPages,
+      },
+    },
+    /*
     claimInformation: {
       title: 'Claim information',
       pages: {
@@ -249,6 +265,7 @@ const formConfig = {
         },
       },
     },
+    */
   },
 };
 
