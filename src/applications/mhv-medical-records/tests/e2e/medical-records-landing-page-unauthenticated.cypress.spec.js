@@ -7,6 +7,7 @@ describe('Medical Records Landing Page', () => {
       site.mockFeatureToggles();
       site.mockVamcEhr();
       cy.visit('/my-health/medical-records/');
+      cy.wait(['@featureToggles', '@vamcEhr']);
       cy.findByRole('heading', { level: 1, name: 'Sign in' });
       cy.injectAxeThenAxeCheck();
     });

@@ -79,11 +79,11 @@ class MedicalRecordsSite {
           },
         ],
       },
-    }).as('featureToggle');
+    }).as('featureToggles');
   };
 
   mockVamcEhr = () => {
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', {}).as('vamcEhr');
   };
 
   verifyDownloadedPdfFile = (_prefixString, _clickMoment, _searchText) => {
