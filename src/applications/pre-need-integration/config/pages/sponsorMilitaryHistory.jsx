@@ -16,8 +16,8 @@ export const uiSchema = {
         items: {
           'ui:order': [
             'serviceBranch',
-            'highestRank',
             'dateRange',
+            'highestRank',
             'dischargeType',
             'nationalGuardState',
           ],

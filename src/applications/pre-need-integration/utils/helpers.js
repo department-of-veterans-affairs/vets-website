@@ -1129,8 +1129,8 @@ export const selfServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1192,8 +1192,8 @@ export const preparerServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
