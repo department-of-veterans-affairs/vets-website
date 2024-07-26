@@ -104,7 +104,7 @@ export const focusRadioH3 = () => {
 // Temporary focus function for HLR homlessness question (page header is
 // dynamic); once 100% released, change homeless form config to use
 // `scrollAndFocusTarget: focusH3`
-export const focusHomelessHeader = () => {
+export const focusToggledHeader = () => {
   scrollTo('topContentElement');
   if (sessionStorage.getItem('hlrUpdated') === 'false') {
     const radio = $('va-radio');

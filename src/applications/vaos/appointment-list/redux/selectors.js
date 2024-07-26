@@ -644,7 +644,8 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const locationId = getVAAppointmentLocationId(appointment);
 
   const { appointmentDetailsStatus, facilityData } = state.appointments;
-  const facility = facilityData?.[locationId];
+  const facility =
+    facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
   const phone = getPatientTelecom(appointment, 'phone');
   const ccProvider = selectCCProvider(appointment);
@@ -652,13 +653,13 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
   const clinicName = appointment?.location?.clinicName;
-  const clinicPhone =
-    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber;
+  const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
+  const clinicPhone = appointment?.location?.clinicPhone;
+  const clinicPhoneExtension = appointment?.location?.clinicPhoneExtension;
   const facilityPhone =
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
-  const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const duration = appointment?.minutesDuration;
   const bookingNotes = selectAppointmentDetails(appointment);
   const isPhone = selectIsPhone(appointment);
@@ -682,6 +683,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     ccProvider,
     clinicName,
     clinicPhone,
+    clinicPhoneExtension,
     clinicPhysicalLocation,
     comment,
     duration,
@@ -747,7 +749,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
   const providerAddress = selectProviderAddress(appointment);
-  const requestedPeriod = appointment?.requestedPeriod || [];
+  const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
@@ -771,7 +773,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     isPastAppointment,
     isPendingAppointment,
     phone,
-    preferredDates: requestedPeriod,
+    preferredDates,
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
@@ -816,7 +818,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
   const providerAddress = selectProviderAddress(appointment);
-  const requestedPeriod = appointment?.requestedPeriod || [];
+  const preferredDates = appointment?.preferredDates;
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
@@ -839,7 +841,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     isCanceled,
     isPastAppointment,
     phone,
-    preferredDates: requestedPeriod,
+    preferredDates,
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
