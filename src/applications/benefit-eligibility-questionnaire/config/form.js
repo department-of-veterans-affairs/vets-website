@@ -14,6 +14,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
+import militaryService from '../pages/militaryService';
 import separation from '../pages/separation';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -36,7 +37,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Disability;Separation',
+  stepLabels: 'Goals;Service;Separation;Disability',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -97,13 +98,13 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Disability',
+      title: 'Service',
       pages: {
-        disabilityRating: {
-          path: 'disability-rating',
-          title: 'Disability Rating',
-          uiSchema: disabilityRating.uiSchema,
-          schema: disabilityRating.schema,
+        militaryService: {
+          path: 'military-service',
+          title: 'Military Service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
         },
       },
     },
@@ -115,6 +116,17 @@ const formConfig = {
           title: 'Separation',
           uiSchema: separation.uiSchema,
           schema: separation.schema,
+        },
+      },
+    },
+    chapter4: {
+      title: 'Disability',
+      pages: {
+        disabilityRating: {
+          path: 'disability-rating',
+          title: 'Disability Rating',
+          uiSchema: disabilityRating.uiSchema,
+          schema: disabilityRating.schema,
         },
       },
     },
