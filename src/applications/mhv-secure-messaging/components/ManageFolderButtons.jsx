@@ -34,6 +34,7 @@ const ManageFolderButtons = props => {
   const renameModalReference = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
+  const removeFolderRef = useRef(null);
 
   useEffect(() => {
     if (!folders) {
@@ -129,25 +130,26 @@ const ManageFolderButtons = props => {
           "
         >
           {/* TODO add GA event for both buttons */}
-          <va-button
-            text="Edit folder name"
-            class="
-              vads-u-margin-bottom--1
-              small-screen:vads-u-margin-bottom--0
-            "
-            secondary
+          <button
+            type="button"
+            className="usa-button-secondary"
             data-testid="edit-folder-button"
             onClick={openRenameModal}
             ref={renameModalReference}
             data-dd-action-name="Edit Folder Name Button"
-          />
-          <va-button
-            text="Remove folder"
-            secondary
+          >
+            Edit folder name
+          </button>
+          <button
+            type="button"
+            className="usa-button-secondary"
             data-testid="remove-folder-button"
             onClick={openDelModal}
             data-dd-action-name="Remove Folder Button"
-          />
+            ref={removeFolderRef}
+          >
+            Remove folder
+          </button>
         </div>
       )}
       {isEmptyWarning && (
@@ -159,9 +161,7 @@ const ManageFolderButtons = props => {
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
-            document
-              .querySelector('[data-testid=remove-folder-button]')
-              ?.focus();
+            focusElement(removeFolderRef.current);
           }}
           status="warning"
         >
@@ -171,6 +171,7 @@ const ManageFolderButtons = props => {
             text="Ok"
             onClick={() => {
               setIsEmptyWarning(false);
+              focusElement(removeFolderRef.current);
             }}
           />
         </VaModal>
