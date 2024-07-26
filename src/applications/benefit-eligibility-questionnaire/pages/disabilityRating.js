@@ -1,21 +1,13 @@
 import React from 'react';
 
+import { pageTitle } from '../utils/helpers';
+
 export default {
   uiSchema: {
     disabilityRating: {
-      'ui:title': (
-        <>
-          <p>
-            <b>
-              Have you applied for and received a disability rating from VA?
-            </b>
-          </p>
-          <p>
-            We’re asking because receivimg a service-connected disability rating
-            from VA may make you eligible for additional benefits. Receiving
-            these benefits won’t take away from other Veterans in need.
-          </p>
-        </>
+      'ui:title': pageTitle(
+        'Have you applied for and received a disability rating from VA?',
+        'We’re asking because receivimg a service-connected disability rating from VA may make you eligible for additional benefits. Receiving these benefits won’t take away from other Veterans in need.',
       ),
       'ui:widget': 'radio',
       'ui:options': {
