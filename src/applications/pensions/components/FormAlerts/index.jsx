@@ -229,8 +229,8 @@ export const FormReactivationAlert = () => (
     you may need to provide certain information again.
     <br />
     <br />
-    Select <strong>Continue your application</strong> to use our update form. Or
-    come back later to finish your application.
+    Select <strong>Continue your application</strong> to use our updated form.
+    Or come back later to finish your application.
   </p>
 );
 
