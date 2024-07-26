@@ -73,7 +73,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
         <div className="vads-u-display--flex vads-u-margin-bottom--1p5">
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by {endDateText}.
+            Pay your balance now or request help by{' '}
+            <strong>{endDateText}</strong>.
           </p>
         </div>
       );
