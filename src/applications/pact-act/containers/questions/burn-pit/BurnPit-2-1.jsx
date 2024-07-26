@@ -13,15 +13,12 @@ import { pageSetup } from '../../../utilities/page-setup';
 
 export const locationList = (
   <ul>
-    <li>Bahrain</li>
-    <li>Iraq</li>
-    <li>Kuwait</li>
-    <li>Oman</li>
-    <li>Qatar</li>
-    <li>Saudi Arabia</li>
-    <li>Somalia</li>
-    <li>The United Arab Emirates (UAE)</li>
-    <li>The airspace above any of these locations</li>
+    <li>Operation Enduring Freedom</li>
+    <li>Operation Freedom’s Sentinel</li>
+    <li>Operation Iraqi Freedom</li>
+    <li>Operation New Dawn</li>
+    <li>Operation Inherent Resolve</li>
+    <li>Resolute Support Mission</li>
   </ul>
 );
 
@@ -81,11 +78,11 @@ const mapDispatchToProps = {
 
 BurnPit21.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setBurnPit21: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setBurnPit21: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

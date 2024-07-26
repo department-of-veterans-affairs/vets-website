@@ -1,6 +1,7 @@
 import React from 'react';
 import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { capitalize } from 'lodash';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { mask } from '../helpers';
 
 export const reviewPage = {
@@ -35,8 +36,11 @@ export const reviewPage = {
           </div>
           <p className="vads-u-margin-bottom--5">
             <b>Note:</b> If you need to update your personal information, call
-            us at 800-827-1000 (TTY:711). We’re here Monday through Friday,
-            8:00am to 9:00pm ET.
+            us at <va-telephone contact="8008271000" /> (TTY:
+            <span className="vads-u-padding-left--0p5">
+              <va-telephone contact={CONTACTS[711]} />
+            </span>
+            ). We’re here Monday through Friday, 8:00am to 9:00pm ET.
           </p>
         </>
       );
