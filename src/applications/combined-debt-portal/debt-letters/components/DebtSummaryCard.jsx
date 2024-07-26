@@ -24,20 +24,16 @@ const DebtSummaryCard = ({ debt }) => {
     <li>
       <va-card
         show-shadow
-        className="vads-u-padding--3 vads-u-margin-bottom--3 vads-u-padding-y--2 vads-u-margin-bottom--3 hydrated"
+        class="vads-u-padding--3 vads-u-margin-bottom--3"
         data-testid="debt-summary-item"
       >
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
           {debtCardHeading}
         </h2>
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
-          <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--md">
-            <span className="vads-u-font-weight--normal">
-              Current balance:{' '}
-            </span>
-            <strong>{debtCardTotal} </strong>
-          </p>
-        </h3>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h4 vads-u-font-family--serif">
+          <span className="vads-u-font-weight--normal">Current balance: </span>
+          <strong>{debtCardTotal} </strong>
+        </p>
         {debtCardSubHeading}
         <va-link
           active
