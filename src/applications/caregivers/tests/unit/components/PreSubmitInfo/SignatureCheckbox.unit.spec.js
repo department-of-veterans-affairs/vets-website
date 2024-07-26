@@ -69,10 +69,12 @@ describe('CG <SignatureCheckbox>', () => {
   });
 
   context('when an error has occurred', () => {
-    it('should display the error message within the `va-checkbox` component', () => {
+    it('should display the error message within the `va-checkbox` component', async () => {
       const { props } = getData({ showError: true });
       const { selectors } = subject({ props });
-      expect(selectors().vaCheckbox).to.have.attr('error');
+      await waitFor(() => {
+        expect(selectors().vaCheckbox).to.have.attr('error');
+      });
     });
   });
 });
