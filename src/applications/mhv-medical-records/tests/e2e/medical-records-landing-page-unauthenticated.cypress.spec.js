@@ -6,7 +6,7 @@ describe('Medical Records Landing Page', () => {
       const site = new MedicalRecordsSite();
       site.mockFeatureToggles();
       site.mockVamcEhr();
-      cy.visit('/my-health/medical-records');
+      cy.visit('/my-health/medical-records/');
       cy.findByRole('heading', { level: 1, name: 'Sign in' });
       cy.injectAxeThenAxeCheck();
     });
