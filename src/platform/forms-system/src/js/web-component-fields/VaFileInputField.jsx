@@ -39,7 +39,7 @@ const VaFileInputField = props => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const formData = useSelector(state => state.form.data);
-  const { formNumber } = formData;
+  const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
 
   const onFileUploaded = useCallback(
@@ -65,6 +65,7 @@ const VaFileInputField = props => {
             isEncrypted: null,
             name: null,
             size: null,
+            warnings: [],
           },
         }),
       );
