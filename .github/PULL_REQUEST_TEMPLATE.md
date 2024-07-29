@@ -12,6 +12,13 @@ If an entry for this folder exists in content-build and you are:
 
 2. **Renaming or moving a folder**: Update the entry in the [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json), but do not merge it until your vets-website changes here are merged. The content-build PR must be merged immediately after your vets-website change is merged in to avoid CI errors with content-build (and Tugboat).
 
+### :warning: TeamSites :warning:
+Examples of a TeamSite: https://va.gov/health and https://benefits.va.gov/benefits/. This scenario is also referred to as the "injected" header and footer. You can reach out in the `#sitewide-public-websites` Slack channel for questions.
+
+Did you change site-wide styles, platform utilities or other infrastructure?
+- [ ] No
+- [ ] Yes, and I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#that-sounds-normal-so-whats-the-proxy-all-about) to test the injected header scenario
+
 ## Summary
 
 - _(Summarize the changes that have been made to the platform)_
@@ -70,12 +77,6 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 ### Authentication
 
 - [ ] Did you login to a local build and verify all authenticated routes work as expected with a test user
-
-### :warning: Team Sites (only applies to modifications made to the VA.gov header) :warning:
-
-- [ ] The vets-website header does not contain any web-components
-- [ ] I used the [proxy-rewrite steps](https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/applications/proxy-rewrite#local-dev) to test the injected header scenario
-- [ ] I reached out in the `#sitewide-public-websites` Slack channel for questions
 
 ## Requested Feedback
 

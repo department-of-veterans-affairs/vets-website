@@ -26,9 +26,8 @@ const customSSNUI = title => {
 export const ssnOrVaFileNumberCustomUI = () => {
   return {
     ssn: customSSNUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
-    },
+    vaFileNumber: vaFileNumberUI(),
+
     'ui:options': {
       updateSchema: (formData, _schema, _uiSchema, index, path) => {
         const { ssn, vaFileNumber } = get(path, formData) ?? {};

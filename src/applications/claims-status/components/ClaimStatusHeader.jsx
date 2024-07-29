@@ -1,19 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { buildDateFormatter, isClaimOpen } from '../utils/helpers';
-
-export const getLastUpdated = claim => {
-  const updatedOn = buildDateFormatter()(
-    claim.attributes.claimPhaseDates?.phaseChangeDate,
-  );
-
-  return `Last updated: ${updatedOn}`;
-};
+import {
+  buildDateFormatter,
+  getTrackedItemDateFromStatus,
+  isClaimOpen,
+} from '../utils/helpers';
 
 export default function ClaimStatusHeader({ claim }) {
-  const { closeDate, status } = claim.attributes;
+  const { closeDate, status, trackedItems, claimPhaseDates } = claim.attributes;
+  const getTrackedItemDates = () => {
+    return trackedItems
+      ? trackedItems.map(item => getTrackedItemDateFromStatus(item))
+      : [];
+  };
+  const getLastUpdatedDate = () => {
+    const phaseChangeDate = claimPhaseDates
+      ? claimPhaseDates.phaseChangeDate
+      : null;
+    const dates = [...getTrackedItemDates(), phaseChangeDate];
+    const lastUpdatedDate = dates.reduce((a, b) => (a > b ? a : b));
 
+    return `Last updated: ${buildDateFormatter()(lastUpdatedDate)}`;
+  };
   const isOpen = isClaimOpen(status, closeDate);
 
   return (
@@ -26,7 +35,7 @@ export default function ClaimStatusHeader({ claim }) {
         <div className="vads-u-margin-bottom--4">
           <span className="usa-label">In Progress</span>
           <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
-            {getLastUpdated(claim)}
+            {getLastUpdatedDate()}
           </p>
         </div>
       )}
