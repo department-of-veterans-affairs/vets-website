@@ -5,14 +5,16 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
-  selectSchema,
-  selectUI,
+  descriptionUI,
   textSchema,
   textUI,
-  titleUI,
+  textareaUI,
+  textareaSchema,
+  yesNoUI,
+  yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourEducationHistoryDescription from '../../components/04-education-history-chapter/YourEducationHistoryDescription';
+import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -20,8 +22,7 @@ const arrayBuilderOptions = {
   nounSingular: 'educational institution',
   nounPlural: 'educational institutions',
   required: true,
-  isItemIncomplete: item =>
-    !item?.name || !item.dateRange || !item.degree || !item.major,
+  isItemIncomplete: item => !item?.name || !item.dateRange || !item.received,
   text: {
     getItemName: item => item.name,
     cardDescription: item =>
@@ -34,7 +35,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Your education history', YourEducationHistoryDescription),
+    ...descriptionUI(EducationHistoryIntro),
   },
   schema: {
     type: 'object',
@@ -42,27 +43,28 @@ const introPage = {
   },
 };
 
-const degreeOptions = [
-  'Did not receive a degree',
-  'Associate of Arts',
-  'Bachelor of Arts',
-  'Bachelor of Science',
-  'Master of Science',
-  'Master of Arts',
-  'Juris Doctor',
-  'Other',
-];
-
 /** @returns {PageSchema} */
 const educationalInstitutionPage = {
   uiSchema: {
-    ...titleUI(
-      'Education history',
-      'Enter your education history starting with high school. List all the colleges and universities attended and degrees received.',
+    ...descriptionUI(
+      'Enter your education history starting with high school. List all the colleges and universities attended and degrees received. You will be able to add additional education history on the next screen.',
     ),
     name: textUI('Name of institution'),
     dateRange: currentOrPastDateRangeUI('Start date', 'End date'),
-    degree: selectUI('Type of degree received'),
+    received: yesNoUI('Degree received?'),
+    degree: textUI({
+      title: 'Degree',
+      // required: (formData, _index) => formData.received,
+      // hidden: formData => !formData?.received,
+      // uiOptions: {
+      //   hideIf: (formData) => !formData.received
+      // }
+    }),
+    reason: textareaUI({
+      title: 'Reason for not completing studies',
+      // required: (formData, _index) => !formData.received,
+      // hidden: formData => formData?.received,
+    }),
     major: textUI('Major'),
   },
   schema: {
@@ -70,10 +72,12 @@ const educationalInstitutionPage = {
     properties: {
       name: textSchema,
       dateRange: currentOrPastDateRangeSchema,
-      degree: selectSchema(degreeOptions),
+      received: yesNoSchema,
+      degree: textSchema,
+      reason: textareaSchema,
       major: textSchema,
     },
-    required: ['name', 'dateRange', 'degree', 'major'],
+    required: ['name', 'dateRange', 'received'],
   },
 };
 
@@ -112,7 +116,7 @@ const educationalInstitutionsPages = arrayBuilderPages(
       schema: introPage.schema,
     }),
     educationalInstitutionsSummary: pageBuilder.summaryPage({
-      title: 'Review your educational institutions',
+      title: 'Review education history',
       path: 'educational-institutions-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
