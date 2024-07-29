@@ -5,6 +5,7 @@ import {
   renderMHVDowntime,
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -27,6 +28,7 @@ import {
   hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
+import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
@@ -57,10 +59,17 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
     <>
       {userRegistered && <MhvSecondaryNav />}
       <div
-        className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
+        className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--5"
         data-testid="landing-page-container"
       >
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <VaBreadcrumbs
+            homeVeteransAffairs
+            breadcrumbList={[
+              { label: 'VA.gov home', href: '/' },
+              { label: 'My HealtheVet', href: manifest.rootUrl },
+            ]}
+          />
           <DowntimeNotification
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
