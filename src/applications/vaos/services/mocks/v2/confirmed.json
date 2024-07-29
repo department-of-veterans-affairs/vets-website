@@ -132,14 +132,141 @@
     }
 },
 {
-    "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+  "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+  "type": "appointments",
+  "attributes": {
+      "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+      "identifier": [
+          {
+              "system": "Appointment/",
+              "value": "4139383436333437"
+          },
+          {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+              "value": "984:6347"
+          }
+      ],
+      "kind": "phone",
+      "status": "booked",
+      "serviceCategory": [
+          {
+              "coding": [
+                  {
+                      "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                      "code": "REGULAR",
+                      "display": "REGULAR"
+                  }
+              ],
+              "text": "REGULAR"
+          }
+      ],
+      "patientIcn": "1013678363V916823",
+      "locationId": "984",
+      "clinic": "4570",
+      "practitioners": [
+          {
+              "identifier": [
+                  {
+                      "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                      "value": null
+                  }
+              ],
+              "name": {
+                  "family": "ISS",
+                  "given": [
+                      "PROVIDERONE"
+                  ]
+              }
+          }
+      ],
+      "start": "2024-12-05T18:00:00Z",
+      "end": "2024-12-05T18:15:00Z",
+      "minutesDuration": 15,
+      "slot": {
+          "id": "3230323331323035313830303A323032333132303531383135",
+          "start": "2024-12-05T18:00:00Z",
+          "end": "2024-12-05T18:15:00Z"
+      },
+      "created": "2024-11-28T00:00:00Z",
+      "cancellable": true,
+      "extension": {
+          "ccLocation": {
+              "address": {}
+          },
+          "vistaStatus": [
+              "NO ACTION TAKEN"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+              "physicalLocation": "DAYTSHR PHONE Provider",
+              "phoneNumber": "555-555-6551",
+              "phoneNumberExtension": "6001"
+          }
+      },
+      "localStartTime": "2024-12-05T13:00:00.000-05:00",
+      "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+      "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+      "physicalLocation": "DAYTSHR PHONE Provider",
+      "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+              "id": "984",
+              "vistaSite": "984",
+              "vastParent": "984",
+              "type": "va_health_facility",
+              "name": "Dayton VA Medical Center",
+              "classification": "VA Medical Center (VAMC)",
+              "timezone": {
+                  "timeZoneId": "America/New_York"
+              },
+              "lat": 39.74935,
+              "long": -84.2532,
+              "website": "https://www.dayton.va.gov/locations/directions.asp",
+              "phone": {
+                  "main": "937-268-6511"
+              },
+              "physicalAddress": {
+                  "type": "physical",
+                  "line": [
+                      "4100 West Third Street"
+                  ],
+                  "city": "Dayton",
+                  "state": "OH",
+                  "postalCode": "45428-9000"
+              },
+              "healthService": [
+                  "Audiology",
+                  "Cardiology",
+                  "DentalServices",
+                  "Dermatology",
+                  "Gastroenterology",
+                  "Gynecology",
+                  "MentalHealthCare",
+                  "Nutrition",
+                  "Ophthalmology",
+                  "Optometry",
+                  "Orthopedics",
+                  "Podiatry",
+                  "PrimaryCare",
+                  "SpecialtyCare",
+                  "Urology",
+                  "WomensHealth"
+              ]
+          }
+      }
+  }
+},
+{
+    "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb47",
     "type": "appointments",
     "attributes": {
-        "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+        "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb47",
         "identifier": [
             {
                 "system": "Appointment/",
-                "value": "4139383436333437"
+                "value": "4139383436333438"
             },
             {
                 "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
@@ -147,7 +274,7 @@
             }
         ],
         "kind": "phone",
-        "status": "booked",
+        "status": "cancelled",
         "serviceCategory": [
             {
                 "coding": [
@@ -179,16 +306,16 @@
                 }
             }
         ],
-        "start": "2024-12-05T18:00:00Z",
-        "end": "2024-12-05T18:15:00Z",
+        "start": "2024-12-05T19:00:00Z",
+        "end": "2024-12-05T19:15:00Z",
         "minutesDuration": 15,
         "slot": {
             "id": "3230323331323035313830303A323032333132303531383135",
-            "start": "2024-12-05T18:00:00Z",
-            "end": "2024-12-05T18:15:00Z"
+            "start": "2024-12-05T19:00:00Z",
+            "end": "2024-12-05T19:15:00Z"
         },
         "created": "2024-11-28T00:00:00Z",
-        "cancellable": true,
+        "cancellable": false,
         "extension": {
             "ccLocation": {
                 "address": {}
@@ -204,7 +331,7 @@
                 "phoneNumberExtension": "6001"
             }
         },
-        "localStartTime": "2024-12-05T13:00:00.000-05:00",
+        "localStartTime": "2024-12-05T14:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
         "physicalLocation": "DAYTSHR PHONE Provider",
@@ -2154,7 +2281,7 @@
           }
         }
       }
-    }, 
+    },
     {
       "id": "193059",
       "type": "appointments",
@@ -2284,7 +2411,7 @@
           }
         }
       }
-    },          
+    },
     {
       "id": "115069",
       "type": "appointments",
