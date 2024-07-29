@@ -1,80 +1,90 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchTypeaheadSuggestions } from '~/platform/utilities/search-utilities';
 
-class Typeahead extends Component {
-  constructor(props) {
-    super(props);
+const Typeahead = ({
+  formWasSubmitted,
+  onInputSubmit,
+  setFormWasSubmitted,
+  setSavedSuggestions,
+  setSuggestions,
+  setUserInput,
+  suggestions,
+  userInput
+}) => {
+  const instance = useRef({ typeaheadTimer: null });
 
-    this.state = {
-      inputValue: this.props.startingValue,
-      savedSuggestions: [],
-      suggestions: [],
-    };
-  }
+  const fetchSuggestions = useCallback(async searchValue => {
+    const typeaheadSuggestions = await fetchTypeaheadSuggestions(searchValue);
 
-  componentDidMount() {
-    const { startingValue } = this.props;
-
-    if (startingValue) {
-      const suggestions = this.fetchSuggestions(startingValue);
-      this.setState({ suggestions });
+    if (typeaheadSuggestions?.length) {
+      setSuggestions(typeaheadSuggestions);
     }
-  }
+  }, [setSuggestions]);
 
-  componentWillUnmount() {
-    clearTimeout(this.fetchSuggestionsTimeout);
-  }
-
-  handleInputChange = event => {
-    const inputValue = event.target.value;
-
-    this.setState({ inputValue });
-
-    if (inputValue?.length <= 2) {
-      this.clearSuggestions();
-      return;
+  useEffect(() => {
+    // We landed on the page with a search term in the URL; fetch suggestions
+    if (userInput) {
+      const initialSuggestions = fetchSuggestions(userInput);
+      console.log('calling it here');
+      
+      if (initialSuggestions?.length) {
+        setSuggestions(initialSuggestions);
+      }
     }
+  }, [fetchSuggestions, setSuggestions, userInput]);
 
-    // reset the timeout so we only fetch for suggestions after the debounce timer has elapsed
-    clearTimeout(this.fetchSuggestionsTimeout);
-
-    this.fetchSuggestionsTimeout = setTimeout(() => {
-      this.fetchSuggestions(inputValue);
+  const handleInputChange = event => {
+    clearTimeout(instance.current.typeaheadTimer);
+    
+    instance.current.typeaheadTimer = setTimeout(() => {
+      console.log('fetching suggestions');
+      fetchSuggestions(userInput);
     }, 200);
+
+    setUserInput(event.target.value);
+    console.log('no im calling it here');
+
+    if (userInput?.length <= 2) {
+      setSuggestions([]);
+      setSavedSuggestions([]);
+    }
+
+    if (formWasSubmitted) {
+      setFormWasSubmitted(false);
+    }
   };
 
-  fetchSuggestions = async inputValue => {
-    const suggestions = await fetchTypeaheadSuggestions(inputValue);
-    this.setState({ suggestions });
-  };
-
-  clearSuggestions = () => {
-    this.setState({ suggestions: [], savedSuggestions: [] });
-  };
-
-  render() {
-    const { inputValue, suggestions } = this.state;
-    const { onInputSubmit } = this.props;
-
-    return (
-      <VaSearchInput
-        class="vads-u-width--full"
-        id="search-results-page-dropdown-input-field"
-        data-e2e-id="search-results-page-dropdown-input-field"
-        onInput={this.handleInputChange}
-        onSubmit={() => onInputSubmit(this.state)}
-        suggestions={suggestions}
-        value={inputValue}
-      />
-    );
-  }
-}
+  return (
+    <VaSearchInput
+      aria-labelledby="h1-search-title"
+      buttonText="Search"
+      class="vads-u-width--full"
+      id="search-results-page-dropdown-input-field"
+      data-e2e-id="search-results-page-dropdown-input-field"
+      label="Enter a keyword, phrase, or question"
+      onBlur={() => {
+        console.log('search input is not focused');
+        clearTimeout(instance.current.typeaheadTimer)
+      }}
+      onInput={handleInputChange}
+      onSubmit={onInputSubmit}
+      suggestions={suggestions}
+      value={userInput}
+    />
+  );
+};
 
 Typeahead.propTypes = {
+  formWasSubmitted: PropTypes.bool.isRequired,
   onInputSubmit: PropTypes.func.isRequired,
-  startingValue: PropTypes.string,
+  suggestions: PropTypes.array.isRequired,
+  userInput: PropTypes.string.isRequired,
+  setFormWasSubmitted: PropTypes.func.isRequired,
+  setSavedSuggestions: PropTypes.func.isRequired,
+  setSuggestions: PropTypes.func.isRequired,
+  setUserInput: PropTypes.func.isRequired,
 };
 
 export default Typeahead;
