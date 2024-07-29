@@ -71,15 +71,6 @@ export function getAppointmentInfoFromComments(comments, key) {
     }
     return data;
   }
-  if (key === 'comments') {
-    const commentsInfo = comments?.split('|comments:');
-    const appointmentComments = commentsInfo ? commentsInfo[1] : null;
-    const transformedComments = { text: appointmentComments };
-    if (appointmentComments) {
-      data.push(transformedComments);
-    }
-    return data;
-  }
   return data;
 }
 function getAppointmentType(appt) {
@@ -182,19 +173,11 @@ function getAtlasLocation(appt) {
 function getReasonCodeDS(appt, key) {
   let data;
   const reasonCode = appt.reasonCode?.text?.split('|');
-  if (reasonCode) {
-    if (key === 'code') {
-      data = reasonCode
-        .filter(item => item.includes('reasonCode:'))[0]
-        ?.split(':')[1]
-        ?.trim();
-    }
-    if (key === 'comments') {
-      data = reasonCode
-        .filter(item => item.includes('comments:'))[0]
-        ?.split('comments:')[1]
-        ?.trim();
-    }
+  if (reasonCode && key === 'code') {
+    data = reasonCode
+      .filter(item => item.includes('reasonCode:'))[0]
+      ?.split(':')[1]
+      ?.trim();
   }
   return data;
 }
@@ -241,10 +224,6 @@ export function transformVAOSAppointment(appt) {
   const commentsReasonCode = getAppointmentInfoFromComments(
     appt.reasonCode?.text,
     'reasonCode',
-  );
-  const appointmentComments = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'comments',
   );
 
   if (isRequest) {
@@ -311,18 +290,13 @@ export function transformVAOSAppointment(appt) {
       purpose.serviceName === (coding?.[0]?.code || coding) ||
       purpose.commentShort === (coding?.[0]?.code || coding),
   )?.short;
-  const comments =
-    appointmentComments.length > 0 ? appointmentComments[0] : appt.reasonCode;
-  const reasonCodeText = getReasonCodeDS(appt, 'comments')
-    ? getReasonCodeDS(appt, 'comments')
-    : comments?.text;
-  const text = appt.reasonCode ? reasonCodeText : null;
-  if (coding && code && text) {
-    comment = `${code}: ${text}`;
+  const patientComments = appt.reasonCode ? appt.patientComments : null;
+  if (coding && code && patientComments) {
+    comment = `${code}: ${patientComments}`;
   } else if (coding && code) {
     comment = code;
   } else {
-    comment = text;
+    comment = patientComments;
   }
   return {
     resourceType: 'Appointment',

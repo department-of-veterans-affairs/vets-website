@@ -67,6 +67,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       reasonCode: {
         text: 'test comment',
       },
+      patientComments: 'test comment',
     };
 
     const appointment = createMockAppointment({
@@ -97,6 +98,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
           ...initialState.featureToggles,
           vaOnlineSchedulingVAOSServiceVAAppointments: true,
           vaOnlineSchedulingVAOSServiceCCAppointments: true,
+          vaOnlineSchedulingAppointmentDetailsRedesign: false,
         },
       },
     });

@@ -209,6 +209,11 @@ export default class MockAppointmentResponse {
     });
   }
 
+  setPatientComments(value) {
+    this.attributes.patientComments = value;
+    return this;
+  }
+
   setCancelationReason(value) {
     this.attributes.cancelationReason = {
       coding: [{ code: value }],
