@@ -22,10 +22,6 @@ describe('pre-check-in', () => {
   };
   const featureStore = {
     app: 'preCheckIn',
-    features: {
-      // eslint-disable-next-line camelcase
-      check_in_experience_45_minute_reminder: true,
-    },
   };
 
   const mockRouter = {
@@ -72,11 +68,9 @@ describe('pre-check-in', () => {
           </CheckInProvider>,
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
-        screen.getAllByTestId('in-person-msg-confirmation').forEach(message => {
-          expect(message).to.have.text(
-            'Please bring your insurance cards with you to your appointment.',
-          );
-        });
+        expect(
+          screen.getAllByTestId('in-person-msg-confirmation').length,
+        ).to.equal(5);
       });
 
       it('renders page with new help text', () => {

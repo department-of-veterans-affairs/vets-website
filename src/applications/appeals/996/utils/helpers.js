@@ -61,8 +61,41 @@ export const mayHaveLegacyAppeals = ({
   additionalIssues,
 } = {}) => legacyCount > 0 || additionalIssues?.length > 0;
 
-export const showNewHlrContent = formData => formData.hlrUpdatedContent;
+export const showNewHlrContent = formData => !!formData.hlrUpdatedContent;
 export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;
+
+export const showConferenceContact = formData =>
+  showNewHlrContent(formData) && formData.informalConferenceChoice === 'yes';
+export const showConferenceVeteranPage = formData =>
+  (showNewHlrContent(formData) &&
+    formData.informalConferenceChoice === 'yes' &&
+    formData.informalConference === 'me') ||
+  (hideNewHlrContent(formData) && formData.informalConference === 'me');
+export const showConferenceRepPages = formData =>
+  (showNewHlrContent(formData) &&
+    formData.informalConferenceChoice === 'yes' &&
+    formData.informalConference === 'rep') ||
+  (hideNewHlrContent(formData) && formData.informalConference === 'rep');
+
+export const checkNeedsFormDataUpdate = props => {
+  const { formData } = props;
+  const showNewContent = showNewHlrContent(formData);
+  const confContact = formData.informalConference;
+
+  let confYesNo = formData.informalConferenceChoice;
+
+  // *** Convert old informalConference data to new split values; not using a
+  // migration because this is behind a feature toggle
+  if (showNewContent) {
+    if (confYesNo === 'no' || confContact === 'no') {
+      confYesNo = 'no';
+    } else if (confYesNo === 'yes' || ['me', 'rep'].includes(confContact)) {
+      confYesNo = 'yes';
+    }
+    formData.informalConferenceChoice = confYesNo;
+    formData.informalConference = confContact;
+  }
+};
 
 /**
  * Redirect from "/opt-in" to "/authorization" in HLR update
@@ -73,35 +106,46 @@ export const hideNewHlrContent = formData => !formData.hlrUpdatedContent;
  * @param {Object} formConfig - Full form config
  * @param {Object} router - React router
  */
-export const onFormLoaded = props => {
-  const { formData } = props;
+export const checkNeedsRedirect = props => {
+  const { formData, routes, router } = props;
   let { returnUrl } = props;
 
-  // Check feature for showing new HLR content & check the return URL
+  const showNewContent = showNewHlrContent(formData);
+  const socOptIn = '/opt-in';
+  const socAuth = '/authorization';
+
+  // *** Check feature for showing new HLR content & check the return URL
   // "/authorization" will replace "/opt-in" path
-  if (showNewHlrContent(formData) && returnUrl === '/opt-in') {
-    returnUrl = '/authorization';
-  } else if (hideNewHlrContent(formData) && returnUrl === '/authorization') {
+  if (showNewContent && props.returnUrl === socOptIn) {
+    returnUrl = socAuth;
+  } else if (!showNewContent && props.returnUrl === socAuth) {
     // return to opt in page if toggle is disabled
-    returnUrl = '/opt-in';
+    returnUrl = socOptIn;
   }
 
   // Check valid return URL; copied from RoutedSavableApp
   const isValidReturnUrl = checkValidPagePath(
-    props.routes[props.routes.length - 1].pageList,
+    routes[routes.length - 1].pageList,
     formData,
     returnUrl,
   );
+
   if (isValidReturnUrl) {
-    props.router.push(returnUrl);
+    // Push to router if we changed the returnUrl
+    router.push(returnUrl);
   } else {
     // redirect back to first page after introduction if returnUrl isn't
     // recognized as a valid path within the form
     const nextPagePath = getNextPagePath(
-      props.routes[props.routes.length - 1].pageList,
+      routes[routes.length - 1].pageList,
       formData,
       '/introduction',
     );
-    props.router.push(nextPagePath);
+    router.push(nextPagePath);
   }
+};
+
+export const onFormLoaded = props => {
+  checkNeedsFormDataUpdate(props);
+  checkNeedsRedirect(props);
 };
