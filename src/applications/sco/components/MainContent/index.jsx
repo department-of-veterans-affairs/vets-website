@@ -6,7 +6,7 @@ import UploadFileToVa from './Update/UploadFileToVa';
 import OtherResources from './Update/OtherResources';
 import TrainingAndWebinar from './Update/TrainingAndWebinar';
 
-import LastUpdated from './LastUpdated';
+// import LastUpdated from './LastUpdated';
 
 const MainContent = () => {
   return (
@@ -27,7 +27,6 @@ const MainContent = () => {
         <UploadFileToVa />
         <OtherResources />
       </article>
-      <LastUpdated />
     </div>
   );
 };
