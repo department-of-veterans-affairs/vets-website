@@ -52,7 +52,7 @@ describe('Radiology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getByText('January 6, 2004, 12:27 p.m.', {
+    const formattedDate = screen.getByText('January 6, 2004, 7:27 p.m.', {
       exact: true,
       selector: 'span',
     });

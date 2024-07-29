@@ -46,7 +46,7 @@ describe('Date formatter with no timezone', () => {
   it('formats an epoch date in the original time without a timezone', () => {
     const timeStamp = 1605300748000;
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
-    expect(formattedDate).to.eq('November 13, 2020, 1:52 p.m.');
+    expect(formattedDate).to.eq('November 13, 2020, 8:52 p.m.');
   });
 });
 

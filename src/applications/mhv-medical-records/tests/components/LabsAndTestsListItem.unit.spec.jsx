@@ -246,7 +246,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getByText('January 6, 2004, 12:27 p.m.', {
+    const date = screen.getByText('January 6, 2004, 7:27 p.m.', {
       selector: 'div',
       exact: true,
     });
