@@ -1,23 +1,25 @@
 import * as h from '../../helpers';
 import { ROUTES } from '../../../../constants';
 
-// Flow B
+// Flow F
 // Service Period - During both
-// Burn Pit 2.1 - I'm not sure
-// Burn Pit 2.1.1 - I'm not sure
+// Burn Pit 2.1 - No
+// Burn Pit 2.1.1 - No
 // Burn Pit 2.1.2 - Yes
-// Agent Orange 2.2.A - I'm not sure
-// Agent Orange 2.2.1.A - I'm not sure
-// Agent Orange 2.2.2 - I'm not sure
-// Agent Orange 2.2.3 - I'm not sure
-// Radiation 2.3.A - I'm not sure
-// Camp Lejeune 2.4 - I'm not sure
-// Results 1 ("Yes" to one category, not Camp Lejeune)
+// Agent Orange 2.2.A - No
+// Agent Orange 2.2.1.A - No
+// Agent Orange 2.2.2 - No
+// Agent Orange 2.2.3 - No
+// Radiation 2.3.A - Yes
+// Radiation 2.3.B - Select 1 checkbox
+// Camp Lejeune 2.4 - Yes
+// Main Flow 2.5 - Yes
+// Results 4
 
 // Note: anything requiring a VA button click is tested here as unit tests cannot
 // target the shadow DOM
 describe('PACT Act', () => {
-  describe(`During both of these time periods - "I'm not sure" to all questions except 1 Burn Pit (Results Screen 1)`, () => {
+  describe('During both of these time periods - "Yes" to multiple categories including Main Flow 2.5 (Results page 4)', () => {
     it('navigates through the flow forward and backward successfully', () => {
       cy.visit(h.ROOT);
 
@@ -33,12 +35,12 @@ describe('PACT Act', () => {
 
       // BURN_PIT_2_1
       h.verifyUrl(ROUTES.BURN_PIT_2_1);
-      h.selectRadio(h.BURN_PIT_2_1_INPUT, 2);
+      h.selectRadio(h.BURN_PIT_2_1_INPUT, 1);
       h.clickContinue();
 
       // BURN_PIT_2_1_1
       h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
-      h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 2);
+      h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 1);
       h.clickContinue();
 
       // BURN_PIT_2_1_2
@@ -48,50 +50,59 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_A
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
-      h.selectRadio(h.ORANGE_2_2_A_INPUT, 2);
+      h.selectRadio(h.ORANGE_2_2_A_INPUT, 1);
       h.clickContinue();
 
       // ORANGE_2_2_1_A
       h.verifyUrl(ROUTES.ORANGE_2_2_1_A);
-      h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 2);
+      h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 1);
       h.clickContinue();
 
       // ORANGE_2_2_2
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
-      h.selectRadio(h.ORANGE_2_2_2_INPUT, 2);
+      h.selectRadio(h.ORANGE_2_2_2_INPUT, 1);
       h.clickContinue();
 
       // ORANGE_2_2_3
       h.verifyUrl(ROUTES.ORANGE_2_2_3);
-      h.selectRadio(h.ORANGE_2_2_3_INPUT, 2);
+      h.selectRadio(h.ORANGE_2_2_3_INPUT, 1);
       h.clickContinue();
 
       // RADIATION_2_3_A
       h.verifyUrl(ROUTES.RADIATION_2_3_A);
-      h.selectRadio(h.RADIATION_2_3_A_INPUT, 2);
+      h.selectRadio(h.RADIATION_2_3_A_INPUT, 0);
+      h.clickContinue();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
+      h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 1);
       h.clickContinue();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
-      h.selectRadio(h.LEJEUNE_2_4_INPUT, 2);
+      h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
       h.clickContinue();
 
-      // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_1);
-      h.verifyElement(h.RESULTS_1_1_HEADER);
-      h.clickResultsContinue();
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 0);
+      h.clickContinue();
 
-      // RESULTS 1, P2
-      h.verifyUrl(ROUTES.RESULTS_1_2);
-      h.verifyElement(h.RESULTS_1_2_HEADER);
+      // RESULTS 4
+      h.verifyUrl(ROUTES.RESULTS_4);
+      h.verifyElement(h.RESULTS_4_HEADER);
       h.clickResultsBack();
 
-      // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_1);
-      h.clickResultsBack();
+      // MAIN_FLOW_2_5
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.clickBack();
 
       // LEJEUNE_2_4
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
+      h.clickBack();
+
+      // RADIATION_2_3_B
+      h.verifyUrl(ROUTES.RADIATION_2_3_B);
       h.clickBack();
 
       // RADIATION_2_3_A

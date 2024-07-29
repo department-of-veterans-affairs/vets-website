@@ -144,6 +144,7 @@
   "nodConfirmationUpdate": "nod_confirmation_update",
   "pdfWarningBanner": "pdf_warning_banner",
   "pensionFormEnabled": "pension_form_enabled",
+  "pensionMedicalEvidenceClarification": "pension_medical_evidence_clarification",
   "pensionIntroductionUpdate": "pension_introduction_update",
   "pensionMultiplePageResponse": "pension_multiple_page_response",
   "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",

@@ -6,10 +6,13 @@ export default function GetFormHelp() {
   const isChampvaConfirmation = /.*champva.*confirmation(\/)?$/.test(
     window.location.href,
   );
+  const isFMPConfirmation = /.*foreign-medical-program.*confirmation(\/)?$/.test(
+    window.location.href,
+  );
 
   // Don't show footers on CHAMPVA confirmation pages (we still want them
   // on all other pages though).
-  return isChampvaConfirmation ? (
+  return isChampvaConfirmation || isFMPConfirmation ? (
     <div className="row vads-u-margin-bottom--4" />
   ) : (
     <div className="row vads-u-margin-bottom--4">

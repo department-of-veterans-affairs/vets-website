@@ -11,38 +11,34 @@ describe('CG <CustomYesNoReviewField>', () => {
       formData,
     },
   });
+  const subject = ({ props }) => {
+    const { container } = render(
+      <CustomYesNoReviewField>
+        <div {...props} />
+      </CustomYesNoReviewField>,
+    );
+    const selectors = () => ({
+      title: container.querySelector('dt', '.review-row'),
+      value: container.querySelector('dd', '.review-row'),
+    });
+    return { container, selectors };
+  };
 
-  context('when the component renders with `Yes` value', () => {
+  context('when the component renders with value of `Yes`', () => {
     it('should render the correct field title & value', () => {
       const { props } = getData({ formData: true });
-      const { container } = render(
-        <CustomYesNoReviewField>
-          <div {...props} />
-        </CustomYesNoReviewField>,
-      );
-      const selectors = {
-        title: container.querySelector('dt', '.review-row'),
-        value: container.querySelector('dd', '.review-row'),
-      };
-      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
-      expect(selectors.value).to.contain.text('Yes');
+      const { selectors } = subject({ props });
+      expect(selectors().title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors().value).to.contain.text('Yes');
     });
   });
 
-  describe('when the component renders with `No` value', () => {
+  context('when the component renders with value of `No`', () => {
     it('should render the correct field title & value', () => {
       const { props } = getData({ formData: false });
-      const { container } = render(
-        <CustomYesNoReviewField>
-          <div {...props} />
-        </CustomYesNoReviewField>,
-      );
-      const selectors = {
-        title: container.querySelector('dt', '.review-row'),
-        value: container.querySelector('dd', '.review-row'),
-      };
-      expect(selectors.title).to.contain.text(props.uiSchema['ui:title']);
-      expect(selectors.value).to.contain.text('No');
+      const { selectors } = subject({ props });
+      expect(selectors().title).to.contain.text(props.uiSchema['ui:title']);
+      expect(selectors().value).to.contain.text('No');
     });
   });
 });

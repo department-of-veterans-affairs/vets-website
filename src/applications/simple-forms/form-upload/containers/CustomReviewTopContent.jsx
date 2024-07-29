@@ -16,6 +16,7 @@ const CustomReviewTopContent = () => {
   const zipCode = prefillStore?.zipCode || address?.postalCode;
   const ssn = prefillStore?.ssn || idNumber?.ssn;
   const vaFileNumber = prefillStore?.vaFileNumber || idNumber?.vaFileNumber;
+  const fileNumberIsSsn = ssn === vaFileNumber;
 
   const renderFileInfo = file => (
     <VaCard style={{ maxWidth: '75%' }}>
@@ -55,7 +56,8 @@ const CustomReviewTopContent = () => {
           </span>
         </p>
       )}
-      {vaFileNumber && <p>VA file number: {vaFileNumber}</p>}
+      {vaFileNumber &&
+        !fileNumberIsSsn && <p>VA file number: {vaFileNumber}</p>}
       {zipCode && <p>Zip code: {zipCode}</p>}
     </div>
   );
