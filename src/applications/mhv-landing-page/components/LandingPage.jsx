@@ -64,7 +64,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
       >
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <VaBreadcrumbs
-            role="navigation"
             homeVeteransAffairs
             breadcrumbList={[
               { label: 'VA.gov home', href: '/' },
