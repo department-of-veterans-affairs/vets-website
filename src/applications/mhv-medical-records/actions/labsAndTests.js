@@ -3,7 +3,6 @@ import {
   getLabsAndTests,
   getLabOrTest,
   getMhvRadiologyTests,
-  getMhvRadiologyTest,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -36,7 +35,8 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
   try {
     let response;
     if (labId && labId.charAt(0).toLowerCase() === 'r') {
-      response = await getMhvRadiologyTest(labId.substring(1));
+      const records = await getMhvRadiologyTests();
+      response = records.find(record => record.id === labId.substring(1));
     } else {
       response = await getLabOrTest(labId);
     }

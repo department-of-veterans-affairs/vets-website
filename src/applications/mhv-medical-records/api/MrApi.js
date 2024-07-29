@@ -47,18 +47,6 @@ export const getMhvRadiologyTests = () => {
   });
 };
 
-export const getMhvRadiologyTest = id => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        radiologyRecordsMhv.find(item => {
-          return +item.id === +id;
-        }),
-      );
-    }, 1000);
-  });
-};
-
 export const getNotes = () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,

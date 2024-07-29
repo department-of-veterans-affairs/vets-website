@@ -18,7 +18,6 @@ import {
   getConditions,
   getLabOrTest,
   getLabsAndTests,
-  getMhvRadiologyTest,
   getMhvRadiologyTests,
   getNote,
   getNotes,
@@ -57,17 +56,6 @@ describe('Get radiology tests from MHV api call', () => {
 
     return getMhvRadiologyTests().then(res => {
       expect(res.length).to.equal(21);
-    });
-  });
-});
-
-describe('Get radiology test details from MHV api call', () => {
-  it('should make an api call to get a single radiology test from MHV', () => {
-    // const mockData = radiologyMhv;
-    // mockApiRequest(mockData);
-
-    return getMhvRadiologyTest('5621490').then(res => {
-      expect(res.radiologist).to.equal('DOE,JANE');
     });
   });
 });
