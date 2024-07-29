@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
 
-function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
+function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   const dispatch = useDispatch();
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
@@ -137,8 +137,11 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
     [branchOfService, startDate, endDate, getRanksForBranch],
   );
 
+  const hint = uiSchema['ui:options']?.hint || null;
+
   return (
     <div>
+      {hint && <div className="usa-hint">{hint}</div>}
       {!formContext.onReviewPage ||
       (formContext.onReviewPage && !formContext.reviewMode) ? (
         <div className="highestRank">
@@ -183,6 +186,11 @@ HighestRankAutoSuggest.propTypes = {
   }),
   idSchema: PropTypes.shape({
     $id: PropTypes.string,
+  }),
+  uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      hint: PropTypes.string,
+    }),
   }),
 };
 

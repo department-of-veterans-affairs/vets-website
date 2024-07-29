@@ -1140,8 +1140,6 @@ export const selfServiceRecordsUI = {
     serviceBranch: autosuggest.uiSchema('Branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
-        hint:
-          'This field may clear if the branch of service or rank does not match a valid date range.',
       },
     }),
     dateRange: dateRangeUI(
@@ -1167,6 +1165,10 @@ export const selfServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1203,8 +1205,6 @@ export const preparerServiceRecordsUI = {
     serviceBranch: autosuggest.uiSchema('Applicant’s branch of service', null, {
       'ui:options': {
         labels: serviceLabels,
-        hint:
-          'This field may clear if the branch of service or rank does not match a valid date range.',
       },
     }),
     dateRange: dateRangeUI(
@@ -1230,6 +1230,10 @@ export const preparerServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

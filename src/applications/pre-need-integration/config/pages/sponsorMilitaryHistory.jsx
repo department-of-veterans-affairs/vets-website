@@ -34,6 +34,10 @@ export const uiSchema = {
           },
           highestRank: {
             'ui:title': 'Sponsor’s highest rank attained',
+            'ui:options': {
+              hint:
+                'This field may clear if the branch of service or service start and end dates are updated.',
+            },
           },
           nationalGuardState: {
             'ui:title': 'Sponsor’s state (for National Guard Service only)',
