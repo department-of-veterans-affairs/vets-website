@@ -42,6 +42,7 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showAllergiesContent = useSelector(() => false);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -564,19 +565,28 @@ const LandingPage = () => {
                     If allergies or reactions are missing from your list, tell
                     your care team right away.
                   </p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'va-allergies-adverse-reactions',
-                    )}
-                    rel="noreferrer"
-                    data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
-                      DD_ACTIONS_PAGE_TYPE.ABOUT
-                    }`}
-                  >
-                    Go to your allergy and reaction records on the My HealtheVet
-                    website
-                  </a>
+                  {showAllergiesContent ? (
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'va-allergies-adverse-reactions',
+                      )}
+                      rel="noreferrer"
+                      data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
+                    >
+                      Go to your allergy and reaction records on the My
+                      HealtheVet website
+                    </a>
+                  ) : (
+                    <a
+                      href="/my-health/medical-records/allergies"
+                      rel="noreferrer"
+                    >
+                      Go to your allergies and reactions
+                    </a>
+                  )}
                   <h4 className="vads-u-margin-top--2">
                     If you use Meds by Mail
                   </h4>
