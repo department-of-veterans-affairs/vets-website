@@ -273,5 +273,6 @@
   "merge1995And5490": "merge_1995_and_5490",
   "askVaFormFeature": "ask_va_form_feature",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
-  "askVaIntroductionPageFeature": "ask_va_introduction_page_feature"
+  "askVaIntroductionPageFeature": "ask_va_introduction_page_feature",
+  "mgibVerificationsMaintenance": "mgib_verifications_maintenance"
 }

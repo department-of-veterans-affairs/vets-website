@@ -24,11 +24,14 @@ const PreSubmitCheckboxGroup = props => {
   const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes';
+  const defaultSignatureKey = [
+    showRepresentativeSignatureBox
+      ? content['representative-signature-label']
+      : content['vet-input-label'],
+  ];
 
   const [signatures, setSignatures] = useState({
-    [showRepresentativeSignatureBox
-      ? content['representative-signature-label']
-      : content['vet-input-label']]: '',
+    [defaultSignatureKey]: '',
   });
 
   const unSignedLength = Object.values(signatures).filter(
@@ -53,7 +56,7 @@ const PreSubmitCheckboxGroup = props => {
         [content['secondary-one-signature-label']]: 'secondaryOne',
         [content['secondary-two-signature-label']]: 'secondaryTwo',
       };
-      return keyMap[key] || null;
+      return keyMap[key];
     };
 
     // iterates through all keys and normalizes them using getKeyName
@@ -79,7 +82,6 @@ const PreSubmitCheckboxGroup = props => {
     }
   };
 
-  // add signatures to formData before submission
   useEffect(
     () => {
       // do not clear signatures once form has been submitted
@@ -94,12 +96,11 @@ const PreSubmitCheckboxGroup = props => {
     [setFormData, signatures],
   );
 
-  // when there is no unsigned signatures or unchecked signature checkboxes set AGREED (onSectionComplete) to true
-  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
+  // when no empty signature inputs or unchecked signature checkboxes exist set AGREED (onSectionComplete) to true
+  // if user goes to another page (unmount), set AGREED (onSectionComplete) to false
   useEffect(
     () => {
       onSectionComplete(!unSignedLength && !uncheckedSignatureCheckboxesLength);
-
       return () => {
         onSectionComplete(false);
       };
