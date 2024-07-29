@@ -225,7 +225,8 @@ export const getDateRangesBetween = (date1, date2) => {
 
   return ranges;
 };
-export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
+const enrollmentInfoClassName = 'vads-u-margin--0 vads-u-font-size--base';
+export const getPeriodsToVerify = pendingEnrollments => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
@@ -241,36 +242,18 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
           className="vads-u-margin-y--2"
           key={`Enrollment-to-be-verified-${myUUID}`}
         >
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               {translateDatePeriod(actBegin, actEnd)}
             </span>
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               Total credit hours:
             </span>{' '}
             {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
               ? 'Rate unavailable'
