@@ -69,6 +69,13 @@ Where.propTypes = {
   heading: PropTypes.string,
 };
 
+export function Prepare({ children } = {}) {
+  return <Section heading="Prepare for your appointment">{children}</Section>;
+}
+Prepare.propTypes = {
+  children: PropTypes.node,
+};
+
 export function ClinicOrFacilityPhone({
   clinicPhone,
   clinicPhoneExtension,

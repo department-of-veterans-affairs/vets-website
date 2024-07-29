@@ -210,98 +210,109 @@ export default function App({ children }) {
       <MhvSecondaryNav />
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        <h1 tabIndex="-1" data-testid="header">
+        <h1
+          className="claims-controller-title"
+          tabIndex="-1"
+          data-testid="header"
+        >
           Check your travel reimbursement claim status
         </h1>
-        <HelpText />
-        {isLoading && (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading Travel Claims..."
-          />
-        )}
-        {!userLoggedIn && (
-          <>
-            <p>Log in to view your travel claims</p>
-            <va-button
-              text="Sign in"
-              onClick={() => dispatch(toggleLoginModal(true))}
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+          <HelpText />
+          {isLoading && (
+            <va-loading-indicator
+              label="Loading"
+              message="Loading Travel Claims..."
             />
-          </>
-        )}
-        {error && <p>Error fetching travel claims.</p>}
-        {userLoggedIn &&
-          !isLoading &&
-          travelClaims.length > 0 && (
+          )}
+          {!userLoggedIn && (
             <>
-              <div className="btsss-claims-sort-and-filter-container">
-                <label
-                  htmlFor="claimsOrder"
-                  className="vads-u-margin-bottom--0"
-                >
-                  Show appointments in this order
-                </label>
-                <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                  <select
-                    className="vads-u-margin-bottom--0"
-                    hint={null}
-                    title="Show appointments in this order"
-                    name="claimsOrder"
-                    id="claimsOrder"
-                    value={selectedClaimsOrder}
-                    onChange={e => setSelectedClaimsOrder(e.target.value)}
+              <p>Log in to view your travel claims</p>
+              <va-button
+                text="Sign in"
+                onClick={() => dispatch(toggleLoginModal(true))}
+              />
+            </>
+          )}
+          {error && <p>Error fetching travel claims.</p>}
+          {userLoggedIn &&
+            !isLoading &&
+            travelClaims.length > 0 && (
+              <>
+                <div className="btsss-claims-sort-and-filter-container">
+                  <h2>Your travel claims</h2>
+                  <p>
+                    This list shows all the appointments you've filed a travel
+                    claim for.
+                  </p>
+                  <label
+                    htmlFor="claimsOrder"
+                    className="vads-u-margin-bottom--0 vads-u-margin-top--0"
                   >
-                    <option value="mostRecent">Most Recent</option>
-                    <option value="oldest">Oldest</option>
-                  </select>
-                  <va-button
-                    onClick={() => onSortClick()}
-                    data-testid="Sort travel claims"
-                    text="Sort"
-                    label="Sort"
+                    Show appointments with travel claims in this order
+                  </label>
+                  <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                    <select
+                      className="vads-u-margin-bottom--0"
+                      hint={null}
+                      title="Show appointments with travel claims in this order"
+                      name="claimsOrder"
+                      id="claimsOrder"
+                      value={selectedClaimsOrder}
+                      onChange={e => setSelectedClaimsOrder(e.target.value)}
+                    >
+                      <option value="mostRecent">Most Recent</option>
+                      <option value="oldest">Oldest</option>
+                    </select>
+                    <va-button
+                      onClick={() => onSortClick()}
+                      data-testid="Sort travel claims"
+                      text="Sort"
+                      label="Sort"
+                    />
+                  </div>
+
+                  <TravelPayClaimFilters
+                    statusesToFilterBy={statusesToFilterBy}
+                    checkedStatusFilters={checkedStatusFilters}
+                    onStatusFilterChange={onStatusFilterChange}
+                    applyFilters={applyFilters}
+                    resetSearch={resetSearch}
+                    selectedDateFilter={selectedDateFilter}
+                    datesToFilterBy={datesToFilterBy}
+                    onDateFilterChange={onDateFilterChange}
                   />
                 </div>
 
-                <TravelPayClaimFilters
-                  statusesToFilterBy={statusesToFilterBy}
-                  checkedStatusFilters={checkedStatusFilters}
-                  onStatusFilterChange={onStatusFilterChange}
-                  applyFilters={applyFilters}
-                  resetSearch={resetSearch}
-                  selectedDateFilter={selectedDateFilter}
-                  datesToFilterBy={datesToFilterBy}
-                  onDateFilterChange={onDateFilterChange}
-                />
-              </div>
+                <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
+                  {numResults === 0
+                    ? `Showing ${numResults} events`
+                    : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
+                </h2>
 
-              <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                {numResults === 0
-                  ? `Showing ${numResults} events`
-                  : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
-              </h2>
-
-              <section
-                id="travel-claims-list"
-                className="travel-claim-list-container"
-              >
-                {displayedClaims.map(travelClaim =>
-                  TravelClaimCard(travelClaim),
+                <section
+                  id="travel-claims-list"
+                  className="travel-claim-list-container"
+                >
+                  {displayedClaims.map(travelClaim =>
+                    TravelClaimCard(travelClaim),
+                  )}
+                </section>
+                {shouldPaginate && (
+                  <VaPagination
+                    onPageSelect={e => onPageSelect(e.detail.page)}
+                    page={currentPage}
+                    pages={numPages}
+                  />
                 )}
-              </section>
-              {shouldPaginate && (
-                <VaPagination
-                  onPageSelect={e => onPageSelect(e.detail.page)}
-                  page={currentPage}
-                  pages={numPages}
-                />
-              )}
-            </>
-          )}
-        {userLoggedIn &&
-          !isLoading &&
-          !error &&
-          travelClaims.length === 0 && <p>No travel claims to show.</p>}
-        <VaBackToTop />
+              </>
+            )}
+          {userLoggedIn &&
+            !isLoading &&
+            !error &&
+            travelClaims.length === 0 && <p>No travel claims to show.</p>}
+          <VaBackToTop />
+        </div>
       </article>
 
       {children}
