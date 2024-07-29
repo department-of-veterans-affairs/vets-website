@@ -61,7 +61,7 @@ const testConfig = createTestConfig(
           cy.fillPage();
           cy.get(
             'select#options[name="root_veteranContactInformation_veteranAddress_state"]',
-            { timeout: 10000 },
+            { timeout: 1000 },
           )
             .should('be.visible')
             .should('not.be.disabled');
