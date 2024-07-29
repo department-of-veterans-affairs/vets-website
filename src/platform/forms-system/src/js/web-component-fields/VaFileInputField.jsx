@@ -55,7 +55,7 @@ const VaFileInputField = props => {
     let newFile = event.detail.files[0];
 
     // if the user is deleting the file, the files will be the same
-    if (areFilesEqual(file, newFile)) {
+    if (areFilesEqual(file, newFile) || !newFile) {
       newFile = null;
       dispatch(
         setData({
@@ -65,7 +65,7 @@ const VaFileInputField = props => {
             isEncrypted: null,
             name: null,
             size: null,
-            warnings: [],
+            warnings: null,
           },
         }),
       );
