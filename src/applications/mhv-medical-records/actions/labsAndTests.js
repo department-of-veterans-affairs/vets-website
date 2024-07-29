@@ -36,7 +36,7 @@ export const getlabsAndTestsDetails = labId => async dispatch => {
     let response;
     if (labId && labId.charAt(0).toLowerCase() === 'r') {
       const records = await getMhvRadiologyTests();
-      response = records.find(record => record.id === labId.substring(1));
+      response = records.find(record => +record.id === +labId.substring(1));
     } else {
       response = await getLabOrTest(labId);
     }
