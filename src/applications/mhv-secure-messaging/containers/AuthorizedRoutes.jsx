@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -12,6 +13,7 @@ import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import { Paths } from '../util/constants';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
+import EditContactList from './EditContactList';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -28,6 +30,9 @@ AppRoute.propTypes = {
 };
 
 const AuthorizedRoutes = () => {
+  const contactListPage = useSelector(
+    state => state.featureToggles.mhvSecureMessagingEditContactList,
+  );
   return (
     <div
       className="vads-l-col--12
@@ -74,6 +79,11 @@ const AuthorizedRoutes = () => {
         >
           <FolderThreadListView />
         </AppRoute>
+        {contactListPage && (
+          <AppRoute exact path="/contact-list" key="ContactList">
+            <EditContactList />
+          </AppRoute>
+        )}
         <Route>
           <PageNotFound />
         </Route>

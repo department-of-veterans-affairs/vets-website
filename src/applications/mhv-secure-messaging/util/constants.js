@@ -375,6 +375,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {
