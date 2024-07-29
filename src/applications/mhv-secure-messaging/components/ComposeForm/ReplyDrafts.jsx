@@ -33,7 +33,7 @@ const ReplyDrafts = props => {
               <va-accordion-item
                 bordered="true"
                 key={singleDraft.messageId}
-                open={isEditing || singleDraft}
+                open={isEditing}
                 subheader={subheader}
               >
                 <ReplyDraftItem
