@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 
-function LanguagePicker(props) {
-  const { withTopMargin } = props;
+function LanguagePicker() {
   const { i18n } = useTranslation();
   const { language } = i18n;
 
@@ -26,12 +24,11 @@ function LanguagePicker(props) {
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }
 
-  let classNames =
-    'vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray';
-  if (withTopMargin) classNames += ' vads-u-margin-top--2';
-
   return (
-    <div className={classNames} data-testid="language-picker">
+    <div
+      className="vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray"
+      data-testid="language-picker"
+    >
       {[
         {
           label: 'English',
@@ -76,9 +73,5 @@ function LanguagePicker(props) {
     </div>
   );
 }
-
-LanguagePicker.propTypes = {
-  withTopMargin: PropTypes.bool,
-};
 
 export default LanguagePicker;

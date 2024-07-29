@@ -25,15 +25,17 @@ const ConfirmationPersonalInfo = ({
           <div className="page-title vads-u-color--gray">Name</div>
           {renderFullName(userFullName)}
         </li>
-        <li>
-          <div className="page-title vads-u-color--gray">VA File Number</div>
-          <div
-            className="page-value dd-privacy-hidden"
-            data-dd-action-name="VA file number"
-          >
-            {maskVafn(vaFileLastFour || '')}
-          </div>
-        </li>
+        {vaFileLastFour && (
+          <li>
+            <div className="page-title vads-u-color--gray">VA File Number</div>
+            <div
+              className="page-value dd-privacy-hidden"
+              data-dd-action-name="VA file number"
+            >
+              {maskVafn(vaFileLastFour || '')}
+            </div>
+          </li>
+        )}
         <li>
           <div className="page-title vads-u-color--gray">Date of birth</div>
           <div

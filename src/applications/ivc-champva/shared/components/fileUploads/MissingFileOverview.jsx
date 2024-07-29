@@ -304,7 +304,13 @@ export default function MissingFileOverview({
 
   const defaultHeading = (
     <>
-      {titleUI('Upload your supporting documents')['ui:title']}
+      {
+        titleUI(
+          showConsent
+            ? 'Supporting documents summary'
+            : 'Upload your supporting documents',
+        )['ui:title']
+      }
       {filesAreMissing && !showConsent ? (
         <p>
           Upload now for faster processing. Or you can send them by mail or fax.
