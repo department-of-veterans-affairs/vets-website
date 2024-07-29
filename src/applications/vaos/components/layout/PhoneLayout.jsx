@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
+import DetailPageLayout, {
+  Section,
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+  Prepare,
+} from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
@@ -12,11 +20,12 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 
 export default function PhoneLayout({ data: appointment }) {
   const {
     clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
@@ -28,6 +37,11 @@ export default function PhoneLayout({ data: appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
+  );
+
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
@@ -63,9 +77,9 @@ export default function PhoneLayout({ data: appointment }) {
       <What>{typeOfCareName}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Section heading="Scheduling facility">
-        {!!facility === false && (
+        {!facility && (
           <>
-            <span>Facility details not available</span>
+            <span>Facility not available</span>
             <br />
             <NewTabAnchor href="/find-locations">
               Find facility information
@@ -82,9 +96,11 @@ export default function PhoneLayout({ data: appointment }) {
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {facilityPhone && (
-          <FacilityPhone heading="Phone:" contact={facilityPhone} />
-        )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Section>
       <Section heading="Details you shared with your provider">
         <span>
@@ -93,6 +109,16 @@ export default function PhoneLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
+      {featureMedReviewInstructions && (
+        <Prepare>
+          Bring your insurance cards, a list of medications, and other things to
+          share with your provider.
+          <br />
+          <NewTabAnchor href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/">
+            Find out what to bring to your appointment
+          </NewTabAnchor>
+        </Prepare>
+      )}
     </DetailPageLayout>
   );
 }
