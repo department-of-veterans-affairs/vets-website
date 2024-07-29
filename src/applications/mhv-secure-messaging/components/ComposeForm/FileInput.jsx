@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   acceptedFileTypes,
@@ -111,9 +111,24 @@ const FileInput = props => {
     setAttachFileSuccess(false);
   };
 
-  const draftText = draftSequence ? ` to draft ${draftSequence}` : '';
-  const attachText =
-    attachments.length > 0 ? 'Attach additional file' : 'Attach file';
+  const draftText = useMemo(
+    () => {
+      if (draftSequence) {
+        return ` to draft ${draftSequence}`;
+      }
+      return '';
+    },
+    [draftSequence],
+  );
+  const attachText = useMemo(
+    () => {
+      if (attachments.length > 0) {
+        return 'Attach additional file';
+      }
+      return 'Attach file';
+    },
+    [attachments.length],
+  );
 
   return (
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">

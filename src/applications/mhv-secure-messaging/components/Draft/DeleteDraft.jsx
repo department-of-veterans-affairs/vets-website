@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
@@ -9,6 +9,7 @@ import {
   Alerts,
   DefaultFolders,
   ErrorMessages,
+  Paths,
 } from '../../util/constants';
 import {
   navigateToFolderByFolderId,
@@ -23,7 +24,7 @@ const DeleteDraft = props => {
   const dispatch = useDispatch();
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const {
     cannotReply,
     draftId,
@@ -32,29 +33,50 @@ const DeleteDraft = props => {
     formPopulated,
     navigationError,
     refreshThreadCallback,
-    // setDeleteButtonClicked,
     setNavigationError,
     messageBody,
-    showIcon = true,
-    // setUnsavedNavigationError,
     draftSequence,
     setHideDraft,
     setIsEditing,
-    setIsModalVisible,
-    isModalVisible,
-    setConfirmedDeleteClicked,
     savedComposeDraft,
   } = props;
 
+  const showIcon = useState(!!cannotReply);
+
   // Navigation props
-  const savedDraft = draftId;
-  const unsavedDraft = draftId === undefined;
-  const savedReplyDraft = !!savedDraft === true && formPopulated === undefined;
-  const blankReplyDraft = draftBody === undefined && messageBody === '';
-  const inProgressReplyDraft = !blankReplyDraft && messageBody !== draftBody;
-  const editableDraft = !!savedDraft === true && formPopulated === true;
-  const newMessageNavErr = unsavedDraft && navigationError !== null;
-  const unsavedNewDraftMsg = draftId === undefined && navigationError === null;
+  const savedDraft = useMemo(() => draftId, [draftId]);
+
+  const unsavedDraft = useMemo(() => draftId === undefined, [draftId]);
+
+  const savedReplyDraft = useMemo(
+    () => !!savedDraft && formPopulated === undefined,
+    [savedDraft, formPopulated],
+  );
+
+  const blankReplyDraft = useMemo(
+    () => draftBody === undefined && messageBody === '',
+    [draftBody, messageBody],
+  );
+
+  const inProgressReplyDraft = useMemo(
+    () => !blankReplyDraft && messageBody !== draftBody,
+    [blankReplyDraft, messageBody, draftBody],
+  );
+
+  const editableDraft = useMemo(() => !!savedDraft && formPopulated === true, [
+    savedDraft,
+    formPopulated,
+  ]);
+
+  const newMessageNavErr = useMemo(
+    () => unsavedDraft && navigationError !== null,
+    [unsavedDraft, navigationError],
+  );
+
+  const unsavedNewDraftMsg = useMemo(
+    () => draftId === undefined && navigationError === null,
+    [draftId, navigationError],
+  );
 
   const unsavedDeleteSuccessful = () =>
     dispatch(
@@ -62,7 +84,6 @@ const DeleteDraft = props => {
     );
 
   const handleDeleteDraftConfirm = () => {
-    setConfirmedDeleteClicked(true);
     if (savedDraft) {
       setNavigationError(null);
       setIsModalVisible(false);
@@ -80,11 +101,11 @@ const DeleteDraft = props => {
             );
           }
 
-          if (pathname.includes('/reply')) {
+          if (pathname.includes(Paths.REPLY)) {
             history.goBack();
-          } else if (pathname.includes(`/thread/${draftId}`)) {
+          } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
             navigateToFolderByFolderId(defaultFolderId, history);
-          } else if (pathname.includes('/thread')) {
+          } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
             setIsEditing(false);
             setHideDraft(true);
           }
@@ -169,7 +190,6 @@ DeleteDraft.propTypes = {
   navigationError: PropType.object,
   refreshThreadCallback: PropType.func,
   savedComposeDraft: PropType.bool,
-  setConfirmedDeleteClicked: PropType.func,
   setHideDraft: PropType.func,
   setIsEditing: PropType.func,
   setIsModalVisible: PropType.func,

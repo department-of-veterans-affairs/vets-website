@@ -16,13 +16,12 @@ const Compose = () => {
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
-  const draftMessage = drafts?.length && drafts[0];
+  const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState('Start a new message');
-  const [activeAlert, setActiveAlert] = useState(null);
   const location = useLocation();
   const history = useHistory();
   const isDraftPage = location.pathname.includes('/draft');
@@ -91,7 +90,7 @@ const Compose = () => {
             {pageTitle}
           </h1>
           <ComposeForm
-            draft={typeof draftMessage === 'number' ? null : draftMessage}
+            draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
           />
@@ -135,11 +134,7 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBackgroundBox
-                activeAlert={activeAlert}
-                setActiveAlert={setActiveAlert}
-                closeable
-              />
+              <AlertBackgroundBox closeable />
 
               {content()}
             </div>

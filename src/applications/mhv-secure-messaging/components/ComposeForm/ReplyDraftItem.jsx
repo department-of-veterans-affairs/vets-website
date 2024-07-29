@@ -67,7 +67,6 @@ const ReplyDraftItem = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [confirmedDeleteClicked, setConfirmedDeleteClicked] = useState(false);
 
   const [bodyError, setBodyError] = useState('');
   const [messageInvalid, setMessageInvalid] = useState(false);
@@ -299,8 +298,7 @@ const ReplyDraftItem = props => {
         debouncedMessageBody &&
         isAutosave &&
         !cannotReply &&
-        !modalVisible &&
-        confirmedDeleteClicked === false
+        !modalVisible
       ) {
         saveDraftHandler('auto');
       }
@@ -311,7 +309,6 @@ const ReplyDraftItem = props => {
       isAutosave,
       modalVisible,
       saveDraftHandler,
-      confirmedDeleteClicked,
     ],
   );
 
@@ -548,7 +545,6 @@ const ReplyDraftItem = props => {
             setIsEditing={setIsEditing}
             setIsModalVisible={setIsModalVisible}
             isModalVisible={isModalVisible}
-            setConfirmedDeleteClicked={setConfirmedDeleteClicked}
           />
         </div>
       </>
@@ -571,7 +567,6 @@ ReplyDraftItem.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
-  toggleEditHandler: PropTypes.func,
 };
 
 export default ReplyDraftItem;

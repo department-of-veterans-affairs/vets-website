@@ -34,7 +34,6 @@ const ThreadDetails = props => {
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const [isEditing, setIsEditing] = useState(false);
-  const [activeAlert, setActiveAlert] = useState(null);
 
   const header = useRef();
 
@@ -143,12 +142,11 @@ const ThreadDetails = props => {
       return (
         <>
           <MessageThreadHeader
-            message={messages?.[0]}
+            message={messages[0]}
             cannotReply={cannotReply}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             recipients={recipients}
-            activeAlert={activeAlert}
           />
 
           <MessageThreadForPrint messageHistory={messages} />
@@ -172,11 +170,7 @@ const ThreadDetails = props => {
   return (
     <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
-      <AlertBackgroundBox
-        activeAlert={activeAlert}
-        setActiveAlert={setActiveAlert}
-        closeable
-      />
+      <AlertBackgroundBox closeable />
       {content()}
     </div>
   );

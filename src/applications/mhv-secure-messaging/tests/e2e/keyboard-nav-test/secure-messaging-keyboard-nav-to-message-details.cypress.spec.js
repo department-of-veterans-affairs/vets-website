@@ -6,7 +6,6 @@ import mockMessages from '../fixtures/messages-response.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Navigate to Message Details ', () => {
-
   it('Keyboard Nav Access to Expended Messages', () => {
     SecureMessagingSite.login();
     mockMessageWithAttachment.data.id = '7192838';

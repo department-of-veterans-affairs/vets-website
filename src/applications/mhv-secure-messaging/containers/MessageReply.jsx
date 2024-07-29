@@ -18,7 +18,6 @@ const MessageReply = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
-  const [activeAlert, setActiveAlert] = useState(null);
 
   useEffect(
     () => {
@@ -87,11 +86,7 @@ const MessageReply = () => {
       ) : (
         <>
           <div className="vads-l-grid-container compose-container">
-            <AlertBackgroundBox
-              activeAlert={activeAlert}
-              setActiveAlert={setActiveAlert}
-              closeable
-            />
+            <AlertBackgroundBox closeable />
             {content()}
             {messages?.length && thread()}
           </div>

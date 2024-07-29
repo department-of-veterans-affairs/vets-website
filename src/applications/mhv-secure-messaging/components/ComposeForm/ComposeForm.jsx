@@ -88,8 +88,6 @@ const ComposeForm = props => {
   const [attachFileSuccess, setAttachFileSuccess] = useState(false);
   const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
   const [savedDraft, setSavedDraft] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [confirmedDeleteClicked, setConfirmedDeleteClicked] = useState(false);
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
@@ -185,8 +183,8 @@ const ComposeForm = props => {
   useEffect(() => {
     if (draft) {
       const tempRecipient = {
-        recipientId: draft?.recipientId,
-        name: draft?.triageGroupName,
+        recipientId: draft.recipientId,
+        name: draft.triageGroupName,
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
@@ -302,10 +300,10 @@ const ComposeForm = props => {
     setFormPopulated(true);
     setFieldsString(
       JSON.stringify({
-        rec: draft?.recipientId,
-        cat: draft?.category,
-        sub: draft?.subject,
-        bod: draft?.body,
+        rec: draft.recipientId,
+        cat: draft.category,
+        sub: draft.subject,
+        bod: draft.body,
       }),
     );
   };
@@ -399,7 +397,7 @@ const ComposeForm = props => {
         }
       }
 
-      const draftId = draft && draft?.messageId;
+      const draftId = draft && draft.messageId;
       const newFieldsString = JSON.stringify({
         rec: parseInt(debouncedRecipient || selectedRecipient, 10),
         cat: debouncedCategory || category,
@@ -824,7 +822,6 @@ const ComposeForm = props => {
           <DraftSavedInfo />
           <ComposeFormActionButtons
             cannotReply={noAssociations || allTriageGroupsBlocked}
-            deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             draftsCount={1}
             formPopulated={formPopulated}
@@ -835,10 +832,6 @@ const ComposeForm = props => {
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
-            isModalVisible={isModalVisible}
-            setIsModalVisible={setIsModalVisible}
-            confirmedDeleteClicked={confirmedDeleteClicked}
-            setConfirmedDeleteClicked={setConfirmedDeleteClicked}
           />
         </div>
       </form>

@@ -113,7 +113,7 @@ export const Locators = {
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
-    SEND: '[data-testid="Send-Button"]',
+    SEND: '[data-testid="send-button"]',
     SAVE_DRAFT: '#save-draft-button',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',

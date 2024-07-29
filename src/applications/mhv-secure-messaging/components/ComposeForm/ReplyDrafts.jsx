@@ -19,10 +19,6 @@ const ReplyDrafts = props => {
     setHideDraft,
   } = props;
   const dispatch = useDispatch();
-  const toggleEditHandler = () => {
-    dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
-    setIsEditing(true);
-  };
 
   return (
     <div>
@@ -36,8 +32,8 @@ const ReplyDrafts = props => {
             return (
               <va-accordion-item
                 bordered="true"
-                key={singleDraft[i]?.messageId}
-                open={isEditing}
+                key={singleDraft.messageId}
+                open={isEditing || singleDraft}
                 subheader={subheader}
               >
                 <ReplyDraftItem
@@ -53,7 +49,6 @@ const ReplyDrafts = props => {
                   replyToName={replyToName}
                   setLastFocusableElement={setLastFocusableElement}
                   signature={signature}
-                  toggleEditHandler={toggleEditHandler}
                   showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
                   setHideDraft={setHideDraft}
                 />

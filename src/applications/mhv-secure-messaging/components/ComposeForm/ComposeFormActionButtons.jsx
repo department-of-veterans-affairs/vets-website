@@ -15,14 +15,10 @@ const ComposeFormActionButtons = ({
   refreshThreadCallback,
   setNavigationError,
   setUnsavedNavigationError,
-  savedForm,
   messageBody,
   draftSequence,
   setHideDraft,
   setIsEditing,
-  setIsModalVisible,
-  isModalVisible,
-  setConfirmedDeleteClicked,
   savedComposeDraft,
 }) => {
   return (
@@ -40,8 +36,8 @@ const ComposeFormActionButtons = ({
             vads-u-margin-top--0
             vads-u-width--full
           `}
-          data-testid={`Send-Button${draftSequence ? `-${draftSequence}` : ''}`}
-          data-dd-action-name={`Send-Button${
+          data-testid={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
+          data-dd-action-name={`send-button${
             draftSequence ? `-${draftSequence}` : ''
           }`}
           onClick={onSend}
@@ -64,7 +60,7 @@ const ComposeFormActionButtons = ({
             xsmall-screen:vads-u-margin-bottom--0
             xsmall-screen:vads-u-margin-right--1
           `}
-          data-testid={`Save-Draft-Button${
+          data-testid={`save-draft-button${
             draftSequence ? `-${draftSequence}` : ''
           }`}
           onClick={e => onSaveDraft('manual', e)}
@@ -80,19 +76,14 @@ const ComposeFormActionButtons = ({
         formPopulated={formPopulated}
         navigationError={navigationError}
         refreshThreadCallback={refreshThreadCallback}
-        savedForm={savedForm}
         setNavigationError={setNavigationError}
         setUnsavedNavigationError={setUnsavedNavigationError}
         setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
-        showIcon={cannotReply}
         draftSequence={draftSequence}
         setHideDraft={setHideDraft}
         setIsEditing={setIsEditing}
-        setIsModalVisible={setIsModalVisible}
-        isModalVisible={isModalVisible}
-        setConfirmedDeleteClicked={setConfirmedDeleteClicked}
         savedComposeDraft={savedComposeDraft}
       />
     </div>
@@ -112,7 +103,6 @@ ComposeFormActionButtons.propTypes = {
   refreshThreadCallback: PropTypes.func,
   savedComposeDraft: PropTypes.bool,
   savedForm: PropTypes.bool,
-  setConfirmedDeleteClicked: PropTypes.func,
   setDeleteButtonClicked: PropTypes.func,
   setHideDraft: PropTypes.func,
   setIsEditing: PropTypes.func,
