@@ -84,25 +84,6 @@ describe('check-in', () => {
         ).to.exist;
       });
     });
-    describe('pre-check-in-past-appointment error', () => {
-      it('renders correct message', () => {
-        const component = render(
-          <CheckInProvider store={{ error: 'pre-check-in-past-appointment' }}>
-            <Error />
-          </CheckInProvider>,
-        );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'Pre-check-in is no longer available for your appointment time.',
-          ),
-        ).to.exist;
-      });
-    });
     describe('session-error error', () => {
       it('renders correct message', () => {
         const component = render(

@@ -30,6 +30,7 @@ describe('VAOS Component: InPersonLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
@@ -330,6 +331,24 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
           name: /Details you shared with your provider/i,
         }),
       );
@@ -410,6 +429,24 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(
         screen.getByRole('heading', {
@@ -497,6 +534,24 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(
         screen.getByRole('heading', {
@@ -590,6 +645,24 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(
         screen.getByRole('heading', {
