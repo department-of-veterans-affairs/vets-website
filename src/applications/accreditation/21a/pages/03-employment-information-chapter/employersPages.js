@@ -9,14 +9,14 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
+  descriptionUI,
   phoneSchema,
   phoneUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourEmployersDescription from '../../components/03-employment-information-chapter/YourEmployersDescription';
+import EmploymentIntro from '../../components/03-employment-information-chapter/EmploymentIntro';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -43,7 +43,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Your employers', YourEmployersDescription),
+    ...descriptionUI(EmploymentIntro),
   },
   schema: {
     type: 'object',
@@ -60,7 +60,10 @@ const informationPage = {
     }),
     name: textUI('Name of employer'),
     positionTitle: textUI('Position title'),
-    supervisorName: textUI('Supervisor name'),
+    supervisorName: textUI({
+      title: 'Supervisor name',
+      hint: 'If you are self-employed, write "self."',
+    }),
   },
   schema: {
     type: 'object',
@@ -89,7 +92,10 @@ const addressAndPhoneNumberPage = {
       },
     }),
     phone: phoneUI(),
-    extension: textUI('Extension'),
+    extension: textUI({
+      title: 'Extension',
+      width: 'sm',
+    }),
   },
   schema: {
     type: 'object',
