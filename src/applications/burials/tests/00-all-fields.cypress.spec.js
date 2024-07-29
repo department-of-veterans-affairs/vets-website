@@ -27,7 +27,7 @@ describe('Burial claim test', () => {
 
     // Claimant Information
     cy.get('input[name="root_claimantFullName_first"]');
-    cy.get('va-segmented-progress-barrr')
+    cy.get('va-segmented-progress-bar')
       .shadow()
       .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
       .should('have.class', 'progress-segment-complete');
