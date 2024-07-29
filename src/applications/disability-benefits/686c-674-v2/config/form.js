@@ -24,6 +24,7 @@ import {
   doesLiveWithSpouse,
   marriageAdditionalEvidence,
   spouseInformation,
+  spouseInformationPartTwo,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
   veteranMarriageHistory,
@@ -162,9 +163,17 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Spouse information',
-          path: 'add-spouse',
+          path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
+        },
+        spouseNameInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/identification-information',
+          uiSchema: spouseInformationPartTwo.uiSchema,
+          schema: spouseInformationPartTwo.schema,
         },
         currentMarriageInformation: {
           depends: formData =>
