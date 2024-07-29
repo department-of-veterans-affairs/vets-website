@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import {
-  VaPagination,
-  VaSearchInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DowntimeNotification, {
   externalServices,
@@ -16,7 +13,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { focusElement } from 'platform/utilities/ui';
 import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
-import { fetchSearchResults } from '../actions';
+import { fetchSearchResults as retrieveSearchResults} from '../actions';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import Errors from '../components/Errors';
@@ -31,119 +28,61 @@ import Typeahead from '../components/Typeahead';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
-class SearchApp extends Component {
-  constructor(props) {
-    super(props);
+const SearchApp = ({
+  fetchSearchResults,
+  router,
+  search,
+  searchGovMaintenance
+}) => {
+  const userInputFromURL = router?.location?.query?.query || '';
+  const pageFromURL = router?.location?.query?.page || undefined;
+  const typeaheadUsed =
+    router?.location?.query?.t === 'true' || false;
 
-    const userInputFromURL = this.props.router?.location?.query?.query || '';
-    const pageFromURL = this.props.router?.location?.query?.page || undefined;
-    const typeaheadUsed =
-      this.props.router?.location?.query?.t === 'true' || false;
+  const [userInput, setUserInput] = useState(userInputFromURL);
+  const [savedSuggestions, setSavedSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [currentResultsQuery, setCurrentResultsQuery] = useState(userInputFromURL);
+  const [page, setPage] = useState(pageFromURL);
+  const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
+  const [formWasSubmitted, setFormWasSubmitted] = useState(true);
 
-    this.state = {
-      userInput: userInputFromURL,
-      currentResultsQuery: userInputFromURL,
-      page: pageFromURL,
-      typeaheadUsed,
-      formWasSubmitted: true,
-    };
-  }
+  const {
+    currentPage,
+    errors,
+    loading: searchIsLoading,
+    perPage,
+    results,
+    searchesPerformed,
+    spellingCorrection,
+    totalEntries,
+    totalPages,
+  } = search;
 
-  componentDidMount() {
-    // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-    const { userInput, page } = this.state;
-
+  // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
+  useEffect(() => {
     if (userInput && isSearchTermValid(userInput)) {
-      this.props.fetchSearchResults(userInput, page, {
+      fetchSearchResults(userInput, page, {
         trackEvent: true,
         eventName: 'onload_view_search_results',
         path: document.location.pathname,
         userInput,
-        typeaheadEnabled: false,
         keywordSelected: undefined,
         keywordPosition: undefined,
         suggestionsList: undefined,
         sitewideSearch: false,
       });
     }
-  }
+  }, [fetchSearchResults, page, userInput]);
 
-  componentDidUpdate(prevProps) {
-    const hasNewResults =
-      prevProps.search.loading && !this.props.search.loading;
-
-    if (hasNewResults) {
-      const shouldFocusOnResults = this.props.search.searchesPerformed >= 1;
-
-      if (shouldFocusOnResults) {
-        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
-      }
+  useEffect(() => {
+    if (searchesPerformed) {
+      focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
     }
-  }
+  }, [searchIsLoading, searchesPerformed]);
 
-  handlePageChange = page => {
-    this.setState({ page }, () => this.handleSearch());
-  };
-
-  handleSearch = e => {
-    if (e) {
-      e.preventDefault();
-    }
-
-    const { userInput, currentResultsQuery, page } = this.state;
-
-    this.setState({ formWasSubmitted: true });
-
-    const userInputFromURL = this.props.router?.location?.query?.query;
-    const rawPageFromURL = this.props.router?.location?.query?.page;
-    const pageFromURL = rawPageFromURL
-      ? parseInt(rawPageFromURL, 10)
-      : undefined;
-
-    if (isSearchTermValid(userInput) || isSearchTermValid(userInputFromURL)) {
-      const repeatSearch =
-        userInputFromURL === userInput && pageFromURL === page;
-
-      const queryChanged = userInput !== currentResultsQuery;
-      const nextPage = queryChanged ? 1 : page;
-
-      this.updateURL({ query: userInput, page: nextPage });
-
-      // Fetch new results
-      this.props.fetchSearchResults(userInput, nextPage, {
-        trackEvent: queryChanged || repeatSearch,
-        eventName: 'view_search_results',
-        path: document.location.pathname,
-        userInput,
-        typeaheadEnabled: false,
-        searchLocation: 'Search Results Page',
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
-        sitewideSearch: false,
-      });
-
-      // Update query is necessary
-      if (queryChanged) {
-        this.updateQueryInfo({
-          query: userInput,
-          page: 1,
-          typeaheadUsed: false,
-        });
-      }
-    }
-  };
-
-  updateQueryInfo = options => {
-    this.setState({
-      currentResultsQuery: options?.query,
-      page: options?.page,
-      typeaheadUsed: options?.typeaheadUsed,
-    });
-  };
-
-  updateURL = options => {
-    this.props.router.push({
+  const updateURL = options => {
+    router.push({
       pathname: '',
       query: {
         query: options?.query,
@@ -153,20 +92,71 @@ class SearchApp extends Component {
     });
   };
 
-  onInputSubmit = componentState => {
-    const savedSuggestions = componentState?.savedSuggestions || [];
-    const suggestions = componentState?.suggestions || [];
-    const inputValue = componentState?.inputValue;
+  const updateQueryInfo = options => {
+    setCurrentResultsQuery(options?.query);
+    setPage(options?.page);
+    setTypeAheadWasUsed(options?.typeaheadUsed);
+  };
+
+  const handleSearch = event => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    setFormWasSubmitted(true);
+
+    const rawPageFromURL = pageFromURL
+      ? parseInt(pageFromURL, 10)
+      : undefined;
+
+    if (isSearchTermValid(userInput) || isSearchTermValid(userInputFromURL)) {
+      const isRepeatSearch =
+        userInputFromURL === userInput && rawPageFromURL === page;
+
+      const queryChanged = userInput !== currentResultsQuery;
+      const nextPage = queryChanged ? 1 : page;
+      
+      updateURL({ query: userInput, page: nextPage });
+
+      // Fetch new results
+      fetchSearchResults(userInput, nextPage, {
+        trackEvent: queryChanged || isRepeatSearch,
+        eventName: 'view_search_results',
+        path: document.location.pathname,
+        userInput,
+        searchLocation: 'Search Results Page',
+        keywordSelected: undefined,
+        keywordPosition: undefined,
+        suggestionsList: undefined,
+        sitewideSearch: false,
+      });
+
+      // Update query is necessary
+      if (queryChanged) {
+        updateQueryInfo({
+          query: userInput,
+          page: 1,
+          typeaheadUsed: false,
+        });
+      }
+    }
+  };
+
+  const handlePageChange = newPage => {
+    setPage(newPage);
+    handleSearch();
+  };
+
+  const onInputSubmit = () => {
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
-    if (isSearchTermValid(inputValue)) {
-      this.props.fetchSearchResults(inputValue, 1, {
+    if (isSearchTermValid(userInput)) {
+      fetchSearchResults(userInput, 1, {
         trackEvent: true,
         eventName: 'view_search_results',
         path: document.location.pathname,
-        userInput: inputValue,
-        typeaheadEnabled: true,
+        userInput,
         searchLocation: 'Search Results Page',
         keywordSelected: undefined,
         keywordPosition: undefined,
@@ -174,49 +164,24 @@ class SearchApp extends Component {
         sitewideSearch: false,
       });
 
-      this.updateQueryInfo({
-        query: inputValue,
+      updateQueryInfo({
+        query: userInput,
         page: 1,
         typeaheadUsed: true,
       });
 
-      this.updateURL({
-        query: inputValue,
+      updateURL({
+        query: userInput,
         page: 1,
         typeaheadUsed: true,
       });
 
-      this.setState({
-        userInput: inputValue,
-      });
+      setUserInput(userInput);
     }
   };
 
-  handleInputChange = e => {
-    this.setState({
-      userInput: e.target.value,
-    });
-
-    if (this.state.formWasSubmitted) {
-      this.setState({ formWasSubmitted: false });
-    }
-  };
-
-  renderResults() {
-    const {
-      loading,
-      errors,
-      currentPage,
-      perPage,
-      results,
-      spellingCorrection,
-      totalEntries,
-      totalPages,
-    } = this.props.search;
-
-    const { searchGovMaintenance } = this.props;
+  const renderResults = () => {
     const hasErrors = !!(errors && errors.length > 0);
-    const { userInput } = this.state;
 
     const searchInput = (
       <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
@@ -224,24 +189,16 @@ class SearchApp extends Component {
           Enter a keyword, phrase, or question
         </p>
         <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-          {!this.props.searchDropdownComponentEnabled && (
-            <VaSearchInput
-              aria-labelledby="h1-search-title"
-              buttonText="Search"
-              className="vads-u-width--full"
-              label="Enter a keyword, phrase, or question"
-              onInput={this.handleInputChange}
-              onSubmit={this.handleSearch}
-              value={userInput}
-            />
-          )}
-          {this.props.searchDropdownComponentEnabled && (
-            <Typeahead
-              id="search-results-page-dropdown"
-              onInputSubmit={this.onInputSubmit}
-              startingValue={userInput}
-            />
-          )}
+          <Typeahead
+            formWasSubmitted={formWasSubmitted}
+            id="search-results-page-dropdown"
+            onInputSubmit={onInputSubmit}
+            setFormWasSubmitted={setFormWasSubmitted}
+            setSavedSuggestions={setSavedSuggestions}
+            setSuggestions={setSuggestions}
+            setUserInput={setUserInput}
+            userInput={userInput}
+          />
         </div>
       </div>
     );
@@ -251,7 +208,7 @@ class SearchApp extends Component {
       results &&
       results.length === 0 &&
       !hasErrors &&
-      !loading;
+      !searchIsLoading;
 
     const searchGovIssuesOutsideMaintenanceWindow = searchGovMaintenance;
 
@@ -265,39 +222,37 @@ class SearchApp extends Component {
     // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
     // or errors with user input before submitting
     if (
-      (hasErrors && !loading) ||
-      (!isSearchTermValid(userInput) && this.state.formWasSubmitted)
+      (hasErrors && !searchIsLoading) ||
+      (!isSearchTermValid(userInput) && formWasSubmitted)
     ) {
       return <Errors userInput={userInput} searchInput={searchInput} />;
     }
-
-    const query = this.props.router?.location?.query?.query || '';
 
     return (
       <div>
         {searchInput}
         <ResultsCounter
           currentPage={currentPage}
-          loading={loading}
+          loading={searchIsLoading}
           perPage={perPage}
-          query={query}
+          query={userInputFromURL}
           results={results}
           spellingCorrection={spellingCorrection}
           totalPages={totalPages}
           totalEntries={totalEntries}
         />
-        {!loading && (
+        {!searchIsLoading && (
           <RecommendedResults
-            query={query}
-            searchData={this.props.search}
-            typeaheadUsed={this.state.typeaheadUsed}
+            query={userInputFromURL}
+            searchData={search}
+            typeaheadUsed={typeAheadWasUsed}
           />
         )}
         <ResultsList
-          loading={loading}
-          query={query}
-          searchData={this.props.search}
-          typeaheadUsed={this.state.typeaheadUsed}
+          loading={searchIsLoading}
+          query={userInputFromURL}
+          searchData={search}
+          typeaheadUsed={typeAheadWasUsed}
         />
         <hr
           aria-hidden="true"
@@ -309,7 +264,7 @@ class SearchApp extends Component {
             results.length > 0 && (
               <VaPagination
                 class="vads-u-border-top--0"
-                onPageSelect={e => this.handlePageChange(e.detail.page)}
+                onPageSelect={e => handlePageChange(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={7}
@@ -321,50 +276,45 @@ class SearchApp extends Component {
     );
   }
 
-  render() {
-    return (
-      <div className="search-app" data-e2e-id="search-app">
-        <Breadcrumbs />
-        <div className="row">
-          <div className="columns">
-            <h1 className="vads-u-font-size--2xl" id="h1-search-title">
-              Search VA.gov
-            </h1>
-          </div>
-        </div>
-        <div className="search-row">
-          <div className="usa-width-three-fourths columns">
-            <DowntimeNotification
-              appTitle="Search App"
-              dependencies={[externalServices.search]}
-            >
-              {this.renderResults()}
-            </DowntimeNotification>
-          </div>
-          <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
-            <h2 className="highlight vads-u-font-size--h4">
-              More VA search tools
-            </h2>
-            <MoreVASearchTools />
-          </div>
+  return (
+    <div className="search-app" data-e2e-id="search-app">
+      <Breadcrumbs />
+      <div className="row">
+        <div className="columns">
+          <h1 className="vads-u-font-size--2xl" id="h1-search-title">
+            Search VA.gov
+          </h1>
         </div>
       </div>
-    );
-  }
-}
+      <div className="search-row">
+        <div className="usa-width-three-fourths columns">
+          <DowntimeNotification
+            appTitle="Search App"
+            dependencies={[externalServices.search]}
+          >
+            {renderResults()}
+          </DowntimeNotification>
+        </div>
+        <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">
+          <h2 className="highlight vads-u-font-size--h4">
+            More VA search tools
+          </h2>
+          <MoreVASearchTools />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   search: state.search,
-  searchDropdownComponentEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
-  ],
   searchGovMaintenance: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchGovMaintenance
   ],
 });
 
 const mapDispatchToProps = {
-  fetchSearchResults,
+  fetchSearchResults: retrieveSearchResults,
 };
 
 SearchApp.propTypes = {
@@ -391,7 +341,6 @@ SearchApp.propTypes = {
     }),
     push: PropTypes.func,
   }),
-  searchDropdownComponentEnabled: PropTypes.bool,
   searchGovMaintenance: PropTypes.bool,
 };
 
@@ -403,7 +352,3 @@ const SearchAppContainer = withRouter(
 );
 
 export default SearchAppContainer;
-
-SearchAppContainer.defaultProps = {
-  searchDropdownComponentEnabled: false,
-};
