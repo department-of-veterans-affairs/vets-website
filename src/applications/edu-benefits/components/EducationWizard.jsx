@@ -12,7 +12,10 @@ import {
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import VARadioButton from '../utils/VaRadioButton';
-import { showMebDgi40Feature } from '../selectors/educationWizard';
+import {
+  merge1995And5490Feature,
+  showMebDgi40Feature,
+} from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -214,6 +217,13 @@ class EducationWizard extends React.Component {
         const { value } = event.detail;
         this.answerQuestion(onChangeLabel, value);
       },
+    };
+
+    const displayChapter35Form = getButton => {
+      if (this?.props.merge1995And5490Feature) {
+        return getButton('1995');
+      }
+      return getButton('5495');
     };
 
     return (
@@ -449,7 +459,7 @@ class EducationWizard extends React.Component {
               this.getButton('1995')}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
-              this.getButton('5495')}
+              displayChapter35Form(this.getButton)}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'yes' &&
@@ -468,6 +478,7 @@ class EducationWizard extends React.Component {
 
 const mapStateToProps = state => ({
   showMebDgi40Feature: showMebDgi40Feature(state),
+  merge1995And5490Feature: merge1995And5490Feature(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);
