@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 
@@ -97,6 +98,12 @@ const VaFileInputField = props => {
   );
 
   return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
+};
+
+VaFileInputField.propTypes = {
+  childrenProps: PropTypes.object.isRequired,
+  uiOptions: PropTypes.object.isRequired,
+  onVaChange: PropTypes.func.isRequired,
 };
 
 export default VaFileInputField;
