@@ -213,7 +213,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             null
           }
           hint={null}
-          inputmode="numeric"
+          inputmode="decimal"
           label="Estimated value"
           name="estValue"
           currency
@@ -223,6 +223,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.resaleValue}
           min={0}
           max={MAXIMUM_RESALE_VALUE}
+          type="decimal"
           width="md"
         />
         <va-additional-info

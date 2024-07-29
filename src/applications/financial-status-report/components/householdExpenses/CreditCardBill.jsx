@@ -218,11 +218,12 @@ const CreditCardBill = props => {
           required
           min={0}
           max={MAXIMUM_BILL_AMOUNT}
-          inputmode="numeric"
+          inputmode="decimal"
           label="Unpaid balance"
           name="unpaidBalance"
           id="unpaidBalance"
           onInput={handleUnpaidBalanceChange}
+          type="decimal"
           value={creditCardBillRecord.unpaidBalance}
           width="md"
         />
@@ -232,11 +233,12 @@ const CreditCardBill = props => {
           hint={null}
           required
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           min={0}
           max={MAXIMUM_BILL_AMOUNT}
           label="Minimum monthly payment amount"
           name="amountDueMonthly"
+          type="decimal"
           id="amountDueMonthly"
           onInput={handleMinMonthlyPaymentChange}
           value={creditCardBillRecord.amountDueMonthly}
@@ -247,11 +249,12 @@ const CreditCardBill = props => {
           error={(submitted && amountOverdueError) || null}
           hint={null}
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           label="Amount overdue"
           name="amountPastDue"
           id="amountPastDue"
           onInput={handleAmountOverdueChange}
+          type="decimal"
           value={creditCardBillRecord.amountPastDue}
           width="md"
           class="vads-u-margin-bottom--4"

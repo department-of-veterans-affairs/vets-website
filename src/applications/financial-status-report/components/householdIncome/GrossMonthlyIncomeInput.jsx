@@ -140,13 +140,13 @@ const GrossMonthlyIncomeInput = props => {
       <va-text-input
         label="What’s your gross monthly income at this job?"
         hint="Gross income is income before taxes and any other deductions. You can use information from your pay stub to calculate your gross monthly income."
-        inputmode="numeric"
+        inputmode="decimal"
         id="gross-monthly-income"
         currency
         data-testid="gross-monthly-income"
         name="gross-monthly-income"
         onInput={setNewGrossMonthlyIncome}
-        type="text"
+        type="decimal"
         value={grossMonthlyIncome.value}
         required
         min={0}

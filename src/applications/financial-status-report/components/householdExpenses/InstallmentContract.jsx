@@ -274,11 +274,12 @@ const InstallmentContract = props => {
         <va-text-input
           hint={null}
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           label="Original loan amount"
           name="originalAmount"
           id="originalAmount"
           onInput={handleOriginalLoanAmountChange}
+          type="decimal"
           value={contractRecord.originalAmount}
           width="md"
         />
@@ -286,13 +287,14 @@ const InstallmentContract = props => {
         <va-text-input
           hint={null}
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           label="Unpaid balance"
           name="unpaidBalance"
           id="unpaidBalance"
           min={0}
           max={MAXIMUM_INSTALLMENT_AMOUNT}
           onInput={handleUnpaidBalanceChange}
+          type="decimal"
           value={contractRecord.unpaidBalance}
           width="md"
         />
@@ -302,13 +304,14 @@ const InstallmentContract = props => {
           hint={null}
           currency
           required
-          inputmode="numeric"
+          inputmode="decimal"
           label="Minimum monthly payment amount"
           name="amountDueMonthly"
           id="amountDueMonthly"
           min={0}
           max={MAXIMUM_INSTALLMENT_AMOUNT}
           onInput={handleAmountDueMonthlyChange}
+          type="decimal"
           value={contractRecord.amountDueMonthly}
           width="md"
         />
@@ -337,11 +340,12 @@ const InstallmentContract = props => {
         <va-text-input
           hint={null}
           currency
-          inputmode="numeric"
+          inputmode="decimal"
           label="Amount overdue"
           name="amountPastDue"
           id="amountPastDue"
           onInput={handleAmountOverdueChange}
+          type="decimal"
           value={contractRecord.amountPastDue}
           width="md"
         />
