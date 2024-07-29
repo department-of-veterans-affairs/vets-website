@@ -63,7 +63,7 @@ export const board = (formValues, noDRB) => {
 
     if (formValues['1_branchOfService'] === 'airForce') {
       return {
-        name: 'Air Force Review Boards Agency (AFDRB)',
+        name: 'Air Force Discharge Review Board (AFDRB)',
         abbr: 'AFDRB',
       };
     }
@@ -101,7 +101,7 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Air Force Review Boards Agency
+            Air Force Discharge Review Board
             <br />
             SAF/MRBP (AFDRB)
             <br />
@@ -377,7 +377,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
 
     if (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE) {
       return {
-        name: 'Air Force Review Boards Agency (AFDRB)',
+        name: 'Air Force Discharge Review Board (AFDRB)',
         abbr: 'AFDRB',
       };
     }

@@ -79,7 +79,7 @@ const StepThree = ({ formValues }) => {
     const boardName =
       boardToSubmit.abbr === 'DRB'
         ? 'Discharge Review Board (DRB)'
-        : 'Air Force Review Boards Agency (AFDRB)';
+        : 'Air Force Review Discharge Review Board (AFDRB)';
 
     boardExplanation = `the ${boardName} for the ${branchOfService(
       formValues['1_branchOfService'],
@@ -141,7 +141,7 @@ const StepThree = ({ formValues }) => {
         <>
           <p>
             You can submit your completed application form and all supporting
-            documents through the Air Force Review Boards Agency website. The
+            documents through the Air Force Discharge Review Board website. The
             online application portal allows the Board’s intake staff to
             securely work with your digital application and build your case file
             more quickly and efficiently than with a hardcopy application.
