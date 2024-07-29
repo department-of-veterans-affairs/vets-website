@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { RESPONSES, SHORT_NAME_MAP } from './question-data-map';
-import { locationList as BurnPit21Locations } from '../containers/questions/burn-pit/BurnPit-2-1';
 import { locationList as BurnPit211Locations } from '../containers/questions/burn-pit/BurnPit-2-1-1';
 import { locationList as BurnPit212Locations } from '../containers/questions/burn-pit/BurnPit-2-1-2';
+import { locationList as BurnPit213Locations } from '../containers/questions/burn-pit/BurnPit-2-1-3';
 
 const {
-  BURN_PIT_2_1,
   BURN_PIT_2_1_1,
   BURN_PIT_2_1_2,
+  BURN_PIT_2_1_3,
   LEJEUNE_2_4,
   ORANGE_2_2_B,
   ORANGE_2_2_1_B,
@@ -32,26 +32,11 @@ const {
 } = RESPONSES;
 
 /**
- * Any of this content could display on Results set 1, page 1. Each key (e.g. BURN_PIT_2_1) represents
+ * Any of this content could display on Results set 1, page 1. Each key (e.g. BURN_PIT_2_1_1) represents
  * an individual question (by short name). Each short name has an array of possible dynamic content, but only
  * checkbox questions (ending in '_B', e.g. ORANGE_2_2_B) can have multiple items in their array displaying on the page.
  */
 export const dynamicContent = {
-  [BURN_PIT_2_1]: [
-    {
-      response: YES,
-      content: (
-        <Fragment key={BURN_PIT_2_1}>
-          <li>
-            Burn pit or other toxic exposures from service in any of these
-            locations, on or after <strong>August 2, 1990</strong>:
-            {BurnPit21Locations}
-            <p>We’ve added these new locations under the PACT Act.</p>
-          </li>
-        </Fragment>
-      ),
-    },
-  ],
   [BURN_PIT_2_1_1]: [
     {
       response: YES,
@@ -61,10 +46,7 @@ export const dynamicContent = {
             Burn pit or other toxic exposures from service in any of these
             locations, on or after <strong>August 2, 1990</strong>:
             {BurnPit211Locations}
-            <p>
-              We’ve added new presumptive conditions for these locations under
-              the PACT Act.
-            </p>
+            <p>We’ve added these new locations under the PACT Act.</p>
           </li>
         </Fragment>
       ),
@@ -77,8 +59,26 @@ export const dynamicContent = {
         <Fragment key={BURN_PIT_2_1_2}>
           <li>
             Burn pit or other toxic exposures from service in any of these
-            locations, on or after <strong>September 11, 2001</strong>:
+            locations, on or after <strong>August 2, 1990</strong>:
             {BurnPit212Locations}
+            <p>
+              We’ve added new presumptive conditions for these locations under
+              the PACT Act.
+            </p>
+          </li>
+        </Fragment>
+      ),
+    },
+  ],
+  [BURN_PIT_2_1_3]: [
+    {
+      response: YES,
+      content: (
+        <Fragment key={BURN_PIT_2_1_3}>
+          <li>
+            Burn pit or other toxic exposures from service in any of these
+            locations, on or after <strong>September 11, 2001</strong>:
+            {BurnPit213Locations}
             <p>We’ve added these new locations under the PACT Act.</p>
           </li>
         </Fragment>

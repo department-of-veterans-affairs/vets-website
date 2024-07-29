@@ -19,7 +19,9 @@ import { showNewHlrContent } from '../utils/helpers';
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const informalConference = formData.informalConference !== 'no';
+    const informalConference = showNewHlrContent(formData)
+      ? formData.informalConferenceChoice === 'yes'
+      : ['me', 'rep'].includes(formData.informalConference);
     const attributes = {
       // This value may empty if the user restarts the form; see
       // va.gov-team/issues/13814
