@@ -62,9 +62,7 @@ const RxBreadcrumbs = () => {
     content = (
       <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
         <va-link
-          href={`${
-            medicationsUrls.MEDICATIONS_URL
-          }?page=${pagination?.currentPage || 1}`}
+          href={`${medicationsUrls.MEDICATIONS_URL}`}
           text="Back to medications"
           data-testid="rx-breadcrumb-link"
         />
