@@ -13,7 +13,9 @@ import {
   phoneSchema,
   phoneUI,
   textSchema,
+  textareaSchema,
   textUI,
+  textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EmploymentIntro from '../../components/03-employment-information-chapter/EmploymentIntro';
@@ -137,6 +139,26 @@ const dateRangePage = {
   },
 };
 
+/** @returns {PageSchema} */
+const reasonForLeavingPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.name
+          ? `Reason for leaving ${formData.name}`
+          : 'Reason for leaving',
+    ),
+    reason: textareaUI('Explain why you left this employer.'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      reason: textareaSchema,
+    },
+    required: ['reason'],
+  },
+};
+
 /**
  * This page is skipped on the first loop for required flow
  * Cards are populated on this page above the uiSchema if items are present
@@ -192,6 +214,12 @@ const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
     path: 'employers/:index/date-range',
     uiSchema: dateRangePage.uiSchema,
     schema: dateRangePage.schema,
+  }),
+  employerReasonForLeavingPage: pageBuilder.itemPage({
+    title: 'Reason for leaving employer',
+    path: 'employers/:index/reason-for-leaving',
+    uiSchema: reasonForLeavingPage.uiSchema,
+    schema: reasonForLeavingPage.schema,
   }),
 }));
 
