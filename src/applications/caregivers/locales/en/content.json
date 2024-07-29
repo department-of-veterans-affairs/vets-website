@@ -108,6 +108,8 @@
   "sign-as-rep-yes-text": "I\u2019m a representative with legal authority signing on behalf of the Veteran",
   "sign-as-rep-on-behalf-text": "on behalf of %s",
   "sign-as-rep-document-description": "We can only accept a document that proves you have legal authority to make decisions for the Veteran. Or we\u2019ll accept a document that proves you have authority to fill out or sign applications on behalf of the Veteran.",
+  "sign-as-rep--signature-text-label": "Enter your name to sign as the Veteran\u2019s representative",
+  "sign-as-rep--signature-vet-text-label": "%s full name",
   "signature-checkbox-label": "I certify the information above is correct and true to the best of my knowledge and belief.",
   "signature-on-behalf-text": "On behalf of",
   "upload-doc-label": "Upload supporting document",
@@ -134,6 +136,8 @@
   "validation-facilities--search-required": "Please provide a city, state or postal code",
   "validation-facialities--default-required": "Please select a facility",
   "validation-signature-required": "Must certify by checking box",
+  "validation-sign-as-rep": "You must sign as representative.",
+  "validation-sign-as-rep--vet-name": "Your signature must match previously entered name: %s",
   "validation-ssn-general": "Enter a valid Social Security or tax identification number",
   "validation-ssn-unique": "We\u2019re sorry. You\u2019ve already entered this number elsewhere. Please check your data and try again."
 }
