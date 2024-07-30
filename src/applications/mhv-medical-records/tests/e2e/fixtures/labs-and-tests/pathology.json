@@ -1,0 +1,84 @@
+{
+    "resourceType": "DiagnosticReport",
+    "id": "ex-MHV-labReport-7",
+    "meta": {
+      "profile": [
+        "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labReport"
+      ]
+    },
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Reported</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7029091\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Sep 08, 1997        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 08, 1997 13:08  Resident: \nDate  completed: Sep 09, 1997        Accession #: SP 97 2091\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \n(A) BONE FROM RIGHT FOOT\n(B) BONE RIGHT FOOT</p></div>"
+    },
+    "contained": [
+      {
+        "resourceType": "Specimen",
+        "id": "ex-MHV-specimen-7",
+        "meta": {
+          "profile": [
+            "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.LabSpecimen"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "usual"
+          }
+        ],
+        "accessionIdentifier": {
+          "use": "usual",
+          "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+          "value": "SP 97 2091"
+        },
+        "status": "available",
+        "type": {
+          "text": "(A) BONE FROM RIGHT FOOT, (B) BONE RIGHT FOOT"
+        },
+        "collection": {
+          "collectedDateTime": "1997-09-08"
+        }
+      }
+    ],
+    "identifier": [
+      {
+        "use": "usual",
+        "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+        "value": "LabReportTO.SP;7029091"
+      }
+    ],
+    "status": "final",
+    "category": [
+      {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+            "code": "LAB"
+          }
+        ]
+      }
+    ],
+    "code": {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "code": "60567-5"
+        }
+      ],
+      "text": "LR SURGICAL PATHOLOGY REPORT"
+    },
+    "subject": {
+      "reference": "Patient/ex-MHV-patient-1"
+    },
+    "effectiveDateTime": "1997-09-09T13:13:00-0400",
+    "issued": "1997-09-09T13:13:00-0400",
+    "performer": [
+      {
+        "reference": "Organization/ex-MHV-organization-989"
+      }
+    ],
+    "specimen": [
+      {
+        "reference": "#ex-MHV-specimen-7"
+      }
+    ],
+    "conclusion": "Date Spec taken: Sep 08, 1997        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 08, 1997 13:08  Resident: \nDate  completed: Sep 09, 1997        Accession #: SP 97 2091\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \n(A) BONE FROM RIGHT FOOT\n(B) BONE RIGHT FOOT"
+  }
