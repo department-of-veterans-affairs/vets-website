@@ -13,8 +13,8 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
 );
 PrimaryActionLink.propTypes = {
   children: PropTypes.element.isRequired,
-  href: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export const UPLOAD_GUIDELINES = Object.freeze(
