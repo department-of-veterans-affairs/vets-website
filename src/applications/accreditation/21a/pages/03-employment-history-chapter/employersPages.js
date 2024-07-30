@@ -28,10 +28,11 @@ const arrayBuilderOptions = {
   isItemIncomplete: item =>
     !item?.name ||
     !item?.positionTitle ||
-    !item.supervisorName ||
-    !item.address ||
-    !item.phone ||
-    !item.dateRange,
+    !item?.supervisorName ||
+    !item?.address ||
+    !item?.phone ||
+    !item?.dateRange ||
+    !item?.reason,
   text: {
     getItemName: item => item.name,
     cardDescription: item =>

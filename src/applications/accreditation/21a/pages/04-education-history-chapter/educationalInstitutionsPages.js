@@ -22,7 +22,13 @@ const arrayBuilderOptions = {
   nounSingular: 'educational institution',
   nounPlural: 'educational institutions',
   required: true,
-  isItemIncomplete: item => !item?.name || !item.dateRange || !item.received,
+  isItemIncomplete: item =>
+    !item?.name ||
+    !item?.dateRange ||
+    !item?.received ||
+    (item?.received === true && !item?.degree) ||
+    (item?.received === false && !item?.reasonForNotCompleting) ||
+    (item?.received !== false && !item?.major),
   text: {
     getItemName: item => item.name,
     cardDescription: item =>
@@ -58,7 +64,7 @@ const educationalInstitutionPage = {
       required: (formData, index) =>
         formData?.educationalInstitutions?.[index]?.received === true,
     }),
-    reason: textareaUI({
+    reasonForNotCompleting: textareaUI({
       title: 'Reason for not completing studies',
       expandUnder: 'received',
       expandUnderCondition: received => received === false,
@@ -78,7 +84,7 @@ const educationalInstitutionPage = {
       dateRange: currentOrPastDateRangeSchema,
       received: yesNoSchema,
       degree: textSchema,
-      reason: textareaSchema,
+      reasonForNotCompleting: textareaSchema,
       major: textSchema,
     },
     required: ['name', 'dateRange', 'received'],
