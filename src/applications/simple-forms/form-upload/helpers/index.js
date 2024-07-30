@@ -4,6 +4,7 @@ import {
   SUBTITLE_0779,
   CHILD_CONTENT_0779,
   ADD_CHILD_CONTENT_0779,
+  DOWNLOAD_URL_0779,
 } from '../config/constants';
 
 export const getFormNumber = (pathname = null) => {
@@ -17,6 +18,7 @@ const formMappings = {
     additionalChildContent: ADD_CHILD_CONTENT_0779,
     childContent: CHILD_CONTENT_0779,
     subTitle: SUBTITLE_0779,
+    pdfDownloadUrl: DOWNLOAD_URL_0779,
   },
 };
 
@@ -38,6 +40,9 @@ export const getFormContent = (pathname = null) => {
     title: `Upload VA Form ${formNumber}`,
   };
 };
+
+export const getPdfDownloadUrl = formNumber =>
+  formMappings[formNumber].pdfDownloadUrl || '';
 
 export const handleRouteChange = ({ detail }, history) => {
   const { href } = detail;

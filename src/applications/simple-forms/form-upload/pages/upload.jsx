@@ -8,7 +8,7 @@ import {
   ALERT_TOO_MANY_PAGES,
   ALERT_TOO_FEW_PAGES,
 } from '../config/constants';
-import { getFormContent, onCloseAlert } from '../helpers';
+import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 
 const { formNumber, title } = getFormContent();
 
@@ -30,14 +30,22 @@ export const uploadPage = {
       }),
     },
     'view:alertTooManyPages': {
-      'ui:description': ALERT_TOO_MANY_PAGES(formNumber, onCloseAlert),
+      'ui:description': ALERT_TOO_MANY_PAGES(
+        formNumber,
+        getPdfDownloadUrl(formNumber),
+        onCloseAlert,
+      ),
       'ui:options': {
         hideIf: formData =>
           !formData.uploadedFile?.warnings?.includes('too_many_pages'),
       },
     },
     'view:alertTooFewPages': {
-      'ui:description': ALERT_TOO_FEW_PAGES(formNumber, onCloseAlert),
+      'ui:description': ALERT_TOO_FEW_PAGES(
+        formNumber,
+        getPdfDownloadUrl(formNumber),
+        onCloseAlert,
+      ),
       'ui:options': {
         hideIf: formData =>
           !formData.uploadedFile?.warnings?.includes('too_few_pages'),

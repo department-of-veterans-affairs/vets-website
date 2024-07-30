@@ -135,7 +135,11 @@ export const ADD_CHILD_CONTENT_0779 = Object.freeze(
   </>,
 );
 
-export const ALERT_TOO_MANY_PAGES = (formNumber, onCloseEvent) =>
+export const ALERT_TOO_MANY_PAGES = (
+  formNumber,
+  pdfDownloadUrl,
+  onCloseEvent,
+) =>
   Object.freeze(
     <VaAlert
       close-btn-aria-label="Close notification"
@@ -152,7 +156,7 @@ export const ALERT_TOO_MANY_PAGES = (formNumber, onCloseEvent) =>
           The file you uploaded has more pages than the form usually has. Please
           check the file you uploaded is a recent VA Form {formNumber}.
         </p>
-        <a href={DOWNLOAD_URL_0779}>
+        <a href={pdfDownloadUrl}>
           Download VA Form {formNumber}
           (PDF)
         </a>
@@ -161,7 +165,7 @@ export const ALERT_TOO_MANY_PAGES = (formNumber, onCloseEvent) =>
     </VaAlert>,
   );
 
-export const ALERT_TOO_FEW_PAGES = (formNumber, onCloseEvent) =>
+export const ALERT_TOO_FEW_PAGES = (formNumber, pdfDownloadUrl, onCloseEvent) =>
   Object.freeze(
     <VaAlert
       close-btn-aria-label="Close notification"
@@ -178,7 +182,7 @@ export const ALERT_TOO_FEW_PAGES = (formNumber, onCloseEvent) =>
           The file you uploaded has fewer pages than the original form. Please
           check your uploaded form to be sure it is the correct form.
         </p>
-        <a href={DOWNLOAD_URL_0779}>
+        <a href={pdfDownloadUrl}>
           Download VA Form {formNumber}
           (PDF)
         </a>
