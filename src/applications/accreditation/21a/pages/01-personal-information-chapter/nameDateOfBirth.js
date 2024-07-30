@@ -8,10 +8,13 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Personal information',
-  path: 'personal-information',
+  title: 'Name and date of birth',
+  path: 'name-date-of-birth',
   uiSchema: {
-    ...titleUI('Personal information'),
+    ...titleUI(
+      'Name and date of birth',
+      'Use your legal name as it appears on your government documentation.',
+    ),
     fullName: fullNameUI(),
     dateOfBirth: dateOfBirthUI(),
   },
