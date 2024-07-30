@@ -97,7 +97,7 @@ const EditContactList = () => {
           />
         </div>
       )}
-      <form>
+      <form className="contactListForm">
         {allFacilities.map(stationNumber => {
           if (!blockedFacilities.includes(stationNumber)) {
             const facilityName = getVamcSystemNameFromVhaId(

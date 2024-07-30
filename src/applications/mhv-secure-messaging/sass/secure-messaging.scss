@@ -338,3 +338,9 @@ va-loading-indicator {
   background-color: var(--vads-color-primary-dark);
   border-radius: 50%;
 }
+
+.contactListForm {
+  .contactListFacility::part(header) {
+    font-size: 20px;
+  }
+}

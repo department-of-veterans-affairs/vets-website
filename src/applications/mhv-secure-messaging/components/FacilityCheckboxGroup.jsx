@@ -29,17 +29,16 @@ const FacilityCheckboxGroup = props => {
   return (
     <div>
       <va-checkbox-group
+        data-testid="contact-list-facility-group"
         label={multipleFacilities ? facilityName : null}
-        label-header-level={multipleFacilities ? '3' : null}
-        class="vads-u-margin-bottom--4 vads-u-margin-top--0"
+        label-header-level={multipleFacilities ? '2' : null}
+        class="contactListFacility vads-u-margin-bottom--4 vads-u-margin-top--0"
       >
         <VaCheckbox
-          description={null}
-          error={null}
-          hint={null}
+          data-testid="contact-list-select-all-teams"
           label={`Select all ${
             multipleFacilities ? facilityName : 'care'
-          }  teams`}
+          } teams`}
           message-aria-describedby={`Select all ${
             multipleFacilities ? facilityName : 'care'
           } teams`}
@@ -51,6 +50,7 @@ const FacilityCheckboxGroup = props => {
           {triageTeams.map(team => {
             return (
               <VaCheckbox
+                data-testid="contact-list-select-team"
                 key={team.triageTeamId}
                 label={team.name}
                 message-aria-describedby={`Select ${team.name}`}

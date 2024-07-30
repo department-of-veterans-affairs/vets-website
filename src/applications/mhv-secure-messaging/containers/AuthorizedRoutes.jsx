@@ -80,7 +80,7 @@ const AuthorizedRoutes = () => {
           <FolderThreadListView />
         </AppRoute>
         {contactListPage && (
-          <AppRoute exact path="/contact-list" key="ContactList">
+          <AppRoute exact path={Paths.CONTACT_LIST} key="ContactList">
             <EditContactList />
           </AppRoute>
         )}

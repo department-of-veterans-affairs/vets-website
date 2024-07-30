@@ -2,8 +2,8 @@ import React from 'react';
 
 const GetFormHelp = () => {
   return (
-    <div className="">
-      <h2>Need help?</h2>
+    <div>
+      <h2 className="vads-u-font-size--lg">Need help?</h2>
       <div className="vads-u-border-top--2px vads-u-border-color--primary">
         <p>
           If you want to send messages to a team that’s not listed here, contact

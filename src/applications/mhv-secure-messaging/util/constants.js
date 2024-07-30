@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list',
 };
 
 export const DefaultFolders = {
