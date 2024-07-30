@@ -27,10 +27,7 @@ describe('handle multiple drafts in one thread', () => {
       .should('be.visible')
       .and('have.text', 'Edit draft replies');
 
-    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
-      force: true,
-      waitForAnimations: true,
-    });
+    PatientMessageDraftsPage.expandAllDrafts();
 
     cy.get(Locators.REPLY_FORM)
       .find('h3')
@@ -42,46 +39,26 @@ describe('handle multiple drafts in one thread', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  // TODO this test should be refactored in one of further sprints
   it('verify all drafts expanded', () => {
-    // SCENARIO: click expand all link
-    // verify all elements visible
-
     PatientMessageDraftsPage.expandSingleDraft(2);
 
-    cy.get('[open="true"]')
-      .find('.thread-list-draft')
-      .should('contain.text', 'Draft 2');
+    PatientMessageDraftsPage.verifyExpandedDraftBody(
+      updatedMultiDraftResponse,
+      2,
+      0,
+    );
 
-    cy.get(`[open="true"]`)
-      .find(`[data-testid="draft-reply-to"]`)
-      .should(
-        'contain.text',
-        updatedMultiDraftResponse.data[0].attributes.recipientName,
-      );
+    PatientMessageDraftsPage.verifyExpandedDraftButtons(2);
 
-    // cy.get(`[open="true"]`).find(`#input-type-textarea`).should('contain.text', updatedMultiDraftResponse.data[0].attributes.messageBody)
-    // PatientMessageDraftsPage.verifyMessagesBodyText(
-    //   updatedMultiDraftResponse.data[0].attributes.messageBody,
-    // );
+    PatientMessageDraftsPage.expandSingleDraft(1);
 
-    // cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    // PatientMessageDraftsPage.verifyMessagesBodyText(
-    //   updatedMultiDraftResponse.data[1].attributes.body,
-    // );
-    // PatientMessageDraftsPage.verifyDraftMessageBodyText(
-    //   updatedMultiDraftResponse.data[0].attributes.body,
-    // );
-    // PatientMessageDraftsPage.expandSingleDraft(2);
+    PatientMessageDraftsPage.verifyExpandedDraftBody(
+      updatedMultiDraftResponse,
+      1,
+      1,
+    );
 
-    // cy.get('[text="Edit draft 2"]').click();
-    // PatientMessageDraftsPage.verifyMessagesBodyText(
-    //   updatedMultiDraftResponse.data[0].attributes.body,
-    // );
-    // PatientMessageDraftsPage.verifyDraftMessageBodyText(
-    //   updatedMultiDraftResponse.data[1].attributes.body,
-    // );
-    // PatientMessageDraftsPage.expandSingleDraft(1);
+    PatientMessageDraftsPage.verifyExpandedDraftButtons(1);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

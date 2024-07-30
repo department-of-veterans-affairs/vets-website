@@ -632,12 +632,14 @@ class PatientMessageDraftsPage {
     });
   };
 
-  verifyDraftsExpanded = value => {
-    cy.get('[subheader*="draft"]')
-      .shadow()
-      .find('button')
-      .should('be.visible')
-      .and('have.attr', 'aria-expanded', `${value}`);
+  verifyExpandedDraftBody = (response, number, index) => {
+    cy.get('[open="true"]')
+      .find('.thread-list-draft')
+      .should('contain.text', `Draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`[data-testid="draft-reply-to"]`)
+      .should('contain.text', response.data[index].attributes.recipientName);
   };
 
   expandSingleDraft = number => {
@@ -647,29 +649,30 @@ class PatientMessageDraftsPage {
       .click({ force: true, waitForAnimations: true });
   };
 
-  verifyExpandedSingleDraft = (response, number, index) => {
-    cy.get('[open="true"] > [data-testid="draft-reply-to"]')
-      .should('be.visible')
-      .and(
-        'have.text',
-        `Draft ${number} To: ${
-          response.data[index].attributes.senderName
-        }\n(Team: ${response.data[index].attributes.triageGroupName})`,
-      );
-  };
-
   verifyExpandedDraftButtons = number => {
-    cy.get(`#send-button-${number}`)
+    cy.get(`[open="true"]`)
+      .find(`#attach-file-button-${number}`)
       .shadow()
-      .find('button')
+      .find(`button`)
       .should('be.visible')
-      .and('have.text', `Send draft ${number}`);
-    cy.get(`#save-draft-button-${number}`)
+      .and(`have.text`, `Attach file to draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#send-button-${number}`)
+      .shadow()
+      .find(`button`)
       .should('be.visible')
-      .and('have.text', `Save draft ${number}`);
-    cy.get(`#delete-draft-button-${number}`)
+      .and(`have.text`, `Send draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#save-draft-button-${number}`)
       .should('be.visible')
-      .and('have.text', `Delete draft ${number}`);
+      .and(`have.text`, `Save draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and(`have.text`, `Delete draft ${number}`);
   };
 
   verifyExpandedOldDraftButtons = number => {
