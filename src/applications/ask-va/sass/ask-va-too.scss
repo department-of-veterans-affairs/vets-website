@@ -25,6 +25,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin-top: 0.625rem;
 }
 
+.schemaform-label {
+  display: inline;
+  max-width: 30rem;
+}
+
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
   margin-top: 0.625rem;
