@@ -123,29 +123,3 @@ export const postSharingUpdateStatus = (optIn = false) => {
     headers,
   });
 };
-
-/**
- * Get all of a patient's medical records for generating a Blue Button report
- * @returns an object with
- * - labsAndTests
- * - careSummariesAndNotes
- * - vaccines
- * - allergies
- * - healthConditions
- * - vitals
- */
-export const getDataForBlueButton = () => {
-  return new Promise(resolve => {
-    const data = {
-      labsAndTests,
-      careSummariesAndNotes: notes,
-      vaccines,
-      allergies,
-      healthConditions: conditions,
-      vitals,
-    };
-    setTimeout(() => {
-      resolve(data);
-    }, 1000);
-  });
-};
