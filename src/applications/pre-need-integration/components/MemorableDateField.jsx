@@ -61,8 +61,16 @@ export default function MemorableDateField(props) {
     return moment().year();
   };
 
-  const isYearInvalid = (vals = {}) => {
-    return Number(vals.year) > currentYear();
+  const currentDate = () => {
+    return moment();
+  };
+
+  const enteredDate = (vals = {}) => {
+    return moment(`${vals.year}-${vals.month}-${vals.day}`, 'YYYY-MM-DD');
+  };
+
+  const isDateInvalid = (vals = {}) => {
+    return enteredDate(vals) > currentDate();
   };
 
   const yearErrorMessage = `Please enter a year between 1900 and ${currentYear()}`;
@@ -101,7 +109,7 @@ export default function MemorableDateField(props) {
           setErrorVal('Input numbers only');
         }
 
-        if (isYearInvalid(newValues)) {
+        if (isDateInvalid(newValues)) {
           setErrorVal('Please provide a valid current or past date');
         }
       }}
