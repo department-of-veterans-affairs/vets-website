@@ -5,8 +5,16 @@ import { getFilesNeeded } from '../../utils/helpers';
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
 
 function WhatYouNeedToDo({ claim }) {
-  const { trackedItems } = claim.attributes;
-  const filesNeeded = getFilesNeeded(trackedItems);
+  const { trackedItems, evidenceWaiverSubmitted5103 } = claim.attributes;
+  const filesNeeded = trackedItems
+    ? getFilesNeeded(trackedItems).filter(
+        i =>
+          !(
+            evidenceWaiverSubmitted5103 &&
+            i.displayName === 'Automated 5103 Notice Response'
+          ),
+      )
+    : [];
 
   return (
     <>
