@@ -122,7 +122,7 @@ describe('transform for submit', () => {
       certifierCert.data.certifierPhone,
     );
   });
-  it('should set first applicant info as primary contact if certifierRole == applicant', () => {
+  it('should set first applicant info as primary contact if no applicants have an email address and certifierRole == applicant', () => {
     const appCert = {
       data: {
         certifierRole: 'applicant',
@@ -131,6 +131,11 @@ describe('transform for submit', () => {
             applicantAddress: {},
             applicantName: { first: 'Jack', last: 'Applicant' },
             applicantPhone: '1231231234',
+          },
+          {
+            applicantAddress: {},
+            applicantName: { first: 'John', last: 'Applicant' },
+            applicantPhone: '555333222',
           },
         ],
       },
@@ -151,5 +156,44 @@ describe('transform for submit', () => {
       transformForSubmit(formConfig, { data: {} }),
     );
     expect(transformed.primaryContactInfo.name.first).to.be.false;
+  });
+  it('should set primary contact to first applicant with an email if certifierRole == applicant', () => {
+    const appCert = {
+      data: {
+        certifierRole: 'applicant',
+        applicants: [
+          {
+            applicantAddress: {},
+            applicantName: { first: 'First', last: 'Applicant' },
+            applicantPhone: '5554443333',
+          },
+          {
+            applicantAddress: {},
+            applicantName: { first: 'Second', last: 'Applicant' },
+            applicantPhone: '1112223333',
+            applicantEmailAddress: 'second@applicant.com',
+          },
+          {
+            applicantAddress: {},
+            applicantName: { first: 'Third', last: 'Applicant' },
+            applicantPhone: '5552223333',
+            applicantEmailAddress: 'third@applicant.com',
+          },
+        ],
+      },
+    };
+    const transformed = JSON.parse(transformForSubmit(formConfig, appCert));
+    expect(transformed.primaryContactInfo.name.first).to.equal(
+      appCert.data.applicants[1].applicantName.first,
+    );
+    expect(transformed.primaryContactInfo.name.last).to.equal(
+      appCert.data.applicants[1].applicantName.last,
+    );
+    expect(transformed.primaryContactInfo.phone).to.equal(
+      appCert.data.applicants[1].applicantPhone,
+    );
+    expect(transformed.primaryContactInfo.email).to.equal(
+      appCert.data.applicants[1].applicantEmailAddress,
+    );
   });
 });

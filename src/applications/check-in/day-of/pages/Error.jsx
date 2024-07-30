@@ -29,7 +29,7 @@ const Error = () => {
       !isTravelReimbursementEnabled
     ) {
       return (
-        <>
+        <div data-testid="check-in-failed-find-out">
           <p className="vads-u-margin-top--0">
             {t('travel-pay-reimbursement--info-message')}
           </p>
@@ -41,7 +41,7 @@ const Error = () => {
           >
             {t('find-out-if-youre-eligible--link')}
           </ExternalLink>
-        </>
+        </div>
       );
     }
     if (
@@ -50,7 +50,7 @@ const Error = () => {
       form.data['travel-mileage'] === 'no'
     ) {
       return (
-        <>
+        <div data-testid="check-in-failed-cant-file">
           <p
             className="vads-u-margin-top--0"
             data-testid="travel-pay-not-eligible-message"
@@ -70,12 +70,12 @@ const Error = () => {
           >
             {t('find-out-how-to-file--link')}
           </ExternalLink>
-        </>
+        </div>
       );
     }
     // Answered yes to everything
     return (
-      <>
+      <div data-testid="check-in-failed-file-later">
         <p className="vads-u-margin-top--0">
           <Trans
             i18nKey="were-sorry-cant-file-travel-file-later--info-message"
@@ -92,7 +92,7 @@ const Error = () => {
         >
           {t('find-out-how-to-file--link')}
         </ExternalLink>
-      </>
+      </div>
     );
   };
 
@@ -105,9 +105,11 @@ const Error = () => {
           message: t(
             'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
           ),
+          alertTestId: 'error-message-max-validation',
         },
       ];
       break;
+    case 'check-in-past-appointment':
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
       header = t('this-link-has-expired');
@@ -128,6 +130,7 @@ const Error = () => {
               ]}
             />
           ),
+          alertTestId: 'error-message-trying-to-check-in',
         },
       ];
       break;
@@ -136,11 +139,12 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          subHeading: t('your-appointment'),
+          subHeading: t('your-appointments', { count: 1 }),
           type: 'warning',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
+          alertTestId: 'error-message-checkin-error',
         },
         {
           subHeading: t('travel-reimbursement'),
@@ -151,6 +155,7 @@ const Error = () => {
               : 'warning',
           message: getTravelMessage(),
           travelMessage: true,
+          alertTestId: 'error-message-checkin-error-travel-info',
         },
       ];
       break;
@@ -162,6 +167,7 @@ const Error = () => {
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
+          alertTestId: 'error-message-default-error',
         },
       ];
   }
@@ -175,7 +181,7 @@ const Error = () => {
           )}
           {alert.type === 'text' ? (
             <div
-              data-testid={`error-message-${index}`}
+              data-testid={alert.alertTestId}
               className={index !== 0 ? 'vads-u-margin-top--2' : ''}
             >
               {alert.message}
@@ -184,7 +190,7 @@ const Error = () => {
             <va-alert
               show-icon
               status={alert.type}
-              data-testid={`error-message-${index}`}
+              data-testid={alert.alertTestId}
               class={index !== 0 ? 'vads-u-margin-top--2' : ''}
               uswds
               slim
