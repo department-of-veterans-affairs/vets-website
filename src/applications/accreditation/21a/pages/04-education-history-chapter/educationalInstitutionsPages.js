@@ -1,4 +1,3 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoSchema,
@@ -6,15 +5,16 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
-  textSchema,
-  textUI,
   textareaUI,
   textareaSchema,
+  textSchema,
+  textUI,
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -54,18 +54,22 @@ const educationalInstitutionPage = {
     received: yesNoUI('Degree received?'),
     degree: textUI({
       title: 'Degree',
-      // required: (formData, _index) => formData.received,
-      // hidden: formData => !formData?.received,
-      // uiOptions: {
-      //   hideIf: (formData) => !formData.received
-      // }
+      expandUnder: 'received',
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.received === true,
     }),
     reason: textareaUI({
       title: 'Reason for not completing studies',
-      // required: (formData, _index) => !formData.received,
-      // hidden: formData => formData?.received,
+      expandUnder: 'received',
+      expandUnderCondition: received => received === false,
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.received === false,
     }),
-    major: textUI('Major'),
+    major: textUI({
+      title: 'Major',
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.received === true,
+    }),
   },
   schema: {
     type: 'object',

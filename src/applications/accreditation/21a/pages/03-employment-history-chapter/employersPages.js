@@ -1,4 +1,3 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   addressSchema,
@@ -17,8 +16,8 @@ import {
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-
 import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
