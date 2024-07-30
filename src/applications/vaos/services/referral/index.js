@@ -62,3 +62,17 @@ export async function getProviderServiceSlotById(providerServiceId) {
     return null;
   }
 }
+
+export async function getReferralById(referralId) {
+  try {
+    const response = await apiRequestWithUrl(
+      `/vaos/v2/wellhive/referralDetails/${referralId}`,
+      {
+        method: 'GET',
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}

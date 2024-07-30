@@ -37,7 +37,7 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
                 {
                   /* sending true as second argument turns on left border */
                 }
-                return getPeriodsToVerify([nestedEnrollment], true);
+                return getPeriodsToVerify([nestedEnrollment]);
               })}
             </div>
           </div>
@@ -56,7 +56,7 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
                 enrollment[0].actBegin,
               )}.`}
             {/* sending true as second argument turns on left border */}
-            {getPeriodsToVerify(enrollment, true)}
+            {getPeriodsToVerify(enrollment)}
           </div>
         </div>
       );

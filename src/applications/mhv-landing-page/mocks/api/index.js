@@ -4,8 +4,8 @@ const delay = require('mocker-api/lib/delay');
 const MOCK_TYPES = Object.freeze({
   UNVERIFIED_USER: 'unverified',
   UNREGISTERED_USER: 'unregistered',
-  VERIFIED_USER: 'verified',
   VERIFIED_NO_MHV_USER: 'verified_no_mhv',
+  VERIFIED_USER: 'verified',
   VERIFIED_USER_ALL_FEATURES: 'verified_all',
 });
 

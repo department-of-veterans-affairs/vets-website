@@ -59,6 +59,18 @@ const OnThisPageLinks = ({
             </a>
           ) : null}
           <a
+            href="#howDoIPay"
+            data-testid="howto-pay-jumplink"
+            className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
+          >
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
+            />
+            How do I pay my VA debt?
+          </a>
+          <a
             href="#needHelp"
             data-testid="needHelp-jumplink"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
