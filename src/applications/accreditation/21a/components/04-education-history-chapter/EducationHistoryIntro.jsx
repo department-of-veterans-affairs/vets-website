@@ -3,7 +3,7 @@ import React from 'react';
 const EducationHistoryIntro = () => (
   <>
     <p>
-      We’ll ask you to provide information about your education. You will need
+      We will ask you to provide information about your education. You will need
       to list all the institutions you have attended starting with your high
       school. For each institution, you will need to provide the following
       information:

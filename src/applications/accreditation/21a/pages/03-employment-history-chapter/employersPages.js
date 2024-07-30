@@ -7,20 +7,18 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  checkboxGroupUI,
-  checkboxGroupSchema,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
   phoneSchema,
   phoneUI,
-  textSchema,
-  textareaSchema,
-  textUI,
   textareaUI,
+  textareaSchema,
+  textSchema,
+  textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmploymentIntro from '../../components/03-employment-information-chapter/EmploymentIntro';
+import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -150,14 +148,14 @@ const reasonForLeavingPage = {
           ? `Reason for leaving ${formData.name}`
           : 'Reason for leaving',
     ),
-    reason: textareaUI('Explain why you left this employer.'),
+    reasonForLeaving: textareaUI('Explain why you left this employer.'),
   },
   schema: {
     type: 'object',
     properties: {
-      reason: textareaSchema,
+      reasonForLeaving: textareaSchema,
     },
-    required: ['reason'],
+    required: ['reasonForLeaving'],
   },
 };
 
@@ -186,91 +184,43 @@ const summaryPage = {
   },
 };
 
-const employmentActivitiesPage = {
-  uiSchema: {
-    activities: checkboxGroupUI({
-      title:
-        'During the past ten years have you been involved in any of the following activities? Failure to identify relevant activities may result in a delay in processing your application.',
-      hint: 'Check all that apply',
-      required: true,
-      labels: {
-        financial: 'Financial Planning',
-        home: 'Home care',
-        nursing: 'Nursing care',
-        funeral: 'Funeral industry',
-        medical: 'Medical services',
-        consulting: 'Consulting or referral services for Veterans',
-        business:
-          'Business or service that advertises predominately to Veterans',
-      },
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      activities: checkboxGroupSchema([
-        'financial',
-        'home',
-        'nursing',
-        'funeral',
-        'medical',
-        'consulting',
-        'business',
-      ]),
-    },
-  },
-};
-
-const employersInfoPages = arrayBuilderPages(
-  arrayBuilderOptions,
-  pageBuilder => ({
-    employers: pageBuilder.introPage({
-      title: 'Employers',
-      path: 'employers',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-    }),
-    employersSummary: pageBuilder.summaryPage({
-      title: 'Review your employers',
-      path: 'employers-summary',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    employerInformationPage: pageBuilder.itemPage({
-      title: 'Employer information',
-      path: 'employers/:index/information',
-      uiSchema: informationPage.uiSchema,
-      schema: informationPage.schema,
-    }),
-    employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
-      title: 'Employer address and phone number',
-      path: 'employers/:index/address-phone-number',
-      uiSchema: addressAndPhoneNumberPage.uiSchema,
-      schema: addressAndPhoneNumberPage.schema,
-    }),
-    employerDateRangePage: pageBuilder.itemPage({
-      title: 'Employment dates',
-      path: 'employers/:index/date-range',
-      uiSchema: dateRangePage.uiSchema,
-      schema: dateRangePage.schema,
-    }),
-    employerReasonForLeavingPage: pageBuilder.itemPage({
-      title: 'Reason for leaving employer',
-      path: 'employers/:index/reason-for-leaving',
-      uiSchema: reasonForLeavingPage.uiSchema,
-      schema: reasonForLeavingPage.schema,
-    }),
+const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
+  employers: pageBuilder.introPage({
+    title: 'Employers',
+    path: 'employers',
+    uiSchema: introPage.uiSchema,
+    schema: introPage.schema,
   }),
-);
-
-const employersPages = {
-  ...employersInfoPages,
-  employmentActivitiesPage: {
-    title: 'Employment Activities',
-    path: 'employers/activities',
-    uiSchema: employmentActivitiesPage.uiSchema,
-    schema: employmentActivitiesPage.schema,
-  },
-};
+  employersSummary: pageBuilder.summaryPage({
+    title: 'Review your employers',
+    path: 'employers-summary',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  employerInformationPage: pageBuilder.itemPage({
+    title: 'Employer information',
+    path: 'employers/:index/information',
+    uiSchema: informationPage.uiSchema,
+    schema: informationPage.schema,
+  }),
+  employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
+    title: 'Employer address and phone number',
+    path: 'employers/:index/address-phone-number',
+    uiSchema: addressAndPhoneNumberPage.uiSchema,
+    schema: addressAndPhoneNumberPage.schema,
+  }),
+  employerDateRangePage: pageBuilder.itemPage({
+    title: 'Employment dates',
+    path: 'employers/:index/date-range',
+    uiSchema: dateRangePage.uiSchema,
+    schema: dateRangePage.schema,
+  }),
+  employerReasonForLeavingPage: pageBuilder.itemPage({
+    title: 'Reason for leaving employer',
+    path: 'employers/:index/reason-for-leaving',
+    uiSchema: reasonForLeavingPage.uiSchema,
+    schema: reasonForLeavingPage.schema,
+  }),
+}));
 
 export default employersPages;
