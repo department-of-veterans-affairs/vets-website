@@ -107,7 +107,9 @@ const UserNav = ({ isMobile }) => {
               data-dd-privacy="mask"
               data-dd-action-name="First Name"
             >
-              {`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
+              {`${profile.userFullName.first}${
+                isMobile ? '' : ` ${profile.userFullName.last}`
+              }`}
             </div>
           </span>
         </button>
@@ -134,8 +136,10 @@ UserNav.propTypes = {
   isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
   profile: PropTypes.shape({
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
+    userFullName: PropTypes.shape({
+      first: PropTypes.string,
+      last: PropTypes.string,
+    }),
   }),
 };
 

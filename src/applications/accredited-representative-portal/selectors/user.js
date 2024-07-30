@@ -1,4 +1,4 @@
-export const selectUserProfile = state => state.user?.profile;
-export const selectUserIsLoading = state => state.user?.isLoading;
 export const selectUser = state => state.user;
+export const selectUserProfile = state => selectUser(state)?.profile;
+export const selectUserIsLoading = state => selectUserProfile(state)?.loading;
 export const selectFeatureToggles = state => state.featureToggles;
