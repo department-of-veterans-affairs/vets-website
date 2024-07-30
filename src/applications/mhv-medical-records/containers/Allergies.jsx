@@ -169,7 +169,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
         <NewRecordsIndicator
           refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
+          extractType={refreshExtractTypes.ALLERGY}
           newRecordsFound={
             Array.isArray(allergies) &&
             Array.isArray(updatedRecordList) &&
