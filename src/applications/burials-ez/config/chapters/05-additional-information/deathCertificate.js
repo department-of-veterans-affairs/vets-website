@@ -15,12 +15,17 @@ export default {
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
       'ui:required': form => {
+        const isClaimingBurialAllowance =
+          form['view:claimedBenefits'].burialAllowance;
         const serviceRequested =
-          form?.burialAllowanceRequested?.service === true;
+          form.burialAllowanceRequested?.service === true;
         const locationIsVaMedicalCenter =
-          form?.locationOfDeath?.location === 'vaMedicalCenter';
-
-        return !(serviceRequested && locationIsVaMedicalCenter);
+          form.locationOfDeath?.location === 'vaMedicalCenter';
+        return !(
+          isClaimingBurialAllowance &&
+          serviceRequested &&
+          locationIsVaMedicalCenter
+        );
       },
     },
   },
