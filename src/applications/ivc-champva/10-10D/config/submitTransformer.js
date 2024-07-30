@@ -101,6 +101,11 @@ function getPrimaryContact(data) {
   const useCert =
     data?.certification?.firstName && data?.certification?.firstName !== '';
 
+  // Either the first applicant with an email address, or the first applicant
+  const primaryApp =
+    data?.applicants?.filter(app => app.email && app.email.length > 0)[0] ??
+    data?.applicants?.[0];
+
   // Depending on the result of useCert, grab the first and last name, phone,
   // and email from either the `certification` object or the first applicant,
   // then return so we can set up the `primaryContactInfo` for the backend
@@ -110,19 +115,16 @@ function getPrimaryContact(data) {
       first:
         (useCert
           ? data?.certification?.firstName
-          : data?.applicants?.[0]?.fullName?.first) ?? false,
+          : primaryApp?.fullName?.first) ?? false,
       last:
         (useCert
           ? data?.certification?.lastName
-          : data?.applicants?.[0]?.fullName?.last) ?? false,
+          : primaryApp?.fullName?.last) ?? false,
     },
-    email:
-      (useCert ? data?.certification?.email : data?.applicants?.[0]?.email) ??
-      false,
+    email: (useCert ? data?.certification?.email : primaryApp?.email) ?? false,
     phone:
-      (useCert
-        ? data?.certification?.phoneNumber
-        : data?.applicants?.[0]?.phoneNumber) ?? false,
+      (useCert ? data?.certification?.phoneNumber : primaryApp?.phoneNumber) ??
+      false,
   };
 }
 
