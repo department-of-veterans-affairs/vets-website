@@ -78,7 +78,7 @@ describe('LandingPage component', () => {
   });
 
   it('shows the VerifyAndRegisterAlert', async () => {
-    const initialState = stateFn();
+    const initialState = stateFn({ loa: 1, serviceName: 'logingov' });
     const props = { showVerifyAndRegisterAlert: () => true };
     const { getByTestId } = setup({ initialState, props });
     await waitFor(() => {

@@ -14,24 +14,45 @@ const LandingPageAlerts = ({
   userHasMhvBasicAccount,
   userRegistered,
   userVerified,
-}) => (
-  <>
-    {!userVerified && (
+}) => {
+  const alerts = [];
+
+  if (userHasMhvBasicAccount && !userVerified) {
+    alerts.push(<MhvBasicAccountAlert key="basic-account" />);
+  }
+
+  if (
+    (signInService === 'idme' || signInService === 'logingov') &&
+    !userVerified &&
+    showsVerifyAndRegisterAlert
+  ) {
+    alerts.push(
+      <VerifyAndRegisterAlert key="verify-register" cspId={signInService} />,
+    );
+  }
+
+  if (!userVerified) {
+    alerts.push(
       <IdentityNotVerified
+        key="identity-not-verified"
         headline={unVerifiedHeadline}
         showHelpContent={false}
         showVerifyIdenityHelpInfo
         signInService={signInService}
-      />
-    )}
-    {userVerified && !userRegistered && <UnregisteredAlert />}
-    {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
-    {userHasMhvBasicAccount && <MhvBasicAccountAlert />}
-    {showsVerifyAndRegisterAlert && (
-      <VerifyAndRegisterAlert cspId={signInService} />
-    )}
-  </>
-);
+      />,
+    );
+  }
+
+  if (!userRegistered) {
+    alerts.push(<UnregisteredAlert key="unregistered" />);
+  }
+
+  if (userRegistered && !userHasMhvAccount) {
+    alerts.push(<MhvRegistrationAlert key="mhv-registration" />);
+  }
+
+  return <>{alerts}</>;
+};
 
 LandingPageAlerts.propTypes = {
   showsVerifyAndRegisterAlert: PropTypes.bool.isRequired,
