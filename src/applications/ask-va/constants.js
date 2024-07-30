@@ -10,8 +10,8 @@ export const baseURL = '/ask_va_api/v0';
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `/topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
+  GET_TOPICS: `topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -34,9 +34,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'Caregiver support',
+  'VA Caregiver Support Program',
   'Family member health benefits',
-  'Prosthetics',
+  'VHA Prosthetics',
+  'Veteran Health ID (VHIC – Facility Access/Check-In)',
+  'Veteran ID (Retailer Discount)',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -223,7 +225,7 @@ export const yourRoleOptionsEducation = {
 
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
-  CHAPTER_TITLE: 'Category and Topic',
+  CHAPTER_TITLE: 'Category and topic',
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category',
@@ -232,13 +234,13 @@ export const CHAPTER_1 = {
   },
   PAGE_2: {
     PATH: 'category-topic-2',
-    TITLE: 'Topic selected',
+    TITLE: 'Topic',
     PAGE_DESCRIPTION: 'Topic',
     QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
-    TITLE: 'Subtopic selected',
+    TITLE: 'Subtopic',
     PAGE_DESCRIPTION: 'Subtopic',
     QUESTION_1: 'Select the subtopic that best describes your question:',
   },
@@ -246,7 +248,7 @@ export const CHAPTER_1 = {
 
 // Chapter 2 labels: titles, questions, descriptions
 export const CHAPTER_2 = {
-  CHAPTER_TITLE: 'Your Question',
+  CHAPTER_TITLE: 'Your question',
   PAGE_1: {
     PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
@@ -263,13 +265,13 @@ export const CHAPTER_2 = {
     PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
+    QUESTION_1: "What's your question?",
   },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'Personal Information',
+  CHAPTER_TITLE: 'Your Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
     TITLE: 'What is your relationship to the Veteran?',
@@ -441,6 +443,8 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
+  CHAPTER_2.PAGE_1.TITLE,
+  CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 

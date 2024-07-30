@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import { ariaLabels } from '../../constants';
+import {
+  ariaLabels,
+  POST_911_ARRAY,
+  FRY_SCHOLARSHIP_ARRAY,
+  SELECT_RESERVE_GI_BILL_ARRAY,
+  VETERAN_READINESS_ARRAY,
+  SURVIVOR_AND_DEPENDENT_ARRAY,
+} from '../../constants';
 import Dropdown from '../Dropdown';
 import LearnMoreLabel from '../LearnMoreLabel';
 
@@ -11,20 +18,7 @@ const NATIONAL_GUARD_RESERVES = 'national guard / reserves';
 const WHAT_IS_YOUR_MILITARY_STATUS = "What's your military status?";
 const WHAT_IS_YOUR_DEPENDENT_STATUS = "What's your dependent status?";
 
-const POST_911_ARRAY = [
-  { optionValue: VETERAN, optionLabel: 'Veteran' },
-  { optionValue: 'active duty', optionLabel: 'Active Duty' },
-  {
-    optionValue: 'national guard / reserves',
-    optionLabel: 'National Guard / Reserves',
-  },
-];
-
-const FRY_SCHOLARSHIP_ARRAY = [
-  { optionValue: SPOUSE, optionLabel: 'Surviving Spouse' },
-  { optionValue: 'child', optionLabel: 'Child' },
-];
-
+// Reference MONTGOMERY_GI_BILL_ARRAY in helpers file to align with initial search filter
 const MONTGOMERY_GI_BILL_ARRAY = [
   { optionValue: VETERAN, optionLabel: 'Veteran' },
   { optionValue: 'active duty', optionLabel: 'Active Duty' },
@@ -32,22 +26,6 @@ const MONTGOMERY_GI_BILL_ARRAY = [
     optionValue: 'national guard / reserves',
     optionLabel: 'National Guard / Reserves',
   },
-  { optionValue: 'spouse', optionLabel: 'Spouse' },
-  { optionValue: 'child', optionLabel: 'Child' },
-];
-
-const SELECT_RESERVE_GI_BILL_ARRAY = [
-  {
-    optionValue: NATIONAL_GUARD_RESERVES,
-    optionLabel: 'National Guard / Reserves',
-  },
-];
-
-const VETERAN_READINESS_ARRAY = [
-  { optionValue: VETERAN, optionLabel: 'Veteran' },
-];
-
-const SURVIVOR_AND_DEPENDENT_ARRAY = [
   { optionValue: 'spouse', optionLabel: 'Spouse' },
   { optionValue: 'child', optionLabel: 'Child' },
 ];
@@ -63,7 +41,6 @@ const BenefitsForm = ({
   handleInputFocus,
   militaryStatus,
   numberOfDependents,
-  optionDisabled,
   showHeader,
   showModal,
   spouseActiveDuty,
@@ -177,7 +154,6 @@ const BenefitsForm = ({
               optionValue: '35',
               optionLabel:
                 "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
-              optionDisabled,
             },
           ]}
           value={giBillChapter}
@@ -337,7 +313,7 @@ const BenefitsForm = ({
 
   return (
     <div className="eligibility-form">
-      {showHeader && <h2>Your benefits</h2>}
+      {showHeader && <h2 id="benefits-header">Your benefits</h2>}
       {renderYourMilitaryDetails()}
     </div>
   );
@@ -356,7 +332,6 @@ BenefitsForm.propTypes = {
   hideModal: PropTypes.func,
   militaryStatus: PropTypes.string,
   numberOfDependents: PropTypes.string,
-  optionDisabled: PropTypes.bool,
   showHeader: PropTypes.bool,
   showModal: PropTypes.func,
   spouseActiveDuty: PropTypes.string,
