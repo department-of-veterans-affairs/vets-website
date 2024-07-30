@@ -116,13 +116,30 @@ export const conditionReducer = (state = initialState, action) => {
             return convertCondition(condition);
           })
           .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
-
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
         conditionsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.COPY_UPDATED_LIST: {
+      const originalList = state.conditionsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          conditionsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Conditions.CLEAR_DETAIL: {
