@@ -20,7 +20,10 @@ import { dateFormat } from '../util/helpers';
 import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { DD_ACTIONS_PAGE_TYPE } from '../util/constants';
+import {
+  DD_ACTIONS_PAGE_TYPE,
+  SESSION_SELECTED_PAGE_NUMBER,
+} from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -126,6 +129,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
     return [refillable, [...renewable, rx]];
   };
+
+  useEffect(() => {
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  }, []);
 
   useEffect(
     () => {
