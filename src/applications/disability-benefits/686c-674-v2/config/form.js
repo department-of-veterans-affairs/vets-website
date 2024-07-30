@@ -25,6 +25,7 @@ import {
   marriageAdditionalEvidence,
   spouseInformation,
   spouseInformationPartTwo,
+  spouseInformationPartThree,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,
   veteranMarriageHistory,
@@ -157,7 +158,7 @@ export const formConfig = {
       },
     },
     addSpouse: {
-      title: 'Information needed to add your spouse',
+      title: 'Add your spouse',
       pages: {
         spouseNameInformation: {
           depends: formData =>
@@ -174,6 +175,15 @@ export const formConfig = {
           path: 'add-spouse/identification-information',
           uiSchema: spouseInformationPartTwo.uiSchema,
           schema: spouseInformationPartTwo.schema,
+        },
+        spouseNameInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseInformation?.isVeteran,
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/military-service-information',
+          uiSchema: spouseInformationPartThree.uiSchema,
+          schema: spouseInformationPartThree.schema,
         },
         currentMarriageInformation: {
           depends: formData =>
