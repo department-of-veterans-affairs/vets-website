@@ -37,7 +37,7 @@ const NavCard = ({
           </span>
           {!isExternal && (
             <va-icon
-              class="link-icon vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+              class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
               icon="navigate_next"
               size={4}
             />
