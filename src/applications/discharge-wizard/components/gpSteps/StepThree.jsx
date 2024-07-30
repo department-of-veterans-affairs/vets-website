@@ -79,7 +79,7 @@ const StepThree = ({ formValues }) => {
     const boardName =
       boardToSubmit.abbr === 'DRB'
         ? 'Discharge Review Board (DRB)'
-        : 'Air Force Review Discharge Review Board (AFDRB)';
+        : 'Air Force Discharge Review Board (AFDRB)';
 
     boardExplanation = `the ${boardName} for the ${branchOfService(
       formValues['1_branchOfService'],
