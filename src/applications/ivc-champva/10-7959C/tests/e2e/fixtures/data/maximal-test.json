@@ -1,4 +1,5 @@
 {
+  "description": "Has Medicare (ABD), both OHIs (Medigap), US address (new), third party signer",
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
     "secondaryMedigapPlan": "C",

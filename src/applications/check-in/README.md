@@ -157,7 +157,34 @@ Current and errors Travel-claim: `yarn cy:run --env with_screenshots=true --spec
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
 
-## Adding Feature Toggles
+## Feature toggles
+
+We are currently using an HOC located at `src/applications/pre-check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
+
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
+### Current toggles
+
+- `check_in_experience_enabled` : Enables or disabled the whole day-of check-in app on va.gov
+  - when to sunset: never.
+- `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole pre-check-in app on va.gov
+  - when to sunset: never.
+- `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
+  - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish.
+- `check_in_experience_travel_reimbursement`: Enables or disables travel reimbursement workflow for day-of check-in.
+  - when to sunset: never.
+- `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
+  - when to sunset: never.
+- `check_in_experience_upcoming_appointments_enabled`: Enables the upcoming appointments block.
+  - when to sunset: After it is confirmed that upcoming appointments consistently works and adds value to the veterans.
+
+### How to test this?
+
+Each feature should have unit tests and e2e tests.
+
+For testing in staging, use the instructions at [https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/checkin/engineering/qa/test-data-setup.md](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/checkin/engineering/qa/test-data-setup.md).
+
+### Adding Feature Toggles
 
 To add a feature toggle follow the steps oulined in the VA Platform Documentation on [Feature Toggles](https://depo-platform-documentation.scrollhelp.site/developer-docs/feature-toggles-guide). Additionally add the feature toggle to selectors, mocks and the readme for Pre-check-in and/or Check-in apps.
 
