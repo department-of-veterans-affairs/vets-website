@@ -63,7 +63,6 @@ describe('Attachments List component', () => {
       ],
     };
     const screen = render(<AttachmentsList {...customProps} />);
-    screen.debug();
     expect(document.querySelector('.message-body-attachments-label')).to.exist;
     expect(screen.getByTestId('attachments-count').textContent).to.equal(
       ' (1)',
