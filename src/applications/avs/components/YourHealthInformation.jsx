@@ -355,6 +355,7 @@ const renderVaMedication = medication => {
       <p>
         {renderFieldWithBreak(medication.name)}
         {renderFieldWithBreak(medication.sig)}
+        {renderFieldWithBreak(medication.indication, 'Indication')}
         {renderFieldWithBreak(medication.description, 'Description')}
         {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
         Notes: {fieldHasValue(medication.comment) && String(medication.comment)}
