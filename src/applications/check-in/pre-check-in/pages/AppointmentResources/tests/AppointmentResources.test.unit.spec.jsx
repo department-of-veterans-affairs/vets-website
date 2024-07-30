@@ -19,7 +19,6 @@ describe('pre-check-in', () => {
           <AppointmentResources />
         </CheckInProvider>,
       );
-
       expect(component.getByTestId('resouces-page')).to.exist;
     });
   });
