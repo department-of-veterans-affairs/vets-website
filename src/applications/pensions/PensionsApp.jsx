@@ -71,7 +71,7 @@ export default function PensionEntry({ location, children }) {
   }
 
   if (pensionModuleEnabled) {
-    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
+    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/claims');
   }
 
   return (
