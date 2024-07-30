@@ -17,9 +17,6 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify headers', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
     cy.get(Locators.ALERTS.PAGE_TITLE).should(
       'contain.text',
       `${updatedMultiDraftResponse.data[0].attributes.subject}`,
@@ -40,18 +37,32 @@ describe('handle multiple drafts in one thread', () => {
       .each(el => {
         cy.wrap(el).should('include.text', 'Draft ');
       });
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   // TODO this test should be refactored in one of further sprints
-  it.skip('verify all drafts expanded', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
-    // SCENARIO: click expand al link
+  it('verify all drafts expanded', () => {
+    // SCENARIO: click expand all link
     // verify all elements visible
 
+    PatientMessageDraftsPage.expandSingleDraft(2);
+
+    cy.get('[open="true"]')
+      .find('.thread-list-draft')
+      .should('contain.text', 'Draft 2');
+
+    cy.get(`[open="true"]`)
+      .find(`[data-testid="draft-reply-to"]`)
+      .should(
+        'contain.text',
+        updatedMultiDraftResponse.data[0].attributes.recipientName,
+      );
+
+    // cy.get(`[open="true"]`).find(`#input-type-textarea`).should('contain.text', updatedMultiDraftResponse.data[0].attributes.messageBody)
     // PatientMessageDraftsPage.verifyMessagesBodyText(
-    //   updatedMultiDraftResponse.data[0].attributes.body,
+    //   updatedMultiDraftResponse.data[0].attributes.messageBody,
     // );
 
     // cy.get(Locators.ALERTS.EDIT_DRAFT).click();
@@ -71,5 +82,8 @@ describe('handle multiple drafts in one thread', () => {
     //   updatedMultiDraftResponse.data[1].attributes.body,
     // );
     // PatientMessageDraftsPage.expandSingleDraft(1);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
