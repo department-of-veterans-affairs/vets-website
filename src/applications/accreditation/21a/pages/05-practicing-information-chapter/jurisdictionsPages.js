@@ -1,14 +1,20 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  descriptionUI,
+  selectSchema,
+  selectUI,
   textSchema,
   textUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import PracticingInformationIntro from '../../components/05-practicing-information-chapter/PracticingInformationIntro';
+import { jurisdictionOptions } from '../../constants/jurisdictions';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -17,22 +23,26 @@ const arrayBuilderOptions = {
   nounPlural: 'jurisdictions',
   required: true,
   isItemIncomplete: item =>
-    !item?.name ||
+    !item?.jurisdiction ||
+    (item?.jurisdiction === 'Other' && !item?.otherJurisdiction) ||
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
-    getItemName: item => item.name,
-    cardDescription: item => formatReviewDate(item?.admissionDate),
+    getItemName: item =>
+      item?.jurisdiction === 'Other'
+        ? item?.otherJurisdiction
+        : item?.jurisdiction,
+    cardDescription: item =>
+      `${formatReviewDate(item?.admissionDate)}, #${
+        item?.membershipOrRegistrationNumber
+      }`,
   },
 };
 
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI(
-      'Your practicing information',
-      "Over the next couple of pages, we'll ask for information about jurisdictions and the agencies or courts you are currently admitted to practice before.",
-    ),
+    ...descriptionUI(PracticingInformationIntro),
   },
   schema: {
     type: 'object',
@@ -45,20 +55,32 @@ const jurisdictionPage = {
   uiSchema: {
     ...titleUI(
       'Jurisdiction',
-      'Add details of a jurisdiction that you are admitted to practice before.',
+      'List each jurisdiction to which you are admitted. You will be able to add additional jurisdictions on the next screen.',
     ),
-    name: textUI('Name of jurisdiction'),
+    jurisdiction: selectUI('Jurisdiction'),
+    otherJurisdiction: textUI({
+      title: 'Name of jurisdiction',
+      expandUnder: 'jurisdiction',
+      expandUnderCondition: 'Other',
+      required: (formData, index) =>
+        formData?.jurisdictions?.[index]?.jurisdiction === 'Other',
+    }),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      jurisdiction: selectSchema(jurisdictionOptions),
+      otherJurisdiction: textSchema,
       admissionDate: currentOrPastDateSchema,
       membershipOrRegistrationNumber: textSchema,
     },
-    required: ['name', 'admissionDate', 'membershipOrRegistrationNumber'],
+    required: [
+      'jurisdiction',
+      'admissionDate',
+      'membershipOrRegistrationNumber',
+    ],
   },
 };
 

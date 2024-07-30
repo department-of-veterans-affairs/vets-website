@@ -1,4 +1,3 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoSchema,
@@ -9,6 +8,8 @@ import {
   textUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -21,8 +22,11 @@ const arrayBuilderOptions = {
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
-    getItemName: item => item.name,
-    cardDescription: item => formatReviewDate(item?.admissionDate),
+    getItemName: item => item?.name,
+    cardDescription: item =>
+      `${formatReviewDate(item?.admissionDate)}, #${
+        item?.membershipOrRegistrationNumber
+      }`,
   },
 };
 
@@ -30,8 +34,8 @@ const arrayBuilderOptions = {
 const agencyOrCourtPage = {
   uiSchema: {
     ...titleUI(
-      'State or federal agency or court',
-      'Add details of an agency or court you are admitted to practice before.',
+      'State or Federal agency or court',
+      'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
     ),
     name: textUI('Name of agency/court'),
     admissionDate: currentOrPastDateUI('Date of admission'),
@@ -59,7 +63,7 @@ const summaryPage = {
       arrayBuilderOptions,
       {
         title:
-          'Are you currently permitted to practice before any state or federal agency or any federal court?',
+          'Are you currently admitted to practice before any state or Federal agency or any Federal court?',
         labelHeaderLevel: 'p',
         hint: ' ',
       },

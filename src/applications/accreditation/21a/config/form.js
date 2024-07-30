@@ -10,7 +10,7 @@ import personalInformationChapter from '../pages/01-personal-information-chapter
 import militaryServiceChapter from '../pages/02-military-service-chapter';
 import employmentInformationChapter from '../pages/03-employment-information-chapter';
 import educationHistoryChapter from '../pages/04-education-history-chapter';
-import lawPracticeInformationChapter from '../pages/05-law-practice-information-chapter';
+import practicingInformationChapter from '../pages/05-practicing-information-chapter';
 import backgroundInformationChapter from '../pages/06-background-information-chapter';
 import characterReferencesChapter from '../pages/07-character-references-chapter';
 
@@ -63,7 +63,7 @@ const formConfig = {
     militaryServiceChapter,
     employmentInformationChapter,
     educationHistoryChapter,
-    lawPracticeInformationChapter,
+    practicingInformationChapter,
     backgroundInformationChapter,
     characterReferencesChapter,
   },
