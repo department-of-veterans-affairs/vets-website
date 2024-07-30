@@ -1,13 +1,13 @@
 // import fullSchema from 'vets-json-schema/dist/XX-123-schema.json';
 import definitions from 'vets-json-schema/dist/definitions.json';
-import manifest from '../manifest.json';
 
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
 import _ from 'lodash';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+import manifest from '../manifest.json';
 
 // const { } = fullSchema.properties;
 
@@ -22,7 +22,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: 'XX-123',
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for mock sip benefits.',
     noAuth:

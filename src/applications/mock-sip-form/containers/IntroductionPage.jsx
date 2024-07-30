@@ -3,6 +3,19 @@ import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { SIGN_IN_URL } from 'applications/accredited-representative-portal/constants';
+
+const signInLink = ({ children }) => {
+  return (
+    <a
+      href={SIGN_IN_URL}
+      data-testid="user-nav-mobile-sign-in-link"
+      className="sign-in-link"
+    >
+      {children}
+    </a>
+  );
+};
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -15,10 +28,12 @@ class IntroductionPage extends React.Component {
         <FormTitle title="Mock SIP Form" />
         <p>Equal to VA Form XX-123 (Mock SIP Form).</p>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
+          customLink={signInLink}
         >
           Please complete the XX-123 form to apply for mock sip benefits.
         </SaveInProgressIntro>
@@ -70,6 +85,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
+          customLink={signInLink}
         />
         <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
           <va-omb-info
