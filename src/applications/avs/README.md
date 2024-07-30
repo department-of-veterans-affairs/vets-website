@@ -7,8 +7,8 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
 - navigate to the AVS application `cd src/applications/avs`
 - run `yarn install`
-- turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/avs/api/mocks/index.js`
 - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=avs`
+- turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/avs/api/mocks/index.js`
 - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
 - visit the app: `http://localhost:3001/my-health/medical-records/summaries-and-notes/visit-summary/9A7AF40B2BC2471EA116891839113252`
 
