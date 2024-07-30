@@ -175,7 +175,7 @@ function getReasonCodeDS(appt, key) {
   const reasonCode = appt.reasonCode?.text?.split('|');
   if (reasonCode && key === 'code') {
     data = reasonCode
-      .filter(item => item.includes('reasonCode:'))[0]
+      .filter(item => item.includes('reason code:'))[0]
       ?.split(':')[1]
       ?.trim();
   }
