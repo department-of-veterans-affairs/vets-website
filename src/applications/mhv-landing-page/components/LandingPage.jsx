@@ -5,6 +5,7 @@ import {
   renderMHVDowntime,
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -24,10 +25,10 @@ import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   hasMhvAccount,
 } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
+import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
@@ -37,7 +38,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const signInService = useSelector(signInServiceName);
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showHelpdeskInfo = useSelector(helpdeskInfoEnabled) && userRegistered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
@@ -59,10 +59,17 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
     <>
       {userRegistered && <MhvSecondaryNav />}
       <div
-        className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
+        className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--5"
         data-testid="landing-page-container"
       >
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <VaBreadcrumbs
+            homeVeteransAffairs
+            breadcrumbList={[
+              { label: 'VA.gov home', href: '/' },
+              { label: 'My HealtheVet', href: manifest.rootUrl },
+            ]}
+          />
           <DowntimeNotification
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
@@ -83,7 +90,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           {userRegistered && !userHasMhvAccount && <MhvRegistrationAlert />}
           {userRegistered && <CardLayout data={cards} />}
         </div>
-        {showHelpdeskInfo && (
+        {userRegistered && (
           <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
               <div className="vads-l-col medium-screen:vads-l-col--8">

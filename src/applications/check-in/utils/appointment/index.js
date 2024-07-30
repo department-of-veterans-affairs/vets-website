@@ -165,6 +165,53 @@ const sortAppointmentsByStartTime = appointments => {
     : [];
 };
 
+/**
+ * @param {Array<Appointment>} appointments
+ */
+
+function organizeAppointmentsByYearMonthDay(appointments) {
+  const organizedData = [];
+
+  // First sort the appointments by start time then organize them by yearmonth and day
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
+
+  for (const appointment of sortedAppointments) {
+    const dateObj = new Date(appointment.startTime);
+    const monthYearKey = `${dateObj.getFullYear()}-${Number(
+      dateObj.getMonth(),
+    ) + 1}`;
+    const dayKey = `${dateObj.getDay()}-${dateObj.getDate()}`;
+
+    let monthObj = organizedData.find(
+      item => item.monthYearKey === monthYearKey,
+    );
+
+    if (!monthObj) {
+      monthObj = {
+        monthYearKey,
+        days: [],
+        firstAppointmentStartTime: appointment.startTime,
+      };
+      organizedData.push(monthObj);
+    }
+
+    let dayObj = monthObj.days.find(item => item.dayKey === dayKey);
+
+    if (!dayObj) {
+      dayObj = {
+        dayKey,
+        appointments: [],
+        firstAppointmentStartTime: appointment.startTime,
+      };
+      monthObj.days.push(dayObj);
+    }
+
+    dayObj.appointments.push(appointment);
+  }
+
+  return organizedData;
+}
+
 const removeTimeZone = payload => {
   // Grabbing the appointment payload and stripping out timezone here.
   // Chip should be handling this but currently isn't, this code may be refactored out.
@@ -196,14 +243,6 @@ const preCheckinExpired = appointments => {
     const today = new Date();
     const preCheckInExpiry = startOfDay(new Date(appt.startTime));
     return today.getTime() < preCheckInExpiry.getTime();
-  });
-};
-
-const appointmentStartTimePast15 = appointments => {
-  return !Object.values(appointments).some(appt => {
-    const today = new Date();
-    const deadline = appt.checkInWindowEnd;
-    return today.getTime() < new Date(deadline).getTime();
   });
 };
 
@@ -252,13 +291,16 @@ const clinicName = appointment => {
 };
 
 /**
- * Return a unique ID of ien and station.
+ * Return a unique ID of ien and station for vista appointments.
  *
  * @param {Appointment} appointment
  * @returns {string}
  */
 
 const getAppointmentId = appointment => {
+  if (appointment.id) {
+    return `${appointment.id}-${appointment.stationNo}`;
+  }
   return `${appointment.appointmentIen}-${appointment.stationNo}`;
 };
 
@@ -278,6 +320,46 @@ const findAppointment = (appointmentId, appointments) => {
         String(appointmentIdParts[0]) &&
       String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
   );
+};
+
+/**
+ * Find upcoming appointment by ID.
+ *
+ * @param {string} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+const findUpcomingAppointment = (appointmentId, appointments) => {
+  const appointementIdParts = appointmentId.split('-');
+  return appointments.find(
+    appointmentItem =>
+      appointmentItem.id === appointementIdParts[0] &&
+      appointmentItem.stationNo === appointementIdParts[1],
+  );
+};
+
+/**
+ * Determine if the appoinents have multiple facilities.
+ *
+ * @param {Array<Appointment>} appointments
+ * @returns {bool}
+ */
+
+const hasMultipleFacilities = appointments => {
+  const uniqueFacilites = [
+    ...new Map(appointments.map(appt => [appt.stationNo, appt])).values(),
+  ];
+  return uniqueFacilites.length > 1;
+};
+
+/**
+ * Return unique facilities as an array
+ * @param {Array<Appointment>} appointments
+ * @returns {Array}
+ */
+
+const getUniqueFacilies = appointments => {
+  return [...new Set(appointments.map(appt => appt.facility))];
 };
 
 /**
@@ -316,8 +398,48 @@ const getApptLabel = appointment => {
   return `${time}${label ? ` ${label}` : ''}`;
 };
 
+/**
+ * Determine if there are multiple checkinable appointments.
+ *
+ * @param {appointments} appointments
+ * @returns {boolean}
+ */
+
+const getCheckinableAppointments = appointments => {
+  return appointments.filter(a => a.eligibility === ELIGIBILITY.ELIGIBLE);
+};
+
+/**
+ * Convert the appointments from the API to the format needed for the UI.
+ * @param {Array} appointments
+ * @returns {Array}
+ */
+const convertAppointments = appointments => {
+  return appointments.map(appointment => ({
+    id: appointment.id,
+    facility: appointment.attributes.location,
+    clinicPhoneNumber: null,
+    clinicFriendlyName: appointment.attributes.friendlyName,
+    clinicName: appointment.attributes.clinic,
+    clinicStopCodeName: null,
+    clinicLocation: appointment.attributes.physicalLocation,
+    doctorName: null,
+    appointmentIen: null,
+    startTime: appointment.attributes.start,
+    stationNo: appointment.attributes.locationId,
+    eligibility: null,
+    kind: appointment.attributes.kind,
+    clinicIen: null,
+    checkInWindowStart: null,
+    checkInWindowEnd: null,
+    checkInSteps: null,
+    checkedInTime: null,
+    status: appointment.attributes.status,
+    facilityAddress: null,
+  }));
+};
+
 export {
-  appointmentStartTimePast15,
   appointmentWasCanceled,
   allAppointmentsCanceled,
   getFirstCanceledAppointment,
@@ -325,6 +447,7 @@ export {
   intervalUntilNextAppointmentIneligibleForCheckin,
   locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
@@ -333,6 +456,11 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
+  findUpcomingAppointment,
+  hasMultipleFacilities,
+  getUniqueFacilies,
   utcToFacilityTimeZone,
   getApptLabel,
+  getCheckinableAppointments,
+  convertAppointments,
 };

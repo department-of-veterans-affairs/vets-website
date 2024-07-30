@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
-
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -15,18 +15,21 @@ import DetailPageLayout, {
   Where,
   Section,
   Who,
+  ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
-import FacilityPhone from '../FacilityPhone';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
+    clinicPhone,
+    clinicPhoneExtension,
     comment,
     facility,
     facilityPhone,
@@ -38,6 +41,10 @@ export default function InPersonLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
+  );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -76,8 +83,8 @@ export default function InPersonLayout({ data: appointment }) {
         }
       >
         {/* When the services return a null value for the facility (no facility ID) for all appointment types */}
-        {!!facility === false &&
-          !!facilityId === false && (
+        {!facility &&
+          !facilityId && (
             <>
               <span>Facility details not available</span>
               <br />
@@ -89,7 +96,7 @@ export default function InPersonLayout({ data: appointment }) {
             </>
           )}
         {/* When the services return a null value for the facility (but receive the facility ID) */}
-        {!!facility === false &&
+        {!facility &&
           !!facilityId && (
             <>
               <span>Facility details not available</span>
@@ -111,20 +118,20 @@ export default function InPersonLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+              <va-icon icon="directions" size="3" srtext="Directions icon" />
               <FacilityDirectionsLink location={facility} />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>
-              Location: {clinicPhysicalLocation || 'Not available'}
-            </span>{' '}
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
             <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
           </>
         )}
+        <ClinicOrFacilityPhone
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
+          facilityPhone={facilityPhone}
+        />
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
@@ -133,6 +140,16 @@ export default function InPersonLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
+      {featureMedReviewInstructions && (
+        <Prepare>
+          Bring your insurance cards, a list of medications, and other things to
+          share with your provider.
+          <br />
+          <NewTabAnchor href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/">
+            Find out what to bring to your appointment
+          </NewTabAnchor>
+        </Prepare>
+      )}
     </DetailPageLayout>
   );
 }

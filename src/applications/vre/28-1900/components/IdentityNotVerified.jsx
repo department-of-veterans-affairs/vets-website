@@ -27,7 +27,7 @@ const IdentityNotVerified = () => {
   );
 
   return (
-    <va-alert status="warning" uswds="false">
+    <va-alert status="warning">
       <h2 slot="headline" className="vads-u-font-size--h3">
         Verify your identity to apply for VR&E benefits
       </h2>

@@ -16,9 +16,9 @@
   margin-left: 4px;
 }
 
-.btsss-claims-order-container {
+.btsss-claims-sort-and-filter-container {
   min-width: fit-content;
-  max-width: 67%;
+  max-width: 35rem;
 }
 
 .btsss-claims-order-select-container {
@@ -29,4 +29,26 @@
 
 .travel-claim-list-container {
   max-width: 35rem;
+}
+
+h2#pagination-info {
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.travel-claim-card {
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
+.claims-controller-title {
+  font-size: 4rem;
+  font-weight: 700;
 }

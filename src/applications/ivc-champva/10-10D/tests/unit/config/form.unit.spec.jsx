@@ -22,7 +22,7 @@ import mockData from '../../e2e/fixtures/data/test-data.json';
 const applicants = [
   {
     applicantSSN: '111221234',
-    applicantDOB: '2007-01-03',
+    applicantDob: '2007-01-03',
     applicantName: {
       first: 'Jerry',
       middle: 'J',
@@ -117,7 +117,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page13.schema,
   formConfig.chapters.applicantInformation.pages.page13.uiSchema,
   5,
-  'Applicant - Name DOB',
+  'Applicant - Name Dob',
   { ...mockData.data },
 );
 
