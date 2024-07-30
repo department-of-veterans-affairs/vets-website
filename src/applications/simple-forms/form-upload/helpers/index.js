@@ -42,7 +42,7 @@ export const getFormContent = (pathname = null) => {
 };
 
 export const getPdfDownloadUrl = formNumber =>
-  formMappings[formNumber].pdfDownloadUrl || '';
+  formMappings[formNumber]?.pdfDownloadUrl || '';
 
 export const handleRouteChange = ({ detail }, history) => {
   const { href } = detail;
