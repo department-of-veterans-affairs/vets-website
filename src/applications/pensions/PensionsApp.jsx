@@ -64,7 +64,9 @@ export default function PensionEntry({ location, children }) {
 
   useEffect(
     () => {
-      formConfig.submit = (f, fc) => submit(f, fc, '/pensions/v0/claims');
+      if (pensionModuleEnabled) {
+        formConfig.submit = (f, fc) => submit(f, fc, '/pensions/v0/claims');
+      }
     },
     [pensionModuleEnabled],
   );
