@@ -26,7 +26,7 @@ ComboAlert.Error = () => {
         debts and bills, contact us online through{' '}
         <a href="https://ask.va.gov">Ask VA</a>.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         <va-link active text="Contact us at Ask VA" url="https://ask.va.gov" />
       </p>
     </va-alert>
@@ -64,6 +64,9 @@ ComboAlert.Zero = () => {
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>
+      <p className="vads-u-margin-bottom--0">
+        <va-link active text="Return to VA.gov" url="https://va.gov" />
+      </p>
     </va-alert>
   );
 };
