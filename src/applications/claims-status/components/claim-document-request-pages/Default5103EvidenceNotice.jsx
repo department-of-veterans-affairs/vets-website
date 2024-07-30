@@ -83,7 +83,7 @@ function Default5103EvidenceNotice({
   }
 
   return (
-    <div id="automated-5103-notice-page" className="vads-u-margin-bottom--3">
+    <div id="default-5103-notice-page" className="vads-u-margin-bottom--3">
       <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
         5103 Evidence Notice
       </h1>

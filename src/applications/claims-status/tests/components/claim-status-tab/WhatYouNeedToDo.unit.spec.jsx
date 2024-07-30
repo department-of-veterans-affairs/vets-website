@@ -134,9 +134,58 @@ describe('<WhatYouNeedToDo>', () => {
         });
       },
     );
+
+    context(
+      'when claim has a tracked item with an automated 5103 and evidenceWaiverSubmitted5103 true',
+      () => {
+        it('should render no-documents description', () => {
+          const claim = {
+            id: 1,
+            attributes: {
+              status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+              closeDate: null,
+              evidenceWaiverSubmitted5103: true,
+              claimPhaseDates: {
+                latestPhaseType: 'GATHERING_OF_EVIDENCE',
+                previousPhases: {
+                  phase1CompleteDate: '2024-01-17',
+                  phase2CompleteDate: '2024-01-18',
+                },
+              },
+              trackedItems: [
+                {
+                  description: 'Automated 5103 Notice Response',
+                  displayName: 'Automated 5103 Notice Response',
+                  id: 467558,
+                  overdue: true,
+                  requestedDate: '2024-01-19',
+                  status: 'NEEDED_FROM_YOU',
+                  suspenseDate: '2024-03-07',
+                  uploadsAllowed: true,
+                },
+              ],
+            },
+          };
+
+          const { container, queryByText, queryByTestId } = renderWithRouter(
+            <Provider store={getStore()}>
+              <WhatYouNeedToDo claim={claim} />
+            </Provider>,
+          );
+
+          expect(queryByText(nothingNeededText)).to.exist;
+          expect($('va-alert', container)).to.not.exist;
+          expect(queryByTestId(`item-${claim.attributes.trackedItems[0].id}`))
+            .to.not.exist;
+          expect(queryByText('Automated 5103 Notice Response')).to.be.null;
+          expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
+          expect(queryByText('5103 Evidence Notice')).to.be.null;
+        });
+      },
+    );
   });
 
-  context('when cst5103UpdateEnabled is false', () => {
+  context('when cst5103UpdateEnabled is true', () => {
     it('should render no-documents description when there are no tracked items or standard 5103', () => {
       const claim = {
         attributes: {
@@ -280,6 +329,55 @@ describe('<WhatYouNeedToDo>', () => {
           expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
             .exist;
           getByText('Automated 5103 Notice Response');
+          expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
+          expect(queryByText('5103 Evidence Notice')).to.be.null;
+        });
+      },
+    );
+
+    context(
+      'when claim has a tracked item with an automated 5103 and evidenceWaiverSubmitted5103 true',
+      () => {
+        it('should render no-documents description', () => {
+          const claim = {
+            id: 1,
+            attributes: {
+              status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+              closeDate: null,
+              evidenceWaiverSubmitted5103: true,
+              claimPhaseDates: {
+                latestPhaseType: 'GATHERING_OF_EVIDENCE',
+                previousPhases: {
+                  phase1CompleteDate: '2024-01-17',
+                  phase2CompleteDate: '2024-01-18',
+                },
+              },
+              trackedItems: [
+                {
+                  description: 'Automated 5103 Notice Response',
+                  displayName: 'Automated 5103 Notice Response',
+                  id: 467558,
+                  overdue: true,
+                  requestedDate: '2024-01-19',
+                  status: 'NEEDED_FROM_YOU',
+                  suspenseDate: '2024-03-07',
+                  uploadsAllowed: true,
+                },
+              ],
+            },
+          };
+
+          const { container, queryByText, queryByTestId } = renderWithRouter(
+            <Provider store={getStore(true)}>
+              <WhatYouNeedToDo claim={claim} />
+            </Provider>,
+          );
+
+          expect(queryByText(nothingNeededText)).to.exist;
+          expect($('va-alert', container)).to.not.exist;
+          expect(queryByTestId(`item-${claim.attributes.trackedItems[0].id}`))
+            .to.not.exist;
+          expect(queryByText('Automated 5103 Notice Response')).to.be.null;
           expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
           expect(queryByText('5103 Evidence Notice')).to.be.null;
         });

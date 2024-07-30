@@ -15,7 +15,13 @@ import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const claim = {
   id: 1,
-  attributes: {},
+  attributes: {
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    claimPhaseDates: {
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+    },
+  },
 };
 
 const params = { id: 1, trackedItemId: 467558 };
@@ -43,6 +49,15 @@ describe('<DocumentRequestPage>', () => {
         // eslint-disable-next-line camelcase
         cst_5103_update_enabled: cst5103UpdateEnabled,
       },
+      disability: {
+        status: {
+          claimAsk: {
+            decisionRequested: false,
+            decisionRequestError: false,
+            loadingDecisionRequest: false,
+          },
+        },
+      },
     }));
 
   context('when cst5103UpdateEnabled is true', () => {
@@ -67,7 +82,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.exist;
+      expect($('#default-5103-notice-page', container)).to.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,
@@ -101,7 +116,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.not.exist;
+      expect($('#default-5103-notice-page', container)).to.not.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,

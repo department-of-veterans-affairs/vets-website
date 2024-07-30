@@ -13,7 +13,22 @@ function WhatYouNeedToDo({ claim }) {
     trackedItems,
   } = claim.attributes;
 
-  const filesNeeded = trackedItems ? getFilesNeeded(trackedItems) : [];
+  // const getfilesNeeded = () => {
+  //   const filesNeeded = trackedItems ? getFilesNeeded(trackedItems) : [];
+  //   // Remove the automated 5103 item from filesNeeded when evidenceWaiverSubmitted5103 = true
+  //   return filesNeeded.filter(i => !(evidenceWaiverSubmitted5103 && i.displayName === 'Automated 5103 Notice Response') );
+  // }
+
+  const filesNeeded = trackedItems
+    ? getFilesNeeded(trackedItems).filter(
+        i =>
+          !(
+            evidenceWaiverSubmitted5103 &&
+            i.displayName === 'Automated 5103 Notice Response'
+          ),
+      )
+    : [];
+
   const standard5103NoticeExists =
     claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
     evidenceWaiverSubmitted5103 === false;
