@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test-v2', 'minimal-test-v2'],
+    dataSets: ['maximal-test-v3'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -100,6 +100,21 @@ const testConfig = createTestConfig(
       'informal-conference': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
+            const rep =
+              testData.informalConferenceChoice ||
+              ['me', 'rep'].includes(testData.informalConference)
+                ? 'yes'
+                : 'no';
+            cy.get(`va-radio-option[value="${rep}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'informal-conference/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
             const rep = testData.informalConference;
             cy.get(`va-radio-option[value="${rep}"]`).click();
             cy.axeCheck();
@@ -123,6 +138,21 @@ const testConfig = createTestConfig(
         cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         }).as('getIssues');
+        cy.intercept('GET', '/v0/feature_toggles*', {
+          data: {
+            type: 'feature_toggles',
+            features: [
+              {
+                name: 'hlr_updateed_contnet',
+                value: true,
+              },
+              {
+                name: 'hlrUpdateedContnet',
+                value: true,
+              },
+            ],
+          },
+        }).as('features');
       });
     },
   },
