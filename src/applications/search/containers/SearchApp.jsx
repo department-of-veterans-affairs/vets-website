@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaPagination,
+  VaSearchInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import DowntimeNotification, {
   externalServices,
@@ -11,20 +14,22 @@ import DowntimeNotification, {
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from 'platform/utilities/ui';
-import { isSearchTermValid } from '~/platform/utilities/search-utilities';
+import {
+  fetchTypeaheadSuggestions,
+  isSearchTermValid,
+} from '~/platform/utilities/search-utilities';
 
-import { fetchSearchResults as retrieveSearchResults} from '../actions';
+import { fetchSearchResults as retrieveSearchResults } from '../actions';
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import Errors from '../components/Errors';
-import MaintenanceWindow, {
+import SearchMaintenance, {
   isWithinMaintenanceWindow,
-} from '../components/MaintenanceWindow';
+} from '../components/SearchMaintenance';
 import MoreVASearchTools from '../components/MoreVASearchTools';
 import RecommendedResults from '../components/RecommendedResults';
 import ResultsCounter from '../components/ResultsCounter';
 import ResultsList from '../components/ResultsList';
-import Typeahead from '../components/Typeahead';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
 
@@ -32,20 +37,23 @@ const SearchApp = ({
   fetchSearchResults,
   router,
   search,
-  searchGovMaintenance
+  searchGovMaintenance,
 }) => {
   const userInputFromURL = router?.location?.query?.query || '';
   const pageFromURL = router?.location?.query?.page || undefined;
-  const typeaheadUsed =
-    router?.location?.query?.t === 'true' || false;
+  const typeaheadUsed = router?.location?.query?.t === 'true' || false;
 
   const [userInput, setUserInput] = useState(userInputFromURL);
   const [savedSuggestions, setSavedSuggestions] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  const [currentResultsQuery, setCurrentResultsQuery] = useState(userInputFromURL);
+  const [currentResultsQuery, setCurrentResultsQuery] = useState(
+    userInputFromURL,
+  );
   const [page, setPage] = useState(pageFromURL);
   const [typeAheadWasUsed, setTypeAheadWasUsed] = useState(typeaheadUsed);
-  const [formWasSubmitted, setFormWasSubmitted] = useState(true);
+  const [formWasSubmitted, setFormWasSubmitted] = useState(false);
+
+  const instance = useRef({ typeaheadTimer: null });
 
   const {
     currentPage,
@@ -59,27 +67,65 @@ const SearchApp = ({
     totalPages,
   } = search;
 
-  // If there's data in userInput, it must have come from the address bar, so we immediately hit the API.
-  useEffect(() => {
-    if (userInput && isSearchTermValid(userInput)) {
-      fetchSearchResults(userInput, page, {
-        trackEvent: true,
-        eventName: 'onload_view_search_results',
-        path: document.location.pathname,
-        userInput,
-        keywordSelected: undefined,
-        keywordPosition: undefined,
-        suggestionsList: undefined,
-        sitewideSearch: false,
-      });
-    }
-  }, [fetchSearchResults, page, userInput]);
+  const hasErrors = !!(errors && errors.length > 0);
 
-  useEffect(() => {
-    if (searchesPerformed) {
-      focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
-    }
-  }, [searchIsLoading, searchesPerformed]);
+  // If there's data in userInput when this component loads,
+  // it came from the address bar, so we immediately hit the API
+  useEffect(
+    () => {
+      const initialUserInput = router?.location?.query?.query || '';
+
+      if (initialUserInput && isSearchTermValid(initialUserInput)) {
+        setFormWasSubmitted(true);
+
+        fetchSearchResults(initialUserInput, page, {
+          trackEvent: true,
+          eventName: 'onload_view_search_results',
+          path: document.location.pathname,
+          userInput: initialUserInput,
+          keywordSelected: undefined,
+          keywordPosition: undefined,
+          suggestionsList: undefined,
+          sitewideSearch: false,
+        });
+      }
+    },
+    [fetchSearchResults, page, router],
+  );
+
+  useEffect(
+    () => {
+      if (searchesPerformed) {
+        focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
+      }
+    },
+    [searchIsLoading, searchesPerformed],
+  );
+
+  const fetchSuggestions = useCallback(
+    async searchValue => {
+      const typeaheadSuggestions = await fetchTypeaheadSuggestions(searchValue);
+
+      if (typeaheadSuggestions?.length) {
+        setSuggestions(typeaheadSuggestions);
+      }
+    },
+    [setSuggestions],
+  );
+
+  useEffect(
+    () => {
+      // We landed on the page with a search term in the URL; fetch suggestions
+      if (userInput) {
+        const initialSuggestions = fetchSuggestions(userInput);
+
+        if (initialSuggestions?.length) {
+          setSuggestions(initialSuggestions);
+        }
+      }
+    },
+    [fetchSuggestions, setSuggestions],
+  );
 
   const updateURL = options => {
     router.push({
@@ -105,9 +151,7 @@ const SearchApp = ({
 
     setFormWasSubmitted(true);
 
-    const rawPageFromURL = pageFromURL
-      ? parseInt(pageFromURL, 10)
-      : undefined;
+    const rawPageFromURL = pageFromURL ? parseInt(pageFromURL, 10) : undefined;
 
     if (isSearchTermValid(userInput) || isSearchTermValid(userInputFromURL)) {
       const isRepeatSearch =
@@ -115,7 +159,7 @@ const SearchApp = ({
 
       const queryChanged = userInput !== currentResultsQuery;
       const nextPage = queryChanged ? 1 : page;
-      
+
       updateURL({ query: userInput, page: nextPage });
 
       // Fetch new results
@@ -148,6 +192,13 @@ const SearchApp = ({
   };
 
   const onInputSubmit = () => {
+    setUserInput(userInput);
+    setFormWasSubmitted(true);
+
+    if (!userInput) {
+      return;
+    }
+
     const validSuggestions =
       savedSuggestions.length > 0 ? savedSuggestions : suggestions;
 
@@ -175,62 +226,31 @@ const SearchApp = ({
         page: 1,
         typeaheadUsed: true,
       });
+    }
+  };
 
-      setUserInput(userInput);
+  const handleInputChange = event => {
+    if (formWasSubmitted) {
+      setFormWasSubmitted(false);
+    }
+
+    clearTimeout(instance.current.typeaheadTimer);
+
+    instance.current.typeaheadTimer = setTimeout(() => {
+      fetchSuggestions(userInput);
+    }, 200);
+
+    setUserInput(event.target.value);
+
+    if (userInput?.length <= 2) {
+      setSuggestions([]);
+      setSavedSuggestions([]);
     }
   };
 
   const renderResults = () => {
-    const hasErrors = !!(errors && errors.length > 0);
-
-    const searchInput = (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
-        <p className="vads-u-margin-top--0">
-          Enter a keyword, phrase, or question
-        </p>
-        <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
-          <Typeahead
-            formWasSubmitted={formWasSubmitted}
-            id="search-results-page-dropdown"
-            onInputSubmit={onInputSubmit}
-            setFormWasSubmitted={setFormWasSubmitted}
-            setSavedSuggestions={setSavedSuggestions}
-            setSuggestions={setSuggestions}
-            setUserInput={setUserInput}
-            userInput={userInput}
-          />
-        </div>
-      </div>
-    );
-
-    const searchGovIssuesWithinMaintenanceWindow =
-      isWithinMaintenanceWindow() &&
-      results &&
-      results.length === 0 &&
-      !hasErrors &&
-      !searchIsLoading;
-
-    const searchGovIssuesOutsideMaintenanceWindow = searchGovMaintenance;
-
-    if (
-      searchGovIssuesWithinMaintenanceWindow ||
-      searchGovIssuesOutsideMaintenanceWindow
-    ) {
-      return <MaintenanceWindow searchInput={searchInput} />;
-    }
-
-    // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
-    // or errors with user input before submitting
-    if (
-      (hasErrors && !searchIsLoading) ||
-      (!isSearchTermValid(userInput) && formWasSubmitted)
-    ) {
-      return <Errors userInput={userInput} searchInput={searchInput} />;
-    }
-
     return (
       <div>
-        {searchInput}
         <ResultsCounter
           currentPage={currentPage}
           loading={searchIsLoading}
@@ -274,7 +294,25 @@ const SearchApp = ({
         </div>
       </div>
     );
-  }
+  };
+
+  const shouldShowErrorMessage =
+    (hasErrors && !searchIsLoading) ||
+    (!isSearchTermValid(userInput) && formWasSubmitted);
+
+  // <SearchMaintenance> creates a maintenance banner for:
+  // 1. Search.gov errors during their maintenance windows (Tues & Thurs 3-6pm EST)
+  // 2. Sitewide team using the search_gov_maintenance feature flipper
+  //    when Search.gov is experiencing major outages
+  const searchGovIssuesWithinMaintenanceWindow =
+    isWithinMaintenanceWindow() &&
+    results &&
+    results.length === 0 &&
+    !hasErrors &&
+    !searchIsLoading;
+
+  const searchGovIssues =
+    searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
 
   return (
     <div className="search-app" data-e2e-id="search-app">
@@ -292,7 +330,33 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {renderResults()}
+            {// Search API returned errors OR
+            // errors with user input before submitting
+            shouldShowErrorMessage && <Errors userInput={userInput} />}
+            {searchGovIssues && (
+              <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
+            )}
+            <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
+              <p className="vads-u-margin-top--0">
+                Enter a keyword, phrase, or question
+              </p>
+              <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
+                <VaSearchInput
+                  aria-labelledby="h1-search-title"
+                  buttonText="Search"
+                  class="vads-u-width--full"
+                  id="search-results-page-dropdown-input-field"
+                  data-e2e-id="search-results-page-dropdown-input-field"
+                  label="Enter a keyword, phrase, or question"
+                  onBlur={() => clearTimeout(instance.current.typeaheadTimer)}
+                  onInput={handleInputChange}
+                  onSubmit={onInputSubmit}
+                  suggestions={suggestions}
+                  value={userInput}
+                />
+              </div>
+            </div>
+            {!shouldShowErrorMessage && !searchGovIssues && renderResults()}
           </DowntimeNotification>
         </div>
         <div className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--0 usa-width-one-fourth columns">

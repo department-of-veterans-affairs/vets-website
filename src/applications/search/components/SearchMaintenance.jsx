@@ -51,17 +51,32 @@ const calculateCurrentMaintenanceWindow = () => {
   };
 };
 
-const MaintenanceWindow = ({ searchInput }) => {
+const SearchMaintenance = ({ unexpectedMaintenance }) => {
   const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
 
+  if (unexpectedMaintenance) {
+    return (
+      <div className="vads-u-margin-bottom--1p5">
+        <va-banner
+          data-label="Error banner"
+          headline="Search Maintenance"
+          type="error"
+        >
+          We’re working on Search VA.gov right now. If you have trouble using
+          the search tool, check back later. Thank you for your patience.
+        </va-banner>
+      </div>
+    );
+  }
+
   return (
-    <div className="columns vads-u-margin-bottom--4">
+    <div className="vads-u-margin-bottom--1p5">
       <va-maintenance-banner
         banner-id="search-gov-maintenance-banner"
-        maintenance-title="Search.gov Maintenance"
+        maintenance-title="Search Maintenance"
         maintenance-start-date-time={start}
         maintenance-end-date-time={end}
-        isError
+        is-error
       >
         <div slot="maintenance-content">
           We’re working on Search VA.gov right now. If you have trouble using
@@ -69,13 +84,12 @@ const MaintenanceWindow = ({ searchInput }) => {
           patience.
         </div>
       </va-maintenance-banner>
-      {searchInput}
     </div>
   );
 };
 
-MaintenanceWindow.propTypes = {
-  searchInput: PropTypes.node.isRequired,
+SearchMaintenance.propTypes = {
+  unexpectedMaintenance: PropTypes.bool.isRequired,
 };
 
-export default MaintenanceWindow;
+export default SearchMaintenance;
