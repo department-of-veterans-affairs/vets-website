@@ -243,7 +243,10 @@ const phoneNumbers = {
   emergency: '911',
 };
 
+const DEMOGRAPHICS_UPDATE_FREQUENCY = 7; // days
+
 export {
+  DEMOGRAPHICS_UPDATE_FREQUENCY,
   APP_NAMES,
   VISTA_CHECK_IN_STATUS_IENS,
   getLabelForEditField,

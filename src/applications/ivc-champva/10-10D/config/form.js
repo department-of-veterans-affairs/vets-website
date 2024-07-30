@@ -193,7 +193,7 @@ const formConfig = {
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
   title: 'Apply for CHAMPVA benefits',
-  subTitle: 'Form 10-10d',
+  subTitle: 'Application for CHAMPVA benefits (VA Form 10-10d)',
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {

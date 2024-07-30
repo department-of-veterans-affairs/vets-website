@@ -71,8 +71,7 @@ const Index = props => {
           api.v2
             .getSession({ token, checkInType })
             .then(session => {
-              // if successful, dispatch session data  into redux and current window
-
+              // if successful, dispatch session data into redux and current window
               if (session.error || session.errors) {
                 clearCurrentStorage(window);
                 updateError('session-error');
@@ -85,7 +84,7 @@ const Index = props => {
                 setSession(token, session.permissions);
                 if (session.permissions === SCOPES.READ_FULL) {
                   // redirect if already full access
-                  jumpToPage(URLS.INTRODUCTION);
+                  jumpToPage(URLS.APPOINTMENTS);
                 } else {
                   // TODO: dispatch to redux
                   jumpToPage(URLS.VERIFY);

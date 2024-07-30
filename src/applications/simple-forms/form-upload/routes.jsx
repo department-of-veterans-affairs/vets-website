@@ -1,22 +1,34 @@
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom-v5-compat';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import environment from '~/platform/utilities/environment';
+import formConfig from './config/form';
+import App from './containers/App';
 
-import FormUploadApp from './containers/FormUploadApp';
-import UploadPage from './containers/UploadPage';
-import ReviewPage from './containers/ReviewPage';
-import SubmitPage from './containers/SubmitPage';
-import ConfirmationPage from './containers/ConfirmationPage';
+// Add any new form-upload forms to this list
+const formUploadForms = ['21-0779'];
 
-const routes = (
-  <Routes>
-    <Route path="/:id" element={<FormUploadApp />}>
-      <Route index element={<Navigate to="upload" replace />} />
-      <Route path="upload" element={<UploadPage />} />
-      <Route path="review" element={<ReviewPage />} />
-      <Route path="submit" element={<SubmitPage />} />
-      <Route path="confirmation" element={<ConfirmationPage />} />
-    </Route>
-  </Routes>
-);
+const config = formConfig();
+const baseUrl = environment.BASE_URL.replace(/3001/g, '3002');
+const indexRouteByForm = formId => ({
+  onEnter: () => {
+    window.location.href = `${baseUrl}/find-forms/about-form-${formId}/`;
+  },
+});
+
+const routes = formUploadForms.map(formId => {
+  return {
+    path: `/${formId}`,
+    component: App,
+    indexRoute: indexRouteByForm(formId),
+    childRoutes: createRoutesWithSaveInProgress(config),
+  };
+});
+
+// or dynamic
+// {
+//   path: '/:formId',
+//   component: App,
+//   indexRoute: indexRouteByForm(':formId'),
+//   childRoutes: createRoutesWithSaveInProgress(config),
+// },
 
 export default routes;
