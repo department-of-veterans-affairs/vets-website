@@ -28,14 +28,11 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     expect(wrapper.find('va-breadcrumbs').length).to.equal(1);
     wrapper.unmount();
   });
-
-  it('should renders default breadcrumbs', () => {
-    window.location.href = `${BASE_URL}/`;
-
+  it('should render default breadcrumbs', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper.find('va-breadcrumbs').prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.deep.equal(defaultUrls);
+    expect(breadcrumbs).to.be(JSON.stringify(defaultUrls));
     wrapper.unmount();
   });
 
@@ -56,7 +53,7 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     wrapper.unmount();
   });
 
-  it('should renders breadcrumbs with benefits profile', () => {
+  it('should render breadcrumbs with benefits profile', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
       value: {
@@ -71,17 +68,19 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
       .find('[label="Breadcrumb"]')
       .prop('breadcrumbList');
 
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultUrls,
-      {
-        href: BENEFITS_PROFILE_URL,
-        label: 'Your Montgomery GI Bill benefits information',
-      },
-    ]);
+    expect(breadcrumbs).to.be(
+      JSON.stringify([
+        ...defaultUrls,
+        {
+          href: BENEFITS_PROFILE_URL,
+          label: 'Your Montgomery GI Bill benefits information',
+        },
+      ]),
+    );
     wrapper.unmount();
   });
 
-  it('renders breadcrumbs with verification review', () => {
+  it('should render breadcrumbs with verification review', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
       value: {
@@ -96,10 +95,12 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
       .find('[label="Breadcrumb"]')
       .prop('breadcrumbList');
 
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultUrls,
-      { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
-    ]);
+    expect(breadcrumbs).to.be(
+      JSON.stringify([
+        ...defaultUrls,
+        { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
+      ]),
+    );
     wrapper.unmount();
   });
 });
