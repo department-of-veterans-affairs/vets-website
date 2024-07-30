@@ -96,7 +96,7 @@ function Documents({ formData }) {
     hasSocialSecurityDisability ||
     hasSpecialMonthlyPension;
 
-  // Remove ternary logic when feature flag is removed
+  // Remove ternary logic when feature flag is removed and update unit tests
   const showUpdatedDocuments = useToggleValue(
     TOGGLE_NAMES.pensionSupportingDocumentsUpdate,
   );
@@ -106,7 +106,7 @@ function Documents({ formData }) {
       {showDocumentsList && (
         <>
           <p> You'll need to submit these supporting documents: </p>
-          <ul>
+          <ul data-testid="supporting-documents-list">
             {hasSpecialMonthlyPension && (
               <SupportingDocument
                 formName="Examination for Housebound Status or Permanent Need
@@ -144,7 +144,7 @@ function Documents({ formData }) {
             You’ll also need to submit certain additional evidence depending on
             your situation.
           </p>
-          <va-accordion>
+          <va-accordion data-testid="additional-evidence-list">
             {hasAdoptedChild && (
               <va-accordion-item header="If you have any dependent children who are adopted">
                 <p>You’ll need to submit copies of one of these documents:</p>
@@ -224,7 +224,7 @@ function Documents({ formData }) {
         <>
           <p> You'll need to upload these documents: </p>
 
-          <ul>
+          <ul data-testid="supporting-documents-list">
             {hasSpecialMonthlyPension && (
               <SupportingDocument
                 formName="Examination for Housebound Status or Permanent Need
@@ -277,7 +277,7 @@ function Documents({ formData }) {
               situation:
             </strong>
           </p>
-          <va-accordion>
+          <va-accordion data-testid="additional-evidence-list">
             <SpecialMonthlyPensionAccordionItems />
           </va-accordion>
         </>
