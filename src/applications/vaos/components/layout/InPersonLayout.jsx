@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
-
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -16,6 +16,7 @@ import DetailPageLayout, {
   Section,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -40,6 +41,10 @@ export default function InPersonLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
+  );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -135,6 +140,16 @@ export default function InPersonLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
+      {featureMedReviewInstructions && (
+        <Prepare>
+          Bring your insurance cards, a list of medications, and other things to
+          share with your provider.
+          <br />
+          <NewTabAnchor href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/">
+            Find out what to bring to your appointment
+          </NewTabAnchor>
+        </Prepare>
+      )}
     </DetailPageLayout>
   );
 }

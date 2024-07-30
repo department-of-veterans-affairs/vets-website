@@ -22,9 +22,10 @@ import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { APP_NAMES } from '../../../utils/appConstants';
+import ConfirmationAccordionBlock from '../../../components/ConfirmationAccordionBlock';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh, router } = props;
+  const { selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
@@ -140,7 +141,7 @@ const CheckInConfirmation = props => {
             {t('tell-a-staff-member-if-you-wait')}
           </p>
         </div>
-        <h2 className="vads-u-font-family--serif">{t('your-appointment')}</h2>
+        <h2>{t('your-appointments', { count: 1 })}</h2>
         <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
@@ -169,7 +170,9 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        {appointments.length > 1 && <BackToAppointments />}
+        <BackToAppointments />
+
+        <ConfirmationAccordionBlock appointments={[appointment]} />
       </Wrapper>
     );
   };
@@ -188,7 +191,6 @@ const CheckInConfirmation = props => {
 };
 
 CheckInConfirmation.propTypes = {
-  appointments: PropTypes.array,
   router: PropTypes.object,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
