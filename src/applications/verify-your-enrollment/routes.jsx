@@ -17,6 +17,7 @@ import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
 import LoadFail from './components/LoadFail';
 import Loader from './components/Loader';
 import IdentityVerificationAlert from './components/IdentityVerificationAlert';
+import UnderMaintenance from './components/UnderMaintenance';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
@@ -24,6 +25,10 @@ const IsUserLoggedIn = () => {
   const response = useSelector(state => state.personalInfo);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(TOGGLE_NAMES.toggleVyeApplication);
+  const mgibVerificationsMaintenance = useToggleValue(
+    TOGGLE_NAMES?.mgibVerificationsMaintenance,
+  );
+
   const serverError = response?.error?.errors
     ? response?.error?.errors[0]
     : response?.error;
@@ -59,11 +64,13 @@ const IsUserLoggedIn = () => {
   if (isUserLOA1) {
     return <IdentityVerificationAlert />;
   }
-  if (toggleValue === undefined && !window.isProduction) {
+  if (toggleValue === undefined) {
     return <Loader />;
   }
-
-  return toggleValue || window.isProduction ? (
+  if (mgibVerificationsMaintenance) {
+    return <UnderMaintenance />;
+  }
+  return toggleValue ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
@@ -73,6 +80,7 @@ const IsUserLoggedIn = () => {
   ) : (
     <div className="not-found">
       <PageNotFound />
+      {/* <UnderMaintenance /> */}
     </div>
   );
 };

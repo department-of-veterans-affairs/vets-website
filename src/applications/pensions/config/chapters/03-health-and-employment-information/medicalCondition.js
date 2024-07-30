@@ -5,13 +5,21 @@ import {
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { MedicalEvidenceAlert } from '../../../components/FormAlerts';
 import { hasNoSocialSecurityDisability } from './helpers';
+import { showMedicalEvidenceClarification } from '../../../helpers';
+
+// TODO: Remove this page when pension_medical_evidence_clarification flipper is removed
+
+const path = !showMedicalEvidenceClarification()
+  ? 'medical/history/condition'
+  : 'temporarily-hide';
 
 const { medicalCondition } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   title: 'Medical condition',
-  path: 'medical/history/condition',
-  depends: hasNoSocialSecurityDisability,
+  path,
+  depends: form =>
+    hasNoSocialSecurityDisability(form) && !showMedicalEvidenceClarification(),
   uiSchema: {
     ...titleUI('Medical condition'),
     medicalCondition: yesNoUI({

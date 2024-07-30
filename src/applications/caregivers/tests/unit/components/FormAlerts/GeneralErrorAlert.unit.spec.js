@@ -5,12 +5,10 @@ import { expect } from 'chai';
 import GeneralErrorAlert from '../../../../components/FormAlerts/GeneralErrorAlert';
 
 describe('CG <DowntimeWarning>', () => {
-  describe('when the component renders', () => {
-    it('should render `va-alert` with status of `warning`', () => {
-      const { container } = render(<GeneralErrorAlert />);
-      const selector = container.querySelector('va-alert');
-      expect(selector).to.exist;
-      expect(selector).to.have.attr('status', 'error');
-    });
+  it('should render `va-alert` with status of `error`', () => {
+    const { container } = render(<GeneralErrorAlert />);
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'error');
   });
 });
