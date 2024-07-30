@@ -40,17 +40,18 @@ import NewConfirmationPage from '../../form-upload/containers/ConfirmationPage.n
 
 const chapterSelectInitialData = {
   chapterSelect: {
-    textInput: true,
-    numberInput: true,
-    formsPattern: true,
-    checkbox: true,
-    radio: true,
-    select: true,
-    date: true,
-    miscellaneous: true,
-    arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arraySinglePage: true,
+    checkbox: true,
+    confirmationPageNew: false,
+    date: true,
+    formsPattern: true,
+    miscellaneous: true,
+    numberInput: true,
+    radio: true,
+    select: true,
+    textInput: true,
   },
 };
 
@@ -82,15 +83,6 @@ const formConfig = {
   },
   title: 'Simple Forms Patterns',
   defaultDefinitions: commonDefinitions,
-  additionalRoutes: [
-    {
-      path: 'confirmation-page-new',
-      title: 'New Confirmation Page',
-      component: NewConfirmationPage,
-      pageKey: 'confirmation-page-new',
-      depends: () => true,
-    },
-  ],
   chapters: {
     chapterSelect: {
       title: 'Chapter Select',
@@ -359,6 +351,20 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
+      },
+    },
+    staticPages: {
+      title: 'Static Pages',
+      pages: {
+        confirmationPageNew: {
+          path: 'confirmation-page-new',
+          title: 'New Confirmation Page',
+          CustomPage: NewConfirmationPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          pageKey: 'confirmation-page-new',
+          depends: () => false,
+        },
       },
     },
   },
