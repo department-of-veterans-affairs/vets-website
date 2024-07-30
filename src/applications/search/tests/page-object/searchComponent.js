@@ -5,23 +5,8 @@
 class SearchComponent {
   /** Loads this component for testing by setting up the page and entering a search term */
   loadComponent = term => {
-    this.enableDropdownComponent();
     this.mockFetchSuggestions();
     this.prepareDropdownSearch(term);
-  };
-
-  /** Enables the dropdown component on the page */
-  enableDropdownComponent = () => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          {
-            name: 'search_dropdown_component_enabled',
-            value: true,
-          },
-        ],
-      },
-    });
   };
 
   /** Visits the va.gov page, clicks the Search field, and enters the search term */

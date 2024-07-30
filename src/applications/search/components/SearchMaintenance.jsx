@@ -89,7 +89,7 @@ const SearchMaintenance = ({ unexpectedMaintenance }) => {
 };
 
 SearchMaintenance.propTypes = {
-  unexpectedMaintenance: PropTypes.bool.isRequired,
+  unexpectedMaintenance: PropTypes.bool,
 };
 
 export default SearchMaintenance;
