@@ -33,13 +33,13 @@ const formConfig = {
   errorText: '',
   prefillEnabled: true,
   preSubmitInfo: {
-    statementOfTruth: {
-      body:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      messageAriaDescribedby:
-        'I confirm that the identifying information in this form is accurate has been represented correctly.',
-      fullNamePath: 'fullName',
-    },
+    // statementOfTruth: {
+    //   body:
+    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
+    //   messageAriaDescribedby:
+    //     'I confirm that the identifying information in this form is accurate has been represented correctly.',
+    //   fullNamePath: 'fullName',
+    // },
   },
   saveInProgress: {
     messages: {
@@ -60,12 +60,12 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter,
-    militaryServiceChapter,
-    employmentInformationChapter,
-    educationHistoryChapter,
-    lawPracticeInformationChapter,
-    backgroundInformationChapter,
-    characterReferencesChapter,
+    // militaryServiceChapter,
+    // employmentInformationChapter,
+    // educationHistoryChapter,
+    // lawPracticeInformationChapter,
+    // backgroundInformationChapter,
+    // characterReferencesChapter,
   },
 };
 

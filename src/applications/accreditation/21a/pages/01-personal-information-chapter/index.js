@@ -13,20 +13,20 @@ import otherAddress from './otherAddress';
 export default {
   title: 'Personal information',
   pages: {
-    role,
-    barStanding: yesNoPageSchema({
-      title: 'Standing with the bar',
-      path: 'bar-standing',
-      question:
-        'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
-    }),
-    personalInformation,
+    // role,
+    // barStanding: yesNoPageSchema({
+    //   title: 'Standing with the bar',
+    //   path: 'bar-standing',
+    //   question:
+    //     'Are you currently a member in good standing of the bar of the highest court of a state or territory of the United States?',
+    // }),
+    // personalInformation,
     placeOfBirth,
-    contactInformation,
-    homeAddress,
-    employmentStatus,
-    workAddress,
-    communicationAddress,
-    otherAddress,
+    //   contactInformation,
+    //   homeAddress,
+    //   employmentStatus,
+    //   workAddress,
+    //   communicationAddress,
+    //   otherAddress,
   },
 };
