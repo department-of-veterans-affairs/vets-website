@@ -32,7 +32,7 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper.find('va-breadcrumbs').prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.be(JSON.stringify(defaultUrls));
+    expect(breadcrumbs).to.equal(JSON.stringify(defaultUrls));
     wrapper.unmount();
   });
 
@@ -66,9 +66,9 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper
       .find('[label="Breadcrumb"]')
-      .prop('breadcrumbList');
+      .prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.be(
+    expect(breadcrumbs).to.equal(
       JSON.stringify([
         ...defaultUrls,
         {
@@ -93,9 +93,9 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper
       .find('[label="Breadcrumb"]')
-      .prop('breadcrumbList');
+      .prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.be(
+    expect(breadcrumbs).to.equal(
       JSON.stringify([
         ...defaultUrls,
         { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
