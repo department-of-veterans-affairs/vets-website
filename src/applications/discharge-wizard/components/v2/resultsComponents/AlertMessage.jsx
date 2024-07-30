@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const AlertMessage = ({ content, isVisible, status }) => {
   return (
-    <va-alert visible={isVisible} status={status} uswds>
+    <va-alert visible={isVisible} status={status}>
       {content || null}
     </va-alert>
   );
