@@ -62,9 +62,9 @@ class App extends Component {
 
     const breadcrumbs = [
       { href: '/', label: 'Home' },
-      { href: '/health-care', label: 'Health care' },
+      { href: '/health-care', label: 'VA health care' },
       {
-        href: '/health-care/order-hearing-aid-batteries-and-accessories',
+        href: '/health-care/order-hearing-aid-or-cpap-supplies-form',
         label: `Order ${supplyDescription}`,
       },
     ];
