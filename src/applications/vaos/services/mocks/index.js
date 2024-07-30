@@ -49,6 +49,7 @@ const requestsV2 = require('./v2/requests.json');
 
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
+const basicReferralDetails = require('./wellHive/basicReferralDetails.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
 const driveTimes = require('./wellHive/driveTime.json');
 const patients = require('./wellHive/patients.json');
@@ -255,6 +256,13 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const tokens = req.body.reasonCode?.text.split('comments:');
+    let patientComments;
+    if (tokens) {
+      if (tokens.length > 1) [, patientComments] = tokens;
+      else [patientComments] = tokens;
+    }
+
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
@@ -275,6 +283,7 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        patientComments,
       },
     };
     currentMockId += 1;
@@ -473,6 +482,18 @@ const responses = {
   },
 
   // WellHive api
+  'GET /vaos/v2/wellhive/referralDetails': (req, res) => {
+    return res.json({
+      data: basicReferralDetails.data,
+    });
+  },
+  'GET /vaos/v2/wellhive/referralDetails/:referralId': (req, res) => {
+    return res.json({
+      data: basicReferralDetails.data.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
+    });
+  },
   'GET /vaos/v2/wellhive/appointments': (req, res) => {
     return res.json({
       data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),

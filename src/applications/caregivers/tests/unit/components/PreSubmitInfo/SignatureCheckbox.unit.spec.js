@@ -1,50 +1,80 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as recordEventModule from 'platform/monitoring/record-event';
 import SignatureCheckbox from '../../../../components/PreSubmitInfo/SignatureCheckbox';
 
-const getData = ({ isRepresentative = false, label } = {}) => ({
-  mockProps: {
-    children: undefined,
-    fullName: {
-      first: 'John',
-      middle: '',
-      last: 'Smith',
-    },
-    label,
-    setSignatures: () => {},
-    showError: false,
-    submission: {},
-    isRequired: false,
-    isRepresentative,
-  },
-});
-
 describe('CG <SignatureCheckbox>', () => {
-  it('should render message-aria-describedby attribute when "isRepresentative" is true', () => {
-    const label = 'test-label';
-    const { mockProps } = getData({
-      isRepresentative: true,
-      label,
+  const getData = ({ isRepresentative = false, showError = false } = {}) => ({
+    props: {
+      children: undefined,
+      fullName: {
+        first: 'John',
+        middle: '',
+        last: 'Smith',
+      },
+      label: 'test-label',
+      setSignatures: () => {},
+      submission: {},
+      showError,
+      isRequired: false,
+      isRepresentative,
+    },
+  });
+  const subject = ({ props }) => {
+    const { container } = render(<SignatureCheckbox {...props} />);
+    const selectors = () => ({
+      repLabel: container.querySelector('.signature-box--representative'),
+      vaTextInput: container.querySelector('.signature-input'),
+      vaCheckbox: container.querySelector('.signature-checkbox'),
     });
-    const view = render(<SignatureCheckbox {...mockProps} />);
-    const inputComponent = view.container.querySelector('.signature-input');
+    return { container, selectors };
+  };
 
-    expect(inputComponent).to.have.attribute(
-      'message-aria-describedby',
-      'on behalf of John Smith',
-    );
+  context('when `isRepresentative` is `true`', () => {
+    const { props } = getData({ isRepresentative: true });
+
+    it('should render input with the `message-aria-describedby` attribute', () => {
+      const { selectors } = subject({ props });
+      expect(selectors().vaTextInput).to.have.attr('message-aria-describedby');
+    });
+
+    it('should render `on behalf of` label', () => {
+      const { selectors } = subject({ props });
+      expect(selectors().repLabel).to.exist;
+    });
   });
 
-  it('should not render message-aria-describedby attribute when "isRepresentative" is false', () => {
-    const label = 'test-label';
-    const { mockProps } = getData({
-      isRepresentative: false,
-      label,
-    });
-    const view = render(<SignatureCheckbox {...mockProps} />);
-    const inputComponent = view.container.querySelector('.signature-input');
+  context('when the `va-checkbox` is clicked', () => {
+    it('should fire the `recordEvent` method to log the interaction to analytics', async () => {
+      const recordEventStub = sinon.stub(recordEventModule, 'default');
+      const { props } = getData({});
+      const { selectors } = subject({ props });
 
-    expect(inputComponent).to.not.have.attribute('message-aria-describedby');
+      await waitFor(() => {
+        const { fullName, label, isRepresentative } = props;
+        const event = {
+          'caregivers-poa-certification-checkbox-checked': true,
+          fullName,
+          label,
+          isRepresentative,
+        };
+        selectors().vaCheckbox.__events.vaChange({ target: { checked: true } });
+        expect(recordEventStub.calledWith(event)).to.be.true;
+        recordEventStub.restore();
+      });
+    });
+  });
+
+  context('when an error has occurred', () => {
+    it('should display the error message within the `va-checkbox` component', async () => {
+      const { props } = getData({ showError: true });
+      const { selectors } = subject({ props });
+      await waitFor(() => {
+        expect(selectors().vaCheckbox).to.have.attr('error');
+      });
+    });
   });
 });
