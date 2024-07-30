@@ -217,7 +217,7 @@ const AttachmentsList = props => {
                         ? `attachment-link-metadata-${file.id}`
                         : `attachment-link-metadata-for-print-${file.id}`
                     }
-                    href={file.link}
+                    href={file.download}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => {
