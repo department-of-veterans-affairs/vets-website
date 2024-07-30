@@ -207,7 +207,9 @@ export function transformVAOSAppointment(appt) {
       )}.999`,
     }));
 
+    // hasReasonCode is only applicable to v0 appointments
     const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+
     const reasonCode = !isEmpty(appt.reasonForAppointment)
       ? appt.reasonForAppointment
       : appt.reasonCode?.coding?.[0];
