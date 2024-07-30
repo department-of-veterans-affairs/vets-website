@@ -70,3 +70,7 @@ export const mask = value => {
     `ending with ${number.split('').join(' ')}`,
   );
 };
+
+export const onCloseAlert = e => {
+  e.target.visible = false;
+};

@@ -50,6 +50,9 @@ export const PROGRESS_BAR_LABELS =
 export const SUBTITLE_0779 =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
 
+export const DOWNLOAD_URL_0779 =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf';
+
 export const CHILD_CONTENT_0779 = Object.freeze(
   <>
     <div>
@@ -132,13 +135,14 @@ export const ADD_CHILD_CONTENT_0779 = Object.freeze(
   </>,
 );
 
-export const ALERT_TOO_MANY_PAGES = formNumber =>
+export const ALERT_TOO_MANY_PAGES = (formNumber, onCloseEvent) =>
   Object.freeze(
     <VaAlert
       close-btn-aria-label="Close notification"
       status="warning"
       visible
       closeable
+      onCloseEvent={onCloseEvent}
     >
       <h2 slot="headline">
         Are you sure the file you uploaded is VA Form {formNumber}?
@@ -148,19 +152,23 @@ export const ALERT_TOO_MANY_PAGES = formNumber =>
           The file you uploaded has more pages than the form usually has. Please
           check the file you uploaded is a recent VA Form {formNumber}.
         </p>
-        <p>LINK HERE!</p>
+        <a href={DOWNLOAD_URL_0779}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
         <p>If you’re sure this is the right file, you can continue.</p>
       </React.Fragment>
     </VaAlert>,
   );
 
-export const ALERT_TOO_FEW_PAGES = formNumber =>
+export const ALERT_TOO_FEW_PAGES = (formNumber, onCloseEvent) =>
   Object.freeze(
     <VaAlert
       close-btn-aria-label="Close notification"
       status="warning"
       visible
       closeable
+      onCloseEvent={onCloseEvent}
     >
       <h2 slot="headline">
         Are you sure the file you uploaded is VA Form {formNumber}?
@@ -170,7 +178,10 @@ export const ALERT_TOO_FEW_PAGES = formNumber =>
           The file you uploaded has fewer pages than the original form. Please
           check your uploaded form to be sure it is the correct form.
         </p>
-        <p>LINK HERE!</p>
+        <a href={DOWNLOAD_URL_0779}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
         <p>If you’re sure this is the right file, you can continue.</p>
       </React.Fragment>
     </VaAlert>,

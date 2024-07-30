@@ -103,7 +103,7 @@ const VaFileInputField = props => {
 VaFileInputField.propTypes = {
   childrenProps: PropTypes.object.isRequired,
   uiOptions: PropTypes.object.isRequired,
-  onVaChange: PropTypes.func.isRequired,
+  onVaChange: PropTypes.func,
 };
 
 export default VaFileInputField;
