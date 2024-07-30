@@ -67,7 +67,7 @@ const HeaderLayout = ({
               </div>
             </div>
           </div>
-          <div className="va-introtext">
+          <div>
             <p>
               Welcome to the new home for My HealtheVet. Now you can manage your
               health care needs in the same place where you manage your other VA
@@ -101,7 +101,7 @@ const HeaderLayout = ({
                     <p>
                       <strong>What you can do now on VA.gov:</strong>
                     </p>
-                    <ul className="vads-u-font-family--sans">
+                    <ul>
                       <li>
                         Schedule, cancel, and manage some health appointments
                       </li>
@@ -114,11 +114,11 @@ const HeaderLayout = ({
                     <p>
                       <strong>What’s coming soon:</strong>
                     </p>
-                    <ul className="vads-u-font-family--sans">
+                    <ul>
                       <li>Find, print, and download your medical records</li>
                       <li>Get your lab and test results</li>
                     </ul>
-                    <p className="vads-u-font-family--sans">
+                    <p>
                       We’re working to bring your medical records to VA.gov. For
                       now, you can download your records using the previous
                       version of My HealtheVet.{' '}
