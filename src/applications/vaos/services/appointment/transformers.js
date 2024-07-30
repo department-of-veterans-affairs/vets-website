@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 import {
   APPOINTMENT_TYPES,
   TYPE_OF_VISIT,
@@ -56,19 +57,6 @@ export function getAppointmentInfoFromComments(comments, key) {
     const transformedEmail = { system: 'email', value: email };
 
     data.push(transformedPhone, transformedEmail);
-    return data;
-  }
-
-  if (key === 'reasonCode') {
-    const reasonCode = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('reason code:'))[0]
-          ?.split(':')[1]
-      : null;
-    const transformedReasonCode = { code: reasonCode };
-    if (reasonCode) {
-      data.push(transformedReasonCode);
-    }
     return data;
   }
   return data;
@@ -163,24 +151,6 @@ function getAtlasLocation(appt) {
   };
 }
 
-/**
- * Gets the reasonCode from reasonCode.text field for DS
- *
- * @param {Object} appt VAOS Service appointment object
- * @param {Object} key key of reasonCode info you want returned
- * @returns {String} returns format data
- */
-function getReasonCodeDS(appt, key) {
-  let data;
-  const reasonCode = appt.reasonCode?.text?.split('|');
-  if (reasonCode && key === 'code') {
-    data = reasonCode
-      .filter(item => item.includes('reason code:'))[0]
-      ?.split(':')[1]
-      ?.trim();
-  }
-  return data;
-}
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
@@ -221,10 +191,6 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
-  const commentsReasonCode = getAppointmentInfoFromComments(
-    appt.reasonCode?.text,
-    'reasonCode',
-  );
 
   if (isRequest) {
     const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
@@ -241,23 +207,21 @@ export function transformVAOSAppointment(appt) {
       )}.999`,
     }));
 
-    const hasReasonCode =
-      commentsReasonCode.length > 0 || appt.reasonCode?.coding?.length > 0;
-    const reasonCode =
-      commentsReasonCode.length > 0
-        ? commentsReasonCode[0]
-        : appt.reasonCode?.coding?.[0];
-    const reason = hasReasonCode
+    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+    const reasonCode = !isEmpty(appt.reasonForAppointment)
+      ? appt.reasonForAppointment
+      : appt.reasonCode?.coding?.[0];
+    const reasonForAppointment = hasReasonCode
       ? PURPOSE_TEXT_V2.find(
           purpose =>
             purpose.serviceName === reasonCode.code ||
             purpose.commentShort === reasonCode.code,
         )?.short
-      : null;
+      : appt.reasonForAppointment;
     requestFields = {
       requestedPeriod: reqPeriods,
       created,
-      reason,
+      reasonForAppointment,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       type: {
@@ -278,23 +242,21 @@ export function transformVAOSAppointment(appt) {
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
-  // get appt reason code from reasonCode.text field for DS
-  const reasonCode = appt.reasonCode?.coding
-    ? appt.reasonCode?.coding
-    : getReasonCodeDS(appt, 'code');
+  // get reason code from appt.reasonCode?.coding for v0 appointments
+  const reasonCodeV0 = appt.reasonCode?.coding;
   let comment = null;
-  const coding =
-    commentsReasonCode.length > 0 ? commentsReasonCode : reasonCode;
-  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
-    purpose =>
-      purpose.serviceName === (coding?.[0]?.code || coding) ||
-      purpose.commentShort === (coding?.[0]?.code || coding),
-  )?.short;
+  const reasonForAppointment = appt.reasonForAppointment
+    ? appt.reasonForAppointment
+    : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+        purpose =>
+          purpose.serviceName === reasonCodeV0?.[0]?.code ||
+          purpose.commentShort === reasonCodeV0?.[0]?.code,
+      )?.short;
   const patientComments = appt.reasonCode ? appt.patientComments : null;
-  if (coding && code && patientComments) {
-    comment = `${code}: ${patientComments}`;
-  } else if (coding && code) {
-    comment = code;
+  if (reasonForAppointment && patientComments) {
+    comment = `${reasonForAppointment}: ${patientComments}`;
+  } else if (reasonForAppointment) {
+    comment = reasonForAppointment;
   } else {
     comment = patientComments;
   }
