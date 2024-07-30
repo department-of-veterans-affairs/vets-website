@@ -32,7 +32,9 @@ export class ConfirmationPage extends React.Component {
           </h2>
         </div>
         <VaAlert uswds status="success">
-          <h2 className="vads-u-font-size--h3">You've submitted your form</h2>
+          <h2 className="vads-u-font-size--h3">
+            You've submitted your registration for FMP (VA Form 10-7959f-1)
+          </h2>
         </VaAlert>
 
         <div className="inset">
@@ -41,7 +43,7 @@ export class ConfirmationPage extends React.Component {
           </h3>
           {data.statementOfTruthSignature && (
             <p>
-              <strong>This form was submitted for</strong>
+              <strong>Who submitted this form</strong>
               <br />
               {data.statementOfTruthSignature}
               <br />
