@@ -17,7 +17,7 @@ const IntroductionPage = ({ route }) => {
       <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
       <p>
         As an attorney or claims agent, you can start the application process to
-        become a VA accredited representative through our online tool.
+        become a VA-accredited representative through our online tool.
       </p>
       <p>
         <strong>Note:</strong> If you are a VSO representative wanting to apply

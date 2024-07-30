@@ -18,6 +18,23 @@ describe('HLR submit event data', () => {
       'decision-reviews-informalConf': 'yes',
     });
   });
+
+  it('should build submit event data for new content', () => {
+    const getData = value => ({
+      informalConference: value,
+      informalConferenceChoice: 'yes',
+      hlrUpdatedContent: true,
+    });
+    expect(buildEventData(getData('no'))).to.deep.equal({
+      'decision-reviews-informalConf': 'no',
+    });
+    expect(buildEventData(getData('rep'))).to.deep.equal({
+      'decision-reviews-informalConf': 'yes-with-rep',
+    });
+    expect(buildEventData(getData('yes'))).to.deep.equal({
+      'decision-reviews-informalConf': 'yes',
+    });
+  });
 });
 
 describe('submitForm', () => {
