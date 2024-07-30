@@ -22,7 +22,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
-import { getAllergiesList } from '../actions/allergies';
+import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -35,10 +35,14 @@ import {
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.allergies.updatedList,
+  );
   const listState = useSelector(state => state.mr.allergies.listState);
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const allergiesCurrentAsOf = useSelector(
@@ -63,6 +67,18 @@ const Allergies = props => {
     dispatchAction: getAllergiesList,
     dispatch,
   });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -151,6 +167,18 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           downloadTxt={generateAllergiesTxt}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(allergies) &&
+            Array.isArray(updatedRecordList) &&
+            allergies.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         <RecordList records={allergies} type={recordType.ALLERGIES} />
       </RecordListSection>
     </div>

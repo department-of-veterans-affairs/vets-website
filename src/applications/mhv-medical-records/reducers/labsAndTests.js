@@ -29,10 +29,14 @@ const initialState = {
 
   /**
    * The list of lab and test results returned from the api
-   * @type {array}
+   * @type {Array}
    */
   labsAndTestsList: undefined,
-
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The lab or test result currently being displayed to the user
    */
@@ -60,10 +64,10 @@ const distillChemHemNotes = (notes, valueProp) => {
  * @returns the appropriate frontend object for display
  */
 const convertChemHemObservation = record => {
-  const results = record.contained.filter(
+  const results = record.contained?.filter(
     recordItem => recordItem.resourceType === 'Observation',
   );
-  return results.filter(obs => obs.valueQuantity).map(result => {
+  return results?.filter(obs => obs.valueQuantity).map(result => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
     );
@@ -278,18 +282,24 @@ export const convertMhvRadiologyRecord = record => {
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
-    if (record.code.text === 'CH') return labTypes.CHEM_HEM;
+    if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
     if (
-      record.code.coding.some(coding => coding.code === loincCodes.MICROBIOLOGY)
+      record.code?.coding?.some(
+        coding => coding.code === loincCodes.MICROBIOLOGY,
+      )
     )
       return labTypes.MICROBIOLOGY;
-    if (record.code.coding.some(coding => coding.code === loincCodes.PATHOLOGY))
+    if (
+      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
+    )
       return labTypes.PATHOLOGY;
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type.coding.some(coding => coding.code === loincCodes.EKG))
+    if (record.type?.coding.some(coding => coding.code === loincCodes.EKG))
       return labTypes.EKG;
-    if (record.type.coding.some(coding => coding.code === loincCodes.RADIOLOGY))
+    if (
+      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
+    )
       return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
@@ -338,6 +348,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
+      const oldList = state.labsAndTestsList;
       const labsAndTestsList =
         action.labsAndTestsResponse.entry
           ?.map(record => convertLabsAndTestsRecord(record.resource ?? record))
@@ -346,16 +357,32 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         action.radiologyResponse.map(record =>
           convertLabsAndTestsRecord(record),
         ) || [];
-      const allLabsAndTests = sortByDate([
-        ...labsAndTestsList,
-        ...radiologyTestsList,
-      ]);
+      const newList = sortByDate([...labsAndTestsList, ...radiologyTestsList]);
 
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList: allLabsAndTests,
+        labsAndTestsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.LabsAndTests.COPY_UPDATED_LIST: {
+      const originalList = state.labsAndTestsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          labsAndTestsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {
