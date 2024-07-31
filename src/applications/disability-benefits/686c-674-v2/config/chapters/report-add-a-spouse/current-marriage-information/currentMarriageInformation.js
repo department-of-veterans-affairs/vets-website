@@ -1,40 +1,62 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { isChapterFieldRequired } from '../../../helpers';
+// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import React from 'react';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+// import { isChapterFieldRequired } from '../../../helpers';
 import { addSpouse } from '../../../utilities';
-import { marriageTypeInformation } from './helpers';
+import {
+  marriageTypeLabels,
+  marriageTypeArr,
+  SupportingEvidenceNeeded,
+} from './helpers';
 
-import { locationUISchema } from '../../../location-schema';
+// import { locationUISchema } from '../../../location-schema';
 
 const { currentMarriageInformation } = addSpouse.properties;
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageInformation,
+    currentMarriageInformation: {
+      type: 'object',
+      properties: {
+        type: radioSchema(marriageTypeArr),
+        typeOther: currentMarriageInformation.properties.typeOther,
+        'view:marriageTypeInformation':
+          currentMarriageInformation.properties['view:marriageTypeInformation'],
+      },
+    },
   },
 };
 
 export const uiSchema = {
   currentMarriageInformation: {
-    date: {
-      ...currentOrPastDateUI('Date of marriage'),
-      ...{
-        'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addSpouse'),
+    // date: {
+    //   ...currentOrPastDateUI('Date of marriage'),
+    //   ...{
+    //     'ui:required': formData =>
+    //       isChapterFieldRequired(formData, 'addSpouse'),
+    //   },
+    // },
+    // location: locationUISchema(
+    //   'currentMarriageInformation',
+    //   'location',
+    //   false,
+    //   'Where were you married?',
+    //   'addSpouse',
+    // ),
+    type: radioUI({
+      title: 'How did you get married?',
+      labels: marriageTypeLabels,
+      required: () => true,
+      labelHeaderLevel: '3',
+      errorMessages: {
+        required: 'Select the type of marriage',
       },
-    },
-    location: locationUISchema(
-      'currentMarriageInformation',
-      'location',
-      false,
-      'Where were you married?',
-      'addSpouse',
-    ),
-    type: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-      'ui:title': 'Type of marriage:',
-      'ui:widget': 'radio',
-    },
+      classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
+    }),
     typeOther: {
       'ui:required': formData =>
         formData?.currentMarriageInformation?.type === 'OTHER',
@@ -44,12 +66,11 @@ export const uiSchema = {
         expandUnderCondition: 'OTHER',
         showFieldLabel: true,
         keepInPageOnReview: true,
-        widgetClassNames: 'vads-u-margin-y--0',
+        // widgetClassNames: 'vads-u-margin-y--0',
       },
     },
     'view:marriageTypeInformation': {
-      'ui:title': 'Additional evidence needed',
-      'ui:description': marriageTypeInformation,
+      'ui:description': <SupportingEvidenceNeeded />,
     },
   },
 };
