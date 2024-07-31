@@ -52,7 +52,7 @@ import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
-} from '../components/ThirdPartyInfo';
+} from '../../shared/components/ThirdPartyInfo';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
   applicantBirthCertConfig,
