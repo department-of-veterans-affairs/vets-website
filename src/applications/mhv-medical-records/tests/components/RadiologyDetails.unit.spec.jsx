@@ -5,12 +5,12 @@ import { beforeEach } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import RadiologyDetails from '../../components/LabsAndTests/RadiologyDetails';
-import radiology from '../fixtures/radiology.json';
+import radiologyMhv from '../fixtures/radiologyMhv.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
-import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import { convertMhvRadiologyRecord } from '../../reducers/labsAndTests';
 
 describe('Radiology details component', () => {
-  const radiologyRecord = convertLabsAndTestsRecord(radiology);
+  const radiologyRecord = convertMhvRadiologyRecord(radiologyMhv);
   const initialState = {
     mr: {
       labsAndTests: {
@@ -34,7 +34,7 @@ describe('Radiology details component', () => {
       {
         initialState,
         reducers: reducer,
-        path: '/labs-and-tests/ex-MHV-imaging-0',
+        path: '/labs-and-tests/r5621490',
       },
     );
   });
@@ -44,29 +44,66 @@ describe('Radiology details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getAllByText(
-      'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
-      {
-        exact: true,
-        selector: 'h1',
-      },
-    );
+    const header = screen.getByText('DEXA, PERIPHERAL STUDY', {
+      exact: true,
+      selector: 'h1',
+    });
     expect(header).to.exist;
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText(
-      'September 24, 2004, 11:25 a.m.',
-      {
-        exact: true,
-        selector: 'span',
-      },
-    );
+    const formattedDate = screen.getByText('January 6, 2004, 1:27 p.m.', {
+      exact: true,
+      selector: 'span',
+    });
     expect(formattedDate).to.exist;
   });
 
+  it('should display the reason for the test', () => {
+    const reason = screen.getByText('None noted', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+  it('should display the clinical history', () => {
+    const reason = screen.getByText('this is 71 yr old pt', {
+      exact: false,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+  it('should display who the test was ordered by', () => {
+    const reason = screen.getByText('DOE,JOHN', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+  it('should display the performing lab location', () => {
+    const reason = screen.getByText('DAYT3', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+  it('should display the imaging provider', () => {
+    const reason = screen.getByText('DOE,JANE', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+  it('should display the images note', () => {
+    const reason = screen.getByText('Images are not yet available', {
+      exact: false,
+      selector: 'p',
+    });
+    expect(reason).to.exist;
+  });
+
   it('should display the lab results', () => {
-    const results = screen.getByText('SPINE LUMBOSACRAL MIN 2 VIEWS', {
+    const results = screen.getByText('Osteopenia of the left forearm.', {
       exact: false,
       selector: 'p',
     });
@@ -88,7 +125,7 @@ describe('Radiology details component with missing fields', () => {
   const initialState = {
     mr: {
       labsAndTests: {
-        labsAndTestsDetails: convertLabsAndTestsRecord(
+        labsAndTestsDetails: convertMhvRadiologyRecord(
           radiologyWithMissingFields,
         ),
       },
@@ -97,7 +134,7 @@ describe('Radiology details component with missing fields', () => {
 
   const screen = renderWithStoreAndRouter(
     <RadiologyDetails
-      record={convertLabsAndTestsRecord(radiologyWithMissingFields)}
+      record={convertMhvRadiologyRecord(radiologyWithMissingFields)}
       fullState={initialState}
       runningUnitTest
     />,

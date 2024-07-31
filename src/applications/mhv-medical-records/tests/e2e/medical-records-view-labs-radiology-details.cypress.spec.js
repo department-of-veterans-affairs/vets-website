@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   const site = new MedicalRecordsSite();
@@ -12,23 +12,54 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
-  it('Navigate to MHV Classic to view their Radiology Images', () => {
-    // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[5]);
-    RadiologyDetailsPage.verifyTitle(
-      'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
+  it('View Radiology Details Page', () => {
+    cy.reload();
+
+    // I think the second parameter doesn't do anything right now...
+    // "Radiology results are coming from an MHV (legacy) API, however,
+    // that endpoint is not working for us yet so we are just using
+    // mocked data for radiology (radiologyRecordsMhv.json). They are
+    // being mixed in with the labs and tests records from FHIR when
+    // viewed on the labs and tests list page."
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(
+      0,
+      radiologyRecordsMhv[16],
     );
-    RadiologyDetailsPage.verifyDate('September 24, 2004');
+
+    RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[16].procedureName);
+    // why is the date value in radiologyRecordsMHV.json
+    // a large number, like "eventDate": 976929600003, ???
+    // can I test against the JSON or do I neeed to hard-code the date in the test?
+    RadiologyDetailsPage.verifyDate('January 6, 1992');
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
-    RadiologyDetailsPage.verifyRadiologyClinicalHistory('None noted');
-    RadiologyDetailsPage.verifyRadiologyOrderedBy('DOE, JOHN A');
+
+    // // Regex: replace \r\n line terminating characters, with spaces
+    // // then eliminate multiple spaces
+    // RadiologyDetailsPage.verifyRadiologyClinicalHistory(
+    //   `${radiologyRecordsMhv[16].clinicalHistory
+    //     .replace(/[\r\n]+/gm, ' ')
+    //     .replace(/ +(?= )/g, '')}`,
+    // );
+
+    RadiologyDetailsPage.verifyRadiologyOrderedBy(
+      radiologyRecordsMhv[16].requestingProvider,
+    );
+
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
-      'DOE, JOHN A, DAYT29 TEST LAB',
+      radiologyRecordsMhv[16].performingLocation,
     );
-    RadiologyDetailsPage.verifyRadiologyImagingProvider('None noted');
+
+    RadiologyDetailsPage.verifyRadiologyImagingProvider(
+      radiologyRecordsMhv[16].radiologist,
+    );
+
+    // Regex: replace \r\n line terminating characters, with spaces
     RadiologyDetailsPage.verifyRadiologyResults(
-      'SPINE LUMBOSACRAL MIN 2 VIEWS',
+      radiologyRecordsMhv[16].impressionText
+        .replace(/[\r\n]+/gm, ' ')
+        .replace(/ +(?= )/g, ''),
     );
+
     cy.injectAxe();
     cy.axeCheck('main', {});
   });

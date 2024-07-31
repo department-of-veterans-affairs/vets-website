@@ -1,5 +1,9 @@
 import { Actions } from '../util/actionTypes';
-import { getLabsAndTests, getLabOrTest } from '../api/MrApi';
+import {
+  getLabsAndTests,
+  getLabOrTest,
+  getMhvRadiologyTests,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
@@ -10,10 +14,15 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getLabsAndTests);
+    const labsAndTestsResponse = await getListWithRetry(
+      dispatch,
+      getLabsAndTests,
+    );
+    const radiologyResponse = await getMhvRadiologyTests();
     dispatch({
       type: Actions.LabsAndTests.GET_LIST,
-      response,
+      labsAndTestsResponse,
+      radiologyResponse,
       isCurrent,
     });
   } catch (error) {
@@ -24,7 +33,13 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
 
 export const getlabsAndTestsDetails = labId => async dispatch => {
   try {
-    const response = await getLabOrTest(labId);
+    let response;
+    if (labId && labId.charAt(0).toLowerCase() === 'r') {
+      const records = await getMhvRadiologyTests();
+      response = records.find(record => +record.id === +labId.substring(1));
+    } else {
+      response = await getLabOrTest(labId);
+    }
     dispatch({ type: Actions.LabsAndTests.GET, response });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

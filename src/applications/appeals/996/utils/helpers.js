@@ -77,6 +77,26 @@ export const showConferenceRepPages = formData =>
     formData.informalConference === 'rep') ||
   (hideNewHlrContent(formData) && formData.informalConference === 'rep');
 
+export const checkNeedsFormDataUpdate = props => {
+  const { formData } = props;
+  const showNewContent = showNewHlrContent(formData);
+  const confContact = formData.informalConference;
+
+  let confYesNo = formData.informalConferenceChoice;
+
+  // *** Convert old informalConference data to new split values; not using a
+  // migration because this is behind a feature toggle
+  if (showNewContent) {
+    if (confYesNo === 'no' || confContact === 'no') {
+      confYesNo = 'no';
+    } else if (confYesNo === 'yes' || ['me', 'rep'].includes(confContact)) {
+      confYesNo = 'yes';
+    }
+    formData.informalConferenceChoice = confYesNo;
+    formData.informalConference = confContact;
+  }
+};
+
 /**
  * Redirect from "/opt-in" to "/authorization" in HLR update
  * Remove once HLR update is 100% released
@@ -126,5 +146,6 @@ export const checkNeedsRedirect = props => {
 };
 
 export const onFormLoaded = props => {
+  checkNeedsFormDataUpdate(props);
   checkNeedsRedirect(props);
 };
