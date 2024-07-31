@@ -128,7 +128,7 @@ export const Locators = {
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
-    REMOVE_FOLDER: 'button[data-testid="remove-folder-button"]',
+    REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
     PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
