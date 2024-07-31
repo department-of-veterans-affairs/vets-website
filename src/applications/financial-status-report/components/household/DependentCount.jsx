@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import useClearSpouseData from '../../hooks/useClearSpouseData';
@@ -107,13 +107,13 @@ const DependentCount = ({
             Your dependents
           </h3>
         </legend>
-        <VaNumberInput
+        <VaTextInput
           id="dependent-count"
           label="Number of dependents"
           error={error}
           onInput={handleInput}
           value={dependents.toString()} // Ensure value is always a string
-          inputMode="numeric" // Use "numeric" for better mobile keyboard support
+          inputmode="numeric" // Use "numeric" for better mobile keyboard support
           width="md"
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}

@@ -25,6 +25,21 @@ class GeneralFunctionsPage {
       }),
     };
   };
+
+  getDateFormat = () => {
+    const date = new Date();
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter
+      .format(date)
+      .replace(`AM`, `a.m.`)
+      .replace(`PM`, `p.m.`);
+  };
 }
 
 export default new GeneralFunctionsPage();
