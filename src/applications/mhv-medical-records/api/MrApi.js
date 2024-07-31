@@ -40,10 +40,8 @@ export const getLabOrTest = id => {
 };
 
 export const getMhvRadiologyTests = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(radiologyRecordsMhv);
-    }, 1000);
+  return apiRequest(`${apiBasePath}/medical_records/radiology`, {
+    headers,
   });
 };
 
