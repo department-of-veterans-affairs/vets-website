@@ -6,7 +6,6 @@ import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
-import radiologyRecordsMhv from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
