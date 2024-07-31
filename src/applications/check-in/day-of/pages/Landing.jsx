@@ -85,7 +85,7 @@ const Landing = props => {
               initForm(pages, firstPage);
               setSession(token, session.permissions);
               if (session.permissions === SCOPES.READ_FULL) {
-                jumpToPage(URLS.LOADING);
+                jumpToPage(URLS.APPOINTMENTS);
               } else {
                 jumpToPage(URLS.VALIDATION_NEEDED);
               }

@@ -9,8 +9,10 @@ import DetailPageLayout, {
   When,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
@@ -38,6 +40,10 @@ export default function VideoLayoutVA({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
+  );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
   );
 
   let heading = 'Video appointment at VA location';
@@ -124,6 +130,16 @@ export default function VideoLayoutVA({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
+      {featureMedReviewInstructions && (
+        <Prepare>
+          Bring your insurance cards, a list of medications, and other things to
+          share with your provider.
+          <br />
+          <NewTabAnchor href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/">
+            Find out what to bring to your appointment
+          </NewTabAnchor>
+        </Prepare>
+      )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">
