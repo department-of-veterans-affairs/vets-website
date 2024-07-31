@@ -5,7 +5,11 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { selectDropdownWebComponent, selectYesNoWebComponent } from './helpers';
+import {
+  selectCheckboxGroupWebComponent,
+  selectDropdownWebComponent,
+  selectYesNoWebComponent,
+} from './helpers';
 
 const selectDropdownHook = (field, dataPath) => ({ afterHook }) => {
   afterHook(() => {
@@ -27,6 +31,16 @@ const selectYesNoHook = (selector, conditions) => ({ afterHook }) => {
         }
       });
       cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  });
+};
+
+const selectCheckboxGroupHook = field => ({ afterHook }) => {
+  afterHook(() => {
+    cy.get('@testData').then(data => {
+      cy.fillPage;
+      selectCheckboxGroupWebComponent(data[`${field}`]);
+      cy.findByText(/Continue/i, { selector: 'button' }).click();
     });
   });
 };
@@ -89,6 +103,16 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.employers[0].address.state,
       ),
+      // 'employers/activities': ({ afterHook }) => {
+      //   afterHook(() => {
+      //     cy.get('@testData').then(data => {
+      //       const { activities } = data;
+      //       selectCheckboxGroupWebComponent(activities);
+      //       cy.findByText(/Continue/i, { selector: 'button' }).click();
+      //     });
+      //   });
+      // },
+      'employers/activities': selectCheckboxGroupHook('activities'),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
           text:

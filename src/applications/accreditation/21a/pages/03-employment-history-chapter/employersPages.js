@@ -32,7 +32,7 @@ const arrayBuilderOptions = {
     !item?.address ||
     !item?.phone ||
     !item?.dateRange ||
-    !item?.reason,
+    !item?.reasonForLeaving,
   text: {
     getItemName: item => item.name,
     cardDescription: item =>

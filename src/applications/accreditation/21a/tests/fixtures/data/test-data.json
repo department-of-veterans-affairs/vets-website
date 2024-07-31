@@ -81,9 +81,11 @@
         "dateRange": {
           "from": "2000-01-01",
           "to": "2004-12-31"
-        }
+        },
+        "reasonForLeaving": "Found a better opportunity"
       }
     ],
+    "activities": ["financial", "home"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
@@ -92,6 +94,7 @@
           "from": "2010-01-01",
           "to": "2014-12-31"
         },
+        "received": true,
         "degree": "Bachelor of Science",
         "major": "Computer Science"
       }

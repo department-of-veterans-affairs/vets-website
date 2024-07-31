@@ -4,7 +4,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const employmentActivitiesOptions = Object.freeze({
-  financial: 'Financial Planning',
+  financial: 'Financial planning',
   home: 'Home care',
   nursing: 'Nursing care',
   funeral: 'Funeral industry',
