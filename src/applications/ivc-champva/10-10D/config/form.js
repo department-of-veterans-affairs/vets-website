@@ -56,7 +56,6 @@ import {
 } from '../components/ThirdPartyInfo';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
-  // marriageDocumentList,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantSchoolCertUploadUiSchema,

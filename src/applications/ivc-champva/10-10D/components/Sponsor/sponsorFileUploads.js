@@ -114,43 +114,14 @@ export function acceptableFileList(list) {
   };
 }
 
-export const requiredFileUploadMessage = {
-  'ui:description': (
-    <p>
-      <em>This file is required for your application.</em>
-      Your application will not be considered complete until we receive this
-      file.
-    </p>
-  ),
-};
-
-export const optionalFileUploadMessage = {
-  'ui:description': (
-    <p>
-      This file is not required for your application, but
-      <b>
-        {' '}
-        not uploading this optional file will delay your application’s
-        processing time.
-      </b>
-    </p>
-  ),
-};
-
 /**
  * Builds a document upload page uiSchema and Schema.
  * @param {list of strings} fileList E.g., ['Birth certificate', 'Social security card']
  * @param {string} category E.g., 'school certificate'
- * @param {boolean} isOptional Whether or not this file upload is optional
  * @param {list of objects} resources E.g., [{href: "google.com", text: "Google"}]
  * @returns
  */
-export function uploadWithInfoComponent(
-  fileList,
-  category,
-  isOptional,
-  resources,
-) {
+export function uploadWithInfoComponent(fileList, category, resources) {
   return {
     uiSchema: {
       ...acceptableFileList(fileList || []),
@@ -176,15 +147,11 @@ export function uploadWithInfoComponent(
           </>
         ),
       },
-      // 'view:fileUploadMessage': isOptional
-      //   ? { ...optionalFileUploadMessage }
-      //   : { ...requiredFileUploadMessage },
       ...fileUploadBlurb,
     },
     schema: {
       'view:acceptableFilesList': blankSchema,
       'view:additionalResources': blankSchema,
-      // 'view:fileUploadMessage': blankSchema,
       'view:fileUploadBlurb': blankSchema,
     },
   };

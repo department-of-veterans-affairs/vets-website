@@ -28,7 +28,7 @@ export function isRequiredFile(formContext) {
     : '(Optional)';
 }
 
-export const marriageDocumentList = (
+const marriageDocumentList = (
   <>
     Upload a copy of one of these documents:
     <ul>
@@ -46,7 +46,6 @@ export const marriageDocumentList = (
 export const applicantBirthCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.birthCert,
   'birth certificates',
-  false,
 );
 
 export const applicantBirthCertUploadUiSchema = {
@@ -87,7 +86,6 @@ export const applicantBirthCertUploadUiSchema = {
 export const applicantSchoolCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.schoolCert,
   'school certifications',
-  false,
 );
 
 export const applicantSchoolCertUploadUiSchema = {
@@ -167,7 +165,6 @@ export const applicantSchoolCertUploadUiSchema = {
 export const applicantHelplessChildConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.helplessCert,
   'VBA decision rating',
-  false,
 );
 
 export const applicantHelplessChildUploadUiSchema = {
@@ -211,7 +208,6 @@ export const applicantHelplessChildUploadUiSchema = {
 export const applicantAdoptedConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.adoptionCert,
   'adoption papers',
-  false,
 );
 
 export const applicantAdoptedUploadUiSchema = {
@@ -250,7 +246,6 @@ export const applicantAdoptedUploadUiSchema = {
 export const applicantStepChildConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.stepCert,
   'marriage certificates',
-  false,
 );
 
 export const applicantStepChildUploadUiSchema = {
@@ -294,7 +289,6 @@ export const applicantStepChildUploadUiSchema = {
 export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.medicareABCert,
   'copy of Medicare Parts A or B card',
-  false,
 );
 
 export const applicantMedicarePartAPartBCardsUploadUiSchema = {
@@ -339,7 +333,6 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
 export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.medicareDCert,
   'copy of Medicare Part D card',
-  false,
 );
 
 export const applicantMedicarePartDCardsUploadUiSchema = {
@@ -384,7 +377,6 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
 export const appMedicareOver65IneligibleConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.ssIneligible,
   'Medicare ineligibility proof',
-  false,
 );
 
 export const appMedicareOver65IneligibleUploadUiSchema = {
@@ -429,7 +421,6 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
 export const applicantOhiCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.healthInsCert,
   'copy of other health insurance card',
-  false,
 );
 
 export const applicantOhiCardsUploadUiSchema = {
@@ -465,7 +456,6 @@ export const applicantOhiCardsUploadUiSchema = {
 export const applicantOtherInsuranceCertificationConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.va7959cCert,
   'VA Form 10-7959c',
-  false,
 );
 
 export const applicantOtherInsuranceCertificationUploadUiSchema = {
@@ -504,7 +494,6 @@ export const applicantOtherInsuranceCertificationUploadUiSchema = {
 export const applicantMarriageCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.spouseCert,
   'marriage certificates',
-  true,
 );
 
 // When in list loop, formData is just the list element's data, but when editing
@@ -600,7 +589,6 @@ export const applicantSecondMarriageCertUploadUiSchema = {
 export const applicantSecondMarriageDivorceCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.divorceCert,
   'marriage certificates',
-  true,
 );
 
 export const applicantSecondMarriageDivorceCertUploadUiSchema = {
