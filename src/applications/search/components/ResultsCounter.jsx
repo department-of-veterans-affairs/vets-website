@@ -34,6 +34,7 @@ const ResultsCounter = ({
         </p>
         <h2
           className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5`}
+          data-e2e-id="results-counter"
         >
           Showing{' '}
           {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
@@ -53,6 +54,7 @@ const ResultsCounter = ({
           aria-live="polite"
           aria-relevant="additions text"
           className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
+          data-e2e-id="results-counter"
         >
           Showing{' '}
           {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}

@@ -71,27 +71,24 @@ const SearchApp = ({
 
   // If there's data in userInput when this component loads,
   // it came from the address bar, so we immediately hit the API
-  useEffect(
-    () => {
-      const initialUserInput = router?.location?.query?.query || '';
+  useEffect(() => {
+    const initialUserInput = router?.location?.query?.query || '';
 
-      if (initialUserInput && isSearchTermValid(initialUserInput)) {
-        setFormWasSubmitted(true);
+    if (initialUserInput && isSearchTermValid(initialUserInput)) {
+      setFormWasSubmitted(true);
 
-        fetchSearchResults(initialUserInput, page, {
-          trackEvent: true,
-          eventName: 'onload_view_search_results',
-          path: document.location.pathname,
-          userInput: initialUserInput,
-          keywordSelected: undefined,
-          keywordPosition: undefined,
-          suggestionsList: undefined,
-          sitewideSearch: false,
-        });
-      }
-    },
-    [fetchSearchResults, page, router],
-  );
+      fetchSearchResults(initialUserInput, page, {
+        trackEvent: true,
+        eventName: 'onload_view_search_results',
+        path: document.location.pathname,
+        userInput: initialUserInput,
+        keywordSelected: undefined,
+        keywordPosition: undefined,
+        suggestionsList: undefined,
+        sitewideSearch: false,
+      });
+    }
+  }, []);
 
   useEffect(
     () => {
@@ -144,24 +141,21 @@ const SearchApp = ({
     setTypeAheadWasUsed(options?.typeaheadUsed);
   };
 
-  const handleSearch = event => {
-    if (event) {
-      event.preventDefault();
-    }
-
+  const handleSearch = clickedPage => {
+    const newPage = clickedPage.toString();
+    setPage(newPage);
     setFormWasSubmitted(true);
 
     const rawPageFromURL = pageFromURL ? parseInt(pageFromURL, 10) : undefined;
 
     if (isSearchTermValid(userInput) || isSearchTermValid(userInputFromURL)) {
       const isRepeatSearch =
-        userInputFromURL === userInput && rawPageFromURL === page;
+        userInputFromURL === userInput && rawPageFromURL === newPage;
 
       const queryChanged = userInput !== currentResultsQuery;
-      const nextPage = queryChanged ? 1 : page;
+      const nextPage = queryChanged ? 1 : newPage;
 
       updateURL({ query: userInput, page: nextPage });
-
       // Fetch new results
       fetchSearchResults(userInput, nextPage, {
         trackEvent: queryChanged || isRepeatSearch,
@@ -186,13 +180,8 @@ const SearchApp = ({
     }
   };
 
-  const handlePageChange = newPage => {
-    setPage(newPage);
-    handleSearch();
-  };
-
-  const onInputSubmit = () => {
-    setUserInput(userInput);
+  const onInputSubmit = event => {
+    event.preventDefault();
     setFormWasSubmitted(true);
 
     if (!userInput) {
@@ -279,12 +268,12 @@ const SearchApp = ({
           id="hr-search-bottom"
           className="vads-u-margin-y--3"
         />
-        <div className="va-flex results-footer">
+        <div className="vads-u-display--flex vads-u-flex-wrap--wrap results-footer">
           {results &&
             results.length > 0 && (
               <VaPagination
                 class="vads-u-border-top--0"
-                onPageSelect={e => handlePageChange(e.detail.page)}
+                onPageSelect={e => handleSearch(e.detail.page)}
                 page={currentPage}
                 pages={totalPages}
                 maxPageListLength={7}
@@ -343,14 +332,13 @@ const SearchApp = ({
               <div className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0">
                 <VaSearchInput
                   aria-labelledby="h1-search-title"
-                  buttonText="Search"
                   class="vads-u-width--full"
                   id="search-results-page-dropdown-input-field"
                   data-e2e-id="search-results-page-dropdown-input-field"
                   label="Enter a keyword, phrase, or question"
                   onBlur={() => clearTimeout(instance.current.typeaheadTimer)}
                   onInput={handleInputChange}
-                  onSubmit={onInputSubmit}
+                  onSubmit={event => onInputSubmit(event)}
                   suggestions={suggestions}
                   value={userInput}
                 />

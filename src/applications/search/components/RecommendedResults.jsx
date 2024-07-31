@@ -11,7 +11,7 @@ const RecommendedResults = ({ query, searchData, typeaheadUsed }) => {
         <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold">
           Our top recommendations for you
         </h3>
-        <ul className="results-list">
+        <ul className="results-list" data-e2e-id="top-recommendations">
           {recommendedResults.map((result, index) => (
             <Result
               index={index}
