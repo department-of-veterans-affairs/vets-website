@@ -18,6 +18,9 @@ describe('unified check-in experience', () => {
     afterEach(() => {
       teardownI18n();
     });
+    const features = {
+      check_in_experience_upcoming_appointments_enabled: true,
+    };
     it('displays the upcoming appointments list component', () => {
       // Mock the return value for the useGetUpcomingAppointmentsData hook
       const useGetUpcomingAppointmentsDataStub = sinon
@@ -30,7 +33,7 @@ describe('unified check-in experience', () => {
         });
 
       const { getByTestId } = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ features }}>
           <UpcomingAppointments />
         </CheckInProvider>,
       );
@@ -55,7 +58,7 @@ describe('unified check-in experience', () => {
           upcomingAppointmentsDataError: false,
         });
       const screen = render(
-        <CheckInProvider store={{ upcomingAppointments: [] }}>
+        <CheckInProvider store={{ upcomingAppointments: [], features }}>
           <UpcomingAppointments />
         </CheckInProvider>,
       );
@@ -77,7 +80,7 @@ describe('unified check-in experience', () => {
           upcomingAppointmentsDataError: true,
         });
       const screen = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ features }}>
           <UpcomingAppointments />
         </CheckInProvider>,
       );
@@ -96,7 +99,7 @@ describe('unified check-in experience', () => {
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
       const screen = render(
-        <CheckInProvider store={{ upcomingAppointments: [] }}>
+        <CheckInProvider store={{ upcomingAppointments: [], features }}>
           <UpcomingAppointments refresh={false} />
         </CheckInProvider>,
       );
@@ -111,7 +114,12 @@ describe('unified check-in experience', () => {
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
       const screen = render(
-        <CheckInProvider store={{ upcomingAppointments: multipleAppointments }}>
+        <CheckInProvider
+          store={{
+            upcomingAppointments: multipleAppointments,
+            features,
+          }}
+        >
           <UpcomingAppointments refresh={false} />
         </CheckInProvider>,
       );
@@ -126,7 +134,12 @@ describe('unified check-in experience', () => {
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
       const screen = render(
-        <CheckInProvider store={{ upcomingAppointments: multipleAppointments }}>
+        <CheckInProvider
+          store={{
+            upcomingAppointments: multipleAppointments,
+            features,
+          }}
+        >
           <UpcomingAppointments refresh />
         </CheckInProvider>,
       );
