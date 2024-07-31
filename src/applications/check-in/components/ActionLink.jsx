@@ -52,7 +52,6 @@ ActionLink.propTypes = {
   action: PropTypes.func.isRequired,
   app: PropTypes.string.isRequired,
   appointmentId: PropTypes.string.isRequired,
-  cardTitleId: PropTypes.string,
   startTime: PropTypes.string,
 };
 
