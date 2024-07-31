@@ -4,7 +4,10 @@ import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  scrollToTop,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -42,7 +45,7 @@ import DigitalSignature from './DigitalSignature';
 import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
-  const { draft, recipients, signature } = props;
+  const { pageTitle, headerRef, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -239,13 +242,16 @@ const ComposeForm = props => {
           sendData = JSON.stringify(messageData);
         }
         dispatch(sendMessage(sendData, attachments.length > 0))
-          .then(() =>
-            navigateToFolderByFolderId(
-              currentFolder?.folderId || DefaultFolders.INBOX.id,
-              history,
-            ),
-          )
-          .catch(setSendMessageFlag(false));
+          .then(() => {
+            scrollToTop();
+            setTimeout(() => {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }, 1000);
+          })
+          .catch(() => setSendMessageFlag(false));
       }
     },
     [sendMessageFlag, isSaving],
@@ -622,8 +628,22 @@ const ComposeForm = props => {
     [beforeUnloadHandler],
   );
 
+  if (sendMessageFlag === true) {
+    return (
+      <va-loading-indicator
+        message="Sending message..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
+
   return (
     <>
+      <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
+        {pageTitle}
+      </h1>
+
       {showBlockedTriageGroupAlert &&
       (noAssociations || allTriageGroupsBlocked) ? (
         <BlockedTriageGroupAlert
