@@ -73,6 +73,10 @@ export default function MemorableDateField(props) {
     return enteredDate(vals) > currentDate();
   };
 
+  const isYearNotNumbers = (vals = {}) => {
+    return isNaN(vals.year);
+  };
+
   const yearErrorMessage = `Please enter a year between 1900 and ${currentYear()}`;
 
   return (
@@ -105,7 +109,11 @@ export default function MemorableDateField(props) {
           setErrorVal('Enter a valid day');
         }
 
-        if (isMonthNotNumbers(newValues) || isDayNotNumbers(newValues)) {
+        if (
+          isMonthNotNumbers(newValues) ||
+          isDayNotNumbers(newValues) ||
+          isYearNotNumbers(newValues)
+        ) {
           setErrorVal('Input numbers only');
         }
 
