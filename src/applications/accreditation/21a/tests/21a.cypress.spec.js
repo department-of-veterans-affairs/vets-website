@@ -103,15 +103,6 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.employers[0].address.state,
       ),
-      // 'employers/activities': ({ afterHook }) => {
-      //   afterHook(() => {
-      //     cy.get('@testData').then(data => {
-      //       const { activities } = data;
-      //       selectCheckboxGroupWebComponent(activities);
-      //       cy.findByText(/Continue/i, { selector: 'button' }).click();
-      //     });
-      //   });
-      // },
       'employers/activities': selectCheckboxGroupHook('activities'),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
