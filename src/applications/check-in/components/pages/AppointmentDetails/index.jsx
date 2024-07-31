@@ -166,6 +166,18 @@ const AppointmentDetails = props => {
   if (app === APP_NAMES.CHECK_IN) {
     eligibleAppointment = appointment.eligibility === ELIGIBILITY.ELIGIBLE;
   }
+  let link = '';
+  if (!isUpcoming && eligibleAppointment) {
+    link = (
+      <div className="vads-u-margin-top--2">
+        <ActionLink
+          app={app}
+          action={action}
+          appointmentId={getAppointmentId(appointment)}
+        />
+      </div>
+    );
+  }
   return (
     <>
       {Object.keys(appointment).length && (
@@ -257,6 +269,14 @@ const AppointmentDetails = props => {
                     <p>{t('or-talk-staff-if-at-facility')}</p>
                   </div>
                 </va-alert>
+              )}
+              {app === APP_NAMES.PRE_CHECK_IN && (
+                <>
+                  <h2 className="vads-u-font-size--sm">
+                    {t('review-contact-information')}
+                  </h2>
+                  {link}
+                </>
               )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
@@ -352,16 +372,7 @@ const AppointmentDetails = props => {
                   </div>
                 )}
               </div>
-              {!isUpcoming &&
-                eligibleAppointment && (
-                  <div className="vads-u-margin-top--2">
-                    <ActionLink
-                      app={app}
-                      action={action}
-                      appointmentId={getAppointmentId(appointment)}
-                    />
-                  </div>
-                )}
+              {app === APP_NAMES.CHECK_IN && link}
             </div>
           </Wrapper>
         </>
