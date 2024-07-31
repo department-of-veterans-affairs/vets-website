@@ -30,7 +30,11 @@ describe('Attachments List component', () => {
 
   const setup = (customState, path, props) => {
     return renderWithStoreAndRouter(
-      <ComposeForm recipients={initialState.sm.recipients} {...props} />,
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        categories={categories}
+        {...props}
+      />,
       {
         initialState: customState,
         reducers: reducer,

@@ -10,6 +10,7 @@ const AttachmentsList = props => {
   const {
     attachments,
     compose,
+    draftSequence,
     reply,
     setAttachments,
     setNavigationError,
@@ -253,6 +254,7 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
+          draftSequence={draftSequence}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
@@ -263,7 +265,9 @@ const AttachmentsList = props => {
             setIsModalVisible(false);
             removeAttachment(fileToRemove);
           }}
-          data-testid="remove-attachment-modal"
+          data-testid={`remove-attachment-modal${
+            draftSequence ? `-${draftSequence}` : ''
+          }`}
         />
       )}
       {isAttachmentRemoved ? (
@@ -273,7 +277,9 @@ const AttachmentsList = props => {
             role="status"
             aria-live="polite"
             className="sr-only"
-            id="attachment-removed-successfully"
+            id={`attachment-removed-successfully${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
@@ -288,6 +294,7 @@ AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
+  draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,
