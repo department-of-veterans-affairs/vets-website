@@ -10,6 +10,7 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { setForm } from '../../../actions/universal';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import {
   appointmentIcon,
@@ -27,8 +28,8 @@ import BackButton from '../../BackButton';
 import ActionLink from '../../ActionLink';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
-
 import ExternalLink from '../../ExternalLink';
+import PrepareContent from '../../PrepareContent';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -44,6 +45,10 @@ const AppointmentDetails = props => {
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isMedicationReviewContentEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const [appointment, setAppointment] = useState({});
   const [isUpcoming, setIsUpcoming] = useState(false);
   const appointmentDay = new Date(appointment?.startTime);
@@ -108,12 +113,19 @@ const AppointmentDetails = props => {
   const clinic = appointment && clinicName(appointment);
 
   let preCheckInSubTitle = (
-    <p
-      data-testid="in-person-appointment-subtitle"
-      className="vads-u-margin--0"
-    >
-      {t('remember-to-bring-your-insurance-cards-with-you')}
-    </p>
+    <>
+      {isMedicationReviewContentEnabled && (
+        <h2 className="vads-u-font-size--sm">{t('how-to-check-in')}</h2>
+      )}
+      <p
+        data-testid="in-person-appointment-subtitle"
+        className="vads-u-margin--0"
+      >
+        {isMedicationReviewContentEnabled
+          ? t('on-day-of-appointment-we-send-text')
+          : t('remember-to-bring-your-insurance-cards-with-you')}
+      </p>
+    </>
   );
   if (isPhoneAppointment) {
     preCheckInSubTitle = (
@@ -270,14 +282,15 @@ const AppointmentDetails = props => {
                   </div>
                 </va-alert>
               )}
-              {app === APP_NAMES.PRE_CHECK_IN && (
-                <>
-                  <h2 className="vads-u-font-size--sm">
-                    {t('review-contact-information')}
-                  </h2>
-                  {link}
-                </>
-              )}
+              {app === APP_NAMES.PRE_CHECK_IN &&
+                !getPreCheckinComplete(window)?.complete && (
+                  <>
+                    <h2 className="vads-u-font-size--sm">
+                      {t('review-contact-information')}
+                    </h2>
+                    {link}
+                  </>
+                )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
                 <div data-testid="appointment-details--date-value">
@@ -373,6 +386,9 @@ const AppointmentDetails = props => {
                 )}
               </div>
               {app === APP_NAMES.CHECK_IN && link}
+              {app === APP_NAMES.PRE_CHECK_IN && (
+                <PrepareContent router={router} smallHeading />
+              )}
             </div>
           </Wrapper>
         </>

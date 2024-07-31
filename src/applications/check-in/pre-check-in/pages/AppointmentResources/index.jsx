@@ -19,7 +19,7 @@ const AppointmentResources = props => {
     <>
       <BackButton router={router} action={goBack} prevUrl="#back" />
       <Wrapper pageTitle={t('what-should-i-bring')} withBackButton>
-        <div data-testId="resouces-page">
+        <div data-testid="resouces-page">
           <p>{t('bring-insurance-cards-and-identification')}</p>
           <p>{t('bring-list-of-medications-including')}</p>
           <ul>
