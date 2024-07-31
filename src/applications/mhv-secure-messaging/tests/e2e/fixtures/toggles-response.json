@@ -21,6 +21,10 @@
       {
         "name": "cerner_transition_556_t5",
         "value": true
+      },
+      {
+        "name": "mhvSecureMessagingEditContactList",
+        "value": true
       }
     ]
   }
