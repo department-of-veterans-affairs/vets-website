@@ -15,6 +15,9 @@ const MessageActionButtons = props => {
     handleReplyButton,
     isCreateNewModalVisible,
     setIsCreateNewModalVisible,
+    showEditDraftButton = false,
+    handleEditDraftButton,
+    hasMultipleDrafts = false,
   } = props;
   const dispatch = useDispatch();
   const folders = useSelector(state => state.sm.folders.folderList);
@@ -36,6 +39,26 @@ const MessageActionButtons = props => {
             visible={!hideReplyButton}
             onReply={handleReplyButton}
           />
+        </div>
+      )}
+      {showEditDraftButton && (
+        <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
+          <button
+            type="button"
+            className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
+            data-testid="edit-draft-button-body"
+            onClick={handleEditDraftButton}
+          >
+            <div className="vads-u-margin-right--0p5">
+              <va-icon icon="undo" aria-hidden="true" />
+            </div>
+            <span
+              className="message-action-button-text"
+              data-testid="edit-draft-button-body-text"
+            >
+              {`Edit draft repl${hasMultipleDrafts ? 'ies' : 'y'}`}
+            </span>
+          </button>
         </div>
       )}
 
@@ -71,11 +94,14 @@ const MessageActionButtons = props => {
 };
 
 MessageActionButtons.propTypes = {
+  handleEditDraftButton: PropTypes.func,
   handleReplyButton: PropTypes.func,
+  hasMultipleDrafts: PropTypes.bool,
   hideReplyButton: PropTypes.bool,
   isCreateNewModalVisible: PropTypes.bool,
   messageId: PropTypes.number,
   setIsCreateNewModalVisible: PropTypes.func,
+  showEditDraftButton: PropTypes.bool,
   threadId: PropTypes.number,
 };
 

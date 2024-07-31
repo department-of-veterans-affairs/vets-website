@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+import labsAndTests from './fixtures/labsAndTests.json';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -14,7 +14,7 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
 
   it('Understanding Your Results Chem/Hem Detail Page', () => {
     // Given As a Medical Records User I wanted to Navigate to "Chemistry And Hematology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[0]);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[1]);
 
     // When I want to get "help to be able to understand results" of my MR data
     ChemHemDetailsPage.verifyExpandUnderstandResults();
