@@ -35,6 +35,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     stationId: '983',
     friendlyName: 'Green team clinic',
   });
+
   const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
