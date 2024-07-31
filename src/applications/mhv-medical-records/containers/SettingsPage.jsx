@@ -225,8 +225,6 @@ const SettingsPage = () => {
           your sharing settings at any time.
         </p>
 
-        <p>What your electronic health information includes</p>
-
         <div className="vads-u-margin-bottom--3">
           <va-additional-info trigger="What your electronic health information includes">
             <ul>
