@@ -7,7 +7,9 @@ import FilesNeeded from '../claim-files-tab/FilesNeeded';
 function WhatYouNeedToDo({ claim }) {
   const { trackedItems, evidenceWaiverSubmitted5103 } = claim.attributes;
   const filesNeeded = trackedItems
-    ? getFilesNeeded(trackedItems).filter(
+    ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
+      // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.
+      getFilesNeeded(trackedItems).filter(
         i =>
           !(
             evidenceWaiverSubmitted5103 &&
