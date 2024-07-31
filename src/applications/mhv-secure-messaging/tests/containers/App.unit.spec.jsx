@@ -101,9 +101,6 @@ describe('App', () => {
       ...initialState,
       featureToggles: {},
     };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = false;
 
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: customState,
@@ -126,9 +123,6 @@ describe('App', () => {
       ...initialState,
       ...noDowntime,
     };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
@@ -145,10 +139,6 @@ describe('App', () => {
   it('renders the global downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: true,
           isReady: true,
@@ -177,10 +167,6 @@ describe('App', () => {
   it('renders the downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -212,10 +198,6 @@ describe('App', () => {
   it('renders the downtime notification for multiple configured services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -247,10 +229,6 @@ describe('App', () => {
   it('renders the downtime notification for mixed services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -282,10 +260,6 @@ describe('App', () => {
   it('does NOT render the downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -320,9 +294,6 @@ describe('App', () => {
       },
       ...noDowntime,
     };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
@@ -334,9 +305,6 @@ describe('App', () => {
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -352,9 +320,6 @@ describe('App', () => {
     customState.featureToggles[
       `${'mhv_secure_messaging_cerner_pilot'}`
     ] = false;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -367,13 +332,7 @@ describe('App', () => {
 
   it('displays Page Not Found component if bad url', () => {
     const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
-        ...initialState,
-      },
+      initialState,
       reducers: reducer,
       path: `/sdfsdf`,
     });
