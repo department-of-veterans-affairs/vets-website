@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { makeSelectCurrentContext, makeSelectForm } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
 import { useStorage } from '../../hooks/useStorage';
@@ -27,6 +28,9 @@ const ReloadWrapper = props => {
   const currentForm = useSelector(selectForm);
   const { updateError } = useUpdateError();
   const progressState = getProgressState(window);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
+
   const { checkInDataError, refreshCheckInData, isLoading } = useGetCheckInData(
     {
       refreshNeeded: false,
@@ -71,7 +75,9 @@ const ReloadWrapper = props => {
             }),
           );
           refreshCheckInData();
-          refreshUpcomingData();
+          if (isUpcomingAppointmentsEnabled) {
+            refreshUpcomingData();
+          }
         } else {
           setRefreshData(false);
         }
