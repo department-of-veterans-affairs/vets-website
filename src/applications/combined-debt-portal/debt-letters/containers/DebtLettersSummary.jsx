@@ -16,6 +16,7 @@ import alertMessage from '../../combined/utils/alert-messages';
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
   const showOther = statements > 0;
+  const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
 
   return (
     <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
@@ -30,6 +31,15 @@ const renderAlert = (alertType, statements) => {
           {alertInfo.secondBody}
         </>
       )}
+      {showVAReturnLink ? (
+        <va-link
+          active
+          class="vads-u-margin-top--2"
+          data-testid="return-to-va-link"
+          href="https://va.gov"
+          text="Return to VA.gov"
+        />
+      ) : null}
     </va-alert>
   );
 };

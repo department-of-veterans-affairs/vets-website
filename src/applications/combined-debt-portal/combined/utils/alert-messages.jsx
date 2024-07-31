@@ -82,21 +82,13 @@ const alertMessage = (alertType, appType) => {
             : `You haven't received a copay bill in the past 6 months`,
         body:
           appType === APP_TYPES.DEBT ? (
-            <>
-              <p>
-                Our records show you don’t have any current debt related to VA
-                benefits. If you think this is incorrect, call the Debt
-                Management Center (DMC) at <va-telephone contact="8008270648" />{' '}
-                (<va-telephone tty contact="711" />
-                ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              </p>
-              <va-link
-                href="https://va.gov"
-                active
-                text="Return to VA.gov"
-                class="vads-u-margin-top--2"
-              />
-            </>
+            <p>
+              Our records show you don’t have any current debt related to VA
+              benefits. If you think this is incorrect, call the Debt Management
+              Center (DMC) at <va-telephone contact="8008270648" /> (
+              <va-telephone tty contact="711" />
+              ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
           ) : (
             <p>
               If you think this is incorrect, contact the VA Health Resource
