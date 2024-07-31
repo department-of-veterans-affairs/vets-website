@@ -1,12 +1,17 @@
 import {
   emailSchema,
   emailUI,
-  phoneSchema,
-  phoneUI,
   radioSchema,
   radioUI,
   titleUI,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
 
 const typeOfPhoneOptions = {
   CELL: 'Cell',
@@ -20,20 +25,22 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    phone: phoneUI('Primary number'),
+    phone: internationalPhoneUI('Primary number'),
     typeOfPhone: radioUI({
       title: 'Type of phone',
       labels: typeOfPhoneOptions,
     }),
+    canReceiveTexts: yesNoUI('Can this number receive text messages?'),
     email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
+      phone: internationalPhoneSchema,
       typeOfPhone: radioSchema(Object.keys(typeOfPhoneOptions)),
+      canReceiveTexts: yesNoSchema,
       email: emailSchema,
     },
-    required: ['phone', 'email'],
+    required: ['phone', 'typeOfPhone', 'canReceiveTexts', 'email'],
   },
 };

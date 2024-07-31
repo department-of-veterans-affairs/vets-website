@@ -18,22 +18,10 @@ const SubtopicSelect = props => {
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
-
-  const errorMessages = { required: 'Please provide a response' };
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
     onChange(selectedValue);
-    setDirty(true);
-  };
-
-  const handleBlur = () => {
-    setDirty(true);
-  };
-
-  const showError = () => {
-    return dirty && !value ? errorMessages.required : false;
   };
 
   const getApiData = url => {
@@ -74,9 +62,7 @@ const SubtopicSelect = props => {
           id={id}
           name={id}
           value={value}
-          error={showError() || null}
           onVaSelect={handleChange}
-          onBlur={handleBlur}
           uswds
         >
           <option value="">&nbsp;</option>
@@ -92,9 +78,7 @@ const SubtopicSelect = props => {
         </VaSelect>
       ) : (
         <VaRadio
-          error={showError() || null}
           onVaValueChange={handleChange}
-          onBlur={handleBlur}
           className="vads-u-margin-top--neg3"
           uswds
         >
