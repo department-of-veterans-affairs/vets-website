@@ -6,6 +6,7 @@ import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
 
 import ResultsSummary from './resultsComponents/ResultsSummary';
+import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderationStatement';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
@@ -31,6 +32,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
       <h1>{H1}</h1>
       <div className="medium-8">
         <ResultsSummary formResponses={formResponses} />
+        <CarefulConsiderationStatement formResponses={formResponses} />
       </div>
     </article>
   );
