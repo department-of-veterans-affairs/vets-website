@@ -42,7 +42,6 @@
           "clientId": "vaweb"
         },
         "authnContext": "myhealthevet_loa3",
-        "inheritedProofVerified": false,
         "claims": {
           "appeals": true,
           "ch33BankAccounts": false,
