@@ -4,11 +4,7 @@ import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import { requiredFiles } from '../../config/requiredUploads';
-import {
-  uploadWithInfoComponent,
-  // acceptableFiles,
-  mailOrFaxLaterMsg,
-} from '../Sponsor/sponsorFileUploads';
+import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
 
@@ -27,6 +23,9 @@ export function isRequiredFile(formContext) {
     ? '(Required)'
     : '(Optional)';
 }
+
+const mailOrFaxLaterMsg =
+  'If you don’t have a copy to upload now, you can send one by mail or fax.';
 
 const marriageDocumentList = (
   <>
