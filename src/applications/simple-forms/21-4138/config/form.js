@@ -106,7 +106,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  hideUnauthedStartLink: true,
+  // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
+  hideUnauthedStartLink: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:

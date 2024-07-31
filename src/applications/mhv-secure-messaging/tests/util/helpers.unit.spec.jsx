@@ -10,9 +10,15 @@ import {
   navigateToFolderByFolderId,
   navigateToFoldersPage,
   setCaretToPos,
+  setUnsavedNavigationError,
   titleCase,
+  updateDrafts,
 } from '../../util/helpers';
-import { DefaultFolders as Folders, Paths } from '../../util/constants';
+import {
+  DefaultFolders as Folders,
+  Paths,
+  ErrorMessages,
+} from '../../util/constants';
 import threadWithDraftResponse from '../fixtures/message-thread-with-draft-response.json';
 import CrisisLineConnectButton from '../../components/CrisisLineConnectButton';
 
@@ -29,7 +35,7 @@ describe('MHV Secure Messaging helpers', () => {
     expect(folderPathByFolderId(null)).to.equal('/');
   });
 
-  it('navigateToFolderByFolderId shold redirect to correct path', () => {
+  it('navigateToFolderByFolderId should redirect to correct path', () => {
     const mockHistory = {
       push: sinon.spy(),
     };
@@ -38,7 +44,7 @@ describe('MHV Secure Messaging helpers', () => {
     sinon.assert.calledWith(mockHistory.push, '/folders/123/');
   });
 
-  it('navigateToFoldersPage shold redirect to correct path', () => {
+  it('navigateToFoldersPage should redirect to correct path', () => {
     const mockHistory = {
       push: sinon.spy(),
     };
@@ -82,5 +88,64 @@ describe('MHV Secure Messaging helpers', () => {
     setCaretToPos(input, 0);
     expect(input.selectionStart).to.equal(0);
     expect(input.selectionEnd).to.equal(0);
+  });
+
+  it('setUnsavedNavigationError should set the correct unable to save draft error', () => {
+    const setNavigationError = sinon.spy();
+    const navigationError = {
+      title: "We can't save attachments in a draft message",
+      p1:
+        "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
+      saveDraft: 'Save draft without attachments',
+      editDraft: 'Keep editing',
+      confirmButtonText: 'Keep editing',
+      cancelButtonText: 'Save draft without attachments',
+    };
+    setUnsavedNavigationError(
+      ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
+      setNavigationError,
+      ErrorMessages,
+    );
+    sinon.assert.calledWith(setNavigationError, navigationError);
+  });
+
+  it('setUnsavedNavigationError should set the correct unable to save error', () => {
+    const setNavigationError = sinon.spy();
+    const navigationError = {
+      title: "We can't save this message yet",
+      p1: 'We need more information from you before we can save this draft.',
+      p2:
+        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      confirmButtonText: 'Continue editing',
+      cancelButtonText: 'Delete draft',
+    };
+    setUnsavedNavigationError(
+      ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+      setNavigationError,
+      ErrorMessages,
+    );
+    sinon.assert.calledWith(setNavigationError, navigationError);
+  });
+
+  it('updateDrafts should update drafts', () => {
+    const drafts = [
+      {
+        id: 1,
+        attributes: {
+          message: 'existing array draft',
+        },
+      },
+    ];
+    const draft = {
+      0: {
+        id: 1,
+        message: 'converted to array draft',
+      },
+    };
+    const existingArrDraft = updateDrafts(drafts);
+    expect(existingArrDraft).to.eql(drafts);
+
+    const convertedArrDraft = updateDrafts(draft);
+    expect(convertedArrDraft).to.eql([draft[0]]);
   });
 });
