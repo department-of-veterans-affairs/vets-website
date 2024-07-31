@@ -74,7 +74,7 @@ export default function RequestedStatusAlert({ appointment, facility }) {
                 onClick={handleClick(history, dispatch, typeOfCare)}
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                tabindex="0"
+                role="link"
               />
             </div>
           </>

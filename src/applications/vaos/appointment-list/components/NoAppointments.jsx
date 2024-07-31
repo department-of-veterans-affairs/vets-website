@@ -60,7 +60,7 @@ export default function NoAppointments({
               onClick={handleClick(history, dispatch, typeOfCare)}
               text="Schedule an appointment"
               data-testid="schedule-appointment-link"
-              tabindex="0"
+              role="link"
             />
           </div>
         </>

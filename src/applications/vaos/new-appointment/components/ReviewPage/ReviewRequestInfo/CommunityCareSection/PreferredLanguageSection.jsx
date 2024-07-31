@@ -40,7 +40,7 @@ export default function PreferredLanguageSection({ data }) {
             aria-label="Edit prefered language"
             text="Edit"
             data-testid="edit-preferred-language"
-            tabindex="0"
+            role="link"
           />
         </div>
       </div>

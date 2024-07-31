@@ -93,7 +93,7 @@ function ConfirmationPageV2({
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
+            role="link"
           />
         </div>
       </InfoAlert>

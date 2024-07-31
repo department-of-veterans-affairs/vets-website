@@ -71,7 +71,7 @@ export default function ConfirmationDirectScheduleInfoV2({
             text="Schedule a new appointment"
             onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"
-            tabindex="0"
+            role="link"
           />
         </div>
       </InfoAlert>

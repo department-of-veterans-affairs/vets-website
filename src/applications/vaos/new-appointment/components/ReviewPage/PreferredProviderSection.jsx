@@ -65,7 +65,7 @@ export default function PreferredProviderSection(props) {
                 aria-label="Edit provider preference"
                 text="Edit"
                 data-testid="edit-new-appointment"
-                tabindex="0"
+                role="link"
               />
             </div>
           </div>

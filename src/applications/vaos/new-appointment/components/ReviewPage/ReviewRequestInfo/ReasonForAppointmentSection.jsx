@@ -75,7 +75,7 @@ export default function ReasonForAppointmentSection({ data }) {
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, pageFlow)}
-              tabindex="0"
+              role="link"
             />
           </div>
         </div>
