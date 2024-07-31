@@ -82,7 +82,13 @@ const EditContactList = () => {
       />
 
       <h1>Contact list</h1>
-      <p className="vads-u-margin-bottom--4">
+      <p
+        className={`${
+          allFacilities.length > 1 || showBlockedTriageGroupAlert
+            ? 'vads-u-margin-bottom--4'
+            : 'vads-u-margin-bottom--0'
+        }`}
+      >
         Select the teams you want to show in your contact list when you start a
         new message.{' '}
       </p>
