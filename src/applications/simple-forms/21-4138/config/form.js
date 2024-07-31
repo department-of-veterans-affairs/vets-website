@@ -61,21 +61,32 @@ import {
 
 const mockData = testData.data;
 
-const scrollAndFocusTarget = () => {
-  scrollTo('topScrollElement');
-  focusByOrder(['va-segmented-progress-bar', 'h1']);
-};
-
-const scrollAndFocusRadioOrCheckboxGroup = () => {
-  scrollTo('topScrollElement');
-  const radio = document.querySelector('va-radio');
-  const checkboxGroup = document.querySelector('va-checkbox-group');
-  if (radio) {
-    waitForRenderThenFocus('h1', radio.shadowRoot);
-  }
-  if (checkboxGroup) {
-    waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
-  }
+/** @type {FormConfig} */
+const minimalFlowProps = {
+  v3SegmentedProgressBar: {
+    useDiv: true,
+  },
+  CustomTopContent,
+  showSaveLinkAfterButtons: true,
+  useTopBackLink: true,
+  useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: () => {
+    setTimeout(() => {
+      scrollTo('header-minimal');
+      const radio = document.querySelector('va-radio[label-header-level]');
+      const checkboxGroup = document.querySelector(
+        'va-checkbox-group[label-header-level]',
+      );
+      if (radio) {
+        waitForRenderThenFocus('h1', radio.shadowRoot);
+      } else if (checkboxGroup) {
+        waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
+      } else {
+        focusByOrder(['h1', 'va-segmented-progress-bar']);
+      }
+    }, 200);
+  },
+  hideFormTitle: true,
 };
 
 /** @type {FormConfig} */
@@ -101,9 +112,6 @@ const formConfig = {
       saved: 'Your statement in support of a claim application has been saved.',
     },
   },
-  v3SegmentedProgressBar: {
-    useDiv: true,
-  },
   version: 0,
   prefillEnabled: true,
   // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
@@ -116,15 +124,11 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  showSaveLinkAfterButtons: true,
-  useTopBackLink: true,
-  CustomTopContent,
-  useCustomScrollAndFocus: true,
+  ...minimalFlowProps,
   chapters: {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
-      hideFormTitle: true,
       hideOnReviewPage: true,
       pages: {
         statementTypePage: {
@@ -135,7 +139,6 @@ const formConfig = {
           pageClass: 'statement-type',
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
-          scrollAndFocusTarget: scrollAndFocusRadioOrCheckboxGroup,
           hideSaveLinkAndStatus: true,
         },
         layWitnessStatementPage: {
@@ -147,7 +150,6 @@ const formConfig = {
           schema: layWitnessStatementPage.schema,
           pageClass: 'lay-witness-statement',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         decisionReviewPage: {
           depends: formData =>
@@ -157,7 +159,6 @@ const formConfig = {
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         newSupplementalClaimPage: {
@@ -170,7 +171,6 @@ const formConfig = {
           schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         selectDecisionReviewPage: {
           depends: formData =>
@@ -181,7 +181,6 @@ const formConfig = {
           uiSchema: selectDecisionReviewPage.uiSchema,
           schema: selectDecisionReviewPage.schema,
           pageClass: 'select-decision-review',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
@@ -195,7 +194,6 @@ const formConfig = {
           schema: supplementalClaimPage.schema,
           pageClass: 'supplemental-claim',
           hideNavButtons: true,
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         higherLevelReviewPage: {
@@ -209,7 +207,6 @@ const formConfig = {
           schema: higherLevelReviewPage.schema,
           pageClass: 'higher-level-review',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         boardAppealPage: {
           depends: formData =>
@@ -222,7 +219,6 @@ const formConfig = {
           schema: boardAppealPage.schema,
           pageClass: 'board-appeal',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         aboutPriorityProcessingPage: {
           depends: formData =>
@@ -232,7 +228,6 @@ const formConfig = {
           uiSchema: aboutPriorityProcessingPage.uiSchema,
           schema: aboutPriorityProcessingPage.schema,
           pageClass: 'about-priority-processing',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         housingRisksPage: {
@@ -244,7 +239,6 @@ const formConfig = {
           uiSchema: housingRisksPage.uiSchema,
           schema: housingRisksPage.schema,
           pageClass: 'housing-risks',
-          scrollAndFocusTarget: scrollAndFocusRadioOrCheckboxGroup,
           hideSaveLinkAndStatus: true,
         },
         otherHousingRisksPage: {
@@ -256,7 +250,6 @@ const formConfig = {
           uiSchema: otherHousingRisksPage.uiSchema,
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         hardshipsPage: {
@@ -267,7 +260,6 @@ const formConfig = {
           uiSchema: hardshipsPage.uiSchema,
           schema: hardshipsPage.schema,
           pageClass: 'hardships',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         priorityProcessingNotQualifiedPage: {
@@ -277,7 +269,6 @@ const formConfig = {
           uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
           schema: priorityProcessingNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
-          scrollAndFocusTarget,
           hideSaveLinkAndStatus: true,
         },
         priorityProcessingRequestPage: {
@@ -291,7 +282,6 @@ const formConfig = {
           schema: priorityProcessingRequestPage.schema,
           pageClass: 'priority-processing-request',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         personalRecordsRequestPage: {
           depends: formData =>
@@ -302,7 +292,6 @@ const formConfig = {
           schema: personalRecordsRequestPage.schema,
           pageClass: 'personal-records-request',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
         claimStatusToolPage: {
           depends: formData =>
@@ -313,13 +302,11 @@ const formConfig = {
           schema: claimStatusToolPage.schema,
           pageClass: 'claim-status-tool',
           hideNavButtons: true,
-          scrollAndFocusTarget,
         },
       },
     },
     personalInformationChapter: {
       title: 'Your personal information',
-      hideFormTitle: true,
       pages: {
         personalInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -328,13 +315,11 @@ const formConfig = {
           uiSchema: personalInformationPage.uiSchema,
           schema: personalInformationPage.schema,
           pageClass: 'personal-information',
-          scrollAndFocusTarget,
         },
       },
     },
     identificationChapter: {
       title: 'Your identification information',
-      hideFormTitle: true,
       pages: {
         identificationInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -343,13 +328,11 @@ const formConfig = {
           uiSchema: identificationInformationPage.uiSchema,
           schema: identificationInformationPage.schema,
           pageClass: 'identification-information',
-          scrollAndFocusTarget,
         },
       },
     },
     mailingAddressChapter: {
       title: 'Your mailing address',
-      hideFormTitle: true,
       pages: {
         mailingAddressPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -358,13 +341,11 @@ const formConfig = {
           uiSchema: mailingAddressPage.uiSchema,
           schema: mailingAddressPage.schema,
           pageClass: 'mailing-address',
-          scrollAndFocusTarget,
         },
       },
     },
     contactInformationChapter: {
       title: 'Your contact information',
-      hideFormTitle: true,
       pages: {
         contactInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -373,13 +354,11 @@ const formConfig = {
           uiSchema: contactInformationPage.uiSchema,
           schema: contactInformationPage.schema,
           pageClass: 'contact-information',
-          scrollAndFocusTarget,
         },
       },
     },
     statementChapter: {
       title: 'Your statement',
-      hideFormTitle: true,
       pages: {
         statementPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -388,7 +367,6 @@ const formConfig = {
           uiSchema: statementPage.uiSchema,
           schema: statementPage.schema,
           pageClass: 'statement',
-          scrollAndFocusTarget,
         },
       },
     },
