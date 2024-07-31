@@ -26,7 +26,7 @@ const formConfig = {
     environment.API_URL
   }/accredited_representative_portal/v0/form21a`,
   trackingPrefix: '21a-',
-  title: 'Apply to become a VA accredited attorney or claims agent',
+  title: 'Apply to become a VA-accredited attorney or claims agent',
   subTitle: 'VA Form 21a',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -51,18 +51,18 @@ const formConfig = {
   saveInProgress: {
     messages: {
       inProgress:
-        'Your application to become a VA accredited attorney or claims agent (21a) is in progress.',
+        'Your application to become a VA-accredited attorney or claims agent (21a) is in progress.',
       expired:
-        'Your saved application to become a VA accredited attorney or claims agent (21a) has expired. If you want to apply to become a VA accredited attorney or claims agent, please start a new application.',
+        'Your saved application to become a VA-accredited attorney or claims agent (21a) has expired. If you want to apply to become a VA-accredited attorney or claims agent, please start a new application.',
       saved:
-        'Your application to become a VA accredited attorney or claims agent (21a) has been saved.',
+        'Your application to become a VA-accredited attorney or claims agent (21a) has been saved.',
     },
   },
   savedFormMessages: {
     notFound:
-      'Please start over to apply to become a VA accredited attorney or claims agent.',
+      'Please start over to apply to become a VA-accredited attorney or claims agent.',
     noAuth:
-      'Please sign in again to continue your application to become a VA accredited attorney or claims agent.',
+      'Please sign in again to continue your application to become a VA-accredited attorney or claims agent.',
   },
   defaultDefinitions: {},
   chapters: {
