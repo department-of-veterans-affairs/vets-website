@@ -204,7 +204,7 @@ describe('getPhone', () => {
           countryCode: '1',
           areaCode: '222',
           phoneNumber: '1234567',
-          phoneNumberExt: '0000',
+          extension: '0000',
           extra: 'will not be included',
         }),
       ),
