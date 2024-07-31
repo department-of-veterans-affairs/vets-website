@@ -126,7 +126,6 @@ const WhatToDoNext = props => {
                     <ActionLink
                       app={app}
                       action={action}
-                      cardTitleId={cardTitleId}
                       startTime={appointment.startTime}
                       appointmentId={getAppointmentId(appointment)}
                     />
