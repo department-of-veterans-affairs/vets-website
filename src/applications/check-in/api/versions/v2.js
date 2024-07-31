@@ -260,7 +260,18 @@ const v2 = {
       uuid,
       true,
     );
-
+    return {
+      ...json,
+    };
+  },
+  getUpcomingAppointmentsData: async token => {
+    const url = `/check_in/v2/sessions/${token}/appointments`;
+    const requestUrl = `${environment.API_URL}${url}`;
+    const json = await makeApiCallWithSentry(
+      apiRequest(requestUrl),
+      'get-upcoming-appointment-data',
+      token,
+    );
     return {
       ...json,
     };
