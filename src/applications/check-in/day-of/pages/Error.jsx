@@ -2,11 +2,16 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 
-import { makeSelectError, makeSelectForm } from '../../selectors';
+import {
+  makeSelectError,
+  makeSelectForm,
+  makeSelectVeteranData,
+} from '../../selectors';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import Wrapper from '../../components/layout/Wrapper';
 import { phoneNumbers } from '../../utils/appConstants';
 import ExternalLink from '../../components/ExternalLink';
+import ConfirmationAccordionBlock from '../../components/ConfirmationAccordionBlock';
 
 const Error = () => {
   const { t } = useTranslation();
@@ -19,6 +24,9 @@ const Error = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
+
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
 
   let alerts = [];
   let header = '';
@@ -101,7 +109,7 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          alertType: 'error',
+          type: 'error',
           message: t(
             'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
           ),
@@ -112,10 +120,10 @@ const Error = () => {
     case 'check-in-past-appointment':
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      header = t('this-link-has-expired');
+      header = t('sorry-this-link-has-expired');
       alerts = [
         {
-          type: 'info',
+          type: 'warning',
           message: (
             <Trans
               i18nKey="trying-to-check-in-for-an-appointment--info-message"
@@ -163,7 +171,7 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          type: 'info',
+          type: 'error',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
@@ -200,6 +208,9 @@ const Error = () => {
           )}
         </div>
       ))}
+      {error !== 'max-validation' && (
+        <ConfirmationAccordionBlock errorPage appointments={appointments} />
+      )}
     </Wrapper>
   );
 };
