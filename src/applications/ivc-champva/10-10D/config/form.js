@@ -82,7 +82,6 @@ import {
   applicantOhiCardsUploadUiSchema,
   applicantOtherInsuranceCertificationUploadUiSchema,
 } from '../components/Applicant/applicantFileUpload';
-import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
 import {
@@ -253,7 +252,6 @@ const formConfig = {
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
-            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
@@ -261,7 +259,6 @@ const formConfig = {
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -275,7 +272,6 @@ const formConfig = {
               'Your contact information',
               'We use this information to contact you if we have more questions.',
             ),
-            ...noPhoneInfo.uiSchema,
             certifierPhone: phoneUI(),
           },
           schema: {
@@ -283,7 +279,6 @@ const formConfig = {
             required: ['certifierPhone'],
             properties: {
               titleSchema,
-              ...noPhoneInfo.schema,
               certifierPhone: phoneSchema,
             },
           },
@@ -474,7 +469,6 @@ const formConfig = {
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
               'We’ll send any important information about this application to this address.',
             ),
-            ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
@@ -489,7 +483,6 @@ const formConfig = {
             required: ['sponsorAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
               sponsorAddress: addressSchema(),
             },
           },
@@ -509,7 +502,6 @@ const formConfig = {
                 return `Having this information helps us contact ${first} faster if we have questions about ${second} information.`;
               },
             ),
-            ...noPhoneInfo.uiSchema,
             sponsorPhone: {
               ...phoneUI({
                 title: 'Phone number',
@@ -522,7 +514,6 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               titleSchema,
-              ...noPhoneInfo.schema,
               sponsorPhone: phoneSchema,
             },
           },
@@ -669,7 +660,6 @@ const formConfig = {
                   'ui:description':
                     'We’ll send any important information about your application to this address.',
                 },
-                ...homelessInfo.uiSchema,
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -684,7 +674,6 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'view:description': blankSchema,
-            ...homelessInfo.schema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -702,7 +691,6 @@ const formConfig = {
                     `${applicantWording(formData)} contact information`,
                   'This information helps us contact you faster if we need to follow up with you about your application',
                 ),
-                ...noPhoneInfo.uiSchema,
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),
               },
@@ -710,7 +698,6 @@ const formConfig = {
           },
           schema: applicantListSchema(['applicantPhone'], {
             titleSchema,
-            ...noPhoneInfo.schema,
             applicantPhone: phoneSchema,
             applicantEmailAddress: emailSchema,
           }),
