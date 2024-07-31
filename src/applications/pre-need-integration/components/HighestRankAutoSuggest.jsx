@@ -71,10 +71,11 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
         const rankStartDate = parseDate(row['Begin Date']);
         const rankEndDate = parseDate(row['End Date']);
         const isBranchMatch = row['Branch Of Service Code'] === branch;
+
         const isStartDateMatch =
-          !serviceStartDate || rankEndDate >= serviceStartDate;
+          !serviceStartDate || !rankEndDate || rankEndDate >= serviceStartDate;
         const isEndDateMatch =
-          !serviceEndDate || rankStartDate <= serviceEndDate;
+          !serviceEndDate || !rankStartDate || rankStartDate <= serviceEndDate;
 
         return isBranchMatch && isStartDateMatch && isEndDateMatch;
       })
