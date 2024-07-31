@@ -1,13 +1,14 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import { Paths } from '../../../util/constants';
 import noBlockedRecipients from '../../fixtures/json-triage-mocks/triage-teams-mock.json';
+import AttachmentsList from '../../../components/AttachmentsList';
 
 describe('Attachments List component', () => {
   const initialState = {
@@ -50,6 +51,36 @@ describe('Attachments List component', () => {
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     expect(screen);
+  });
+
+  it('renders attachment when editing disabled', async () => {
+    const customProps = {
+      attachments: [
+        {
+          id: 2664842,
+          messageId: 2664846,
+          name: 'BIRD 1.gif',
+          attachmentSize: 31127,
+          download:
+            'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
+        },
+      ],
+    };
+    const screen = render(<AttachmentsList {...customProps} />);
+    expect(document.querySelector('.message-body-attachments-label')).to.exist;
+    expect(screen.getByTestId('attachments-count').textContent).to.equal(
+      ' (1)',
+    );
+    expect(screen.getAllByRole('listitem')).to.have.length(1);
+    const attachmentLink = screen.getByTestId(
+      `attachment-link-metadata-${customProps.attachments[0].id}`,
+    );
+    expect(attachmentLink).to.have.attribute(
+      'href',
+      customProps.attachments[0].download,
+    );
+    expect(attachmentLink).to.have.attribute('target', '_blank');
+    expect(attachmentLink).to.have.attribute('tabindex', '0');
   });
 
   it('displays file-attached alert only after file successfully attached', async () => {
