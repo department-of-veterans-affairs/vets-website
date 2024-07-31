@@ -10,7 +10,7 @@ import {
   VaLinkAction,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { requiredFiles, optionalFiles } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
 

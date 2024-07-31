@@ -12,7 +12,7 @@ import ApplicantRelationshipPage from '../../../../shared/components/applicantLi
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
-import { requiredFiles } from '../../../config/requiredUploads';
+import { requiredFiles } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
