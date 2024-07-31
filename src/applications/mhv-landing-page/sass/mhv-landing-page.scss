@@ -70,6 +70,7 @@ $anchor-font-size: 1.25rem; // == 20px
   }
 }
 
+
 .mhv-c-link-content {
   display: inline-flex;
   flex-wrap: wrap;
@@ -77,7 +78,7 @@ $anchor-font-size: 1.25rem; // == 20px
   width: 100%;
 }
 
-.mhv-c-link-text {
+.mhv-c-link-content > span:first-child {
   flex: 1;
   min-width: 0;
   padding-right: 4px;

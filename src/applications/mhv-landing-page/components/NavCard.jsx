@@ -29,15 +29,13 @@ const NavCard = ({
       >
         <span className="mhv-c-link-content">
           <span
-            className={`mhv-c-link-text ${
-              ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''
-            }`}
+            className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
           >
             {text} {isExternal && externalLinkText}
           </span>
           {!isExternal && (
             <va-icon
-              class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+              class="mhv-c-link-icon vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
               icon="navigate_next"
               size={4}
             />
