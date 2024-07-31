@@ -21,7 +21,7 @@ import {
 import pagePaths from './pagePaths';
 
 const TEST_URL =
-  '/burials-memorials/veterans-burial-allowance/apply-for-burial-benefits/introduction';
+  '/burials-memorials/veterans-burial-allowance/apply-for-allowance-form-21p-530ez/introduction';
 const IN_PROGRESS_URL = '/v0/in_progress_forms/21P-530V2';
 const BURIALS_CLAIMS_URL = '/v0/burial_claims';
 const CLAIM_ATTACHMENTS_URL = '/v0/claim_attachments';
