@@ -5,9 +5,6 @@ import {
   testNumberOfWebComponentFields,
   testComponentRender,
 } from '../../../../shared/tests/pages/pageTests.spec';
-// import ApplicantMedicareStatusContinuedPage, {
-//   ApplicantMedicareStatusContinuedReviewPage,
-// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
@@ -352,28 +349,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-/*
-// Commented out because this page doesn't exist currently (but may in future)
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page20.schema,
-  formConfig.chapters.applicantInformation.pages.page20.uiSchema,
-  0,
-  'Upload supporting documents',
-  { applicants },
-);
-*/
-
-// testComponentRender(
-//   'ApplicantMedicareStatusContinuedPage',
-//   <ApplicantMedicareStatusContinuedPage data={{}} />,
-// );
-
-// testComponentRender(
-//   'ApplicantMedicareStatusContinuedReviewPage ',
-//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-// );
-
 testComponentRender(
   'ApplicantRelationshipPage ',
   <ApplicantRelationshipPage data={{}} />,
@@ -445,19 +420,6 @@ describe('title text logic', () => {
     expect(titleCount > 0).to.be.true;
   });
 });
-
-/*
-// Existing dummy submit function is useless - commenting this test out
-// until we have a proper submit method.
-describe('submit property of formConfig', () => {
-  it('should be a promise', () => {
-    const goToPathSpy = sinon.spy(formConfig.submit);
-    formConfig.submit().then(() => {
-      expect(goToPathSpy.called).to.be.true;
-    });
-  });
-});
-*/
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {
