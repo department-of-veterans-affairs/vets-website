@@ -217,7 +217,9 @@ describe('App', () => {
     await waitFor(() => {
       const [date, time] = formatDateTime(previousYearDate);
       userEvent.selectOptions(
-        screen.getByLabelText('Show appointments in this order'),
+        screen.getByLabelText(
+          'Show appointments with travel claims in this order',
+        ),
         ['oldest'],
       );
       expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be
@@ -233,7 +235,9 @@ describe('App', () => {
     await waitFor(() => {
       const [date, time] = formatDateTime(aprDate);
       userEvent.selectOptions(
-        screen.getByLabelText('Show appointments in this order'),
+        screen.getByLabelText(
+          'Show appointments with travel claims in this order',
+        ),
         ['mostRecent'],
       );
       expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be

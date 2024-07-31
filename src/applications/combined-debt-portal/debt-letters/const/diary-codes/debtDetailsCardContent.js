@@ -278,7 +278,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '430':
     case '431':
       return {
-        headerText: `We're offsetting your education benefits each month until your debt is paid`,
+        headerText: `We're reducing your education benefits each month until your debt is paid`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -311,7 +311,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '615':
     case '617':
       return {
-        headerText: `We're offsetting your benefit payments each month until your debt is paid`,
+        headerText: `We're reducing your benefit payments each month until your debt is paid`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -432,7 +432,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '681':
     case '682':
       return {
-        headerText: `The U.S. Department of the Treasury is offsetting your federal payments until your debt is paid`,
+        headerText: `The U.S. Department of the Treasury is reducing your federal payments until your debt is paid`,
         status: 'info',
         showIcon: false,
         showLinks: true,
