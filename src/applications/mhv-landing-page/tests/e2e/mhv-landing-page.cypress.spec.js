@@ -24,6 +24,14 @@ describe(`${appName} -- landing page`, () => {
     cy.findByRole('heading', heading).should('have.focus');
   });
 
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('renders the breadcrumbs', () => {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .findByRole('link', { name: /My HealtheVet/ });
+  });
+
   it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
   });
