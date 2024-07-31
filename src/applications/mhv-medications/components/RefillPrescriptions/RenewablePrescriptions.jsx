@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
-import { DD_ACTIONS_PAGE_TYPE, medicationsUrls } from '../../util/constants';
+import { medicationsUrls } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -72,9 +73,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         <Link
           data-testid="medications-page-link"
           to="/"
-          data-dd-action-name={`Go To Your Medications List Action Link - ${
-            DD_ACTIONS_PAGE_TYPE.REFILL
-          } - Renew Section`}
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK_RENEW
+          }
         >
           Go to your medications list
         </Link>
@@ -86,9 +88,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             '',
           )}
           data-testid="learn-to-renew-prescriptions-link"
-          data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
-            DD_ACTIONS_PAGE_TYPE.REFILL
-          } - Renew Section`}
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+          }
         >
           Learn how to renew prescriptions
         </Link>
