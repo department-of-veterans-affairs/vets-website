@@ -5,37 +5,26 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
-import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
-import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import {
-  signInServiceName as signInServiceNameSelector,
-  isAuthenticatedWithOAuth,
-  signInServiceEnabled,
-} from 'platform/user/authentication/selectors';
+import { signInServiceEnabled } from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
   isLOA3,
   selectUser,
-  mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import AutoSSO from './AutoSSO';
 import { selectUserGreeting } from '../selectors';
@@ -46,7 +35,6 @@ export class Main extends Component {
     window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
     this.bindModalTriggers();
-    this.bindNavbarLinks();
 
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
@@ -56,72 +44,74 @@ export class Main extends Component {
   }
 
   componentDidUpdate() {
-    const { currentlyLoggedIn, user } = this.props;
-    const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
-    const accountTransitionPreviouslyDismissed = localStorage.getItem(
-      ACCOUNT_TRANSITION_DISMISSED,
-    );
+    const { currentlyLoggedIn } = this.props;
 
     if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
-      if (
-        this.props.signInServiceName === 'mhv' &&
-        mhvTransitionEligible &&
-        !mhvTransitionComplete &&
-        !accountTransitionPreviouslyDismissed
-      ) {
-        this.props.toggleAccountTransitionModal(true);
-      }
-
-      if (
-        this.props.signInServiceName === 'logingov' &&
-        mhvTransitionComplete
-      ) {
-        this.props.toggleAccountTransitionSuccessModal(true);
-      }
     }
   }
 
-  componentWillUnmount() {
-    this.unbindNavbarLinks();
-  }
+  handleSessionChange = event => {
+    if (!this.props.currentlyLoggedIn) return;
 
-  getNextParameter() {
+    const { key, newValue } = event;
+    if (!key || (key === 'hasSession' && !newValue)) {
+      this.props.updateLoggedInStatus(false);
+    }
+  };
+
+  closeLoginModal = () => {
+    this.props.toggleLoginModal(false);
+  };
+
+  closeModals = () => {
+    if (this.props.showFormSignInModal) this.closeFormSignInModal();
+    if (this.props.showLoginModal) this.closeLoginModal();
+  };
+
+  openLoginModal = () => {
+    this.props.toggleLoginModal(true);
+  };
+
+  signInSignUp = () => {
+    if (this.props.shouldConfirmLeavingForm) {
+      this.props.toggleFormSignInModal(true);
+    } else {
+      /**
+       * Make only one upfront request to get all backend statuses to prevent
+       * each identity dependency's warning banner from making duplicate
+       * requests when the sign-in modal renders.
+       */
+      //
+      this.props.getBackendStatuses();
+      this.props.toggleLoginModal(true, 'header');
+    }
+  };
+
+  getNextParameter = () => {
     return new URLSearchParams(window.location.search).get('next');
-  }
+  };
 
-  formatNextParameter() {
-    const nextParam = this.getNextParameter();
-    if (nextParam && nextParam !== 'loginModal') {
-      return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
+  closeFormSignInModal = () => {
+    this.props.toggleFormSignInModal(false);
+  };
+
+  bindModalTriggers = () => {
+    const triggers = Array.from(
+      document.querySelectorAll('.signin-signup-modal-trigger'),
+    );
+    triggers.forEach(t => t.addEventListener('click', this.openLoginModal));
+  };
+
+  checkLoggedInStatus = () => {
+    if (hasSession()) {
+      this.props.initializeProfile();
+    } else {
+      this.props.updateLoggedInStatus(false);
+      if (this.getNextParameter()) this.openLoginModal();
     }
-
-    return null;
-  }
-
-  appendOrRemoveParameter({
-    url = 'loginModal',
-    pageTitle = '',
-    useSiS = true,
-  } = {}) {
-    if (url === 'loginModal' && this.getNextParameter()) {
-      return null;
-    }
-    const location = window.location.toString();
-    const nextQuery = {
-      next: url,
-      ...(useSiS &&
-        this.props.useSignInService && {
-          oauth: true,
-        }),
-    };
-    const path = useSiS ? location : location.replace('&oauth=true', '');
-    const nextPath = appendQuery(path, nextQuery);
-    history.pushState({}, pageTitle, nextPath);
-
-    return nextQuery;
-  }
+  };
 
   executeRedirect() {
     const redirectUrl = this.formatNextParameter();
@@ -133,95 +123,16 @@ export class Main extends Component {
     }
   }
 
-  checkLoggedInStatus = () => {
-    if (hasSession()) {
-      this.props.initializeProfile();
-    } else {
-      this.props.updateLoggedInStatus(false);
-      if (this.getNextParameter()) this.openLoginModal();
+  formatNextParameter() {
+    const nextParam = this.getNextParameter();
+    if (nextParam && nextParam !== 'loginModal') {
+      return nextParam.startsWith('/') ? nextParam : `/${nextParam}`;
     }
-  };
 
-  handleSessionChange = event => {
-    if (!this.props.currentlyLoggedIn) return;
-
-    const { key, newValue } = event;
-    if (!key || (key === 'hasSession' && !newValue)) {
-      this.props.updateLoggedInStatus(false);
-    }
-  };
-
-  bindModalTriggers = () => {
-    const triggers = Array.from(
-      document.querySelectorAll('.signin-signup-modal-trigger'),
-    );
-    triggers.forEach(t => t.addEventListener('click', this.openLoginModal));
-  };
-
-  bindNavbarLinks = () => {
-    [...document.querySelectorAll('.login-required')].forEach(el => {
-      el.addEventListener('click', e => {
-        if (!this.props.currentlyLoggedIn) {
-          e.preventDefault();
-          const linkHref = el.getAttribute('href');
-          const pageTitle = el.textContent;
-          this.appendOrRemoveParameter({ url: linkHref, pageTitle });
-          this.openLoginModal();
-        }
-      });
-    });
-  };
-
-  unbindNavbarLinks = () => {
-    [...document.querySelectorAll('.login-required')].forEach(el => {
-      el.removeEventListener('click');
-    });
-  };
-
-  closeFormSignInModal = () => {
-    this.props.toggleFormSignInModal(false);
-  };
-
-  closeLoginModal = () => {
-    this.props.toggleLoginModal(false);
-    this.appendOrRemoveParameter({ useSiS: false });
-  };
-
-  closeAccountTransitionModal = () => {
-    this.props.toggleAccountTransitionModal(false);
-    localStorage.setItem(ACCOUNT_TRANSITION_DISMISSED, true);
-  };
-
-  closeAccountTransitionSuccessModal = () => {
-    this.props.toggleAccountTransitionSuccessModal(false);
-  };
-
-  closeModals = () => {
-    if (this.props.showFormSignInModal) this.closeFormSignInModal();
-    if (this.props.showLoginModal) this.closeLoginModal();
-  };
-
-  openLoginModal = () => {
-    this.props.toggleLoginModal(true);
-    this.appendOrRemoveParameter({});
-  };
-
-  signInSignUp = () => {
-    if (this.props.shouldConfirmLeavingForm) {
-      this.props.toggleFormSignInModal(true);
-    } else {
-      // Make only one upfront request to get all backend statuses to prevent
-      // each identity dependency's warning banner from making duplicate
-      // requests when the sign-in modal renders.
-      this.props.getBackendStatuses();
-      this.props.toggleLoginModal(true, 'header');
-      this.appendOrRemoveParameter({});
-    }
-  };
+    return null;
+  }
 
   render() {
-    const { mhvTransition, mhvTransitionModal } = this.props;
-
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -244,49 +155,36 @@ export class Main extends Component {
           visible={this.props.showLoginModal}
           useSiS={this.props.useSignInService}
         />
-        {mhvTransition &&
-          mhvTransitionModal && (
-            <AccountTransitionModal
-              onClose={this.closeAccountTransitionModal}
-              visible={this.props.showAccountTransitionModal}
-              canTransferMHVAccount={this.props.canTransferMHVAccount}
-              history={history}
-            />
-          )}
-        <AccountTransitionSuccessModal
-          onClose={this.closeAccountTransitionSuccessModal}
-          visible={this.props.showAccountTransitionSuccessModal}
-        />
         <AutoSSO />
       </div>
     );
   }
 }
 
-export const mapStateToProps = state => {
-  let formAutoSavedStatus;
-  let additionalRoutes;
-  let additionalSafePaths;
+const shouldConfirmLeavingCheck = form => {
+  const isFormAnObject = typeof form === 'object';
+  if (!isFormAnObject) return false;
 
+  const { autoSavedStatus = undefined, additionalRoutes = undefined } = form;
+  const additionalSafePaths =
+    (additionalRoutes && additionalRoutes.map(route => route?.path)) ??
+    undefined;
+
+  return (
+    typeof autoSavedStatus !== 'undefined' &&
+    autoSavedStatus !== SAVE_STATUSES.success &&
+    isInProgressPath(window.location.pathname, additionalSafePaths)
+  );
+};
+
+export const mapStateToProps = state => {
   const { form } = state;
-  if (typeof form === 'object') {
-    formAutoSavedStatus = form.autoSavedStatus;
-    additionalRoutes = form.additionalRoutes;
-    additionalSafePaths =
-      additionalRoutes && additionalRoutes.map(route => route.path);
-  }
-  const shouldConfirmLeavingForm =
-    typeof formAutoSavedStatus !== 'undefined' &&
-    formAutoSavedStatus !== SAVE_STATUSES.success &&
-    isInProgressPath(window.location.pathname, additionalSafePaths);
+  const shouldConfirmLeavingForm = shouldConfirmLeavingCheck(form);
 
   return {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
-    authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
-    mhvTransitionModal: mhvTransitionModalEnabled(state),
-    signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
     useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
@@ -300,8 +198,6 @@ const mapDispatchToProps = {
   initializeProfile,
   toggleFormSignInModal,
   toggleLoginModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
 };
@@ -314,23 +210,16 @@ export default connect(
 Main.propTypes = {
   getBackendStatuses: PropTypes.func.isRequired,
   initializeProfile: PropTypes.func.isRequired,
-  toggleAccountTransitionModal: PropTypes.func.isRequired,
-  toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
   toggleFormSignInModal: PropTypes.func.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
-  authenticatedWithOAuth: PropTypes.bool,
-  canTransferMHVAccount: PropTypes.bool,
+
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
-  mhvTransition: PropTypes.bool,
-  mhvTransitionModal: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
-  showAccountTransitionModal: PropTypes.bool,
-  showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
   showNavLogin: PropTypes.bool,
