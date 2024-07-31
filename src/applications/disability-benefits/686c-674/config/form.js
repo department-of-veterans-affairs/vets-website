@@ -207,6 +207,8 @@ const formConfig = {
             typeof formData?.currentMarriageInformation?.type === 'string' &&
             formData?.currentMarriageInformation?.type !==
               MARRIAGE_TYPES.ceremonial &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.civil &&
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
