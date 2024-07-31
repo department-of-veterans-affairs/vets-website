@@ -36,7 +36,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import NewConfirmationPage from '../../form-upload/containers/ConfirmationPage.new';
+import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
 const chapterSelectInitialData = {
   chapterSelect: {
