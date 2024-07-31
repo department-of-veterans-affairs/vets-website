@@ -132,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import { getStatementOfTruth } from '../content/statementOfTruth';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -187,7 +188,10 @@ const formConfig = {
   },
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
-  preSubmitInfo,
+  preSubmitInfo: {
+    ...preSubmitInfo,
+    statementOfTruth: getStatementOfTruth(),
+  },
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
