@@ -43,7 +43,7 @@ const defaultMockStore = ({
 
 const oldLocation = global.window.location;
 
-describe.skip('SignInApp', () => {
+describe('SignInApp', () => {
   afterEach(() => {
     cleanup();
   });
@@ -52,7 +52,9 @@ describe.skip('SignInApp', () => {
     const defaultProps = generateProps({ query: {} });
     global.window.location = new URL('https://dev.va.gov/sign-in/');
     renderInReduxProvider(<SignInPage {...defaultProps} />, {
-      initialState: defaultMockStore({ isLoggedIn: true }),
+      initialState: defaultMockStore({
+        isLoggedIn: true,
+      }),
     });
     expect(defaultProps.router.push.called).to.be.false;
     expect(global.window.location).to.eql('/');
@@ -86,7 +88,10 @@ describe.skip('SignInApp', () => {
   ['ebenefits', 'mhv', 'vaoccmobile'].forEach(app => {
     it(`should change 'oauth=true' to 'oauth=false' if the 'application=${app}' is not OAuth authorized`, () => {
       const defaultProps = generateProps({
-        query: { oauth: true, application: app },
+        query: {
+          oauth: true,
+          application: app,
+        },
       });
       const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
         initialState: defaultMockStore(),
@@ -103,7 +108,10 @@ describe.skip('SignInApp', () => {
   ['vamobile'].forEach(app => {
     it(`should keep 'oauth=false' if 'application=${app}' specified it`, () => {
       const defaultProps = generateProps({
-        query: { oauth: false, application: app },
+        query: {
+          oauth: false,
+          application: app,
+        },
       });
       const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
         initialState: defaultMockStore(),
@@ -118,7 +126,9 @@ describe.skip('SignInApp', () => {
 
     it(`should default to 'oauth=true' if not specified for 'application=${app}'`, () => {
       const defaultProps = generateProps({
-        query: { application: app },
+        query: {
+          application: app,
+        },
       });
       const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
         initialState: defaultMockStore(),
@@ -134,7 +144,9 @@ describe.skip('SignInApp', () => {
 
   it('should show a LogoutAlert when `auth=logged_out` query is present', () => {
     const defaultProps = generateProps({
-      query: { auth: 'logged_out' },
+      query: {
+        auth: 'logged_out',
+      },
     });
     const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
       initialState: defaultMockStore(),
@@ -142,5 +154,26 @@ describe.skip('SignInApp', () => {
     expect(wrapper.getByText(/You have successfully signed out./)).to.not.be
       .null;
     expect(wrapper.getByText(/Sign in/)).to.not.be.null;
+  });
+
+  it('should hide elements specified in the CSS', () => {
+    const defaultProps = generateProps({ query: {} });
+    renderInReduxProvider(<SignInPage {...defaultProps} />, {
+      initialState: defaultMockStore(),
+    });
+    const style = document.querySelector('style');
+    expect(style.innerHTML).to.contain(
+      '.hidden-header {\n    visibility:hidden;\n  }\n',
+    );
+  });
+
+  it('should render correctly in initial state without specific queries', () => {
+    const defaultProps = generateProps({ query: {} });
+    const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
+      initialState: defaultMockStore(),
+    });
+
+    expect(wrapper.getByText(/Sign in/)).to.not.be.null;
+    expect(defaultProps.router.push.called).to.be.true;
   });
 });

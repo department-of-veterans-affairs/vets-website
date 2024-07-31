@@ -26,7 +26,7 @@ h1:focus {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: $medium-large-screen) {
   .on-this-page-links {
     border: none;
     padding: 1em 1em 1em 0;
@@ -40,6 +40,14 @@ h1:focus {
   }
 }
 
+.vads-u-width--fit {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.vads-u-max-width--90 {
+  max-width: 90% !important;
+}
 .icon-color--warning {
   color: var(--vads-color-warning-dark);
 }
