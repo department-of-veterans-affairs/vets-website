@@ -15,7 +15,7 @@ export default {
       'ui:title': 'Enter any toxins or hazards you\u2019ve been exposed to',
       'ui:errorMessages': {
         pattern:
-          'You entered a character we can\u2019t accept. Remove any special characters other than these: . ? ! ,',
+          'You entered a character we can\u2019t accept. You can use only these characters: . , ! ?',
       },
     },
   },
