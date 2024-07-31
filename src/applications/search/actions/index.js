@@ -16,6 +16,7 @@ export function fetchSearchResults(query, page, options) {
     if (page) {
       queryString = queryString.concat(`&page=${page}`);
     }
+
     if (!query) {
       return dispatch({
         type: FETCH_SEARCH_RESULTS_EMPTY,
