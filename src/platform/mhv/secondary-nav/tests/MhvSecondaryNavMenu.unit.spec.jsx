@@ -6,30 +6,30 @@ import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 const testSecNavItems = [
   {
     title: 'My HealtheVet',
-    icon: 'fas fa-home',
+    icon: 'home',
     href: '/my-health',
   },
   {
     title: 'Appointments',
     abbreviation: 'Appts',
-    icon: 'fas fa-calendar',
+    icon: 'calendar_today',
     href: '/my-health/appointments',
   },
   {
     title: 'Messages',
-    icon: 'fas fa-comments',
+    icon: 'forum',
     href: '/my-health/secure-messages',
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
-    icon: 'fas fa-prescription-bottle',
+    icon: 'pill',
     href: '/my-health/medications/about',
     appRootUrl: '/my-health/medications',
   },
   {
     title: 'Records',
-    icon: 'fas fa-file-medical',
+    icon: 'note_add',
     href: '/my-health/medical-records',
   },
 ];
