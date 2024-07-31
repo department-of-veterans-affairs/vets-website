@@ -21,7 +21,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPage();
         trackClaimsPage.loadPage(claimsList, claimDetail);
@@ -53,7 +53,7 @@ describe('When feature toggle cst_use_claim_details_v2 enabled and cst_5103_upda
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
@@ -81,7 +81,7 @@ describe('When feature toggle cst_use_claim_details_v2 enabled and cst_5103_upda
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
@@ -114,7 +114,7 @@ describe('When feature toggle cst_use_claim_details_v2 disabled and cst_5103_upd
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPage();
         trackClaimsPage.loadPage(claimsList, claimDetail, true, true);
@@ -153,7 +153,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(
@@ -195,7 +195,7 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
       });
     });
 
-    context('when alert is a 5103 Notice', () => {
+    context('when alert is a Automated 5103 Notice', () => {
       it('Shows primary alert details', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(

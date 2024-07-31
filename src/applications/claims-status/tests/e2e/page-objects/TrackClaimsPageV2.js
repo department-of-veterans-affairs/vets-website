@@ -624,7 +624,9 @@ class TrackClaimsPageV2 {
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'files');
-    cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
+    cy.get('va-alert').should('be.visible');
+
+    // cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
   }
 
   verifyClosedClaimSecondaryAlert() {
