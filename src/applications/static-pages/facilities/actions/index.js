@@ -87,18 +87,13 @@ export function fetchFacility(id) {
     dispatch(fetchFacilityStarted());
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/va/`, {
+    return apiRequest(`/va/${id}`, {
       apiVersion: 'facilities_api/v2',
       // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     })
       .then(facility => {
-        if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          const facilityData = facility.data.find(d => d.id === id);
+        if (facility.data.id) {
+          const facilityData = facility.data;
           return dispatch(fetchFacilitySuccess(facilityData));
         }
         return dispatch(fetchFacilityFailed());
