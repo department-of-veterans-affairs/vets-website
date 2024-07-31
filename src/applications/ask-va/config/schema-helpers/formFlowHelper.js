@@ -147,10 +147,7 @@ const ch3Pages = {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
-    depends: form =>
-      form.selectCategory === 'VA Health Care' &&
-      (form.selectTopic === 'Medical Care Concerns at a VA Medical Facility' ||
-        form.selectTopic === 'VHA Audiology & Hearing Aids'),
+    depends: form => form.selectCategory === 'VA Health Care',
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -225,7 +222,9 @@ const ch3Pages = {
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
-    depends: form => form.contactPreference !== 'U.S. mail',
+    depends: form =>
+      form.contactPreference !== 'U.S. mail' &&
+      form.selectCategory !== 'VA Health Care',
   },
   relationshipToVeteran: {
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,

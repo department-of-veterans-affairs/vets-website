@@ -4,7 +4,7 @@ const MAX_FILE_SIZE_MB = 25;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 export const areFilesEqual = (file1, file2) => {
-  if (file1 === null || file2 === null) {
+  if (!file1 || !file2) {
     return false;
   }
 
