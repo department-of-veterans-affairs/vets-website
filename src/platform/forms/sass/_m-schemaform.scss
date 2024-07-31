@@ -744,3 +744,19 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 .usa-hint {
   color: var(--vads-color-gray-medium);
 }
+
+.rjsf-web-component-field.rjsf-wc-header--h1::part(header) {
+  font-size: $h1-font-size
+}
+
+.rjsf-web-component-field.rjsf-wc-header--h2::part(header) {
+  font-size: $h2-font-size
+}
+
+.rjsf-web-component-field.rjsf-wc-header--h3::part(header) {
+  font-size: $h3-font-size;
+}
+
+.rjsf-web-component-field.rjsf-wc-header--h4::part(header) {
+  font-size: $h4-font-size;
+}
