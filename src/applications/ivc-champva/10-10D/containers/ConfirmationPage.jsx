@@ -29,7 +29,6 @@ const requiredWarningHeading = (
       You’ll still need to send us these required documents in order for us to
       process this application:
     </p>
-    {/* <h2>Your next steps</h2> */}
   </>
 );
 

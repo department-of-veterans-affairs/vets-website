@@ -36,13 +36,13 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   isInRange,
   onReviewPage,
-  MAX_APPLICANTS,
   applicantListSchema,
+  getNameKeyForSignature,
 } from '../helpers/utilities';
+import { MAX_APPLICANTS } from './constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import {
   sponsorWording,

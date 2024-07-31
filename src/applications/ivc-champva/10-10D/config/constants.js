@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+export const MAX_APPLICANTS = 25;
+
 // These proptypes are used with the custom pages that use ApplicantRelationshipPage
 export const pageProps = {
   data: PropTypes.object,
