@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { areFilesEqual, uploadScannedForm } from './vaFileInputFieldHelpers';
 
@@ -39,7 +40,7 @@ const VaFileInputField = props => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const formData = useSelector(state => state.form.data);
-  const { formNumber } = formData;
+  const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
 
   const onFileUploaded = useCallback(
@@ -55,7 +56,7 @@ const VaFileInputField = props => {
     let newFile = event.detail.files[0];
 
     // if the user is deleting the file, the files will be the same
-    if (areFilesEqual(file, newFile)) {
+    if (areFilesEqual(file, newFile) || !newFile) {
       newFile = null;
       dispatch(
         setData({
@@ -65,6 +66,7 @@ const VaFileInputField = props => {
             isEncrypted: null,
             name: null,
             size: null,
+            warnings: null,
           },
         }),
       );
@@ -96,6 +98,12 @@ const VaFileInputField = props => {
   );
 
   return <VaFileInput {...mappedProps} onVaChange={handleVaChange} />;
+};
+
+VaFileInputField.propTypes = {
+  childrenProps: PropTypes.object.isRequired,
+  uiOptions: PropTypes.object.isRequired,
+  onVaChange: PropTypes.func,
 };
 
 export default VaFileInputField;

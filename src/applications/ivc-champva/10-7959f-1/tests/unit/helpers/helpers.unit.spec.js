@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import PrefillCopy from '../../../helpers/PrefillCopy';
 import PrefilledAddress from '../../../helpers/prefilledAddress';
+import { CustomSSNReviewPage } from '../../../helpers/CustomSSN';
 
 const props = {
   route: {
@@ -68,6 +69,17 @@ describe('PrefilledAddress', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <PrefilledAddress {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
+});
+
+describe('CustomSSNPage', () => {
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <CustomSSNReviewPage {...props} />
       </Provider>,
     );
     expect(container).to.exist;
