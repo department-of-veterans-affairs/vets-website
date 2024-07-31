@@ -28,7 +28,6 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
-import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
@@ -777,11 +776,17 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'ui:description': blankSchema,
-            applicantRelationshipOrigin: customRelationshipSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
+            applicantRelationshipOrigin: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: radioSchema([
+                  'blood',
+                  'adoption',
+                  'step',
+                ]),
+                otherRelationshipToVeteran: { type: 'string' },
+              },
+            },
           }),
         },
         page18a: {
