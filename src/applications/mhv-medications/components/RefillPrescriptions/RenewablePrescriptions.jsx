@@ -80,7 +80,6 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
         </Link>
         <p>Or you may need to renew your prescription to get more refills.</p>
         <Link
-          class="vads-u-margin-y--0"
           to={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW.replace(
             medicationsUrls.MEDICATIONS_URL,
             '',
