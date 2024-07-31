@@ -22,6 +22,7 @@ const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
   const showOther = debts > 0;
   const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
+
   return (
     <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
@@ -37,11 +38,11 @@ const renderAlert = (alertType, debts) => {
       )}
       {showVAReturnLink ? (
         <va-link
-          href="/manage-va-debt/summary/"
-          data-testid="other-va-debts-link"
           active
-          text="View all your VA debt and bills"
           class="vads-u-margin-top--2"
+          data-testid="return-to-va-link"
+          href="https://va.gov"
+          text="Return to VA.gov"
         />
       ) : null}
     </va-alert>
