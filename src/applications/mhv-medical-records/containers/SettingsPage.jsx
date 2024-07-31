@@ -144,13 +144,9 @@ const SettingsPage = () => {
           </p>
         )}
         <va-button
+          data-testid="open-opt-in-out-modal-button"
           text={isSharing ? 'Opt out' : 'Opt back in'}
-          onClick={() =>
-            // setShareStatus(formSelection);
-            // setOptedIn(!isSharing);
-            // handleUpdateSharing(isSharing)
-            setShowSharingModal(true)
-          }
+          onClick={() => setShowSharingModal(true)}
         />
       </va-card>
     );
