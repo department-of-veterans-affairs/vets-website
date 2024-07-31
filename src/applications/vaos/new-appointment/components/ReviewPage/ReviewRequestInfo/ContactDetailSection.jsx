@@ -67,6 +67,8 @@ function getContent({ data, flowType, formData }) {
             flowType === FLOW_TYPES.REQUEST && (
               <>
                 <br />
+                {/* The following line tag is for italics not an icon */}
+                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
                 <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
               </>
             )}
@@ -94,6 +96,8 @@ function getContent({ data, flowType, formData }) {
           <>
             <br />
             <strong>Best time to call: </strong>
+            {/* The following line tag is for italics not an icon */}
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
             <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
           </>
         )}
@@ -124,7 +128,7 @@ export default function ContactDetailSection({ data }) {
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, pageFlow)}
-              tabindex="0"
+              role="link"
             />
           </div>
         </div>
