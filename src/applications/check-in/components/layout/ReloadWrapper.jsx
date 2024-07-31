@@ -27,7 +27,6 @@ const ReloadWrapper = props => {
   const currentForm = useSelector(selectForm);
   const { updateError } = useUpdateError();
   const progressState = getProgressState(window);
-
   const { checkInDataError, refreshCheckInData, isLoading } = useGetCheckInData(
     {
       refreshNeeded: false,
