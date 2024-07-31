@@ -12,7 +12,7 @@ export default {
     ...titleUI({
       title: 'Name and date of birth',
       headerLevel: 1,
-      headerStyleLevel: 3,
+      headerStyleLevel: 2,
     }),
     fullName: fullNameUI(),
     dateOfBirth: dateOfBirthUI(),

@@ -10,7 +10,7 @@ export default {
     ...titleUI({
       title: 'Example radio page',
       headerLevel: 1,
-      headerStyleLevel: 3,
+      headerStyleLevel: 2,
     }),
     exampleRadio: radioUI({
       title: 'Example radio field',

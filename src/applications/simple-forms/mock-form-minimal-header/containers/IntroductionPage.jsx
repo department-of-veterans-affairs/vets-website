@@ -9,6 +9,20 @@ const childContent = (
       template for creating a form, but a visual guide with code and design
       references.
     </p>
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      <h2 slot="headline">Use with caution: Candidate</h2>
+      <>
+        <p className="vads-u-margin-y--0">
+          This pattern is still undergoing research and validation. Best
+          practices and user experience assumptions are not yet fully
+          established.
+        </p>
+      </>
+    </va-alert>
     <h2>Form pages preview</h2>
     <ul>
       <li>
@@ -98,8 +112,8 @@ export const IntroductionPage = () => {
   return (
     <article className="schemaform-intro">
       <FormTitle
-        title="Explore Pattern Demonstrations in Our Sample Form"
-        subTitle="Mock form minimal header"
+        title="Explore pattern demonstrations in our sample form"
+        subTitle="Mock Form Minimal Header"
       />
       {childContent}
     </article>
