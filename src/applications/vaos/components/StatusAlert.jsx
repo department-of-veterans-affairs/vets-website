@@ -78,12 +78,14 @@ export default function StatusAlert({ appointment, facility }) {
               />
             </div>
             <div>
-              <va-link
-                text="Schedule a new appointment"
+              <button
+                className="va-button-link"
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(history, dispatch, typeOfCare)}
                 role="link"
-              />
+              >
+                Schedule a new appointment
+              </button>
             </div>
           </>
         )}
@@ -133,12 +135,14 @@ export default function StatusAlert({ appointment, facility }) {
             />
           </div>
           <div>
-            <va-link
-              text="Schedule a new appointment"
+            <button
+              className="va-button-link"
               data-testid="schedule-appointment-link"
               onClick={handleClick(history, dispatch, typeOfCare)}
               role="link"
-            />
+            >
+              Schedule a new appointment
+            </button>
           </div>
         </InfoAlert>
       );
@@ -153,12 +157,14 @@ export default function StatusAlert({ appointment, facility }) {
             : 'If you want to reschedule, call us or schedule a new appointment online.'}
           <br />
           <br />
-          <va-link
-            text="Schedule a new appointment"
+          <button
+            className="va-button-link"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
             role="link"
-          />
+          >
+            Schedule a new appointment
+          </button>
         </InfoAlert>
       );
     }
@@ -176,12 +182,14 @@ export default function StatusAlert({ appointment, facility }) {
             <>
               <br />
               <br />
-              <va-link
-                text="Schedule a new appointment"
+              <button
+                className="va-button-link"
                 data-testid="schedule-appointment-link"
                 onClick={handleClick(history, dispatch, typeOfCare)}
                 role="link"
-              />
+              >
+                Schedule a new appointment
+              </button>
             </>
           )}
         </InfoAlert>
@@ -213,12 +221,14 @@ export default function StatusAlert({ appointment, facility }) {
           />
         </div>
         <div>
-          <va-link
-            text="Schedule a new appointment"
+          <button
+            className="va-button-link"
             data-testid="schedule-appointment-link"
             onClick={handleClick(history, dispatch, typeOfCare)}
             role="link"
-          />
+          >
+            Schedule a new appointment
+          </button>
         </div>
       </InfoAlert>
     );
