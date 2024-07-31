@@ -3,6 +3,7 @@ import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   dateFormatWithoutTimezone,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -261,11 +262,11 @@ export const convertMhvRadiologyRecord = record => {
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
     orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory.trim() || EMPTY_FIELD,
-    imagingLocation: record.performingLocation,
-    date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+    clinicalHistory: record.clinicalHistory
+      ? record.clinicalHistory.trim()
       : EMPTY_FIELD,
+    imagingLocation: record.performingLocation,
+    date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
     imagingProvider: record.radiologist || EMPTY_FIELD,
     results: record.impressionText,
     images: [],
