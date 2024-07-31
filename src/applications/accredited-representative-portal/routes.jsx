@@ -1,7 +1,7 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import formConfig from './accreditation/21a/config/form';
-import App from './accreditation/21a/containers/App';
+import App from './containers/App';
 
 const route = {
   path: '/',

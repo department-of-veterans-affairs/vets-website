@@ -1,12 +1,33 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { SIGN_IN_URL } from '../../../constants';
+import { selectUserIsLoggedIn } from '../../../selectors/user';
+
+const introLink = isLoggedIn => {
+  return ({ children, ...props }) => {
+    const signInProps = {};
+
+    if (!isLoggedIn) {
+      signInProps.onClick = undefined;
+      signInProps.href = SIGN_IN_URL;
+    }
+
+    return (
+      <a className="usa-button usa-button-primary" {...props} {...signInProps}>
+        {children}
+      </a>
+    );
+  };
+};
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -101,11 +122,13 @@ const IntroductionPage = ({ route }) => {
         </li>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start your Application"
+        customLink={introLink(isLoggedIn)}
       />
       <va-omb-info
         res-burden={45}

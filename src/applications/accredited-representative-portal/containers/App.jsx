@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import formConfig from '../accreditation/21a/config/form';
 import { fetchUser } from '../actions/user';
 import { selectUserIsLoading } from '../selectors/user';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
 
-const App = () => {
+const App = ({ location, children }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectUserIsLoading);
 
@@ -57,11 +59,18 @@ const App = () => {
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
       ) : (
-        <Outlet />
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </RoutedSavableApp>
       )}
       <Footer />
     </>
   );
+};
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default App;

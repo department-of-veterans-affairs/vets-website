@@ -1,12 +1,17 @@
 import { combineReducers } from 'redux';
-import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
-import arpUserReducer from './user';
-import form21aSaveInProgress from './form21aSaveInProgress';
+
+import scheduledDowntime from 'platform/monitoring/DowntimeNotification/reducer';
+import { FeatureToggleReducer } from '@department-of-veterans-affairs/platform-site-wide/feature-toggles/reducers';
+import { createSaveInProgressFormReducer } from '@department-of-veterans-affairs/platform-forms/reducers';
+import formConfig from '../accreditation/21a/config/form';
+import userReducer from './user';
 
 const rootReducer = combineReducers({
-  user: arpUserReducer,
   featureToggles: FeatureToggleReducer,
-  form: form21aSaveInProgress,
+  form: createSaveInProgressFormReducer(formConfig),
+  navigation: () => ({ showLoginModal: false }),
+  scheduledDowntime,
+  user: userReducer,
 });
 
 export default rootReducer;
