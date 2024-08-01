@@ -11,6 +11,67 @@ export const AssetInformationAlert = () => (
   </va-additional-info>
 );
 
+export const AssetsInformation = () => (
+  <va-accordion>
+    <va-accordion-item header="What we consider an asset">
+      <p>
+        Assets include the fair market value of all the real and personal
+        property that you own, minus the amount of any mortgages you have. "Real
+        property" is the land and buildings you own. And "personal property" is
+        items like these:
+      </p>
+      <ul>
+        <li>Investments, like stocks and bonds</li>
+        <li>Antique furniture</li>
+        <li>Boats</li>
+      </ul>
+      <h5>We don’t include items like these in your assets:</h5>
+      <ul>
+        <li>
+          Your primary residence (the home where you live most or all of your
+          time)
+        </li>
+        <li>Your car</li>
+        <li>
+          Basic home items, like appliances that you wouldn’t take with you if
+          you moved to a new house
+        </li>
+      </ul>
+    </va-accordion-item>
+    <va-accordion-item header="Who we consider a dependent">
+      <h5>A dependent is:</h5>
+      <ul>
+        <li>
+          A spouse (<strong>Note:</strong> We recognize same-sex and common-law
+          marriages)
+        </li>
+        <li>
+          A parent, if you’re directly caring for them and their income and net
+          worth are below a certain amount
+        </li>
+        <li>
+          An unmarried child (including an adopted child or stepchild) who meets
+          one of the eligibility requirements listed here
+        </li>
+      </ul>
+      <h5>
+        To be considered a dependent, one of these must be true of an unmarried
+        child:
+      </h5>
+      <ul>
+        <li>
+          They’re under 18 years old, <strong>or</strong>
+        </li>
+        <li>
+          They’re between the ages of 18 and 23 years old and enrolled in school
+          full time, <strong>or</strong>
+        </li>
+        <li>They became permanently disabled before they turned 18</li>
+      </ul>
+    </va-accordion-item>
+  </va-accordion>
+);
+
 export const AssetTransferInformationAlert = () => (
   <va-additional-info trigger="How to tell if you transferred assets" uswds>
     <p>You transferred assets if you made any of these transactions:</p>
@@ -229,8 +290,8 @@ export const FormReactivationAlert = () => (
     you may need to provide certain information again.
     <br />
     <br />
-    Select <strong>Continue your application</strong> to use our update form. Or
-    come back later to finish your application.
+    Select <strong>Continue your application</strong> to use our updated form.
+    Or come back later to finish your application.
   </p>
 );
 

@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { isRequiredFile, nameWording } from '../../helpers/utilities';
+import {
+  isRequiredFile,
+  nameWording,
+  getObjectsWithAttachmentId,
+} from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
 
 describe('isRequiredFile', () => {
@@ -45,5 +49,16 @@ describe('nameWording', () => {
         false, // capitalize
       ),
     ).to.equal('John William Ferrell');
+  });
+});
+
+describe('getObjectsWithAttachmentId', () => {
+  it('should return list of objects with the `attachmentId` property', () => {
+    const objectList = [
+      [{ attachmentId: '1' }],
+      [{ name: 'abc' }],
+      [{ attachmentId: '2' }],
+    ];
+    expect(getObjectsWithAttachmentId(objectList).length).to.equal(2);
   });
 });

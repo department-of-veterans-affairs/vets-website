@@ -100,6 +100,14 @@ class IntroductionPage extends React.Component {
             </li>
           </ul>
         </div>
+        <div className="vads-u-margin-bottom--4">
+          <h3>Additional Pages</h3>
+          <ul>
+            <li>
+              <Link to="/confirmation-page-new">New Confirmation Page</Link>
+            </li>
+          </ul>
+        </div>
         <SaveInProgressIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}

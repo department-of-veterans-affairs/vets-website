@@ -457,10 +457,6 @@ export function applicantInsuranceCardSchema(isPrimary) {
               insurance card.
               <br />
               <br />
-              You can also upload any other supporting documents you may have
-              for this health insurance.
-              <br />
-              <br />
               If you don’t have a copy to upload now, you can send it by mail or
               fax.
             </>

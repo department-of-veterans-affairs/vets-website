@@ -19,9 +19,9 @@ describe('Debt Balances Page Diary Codes', () => {
     // Get Summary Card & navigate to it's details page
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'Contact the U.S. Department of the Treasury to pay this debt',
+      'Contact the U.S. Department of the Treasury’s Debt Management Services at',
     )
-      .find('a')
+      .find('va-link')
       .click({ waitForAnimations: true });
     // Get Alert's Children
     cy.get('va-alert').as('alert-content');
@@ -44,7 +44,7 @@ describe('Debt Balances Page Diary Codes', () => {
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'Pay your $120.40 balance now or request help by October 18, 2012',
+      'Pay your balance now or request help by October 18, 2012',
     )
       .find('a')
       .click({ waitForAnimations: true });
@@ -66,7 +66,7 @@ describe('Debt Balances Page Diary Codes', () => {
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'We’re offsetting your benefit payments each month until your debt is paid',
+      'We’re reducing your benefit payments each month until your debt is paid',
     )
       .find('a')
       .click({ waitForAnimations: true });
@@ -74,7 +74,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('h2')
       .contains(
-        `We're offsetting your benefit payments each month until your debt is paid`,
+        `We're reducing your benefit payments each month until your debt is paid`,
       );
     cy.get('@alert-content')
       .find('[data-testid="link-make-payment"]')

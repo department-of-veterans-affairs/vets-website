@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -10,7 +10,6 @@ import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import ValidateVeteran from './pages/ValidateVeteran';
-import LoadingPage from './pages/LoadingPage';
 import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
@@ -43,6 +42,14 @@ const routes = [
     },
   },
   {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
     path: URLS.DEMOGRAPHICS,
     component: Demographics,
     permissions: {
@@ -70,15 +77,6 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.DETAILS,
-    component: CheckIn,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
     path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
@@ -96,14 +94,6 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
-  },
-  {
-    path: URLS.LOADING,
-    component: LoadingPage,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
   },
   {
     path: URLS.TRAVEL_QUESTION,

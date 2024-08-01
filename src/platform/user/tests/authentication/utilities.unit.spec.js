@@ -653,4 +653,12 @@ describe('Authentication Utilities', () => {
       expect(authUtilities.generateReturnURL('')).to.eql(myVARoute);
     });
   });
+
+  describe('API_SESSION_URL', () => {
+    it('should throw an error if no type is provided', () => {
+      expect(() => API_SESSION_URL({})).to.throw(
+        'Attempted to call API_SESSION_URL without a type',
+      );
+    });
+  });
 });
