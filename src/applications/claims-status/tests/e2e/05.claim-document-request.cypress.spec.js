@@ -236,5 +236,26 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
         cy.axeCheck();
       });
     });
+
+    context('when alert is a Standard 5103 Notice', () => {
+      it('Shows primary alert details', () => {
+        const trackClaimsPage = new TrackClaimsPageV2();
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailWith5103Notice,
+          true,
+          false,
+          false,
+          true,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
+        trackClaimsPage.verifyDocRequestfor5103Notice(true);
+        trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
+        trackClaimsPage.submitEvidenceWaiver();
+        cy.axeCheck();
+      });
+    });
   });
 });
