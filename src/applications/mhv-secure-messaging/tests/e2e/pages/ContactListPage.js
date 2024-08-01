@@ -1,8 +1,8 @@
-import { Paths } from '../utils/constants';
+import { Locators, Paths } from '../utils/constants';
 
 class ContactListPage {
   loadContactList = () => {
-    cy.visit(`${Paths.UI_MAIN}/contact-list`);
+    cy.visit(`${Paths.UI_MAIN + Paths.CONTACT_LIST}`);
   };
 
   verifyHeaders = () => {
@@ -16,12 +16,12 @@ class ContactListPage {
   };
 
   verifyAllCheckboxes = value => {
-    cy.get(`[data-testid="contact-list-select-all-teams"]`).then(el => {
+    cy.get(Locators.CHECKBOX.CL_ALL).then(el => {
       // eslint-disable-next-line no-unused-expressions
       expect(el.prop('checked')).to.eq(value);
     });
 
-    cy.get(`[data-testid="contact-list-select-team"]`).each(el => {
+    cy.get(Locators.CHECKBOX.CL_SINGLE).each(el => {
       cy.wrap(el).then(box => {
         // eslint-disable-next-line no-unused-expressions
         expect(box.prop(`checked`)).to.eq(value);
@@ -30,7 +30,7 @@ class ContactListPage {
   };
 
   clickSelectAllCheckBox = () => {
-    cy.get(`[data-testid="contact-list-select-all-teams"]`)
+    cy.get(Locators.CHECKBOX.CL_ALL)
       .find(`#checkbox-element`)
       .click({
         waitForAnimations: true,

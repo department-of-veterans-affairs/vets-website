@@ -24,6 +24,7 @@ export const Paths = {
   FIND_LOCATION: '/find-locations',
   HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
   THREAD: '/thread',
+  CONTACT_LIST: '/contact-list',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -212,6 +213,10 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+  },
+  CHECKBOX: {
+    CL_ALL: '[data-testid="contact-list-select-all-teams"]',
+    CL_SINGLE: '[data-testid="contact-list-select-team"]',
   },
 };
 
