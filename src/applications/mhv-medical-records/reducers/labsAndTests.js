@@ -412,7 +412,3 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-/**
- * Clears the lab and test result in the details page
- */
