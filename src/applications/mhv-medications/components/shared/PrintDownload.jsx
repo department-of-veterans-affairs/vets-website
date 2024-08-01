@@ -130,10 +130,10 @@ const PrintDownload = props => {
               data-dd-action-name={`${dataDogActionNames.shared.PRINT_THIS}${
                 list ? 'Page Of The List' : 'Page'
               } Option - ${list ? pageType.LIST : pageType.DETAILS}`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-0"
               type="button"
-              data-testid="download-print-button print-download-btn-min-height"
+              data-testid="download-print-button"
               onClick={() => handlePrint(PRINT_FORMAT.PRINT)}
             >
               Print this {list ? 'page of the list' : 'page'}
