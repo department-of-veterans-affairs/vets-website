@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 function TestCheckBox() {

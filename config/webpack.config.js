@@ -33,7 +33,7 @@ const {
 // TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
 const vaMedalliaStylesFilename = 'va-medallia-styles';
 
-const generateWebpackDevConfig = require('./webpack.dev.config.js');
+const generateWebpackDevConfig = require('./webpack.dev.config');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
@@ -319,7 +319,7 @@ module.exports = async (env = {}) => {
               cacheDirectory: '.babelcache',
               cacheCompression: false,
               // Also see .babelrc
-              presets: ['@babel/env','@babel/preset-react'],
+              presets: ['@babel/env', '@babel/preset-react'],
             },
           },
         },

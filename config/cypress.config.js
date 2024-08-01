@@ -1,5 +1,5 @@
 const { defineConfig } = require('cypress');
-const webpackConfig = require('./webpack.config.js');
+const webpackConfig = require('./webpack.config');
 
 const cypressConfig = {
   viewportWidth: 1920,
@@ -202,7 +202,8 @@ module.exports = {
 
   component: {
     includeShadowDom: true,
-    indexHtmlFile: 'src/platform/testing/component/cypress/support/component-index.html',
+    indexHtmlFile:
+      'src/platform/testing/component/cypress/support/component-index.html',
     specPattern: 'src/**/tests/**/*.cypress.component.spec.js?(x)',
     supportFile: 'src/platform/testing/component/cypress/support/index.js',
     devServer: {
