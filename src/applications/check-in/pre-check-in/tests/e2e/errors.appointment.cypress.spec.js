@@ -17,13 +17,12 @@ describe('Check In Experience | Pre-Check-In | Appointment Errors', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
       cy.visitPreCheckInWithUUID('354d5b3a-b7b7-4e5c-99e4-8d563f15c521');
-      initializePreCheckInDataGet.withSuccess({
-        uuid: '354d5b3a-b7b7-4e5c-99e4-8d563f15c521',
-      });
+      initializePreCheckInDataGet.withDayOfAppointment();
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validatePageLoadedExpired();
+      cy.createScreenshots('Pre-check-in--Errors--expired');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -40,6 +39,7 @@ describe('Check In Experience | Pre-Check-In | Appointment Errors', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validateCanceledPageLoaded();
+      cy.createScreenshots('Pre-check-in--Errors--canceled');
       cy.injectAxeThenAxeCheck();
     });
   });

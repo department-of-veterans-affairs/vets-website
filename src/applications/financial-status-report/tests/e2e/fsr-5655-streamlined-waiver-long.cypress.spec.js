@@ -121,7 +121,7 @@ const testConfig = createTestConfig(
       },
       'additional-income-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Social Security"]')
+          cy.get('va-text-input[name="Social Security"]')
             .first()
             .shadow()
             .find('input')
@@ -170,7 +170,7 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
+          cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
           cy.get(`[name="U.S. Savings Bonds"]`)
@@ -204,7 +204,7 @@ const testConfig = createTestConfig(
       },
       'other-expenses-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Clothing"]')
+          cy.get('va-text-input[name="Clothing"]')
             .first()
             .shadow()
             .find('input')

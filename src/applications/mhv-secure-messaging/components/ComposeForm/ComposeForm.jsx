@@ -98,7 +98,7 @@ const ComposeForm = props => {
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
 
   const { isSaving } = useSelector(state => state.sm.threadDetails);
-  const categories = useSelector(state => state.sm.categories.categories);
+  const categories = useSelector(state => state.sm.categories?.categories);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const currentFolder = useSelector(state => state.sm.folders?.folder);
   const debouncedSubject = useDebounce(subject, draftAutoSaveTimeout);
@@ -288,8 +288,8 @@ const ComposeForm = props => {
       setSelectedRecipient(draft.recipientId);
     } else {
       const newRecipient = {
-        id: draft.recipientId,
-        name: draft.recipientName,
+        id: draft?.recipientId,
+        name: draft?.recipientName,
       };
       setRecipientsList(prevRecipientsList => [
         ...prevRecipientsList,
@@ -363,9 +363,9 @@ const ComposeForm = props => {
     async (type, e) => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
-        await setMessageInvalid(false);
+        setMessageInvalid(false);
         if (checkMessageValidity({ isDraft: true }) === true) {
-          setUnsavedNavigationError(null);
+          setNavigationError(null);
           setSavedDraft(true);
         } else
           setUnsavedNavigationError(
@@ -462,49 +462,47 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      const blankForm =
+      const isBlankForm = () =>
         messageBody === '' &&
         subject === '' &&
         (selectedRecipient === 0 || selectedRecipient === '0') &&
         category === null &&
         attachments.length === 0;
 
-      const savedEdits =
+      const isSavedEdits = () =>
         messageBody === draft?.body &&
         Number(selectedRecipient) === draft?.recipientId &&
         category === draft?.category &&
         subject === draft?.subject;
 
-      const editPopulatedForm =
+      const isEditPopulatedForm = () =>
         (messageBody !== draft?.body ||
           selectedRecipient !== draft?.recipientId ||
           category !== draft?.category ||
           subject !== draft?.subject) &&
-        !blankForm &&
-        !savedEdits;
+        !isBlankForm() &&
+        !isSavedEdits();
 
-      if (editPopulatedForm === false) {
+      const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
+
+      if (!isEditPopulatedForm() || !isSavedEdits()) {
         setSavedDraft(false);
       }
-
-      const unsavedDraft = editPopulatedForm && !deleteButtonClicked;
-
-      if (blankForm || savedDraft) {
-        setUnsavedNavigationError(null);
+      let error = null;
+      if (isBlankForm() || savedDraft) {
+        error = null;
       } else {
         if (unsavedDraft) {
           setSavedDraft(false);
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
+          error = ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR;
         }
         if (unsavedDraft && attachments.length > 0) {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR,
-          );
+          error =
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR;
           updateModalVisible(false);
         }
       }
+      setUnsavedNavigationError(error);
     },
     [
       attachments,
@@ -519,6 +517,9 @@ const ComposeForm = props => {
       messageBody,
       selectedRecipient,
       subject,
+      savedDraft,
+      setUnsavedNavigationError,
+      draft?.body,
     ],
   );
 
@@ -532,7 +533,7 @@ const ComposeForm = props => {
         !modalVisible
       ) {
         saveDraftHandler('auto');
-        setUnsavedNavigationError(null);
+        setUnsavedNavigationError();
       }
     },
     [
@@ -589,10 +590,10 @@ const ComposeForm = props => {
     e => {
       if (
         selectedRecipient.toString() !==
-          (draft ? draft.recipientId.toString() : '0') ||
-        category !== (draft ? draft.category : null) ||
-        subject !== (draft ? draft.subject : '') ||
-        messageBody !== (draft ? draft.body : '') ||
+          (draft ? draft?.recipientId.toString() : '0') ||
+        category !== (draft ? draft?.category : null) ||
+        subject !== (draft ? draft?.subject : '') ||
+        messageBody !== (draft ? draft?.body : '') ||
         attachments.length
       ) {
         e.preventDefault();
@@ -754,6 +755,7 @@ const ComposeForm = props => {
                 setCategory={setCategory}
                 setCategoryError={setCategoryError}
                 setUnsavedNavigationError={setUnsavedNavigationError}
+                setNavigationError={setNavigationError}
               />
             )}
           </div>
@@ -840,7 +842,6 @@ const ComposeForm = props => {
           <DraftSavedInfo />
           <ComposeFormActionButtons
             cannotReply={noAssociations || allTriageGroupsBlocked}
-            deleteButtonClicked={deleteButtonClicked}
             draftId={draft?.messageId}
             draftsCount={1}
             formPopulated={formPopulated}
@@ -850,6 +851,7 @@ const ComposeForm = props => {
             setDeleteButtonClicked={setDeleteButtonClicked}
             setNavigationError={setNavigationError}
             setUnsavedNavigationError={setUnsavedNavigationError}
+            savedComposeDraft={!!draft}
           />
         </div>
       </form>

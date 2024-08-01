@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import ExternalLink from './ExternalLink';
-import { phoneNumbers } from '../utils/appConstants';
+import { makeSelectApp } from '../selectors';
+
+import { phoneNumbers, APP_NAMES } from '../utils/appConstants';
 
 const ConfirmationAccordionBlock = ({ appointments = null }) => {
   const { t } = useTranslation();
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
   const modalityMessage = <p>{t('if-your-appointment-is-in-person')}</p>;
   const callMessage = (
     <p>
@@ -109,7 +114,15 @@ const ConfirmationAccordionBlock = ({ appointments = null }) => {
   }
 
   return (
-    <va-accordion uswds bordered data-testid="pre-check-in-accordions">
+    <va-accordion
+      uswds
+      bordered
+      data-testid={
+        app === APP_NAMES.PRE_CHECK_IN
+          ? 'pre-check-in-accordions'
+          : 'check-in-accordions'
+      }
+    >
       {accordions.map((accordion, index) => {
         return (
           <va-accordion-item
