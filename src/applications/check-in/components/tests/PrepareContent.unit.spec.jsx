@@ -21,7 +21,7 @@ describe('PrepareContent', () => {
           features: { check_in_experience_medication_review_content: true },
         }}
       >
-        <PrepareContent />
+        <PrepareContent appointmentCount={1} />
       </CheckInProvider>,
     );
     expect(component.getByTestId('prepare-content')).to.exist;
@@ -45,7 +45,7 @@ describe('PrepareContent', () => {
           features: { check_in_experience_medication_review_content: true },
         }}
       >
-        <PrepareContent smallHeading />
+        <PrepareContent smallHeading appointmentCount={1} />
       </CheckInProvider>,
     );
     expect(

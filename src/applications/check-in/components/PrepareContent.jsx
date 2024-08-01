@@ -6,7 +6,7 @@ import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useFormRouting } from '../hooks/useFormRouting';
 
 const PrepareContent = props => {
-  const { smallHeading, router } = props;
+  const { smallHeading, router, appointmentCount } = props;
   const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
@@ -29,7 +29,7 @@ const PrepareContent = props => {
             smallHeading ? 'vads-u-font-size--sm' : 'vads-u-margin-top--0'
           }
         >
-          {t('prepare-for-your-appointment')}
+          {t('prepare-for-your-appointment', { count: appointmentCount })}
         </h2>
         <p>{t('bring-insurance-cards-list-medications-other')}</p>
         <p className="vads-u-margin-bottom--4">
@@ -51,6 +51,7 @@ const PrepareContent = props => {
 
 PrepareContent.propTypes = {
   router: PropTypes.object.isRequired,
+  appointmentCount: PropTypes.number,
   smallHeading: PropTypes.bool,
 };
 

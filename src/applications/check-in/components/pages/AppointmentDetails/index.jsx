@@ -387,7 +387,11 @@ const AppointmentDetails = props => {
               </div>
               {app === APP_NAMES.CHECK_IN && link}
               {app === APP_NAMES.PRE_CHECK_IN && (
-                <PrepareContent router={router} smallHeading />
+                <PrepareContent
+                  router={router}
+                  smallHeading
+                  appointmentCount={1}
+                />
               )}
             </div>
           </Wrapper>

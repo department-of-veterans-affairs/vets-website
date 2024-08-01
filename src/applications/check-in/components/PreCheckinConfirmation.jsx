@@ -57,7 +57,10 @@ const PreCheckinConfirmation = props => {
           page="confirmation"
           router={router}
         />
-        <PrepareContent router={router} />
+        <PrepareContent
+          router={router}
+          appointmentCount={appointments.length}
+        />
         <HowToLink />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">

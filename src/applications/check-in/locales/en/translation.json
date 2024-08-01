@@ -425,7 +425,8 @@
   "you-may-need-to-take-other-steps": "You may need to take other steps to prepare for certain appointments, like video appointments. You’ll find these instructions in your appointment details.",
   "review-contact-information": "Review your contact information",
   "on-day-of-appointment-we-send-text": "On the day of the appointment, we’ll send you a text when it’s time to check in.",
-  "prepare-for-your-appointment": "Prepare for your appointment",
+  "prepare-for-your-appointment_one": "Prepare for your appointment",
+  "prepare-for-your-appointment_other": "Prepare for your appointments",
   "bring-insurance-cards-list-medications-other": "Bring your insurance cards, a list of medications, and other things to share with your provider.",
   "find-out-what-to-bring": "Find out what to bring to your appointment",
   "how-to-check-in": "How to check in"
