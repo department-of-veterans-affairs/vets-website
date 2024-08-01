@@ -18,7 +18,7 @@ export default function VideoLink({ appointment }) {
   } else {
     disableVideoLink = diff < -240;
   }
-  disableVideoLink = true;
+
   return (
     <div className="vaos-appts__video-visit">
       {disableVideoLink && (
