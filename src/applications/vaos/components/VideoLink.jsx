@@ -18,18 +18,22 @@ export default function VideoLink({ appointment }) {
   } else {
     disableVideoLink = diff < -240;
   }
-
+  disableVideoLink = true;
   return (
     <div className="vaos-appts__video-visit">
       {disableVideoLink && (
         <>
           We'll add the link to join this appointment 30 minutes before your
           appointment time.
+          <br />
+          <br />
         </>
       )}
 
-      {!!disableVideoLink && (
+      {!disableVideoLink && (
         <>
+          Join the video appointment using the link.
+          <br />
           <NewTabAnchor
             href={url}
             className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"

@@ -62,7 +62,6 @@ export default function VideoLayout({ data: appointment }) {
         !isPastAppointment && (
           <Section heading="How to join">
             <VideoLink appointment={appointment} />
-            <br />
             <va-additional-info trigger="How to setup your device" uswds>
               <div>
                 <h4 className="vads-u-font-size--base vads-u-font-family--sans">
