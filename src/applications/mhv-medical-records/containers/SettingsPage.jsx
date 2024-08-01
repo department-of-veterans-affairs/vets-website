@@ -91,7 +91,7 @@ const SettingsPage = () => {
           </p>
           <p>
             If you’re still having trouble, call your VA health facility and ask
-            for the medical records office.
+            for the medical records Release of Information office.
           </p>
           <p>
             <a href="/find-locations/?facilityType=health">
@@ -195,7 +195,7 @@ const SettingsPage = () => {
             </p>
             <p>
               By opting in, you certify that you’re taking this action freely,
-              voluntarily, and without coercion. You’re new sharing setting will
+              voluntarily, and without coercion. Your new sharing setting will
               stay in effect, unless you opt out. You can opt out at any time.
             </p>
           </>
@@ -208,13 +208,15 @@ const SettingsPage = () => {
     <div className="settings vads-u-margin-bottom--5">
       <section>
         <h1>Medical records settings</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">
           Learn how to manage your medical records sharing and notification
           settings.
         </p>
       </section>
       <section>
-        <h2>Manage your sharing settings</h2>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Manage your sharing settings
+        </h2>
         <p>
           We securely share your electronic health information with
           participating non-VA health care providers and federal partners when
@@ -229,8 +231,8 @@ const SettingsPage = () => {
           <va-additional-info trigger="What your electronic health information includes">
             <ul>
               <li>
-                All allergies, vaccines, medications, and health conditions in
-                your VA medical records
+                All allergies and reactions, vaccines, medications, and health
+                conditions in your VA medical records
               </li>
               <li>
                 Recent lab and test results, vitals, and care summaries and
@@ -250,11 +252,17 @@ const SettingsPage = () => {
         {sharingCardContent()}
       </section>
       <section>
-        <h2>Manage notification settings</h2>
         <p>
-          You can sign up to get email notifications when you have new lab and
-          test results or images available. You can also opt out of email
-          notifications at any time.
+          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
+          out, or to opt back in, your request may be in process.
+        </p>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Manage your notification settings
+        </h2>
+        <p>
+          You can sign up to get email notifications when medical images you
+          requested are available. You can also opt out of email notifications
+          at any time.
         </p>
         <p>
           To review or update your notification settings, go to your profile
