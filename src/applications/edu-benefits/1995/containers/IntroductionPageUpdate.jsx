@@ -60,8 +60,8 @@ export class IntroductionPageUpdate extends React.Component {
         <p>
           {' '}
           <span className="vads-u-font-weight--bold">Note: </span>
-          As of August 7, 2024, VA Form-22-1995 incorporates elements deprecated
-          from 22-5495 to better serve Veterans and their families.
+          As of August 7, 2024, VA Form 22-1995 consolidates elements from VA
+          Form 22-5495 to better serve Veterans and their families.
         </p>
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
