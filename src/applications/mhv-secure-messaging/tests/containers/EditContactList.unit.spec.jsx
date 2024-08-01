@@ -137,7 +137,6 @@ describe('Edit Contact List container', () => {
       },
     };
     const screen = setup(customState);
-    screen.debug(undefined, 10000);
 
     await waitFor(() => {
       expect(screen.getByTestId('blocked-triage-group-alert')).to.exist;

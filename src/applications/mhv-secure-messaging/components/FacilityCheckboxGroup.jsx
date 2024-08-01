@@ -1,5 +1,6 @@
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const FacilityCheckboxGroup = props => {
   const {
@@ -55,7 +56,7 @@ const FacilityCheckboxGroup = props => {
                 label={team.name}
                 message-aria-describedby={`Select ${team.name}`}
                 checked={team.preferredTeam}
-                onVaChange={() => updatePreferredTeam(team.triageTeamId)}
+                onVaChange={() => updatePreferredTeam(team.triageTeamId, null)}
               />
             );
           })}
@@ -63,6 +64,13 @@ const FacilityCheckboxGroup = props => {
       </va-checkbox-group>
     </div>
   );
+};
+
+FacilityCheckboxGroup.propTypes = {
+  facilityName: PropTypes.string,
+  multipleFacilities: PropTypes.bool,
+  triageTeams: PropTypes.array,
+  updatePreferredTeam: PropTypes.func,
 };
 
 export default FacilityCheckboxGroup;

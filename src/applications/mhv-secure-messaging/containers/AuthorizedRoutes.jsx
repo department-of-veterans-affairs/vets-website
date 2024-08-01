@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -31,7 +32,10 @@ AppRoute.propTypes = {
 
 const AuthorizedRoutes = () => {
   const contactListPage = useSelector(
-    state => state.featureToggles.mhvSecureMessagingEditContactList,
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingEditContactList
+      ],
   );
   return (
     <div
@@ -80,7 +84,7 @@ const AuthorizedRoutes = () => {
           <FolderThreadListView />
         </AppRoute>
         {contactListPage && (
-          <AppRoute exact path={Paths.CONTACT_LIST} key="ContactList">
+          <AppRoute exact path={Paths.CONTACT_LIST} key="EditContactList">
             <EditContactList />
           </AppRoute>
         )}
