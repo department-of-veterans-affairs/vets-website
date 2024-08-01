@@ -1,4 +1,4 @@
-import { parse } from 'date-fns';
+import { parse, parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
@@ -267,6 +267,7 @@ export const convertMhvRadiologyRecord = record => {
       : EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
+    sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
     results: record.impressionText,
     images: [],
@@ -324,9 +325,15 @@ export const convertLabsAndTestsRecord = record => {
 
 function sortByDate(array) {
   return array.sort((a, b) => {
-    const dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
-    const dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    return dateA - dateB;
+    let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
+    let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
+    if (isNaN(dateA.getTime())) {
+      dateA = parseISO(a.sortDate);
+    }
+    if (isNaN(dateB.getTime())) {
+      dateB = parseISO(b.sortDate);
+    }
+    return dateB - dateA;
   });
 }
 
