@@ -48,3 +48,12 @@ h1:focus {
 .vads-u-max-width--90 {
   max-width: 90% !important;
 }
+.icon-color--warning {
+  color: var(--vads-color-warning-dark);
+}
+.icon-color--info {
+  color: var(--vads-color-primary);
+}
+.icon-color--success {
+  color: var(--vads-color-success);
+}
