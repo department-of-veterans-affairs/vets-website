@@ -69,12 +69,12 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn) {
+  if (isLoggedIn && index === 0) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}
         {inProgressFormId &&
-          `Your application ID number is ${inProgressFormId}.`}
+          `Your in-progress ID number is ${inProgressFormId}.`}
       </span>
     );
   }
@@ -155,7 +155,7 @@ export default function FormNav(props) {
             {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
           />
           <div className="schemaform-chapter-progress">
-            <div className="nav-header nav-header-schemaform">
+            <div className="nav-header">
               <div data-testid="navFormDiv" className="vads-u-font-size--h4">
                 {inProgressMessage}
               </div>
