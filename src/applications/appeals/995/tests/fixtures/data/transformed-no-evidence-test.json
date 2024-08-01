@@ -17,7 +17,8 @@
         "phone": {
           "countryCode": "1",
           "areaCode": "510",
-          "phoneNumber": "9223333"
+          "phoneNumber": "9223333",
+          "phoneNumberExt": "2345"
         },
         "email": "test@user.com"
       },

@@ -27,10 +27,10 @@ export const InformalConferenceTimesDescription = (
         best time to call you.
       </p>
       <p>
-        <strong>We’ll make two attempts to call you.</strong> If no one answers,
-        we’ll leave a voicemail and a number for you to call us back. If we
-        can’t leave a message or make contact with you after 2 attempts, we’ll
-        review and decide your case without an informal conference.
+        <strong>We’ll make two attempts to contact you.</strong> If no one
+        answers, we’ll leave a voicemail and a number for you to call us back.
+        If we can’t leave a message or make contact with you after 2 attempts,
+        we’ll review and decide your case without an informal conference.
       </p>
     </Toggler.Enabled>
     <Toggler.Disabled>
@@ -57,8 +57,10 @@ export const InformalConferenceTimesDescriptionRep = (
         representative.
       </p>
       <p>
-        <strong>We’ll make two attempts to call your representative.</strong> If
-        no one answers, we’ll leave a voice mail and a number for your
+        <strong>
+          We’ll make two attempts to contact your accredited representative.
+        </strong>
+        If no one answers, we’ll leave a voice mail and a number for your
         accredited representative to call us back. If we can’t leave a message
         or make contact with them after 2 attempts, we’ll review and decide your
         case without an informal conference.

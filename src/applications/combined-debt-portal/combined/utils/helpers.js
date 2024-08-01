@@ -30,6 +30,9 @@ export const debtLettersShowLetters = state =>
 export const debtLettersShowLettersVBMS = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
 
+export const showPaymentHistory = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.CdpPaymentHistoryVba];
+
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
