@@ -4,7 +4,6 @@ import {
   VaCheckbox,
   VaCheckboxGroup,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelPayStatusCheckboxes(props) {
   const {
@@ -27,7 +26,7 @@ export default function TravelPayStatusCheckboxes(props) {
           data-testid={`status-filter_${status}`}
           name={status}
           key={status}
-          label={CLAIMS_STATUSES[status] || status}
+          label={status}
           uswds
         />
       ))}
