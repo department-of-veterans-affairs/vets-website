@@ -20,36 +20,22 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     },
     { href: BASE_URL, label: 'Montgomery GI Bill enrollment verification' },
   ];
-  it('renders breadcrumbs correctly', () => {
-    // Mock window location
-    delete window.location;
-    window.location = new URL(
-      `http://localhost/${BENEFITS_PROFILE_URL_SEGMENT}`,
-    );
 
+  it('renders breadcrumbs correctly', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
 
     // Expect the component to have a 'va-breadcrumbs' element
-    expect(wrapper.find('[label="Breadcrumb"]').length).to.equal(1);
+    expect(wrapper.find('va-breadcrumbs').length).to.equal(1);
     wrapper.unmount();
-
-    // Restore the original window.location
-    delete window.location;
-    window.location = location;
   });
-  it('should renders default breadcrumbs', () => {
-    window.location.href = `${BASE_URL}/`;
-
+  it('should render default breadcrumbs', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
-    const breadcrumbs = wrapper
-      .find('[label="Breadcrumb"]')
-      .prop('breadcrumbList');
+    const breadcrumbs = wrapper.find('va-breadcrumbs').prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.deep.equal(defaultUrls);
+    expect(breadcrumbs).to.equal(JSON.stringify(defaultUrls));
     wrapper.unmount();
-    delete window.location;
-    window.location = location;
   });
+
   it('should not include "Your Benefits profile" breadcrumb for other pages', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
@@ -66,7 +52,8 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     ).to.equal(false);
     wrapper.unmount();
   });
-  it('should renders breadcrumbs with benefits profile', () => {
+
+  it('should render breadcrumbs with benefits profile', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
       value: {
@@ -79,19 +66,21 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper
       .find('[label="Breadcrumb"]')
-      .prop('breadcrumbList');
+      .prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultUrls,
-      {
-        href: BENEFITS_PROFILE_URL,
-        label: 'Your Montgomery GI Bill benefits information',
-      },
-    ]);
+    expect(breadcrumbs).to.equal(
+      JSON.stringify([
+        ...defaultUrls,
+        {
+          href: BENEFITS_PROFILE_URL,
+          label: 'Your Montgomery GI Bill benefits information',
+        },
+      ]),
+    );
     wrapper.unmount();
   });
 
-  it('renders breadcrumbs with verification review', () => {
+  it('should render breadcrumbs with verification review', () => {
     global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
       value: {
@@ -104,12 +93,14 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
     const breadcrumbs = wrapper
       .find('[label="Breadcrumb"]')
-      .prop('breadcrumbList');
+      .prop('breadcrumb-list');
 
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultUrls,
-      { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
-    ]);
+    expect(breadcrumbs).to.equal(
+      JSON.stringify([
+        ...defaultUrls,
+        { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
+      ]),
+    );
     wrapper.unmount();
   });
 });

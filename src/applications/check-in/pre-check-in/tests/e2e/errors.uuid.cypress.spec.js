@@ -36,7 +36,7 @@ describe('Check In Experience | Pre-Check-In | UUID Errors', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Error.validatePageLoadedNotAvailable();
+      Error.validatePageLoadedExpired();
       cy.injectAxeThenAxeCheck();
     });
   });
