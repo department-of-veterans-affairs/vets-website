@@ -13,6 +13,10 @@ export const SELECTORS = {
   MAINT_BOX: 'va-maintenance-banner',
   OUTAGE_BOX: 'va-banner',
   PAGINATION: 'va-pagination',
+  HEADER_SEARCH_TRIGGER: 'button.sitewide-search-drop-down-panel-button',
+  HEADER_SEARCH_FIELD: '.search-dropdown-input-field',
+  HEADER_TYPEAHEAD_DROPDOWN: '.search-dropdown-options',
+  HEADER_SEARCH_SUBMIT: '.search-dropdown-submit-button',
 };
 
 export const verifyRecommendationsLink = (text, href) => {
