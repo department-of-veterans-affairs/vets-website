@@ -96,7 +96,7 @@ const addressAndPhoneNumberPage = {
           'I work on a United States military base outside of the U.S.',
       },
     }),
-    phone: internationalPhoneUI('Primary number'),
+    phone: internationalPhoneUI(),
     extension: textUI({
       title: 'Extension',
       width: 'sm',
