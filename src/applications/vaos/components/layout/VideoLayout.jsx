@@ -16,6 +16,7 @@ import DetailPageLayout, {
   Who,
   ClinicOrFacilityPhone,
 } from './DetailPageLayout';
+import VideoLink from '../VideoLink';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
@@ -60,9 +61,7 @@ export default function VideoLayout({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            We'll add the link to join this appointment 30 minutes before your
-            appointment time.
-            <br />
+            <VideoLink appointment={appointment} />
             <br />
             <va-additional-info trigger="How to setup your device" uswds>
               <div>
