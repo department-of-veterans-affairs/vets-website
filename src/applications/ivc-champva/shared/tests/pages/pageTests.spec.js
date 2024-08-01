@@ -10,7 +10,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
 
 export const getProps = () => {
   return {

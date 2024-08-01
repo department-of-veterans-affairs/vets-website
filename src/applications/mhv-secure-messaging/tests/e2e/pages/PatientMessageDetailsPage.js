@@ -458,7 +458,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${
           messageDetails.data.attributes.triageGroupName
         })`,
       );
@@ -502,38 +502,31 @@ class PatientMessageDetailsPage {
     );
   };
 
-  realPressForExpandAllButton = () => {
-    cy.get(Locators.BUTTONS.SECURE_MESSAGING)
+  verifyButtonsKeyboardNavigation = () => {
+    cy.get('.message-detail-block')
       .find('button')
-      .each(button => {
-        cy.realPress('Tab');
-        cy.wrap(button).focus();
-        if (button.attr('aria-label') === 'Expand all accordions') {
-          return false;
-        }
-        return 0;
+      .each(btn => {
+        cy.tabToElement(btn).should(`be.focused`);
       });
   };
 
-  verifyClickAndExpandAllMessagesHasFocus = () => {
+  verifyMessageExpandAndFocusByKeyboard = () => {
     cy.tabToElement(Locators.BUTTONS.THREAD_EXPAND_MESSAGES);
     cy.realPress('Enter');
+
     cy.get(Locators.BUTTONS.THREAD_EXPAND_MESSAGES).each(el => {
-      cy.realPress('Enter');
+      cy.tabToElement(el);
       cy.wrap(el)
         .should('be.visible')
         .and('have.focus');
+      cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('be.visible');
-      cy.realPress('Enter');
-      cy.wrap(el)
-        .should('be.visible')
-        .and('have.focus');
+      cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('not.be.visible');
-      cy.realPress('Tab');
     });
   };
 

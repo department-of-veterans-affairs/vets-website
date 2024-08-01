@@ -24,19 +24,17 @@ const ThreadDetails = props => {
   const history = useHistory();
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
-  const { recipients } = useSelector(state => state.sm);
-  const {
-    cannotReply,
-    drafts,
-    messages,
-    threadFolderId,
-    threadViewCount,
-  } = useSelector(state => state.sm.threadDetails);
+  const recipients = useSelector(state => state.sm.recipients);
+  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
+    state => state.sm.threadDetails,
+  );
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  const [isEditing, setIsEditing] = useState(false);
+
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -105,26 +103,26 @@ const ThreadDetails = props => {
         />
       );
     }
-
     if (drafts?.length > 0 && messages?.length > 0) {
       return (
         <div className="compose-container">
           <ReplyForm
             cannotReply={cannotReply}
-            drafts={drafts}
+            drafts={drafts || []}
             header={header}
             messages={messages}
             recipients={recipients}
             replyMessage={messages[0]}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            threadId={message?.threadId}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
           />
 
           <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            isDraftThread
-            messageHistory={messages}
-            viewCount={threadViewCount}
-          />
+          <MessageThread isDraftThread messageHistory={messages} />
         </div>
       );
     }
@@ -153,11 +151,7 @@ const ThreadDetails = props => {
 
           <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            messageHistory={messages}
-            threadId={threadId}
-            viewCount={threadViewCount}
-          />
+          <MessageThread messageHistory={messages} />
         </>
       );
     }
@@ -177,7 +171,6 @@ const ThreadDetails = props => {
     <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
       <AlertBackgroundBox closeable />
-
       {content()}
     </div>
   );

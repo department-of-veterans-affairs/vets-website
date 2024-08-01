@@ -196,7 +196,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.model || ''}
           width="lg"
         />
-        <va-number-input
+        <va-text-input
           error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
           hint={null}
           inputmode="numeric"
@@ -207,13 +207,13 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.year || ''}
           width="md"
         />
-        <va-number-input
+        <va-text-input
           error={
             (vehicleRecordIsDirty && resaleValueIsDirty && resaleValueError) ||
             null
           }
           hint={null}
-          inputmode="numeric"
+          inputmode="decimal"
           label="Estimated value"
           name="estValue"
           currency
@@ -223,6 +223,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           value={vehicleRecord.resaleValue}
           min={0}
           max={MAXIMUM_RESALE_VALUE}
+          type="decimal"
           width="md"
         />
         <va-additional-info
