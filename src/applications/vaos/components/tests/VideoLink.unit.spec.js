@@ -16,7 +16,7 @@ afterEach(() => {
 });
 
 describe('VAOS Component: VideoLink', () => {
-  it('does not render join appoinment link when not 30 minutes before or 4 hours after start time', () => {
+  it('does not render join appoinment link when not 30 minutes after start time', () => {
     const now = moment();
     const appointment = {
       location: {
@@ -24,6 +24,29 @@ describe('VAOS Component: VideoLink', () => {
         locationId: '983',
       },
       start: moment.tz(now, 'America/New_York').subtract(600, 'minutes'),
+      videoData: {
+        url: 'test.com',
+      },
+    };
+
+    const wrapper = render(<VideoLink appointment={appointment} />);
+
+    expect(wrapper.queryByText('Join appointment')).not.to.exist;
+    expect(
+      wrapper.queryByText(
+        "/We'll add the link to join this appointment 30 minutes before your appointment time/i",
+      ),
+    );
+  });
+
+  it('does not render join appoinment link when not 4 hours after start time', () => {
+    const now = moment();
+    const appointment = {
+      location: {
+        vistaId: '983',
+        locationId: '983',
+      },
+      start: moment.tz(now, 'America/New_York').add(600, 'minutes'),
       videoData: {
         url: 'test.com',
       },
