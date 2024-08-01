@@ -291,9 +291,9 @@ export default function SchoolLocations({
   const renderViewCount = () => {
     return (
       <div className="vads-u-padding-top--2">
-        <i>
+        <em>
           Showing {viewableRowCount} of {totalRowCount} locations
-        </i>
+        </em>
       </div>
     );
   };

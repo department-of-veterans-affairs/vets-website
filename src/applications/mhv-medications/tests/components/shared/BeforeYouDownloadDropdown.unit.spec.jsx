@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import BeforeYouDownloadDropdown from '../../../components/shared/BeforeYouDownloadDropdown';
-import { DD_ACTIONS_PAGE_TYPE } from '../../../util/constants';
+import { pageType } from '../../../util/dataDogConstants';
 
 describe('What do know before you download dropdown component', () => {
   const setup = page => {
@@ -15,7 +15,7 @@ describe('What do know before you download dropdown component', () => {
   });
 
   it('displays text inside of drop down on Details page', async () => {
-    const screen = setup(DD_ACTIONS_PAGE_TYPE.DETAILS);
+    const screen = setup(pageType.DETAILS);
     const firstItem = await screen.findByText(
       'If you print or download this page,',
     );
@@ -23,7 +23,7 @@ describe('What do know before you download dropdown component', () => {
   });
 
   it('displays text inside of drop down on List page', async () => {
-    const screen = setup(DD_ACTIONS_PAGE_TYPE.LIST);
+    const screen = setup(pageType.LIST);
     const firstItem = await screen.findByText(
       'If you’re on a public or shared computer,',
     );

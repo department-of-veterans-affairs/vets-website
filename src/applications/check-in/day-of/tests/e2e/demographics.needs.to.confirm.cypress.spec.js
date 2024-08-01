@@ -33,27 +33,33 @@ describe('Check In Experience | Day Of |', () => {
       cy.visitWithUUID();
     });
     it('should complete check in if answer is yes to all demographics questions', () => {
+      cy.createScreenshots('Day-of-check-in--Pages--auth');
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
 
       AppointmentsPage.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--appointments');
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
       Arrived.validateArrivedPage();
+      cy.createScreenshots('Day-of-check-in--Pages--arrived');
       cy.injectAxeThenAxeCheck();
       Arrived.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--contact-info');
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
 
       EmergencyContact.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--emergency-contact');
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--next-of-kin');
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -82,6 +88,7 @@ describe('Check In Experience | Day Of |', () => {
       Demographics.attemptToGoToNextPage('no');
 
       SeeStaff.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--see-staff');
       cy.injectAxeThenAxeCheck();
     });
   });

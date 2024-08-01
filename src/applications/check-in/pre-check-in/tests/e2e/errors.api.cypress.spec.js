@@ -25,6 +25,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       initializeSessionGet.withFailure();
       cy.visitPreCheckInWithUUID();
       Error.validatePageLoadedGeneric();
+      cy.createScreenshots('Pre-check-in--Errors--generic');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -59,6 +60,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Error.validateAPIErrorPageLoaded();
+      cy.createScreenshots('Pre-check-in--Errors--with-data');
       cy.injectAxeThenAxeCheck();
     });
   });

@@ -35,7 +35,7 @@ export const App = ({ formNumber, hasOnlineTool }) => {
             <div className="vads-u-background-color--primary vads-u-padding--1">
               <a
                 className="vads-c-action-link--white"
-                href={`/form-upload/${formNumber}`}
+                href={`/form-upload/${formNumber}/upload`}
               >
                 Start uploading your form
               </a>

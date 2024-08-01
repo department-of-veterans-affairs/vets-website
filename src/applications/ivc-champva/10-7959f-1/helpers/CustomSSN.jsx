@@ -58,8 +58,12 @@ export function CustomSSNReviewPage(props) {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>SSN</dt>
+          <dt>Social Security number</dt>
           <dd>{maskedSSN}</dd>
+        </div>
+        <div className="review-row">
+          <dt>VA file number</dt>
+          <dd>{props?.data?.veteranSocialSecurityNumber?.vaFileNumber}</dd>
         </div>
       </dl>
     </div>

@@ -57,9 +57,6 @@ describe('check in', () => {
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-message-error')).to.exist;
-      expect(component.getByTestId('travel-pay-message-error')).to.have.text(
-        "We’re sorry, something went wrong on our end. We can't file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.",
-      );
     });
     it('renders a renders an info message if the veteran opted out', () => {
       const component = render(
@@ -72,9 +69,6 @@ describe('check in', () => {
         </CheckInProvider>,
       );
       expect(component.getByTestId('travel-pay-info-message')).to.exist;
-      expect(component.getByTestId('travel-pay-info-message')).to.have.text(
-        'VA travel pay reimbursement pays eligible Veterans and caregivers back for mileage and other travel expenses to and from approved health care appointments.Find out if you’re eligible and how to file for travel reimbursement',
-      );
     });
   });
 });

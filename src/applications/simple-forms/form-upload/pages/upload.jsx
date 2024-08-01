@@ -7,6 +7,7 @@ import {
   UPLOAD_GUIDELINES,
   ALERT_TOO_MANY_PAGES,
   ALERT_TOO_FEW_PAGES,
+  ALERT_WRONG_FORM,
 } from '../config/constants';
 import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
 
@@ -51,6 +52,17 @@ export const uploadPage = {
           !formData.uploadedFile?.warnings?.includes('too_few_pages'),
       },
     },
+    'view:alertWrongForm': {
+      'ui:description': ALERT_WRONG_FORM(
+        formNumber,
+        getPdfDownloadUrl(formNumber),
+        onCloseAlert,
+      ),
+      'ui:options': {
+        hideIf: formData =>
+          !formData.uploadedFile?.warnings?.includes('wrong_form'),
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -65,6 +77,10 @@ export const uploadPage = {
         properties: {},
       },
       'view:alertTooFewPages': {
+        type: 'object',
+        properties: {},
+      },
+      'view:alertWrongForm': {
         type: 'object',
         properties: {},
       },

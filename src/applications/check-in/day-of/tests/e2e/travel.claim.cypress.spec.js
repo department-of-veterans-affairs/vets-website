@@ -59,28 +59,36 @@ describe('Check In Experience | Day Of |', () => {
       Arrived.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Pages--travel-question');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('mileage');
+      cy.createScreenshots('Day-of-check-in--Pages--travel-mileage-question');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('vehicle');
+      cy.createScreenshots('Day-of-check-in--Pages--travel-vehicle-question');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('address');
+      cy.createScreenshots('Day-of-check-in--Pages--travel-address-question');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('review');
+      cy.createScreenshots('Day-of-check-in--Pages--travel-review');
       cy.injectAxeThenAxeCheck();
       TravelPages.acceptTerms();
       TravelPages.attemptToGoToNextPage();
 
       Confirmation.validatePageLoaded();
       Confirmation.validatePageLoadedWithBtsssSubmission();
+      cy.createScreenshots(
+        'Day-of-check-in--Pages--confirmation-travel-success',
+      );
       cy.injectAxeThenAxeCheck();
     });
     it('should complete check in if answer is no to vehicle question', () => {
@@ -106,6 +114,9 @@ describe('Check In Experience | Day Of |', () => {
 
       Confirmation.validatePageLoaded();
       Confirmation.validatePageLoadedWithBtsssIneligible();
+      cy.createScreenshots(
+        'Day-of-check-in--Pages--confirmation-travel-ineligible',
+      );
       cy.injectAxeThenAxeCheck();
     });
     it('should complete check in if does not agree to terms and chooses to file later', () => {

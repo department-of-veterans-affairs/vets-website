@@ -32,11 +32,11 @@ describe('check-in', () => {
           <ConfirmationAccordionBlock appointments={appointments} />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('pre-check-in-accordions')).to.exist;
-      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+      expect(screen.getByTestId('check-in-accordions')).to.exist;
+      expect(screen.getByTestId('check-in-accordions')).to.contain.text(
         'Contact Information',
       );
-      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+      expect(screen.getByTestId('check-in-accordions')).to.contain.text(
         'Emergency and next of kin information',
       );
     });

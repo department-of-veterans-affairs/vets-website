@@ -277,7 +277,7 @@
     "cookie": "^0.4.1",
     "core-js": "^3.18.0",
     "date-fns": "^2.24.0",
-    "date-fns-tz": "^1.1.1",
+    "date-fns-tz": "^2.0.0",
     "dotenv": "^10.0.0",
     "downshift": "^1.22.5",
     "express": "^4.17.1",

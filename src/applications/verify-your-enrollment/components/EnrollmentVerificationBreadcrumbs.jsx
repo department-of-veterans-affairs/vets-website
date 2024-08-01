@@ -1,5 +1,4 @@
 import React from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   BASE_URL,
   BENEFITS_PROFILE_URL_SEGMENT,
@@ -10,14 +9,8 @@ import {
 
 export default function EnrollmentVerificationBreadcrumbs() {
   const breadcrumbs = [
-    {
-      href: '/',
-      label: 'Home',
-    },
-    {
-      href: '/education/',
-      label: 'Education and training',
-    },
+    { href: '/', label: 'Home' },
+    { href: '/education/', label: 'Education and training' },
     {
       href: '/education/verify-school-enrollment/',
       label: 'Verify your school enrollment for GI Bill benefits',
@@ -46,14 +39,11 @@ export default function EnrollmentVerificationBreadcrumbs() {
       label: 'Verify your enrollment',
     });
   }
+
+  const bcString = JSON.stringify(breadcrumbs);
   return (
     <div className="bread-crumbs-container">
-      <VaBreadcrumbs
-        uswds
-        breadcrumbList={breadcrumbs}
-        label="Breadcrumb"
-        wrapping
-      />
+      <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" wrapping />;
     </div>
   );
 }

@@ -17,6 +17,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -149,7 +150,9 @@ const VaPrescription = prescription => {
                   }`}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
-                  data-dd-action-name="Rx Documentation Link - Details Page"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                  }
                 >
                   Learn more about {prescription.prescriptionName}
                 </Link>

@@ -35,7 +35,6 @@ import {
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
-  DD_ACTIONS_PAGE_TYPE,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
 } from '../util/constants';
@@ -52,6 +51,7 @@ import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import { pageType } from '../util/dataDogConstants';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -554,9 +554,7 @@ const Prescriptions = () => {
                         }
                         list
                       />
-                      <BeforeYouDownloadDropdown
-                        page={DD_ACTIONS_PAGE_TYPE.LIST}
-                      />
+                      <BeforeYouDownloadDropdown page={pageType.LIST} />
                       <MedicationsListSort
                         value={selectedSortOption}
                         sortRxList={sortRxList}

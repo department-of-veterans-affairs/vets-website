@@ -17,8 +17,15 @@ describe('<AppointmentsCard />', () => {
         additionalInfo: 'yada yada yada',
         isVideo: true,
         providerName: 'test provider',
-        localStartTime: '2024-01-11T06:30:00-07:00',
-        timeZone: 'MT',
+        location: {
+          attributes: {
+            id: '668QB',
+            timezone: {
+              timeZoneId: 'America/Denver',
+            },
+          },
+        },
+        localStartTime: '2024-08-11T06:30:00-07:00',
         type: 'regular',
       },
     ];
@@ -46,7 +53,7 @@ describe('<AppointmentsCard />', () => {
     });
     tree.getByText('VA Video Connect yada yada yada');
     tree.getByText(startFormatted);
-    tree.getByText(`Time: 6:30 a.m. MT`);
+    tree.getByText(`Time: 7:30 a.m. MT`);
   });
 
   context('renders the location name', () => {

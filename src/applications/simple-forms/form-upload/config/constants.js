@@ -190,3 +190,29 @@ export const ALERT_TOO_FEW_PAGES = (formNumber, pdfDownloadUrl, onCloseEvent) =>
       </React.Fragment>
     </VaAlert>,
   );
+
+export const ALERT_WRONG_FORM = (formNumber, pdfDownloadUrl, onCloseEvent) =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded doesn’t look like a recent VA Form {formNumber}.
+          Please make sure you’re using the most recent form.
+        </p>
+        <a href={pdfDownloadUrl}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );

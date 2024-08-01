@@ -199,9 +199,9 @@ class ApiInitializer {
       });
       return data;
     },
-    withPast15MinuteWindow: () => {
+    withDayOfAppointment: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
-        preCheckInData.get.past15MinuteUUID,
+        preCheckInData.get.withDayofAppointmentUUID,
       );
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(data);

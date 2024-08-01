@@ -462,12 +462,12 @@ export const askVABreadcrumbs = [
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'Response Page', key: 'responsePage' },
+  { href: '/user/dashboard', label: 'Response Page', key: 'responsePage' },
 ];
 
 export const newInquiryBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'New Inquiry', key: 'newInquiry' },
+  { href: '/newInquiry', label: 'New Inquiry', key: 'newInquiry' },
 ];
 
 export const breadcrumbsDictionary = {

@@ -33,25 +33,30 @@ describe('Check In Experience | Pre-Check-In |', () => {
     it('should complete pre-check-in with yes to all demographics questions', () => {
       cy.visitPreCheckInWithUUID('47fa6bad-62b4-440d-a4e1-50e7f7b92d27');
       initializePreCheckInDataGet.withSuccess();
+      cy.createScreenshots('Pre-check-in--Pages--auth');
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
 
       AppointmentsPage.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--Pages--appointments');
       cy.injectAxeThenAxeCheck();
       AppointmentsPage.attemptCheckIn();
 
       cy.injectAxeThenAxeCheck();
 
       Demographics.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--Pages--contact-info');
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage();
 
       EmergencyContact.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--Pages--emergency-contact');
       cy.injectAxeThenAxeCheck();
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--Pages--next-of-kin');
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
@@ -66,6 +71,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
         });
 
       Confirmation.validatePageLoaded();
+      cy.createScreenshots('Pre-check-in--Pages--confirmation');
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in for a phone appointment with yes to all demographics questions', () => {
@@ -297,6 +303,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
         AppointmentsPage.validatePageLoaded();
         AppointmentsPage.clickDetails();
         AppointmentDetails.validatePageLoadedInPerson();
+        cy.createScreenshots('Pre-check-in--pages--details');
         AppointmentDetails.validateWhen();
         AppointmentDetails.validateProvider();
         AppointmentDetails.validateWhere('in-person');

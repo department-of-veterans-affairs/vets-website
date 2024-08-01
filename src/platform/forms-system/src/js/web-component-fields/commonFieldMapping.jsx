@@ -2,8 +2,13 @@
 export default function commonFieldMapping(props) {
   const { label, required, error, uiOptions, childrenProps } = props;
 
+  const labelHeaderLevelStyle = uiOptions?.labelHeaderLevelStyle;
+  const headerStyle = labelHeaderLevelStyle
+    ? ` rjsf-wc-header--h${labelHeaderLevelStyle} `
+    : '';
+
   return {
-    class: `rjsf-web-component-field${
+    class: `rjsf-web-component-field${headerStyle}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
     enableAnalytics: uiOptions?.enableAnalytics,

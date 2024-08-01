@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom-v5-compat';
 import upperFirst from 'lodash/upperFirst';
 import lowerCase from 'lodash/lowerCase';
-import kebabCase from 'lodash/kebabCase';
 
 const acronymMapping = {
   poa: 'POA',
@@ -28,30 +27,19 @@ const Breadcrumbs = () => {
   const breadcrumbs = pathSegments.map(segment => {
     pathAccumulator += `/${segment}`;
     return {
-      link: pathAccumulator,
+      href: pathAccumulator,
       label: formatSegment(segment),
     };
   });
+  breadcrumbs.unshift({ href: '/', label: 'Home' });
+  const bcString = JSON.stringify(breadcrumbs);
 
   return (
     <va-breadcrumbs
+      breadcrumb-list={bcString}
       data-testid="breadcrumbs"
       home-veterans-affairs={false}
-      uswds="false"
-    >
-      <li>
-        <Link data-testid="breadcrumbs-home" to="/">
-          Home
-        </Link>
-      </li>
-      {breadcrumbs.map(({ link, label }) => (
-        <li key={label}>
-          <Link data-testid={`breadcrumbs-${kebabCase(label)}`} to={link}>
-            {label}
-          </Link>
-        </li>
-      ))}
-    </va-breadcrumbs>
+    />
   );
 };
 

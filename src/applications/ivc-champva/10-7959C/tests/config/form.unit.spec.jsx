@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
+import {
+  testNumberOfWebComponentFields,
+  testComponentRender,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mockData from '../e2e/fixtures/data/test-data.json';
 import maxData from '../e2e/fixtures/data/maximal-test.json';
@@ -47,6 +50,11 @@ describe('title text logic', () => {
   });
 });
 
+testComponentRender(
+  'Custom Review Top Content',
+  formConfig.CustomReviewTopContent(),
+);
+
 describe('Applicant Name/DOB page title', () => {
   testNumberOfWebComponentFields(
     formConfig,
@@ -87,10 +95,28 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.applicantInformation.pages.applicantGender.schema,
+  formConfig.chapters.applicantInformation.pages.applicantGender.uiSchema,
+  1,
+  'Applicant sex',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.medicareInformation.pages.hasMedicareAB.schema,
   formConfig.chapters.medicareInformation.pages.hasMedicareAB.uiSchema,
   1,
   'Applicant has medicare AB',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareClass.schema,
+  formConfig.chapters.medicareInformation.pages.medicareClass.uiSchema,
+  1,
+  'Applicant medicare class (coverage)',
   { ...mockData.data },
 );
 
@@ -315,6 +341,28 @@ testNumberOfWebComponentFields(
   1,
   'Applicant secondary comments',
   { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryScheduleOfBenefits
+    .schema,
+  formConfig.chapters.healthcareInformation.pages.primaryScheduleOfBenefits
+    .uiSchema,
+  0,
+  'Applicant primary schedule of benefits upload',
+  mockData.data,
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.secondaryScheduleOfBenefits
+    .schema,
+  formConfig.chapters.healthcareInformation.pages.secondaryScheduleOfBenefits
+    .uiSchema,
+  0,
+  'Applicant secondary schedule of benefits upload',
+  mockData.data,
 );
 
 testNumberOfWebComponentFields(

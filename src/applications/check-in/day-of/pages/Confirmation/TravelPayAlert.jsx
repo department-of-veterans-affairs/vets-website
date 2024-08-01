@@ -44,7 +44,7 @@ const TravelPayAlert = props => {
             data-testid="travel-pay-message-error"
           >
             <Trans
-              i18nKey="sorry-something-went-wrong-on-our-end-with-filing-your-travel-claim"
+              i18nKey="sorry-we-cant-file-now"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}

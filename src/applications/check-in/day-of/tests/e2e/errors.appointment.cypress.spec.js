@@ -26,6 +26,7 @@ describe('Check In Experience | Day Of | Appointment Errors', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validatePageLoaded('check-in-past-appointment');
+      cy.createScreenshots('Day-of-check-in--Errors--expired');
       cy.injectAxeThenAxeCheck();
     });
   });
