@@ -263,6 +263,12 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
 
 // v2 Helpers
 
+export const determineBranchOfService = key =>
+  key === RESPONSES.MARINE_CORPS ? RESPONSES.NAVY : key;
+
+export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
+  differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
+
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
   const monthObj = options.months.find(
@@ -342,9 +348,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
   const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
 
-  const oldDischarge =
-    differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >=
-    15;
+  const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
 
   const failureToExhaust = [
     RESPONSES.FAILURE_TO_EXHAUST_1A,

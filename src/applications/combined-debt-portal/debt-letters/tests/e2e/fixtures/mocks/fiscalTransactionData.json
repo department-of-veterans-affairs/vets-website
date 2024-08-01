@@ -1,0 +1,67 @@
+{
+  "hasDependentDebts": false,
+  "debts":[
+    {
+      "fileNumber": "796143510",
+      "payeeNumber": "00",
+      "personEntitled": "AJOHNS",
+      "deductionCode": "71",
+      "benefitType": "CH33 Books, Supplies/MISC EDU",
+      "diaryCode": "100",
+      "diaryCodeDescription": "First Demand Letter - Inactive Benefits - Due Process",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAR": 166.67,
+      "currentAR": 120.4,
+      "debtHistory": [
+        {
+          "date": "09/18/2012",
+          "letterCode": "100",
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "fiscalTransactionData": [
+        {
+          "debtId": 284841,
+          "debtIncreaseAmount": 0,
+          "hinesCode": "97 ",
+          "offsetAmount": 36.13,
+          "offsetType": null,
+          "paymentType": null,
+          "transactionAdminAmount": 0,
+          "transactionCourtAmount": 0,
+          "transactionDate": "11/12/2020",
+          "transactionDescription": "AR Decrease",
+          "transactionExplanation": "AR Decrease - C&P Benefit Offset",
+          "transactionFiscalCode": "08P",
+          "transactionFiscalSource": "MR_FISC_TRX_HIST",
+          "transactionFiscalYear": null,
+          "transactionInterestAmount": 0,
+          "transactionMarshallAmount": 0,
+          "transactionPrincipalAmount": 0,
+          "transactionTotalAmount": -36.13
+        },
+        {
+          "debtId": 284841,
+          "debtIncreaseAmount": 44.59,
+          "hinesCode": null,
+          "offsetAmount": 44.59,
+          "offsetType": null,
+          "paymentType": null,
+          "transactionAdminAmount": 44.59,
+          "transactionCourtAmount": 0,
+          "transactionDate": "11/13/2020",
+          "transactionDescription": "Increase to AR",
+          "transactionExplanation": "Increase to AR",
+          "transactionFiscalCode": "04P",
+          "transactionFiscalSource": "MR_FISC_TRX_HIST",
+          "transactionFiscalYear": null,
+          "transactionInterestAmount": 0,
+          "transactionMarshallAmount": 0,
+          "transactionPrincipalAmount": 0,
+          "transactionTotalAmount": 44.59
+        }
+      ]
+    }
+  ]
+}

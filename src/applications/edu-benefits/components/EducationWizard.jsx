@@ -372,7 +372,7 @@ class EducationWizard extends React.Component {
                           program for health care professionals. <br />
                           <a
                             aria-label="See eligible degree and clinical training programs, opening in new tab"
-                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                            href="https://www.va.gov/resources/approved-fields-of-study-for-the-stem-scholarship/"
                             rel="noopener noreferrer"
                             target="_blank"
                             onClick={() =>

@@ -47,7 +47,7 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
                   onClick={handleScrollTo}
                   name={k}
                   text="Edit"
-                  aria-label={reviewLabel}
+                  label={reviewLabel}
                 />
               </div>
             )

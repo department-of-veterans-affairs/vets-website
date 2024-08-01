@@ -90,8 +90,8 @@ export const CONFERENCE_TIMES_V3 = {
   },
   time1200to1630: {
     label: 'Noon to 4:30 p.m. ET',
-    labelMe: 'Evening hours in my time zone',
-    labelRep: 'Evening hours in your accredited representative’s time zone',
+    labelMe: 'Afternoon hours in my time zone',
+    labelRep: 'Afternoon hours in your accredited representative’s time zone',
     submit: '1200-1630 ET',
   },
 };

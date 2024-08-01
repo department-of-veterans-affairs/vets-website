@@ -4,17 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-import recordEvent from '~/platform/monitoring/record-event';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
 import PdfAlert from './PdfAlert';
-
-const onFeaturedContentClick = header => () => {
-  recordEvent({
-    event: 'nav-featured-content-link-click',
-    'featured-content-header': header,
-  });
-};
 
 export const FindVaForms = ({ showPdfWarningBanner = false }) => {
   return (
@@ -46,11 +38,9 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           </p>
           <va-link
             active
-            aria-label="Apply online about filing a VA disability claim"
+            label="Apply online about filing a VA disability claim"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            disable-analytics
             href="/disability/file-disability-claim-form-21-526ez/"
-            onClick={onFeaturedContentClick('File a VA disability claim')}
             text="Apply online"
           />
         </li>
@@ -68,13 +58,9 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           </p>
           <va-link
             active
-            aria-label="Learn how to apply online about applying for the GI Bill and other education benefits"
+            label="Learn how to apply online about applying for the GI Bill and other education benefits"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            disable-analytics
             href="/education/how-to-apply/"
-            onClick={onFeaturedContentClick(
-              'Apply for the GI Bill and other education benefits',
-            )}
             text="Learn how to apply online"
           />
         </li>
@@ -92,13 +78,9 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           </p>
           <va-link
             active
-            aria-label="Apply online about applying for VA health care benefits"
+            label="Apply online about applying for VA health care benefits"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
-            disable-analytics
             href="/health-care/apply-for-health-care-form-10-10ez/"
-            onClick={onFeaturedContentClick(
-              'Apply for VA health care benefits',
-            )}
             text="Apply online"
           />
         </li>

@@ -1,18 +1,11 @@
-import React from 'react';
+import { pageTitle } from '../utils/helpers';
 
 export default {
   uiSchema: {
     separation: {
-      'ui:title': (
-        <>
-          <p>
-            <b>How long ago did you separate or retire from service?</b>
-          </p>
-          <p>
-            If you served during multiple periods, please choose the answer that
-            corresponds to your most recent separation.
-          </p>
-        </>
+      'ui:title': pageTitle(
+        'How long ago did you separate or retire from service?',
+        'If you served during multiple periods, please choose the answer that corresponds to your most recent separation.',
       ),
       'ui:widget': 'radio',
       'ui:options': {
