@@ -153,7 +153,7 @@ describe('SettingsPage container automatically included', () => {
 
   it('should open the opt out confirmation modal when the open opt out modal button is clicked', () => {
     fireEvent.click(screen.getByTestId('open-opt-in-out-modal-button'));
-    expect(screen.getByText('If you opt out')).to.exist;
+    expect(screen.getByText('If you opt out', { exact: false })).to.exist;
   });
 });
 
