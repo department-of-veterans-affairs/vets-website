@@ -1,5 +1,3 @@
-import { applicantWording as ApplicantWording } from '../../shared/utilities';
-
 // Extracting this to a function so there aren't a thousand identical
 // ternaries we have to change later
 export function sponsorWording(formData, isPosessive = true, cap = true) {
@@ -12,14 +10,6 @@ export function sponsorWording(formData, isPosessive = true, cap = true) {
 
   // Optionally capitalize first letter and return
   return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
-}
-
-// Produce a string that is an applicant's full name
-export function applicantWording(formData, context, isPosessive = true) {
-  // Using the applicantWording function in shared utils, but
-  // holding off on updating all the imports in 1010d to keep
-  // current PR concise - 1 APR 2024
-  return ApplicantWording(formData, context, isPosessive);
 }
 
 export const additionalFilesHint =

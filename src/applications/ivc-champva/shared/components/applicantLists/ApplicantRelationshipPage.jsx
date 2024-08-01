@@ -8,10 +8,8 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../../../10-10D/helpers/wordingCustomization';
+import { additionalFilesHint } from '../../../10-10D/helpers/wordingCustomization';
+import { applicantWording } from '../../utilities';
 
 /*
 Overriding these allows us to set custom property titles.
@@ -27,14 +25,9 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem, undefined, false);
+  const applicant = applicantWording(currentListItem, false);
 
-  const relativePossessive = applicantWording(
-    currentListItem,
-    undefined,
-    true,
-    false,
-  );
+  const relativePossessive = applicantWording(currentListItem, true, false);
 
   return {
     keyname,

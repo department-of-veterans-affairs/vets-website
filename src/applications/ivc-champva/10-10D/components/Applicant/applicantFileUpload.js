@@ -54,19 +54,10 @@ export const applicantBirthCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload birth certificate ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => (
+        ({ formData }) => (
           <>
             To help us process this application faster, submit a copy of{' '}
-            <b>
-              {applicantWording(
-                formData,
-                undefined,
-                true,
-                false,
-                formContext.pagePerItemIndex,
-              )}
-            </b>{' '}
-            birth certificate.
+            <b>{applicantWording(formData, true, false)}</b> birth certificate.
             <br />
             Submitting a copy can help us process this application faster.
             <br />
@@ -94,21 +85,9 @@ export const applicantSchoolCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of school enrollment ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               You’ll need to submit a copy of a document showing proof of{' '}
@@ -173,14 +152,8 @@ export const applicantHelplessChildUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload rating decision letter ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ve selected that <b>{posessive}</b> permanently incapable of
@@ -216,18 +189,10 @@ export const applicantAdoptedUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of adoption ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => (
+        ({ formData }) => (
           <>
             You’ll need to submit a document showing proof of{' '}
-            <b>
-              {applicantWording(
-                formData,
-                undefined,
-                true,
-                false,
-                formContext.pagePerItemIndex,
-              )}{' '}
-            </b>
+            <b>{applicantWording(formData, true, false)} </b>
             adoption (like court ordered adoption papers).
             <br />
             {mailOrFaxLaterMsg}
@@ -256,14 +221,8 @@ export const applicantStepChildUploadUiSchema = {
           `Upload proof of marriage or legal union ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
@@ -297,14 +256,8 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload Medicare Part A and B card ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
@@ -341,14 +294,8 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload Medicare Part D card ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
@@ -387,14 +334,8 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           `Upload proof of Medicare ineligibility ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            true,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, true);
           return (
             <>
               <b>{nonPosessive}</b> is 65 years or older and you selected that{' '}
@@ -514,13 +455,7 @@ export const applicantMarriageCertUploadUiSchema = {
             formContext,
           )}`,
         ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+          const nonPosessive = applicantWording(formData, false, false);
           // Inside list loop this lets us grab form data outside the scope of
           // current list element:
           const vetName = getTopLevelFormData(formContext)?.veteransFullName;
@@ -556,14 +491,8 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           `Upload proof of marriage or legal union ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
@@ -597,14 +526,8 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of legal separation ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               To help us process this application faster, you can submit a
