@@ -323,7 +323,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
-  it.skip('should fetch slots when moving between months', async () => {
+  it('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
