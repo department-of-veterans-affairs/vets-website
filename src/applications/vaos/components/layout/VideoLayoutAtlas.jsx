@@ -137,7 +137,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
-            <ul>
+            <ul className="vads-u-margin-top--0">
               <li>
                 Bring your insurance cards, a list of medications, and other
                 things to share with your provider
