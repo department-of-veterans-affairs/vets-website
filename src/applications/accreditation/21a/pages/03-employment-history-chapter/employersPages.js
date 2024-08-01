@@ -67,7 +67,7 @@ const informationPage = {
     positionTitle: textUI('Position title'),
     supervisorName: textUI({
       title: 'Supervisor name',
-      hint: 'If you are self-employed, write "self".',
+      hint: 'If you are self-employed, write "self."',
     }),
   },
   schema: {
