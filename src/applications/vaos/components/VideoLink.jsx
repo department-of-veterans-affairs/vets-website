@@ -1,5 +1,4 @@
 import React from 'react';
-// import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import NewTabAnchor from './NewTabAnchor';
