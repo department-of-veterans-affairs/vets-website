@@ -21,6 +21,7 @@ export default function useWebChatStore({
   userUuid,
   isMobile,
   environment,
+  isComponentToggleOn,
 }) {
   return useMemo(
     () => {
@@ -34,6 +35,7 @@ export default function useWebChatStore({
           userFirstName: getUserFirstName(userFirstName),
           userUuid: getUserUuid(userUuid),
           isMobile,
+          isComponentToggleOn,
         }),
       );
     },

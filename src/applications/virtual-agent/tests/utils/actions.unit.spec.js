@@ -9,6 +9,7 @@ import {
 } from '../../utils/actions';
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
+import * as SubmitFormModule from '../../utils/submitForm';
 
 describe('actions', () => {
   let sandbox;
@@ -417,7 +418,82 @@ describe('actions', () => {
 
       expect(setIsRxSkillStub.notCalled).to.be.true;
     });
+
+    it('should call submitForm when activity is FormPostButton and component toggle is on', () => {
+      const url = 'https://test.com/';
+      const body = {
+        field1: 'value1',
+        field2: 'value2',
+      };
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            value: {
+              type: 'FormPostButton',
+              url,
+              body,
+            },
+          },
+        },
+      };
+
+      const submitFormStub = sandbox.stub(SubmitFormModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isComponentToggleOn: true,
+      })();
+
+      expect(submitFormStub.calledOnce).to.be.true;
+      expect(submitFormStub.calledWithExactly(url, body)).to.be.true;
+    });
+
+    it('should call submitForm when activity is FormPostButton and component toggle is off', () => {
+      const action = {
+        payload: {
+          activity: {
+            value: {
+              type: 'FormPostButton',
+            },
+          },
+        },
+      };
+
+      const submitFormStub = sandbox.stub(SubmitFormModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+        isComponentToggleOn: false,
+      })();
+
+      expect(submitFormStub.notCalled).to.be.true;
+    });
+
+    it('should not call submitForm when activity is not FormPostButton', () => {
+      const action = {
+        payload: {
+          activity: {
+            value: {
+              type: 'other',
+            },
+          },
+        },
+      };
+
+      const submitFormStub = sandbox.stub(SubmitFormModule, 'default');
+
+      processIncomingActivity({
+        action,
+        dispatch: sandbox.spy(),
+      })();
+
+      expect(submitFormStub.notCalled).to.be.true;
+    });
   });
+
   describe('processMicrophoneActivity', () => {
     it('should call recordEvent when enabling the microphone for prescriptions', () => {
       const action = {
