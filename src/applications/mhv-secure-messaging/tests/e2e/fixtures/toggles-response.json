@@ -23,7 +23,7 @@
         "value": true
       },
       {
-        "name": "mhvSecureMessagingEditContactList",
+        "name": "mhv_secure_messaging_edit_contact_list",
         "value": true
       }
     ]
