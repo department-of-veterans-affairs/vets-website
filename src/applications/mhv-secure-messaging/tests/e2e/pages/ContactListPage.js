@@ -17,13 +17,11 @@ class ContactListPage {
 
   verifyAllCheckboxes = value => {
     cy.get(Locators.CHECKBOX.CL_ALL).then(el => {
-      // eslint-disable-next-line no-unused-expressions
       expect(el.prop('checked')).to.eq(value);
     });
 
     cy.get(Locators.CHECKBOX.CL_SINGLE).each(el => {
       cy.wrap(el).then(box => {
-        // eslint-disable-next-line no-unused-expressions
         expect(box.prop(`checked`)).to.eq(value);
       });
     });
