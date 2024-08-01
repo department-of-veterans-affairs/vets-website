@@ -21,7 +21,7 @@ import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 import Standard5103NoticePage from './containers/Standard5103NoticePage';
 
-const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
+const { cstUseClaimDetailsV2, cst5103UpdateEnabled } = Toggler.TOGGLE_NAMES;
 
 const detailsRoute = (
   <TogglerRoute toggleName={cstUseClaimDetailsV2} redirectWhenToggleEnabled>
@@ -32,6 +32,18 @@ const detailsRoute = (
 const overviewRoute = (
   <TogglerRoute toggleName={cstUseClaimDetailsV2}>
     <OverviewPage />
+  </TogglerRoute>
+);
+
+const askVARoute = (
+  <TogglerRoute toggleName={cst5103UpdateEnabled} redirectWhenToggleEnabled>
+    <AskVAPage />
+  </TogglerRoute>
+);
+
+const standard5103EvidenceNoticeRoute = (
+  <TogglerRoute toggleName={cst5103UpdateEnabled}>
+    <Standard5103NoticePage />
   </TogglerRoute>
 );
 
@@ -47,10 +59,10 @@ const routes = (
       <Route path="your-claims" element={<YourClaimsPageV2 />} />
       <Route path="your-claims/:id" element={<ClaimPage />}>
         <Route index element={<Navigate to="status" replace />} />
-        <Route path="ask-va-to-decide" element={<AskVAPage />} />
+        <Route path="ask-va-to-decide" element={askVARoute} />
         <Route
           path="5103-evidence-notice"
-          element={<Standard5103NoticePage />}
+          element={standard5103EvidenceNoticeRoute}
         />
         <Route path="claim-estimate" element={<ClaimEstimationPage />} />
         <Route path="details" element={detailsRoute} />

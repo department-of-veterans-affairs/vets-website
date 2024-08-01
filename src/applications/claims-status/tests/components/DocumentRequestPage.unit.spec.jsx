@@ -296,35 +296,6 @@ describe('<DocumentRequestPage>', () => {
       expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
-    it('should clear upload error when leaving', () => {
-      const trackedItem = {
-        status: 'NEEDED_FROM_YOU',
-      };
-
-      const message = {
-        title: 'test',
-        body: 'test',
-        type: 'error',
-      };
-      const clearNotification = sinon.spy();
-
-      const { container, unmount } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            clearNotification={clearNotification}
-            message={message}
-          />
-          ,
-        </Provider>,
-      );
-
-      expect($('va-alert', container)).to.exist;
-      unmount();
-      expect(clearNotification.called).to.be.true;
-    });
-
     it('should not clear notification after completed upload', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',

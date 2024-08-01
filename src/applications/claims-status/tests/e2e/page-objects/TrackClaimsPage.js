@@ -372,7 +372,7 @@ class TrackClaimsPage {
       .check({ force: true })
       .then(() => {
         cy.get('#submit').click();
-        cy.wait('@submit5103');
+        cy.wait('@askVA');
       });
     cy.url().should('contain', 'files');
     cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
