@@ -47,7 +47,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit what information"
                 text="Edit"
                 data-testid="edit-what-information-link"
-                role="link"
               />
             </div>
           </div>
@@ -62,7 +61,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit provider information"
                 text="Edit"
                 data-testid="edit-provider-information-link"
-                role="link"
               />
             </div>
           </div>
@@ -81,7 +79,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit when information"
                 text="Edit"
                 data-testid="edit-when-information-link"
-                role="link"
               />
             </div>
           </div>
@@ -99,7 +96,6 @@ export default function ConfirmApprovedPage() {
                 aria-label="Edit details share"
                 text="Edit"
                 data-testid="edit-details-shared-link"
-                role="link"
               />
             </div>
           </div>

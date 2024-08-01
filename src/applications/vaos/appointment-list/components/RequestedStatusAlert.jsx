@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoAlert from '../../components/InfoAlert';
@@ -13,18 +13,16 @@ import { startNewAppointmentFlow } from '../redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
 export default function RequestedStatusAlert({ appointment, facility }) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const { search } = useLocation();
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
@@ -71,10 +69,10 @@ export default function RequestedStatusAlert({ appointment, facility }) {
             </div>
             <div className=" vads-u-margin-top--1">
               <va-link
-                onClick={handleClick(history, dispatch, typeOfCare)}
+                onClick={handleClick(dispatch)}
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                role="link"
+                href={`${root.url}${typeOfCare.url}`}
               />
             </div>
           </>

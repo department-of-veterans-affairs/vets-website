@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import moment from '../../../lib/moment-tz';
@@ -19,14 +18,14 @@ import {
 import { GA_PREFIX, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import { getTypeOfCareById } from '../../../utils/appointment';
 import { startNewAppointmentFlow } from '../../redux/actions';
+import getNewAppointmentFlow from '../../newAppointmentFlow';
 
-function handleClick(history, dispatch) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
   };
 }
 
@@ -36,15 +35,15 @@ export default function ConfirmationDirectScheduleInfoV2({
   clinic,
   slot,
 }) {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
 
   const timezone = getTimezoneByFacilityId(data.vaFacility);
   const momentDate = timezone
     ? moment(slot.start).tz(timezone, true)
     : moment(slot.start);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
-  const typeOfCare = getTypeOfCareById(data.typeOfCareId)?.name;
+  const typeOfCareName = getTypeOfCareById(data.typeOfCareId)?.name;
   return (
     <>
       <h1 className="vads-u-font-size--h2">
@@ -69,18 +68,18 @@ export default function ConfirmationDirectScheduleInfoV2({
         <div>
           <va-link
             text="Schedule a new appointment"
-            onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"
-            role="link"
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </div>
       </InfoAlert>
-      {typeOfCare && (
+      {typeOfCareName && (
         <>
           <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
             Type of care:
           </h2>
-          <div className="vads-u-display--inline"> {typeOfCare}</div>
+          <div className="vads-u-display--inline"> {typeOfCareName}</div>
         </>
       )}
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">

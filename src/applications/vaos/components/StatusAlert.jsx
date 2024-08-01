@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -18,18 +18,16 @@ import {
 } from '../redux/selectors';
 import AfterVisitSummary from './AfterVisitSummary';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
 export default function StatusAlert({ appointment, facility }) {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const { search } = useLocation();
@@ -78,14 +76,12 @@ export default function StatusAlert({ appointment, facility }) {
               />
             </div>
             <div>
-              <button
-                className="va-button-link"
+              <va-link
+                text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                role="link"
-              >
-                Schedule a new appointment
-              </button>
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
+              />
             </div>
           </>
         )}
@@ -135,14 +131,12 @@ export default function StatusAlert({ appointment, facility }) {
             />
           </div>
           <div>
-            <button
-              className="va-button-link"
+            <va-link
+              text="Schedule a new appointment"
               data-testid="schedule-appointment-link"
-              onClick={handleClick(history, dispatch, typeOfCare)}
-              role="link"
-            >
-              Schedule a new appointment
-            </button>
+              onClick={handleClick(dispatch)}
+              href={`${root.url}${typeOfCare.url}`}
+            />
           </div>
         </InfoAlert>
       );
@@ -157,14 +151,12 @@ export default function StatusAlert({ appointment, facility }) {
             : 'If you want to reschedule, call us or schedule a new appointment online.'}
           <br />
           <br />
-          <button
-            className="va-button-link"
+          <va-link
+            text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            role="link"
-          >
-            Schedule a new appointment
-          </button>
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
+          />
         </InfoAlert>
       );
     }
@@ -182,14 +174,12 @@ export default function StatusAlert({ appointment, facility }) {
             <>
               <br />
               <br />
-              <button
-                className="va-button-link"
+              <va-link
+                text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                role="link"
-              >
-                Schedule a new appointment
-              </button>
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
+              />
             </>
           )}
         </InfoAlert>
@@ -221,14 +211,12 @@ export default function StatusAlert({ appointment, facility }) {
           />
         </div>
         <div>
-          <button
-            className="va-button-link"
+          <va-link
+            text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            role="link"
-          >
-            Schedule a new appointment
-          </button>
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
+          />
         </div>
       </InfoAlert>
     );
