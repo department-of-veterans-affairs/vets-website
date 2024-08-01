@@ -6,13 +6,7 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import {
-  // START ligthouse_migration
-  submit5103 as submit5103Action,
-  submitRequest as submitRequestAction,
-  // END lighthouse_migration
-  getClaim as getClaimAction,
-} from '../actions';
+import { getClaim as getClaimAction } from '../actions';
 import { setDocumentTitle, getClaimType } from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
@@ -105,10 +99,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getClaim: getClaimAction,
-  // START lighthouse_migration
-  submit5103: submit5103Action,
-  submitRequest: submitRequestAction,
-  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -122,8 +112,6 @@ Standard5103NoticePage.propTypes = {
   claim: PropTypes.object,
   getClaim: PropTypes.func,
   loading: PropTypes.bool,
-  navigate: PropTypes.func,
-  params: PropTypes.object,
 };
 
 export { Standard5103NoticePage };

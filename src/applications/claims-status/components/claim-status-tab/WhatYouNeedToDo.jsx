@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import { getFilesNeeded } from '../../utils/helpers';
+import { getFilesNeeded, isAutomated5103Notice } from '../../utils/helpers';
 
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
 import Standard5103Alert from '../claim-files-tab/Standard5103Alert';
@@ -13,18 +13,11 @@ function WhatYouNeedToDo({ claim }) {
     trackedItems,
   } = claim.attributes;
 
-  // const getfilesNeeded = () => {
-  //   const filesNeeded = trackedItems ? getFilesNeeded(trackedItems) : [];
-  //   // Remove the automated 5103 item from filesNeeded when evidenceWaiverSubmitted5103 = true
-  //   return filesNeeded.filter(i => !(evidenceWaiverSubmitted5103 && i.displayName === 'Automated 5103 Notice Response') );
-  // }
-
   const filesNeeded = trackedItems
     ? getFilesNeeded(trackedItems).filter(
         i =>
           !(
-            evidenceWaiverSubmitted5103 &&
-            i.displayName === 'Automated 5103 Notice Response'
+            evidenceWaiverSubmitted5103 && isAutomated5103Notice(i.displayName)
           ),
       )
     : [];
@@ -32,8 +25,8 @@ function WhatYouNeedToDo({ claim }) {
   const standard5103NoticeExists =
     claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
     evidenceWaiverSubmitted5103 === false;
-  const automated5103NoticeExists = filesNeeded.some(
-    i => i.displayName === 'Automated 5103 Notice Response',
+  const automated5103NoticeExists = filesNeeded.some(i =>
+    isAutomated5103Notice(i.displayName),
   );
 
   return (

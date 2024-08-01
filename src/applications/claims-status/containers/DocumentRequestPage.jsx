@@ -35,6 +35,7 @@ import {
   setDocumentRequestPageTitle,
   setDocumentTitle,
   getClaimType,
+  isAutomated5103Notice,
 } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
@@ -90,7 +91,10 @@ class DocumentRequestPage extends React.Component {
   }
 
   componentWillUnmount() {
-    if (!this.props.uploadComplete) {
+    if (
+      !this.props.uploadComplete &&
+      !isAutomated5103Notice(this.props.trackedItem.displayName)
+    ) {
       this.props.clearNotification();
     }
   }
@@ -149,8 +153,6 @@ class DocumentRequestPage extends React.Component {
       );
     } else {
       const { message, trackedItem } = this.props;
-      const is5103Notice =
-        trackedItem.displayName === 'Automated 5103 Notice Response';
 
       content = (
         <>
@@ -166,7 +168,7 @@ class DocumentRequestPage extends React.Component {
           )}
           <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
             <Toggler.Enabled>
-              {is5103Notice ? (
+              {isAutomated5103Notice(trackedItem.displayName) ? (
                 <Default5103EvidenceNotice item={trackedItem} />
               ) : (
                 <>{this.getDefaultPage()}</>

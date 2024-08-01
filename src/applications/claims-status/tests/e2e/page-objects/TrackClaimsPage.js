@@ -375,8 +375,7 @@ class TrackClaimsPage {
         cy.wait('@submit5103');
       });
     cy.url().should('contain', 'files');
-
-    // cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
+    cy.get('va-alert h2').should('contain', 'We received your evidence waiver');
   }
 
   submitFilesForReview() {

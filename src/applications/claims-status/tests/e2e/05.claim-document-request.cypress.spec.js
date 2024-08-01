@@ -3,6 +3,7 @@ import TrackClaimsPage from './page-objects/TrackClaimsPage';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 import claimDetail from './fixtures/mocks/lighthouse/claim-detail.json';
+import claimDetailWith5103Notice from './fixtures/mocks/lighthouse/claim-detail-with-standard-5103-notice.json';
 
 describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabled disabled', () => {
   context('A user can view primary alert details from the files tab', () => {
@@ -167,6 +168,26 @@ describe('When feature toggle cst_use_claim_details_v2 and cst_5103_update_enabl
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.verifyPrimaryAlertfor5103Notice();
         trackClaimsPage.verifyDocRequestfor5103Notice();
+        trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
+        trackClaimsPage.submitEvidenceWaiver();
+        cy.axeCheck();
+      });
+    });
+
+    context('when alert is a Standard 5103 Notice', () => {
+      it('Shows primary alert details', () => {
+        const trackClaimsPage = new TrackClaimsPageV2();
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailWith5103Notice,
+          true,
+          false,
+          false,
+          true,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
+        trackClaimsPage.verifyDocRequestfor5103Notice(true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
         cy.axeCheck();

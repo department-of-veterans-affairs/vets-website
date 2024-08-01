@@ -32,6 +32,7 @@ import {
 import {
   getFilesNeeded,
   getFilesOptional,
+  isAutomated5103Notice,
   isClaimOpen,
 } from '../../utils/helpers';
 import withRouter from '../../utils/withRouter';
@@ -105,8 +106,8 @@ class AdditionalEvidencePage extends React.Component {
       const standard5103NoticeExists =
         claimPhaseDates.latestPhaseType === 'GATHERING_OF_EVIDENCE' &&
         evidenceWaiverSubmitted5103 === false;
-      const automated5103NoticeExists = filesNeeded.some(
-        i => i.displayName === 'Automated 5103 Notice Response',
+      const automated5103NoticeExists = filesNeeded.some(i =>
+        isAutomated5103Notice(i.displayName),
       );
 
       content = (

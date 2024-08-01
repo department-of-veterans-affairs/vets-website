@@ -6,7 +6,7 @@ import {
   VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildDateFormatter } from '../../utils/helpers';
+import { buildDateFormatter, isAutomated5103Notice } from '../../utils/helpers';
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
@@ -65,11 +65,9 @@ function Default5103EvidenceNotice({
     }
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const isAutomated5103Notice =
-    item.displayName === 'Automated 5103 Notice Response';
   const isStandard5103Notice = item.displayName === '5103 Evidence Notice';
 
-  if (!isAutomated5103Notice && !isStandard5103Notice) {
+  if (!isAutomated5103Notice(item.displayName) && !isStandard5103Notice) {
     return null;
   }
 
@@ -95,8 +93,8 @@ function Default5103EvidenceNotice({
         Go to claim letters
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
-      {isAutomated5103Notice && (
-        <p>
+      {isAutomated5103Notice(item.displayName) && (
+        <p data-testid="due-date-information">
           You don’t need to do anything on this page. We’ll wait until{' '}
           <strong>{formattedDueDate}</strong>, to move your claim to the next
           step.
