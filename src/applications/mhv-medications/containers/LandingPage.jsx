@@ -16,7 +16,10 @@ import {
   defaultSelectedSortOption,
   DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
@@ -42,7 +45,7 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const showAllergiesContent = useSelector(() => false);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -567,6 +570,13 @@ const LandingPage = () => {
                   </p>
                   {showAllergiesContent ? (
                     <a
+                      href="/my-health/medical-records/allergies"
+                      rel="noreferrer"
+                    >
+                      Go to your allergies and reactions
+                    </a>
+                  ) : (
+                    <a
                       href={mhvUrl(
                         isAuthenticatedWithSSOe(fullState),
                         'va-allergies-adverse-reactions',
@@ -578,13 +588,6 @@ const LandingPage = () => {
                     >
                       Go to your allergy and reaction records on the My
                       HealtheVet website
-                    </a>
-                  ) : (
-                    <a
-                      href="/my-health/medical-records/allergies"
-                      rel="noreferrer"
-                    >
-                      Go to your allergies and reactions
                     </a>
                   )}
                   <h4 className="vads-u-margin-top--2">

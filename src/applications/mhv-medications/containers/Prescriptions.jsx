@@ -47,7 +47,10 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -75,7 +78,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.apiError,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const showAllergiesContent = useSelector(() => false);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -474,19 +477,20 @@ const Prescriptions = () => {
           >
             When you share your medications list with providers, make sure you
             also tell them about your allergies and reactions to medications.{' '}
-            {showAllergiesContent ? (
+            {!showAllergiesContent && (
               <span>
                 If you print or download this list, we’ll include a list of your
                 allergies.
               </span>
-            ) : (
-              <div>
-                <a href="/my-health/medical-records/allergies" rel="noreferrer">
-                  Go to your allergies and reactions
-                </a>
-              </div>
             )}
           </p>
+          {showAllergiesContent && (
+            <div className="vads-u-margin-bottom--3">
+              <a href="/my-health/medical-records/allergies" rel="noreferrer">
+                Go to your allergies and reactions
+              </a>
+            </div>
+          )}
           {prescriptionsApiError ? (
             <>
               <ApiErrorNotification errorType="access" content="medications" />
