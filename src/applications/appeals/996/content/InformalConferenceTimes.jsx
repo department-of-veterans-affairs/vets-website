@@ -59,7 +59,7 @@ export const InformalConferenceTimesDescriptionRep = (
       <p>
         <strong>
           We’ll make two attempts to contact your accredited representative.
-        </strong>
+        </strong>{' '}
         If no one answers, we’ll leave a voice mail and a number for your
         accredited representative to call us back. If we can’t leave a message
         or make contact with them after 2 attempts, we’ll review and decide your
