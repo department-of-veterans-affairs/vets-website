@@ -15,7 +15,8 @@ const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const canceledPhoneAppointmentUUID = '1448d690-fd5f-11ec-b939-0242ac120002';
 
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
-const past15MinuteUUID = 'f4167a0a-c74d-4e1e-9715-ca22ed7fab9e';
+const withDayofAppointmentUUID = 'f4167a0a-c74d-4e1e-9715-ca22ed7fab9e';
+
 const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 
 const allDemographicsCurrentUUID = 'e544c217-6fe8-44c5-915f-6c3d9908a678';
@@ -40,8 +41,8 @@ const createMockSuccessResponse = (
       case expiredUUID:
       case expiredPhoneUUID:
         return new Date();
-      case past15MinuteUUID:
-        return dateFns.sub(new Date(), { minutes: 15 });
+      case withDayofAppointmentUUID:
+        return dateFns.add(new Date(), { minutes: 60 });
       default:
         return dateFns.add(new Date(), { days: 1 });
     }
@@ -195,5 +196,5 @@ module.exports = {
   createMockSuccessResponse,
   defaultUUID,
   expiredUUID,
-  past15MinuteUUID,
+  withDayofAppointmentUUID,
 };

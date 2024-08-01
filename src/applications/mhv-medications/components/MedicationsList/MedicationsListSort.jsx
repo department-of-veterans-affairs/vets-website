@@ -8,11 +8,9 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
-import {
-  rxListSortingOptions,
-  DD_ACTIONS_PAGE_TYPE,
-} from '../../util/constants';
+import { rxListSortingOptions } from '../../util/constants';
 import { selectRefillContentFlag } from '../../util/selectors';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
@@ -29,9 +27,10 @@ const MedicationsListSort = props => {
           data-testid="sort-dropdown"
           label="Show medications in this order"
           name="sort-order"
-          data-dd-action-name={`Show Medications In This Order Select - ${
-            DD_ACTIONS_PAGE_TYPE.LIST
-          }`}
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage
+              .SHOW_MEDICATIONS_IN_ORDER_SELECT
+          }
           value={sortListOption}
           onVaSelect={e => {
             setSortListOption(e.detail.value);
@@ -41,9 +40,7 @@ const MedicationsListSort = props => {
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(' ');
             datadogRum.addAction(
-              `click on ${capitalizedOption} Option - ${
-                DD_ACTIONS_PAGE_TYPE.LIST
-              }`,
+              `click on ${capitalizedOption} Option - ${pageType.LIST}`,
             );
           }}
           uswds
@@ -59,9 +56,9 @@ const MedicationsListSort = props => {
       </div>
       <div className="sort-button">
         <VaButton
-          data-dd-action-name={`Sort Medications Button - ${
-            DD_ACTIONS_PAGE_TYPE.LIST
-          }`}
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.SORT_MEDICATIONS_BUTTON
+          }
           uswds
           className="va-button"
           secondary={showRefillContent}

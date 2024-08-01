@@ -36,6 +36,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validatePageLoaded();
+      cy.createScreenshots('Day-of-check-in--Errors--generic');
     });
   });
   describe('Patient who encounters an error when getting upcoming appointments', () => {
@@ -51,6 +52,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       ValidateVeteran.attemptToGoToNextPage();
       AppointmentsPage.validatePageLoaded();
       AppointmentsPage.validateErrorMessage();
+      cy.createScreenshots('Day-of-check-in--Errors--upcoming-fail');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -92,6 +94,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       TravelPages.attemptToGoToNextPage('no');
 
       Error.validatePageLoaded('check-in-failed-find-out');
+      cy.createScreenshots('Day-of-check-in--Errors--check-in-fail');
       cy.injectAxe();
       cy.axeCheck();
     });
@@ -147,6 +150,9 @@ describe('Check In Experience | Day Of | API Errors', () => {
       TravelPages.acceptTerms();
       TravelPages.attemptToGoToNextPage();
       Confirmation.validatePageLoadedWithBtsssGenericFailure();
+      cy.createScreenshots(
+        'Day-of-check-in--Errors--travel-fail-check-in-success',
+      );
       cy.injectAxeThenAxeCheck();
     });
   });
