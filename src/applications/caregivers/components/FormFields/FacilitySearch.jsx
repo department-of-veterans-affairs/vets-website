@@ -1,101 +1,99 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import {
+  VaButton,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchMapBoxBBoxCoordinates } from '../../actions/fetchMapBoxBBoxCoordinates';
-import { FacilityList } from './FacilityList';
+import { fetchFacilities } from '../../actions/fetchFacilities';
+import FacilityList from './FacilityList';
+import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
-  const { value } = props;
-  const [input, setInput] = useState('');
+  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [coordinates, setCoordinates] = useState(null);
+  const [facilities, setFacilities] = useState([]);
 
-  const handleInputChange = e => {
-    setInput(e.target.value);
+  const listProps = useMemo(() => ({ ...props, facilities, query }), [
+    facilities,
+    props,
+    query,
+  ]);
+
+  const handleChange = e => {
+    setQuery(e.target.value);
   };
 
-  const handleClick = async event => {
-    event.preventDefault();
-    setLoading(true);
-
-    // Check if input is empty
-    if (!input.trim()) {
-      setError('Please provide a city, state or postal code');
-      setLoading(false);
+  const handleClick = async () => {
+    if (!query.trim()) {
+      setError(content['validation-facilities--search-required']);
       return;
     }
 
+    setLoading(true);
     setError(null);
-    setCoordinates(null);
+    setFacilities(null);
 
-    const response = await fetchMapBoxBBoxCoordinates(input);
-    if (
-      response.type === 'NO_SEARCH_RESULTS' ||
-      response.type === 'SEARCH_FAILED'
-    ) {
-      setError(response.errorMessage);
-    } else {
-      setCoordinates(response);
+    try {
+      const coordinates = await fetchMapBoxBBoxCoordinates(query);
+      const facilityList = await fetchFacilities(coordinates);
+      setFacilities(facilityList);
+    } catch (err) {
+      setError(err.errorMessage);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const searchResults = () => {
+    if (loading) {
+      return (
+        <va-loading-indicator
+          label={content['app-loading-generic-text']}
+          message={content['facilities-loading-text']}
+          set-focus
+        />
+      );
+    }
+    if (facilities?.length) {
+      return <FacilityList {...listProps} />;
+    }
+    return null;
   };
 
   return (
     <>
-      <div
-        role="search"
-        className="vads-u-padding-top--2 vads-u-padding-bottom--3 vads-u-padding-left--4 vads-u-padding-right--3 vads-u-background-color--gray-lightest"
-      >
+      <va-card role="search">
         <label
           htmlFor="facility-search"
           id="facility-search-label"
           className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
         >
-          Search by city, state or postal code
-          <va-text-input
-            id="facility-search"
-            hint="Enter a city, state, or postal code"
-            aria-labelledby="facility-search-label"
-            name="preferred-facility-search"
-            onInput={handleInputChange}
+          {content['form-facilities-search-label']}
+          <VaTextInput
+            id="root_caregivers_facility_search"
+            name="root_caregivers_facility_search"
+            hint={content['form-facilities-search-hint']}
             error={error}
+            onInput={handleChange}
             required
-            uswds
           />
-          <va-button
-            onClick={handleClick}
+          <VaButton
             data-testid="caregivers-search-btn"
-            uswds
-          >
-            Search
-          </va-button>
+            text={content['button-search']}
+            onClick={handleClick}
+          />
         </label>
-      </div>
+      </va-card>
 
-      {loading && (
-        <va-loading-indicator
-          label="Loading"
-          message="Loading available facilities..."
-          set-focus
-        />
-      )}
-      {coordinates && (
-        <FacilityList
-          input={input}
-          coordinates={coordinates}
-          value={value}
-          {...props}
-        />
-      )}
+      {searchResults()}
     </>
   );
 };
 
 FacilitySearch.propTypes = {
-  formContext: PropTypes.object,
-  plannedClinic: PropTypes.string,
   value: PropTypes.string,
-  onChange: PropTypes.func,
 };
 
 export default FacilitySearch;
