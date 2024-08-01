@@ -3,6 +3,8 @@ import {
   checkboxGroupUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import EmploymentActivitiesDescription from '../../components/03-employment-history-chapter/EmploymentActivitiesDescription';
+
 const employmentActivitiesOptions = Object.freeze({
   financial: 'Financial planning',
   home: 'Home care',
@@ -21,8 +23,7 @@ export default {
     employmentActivities: checkboxGroupUI({
       title:
         'During the past ten years have you been involved in any of the following activities?',
-      description:
-        'Note: Check all that apply. Failure to identify relevant activities may result in a delay in processing your application.',
+      description: EmploymentActivitiesDescription,
       required: true,
       labels: employmentActivitiesOptions,
     }),
