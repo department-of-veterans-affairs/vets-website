@@ -14,7 +14,6 @@ import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
-  DD_ACTIONS_PAGE_TYPE,
   SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
