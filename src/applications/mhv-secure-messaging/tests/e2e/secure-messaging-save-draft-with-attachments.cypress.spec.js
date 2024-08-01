@@ -26,16 +26,20 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       `/my_health/v1/messaging/message_drafts/${
         mockDraftResponse.data.attributes.messageId
       }`,
-      mockDraftResponse,
-    ).as('autosaveResponse');
+
+      {},
+    ).as('draftSave');
 
     PatientComposePage.saveDraftButton().click();
+    PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
     // verify modal elements
-    cy.get(Locators.ALERTS.HEADER).should('have.text', Alerts.SAVE_ATTCH);
+    cy.get(`[data-testid="quit-compose-double-dare"]`)
+      .shadow()
+      .find(`h2`)
+      .should('have.text', Alerts.SAVE_ATTCH);
     PatientMessageDraftsPage.verifySaveModalButtons();
 
-    cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 

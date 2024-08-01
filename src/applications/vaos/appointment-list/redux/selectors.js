@@ -212,9 +212,12 @@ export function selectAppointmentDetails(appointment) {
   if (appointment.vaos.isCommunityCare) {
     return comment || 'none';
   }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
+  return appointment.reasonForAppointment && comment
+    ? `${appointment.reasonForAppointment}: ${comment}`
+    : comment ||
+        (appointment.reasonForAppointment
+          ? appointment.reasonForAppointment
+          : null);
 }
 
 export function selectProviderAddress(appointment) {

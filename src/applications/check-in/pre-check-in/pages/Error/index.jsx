@@ -2,11 +2,12 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { subDays } from 'date-fns';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { phoneNumbers } from '../../../utils/appConstants';
 import HowToLink from '../../../components/HowToLink';
 import ExternalLink from '../../../components/ExternalLink';
-
+import ConfirmationAccordionBlock from '../../../components/ConfirmationAccordionBlock';
 import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 
 import Wrapper from '../../../components/layout/Wrapper';
@@ -16,7 +17,13 @@ import { getFirstCanceledAppointment } from '../../../utils/appointment';
 const Error = () => {
   const selectError = useMemo(makeSelectError, []);
   const { error } = useSelector(selectError);
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  // appt link will be /my-health/appointments if toggle is on
+  const apptLink = useToggleValue(
+    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
+  )
+    ? 'https://va.gov/my-health/appointments/'
+    : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
@@ -33,28 +40,20 @@ const Error = () => {
       data-testid="no-longer-available-message"
       className="vads-u-margin-top--0"
     >
-      {t('pre-check-in-no-longer-available')}
+      {t('the-link-selected-has-expired')}
     </p>
   );
   const somethingWentWrongMesage = (
     <div data-testid="something-went-wrong-message">
-      <p className="vads-u-margin-top--0">{t('something-went-wrong')}</p>
-      <p>
-        <ExternalLink
-          href="https://www.va.gov/find-locations"
-          hrefLang="en"
-          eventId="find-facility-locations--link-clicked"
-          eventPrefix="nav"
-        >
-          {t('find-your-va-health-facility')}
-        </ExternalLink>
+      <p className="vads-u-margin-top--0">
+        {t('were-sorry-something-went-wrong-on-our-end')}
       </p>
     </div>
   );
   const mixedModalityMessage = (
     <div data-testid="mixed-modality-message">
       <div>
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
       </div>
@@ -64,7 +63,7 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('video-appointment--title')}
         </span>
       </div>
@@ -80,7 +79,7 @@ const Error = () => {
         </ExternalLink>
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+        <span className="appointment-type-label vads-u-font-weight--bold">
           {t('phone-appointment')}
         </span>
       </div>
@@ -91,7 +90,7 @@ const Error = () => {
   switch (error) {
     case 'max-validation':
       alertType = 'error';
-      header = t('sorry-we-cant-complete-pre-check-in');
+      header = t('we-cant-match-your-information');
       messageText = (
         <>
           <div className="vads-u-margin-bottom--2">
@@ -104,14 +103,14 @@ const Error = () => {
     case 'pre-check-in-post-error':
     case 'error-completing-pre-check-in':
       alertType = 'error';
-      header = t('sorry-we-cant-complete-pre-check-in');
+      header = t('something-went-wrong-on-our-end');
       messageText = (
         <>
           <p className="vads-u-margin-top--0">
             {t('something-went-wrong-please-try-again')}
           </p>
           <p data-testid="date-message">
-            {t('you-can-pre-check-in-online-until-date', {
+            {t('you-can-review-online-until-date', {
               date: subDays(new Date(appointments[0].startTime), 1),
             })}
           </p>
@@ -119,22 +118,20 @@ const Error = () => {
       );
       break;
     case 'appointment-canceled': {
-      alertType = 'warning';
-      header = t('sorry-pre-check-in-is-no-longer-available');
+      alertType = 'error';
+      header = t('canceled-in-person-appointment');
       // get first appointment that was canceled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
-      const appointmentDateTime = new Date(canceledAppointment.startTime);
+      const openingText =
+        canceledAppointment.status === 'CANCELLED BY PATIENT'
+          ? t('you-canceled')
+          : t('facility-canceled');
       messageText = (
-        <div>
+        <div data-testid="canceled-message">
           <p className="vads-u-margin-top--0">
-            {t('your-appointment-at-on-is-canceled', {
-              day: appointmentDateTime,
-              time: appointmentDateTime,
-            })}
-          </p>
-          <p className="vads-u-margin-top--2">
+            <span className="vads-u-font-weight--bold">{openingText} </span>
             <Trans
-              i18nKey="if-you-have-questions-please-call-us-were-here-24-7"
+              i18nKey="if-you-want-to-reschedule"
               components={[
                 <va-telephone
                   contact={phoneNumbers.mainInfo}
@@ -144,70 +141,34 @@ const Error = () => {
               ]}
             />
           </p>
-          {canceledAppointment?.kind === 'phone' ? (
-            ''
-          ) : (
-            <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-              {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
-            </p>
-          )}
+          <p>
+            <ExternalLink
+              href={apptLink}
+              hrefLang="en"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('sign-in-to-schedule')}
+            </ExternalLink>
+          </p>
+          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
+          </p>
         </div>
       );
       break;
     }
     case 'pre-check-in-expired':
-      alertType = 'warning';
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText = (
-        <>
-          {noLongerAvailableMessage}
-          {mixedModalityMessage}
-        </>
-      );
-      break;
     case 'uuid-not-found':
-      // Shown when POST sessions returns 404.
       alertType = 'warning';
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText = (
-        <>
-          {somethingWentWrongMesage}
-          {mixedModalityMessage}
-        </>
-      );
-      break;
-    case 'reload-data-error':
-      alertType = 'error';
-      header = t('sorry-we-cant-complete-pre-check-in');
-      messageText = (
-        <>
-          <p className="vads-u-margin-top--0">
-            {t('something-went-wrong-please-try-again')}
-          </p>
-          <p>{t('if-you-have-questions-call')}</p>
-          <p>
-            <ExternalLink
-              href="https://www.va.gov/find-locations"
-              hrefLang="en"
-              eventId="find-facility-locations--link-clicked"
-              eventPrefix="nav"
-            >
-              {t('find-your-va-health-facility')}
-            </ExternalLink>
-          </p>
-        </>
-      );
+      header = t('you-cant-review-information-right-now');
+      messageText = <>{noLongerAvailableMessage}</>;
       break;
     default:
       // This is considered our generic error message
       alertType = 'error';
-      header = t('sorry-we-cant-complete-pre-check-in');
-      messageText = (
-        <>
-          {somethingWentWrongMesage}
-          {mixedModalityMessage}
-        </>
-      );
+      header = t('something-went-wrong-on-our-end');
+      messageText = <>{somethingWentWrongMesage}</>;
       break;
   }
 
@@ -220,50 +181,21 @@ const Error = () => {
         uswds
         slim
       >
-        <div>{messageText}</div>
+        <div data-testid={error}>{messageText}</div>
       </va-alert>
-      <HowToLink />
-      <div className="vads-u-margin-top--3">
-        <va-accordion uswds bordered data-testid="pre-check-in-accordions">
-          <va-accordion-item
-            header={t('what-is-pre-check-in')}
-            open={false}
-            uswds
-            bordered
-          >
-            <p>
-              {t('during-pre-check-in-you-can-review-your-contact-information')}
-            </p>
-            <p>
-              <Trans
-                i18nKey="you-can-also-sign-in-to-your-va-gov-profile-to-review-your-information"
-                components={[
-                  <ExternalLink
-                    key="link"
-                    href="https://www.va.gov/profile/personal-information"
-                    hrefLang="en"
-                  >
-                    link
-                  </ExternalLink>,
-                ]}
-                values={{ link: t('sign-in') }}
-              />
-            </p>
-          </va-accordion-item>
-          <va-accordion-item
-            header={t('why-cant-i-pre-check-in')}
-            open={false}
-            uswds
-            bordered
-          >
-            <p>
-              {t(
-                'you-can-pre-check-in-online-before-midnight-of-the-day-of-your-appointment',
-              )}
-            </p>
-          </va-accordion-item>
-        </va-accordion>
-      </div>
+      {error !== 'max-validation' && (
+        <>
+          <HowToLink />
+          <p className="vads-u-margin-bottom--4">
+            <ExternalLink href={apptLink} hrefLang="en">
+              {t('sign-in-to-manage')}
+            </ExternalLink>
+          </p>
+          <div className="vads-u-margin-top--3">
+            <ConfirmationAccordionBlock errorPage appointments={appointments} />
+          </div>
+        </>
+      )}
     </Wrapper>
   );
 };

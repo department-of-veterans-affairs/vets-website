@@ -3,9 +3,16 @@ import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import ActionLink from '../ActionLink';
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('ActionLink', () => {
     it('display the correct label for preCheckIn', () => {
       const { getByTestId } = render(
@@ -13,7 +20,6 @@ describe('unified check-in experience', () => {
           <ActionLink
             app="preCheckIn"
             action={() => {}}
-            cardTitleId="what-next-header-1"
             startTime="2023-01-01T10:00:00"
           />
         </CheckInProvider>,
@@ -28,7 +34,6 @@ describe('unified check-in experience', () => {
           <ActionLink
             app="dayOf"
             action={() => {}}
-            cardTitleId="what-next-header-1"
             startTime="2023-01-01T10:00:00"
           />
         </CheckInProvider>,
@@ -42,7 +47,6 @@ describe('unified check-in experience', () => {
           <ActionLink
             app="dayOf"
             action={actionSpy}
-            cardTitleId="what-next-header-1"
             startTime="2023-01-01T10:00:00"
           />
         </CheckInProvider>,
@@ -51,26 +55,12 @@ describe('unified check-in experience', () => {
       fireEvent.click(actionLink);
       expect(actionSpy.calledOnce).to.be.true;
     });
-    it('has attribute aria-labelledby for pre check in', () => {
-      const { getByTestId } = render(
-        <CheckInProvider>
-          <ActionLink
-            app="preCheckIn"
-            action={() => {}}
-            cardTitleId="what-next-header-1"
-            startTime="2023-01-01T10:00:00"
-          />
-        </CheckInProvider>,
-      );
-      expect(getByTestId('action-link')).to.have.attr('aria-labelledby');
-    });
     it('has the correct aria-label for day of', () => {
       const { getByTestId } = render(
         <CheckInProvider>
           <ActionLink
             app="dayOf"
             action={() => {}}
-            cardTitleId="what-next-header-1"
             startTime="2023-01-01T10:00:00"
           />
         </CheckInProvider>,
