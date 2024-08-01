@@ -93,7 +93,7 @@ class DocumentRequestPage extends React.Component {
   componentWillUnmount() {
     if (
       !this.props.uploadComplete &&
-      !isAutomated5103Notice(this.props.trackedItem.displayName)
+      !isAutomated5103Notice(this.props.trackedItem?.displayName)
     ) {
       this.props.clearNotification();
     }

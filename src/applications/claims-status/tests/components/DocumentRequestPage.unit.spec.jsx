@@ -16,11 +16,14 @@ import { renderWithRouter, rerenderWithRouter } from '../utils';
 const claim = {
   id: 1,
   attributes: {
+    description: 'Test',
+    displayName: 'Test description',
     status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
     closeDate: null,
     claimPhaseDates: {
       latestPhaseType: 'GATHERING_OF_EVIDENCE',
     },
+    trackedItem: [],
   },
 };
 
