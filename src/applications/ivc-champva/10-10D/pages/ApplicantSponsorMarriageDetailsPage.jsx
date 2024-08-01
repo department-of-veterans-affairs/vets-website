@@ -180,11 +180,11 @@ export function depends18f6(formData, index) {
 function marriageTitle(text, subtitle) {
   return {
     viewField: ApplicantField,
-    updateSchema: formData => {
+    updateSchema: _formData => {
       return {
-        title: context => {
+        title: ({ formData }) => {
           return titleUI(
-            `${applicantWording(formData, context, true, true)} ${text}`,
+            `${applicantWording(formData, true, true)} ${text}`,
             subtitle,
           )['ui:title'];
         },
@@ -323,13 +323,12 @@ export const remarriageDetailsSchema = {
       'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': {
-          updateSchema: formData => {
+          updateSchema: _formData => {
             return {
-              title: context =>
+              title: ({ formData }) =>
                 titleUI(
                   `${applicantWording(
                     formData,
-                    context,
                     true,
                     true,
                   )} remarriage details`,
