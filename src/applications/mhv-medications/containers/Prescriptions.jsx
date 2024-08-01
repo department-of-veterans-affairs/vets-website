@@ -478,10 +478,10 @@ const Prescriptions = () => {
             When you share your medications list with providers, make sure you
             also tell them about your allergies and reactions to medications.{' '}
             {!showAllergiesContent && (
-              <span>
+              <>
                 If you print or download this list, we’ll include a list of your
                 allergies.
-              </span>
+              </>
             )}
           </p>
           {showAllergiesContent && (
