@@ -24,7 +24,7 @@ export function toggleLoginModal(isOpen, trigger = 'header', derivedUrl) {
       : `${window.location.origin}${window.location.pathname}`;
     window.history.pushState({}, '', url);
 
-    await dispatch({
+    return dispatch({
       type: TOGGLE_LOGIN_MODAL,
       isOpen,
       trigger,
