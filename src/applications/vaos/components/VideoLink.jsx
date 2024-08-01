@@ -34,9 +34,10 @@ export default function VideoLink({ appointment }) {
         <>
           Join the video appointment using the link.
           <br />
+          <br />
           <NewTabAnchor
             href={url}
-            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
+            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
             aria-describedby={`description-join-link-${appointment.id}`}
             onClick={e => e.preventDefault()}
           >
