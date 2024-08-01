@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
@@ -27,7 +28,6 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
-  // applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -90,6 +90,11 @@ const formConfig = {
     required: true,
     CustomComponent: CustomAttestation,
   },
+  customText: {
+    reviewPageTitle: 'Review form',
+    appType: 'form',
+  },
+  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
@@ -120,7 +125,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Name and date of birth',
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -222,12 +227,6 @@ const formConfig = {
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
         },
-        // medicareComments: {
-        //   path: 'medicare-comments',
-        //   title: 'Medicare additional comments',
-        //   depends: formData => get('applicantMedicareStatus', formData),
-        //   ...applicantMedicareAdditionalCommentsSchema,
-        // },
       },
     },
     healthcareInformation: {
@@ -465,7 +464,7 @@ const formConfig = {
       },
     },
     formSignature: {
-      title: 'Signer information',
+      title: 'Form signature',
       pages: {
         formSignature: {
           path: 'form-signature',

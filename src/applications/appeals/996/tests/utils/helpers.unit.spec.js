@@ -3,10 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  isVersion1Data,
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
-  isVersion1Data,
-  onFormLoaded,
+  showNewHlrContent,
+  hideNewHlrContent,
+  showConferenceContact,
+  showConferenceVeteranPage,
+  showConferenceRepPages,
+  checkNeedsFormDataUpdate,
+  checkNeedsRedirect,
 } from '../../utils/helpers';
 
 import { parseDateWithOffset } from '../../../shared/utils/dates';
@@ -32,14 +38,32 @@ describe('getEligibleContestableIssues', () => {
       },
     },
   ];
-  const deferredIssue = {
-    type: 'contestableIssue',
-    attributes: {
-      ratingIssueSubjectText: 'Issue 2',
-      description: 'this is a deferred issue',
-      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+  const disqualifyingIssues = [
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 3',
+        description: 'this is a deferred issue',
+        approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
+      },
     },
-  };
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 4',
+        description: 'this issue needs apportionment',
+        approxDecisionDate: parseDateWithOffset({ months: -3 }, date),
+      },
+    },
+    {
+      type: 'contestableIssue',
+      attributes: {
+        ratingIssueSubjectText: 'Issue 5',
+        description: 'this issue has attorney fees',
+        approxDecisionDate: parseDateWithOffset({ months: -5 }, date),
+      },
+    },
+  ];
 
   it('should return empty array', () => {
     expect(getEligibleContestableIssues()).to.have.lengthOf(0);
@@ -56,12 +80,12 @@ describe('getEligibleContestableIssues', () => {
       getEligibleContestableIssues([eligibleIssue, ineligibleIssue]),
     ).to.deep.equal([eligibleIssue]);
   });
-  it('should filter out deferred issues', () => {
+  it('should filter out disqualifying issues', () => {
     expect(
       getEligibleContestableIssues([
-        eligibleIssue,
-        deferredIssue,
         ineligibleIssue,
+        eligibleIssue,
+        ...disqualifyingIssues,
       ]),
     ).to.deep.equal([eligibleIssue]);
   });
@@ -95,7 +119,127 @@ describe('isVersion1Data', () => {
   });
 });
 
-describe('onFormLoaded', () => {
+describe('showNewHlrContent', () => {
+  const test = toggle => showNewHlrContent({ hlrUpdatedContent: toggle });
+  it('should return true', () => {
+    expect(test(true)).to.be.true;
+    expect(test('string')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test(false)).to.be.false;
+    expect(test(null)).to.be.false;
+    expect(test(undefined)).to.be.false;
+    expect(test('')).to.be.false;
+  });
+});
+
+describe('hideNewHlrContent', () => {
+  const test = toggle => hideNewHlrContent({ hlrUpdatedContent: toggle });
+  it('should return true', () => {
+    expect(test(false)).to.be.true;
+    expect(test(undefined)).to.be.true;
+    expect(test('')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test(true)).to.be.false;
+    expect(test('nope')).to.be.false;
+  });
+});
+
+describe('showConferenceContact', () => {
+  const test = (toggle, choice) =>
+    showConferenceContact({
+      hlrUpdatedContent: toggle,
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test(true, 'yes')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test(false, 'yes')).to.be.false;
+    expect(test(true, 'y')).to.be.false;
+    expect(test(true, 'no')).to.be.false;
+  });
+});
+
+describe('showConferenceVeteranPage', () => {
+  const test = (toggle, contact, choice) =>
+    showConferenceVeteranPage({
+      hlrUpdatedContent: toggle,
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test(true, 'me', 'yes')).to.be.true;
+    expect(test(false, 'me')).to.be.true;
+    expect(test(false, 'me', '')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test(true, 'me', 'no')).to.be.false;
+    expect(test(true, 'rep', 'yes')).to.be.false;
+    expect(test(true, 'yes', 'yes')).to.be.false;
+    expect(test(false, '')).to.be.false;
+    expect(test(false, 'rep', '')).to.be.false;
+    expect(test(false, 'rep', 'no')).to.be.false;
+  });
+});
+
+describe('showConferenceRepPages', () => {
+  const test = (toggle, contact, choice) =>
+    showConferenceRepPages({
+      hlrUpdatedContent: toggle,
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    });
+  it('should return true', () => {
+    expect(test(true, 'rep', 'yes')).to.be.true;
+    expect(test(false, 'rep')).to.be.true;
+    expect(test(false, 'rep', '')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(test(true, 'rep', 'no')).to.be.false;
+    expect(test(true, 'me', 'yes')).to.be.false;
+    expect(test(true, 'yes', 'yes')).to.be.false;
+    expect(test(false, '')).to.be.false;
+    expect(test(false, 'me', '')).to.be.false;
+    expect(test(false, 'me', 'no')).to.be.false;
+  });
+});
+
+describe('checkNeedsFormDataUpdate', () => {
+  const test = (toggle, contact, choice) => {
+    const formData = {
+      hlrUpdatedContent: toggle,
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    };
+    checkNeedsFormDataUpdate({ formData });
+    return {
+      who: formData.informalConference,
+      yN: formData.informalConferenceChoice,
+    };
+  };
+  it('should not alter the data when toggle is disabled', () => {
+    expect(test(false, '', '')).to.deep.equal({ yN: '', who: '' });
+    expect(test(false, 'rep', '')).to.deep.equal({ yN: '', who: 'rep' });
+    expect(test(false, 'me', '')).to.deep.equal({ yN: '', who: 'me' });
+    expect(test(false, 'no', '')).to.deep.equal({ yN: '', who: 'no' });
+  });
+  it('should not alter the data if already set', () => {
+    expect(test(true, 'me', 'yes')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'rep', 'yes')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test(true, 'me', 'no')).to.deep.equal({ yN: 'no', who: 'me' });
+    expect(test(true, 'rep', 'no')).to.deep.equal({ yN: 'no', who: 'rep' });
+  });
+  it('should alter the data', () => {
+    expect(test(true, 'me')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'me', '')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'rep')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test(true, 'no')).to.deep.equal({ yN: 'no', who: 'no' });
+  });
+});
+
+describe('checkNeedsRedirect', () => {
   const routes = [
     {},
     {
@@ -114,7 +258,7 @@ describe('onFormLoaded', () => {
   ];
   const props = ({
     toggle = true,
-    returnUrl = '/test',
+    returnUrl = '/homeless',
     routerSpy = () => {},
   }) => ({
     formData: { hlrUpdatedContent: toggle },
@@ -126,28 +270,42 @@ describe('onFormLoaded', () => {
   describe('toggle enabled', () => {
     it('should not redirect with toggle enabled', () => {
       const routerSpy = sinon.spy();
-      onFormLoaded(props({ routerSpy }));
+      checkNeedsRedirect(props({ routerSpy }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/homeless');
+    });
+    it('should redirect with toggle enabled, with an invalid returnUrl', () => {
+      const routerSpy = sinon.spy();
+      checkNeedsRedirect(props({ routerSpy, returnUrl: '/test' }));
       expect(routerSpy.called).to.be.true;
       expect(routerSpy.args[0][0]).to.eq('/veteran-information');
     });
     it('should redirect from opt-in with toggle enabled', () => {
       const routerSpy = sinon.spy();
-      onFormLoaded(props({ routerSpy, returnUrl: '/opt-in' }));
+      checkNeedsRedirect(props({ routerSpy, returnUrl: '/opt-in' }));
       expect(routerSpy.called).to.be.true;
       expect(routerSpy.args[0][0]).to.eq('/authorization');
     });
   });
 
   describe('toggle disabled', () => {
-    it('should not redirect with toggle enabled', () => {
+    it('should not redirect with toggle disabled', () => {
       const routerSpy = sinon.spy();
-      onFormLoaded(props({ toggle: false, routerSpy }));
+      checkNeedsRedirect(props({ toggle: false, routerSpy }));
+      expect(routerSpy.called).to.be.true;
+      expect(routerSpy.args[0][0]).to.eq('/homeless');
+    });
+    it('should redirect with toggle disabled, with an invalid returnUrl', () => {
+      const routerSpy = sinon.spy();
+      checkNeedsRedirect(
+        props({ toggle: false, routerSpy, returnUrl: '/test' }),
+      );
       expect(routerSpy.called).to.be.true;
       expect(routerSpy.args[0][0]).to.eq('/veteran-information');
     });
     it('should redirect from authorization with toggle disabled', () => {
       const routerSpy = sinon.spy();
-      onFormLoaded(
+      checkNeedsRedirect(
         props({ toggle: false, routerSpy, returnUrl: '/authorization' }),
       );
       expect(routerSpy.called).to.be.true;

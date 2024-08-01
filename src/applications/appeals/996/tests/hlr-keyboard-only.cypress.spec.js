@@ -113,7 +113,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(250); // wait for H3 focus before tabbing to radios
-      cy.tabToElement('input[name="root_informalConference"]');
+      cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
       cy.tabToContinueForm();
 

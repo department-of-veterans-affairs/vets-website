@@ -1,10 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  DD_ACTIONS_PAGE_TYPE,
-  DOWNLOAD_FORMAT,
-  PRINT_FORMAT,
-} from '../../util/constants';
+import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
   const { download, isSuccess, list } = props;
@@ -111,9 +108,9 @@ const PrintDownload = props => {
         onFocus={handleFocus}
       >
         <button
-          data-dd-action-name={`Print Or Download Button - ${
-            list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
-          }`}
+          data-dd-action-name={`${
+            dataDogActionNames.shared.PRINT_OR_DOWNLOAD_BUTTON
+          }${list ? pageType.LIST : pageType.DETAILS}`}
           type="button"
           className={`vads-u-padding-x--2 ${toggleMenuButtonClasses} print-download-btn-min-height`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -130,15 +127,13 @@ const PrintDownload = props => {
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
-              data-dd-action-name={`Print This ${
+              data-dd-action-name={`${dataDogActionNames.shared.PRINT_THIS}${
                 list ? 'Page Of The List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
-              }`}
-              className="vads-u-padding-x--2 print-download-btn-min-height"
+              } Option - ${list ? pageType.LIST : pageType.DETAILS}`}
+              className="vads-u-padding-x--2"
               id="printButton-0"
               type="button"
-              data-testid="download-print-button"
+              data-testid="download-print-button print-download-btn-min-height"
               onClick={() => handlePrint(PRINT_FORMAT.PRINT)}
             >
               Print this {list ? 'page of the list' : 'page'}
@@ -147,9 +142,10 @@ const PrintDownload = props => {
           {list && (
             <li>
               <button
-                data-dd-action-name={`Print All Medications Option - ${
-                  DD_ACTIONS_PAGE_TYPE.LIST
-                }`}
+                data-dd-action-name={
+                  dataDogActionNames.medicationsListPage
+                    .PRINT_ALL_MEDICATIONS_OPTION
+                }
                 className="vads-u-padding-x--2 print-download-btn-min-height"
                 id="printButton-1"
                 type="button"
@@ -162,10 +158,10 @@ const PrintDownload = props => {
           )}
           <li>
             <button
-              data-dd-action-name={`Download A PDF Of This ${
-                list ? 'List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              data-dd-action-name={`${
+                dataDogActionNames.shared.DOWNLOAD_A_PDF_OF_THIS
+              }${list ? 'List' : 'Page'} Option - ${
+                list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-2"
@@ -179,10 +175,10 @@ const PrintDownload = props => {
           <li>
             <button
               type="button"
-              data-dd-action-name={`Download A Text File Of This ${
-                list ? 'List' : 'Page'
-              } Option - ${
-                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              data-dd-action-name={`${
+                dataDogActionNames.shared.DOWNLOAD_A_TEXT_FILE_OF_THIS
+              }${list ? 'List' : 'Page'} Option - ${
+                list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-3"
