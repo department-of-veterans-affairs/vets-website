@@ -14,7 +14,9 @@ function WhatYouNeedToDo({ claim }) {
   } = claim.attributes;
 
   const filesNeeded = trackedItems
-    ? getFilesNeeded(trackedItems).filter(
+    ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
+      // we will remove the automated 5103 request from the filesNeeded array, preventing the alert from showing.
+      getFilesNeeded(trackedItems).filter(
         i =>
           !(
             evidenceWaiverSubmitted5103 && isAutomated5103Notice(i.displayName)

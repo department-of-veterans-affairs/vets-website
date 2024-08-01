@@ -1,49 +1,19 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
+  descriptionUI,
   selectSchema,
   selectUI,
+  textareaSchema,
+  textareaUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import MilitaryServiceExperienceNote from '../../components/02-military-service-chapter/MilitaryServiceExperienceNote';
-
-/** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
-  arrayPath: 'militaryServiceExperiences',
-  nounSingular: 'military service experience',
-  nounPlural: 'military service experiences',
-  required: false,
-  isItemIncomplete: item =>
-    !item?.serviceBranch ||
-    !item?.serviceDateRange ||
-    !item?.characterOfDischarge,
-  text: {
-    getItemName: item => item.serviceBranch,
-    cardDescription: item =>
-      `${formatReviewDate(item?.serviceDateRange?.from)} - ${formatReviewDate(
-        item?.serviceDateRange?.to,
-      )}`,
-  },
-};
-
-/** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...titleUI(
-      'Your service history',
-      'If you have served in the military, we will ask you about your service history over the next couple of pages.',
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
+import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 const serviceBranchOptions = [
   'Army',
@@ -54,24 +24,85 @@ const serviceBranchOptions = [
   'Coast Guard',
 ];
 
-const characterOfDischargeOptions = ['Honorable', 'Other'];
+const characterOfDischargeOptions = [
+  'Honorable',
+  'General',
+  'Other Than Honorable',
+  'Bad Conduct',
+  'Dishonorable',
+  'Other',
+];
+
+const explanationRequired = [
+  'Other Than Honorable',
+  'Bad Conduct',
+  'Dishonorable',
+  'Other',
+];
+
+const requireExplanation = characterOfDischarge =>
+  explanationRequired.includes(characterOfDischarge);
+
+/** @type {ArrayBuilderOptions} */
+const arrayBuilderOptions = {
+  arrayPath: 'militaryServiceExperiences',
+  nounSingular: 'military service experience',
+  nounPlural: 'military service experiences',
+  required: false,
+  isItemIncomplete: item =>
+    !item?.serviceBranch ||
+    !item?.serviceDateRange ||
+    !item?.characterOfDischarge ||
+    (requireExplanation(item?.characterOfDischarge) &&
+      !item?.explanationOfDischarge),
+  text: {
+    getItemName: item => item?.serviceBranch,
+    cardDescription: item =>
+      `${formatReviewDate(item?.serviceDateRange?.from)} - ${formatReviewDate(
+        item?.serviceDateRange?.to,
+      )}`,
+  },
+};
+
+/** @returns {PageSchema} */
+const introPage = {
+  uiSchema: {
+    ...descriptionUI(MilitaryServiceIntro),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
 
 /** @returns {PageSchema} */
 const militaryServiceExperiencePage = {
   uiSchema: {
     ...titleUI(
       'Military service experience',
-      'Please add your military service history details below.',
+      'You will have the option of adding additional periods of service on the next page.',
     ),
     serviceBranch: selectUI('Branch of service'),
     serviceDateRange: currentOrPastDateRangeUI(
-      'Active service start date',
-      'Active service end date',
+      {
+        title: 'Active service start date',
+      },
+      {
+        title: 'Active service end date',
+        hint:
+          'Your active service end data is also known as your separation and can be found in the record of service section of your DD214. If your service is or was in National Guard or Reserves, your active service end date could be a different date from when your contract or service obligation ends.',
+      },
     ),
     characterOfDischarge: selectUI('Character of discharge'),
-    'view:militaryServiceExperienceNote': {
-      'ui:description': MilitaryServiceExperienceNote,
-    },
+    explanationOfDischarge: textareaUI({
+      title: 'Explanation of discharge',
+      expandUnder: 'characterOfDischarge',
+      expandUnderCondition: requireExplanation,
+      required: (formData, index) =>
+        requireExplanation(
+          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
+        ),
+    }),
   },
   schema: {
     type: 'object',
@@ -79,10 +110,7 @@ const militaryServiceExperiencePage = {
       serviceBranch: selectSchema(serviceBranchOptions),
       serviceDateRange: currentOrPastDateRangeSchema,
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
-      'view:militaryServiceExperienceNote': {
-        type: 'object',
-        properties: {},
-      },
+      explanationOfDischarge: textareaSchema,
     },
     required: ['serviceBranch', 'serviceDateRange', 'characterOfDischarge'],
   },

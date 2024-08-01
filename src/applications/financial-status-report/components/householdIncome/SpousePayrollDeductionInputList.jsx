@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import {
   getJobIndex,
@@ -175,12 +175,13 @@ const SpousePayrollDeductionInputList = props => {
         </legend>
         {selectedDeductions?.map((deduction, key) => (
           <div key={deduction.name + key} className="vads-u-margin-y--2">
-            <VaNumberInput
+            <VaTextInput
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               min={0}
