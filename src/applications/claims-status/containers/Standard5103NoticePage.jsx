@@ -7,7 +7,11 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { getClaim as getClaimAction } from '../actions';
-import { setDocumentTitle, getClaimType } from '../utils/helpers';
+import {
+  claimAvailable,
+  setDocumentTitle,
+  getClaimType,
+} from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
@@ -36,6 +40,9 @@ class Standard5103NoticePage extends React.Component {
           message="Loading your claim information..."
         />
       );
+    } else if (!claimAvailable(this.props.claim)) {
+      // Return null if the claim/ claim.attributes dont exist
+      return null;
     } else {
       content = <Default5103EvidenceNotice item={standard5103Item} />;
     }

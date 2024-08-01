@@ -90,15 +90,6 @@ class DocumentRequestPage extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    if (
-      !this.props.uploadComplete &&
-      !isAutomated5103Notice(this.props.trackedItem?.displayName)
-    ) {
-      this.props.clearNotification();
-    }
-  }
-
   getDefaultPage() {
     return (
       <>
@@ -250,7 +241,7 @@ function mapStateToProps(state, ownProps) {
     files: uploads.files,
     lastPage: claimsState.routing.lastPage,
     loading: claimDetail.loading,
-    message: claimsState.notifications.message,
+    message: claimsState.notifications.additionalEvidenceMessage,
     progress: uploads.progress,
     trackedItem,
     uploadComplete: uploads.uploadComplete,

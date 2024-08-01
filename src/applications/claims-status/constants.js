@@ -18,7 +18,7 @@ export const CST_BREADCRUMB_BASE = [
 ];
 
 // This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
+const SHOULD_USE_MOCKS = false;
 // NOTE: This should only be TRUE when developing locally
 const CAN_USE_MOCKS = !window.Cypress && environment.isLocalhost();
 
