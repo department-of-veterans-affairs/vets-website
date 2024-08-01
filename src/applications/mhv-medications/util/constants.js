@@ -167,6 +167,7 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+export const SESSION_SELECTED_PAGE_NUMBER = 'SESSION_SELECTED_PAGE_NUMBER';
 
 export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 
