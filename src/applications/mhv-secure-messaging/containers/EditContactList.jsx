@@ -18,17 +18,20 @@ const EditContactList = () => {
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
 
-  const allFacilities = useSelector(state => state.sm.recipients.allFacilities);
-
-  const blockedFacilities = useSelector(
-    state => state.sm.recipients.blockedFacilities,
-  );
-
-  const blockedTriageGroupList = useSelector(
-    state => state.sm.recipients.blockedRecipients,
-  );
-
-  const allRecipients = useSelector(state => state.sm.recipients.allRecipients);
+  const {
+    allFacilities,
+    blockedFacilities,
+    blockedTriageGroupList,
+    allRecipients,
+  } = useSelector(state => {
+    const { recipients } = state.sm;
+    return {
+      allFacilities: recipients.allFacilities,
+      blockedFacilities: recipients.blockedFacilities,
+      blockedTriageGroupList: recipients.blockedRecipients,
+      allRecipients: recipients.allRecipients,
+    };
+  });
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -117,11 +120,13 @@ const EditContactList = () => {
                 facilityName={facilityName}
                 multipleFacilities={allFacilities.length > 1}
                 updatePreferredTeam={updatePreferredTeam}
-                triageTeams={allTriageTeams.filter(
-                  team =>
-                    team.stationNumber === stationNumber &&
-                    team.blockedStatus === false,
-                )}
+                triageTeams={allTriageTeams
+                  .filter(
+                    team =>
+                      team.stationNumber === stationNumber &&
+                      team.blockedStatus === false,
+                  )
+                  .sort((a, b) => a.name.localeCompare(b.name))}
               />
             );
           }
