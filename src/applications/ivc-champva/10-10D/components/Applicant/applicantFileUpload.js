@@ -392,7 +392,6 @@ export const applicantOhiCardsUploadUiSchema = {
   },
 };
 
-// TODO: rename so the makeHumanReadable Func works
 export const applicantOtherInsuranceCertificationConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.va7959cCert,
   'VA Form 10-7959c',

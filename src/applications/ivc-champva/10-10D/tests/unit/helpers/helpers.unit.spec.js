@@ -60,12 +60,6 @@ describe('makeHumanReadable helper', () => {
   });
 });
 
-// describe('getParts helper', () => {
-//   it('should clean up presentation of medicare part text', () => {
-//     expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
-//   });
-// });
-
 testComponentRender(
   'ApplicantField',
   <ApplicantField formData={mockData.data.applicants[0]} />,
