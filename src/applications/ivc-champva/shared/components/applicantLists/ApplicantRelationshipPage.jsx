@@ -8,7 +8,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import { additionalFilesHint } from '../../../10-10D/config/constants';
+import { ADDITIONAL_FILES_HINT } from '../../../10-10D/config/constants';
 import { applicantWording } from '../../utilities';
 
 /*
@@ -255,7 +255,7 @@ export default function ApplicantRelationshipPage({
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint={customHint || additionalFilesHint}
+          hint={customHint || ADDITIONAL_FILES_HINT}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}

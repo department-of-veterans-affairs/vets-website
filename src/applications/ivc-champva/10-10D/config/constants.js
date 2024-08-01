@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export const MAX_APPLICANTS = 25;
 
 // These proptypes are used with the custom pages that use ApplicantRelationshipPage
-export const pageProps = {
+export const PAGE_PROPS = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
@@ -12,7 +12,7 @@ export const pageProps = {
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
-export const reviewPageProps = {
+export const REVIEW_PAGE_PROPS = {
   data: PropTypes.object,
   editPage: PropTypes.func,
   pagePerItemIndex: PropTypes.any,
@@ -23,7 +23,7 @@ export const reviewPageProps = {
 /* List of required files - not enforced by the form because we want
 users to be able to opt into mailing these documents. This object 
 performs double duty by also providing a map to presentable names. */
-export const requiredFiles = {
+export const REQUIRED_FILES = {
   applicantStepMarriageCert: 'Proof of Marriage (step child)',
   applicantAdoptionPapers: 'Proof of Adoption',
   applicantSchoolCert: 'Proof of School Enrollment',
@@ -36,7 +36,7 @@ export const requiredFiles = {
 
 /* Similar to the above, this provides a mapping of file keynames
   to presentable display names for the file review page. */
-export const optionalFiles = {
+export const OPTIONAL_FILES = {
   applicantBirthCertOrSocialSecCard:
     'Birth Certificate or Social Security Card',
   applicantHelplessCert: 'VBA Rating (Helpless Child)',
@@ -46,5 +46,5 @@ export const optionalFiles = {
     'Proof of Legal Separation from Marriage Or Legal Union to Other',
 };
 
-export const additionalFilesHint =
+export const ADDITIONAL_FILES_HINT =
   'Depending on your response, you may need to submit additional documents with this application.';

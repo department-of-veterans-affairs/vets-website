@@ -3,7 +3,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
-import { requiredFiles } from '../../config/constants';
+import { REQUIRED_FILES } from '../../config/constants';
 import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
@@ -18,7 +18,7 @@ import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
  */
 export function isRequiredFile(formContext) {
   return Object.keys(formContext?.schema?.properties || {}).filter(v =>
-    Object.keys(requiredFiles).includes(v),
+    Object.keys(REQUIRED_FILES).includes(v),
   ).length >= 1
     ? '(Required)'
     : '(Optional)';

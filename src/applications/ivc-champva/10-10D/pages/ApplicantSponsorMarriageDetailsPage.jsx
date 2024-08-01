@@ -8,7 +8,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
-import { additionalFilesHint } from '../config/constants';
+import { ADDITIONAL_FILES_HINT } from '../config/constants';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -342,7 +342,7 @@ export const remarriageDetailsSchema = {
           ...yesNoUI({
             title:
               'Did the remarriage legally end (including divorce or annulment)?',
-            hint: additionalFilesHint,
+            hint: ADDITIONAL_FILES_HINT,
             labels: {
               Y: 'Yes',
               N: 'No',
