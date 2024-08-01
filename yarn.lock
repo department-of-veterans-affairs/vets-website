@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.8.0.tgz#078f11543acb0fa315115ed95d195b4cb2dd801d"
-  integrity sha512-w3g6qF8TiGDeepxHCY+jwq+qeEqJKdb3Rpw0e93hcekNliQliMcf1jVDpmkNysQUIrl163U+corwb1nMcpFaOA==
+"@department-of-veterans-affairs/generator-vets-website@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.1.tgz#27178dec50f23e77d72781b55714d58e5df9e83d"
+  integrity sha512-r/quv9+ObHcoL5veLyJtcMXqGtdmQOdYYQZaxsHZb0RHX6+gdkYUGnOIKseaoTm9SqvkmcUUlude8eu+wV+arQ==
   dependencies:
-    chalk "^4.1.0"
+    chalk "^5.1.0"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -6912,6 +6912,11 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+chalk@^5.1.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
+  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
+
 change-emitter@^0.1.2:
   version "0.1.6"
   resolved "https://registry.npmjs.org/change-emitter/-/change-emitter-0.1.6.tgz"
@@ -8191,6 +8196,11 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
+date-fns-tz@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.1.tgz#0a9b2099031c0d74120b45de9fd23192e48ea495"
+  integrity sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==
 
 date-fns@^2.24.0:
   version "2.24.0"
