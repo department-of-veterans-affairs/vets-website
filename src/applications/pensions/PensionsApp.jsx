@@ -62,16 +62,21 @@ export default function PensionEntry({ location, children }) {
     ],
   );
 
+  useEffect(
+    () => {
+      if (pensionModuleEnabled) {
+        formConfig.submit = (f, fc) => submit(f, fc, '/pensions/v0/claims');
+      }
+    },
+    [pensionModuleEnabled],
+  );
+
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;
   }
 
   if (!pensionFormEnabled) {
     return <NoFormPage />;
-  }
-
-  if (pensionModuleEnabled) {
-    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
   }
 
   return (

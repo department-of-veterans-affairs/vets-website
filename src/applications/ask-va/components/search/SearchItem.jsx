@@ -2,7 +2,8 @@ import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import { focusElement } from 'platform/utilities/ui';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 const SearchItem = ({
@@ -16,6 +17,16 @@ const SearchItem = ({
   const onPageChange = page => {
     getData(`${pageURL}&page=${page}&per_page=10`);
   };
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
@@ -32,10 +43,11 @@ const SearchItem = ({
     return `${facilityName},
     ${facilityAddress}`;
   };
+
   return (
     facilityData.data.length > 0 && (
       <>
-        <p>
+        <p ref={alertRef}>
           {`Showing ${facilityData.data.length} results for `}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
