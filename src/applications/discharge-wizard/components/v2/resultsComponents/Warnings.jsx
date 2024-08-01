@@ -45,7 +45,7 @@ const Warnings = ({ formResponses }) => {
 
   const renderDischargeWarning = () => {
     const boardToSubmit = determineBoardObj(formResponses);
-    const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
+    const courtMartial = formResponses[SHORT_NAME_MAP.COURT_MARTIAL];
 
     const alertContent = (
       <p>
@@ -62,10 +62,7 @@ const Warnings = ({ formResponses }) => {
         content={alertContent}
         isVisible={
           boardToSubmit.abbr === 'DRB' &&
-          [
-            RESPONSES.PREV_APPLICATION_TYPE_3A,
-            RESPONSES.PREV_APPLICATION_TYPE_3B,
-          ].includes(prevAppType)
+          RESPONSES.COURT_MARTIAL_3 === courtMartial
         }
         status="warning"
       />
