@@ -8,6 +8,7 @@ const cypressConfig = {
   fixturesFolder: 'src',
   waitForAnimations: false,
   chromeWebSecurity: false,
+  video: true,
   videoCompression: false,
   retries: {
     runMode: 2,

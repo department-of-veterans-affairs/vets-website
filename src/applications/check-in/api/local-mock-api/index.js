@@ -19,6 +19,9 @@ const missingUUID = 'a5895713-ca42-4244-9f38-f8b5db020d04';
 
 const demographicsConfirmedUUID = '3f93c0e0-319a-4642-91b3-750e0aec0388';
 
+const upcomingAppointmentsDataGetErrorUUID =
+  'b5895713-ca42-4244-9f38-f8b5db020d04';
+
 const responses = {
   ...commonResponses,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
@@ -103,7 +106,7 @@ const responses = {
     if (!uuid) {
       return res.status(400).json(sharedData.patch.createMockFailedResponse());
     }
-    return res.json(checkInData.post.createMockSuccessResponse({}));
+    return res.json(checkInData.patch.createMockSuccessResponse({}));
   },
   'POST /check_in/v0/travel_claims/': (req, res) => {
     const { uuid, appointmentDate } = req.body?.travelClaims || {};
@@ -111,6 +114,17 @@ const responses = {
       return res.status(500).json(btsss.post.createMockFailedResponse());
     }
     return res.status(202).json(btsss.post.createMockSuccessResponse({}));
+  },
+  'GET /check_in/v2/sessions/:uuid/appointments': (req, res) => {
+    const { uuid } = req.params;
+    if (hasBeenValidated) {
+      hasBeenValidated = false;
+      return res.json(sharedData.get.createUpcomingAppointments(uuid));
+    }
+    if (uuid === upcomingAppointmentsDataGetErrorUUID) {
+      return res.status(404).json(sharedData.get.createMockFailedResponse());
+    }
+    return res.json(sharedData.get.createUpcomingAppointments(uuid));
   },
 };
 

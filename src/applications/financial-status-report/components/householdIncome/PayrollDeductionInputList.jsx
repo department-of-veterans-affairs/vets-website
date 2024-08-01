@@ -171,12 +171,13 @@ const PayrollDeductionInputList = props => {
         </legend>
         {selectedDeductions?.map((deduction, key) => (
           <div key={deduction.name + key}>
-            <va-number-input
+            <va-text-input
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               currency

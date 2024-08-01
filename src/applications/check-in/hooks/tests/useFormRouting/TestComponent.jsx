@@ -31,27 +31,32 @@ export default function TestComponent({ router }) {
         ''
       )}
       <div data-testid="all-pages">{pages.join(',')}</div>
-      <button
-        type="button"
+      <va-button
+        uswds
         onClick={goToPreviousPage}
+        text="Prev"
         data-testid="prev-button"
-      >
-        Prev
-      </button>
-      <button type="button" onClick={goToNextPage} data-testid="next-button">
-        Next
-      </button>
-      <button type="button" onClick={errorTest} data-testid="error-button">
-        Error
-      </button>
-      <button
+      />
+      <va-button
+        uswds
+        onClick={goToNextPage}
+        text="Next"
+        data-testid="next-button"
+      />
+      <va-button
+        uswds
+        onClick={errorTest}
+        text="Error"
+        data-testid="error-button"
+      />
+      <va-button
+        uswds
         onClick={useCallback(() => jumpToPage('introduction'), [jumpToPage])}
+        text="Jump"
         data-testid="jump-button"
-        type="button"
-      >
-        Jump
-      </button>
-      <button
+      />
+      <va-button
+        uswds
         onClick={useCallback(
           () =>
             jumpToPage('introduction', {
@@ -59,11 +64,9 @@ export default function TestComponent({ router }) {
             }),
           [jumpToPage],
         )}
+        text="Jump with params"
         data-testid="jump-with-params-button"
-        type="button"
-      >
-        Jump with params
-      </button>
+      />
     </div>
   );
 }
