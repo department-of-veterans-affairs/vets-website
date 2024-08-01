@@ -30,8 +30,8 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
         <p className="vads-u-margin-y--0">
           To protect your health information and prevent fraud and identity
           theft, we can only give you access when you sign in with a verified
-          account. You have 2 options: a verified Login.gov or a verified ID.me
-          account.
+          account. You have 2 options: a verified <b>Login.gov</b> or a verified{' '}
+          <b>ID.me</b> account.
         </p>
         <p>
           <b>If you already have a Login.gov or ID.me account</b>, sign out of
@@ -39,50 +39,42 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
           need to verify your identity or take any other steps.
         </p>
         <p>
-          <b>If you want to create a Login.gov account</b>, follow these steps:
+          <b>If you want to create an account now</b>, follow these steps:
         </p>
         <ul>
           <li>Sign out of VA.gov</li>
           <li>
             On the VA.gov homepage, select <b>Create an account</b>. Create a{' '}
-            <b>Login.gov</b> account.
+            <b>Login.gov</b> or <b>ID.me</b> account.
           </li>
           <li>
-            Come back to <b>VA.gov</b> and sign in with your <b>Login.gov</b>{' '}
-            account. We’ll help you verify your identity and register your
-            account to access My HealtheVet on VA.gov.
+            Come back to VA.gov and sign in with your <b>Login.gov</b> or{' '}
+            <b>ID.me</b> account. We’ll help you verify your identity and
+            register your account to access My HealtheVet on VA.gov.
           </li>
         </ul>
         <p>
-          <b>If you want to create an ID.me account</b>, you should know that we
-          started this process for you when you signed in to VA.gov. Follow
-          these steps to finish creating your account:
+          <b>Not sure if you already have a Login.gov or ID.me account?</b>
         </p>
-        <ul>
-          <li>Sign out of VA.gov</li>
-          <li>
-            On the VA.gov homepage, select <b>Sign in</b>. Select <b>Sign in</b>{' '}
-            from the sign-in options.
-          </li>
-          <li>
-            On the <b>ID.me</b> sign-in screen, select <b>Forgot password</b>.
-            Enter the email address you used when you signed in to VA.gov.
-          </li>
-          <li>
-            Set up a new password and finish signing in using <b>ID.me</b>.
-            Then, <b>ID.me</b> will help you finish creating your account.
-          </li>
-          <li>
-            Come back to <b>VA.gov</b> and sign in with your <b>ID.me</b>{' '}
-            account. We’ll help you verify your identity and register your
-            account to access My HealtheVet on VA.gov.
-          </li>
-        </ul>
+        <p>
+          You may have one if you’ve ever signed in to a federal website to
+          manage your benefits—like Social Security or disability benefits. Or
+          we may have started creating an <b>ID.me</b> account for you when you
+          signed in to VA.gov.
+        </p>
+        <p>
+          To check, sign out of VA.gov. Then try to create a <b>Login.gov</b> or{' '}
+          <b>ID.me</b>
+          account with the email address you think you may have used for that
+          account in the past. If you already have an account, the sign-in
+          service provider will tell you. You can then try to reset your
+          password for that account.
+        </p>
         <div className="vads-u-margin-top--2">
           <va-button label="Sign out" onClick={signOut} text="Sign out" />
         </div>
         <p className="vads-u-margin-top--2">
-          <a href="https://www.va.gov/resources/creating-an-account-for-vagov/">
+          <a href="https://www.va.gov/resources/how-to-access-my-healthevet-on-vagov/">
             Learn more about how to access My HealtheVet on Va.gov
           </a>
         </p>
