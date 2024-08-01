@@ -9,15 +9,18 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
-  phoneSchema,
-  phoneUI,
-  textareaUI,
   textareaSchema,
+  textareaUI,
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
 import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
 import { formatReviewDate } from '../helpers/formatReviewDate';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -34,7 +37,7 @@ const arrayBuilderOptions = {
     !item?.dateRange ||
     !item?.reasonForLeaving,
   text: {
-    getItemName: item => item.name,
+    getItemName: item => item?.name,
     cardDescription: item =>
       `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
         item?.dateRange?.to,
@@ -64,7 +67,7 @@ const informationPage = {
     positionTitle: textUI('Position title'),
     supervisorName: textUI({
       title: 'Supervisor name',
-      hint: 'If you are self-employed, write "self."',
+      hint: 'If you are self-employed, write "self".',
     }),
   },
   schema: {
@@ -93,10 +96,13 @@ const addressAndPhoneNumberPage = {
           'I work on a United States military base outside of the U.S.',
       },
     }),
-    phone: phoneUI(),
+    phone: internationalPhoneUI('Primary number'),
     extension: textUI({
       title: 'Extension',
       width: 'sm',
+      errorMessages: {
+        pattern: 'Enter an extension with only numbers and letters',
+      },
     }),
   },
   schema: {
@@ -105,7 +111,7 @@ const addressAndPhoneNumberPage = {
       address: addressSchema({
         omit: ['street3'],
       }),
-      phone: phoneSchema,
+      phone: internationalPhoneSchema,
       extension: {
         type: 'string',
         pattern: '^[a-zA-Z0-9]{1,10}$',
@@ -172,6 +178,7 @@ const summaryPage = {
       {},
       {
         labelHeaderLevel: 'p',
+        hint: 'Include your employment information for the past ten years.',
       },
     ),
   },

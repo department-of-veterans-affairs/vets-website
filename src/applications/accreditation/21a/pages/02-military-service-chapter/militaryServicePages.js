@@ -1,5 +1,6 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -9,7 +10,6 @@ import {
   selectUI,
   textareaSchema,
   textareaUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
@@ -78,10 +78,12 @@ const introPage = {
 /** @returns {PageSchema} */
 const militaryServiceExperiencePage = {
   uiSchema: {
-    ...titleUI(
-      'Military service experience',
-      'You will have the option of adding additional periods of service on the next page.',
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Military service experience',
+      description:
+        'You will have the option of adding additional periods of service on the next page.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     serviceBranch: selectUI('Branch of service'),
     serviceDateRange: currentOrPastDateRangeUI(
       {

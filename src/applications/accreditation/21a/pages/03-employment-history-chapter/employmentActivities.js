@@ -1,24 +1,28 @@
 import {
-  checkboxGroupUI,
   checkboxGroupSchema,
+  checkboxGroupUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const employmentActivitiesOptions = Object.freeze({
-  financial: 'Financial planning',
-  home: 'Home care',
-  nursing: 'Nursing care',
-  funeral: 'Funeral industry',
-  medical: 'Medical services',
-  consulting: 'Consulting or referral services for Veterans',
-  business: 'Business or service that advertises predominately to Veterans',
+  FINANCIAL: 'Financial planning',
+  HOME: 'Home care',
+  NURSING: 'Nursing care',
+  FUNERAL: 'Funeral industry',
+  MEDICAL: 'Medical services',
+  CONSULTING: 'Consulting or referral services for Veterans',
+  BUSINESS: 'Business or service that advertises predominately to Veterans',
 });
 
-const employmentActivities = {
+/** @type {PageSchema} */
+export default {
+  title: 'Employment activities',
+  path: 'employment-activities',
   uiSchema: {
-    activities: checkboxGroupUI({
+    employmentActivities: checkboxGroupUI({
       title:
-        'During the past ten years have you been involved in any of the following activities? Failure to identify relevant activities may result in a delay in processing your application.',
-      hint: 'Check all that apply',
+        'During the past ten years have you been involved in any of the following activities?',
+      description:
+        'Note: Check all that apply. Failure to identify relevant activities may result in a delay in processing your application.',
       required: true,
       labels: employmentActivitiesOptions,
     }),
@@ -26,16 +30,9 @@ const employmentActivities = {
   schema: {
     type: 'object',
     properties: {
-      activities: checkboxGroupSchema(Object.keys(employmentActivitiesOptions)),
+      employmentActivities: checkboxGroupSchema(
+        Object.keys(employmentActivitiesOptions),
+      ),
     },
   },
 };
-
-const employmentActivitiesPage = {
-  title: 'Employment Activities',
-  path: 'employers/activities',
-  uiSchema: employmentActivities.uiSchema,
-  schema: employmentActivities.schema,
-};
-
-export default employmentActivitiesPage;
