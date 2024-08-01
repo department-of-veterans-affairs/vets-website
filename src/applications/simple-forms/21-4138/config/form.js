@@ -63,13 +63,14 @@ const mockData = testData.data;
 
 /** @type {FormConfig} */
 const minimalFlowProps = {
+  CustomTopContent,
+  hideFormTitle: true,
+  showSaveLinkAfterButtons: true,
+  useCustomScrollAndFocus: true,
+  useTopBackLink: true,
   v3SegmentedProgressBar: {
     useDiv: true,
   },
-  CustomTopContent,
-  showSaveLinkAfterButtons: true,
-  useTopBackLink: true,
-  useCustomScrollAndFocus: true,
   scrollAndFocusTarget: () => {
     setTimeout(() => {
       scrollTo('header-minimal');
@@ -86,7 +87,6 @@ const minimalFlowProps = {
       }
     }, 200);
   },
-  hideFormTitle: true,
 };
 
 /** @type {FormConfig} */
