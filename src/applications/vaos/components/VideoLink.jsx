@@ -11,12 +11,7 @@ export default function VideoLink({ appointment }) {
   // NOTE: If the moment is earlier than the moment you are passing to moment.fn.diff,
   // the return value will be negative. So checking to see if the appointment start
   // time is before or after the current time.
-  let disableVideoLink;
-  if (diff > 0) {
-    disableVideoLink = diff > 30;
-  } else {
-    disableVideoLink = diff < -240;
-  }
+  const disableVideoLink = diff > 30 || diff < -240;
 
   return (
     <div className="vaos-appts__video-visit">
