@@ -23,6 +23,14 @@ export default {
   },
   monthlyHousingExpenses:
     'Please enter a valid dollar amount for your monthly housing expenses',
+  // Household Assets error messages
+  monetaryAssets: 'Please provide valid information for all monetary assets',
+  realEstateValue:
+    'Please enter a valid dollar amount for your real estate value',
+  recVehicleAmount:
+    'Please enter a valid dollar amount for your recreational vehicle',
+  otherAssets: 'Please provide valid information for all other assets',
+
   _override: (error, fullError) => {
     if (error === 'questions') {
       return {
@@ -40,6 +48,30 @@ export default {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionComment',
+      };
+    }
+    if (error.startsWith('assets.monetaryAssets')) {
+      return {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'monetaryValues',
+      };
+    }
+    if (error === 'assets.realEstateValue') {
+      return {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'enhancedRealEstateRecords',
+      };
+    }
+    if (error === 'assets.recVehicleAmount') {
+      return {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'recreationalVehicleRecords',
+      };
+    }
+    if (error.startsWith('assets.otherAssets')) {
+      return {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'otherAssetsSummary',
       };
     }
     // always return null for non-matches
