@@ -255,7 +255,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
   });
 
   it('should display who ordered the lab or test', () => {
-    const date = screen.getByText('Ordered by DOE,JOHN', {
+    const date = screen.getByText('Ordered by DOE,JANE', {
       selector: 'div',
       exact: true,
     });
