@@ -115,7 +115,7 @@ const PrintDownload = props => {
             list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
           }`}
           type="button"
-          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
+          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses} print-download-btn-min-height`}
           onClick={() => setMenuOpen(!menuOpen)}
           data-testid="print-records-button"
           aria-expanded={menuOpen}
@@ -135,7 +135,7 @@ const PrintDownload = props => {
               } Option - ${
                 list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
               }`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
@@ -150,7 +150,7 @@ const PrintDownload = props => {
                 data-dd-action-name={`Print All Medications Option - ${
                   DD_ACTIONS_PAGE_TYPE.LIST
                 }`}
-                className="vads-u-padding-x--2"
+                className="vads-u-padding-x--2 print-download-btn-min-height"
                 id="printButton-1"
                 type="button"
                 data-testid="download-print-all-button"
@@ -167,7 +167,7 @@ const PrintDownload = props => {
               } Option - ${
                 list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
               }`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-2"
               type="button"
               data-testid="download-pdf-button"
@@ -184,7 +184,7 @@ const PrintDownload = props => {
               } Option - ${
                 list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
               }`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-3"
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
