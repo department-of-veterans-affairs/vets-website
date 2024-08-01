@@ -140,7 +140,7 @@ class AdditionalEvidencePage extends React.Component {
                 <Toggler.Enabled>
                   {standard5103NoticeExists &&
                     !automated5103NoticeExists && (
-                      <Standard5103Alert previousPage="status" />
+                      <Standard5103Alert previousPage="files" />
                     )}
                 </Toggler.Enabled>
               </Toggler>
