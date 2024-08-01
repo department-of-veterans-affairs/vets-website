@@ -4,13 +4,13 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const employmentActivitiesOptions = Object.freeze({
-  FINANCIAL: 'Financial planning',
-  HOME: 'Home care',
-  NURSING: 'Nursing care',
-  FUNERAL: 'Funeral industry',
-  MEDICAL: 'Medical services',
-  CONSULTING: 'Consulting or referral services for Veterans',
-  BUSINESS: 'Business or service that advertises predominately to Veterans',
+  financial: 'Financial planning',
+  home: 'Home care',
+  nursing: 'Nursing care',
+  funeral: 'Funeral industry',
+  medical: 'Medical services',
+  consulting: 'Consulting or referral services for Veterans',
+  business: 'Business or service that advertises predominately to Veterans',
 });
 
 /** @type {PageSchema} */
