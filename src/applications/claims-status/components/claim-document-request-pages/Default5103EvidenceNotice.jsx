@@ -48,7 +48,7 @@ function Default5103EvidenceNotice({
         goToFilesPage();
       }
     },
-    [loadingDecisionRequest],
+    [loadingDecisionRequest, decisionRequested],
   );
 
   const submit = () => {
