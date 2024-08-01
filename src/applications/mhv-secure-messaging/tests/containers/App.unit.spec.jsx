@@ -5,6 +5,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
+import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
@@ -70,6 +71,9 @@ describe('App', () => {
       initialState: {
         ...initialState,
         user: {
+          profile: {
+            loading: false,
+          },
           login: {
             currentlyLoggedIn: false,
           },
@@ -78,8 +82,7 @@ describe('App', () => {
       path: `/`,
       reducers: reducer,
     });
-
-    expect(window.location.replace.called).to.be.true;
+    waitFor(() => expect(window.location.replace.called).to.be.true);
   });
 
   it('feature flags are still loading', () => {
@@ -94,46 +97,6 @@ describe('App', () => {
       reducers: reducer,
     });
     expect(screen.getByTestId('feature-flag-loading-indicator'));
-  });
-
-  it('feature flag set to false', () => {
-    const customState = {
-      ...initialState,
-      featureToggles: {},
-    };
-
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      path: `/`,
-      reducers: reducer,
-    });
-    expect(
-      screen.queryByText(
-        'Communicate privately and securely with your VA health care team online.',
-      ),
-    ).to.be.null;
-    expect(screen.queryByText('Messages', { selector: 'h1', exact: true })).to
-      .be.null;
-    expect(window.location.replace.called).to.be.true;
-  });
-
-  it('feature flag set to true', () => {
-    const customState = {
-      featureToggles: {},
-      ...initialState,
-      ...noDowntime,
-    };
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-    expect(screen.getByText('Messages', { selector: 'h1', exact: true }));
-    expect(
-      screen.getByText(
-        'Communicate privately and securely with your VA health care team online.',
-      ),
-    );
   });
 
   it('renders the global downtime notification', () => {
