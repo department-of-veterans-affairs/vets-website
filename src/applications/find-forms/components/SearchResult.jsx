@@ -161,13 +161,6 @@ const SearchResult = ({
 
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
-
-    recordEvent({
-      event: 'int-modal-click',
-      'modal-status': 'opened',
-      'modal-title': 'Download this PDF and open it in Acrobat Reader',
-    });
-
     toggleModalState(formName, url, pdfLabel);
   };
 
@@ -176,7 +169,6 @@ const SearchResult = ({
       <FormTitle
         id={id}
         formUrl={regulateURL(formDetailsUrl)}
-        lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
         formName={formName}
@@ -189,19 +181,14 @@ const SearchResult = ({
       {relatedTo}
       {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
-          <va-link
-            className="vads-c-action-link--green"
-            disable-analytics
+          <va-link-action
             href={relativeFormToolUrl}
-            lang={language}
-            onClick={() =>
-              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
-            }
             text={deriveLanguageTranslation(
               language,
               'goToOnlineTool',
               formName,
             )}
+            type="secondary"
           />
         </div>
       ) : null}
