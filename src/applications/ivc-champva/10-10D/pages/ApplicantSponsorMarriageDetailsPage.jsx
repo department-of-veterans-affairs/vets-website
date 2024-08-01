@@ -8,7 +8,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
-import { additionalFilesHint } from '../helpers/wordingCustomization';
+import { additionalFilesHint } from '../config/constants';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,

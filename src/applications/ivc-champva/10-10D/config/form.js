@@ -41,13 +41,10 @@ import {
   onReviewPage,
   applicantListSchema,
   getNameKeyForSignature,
-} from '../helpers/utilities';
-import { MAX_APPLICANTS } from './constants';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
-import {
   sponsorWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+} from '../helpers/utilities';
+import { MAX_APPLICANTS, additionalFilesHint } from './constants';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,

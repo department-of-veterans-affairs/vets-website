@@ -45,3 +45,6 @@ export const optionalFiles = {
   applicantSecondMarriageDivorceCert:
     'Proof of Legal Separation from Marriage Or Legal Union to Other',
 };
+
+export const additionalFilesHint =
+  'Depending on your response, you may need to submit additional documents with this application.';
