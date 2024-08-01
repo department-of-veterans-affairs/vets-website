@@ -418,7 +418,9 @@ describe('<WhatYouNeedToDo>', () => {
         };
 
         const { container, queryByText } = renderWithRouter(
-          <WhatYouNeedToDo claim={claim} />,
+          <Provider store={getStore(true)}>
+            <WhatYouNeedToDo claim={claim} />,
+          </Provider>,
         );
 
         expect(queryByText(nothingNeededText)).to.exist;
