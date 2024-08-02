@@ -2,6 +2,7 @@
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { nameWording } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -49,6 +50,7 @@ const formConfig = {
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submissionError: SubmissionError,
   formId: '10-7959A',
   saveInProgress: {
     messages: {

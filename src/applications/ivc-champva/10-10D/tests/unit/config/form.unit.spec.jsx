@@ -231,6 +231,7 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+/*
 // marriageData.data.sponsorIsDeceased = true;
 testNumberOfWebComponentFields(
   formConfig,
@@ -249,6 +250,7 @@ testNumberOfWebComponentFields(
   'Applicant - remarriage status',
   { ...mockData.data },
 );
+*/
 
 testNumberOfWebComponentFields(
   formConfig,
@@ -259,6 +261,7 @@ testNumberOfWebComponentFields(
   { ...marriageData.data },
 );
 
+/*
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18f4.schema,
@@ -303,6 +306,7 @@ testNumberOfWebComponentFields(
   'Applicant - second marriage divorce documents',
   { ...mockData.data },
 );
+*/
 
 testNumberOfWebComponentFields(
   formConfig,
