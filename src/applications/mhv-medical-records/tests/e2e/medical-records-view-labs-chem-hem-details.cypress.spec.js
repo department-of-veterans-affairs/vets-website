@@ -2,14 +2,14 @@ import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
-import labsAndTests from './fixtures/labsAndTests.json';
+import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records View Labs And Tests', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
     LabsAndTestsListPage.goToLabsAndTests();
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[1]);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[1]);
     ChemHemDetailsPage.verifyLabName(
       labsAndTests.entry[1].contained[4].code.text,
     );
