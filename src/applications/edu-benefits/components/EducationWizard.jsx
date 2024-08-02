@@ -219,8 +219,8 @@ class EducationWizard extends React.Component {
       },
     };
 
-    const displayChapter35Form = getButton => {
-      if (this?.props.merge1995And5490Feature) {
+    const displayChapter35Form = (merge1995And5490local, getButton) => {
+      if (merge1995And5490local) {
         return getButton('1995');
       }
       return getButton('5495');
@@ -459,7 +459,10 @@ class EducationWizard extends React.Component {
               this.getButton('1995')}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
-              displayChapter35Form(this.getButton)}
+              displayChapter35Form(
+                this?.props.merge1995And5490Feature,
+                this.getButton,
+              )}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'yes' &&
