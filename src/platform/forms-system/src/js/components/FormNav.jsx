@@ -117,8 +117,14 @@ export default function FormNav(props) {
             window.location.pathname.endsWith('review-and-submit')
           )
         ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
+          if (
+            formConfig.useCustomScrollAndFocus &&
+            (page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget)
+          ) {
+            customScrollAndFocus(
+              page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget,
+              index,
+            );
           } else {
             focusByOrder([defaultFocusSelector, 'h2']);
           }
@@ -134,6 +140,7 @@ export default function FormNav(props) {
       index,
       page.chapterKey,
       page.scrollAndFocusTarget,
+      formConfig.scrollAndFocusTarget,
     ],
   );
 
