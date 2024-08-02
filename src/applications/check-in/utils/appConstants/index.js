@@ -245,6 +245,18 @@ const phoneNumbers = {
 
 const DEMOGRAPHICS_UPDATE_FREQUENCY = 7; // days
 
+const CONFIG_STALE_DURATION = {
+  [APP_NAMES.CHECK_IN]: 10000,
+  [APP_NAMES.PRE_CHECK_IN]: 10000,
+  [APP_NAMES.TRAVEL_CLAIM]: 10000,
+};
+
+const CONFIG_STALE_REDIRECT_LOCATION = {
+  [APP_NAMES.CHECK_IN]: '/health-care/appointment-check-in/',
+  [APP_NAMES.PRE_CHECK_IN]: '/health-care/appointment-pre-check-in/',
+  [APP_NAMES.TRAVEL_CLAIM]: '/health-care/appointment-pre-check-in/',
+};
+
 export {
   DEMOGRAPHICS_UPDATE_FREQUENCY,
   APP_NAMES,
@@ -253,4 +265,6 @@ export {
   addressFormFields,
   baseCities,
   phoneNumbers,
+  CONFIG_STALE_DURATION,
+  CONFIG_STALE_REDIRECT_LOCATION,
 };
