@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAdditionalInfo,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
 import Instructions from './Instructions';
@@ -53,14 +56,12 @@ const Contacts = ({ data }) => {
   return (
     <>
       <div className="vads-u-margin-bottom--3">
-        <va-additional-info
-          className=""
+        <VaAdditionalInfo
           data-testid="phcc-how-to-update"
           trigger="Learn how to update your personal health care contact information"
-          uswds
         >
-          If this information isn’t correct, here’s how to update it:
-          <ul className="vads-u-margin-y--0">
+          <p>If this information isn’t correct, here’s how to update it:</p>
+          <ul>
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call the Health Eligibility Center at{' '}
@@ -70,7 +71,7 @@ const Contacts = ({ data }) => {
               ET.
             </li>
           </ul>
-        </va-additional-info>
+        </VaAdditionalInfo>
       </div>
 
       <ProfileInfoCard
