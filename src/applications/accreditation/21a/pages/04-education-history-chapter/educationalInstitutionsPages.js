@@ -6,6 +6,8 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
+  selectSchema,
+  selectUI,
   textareaSchema,
   textareaUI,
   textSchema,
@@ -39,6 +41,17 @@ const arrayBuilderOptions = {
   },
 };
 
+const degreeOptions = [
+  'Did not receive a degree',
+  'Associate of Arts',
+  'Bachelor of Arts',
+  'Bachelor of Science',
+  'Master of Science',
+  'Master of Arts',
+  'Juris Doctor',
+  'Other',
+];
+
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
@@ -54,15 +67,15 @@ const introPage = {
 const educationalInstitutionPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Educational institution',
+      title: 'Institution and degree information',
       description:
         'Enter your education institutions starting with high school. List all the colleges and universities attended and degrees received. You will be able to add additional education institutions on the next screen.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
-    name: textUI('Name of institution'),
+    name: textUI('Name of school'),
     dateRange: currentOrPastDateRangeUI('Start date', 'End date'),
     degreeReceived: yesNoUI('Degree received?'),
-    degree: textUI({
+    degree: selectUI({
       title: 'Degree',
       expandUnder: 'degreeReceived',
       required: (formData, index) =>
@@ -87,7 +100,7 @@ const educationalInstitutionPage = {
       name: textSchema,
       dateRange: currentOrPastDateRangeSchema,
       degreeReceived: yesNoSchema,
-      degree: textSchema,
+      degree: selectSchema(degreeOptions),
       reasonForNotCompleting: textareaSchema,
       major: textSchema,
     },
@@ -131,7 +144,7 @@ const educationalInstitutionsPages = arrayBuilderPages(
       schema: introPage.schema,
     }),
     educationalInstitutionsSummary: pageBuilder.summaryPage({
-      title: 'Review education institutions',
+      title: 'Review educational institutions',
       path: 'educational-institutions-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
