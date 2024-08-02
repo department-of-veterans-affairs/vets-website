@@ -7,6 +7,7 @@ import { ROUTES } from '../../constants';
 
 import ResultsSummary from './resultsComponents/ResultsSummary';
 import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderationStatement';
+import Warnings from './resultsComponents/Warnings';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
@@ -33,6 +34,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
       <div className="medium-8">
         <ResultsSummary formResponses={formResponses} />
         <CarefulConsiderationStatement formResponses={formResponses} />
+        <Warnings formResponses={formResponses} />
       </div>
     </article>
   );
