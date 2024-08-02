@@ -8,7 +8,7 @@ on:
 jobs:
   set-deploy-environments:
     name: Set Environments to Deploy
-    if: always() && github.ref == 'refs/heads/main'
+    if: always() && github.event.client_payload.github_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
@@ -30,7 +30,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [set-deploy-environments]
-    if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    if: always() && github.event.client_payload.github_ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-latest
     env:
       DEPLOYMENT_ENVIRONMENT: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
@@ -95,56 +95,56 @@ jobs:
       #     DEST: s3://${{ env.DEPLOYMENT_ENVIRONMENT.bucket }}
       #     ASSET_DEST: s3://${{ env.DEPLOYMENT_ENVIRONMENT.asset_bucket }}
 
-  notify-failure:
-    name: Notify Failure
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
-    needs: [deploy]
-    env:
-      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
-      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
-      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+  # notify-failure:
+  #   name: Notify Failure
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
+  #   needs: [deploy]
+  #   env:
+  #     ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
+  #     DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  #     VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-        with:
-          fetch-depth: 0
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Install dependencies
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Install dependencies
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Get changed applications
-        id: get-changed-apps
-        if: env.ALERT_TEAMS == 'true'
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          output-type: 'slack_group'
+  #     - name: Get changed applications
+  #       id: get-changed-apps
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'slack_group'
 
-      - name: Notify application team in Slack
-        if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     - name: Notify application team in Slack
+  #       if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Notify Slack
-        if: steps.get-changed-apps.outputs.slack_groups == ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     - name: Notify Slack
+  #       if: steps.get-changed-apps.outputs.slack_groups == ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
