@@ -9,7 +9,7 @@
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .dashboard-card {
-  background-color: varvar(--vads-color-base-lightest);
+  background-color: var(--vads-color-base-lightest);
   border: none;
 }
 
@@ -109,7 +109,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .no-attachments {
-  background-color: varvar(--vads-color-base-lightest);
+  background-color: var(--vads-color-base-lightest);
   padding: 5px;
 }
 
