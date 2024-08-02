@@ -1,5 +1,5 @@
 import React from 'react';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { requiredFiles, optionalFiles } from '../config/constants';
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
