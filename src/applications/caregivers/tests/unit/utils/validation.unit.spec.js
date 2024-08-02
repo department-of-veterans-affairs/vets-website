@@ -31,7 +31,7 @@ describe('CG `requireAddressFields` form validation', () => {
     expect(errors[requiredField].addError.called).to.be.true;
   });
 
-  it('should not an error when the field is valid', () => {
+  it('should not set an error when the data is valid', () => {
     const { errors, fieldData } = getData({
       spy: addErrorSpy,
       fieldData: {
