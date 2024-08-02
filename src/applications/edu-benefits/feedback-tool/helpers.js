@@ -230,7 +230,7 @@ export const getIssueLabel = (labelText, exampleText) => (
     {labelText}
     <br />
     <span>
-      <i>{exampleText}</i>
+      <em>{exampleText}</em>
     </span>
   </div>
 );

@@ -4,20 +4,58 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
-import { getCurrentDebt } from '../utils/page';
 import {
   setPageFocus,
   debtLettersShowLettersVBMS,
+  showPaymentHistory,
 } from '../../combined/utils/helpers';
+import { getCurrentDebt, currency } from '../utils/page';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
+import PaymentHistoryTable from '../components/PaymentHistoryTable';
+
+const dummyHistory = [
+  {
+    transactionFiscalCode: '04Q',
+    transactionDate: 'January 3, 2022',
+    transactionDescription: 'Partial payment of $100.00',
+    transactionOffsetAmount: '-$100.00',
+    transactionTotalAmount: '$100.00',
+    transactionInterestAmount: '$0.00',
+  },
+  {
+    transactionFiscalCode: '04Q',
+    transactionDate: 'March 15, 2022',
+    transactionDescription: 'Partial payment of $150.00',
+    transactionOffsetAmount: '-$150.00',
+    transactionTotalAmount: '$150.00',
+    transactionInterestAmount: '$0.00',
+  },
+  {
+    transactionFiscalCode: '04Q',
+    transactionDate: 'June 1, 2022',
+    transactionDescription: 'Partial payment of $50.00',
+    transactionOffsetAmount: '-$50.00',
+    transactionTotalAmount: '$50.00',
+    transactionInterestAmount: '$0.00',
+  },
+  {
+    transactionFiscalCode: '08Q',
+    transactionDate: 'June 1, 2023',
+    transactionDescription: 'Partial payment of -$50.00',
+    transactionOffsetAmount: '$50.00',
+    transactionTotalAmount: '-$50.00',
+    transactionInterestAmount: '$0.00',
+  },
+];
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -26,12 +64,17 @@ const DebtDetails = () => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
+  currentDebt.paymentHistory = dummyHistory.sort((a, b) => {
+    return new Date(b.transactionDate) - new Date(a.transactionDate);
+  });
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
+  const hasPaymentHistory =
+    currentDebt.paymentHistory && currentDebt.paymentHistory.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -44,9 +87,35 @@ const DebtDetails = () => {
     debtLettersShowLettersVBMS(state),
   );
 
+  const formatCurrency = amount => currency.format(parseFloat(amount));
+
+  const getLatestPaymentDateFromCurrentDebt = debt => {
+    const mostRecentDate = head(debt.paymentHistory).transactionDate;
+
+    if (mostRecentDate === '') return 'N/A';
+
+    return mostRecentDate;
+  };
+
+  const getFirstPaymentDateFromCurrentDebt = debt => {
+    const firstPaymentDate = last(debt.paymentHistory).transactionDate;
+
+    if (firstPaymentDate === '') return 'N/A';
+
+    return firstPaymentDate;
+  };
+
+  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
+    currentDebt,
+  );
+
   useEffect(() => {
     setPageFocus('h1');
   }, []);
+
+  const shouldShowPaymentHistory = useSelector(state =>
+    showPaymentHistory(state),
+  );
 
   if (Object.keys(currentDebt).length === 0) {
     window.location.replace('/manage-va-debt/summary/debt-balances/');
@@ -108,8 +177,40 @@ const DebtDetails = () => {
         <OnThisPageLinks
           isDetailsPage
           hasHistory={hasFilteredHistory}
+          hasPaymentHistory={hasPaymentHistory}
           showDebtLetterDownload={showDebtLetterDownload}
         />
+        {shouldShowPaymentHistory && (
+          <div>
+            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+              Debt details
+            </h2>
+            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between vads-u-margin-bottom--2 medium-screen:vads-u-max-width--90">
+              <div>
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Current balance as of{' '}
+                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.currentAr)}
+                  </span>
+                </h3>
+              </div>
+              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Original overpayment amount
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.originalAr)}
+                  </span>
+                </h3>
+              </div>
+            </div>
+            <PaymentHistoryTable currentDebt={currentDebt} />
+          </div>
+        )}
         {hasFilteredHistory && (
           <>
             <h2
@@ -122,17 +223,6 @@ const DebtDetails = () => {
               {`You can check the status ${
                 showDebtLetterDownload ? `or download the letters for` : `of`
               } this debt.`}
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              <strong>Note:</strong> The content of the debt letters below may
-              not include recent updates to your debt reflected above. If you
-              have any questions about your debt history, please contact the
-              Debt Management Center at{' '}
-              <va-telephone
-                className="vads-u-margin-left--0p5"
-                contact="8008270648"
-              />
-              .
             </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (

@@ -13,7 +13,6 @@ import {
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
-  VaNumberInput,
   VaPrivacyAgreement,
   VaRadio,
   VaRadioOption,
@@ -155,7 +154,7 @@ export default function V3BasePage() {
         <div className="vads-grid-row vads-flex-direction-column border-bottom">
           <h2 className="vads-grid-col font-ui-md">Number input component</h2>
           <div className="vads-grid-col">
-            <VaNumberInput
+            <VaTextInput
               uswds
               name="v3NumberInput"
               label="V3 Number Input"
