@@ -43,7 +43,7 @@ export default {
             militaryService: 'More than 1 year but less than 2 years',
           },
           upTo3yr: {
-            militaryService: 'More than 2 year but less than 3 years',
+            militaryService: 'More than 2 years but less than 3 years',
           },
           over3yr: { militaryService: 'More than 3 years' },
         },
@@ -83,7 +83,7 @@ export default {
           'Less than 90 Days',
           'More than 90 days but less than 1 year',
           'More than 1 year but less than 2 years',
-          'More than 2 year but less than 3 years',
+          'More than 2 years but less than 3 years',
           'More than 3 years',
         ],
       },
