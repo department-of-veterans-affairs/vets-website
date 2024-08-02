@@ -44,5 +44,5 @@ export const clearAllergyDetails = () => async dispatch => {
 };
 
 export const reloadRecords = () => async dispatch => {
-  dispatch({ type: Actions.LabsAndTests.COPY_UPDATED_LIST });
+  dispatch({ type: Actions.Allergies.COPY_UPDATED_LIST });
 };
