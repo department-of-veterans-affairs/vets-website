@@ -1,25 +1,39 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+import labsAndTests from './fixtures/labsAndTests.json';
 
 describe('Medical Records View Labs And Tests', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0, labsAndTests.entry[0]);
-    ChemHemDetailsPage.verifyLabName('Potassium');
-    ChemHemDetailsPage.verifyLabDate('January 20, 2021');
-    ChemHemDetailsPage.verifySampleTested('SERUM');
-    ChemHemDetailsPage.verifyOrderedBy('DOE, JANE A');
-    ChemHemDetailsPage.verifyLabCollectingLocation('Lab Site 989');
-    // There might be a new line in this provider notes example.  we need to check later
-    ChemHemDetailsPage.verifyProviderNotes(
-      "Jane's Test 1/20/2021 - Second lab",
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2, labsAndTests.entry[1]);
+    ChemHemDetailsPage.verifyLabName(
+      labsAndTests.entry[1].contained[4].code.text,
     );
-    ChemHemDetailsPage.verifyProviderNotes('Added Potassium test');
+    ChemHemDetailsPage.verifyLabDate(
+      moment(
+        labsAndTests.entry[1].contained[0].collection.collectedDateTime,
+      ).format('MMMM D, YYYY'),
+    );
+    ChemHemDetailsPage.verifySampleTested(
+      labsAndTests.entry[1].contained[0].type.text,
+    );
+    ChemHemDetailsPage.verifyOrderedBy(
+      `${labsAndTests.entry[1].contained[1].name[0].family}, ${
+        labsAndTests.entry[1].contained[1].name[0].given[0]
+      } ${labsAndTests.entry[1].contained[1].name[0].given[1]}`,
+    );
+    ChemHemDetailsPage.verifyLabCollectingLocation(
+      labsAndTests.entry[1].contained[3].name,
+    );
+    // There might be a new line in this provider notes example.  we need to check later
+    ChemHemDetailsPage.verifyProviderNotesSingle(
+      labsAndTests.entry[1].extension[0].valueString,
+    );
+
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

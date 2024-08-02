@@ -28,7 +28,10 @@ export const dateFormat = (timestamp, format = null) => {
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
-  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  let withoutTimezone = datetime;
+  if (typeof datetime === 'string' && datetime.includes('-')) {
+    withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  }
   return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
 };
 

@@ -14,7 +14,7 @@ export default {
   path: 'role',
   uiSchema: {
     role: radioUI({
-      title: 'What type of role are you applying for?',
+      title: 'Which role are you applying for?',
       labels: roleOptions,
     }),
   },

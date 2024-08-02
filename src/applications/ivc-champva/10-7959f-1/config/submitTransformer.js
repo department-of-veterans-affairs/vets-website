@@ -25,7 +25,10 @@ export default function transformForSubmit(formConfig, form) {
         postalCode: 'NA',
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      va_claim_number: transformedData?.vaFileNumber || '',
+      // file_number:
+      //   transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      va_claim_number:
+        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
