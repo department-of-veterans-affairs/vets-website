@@ -582,6 +582,7 @@ const LandingPage = () => {
                     <a
                       href="/my-health/medical-records/allergies"
                       rel="noreferrer"
+                      data-testid="allergies-reactions-link"
                     >
                       Go to your allergies and reactions
                     </a>

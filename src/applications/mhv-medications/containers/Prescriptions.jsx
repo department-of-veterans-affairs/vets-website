@@ -493,6 +493,7 @@ const Prescriptions = () => {
               href="/my-health/medical-records/allergies"
               rel="noreferrer"
               className="vads-u-display--block vads-u-margin-bottom--3"
+              data-testid="allergies-link"
             >
               Go to your allergies and reactions
             </a>
