@@ -14,7 +14,7 @@ import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewF
 
 const apiRequestWithUrl = `${
   environment.API_URL
-}/v0/health_care_applications/facilities?type=health&per_page=1000`;
+}/v0/health_care_applications/facilities?type=health&per_page=1000&ves_active=true`;
 
 const VaMedicalCenter = props => {
   const {
