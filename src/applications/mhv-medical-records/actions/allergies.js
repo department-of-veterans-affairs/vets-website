@@ -42,3 +42,7 @@ export const getAllergyDetails = (id, allergyList) => async dispatch => {
 export const clearAllergyDetails = () => async dispatch => {
   dispatch({ type: Actions.Allergies.CLEAR_DETAIL });
 };
+
+export const reloadRecords = () => async dispatch => {
+  dispatch({ type: Actions.LabsAndTests.COPY_UPDATED_LIST });
+};
