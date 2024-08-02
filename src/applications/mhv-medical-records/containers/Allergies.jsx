@@ -160,13 +160,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <PrintDownload
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
         <NewRecordsIndicator
           refreshState={refresh}
           extractType={refreshExtractTypes.ALLERGY}
@@ -179,6 +172,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+        <PrintDownload
+          list
+          downloadPdf={generateAllergiesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateAllergiesTxt}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
         <RecordList records={allergies} type={recordType.ALLERGIES} />
       </RecordListSection>
     </div>

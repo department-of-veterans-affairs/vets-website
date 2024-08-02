@@ -70,18 +70,6 @@ const HealthConditions = () => {
         <span className="vads-u-font-weight--bold">36 hours</span> after your
         providers enter them.
       </p>
-      <va-additional-info
-        trigger="About the codes in some condition names"
-        class="no-print vads-u-margin-bottom--3"
-      >
-        <p>
-          Some of your health conditions may have diagnosis codes in the name
-          that start with SCT or ICD. Providers use these codes to track your
-          health conditions and to communicate with other providers about your
-          care. If you have a question about these codes or a health condition,
-          ask your provider at your next appointment.
-        </p>
-      </va-additional-info>
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.HEALTH_CONDITIONS}
@@ -102,6 +90,18 @@ const HealthConditions = () => {
             dispatch(reloadRecords());
           }}
         />
+        <va-additional-info
+          trigger="About the codes in some condition names"
+          class="no-print vads-u-margin-bottom--3"
+        >
+          <p>
+            Some of your health conditions may have diagnosis codes in the name
+            that start with SCT or ICD. Providers use these codes to track your
+            health conditions and to communicate with other providers about your
+            care. If you have a question about these codes or a health
+            condition, ask your provider at your next appointment.
+          </p>
+        </va-additional-info>
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       </RecordListSection>
     </>
