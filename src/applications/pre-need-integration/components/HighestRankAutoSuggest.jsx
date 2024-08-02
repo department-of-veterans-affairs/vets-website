@@ -142,7 +142,8 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
 
   return (
     <div>
-      {hint && <div className="usa-hint">{hint}</div>}
+      {!formContext.reviewMode &&
+        hint && <div className="usa-hint">{hint}</div>}
       {!formContext.onReviewPage ||
       (formContext.onReviewPage && !formContext.reviewMode) ? (
         <div className="highestRank">
