@@ -35,7 +35,6 @@ export class Main extends Component {
     window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
     this.bindModalTriggers();
-
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
@@ -161,7 +160,7 @@ export class Main extends Component {
   }
 }
 
-const shouldConfirmLeavingCheck = form => {
+export const shouldConfirmLeavingCheck = form => {
   const isFormAnObject = typeof form === 'object';
   if (!isFormAnObject) return false;
 
@@ -222,7 +221,6 @@ Main.propTypes = {
   shouldConfirmLeavingForm: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
-  showNavLogin: PropTypes.bool,
   useSignInService: PropTypes.bool,
   userGreeting: PropTypes.oneOfType([
     PropTypes.node,
