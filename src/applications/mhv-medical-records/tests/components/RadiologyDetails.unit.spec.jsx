@@ -51,6 +51,7 @@ describe('Radiology details component', () => {
     expect(header).to.exist;
   });
 
+  // This test will give different results when run in different time zones.
   it.skip('should display the formatted date', () => {
     const formattedDate = screen.getByText('January 6, 2004, 7:27 p.m.', {
       exact: true,

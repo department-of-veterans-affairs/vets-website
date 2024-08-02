@@ -16,7 +16,7 @@ const AppConfig = ({ children }) => {
     site: 'ddog-gov.com',
     service: 'mhv-on-va.gov',
     sessionSampleRate: 100,
-    sessionReplaySampleRate: 10,
+    sessionReplaySampleRate: 1,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,

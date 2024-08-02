@@ -44,6 +44,8 @@ describe('Date formatter with no timezone', () => {
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
     expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
   });
+
+  // This test will give different results when run in different time zones.
   it.skip('formats an epoch date in the original time without a timezone', () => {
     const timeStamp = 1605300748000;
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
