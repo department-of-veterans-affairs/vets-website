@@ -89,10 +89,9 @@ export function fetchFacility(id) {
     // eslint-disable-next-line consistent-return
     return apiRequest(`/va/${id}`, {
       apiVersion: 'facilities_api/v2',
-      // eslint-disable-next-line camelcase
     })
       .then(facility => {
-        if (facility.data.id) {
+        if (facility.data?.id) {
           const facilityData = facility.data;
           return dispatch(fetchFacilitySuccess(facilityData));
         }
