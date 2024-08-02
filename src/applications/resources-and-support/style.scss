@@ -1,14 +1,14 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .medium-screen-va-border-left-radius--0 {
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }
 }
 
 .medium-screen-va-background-color--white {
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     background-color: var(--vads-color-white) !important;
   }
 }

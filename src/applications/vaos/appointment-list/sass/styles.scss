@@ -13,7 +13,7 @@
   width: 50%;
   display: flex;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     width: 200px;
   }
 }
@@ -49,7 +49,7 @@
     margin: 0;
   }
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     font-size: 16px;
   }
 }
@@ -65,7 +65,7 @@
   padding: 16px;
   margin-bottom: 16px;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     padding: 24px;
   }
 }
@@ -178,6 +178,14 @@ $gap-values: (
   }
 }
 // Responsive Utilities
+$breakpoints: (
+  xsmall-screen:        var(--xsmall-screen),
+  small-screen:         var(--small-screen),
+  medium-screen:        var(--medium-screen),
+  small-desktop-screen: var(--small-desktop-screen),
+  large-screen:         var(--large-screen)
+);
+
 @each $bp_name, $bp_value in $breakpoints {
   @media (min-width: $bp_value) {
     @each $name, $value in $gap-values {
@@ -193,23 +201,23 @@ $gap-values: (
   min-width: 24px;
 }
 .vaos-appts__column--alignItems {
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     align-items: stretch;
   }
-  @include media($small-desktop-screen) {
+  @include media(var(--small-desktop-screen)) {
     align-items: center;
   }
 }
 
 div[id^="vaos-appts__detail-"] {
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     display: flex;
     align-items: center;
     text-align: right;
     min-width: fit-content;
     max-width: fit-content;
   }
-  @include media($small-desktop-screen) {
+  @include media(var(--small-desktop-screen)) {
     justify-content: right;
   }
 }
@@ -225,7 +233,7 @@ div[id^="vaos-appts__detail-"] {
 }
 
 .vaos-appts__text--truncate {
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     white-space: nowrap;
     overflow: hidden !important;
     text-overflow: ellipsis !important;

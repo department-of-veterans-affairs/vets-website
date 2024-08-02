@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 $anchor-font-size: 1.25rem; // == 20px
 
@@ -109,7 +109,7 @@ $anchor-font-size: 1.25rem; // == 20px
   visibility: hidden;
 }
 
-@media (max-width: $medium-screen) {
+@media (max-width: var(--medium-screen)) {
   .mhv-c-navlink {
     display: flex;
     justify-content: space-between;

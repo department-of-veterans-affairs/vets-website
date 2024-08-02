@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -17,7 +17,7 @@
     visibility: hidden !important;
   }
 
-  @media (min-width: $small-screen) and (max-width: $medium-screen) {
+  @media (min-width: var(--small-screen)) and (max-width: var(--medium-screen)) {
     .usa-content,
     .va-nav-breadcrumbs {
       padding-left: 0.9375rem;
@@ -33,7 +33,7 @@
         position: relative;
 
         .search-controls-text-inputs {
-          @media (min-width: $medium-screen) {
+          @media (min-width: var(--medium-screen)) {
             .geolocation-container {
               display: flex;
               min-width: 6.25rem;
@@ -58,7 +58,7 @@
               width: 30rem;
             }
           }
-          @media (max-width: $medium-screen) {
+          @media (max-width: var(--medium-screen)) {
             .location-input {
               max-width: 28.75rem;
             }
@@ -83,7 +83,7 @@
         }
 
         .use-my-location-button-container-error {
-          @media (min-width: $large-screen) {
+          @media (min-width: var(--large-screen)) {
             top: 6.4rem;
           }
         }
@@ -96,7 +96,7 @@
           padding: 0;
           margin: 0 0 0 1rem;
 
-          @media (max-width: $small-desktop-screen) {
+          @media (max-width: var(--small-desktop-screen)) {
             text-align: left;
           }
         }
@@ -136,7 +136,7 @@
   }
 
   .results-section {
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       min-width: 37.5rem;
     }
 
@@ -145,10 +145,10 @@
     }
 
     hr {
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         min-width: 37.5rem;
       }
-      @media (max-width: $medium-screen) {
+      @media (max-width: var(--medium-screen)) {
         max-width: 35.625rem;
       }
     }
@@ -204,7 +204,7 @@
           }
         }
 
-        @media (min-width: $medium-screen) {
+        @media (min-width: var(--medium-screen)) {
           min-width: 37.5rem;
 
 
@@ -246,7 +246,7 @@
           }
         }
 
-        @media (max-width: $medium-screen) {
+        @media (max-width: var(--medium-screen)) {
           display: flex;
           align-items: center;
           max-width: 35.625rem;
@@ -261,7 +261,7 @@
             margin-top: 1.875rem;
           }
         }
-        @media (min-width: 565px) and (max-width: $medium-screen) {
+        @media (min-width: 565px) and (max-width: var(--medium-screen)) {
           .representative-result-card-content {
             min-width: 21.875rem;
           }
@@ -270,14 +270,14 @@
     }
 
     .report-other-text-input {
-      @media (min-width: $small-screen) {
+      @media (min-width: var(--small-screen)) {
         padding-left: 2.5rem;
       }
     }
   }
 
   .help-section {
-    @media (max-width: $medium-screen) {
+    @media (max-width: var(--medium-screen)) {
       padding-right: 1.5625rem;
     }
   }

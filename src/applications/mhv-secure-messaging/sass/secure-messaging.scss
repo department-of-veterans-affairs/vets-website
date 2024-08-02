@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "./secure-messaging-breadcrumb";
 @import "./navigation";
 @import "./folders-list";
@@ -70,7 +70,7 @@ va-modal va-radio {
     color: var(--vads-color-link);
   }
   width: 100%;
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     display: none;
   }
 }
@@ -180,13 +180,13 @@ va-modal va-radio {
     padding: 0;
     margin: 16px 0 0 0;
     display: flex;
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       align-items: center;
     }
     i {
       margin: 5px 8px 0 0;
       color: var(--vads-color-link);
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         margin-top: 0;
       }
     }
@@ -203,7 +203,7 @@ va-modal va-radio {
           overflow-wrap: anywhere;
         }
       }
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -245,7 +245,7 @@ va-modal va-radio {
     margin: 0;
     width: fit-content;
     position: relative;
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       padding: 0 0 0 0.625rem;
       margin: 0 0 0 0.625rem;
     }
@@ -304,7 +304,7 @@ va-loading-indicator {
   va-button::part(button) {
     width: 100%;
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       width: auto;
     }
   }
@@ -320,7 +320,7 @@ va-loading-indicator {
   va-button::part(button) {
     width: 100%;
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       width: auto;
     }
   }

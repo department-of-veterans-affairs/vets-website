@@ -1,4 +1,5 @@
 // Style for schemaform
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .va-growable-background {
   padding: 1em;
@@ -93,7 +94,7 @@ dl.review {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       flex-direction: row;
       > dd {
         padding-left: 5px;
@@ -125,7 +126,7 @@ dl.review-auto-margin {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       flex-direction: row;
       > dd {
         padding-left: 5px;
@@ -616,7 +617,7 @@ va-accordion-item[data-unviewed-pages="true"] {
   left: 0;
   z-index: 1;
 
-  @include media-maxwidth($small-screen) {
+  @include media-maxwidth(var(--small-screen)) {
     font-size: 0.8125rem;
   }
 }
@@ -749,7 +750,7 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   .rjsf-web-component-field.#{$element}::part(header) {
     font-size: $desktop-font-size;
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       font-size: $mobile-font-size;
     }
   }

@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -153,7 +153,7 @@ article[data-location="review-and-submit"] {
   }
 }
 
-@media (max-width: $small-screen) {
+@media (max-width: var(--small-screen)) {
   dl.review,
   div.review {
     .review-row {

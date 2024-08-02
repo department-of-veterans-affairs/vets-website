@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -245,7 +245,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
 }
 
 .phone {
-  @media screen and (min-width: ($small-screen+1px)) {
+  @media screen and (min-width: (var(--small-screen)+1px)) {
     max-width: 11.25rem;
   }
 }

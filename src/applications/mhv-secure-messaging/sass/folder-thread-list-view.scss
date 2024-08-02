@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .message-count {
   font-weight: normal;
@@ -15,7 +15,7 @@
 
 .thread-list {
   width: 100%;
-  // @media (max-width: $small-screen) {
+  // @media (max-width: var(--small-screen)) {
   word-wrap: break-word;
   //   }
 
@@ -62,7 +62,7 @@
 
   va-select {
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       max-width: 225px;
     }
   }
@@ -80,7 +80,7 @@
     margin-bottom: 3px;
     align-self: flex-end;
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       width: fit-content;
       max-width: 78px;
       margin-right: auto;

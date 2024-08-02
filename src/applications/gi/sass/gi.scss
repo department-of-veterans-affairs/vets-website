@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "partials/gi-vet-tec";
@@ -42,13 +42,13 @@
     a {
       // background-image: none;
       text-align: center;
-      font-family: $font-sans;
+      font-family: var(--font-source-sans);
       font-size: 0.850rem;
       line-height: 2.5rem;
       margin-right: 1.5625rem;
       margin-bottom: 0.75rem;
 
-      @include media-maxwidth($small-screen) {
+      @include media-maxwidth(var(--small-screen)) {
         font-size: 0.75rem;
         text-align: left;
         margin: 0;
@@ -56,7 +56,7 @@
       }
 
       a.link {
-        @include media-maxwidth($small-screen) {
+        @include media-maxwidth(var(--small-screen)) {
           margin-left: 0.625rem;
           padding: 0.3125rem;
         }
@@ -123,7 +123,7 @@
 
   .gids-radio-buttons {
     position: relative;
-    @include media($small-screen) {
+    @include media(var(--small-screen)) {
       display: flex;
     }
     padding-left: 0.3125rem;
@@ -219,7 +219,7 @@
     padding-right: 0;
     text-align: left;
   }
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     text-align: center;
   }
 }
@@ -234,7 +234,7 @@
     text-align: left;
   }
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     padding-left: 20px;
     padding-bottom: 1em;
     padding-right: 0;
@@ -242,12 +242,12 @@
 }
 
 .small-screen-font {
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     font-size: 15px;
   }
 }
 .small-screen-header {
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     font-size: 17px;
   }
 }

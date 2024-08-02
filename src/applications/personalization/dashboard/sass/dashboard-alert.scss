@@ -11,10 +11,10 @@
 .dashboard-alert {
   background: none;
   background-color: var(--vads-color-base-lightest);
-  font-family: $font-sans;
+  font-family: var(--font-source-sans);
   padding: units(2);
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     padding: units(4);
   }
 
@@ -38,14 +38,14 @@
     }
 
     h3 {
-      font-family: $font-sans;
-      font-weight: $font-bold;
+      font-family: var(--font-source-sans);
+      font-weight: var(--font-weight-bold);
       font-size: 1.25em;
       margin: 0;
     }
 
     p {
-      font-family: $font-sans;
+      font-family: var(--font-source-sans);
       margin: 0;
     }
   }

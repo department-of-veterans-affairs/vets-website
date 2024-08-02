@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .compose-container {
   #shadow-root .va-modal-body {
@@ -11,13 +11,13 @@
   va-select.composeSelect::part(select) {
     max-width: 100%;
   }
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     padding: 0;
     label {
       max-width: 100%;
     }
   }
-  @media (min-width: $large-screen) {
+  @media (min-width: var(--large-screen)) {
     padding: 0;
   }
   .breadcrumb > i {
@@ -86,7 +86,7 @@
       border: 2px solid var(--vads-color-base-lightest);
       border-radius: 0 0 4px 4px;
       padding: 0 14px 14px;
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         padding: 0 36px 36px;
       }
       .message-subject {
@@ -130,7 +130,7 @@
     color: var(--vads-color-base-darker);
     background-color: var(--vads-color-gray-cool-light) !important;
   }
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     width: 100%;
   }
 }
@@ -148,7 +148,7 @@
     height: 36px;
     width: 100%;
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       width: auto;
     }
   }
@@ -176,7 +176,7 @@
     height: 36px;
   }
 
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     margin-right: 0;
     display: flex;
     flex-direction: row;

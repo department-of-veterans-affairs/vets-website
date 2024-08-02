@@ -1,6 +1,6 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 
 .outreach-asset-form-filters {
@@ -15,10 +15,10 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     float: left;
     display: none;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       height: 184px;
     }
-    @media (min-width: $large-screen) {
+    @media (min-width: var(--large-screen)) {
       height: 388px;
       &.large-screen\:vads-l-col--6 {
         max-width: 48.35%;
@@ -46,12 +46,12 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       &.pager-hide {
         display: none;
       }
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         //height: 224px;
         height: 100%;
       }
 
-      @media (min-width: $large-screen) {
+      @media (min-width: var(--large-screen)) {
         height: 388px;
       }
 
@@ -79,11 +79,11 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     .asset-body-wrap {
       height: 214px;
 
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         height: 100%;
       }
 
-      @media (min-width: $large-screen) {
+      @media (min-width: var(--large-screen)) {
         height: 214px;
       }
 
@@ -126,7 +126,7 @@ needed for card tablet view (i.e., adding one class might
 cover one scenario, however, it would result in a new styling issue).
 Only way to accomplish everything required is with this method.
 */
-@media (min-width: $medium-screen) and (max-width: $large-screen) {
+@media (min-width: var(--medium-screen)) and (max-width: var(--large-screen)) {
   .asset-card {
     &.medium-card-utility {
       margin-bottom: 25px;

@@ -12,7 +12,7 @@
   border: 1px solid var(--vads-color-base-dark);
   background-color: var(--vads-color-white);
 
-  @media (max-width: calc(#{$medium-screen} - 1px)) {
+  @media (max-width: calc(#{var(--medium-screen)} - 1px)) {
     width: 264px;
     max-width: 80%;
   }
@@ -150,7 +150,7 @@
   }
 }
 
-@media (min-width: $medium-screen) {
+@media (min-width: var(--medium-screen)) {
   .sidebar-navigation {
     height: 600px;
     list-style-type: none;

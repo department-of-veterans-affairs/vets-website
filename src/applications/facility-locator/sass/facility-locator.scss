@@ -1,15 +1,15 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .facility-locator {
-  @media (max-width: $large-screen) {
+  @media (max-width: var(--large-screen)) {
     margin: 0 12px;
   }
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     margin: 0;
   }
 
@@ -68,7 +68,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     border-top: solid 2px var(--vads-color-base-lighter);
     border-bottom: none;
 
-    @media screen and (max-width: $small-screen) {
+    @media screen and (max-width: var(--small-screen)) {
       // we already have a border from the tab-list on mobile
       border-top: none;
     }
@@ -104,7 +104,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     }
   }
 
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: var(--small-screen)) {
     .facility-result+.facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
@@ -255,7 +255,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin-bottom: 24px;
         padding: 0 0.7em;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           max-width: 418px;
           width: 418px;
           margin-right: 18px;
@@ -280,7 +280,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         padding: 0 0.625rem;
         margin-top: 0;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           margin-top: auto;
           min-width: 4.4rem;
           width: auto;
@@ -299,7 +299,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         display: flex;
         flex-direction: column;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           flex-direction: row;
         }
       }
@@ -312,7 +312,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         padding: 0;
         margin: 0 0 0 20px;
 
-        @media (max-width: $small-desktop-screen) {
+        @media (max-width: var(--small-desktop-screen)) {
           margin: 1em 0;
           text-align: left;
         }
@@ -328,7 +328,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       }
 
       #search-controls-bottom-row {
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           display: flex;
           margin-top: -24px;
           flex-direction: row;
@@ -382,7 +382,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 // Prevent error message div from colliding with facility-type
 #service-error {
-  @media (min-width: $small-desktop-screen) {
+  @media (min-width: var(--small-desktop-screen)) {
     right: 0px;
   }
 }
@@ -420,7 +420,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 100%;
     z-index: 1010;
 
-    @media (min-width: $small-desktop-screen) {
+    @media (min-width: var(--small-desktop-screen)) {
       width: 418px;
     }
 
@@ -515,7 +515,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 22px auto;
   clear: both;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     width: 260px;
     white-space: pre-line;
   }
@@ -536,7 +536,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   cursor: pointer;
   pointer-events: auto;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     height: 43px;
   }
 }

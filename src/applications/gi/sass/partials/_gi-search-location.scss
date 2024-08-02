@@ -19,7 +19,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     height: 565px;
     overflow-y: scroll;
 
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth(var(--small-screen)) {
       height: 75vh;
       border: none;
     }
@@ -40,7 +40,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 28px;
     height: 24px;
     display: flex;
-    font-family: $font-sans;
+    font-family: var(--font-source-sans);
     align-items: center;
     justify-content: center;
     background: var(--vads-color-base);
@@ -71,7 +71,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: row;
 
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth(var(--small-screen)) {
       min-height: 45vh;
     }
   }
@@ -138,7 +138,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 .use-my-location-container {
   display: block;
 
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     display: inline-block;
     float: right;
     vertical-align: bottom;
@@ -154,7 +154,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   padding: 0;
   margin: 0 0 0 20px;
 
-  @media (max-width: $small-desktop-screen) {
+  @media (max-width: var(--small-desktop-screen)) {
     margin: 0.75em 0;
     text-align: left;
     width: 140px;
@@ -165,7 +165,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   background-color: transparent;
   color: var(--vads-color-link);
 
-  @media (max-width: $small-desktop-screen) {
+  @media (max-width: var(--small-desktop-screen)) {
     text-align: left;
   }
 }
@@ -196,7 +196,7 @@ input.location-search {
     margin-top: 4px;
   }
 
-  @media (max-width: $medium-screen) {
+  @media (max-width: var(--medium-screen)) {
     width: 100%;
     select {
       width: 100%;
@@ -209,7 +209,7 @@ button.location-search-button {
   width: 120px !important;
 }
 
-@media (max-width: $small-screen) {
+@media (max-width: var(--small-screen)) {
   #institution-search-label {
     margin-top: 0px;
   }

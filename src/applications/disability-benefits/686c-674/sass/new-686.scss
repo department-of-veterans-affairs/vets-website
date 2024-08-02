@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
@@ -23,7 +23,7 @@ div.review {
       margin-top: 0;
       margin-bottom: 0;
     }
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       flex-direction: row;
       > dd {
         padding-left: 5px;

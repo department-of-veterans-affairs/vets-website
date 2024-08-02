@@ -34,14 +34,14 @@
           margin-right: 0;
           font-size: 1.25rem;
 
-          @include media($medium-screen) {
+          @include media(var(--medium-screen)) {
             margin-right: 0.5rem;
             font-size: 0.9375rem;
           }
         }
 
         &:last-child {
-          @media (max-width: $medium-screen) {
+          @media (max-width: var(--medium-screen)) {
             /* Use the .vads-u-visibility--screen-reader to make text SR-only for mobile */
             /* https://design.va.gov/utilities/visibility */
             border: 0;
@@ -68,7 +68,7 @@
         opacity: 1;
       }
 
-      @include media($medium-screen) {
+      @include media(var(--medium-screen)) {
         padding-left: 17px;
         padding-right: 19px;
         width: auto;
@@ -86,14 +86,14 @@
 
   .back-to-top-container-floating {
     bottom: 3.3em;
-    @include media-maxwidth($small-screen - 1) {
+    @include media-maxwidth(var(--small-screen) - 1) {
       padding-right: 10px;
     }
   }
 
   .back-to-top-container-floating-open {
     bottom: 13.3em;
-    @include media-maxwidth($small-screen - 1) {
+    @include media-maxwidth(var(--small-screen) - 1) {
       padding-right: 10px;
     }
   }

@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .older-messages {
   width: inherit;
@@ -56,7 +56,7 @@
       margin-bottom: 1px;
     }
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       p {
         margin: 4px 0;
         word-break: break-all;

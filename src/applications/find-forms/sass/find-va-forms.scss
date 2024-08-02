@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 [data-widget-type="find-va-forms"] {
   .usa-input-error {
@@ -32,7 +32,7 @@
   }
 }
 
-@media (min-width: $medium-screen) {
+@media (min-width: var(--medium-screen)) {
   [data-widget-type="find-va-forms"] {
     [data-e2e-id="find-form-search-form"] {
       .find-form-button {
@@ -43,7 +43,7 @@
 }
 
 .medium-screen-va-border-left-radius--0 {
-  @media (min-width: $medium-screen) {
+  @media (min-width: var(--medium-screen)) {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
   }

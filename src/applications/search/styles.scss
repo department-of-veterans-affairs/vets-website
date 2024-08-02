@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 
 .search-app {
@@ -99,7 +99,7 @@
       margin-bottom: 0;
 
 
-      @include media($small-screen) {
+      @include media(var(--small-screen)) {
         margin-bottom: 0.9375rem;
       }
     }
@@ -113,7 +113,7 @@
     margin-bottom: 0.625rem;
 
 
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       flex-direction: row;
       margin-bottom: 2.5rem;
     }
@@ -124,10 +124,10 @@
       margin: 0.625rem 0 0;
 
 
-      @include media($small-screen) {
+      @include media(var(--small-screen)) {
         margin: 0.625rem 0 1.25rem;
       }
-      @include media($medium-screen) {
+      @include media(var(--medium-screen)) {
         margin: 1.25rem 0 0.625rem;
       }
     }
@@ -142,14 +142,14 @@
       }
 
 
-      @include media($large-screen) {
+      @include media(var(--large-screen)) {
         .va-pagination-inner {
           width: 12.5rem !important;
         }
       }
 
 
-      @include media($medium-screen) {
+      @include media(var(--medium-screen)) {
         width: unset;
       }
     }
@@ -172,7 +172,7 @@
     flex-direction: column;
 
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       flex-direction: row;
     }
 
@@ -189,7 +189,7 @@
       font-family: "Source Sans Pro";
 
 
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         margin: 0;
       }
     }
@@ -213,7 +213,7 @@
       padding: 0.625rem;
       width: 100%;
 
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         border-radius: 0 5px 5px 0;
         padding: 0 0.9375rem 0 0.625rem;
         width: auto;
@@ -244,7 +244,7 @@
     display: flex;
     flex-direction: column;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       flex-direction: row;
     }
   }

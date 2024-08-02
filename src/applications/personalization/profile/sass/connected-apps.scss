@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .va-connected-apps {
   margin-bottom: 6em;
@@ -43,7 +43,7 @@
     .form-expanding-group-open,
     .form-expanding-group-closed {
 
-      @media (max-width: $medium-screen) {
+      @media (max-width: var(--medium-screen)) {
         margin-left: -60px;
       }
     }

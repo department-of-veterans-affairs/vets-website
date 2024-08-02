@@ -24,7 +24,7 @@ table.responsive {
   text-transform: lowercase;
 }
 
-@media screen and (max-width: $medium-screen) {
+@media screen and (max-width: var(--medium-screen)) {
 
   table.responsive {
     border: 0;

@@ -36,7 +36,7 @@
     padding: 8px 0;
     margin: 0;
     display: flex;
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       align-items: center;
     }
     .icon-span-container {
@@ -54,7 +54,7 @@
 }
 
 .modal-button {
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -63,7 +63,7 @@
 
 .modal {
   va-button {
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       display: flex;
       flex-direction: column;
     }

@@ -1,7 +1,7 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .dashboard {
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     h1 {
       font-size: 32px;
     }
@@ -26,7 +26,7 @@
     p {
       margin: 8px 0;
     }
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       padding: 16px 25px 20px 15px;
       h2 {
         margin: 0;
@@ -61,10 +61,10 @@
       }
     }
     #select-search-folder-dropdown {
-      @media (max-width: $small-screen) {
+      @media (max-width: var(--small-screen)) {
         width: 100%;
       }
-      @media (min-width: $small-screen) {
+      @media (min-width: var(--small-screen)) {
         padding-right: 10px;
         margin-right: 13px;
         min-width: 110px;
@@ -74,7 +74,7 @@
     #search-keyword-text-input {
       width: 100%;
       margin-top: 12px;
-      @media (min-width: $small-screen) {
+      @media (min-width: var(--small-screen)) {
         margin-left: 0;
         margin-top: 0;
       }
@@ -89,7 +89,7 @@
     }
 
     .advanced-search-toggle {
-      @media (min-width: $small-screen) {
+      @media (min-width: var(--small-screen)) {
         margin-left: 5px;
       }
     }
@@ -100,13 +100,13 @@
       padding: 40px 20px 15px 33px;
       margin: 14px 0 25px 0;
       background-color: var(--vads-color-base-lightest);
-      font-weight: $font-bold;
+      font-weight: var(--font-weight-bold);
       font-size: 16px;
       .folder-link {
         padding: 0;
         margin-bottom: 25px;
       }
-      @media (min-width: $medium-screen) {
+      @media (min-width: var(--medium-screen)) {
         padding: 18px 25px 1px 25px;
         min-width: 260px;
         width: fit-content;
@@ -115,7 +115,7 @@
   }
 
   .secure-messaging-faq {
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       .va-introtext {
         font-size: 16px;
       }

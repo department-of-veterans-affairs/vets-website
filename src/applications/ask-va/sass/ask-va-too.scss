@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+// @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -9,7 +9,7 @@
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .dashboard-card {
-  background-color: var(--vads-color-base-lightest);
+  background-color: varvar(--vads-color-base-lightest);
   border: none;
 }
 
@@ -43,7 +43,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 .attachment-box {
   width: 70%;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     width: 100%;
   }
 }
@@ -53,7 +53,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   padding: 0.78125rem;
   font-weight: 600;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     width: 92%;
     padding: 0.78125rem;
     font-weight: 400;
@@ -69,7 +69,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   margin: 0.625rem 0;
   align-items: center;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     flex-direction: column;
     align-items: flex-start;
     p {
@@ -109,7 +109,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .no-attachments {
-  background-color: var(--vads-color-base-lightest);
+  background-color: varvar(--vads-color-base-lightest);
   padding: 5px;
 }
 
@@ -154,12 +154,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .search-controls-container {
     padding: 24px 16px 0 12px;
-    border: solid thin $color-gray-lightest;
-    background: $color-gray-lightest;
+    border: solid thin var(--vads-color-base-lightest);
+    background: var(--vads-color-base-lightest);
     max-width: 480px;
 
     select:disabled {
-      background: $color-gray-lightest;
+      background: var(--vads-color-base-lightest);
     }
 
     #facility-search-controls {
@@ -175,7 +175,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin-bottom: 24px;
         padding: 0 0.7em;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           max-width: 418px;
           width: 418px;
           margin-right: 18px;
@@ -191,7 +191,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         padding: 0 0.625rem;
         margin-top: 0;
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           margin-top: 27px;
           min-width: 67px;
           width: auto;
@@ -207,11 +207,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
           min-width: 50%;
         }
 
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           flex-direction: row;
         }
 
-        @media (max-width: $small-screen) {
+        @media (max-width: var(--small-screen)) {
           // flex: none;
           display: block;
         }
@@ -240,17 +240,17 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       .use-my-location-link {
         text-decoration: none;
         background-color: transparent;
-        color: $color-link-default;
+        color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
         margin: 0;
         text-align: left;
 
-        @media (max-width: $small-desktop-screen) {
+        @media (max-width: var(--small-desktop-screen)) {
           text-align: left;
         }
 
-        @media (max-width: $small-screen) {
+        @media (max-width: var(--small-screen)) {
           margin-top: 1.25rem;
         }
       }
@@ -265,7 +265,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       }
 
       #search-controls-bottom-row {
-        @media (min-width: $small-desktop-screen) {
+        @media (min-width: var(--small-desktop-screen)) {
           display: flex;
           flex-direction: row;
         }
@@ -278,7 +278,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     position: absolute;
     float: right;
     background-color: rgba(255, 255, 255, 0);
-    color: $color-black;
+    color: var(--vads-color-black);
     max-width: 1.25rem;
     left: 68%;
     padding-left: 0.3125rem;
@@ -288,7 +288,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       color: unset;
     }
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       left: 64%;
     }
   }
@@ -296,15 +296,15 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   #street-city-state-zip {
     padding-right: 36px !important;
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       padding-right: 48px !important;
     }
   }
 }
 
 .ava-progress-bar {
-  border: 1px solid $color-gray-lightest;
-  background-color: $color-gray-lightest;
+  border: 1px solid var(--vads-color-base-lightest);
+  background-color: var(--vads-color-base-lightest);
   border-radius: 3px;
   height: 1rem;
   width: 100%;
@@ -314,8 +314,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .ava-progress-bar-inner {
   height: 100%;
-  background-color: $color-orange;
-  border: 1px solid $color-orange;
+  background-color: var(--uswds-system-color-orange-40);
+  border: 1px solid var(--uswds-system-color-orange-40);
   border-radius: 3px;
   display: block;
 }

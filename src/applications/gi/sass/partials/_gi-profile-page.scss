@@ -49,7 +49,7 @@
     top: 2em;
   }
 
-  @include media-maxwidth($medium-screen - 1) {
+  @include media-maxwidth(var(--medium-screen) - 1) {
     .ratings-heading {
       padding-left: 0.625rem;
       padding-right: 0.625rem;
@@ -61,7 +61,7 @@
     top: 35px;
     pointer-events: none;
     left: 190px;
-    @include media-maxwidth($medium-screen){
+    @include media-maxwidth(var(--medium-screen)){
       top: 60px;
       left: 20px;
     }
@@ -77,7 +77,7 @@
     padding-left: 0% !important;
   }
 
-  @include media-maxwidth($medium-screen - 1) {
+  @include media-maxwidth(var(--medium-screen) - 1) {
     .about-ratings {
       padding-left: 0.625rem;
       padding-right: 0.625rem;
@@ -86,7 +86,7 @@
 
   .category-rating {
     .rating {
-      @include media-maxwidth($medium-screen - 1) {
+      @include media-maxwidth(var(--medium-screen) - 1) {
         max-width: none;
       }
     }
@@ -116,19 +116,19 @@
       background-position: right 0.625rem center;
       width: 100%;
 
-      @include media-maxwidth($medium-screen - 1) {
+      @include media-maxwidth(var(--medium-screen) - 1) {
         background-position: right 0.625rem center;
       }
     }
   }
 
   .additional-resources {
-    @include media-maxwidth($medium-screen - 1) {
+    @include media-maxwidth(var(--medium-screen) - 1) {
       display: none;
     }
   }
 
-  @media (max-width: $medium-screen -1) {
+  @media (max-width: var(--medium-screen) -1) {
     .additional-resources-profile {
       padding-top: 2em;
     }
@@ -188,7 +188,7 @@
       text-align: right;
     }
   }
-  @media screen and (max-width: $small-screen) {
+  @media screen and (max-width: var(--small-screen)) {
     .usa-alert {
       padding-right: 2rem;
     }
@@ -210,7 +210,7 @@
     padding-left: 0.625rem;
     padding-right: 0.625rem;
 
-    @include media-maxwidth($medium-screen - 1) {
+    @include media-maxwidth(var(--medium-screen) - 1) {
       padding-left: 0.625rem;
       padding-right: 0.625rem;
     }
@@ -308,7 +308,7 @@
   .graph-key {
     margin-top: 0.625rem;
 
-    @include media-maxwidth($medium-screen) {
+    @include media-maxwidth(var(--medium-screen)) {
       width: 200%;
     }
   }
@@ -344,13 +344,13 @@
       margin-bottom: 1em;
     }
 
-    @media screen and (min-width: $medium-screen) {
+    @media screen and (min-width: var(--medium-screen)) {
       .list {
         display: none;
       }
     }
 
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth(var(--small-screen)) {
       .table {
         display: none;
       }
@@ -435,7 +435,7 @@
         margin-bottom: 0;
         margin-top: 0;
         font-weight: bold;
-        @include media-maxwidth($small-screen) {
+        @include media-maxwidth(var(--small-screen)) {
           margin-bottom: 0.8em;
           margin-top: 0.8em;
         }
@@ -446,7 +446,7 @@
       padding-left: 16px;
       .extension-cell-label {
         padding-left: 0.5em;
-        @include media-maxwidth($small-screen) {
+        @include media-maxwidth(var(--small-screen)) {
           margin-bottom: 0.8em;
           margin-top: 0.8em;
         }
@@ -470,7 +470,7 @@
       }
     }
 
-    @media screen and (max-width: $medium-screen) {
+    @media screen and (max-width: var(--medium-screen)) {
       font-size: 1em;
 
       td {
@@ -494,7 +494,7 @@
         white-space: nowrap;
       }
       .zipcode-margin {
-        @include media-maxwidth($small-screen) {
+        @include media-maxwidth(var(--small-screen)) {
           margin-left: 4.8em;
         }
       }
@@ -524,7 +524,7 @@
     }
   }
 
-  @include media-maxwidth($medium-screen - 1) {
+  @include media-maxwidth(var(--medium-screen) - 1) {
     .locations-table {
       display: none;
     }
@@ -605,12 +605,12 @@
     button.calculate-button {
       background-image: none;
       background-color: var(--vads-color-primary);
-      border-radius: $button-border-radius;
+      border-radius: 5px;
       color: var(--vads-color-white);
       width: auto;
       text-align: inherit;
 
-      @include media-maxwidth($small-screen) {
+      @include media-maxwidth(var(--small-screen)) {
         text-align: center;
         width: 100%;
       }
@@ -670,7 +670,7 @@
       margin-top: 10px;
     }
 
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth(var(--small-screen)) {
       border: none;
     }
   }
@@ -703,12 +703,12 @@
   .historical-information.list {
     margin-bottom: 1.25rem;
 
-    @media screen and (min-width: $medium-screen) {
+    @media screen and (min-width: var(--medium-screen)) {
       display: none;
     }
   }
 
-  @include media-maxwidth($medium-screen) {
+  @include media-maxwidth(var(--medium-screen)) {
     .historical-information.table {
       display: none;
     }
@@ -722,7 +722,7 @@
 }
 
 .institution-profile {
-  @include media-maxwidth($small-screen) {
+  @include media-maxwidth(var(--small-screen)) {
     padding-left: 10px;
     padding-right: 10px;
   }

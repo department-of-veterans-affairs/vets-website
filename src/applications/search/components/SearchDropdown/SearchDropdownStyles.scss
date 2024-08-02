@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .search-dropdown-component {
   flex-direction: row;
@@ -8,7 +8,7 @@
   }
 
   &.shrink-to-column {
-    @media (max-width: $medium-screen) {
+    @media (max-width: var(--medium-screen)) {
       flex-direction: column;
     }
   }
