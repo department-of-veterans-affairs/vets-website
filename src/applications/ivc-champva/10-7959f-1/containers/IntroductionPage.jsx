@@ -27,7 +27,9 @@ const IntroductionPage = props => {
         service-connected condition, we may cover the cost of your care. Use
         this form to register for the Foreign Medical Program.
       </p>
-      <h3>What to know before you fill out this form</h3>
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        What to know before you fill out this form
+      </h2>
       <div className="process schemaform-process">
         <ul>
           <li>

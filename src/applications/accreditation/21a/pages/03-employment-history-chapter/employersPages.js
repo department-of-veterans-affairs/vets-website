@@ -95,6 +95,7 @@ const addressAndPhoneNumberPage = {
         militaryCheckbox:
           'I work on a United States military base outside of the U.S.',
       },
+      omit: ['street3'],
     }),
     phone: internationalPhoneUI(),
     extension: textUI({

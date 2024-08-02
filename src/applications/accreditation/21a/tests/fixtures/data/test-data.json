@@ -11,10 +11,8 @@
     "dateOfBirth": "1995-01-09",
     "placeOfBirthAddress": {
       "country": "USA",
-      "street": "1234 Main St",
       "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
+      "state": "CA"
     },
     "phone": "34-51-3451-3455",
     "typeOfPhone": "HOME",
