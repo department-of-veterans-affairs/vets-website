@@ -327,10 +327,10 @@ function sortByDate(array) {
   return array.sort((a, b) => {
     let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
     let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    if (isNaN(dateA.getTime())) {
+    if (Number.isNaN(dateA.getTime())) {
       dateA = parseISO(a.sortDate);
     }
-    if (isNaN(dateB.getTime())) {
+    if (Number.isNaN(dateB.getTime())) {
       dateB = parseISO(b.sortDate);
     }
     return dateB - dateA;
