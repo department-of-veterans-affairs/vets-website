@@ -5,14 +5,19 @@ import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
 
+import { fetchFormStatuses } from '../../actions/form-status';
 import ApplicationsInProgress from './ApplicationsInProgress';
 
-const BenefitApplicationDrafts = ({
+const BenefitApplications = ({
+  formsWithStatus,
   getESREnrollmentStatus,
+  getFormStatuses,
   isLOA1,
   shouldGetESRStatus,
 }) => {
@@ -25,10 +30,30 @@ const BenefitApplicationDrafts = ({
     [shouldGetESRStatus, getESREnrollmentStatus],
   );
 
+  useEffect(
+    () => {
+      getFormStatuses();
+    },
+    [getFormStatuses],
+  );
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isFormSubmissionStatusWork = useToggleValue(
+    TOGGLE_NAMES.myVaFormSubmissionStatuses,
+  );
+
   return (
     <div data-testid="dashboard-section-benefit-application-drafts">
-      <h2>Benefit application drafts</h2>
-      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
+      <h2>
+        {isFormSubmissionStatusWork
+          ? 'Benefit applications and other forms'
+          : 'Benefit applications'}
+      </h2>
+      <ApplicationsInProgress
+        formsWithStatus={formsWithStatus}
+        hideH3
+        isLOA1={isLOA1}
+      />
     </div>
   );
 };
@@ -48,13 +73,16 @@ const mapStateToProps = state => {
   };
 };
 
-BenefitApplicationDrafts.propTypes = {
+BenefitApplications.propTypes = {
+  formsWithStatus: PropTypes.array,
   getESREnrollmentStatus: PropTypes.func,
+  getFormStatuses: PropTypes.func,
   isLOA1: PropTypes.bool,
   shouldGetESRStatus: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
+  getFormStatuses: fetchFormStatuses,
   getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
 };
@@ -62,4 +90,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BenefitApplicationDrafts);
+)(BenefitApplications);

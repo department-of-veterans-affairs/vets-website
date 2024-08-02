@@ -9,6 +9,7 @@ const { createAppealsSuccess } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
+const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
@@ -24,8 +25,9 @@ const responses = {
     {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
-      myVaEnableNewSipConfig: false,
-      veteranOnboardingBetaFlow: true,
+      myVaEnableNewSipConfig: true,
+      veteranOnboardingBetaFlow: false,
+      myVaFormSubmissionStatuses: true,
     },
     true,
   ),
@@ -38,6 +40,7 @@ const responses = {
   'GET /v0/benefits_claims': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
+  'GET /v0/my_va/submission_statuses': createApplications(),
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',
