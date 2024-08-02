@@ -75,7 +75,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
     noAuth:
