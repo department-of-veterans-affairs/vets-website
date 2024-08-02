@@ -160,7 +160,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -262,6 +263,14 @@ describe('VAOS Component: InPersonLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -306,6 +315,9 @@ describe('VAOS Component: InPersonLayout', () => {
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Primary care/i));
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),

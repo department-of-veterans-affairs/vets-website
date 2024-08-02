@@ -51,10 +51,6 @@ describe('VAOS Component: PhoneLayout', () => {
                 value: '520647363',
               },
             ],
-            name: {
-              family: 'NADEAU',
-              given: ['MARCY'],
-            },
             practiceName: 'Cheyenne VA Medical Center',
           },
         ],
@@ -192,6 +188,14 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -231,6 +235,9 @@ describe('VAOS Component: PhoneLayout', () => {
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Primary care/i));
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', {
