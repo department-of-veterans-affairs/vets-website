@@ -48,9 +48,6 @@ legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
 .fry-dea-benefits-list {
   list-style-type: none;
 }
-.fry-dea-benefit-selection-icon {
-  min-width: 28px;
-}
 
 // Review Page
 .fry-dea-review-page-only {
@@ -123,9 +120,6 @@ $error-left-padding-width: 0.9375rem;
 }
 #root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
   padding-bottom: .65em;
-}
-.fa-check-circle {
-  color: var(--vads-color-success-dark);
 }
 // END - Benefit Selection Page
 

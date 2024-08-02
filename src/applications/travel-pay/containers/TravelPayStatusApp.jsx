@@ -10,6 +10,8 @@ import {
   VaBackToTop,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// TODO switch to native Set operations once browser support is more widespread
+import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -50,10 +52,24 @@ export default function App({ children }) {
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
-    const initialStatusFilters = [
-      ...new Set(travelClaims.map(claim => claim.claimStatus)),
-    ];
-    setStatusesToFilterBy(initialStatusFilters);
+
+    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
+
+    const availableTopStatuses = intersection(
+      Array.from(topStatuses),
+      Array.from(availableStatuses),
+    );
+
+    const availableNonTopStatuses = difference(
+      Array.from(availableStatuses),
+      Array.from(topStatuses),
+    ).sort(); // .sort() ensures statuses are alphabetized
+
+    const orderedStatusFilters = availableTopStatuses.concat(
+      availableNonTopStatuses,
+    );
+    setStatusesToFilterBy(orderedStatusFilters);
   }
 
   const dateFilters = getDateFilters();
@@ -267,6 +283,7 @@ export default function App({ children }) {
                     <va-button
                       onClick={() => onSortClick()}
                       data-testid="Sort travel claims"
+                      secondary
                       text="Sort"
                       label="Sort"
                     />
