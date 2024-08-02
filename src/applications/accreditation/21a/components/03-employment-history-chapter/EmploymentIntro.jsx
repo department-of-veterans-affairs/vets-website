@@ -25,7 +25,7 @@ const EmploymentIntro = () => (
       <li>Supervisor name</li>
       <li>Employer address and phone number</li>
       <li>Employment start and end dates (month/year)</li>
-      <li>Reason for leaving</li>
+      <li>Reason for leaving (if applicable)</li>
     </ul>
   </>
 );
