@@ -168,7 +168,7 @@ const CreditCardBill = props => {
             {
               label: `${addCancelButtonsText} credit card bill`,
               onClick: handlers.onUpdate,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -189,7 +189,7 @@ const CreditCardBill = props => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
