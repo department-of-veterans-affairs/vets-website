@@ -2,7 +2,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
@@ -29,7 +28,6 @@ const formConfig = (pathname = null) => {
       showNavLinks: !window.Cypress,
     },
     trackingPrefix: 'form-upload-flow-',
-    introduction: IntroductionPage,
     confirmation: ConfirmationPage,
     CustomReviewTopContent,
     customText: {

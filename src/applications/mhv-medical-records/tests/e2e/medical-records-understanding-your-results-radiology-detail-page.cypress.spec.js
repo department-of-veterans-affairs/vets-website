@@ -1,7 +1,8 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+// import labsAndTests from '../fixtures/labsAndTests.json';
+// import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -13,8 +14,7 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
   });
 
   it('Understanding Your Results Radiology Detail Page', () => {
-    // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(9, labsAndTests.entry[9]);
+    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
     // When I want to get "help to be able to understand results" of my MR data
     RadiologyDetailsPage.verifyExpandUnderstandResults();
     RadiologyDetailsPage.clickExpandUnderstandResults();

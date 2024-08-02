@@ -87,7 +87,7 @@ const testConfig = createTestConfig(
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
-            .click();
+            .click({ force: true });
         });
       },
       'dependent-ages': ({ afterHook }) => {

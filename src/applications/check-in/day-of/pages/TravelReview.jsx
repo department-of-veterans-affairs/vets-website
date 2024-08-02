@@ -19,6 +19,7 @@ const TravelQuestion = props => {
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
+
   const onCheck = e => {
     setAgree(e.detail.checked);
   };
@@ -45,7 +46,7 @@ const TravelQuestion = props => {
 
   const bodyText = (
     <>
-      <p>{t('review-body-text')}</p>
+      <p>{t('review-body-text-unified')}</p>
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">
         <h2 className="vads-u-margin-top--2p5">{t('claims')}</h2>
       </div>
