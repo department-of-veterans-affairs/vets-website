@@ -147,6 +147,7 @@
   "pensionFormEnabled": "pension_form_enabled",
   "pensionMedicalEvidenceClarification": "pension_medical_evidence_clarification",
   "pensionIntroductionUpdate": "pension_introduction_update",
+  "pensionConfirmationUpdate": "pension_confirmation_update",
   "pensionMultiplePageResponse": "pension_multiple_page_response",
   "pensionIncomeAndAssetsClarification": "pension_income_and_assets_clarification",
   "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",
