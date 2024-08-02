@@ -76,7 +76,7 @@ const Contact = ({
       <p className="vads-u-color--gray-medium vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
         {description}
       </p>
-      <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
+      <p className="vads-u-margin-top--2 vads-u-margin-bottom--1">
         {name}
         <br />
         {isNextOfKin &&

@@ -23,7 +23,11 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-ecs" contactType="emergency contact" />
+    <Instructions
+      testId="phcc-no-ecs"
+      contactType="emergency contact"
+      description="The person we’ll contact in an emergency."
+    />
   );
 
   const renderNextOfKin = noks?.length ? (
@@ -39,7 +43,11 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-nok" contactType="next of kin" />
+    <Instructions
+      testId="phcc-no-nok"
+      contactType="next of kin"
+      description="The person you want to represent your health care wishes if needed."
+    />
   );
 
   return (
@@ -55,8 +63,8 @@ const Contacts = ({ data }) => {
           <ul className="vads-u-margin-y--0">
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call the Health Eligibility Center at
-              <VaTelephone contact={CONTACTS['222_VETS']} />(
+              Call the Health Eligibility Center at{' '}
+              <VaTelephone contact={CONTACTS['222_VETS']} /> (
               <VaTelephone contact={CONTACTS['711']} tty />
               ). We’re available Monday through Friday, 8:00 a.m. to 8:00 p.m.
               ET.
