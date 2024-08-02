@@ -32,7 +32,7 @@ const PrepareContent = props => {
           {t('prepare-for-your-appointment', { count: appointmentCount })}
         </h2>
         <p>{t('bring-insurance-cards-list-medications-other')}</p>
-        <p className="vads-u-margin-bottom--4">
+        <p className="vads-u-margin-bottom--2">
           <a
             href={`${
               router.location.basename
