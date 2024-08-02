@@ -26,6 +26,7 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import SubmissionError from '../../shared/components/SubmissionError';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -168,6 +169,7 @@ const formConfig = {
       fullNamePath: formData => getNameKeyForSignature(formData),
     },
   },
+  submissionError: SubmissionError,
   formId: '10-10D',
   dev: {
     showNavLinks: false,
