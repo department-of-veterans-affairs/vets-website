@@ -187,12 +187,11 @@ describe('Enrollment Verification Page Tests', () => {
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
   });
-  it('should show n/a. if deldate is null and indicator is not a B', () => {
+  it('should show Delimiting date if deldate is not null', () => {
     cy.injectAxeThenAxeCheck();
     const enrollmentData = {
       ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
-      delDate: null,
-      indicator: 'A',
+      delDate: '2017-04-05',
     };
     cy.intercept('GET', '/vye/v1', {
       statusCode: 200,
@@ -204,7 +203,7 @@ describe('Enrollment Verification Page Tests', () => {
         win.isProduction = true;
       },
     });
-    cy.get('span[data-testid="del-date"]').should('contain', 'n/a');
+    cy.get('p[data-testid="del-title"]').should('be.visible');
   });
   it('show required error message when button is click and the checkbox is not checked', () => {
     cy.injectAxeThenAxeCheck();

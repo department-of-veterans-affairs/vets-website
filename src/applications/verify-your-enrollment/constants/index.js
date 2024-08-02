@@ -49,6 +49,7 @@ export const Paragraph = ({ title, date, className }) => {
   return (
     <p
       className={`vads-u-font-size--md vads-u-font-family--serif vads-u-font-weight--bold ${className}`}
+      data-testid="del-title"
     >
       {title}:
       <span

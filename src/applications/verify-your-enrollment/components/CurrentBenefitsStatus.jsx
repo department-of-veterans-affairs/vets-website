@@ -22,7 +22,7 @@ const CurrentBenefitsStatus = ({
         {expirationDate && (
           <>
             <Paragraph
-              title="Expiration date"
+              title="Delimiting date"
               date={expirationDate}
               className="vads-u-margin-top--neg2"
             />
