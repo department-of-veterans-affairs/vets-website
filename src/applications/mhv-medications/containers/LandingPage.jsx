@@ -14,6 +14,7 @@ import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
+  SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
 import {
   selectAllergiesFlag,
@@ -57,6 +58,10 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
+
+  useEffect(() => {
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  }, []);
 
   useEffect(
     () => {

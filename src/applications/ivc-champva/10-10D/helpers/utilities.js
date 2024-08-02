@@ -1,3 +1,5 @@
+import { MAX_APPLICANTS } from '../config/constants';
+
 export const getFileSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
@@ -20,7 +22,6 @@ export function onReviewPage() {
 }
 
 // Used to condense some repetitive schema boilerplate in form config
-export const MAX_APPLICANTS = 25;
 export const applicantListSchema = (requireds, propertyList) => {
   return {
     type: 'object',
@@ -38,3 +39,23 @@ export const applicantListSchema = (requireds, propertyList) => {
     },
   };
 };
+
+/**
+ * Gets the appropriate form key needed in the signature box so we can
+ * corroborate who is signing the form.
+ *
+ * @param {object} formData All data currently in the form
+ * @returns
+ */
+export function getNameKeyForSignature(formData) {
+  let nameKey;
+  if (formData.certifierRole === 'sponsor') {
+    nameKey = 'veteransFullName';
+  } else if (formData.certifierRole === 'applicant') {
+    nameKey = 'applicants[0].applicantName';
+  } else {
+    nameKey = 'certifierName';
+  }
+
+  return nameKey;
+}

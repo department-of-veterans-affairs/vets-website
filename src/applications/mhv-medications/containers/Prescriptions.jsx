@@ -37,6 +37,7 @@ import {
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
+  SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -169,7 +170,9 @@ const Prescriptions = () => {
         updateLoadingStatus(true, 'Loading your medications...');
       }
       if (Number.isNaN(page) || page < 1) {
-        history.replace('/?page=1');
+        history.replace(
+          `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
+        );
         return;
       }
       const sortOption = selectedSortOption ?? defaultSelectedSortOption;
@@ -182,6 +185,7 @@ const Prescriptions = () => {
       if (!allergies) dispatch(getAllergiesList());
       if (!selectedSortOption) updateSortOption(sortOption);
       updatePageTitle('Medications | Veterans Affairs');
+      sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
