@@ -138,6 +138,7 @@
   "myVaNotificationDotIndicator": "my_va_notification_dot_indicator",
   "myVaEnableMhvLink": "my_va_enable_mhv_link",
   "myVaEnableNewSipConfig": "my_va_enable_new_sip_config",
+  "myVaFormSubmissionStatuses": "my_va_form_submission_statuses",
   "myVaUpdateErrorsWarnings": "my_va_update_errors_warnings",
   "nodBrowserMonitoringEnabled": "nod_browser_monitoring_enabled",
   "nodConfirmationUpdate": "nod_confirmation_update",
