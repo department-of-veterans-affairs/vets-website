@@ -9,7 +9,7 @@ import ApplicantRelationshipPage from '../../../../shared/components/applicantLi
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
-import { requiredFiles } from '../../../config/constants';
+import { REQUIRED_FILES } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
@@ -426,7 +426,7 @@ describe('isRequiredFile', () => {
     // Grab whatever the first required file key is and toss into this
     // mocked context object:
     const context = {
-      schema: { properties: { [Object.keys(requiredFiles)[0]]: '' } },
+      schema: { properties: { [Object.keys(REQUIRED_FILES)[0]]: '' } },
     };
     expect(isRequiredFile(context)).to.equal('(Required)');
   });

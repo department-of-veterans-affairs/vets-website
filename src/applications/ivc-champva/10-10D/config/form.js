@@ -41,13 +41,10 @@ import {
   onReviewPage,
   applicantListSchema,
   getNameKeyForSignature,
-} from '../helpers/utilities';
-import { MAX_APPLICANTS } from './constants';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
-import {
   sponsorWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+} from '../helpers/utilities';
+import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,
@@ -441,7 +438,7 @@ const formConfig = {
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor die during active military service?',
-              hint: additionalFilesHint,
+              hint: ADDITIONAL_FILES_HINT,
               labels: {
                 yes: 'Yes, sponsor passed away during active military service',
                 no:
