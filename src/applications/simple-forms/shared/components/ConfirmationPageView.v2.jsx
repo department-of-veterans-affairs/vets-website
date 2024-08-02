@@ -1,23 +1,37 @@
 import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
-
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
+import {
+  VaAccordion,
+  VaAccordionItem,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  createPageListByChapter,
+  getActiveChapters,
+  getActiveExpandedPages,
+  getPageKeys,
+  getReviewPageOpenChapters,
+  getViewedPages,
+} from '~/platform/forms-system/exportsFile';
+import ReviewFieldTemplate from 'platform/forms-system/src/js/review/ReviewFieldTemplate';
+import { PropTypes } from 'prop-types';
 import GetFormHelp from './GetFormHelp';
 
-export const ConfirmationPageView = ({
-  formName = 'VA Form',
-  formType = 'application',
-  submitterHeader = 'Applicant',
-  submitterName,
-  submitDate,
-  confirmationNumber,
-  content,
-  childContent = null,
-}) => {
+export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
+  const {
+    childContent = null,
+    confirmationNumber,
+    content,
+    formConfig,
+    formName = 'VA Form',
+    formType = 'application',
+    submitDate,
+  } = props;
 
   useEffect(
     () => {
@@ -30,7 +44,6 @@ export const ConfirmationPageView = ({
     [alertRef],
   );
 
-  const { first, middle, last, suffix } = submitterName;
   const { headlineText, nextStepsText } = content;
   const dateSubmitted = isValid(submitDate)
     ? format(submitDate, 'MMMM d, yyyy')
@@ -38,6 +51,129 @@ export const ConfirmationPageView = ({
   const dynamicHeadline = `You've submitted your ${formName} ${formType}`;
   const headline = `${headlineText || dynamicHeadline} ${dateSubmitted &&
     ` on ${dateSubmitted}`}`;
+
+  const form = useSelector(state => state.form);
+  const formData = form.data;
+
+  const openChapters = useSelector(
+    state => getReviewPageOpenChapters(state) || {},
+  );
+  const viewedPages = useSelector(state => getViewedPages(state));
+
+  const chapterNames = getActiveChapters(formConfig, formData);
+  const pagesByChapter = createPageListByChapter(formConfig);
+  const chapters = useSelector(state =>
+    chapterNames.map(chapterName => {
+      const pages = pagesByChapter[chapterName];
+      const expandedPages = getActiveExpandedPages(pages, formData);
+      const chapterFormConfig = formConfig.chapters[chapterName];
+      const open = openChapters[chapterName] || false;
+      const pageKeys = getPageKeys(pages, formData);
+
+      const hasErrors = form.formErrors?.errors?.some(err =>
+        pageKeys.includes(err.pageKey),
+      );
+      const hasUnviewedPages =
+        hasErrors || pageKeys.some(key => !viewedPages.has(key));
+
+      return {
+        expandedPages: expandedPages.map(
+          page =>
+            page.appStateSelector
+              ? { ...page, appStateData: page.appStateSelector(state) }
+              : page,
+        ),
+        formConfig: chapterFormConfig,
+        name: chapterName,
+        open,
+        pageKeys,
+        hasUnviewedPages,
+      };
+    }),
+  );
+
+  const getChapterTitle = chapterFormConfig => {
+    const onReviewPage = true;
+
+    let chapterTitle = chapterFormConfig.title;
+
+    if (typeof chapterFormConfig.title === 'function') {
+      chapterTitle = chapterFormConfig.title({
+        formData,
+        formConfig,
+        onReviewPage,
+      });
+    }
+    if (chapterFormConfig.reviewTitle) {
+      chapterTitle = chapterFormConfig.reviewTitle;
+    }
+
+    return chapterTitle || '';
+  };
+
+  const formContext = useSelector(state => state.formContext);
+  //   return (
+  //     <React.Fragment key={fullPageKey}>
+  //       <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
+  //       <div>
+  //         <page.CustomPageReview
+  //           key={`${page.pageKey}Review${page.index ?? ''}`}
+  //           editPage={() => handleEdit(page.pageKey, !editing, page.index)}
+  //           name={page.pageKey}
+  //           title={page.title}
+  //           data={form.data}
+  //           pagePerItemIndex={page.index}
+  //           goToPath={goToPath}
+  //         />
+  //       </div>
+  //     </React.Fragment>
+  //   );
+  // };
+
+  // const getChapterContent = chapter => {
+  //   const { formConfig: chapterFormConfig, expandedPages, pageKeys } = chapter;
+  //   const ChapterDescription = chapterFormConfig.reviewDescription;
+  //   return (
+  //     <div data-testid="accordion-item-content">
+  //       {ChapterDescription && (
+  //         <ChapterDescription
+  //           viewedPages={viewedPages}
+  //           pageKeys={pageKeys}
+  //           formData={form.data}
+  //           t
+  //           push
+  //         />
+  //       )}
+  //       {expandedPages?.map(page => {
+  //         // const pageConfig = form.pages[page.pageKey];
+  //         // const editing = pageConfig.showPagePerItem ? pageConfig.editMode[page.index] : pageConfig.editMode;
+
+  //         /* const showCustomPage = editing ? !!pageConfig.CustomPage : !!pageConfig.CustomPageReview; */
+
+  //         /* return showCustomPage ? getCustomPageContent(page, editing) : getSchemaformPageContent(page, editing); */
+
+  //         return getSchemaformPageContent(page, chapter, false);
+  //       }) ?? null}
+  //     </div>
+  //   );
+  // };
+
+  const buildCollection = chapter => {
+    return chapter.expandedPages.map(page => {
+      const obj = { uiSchema: null, schema: null };
+
+      Object.entries(page.uiSchema).forEach(([uiSchemaKey, uiSchemaValue]) => {
+        obj[uiSchemaKey].uiSchema = uiSchemaValue;
+
+        const schemaProperties = page.schema[uiSchemaKey]?.properties || {};
+        Object.entries(schemaProperties).forEach(([schemaKey, schemaValue]) => {
+          obj[schemaKey].schema = schemaValue;
+        });
+      });
+
+      return obj;
+    });
+  };
 
   return (
     <div>
@@ -48,7 +184,7 @@ export const ConfirmationPageView = ({
           width="300"
         />
       </div>
-      <va-alert uswds status="success" ref={alertRef}>
+      <VaAlert uswds status="success" ref={alertRef}>
         <h2 slot="headline">{headline}</h2>
         {typeof nextStepsText === 'string' ? (
           <p>{nextStepsText}</p>
@@ -56,41 +192,41 @@ export const ConfirmationPageView = ({
           nextStepsText
         )}
         <p>{`Your confirmation number is ${confirmationNumber}`}</p>
-      </va-alert>
-      <div className="inset">
-        <h3 className="vads-u-margin-top--0">Your {formType} information</h3>
-        {first && last ? (
-          <>
-            <h4>{submitterHeader}</h4>
-            <p>
-              {first} {middle ? `${middle} ` : ''}
-              {last}
-              {suffix ? `, ${suffix}` : null}
-            </p>
-          </>
-        ) : null}
+      </VaAlert>
+      <div>
+        <h3>Save a copy of your form</h3>
+        <p>If you’d like a copy of your completed form, you can download it.</p>
+        <VaAccordion bordered uswds>
+          <VaAccordionItem
+            header="Information you submitted on this form"
+            id="info"
+            bordered
+            uswds
+          >
+            {chapters.map(chapter => {
+              const collection = buildCollection(chapter);
+              const chapterTitle = getChapterTitle(chapter.formConfig);
 
-        {confirmationNumber ? (
-          <>
-            <h4>Confirmation number</h4>
-            <p>{confirmationNumber}</p>
-          </>
-        ) : null}
-
-        {isValid(submitDate) ? (
-          <>
-            <h4>Date submitted</h4>
-            <p>{format(submitDate, 'MMMM d, yyyy')}</p>
-          </>
-        ) : null}
-
-        <h4>Confirmation for your records</h4>
-        <p>You can print this confirmation page for your records</p>
-        <va-button
-          className="usa-button vads-u-margin-top--0 screen-only"
-          onClick={window.print}
-          text="Print this page"
-        />
+              return (
+                <div key={`chapter_${chapter.name}`}>
+                  <h3>{chapterTitle}</h3>
+                  {collection.map(item => {
+                    return (
+                      <ReviewFieldTemplate
+                        key={`review_${item.uiSchema.length}_${
+                          item.schema.length
+                        }`}
+                        uiSchema={item.uiSchema}
+                        schema={item.schema}
+                        formContext={formContext}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </VaAccordionItem>
+        </VaAccordion>
       </div>
       {childContent || null}
       <div className="vads-u-margin-bottom--6">
@@ -124,4 +260,15 @@ export const ConfirmationPageView = ({
       </div>
     </div>
   );
+};
+
+ConfirmationPageView.propTypes = {
+  childContent: PropTypes.any,
+  confirmationNumber: PropTypes.any,
+  content: PropTypes.any,
+  formConfig: PropTypes.any,
+  formContext: PropTypes.any,
+  formName: PropTypes.any,
+  formType: PropTypes.any,
+  submitDate: PropTypes.any,
 };
