@@ -35,6 +35,7 @@ export default function InPersonLayout({ data: appointment }) {
     facilityPhone,
     locationId,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -51,7 +52,6 @@ export default function InPersonLayout({ data: appointment }) {
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const facilityId = locationId;
-  const oracleHealthProviderName = null;
 
   let heading = 'In-person appointment';
   if (isPastAppointment) heading = 'Past in-person appointment';
@@ -76,7 +76,7 @@ export default function InPersonLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
+      <Who>{practitionerName}</Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
