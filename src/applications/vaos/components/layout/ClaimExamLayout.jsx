@@ -172,7 +172,7 @@ export default function ClaimExamLayout({ data: appointment }) {
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
-            <ul className="vads-u-margin-top--0">
+            <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <li>You don't need to bring anything to your exam.</li>
               <li>
                 If you have any new non-VA medical records (like records from a
