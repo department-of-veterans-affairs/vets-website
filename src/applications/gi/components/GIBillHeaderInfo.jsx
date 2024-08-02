@@ -1,19 +1,10 @@
 import React from 'react';
-import { isShowVetTec } from '../utils/helpers';
+import { getGIBillHeaderText } from '../utils/helpers';
 
 export const renderPTag = (automatedTest = false) => {
-  if (isShowVetTec(automatedTest)) {
-    return (
-      <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
-        Learn about and compare your GI Bill benefits at approved schools,
-        employers, and VET TEC providers.
-      </p>
-    );
-  }
   return (
     <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
-      Learn about and compare your GI Bill benefits at approved schools and
-      employers.
+      {getGIBillHeaderText(automatedTest)}
     </p>
   );
 };
