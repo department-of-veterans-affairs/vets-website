@@ -485,11 +485,13 @@ const Prescriptions = () => {
             )}
           </p>
           {showAllergiesContent && (
-            <div className="vads-u-margin-bottom--3">
-              <a href="/my-health/medical-records/allergies" rel="noreferrer">
-                Go to your allergies and reactions
-              </a>
-            </div>
+            <a
+              href="/my-health/medical-records/allergies"
+              rel="noreferrer"
+              className="vads-u-display--block vads-u-margin-bottom--3"
+            >
+              Go to your allergies and reactions
+            </a>
           )}
           {prescriptionsApiError ? (
             <>
