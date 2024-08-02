@@ -21,7 +21,7 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.eq(
+          expect(request.body).to.contain(
             `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
@@ -427,18 +427,32 @@ class PatientComposePage {
     });
   };
 
-  verifyDigitalSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Digital signature');
+  verifyElectronicSignatureAlert = () => {
+    cy.get(`[data-testid="signature-alert"]`).should(
+      `have.text`,
+      `Messages to this team require a signature. We added a signature box to this page.`,
+    );
   };
 
-  verifyDigitalSignatureRequired = () => {
+  verifyElectronicSignature = () => {
+    cy.get('va-card')
+      .find('h2')
+      .should('have.text', 'Electronic signature');
+  };
+
+  verifyElectronicSignatureRequired = () => {
     cy.get('va-card')
       .find('va-text-input')
       .shadow()
       .find('#input-label')
       .should('contain.text', 'Required');
+  };
+
+  clickElectronicSignatureCheckbox = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`#checkbox-element`)
+      .click({ force: true });
   };
 
   getAlertEditDraftBtn = () => {

@@ -11,20 +11,26 @@ describe('Secure Messaging Compose', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
-  it('verify user can send a message', () => {
+
+  it('verify care teams with electronic signature', () => {
     PatientComposePage.selectRecipient('Record Amendment Admin');
+    PatientComposePage.verifyElectronicSignatureAlert();
+    PatientComposePage.verifyElectronicSignature();
+    PatientComposePage.verifyElectronicSignatureRequired();
+  });
+
+  it('verify user can sign and send a message', () => {
+    PatientComposePage.selectRecipient('Record Amendment Admin');
+    PatientComposePage.verifyElectronicSignatureAlert();
     PatientComposePage.selectCategory();
-    PatientComposePage.getMessageSubjectField().type(`DS test`);
-    PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
+    PatientComposePage.getMessageSubjectField().type(`ES test`);
+    PatientComposePage.getMessageBodyField().type(`\nES tests text`, {
       force: true,
     });
-
-    PatientComposePage.verifyDigitalSignature();
-    PatientComposePage.verifyDigitalSignatureRequired();
-
     PatientComposePage.getDigitalSignatureField().type('Dusty Dump ', {
       force: true,
     });
+    PatientComposePage.clickElectronicSignatureCheckbox();
 
     PatientComposePage.sendMessage(mockRequestBody, mockResponseBody);
     PatientComposePage.verifySendMessageConfirmationMessageText();
