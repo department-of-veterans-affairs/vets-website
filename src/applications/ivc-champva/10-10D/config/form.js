@@ -28,7 +28,6 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
-import { customRelationshipSchema } from '../components/CustomRelationshipPattern';
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
@@ -37,26 +36,22 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
   isInRange,
   onReviewPage,
-  MAX_APPLICANTS,
   applicantListSchema,
-} from '../helpers/utilities';
-import { applicantWording, getAgeInYears } from '../../shared/utilities';
-import {
+  getNameKeyForSignature,
   sponsorWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+} from '../helpers/utilities';
+import { MAX_APPLICANTS, ADDITIONAL_FILES_HINT } from './constants';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import {
   thirdPartyInfoUiSchema,
   thirdPartyInfoSchema,
-} from '../components/ThirdPartyInfo';
+} from '../../shared/components/ThirdPartyInfo';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
 import {
-  // marriageDocumentList,
   applicantBirthCertConfig,
   applicantSchoolCertConfig,
   applicantSchoolCertUploadUiSchema,
@@ -83,7 +78,6 @@ import {
   applicantOhiCardsUploadUiSchema,
   applicantOtherInsuranceCertificationUploadUiSchema,
 } from '../components/Applicant/applicantFileUpload';
-import { homelessInfo, noPhoneInfo } from '../components/Sponsor/sponsorAlerts';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
 import {
@@ -193,7 +187,7 @@ const formConfig = {
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
   title: 'Apply for CHAMPVA benefits',
-  subTitle: 'Form 10-10d',
+  subTitle: 'Application for CHAMPVA benefits (VA Form 10-10d)',
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -254,7 +248,6 @@ const formConfig = {
               'Your mailing address',
               'We’ll send any important information about this application to your address',
             ),
-            // ...homelessInfo.uiSchema,
             certifierAddress: addressUI(),
           },
           schema: {
@@ -262,7 +255,6 @@ const formConfig = {
             required: ['certifierAddress'],
             properties: {
               titleSchema,
-              // ...homelessInfo.schema,
               certifierAddress: addressSchema(),
             },
           },
@@ -276,7 +268,6 @@ const formConfig = {
               'Your contact information',
               'We use this information to contact you if we have more questions.',
             ),
-            ...noPhoneInfo.uiSchema,
             certifierPhone: phoneUI(),
           },
           schema: {
@@ -284,7 +275,6 @@ const formConfig = {
             required: ['certifierPhone'],
             properties: {
               titleSchema,
-              ...noPhoneInfo.schema,
               certifierPhone: phoneSchema,
             },
           },
@@ -448,7 +438,7 @@ const formConfig = {
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
               title: 'Did sponsor die during active military service?',
-              hint: additionalFilesHint,
+              hint: ADDITIONAL_FILES_HINT,
               labels: {
                 yes: 'Yes, sponsor passed away during active military service',
                 no:
@@ -475,7 +465,6 @@ const formConfig = {
               ({ formData }) => `${sponsorWording(formData)} mailing address`,
               'We’ll send any important information about this application to this address.',
             ),
-            ...homelessInfo.uiSchema,
             sponsorAddress: {
               ...addressUI({
                 labels: {
@@ -490,7 +479,6 @@ const formConfig = {
             required: ['sponsorAddress'],
             properties: {
               titleSchema,
-              ...homelessInfo.schema,
               sponsorAddress: addressSchema(),
             },
           },
@@ -510,7 +498,6 @@ const formConfig = {
                 return `Having this information helps us contact ${first} faster if we have questions about ${second} information.`;
               },
             ),
-            ...noPhoneInfo.uiSchema,
             sponsorPhone: {
               ...phoneUI({
                 title: 'Phone number',
@@ -523,7 +510,6 @@ const formConfig = {
             required: ['sponsorPhone'],
             properties: {
               titleSchema,
-              ...noPhoneInfo.schema,
               sponsorPhone: phoneSchema,
             },
           },
@@ -670,7 +656,6 @@ const formConfig = {
                   'ui:description':
                     'We’ll send any important information about your application to this address.',
                 },
-                ...homelessInfo.uiSchema,
                 applicantAddress: {
                   ...addressUI({
                     labels: {
@@ -685,7 +670,6 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'view:description': blankSchema,
-            ...homelessInfo.schema,
             applicantAddress: addressSchema(),
           }),
         },
@@ -703,7 +687,6 @@ const formConfig = {
                     `${applicantWording(formData)} contact information`,
                   'This information helps us contact you faster if we need to follow up with you about your application',
                 ),
-                ...noPhoneInfo.uiSchema,
                 applicantPhone: phoneUI(),
                 applicantEmailAddress: emailUI(),
               },
@@ -711,7 +694,6 @@ const formConfig = {
           },
           schema: applicantListSchema(['applicantPhone'], {
             titleSchema,
-            ...noPhoneInfo.schema,
             applicantPhone: phoneSchema,
             applicantEmailAddress: emailSchema,
           }),
@@ -791,11 +773,17 @@ const formConfig = {
           schema: applicantListSchema([], {
             titleSchema,
             'ui:description': blankSchema,
-            applicantRelationshipOrigin: customRelationshipSchema([
-              'blood',
-              'adoption',
-              'step',
-            ]),
+            applicantRelationshipOrigin: {
+              type: 'object',
+              properties: {
+                relationshipToVeteran: radioSchema([
+                  'blood',
+                  'adoption',
+                  'step',
+                ]),
+                otherRelationshipToVeteran: { type: 'string' },
+              },
+            },
           }),
         },
         page18a: {

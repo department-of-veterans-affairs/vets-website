@@ -103,10 +103,18 @@ describe('draftDetails actions', () => {
     mockApiRequest(saveDraftResponse);
     const store = mockStore({ sm: {} });
     await store
-      .dispatch(saveReplyDraft('1234', requestMessageData, 'manual'))
+      .dispatch(
+        saveReplyDraft(
+          1234,
+          requestMessageData,
+          'manual',
+          saveDraftResponse.data.id,
+        ),
+      )
       .then(() => {
         expect(store.getActions()).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
+          payload: { messageId: saveDraftResponse.data.id },
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
@@ -153,10 +161,18 @@ describe('draftDetails actions', () => {
     mockApiRequest(saveDraftResponse);
     const store = mockStore({ sm: {} });
     await store
-      .dispatch(saveReplyDraft('1234', requestMessageData, 'auto'))
+      .dispatch(
+        saveReplyDraft(
+          1234,
+          requestMessageData,
+          'auto',
+          saveDraftResponse.data.id,
+        ),
+      )
       .then(() => {
         expect(store.getActions()).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
+          payload: { messageId: saveDraftResponse.data.id },
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,

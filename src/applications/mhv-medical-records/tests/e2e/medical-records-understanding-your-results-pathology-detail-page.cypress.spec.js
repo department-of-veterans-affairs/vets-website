@@ -14,7 +14,7 @@ describe('Medical Records Understanding Your Results Pathology Detail Page', () 
 
   it('Understanding Your Results Pathology Detail Page', () => {
     // Given As a Medical Records User I wanted to Navigate to "Pathology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[5]);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[8]);
     // When I want to get "help to be able to understand results" of my MR data
     PathologyDetailsPage.verifyExpandUnderstandResults();
     PathologyDetailsPage.clickExpandUnderstandResults();

@@ -1064,9 +1064,13 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+export const isAutomated5103Notice = itemDisplayName => {
+  return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
-  return displayName === 'Automated 5103 Notice Response'
+  return isAutomated5103Notice(displayName)
     ? '5103 Evidence Notice'
     : `Request for ${displayName}`;
 }
@@ -1101,3 +1105,27 @@ export function setPageFocus(lastPage, loading) {
     scrollAndFocus(document.querySelector('.tab-header'));
   }
 }
+// Used to get the oldest document date
+// Logic used in getTrackedItemDateFromStatus()
+const getOldestDocumentDate = item => {
+  const arrDocumentDates = item.documents.map(document => document.uploadDate);
+  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
+};
+// Logic here uses a given tracked items status to determine what the date should be.
+// This logic is used in RecentActivity and on the ClaimStatusHeader
+export const getTrackedItemDateFromStatus = item => {
+  switch (item.status) {
+    case 'NEEDED_FROM_YOU':
+    case 'NEEDED_FROM_OTHERS':
+      return item.requestedDate;
+    case 'NO_LONGER_REQUIRED':
+      return item.closedDate;
+    case 'SUBMITTED_AWAITING_REVIEW':
+      return getOldestDocumentDate(item);
+    case 'INITIAL_REVIEW_COMPLETE':
+    case 'ACCEPTED':
+      return item.receivedDate;
+    default:
+      return item.requestedDate;
+  }
+};

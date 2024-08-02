@@ -5,7 +5,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import SSNReviewWidget from 'platform/forms-system/src/js/review/SSNWidget';
 import get from 'platform/utilities/data/get';
 import { vaFileNumberUI } from 'platform/forms-system/src/js/web-component-patterns';
-import HandlePrefilledSSN, { maskSSN } from './maskSSN';
+import HandlePrefilledSSN, { maskSSN } from '../../shared/components/maskSSN';
 
 const SSN_DEFAULT_TITLE = 'Social Security number';
 
@@ -26,9 +26,8 @@ const customSSNUI = title => {
 export const ssnOrVaFileNumberCustomUI = () => {
   return {
     ssn: customSSNUI(),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
-    },
+    vaFileNumber: vaFileNumberUI(),
+
     'ui:options': {
       updateSchema: (formData, _schema, _uiSchema, index, path) => {
         const { ssn, vaFileNumber } = get(path, formData) ?? {};
@@ -59,8 +58,12 @@ export function CustomSSNReviewPage(props) {
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>SSN</dt>
+          <dt>Social Security number</dt>
           <dd>{maskedSSN}</dd>
+        </div>
+        <div className="review-row">
+          <dt>VA file number</dt>
+          <dd>{props?.data?.veteranSocialSecurityNumber?.vaFileNumber}</dd>
         </div>
       </dl>
     </div>

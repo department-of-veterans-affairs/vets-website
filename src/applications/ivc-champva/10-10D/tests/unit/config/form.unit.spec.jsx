@@ -5,14 +5,11 @@ import {
   testNumberOfWebComponentFields,
   testComponentRender,
 } from '../../../../shared/tests/pages/pageTests.spec';
-// import ApplicantMedicareStatusContinuedPage, {
-//   ApplicantMedicareStatusContinuedReviewPage,
-// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
-import { requiredFiles } from '../../../config/requiredUploads';
+import { REQUIRED_FILES } from '../../../config/constants';
 import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
@@ -352,28 +349,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-/*
-// Commented out because this page doesn't exist currently (but may in future)
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page20.schema,
-  formConfig.chapters.applicantInformation.pages.page20.uiSchema,
-  0,
-  'Upload supporting documents',
-  { applicants },
-);
-*/
-
-// testComponentRender(
-//   'ApplicantMedicareStatusContinuedPage',
-//   <ApplicantMedicareStatusContinuedPage data={{}} />,
-// );
-
-// testComponentRender(
-//   'ApplicantMedicareStatusContinuedReviewPage ',
-//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-// );
-
 testComponentRender(
   'ApplicantRelationshipPage ',
   <ApplicantRelationshipPage data={{}} />,
@@ -446,25 +421,12 @@ describe('title text logic', () => {
   });
 });
 
-/*
-// Existing dummy submit function is useless - commenting this test out
-// until we have a proper submit method.
-describe('submit property of formConfig', () => {
-  it('should be a promise', () => {
-    const goToPathSpy = sinon.spy(formConfig.submit);
-    formConfig.submit().then(() => {
-      expect(goToPathSpy.called).to.be.true;
-    });
-  });
-});
-*/
-
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {
     // Grab whatever the first required file key is and toss into this
     // mocked context object:
     const context = {
-      schema: { properties: { [Object.keys(requiredFiles)[0]]: '' } },
+      schema: { properties: { [Object.keys(REQUIRED_FILES)[0]]: '' } },
     };
     expect(isRequiredFile(context)).to.equal('(Required)');
   });

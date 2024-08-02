@@ -1,7 +1,9 @@
+import { parse, parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   dateFormatWithoutTimezone,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -223,32 +225,51 @@ const convertEkgRecord = record => {
  * @param {Object} record - A FHIR DocumentReference radiology object
  * @returns the appropriate frontend object for display
  */
-const convertRadiologyRecord = record => {
-  const typeCodingDisplay = record.type.coding.filter(
-    coding => coding.display,
-  )[0].display;
+// const convertRadiologyRecord = record => {
+//   const typeCodingDisplay = record.type.coding.filter(
+//     coding => coding.display,
+//   )[0].display;
 
-  const authorDisplayFields = record.author
-    .filter(author => author.display)
-    .map(author => author.display);
-  const authorDisplay = authorDisplayFields.join(', ');
+//   const authorDisplayFields = record.author
+//     .filter(author => author.display)
+//     .map(author => author.display);
+//   const authorDisplay = authorDisplayFields.join(', ');
 
+//   return {
+//     id: record.id,
+//     name: typeCodingDisplay,
+//     type: labTypes.RADIOLOGY,
+//     reason: record.reason || EMPTY_FIELD,
+//     category: record.category?.text || EMPTY_FIELD,
+//     orderedBy:
+//       (isArrayAndHasItems(record.author) && record.author[0].display) ||
+//       EMPTY_FIELD,
+//     clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
+//     imagingLocation: authorDisplay,
+//     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
+//     imagingProvider: record.physician || EMPTY_FIELD,
+//     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
+//       'utf-8',
+//     ),
+//     images: [],
+//   };
+// };
+
+export const convertMhvRadiologyRecord = record => {
   return {
-    id: record.id,
-    name: typeCodingDisplay,
+    id: `r${record.id}`,
+    name: record.procedureName,
     type: labTypes.RADIOLOGY,
-    reason: record.reason || EMPTY_FIELD,
-    category: record.category?.text || EMPTY_FIELD,
-    orderedBy:
-      (isArrayAndHasItems(record.author) && record.author[0].display) ||
-      EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
-    imagingLocation: authorDisplay,
-    date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    imagingProvider: record.physician || EMPTY_FIELD,
-    results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
-      'utf-8',
-    ),
+    reason: record.reasonForStudy || EMPTY_FIELD,
+    orderedBy: record.requestingProvider || EMPTY_FIELD,
+    clinicalHistory: record.clinicalHistory
+      ? record.clinicalHistory.trim()
+      : EMPTY_FIELD,
+    imagingLocation: record.performingLocation,
+    date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
+    sortDate: record.eventDate,
+    imagingProvider: record.radiologist || EMPTY_FIELD,
+    results: record.impressionText,
     images: [],
   };
 };
@@ -271,7 +292,10 @@ const getRecordType = record => {
     if (record.type.coding.some(coding => coding.code === loincCodes.EKG))
       return labTypes.EKG;
     if (record.type.coding.some(coding => coding.code === loincCodes.RADIOLOGY))
-      return labTypes.RADIOLOGY;
+      return labTypes.OTHER;
+  }
+  if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
+    return labTypes.RADIOLOGY;
   }
   return labTypes.OTHER;
 };
@@ -284,7 +308,7 @@ const labsAndTestsConverterMap = {
   [labTypes.MICROBIOLOGY]: convertMicrobiologyRecord,
   [labTypes.PATHOLOGY]: convertPathologyRecord,
   [labTypes.EKG]: convertEkgRecord,
-  [labTypes.RADIOLOGY]: convertRadiologyRecord,
+  [labTypes.RADIOLOGY]: convertMhvRadiologyRecord,
 };
 
 /**
@@ -299,6 +323,20 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
+function sortByDate(array) {
+  return array.sort((a, b) => {
+    let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
+    let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
+    if (Number.isNaN(dateA.getTime())) {
+      dateA = parseISO(a.sortDate);
+    }
+    if (Number.isNaN(dateB.getTime())) {
+      dateB = parseISO(b.sortDate);
+    }
+    return dateB - dateA;
+  });
+}
+
 export const labsAndTestsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.LabsAndTests.GET: {
@@ -308,15 +346,24 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
-      const recordList = action.response;
+      const labsAndTestsList =
+        action.labsAndTestsResponse.entry
+          ?.map(record => convertLabsAndTestsRecord(record.resource ?? record))
+          .filter(record => record.type !== labTypes.OTHER) || [];
+      const radiologyTestsList =
+        action.radiologyResponse.map(record =>
+          convertLabsAndTestsRecord(record),
+        ) || [];
+      const allLabsAndTests = sortByDate([
+        ...labsAndTestsList,
+        ...radiologyTestsList,
+      ]);
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList:
-          recordList.entry
-            ?.map(record => convertLabsAndTestsRecord(record.resource))
-            .filter(record => record.type !== labTypes.OTHER) || [],
+        labsAndTestsList: allLabsAndTests,
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {

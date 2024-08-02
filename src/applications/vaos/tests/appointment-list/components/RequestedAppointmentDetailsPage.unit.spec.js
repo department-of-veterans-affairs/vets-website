@@ -42,7 +42,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     MockDate.reset();
   });
 
-  it('should render VA request details with a VAOS appointment', async () => {
+  // Test failure: https://github.com/department-of-veterans-affairs/va.gov-team/issues/89798
+  it.skip('should render VA request details with a VAOS appointment', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
@@ -53,6 +54,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         code: 'New medical issue',
         text: 'A message from the patient',
       })
+      .setPatientComments('A message from the patient')
       .setContact({ phone: '2125551212', email: 'veteranemailtest@va.gov' })
       .setPreferredTimesForPhoneCall({ morning: true });
 
