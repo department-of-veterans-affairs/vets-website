@@ -103,6 +103,7 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
+      clientId: 'fe0d4b2cac7935e7eec5946b8ee31643',
     },
     OAuthEnabled: true,
     requiresVerification: false,

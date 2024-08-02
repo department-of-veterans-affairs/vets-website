@@ -25,29 +25,12 @@ export const API_SIGN_IN_SERVICE_URL = ({
   `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
     `?type=${type}`}`;
 
-const getClientIds = () => {
-  const baseClientIds = {
-    VAWEB: 'vaweb',
-    VAMOBILE: 'vamobile',
-    VAMOCK: 'vamock',
-  };
-
-  const envSpecificARPClientIds = (() => {
-    // NOTE: ARP prod sign-in (fe0d4b2cac7935e7eec5946b8ee31643) is not enabled in prod yet and a formal request must be made. See:
-    // https://github.com/department-of-veterans-affairs/vets-website/pull/30878#discussion_r1681519493
-    if (environment.isProduction()) return 'fe0d4b2cac7935e7eec5946b8ee31643'; // SOURCE: https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests/blob/09e2f044cfe4d67a9f2c7ce22606facd18d381ca/apps/vets-api/prod/values.yaml#L2367
-    if (environment.isStaging()) return 'ce6db4d7974daf061dccdd21ba9add14'; // SOURCE: https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests/blob/09e2f044cfe4d67a9f2c7ce22606facd18d381ca/apps/vets-api/staging/values.yaml#L2362
-    if (environment.isDev()) return 'arp'; // NOTE: Same as localhost: https://github.com/department-of-veterans-affairs/vets-website/pull/30878#issuecomment-2233940395
-    return 'arp';
-  })();
-
-  return {
-    ...baseClientIds,
-    ARP: envSpecificARPClientIds,
-  };
+export const CLIENT_IDS = {
+  VAWEB: 'vaweb',
+  VAMOBILE: 'vamobile',
+  VAMOCK: 'vamock',
+  ARP: 'arp', // NOTE: 'arp' is the default ARP Client ID, but varies by environment
 };
-
-export const CLIENT_IDS = getClientIds();
 
 export const COOKIES = {
   INFO_TOKEN: 'vagov_info_token',
