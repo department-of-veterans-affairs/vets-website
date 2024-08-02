@@ -182,13 +182,13 @@ const convertMicrobiologyRecord = record => {
     'Practitioner',
     record.performer,
   );
-  const orderedBy = getOrderedBy.map(obj => obj.name.map(name => name.text));
+  const orderedBy = getOrderedBy?.map(obj => obj.name.map(name => name.text));
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy,
+    orderedBy: orderedBy || EMPTY_FIELD,
     requestedBy: 'John J. Lydon',
     dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -197,13 +197,13 @@ const convertMicrobiologyRecord = record => {
       ? formatDate(collectionRequest.collection.collectedDateTime)
       : EMPTY_FIELD,
     sampleFrom: getSpecimen(record) || EMPTY_FIELD,
-    sampleTested: collectionRequest.collection.bodySite.text || EMPTY_FIELD,
+    sampleTested: collectionRequest?.collection?.bodySite?.text || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     results:
-      record.presentedForm.map(
+      record.presentedForm?.map(
         form =>
           Buffer.from(`${form.data}`, 'base64')
             .toString('utf-8')
@@ -233,7 +233,7 @@ const convertPathologyRecord = record => {
     labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
     results:
-      record.presentedForm.map(
+      record.presentedForm?.map(
         form =>
           Buffer.from(`${form.data}`, 'base64')
             .toString('utf-8')
