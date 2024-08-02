@@ -87,11 +87,7 @@ export default {
       return errorMapping[errorKey];
     }
 
-    if (
-      fullError &&
-      fullError.__errors &&
-      fullError.__errors.some(str => str.includes('resolution amount'))
-    ) {
+    if (fullError?.__errors?.some(str => str.includes('resolution amount'))) {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionComment',
