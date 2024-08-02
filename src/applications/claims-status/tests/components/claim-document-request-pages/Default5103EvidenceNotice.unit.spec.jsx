@@ -2,19 +2,13 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { renderWithRouter, rerenderWithRouter } from '../../utils';
-import { Automated5103Notice } from '../../../components/claim-document-request-pages/Automated5103Notice';
+import { Default5103EvidenceNotice } from '../../../components/claim-document-request-pages/Default5103EvidenceNotice';
 
 const claimId = 1;
-
-const store = createStore(() => ({
-  featureToggles: {},
-}));
 
 const item5103 = {
   closedDate: null,
@@ -31,14 +25,12 @@ const item5103 = {
   date: '2024-03-07',
 };
 
-describe('<Automated5103Notice>', () => {
+describe('<Default5103EvidenceNotice>', () => {
   it('should render component when item is a 5103 notice', () => {
     const { getByText, getByTestId, container } = renderWithRouter(
-      <Provider store={store}>
-        <Automated5103Notice item={item5103} params={{ id: claimId }} />,
-      </Provider>,
+      <Default5103EvidenceNotice item={item5103} params={{ id: claimId }} />,
     );
-    expect($('#automated-5103-notice-page', container)).to.exist;
+    expect($('#default-5103-notice-page', container)).to.exist;
     getByText('5103 Evidence Notice');
     expect($('.active-va-link', container)).to.have.text('Go to claim letters');
     getByText('If you have more evidence to submit');
@@ -67,11 +59,9 @@ describe('<Automated5103Notice>', () => {
     };
 
     const { container } = renderWithRouter(
-      <Provider store={store}>
-        <Automated5103Notice item={item} params={{ id: claimId }} />,
-      </Provider>,
+      <Default5103EvidenceNotice item={item} params={{ id: claimId }} />,
     );
-    expect($('#automated-5103-notice-page', container)).to.not.exist;
+    expect($('#default-5103-notice-page', container)).to.not.exist;
   });
 
   context('when useLighthouse5103 false', () => {
@@ -88,16 +78,16 @@ describe('<Automated5103Notice>', () => {
         const navigate = sinon.spy();
 
         const { container, rerender } = renderWithRouter(
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+            loadingDecisionRequest={false}
+            decisionRequested
+          />,
         );
-        expect($('#automated-5103-notice-page', container)).to.exist;
+        expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
 
@@ -108,14 +98,14 @@ describe('<Automated5103Notice>', () => {
 
         rerenderWithRouter(
           rerender,
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+            loadingDecisionRequest={false}
+            decisionRequested
+          />,
         );
 
         // Click submit button
@@ -133,16 +123,14 @@ describe('<Automated5103Notice>', () => {
         const navigate = sinon.spy();
 
         const { container } = renderWithRouter(
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+          />,
         );
-        expect($('#automated-5103-notice-page', container)).to.exist;
+        expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
         expect($('va-checkbox', container).getAttribute('error')).to.be.null;
@@ -166,7 +154,7 @@ describe('<Automated5103Notice>', () => {
     });
   });
 
-  context('when useLighthouse5103 false', () => {
+  context('when useLighthouse5103 true', () => {
     const props = {
       item: item5103,
       params: { id: claimId },
@@ -180,16 +168,16 @@ describe('<Automated5103Notice>', () => {
         const navigate = sinon.spy();
 
         const { container, rerender } = renderWithRouter(
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+            loadingDecisionRequest={false}
+            decisionRequested
+          />,
         );
-        expect($('#automated-5103-notice-page', container)).to.exist;
+        expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
 
@@ -200,14 +188,14 @@ describe('<Automated5103Notice>', () => {
 
         rerenderWithRouter(
           rerender,
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+            loadingDecisionRequest={false}
+            decisionRequested
+          />,
         );
 
         // Click submit button
@@ -225,16 +213,14 @@ describe('<Automated5103Notice>', () => {
         const navigate = sinon.spy();
 
         const { container } = renderWithRouter(
-          <Provider store={store}>
-            <Automated5103Notice
-              {...props}
-              submit5103={submit5103}
-              submitRequest={submitRequest}
-              navigate={navigate}
-            />
-          </Provider>,
+          <Default5103EvidenceNotice
+            {...props}
+            submit5103={submit5103}
+            submitRequest={submitRequest}
+            navigate={navigate}
+          />,
         );
-        expect($('#automated-5103-notice-page', container)).to.exist;
+        expect($('#default-5103-notice-page', container)).to.exist;
         expect($('va-checkbox', container)).to.exist;
         expect($('va-button', container)).to.exist;
         expect($('va-checkbox', container).getAttribute('error')).to.be.null;
