@@ -18,7 +18,7 @@ import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-team
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Paths, Prompts } from '../../../util/constants';
+import { Paths, Prompts, ElectronicSignature } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
@@ -856,7 +856,7 @@ describe('Compose form component', () => {
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays an alert and Digital Signature component if signature is required', async () => {
+  it('displays an alert Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -869,10 +869,13 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, val);
 
-    const digitalSignature = await screen.findByText('Digital signature', {
-      selector: 'h2',
-    });
-    expect(digitalSignature).to.exist;
+    const electronicSignature = await screen.findByText(
+      ElectronicSignature.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
     const alert = screen.getByTestId('signature-alert');
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(Prompts.Compose.SIGNATURE_REQUIRED);

@@ -17,6 +17,7 @@ import {
   navigateToFolderByFolderId,
   resetUserSession,
   updateTriageGroupRecipientStatus,
+  dateFormat,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -54,6 +55,7 @@ const ComposeForm = props => {
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
+  const [checkboxMarked, setCheckboxMarked] = useState(false);
 
   useEffect(
     () => {
@@ -73,9 +75,10 @@ const ComposeForm = props => {
   const [recipientError, setRecipientError] = useState('');
   const [subjectError, setSubjectError] = useState('');
   const [signatureError, setSignatureError] = useState('');
+  const [checkboxError, setCheckboxError] = useState('');
   const [subject, setSubject] = useState('');
   const [messageBody, setMessageBody] = useState('');
-  const [digitalSignature, setDigitalSignature] = useState('');
+  const [electronicSignature, setElectronicSignature] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
@@ -217,12 +220,13 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
+      const today = dateFormat(new Date(), 'YYYY-MM-DD');
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
           body: `${messageBody} ${
-            digitalSignature
-              ? `\n\nDigital signature for ROI request:\n${digitalSignature}`
+            electronicSignature
+              ? `\n\n${electronicSignature}\nSigned electronically on ${today}.`
               : ``
           }`,
           subject,
@@ -333,11 +337,15 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (!isDraft && isSignatureRequired && !digitalSignature) {
+      if (!isDraft && isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         messageValid = false;
       }
       if (signatureError !== '') {
+        messageValid = false;
+      }
+      if (!checkboxMarked) {
+        setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         messageValid = false;
       }
       setMessageInvalid(!messageValid);
@@ -349,7 +357,8 @@ const ComposeForm = props => {
       selectedRecipient,
       subject,
       isSignatureRequired,
-      digitalSignature,
+      electronicSignature,
+      checkboxMarked,
     ],
   );
 
@@ -370,14 +379,14 @@ const ComposeForm = props => {
         if (
           attachments.length > 0 &&
           isSignatureRequired &&
-          digitalSignature !== ''
+          electronicSignature !== ''
         ) {
           errorType =
             ErrorMessages.ComposeForm
               .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
         } else if (attachments.length > 0) {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-        } else if (isSignatureRequired && digitalSignature !== '') {
+        } else if (isSignatureRequired && electronicSignature !== '') {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
         }
 
@@ -564,8 +573,8 @@ const ComposeForm = props => {
     setUnsavedNavigationError();
   };
 
-  const digitalSignatureHandler = e => {
-    setDigitalSignature(e.target.value);
+  const electronicSignatureHandler = e => {
+    setElectronicSignature(e.target.value);
 
     let validationError = null;
     const addError = err => {
@@ -578,6 +587,10 @@ const ComposeForm = props => {
       setSignatureError('');
     }
     setUnsavedNavigationError();
+  };
+
+  const electronicCheckboxHandler = e => {
+    setCheckboxMarked(e.detail.checked);
   };
 
   const beforeUnloadHandler = useCallback(
@@ -814,8 +827,11 @@ const ComposeForm = props => {
 
           {isSignatureRequired && (
             <DigitalSignature
-              error={signatureError}
-              onInput={digitalSignatureHandler}
+              nameError={signatureError}
+              checkboxError={checkboxError}
+              onInput={electronicSignatureHandler}
+              onChange={electronicCheckboxHandler}
+              checked={checkboxMarked}
             />
           )}
 
