@@ -698,13 +698,13 @@ export const PolicyNumberDescription = (
 );
 
 export const PolicyOrDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--neg2p5 vads-u-color--primary-darker">
     or
   </div>
 );
 
 export const PolicyOrGroupDescription = (
-  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darkest">
+  <div className="schemaform-block-title schemaform-block-subtitle vads-u-margin-top--6 vads-u-margin-bottom--2 vads-u-color--primary-darker">
     Provide either your insurance policy number or group code.{' '}
     <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
       (*Required)

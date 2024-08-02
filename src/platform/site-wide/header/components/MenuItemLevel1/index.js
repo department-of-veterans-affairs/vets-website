@@ -38,7 +38,7 @@ export const MenuItemLevel1 = ({
   };
 
   return (
-    <li className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
+    <li className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold">
       {/* Raw title */}
       {!item?.menuSections &&
         !item?.href && (
@@ -61,7 +61,7 @@ export const MenuItemLevel1 = ({
           {/* Expand title */}
           <button
             aria-expanded={isExpanded ? 'true' : 'false'}
-            className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
+            className="header-menu-item-button vads-u-background-color--primary-dark vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             data-e2e-id={menuItemID}
             id={menuItemID}
             onClick={toggleShowItems(item?.title)}

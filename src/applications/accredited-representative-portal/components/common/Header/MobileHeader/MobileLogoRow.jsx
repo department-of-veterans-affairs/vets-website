@@ -6,7 +6,7 @@ import UserNav from '../common/UserNav';
 export const MobileLogoRow = () => {
   return (
     <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
-      <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+      <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
         <Link
           data-testid="mobile-logo-row-logo-link"
           aria-label="VA logo"
