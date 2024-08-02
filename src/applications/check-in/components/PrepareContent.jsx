@@ -17,7 +17,7 @@ const PrepareContent = props => {
   const onPrepareClick = useCallback(
     e => {
       e.preventDefault();
-      jumpToPage('what-to-bring-to-va-health-care-appointments');
+      jumpToPage('what-to-bring');
     },
     [jumpToPage],
   );
@@ -34,9 +34,7 @@ const PrepareContent = props => {
         <p>{t('bring-insurance-cards-list-medications-other')}</p>
         <p className="vads-u-margin-bottom--2">
           <a
-            href={`${
-              router.location.basename
-            }/what-to-bring-to-va-health-care-appointments/`}
+            href={`${router.location.basename}/what-to-bring/`}
             hrefLang="en"
             onClick={onPrepareClick}
           >
