@@ -1,7 +1,9 @@
 import {
-  checkboxGroupUI,
   checkboxGroupSchema,
+  checkboxGroupUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import EmploymentActivitiesDescription from '../../components/03-employment-history-chapter/EmploymentActivitiesDescription';
 
 const employmentActivitiesOptions = Object.freeze({
   financial: 'Financial planning',
@@ -13,12 +15,15 @@ const employmentActivitiesOptions = Object.freeze({
   business: 'Business or service that advertises predominately to Veterans',
 });
 
-const employmentActivities = {
+/** @type {PageSchema} */
+export default {
+  title: 'Employment activities',
+  path: 'employment-activities',
   uiSchema: {
-    activities: checkboxGroupUI({
+    employmentActivities: checkboxGroupUI({
       title:
-        'During the past ten years have you been involved in any of the following activities? Failure to identify relevant activities may result in a delay in processing your application.',
-      hint: 'Check all that apply',
+        'During the past ten years have you been involved in any of the following activities?',
+      description: EmploymentActivitiesDescription,
       required: true,
       labels: employmentActivitiesOptions,
     }),
@@ -26,16 +31,9 @@ const employmentActivities = {
   schema: {
     type: 'object',
     properties: {
-      activities: checkboxGroupSchema(Object.keys(employmentActivitiesOptions)),
+      employmentActivities: checkboxGroupSchema(
+        Object.keys(employmentActivitiesOptions),
+      ),
     },
   },
 };
-
-const employmentActivitiesPage = {
-  title: 'Employment Activities',
-  path: 'employers/activities',
-  uiSchema: employmentActivities.uiSchema,
-  schema: employmentActivities.schema,
-};
-
-export default employmentActivitiesPage;

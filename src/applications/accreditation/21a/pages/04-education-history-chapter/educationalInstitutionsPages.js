@@ -1,16 +1,17 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
-  textareaUI,
   textareaSchema,
+  textareaUI,
   textSchema,
   textUI,
-  yesNoUI,
   yesNoSchema,
+  yesNoUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
@@ -25,12 +26,12 @@ const arrayBuilderOptions = {
   isItemIncomplete: item =>
     !item?.name ||
     !item?.dateRange ||
-    !item?.received ||
-    (item?.received === true && !item?.degree) ||
-    (item?.received === false && !item?.reasonForNotCompleting) ||
-    (item?.received !== false && !item?.major),
+    item?.degreeReceived === undefined ||
+    (item?.degreeReceived === true && !item?.degree) ||
+    (item?.degreeReceived === false && !item?.reasonForNotCompleting) ||
+    (item?.degreeReceived !== false && !item?.major),
   text: {
-    getItemName: item => item.name,
+    getItemName: item => item?.name,
     cardDescription: item =>
       `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
         item?.dateRange?.to,
@@ -52,29 +53,32 @@ const introPage = {
 /** @returns {PageSchema} */
 const educationalInstitutionPage = {
   uiSchema: {
-    ...descriptionUI(
-      'Enter your education history starting with high school. List all the colleges and universities attended and degrees received. You will be able to add additional education history on the next screen.',
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Educational institution',
+      description:
+        'Enter your education institutions starting with high school. List all the colleges and universities attended and degrees received. You will be able to add additional education institutions on the next screen.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     name: textUI('Name of institution'),
     dateRange: currentOrPastDateRangeUI('Start date', 'End date'),
-    received: yesNoUI('Degree received?'),
+    degreeReceived: yesNoUI('Degree received?'),
     degree: textUI({
       title: 'Degree',
-      expandUnder: 'received',
+      expandUnder: 'degreeReceived',
       required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.received === true,
+        formData?.educationalInstitutions?.[index]?.degreeReceived === true, // TODO: Required is not working correctly on edi
     }),
     reasonForNotCompleting: textareaUI({
       title: 'Reason for not completing studies',
-      expandUnder: 'received',
-      expandUnderCondition: received => received === false,
+      expandUnder: 'degreeReceived',
+      expandUnderCondition: degreeReceived => degreeReceived === false,
       required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.received === false,
+        formData?.educationalInstitutions?.[index]?.degreeReceived === false, // TODO: Required is not working correctly on edit
     }),
     major: textUI({
       title: 'Major',
       required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.received === true,
+        formData?.educationalInstitutions?.[index]?.degreeReceived !== false, // TODO: Required is not working correctly on edit
     }),
   },
   schema: {
@@ -82,12 +86,12 @@ const educationalInstitutionPage = {
     properties: {
       name: textSchema,
       dateRange: currentOrPastDateRangeSchema,
-      received: yesNoSchema,
+      degreeReceived: yesNoSchema,
       degree: textSchema,
       reasonForNotCompleting: textareaSchema,
       major: textSchema,
     },
-    required: ['name', 'dateRange', 'received'],
+    required: ['name', 'dateRange', 'degreeReceived'],
   },
 };
 
@@ -104,6 +108,7 @@ const summaryPage = {
       {},
       {
         labelHeaderLevel: 'p',
+        hint: 'Include all education history since high school.',
       },
     ),
   },
@@ -126,7 +131,7 @@ const educationalInstitutionsPages = arrayBuilderPages(
       schema: introPage.schema,
     }),
     educationalInstitutionsSummary: pageBuilder.summaryPage({
-      title: 'Review education history',
+      title: 'Review education institutions',
       path: 'educational-institutions-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,

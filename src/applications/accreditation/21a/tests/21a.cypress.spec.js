@@ -103,7 +103,7 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.employers[0].address.state,
       ),
-      'employers/activities': selectCheckboxGroupHook('activities'),
+      'employment-activities': selectCheckboxGroupHook('employmentActivities'),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
           text:

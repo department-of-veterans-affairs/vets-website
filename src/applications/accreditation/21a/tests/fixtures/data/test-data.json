@@ -85,7 +85,7 @@
         "reasonForLeaving": "Found a better opportunity"
       }
     ],
-    "activities": ["financial", "home"],
+    "employmentActivities": ["FINANCIAL", "HOME"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
@@ -94,7 +94,7 @@
           "from": "2010-01-01",
           "to": "2014-12-31"
         },
-        "received": true,
+        "degreeReceived": true,
         "degree": "Bachelor of Science",
         "major": "Computer Science"
       }
