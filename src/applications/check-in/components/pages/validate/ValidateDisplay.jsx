@@ -152,7 +152,6 @@ export default function ValidateDisplay({
           <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column">
             <va-button
               uswds
-              submit="prevent"
               big
               text={t('continue')}
               data-testid="check-in-button"
