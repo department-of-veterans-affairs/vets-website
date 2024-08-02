@@ -44,6 +44,9 @@ const backgroundInformationDetails = ({
       }),
       [documentsKey]: {
         ...fileInputUI({
+          errorMessages: {
+            required: `Upload a completed VA Form 21A`,
+          },
           title: 'Provide any relevant documents',
           hint:
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
