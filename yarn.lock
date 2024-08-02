@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^43.0.1":
-  version "43.0.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-43.0.1.tgz#4675b74e90d38a8c320691bf623f7f75c303d667"
-  integrity sha512-LzqoKjysgXU9gCTdDKyrzoDyX2PugaJfv9tTxUwY3oaL4zXDfl/zMYdViKWWo76F5WQeN2o9Ss/eFPdR4mdbSQ==
+"@department-of-veterans-affairs/component-library@^43.0.2":
+  version "43.0.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-43.0.2.tgz#5dc260fc3da4c541da810bbea0d28a7151f25016"
+  integrity sha512-v8uM7Xw9ud9pwCvFS73a1Mf/6eskUNVpcCQhC35/INzrReX2aqD/TN2IFBr3WfH7aFkJA7CyAwy1YNGiJpHyxQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "11.2.6"
+    "@department-of-veterans-affairs/web-components" "11.2.9"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.8.0.tgz#078f11543acb0fa315115ed95d195b4cb2dd801d"
-  integrity sha512-w3g6qF8TiGDeepxHCY+jwq+qeEqJKdb3Rpw0e93hcekNliQliMcf1jVDpmkNysQUIrl163U+corwb1nMcpFaOA==
+"@department-of-veterans-affairs/generator-vets-website@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.1.tgz#27178dec50f23e77d72781b55714d58e5df9e83d"
+  integrity sha512-r/quv9+ObHcoL5veLyJtcMXqGtdmQOdYYQZaxsHZb0RHX6+gdkYUGnOIKseaoTm9SqvkmcUUlude8eu+wV+arQ==
   dependencies:
-    chalk "^4.1.0"
+    chalk "^5.1.0"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -2960,10 +2960,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@11.2.6":
-  version "11.2.6"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-11.2.6.tgz#d865868c2faddfbe7b81e53609657685fa7ef09e"
-  integrity sha512-M8NBejw/U12ziBE4COWSR5JwBiuuvmIK752B9iKgBZotXpNElqg38aAqtWdRzc9BXrHohRkbwtFfm8+r6ZTEDA==
+"@department-of-veterans-affairs/web-components@11.2.9":
+  version "11.2.9"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-11.2.9.tgz#10f4ec73f5d177c1864a116386334748c2e39bcb"
+  integrity sha512-Kl7zCoxuheC/EYdM0D3N2X4cC7Kjd1eq6ZaX525BAiRJlxKhIpqhZzJfbXkQw0SrX8voLrA0Ab74KFcZjgRV3A==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
@@ -6912,6 +6912,11 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+chalk@^5.1.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
+  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
+
 change-emitter@^0.1.2:
   version "0.1.6"
   resolved "https://registry.npmjs.org/change-emitter/-/change-emitter-0.1.6.tgz"
@@ -8191,6 +8196,11 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
+date-fns-tz@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.1.tgz#0a9b2099031c0d74120b45de9fd23192e48ea495"
+  integrity sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==
 
 date-fns@^2.24.0:
   version "2.24.0"

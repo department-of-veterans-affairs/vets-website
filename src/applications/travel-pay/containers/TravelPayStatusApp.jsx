@@ -283,6 +283,7 @@ export default function App({ children }) {
                     <va-button
                       onClick={() => onSortClick()}
                       data-testid="Sort travel claims"
+                      secondary
                       text="Sort"
                       label="Sort"
                     />

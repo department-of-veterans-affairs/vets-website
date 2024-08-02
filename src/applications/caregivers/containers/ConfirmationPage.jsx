@@ -68,8 +68,9 @@ const ConfirmationPage = () => {
         </p>
         <p>
           Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />. We’re
-          here Monday through Friday, 8:00 a.m. to 10:00 p.m. <Abbr key="et" />,
-          and Saturday, 8:00 a.m. to 5:00 p.m. <Abbr key="et" />.
+          here Monday through Friday, 8:00 a.m. to 10:00 p.m.{' '}
+          <Abbr abbrKey="et" />, and Saturday, 8:00 a.m. to 5:00 p.m.{' '}
+          <Abbr abbrKey="et" />.
         </p>
         <p className="no-print">
           <a
