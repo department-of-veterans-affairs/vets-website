@@ -7,6 +7,11 @@ export default {
   hasBeenAdjudicatedBankrupt:
     "Please select whether you've declared bankruptcy (select yes or no)",
 
+  hasRecreationalVehicle:
+    'Please select whether you have a recreational vehicle (select yes or no)',
+  hasVehicle: 'Please select whether you own a vehicle (select yes or no)',
+  hasRealEstate: 'Please select whether you own real estate (select yes or no)',
+
   resolutionOption: index =>
     `Please select a resolution option for the ${numberToWords(
       index + 1,
@@ -59,13 +64,34 @@ export default {
         chapterKey: 'householdAssetsChapter',
         pageKey: 'otherAssetsSummary',
       },
+      hasRecreationalVehicle: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'recreationalVehicleRecords',
+      },
+      hasVehicle: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'enhancedVehicleRecords',
+      },
+      hasRealEstate: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'enhancedRealEstateRecords',
+      },
     };
 
-    if (errorMapping[error]) {
-      return errorMapping[error];
+    // Extract the relevant key from the error
+    const errorKey = error.includes('selectedDebtsAndCopays')
+      ? 'selectedDebtsAndCopays'
+      : error.split('.').slice(-1)[0];
+
+    if (errorMapping[errorKey]) {
+      return errorMapping[errorKey];
     }
 
-    if (fullError?.__errors.some(str => str.includes('resolution amount'))) {
+    if (
+      fullError &&
+      fullError.__errors &&
+      fullError.__errors.some(str => str.includes('resolution amount'))
+    ) {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionComment',
