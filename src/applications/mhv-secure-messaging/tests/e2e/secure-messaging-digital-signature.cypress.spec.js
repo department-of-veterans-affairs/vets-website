@@ -17,6 +17,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.verifyElectronicSignatureAlert();
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
+    PatientComposePage.verifyESCheckBoxRequired();
   });
 
   it('verify user can sign and send a message', () => {
@@ -27,7 +28,7 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.getMessageBodyField().type(`\nES tests text`, {
       force: true,
     });
-    PatientComposePage.getDigitalSignatureField().type('Dusty Dump ', {
+    PatientComposePage.getElectronicSignatureField().type('Dusty Dump ', {
       force: true,
     });
     PatientComposePage.clickElectronicSignatureCheckbox();

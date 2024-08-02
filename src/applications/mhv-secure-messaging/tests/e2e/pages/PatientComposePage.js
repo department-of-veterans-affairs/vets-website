@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths, Data } from '../utils/constants';
+import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
@@ -91,7 +91,7 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
-  getDigitalSignatureField = () => {
+  getElectronicSignatureField = () => {
     return cy.get('va-card').find('#inputField');
   };
 
@@ -244,12 +244,19 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  closeAttachmentErrorPopup = () => {
+  closeAttachmentErrorModal = () => {
     cy.get(Locators.ALERTS.ERROR_MODAL)
       .shadow()
       .find('[type="button"]')
       .first()
       .click();
+  };
+
+  closeESAlertModal = () => {
+    cy.get(Locators.ALERTS.ES_ALERT)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
   };
 
   attachMessageFromFile = filename => {
@@ -430,7 +437,7 @@ class PatientComposePage {
   verifyElectronicSignatureAlert = () => {
     cy.get(`[data-testid="signature-alert"]`).should(
       `have.text`,
-      `Messages to this team require a signature. We added a signature box to this page.`,
+      Alerts.EL_SIGN,
     );
   };
 
@@ -448,6 +455,11 @@ class PatientComposePage {
       .should('contain.text', 'Required');
   };
 
+  verifyESCheckBoxRequired = () => {
+    cy.get(`#option-label`).should(`contain.text`, Data.EL_SIGN_CHECK);
+    cy.get(`#option-label>span`).should(`have.text`, `(*Required)`);
+  };
+
   clickElectronicSignatureCheckbox = () => {
     cy.get(`va-checkbox`)
       .shadow()
@@ -456,7 +468,7 @@ class PatientComposePage {
   };
 
   getAlertEditDraftBtn = () => {
-    return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
+    return cy.get(Locators.ALERTS.ES_ALERT).find('va-button');
   };
 }
 
