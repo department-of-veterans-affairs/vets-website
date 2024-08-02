@@ -38,27 +38,6 @@ export function getAppointmentInfoFromComments(comments, key) {
     }
     return data;
   }
-
-  if (key === 'contact') {
-    const phone = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('phone number:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-    const email = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('email:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    const transformedPhone = { system: 'phone', value: phone };
-    const transformedEmail = { system: 'email', value: email };
-
-    data.push(transformedPhone, transformedEmail);
-    return data;
-  }
   return data;
 }
 function getAppointmentType(appt) {
