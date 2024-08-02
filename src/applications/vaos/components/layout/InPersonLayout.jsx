@@ -140,16 +140,23 @@ export default function InPersonLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
-      {featureMedReviewInstructions && (
-        <Prepare>
-          Bring your insurance cards, a list of medications, and other things to
-          share with your provider.
-          <br />
-          <NewTabAnchor href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/">
-            Find out what to bring to your appointment
-          </NewTabAnchor>
-        </Prepare>
-      )}
+      {featureMedReviewInstructions &&
+        !isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards, a list of medications, and other
+              things to share with your provider.
+            </p>
+            <a
+              target="_self"
+              href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+            >
+              Find out what to bring to your appointment
+            </a>
+          </Prepare>
+        )}
     </DetailPageLayout>
   );
 }

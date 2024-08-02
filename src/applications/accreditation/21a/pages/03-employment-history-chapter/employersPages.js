@@ -1,4 +1,3 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   addressSchema,
@@ -9,14 +8,19 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
-  phoneSchema,
-  phoneUI,
+  descriptionUI,
+  textareaSchema,
+  textareaUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourEmployersDescription from '../../components/03-employment-information-chapter/YourEmployersDescription';
+import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
+import { formatReviewDate } from '../helpers/formatReviewDate';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -27,12 +31,13 @@ const arrayBuilderOptions = {
   isItemIncomplete: item =>
     !item?.name ||
     !item?.positionTitle ||
-    !item.supervisorName ||
-    !item.address ||
-    !item.phone ||
-    !item.dateRange,
+    !item?.supervisorName ||
+    !item?.address ||
+    !item?.phone ||
+    !item?.dateRange ||
+    !item?.reasonForLeaving,
   text: {
-    getItemName: item => item.name,
+    getItemName: item => item?.name,
     cardDescription: item =>
       `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
         item?.dateRange?.to,
@@ -43,7 +48,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Your employers', YourEmployersDescription),
+    ...descriptionUI(EmploymentIntro),
   },
   schema: {
     type: 'object',
@@ -60,7 +65,10 @@ const informationPage = {
     }),
     name: textUI('Name of employer'),
     positionTitle: textUI('Position title'),
-    supervisorName: textUI('Supervisor name'),
+    supervisorName: textUI({
+      title: 'Supervisor name',
+      hint: 'If you are self-employed, write "self."',
+    }),
   },
   schema: {
     type: 'object',
@@ -89,8 +97,14 @@ const addressAndPhoneNumberPage = {
       },
       omit: ['street3'],
     }),
-    phone: phoneUI(),
-    extension: textUI('Extension'),
+    phone: internationalPhoneUI(),
+    extension: textUI({
+      title: 'Extension',
+      width: 'sm',
+      errorMessages: {
+        pattern: 'Enter an extension with only numbers and letters',
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -98,7 +112,7 @@ const addressAndPhoneNumberPage = {
       address: addressSchema({
         omit: ['street3'],
       }),
-      phone: phoneSchema,
+      phone: internationalPhoneSchema,
       extension: {
         type: 'string',
         pattern: '^[a-zA-Z0-9]{1,10}$',
@@ -132,6 +146,26 @@ const dateRangePage = {
   },
 };
 
+/** @returns {PageSchema} */
+const reasonForLeavingPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        formData?.name
+          ? `Reason for leaving ${formData.name}`
+          : 'Reason for leaving',
+    ),
+    reasonForLeaving: textareaUI('Explain why you left this employer.'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      reasonForLeaving: textareaSchema,
+    },
+    required: ['reasonForLeaving'],
+  },
+};
+
 /**
  * This page is skipped on the first loop for required flow
  * Cards are populated on this page above the uiSchema if items are present
@@ -145,6 +179,7 @@ const summaryPage = {
       {},
       {
         labelHeaderLevel: 'p',
+        hint: 'Include your employment information for the past ten years.',
       },
     ),
   },
@@ -187,6 +222,12 @@ const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
     path: 'employers/:index/date-range',
     uiSchema: dateRangePage.uiSchema,
     schema: dateRangePage.schema,
+  }),
+  employerReasonForLeavingPage: pageBuilder.itemPage({
+    title: 'Reason for leaving employer',
+    path: 'employers/:index/reason-for-leaving',
+    uiSchema: reasonForLeavingPage.uiSchema,
+    schema: reasonForLeavingPage.schema,
   }),
 }));
 

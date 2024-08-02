@@ -11,6 +11,7 @@ import allergies from '../fixtures/allergies.json';
 import allergy from '../fixtures/allergy.json';
 import vaccines from '../fixtures/vaccines.json';
 import vaccine from '../fixtures/vaccine.json';
+import radiologyListMhv from '../fixtures/radiologyRecordsMhv.json';
 import {
   getAllergies,
   getAllergy,
@@ -51,8 +52,8 @@ describe('Get labs and tests details api call', () => {
 
 describe('Get radiology tests from MHV api call', () => {
   it('should make an api call to get all radiology tests from MHV', () => {
-    // const mockData = radiologyListMhv;
-    // mockApiRequest(mockData);
+    const mockData = radiologyListMhv;
+    mockApiRequest(mockData);
 
     return getMhvRadiologyTests().then(res => {
       expect(res.length).to.equal(21);
