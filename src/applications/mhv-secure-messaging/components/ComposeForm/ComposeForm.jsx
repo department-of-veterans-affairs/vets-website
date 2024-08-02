@@ -221,6 +221,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
+        scrollToTop();
         const messageData = {
           category,
           body: `${messageBody} ${
@@ -243,7 +244,6 @@ const ComposeForm = props => {
         }
         dispatch(sendMessage(sendData, attachments.length > 0))
           .then(() => {
-            scrollToTop();
             setTimeout(() => {
               navigateToFolderByFolderId(
                 currentFolder?.folderId || DefaultFolders.INBOX.id,
