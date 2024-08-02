@@ -6,23 +6,25 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 export default {
   hasBeenAdjudicatedBankrupt:
     "Please select whether you've declared bankruptcy (select yes or no)",
-  resolutionOption: index => {
-    return `Please select a resolution option for the ${numberToWords(
+
+  resolutionOption: index =>
+    `Please select a resolution option for the ${numberToWords(
       index + 1,
-    )} selected debt`;
-  },
-  resolutionComment: index => {
-    return `Please enter a resolution amount for the ${numberToWords(
+    )} selected debt`,
+
+  resolutionComment: index =>
+    `Please enter a resolution amount for the ${numberToWords(
       index + 1,
-    )} selected debt`;
-  },
-  resolutionWaiverCheck: index => {
-    return `Please select whether you agree to the waiver for the ${numberToWords(
+    )} selected debt`,
+
+  resolutionWaiverCheck: index =>
+    `Please select whether you agree to the waiver for the ${numberToWords(
       index + 1,
-    )} selected debt`;
-  },
+    )} selected debt`,
+
   monthlyHousingExpenses:
     'Please enter a valid dollar amount for your monthly housing expenses',
+
   // Household Assets error messages
   monetaryAssets: 'Please provide valid information for all monetary assets',
   realEstateValue:
@@ -32,49 +34,44 @@ export default {
   otherAssets: 'Please provide valid information for all other assets',
 
   _override: (error, fullError) => {
-    if (error === 'questions') {
-      return {
+    const errorMapping = {
+      questions: {
         chapterKey: 'bankruptcyAttestationChapter',
         pageKey: 'bankruptcyHistory',
-      };
-    }
-    if (error.includes('selectedDebtsAndCopays')) {
-      return {
+      },
+      selectedDebtsAndCopays: {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionOption',
-      };
+      },
+      assetsMonetaryAssets: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'monetaryValues',
+      },
+      assetsRealEstateValue: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'enhancedRealEstateRecords',
+      },
+      assetsRecVehicleAmount: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'recreationalVehicleRecords',
+      },
+      assetsOtherAssets: {
+        chapterKey: 'householdAssetsChapter',
+        pageKey: 'otherAssetsSummary',
+      },
+    };
+
+    if (errorMapping[error]) {
+      return errorMapping[error];
     }
+
     if (fullError?.__errors.some(str => str.includes('resolution amount'))) {
       return {
         chapterKey: 'resolutionOptionsChapter',
         pageKey: 'resolutionComment',
       };
     }
-    if (error.startsWith('assets.monetaryAssets')) {
-      return {
-        chapterKey: 'householdAssetsChapter',
-        pageKey: 'monetaryValues',
-      };
-    }
-    if (error === 'assets.realEstateValue') {
-      return {
-        chapterKey: 'householdAssetsChapter',
-        pageKey: 'enhancedRealEstateRecords',
-      };
-    }
-    if (error === 'assets.recVehicleAmount') {
-      return {
-        chapterKey: 'householdAssetsChapter',
-        pageKey: 'recreationalVehicleRecords',
-      };
-    }
-    if (error.startsWith('assets.otherAssets')) {
-      return {
-        chapterKey: 'householdAssetsChapter',
-        pageKey: 'otherAssetsSummary',
-      };
-    }
-    // always return null for non-matches
+
     return null;
   },
 };
