@@ -6,13 +6,13 @@ import {
 import EmploymentActivitiesDescription from '../../components/03-employment-history-chapter/EmploymentActivitiesDescription';
 
 const employmentActivitiesOptions = Object.freeze({
-  financial: 'Financial planning',
-  home: 'Home care',
-  nursing: 'Nursing care',
-  funeral: 'Funeral industry',
-  medical: 'Medical services',
-  consulting: 'Consulting or referral services for Veterans',
-  business: 'Business or service that advertises predominately to Veterans',
+  FINANCIAL: 'Financial planning',
+  HOME: 'Home care',
+  NURSING: 'Nursing care',
+  FUNERAL: 'Funeral industry',
+  MEDICAL: 'Medical services',
+  CONSULTING: 'Consulting or referral services for Veterans',
+  BUSINESS: 'Business or service that advertises predominately to Veterans',
 });
 
 /** @type {PageSchema} */
