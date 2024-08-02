@@ -109,11 +109,6 @@ export const SearchResults = ({
         ...modalState,
         isOpen: !modalState.isOpen,
       });
-      recordEvent({
-        event: 'int-modal-click',
-        'modal-status': 'closed',
-        'modal-title': 'Download this PDF and open it in Acrobat Reader',
-      });
     } else {
       setModalState({
         isOpen: !modalState.isOpen,
