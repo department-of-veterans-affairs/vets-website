@@ -114,7 +114,7 @@ export const Locators = {
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
-    SEND: '[data-testid="Send-Button"]',
+    SEND: '[data-testid="send-button"]',
     SAVE_DRAFT: '#save-draft-button',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
@@ -135,6 +135,7 @@ export const Locators = {
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
+    EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -192,6 +193,7 @@ export const Locators = {
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -218,6 +220,9 @@ export const Locators = {
     CL_ALL: '[data-testid="contact-list-select-all-teams"]',
     CL_SINGLE: '[data-testid="contact-list-select-team"]',
   },
+  HEADERS: {
+    DRAFTS_HEADER: '#draft-reply-header',
+  },
 };
 
 export const Alerts = {
@@ -235,6 +240,7 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  OLD_MSG: 'This conversation is too old for new replies',
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,

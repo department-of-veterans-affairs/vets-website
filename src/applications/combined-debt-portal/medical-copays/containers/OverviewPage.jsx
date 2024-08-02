@@ -21,6 +21,7 @@ import MCPAlerts from '../../combined/components/MCPAlerts';
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
   const showOther = debts > 0;
+  const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
 
   return (
     <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
@@ -35,6 +36,15 @@ const renderAlert = (alertType, debts) => {
           {alertInfo.secondBody}
         </>
       )}
+      {showVAReturnLink ? (
+        <va-link
+          active
+          class="vads-u-margin-top--2"
+          data-testid="return-to-va-link"
+          href="https://va.gov"
+          text="Return to VA.gov"
+        />
+      ) : null}
     </va-alert>
   );
 };

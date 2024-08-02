@@ -210,6 +210,44 @@ export const updateMessageInThread = (thread, response) => {
   });
 };
 
+export const updateDrafts = draft => {
+  if (Array.isArray(draft)) {
+    return draft;
+  }
+  if (typeof draft === 'object') {
+    return [draft[0]];
+  }
+  return [draft[0]];
+};
+
+// navigation helper
+export const setUnsavedNavigationError = (
+  typeOfError,
+  setNavigationError,
+  ErrorMessages,
+) => {
+  switch (typeOfError) {
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+      break;
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+      break;
+    default:
+      setNavigationError(null);
+  }
+};
+
 export const getSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
