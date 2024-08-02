@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-console */
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
@@ -13,6 +14,57 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  * @returns the navigation bar
  */
 const MhvSecondaryNavMenu = ({ items }) => {
+  /**
+   * Check if the text is set to large in the browser settings,
+   * and apply a class to prevent the nav items from wrapping.
+   */
+  const [isLargeText, setIsLargeText] = useState(false);
+
+  const checkFontSize = useCallback(() => {
+    // Check root font size
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
+
+    // Check actual rendered text size
+    const testDiv = document.createElement('div');
+    testDiv.style.fontSize = '1rem';
+    testDiv.style.padding = '0';
+    testDiv.style.position = 'absolute';
+    testDiv.style.left = '-9999px';
+    testDiv.style.lineHeight = 'normal';
+    testDiv.textContent = 'M';
+
+    document.body.appendChild(testDiv);
+    const actualSize = testDiv.clientHeight;
+    document.body.removeChild(testDiv);
+
+    // Determine if text is large
+    const newIsLargeText = rootFontSize > 16 || actualSize > 20;
+
+    setIsLargeText(newIsLargeText);
+  }, []);
+
+  useEffect(
+    () => {
+      const checkAndUpdateFontSize = () => {
+        setTimeout(checkFontSize, 0);
+      };
+
+      checkAndUpdateFontSize();
+
+      const resizeObserver = new ResizeObserver(checkAndUpdateFontSize);
+      resizeObserver.observe(document.documentElement);
+
+      window.addEventListener('resize', checkAndUpdateFontSize);
+
+      return () => {
+        resizeObserver.disconnect();
+        window.removeEventListener('resize', checkAndUpdateFontSize);
+      };
+    },
+    [checkFontSize],
+  );
   /**
    * Strip the trailing slash in a path if it exists.
    * @param {String} path the path
@@ -62,7 +114,11 @@ const MhvSecondaryNavMenu = ({ items }) => {
       aria-label="My HealtheVet"
     >
       <div className="vads-u-font-family--sans vads-font-weight-regular usa-grid usa-grid-full row">
-        <div className="mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full">
+        <div
+          className={`mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full ${
+            isLargeText ? 'mhv-c-large-text-wrapper' : ''
+          }`}
+        >
           {navContent}
         </div>
       </div>
