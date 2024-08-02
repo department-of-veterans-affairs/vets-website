@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
 import Instructions from './Instructions';
 
@@ -53,13 +55,11 @@ const Contacts = ({ data }) => {
           <ul className="vads-u-margin-y--0">
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call your VA health facility.{' '}
-              <a
-                data-testid="find-locations-additional-info-link"
-                href="/find-locations/"
-              >
-                Find your health facility’s phone number
-              </a>
+              Call the Health Eligibility Center at
+              <VaTelephone contact={CONTACTS['222_VETS']} />(
+              <VaTelephone contact={CONTACTS['711']} tty />
+              ). We’re available Monday through Friday, 8:00 a.m. to 8:00 p.m.
+              ET.
             </li>
           </ul>
         </va-additional-info>
