@@ -65,13 +65,13 @@ import {
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
   applicantMarriageCertConfig,
-  applicantSecondMarriageDivorceCertConfig,
+  // applicantSecondMarriageDivorceCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
   applicantMarriageCertUploadUiSchema,
-  applicantSecondMarriageCertUploadUiSchema,
-  applicantSecondMarriageDivorceCertUploadUiSchema,
+  // applicantSecondMarriageCertUploadUiSchema,
+  // applicantSecondMarriageDivorceCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
@@ -109,15 +109,15 @@ import {
   ApplicantDependentStatusReviewPage,
 } from '../pages/ApplicantDependentStatus';
 import {
-  ApplicantSponsorMarriageDetailsPage,
-  ApplicantSponsorMarriageDetailsReviewPage,
+  // ApplicantSponsorMarriageDetailsPage,
+  // ApplicantSponsorMarriageDetailsReviewPage,
   marriageDatesSchema,
-  remarriageDetailsSchema,
-  depends18f2,
+  // remarriageDetailsSchema,
+  // depends18f2,
   depends18f3,
-  depends18f4,
-  depends18f5,
-  depends18f6,
+  // depends18f4,
+  // depends18f5,
+  // depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
@@ -973,6 +973,9 @@ const formConfig = {
             ),
           }),
         },
+        /*
+        // COMMENTED OUT AUGUST 2, 2024 - We don't want to collect any additional
+        // marriage info beyond whether or not the applicant is/was married to sponsor.
         page18f1: {
           path: 'applicant-marriage/:index',
           arrayPath: 'applicants',
@@ -1017,6 +1020,7 @@ const formConfig = {
           uiSchema: remarriageDetailsSchema.uiSchema,
           schema: remarriageDetailsSchema.schema,
         },
+        */
         // Marriage dates (sponsor living or dead) when applicant did not remarry
         page18f3: {
           path: 'applicant-marriage-date/:index',
@@ -1027,6 +1031,7 @@ const formConfig = {
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
         },
+        /*
         // Applicant remarried after sponsor died
         page18f4: {
           path: 'applicant-remarriage-date/:index',
@@ -1047,7 +1052,7 @@ const formConfig = {
           uiSchema: marriageDatesSchema.remarriageSeparatedUiSchema,
           schema: marriageDatesSchema.remarriageSeparatedSchema,
         },
-        // Applicant separated from sponsor before sponsor's death
+        /* // Applicant separated from sponsor before sponsor's death
         page18f6: {
           path: 'applicant-information/married-separated-dates/:index',
           arrayPath: 'applicants',
@@ -1057,6 +1062,7 @@ const formConfig = {
           uiSchema: marriageDatesSchema.separatedUiSchema,
           schema: marriageDatesSchema.separatedSchema,
         },
+        */
         page18f: {
           path: 'applicant-marriage-upload/:index',
           arrayPath: 'applicants',
@@ -1068,7 +1074,8 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse' &&
+              ) ===
+              'spouse' /* &&
               ((get('sponsorIsDeceased', formData) &&
                 [
                   'marriedTillDeathNoRemarriage',
@@ -1079,7 +1086,7 @@ const formConfig = {
                     formData?.applicants?.[index],
                   ),
                 )) ||
-                !get('sponsorIsDeceased', formData))
+                !get('sponsorIsDeceased', formData)) */
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1094,6 +1101,7 @@ const formConfig = {
             ),
           }),
         },
+        /*
         page18f7: {
           path: 'applicant-remarriage-upload/:index',
           arrayPath: 'applicants',
@@ -1158,6 +1166,7 @@ const formConfig = {
             ),
           }),
         },
+        */
         page19: {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
