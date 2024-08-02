@@ -88,7 +88,7 @@ export const ProcessList = () => (
             <li>
               <strong>Submit a written statement.</strong> If you choose this
               option, you must mail us your statement or submit it in person,
-              together with your completed VA Form 21-0996. We can’t accept
+              together with your completed VA Form 20-0996. We can’t accept
               written statements if you complete the online form at this time.
             </li>
           </ul>
@@ -126,8 +126,7 @@ export const ProcessList = () => (
           <va-additional-info trigger="What happens after you submit your request?">
             <div>
               You don’t need to do anything unless we send you a letter asking
-              for more information. If we schedule any exams for you, be sure
-              not to miss them.
+              for more information.
             </div>
           </va-additional-info>
         </va-process-list-item>

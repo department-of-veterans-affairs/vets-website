@@ -8,12 +8,14 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import DetailPageLayout, {
   When,
   What,
   Where,
   Section,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -38,6 +40,10 @@ export default function ClaimExamLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
+  );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -159,6 +165,21 @@ export default function ClaimExamLayout({ data: appointment }) {
             </>
           )}
         </Section>
+      )}
+      {featureMedReviewInstructions && (
+        <Prepare>
+          <ul>
+            <li>You don't need to bring anything to your exam.</li>
+            <li>
+              If you have any new non-VA medical records (like records from a
+              recent surgery or illness), be sure to submit them before your
+              appointment.
+            </li>
+          </ul>
+          <NewTabAnchor href="https://www.va.gov/disability/va-claim-exam/">
+            Learn more about claim exam appointments
+          </NewTabAnchor>
+        </Prepare>
       )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { requiredFiles, optionalFiles } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 export default function SupportingDocumentsPage({

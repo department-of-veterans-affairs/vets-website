@@ -1,4 +1,3 @@
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { breadcrumbsDictionary } from '../constants';
@@ -16,15 +15,15 @@ const adjustLocation = currentLocation => {
 const BreadCrumbs = ({ currentLocation }) => {
   const adjustedLocation = adjustLocation(currentLocation);
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
+  const bcString = JSON.stringify(breadcrumbLinks);
 
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <VaBreadcrumbs
-          home-veterans-affairs={false}
+        <va-breadcrumbs
           label="Breadcrumbs"
-          breadcrumbList={[...breadcrumbLinks]}
-          uswds
+          breadcrumb-list={bcString}
+          data-testid="Breadcrumb"
         />
       </div>
     </div>

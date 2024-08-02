@@ -25,6 +25,7 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
+import PaymentSelectionUI from '../components/PaymentSelection';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -215,6 +216,27 @@ const formConfig = {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
+            },
+          },
+        },
+      },
+    },
+    paymentSelection: {
+      title: 'Payment Selection',
+      pages: {
+        page6: {
+          path: 'payment',
+          title: 'Payment Selection',
+          uiSchema: {
+            ...titleUI('Where to send the payment'),
+            sendPayment: PaymentSelectionUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sendPayment'],
+            properties: {
+              titleSchema,
+              sendPayment: yesNoSchema,
             },
           },
         },

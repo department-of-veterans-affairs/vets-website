@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
   <div className="action-bar-arrow">
@@ -9,6 +11,11 @@ export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
     </div>
   </div>
 );
+PrimaryActionLink.propTypes = {
+  children: PropTypes.element.isRequired,
+  href: PropTypes.string,
+  onClick: PropTypes.func,
+};
 
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
@@ -42,6 +49,9 @@ export const PROGRESS_BAR_LABELS =
 
 export const SUBTITLE_0779 =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
+
+export const DOWNLOAD_URL_0779 =
+  'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf';
 
 export const CHILD_CONTENT_0779 = Object.freeze(
   <>
@@ -124,3 +134,85 @@ export const ADD_CHILD_CONTENT_0779 = Object.freeze(
     </div>
   </>,
 );
+
+export const ALERT_TOO_MANY_PAGES = (
+  formNumber,
+  pdfDownloadUrl,
+  onCloseEvent,
+) =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded has more pages than the form usually has. Please
+          check the file you uploaded is a recent VA Form {formNumber}.
+        </p>
+        <a href={pdfDownloadUrl}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );
+
+export const ALERT_TOO_FEW_PAGES = (formNumber, pdfDownloadUrl, onCloseEvent) =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded has fewer pages than the original form. Please
+          check your uploaded form to be sure it is the correct form.
+        </p>
+        <a href={pdfDownloadUrl}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );
+
+export const ALERT_WRONG_FORM = (formNumber, pdfDownloadUrl, onCloseEvent) =>
+  Object.freeze(
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      <h2 slot="headline">
+        Are you sure the file you uploaded is VA Form {formNumber}?
+      </h2>
+      <React.Fragment key=".1">
+        <p className="vads-u-margin-y--0">
+          The file you uploaded doesn’t look like a recent VA Form {formNumber}.
+          Please make sure you’re using the most recent form.
+        </p>
+        <a href={pdfDownloadUrl}>
+          Download VA Form {formNumber}
+          (PDF)
+        </a>
+        <p>If you’re sure this is the right file, you can continue.</p>
+      </React.Fragment>
+    </VaAlert>,
+  );

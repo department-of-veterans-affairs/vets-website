@@ -230,13 +230,6 @@ export const OtherToxicExposureDescription = (
   </div>
 );
 
-export const OtherToxicExposureHint = (
-  <div className="vads-u-color--gray-medium">
-    If you’re listing multiple toxins or hazards, list them without commas or
-    any other special characters
-  </div>
-);
-
 /** CHAPTER 4: Household Information */
 export const DeductibleExpensesDescription = () => (
   <legend className="schemaform-block-title">

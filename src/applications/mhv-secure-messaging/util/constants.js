@@ -219,7 +219,7 @@ export const Prompts = {
   Draft: {
     DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
     DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
     DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
     DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
   },
