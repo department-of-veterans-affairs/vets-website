@@ -18,12 +18,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
-import prefillTransformer from './prefillTransformer';
+// import prefillTransformer from './prefillTransformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import prefilledAddress from '../helpers/prefilledAddress';
+// import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
@@ -70,13 +70,12 @@ const formConfig = {
     messages: {
       inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
       expired:
-        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foriegn Medical Program benefits, please start a new application.',
+        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foreign Medical Program benefits, please start a new application.',
       saved: 'Your FMP benefits registration has been saved.',
     },
   },
   version: 0,
-  prefillEnabled: true,
-  prefillTransformer,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
     noAuth:
@@ -100,9 +99,9 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
-            'view:prefilledAddress': {
-              'ui:description': prefilledAddress,
-            },
+            // 'view:prefilledAddress': {
+            //   'ui:description': prefilledAddress,
+            // },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
             'view:PrefillCopy': {
@@ -120,10 +119,10 @@ const formConfig = {
               },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
-              'view:PrefillCopy': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:PrefillCopy': {
+              //   type: 'object',
+              //   properties: {},
+              // },
             },
           },
         },
