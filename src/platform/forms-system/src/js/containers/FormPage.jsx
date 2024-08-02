@@ -30,7 +30,10 @@ import { stringifyUrlParams } from '../helpers';
 function focusForm(route, index) {
   // Check main toggle to enable custom focus
   if (route.formConfig?.useCustomScrollAndFocus) {
-    customScrollAndFocus(route.pageConfig?.scrollAndFocusTarget, index);
+    const scrollAndFocusTarget =
+      route.pageConfig?.scrollAndFocusTarget ||
+      route.formConfig?.scrollAndFocusTarget;
+    customScrollAndFocus(scrollAndFocusTarget, index);
   } else {
     focusElement(defaultFocusSelector);
   }
@@ -348,6 +351,7 @@ class FormPage extends React.Component {
             contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}
             formContext={this.formContext}
+            NavButtons={NavButtons}
           />
         </div>
       );

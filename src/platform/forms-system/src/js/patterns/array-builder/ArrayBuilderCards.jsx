@@ -129,10 +129,13 @@ const ArrayBuilderCards = ({
       focusRemoveButton: false,
     });
     onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
-    forceRerender(newData);
   }
 
   const Card = ({ index, children }) => (

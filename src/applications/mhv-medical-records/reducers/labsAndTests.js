@@ -1,8 +1,9 @@
-import { parse } from 'date-fns';
+import { parse, parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   dateFormatWithoutTimezone,
   extractContainedResource,
   getObservationValueWithUnits,
@@ -265,11 +266,12 @@ export const convertMhvRadiologyRecord = record => {
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
     orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
-    imagingLocation: record.performingLocation,
-    date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+    clinicalHistory: record.clinicalHistory
+      ? record.clinicalHistory.trim()
       : EMPTY_FIELD,
+    imagingLocation: record.performingLocation,
+    date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
+    sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
     results: record.impressionText,
     images: [],
@@ -333,9 +335,15 @@ export const convertLabsAndTestsRecord = record => {
 
 function sortByDate(array) {
   return array.sort((a, b) => {
-    const dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
-    const dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    return dateA - dateB;
+    let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
+    let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
+    if (Number.isNaN(dateA.getTime())) {
+      dateA = parseISO(a.sortDate);
+    }
+    if (Number.isNaN(dateB.getTime())) {
+      dateB = parseISO(b.sortDate);
+    }
+    return dateB - dateA;
   });
 }
 
