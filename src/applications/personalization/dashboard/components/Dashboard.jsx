@@ -53,7 +53,7 @@ import { getAllPayments } from '../actions/payments';
 import Notifications from './notifications/Notifications';
 import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
-import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
+import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 
 const DashboardHeader = ({ showNotifications, user }) => {
@@ -138,7 +138,7 @@ const LOA1Content = ({ isLOA1, isVAPatient }) => {
 
       <HealthCare isVAPatient={isVAPatient} isLOA1={isLOA1} />
       <EducationAndTraining isLOA1={isLOA1} />
-      <BenefitApplicationDrafts isLOA1={isLOA1} />
+      <BenefitApplications isLOA1={isLOA1} />
     </>
   );
 };
@@ -327,7 +327,7 @@ const Dashboard = ({
                     <>
                       <HealthCare isVAPatient={isVAPatient} />
                       <EducationAndTraining />
-                      <BenefitApplicationDrafts />
+                      <BenefitApplications />
                     </>
                   )}
                 </Toggler.Enabled>
@@ -353,7 +353,7 @@ const Dashboard = ({
                         showNotifications={showNotifications}
                       />
                       <EducationAndTraining />
-                      <BenefitApplicationDrafts />
+                      <BenefitApplications />
                     </>
                   )}
                 </Toggler.Disabled>
