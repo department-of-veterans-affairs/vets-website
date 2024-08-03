@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-number-input, va-radio-option, va-checkbox, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-memorable-date';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 

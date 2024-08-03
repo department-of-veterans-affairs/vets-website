@@ -15,7 +15,7 @@ const employmentStatusOptions = {
   OTHER: 'Other',
 };
 
-const requiresDescription = ['UNEMPLOYED', 'SELF_EMPLOYED', 'OTHER'];
+const descriptionRequired = ['UNEMPLOYED', 'SELF_EMPLOYED', 'OTHER'];
 
 /** @type {PageSchema} */
 export default {
@@ -27,15 +27,14 @@ export default {
       title: 'Select the status of your employment',
       labels: employmentStatusOptions,
     }),
-    describeEmployment: {
-      ...textareaUI('Describe your employment situation'),
-      'ui:options': {
-        hideIf: formData =>
-          !requiresDescription.includes(formData.employmentStatus),
-      },
-      'ui:required': formData =>
-        requiresDescription.includes(formData.employmentStatus),
-    },
+    describeEmployment: textareaUI({
+      title: 'Describe your employment situation',
+      expandUnder: 'employmentStatus',
+      expandUnderCondition: employmentStatus =>
+        descriptionRequired.includes(employmentStatus),
+      required: formData =>
+        descriptionRequired.includes(formData.employmentStatus),
+    }),
   },
   schema: {
     type: 'object',

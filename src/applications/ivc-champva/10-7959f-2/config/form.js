@@ -17,6 +17,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,6 +26,7 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
+import PaymentSelectionUI from '../components/PaymentSelection';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -41,6 +43,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
     // messages: {
@@ -215,6 +218,27 @@ const formConfig = {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
+            },
+          },
+        },
+      },
+    },
+    paymentSelection: {
+      title: 'Payment Selection',
+      pages: {
+        page6: {
+          path: 'payment',
+          title: 'Payment Selection',
+          uiSchema: {
+            ...titleUI('Where to send the payment'),
+            sendPayment: PaymentSelectionUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sendPayment'],
+            properties: {
+              titleSchema,
+              sendPayment: yesNoSchema,
             },
           },
         },
