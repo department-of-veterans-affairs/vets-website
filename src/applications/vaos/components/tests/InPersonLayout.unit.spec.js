@@ -548,22 +548,10 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
-        ),
-      ).to.be.ok;
-      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      ).not.to.exist;
 
       expect(
         screen.getByRole('heading', {

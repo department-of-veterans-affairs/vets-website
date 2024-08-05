@@ -266,7 +266,7 @@ const DependentAges = ({
                 {
                   label: continueButtonText,
                   onClick: handlers.onSubmit,
-                  isSubmitting: true, // If this button submits a form
+                  isSubmitting: 'prevent', // If this button submits a form
                 },
               ]}
             />

@@ -465,25 +465,10 @@ describe('VAOS Component: ClaimExamLayout', () => {
       );
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
-      );
-      expect(
-        screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
-        ),
-      ).to.be.ok;
-      expect(screen.getByText(/Learn more about claim exam appointments/i));
+      ).not.to.exist;
 
       expect(
         screen.queryByRole('heading', {

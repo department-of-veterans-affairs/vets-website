@@ -132,7 +132,7 @@ const DependentCount = ({
           {
             label: 'Continue',
             onClick: handleSubmit,
-            isSubmitting: true,
+            isSubmitting: 'prevent',
           },
         ]}
       />

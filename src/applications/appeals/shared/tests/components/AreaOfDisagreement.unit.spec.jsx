@@ -129,7 +129,7 @@ describe('<AreaOfDisagreement>', () => {
     expect(goSpy.called).to.be.true;
   });
 
-  it('should submit with both checkboxes and text input set', () => {
+  it('should submit with both checkboxes and text input set', async () => {
     const goSpy = sinon.spy();
     const aod = {
       ...aod2,
@@ -138,7 +138,7 @@ describe('<AreaOfDisagreement>', () => {
         effectiveDate: true,
         evaluation: true,
       },
-      otherEntry: 'something',
+      otherEntry: '',
     };
     const data = getData({ goForward: goSpy, data: [aod] });
     const { container } = render(
@@ -147,7 +147,11 @@ describe('<AreaOfDisagreement>', () => {
       </div>,
     );
 
-    fireEvent.click($('button.usa-button-primary', container));
+    const input = $('va-text-input', container);
+    input.value = 'something';
+    await fireEvent.input(input, { target: { name: 'something' } });
+
+    await fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.true;
   });
 

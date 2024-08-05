@@ -478,21 +478,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.getByText(/Additional information/i));
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
-        ),
-      ).to.be.ok;
+      ).not.to.exist;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
