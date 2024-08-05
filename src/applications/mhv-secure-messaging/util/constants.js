@@ -300,7 +300,7 @@ export const Attachments = {
   TOTAL_MAX_FILE_SIZE: 10000000,
 };
 
-export const ElectronicSignature = {
+export const ElectronicSignatureBox = {
   TITLE: 'Electronic signature',
   DESCRIPTION:
     'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',

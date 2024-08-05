@@ -234,8 +234,8 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
+      fireEvent.click(screen.getByTestId('send-button'));
       expect(sendMessageSpy.calledOnce).to.be.true;
     });
   });

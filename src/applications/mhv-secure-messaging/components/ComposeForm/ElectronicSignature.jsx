@@ -1,32 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { ElectronicSignature } from '../../util/constants';
+import { ElectronicSignatureBox } from '../../util/constants';
 
-const DigitalSignature = ({
+const ElectronicSignature = ({
   nameError,
   onInput,
   checkboxError,
-  onChange,
+  onCheckboxCheck,
   checked,
 }) => {
   return (
     <>
-      <p id="signatureNote" aria-describedby={ElectronicSignature.TITLE}>
+      <p id="signatureNote" aria-describedby={ElectronicSignatureBox.TITLE}>
         <strong>Note: </strong>
-        {ElectronicSignature.NOTE_PARAGRAPH}
+        {ElectronicSignatureBox.NOTE_PARAGRAPH}
       </p>
       <va-card background class="vads-u-margin-bottom--5">
         <h2
           id="signatureTitle"
           className="vads-u-font-size--h3 vads-u-margin-top--1"
         >
-          {ElectronicSignature.TITLE}
+          {ElectronicSignatureBox.TITLE}
         </h2>
-        <p>{ElectronicSignature.DESCRIPTION}</p>
+        <p>{ElectronicSignatureBox.DESCRIPTION}</p>
         <va-text-input
-          message-aria-describedby={ElectronicSignature.TITLE}
-          label={ElectronicSignature.FULLNAME_LABEL}
+          message-aria-describedby={ElectronicSignatureBox.TITLE}
+          label={ElectronicSignatureBox.FULLNAME_LABEL}
           error={nameError}
           onInput={onInput}
           required
@@ -34,9 +34,9 @@ const DigitalSignature = ({
         <VaCheckbox
           class="vads-u-width--full"
           error={!checked ? checkboxError : ''}
-          label={ElectronicSignature.CHECKBOX_LABEL}
+          label={ElectronicSignatureBox.CHECKBOX_LABEL}
           message-aria-describedby="Electronic signature."
-          onVaChange={onChange}
+          onVaChange={onCheckboxCheck}
           required
         />
       </va-card>
@@ -44,12 +44,12 @@ const DigitalSignature = ({
   );
 };
 
-DigitalSignature.propTypes = {
+ElectronicSignature.propTypes = {
   checkboxError: PropTypes.string,
   checked: PropTypes.bool,
   nameError: PropTypes.string,
-  onChange: PropTypes.func,
+  onCheckboxCheck: PropTypes.func,
   onInput: PropTypes.func,
 };
 
-export default DigitalSignature;
+export default ElectronicSignature;
