@@ -58,57 +58,58 @@ describe('<Main>', () => {
     wrapper.unmount();
   });
 
-  // describe('checkLoggedInStatus', () => {
-  //   it('should set logged in status to false if there is no active session', () => {
-  //     const wrapper = shallow(<Main {...props} />);
-  //     global.window.simulate('load');
-  //     expect(props.updateLoggedInStatus.calledOnce).to.be.true;
-  //     expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
-  //     expect(props.toggleLoginModal.called).to.be.false;
-  //     wrapper.unmount();
-  //   });
+  describe('checkLoggedInStatus', () => {
+    it('should set logged in status to false if there is no active session', () => {
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(props.updateLoggedInStatus.calledOnce).to.be.true;
+      expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
+      expect(props.toggleLoginModal.called).to.be.false;
+      wrapper.unmount();
+    });
 
-  //   it('should open the login modal if there is a redirect URL and there is no active session', () => {
-  //     global.window.location.search = { next: '/account' };
-  //     const wrapper = shallow(<Main {...props} />);
-  //     global.window.simulate('load');
-  //     expect(props.updateLoggedInStatus.calledOnce).to.be.true;
-  //     expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
-  //     expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //     expect(props.toggleLoginModal.calledWith(true)).to.be.true;
-  //     wrapper.unmount();
-  //   });
+    it('should open the login modal if there is a redirect URL and there is no active session', () => {
+      global.window.location.search = { next: '/account' };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(props.updateLoggedInStatus.calledOnce).to.be.true;
+      expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
+      expect(props.toggleLoginModal.calledOnce).to.be.true;
+      expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+      wrapper.unmount();
+    });
 
-  //   it('should open the login modal if there is a ?next=loginModal Param and there is no active session', () => {
-  //     global.window.location.search = { next: 'loginModal' };
-  //     const wrapper = shallow(<Main {...props} />);
-  //     global.window.simulate('load');
-  //     expect(props.updateLoggedInStatus.calledOnce).to.be.true;
-  //     expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
-  //     expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //     expect(props.toggleLoginModal.calledWith(true)).to.be.true;
-  //     wrapper.unmount();
-  //   });
+    it('should open the login modal if there is a ?next=loginModal Param and there is no active session', () => {
+      global.window.location.search = { next: 'loginModal' };
+      const wrapper = shallow(<Main {...props} />);
+      global.window.simulate('load');
+      expect(props.updateLoggedInStatus.calledOnce).to.be.true;
+      expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
+      expect(props.toggleLoginModal.calledOnce).to.be.true;
+      expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+      wrapper.unmount();
+    });
 
-  //   it('should attempt to initialize profile if there is an active session', () => {
-  //     localStorage.setItem('hasSession', true);
-  //     const wrapper = shallow(<Main {...props} />);
-  //     global.window.simulate('load');
-  //     expect(props.initializeProfile.calledOnce).to.be.true;
-  //     expect(props.updateLoggedInStatus.called).to.be.false;
-  //     wrapper.unmount();
-  //   });
+    it('should attempt to initialize profile if there is an active session', () => {
+      const wrapper = shallow(<Main {...props} />);
+      localStorage.setItem('hasSession', true);
+      global.window.simulate('load');
+      expect(props.initializeProfile.calledOnce).to.be.true;
+      expect(props.updateLoggedInStatus.called).to.be.false;
+      localStorage.clear();
+      wrapper.unmount();
+    });
 
-  //   it('should not occur in auth callback', () => {
-  //     global.window.location.pathname = '/auth/login/callback';
-  //     const addEventListener = sinon.spy(global.window, 'addEventListener');
-  //     const wrapper = shallow(<Main {...props} />);
-  //     expect(addEventListener.calledWith('load')).to.be.false;
-  //     expect(props.initializeProfile.called).to.be.false;
-  //     expect(props.updateLoggedInStatus.called).to.be.false;
-  //     wrapper.unmount();
-  //   });
-  // });
+    it('should not occur in auth callback', () => {
+      global.window.location.pathname = '/auth/login/callback';
+      const addEventListener = sinon.spy(global.window, 'addEventListener');
+      const wrapper = shallow(<Main {...props} />);
+      expect(addEventListener.calledWith('load')).to.be.false;
+      expect(props.initializeProfile.called).to.be.false;
+      expect(props.updateLoggedInStatus.called).to.be.false;
+      wrapper.unmount();
+    });
+  });
 
   it('should ignore any storage changes if the user is already logged out', () => {
     const wrapper = shallow(<Main {...props} />);
@@ -169,102 +170,70 @@ describe('<Main>', () => {
     wrapper.unmount();
   });
 
-  it('should append ?next=loginModal when the login modal is opened', () => {
-    const wrapper = shallow(<Main {...props} />);
+  it('should show the modal to confirm leaving an in-progress form', () => {
+    const wrapper = shallow(<Main {...props} shouldConfirmLeavingForm />);
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    const { useSiS } = wrapper.find('SignInModal').props();
-    expect(useSiS).to.be.false;
+    expect(props.getBackendStatuses.calledOnce).to.be.false;
+    expect(props.toggleFormSignInModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledOnce).to.be.false;
+    expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should not show the modal to confirm leaving an in-progress form if the user is on the standard form introduction page', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname =
+      '/health-care/apply-for-health-care-form-10-10ez/';
+    const wrapper = shallow(
+      <Main {...props} formAutoSavedStatus="not-attempted" />,
+    );
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
     expect(props.getBackendStatuses.calledOnce).to.be.true;
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
-    expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
     wrapper.unmount();
   });
 
-  it('should append `&oauth=true` when the login modal is opened and signInServiceEnabled feature flag is true', () => {
-    const wrapper = shallow(<Main {...props} useSignInService />);
+  it('should not show the modal to confirm leaving an in-progress form if the user is on a non-form page as defined in the form config', () => {
+    const oldLocation = global.window.location;
+    global.window.location.pathname =
+      '/health-care/apply-for-health-care-form-10-10ez/id-page';
+    const additionalRoutes = [{ path: 'id-page' }];
+    const wrapper = shallow(
+      <Main
+        {...props}
+        formAutoSavedStatus="not-attempted"
+        additionalRoutes={additionalRoutes}
+      />,
+    );
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-    const signInModalProps = wrapper.find('SignInModal').props();
-    expect(signInModalProps.useSiS).to.be.true;
+    expect(props.getBackendStatuses.calledOnce).to.be.true;
+    expect(props.toggleFormSignInModal.calledOnce).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(true)).to.be.true;
+    global.window.location = oldLocation;
     wrapper.unmount();
   });
 
-  // it('should not append ?next=loginModal when the login modal is opened and a ?next parameter already exists', () => {
-  //   global.window.location.search = { next: 'account' };
-  //   const wrapper = shallow(<Main {...props} />);
-  //   wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-  //   expect(props.getBackendStatuses.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
-  //   expect(appendSpy.calledWith()).to.be.true;
-  //   expect(appendSpy.returnValues[0]).to.be.null;
-  //   wrapper.unmount();
-  // });
+  it('should close the login modal when changing routes', () => {
+    const wrapper = shallow(<Main {...props} showLoginModal />);
+    global.window.simulate('popstate');
+    expect(props.toggleFormSignInModal.called).to.be.false;
+    expect(props.toggleLoginModal.calledOnce).to.be.true;
+    expect(props.toggleLoginModal.calledWith(false)).to.be.true;
+    wrapper.unmount();
+  });
 
-  // it('should show the modal to confirm leaving an in-progress form', () => {
-  //   const wrapper = shallow(<Main {...props} shouldConfirmLeavingForm />);
-  //   wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-  //   expect(props.getBackendStatuses.calledOnce).to.be.false;
-  //   expect(props.toggleFormSignInModal.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledOnce).to.be.false;
-  //   expect(props.toggleFormSignInModal.calledWith(true)).to.be.true;
-  //   wrapper.unmount();
-  // });
-
-  // it('should not show the modal to confirm leaving an in-progress form if the user is on the standard form introduction page', () => {
-  //   const oldLocation = global.window.location;
-  //   global.window.location.pathname =
-  //     '/health-care/apply-for-health-care-form-10-10ez/';
-  //   const wrapper = shallow(
-  //     <Main {...props} formAutoSavedStatus="not-attempted" />,
-  //   );
-  //   wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-  //   expect(props.getBackendStatuses.calledOnce).to.be.true;
-  //   expect(props.toggleFormSignInModal.calledOnce).to.be.false;
-  //   expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledWith(true)).to.be.true;
-  //   global.window.location = oldLocation;
-  //   wrapper.unmount();
-  // });
-
-  // it('should not show the modal to confirm leaving an in-progress form if the user is on a non-form page as defined in the form config', () => {
-  //   const oldLocation = global.window.location;
-  //   global.window.location.pathname =
-  //     '/health-care/apply-for-health-care-form-10-10ez/id-page';
-  //   const additionalRoutes = [{ path: 'id-page' }];
-  //   const wrapper = shallow(
-  //     <Main
-  //       {...props}
-  //       formAutoSavedStatus="not-attempted"
-  //       additionalRoutes={additionalRoutes}
-  //     />,
-  //   );
-  //   wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
-  //   expect(props.getBackendStatuses.calledOnce).to.be.true;
-  //   expect(props.toggleFormSignInModal.calledOnce).to.be.false;
-  //   expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledWith(true)).to.be.true;
-  //   global.window.location = oldLocation;
-  //   wrapper.unmount();
-  // });
-
-  // it('should close the login modal when changing routes', () => {
-  //   const wrapper = shallow(<Main {...props} showLoginModal />);
-  //   global.window.simulate('popstate');
-  //   expect(props.toggleFormSignInModal.called).to.be.false;
-  //   expect(props.toggleLoginModal.calledOnce).to.be.true;
-  //   expect(props.toggleLoginModal.calledWith(false)).to.be.true;
-  //   wrapper.unmount();
-  // });
-
-  // it('should close the modal to confirm leaving an in-progress form when changing routes', () => {
-  //   const wrapper = shallow(<Main {...props} showFormSignInModal />);
-  //   global.window.simulate('popstate');
-  //   expect(props.toggleLoginModal.called).to.be.false;
-  //   expect(props.toggleFormSignInModal.calledOnce).to.be.true;
-  //   expect(props.toggleFormSignInModal.calledWith(false)).to.be.true;
-  //   wrapper.unmount();
-  // });
+  it('should close the modal to confirm leaving an in-progress form when changing routes', () => {
+    const wrapper = shallow(<Main {...props} showFormSignInModal />);
+    global.window.simulate('popstate');
+    expect(props.toggleLoginModal.called).to.be.false;
+    expect(props.toggleFormSignInModal.calledOnce).to.be.true;
+    expect(props.toggleFormSignInModal.calledWith(false)).to.be.true;
+    wrapper.unmount();
+  });
 });
 
 describe('mapStateToProps', () => {
