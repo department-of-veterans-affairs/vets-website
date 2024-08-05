@@ -30,5 +30,5 @@ export const parseResponse = (fileInfo, file) => {
 
 export const setPlannedClinics = formData => {
   const state = formData['view:plannedClinicState'];
-  return state ? { enum: MED_CENTERS_BY_STATE[state] || [] } : { enum: [] };
+  return { enum: MED_CENTERS_BY_STATE[state] || [] };
 };
