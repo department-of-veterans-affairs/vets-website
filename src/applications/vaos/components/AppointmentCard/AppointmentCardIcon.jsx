@@ -44,7 +44,7 @@ const appointmentIcon = appointment => {
 
 export default function AppointmentCardIcon({ appointment }) {
   return (
-    <div className="vaos-appts__appointment-details--icon">
+    <div className="vaos-appts__appointment-details--iconnn">
       <va-icon
         icon={appointmentIcon(appointment)}
         aria-hidden="true"
