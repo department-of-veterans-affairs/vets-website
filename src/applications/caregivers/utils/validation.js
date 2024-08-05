@@ -27,6 +27,18 @@ export const validateCaregivers = (errors, _, formData) => {
   }
 };
 
+export const validatePlannedClinic = (errors, _, formData) => {
+  const { veteranPlannedClinic } = formData;
+
+  /* adding blank error(s) to disable the ability to continue the form when there are validation issues
+   * in the the facility search field. The field component handles all validation messaging, we
+   * just need to block navigation.
+   */
+  if (!veteranPlannedClinic) {
+    errors.addError(' ');
+  }
+};
+
 export const validateSsnIsUnique = (errors, _, formData) => {
   if (!isSsnUnique(formData)) {
     errors.addError(content['validation-ssn-unique']);
