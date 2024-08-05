@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { datadogLogs } from '@datadog/browser-logs';
 import { fetchRefreshStatus } from '../../actions/refresh';
 import { STATUS_POLL_INTERVAL, refreshPhases } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
@@ -50,6 +51,7 @@ const PhrRefresh = () => {
             dispatch(fetchRefreshStatus());
           }, STATUS_POLL_INTERVAL);
         } else {
+          datadogLogs.logger.warn('PHR status polling timed out');
           dispatch({ type: Actions.Refresh.TIMED_OUT });
         }
       }
