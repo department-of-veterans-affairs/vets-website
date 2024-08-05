@@ -1180,6 +1180,16 @@
     "dest": "/life-insurance/options-eligibility/valife"
   },
   {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/isaksonroe/verification_of_enrollment.asp",
+    "dest": "/resources/gi-bill-enrollment-verification-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/isaksonRoe/EV_FAQs.asp",
+    "dest": "/resources/gi-bill-enrollment-verification-faqs/"
+  },
+  {
     "domain": "www.altoona.va.gov",
     "src": "/",
     "dest": "/altoona-health-care/",
