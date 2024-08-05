@@ -10,6 +10,10 @@ import { useStorage } from '../../hooks/useStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
 import { useGetUpcomingAppointmentsData } from '../../hooks/useGetUpcomingAppointmentsData';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import {
+  CONFIG_STALE_DURATION,
+  CONFIG_STALE_REDIRECT_LOCATION,
+} from '../../utils/appConstants';
 
 const ReloadWrapper = props => {
   const { children, router, app } = props;
@@ -21,6 +25,7 @@ const ReloadWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
+    getCompleteTimestamp,
   } = useStorage(app);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
@@ -47,6 +52,20 @@ const ReloadWrapper = props => {
 
   const sessionToken = getCurrentToken(window);
   const { token: reduxToken } = useSelector(selectCurrentContext);
+
+  const completeTimeStamp = getCompleteTimestamp(window);
+
+  useEffect(
+    () => {
+      if (completeTimeStamp) {
+        const timeSinceComplete = Date.now() - completeTimeStamp;
+        if (timeSinceComplete > CONFIG_STALE_DURATION[app]) {
+          window.location = CONFIG_STALE_REDIRECT_LOCATION[app];
+        }
+      }
+    },
+    [completeTimeStamp, app],
+  );
 
   useEffect(
     () => {
