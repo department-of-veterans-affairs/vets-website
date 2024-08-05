@@ -235,6 +235,7 @@ const FileField = props => {
    * @listens
    */
   const onAddFile = async (event, index = null, password) => {
+    // TODO: figure out how to identify a file "remove" and act accordingly
     if (event.target?.files?.length) {
       const addUiOptions = props.uiSchema['ui:options'];
 
