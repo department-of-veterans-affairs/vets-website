@@ -19,7 +19,8 @@ import {
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 // import prefillTransformer from './prefillTransformer';
-
+import prefillTransformer from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
@@ -65,6 +66,7 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
+  submissionError: SubmissionError,
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {

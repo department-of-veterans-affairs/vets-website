@@ -66,16 +66,7 @@ const ProcessTimeline = () => (
             Call the Caregiver Support Line at{' '}
             <va-telephone contact={CONTACTS.CAREGIVER} /> (
             <va-telephone contact={CONTACTS[711]} tty />) and ask for help
-            filling out the form. We’re here Monday through Friday, 8:00 a.m. to
-            10:00 p.m.{' '}
-            <dfn>
-              <abbr title="Eastern Time">ET</abbr>
-            </dfn>
-            , and Saturday, 8:00 a.m. to 5:00 p.m.{' '}
-            <dfn>
-              <abbr title="Eastern Time">ET</abbr>
-            </dfn>
-            .
+            filling out the form.
           </li>
           <li>
             Find a Caregiver Support Team Coordinator at your nearest VA health

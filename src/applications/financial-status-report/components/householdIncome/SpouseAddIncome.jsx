@@ -150,7 +150,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} other income`,
                 onClick: handlers.onUpdate,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

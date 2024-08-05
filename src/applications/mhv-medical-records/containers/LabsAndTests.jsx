@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getLabsAndTestsList } from '../actions/labsAndTests';
+import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   ALERT_TYPE_ERROR,
@@ -15,9 +15,13 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.careSummariesAndNotes.updatedList,
+  );
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
   );
@@ -36,6 +40,18 @@ const LabsAndTests = () => {
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -66,6 +82,18 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.CHEM_HEM}
+          newRecordsFound={
+            Array.isArray(labsAndTests) &&
+            Array.isArray(updatedRecordList) &&
+            labsAndTests.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>
