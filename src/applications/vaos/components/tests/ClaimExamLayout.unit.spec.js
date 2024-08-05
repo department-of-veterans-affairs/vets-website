@@ -173,7 +173,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -266,6 +267,14 @@ describe('VAOS Component: ClaimExamLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -308,6 +317,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.queryByText('Claim exam'), { exact: true });
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),

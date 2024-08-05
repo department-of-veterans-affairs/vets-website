@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   requireAddressFields,
   validateCaregivers,
+  validatePlannedClinic,
   validateSsnIsUnique,
 } from '../../../utils/validation';
 import { REQUIRED_ADDRESS_FIELDS } from '../../../utils/constants';
@@ -79,6 +80,33 @@ describe('CG `validateCaregivers` form validation', () => {
       formData: { 'view:hasSecondaryCaregiverOne': true },
     });
     validateCaregivers(errors, {}, formData);
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('CG `validatePlannedClinic` form validation', () => {
+  const getData = ({ spy = () => {}, formData = {} }) => ({
+    errors: { addError: spy },
+    formData,
+  });
+  let addErrorSpy;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+  });
+
+  it('should set an error if planned clinic has not been set', () => {
+    const { errors, formData } = getData({ spy: addErrorSpy });
+    validatePlannedClinic(errors, {}, formData);
+    expect(errors.addError.called).to.be.true;
+  });
+
+  it('should not set an error if planned clinic has been declared', () => {
+    const { errors, formData } = getData({
+      spy: addErrorSpy,
+      formData: { veteranPlannedClinic: '675' },
+    });
+    validatePlannedClinic(errors, {}, formData);
     expect(errors.addError.called).to.be.false;
   });
 });
