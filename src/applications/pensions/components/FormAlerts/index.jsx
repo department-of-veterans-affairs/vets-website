@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const AssetInformationAlert = () => (
-  <va-additional-info trigger="How we define assets" uswds>
+  <va-additional-info trigger="How we define assets">
     <p>
       Assets are all the money and property you or your dependents own. Don’t
       include the value of your primary residence or personal belongings such as
@@ -73,7 +73,7 @@ export const AssetsInformation = () => (
 );
 
 export const AssetTransferInformationAlert = () => (
-  <va-additional-info trigger="How to tell if you transferred assets" uswds>
+  <va-additional-info trigger="How to tell if you transferred assets">
     <p>You transferred assets if you made any of these transactions:</p>
     <ul>
       <li>You gave away money or property</li>
@@ -85,7 +85,7 @@ export const AssetTransferInformationAlert = () => (
 );
 
 export const ContactWarningAlert = () => (
-  <va-alert uswds>
+  <va-alert>
     <p className="vads-u-margin-y--0">
       We usually don’t need to contact a former spouse of a Veteran’s spouse. In
       very rare cases where we need information from this person, we’ll contact
@@ -95,7 +95,7 @@ export const ContactWarningAlert = () => (
 );
 
 export const ContactWarningMultiAlert = () => (
-  <va-alert uswds>
+  <va-alert>
     <p className="vads-u-margin-y--0">
       We won’t contact any of the people listed here without contacting you
       first.
@@ -104,7 +104,7 @@ export const ContactWarningMultiAlert = () => (
 );
 
 export const DisabilityDocsAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to provide all private medical records for your child’s
       disability.
@@ -131,7 +131,7 @@ export const IncomeInformationAlert = () => (
 );
 
 export const LandMarketableAlert = () => (
-  <va-alert status="info" uswds>
+  <va-alert status="info">
     <p className="vads-u-margin-y--0">
       The additional land might not be marketable in these situations:
     </p>
@@ -146,7 +146,7 @@ export const LandMarketableAlert = () => (
 );
 
 export const MedicalEvidenceAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to provide medical evidence with this application.
     </p>
@@ -156,7 +156,7 @@ export const MedicalEvidenceAlert = () => (
 const RequestFormAlert = ({ title, formName, formLink, children }) => {
   const linkText = `Get ${formName} to download (opens in new tab)`;
   return (
-    <va-alert status="warning" uswds>
+    <va-alert status="warning">
       <p className="vads-u-margin-y--0">
         You’ll need to submit an {title} ({formName}
         ).
@@ -230,7 +230,7 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
 export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
   const linkText = 'Get VA Form 21P-0969 to download (opens in new tab)';
   return (
-    <va-alert status="warning" uswds>
+    <va-alert status="warning">
       <p className="vads-u-margin-y--0">
         You answered that you have more than $25,000 in assets. You’ll need to
         submit an Income and Asset Statement in Support of Claim for Pension or
@@ -263,7 +263,7 @@ export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
 };
 
 export const WartimeWarningAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       <strong>Note:</strong> You have indicated that you did not serve during an{' '}
       <a
@@ -297,7 +297,7 @@ export const FormReactivationAlert = () => (
 
 export const AccountInformationAlert = () => (
   <div className="vads-u-margin-top--4">
-    <va-alert uswds>
+    <va-alert>
       <h4 slot="headline" className="vads-u-font-size--h4">
         We’ll use this bank account for all your VA benefit payments
       </h4>
@@ -316,10 +316,21 @@ export const AccountInformationAlert = () => (
 );
 
 export const AdoptionEvidenceAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to submit adoption papers or amended birth certificate with
       this application.
+    </p>
+  </va-alert>
+);
+
+export const SubmissionConfirmationAlert = () => (
+  <va-alert status="success">
+    <h3>Thank you for submitting your Veterans Pension application.</h3>
+    <p className="vads-u-margin-y--0">
+      We’ve received your Veterans Pension application (VA Form 21P-527EZ).
+      After we complete our review, we’ll mail you a decision letter with the
+      details of our decision.
     </p>
   </va-alert>
 );

@@ -28,6 +28,7 @@ export default {
         militaryCheckbox:
           'I work on a United States military base outside of the U.S.',
       },
+      omit: ['street3'],
       required: {
         country: formData => requireWorkAddress(formData),
         street: formData => requireWorkAddress(formData),

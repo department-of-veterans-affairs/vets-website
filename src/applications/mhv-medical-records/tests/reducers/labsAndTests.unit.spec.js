@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import {
   extractOrderedTest,
   extractOrderedTests,
+  labsAndTestsReducer,
 } from '../../reducers/labsAndTests';
+import { Actions } from '../../util/actionTypes';
+import { fhirResourceTypes, loincCodes } from '../../util/constants';
 
 describe('extractOrderedTest', () => {
   const TEST_ID = 'ServiceRequest-1';
@@ -91,5 +94,147 @@ describe('extractOrderedTests', () => {
       contained: [{ id: 'ServiceRequest-1', code: { text: TEST1 } }],
     };
     expect(extractOrderedTest(badRec)).to.be.null;
+  });
+});
+
+describe('labsAndTestsReducer', () => {
+  it('creates a list', () => {
+    const labsAndTestsResponse = {
+      entry: [
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { text: 'CH' },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { coding: [{ code: loincCodes.PATHOLOGY }] },
+          },
+        },
+      ],
+      resourceType: 'Bundle',
+    };
+    const radiologyResponse = [{ radiologist: 'foo bar' }];
+
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_LIST,
+        labsAndTestsResponse,
+        radiologyResponse,
+      },
+    );
+    expect(newState.labsAndTestsList.length).to.equal(4);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('puts updated records in updatedList', () => {
+    const labsAndTestsResponse = {
+      entry: [
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { text: 'CH' },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            code: { coding: [{ code: loincCodes.PATHOLOGY }] },
+          },
+        },
+      ],
+      resourceType: 'Bundle',
+    };
+    const newState = labsAndTestsReducer(
+      {
+        labsAndTestsList: [
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+            },
+          },
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.PATHOLOGY }] },
+            },
+          },
+        ],
+      },
+      {
+        type: Actions.LabsAndTests.GET_LIST,
+        labsAndTestsResponse,
+        radiologyResponse: [],
+      },
+    );
+    expect(newState.labsAndTestsList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into labsAndTestsList on request', () => {
+    const newState = labsAndTestsReducer(
+      {
+        labsAndTestsList: [
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+            },
+          },
+        ],
+        updatedList: [
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+            },
+          },
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.PATHOLOGY }] },
+            },
+          },
+        ],
+      },
+      { type: Actions.LabsAndTests.COPY_UPDATED_LIST },
+    );
+    expect(newState.labsAndTestsList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into labsAndTestsList if updatedList does not exist', () => {
+    const newState = labsAndTestsReducer(
+      {
+        labsAndTestsList: [
+          {
+            resource: {
+              resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+              code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+            },
+          },
+        ],
+        updatedList: undefined,
+      },
+      { type: Actions.LabsAndTests.COPY_UPDATED_LIST },
+    );
+    expect(newState.labsAndTestsList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
   });
 });

@@ -8,7 +8,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
-import { additionalFilesHint } from '../helpers/wordingCustomization';
+import { ADDITIONAL_FILES_HINT } from '../config/constants';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -119,12 +119,13 @@ export function depends18f3(formData, index) {
     get(
       'applicantRelationshipToSponsor.relationshipToVeteran',
       formData?.applicants?.[index],
-    ) === 'spouse' &&
+    ) ===
+    'spouse' /* &&
     (get(
       'applicantSponsorMarriageDetails.relationshipToVeteran',
       formData?.applicants?.[index],
     ) === 'marriedTillDeathNoRemarriage' ||
-      !get('sponsorIsDeceased', formData))
+      !get('sponsorIsDeceased', formData)) */
   );
 }
 
@@ -180,11 +181,11 @@ export function depends18f6(formData, index) {
 function marriageTitle(text, subtitle) {
   return {
     viewField: ApplicantField,
-    updateSchema: formData => {
+    updateSchema: _formData => {
       return {
-        title: context => {
+        title: ({ formData }) => {
           return titleUI(
-            `${applicantWording(formData, context, true, true)} ${text}`,
+            `${applicantWording(formData, true, true)} ${text}`,
             subtitle,
           )['ui:title'];
         },
@@ -323,13 +324,12 @@ export const remarriageDetailsSchema = {
       'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': {
-          updateSchema: formData => {
+          updateSchema: _formData => {
             return {
-              title: context =>
+              title: ({ formData }) =>
                 titleUI(
                   `${applicantWording(
                     formData,
-                    context,
                     true,
                     true,
                   )} remarriage details`,
@@ -342,7 +342,7 @@ export const remarriageDetailsSchema = {
           ...yesNoUI({
             title:
               'Did the remarriage legally end (including divorce or annulment)?',
-            hint: additionalFilesHint,
+            hint: ADDITIONAL_FILES_HINT,
             labels: {
               Y: 'Yes',
               N: 'No',

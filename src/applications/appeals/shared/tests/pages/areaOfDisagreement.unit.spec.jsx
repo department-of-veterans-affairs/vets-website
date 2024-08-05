@@ -47,4 +47,19 @@ describe('area of disagreement page', () => {
     expect(header.textContent).to.contain('decision on');
     expect($('h3 .dd-privacy-hidden[data-dd-action-name]', container)).to.exist;
   });
+
+  // increase code coverage
+  const { items } = uiSchema.areaOfDisagreement;
+  it('should return true from ui:required function', () => {
+    expect(items['ui:required']()).to.be.true;
+  });
+  it('should get issue title for aria label', () => {
+    const result = items['ui:options'].itemAriaLabel({
+      issue: 'headaches',
+      decisionDate: '2020-02-03',
+    });
+    expect(result).to.equal(
+      'Disagreement with headaches decision on February 3, 2020',
+    );
+  });
 });
