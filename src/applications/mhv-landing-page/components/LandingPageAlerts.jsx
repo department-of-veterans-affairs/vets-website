@@ -15,10 +15,8 @@ const LandingPageAlerts = ({
   userRegistered,
   userVerified,
 }) => {
-  const alerts = [];
-
   if (userHasMhvBasicAccount && !userVerified) {
-    alerts.push(<MhvBasicAccountAlert key="basic-account" />);
+    return <MhvBasicAccountAlert />;
   }
 
   if (
@@ -26,32 +24,29 @@ const LandingPageAlerts = ({
     !userVerified &&
     showsVerifyAndRegisterAlert
   ) {
-    alerts.push(
-      <VerifyAndRegisterAlert key="verify-register" cspId={signInService} />,
-    );
+    return <VerifyAndRegisterAlert cspId={signInService} />;
   }
 
   if (!userVerified) {
-    alerts.push(
+    return (
       <IdentityNotVerified
-        key="identity-not-verified"
         headline={unVerifiedHeadline}
         showHelpContent={false}
         showVerifyIdenityHelpInfo
         signInService={signInService}
-      />,
+      />
     );
   }
 
   if (!userRegistered) {
-    alerts.push(<UnregisteredAlert key="unregistered" />);
+    return <UnregisteredAlert />;
   }
 
   if (userRegistered && !userHasMhvAccount) {
-    alerts.push(<MhvRegistrationAlert key="mhv-registration" />);
+    return <MhvRegistrationAlert />;
   }
 
-  return <>{alerts}</>;
+  return null;
 };
 
 LandingPageAlerts.propTypes = {
