@@ -33,6 +33,7 @@ import {
 import PropTypes from 'prop-types';
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
+import CantFindYourTeam from './CantFindYourTeam';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -63,7 +64,7 @@ const RecipientsSelect = ({
         onValueChange(selectedRecipient);
       }
     },
-    [selectedRecipient],
+    [onValueChange, selectedRecipient],
   );
 
   const handleRecipientSelect = useCallback(
@@ -79,10 +80,13 @@ const RecipientsSelect = ({
 
   return (
     <>
+      <label htmlFor="recipient-dropdown">
+        To <span className="recipient-dropdown-required">(*Required)</span>
+      </label>
+      <CantFindYourTeam />
       <VaSelect
         enable-analytics
         id="recipient-dropdown"
-        label="To"
         name="to"
         value={defaultValue !== undefined ? defaultValue : ''}
         onVaSelect={handleRecipientSelect}

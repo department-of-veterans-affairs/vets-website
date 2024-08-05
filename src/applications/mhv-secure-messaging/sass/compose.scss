@@ -4,6 +4,9 @@
   #shadow-root .va-modal-body {
     padding: 0;
   }
+  span.recipient-dropdown-required{
+    color: var(--vads-color-secondary-dark);
+  }
   va-select.composeSelect::part(label)::after {
     content: " (*Required)";
     color: var(--vads-color-secondary-dark);
