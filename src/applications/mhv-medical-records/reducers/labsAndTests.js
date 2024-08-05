@@ -167,6 +167,7 @@ const convertChemHemRecord = record => {
     comments: distillChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -209,6 +210,7 @@ const convertMicrobiologyRecord = record => {
             .toString('utf-8')
             .replace(/\r\n|\r/g, '\n'), // Standardize line endings
       ) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -239,6 +241,7 @@ const convertPathologyRecord = record => {
             .toString('utf-8')
             .replace(/\r\n|\r/g, '\n'), // Standardize line endings
       ) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -256,6 +259,7 @@ const convertEkgRecord = record => {
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',
+    sortDate: record.date,
   };
 };
 
@@ -363,14 +367,10 @@ export const convertLabsAndTestsRecord = record => {
 
 function sortByDate(array) {
   return array.sort((a, b) => {
-    let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
-    let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    if (Number.isNaN(dateA.getTime())) {
-      dateA = parseISO(a.sortDate);
-    }
-    if (Number.isNaN(dateB.getTime())) {
-      dateB = parseISO(b.sortDate);
-    }
+    const dateA = parseISO(a.sortDate);
+    const dateB = parseISO(b.sortDate);
+    if (!a.sortDate) return 1; // Push nulls to the end
+    if (!b.sortDate) return -1; // Keep non-nulls at the front
     return dateB - dateA;
   });
 }
