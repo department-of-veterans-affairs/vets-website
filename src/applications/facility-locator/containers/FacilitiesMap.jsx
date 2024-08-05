@@ -7,7 +7,6 @@ import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import recordEvent from 'platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
@@ -190,15 +189,9 @@ const FacilitiesMap = props => {
 
   const handleSearchArea = () => {
     resetMapElements();
-    const { currentQuery } = props;
     lastZoom = null;
     const center = map.getCenter().wrap();
     const bounds = map.getBounds();
-    recordEvent({
-      event: 'fl-search',
-      'fl-search-fac-type': currentQuery.facilityType,
-      'fl-search-svc-type': currentQuery.serviceType,
-    });
     const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
