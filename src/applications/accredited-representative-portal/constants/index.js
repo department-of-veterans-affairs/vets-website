@@ -10,9 +10,6 @@ export const SIGN_IN_URL = (() => {
 
 export const SIGN_OUT_URL = (() => {
   const url = new URL(SIS.API_URL({ endpoint: 'logout' }));
-  url.searchParams.set(
-    SIS.QUERY_PARAM_KEYS.CLIENT_ID,
-    sessionStorage.getItem('ci'),
-  );
+  url.searchParams.set(SIS.QUERY_PARAM_KEYS.CLIENT_ID, SIS.CLIENT_IDS.ARP);
   return url;
 })();
