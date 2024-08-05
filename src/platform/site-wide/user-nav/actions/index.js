@@ -13,9 +13,11 @@ export function toggleLoginModal(isOpen, trigger = 'header', derivedUrl) {
   return async (dispatch, getState) => {
     const { signInServiceEnabled } = getState()?.featureToggles;
 
+    const nextParam = new URLSearchParams(window?.location?.search)?.get(
+      'next',
+    );
     const nextQuery = {
-      next:
-        new URLSearchParams(window.location.search).get('next') ?? 'loginModal',
+      next: nextParam ?? 'loginModal',
       ...(signInServiceEnabled && { oauth: true }),
     };
 
