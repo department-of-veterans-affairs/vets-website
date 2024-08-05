@@ -1,5 +1,4 @@
 import '~/platform/polyfills';
-import './sass/notification-center.scss';
 
 import startApp from '~/platform/startup';
 

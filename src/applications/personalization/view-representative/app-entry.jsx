@@ -1,5 +1,4 @@
 import 'platform/polyfills';
-import './sass/view-representative.scss';
 
 import startApp from 'platform/startup';
 

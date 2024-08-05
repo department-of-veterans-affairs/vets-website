@@ -1,5 +1,4 @@
 import 'platform/polyfills';
-import './sass/office-directory.scss';
 
 import startApp from 'platform/startup';
 
