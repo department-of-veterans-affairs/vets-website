@@ -11,8 +11,9 @@ import { medicationsUrls } from '../../../util/constants';
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
+      cy.login(mockUser);
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next line
+      // window.localStorage.setItem('isLoggedIn', true);
 
       cy.intercept(
         { method: 'GET', url: '/v0/feature_toggles?*' },
@@ -25,7 +26,8 @@ class MedicationsSite {
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
-      cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next line
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
     } else {
       // cy.login();
@@ -203,6 +205,16 @@ class MedicationsSite {
         cy.task('log', `found the file ${taskFileName} but did not find text`);
       }
     });
+  };
+
+  mockFeatureToggles = () => {
+    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
+      'featureToggles',
+    );
+  };
+
+  mockVamcEhr = () => {
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcEhr');
   };
 }
 export default MedicationsSite;
