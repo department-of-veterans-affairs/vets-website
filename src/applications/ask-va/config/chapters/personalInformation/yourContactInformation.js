@@ -79,7 +79,8 @@ const yourContactInformationPage = {
           formData.topic,
         );
         if (
-          formData.personalRelationship === 'WORK' &&
+          formData.personalRelationship ===
+            "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
           isEqualToOnlyEmail(updatedCategoryTopicContactPreferences)
         ) {
           return {
@@ -107,7 +108,7 @@ const yourContactInformationPage = {
             phoneNumber: phoneSchema,
             emailAddress: emailSchema,
             contactPreference: radioSchema(
-              Object.keys(updatedCategoryTopicContactPreferences),
+              Object.values(updatedCategoryTopicContactPreferences),
             ),
             preferredName: {
               type: 'string',
@@ -136,7 +137,7 @@ const yourContactInformationPage = {
       emailAddress: emailSchema,
       businessPhone: phoneSchema,
       businessEmail: emailSchema,
-      contactPreference: radioSchema(Object.keys(contactOptions)),
+      contactPreference: radioSchema(Object.values(contactOptions)),
       preferredName: {
         type: 'string',
         pattern: '^[A-Za-z]+$',

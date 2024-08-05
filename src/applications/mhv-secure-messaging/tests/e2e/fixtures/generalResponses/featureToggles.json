@@ -999,14 +999,6 @@
         "value": true
       },
       {
-        "name": "mhvSecureMessagingToVAGovRelease",
-        "value": true
-      },
-      {
-        "name": "mhv_secure_messaging_to_va_gov_release",
-        "value": true
-      },
-      {
         "name": "mhvToLogingovAccountTransition",
         "value": false
       },
@@ -1592,10 +1584,6 @@
       },
       {
         "name": "vaOnlineSchedulingClinicLocation",
-        "value": false
-      },
-      {
-        "name": "va_online_scheduling_clinic_location",
         "value": false
       },
       {

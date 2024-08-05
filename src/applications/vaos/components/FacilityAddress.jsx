@@ -12,6 +12,8 @@ export default function FacilityAddress({
   showDirectionsLink,
   clinicName,
   clinicPhysicalLocation,
+  clinicPhone,
+  clinicPhoneExtension,
   showPhone = true,
   level = 4,
   showCovidPhone,
@@ -60,29 +62,35 @@ export default function FacilityAddress({
             <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
               Clinic:
             </HeadingSub>{' '}
-            {clinicName}
+            {clinicName} <br />
           </>
         )}
         {!!clinicPhysicalLocation &&
           !isPhone && (
             <>
-              <br />
               <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
                 Location:
               </HeadingSub>{' '}
-              {clinicPhysicalLocation}
+              {clinicPhysicalLocation} <br />
             </>
           )}
         {showPhone &&
-          !!phone && (
-            <>
-              {!!clinicName && <br />}
-              <FacilityPhone
-                contact={phone}
-                level={level + 1}
-                heading={phoneHeading}
-              />
-            </>
+          !!clinicPhone && (
+            <FacilityPhone
+              contact={clinicPhone}
+              extension={clinicPhoneExtension}
+              heading="Clinic phone:"
+              level={level + 1}
+            />
+          )}
+        {showPhone &&
+          !!phone &&
+          !clinicPhone && (
+            <FacilityPhone
+              contact={phone}
+              level={level + 1}
+              heading={phoneHeading}
+            />
           )}
       </div>
     </>
@@ -92,6 +100,8 @@ export default function FacilityAddress({
 FacilityAddress.propTypes = {
   facility: PropTypes.object.isRequired,
   clinicName: PropTypes.string,
+  clinicPhone: PropTypes.string,
+  clinicPhoneExtension: PropTypes.string,
   clinicPhysicalLocation: PropTypes.string,
   isPhone: PropTypes.bool,
   level: PropTypes.number,

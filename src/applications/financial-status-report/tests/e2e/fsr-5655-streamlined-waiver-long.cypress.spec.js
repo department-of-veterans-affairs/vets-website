@@ -22,7 +22,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles**', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
@@ -31,11 +31,7 @@ const testConfig = createTestConfig(
         },
       });
 
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/**', incomeLimit);
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -121,7 +117,7 @@ const testConfig = createTestConfig(
       },
       'additional-income-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Social Security"]')
+          cy.get('va-text-input[name="Social Security"]')
             .first()
             .shadow()
             .find('input')
@@ -170,7 +166,7 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
+          cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
           cy.get(`[name="U.S. Savings Bonds"]`)
@@ -204,7 +200,7 @@ const testConfig = createTestConfig(
       },
       'other-expenses-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Clothing"]')
+          cy.get('va-text-input[name="Clothing"]')
             .first()
             .shadow()
             .find('input')

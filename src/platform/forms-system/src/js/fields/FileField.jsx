@@ -32,7 +32,10 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from '../utilities/file';
 import { usePreviousValue } from '../helpers';
-import { MISSING_PASSWORD_ERROR } from '../validation';
+import {
+  MISSING_PASSWORD_ERROR,
+  UNSUPPORTED_ENCRYPTED_FILE_ERROR,
+} from '../validation';
 
 /**
  * Modal content callback
@@ -114,6 +117,7 @@ const FileField = props => {
   const content = {
     upload: uiOptions.buttonText || 'Upload',
     uploadAnother: uiOptions.addAnotherLabel || 'Upload another',
+    allowEncryptedFiles: uiOptions.allowEncryptedFiles ?? true,
     ariaLabelAdditionalText: uiOptions.ariaLabelAdditionalText || '',
     passwordLabel: fileName => `Add a password for ${fileName}`,
     tryAgain: 'Try again',
@@ -459,6 +463,14 @@ const FileField = props => {
               errorSchema?.[index]?.__errors ||
               [file.errorMessage].filter(error => error);
 
+            if (file.isEncrypted && !content.allowEncryptedFiles) {
+              if (errors[0] === MISSING_PASSWORD_ERROR) {
+                errors[0] = UNSUPPORTED_ENCRYPTED_FILE_ERROR;
+              } else {
+                errors.push(UNSUPPORTED_ENCRYPTED_FILE_ERROR);
+              }
+            }
+
             // Don't show missing password error in the card (above the input
             // label), but we are adding an error for missing password to
             // prevent page submission without adding an error; see #71406
@@ -482,9 +494,13 @@ const FileField = props => {
             );
             const attachmentNameErrors = get([index, 'name'], errorSchema);
             const showPasswordInput =
-              file.isEncrypted && !file.confirmationCode;
+              file.isEncrypted &&
+              !file.confirmationCode &&
+              content.allowEncryptedFiles;
             const showPasswordSuccess =
-              file.isEncrypted && file.confirmationCode;
+              file.isEncrypted &&
+              file.confirmationCode &&
+              content.allowEncryptedFiles;
             const description =
               (!file.uploading && uiOptions.itemDescription) || '';
 

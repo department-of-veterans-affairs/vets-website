@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { normalizeFullName } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
   return (
@@ -12,36 +14,35 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       />
 
       <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--0">
-        Apply for the Program of Comprehensive Assistance for Family Caregivers
+        {content['app-title']}
       </h1>
-      <div>Form 10-10CG</div>
+      <div>{content['app-subtitle']}</div>
 
       <h2 className="vads-u-font-size--h3">
-        Thank you for completing your application
+        {content['confirmation--alert-heading']}
       </h2>
       <p className="vads-u-margin-bottom--0">
-        Once we’ve successfully received your application, we’ll contact you to
-        tell you what happens next in the application process.
+        {content['confirmation--alert-text']}
       </p>
 
       <hr className="vads-u-margin-y--4" />
 
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-        Your application information
+        {content['confirmation--info-heading']}
       </h2>
       <dl className="vads-u-margin-bottom--0">
         <div className="vads-u-margin-bottom--2">
           <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-            Veteran’s name
+            {content['confirmation--info-vet-label']}
           </dt>
           <dd data-testid="cg-veteranfullname">
-            {name.first} {name.middle} {name.last} {name.suffix}
+            {normalizeFullName(name, true)}
           </dd>
         </div>
         {!!timestamp && (
           <div>
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Date you applied
+              {content['confirmation--info-timestamp-label']}
             </dt>
             <dd data-testid="cg-timestamp">
               {format(new Date(timestamp), 'MMM. d, yyyy')}
@@ -57,7 +58,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
 
 ConfirmationPrintView.propTypes = {
   name: PropTypes.object,
-  timestamp: PropTypes.string,
+  timestamp: PropTypes.number,
 };
 
 export default ConfirmationPrintView;

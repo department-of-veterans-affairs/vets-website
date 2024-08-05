@@ -85,40 +85,55 @@ export const isStreamlinedLongForm = formData => {
 // =============================================================================
 
 /**
- * Calculate total annual income based on the following monthly income sources:
- * - employment income
- * - "other" income
- * - benefits
- *
- * @param {object} formData - all formData
- * @returns {number} Total yearly income
+ * Check if calculated income is below GMT thresholds
+ * @param {object} data - all formData
+ * @param {function} setFormData - function to update formData
  */
-export const calculateTotalAnnualIncome = async formData => {
-  try {
-    const response = await getCalculatedMonthlyIncomeApi(formData);
+export const checkIncomeGmt = async (data, setFormData) => {
+  const { gmtData } = data;
 
+  try {
+    const response = await getCalculatedMonthlyIncomeApi(data);
     if (!response)
       throw new Error(
-        'No response from getCalculatedMonthlyIncomeApi in calculateTotalAnnualIncome',
+        'No response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
       );
 
+    // response is an object of calculated income values for vet & spouse, we just need total monthly
     const { totalMonthlyNetIncome } = response;
-
-    if (!totalMonthlyNetIncome)
+    if (!totalMonthlyNetIncome && totalMonthlyNetIncome !== 0)
       throw new Error(
-        'No value destructured in response from getCalculatedMonthlyIncomeApi calculateTotalAnnualIncome',
+        'No value destructured in response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
       );
 
-    return totalMonthlyNetIncome * 12;
+    // calculate annual income & set relevant gmt flags compared to thresholds
+    const calculatedIncome = totalMonthlyNetIncome * 12;
+
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+        incomeBelowOneFiftyGmt:
+          calculatedIncome < gmtData?.incomeUpperThreshold,
+      },
+    });
   } catch (error) {
+    // something went wrong, and we likely don't have accurate data to set gmt flags
+    //  so we'll just set them to false and send them down the full FSR for manual review
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: false,
+        incomeBelowOneFiftyGmt: false,
+      },
+    });
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(
-        `getCalculatedMonthlyIncomeApi failed in helper: ${error}`,
-      );
+      Sentry.captureMessage(`checkIncomeGmt failed: ${error}`);
     });
   }
-  return 0;
 };
 
 /**

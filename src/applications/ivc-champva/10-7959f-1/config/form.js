@@ -19,6 +19,7 @@ import {
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -54,6 +55,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     reviewPageTitle: 'Review and sign',
+    submitButtonText: 'Submit',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -64,6 +66,7 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
+  submissionError: SubmissionError,
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {
@@ -194,7 +197,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Home address'),
             sameMailingAddress: yesNoUI({
-              title: 'Is your mailing address the same as your home address?',
+              title: 'Is your home address the same as your mailing address?',
               labels: {
                 Y: 'Yes',
                 N: 'No',

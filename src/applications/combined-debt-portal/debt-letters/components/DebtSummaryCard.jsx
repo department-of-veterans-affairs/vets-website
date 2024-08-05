@@ -1,7 +1,6 @@
 import React from 'react';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import recordEvent from '~/platform/monitoring/record-event';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
@@ -28,26 +27,27 @@ const DebtSummaryCard = ({ debt }) => {
         class="vads-u-padding--3 vads-u-margin-bottom--3"
         data-testid="debt-summary-item"
       >
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
-          {debtCardTotal}{' '}
-          <span className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal">
-            {debtCardHeading}
-          </span>
+        {/* TODO: Once transaction data is live, need to change h3 to h2 */}
+        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
+          {debtCardHeading}
         </h3>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h4 vads-u-font-family--serif">
+          <span className="vads-u-font-weight--normal">Current balance: </span>
+          <strong>{debtCardTotal} </strong>
+        </p>
         {debtCardSubHeading}
-        <Link
-          className="vads-u-font-weight--bold"
+        <va-link
+          active
           data-testid="debt-details-button"
           onClick={() => {
             recordEvent({ event: 'cta-link-click-debt-summary-card' });
             setActiveDebt(debt);
           }}
-          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+          href={`/manage-va-debt/summary/debt-balances/details/${debt.fileNumber +
+            debt.deductionCode}`}
+          text="Check details and resolve this debt"
           aria-label={`Check details and resolve this ${debtCardHeading}`}
-        >
-          Check details and resolve this debt
-          <va-icon icon="navigate_next" size={3} />
-        </Link>
+        />
       </va-card>
     </li>
   );
