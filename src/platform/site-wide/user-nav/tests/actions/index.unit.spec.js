@@ -16,6 +16,9 @@ describe('User Nav Actions', () => {
   describe('toggleLoginModal', () => {
     let store;
     const oldLocation = global.window.location;
+    const featureToggleNotEnabled = {
+      featureToggles: { signInServiceEnabled: false },
+    };
 
     beforeEach(() => {
       store = createStore(reducers, applyMiddleware(thunk));
@@ -25,23 +28,19 @@ describe('User Nav Actions', () => {
       global.window.location = oldLocation;
     });
 
-    [true, false].forEach(bool => {
+    [true, false].forEach(isOpen => {
       it(`should dispatch an action to ${
-        bool ? 'open' : 'close'
-      }`, async () => {
-        const options = { isOpen: bool, trigger: 'header' };
+        isOpen ? 'open' : 'close'
+      } the loginModal`, async () => {
+        const options = { isOpen, trigger: 'header' };
 
         await toggleLoginModal(options.isOpen, options.trigger)(
           store.dispatch,
-          () => ({
-            featureToggles: {
-              signInServiceEnabled: false,
-            },
-          }),
+          () => ({ ...featureToggleNotEnabled }),
         );
 
         const state = store.getState();
-        expect(state.showLoginModal).to.eql(bool);
+        expect(state.showLoginModal).to.eql(isOpen);
         expect(state.modalInformation).to.eql({
           startingLocation: window.location.pathname,
           redirectLocation: window.location.pathname,
@@ -53,9 +52,7 @@ describe('User Nav Actions', () => {
     it('should append `?next=loginModal` query parameter when opened', async () => {
       expect(global.window.location.href.includes('localhost')).to.be.true;
       await toggleLoginModal(true)(store.dispatch, () => ({
-        featureToggles: {
-          signInServiceEnabled: false,
-        },
+        ...featureToggleNotEnabled,
       }));
 
       expect(global.window.location.href.includes('?next=loginModal')).to.be
@@ -80,9 +77,7 @@ describe('User Nav Actions', () => {
       global.window.location = new URL(`http://localhost/${expectedNextParam}`);
 
       await toggleLoginModal(true)(store.dispatch, () => ({
-        featureToggles: {
-          signInServiceEnabled: false,
-        },
+        ...featureToggleNotEnabled,
       }));
 
       expect(global.window.location.href.includes('?next=disabilityBenefits'))
@@ -93,9 +88,7 @@ describe('User Nav Actions', () => {
       global.window.location.search = '?next=loginModal&oauth=false';
 
       await toggleLoginModal(false)(store.dispatch, () => ({
-        featureToggles: {
-          signInServiceEnabled: false,
-        },
+        ...featureToggleNotEnabled,
       }));
 
       expect(global.window.location.href).to.eql('http://localhost/');
