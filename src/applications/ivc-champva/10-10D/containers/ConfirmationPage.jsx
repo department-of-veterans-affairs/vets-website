@@ -10,7 +10,7 @@ import {
   VaLinkAction,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { requiredFiles, optionalFiles } from '../config/constants';
+import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
 
@@ -52,8 +52,8 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
-    fileNameMap: { ...requiredFiles, ...optionalFiles },
-    requiredFiles,
+    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    requiredFiles: REQUIRED_FILES,
   });
 
   useEffect(() => {
