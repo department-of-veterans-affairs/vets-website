@@ -4,11 +4,11 @@ import {
   currentOrPastDateSchema,
   titleUI,
   titleSchema,
-  yesNoUI,
-  yesNoSchema,
+  // yesNoUI,
+  // yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
-import { ADDITIONAL_FILES_HINT } from '../config/constants';
+// import { ADDITIONAL_FILES_HINT } from '../config/constants';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -94,6 +94,7 @@ on more than one of those pages. The func names correspond to their page of
 origin.
 */
 
+/*
 // IF applicant was married to sponsor AND remarried after sponsor passed
 // AND applicant was 55+
 export function depends18f2(formData, index) {
@@ -110,6 +111,7 @@ export function depends18f2(formData, index) {
       ) === 'marriedTillDeathRemarriedAfter55')
   );
 }
+*/
 
 // IF applicant was married to sponsor AND did not remarry after the sponsor's
 // death (or is still married to the living sponsor)
@@ -129,6 +131,7 @@ export function depends18f3(formData, index) {
   );
 }
 
+/*
 // IF applicant was married to sponsor AND remarried after sponsor passed
 // AND remarriage is still ongoing
 export function depends18f4(formData, index) {
@@ -177,6 +180,7 @@ export function depends18f6(formData, index) {
     ) === 'marriageDissolved'
   );
 }
+*/
 
 function marriageTitle(text, subtitle) {
   return {
@@ -205,12 +209,16 @@ const dateOfMarriageToSponsor = {
   /* Using the depends functions to prevent silent validation failures
           on the review page */
   'ui:required': (formData, index) =>
-    depends18f3(formData, index) ||
+    depends18f3(
+      formData,
+      index,
+    ) /* ||
     depends18f4(formData, index) ||
     depends18f5(formData, index) ||
-    depends18f6(formData, index),
+    depends18f6(formData, index), */,
 };
 
+/*
 const dateOfSeparationFromSponsor = {
   ...currentOrPastDateUI({
     title: 'Date of legal separation of the marriage',
@@ -244,6 +252,7 @@ const dateOfSeparationFromOtherSpouse = {
   }),
   'ui:required': (formData, index) => depends18f5(formData, index),
 };
+*/
 
 /*
 Dates for marriage/remarriage - we use this uiSchema across multiple pages, and
@@ -264,6 +273,7 @@ export const marriageDatesSchema = {
       },
     },
   },
+  /*
   separatedUiSchema: {
     applicants: {
       'ui:options': { viewField: ApplicantField },
@@ -295,6 +305,7 @@ export const marriageDatesSchema = {
       },
     },
   },
+  */
   noRemarriageSchema: applicantListSchema([], {
     titleSchema,
     dateOfMarriageToSponsor: currentOrPastDateSchema,
@@ -318,6 +329,7 @@ export const marriageDatesSchema = {
 };
 
 // Schemas for follow-up marriage viability question
+/*
 export const remarriageDetailsSchema = {
   uiSchema: {
     applicants: {
@@ -359,3 +371,4 @@ export const remarriageDetailsSchema = {
     remarriageIsViable: yesNoSchema,
   }),
 };
+*/
