@@ -18,7 +18,7 @@ import manifest from '../../manifest.json';
 formConfig.useCustomScrollAndFocus = false;
 
 const v3StepHeaderSelector =
-  'va-segmented-progress-bar[uswds][heading-text][header-level="2"]';
+  'va-segmented-progress-bar[heading-text][header-level="2"]';
 const awaitFocusSelectorThenTest = () => {
   // handle other scroll/focus interferences besides customScrollAndFocus
   return ({ afterHook }) => {

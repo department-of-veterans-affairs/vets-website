@@ -15,15 +15,18 @@ const adjustLocation = currentLocation => {
 const BreadCrumbs = ({ currentLocation }) => {
   const adjustedLocation = adjustLocation(currentLocation);
   const breadcrumbLinks = breadcrumbsDictionary[adjustedLocation];
+  const bcString = JSON.stringify(breadcrumbLinks);
 
   return (
-    <va-breadcrumbs uswds="false" label="Breadcrumbs">
-      {breadcrumbLinks.map(link => (
-        <a href={link.href} key={link.key}>
-          {link.title}
-        </a>
-      ))}
-    </va-breadcrumbs>
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <va-breadcrumbs
+          label="Breadcrumbs"
+          breadcrumb-list={bcString}
+          data-testid="Breadcrumb"
+        />
+      </div>
+    </div>
   );
 };
 

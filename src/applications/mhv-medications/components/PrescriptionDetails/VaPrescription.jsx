@@ -17,6 +17,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -138,28 +139,25 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-          </div>
-          {isDisplayingDocumentation &&
-            prescription.cmopNdcNumber && (
-              <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
-                <h2
-                  className="vads-u-margin-top--3"
-                  data-testid="refill-History"
-                >
-                  Documentation
-                </h2>
+            {isDisplayingDocumentation &&
+              // Any of the Rx's NDC's will work here. They should all show the same information
+              refillHistory.some(p => p.cmopNdcNumber) && (
                 <Link
                   to={`/prescription/${
                     prescription.prescriptionId
-                  }/documentation?ndc=${prescription.cmopNdcNumber}`}
+                  }/documentation?ndc=${
+                    refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
+                  }`}
                   data-testid="va-prescription-documentation-link"
-                  className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
-                  data-dd-action-name="Rx Documentation Link - Details Page"
+                  className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                  }
                 >
                   Learn more about {prescription.prescriptionName}
                 </Link>
-              </div>
-            )}
+              )}
+          </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history

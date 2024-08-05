@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const ITEMS_PER_PAGE = 10;
@@ -54,6 +55,9 @@ export const disabilityCompensationClaimTypeCodes = [
   '020NI',
   '020PNI',
   '020PREDSUPP',
+  '020RCOMP',
+  '020RI',
+  '020RN',
   '020RRNADIDES',
   '020RSCDTH',
   '020RSCDTHPMC',
@@ -68,3 +72,22 @@ export const disabilityCompensationClaimTypeCodes = [
   '110LCOMPIDES',
   '110NADIDES7',
 ];
+
+// The Standard 5103 Notice Response doesnt come through as a tracked item from our API until it is closed so we need to make a
+// mocked item with information.
+export const standard5103Item = {
+  displayName: '5103 Evidence Notice',
+  type: '5103 Notice Response',
+  description: (
+    <>
+      <p>
+        We sent you a "5103 notice" letter that lists the types of evidence we
+        may need to decide your claim.
+      </p>
+      <p>
+        Upload the waiver attached to the letter if you’re finished adding
+        evidence.
+      </p>
+    </>
+  ),
+};

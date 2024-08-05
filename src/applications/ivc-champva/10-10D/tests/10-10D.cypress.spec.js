@@ -19,6 +19,8 @@ import {
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
+import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+
 // All pages from form config i.e.: {page1: {path: '/blah'}}
 const ALL_PAGES = getAllPages(formConfig);
 
@@ -76,7 +78,7 @@ const testConfig = createTestConfig(
               'veteransFullName',
               data.veteransFullName,
             );
-            fillDateWebComponentPattern('sponsorDOB', data.sponsorDOB);
+            fillDateWebComponentPattern('sponsorDob', data.sponsorDob);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -131,8 +133,8 @@ const testConfig = createTestConfig(
                 data.applicants[i].applicantName,
               );
               fillDateWebComponentPattern(
-                `applicants_${i}_applicantDOB`,
-                data.applicants[i].applicantDOB,
+                `applicants_${i}_applicantDob`,
+                data.applicants[i].applicantDob,
               );
               // Add another if we're not out of applicants:
               if (i < numApps - 1)
@@ -267,6 +269,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f1.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -283,6 +286,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -298,6 +302,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f6.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -317,6 +322,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page19.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -389,9 +395,11 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req.body.raw_data);
+          verifyAllDataWasSubmitted(data, req.body.rawData);
         });
         // Mock response
         req.reply({ status: 200 });

@@ -11,9 +11,6 @@ export default {
   uiSchema: {
     ...titleUI('Place of birth'),
     placeOfBirthAddress: addressNoMilitaryUI({
-      labels: {
-        state: 'State/Province/Region',
-      },
       omit: ['street', 'street2', 'street3', 'postalCode'],
     }),
   },

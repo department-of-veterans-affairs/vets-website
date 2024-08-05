@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { dateFormat, pharmacyPhoneNumber } from '../../util/helpers';
-import {
-  dispStatusObj,
-  medicationsUrls,
-  DD_ACTIONS_PAGE_TYPE,
-} from '../../util/constants';
+import { dispStatusObj, medicationsUrls } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
@@ -33,7 +30,7 @@ const ExtraDetails = rx => {
               Call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
-                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                page={pageType.DETAILS}
               />
             </p>
           </div>
@@ -44,7 +41,7 @@ const ExtraDetails = rx => {
           className="statusIcon refillProcessIcon"
           data-testid="refill-in-process"
         >
-          <va-icon icon="acute" size={4} aria-hidden="true" />
+          <va-icon icon="acute" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2" data-testid="rx-process">
             <p
               data-testid="rx-refillinprocess-info"
@@ -57,7 +54,7 @@ const ExtraDetails = rx => {
               If you need it sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
-                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                page={pageType.DETAILS}
               />
             </p>
           </div>
@@ -68,7 +65,7 @@ const ExtraDetails = rx => {
           className="statusIcon submittedIcon"
           data-testid="submitted-refill-request"
         >
-          <va-icon icon="fact_check" size={4} aria-hidden="true" />
+          <va-icon icon="fact_check" size={3} aria-hidden="true" />
           <div className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
@@ -91,9 +88,10 @@ const ExtraDetails = rx => {
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
-            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.DETAILS
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.detailsPage
+                .LEARN_TO_RENEW_PRESCRIPTIONS_ACTION_LINK
+            }
           />
         </div>
       )}
@@ -109,9 +107,9 @@ const ExtraDetails = rx => {
             }/my-health/secure-messages/new-message/`}
             text="Start a new message"
             data-testid="discontinued-compose-message-link"
-            data-dd-action-name={`Compose A Message Link - ${
-              DD_ACTIONS_PAGE_TYPE.DETAILS
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.detailsPage.COMPOSE_A_MESSAGE_LINK
+            }
           />
         </div>
       )}
@@ -139,7 +137,7 @@ const ExtraDetails = rx => {
           refill, call your VA pharmacy
           <CallPharmacyPhone
             cmopDivisionPhone={pharmacyPhone}
-            page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            page={pageType.DETAILS}
           />
         </p>
       )}

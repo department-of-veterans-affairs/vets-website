@@ -115,8 +115,16 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  verifyFocusOnErrorMessage = text => {
-    return cy.focused().should('contain.text', text);
+  verifyErrorText = text => {
+    cy.get('.usa-error-message').should('contain.text', text);
+  };
+
+  verifyFocusOnErrorMessage = () => {
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    return cy.focused().then(el => {
+      const tagName = el.prop('tagName');
+      expect(tagName).to.be.oneOf(allowedTags);
+    });
   };
 
   clickOnSendMessageButton = (mockResponse = mockDraftMessage) => {
@@ -182,7 +190,7 @@ class PatientComposePage {
       `/my_health/v1/messaging/message_drafts/${
         draftMessage.data.attributes.messageId
       }`,
-      draftMessage,
+      { ok: true },
     ).as('draft_message');
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
@@ -218,7 +226,7 @@ class PatientComposePage {
       `/my_health/v1/messaging/message_drafts/${
         mockDraftResponse.data.attributes.messageId
       }`,
-      mockDraftResponse,
+      {},
     ).as('draft_message');
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
 

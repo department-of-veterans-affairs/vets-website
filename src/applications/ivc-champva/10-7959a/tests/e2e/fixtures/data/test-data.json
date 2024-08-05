@@ -1,0 +1,67 @@
+{
+  "data": {
+    "certifierRole": "applicant",
+    "sponsorName": {
+      "first": "Sponsor",
+      "middle": "Quincy",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "applicantName": {
+      "first": "Beneficiary",
+      "last": "Jones"
+    },
+    "applicantMemberNumber": "222111123",
+    "applicantDOB": "2000-10-25",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Beneficiary Street",
+      "city": "Citytown",
+      "state": "MD",
+      "postalCode": "12345"
+    },
+    "applicantNewAddress": "yes",
+    "medicalUpload": [
+      {
+        "name": "Document1.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b63",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "primaryEOB": [
+      {
+        "name": "Document1.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b65",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "secondaryEOB": [
+      {
+        "name": "Document1.png",
+        "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b66",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "claimIsAutoRelated": true,
+    "claimIsWorkRelated": true,
+    "claimType": "medical",
+    "hasOhi": true,
+    "policies": [
+      {
+        "type": "group",
+        "name": "BCBS",
+        "policyNum": "123",
+        "providerPhone": "1231231234"
+      },
+      {
+        "type": "nonGroup",
+        "name": "Cigna",
+        "policyNum": "321",
+        "providerPhone": "1231231235"
+      }
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -6,13 +6,14 @@ import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/Pag
 import { getDocumentation } from '../api/rxApi';
 import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import { sanitizeKramesHtmlStr } from '../util/helpers';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const ndcNumber = queryParams.get('ndc');
-
+  const contentRef = useRef();
   const {
     prescription,
     isDisplayingDocumentation,
@@ -37,8 +38,10 @@ const PrescriptionDetailsDocumentation = () => {
         setIsLoadingDoc(true);
         getDocumentation(prescriptionId, ndcNumber)
           .then(response => {
-            setHtmlContent(response.data);
             setHasDocApiError(false);
+            setHtmlContent(
+              sanitizeKramesHtmlStr(response.data.attributes.html),
+            );
           })
           .catch(() => {
             setHasDocApiError(true);
@@ -63,6 +66,15 @@ const PrescriptionDetailsDocumentation = () => {
     [prescriptionId, ndcNumber, prescription, dispatch, isLoadingRx],
   );
 
+  useEffect(
+    () => {
+      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx && htmlContent) {
+        contentRef.current.innerHTML = htmlContent ?? '';
+      }
+    },
+    [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
+  );
+
   if (!isDisplayingDocumentation) {
     return <PageNotFound />;
   }
@@ -71,7 +83,7 @@ const PrescriptionDetailsDocumentation = () => {
       <div className="vads-u-margin-top--1">
         <ApiErrorNotification
           errorType="access"
-          content="medication documentation"
+          content="medication information"
         />
       </div>
     );
@@ -79,16 +91,16 @@ const PrescriptionDetailsDocumentation = () => {
 
   return (
     <>
-      {isLoadingDoc || isLoadingRx ? (
-        <va-loading-indicator message="Loading documentation..." set-focus />
+      {isLoadingDoc || isLoadingRx || !htmlContent ? (
+        <va-loading-indicator message="Loading information..." set-focus />
       ) : (
         <div>
-          <h1>Medication Documentation: {prescription?.prescriptionName}</h1>
+          <h1>Information: {prescription?.prescriptionName}</h1>
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
           <p className="vads-u-color--secondary vads-u-font-family--serif">
             Important: How to Use This Information
           </p>
-          <p className="vads-u-font-family--serif vads-u-margin-bottom--2p5">
+          <p className="vads-u-font-family--serif">
             This is a summary and does NOT have all possible information about
             this product. This information does not assure that this product is
             safe, effective, or appropriate for you. This information is not
@@ -97,11 +109,10 @@ const PrescriptionDetailsDocumentation = () => {
             professional for complete information about this product and your
             specific health needs.
           </p>
-          {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: htmlContent ?? '' }} />
         </div>
       )}
+      {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
+      <div ref={contentRef} />
     </>
   );
 };

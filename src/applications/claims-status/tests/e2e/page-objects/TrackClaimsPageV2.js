@@ -402,7 +402,7 @@ class TrackClaimsPageV2 {
       });
   }
 
-  verifyRecentActivity() {
+  verifyRecentActivity(claimClosed = false, showEightPhases = false) {
     cy.get('.recent-activity-container').should('be.visible');
     cy.get('.recent-activity-container > h3').should(
       'contain',
@@ -412,6 +412,57 @@ class TrackClaimsPageV2 {
       'have.length.greaterThan',
       0,
     );
+    if (showEightPhases) {
+      if (claimClosed) {
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim was decided',
+        );
+      } else {
+        cy.get('.recent-activity-container va-pagination')
+          .shadow()
+          .find(
+            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+          )
+          .click();
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We received your claim in our system',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 2: Initial review',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 3: Evidence gathering',
+        );
+      }
+    } else if (claimClosed) {
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 5: Closed',
+      );
+    } else {
+      cy.get('.recent-activity-container va-pagination')
+        .shadow()
+        .find(
+          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+        )
+        .click();
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 1: Claim received',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 2: Initial review',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 3: Evidence gathering, review, and decision',
+      );
+    }
   }
 
   verifyRecentActivityPagination() {
@@ -473,12 +524,27 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyPrimaryAlertfor5103Notice() {
-    cy.get('[data-testid="item-13"]').should('be.visible');
-    cy.get('[data-testid="item-13"]')
+  verifyPrimaryAlertfor5103Notice(isStandard = false) {
+    const testId = isStandard
+      ? '[data-testid="standard-5103-notice-alert"]'
+      : '[data-testid="item-13"]';
+    const url = isStandard
+      ? '/track-claims/your-claims/189685/5103-evidence-notice'
+      : '/track-claims/your-claims/189685/document-request/13';
+    cy.get(testId).should('be.visible');
+    if (isStandard) {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', '5103 Evidence Notice');
+    } else {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', 'Automated 5103 Notice Response');
+    }
+    cy.get(testId)
       .find('a')
       .should('contain', 'Details');
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('.alert-description > p')
       .first()
       .should(
@@ -490,13 +556,10 @@ class TrackClaimsPageV2 {
         'contain',
         'Upload the waiver attached to the letter if you’re finished adding evidence.',
       );
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('a')
       .click();
-    cy.url().should(
-      'contain',
-      '/track-claims/your-claims/189685/document-request/13',
-    );
+    cy.url().should('contain', url);
   }
 
   verifyDocRequestforDefaultPage(is5103Notice = false) {
@@ -515,8 +578,14 @@ class TrackClaimsPageV2 {
     cy.get('va-additional-info').should('be.visible');
   }
 
-  verifyDocRequestfor5103Notice() {
-    cy.get('#automated-5103-notice-page').should('be.visible');
+  verifyDocRequestfor5103Notice(isStandard = false) {
+    cy.get('#default-5103-notice-page').should('be.visible');
+    if (!isStandard) {
+      cy.get('[data-testid="due-date-information"]').should(
+        'contain',
+        'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
+      );
+    }
     cy.get('a.active-va-link').should('contain', 'Go to claim letters');
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
@@ -526,6 +595,41 @@ class TrackClaimsPageV2 {
       .shadow()
       .find('label')
       .should('contain', 'I’m finished adding evidence to support my claim.');
+  }
+
+  verifyDocRequestBreadcrumbs(previousPageFiles = false, is5103Notice = false) {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
+    cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
+      'contain',
+      'VA.gov home',
+    );
+    cy.get('.usa-breadcrumb__list > li:nth-child(2) a').should(
+      'contain',
+      'Check your claims and appeals',
+    );
+    if (previousPageFiles) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Files for your compensation claim',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(3) a').should(
+        'contain',
+        'Status of your compensation claim',
+      );
+    }
+    if (is5103Notice) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        '5103 Evidence Notice',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        'Request for Submit Buddy Statement(s)',
+      );
+    }
   }
 
   submitEvidenceWaiver() {

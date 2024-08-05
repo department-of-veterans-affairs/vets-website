@@ -11,11 +11,14 @@ const searchVAMedicalCenterPage = {
     vaMedicalCenter: {
       'ui:title': 'Search by city, postal code, or use your current location.',
       'ui:widget': MedicalFacilitySearch,
+      'ui:errorMessages': {
+        required: 'Please search for your health facility',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['vaMedicalCenter'],
     properties: {
       vaMedicalCenter: {
         type: 'string',

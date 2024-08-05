@@ -1,36 +1,53 @@
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-// Produce a string that is either an applicant's name or
-// "your" depending on additional context provided.
-export function applicantWording(
+/**
+ * Returns either a form of 'you', or the applicant's full name based
+ * on the formData's `certifierRole` property. Assumes presences of an
+ * `applicantName` key.
+ * @param {object} formData Obj containing `certifierRole` and `applicantName
+ * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
+ * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
+ * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
+ * @returns String of the applicant's full name OR the appropriate form of 'you'
+ */
+export function nameWording(
   formData,
-  context,
   isPosessive = true,
-  _cap = true, // This doesn't matter now that we don't use 'you'/'your'
-  _index, // Will be unused now that we don't use 'you'/'your'
+  cap = true,
+  firstNameOnly = false,
 ) {
   let retVal = '';
-  if (context) {
-    // If we have additional context that means we have to dig for applicant
-    const idx = +context?.formContext?.pagePerItemIndex;
-    // const isApplicant = formData?.certifierRole === 'applicant';
-    const appName = formData?.applicants[idx]?.applicantName;
-    retVal = [appName?.first, appName?.middle, appName?.last, appName?.suffix]
-      .filter(el => el)
-      .join(' ');
+  if (formData?.certifierRole === 'applicant') {
+    retVal = isPosessive ? 'your' : 'you';
   } else {
-    // No context means we're directly accessing an applicant object
-    retVal = [
-      formData?.applicantName?.first,
-      formData?.applicantName?.middle,
-      formData?.applicantName?.last,
-      formData?.applicantName?.suffix,
-    ]
-      .filter(el => el)
-      .join(' ');
+    // Concatenate all parts of applicant's name (first, middle, etc...)
+    retVal = firstNameOnly
+      ? formData?.applicantName?.first
+      : Object.values(formData?.applicantName || {})
+          .filter(el => el)
+          .join(' ');
+    retVal = isPosessive ? `${retVal}’s` : retVal;
   }
 
-  return isPosessive ? `${retVal}’s` : retVal;
+  // Optionally capitalize first letter and return
+  return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
+}
+
+/**
+ * Wrapper around `nameWording` that drops the `certifierRole` prop to prevent 'you/r' text
+ * @param {object} formData Obj containing `applicantName`, or an array `applicants`
+ * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
+ * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
+ * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
+ * @returns
+ */
+export function applicantWording(formData, isPosessive, cap, firstNameOnly) {
+  return nameWording(
+    { ...formData, certifierRole: undefined }, // set certifierRole to prevent 'you' language
+    isPosessive,
+    cap,
+    firstNameOnly,
+  );
 }
 
 // Turn camelCase into capitalized words ("camelCase" => "Camel Case")

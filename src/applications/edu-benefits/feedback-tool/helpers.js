@@ -230,7 +230,7 @@ export const getIssueLabel = (labelText, exampleText) => (
     {labelText}
     <br />
     <span>
-      <i>{exampleText}</i>
+      <em>{exampleText}</em>
     </span>
   </div>
 );
@@ -320,6 +320,16 @@ export function removeEmptyStringProperties(obj) {
     }
   });
   return cleanObject;
+}
+
+// Formats address on one line
+// Used in school select field radio options
+export function displaySingleLineAddress(obj) {
+  const { address1, address2, address3, city, state, zip, country } = obj;
+  return `${address1}${address2 && `, ${address2}`}${address3 &&
+    `, ${address3}`}, ${city || ''}${city && state ? ', ' : ''}${state || ''}${
+    !state ? ` ${country}` : ` ${zip || ''}`
+  }`;
 }
 
 /*

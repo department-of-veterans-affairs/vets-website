@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { links } from '../definitions/content';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 
-const ConfirmationPage = ({ form }) => {
-  const { submission, data } = form;
+const ConfirmationPage = () => {
+  const { submission, data } = useSelector(state => state.form);
   const { response, timestamp } = submission;
   const name = data.veteranFullName;
 
@@ -16,7 +14,6 @@ const ConfirmationPage = ({ form }) => {
     <div className="caregiver-confirmation vads-u-margin-bottom--2p5">
       <section className="caregiver-confirmation--screen no-print">
         <ConfirmationScreenView
-          form={form}
           name={name}
           timestamp={response ? timestamp : null}
         />
@@ -61,30 +58,21 @@ const ConfirmationPage = ({ form }) => {
         </p>
         <p className="no-print">
           <a
-            href={links.caregiverSupportCoordinators.link}
             target="_blank"
             rel="noreferrer noopener"
+            href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
           >
             Find your local Caregiver Support Coordinator
           </a>
         </p>
         <p>
-          Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />. We’re
-          here Monday through Friday, 8:00 a.m. to 10:00 p.m.{' '}
-          <dfn>
-            <abbr title="Eastern Time">ET</abbr>
-          </dfn>
-          , and Saturday, 8:00 a.m. to 5:00 p.m.{' '}
-          <dfn>
-            <abbr title="Eastern Time">ET</abbr>
-          </dfn>
-          .
+          Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />.
         </p>
         <p className="no-print">
           <a
-            href={links.caregiverHelpPage.link}
             target="_blank"
             rel="noreferrer noopener"
+            href="https://www.caregiver.va.gov"
           >
             Learn more about caregiver support
           </a>
@@ -94,12 +82,4 @@ const ConfirmationPage = ({ form }) => {
   );
 };
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-  form: state.form,
-});
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

@@ -113,7 +113,7 @@ export const Locators = {
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
-    SEND: '[data-testid="Send-Button"]',
+    SEND: '[data-testid="send-button"]',
     SAVE_DRAFT: '#save-draft-button',
     PRINT_ONE_MESS: '[data-testid="radio-print-one-message"]',
     CREATE_NEW_FOLDER: '[data-testid="create-new-folder"]',
@@ -128,12 +128,13 @@ export const Locators = {
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
-    REMOVE_FOLDER: 'button[data-testid="remove-folder-button"]',
+    REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
     PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
+    EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -141,8 +142,10 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
+    BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
   },
   ALERTS: {
+    HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
@@ -189,6 +192,7 @@ export const Locators = {
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -211,6 +215,9 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
   },
+  HEADERS: {
+    DRAFTS_HEADER: '#draft-reply-header',
+  },
 };
 
 export const Alerts = {
@@ -228,6 +235,10 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  OLD_MSG: 'This conversation is too old for new replies',
+  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  TRY_SEARCH: 'Try the search box or one of the common questions below.',
+  SAVE_ATTCH: `We can't save attachments in a draft message`,
 };
 
 export const Data = {

@@ -291,6 +291,7 @@ const baseUserResponses = {
             appeals: true,
             medicalCopays: true,
           },
+          edipi: 3332224445,
         },
         vaProfile: {
           status: 'OK',
@@ -322,7 +323,7 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C'],
+        prefillsAvailable: ['21-686C', 'mock-form-ae-design-patterns'],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',

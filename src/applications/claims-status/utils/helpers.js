@@ -1,11 +1,10 @@
 import merge from 'lodash/merge';
 import { format, isValid, parseISO } from 'date-fns';
-// import * as Sentry from '@sentry/browser';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-// import localStorage from 'platform/utilities/storage/localStorage';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-// import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
@@ -59,6 +58,32 @@ const claimPhaseTypeStepMap = {
 
 export function getClaimPhaseTypeHeaderText(claimPhaseType) {
   return claimPhaseTypeStepMap[claimPhaseType];
+}
+
+const phase8ItemTextMap = {
+  1: 'We received your claim in our system',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering',
+  4: 'Step 4: Evidence review',
+  5: 'Step 5: Rating',
+  6: 'Step 6: Preparing decision letter',
+  7: 'Step 7: Final review',
+  8: 'Your claim was decided',
+};
+
+const phase5ItemTextMap = {
+  1: 'Step 1: Claim received',
+  2: 'Step 2: Initial review',
+  3: 'Step 3: Evidence gathering, review, and decision',
+  4: 'Step 3: Evidence gathering, review, and decision',
+  5: 'Step 3: Evidence gathering, review, and decision',
+  6: 'Step 3: Evidence gathering, review, and decision',
+  7: 'Step 4: Preparation for notification',
+  8: 'Step 5: Closed',
+};
+
+export function getPhaseItemText(phase, showEightPhases = false) {
+  return showEightPhases ? phase8ItemTextMap[phase] : phase5ItemTextMap[phase];
 }
 
 const claimPhaseTypeDescriptionMap = {
@@ -1037,4 +1062,70 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
       ? format(parsedDate, formatString)
       : 'Invalid date';
   };
+};
+
+export const isAutomated5103Notice = itemDisplayName => {
+  return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
+// Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+export function setDocumentRequestPageTitle(displayName) {
+  return isAutomated5103Notice(displayName)
+    ? '5103 Evidence Notice'
+    : `Request for ${displayName}`;
+}
+
+// Used to set page title for the CST Tabs
+export function setTabDocumentTitle(claim, tabName) {
+  if (claimAvailable(claim)) {
+    const claimDate = buildDateFormatter()(claim.attributes.claimDate);
+    const claimType = getClaimType(claim);
+    const title =
+      tabName === 'Files'
+        ? `${tabName} For ${claimDate} ${claimType} Claim`
+        : `${tabName} Of ${claimDate} ${claimType} Claim`;
+    setDocumentTitle(title);
+  } else {
+    const title =
+      tabName === 'Files'
+        ? `${tabName} For Your Claim`
+        : `${tabName} Of Your Claim`;
+    setDocumentTitle(title);
+  }
+}
+// Used to set the page focus on the CST Tabs
+export function setPageFocus(lastPage, loading) {
+  if (!isTab(lastPage)) {
+    if (!loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
+  } else {
+    scrollAndFocus(document.querySelector('.tab-header'));
+  }
+}
+// Used to get the oldest document date
+// Logic used in getTrackedItemDateFromStatus()
+const getOldestDocumentDate = item => {
+  const arrDocumentDates = item.documents.map(document => document.uploadDate);
+  return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
+};
+// Logic here uses a given tracked items status to determine what the date should be.
+// This logic is used in RecentActivity and on the ClaimStatusHeader
+export const getTrackedItemDateFromStatus = item => {
+  switch (item.status) {
+    case 'NEEDED_FROM_YOU':
+    case 'NEEDED_FROM_OTHERS':
+      return item.requestedDate;
+    case 'NO_LONGER_REQUIRED':
+      return item.closedDate;
+    case 'SUBMITTED_AWAITING_REVIEW':
+      return getOldestDocumentDate(item);
+    case 'INITIAL_REVIEW_COMPLETE':
+    case 'ACCEPTED':
+      return item.receivedDate;
+    default:
+      return item.requestedDate;
+  }
 };

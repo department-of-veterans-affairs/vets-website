@@ -64,7 +64,7 @@ describe('<DefaultPage>', () => {
         ).fromNow()}`,
       );
       expect($('.optional-upload', container)).to.not.exist;
-
+      getByText('Request for Submit buddy statement(s)');
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
@@ -97,6 +97,7 @@ describe('<DefaultPage>', () => {
       getByText(
         '- We’ve asked others to send this to us, but you may upload it if you have it.',
       );
+      getByText('Request for Submit buddy statement(s)');
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
@@ -134,7 +135,7 @@ describe('<DefaultPage>', () => {
         ).fromNow()}`,
       );
       expect($('.optional-upload', container)).to.not.exist;
-
+      getByText('Request for Submit buddy statement(s)');
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
@@ -167,6 +168,7 @@ describe('<DefaultPage>', () => {
       getByText(
         '- We’ve asked others to send this to us, but you may upload it if you have it.',
       );
+      getByText('Request for Submit buddy statement(s)');
       getByText(scrubDescription(item.description));
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;

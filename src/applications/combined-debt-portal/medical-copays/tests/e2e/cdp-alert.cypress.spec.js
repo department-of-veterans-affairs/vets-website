@@ -45,6 +45,34 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  // VHA 403 response (Not enrolled in healthcare)
+  it('should display not enrolled in healthcare alert for VHA 403 response', () => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/medical_copays', req => {
+      req.reply(403, {
+        errors: [
+          {
+            title: 'Forbidden',
+            detail: 'User does not have access to the requested resource',
+            code: '403',
+            status: '403',
+          },
+        ],
+      });
+    });
+    cy.intercept('GET', '/v0/debts', mockDebt);
+    cy.visit('/manage-va-debt/summary/copay-balances');
+
+    // Ensure the page has loaded
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.injectAxe();
+
+    // Check for the "not enrolled in healthcare" alert
+    cy.findByTestId('no-healthcare-alert').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   // Has VHA and VBA 404
   it('should display valid copay balances & other VA debt information', () => {
     cy.login(mockUser);

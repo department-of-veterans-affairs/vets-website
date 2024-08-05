@@ -18,7 +18,7 @@
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
-        "phoneNumberExt": "2"
+        "extension": "2345"
       },
       "email": "user@example.com"
     },
@@ -29,8 +29,7 @@
     "view:additionalEvidence": true,
     "requestingExtension": true,
     "extensionReason": "Lorem ipsum",
-    "appealingVHADenial": false,
-    "view:showPart3": true,
+    "appealingVHADenial": true,
 
     "contestedIssues": [
       {

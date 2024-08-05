@@ -93,7 +93,7 @@ Date: ${record.date}\n
 Location: ${record.location}\n
 Written by: ${record.writtenBy}\n
 ${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}
-Signed on: ${record.dateSigned}\n
+Date signed: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
@@ -114,13 +114,11 @@ ${record.note}`;
         {record.name}
       </h1>
 
-      {record.date !== EMPTY_FIELD ? (
-        <div>
-          <p id="progress-note-date">Entered on {record.date}</p>
-        </div>
-      ) : (
-        <DateSubheading date={record.date} id="progress-note-date" />
-      )}
+      <DateSubheading
+        date={record.date}
+        id="progress-note-date"
+        label="Date entered"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -149,7 +147,7 @@ ${record.note}`;
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Signed on
+          Date signed
         </h3>
         <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>

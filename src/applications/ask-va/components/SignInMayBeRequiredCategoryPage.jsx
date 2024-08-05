@@ -1,3 +1,4 @@
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -8,7 +9,7 @@ const SignInMayBeRequiredCategoryPage = ({ loggedIn }) => {
   // Render for users that are Unauthenticated
   return !loggedIn ? (
     <>
-      <va-alert
+      <VaAlert
         close-btn-aria-label="Close notification"
         status="continue"
         visible={visibleAlert}
@@ -24,7 +25,7 @@ const SignInMayBeRequiredCategoryPage = ({ loggedIn }) => {
           or <b>Debt for benefit overpayments and health care copay bill </b>
           you need to sign in.
         </p>
-      </va-alert>
+      </VaAlert>
     </>
   ) : null;
 };

@@ -1,45 +1,58 @@
-import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
-  submitTransform,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
+  primaryHasDifferentMailingAddress,
+  secondaryOneHasDifferentMailingAddress,
+  secondaryTwoHasDifferentMailingAddress,
 } from '../utils/helpers';
-import { secondaryTwoChapterTitle } from '../definitions/UIDefinitions/caregiverUI';
-import { addressWithoutCountryUI } from '../definitions/UIDefinitions/sharedUI';
+import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
+import { fullSchema } from '../utils/imports';
+import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
 
 // veteran pages
-import vetInfoPage from './chapters/veteran/vetInfo';
-import vetContactInfoPage from './chapters/veteran/vetContactInfo';
-import vetMedicalCenterJsonPage from './chapters/veteran/vetMedicalCenter_json';
-import vetMedicalCenterAPIPage from './chapters/veteran/vetMedicalCenter_api';
+import vetPersonalInfoPage from './chapters/veteran/personalInformation';
+import vetIdentityInfoPage from './chapters/veteran/identityInformation';
+import vetHomeAddressPage from './chapters/veteran/homeAddress';
+import vetContactInfoPage from './chapters/veteran/contactInformation';
+import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
+import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
+
+// primary pages
+import hasPrimaryPage from './chapters/primary/hasPrimary';
+import primaryPersonalInfoPage from './chapters/primary/personalInformation';
+import primaryIdentityInfoPage from './chapters/primary/identityInformation';
+import primaryHomeAddressPage from './chapters/primary/homeAddress';
+import primaryMailingAddressPage from './chapters/primary/mailingAddress';
+import primaryContactInfoPage from './chapters/primary/contactInformation';
+
+// secondary pages
+import hasSecondaryOnePage from './chapters/secondaryOne/hasSecondary';
+import secondaryOnePersonalInfoPage from './chapters/secondaryOne/personalInformation';
+import secondaryOneIdentityInfoPage from './chapters/secondaryOne/identityInformation';
+import secondaryOneHomeAddressPage from './chapters/secondaryOne/homeAddress';
+import secondaryOneMailingAddressPage from './chapters/secondaryOne/mailingAddress';
+import secondaryOneContactInfoPage from './chapters/secondaryOne/contactInformation';
+import hasSecondaryTwoPage from './chapters/secondaryTwo/hasSecondaryTwo';
+import secondaryTwoPersonalInfoPage from './chapters/secondaryTwo/personalInformation';
+import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInformation';
+import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
+import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
+import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
 import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
-
-// primary pages
-import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
-import primaryInfoPage from './chapters/primary/primaryInfo';
-import primaryContactInfoPage from './chapters/primary/primaryContactInfo';
-import primaryMedicalPage from './chapters/primary/primaryHealthCareCoverage';
-
-// secondary pages
-import hasSecondaryCaregiverPage from './chapters/secondaryOne/hasSecondaryCaregiver';
-import secondaryOneInfoPage from './chapters/secondaryOne/secondaryOneInfo';
-import secondaryOneContactPage from './chapters/secondaryOne/secondaryOneContactInfo';
-import secondaryTwoInfoPage from './chapters/secondaryTwo/secondaryTwoInfo';
-import secondaryTwoContactPage from './chapters/secondaryTwo/secondaryTwoContactInfo';
 
 const {
   address,
@@ -64,7 +77,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
-  transformForSubmit: submitTransform,
+  transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
@@ -74,21 +87,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   submissionError: SubmissionErrorAlert,
   formId: VA_FORM_IDS.FORM_10_10CG,
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your [savedFormDescription] is in progress.',
-    //   expired: 'Your saved [savedFormDescription] has expired. If you want to apply for [benefitType], please start a new [appType].',
-    //   saved: 'Your [benefitType] [appType] has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillEnabled: false,
   downtime: {
     dependencies: [externalServices.mvi, externalServices.carma],
   },
-  title:
-    'Apply for the Program of Comprehensive Assistance for Family Caregivers',
-  subTitle: 'Form 10-10CG',
+  title: content['app-title'],
+  subTitle: content['app-subtitle'],
   defaultDefinitions: {
     fullName,
     ssn,
@@ -96,132 +102,201 @@ const formConfig = {
     gender,
     phone,
     address,
-    addressWithoutCountryUI,
     email,
     vetRelationship,
     uuid,
     signature,
   },
   chapters: {
-    veteranChapter: {
-      title: 'Veteran information',
+    veteranInformation: {
+      title: content['vet-info-title--chapter'],
       pages: {
-        veteranInfoOne: {
-          path: 'vet-1',
-          title: 'Veteran information',
-          uiSchema: vetInfoPage.uiSchema,
-          schema: vetInfoPage.schema,
+        vetPersonalInformation: {
+          path: 'veteran-information/personal-information',
+          title: content['vet-info-title--personal'],
+          uiSchema: vetPersonalInfoPage.uiSchema,
+          schema: vetPersonalInfoPage.schema,
         },
-        veteranInfoTwo: {
-          path: 'vet-2',
-          title: 'Contact information',
+        vetIdentityInformation: {
+          path: 'veteran-informaton/identity-information',
+          title: content['vet-info-title--id'],
+          uiSchema: vetIdentityInfoPage.uiSchema,
+          schema: vetIdentityInfoPage.schema,
+        },
+        vetHomeAddress: {
+          path: 'veteran-information/home-address',
+          title: content['vet-info-title--address'],
+          uiSchema: vetHomeAddressPage.uiSchema,
+          schema: vetHomeAddressPage.schema,
+        },
+        vetContactInformation: {
+          path: 'veteran-information/contact-information',
+          title: content['vet-info-title--contact'],
           uiSchema: vetContactInfoPage.uiSchema,
           schema: vetContactInfoPage.schema,
         },
-        veteranInfoThreeJSON: {
-          path: 'vet-3-json',
-          title: 'VA medical center',
+        vetMedicalCenterJson: {
+          path: 'veteran-information/va-medical-center',
+          title: content['vet-info-title--facility'],
           depends: formData => !formData['view:useFacilitiesAPI'],
           uiSchema: vetMedicalCenterJsonPage.uiSchema,
           schema: vetMedicalCenterJsonPage.schema,
         },
-        veteranInfoThreeFacilities: {
-          path: 'select-facility',
-          title: 'VA medical center',
+        vetMedicalCenterLocator: {
+          path: 'veteran-information/va-medical-center/locator',
+          title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
-          uiSchema: vetMedicalCenterAPIPage.uiSchema,
-          schema: vetMedicalCenterAPIPage.schema,
+          uiSchema: vetMedicalCenterApiPage.uiSchema,
+          schema: vetMedicalCenterApiPage.schema,
         },
       },
     },
-    primaryCaregiverChapter: {
-      title: 'Primary Family Caregiver applicant information',
+    primaryCaregiverInformation: {
+      title: content['primary-info-title--chapter'],
       pages: {
-        primaryCaregiverInfoOne: {
-          path: 'primary-1',
-          title: 'Primary Family Caregiver information',
-          uiSchema: hasPrimaryCaregiverPage.uiSchema,
-          schema: hasPrimaryCaregiverPage.schema,
+        hasPrimaryCaregiver: {
+          path: 'primary-caregiver/apply-for-benefits',
+          title: content['primary-info-title--apply'],
+          uiSchema: hasPrimaryPage.uiSchema,
+          schema: hasPrimaryPage.schema,
         },
-        primaryCaregiverInfoTwo: {
-          path: 'primary-2',
-          title: 'Primary Family Caregiver information',
-          depends: formData => hasPrimaryCaregiver(formData),
-          uiSchema: primaryInfoPage.uiSchema,
-          schema: primaryInfoPage.schema,
+        primaryPersonalInformation: {
+          path: 'primary-caregiver/personal-information',
+          title: content['primary-info-title--personal'],
+          depends: hasPrimaryCaregiver,
+          uiSchema: primaryPersonalInfoPage.uiSchema,
+          schema: primaryPersonalInfoPage.schema,
         },
-        primaryCaregiverInfoThree: {
-          path: 'primary-3',
-          title: 'Contact information',
-          depends: formData => hasPrimaryCaregiver(formData),
+        primaryIdentityInformation: {
+          path: 'primary-caregiver/identity-information',
+          title: content['primary-info-title--id'],
+          depends: hasPrimaryCaregiver,
+          uiSchema: primaryIdentityInfoPage.uiSchema,
+          schema: primaryIdentityInfoPage.schema,
+        },
+        primaryHomeAddress: {
+          path: 'primary-caregiver/home-address',
+          title: content['primary-info-title--address-home'],
+          depends: hasPrimaryCaregiver,
+          uiSchema: primaryHomeAddressPage.uiSchema,
+          schema: primaryHomeAddressPage.schema,
+        },
+        primaryMailingAddress: {
+          path: 'primary-caregiver/mailing-address',
+          title: content['primary-info-title--address-mailing'],
+          depends: primaryHasDifferentMailingAddress,
+          uiSchema: primaryMailingAddressPage.uiSchema,
+          schema: primaryMailingAddressPage.schema,
+        },
+        primaryContactInformation: {
+          path: 'primary-caregiver/contact-information',
+          title: content['primary-info-title--contact'],
+          depends: hasPrimaryCaregiver,
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
         },
-        primaryCaregiverInfoFour: {
-          path: 'primary-4',
-          title: 'Health care coverage',
-          depends: formData => hasPrimaryCaregiver(formData),
-          uiSchema: primaryMedicalPage.uiSchema,
-          schema: primaryMedicalPage.schema,
-        },
       },
     },
-    secondaryCaregiversChapter: {
-      title: 'Secondary Family Caregiver applicant information',
+    secondaryCaregiverInformation: {
+      title: content['secondary-one-info-title--chapter'],
       pages: {
-        secondaryCaregiverOneIntro: {
-          path: 'secondary-one-1',
-          title: 'Secondary Family Caregiver information',
-          uiSchema: hasSecondaryCaregiverPage.uiSchema,
-          schema: hasSecondaryCaregiverPage.schema,
+        hasSecondaryOne: {
+          path: 'secondary-caregiver/apply-for-benefits',
+          title: content['secondary-info-title--apply'],
+          uiSchema: hasSecondaryOnePage.uiSchema,
+          schema: hasSecondaryOnePage.schema,
         },
-        secondaryCaregiverOne: {
-          path: 'secondary-one-2',
-          title: 'Secondary Family Caregiver information',
-          depends: formData => hasSecondaryCaregiverOne(formData),
-          uiSchema: secondaryOneInfoPage.uiSchema,
-          schema: secondaryOneInfoPage.schema,
+        secondaryOnePersonalInformation: {
+          path: 'secondary-caregiver/personal-information',
+          title: content['secondary-one-info-title--personal'],
+          depends: hasSecondaryCaregiverOne,
+          uiSchema: secondaryOnePersonalInfoPage.uiSchema,
+          schema: secondaryOnePersonalInfoPage.schema,
         },
-        secondaryCaregiverOneThree: {
-          path: 'secondary-one-3',
-          title: 'Secondary Family Caregiver information',
-          depends: formData => hasSecondaryCaregiverOne(formData),
-          uiSchema: secondaryOneContactPage.uiSchema,
-          schema: secondaryOneContactPage.schema,
+        secondaryOneIdentityInformation: {
+          path: 'secondary-caregiver/identity-information',
+          title: content['secondary-one-info-title--id'],
+          depends: hasSecondaryCaregiverOne,
+          uiSchema: secondaryOneIdentityInfoPage.uiSchema,
+          schema: secondaryOneIdentityInfoPage.schema,
+        },
+        secondaryOneHomeAddress: {
+          path: 'secondary-caregiver/home-address',
+          title: content['secondary-one-info-title--address-home'],
+          depends: hasSecondaryCaregiverOne,
+          uiSchema: secondaryOneHomeAddressPage.uiSchema,
+          schema: secondaryOneHomeAddressPage.schema,
+        },
+        secondaryOneMailingAddress: {
+          path: 'secondary-caregiver/mailing-address',
+          title: content['secondary-one-info-title--address-mailing'],
+          depends: secondaryOneHasDifferentMailingAddress,
+          uiSchema: secondaryOneMailingAddressPage.uiSchema,
+          schema: secondaryOneMailingAddressPage.schema,
+        },
+        secondaryOneContactInformation: {
+          path: 'secondary-caregiver/contact-information',
+          title: content['secondary-one-info-title--contact'],
+          depends: hasSecondaryCaregiverOne,
+          uiSchema: secondaryOneContactInfoPage.uiSchema,
+          schema: secondaryOneContactInfoPage.schema,
+        },
+        hasSecondaryTwo: {
+          path: 'secondary-caregiver/add-additional-caregiver',
+          title: content['secondary-two-intro-title'],
+          depends: hasSecondaryCaregiverOne,
+          uiSchema: hasSecondaryTwoPage.uiSchema,
+          schema: hasSecondaryTwoPage.schema,
+        },
+        secondaryTwoPersonalInformation: {
+          path: 'additional-secondary-caregiver/personal-information',
+          title: content['secondary-two-info-title--personal'],
+          depends: hasSecondaryCaregiverTwo,
+          uiSchema: secondaryTwoPersonalInfoPage.uiSchema,
+          schema: secondaryTwoPersonalInfoPage.schema,
+        },
+        secondaryTwoIdentityInformation: {
+          path: 'additional-secondary-caregiver/identity-information',
+          title: content['secondary-two-info-title--id'],
+          depends: hasSecondaryCaregiverTwo,
+          uiSchema: secondaryTwoIdentityInfoPage.uiSchema,
+          schema: secondaryTwoIdentityInfoPage.schema,
+        },
+        secondaryTwoHomeAddress: {
+          path: 'additional-secondary-caregiver/home-address',
+          title: content['secondary-two-info-title--address-home'],
+          depends: hasSecondaryCaregiverTwo,
+          uiSchema: secondaryTwoHomeAddressPage.uiSchema,
+          schema: secondaryTwoHomeAddressPage.schema,
+        },
+        secondaryTwoMailingAddress: {
+          path: 'additional-secondary-caregiver/mailing-address',
+          title: content['secondary-two-info-title--address-mailing'],
+          depends: secondaryTwoHasDifferentMailingAddress,
+          uiSchema: secondaryTwoMailingAddressPage.uiSchema,
+          schema: secondaryTwoMailingAddressPage.schema,
+        },
+        secondaryTwoContactInformation: {
+          path: 'additional-secondary-caregiver/contact-information',
+          title: content['secondary-two-info-title--contact'],
+          depends: hasSecondaryCaregiverTwo,
+          uiSchema: secondaryTwoContactInfoPage.uiSchema,
+          schema: secondaryTwoContactInfoPage.schema,
         },
       },
     },
-    secondaryCaregiversTwoChapter: {
-      title: secondaryTwoChapterTitle,
-      pages: {
-        secondaryCaregiverTwo: {
-          path: 'secondary-two-1',
-          title: secondaryTwoChapterTitle,
-          depends: formData => hasSecondaryCaregiverTwo(formData),
-          uiSchema: secondaryTwoInfoPage.uiSchema,
-          schema: secondaryTwoInfoPage.schema,
-        },
-        secondaryCaregiverTwoTwo: {
-          path: 'secondary-two-2',
-          title: secondaryTwoChapterTitle,
-          depends: formData => hasSecondaryCaregiverTwo(formData),
-          uiSchema: secondaryTwoContactPage.uiSchema,
-          schema: secondaryTwoContactPage.schema,
-        },
-      },
-    },
-    signAsRepresentativeChapter: {
-      title: 'Application signature',
+    signAsRepresentative: {
+      title: content['sign-as-rep-title--chapter'],
       pages: {
         signAsRepresentative: {
-          path: 'representative-document',
-          title: 'Application signature',
+          path: 'application-signature/next-steps',
+          title: content['sign-as-rep-title--chapter'],
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },
         documentUpload: {
-          path: 'representative-document-upload',
-          title: 'Application signature',
+          path: 'application-signature/upload-supporting-document',
+          title: content['sign-as-rep-title--upload'],
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
           uiSchema: uploadPOADocument.uiSchema,
@@ -231,8 +306,5 @@ const formConfig = {
     },
   },
 };
-
-/* TODO Need to change editModeOnReviewPage for document upload to true 
-when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

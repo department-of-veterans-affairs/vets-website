@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
@@ -7,6 +8,7 @@ import transformForSubmit from './submitTransformer';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import {
   applicantNameDobSchema,
@@ -27,7 +29,6 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
-  // applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -81,6 +82,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
   footerContent: GetFormHelp,
+  submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
     showNavLinks: false,
@@ -88,8 +90,13 @@ const formConfig = {
   },
   preSubmitInfo: {
     required: true,
-    CustomComponent: signatureProps => CustomAttestation(signatureProps),
+    CustomComponent: CustomAttestation,
   },
+  customText: {
+    reviewPageTitle: 'Review form',
+    appType: 'form',
+  },
+  CustomReviewTopContent: () => <h3>Review and sign</h3>,
   saveInProgress: {
     messages: {
       inProgress:
@@ -120,7 +127,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Name and date of birth',
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -161,7 +168,7 @@ const formConfig = {
           ...applicantHasMedicareSchema,
         },
         medicareClass: {
-          path: 'medicare-class',
+          path: 'medicare-plan',
           title: formData => `${fnp(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareClassSchema,
@@ -222,12 +229,6 @@ const formConfig = {
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
         },
-        // medicareComments: {
-        //   path: 'medicare-comments',
-        //   title: 'Medicare additional comments',
-        //   depends: formData => get('applicantMedicareStatus', formData),
-        //   ...applicantMedicareAdditionalCommentsSchema,
-        // },
       },
     },
     healthcareInformation: {
@@ -332,7 +333,9 @@ const formConfig = {
         },
         secondaryType: {
           path: 'secondary-insurance-plan',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
@@ -342,6 +345,7 @@ const formConfig = {
         secondaryMedigap: {
           path: 'secondary-insurance-medigap',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryInsuranceType', formData) === 'medigap',
           title: formData =>
@@ -352,13 +356,17 @@ const formConfig = {
         },
         secondaryProvider: {
           path: 'secondary-insurance-info',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {
           path: 'secondary-insurance-type',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} type of insurance for ${
               formData.applicantSecondaryProvider
@@ -367,7 +375,9 @@ const formConfig = {
         },
         secondaryPrescription: {
           path: 'secondary-insurance-prescription',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
@@ -377,6 +387,7 @@ const formConfig = {
         secondaryEOB: {
           path: 'secondary-insurance-eob',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData),
           title: formData =>
@@ -388,6 +399,7 @@ const formConfig = {
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
           depends: formData =>
+            get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
             !get('applicantSecondaryEOB', formData),
@@ -401,7 +413,9 @@ const formConfig = {
         },
         secondaryCard: {
           path: 'secondary-insurance-card-upload',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData => `${fnp(formData)} health insurance card`,
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
@@ -409,7 +423,9 @@ const formConfig = {
         },
         secondaryComments: {
           path: 'secondary-insurance-comments',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantHasSecondary', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider

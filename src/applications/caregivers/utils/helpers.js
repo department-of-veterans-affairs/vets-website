@@ -1,150 +1,14 @@
-import { isEmpty, mapValues } from 'lodash';
-import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import {
-  primaryCaregiverFields,
-  secondaryOneFields,
-} from '../definitions/constants';
-
-// Merges all the state facilities into one object with values as keys
-// and labels as values
-export const medicalCenterLabels = Object.keys(caregiverFacilities).reduce(
-  (labels, state) => {
-    const stateLabels = caregiverFacilities[state].reduce(
-      (centers, center) =>
-        Object.assign(centers, {
-          [center.code]: center.label,
-        }),
-      {},
-    );
-
-    return Object.assign(labels, stateLabels);
-  },
-  {},
-);
-
-// Turns the facility list for each state into an array of strings
-export const medicalCentersByState = mapValues(caregiverFacilities, val =>
-  val.map(center => center.code),
-);
-
-// transforms forData to match fullSchema structure for backend submission
-export const submitTransform = (formConfig, form) => {
-  const hasPrimary = form.data['view:hasPrimaryCaregiver'] ? 'primary' : null;
-
-  const hasSecondaryOne = form.data['view:hasSecondaryCaregiverOne']
-    ? 'secondaryOne'
-    : null;
-
-  const hasSecondaryTwo = form.data['view:hasSecondaryCaregiverTwo']
-    ? 'secondaryTwo'
-    : null;
-
-  // creates chapter objects by matching chapter prefixes
-  const buildChapterSortedObject = (data, dataPrefix) => {
-    // check to make sure there is a keyName
-    if (dataPrefix === null) return {};
-    const keys = Object.keys(data);
-
-    // matches prefix to fullSchema chapter object labels/keys
-    const getChapterName = key => {
-      switch (key) {
-        case 'veteran':
-          return 'veteran';
-        case 'primary':
-          return 'primaryCaregiver';
-        case 'secondaryOne':
-          return 'secondaryCaregiverOne';
-        case 'secondaryTwo':
-          return 'secondaryCaregiverTwo';
-        default:
-          return null;
-      }
-    };
-
-    const chapterName = getChapterName(dataPrefix);
-
-    const sortedDataByChapter = {
-      [chapterName]: {},
-      signAsRepresentative: false, // sign as veteran is default and false
-    };
-
-    const lowerCaseFirstLetter = string =>
-      string.charAt(0).toLowerCase() + string.slice(1);
-
-    // maps over all keys, and creates objects of the same prefix then removes prefix
-    keys.map(key => {
-      if (key === 'signAsRepresentativeDocumentUpload') {
-        /* if user submits a document via upload page, add the guid to the formData
-          otherwise delete object and move on to next keys */
-        if (isEmpty(data[key]) || data.signAsRepresentativeYesNo !== 'yes') {
-          return delete sortedDataByChapter.poaAttachmentId;
-        }
-
-        const documentUpload = data[key][0].guid;
-        sortedDataByChapter.poaAttachmentId = documentUpload;
-      } else if (key === 'signAsRepresentativeYesNo') {
-        if (data[key] === 'yes') {
-          sortedDataByChapter.signAsRepresentative = true; // sign as representative
-        } else {
-          sortedDataByChapter.signAsRepresentative = false; // sign as veteran
-        }
-      } else if (key.includes(dataPrefix)) {
-        // if preferredFacility grab the nested "plannedClinic" value, and surface it
-        if (key === 'veteranPreferredFacility') {
-          sortedDataByChapter[chapterName] = {
-            ...sortedDataByChapter[chapterName],
-            plannedClinic: data[key].plannedClinic,
-          };
-        } else {
-          // otherwise just remove the prefix, and populate chapter object
-          const keyWithoutPrefix = lowerCaseFirstLetter(
-            key.split(dataPrefix)[1],
-          );
-          sortedDataByChapter[chapterName] = {
-            ...sortedDataByChapter[chapterName],
-            [keyWithoutPrefix]: data[key],
-          };
-        }
-      }
-
-      // returning null due to "array-callback-return" eslint rule
-      return null;
-    });
-
-    return sortedDataByChapter;
-  };
-
-  const remappedData = {
-    ...form,
-    data: {
-      ...buildChapterSortedObject(form.data, 'veteran'),
-      ...buildChapterSortedObject(form.data, hasPrimary),
-      ...buildChapterSortedObject(form.data, hasSecondaryOne),
-      ...buildChapterSortedObject(form.data, hasSecondaryTwo),
-    },
-  };
-
-  const formData = transformForSubmit(formConfig, remappedData);
-
-  return JSON.stringify({
-    caregiversAssistanceClaim: {
-      form: formData,
-    },
-  });
-};
-
 export const hasPrimaryCaregiver = formData => {
-  return formData[primaryCaregiverFields.hasPrimaryCaregiver] === true;
+  return formData['view:hasPrimaryCaregiver'] === true;
 };
 
 export const hasSecondaryCaregiverOne = formData =>
-  formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === true;
+  formData['view:hasSecondaryCaregiverOne'] === true;
 
 export const hasSecondaryCaregiverTwo = formData =>
-  formData[secondaryOneFields.hasSecondaryCaregiverTwo] === true;
+  formData['view:hasSecondaryCaregiverTwo'] === true;
 
-export const isSSNUnique = formData => {
+export const isSsnUnique = formData => {
   const {
     veteranSsnOrTin,
     primarySsnOrTin,
@@ -153,10 +17,7 @@ export const isSSNUnique = formData => {
   } = formData;
 
   const checkIfPartyIsPresent = (comparator, data) => {
-    if (comparator(formData)) {
-      return data;
-    }
-    return undefined;
+    return comparator(formData) ? data : undefined;
   };
 
   const presentPrimarySsn = checkIfPartyIsPresent(
@@ -188,52 +49,68 @@ export const isSSNUnique = formData => {
   return checkIfArrayIsUnique(allValidSSNs);
 };
 
-export const validateSSNIsUnique = (errors, formData) => {
-  if (!isSSNUnique(formData)) {
-    errors.addError(
-      'We\u2019re sorry. You\u2019ve already entered this number elsewhere. Please check your data and try again.',
-    );
-  }
-};
-
-export const facilityNameMaxLength = (errors, formData) => {
-  const facilityNameLength = formData.veteranLastTreatmentFacility.name?.length;
-  if (facilityNameLength > 80) {
-    errors.addError(
-      'You\u2019ve entered too many characters, please enter less than 80 characters.',
-    );
-  }
-};
-
-export const shouldHideAlert = formData => {
-  const hasPrimary = formData[primaryCaregiverFields.hasPrimaryCaregiver];
-  const hasSecondary =
-    formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
+export const hideCaregiverRequiredAlert = formData => {
+  const hasPrimary = hasPrimaryCaregiver(formData);
+  const hasSecondary = hasSecondaryCaregiverOne(formData);
   const isSecondaryOneUndefined =
-    formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
-
+    formData['view:hasSecondaryCaregiverOne'] === undefined;
   return hasPrimary || hasSecondary || isSecondaryOneUndefined;
 };
 
+export const hideUploadWarningAlert = formData => {
+  const { signAsRepresentativeDocumentUpload: upload } = formData;
+  const hasDocument = upload?.length;
+
+  if (!hasDocument) return false;
+
+  const { guid, name, errorMessage } = upload[0];
+  return !(guid && name && !errorMessage);
+};
+
 /**
- * Converts an array of items into a sentence with a conjunction
- *
- * Note: returns blank string if items is not an array or is empty
- * @export
- * @param {Array<string>} items
- * @param {string} conjunction
- * @param {Function} transform mapper function
- * @returns {string}
+ * Helper that builds a full name string based on provided input values
+ * @param {Object} name - the object that stores all the available input values
+ * @param {Boolean} outputMiddle - optional param to declare whether to output
+ * the middle name as part of the returned string
+ * @returns {String} - the name string with all extra whitespace removed
  */
-export const arrayToSentenceString = (items, conjunction, transform) => {
-  if (!Array.isArray(items) || items.length < 1) return '';
+export const normalizeFullName = (name = {}, outputMiddle = false) => {
+  const { first = '', middle = '', last = '', suffix = '' } = name;
+  const nameToReturn = outputMiddle
+    ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
+    : `${first} ${last} ${suffix}`;
+  return nameToReturn.replace(/ +(?= )/g, '').trim();
+};
 
-  return items.reduce((accumulator, val, index) => {
-    const item = typeof transform === 'function' ? transform(val) : val;
+/**
+ * Helper that replaces specified parts of a string with a dynamic value
+ * @param {String} src - the original string to parse
+ * @param {String} val - the value to input into the new string
+ * @param {String} char - the value to be replaced in the original string
+ * @returns {String} - the new string with all replaced values
+ */
+export const replaceStrValues = (src, val, char = '%s') => {
+  return src && val ? src.toString().replace(char, val) : '';
+};
 
-    if (index === 0) return item.toString();
+// form config specific helpers
+export const primaryHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasPrimaryCaregiver(formData);
+  const hasDifferentMailingAddress =
+    formData['view:primaryHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
+};
 
-    const seperator = index < items.length - 1 ? ',' : `, ${conjunction}`;
-    return `${accumulator}${seperator} ${item}`;
-  }, '');
+export const secondaryOneHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasSecondaryCaregiverOne(formData);
+  const hasDifferentMailingAddress =
+    formData['view:secondaryOneHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
+};
+
+export const secondaryTwoHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasSecondaryCaregiverTwo(formData);
+  const hasDifferentMailingAddress =
+    formData['view:secondaryTwoHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
 };

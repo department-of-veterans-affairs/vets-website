@@ -1,7 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+import radiologyRecordsMhv from './fixtures/labs-and-tests/radiologyRecordsMhv.json';
 
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   const site = new MedicalRecordsSite();
@@ -12,23 +13,45 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
-  it('Navigate to MHV Classic to view their Radiology Images', () => {
-    // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[5]);
-    RadiologyDetailsPage.verifyTitle(
-      'RADIOLOGIC EXAMINATION, SPINE, LUMBOSACRAL; 2 OR 3 VIEWS',
+  it('View Radiology Details Page', () => {
+    cy.reload();
+    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+
+    RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[11].procedureName);
+    RadiologyDetailsPage.verifyDate(
+      moment(radiologyRecordsMhv[11].eventDate).format('MMMM D, YYYY'),
     );
-    RadiologyDetailsPage.verifyDate('September 24, 2004');
+
     RadiologyDetailsPage.verifyRadiologyReason('None noted');
-    RadiologyDetailsPage.verifyRadiologyClinicalHistory('None noted');
-    RadiologyDetailsPage.verifyRadiologyOrderedBy('GARFUNKEL,FELIX');
+
+    // Regex: replace \r\n line terminating characters, with spaces
+    // then eliminate multiple spaces
+    RadiologyDetailsPage.verifyRadiologyClinicalHistory(
+      `${radiologyRecordsMhv[11].clinicalHistory
+        .replace(/[\r\n]+/gm, ' ')
+        .replace(/ +(?= )/g, '')
+        .trim()}`,
+    );
+
+    RadiologyDetailsPage.verifyRadiologyOrderedBy(
+      radiologyRecordsMhv[11].requestingProvider,
+    );
+
     RadiologyDetailsPage.verifyRadiologyImagingLocation(
-      'GARFUNKEL,FELIX, DAYT29 TEST LAB',
+      radiologyRecordsMhv[11].performingLocation,
     );
-    RadiologyDetailsPage.verifyRadiologyImagingProvider('None noted');
+
+    RadiologyDetailsPage.verifyRadiologyImagingProvider(
+      radiologyRecordsMhv[11].radiologist,
+    );
+
+    // Regex: replace \r\n line terminating characters, with spaces
     RadiologyDetailsPage.verifyRadiologyResults(
-      'SPINE LUMBOSACRAL MIN 2 VIEWS',
+      radiologyRecordsMhv[11].impressionText
+        .replace(/[\r\n]+/gm, ' ')
+        .replace(/ +(?= )/g, ''),
     );
+
     cy.injectAxe();
     cy.axeCheck('main', {});
   });

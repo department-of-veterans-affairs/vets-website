@@ -13,12 +13,7 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import {
-  isLandingPageEnabled,
-  personalizationEnabled,
-  helpdeskInfoEnabled,
-} from './featureToggles';
-import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
+import { personalizationEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
@@ -28,15 +23,12 @@ import {
 export {
   isAuthenticatedWithSSOe,
   isInMPI,
-  isLandingPageEnabled,
-  isLandingPageEnabledForUser,
   isLOA1,
   isLOA3,
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,

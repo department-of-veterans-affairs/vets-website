@@ -11,9 +11,6 @@ export default {
   uiSchema: {
     ...titleUI('Home address'),
     homeAddress: addressUI({
-      labels: {
-        state: 'State/Province/Region',
-      },
       omit: ['street3'],
     }),
   },

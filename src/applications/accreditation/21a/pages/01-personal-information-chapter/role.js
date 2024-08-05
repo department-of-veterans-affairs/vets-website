@@ -10,11 +10,11 @@ const roleOptions = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'role',
+  title: 'Role',
   path: 'role',
   uiSchema: {
     role: radioUI({
-      title: 'What type of role are you applying for?',
+      title: 'Which role are you applying for?',
       labels: roleOptions,
     }),
   },

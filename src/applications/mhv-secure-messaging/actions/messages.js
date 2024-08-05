@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -10,6 +11,7 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getLastSentMessage, isOlderThan } from '../util/helpers';
+import { getIsPilotFromState } from '.';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -43,15 +45,26 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async dispatch => {
+export const retrieveMessageThread = messageId => async (
+  dispatch,
+  getState,
+) => {
+  const isPilot = getIsPilotFromState(getState);
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody(messageId);
+    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
 
-    const drafts = response.data.filter(m => m.attributes.draftDate !== null);
+    const drafts = response.data
+      .filter(m => m.attributes.draftDate !== null)
+      .sort(
+        (a, b) =>
+          moment(a.attributes.draftDate).isSameOrBefore(b.attributes.draftDate)
+            ? 1
+            : -1,
+      );
     const messages = response.data.filter(m => m.attributes.sentDate !== null);
 
     const replyToName =

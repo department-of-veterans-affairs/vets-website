@@ -22,7 +22,7 @@ export default function CallToActionAlert({
           <va-button
             onClick={primaryButtonHandler}
             text={primaryButtonText}
-            aria-label={ariaLabel}
+            label={ariaLabel}
             aria-describedby={ariaDescribedby}
             uswds
           />

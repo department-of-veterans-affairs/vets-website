@@ -27,20 +27,22 @@ export const getDynamicContent = formResponses => {
   for (const shortName of answeredQuestions) {
     const formAnswer = formResponses[shortName];
 
-    for (const dataForOneQuestion of dynamicContent[shortName]) {
-      // For checkbox answers
-      const dynamicContentMatchesArrayAnswer =
-        Array.isArray(formAnswer) &&
-        formAnswer.includes(dataForOneQuestion.response);
+    if (dynamicContent?.[shortName]) {
+      for (const dataForOneQuestion of dynamicContent[shortName]) {
+        // For checkbox answers
+        const dynamicContentMatchesArrayAnswer =
+          Array.isArray(formAnswer) &&
+          formAnswer.includes(dataForOneQuestion.response);
 
-      const dynamicContentMatchesStringAnswer =
-        formAnswer === dataForOneQuestion.response;
+        const dynamicContentMatchesStringAnswer =
+          formAnswer === dataForOneQuestion.response;
 
-      if (
-        dynamicContentMatchesArrayAnswer ||
-        dynamicContentMatchesStringAnswer
-      ) {
-        dynamicContentMatchingAnswer.push(dataForOneQuestion.content);
+        if (
+          dynamicContentMatchesArrayAnswer ||
+          dynamicContentMatchesStringAnswer
+        ) {
+          dynamicContentMatchingAnswer.push(dataForOneQuestion.content);
+        }
       }
     }
   }
