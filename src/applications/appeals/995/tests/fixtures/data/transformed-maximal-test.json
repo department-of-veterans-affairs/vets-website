@@ -18,7 +18,7 @@
           "countryCode": "6",
           "areaCode": "555",
           "phoneNumber": "8001111",
-          "phoneNumberExt": "2"
+          "phoneNumberExt": "5678"
         },
         "email": "user@example.com",
         "timezone": "America/Los_Angeles"
