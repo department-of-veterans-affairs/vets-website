@@ -21,10 +21,7 @@ const CONTACT_TYPE_DESCRIPTIONS = Object.freeze({
 });
 
 const CONTACT_TYPES = Object.entries(CONTACT_TYPE_API_NAMES).reduce(
-  (acc, [key, name]) => {
-    acc[name] = CONTACT_TYPE_DESCRIPTIONS[key];
-    return acc;
-  },
+  (acc, [key, name]) => ({ ...acc, [name]: CONTACT_TYPE_DESCRIPTIONS[key] }),
   {},
 );
 
