@@ -52,6 +52,8 @@ export default function transformForSubmit(formConfig, form) {
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
 
+  copyOfData.fileNumber = copyOfData.applicantMemberNumber;
+
   debugger;
   return JSON.stringify({
     ...copyOfData,
