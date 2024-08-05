@@ -106,10 +106,8 @@ describe('Medications Prescriptions container', () => {
 
   it('displays intro text ', async () => {
     const screen = setup();
-    expect(
-      await screen.findByText(
-        'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications.',
-      ),
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'When you share your medications list with providers, make sure you also tell them about your allergies and reactions to medications',
     );
   });
 
@@ -300,7 +298,7 @@ describe('Medications Prescriptions container', () => {
     });
     expect(screen.getByText('Go to your allergies and reactions'));
   });
-  it('displays "If you print or download this list, we’ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', () => {
+  it('displays "If you print or download this list, we’ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
     const screen = setup({
       ...initialState,
       breadcrumbs: {
@@ -311,10 +309,8 @@ describe('Medications Prescriptions container', () => {
         mhv_medications_display_allergies: false,
       },
     });
-    expect(
-      screen.getByText(
-        'If you print or download this list, we’ll include a list of your allergies.',
-      ),
+    expect(await screen.getByTestId('Title-Notes').textContent).to.contain(
+      'If you print or download this list, we’ll include a list of your allergies.',
     );
   });
 });
