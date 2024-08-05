@@ -2,7 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   beforeEach(() => {
@@ -10,6 +10,40 @@ describe('Secure Messaging Compose', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
+
+  it('verify interface', () => {
+    // verify header
+    cy.get(Locators.HEADER).should(`have.text`, Data.START_NEW_MSG);
+
+    // verify DD visible and closed
+    cy.get(`va-additional-info[trigger^="If you"]`)
+      .shadow()
+      .find(`a`)
+      .should(`have.attr`, `aria-expanded`, `false`);
+
+    // open DD list
+    cy.get(`va-additional-info[trigger^="If you"]`)
+      .shadow()
+      .find(`a`)
+      .click({ force: true });
+
+    // verify DD opened
+    cy.get(`va-additional-info[trigger^="If you"]`)
+      .shadow()
+      .find(`a`)
+      .should(`have.attr`, `aria-expanded`, `true`);
+    // verify DD content is visible
+    cy.get(`va-additional-info[trigger^="If you"]`).should(`be.visible`);
+
+    // verify MHV Classic link won't open in new window
+    cy.get(`va-additional-info[trigger^="If you"]`)
+      .find(`a[href$="preferences"]`)
+      .should('not.have.attr', `target`, `_blank`);
+
+    // cy.injectAxe();
+    // cy.axeCheck(AXE_CONTEXT);
+  });
+
   it('verify user can send a message', () => {
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
