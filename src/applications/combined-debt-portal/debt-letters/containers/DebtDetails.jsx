@@ -219,7 +219,7 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-y--2">
+            <p className="vads-u-margin-bottom--0">
               {`You can check the status ${
                 showDebtLetterDownload ? `or download the letters for` : `of`
               } this debt.`}
