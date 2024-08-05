@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACT_TYPE_UI_NAMES, CONTACT_TYPE_DESCRIPTIONS } from './constants';
 
 const Instructions = ({ testId, contactType, description }) => {
-  const isEc = contactType === 'emergency contact';
+  const isEc = contactType === CONTACT_TYPE_UI_NAMES.EMERGENCY_CONTACT;
   return (
     <div data-testid={testId}>
       <p className="vads-u-color--gray-medium vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
@@ -21,8 +22,8 @@ const Instructions = ({ testId, contactType, description }) => {
 };
 
 Instructions.propTypes = {
-  contactType: PropTypes.string,
-  description: PropTypes.string,
+  contactType: PropTypes.oneOf(Object.values(CONTACT_TYPE_UI_NAMES)),
+  description: PropTypes.oneOf(Object.values(CONTACT_TYPE_DESCRIPTIONS)),
   testId: PropTypes.string,
 };
 
