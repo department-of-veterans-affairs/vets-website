@@ -9,14 +9,17 @@ describe('Enrollment Verification Page Tests', () => {
       statusCode: 200,
       body: UPDATED_USER_MOCK_DATA,
     });
-    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+        ],
       },
     });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
   });
 
   it('should display the enrollment verification breadcrumbs', () => {
@@ -184,6 +187,24 @@ describe('Enrollment Verification Page Tests', () => {
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
   });
+  it('should show Delimiting date if deldate is not null', () => {
+    cy.injectAxeThenAxeCheck();
+    const enrollmentData = {
+      ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
+      delDate: '2017-04-05',
+    };
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: enrollmentData,
+    });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get('p[data-testid="del-title"]').should('be.visible');
+  });
   it('show required error message when button is click and the checkbox is not checked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[data-testid="have-not-verified"]')
@@ -201,12 +222,24 @@ describe('Enrollment Verification Page Tests', () => {
   it('should show not verified Alert if user is not verified', () => {
     cy.injectAxeThenAxeCheck();
     cy.login(notVerifiedUser);
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
+  });
+  it('should show Maintenance Alet if toggle is off', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: false },
+          { name: 'mgib_verifications_maintenance', value: true },
+        ],
       },
     });
-    cy.get('a[href="/verify"]').should('contain', 'Verify your identity');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.get('h2[id="maintenance-alert"]').should(
+      'contain',
+      'System Maintenance',
+    );
   });
 });

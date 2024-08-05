@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
-
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -16,6 +16,7 @@ import DetailPageLayout, {
   Section,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -34,6 +35,7 @@ export default function InPersonLayout({ data: appointment }) {
     facilityPhone,
     locationId,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -42,11 +44,14 @@ export default function InPersonLayout({ data: appointment }) {
     shallowEqual,
   );
 
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
+  );
+
   if (!appointment) return null;
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const facilityId = locationId;
-  const oracleHealthProviderName = null;
 
   let heading = 'In-person appointment';
   if (isPastAppointment) heading = 'Past in-person appointment';
@@ -71,7 +76,7 @@ export default function InPersonLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
+      <Who>{practitionerName}</Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
@@ -135,6 +140,23 @@ export default function InPersonLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
+      {featureMedReviewInstructions &&
+        !isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards, a list of medications, and other
+              things to share with your provider.
+            </p>
+            <a
+              target="_self"
+              href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+            >
+              Find out what to bring to your appointment
+            </a>
+          </Prepare>
+        )}
     </DetailPageLayout>
   );
 }

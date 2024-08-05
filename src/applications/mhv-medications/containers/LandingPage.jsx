@@ -14,11 +14,12 @@ import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
-  DD_ACTIONS_PAGE_TYPE,
+  SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import { dataDogActionNames } from '../util/dataDogConstants';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -53,6 +54,10 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
+
+  useEffect(() => {
+    sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
+  }, []);
 
   useEffect(
     () => {
@@ -123,9 +128,10 @@ const LandingPage = () => {
                           Manage your medications
                         </h2>
                         <Link
-                          data-dd-action-name={`Refill Prescriptions Action Link - ${
-                            DD_ACTIONS_PAGE_TYPE.ABOUT
-                          }`}
+                          data-dd-action-name={
+                            dataDogActionNames.landingPage
+                              .REFILL_PRESCRIPTIONS_LINK
+                          }
                           className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
                           to={refillUrl}
                           data-testid="refill-nav-link"
@@ -136,9 +142,10 @@ const LandingPage = () => {
                           className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                           to={medicationsUrl}
                           data-testid="prescriptions-nav-link"
-                          data-dd-action-name={`Go To Your Medications List Action Link - ${
-                            DD_ACTIONS_PAGE_TYPE.ABOUT
-                          }`}
+                          data-dd-action-name={
+                            dataDogActionNames.landingPage
+                              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+                          }
                         >
                           Go to your medications list
                         </Link>
@@ -156,9 +163,10 @@ const LandingPage = () => {
                           className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                           to={medicationsUrl}
                           data-testid="prescriptions-nav-link"
-                          data-dd-action-name={`Go To Your Medications List Action Link - ${
-                            DD_ACTIONS_PAGE_TYPE.ABOUT
-                          }`}
+                          data-dd-action-name={
+                            dataDogActionNames.landingPage
+                              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+                          }
                         >
                           Go to your medications list
                         </Link>
@@ -218,9 +226,9 @@ const LandingPage = () => {
               <va-accordion
                 bordered
                 data-testid="accordion-dropdown"
-                data-dd-action-name={`Questions About This Tool Accordion - ${
-                  DD_ACTIONS_PAGE_TYPE.ABOUT
-                }`}
+                data-dd-action-name={
+                  dataDogActionNames.landingPage.QUESTIONS_ABOUT_THIS_ACCORDION
+                }
                 uswds
               >
                 <va-accordion-item bordered="true">
@@ -267,9 +275,10 @@ const LandingPage = () => {
                           'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
-                        data-dd-action-name={`Go To Your Self Entered Medications Link - ${
-                          DD_ACTIONS_PAGE_TYPE.ABOUT
-                        }`}
+                        data-dd-action-name={
+                          dataDogActionNames.landingPage
+                            .GO_TO_YOUR_SELF_ENTERED_MEDICATIONS_LINK
+                        }
                       >
                         Go to your self-entered medications on the My HealtheVet
                         website
@@ -385,9 +394,9 @@ const LandingPage = () => {
                     <a
                       href="/my-health/secure-messages/new-message/"
                       rel="noreferrer"
-                      data-dd-action-name={`Compose A Message Link - ${
-                        DD_ACTIONS_PAGE_TYPE.ABOUT
-                      }`}
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage.COMPOSE_A_MESSAGE_LINK
+                      }
                     >
                       Start a new message
                     </a>
@@ -418,9 +427,9 @@ const LandingPage = () => {
                 uswds
                 bordered
                 data-testid="more-ways-to-manage"
-                data-dd-action-name={`More Ways To Manage Accordion - ${
-                  DD_ACTIONS_PAGE_TYPE.ABOUT
-                }`}
+                data-dd-action-name={
+                  dataDogActionNames.landingPage.MORE_WAYS_TO_MANAGE_ACCORDION
+                }
               >
                 <va-accordion-item
                   open={isRxRenewAccordionOpen}
@@ -463,9 +472,9 @@ const LandingPage = () => {
                   <a
                     href="/my-health/secure-messages/new-message/"
                     rel="noreferrer"
-                    data-dd-action-name={`Compose A Message Link - ${
-                      DD_ACTIONS_PAGE_TYPE.ABOUT
-                    }`}
+                    data-dd-action-name={
+                      dataDogActionNames.landingPage.COMPOSE_A_MESSAGE_LINK
+                    }
                   >
                     Start a new message
                   </a>
@@ -513,9 +522,10 @@ const LandingPage = () => {
                   </p>
                   <a
                     href="/find-locations/?page=1&facilityType=health"
-                    data-dd-action-name={`Find Your VA Health Facility Link - ${
-                      DD_ACTIONS_PAGE_TYPE.ABOUT
-                    }`}
+                    data-dd-action-name={
+                      dataDogActionNames.landingPage
+                        .FIND_YOUR_VA_HEALTH_FACILITY_LINK
+                    }
                   >
                     Find your VA health facility
                   </a>
@@ -542,9 +552,9 @@ const LandingPage = () => {
                       'profiles',
                     )}
                     rel="noreferrer"
-                    data-dd-action-name={`Go To Your Profile Link - ${
-                      DD_ACTIONS_PAGE_TYPE.ABOUT
-                    }`}
+                    data-dd-action-name={
+                      dataDogActionNames.landingPage.GO_TO_YOUR_PROFILE_LINK
+                    }
                   >
                     Go to your profile on the My HealtheVet website
                   </a>
@@ -570,9 +580,10 @@ const LandingPage = () => {
                       'va-allergies-adverse-reactions',
                     )}
                     rel="noreferrer"
-                    data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
-                      DD_ACTIONS_PAGE_TYPE.ABOUT
-                    }`}
+                    data-dd-action-name={
+                      dataDogActionNames.landingPage
+                        .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
+                    }
                   >
                     Go to your allergy and reaction records on the My HealtheVet
                     website

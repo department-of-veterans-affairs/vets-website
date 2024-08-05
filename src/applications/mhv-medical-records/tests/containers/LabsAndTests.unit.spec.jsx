@@ -6,16 +6,24 @@ import { beforeEach } from 'mocha';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
-import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import {
+  convertLabsAndTestsRecord,
+  extractSpecimen,
+} from '../../reducers/labsAndTests';
+import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
 
 describe('LabsAndTests list container', () => {
+  const labsAndTestsFhir = labsAndTests.entry.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
+  const radiologyTestsMhv = radiologyTests.map(item =>
+    convertLabsAndTestsRecord(item),
+  );
   const initialState = {
     mr: {
       labsAndTests: {
-        labsAndTestsList: labsAndTests.entry.map(item =>
-          convertLabsAndTestsRecord(item),
-        ),
+        labsAndTestsList: [...labsAndTestsFhir, ...radiologyTestsMhv],
       },
     },
   };
@@ -42,14 +50,14 @@ describe('LabsAndTests list container', () => {
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1 to 10 of 14 records', { exact: false }))
+    expect(screen.getByText('Showing 1 to 10 of 34 records', { exact: false }))
       .to.exist;
   });
 
   it('displays a list of records', async () => {
     await waitFor(() => {
       // counting shown records plus all records due to print view
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(24);
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(44);
     });
   });
 });
@@ -146,5 +154,27 @@ describe('Labs and tests list container with errors', () => {
         ),
       ).to.exist;
     });
+  });
+});
+
+describe('extractSpecimen function', () => {
+  const testRecord = {
+    specimen: [
+      {
+        reference: '#ex-MHV-specimen-3',
+      },
+    ],
+  };
+  const testRecord2 = {
+    contained: [{ id: 'a1', resourceType: 'Practitioner', type: 'TypeA' }],
+  };
+  it('should return an object if correct parameter is passed', () => {
+    const record = extractSpecimen(testRecord);
+    expect(record).to.eq('#ex-MHV-specimen-3');
+  });
+
+  it('should return "null" if record is passed without a specimen key', () => {
+    const record = extractSpecimen(testRecord2);
+    expect(record).to.eq(null);
   });
 });
