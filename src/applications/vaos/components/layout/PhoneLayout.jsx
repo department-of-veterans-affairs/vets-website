@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import DetailPageLayout, {
   Section,
   What,
   When,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
@@ -35,6 +37,11 @@ export default function PhoneLayout({ data: appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
+  );
+
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
@@ -102,6 +109,23 @@ export default function PhoneLayout({ data: appointment }) {
         <br />
         <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
+      {featureMedReviewInstructions &&
+        !isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards, a list of medications, and other
+              things to share with your provider.
+            </p>
+            <a
+              target="_self"
+              href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+            >
+              Find out what to bring to your appointment
+            </a>
+          </Prepare>
+        )}
     </DetailPageLayout>
   );
 }

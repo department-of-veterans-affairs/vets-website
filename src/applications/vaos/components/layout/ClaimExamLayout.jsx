@@ -166,21 +166,28 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
         </Section>
       )}
-      {featureMedReviewInstructions && (
-        <Prepare>
-          <ul>
-            <li>You don't need to bring anything to your exam.</li>
-            <li>
-              If you have any new non-VA medical records (like records from a
-              recent surgery or illness), be sure to submit them before your
-              appointment.
-            </li>
-          </ul>
-          <NewTabAnchor href="https://www.va.gov/disability/va-claim-exam/">
-            Learn more about claim exam appointments
-          </NewTabAnchor>
-        </Prepare>
-      )}
+
+      {featureMedReviewInstructions &&
+        !isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <li>You don't need to bring anything to your exam.</li>
+              <li>
+                If you have any new non-VA medical records (like records from a
+                recent surgery or illness), be sure to submit them before your
+                appointment.
+              </li>
+            </ul>
+            <a
+              target="_self"
+              href="https://www.va.gov/disability/va-claim-exam/"
+            >
+              Learn more about claim exam appointments
+            </a>
+          </Prepare>
+        )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">

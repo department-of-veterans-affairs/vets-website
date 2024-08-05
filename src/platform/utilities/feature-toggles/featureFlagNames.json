@@ -29,6 +29,7 @@
   "checkInExperienceBrowserMonitoring": "check_in_experience_browser_monitoring",
   "checkInExperienceUpdatedApptPresentation": "check_in_experience_updated_appt_presentation",
   "checkInExperienceUnifiedLandingPage": "check_in_experience_unified_landing_page",
+  "checkInExperienceUpcomingAppointmentsEnabled": "check_in_experience_upcoming_appointments_enabled",
   "checkVAInboxEnabled": "check_va_inbox_enabled",
   "claimLettersAccess": "claim_letters_access",
   "coeAccess": "coe_access",
@@ -113,7 +114,6 @@
   "medicalCopaysHtmlMedicalStatementsViewEnabled": "medical_copays_html_medical_statements_view_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
-  "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
   "mhvSecureMessagingEditContactList": "mhv_secure_messaging_edit_contact_list",
@@ -146,7 +146,10 @@
   "pensionFormEnabled": "pension_form_enabled",
   "pensionMedicalEvidenceClarification": "pension_medical_evidence_clarification",
   "pensionIntroductionUpdate": "pension_introduction_update",
+  "pensionConfirmationUpdate": "pension_confirmation_update",
+  "pensionSupportingDocumentsUpdate": "pension_supporting_documents_update",
   "pensionMultiplePageResponse": "pension_multiple_page_response",
+  "pensionIncomeAndAssetsClarification": "pension_income_and_assets_clarification",
   "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",
   "pensionModuleEnabled": "pension_module_enabled",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
@@ -273,5 +276,6 @@
   "merge1995And5490": "merge_1995_and_5490",
   "askVaFormFeature": "ask_va_form_feature",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
-  "askVaIntroductionPageFeature": "ask_va_introduction_page_feature"
+  "askVaIntroductionPageFeature": "ask_va_introduction_page_feature",
+  "mgibVerificationsMaintenance": "mgib_verifications_maintenance"
 }

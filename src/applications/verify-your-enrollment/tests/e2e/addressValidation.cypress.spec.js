@@ -39,14 +39,18 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: UPDATED_USER_MOCK_DATA,
     });
-    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'toggle_vye_address_direct_deposit_forms', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+        ],
       },
     });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
