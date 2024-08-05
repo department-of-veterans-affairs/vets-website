@@ -5,8 +5,7 @@ import {
   getAgeInYears,
   makeHumanReadable,
 } from '../../../../shared/utilities';
-import { sponsorWording } from '../../../helpers/wordingCustomization';
-import { isInRange } from '../../../helpers/utilities';
+import { isInRange, sponsorWording } from '../../../helpers/utilities';
 import { getTopLevelFormData } from '../../../components/Applicant/applicantFileUpload';
 import ApplicantField from '../../../../shared/components/applicantLists/ApplicantField';
 import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
@@ -60,12 +59,6 @@ describe('makeHumanReadable helper', () => {
     expect(makeHumanReadable('camelCaseTest')).to.equal('Camel Case Test');
   });
 });
-
-// describe('getParts helper', () => {
-//   it('should clean up presentation of medicare part text', () => {
-//     expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
-//   });
-// });
 
 testComponentRender(
   'ApplicantField',

@@ -98,7 +98,11 @@ class FilesPage extends React.Component {
                 optionalFiles={optionalFiles}
               />
             )}
-            {showDecision && <AskVAToDecide />}
+            <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+              <Toggler.Disabled>
+                {showDecision && <AskVAToDecide />}
+              </Toggler.Disabled>
+            </Toggler>
             <div className="submitted-files-list">
               <h2 className="claim-file-border">Documents filed</h2>
               {documentsTurnedIn.length === 0 ? (
@@ -120,7 +124,11 @@ class FilesPage extends React.Component {
           <Toggler.Enabled>
             <ClaimFileHeader isOpen={isOpen} />
             <AdditionalEvidencePage />
-            {showDecision && <AskVAToDecide />}
+            <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
+              <Toggler.Disabled>
+                {showDecision && <AskVAToDecide />}
+              </Toggler.Disabled>
+            </Toggler>
             <DocumentsFiled claim={claim} />
           </Toggler.Enabled>
         </Toggler>
