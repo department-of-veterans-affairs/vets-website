@@ -42,8 +42,8 @@ function transformApplicants(applicants) {
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
-      sponsorMarriageDetails:
-        app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
+      // sponsorMarriageDetails:
+      // app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
       isEnrolledInMedicare:
         app?.applicantMedicareStatus?.eligibility === 'enrolled',
       hasOtherHealthInsurance: app?.applicantHasOhi?.hasOhi === 'yes',
@@ -57,8 +57,8 @@ function transformApplicants(applicants) {
         app?.applicantAdoptionPapers,
         app?.applicantStepMarriageCert,
         app?.applicantMarriageCert,
-        app?.applicantSecondMarriageCert,
-        app?.applicantSecondMarriageDivorceCert,
+        // app?.applicantSecondMarriageCert,
+        // app?.applicantSecondMarriageDivorceCert,
         app?.applicantMedicarePartAPartBCard,
         app?.applicantMedicarePartDCard,
         app?.applicantMedicareIneligibleProof,

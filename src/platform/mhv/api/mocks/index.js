@@ -28,7 +28,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
-    mhvSecureMessagingToVAGovRelease: true,
   }),
 
   // VAMC facility data that apps query for on startup

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
-import Abbr from '../components/Abbreviation';
 
 const ConfirmationPage = () => {
   const { submission, data } = useSelector(state => state.form);
@@ -67,10 +66,7 @@ const ConfirmationPage = () => {
           </a>
         </p>
         <p>
-          Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />. We’re
-          here Monday through Friday, 8:00 a.m. to 10:00 p.m.{' '}
-          <Abbr abbrKey="et" />, and Saturday, 8:00 a.m. to 5:00 p.m.{' '}
-          <Abbr abbrKey="et" />.
+          Or call us at <va-telephone contact={CONTACTS.CAREGIVER} />.
         </p>
         <p className="no-print">
           <a
