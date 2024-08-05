@@ -119,12 +119,13 @@ export function depends18f3(formData, index) {
     get(
       'applicantRelationshipToSponsor.relationshipToVeteran',
       formData?.applicants?.[index],
-    ) === 'spouse' &&
+    ) ===
+    'spouse' /* &&
     (get(
       'applicantSponsorMarriageDetails.relationshipToVeteran',
       formData?.applicants?.[index],
     ) === 'marriedTillDeathNoRemarriage' ||
-      !get('sponsorIsDeceased', formData))
+      !get('sponsorIsDeceased', formData)) */
   );
 }
 
