@@ -61,7 +61,8 @@ describe('LandingPage component', () => {
 
   it('shows an alert when user is unverified', () => {
     const initialState = stateFn({ loa: 1, serviceName: 'idme' });
-    const { getByText } = setup({ initialState });
+    const props = { showVerifyAndRegisterAlert: () => false };
+    const { getByText } = setup({ initialState, props });
     getByText(
       'Verify your identity to use your ID.me account on My HealtheVet',
     );
