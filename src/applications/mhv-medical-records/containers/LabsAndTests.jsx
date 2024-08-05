@@ -20,7 +20,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 const LabsAndTests = () => {
   const dispatch = useDispatch();
   const updatedRecordList = useSelector(
-    state => state.mr.careSummariesAndNotes.updatedList,
+    state => state.mr.labsAndTests.updatedList,
   );
   const labsAndTests = useSelector(
     state => state.mr.labsAndTests.labsAndTestsList,
@@ -36,7 +36,7 @@ const LabsAndTests = () => {
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
-    extractType: refreshExtractTypes.VPR,
+    extractType: refreshExtractTypes.CHEM_HEM,
     dispatchAction: getLabsAndTestsList,
     dispatch,
   });
