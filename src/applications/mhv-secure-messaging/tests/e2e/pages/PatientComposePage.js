@@ -444,6 +444,24 @@ class PatientComposePage {
   getAlertEditDraftBtn = () => {
     return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
   };
+
+  verifyHeader = text => {
+    cy.get(Locators.HEADER).should(`have.text`, text);
+  };
+
+  verifyRecipientsDropdownStatus = value => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .should(`have.attr`, `aria-expanded`, value);
+  };
+
+  openRecipientsDropdown = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .click({ force: true });
+  };
 }
 
 export default new PatientComposePage();

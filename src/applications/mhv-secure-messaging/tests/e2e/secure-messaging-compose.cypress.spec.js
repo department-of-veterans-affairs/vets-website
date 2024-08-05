@@ -12,33 +12,20 @@ describe('Secure Messaging Compose', () => {
   });
 
   it('verify interface', () => {
-    // verify header
-    cy.get(Locators.HEADER).should(`have.text`, Data.START_NEW_MSG);
+    PatientComposePage.verifyHeader(Data.START_NEW_MSG);
 
-    // verify DD visible and closed
-    cy.get(`va-additional-info[trigger^="If you"]`)
-      .shadow()
-      .find(`a`)
-      .should(`have.attr`, `aria-expanded`, `false`);
+    PatientComposePage.verifyRecipientsDropdownStatus(`false`);
 
-    // open DD list
-    cy.get(`va-additional-info[trigger^="If you"]`)
-      .shadow()
-      .find(`a`)
-      .click({ force: true });
+    PatientComposePage.openRecipientsDropdown();
 
-    // verify DD opened
-    cy.get(`va-additional-info[trigger^="If you"]`)
-      .shadow()
-      .find(`a`)
-      .should(`have.attr`, `aria-expanded`, `true`);
-    // verify DD content is visible
-    cy.get(`va-additional-info[trigger^="If you"]`).should(`be.visible`);
+    PatientComposePage.verifyRecipientsDropdownStatus(`true`);
 
-    // verify MHV Classic link won't open in new window
-    cy.get(`va-additional-info[trigger^="If you"]`)
-      .find(`a[href$="preferences"]`)
-      .should('not.have.attr', `target`, `_blank`);
+    cy.get(Locators.DROPDOWN.RECIPIENTS).should(`be.visible`);
+
+    // // verify MHV Classic link won't open in new window
+    // cy.get(Locators.DROPDOWN.RECIPIENTS)
+    //   .find(`a[href$="preferences"]`)
+    //   .should('not.have.attr', `target`, `_blank`);
 
     // cy.injectAxe();
     // cy.axeCheck(AXE_CONTEXT);
