@@ -7,10 +7,7 @@ import { startNewAppointmentFlow } from '../redux/actions';
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 function handleClick(dispatch) {
-  return e => {
-    // Stop default behavior for anchor tag since we are using React routing.
-    e.preventDefault();
-
+  return () => {
     dispatch(startNewAppointmentFlow());
   };
 }
