@@ -110,6 +110,7 @@ export default function TestComponent({
 
 TestComponent.propTypes = {
   app: propTypes.string,
+  completeTimestamp: propTypes.string,
   token: propTypes.string,
   travelPay: propTypes.object,
   window: propTypes.object,
