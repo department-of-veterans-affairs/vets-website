@@ -9,7 +9,7 @@ import {
 } from './shared';
 
 /** ================================================================
- * Responsible for determining next question in flow, or redirecting to a results screen
+ * Responsible for determining next question in flow, or redirecting to a results page
  *
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store

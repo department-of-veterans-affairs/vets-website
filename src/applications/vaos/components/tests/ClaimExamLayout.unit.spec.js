@@ -30,6 +30,7 @@ describe('VAOS Component: ClaimExamLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
@@ -172,7 +173,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -265,6 +267,14 @@ describe('VAOS Component: ClaimExamLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -308,6 +318,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.queryByText('Claim exam'), { exact: true });
 
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
+
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
       );
@@ -328,6 +341,27 @@ describe('VAOS Component: ClaimExamLayout', () => {
       ).to.be.ok;
       expect(screen.container.querySelector('va-telephone[extension="1234"]'))
         .to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(/You don't need to bring anything to your exam./i),
+      );
+      expect(
+        screen.getByText(
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Learn more about claim exam appointments/i));
 
       expect(
         screen.getByRole('heading', {
@@ -430,16 +464,23 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
 
-      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
-        .ok;
       expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
       ).not.to.exist;
+
       expect(
         screen.queryByRole('heading', {
           level: 2,
           name: /Need to make changes/i,
         }),
+      ).not.to.exist;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
     });
   });
@@ -528,6 +569,28 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /Scheduling facility/i,
         }),
       );
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(/You don't need to bring anything to your exam./i),
+      );
+      expect(
+        screen.getByText(
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Learn more about claim exam appointments/i));
+
       expect(
         screen.queryByRole('heading', {
           level: 2,
