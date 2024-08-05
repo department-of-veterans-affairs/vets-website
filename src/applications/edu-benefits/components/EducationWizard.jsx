@@ -12,7 +12,10 @@ import {
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import VARadioButton from '../utils/VaRadioButton';
-import { showMebDgi40Feature } from '../selectors/educationWizard';
+import {
+  merge1995And5490Feature,
+  showMebDgi40Feature,
+} from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -216,6 +219,13 @@ class EducationWizard extends React.Component {
       },
     };
 
+    const displayChapter35Form = (merge1995And5490local, getButton) => {
+      if (merge1995And5490local) {
+        return getButton('1995');
+      }
+      return getButton('5495');
+    };
+
     return (
       <div className="wizard-container">
         <button
@@ -372,7 +382,7 @@ class EducationWizard extends React.Component {
                           program for health care professionals. <br />
                           <a
                             aria-label="See eligible degree and clinical training programs, opening in new tab"
-                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                            href="https://www.va.gov/resources/approved-fields-of-study-for-the-stem-scholarship/"
                             rel="noopener noreferrer"
                             target="_blank"
                             onClick={() =>
@@ -449,7 +459,10 @@ class EducationWizard extends React.Component {
               this.getButton('1995')}
             {newBenefit === 'no' &&
               transferredEduBenefits === 'fry' &&
-              this.getButton('5495')}
+              displayChapter35Form(
+                this?.props.merge1995And5490Feature,
+                this.getButton,
+              )}
             {newBenefit === 'yes' &&
               serviceBenefitBasedOn === 'other' &&
               sponsorTransferredBenefits === 'yes' &&
@@ -468,6 +481,7 @@ class EducationWizard extends React.Component {
 
 const mapStateToProps = state => ({
   showMebDgi40Feature: showMebDgi40Feature(state),
+  merge1995And5490Feature: merge1995And5490Feature(state),
 });
 
 export default connect(mapStateToProps)(EducationWizard);
