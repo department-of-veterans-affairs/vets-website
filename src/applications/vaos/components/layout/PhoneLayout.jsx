@@ -30,6 +30,7 @@ export default function PhoneLayout({ data: appointment }) {
     facility,
     facilityPhone,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -43,7 +44,6 @@ export default function PhoneLayout({ data: appointment }) {
   );
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
-  const oracleHealthProviderName = null;
 
   let heading = 'Phone appointment';
   if (isPastAppointment) heading = 'Past phone appointment';
@@ -75,7 +75,7 @@ export default function PhoneLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
+      <Who>{practitionerName}</Who>
       <Section heading="Scheduling facility">
         {!facility && (
           <>

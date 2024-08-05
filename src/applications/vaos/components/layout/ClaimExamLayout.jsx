@@ -16,6 +16,7 @@ import DetailPageLayout, {
   Section,
   ClinicOrFacilityPhone,
   Prepare,
+  Who,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -34,6 +35,7 @@ export default function ClaimExamLayout({ data: appointment }) {
     facilityPhone,
     locationId,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -82,6 +84,7 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName}</What>
+      <Who>{practitionerName}</Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status && !isPastAppointment
