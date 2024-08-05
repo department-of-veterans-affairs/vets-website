@@ -8,6 +8,7 @@ import {
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
 import Instructions from './Instructions';
+import { CONTACT_TYPE_DESCRIPTIONS } from './constants';
 
 const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
@@ -29,7 +30,7 @@ const Contacts = ({ data }) => {
     <Instructions
       testId="phcc-no-ecs"
       contactType="emergency contact"
-      description="The person we’ll contact in an emergency."
+      description={CONTACT_TYPE_DESCRIPTIONS.EMERGENCY_CONTACT}
     />
   );
 
@@ -49,7 +50,7 @@ const Contacts = ({ data }) => {
     <Instructions
       testId="phcc-no-nok"
       contactType="next of kin"
-      description="The person you want to represent your health care wishes if needed."
+      description={CONTACT_TYPE_DESCRIPTIONS.NEXT_OF_KIN}
     />
   );
 

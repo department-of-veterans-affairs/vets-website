@@ -2,24 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 
+import { CONTACT_TYPES } from './constants';
+
 // modeled after VA Profile's Health Benefit AssociatedPersonBio
-
-const CONTACT_TYPES = [
-  'Emergency Contact',
-  'Other emergency contact',
-  'Primary Next of Kin',
-  'Other Next of Kin',
-];
-
-const DESCRIPTIONS = {
-  [CONTACT_TYPES[0]]: 'The person we’ll contact in an emergency.',
-  [CONTACT_TYPES[1]]:
-    'The person we’ll contact if your primary contact isn’t available.',
-  [CONTACT_TYPES[2]]:
-    'The person you want to represent your health care wishes if needed.',
-  [CONTACT_TYPES[3]]:
-    'The person you want to represent your health care wishes if your primary contact isn’t available.',
-};
 
 const Contact = ({
   contactType,
@@ -64,7 +49,7 @@ const Contact = ({
   const ordinal = index === 0 ? 'Primary ' : 'Secondary ';
   const title = capitalize(`${ordinal}${baseContactType}`);
 
-  const description = DESCRIPTIONS[contactType];
+  const description = CONTACT_TYPES[contactType];
 
   return (
     <div data-testid={testId}>
@@ -99,7 +84,7 @@ Contact.propTypes = {
   addressLine3: PropTypes.string,
   // alternatePhone: PropTypes.string,
   city: PropTypes.string,
-  contactType: PropTypes.oneOf(CONTACT_TYPES),
+  contactType: PropTypes.oneOf(Object.keys(CONTACT_TYPES)),
   // country: PropTypes.string,
   // county: PropTypes.string,
   familyName: PropTypes.string,
