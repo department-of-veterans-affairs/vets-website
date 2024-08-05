@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTravelReimbursement = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperienceUpcomingAppointmentsEnabled = false,
+    checkInExperienceMedicationReviewContent = true,
   } = toggles;
 
   return {
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_upcoming_appointments_enabled',
           value: checkInExperienceUpcomingAppointmentsEnabled,
+        },
+        {
+          name: 'check_in_experience_medication_review_content',
+          value: checkInExperienceMedicationReviewContent,
         },
       ],
     },
