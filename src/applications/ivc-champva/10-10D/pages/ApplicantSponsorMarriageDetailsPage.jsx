@@ -4,11 +4,8 @@ import {
   currentOrPastDateSchema,
   titleUI,
   titleSchema,
-  // yesNoUI,
-  // yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../shared/utilities';
-// import { ADDITIONAL_FILES_HINT } from '../config/constants';
 import { applicantListSchema } from '../helpers/utilities';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -94,25 +91,6 @@ on more than one of those pages. The func names correspond to their page of
 origin.
 */
 
-/*
-// IF applicant was married to sponsor AND remarried after sponsor passed
-// AND applicant was 55+
-export function depends18f2(formData, index) {
-  if (index === undefined) return true;
-  return (
-    get(
-      'applicantRelationshipToSponsor.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'spouse' &&
-    (get('sponsorIsDeceased', formData) &&
-      get(
-        'applicantSponsorMarriageDetails.relationshipToVeteran',
-        formData?.applicants?.[index],
-      ) === 'marriedTillDeathRemarriedAfter55')
-  );
-}
-*/
-
 // IF applicant was married to sponsor AND did not remarry after the sponsor's
 // death (or is still married to the living sponsor)
 export function depends18f3(formData, index) {
@@ -121,66 +99,9 @@ export function depends18f3(formData, index) {
     get(
       'applicantRelationshipToSponsor.relationshipToVeteran',
       formData?.applicants?.[index],
-    ) ===
-    'spouse' /* &&
-    (get(
-      'applicantSponsorMarriageDetails.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'marriedTillDeathNoRemarriage' ||
-      !get('sponsorIsDeceased', formData)) */
+    ) === 'spouse'
   );
 }
-
-/*
-// IF applicant was married to sponsor AND remarried after sponsor passed
-// AND remarriage is still ongoing
-export function depends18f4(formData, index) {
-  if (index === undefined) return true;
-  return (
-    get(
-      'applicantRelationshipToSponsor.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'spouse' &&
-    get(
-      'applicantSponsorMarriageDetails.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'marriedTillDeathRemarriedAfter55' &&
-    get('remarriageIsViable', formData?.applicants?.[index])
-  );
-}
-
-// IF applicant was married to sponsor AND remarried after sponsor passed
-// AND remarriage has been dissolved
-export function depends18f5(formData, index) {
-  if (index === undefined) return true;
-  return (
-    get(
-      'applicantRelationshipToSponsor.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'spouse' &&
-    get(
-      'applicantSponsorMarriageDetails.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'marriedTillDeathRemarriedAfter55' &&
-    !get('remarriageIsViable', formData?.applicants?.[index])
-  );
-}
-
-// IF applicant was married to sponsor AND separated prior to sponsor death
-export function depends18f6(formData, index) {
-  if (index === undefined) return true;
-  return (
-    get(
-      'applicantRelationshipToSponsor.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'spouse' &&
-    get(
-      'applicantSponsorMarriageDetails.relationshipToVeteran',
-      formData?.applicants?.[index],
-    ) === 'marriageDissolved'
-  );
-}
-*/
 
 function marriageTitle(text, subtitle) {
   return {
@@ -208,51 +129,8 @@ const dateOfMarriageToSponsor = {
   }),
   /* Using the depends functions to prevent silent validation failures
           on the review page */
-  'ui:required': (formData, index) =>
-    depends18f3(
-      formData,
-      index,
-    ) /* ||
-    depends18f4(formData, index) ||
-    depends18f5(formData, index) ||
-    depends18f6(formData, index), */,
+  'ui:required': (formData, index) => depends18f3(formData, index),
 };
-
-/*
-const dateOfSeparationFromSponsor = {
-  ...currentOrPastDateUI({
-    title: 'Date of legal separation of the marriage',
-    errorMessages: {
-      pattern: 'Please provide a valid date',
-      required: 'Please provide the date of separation',
-    },
-  }),
-  'ui:required': (formData, index) => depends18f6(formData, index),
-};
-
-const dateOfMarriageToOtherSpouse = {
-  ...currentOrPastDateUI({
-    title: 'Date of marriage to current spouse',
-    errorMessages: {
-      pattern: 'Please provide a valid date',
-      required: 'Please provide the date of remarriage',
-    },
-  }),
-  'ui:required': (formData, index) =>
-    depends18f4(formData, index) || depends18f2(formData, index),
-};
-
-const dateOfSeparationFromOtherSpouse = {
-  ...currentOrPastDateUI({
-    title: 'Date of legal separation from current spouse',
-    errorMessages: {
-      pattern: 'Please provide a valid date',
-      required: 'Please provide the date of separation',
-    },
-  }),
-  'ui:required': (formData, index) => depends18f5(formData, index),
-};
-*/
 
 /*
 Dates for marriage/remarriage - we use this uiSchema across multiple pages, and
@@ -273,39 +151,6 @@ export const marriageDatesSchema = {
       },
     },
   },
-  /*
-  separatedUiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        'ui:options': marriageTitle(' marriage and legal separation dates', ''),
-        dateOfMarriageToSponsor,
-        dateOfSeparationFromSponsor,
-      },
-    },
-  },
-  remarriageUiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        'ui:options': marriageTitle(' marriage dates', ''),
-        dateOfMarriageToSponsor,
-        dateOfMarriageToOtherSpouse,
-      },
-    },
-  },
-  remarriageSeparatedUiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        'ui:options': marriageTitle(' marriage and legal separation dates', ''),
-        dateOfMarriageToSponsor,
-        dateOfMarriageToOtherSpouse,
-        dateOfSeparationFromOtherSpouse,
-      },
-    },
-  },
-  */
   noRemarriageSchema: applicantListSchema([], {
     titleSchema,
     dateOfMarriageToSponsor: currentOrPastDateSchema,
@@ -327,48 +172,3 @@ export const marriageDatesSchema = {
     dateOfSeparationFromOtherSpouse: currentOrPastDateSchema,
   }),
 };
-
-// Schemas for follow-up marriage viability question
-/*
-export const remarriageDetailsSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        'ui:options': {
-          updateSchema: _formData => {
-            return {
-              title: ({ formData }) =>
-                titleUI(
-                  `${applicantWording(
-                    formData,
-                    true,
-                    true,
-                  )} remarriage details`,
-                  '',
-                )['ui:title'],
-            };
-          },
-        },
-        remarriageIsViable: {
-          ...yesNoUI({
-            title:
-              'Did the remarriage legally end (including divorce or annulment)?',
-            hint: ADDITIONAL_FILES_HINT,
-            labels: {
-              Y: 'Yes',
-              N: 'No',
-            },
-            yesNoReverse: true,
-          }),
-          'ui:required': (formData, index) => depends18f2(formData, index),
-        },
-      },
-    },
-  },
-  schema: applicantListSchema([], {
-    titleSchema,
-    remarriageIsViable: yesNoSchema,
-  }),
-};
-*/
