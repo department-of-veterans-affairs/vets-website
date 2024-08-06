@@ -38,6 +38,9 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       `have.text`,
       Alerts.EL_SIGN_CHECK,
     );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't save a message with electronic signature`, () => {

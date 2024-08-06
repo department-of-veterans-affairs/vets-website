@@ -18,6 +18,9 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
     PatientComposePage.verifyESCheckBoxRequired();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify user can sign and send a message', () => {
