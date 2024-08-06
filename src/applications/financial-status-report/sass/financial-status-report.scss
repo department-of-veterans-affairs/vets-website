@@ -365,7 +365,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::before {
       content: "";
-      background: url('/img/sprite.svg#arrow_back') no-repeat;
+      background: url("/img/sprite.svg#arrow_back") no-repeat;
       margin-right: 8px;
     }
   }
@@ -376,7 +376,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::after {
       content: "";
-      background: url('/img/sprite.svg#arrow_forward') no-repeat;
+      background: url("/img/sprite.svg#arrow_forward") no-repeat;
       margin-left: 8px;
     }
   }
