@@ -45,7 +45,7 @@ const backgroundInformationDetails = ({
       [documentsKey]: {
         ...fileInputUI({
           errorMessages: {
-            required: `Upload a completed VA Form 21A`,
+            required: `Upload a completed VA Form 21A`, // error
           },
           title: 'Provide any relevant documents',
           hint:
