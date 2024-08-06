@@ -10,6 +10,7 @@ import {
   extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
+  decodeBase64Report,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -126,9 +127,17 @@ const getSpecimen = record => {
  * @returns the specified contained FHIR resource, or null if not found
  */
 export const extractSpecimen = record => {
-  const specimen =
-    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
-  return specimen || null;
+  if (isArrayAndHasItems(record.specimen)) {
+    const specimenRef = record.specimen.find(item => item.reference);
+    const specimen = extractContainedResource(record, specimenRef?.reference);
+    return specimen || null;
+  }
+  return null;
+};
+
+export const extractSampleTested = record => {
+  const specimen = extractSpecimen(record);
+  return specimen?.collection?.bodySite?.text || null;
 };
 
 export const extractOrderedTest = (record, id) => {
@@ -175,45 +184,52 @@ const convertChemHemRecord = record => {
   };
 };
 
+export const extractPerformingLabLocation = record => {
+  const performingLab = extractContainedByRecourceType(
+    record,
+    fhirResourceTypes.ORGANIZATION,
+    record.performer,
+  );
+  return performingLab?.name || null;
+};
+
+export const extractOrderedBy = record => {
+  const performingLab = extractContainedByRecourceType(
+    record,
+    fhirResourceTypes.PRACTITIONER,
+    record.performer,
+  );
+  if (isArrayAndHasItems(performingLab?.name)) {
+    return performingLab.name[0].text || null;
+  }
+  return null;
+};
+
 /**
  * @param {Object} record - A FHIR DiagnosticReport microbiology object
  * @returns the appropriate frontend object for display
  */
 const convertMicrobiologyRecord = record => {
-  const specimenRef = extractSpecimen(record);
-  const collectionRequest = extractContainedResource(record, specimenRef);
-  const getOrderedBy = extractContainedByRecourceType(
-    record,
-    'Practitioner',
-    record.performer,
-  );
-  const orderedBy = getOrderedBy?.map(obj => obj.name.map(name => name.text));
+  const specimen = extractSpecimen(record);
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: orderedBy || EMPTY_FIELD,
-    requestedBy: 'John J. Lydon',
+    orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    date: collectionRequest.collection.collectedDateTime
-      ? formatDate(collectionRequest.collection.collectedDateTime)
+    date: specimen?.collection?.collectedDateTime
+      ? formatDate(specimen.collection.collectedDateTime)
       : EMPTY_FIELD,
-    sampleFrom: getSpecimen(record) || EMPTY_FIELD,
-    sampleTested: collectionRequest?.collection?.bodySite?.text || EMPTY_FIELD,
-    orderingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
+    sampleFrom: specimen?.type?.text || EMPTY_FIELD,
+    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
-    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    labLocation: extractPerformingLabLocation(record) || EMPTY_FIELD,
     results:
-      record.presentedForm?.map(
-        form =>
-          Buffer.from(`${form.data}`, 'base64')
-            .toString('utf-8')
-            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
-      ) || EMPTY_FIELD,
+      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
+      EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
   };
 };
@@ -223,28 +239,22 @@ const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
-  const specimenRef = extractSpecimen(record);
-  const collectionRequest = extractContainedResource(record, specimenRef);
+  const specimen = extractSpecimen(record);
   return {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
     category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
-    requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleTested: collectionRequest?.type.text || EMPTY_FIELD,
-    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
+    labLocation: extractPerformingLabLocation(record) || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
     results:
-      record.presentedForm?.map(
-        form =>
-          Buffer.from(`${form.data}`, 'base64')
-            .toString('utf-8')
-            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
-      ) || EMPTY_FIELD,
+      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
+      EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
   };
 };
