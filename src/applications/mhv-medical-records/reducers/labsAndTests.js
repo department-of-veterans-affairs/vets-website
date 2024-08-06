@@ -211,6 +211,7 @@ export const extractOrderedBy = record => {
  */
 const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
+  const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
@@ -225,8 +226,8 @@ const convertMicrobiologyRecord = record => {
       : EMPTY_FIELD,
     sampleFrom: specimen?.type?.text || EMPTY_FIELD,
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
-    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
-    labLocation: extractPerformingLabLocation(record) || EMPTY_FIELD,
+    collectingLocation: labLocation,
+    labLocation: labLocation,
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
@@ -240,6 +241,7 @@ const convertMicrobiologyRecord = record => {
  */
 const convertPathologyRecord = record => {
   const specimen = extractSpecimen(record);
+  const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
     name: record.code?.text,
@@ -250,8 +252,8 @@ const convertPathologyRecord = record => {
       ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
-    labLocation: extractPerformingLabLocation(record) || EMPTY_FIELD,
-    collectingLocation: record.location || EMPTY_FIELD,
+    labLocation: labLocation,
+    collectingLocation: labLocation,
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
