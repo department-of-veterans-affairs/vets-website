@@ -5,22 +5,23 @@ import { useSelector } from 'react-redux';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import getNewAppointmentFlow from '../../../../newAppointmentFlow';
 
-function handleClick(history, pageFlow) {
-  const { home, ccPreferences } = pageFlow;
+function handleClick(history, home, ccClosestCity) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
-      (ccPreferences.url.endsWith('/') && ccPreferences.url !== home.url)
+      (ccClosestCity.url.endsWith('/') && ccClosestCity.url !== home.url)
     )
-      history.push(`../${ccPreferences.url}`);
-    else history.push(ccPreferences.url);
+      history.push(`../${ccClosestCity.url}`);
+    else history.push(ccClosestCity.url);
   };
 }
 
 export default function SchedulingFacilitySection({ facility }) {
   const history = useHistory();
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, ccClosestCity } = useSelector(getNewAppointmentFlow);
   const { telecom } = facility;
 
   let phone = '';
@@ -50,11 +51,11 @@ export default function SchedulingFacilitySection({ facility }) {
         </div>
         <div>
           <va-link
-            onClick={handleClick(history, pageFlow)}
-            aria-label="Edit provider preference"
+            href={ccClosestCity.url}
+            onClick={handleClick(history, home, ccClosestCity)}
+            aria-label="Edit facility preference"
             text="Edit"
             data-testid="edit-new-appointment"
-            role="link"
           />
         </div>
       </div>
