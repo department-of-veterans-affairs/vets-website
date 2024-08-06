@@ -126,14 +126,16 @@ const SmBreadcrumbs = () => {
     <div>
       {locationBasePath === 'thread' ||
       locationBasePath === 'reply' ||
-      locationBasePath === 'new-message' ? (
+      locationBasePath === 'new-message' ||
+      locationBasePath === 'contact-list' ? (
         <nav
           aria-label="Breadcrumb"
           smCrumbLabel={crumb.label}
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            {locationBasePath === 'new-message' ? (
+            {locationBasePath === 'new-message' ||
+            locationBasePath === 'contact-list' ? (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <Link
                 to="#"

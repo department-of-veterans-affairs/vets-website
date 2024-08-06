@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import {
@@ -99,6 +99,7 @@ describe('<AddIssue>', () => {
         index: 1,
       }),
     );
+    fireEvent.submit($('form', container));
     fireEvent.click($('#submit', container));
     expect(goToPathSpy.called).to.be.true;
   });
@@ -253,5 +254,62 @@ describe('<AddIssue>', () => {
     expect($('va-memorable-date', container).error).to.be.null;
     expect(goToPathSpy.calledWith(REVIEW_AND_SUBMIT)).to.be.true;
     window.sessionStorage.removeItem(REVIEW_ISSUES);
+  });
+
+  describe('handlers', () => {
+    it('should call onIssueNameChange', async () => {
+      const setDataSpy = sinon.spy();
+      const additionalIssues = [
+        {
+          issue: '',
+          decisionDate: parseDateWithOffset({ months: -3 }),
+        },
+      ];
+      const { container } = render(
+        setup({
+          setFormData: setDataSpy,
+          data: { contestedIssues, additionalIssues },
+          index: 1,
+        }),
+      );
+
+      const input = $('#issue-name', container);
+      input.value = 'name';
+      await fireEvent.input(input, { target: { name: 'name' } });
+      await fireEvent.blur(input); // code coverage
+
+      await fireEvent.click($('#submit', container));
+      await waitFor(() => {
+        expect(setDataSpy.called).to.be.true;
+        expect(setDataSpy.args[0][0].additionalIssues[0].issue).to.eq('name');
+      });
+    });
+
+    it('should call date change & blur', async () => {
+      const goToPathSpy = sinon.spy();
+      const setDataSpy = sinon.spy();
+      const additionalIssues = [{ issue: 'name', decisionDate: '' }];
+      const { container } = render(
+        setup({
+          goToPath: goToPathSpy,
+          setFormData: setDataSpy,
+          data: { contestedIssues, additionalIssues },
+          index: 1,
+        }),
+      );
+
+      const date = $('va-memorable-date', container);
+
+      date.__events.dateChange({ target: { value: validDate } });
+      date.__events.dateBlur();
+
+      await fireEvent.click($('#submit', container));
+      await waitFor(() => {
+        expect(setDataSpy.called).to.be.true;
+        expect(setDataSpy.args[0][0].additionalIssues[0].decisionDate).to.eq(
+          validDate,
+        );
+      });
+    });
   });
 });

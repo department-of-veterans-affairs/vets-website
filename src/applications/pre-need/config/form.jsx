@@ -9,7 +9,6 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
-import fileUiSchemaPlatform from '~/platform/forms-system/src/js/definitions/file';
 import { fileUploadUi } from '../utils/upload';
 import transformForSubmit from './transformForSubmit';
 
@@ -59,8 +58,6 @@ import {
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
   isSponsorDeceased,
-  createPayload,
-  parseResponse,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -329,37 +326,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              // Once these prod flags are removed, the preneedAttachments property can match the one in pre-need-integration
-              // Refer to MBMS-60395 and MBMS-66403 for the removal of this flag. This prod flag is for both of those tickets.
-              preneedAttachments: environment.isProduction()
-                ? fileUiSchemaPlatform('Select files to upload', {
-                    buttonText: 'Upload file',
-                    addAnotherLabel: 'Upload another file',
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    fileTypes: ['pdf'],
-                    maxSize: 15728640,
-                    hideLabelText: true,
-                    createPayload,
-                    parseResponse,
-                    attachmentSchema: {
-                      'ui:title': 'What kind of file is this?',
-                    },
-                    attachmentName: {
-                      'ui:title': 'File name',
-                    },
-                  })
-                : fileUploadUi({
-                    fileUploadUrl: `${
-                      environment.API_URL
-                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-                    createPayload,
-                    parseResponse,
-                    attachmentSchema: {
-                      'ui:title': 'What kind of file is this?',
-                    },
-                  }),
+              preneedAttachments: fileUploadUi({}),
             },
           },
           schema: {
