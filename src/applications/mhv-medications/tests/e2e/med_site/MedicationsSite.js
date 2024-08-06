@@ -1,5 +1,5 @@
 import mockUser from '../fixtures/user.json';
-import vamcUser from '../fixtures/vamc-ehr.json';
+import mockVamcEhr from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import cernerUser from '../fixtures/cerner-user.json';
@@ -10,44 +10,25 @@ import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
+
     if (isMedicationsUser) {
       cy.login(mockUser);
-      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next line
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
       // window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
-      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next line
-      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);
 
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        {
-          data: {
-            type: 'feature_toggles',
-            features: [
-              {
-                name: 'mhv_medications_to_va_gov_release',
-                value: true,
-              },
-            ],
-          },
-        },
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
       cy.intercept('GET', '/v0/user', mockUnauthenticatedUser).as(
         'mockUnAuthUser',
       );
@@ -57,49 +38,31 @@ class MedicationsSite {
 
   cernerLogin = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      cy.login(cernerUser);
+      this.mockFeatureToggles();
+      this.mockVamcEhr();
 
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
         emptyPrescriptionsList,
       ).as('emptyPrescriptionsList');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
     }
   };
 
   cernerLoginPrescriptionListError = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+      cy.login(cernerUser);
+      this.mockFeatureToggles();
+      this.mockVamcEhr();
     }
   };
 
   cernerLoginRefillPageError = (isMedicationsUser = true) => {
     if (isMedicationsUser) {
-      cy.login();
-      window.localStorage.setItem('isLoggedIn', true);
-
-      cy.intercept(
-        { method: 'GET', url: '/v0/feature_toggles?*' },
-        mockToggles,
-      ).as('featureToggle');
-      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+      cy.login(cernerUser);
+      this.mockFeatureToggles();
+      this.mockVamcEhr();
       cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     }
   };
@@ -214,7 +177,8 @@ class MedicationsSite {
   };
 
   mockVamcEhr = () => {
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcEhr');
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr).as('vamcEhr');
   };
 }
+
 export default MedicationsSite;
