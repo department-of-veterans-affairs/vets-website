@@ -5,8 +5,6 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import BenefitCard from '../components/BenefitCard';
 
-import '../sass/benefit-eligibility-questionnaire.scss';
-
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
     focusElement('h2');
