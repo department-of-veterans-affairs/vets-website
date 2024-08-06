@@ -352,11 +352,25 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pa-10206-',
   },
   {
+    id: VA_FORM_IDS.FORM_20_10207,
+    benefit: 'priority processing',
+    title: 'priority processing (20-10207)',
+    description: 'priority processing application (20-10207)',
+    trackingPrefix: 'pp-10207-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21_0972,
     benefit: 'alternate signer',
     title: 'alternate signer (21-0972)',
     description: 'alternate signer application (21-0972)',
     trackingPrefix: '21-0972-alternate-signer-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0966,
+    benefit: 'intent to file',
+    title: 'intent to file (21-0966)',
+    description: 'intent to file application (21-0966)',
+    trackingPrefix: '21-0966-intent-to-file-a-claim-',
   },
   {
     id: VA_FORM_IDS.FORM_21_10210,
@@ -386,6 +400,14 @@ export const MY_VA_SIP_FORMS = [
     title: 'disability compensation (21-526EZ)',
     description: 'disability compensation application (21-526EZ)',
     trackingPrefix: 'disability-526EZ-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0845,
+    benefit: 'authorization for personal information to third party',
+    title: 'authorization for personal information to third party (21-0845)',
+    description:
+      'authorization for personal information to third party application (21-0845)',
+    trackingPrefix: 'auth-disclose-0845-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0847,
