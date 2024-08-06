@@ -4,7 +4,7 @@ import { deductionCodes } from '../const/deduction-codes';
 
 export const getDeductionDescription = code => {
   const description = deductionCodes[code];
-  return <>{description || 'Unknown deduction code'}</>;
+  return <>&ndash; {description}</> || '';
 };
 
 const HowDoIPay = ({ userData }) => {
@@ -53,8 +53,7 @@ const HowDoIPay = ({ userData }) => {
             </li>
             <li>
               <strong>Deduction Code: </strong>
-              {userData.deductionCode} &ndash;{' '}
-              {getDeductionDescription(deductionCode)}
+              {userData.deductionCode} {getDeductionDescription(deductionCode)}
             </li>
           </ul>
         ) : (
