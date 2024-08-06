@@ -7,7 +7,7 @@ export const getDeductionDescription = code => {
   if (!description) {
     return '';
   }
-  return <>&ndash; {description}</>;
+  return `&ndash; ${description}`;
 };
 
 const HowDoIPay = ({ userData }) => {
