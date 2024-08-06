@@ -4,7 +4,10 @@ import { deductionCodes } from '../const/deduction-codes';
 
 export const getDeductionDescription = code => {
   const description = deductionCodes[code];
-  return <>&ndash; {description}</> || '';
+  if (!description) {
+    return '';
+  }
+  return <>&ndash; {description}</>;
 };
 
 const HowDoIPay = ({ userData }) => {
