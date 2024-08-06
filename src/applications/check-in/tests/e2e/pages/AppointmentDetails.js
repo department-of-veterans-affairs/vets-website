@@ -122,6 +122,12 @@ class AppointmentDetails {
       waitForAnimations: true,
     });
   };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=prepare-content]')
+      .find('a')
+      .click();
+  };
 }
 
 export default new AppointmentDetails();

@@ -17,6 +17,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -42,6 +43,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
     // messages: {

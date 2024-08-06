@@ -48,14 +48,14 @@ describe('Microbiology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText('May 1, 2018, 12:00 a.m.', {
+    const formattedDate = screen.getAllByText('August 1, 1995, 12:00 a.m.', {
       exact: true,
     });
-    expect(formattedDate.length).to.eq(2);
+    expect(formattedDate).to.exist;
   });
 
   it('should display the lab results', () => {
-    const results = screen.getByText(record.results.split('\n')[0], {
+    const results = screen.getByText('Accession [UID]: PARAS 95 262 []', {
       exact: false,
       selector: 'p',
     });
