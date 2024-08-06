@@ -8,10 +8,10 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { BASE_URL } from '../../constants';
+import { BASE_URL, DEFAULT_BENEFIT_TYPE } from '../../constants';
 import pageNames from './pageNames';
 
-import { title995 } from '../../content/title';
+import { title995, subTitle995 } from '../../content/title';
 
 const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
@@ -20,7 +20,7 @@ const content = {
 
 const options = [
   {
-    value: 'compensation',
+    value: DEFAULT_BENEFIT_TYPE,
     label: 'Disability compensation claim',
   },
   {
@@ -70,7 +70,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
     <>
       <h1 className="vads-u-margin-bottom--0">{title995}</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
-        VA Form 20-0995
+        {subTitle995}
       </div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Is this the form I need?
@@ -89,10 +89,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           ).
         </li>
       </ul>
-      <va-additional-info
-        trigger="What are other decision review options?"
-        uswds
-      >
+      <va-additional-info trigger="What are other decision review options?">
         <p className="vads-u-padding-bottom--1">
           If you don’t think this is the right form for you, find out about
           other decision review options.
@@ -108,7 +105,6 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         onVaValueChange={handlers.setBenefitType}
         required
         label-header-level="2"
-        uswds
       >
         {options.map(({ value, label }) => (
           <VaRadioOption
@@ -119,7 +115,6 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
             value={value}
             label={label}
             checked={value === data.benefitType}
-            uswds
           />
         ))}
       </VaRadio>
