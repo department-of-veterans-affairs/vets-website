@@ -29,8 +29,7 @@ export const uiSchema = {
     'ui:description': certificateNotice,
     'ui:options': {
       hideIf: formData =>
-        formData?.veteranContactInformation?.veteranAddress?.countryName !==
-        'USA', // TODO: Change countryName to country once Step 2 merges
+        formData?.veteranContactInformation?.veteranAddress?.country === 'USA',
     },
   },
 };

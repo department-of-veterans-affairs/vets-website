@@ -1,20 +1,18 @@
-// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import React from 'react';
-import {
-  radioSchema,
-  radioUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-// import { isChapterFieldRequired } from '../../../helpers';
-import { addSpouse } from '../../../utilities';
-import {
-  marriageTypeLabels,
-  marriageTypeArr,
-  SupportingEvidenceNeeded,
-} from './helpers';
+import constants from 'vets-json-schema/dist/constants.json';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { generateTitle } from '../../../helpers';
 
-// import { locationUISchema } from '../../../location-schema';
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
 
-const { currentMarriageInformation } = addSpouse.properties;
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
 export const schema = {
   type: 'object',
@@ -22,10 +20,23 @@ export const schema = {
     currentMarriageInformation: {
       type: 'object',
       properties: {
-        type: radioSchema(marriageTypeArr),
-        typeOther: currentMarriageInformation.properties.typeOther,
-        'view:marriageTypeInformation':
-          currentMarriageInformation.properties['view:marriageTypeInformation'],
+        marriedOutsideUsa: {
+          type: 'boolean',
+          default: false,
+        },
+        location: {
+          type: 'object',
+          properties: {
+            state: {
+              type: 'string',
+              enum: STATE_VALUES,
+              enumNames: STATE_NAMES,
+            },
+            city: {
+              type: 'string',
+            },
+          },
+        },
       },
     },
   },
@@ -33,44 +44,55 @@ export const schema = {
 
 export const uiSchema = {
   currentMarriageInformation: {
-    // date: {
-    //   ...currentOrPastDateUI('Date of marriage'),
-    //   ...{
-    //     'ui:required': formData =>
-    //       isChapterFieldRequired(formData, 'addSpouse'),
-    //   },
-    // },
-    // location: locationUISchema(
-    //   'currentMarriageInformation',
-    //   'location',
-    //   false,
-    //   'Where were you married?',
-    //   'addSpouse',
-    // ),
-    type: radioUI({
-      title: 'How did you get married?',
-      labels: marriageTypeLabels,
-      required: () => true,
-      labelHeaderLevel: '3',
-      errorMessages: {
-        required: 'Select the type of marriage',
-      },
-      classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
-    }),
-    typeOther: {
-      'ui:required': formData =>
-        formData?.currentMarriageInformation?.type === 'OTHER',
-      'ui:title': 'Other type of marriage',
-      'ui:options': {
-        expandUnder: 'type',
-        expandUnderCondition: 'OTHER',
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        // widgetClassNames: 'vads-u-margin-y--0',
-      },
+    'ui:title': generateTitle('Where did you get married?'),
+    marriedOutsideUsa: {
+      'ui:title': 'I got married outside the U.S.',
+      'ui:webComponentField': VaCheckboxField,
     },
-    'view:marriageTypeInformation': {
-      'ui:description': <SupportingEvidenceNeeded />,
+    location: {
+      city: {
+        'ui:title': 'City',
+        'ui:required': () => true,
+        'ui:autocomplete': 'address-level2',
+        'ui:errorMessages': {
+          required: 'Enter the city where you were married',
+        },
+        'ui:webComponentField': VaTextInputField,
+      },
+      state: {
+        'ui:title': 'State',
+        'ui:webComponentField': VaSelectField,
+        'ui:required': formData =>
+          !formData?.currentMarriageInformation?.marriedOutsideUsa,
+        'ui:errorMessages': {
+          required: 'Select a state',
+        },
+        'ui:options': {
+          updateSchema: (formData, _schema, _uiSchema) => {
+            const updatedSchemaUI = _uiSchema;
+            const location = formData?.currentMarriageInformation?.location;
+            const marriedOutsideUsa =
+              formData?.currentMarriageInformation?.marriedOutsideUsa;
+
+            if (marriedOutsideUsa) {
+              updatedSchemaUI['ui:options'].inert = true;
+              location.state = undefined;
+              return {
+                type: 'string',
+                enum: STATE_VALUES,
+                enumNames: STATE_NAMES,
+              };
+            }
+
+            updatedSchemaUI['ui:options'].inert = false;
+            return {
+              type: 'string',
+              enum: STATE_VALUES,
+              enumNames: STATE_NAMES,
+            };
+          },
+        },
+      },
     },
   },
 };

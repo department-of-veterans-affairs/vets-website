@@ -40,7 +40,7 @@ const typeCommonLaw = (
       </li>
       <li>
         2 Statements of Marital Relationship (VA Form 21-4170)—1 that you
-        complete and 1 that your spouse completes.
+        complete and 1 that your spouse completes, <strong>and</strong>
         <br />
         <va-link
           href="/find-forms/about-form-21-4170/"
@@ -78,7 +78,8 @@ const typeTribal = (
         tribal marriage ceremony. They must include the name of the tribe, date
         (month, day, and year) of marriage, place (city and state, county and
         state, or city and country) where the ceremony happened, and the name
-        and mailing address of the person who performed the ceremony, and
+        and mailing address of the person who performed the ceremony,{' '}
+        <strong>and</strong>
       </li>
       <li>
         A signed statement from the person who performed the ceremony. This must
@@ -108,6 +109,15 @@ export const marriageTypeArr = [
   'TRIBAL',
   'OTHER',
 ];
+
+export const separationLabelArr = ['MEDICAL', 'WORK', 'DIFFERENCES', 'OTHER'];
+
+export const separationLabels = {
+  MEDICAL: 'One of us needs medical care in a dedicated facility',
+  WORK: 'One of us needs to live in a specific work location',
+  DIFFERENCES: 'We’re experiencing relationship differences or problems',
+  OTHER: 'Other',
+};
 
 export const SupportingEvidenceNeeded = () => {
   const data = useSelector(

@@ -1,4 +1,7 @@
 import * as currentMarriageInformation from './current-marriage-information/currentMarriageInformation';
+import * as currentMarriageInformationPartTwo from './current-marriage-information/currentMarriageInformationPartTwo';
+import * as currentMarriageInformationPartThree from './current-marriage-information/currentMarriageInformationPartThree';
+import * as currentMarriageInformationPartFour from './current-marriage-information/currentMarriageInformationPartFour';
 import * as doesLiveWithSpouse from './does-live-with-spouse/doesLiveWithSpouse';
 import * as marriageAdditionalEvidence from './add-spouse-additional-evidence/spouseAdditionalEvidence';
 import * as spouseInformation from './spouse-information/spouseInformation';
@@ -15,6 +18,9 @@ export {
   spouseInformationPartTwo,
   spouseInformationPartThree,
   currentMarriageInformation,
+  currentMarriageInformationPartTwo,
+  currentMarriageInformationPartThree,
+  currentMarriageInformationPartFour,
   doesLiveWithSpouse,
   spouseMarriageHistory,
   spouseMarriageHistoryDetails,

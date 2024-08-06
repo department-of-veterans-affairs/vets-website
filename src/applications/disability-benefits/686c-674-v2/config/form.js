@@ -21,6 +21,9 @@ import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
+  currentMarriageInformationPartTwo,
+  currentMarriageInformationPartThree,
+  currentMarriageInformationPartFour,
   doesLiveWithSpouse,
   marriageAdditionalEvidence,
   spouseInformation,
@@ -169,6 +172,7 @@ export const formConfig = {
         },
       },
     },
+
     addSpouse: {
       title: 'Add your spouse',
       pages: {
@@ -197,14 +201,6 @@ export const formConfig = {
           uiSchema: spouseInformationPartThree.uiSchema,
           schema: spouseInformationPartThree.schema,
         },
-        currentMarriageInformation: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information/type-of-marriage',
-          uiSchema: currentMarriageInformation.uiSchema,
-          schema: currentMarriageInformation.schema,
-        },
         doesLiveWithSpouse: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
@@ -213,6 +209,40 @@ export const formConfig = {
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
           updateFormData: doesLiveWithSpouse.updateFormData,
+        },
+        currentMarriageInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/location-of-marriage',
+          uiSchema: currentMarriageInformation.uiSchema,
+          schema: currentMarriageInformation.schema,
+        },
+        currentMarriageInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/type-of-marriage',
+          uiSchema: currentMarriageInformationPartTwo.uiSchema,
+          schema: currentMarriageInformationPartTwo.schema,
+        },
+        currentMarriageInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/spouse-address',
+          uiSchema: currentMarriageInformationPartThree.uiSchema,
+          schema: currentMarriageInformationPartThree.schema,
+        },
+        currentMarriageInformationPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/reason-for-living-separately',
+          uiSchema: currentMarriageInformationPartFour.uiSchema,
+          schema: currentMarriageInformationPartFour.schema,
         },
         spouseMarriageHistory: {
           depends: formData =>
@@ -267,6 +297,7 @@ export const formConfig = {
         },
       },
     },
+
     addChild: {
       title: 'Information needed to add children',
       pages: {
