@@ -29,7 +29,7 @@ export const CustomTopContent = ({ currentLocation }) => {
     currentLocation?.pathname.includes('confirmation') ||
     currentLocation?.pathname.includes('introduction')
   ) {
-    return <>{Breadcrumbs}</>;
+    return <Breadcrumbs />;
   }
   return null;
 };
