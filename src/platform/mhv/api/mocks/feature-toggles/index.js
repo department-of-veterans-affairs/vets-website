@@ -5,6 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
 
+    // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayConditions = true,
@@ -42,6 +43,8 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
         },
+
+        // medical records
         {
           name: 'mhv_transitional_medical_records_landing_page',
           value: mhvTransitionalMedicalRecordsLandingPage,

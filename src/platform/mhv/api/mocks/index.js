@@ -25,6 +25,7 @@ const allRecipients = require('./secure-messaging/allrecipients');
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
+const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
 
 const responses = {
@@ -90,6 +91,7 @@ const responses = {
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
+  'GET /my_health/v1/medical_records/radiology': mhvRadiology.all,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
