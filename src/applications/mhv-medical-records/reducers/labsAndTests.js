@@ -135,11 +135,6 @@ export const extractSpecimen = record => {
   return null;
 };
 
-export const extractSampleTested = record => {
-  const specimen = extractSpecimen(record);
-  return specimen?.collection?.bodySite?.text || null;
-};
-
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
   return serviceReq?.code?.text || null;
@@ -227,7 +222,7 @@ const convertMicrobiologyRecord = record => {
     sampleFrom: specimen?.type?.text || EMPTY_FIELD,
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     collectingLocation: labLocation,
-    labLocation: labLocation,
+    labLocation,
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
@@ -252,7 +247,7 @@ const convertPathologyRecord = record => {
       ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
-    labLocation: labLocation,
+    labLocation,
     collectingLocation: labLocation,
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||

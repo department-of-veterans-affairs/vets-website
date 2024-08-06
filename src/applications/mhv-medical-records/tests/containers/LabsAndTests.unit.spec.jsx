@@ -6,10 +6,7 @@ import { beforeEach } from 'mocha';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
-import {
-  convertLabsAndTestsRecord,
-  extractSpecimen,
-} from '../../reducers/labsAndTests';
+import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
 
