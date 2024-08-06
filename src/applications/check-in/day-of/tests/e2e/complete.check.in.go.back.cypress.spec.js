@@ -63,6 +63,7 @@ describe('Check In Experience | Day Of |', () => {
 
       AppointmentsPage.validatePageLoaded();
       AppointmentsPage.validateNoTaskCards();
+      cy.createScreenshots('Day-of-check-in--Pages--appointments--no-tasks');
       cy.injectAxeThenAxeCheck();
     });
   });

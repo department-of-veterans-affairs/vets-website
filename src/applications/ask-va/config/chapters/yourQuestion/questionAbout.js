@@ -3,7 +3,8 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PageFieldSummary from '../../../components/PageFieldSummary';
-import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
+// Temp remove for research-testing
+// import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
 import {
   CHAPTER_2,
   questionAboutDescriptions,
@@ -12,7 +13,7 @@ import {
 
 const questionAboutPage = {
   uiSchema: {
-    'ui:description': SignInMayBeRequired,
+    // 'ui:description': SignInMayBeRequired,
     'ui:objectViewField': PageFieldSummary,
     questionAbout: {
       ...radioUI({

@@ -10,6 +10,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'health.care.pre.check.in.current.uuid',
           COMPLETE: 'health.care.pre.check.in.complete',
+          COMPLETE_TIMESTAMP: 'health.care.pre.check.in.complete.timestamp',
           CHECK_IN_COMPLETE: 'health.care.pre.check.in.check.in.complete',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.pre.check.in.should.send.demographics.flags',
@@ -23,6 +24,7 @@ describe('check in', () => {
           CURRENT_UUID: 'health.care.check-in.current.uuid',
           COMPLETE: 'health.care.check-in.complete',
           CHECK_IN_COMPLETE: 'health.care.check-in.check.in.complete',
+          COMPLETE_TIMESTAMP: 'health.care.check-in.complete.timestamp',
           SHOULD_SEND_DEMOGRAPHICS_FLAGS:
             'health.care.check-in.should.send.demographics.flags',
           SHOULD_SEND_TRAVEL_PAY_CLAIM:
@@ -38,6 +40,7 @@ describe('check in', () => {
         expect(keys).to.deep.equal({
           CURRENT_UUID: 'my.health.travel-claim.current.uuid',
           COMPLETE: 'my.health.travel-claim.complete',
+          COMPLETE_TIMESTAMP: 'my.health.travel-claim.complete.timestamp',
           PERMISSIONS: 'my.health.travel-claim.permissions',
           PROGRESS_STATE: 'my.health.travel-claim.progress',
           SHOULD_SEND_TRAVEL_PAY_CLAIM:
