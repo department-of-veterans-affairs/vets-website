@@ -3,44 +3,20 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import {
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
 } from '../../../utils/constants';
+import {
+  createPayload,
+  parseResponse,
+} from '../../../utils/helpers/form-config';
 import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
 import SupportingDocumentDescription from '../../../components/FormDescriptions/SupportingDocumentDescription';
 import { emptySchema } from '../../../definitions/sharedSchema';
 import { hideUploadWarningAlert } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
-
-const createPayload = (file, formId, password) => {
-  const payload = new FormData();
-  payload.append('attachment[file_data]', file);
-  payload.append('form_id', formId);
-  payload.append('name', file.name);
-
-  // password for encrypted PDFs
-  if (password) {
-    payload.append('attachment[password]', password);
-  }
-
-  return payload;
-};
-
-const parseResponse = (fileInfo, file) => {
-  recordEvent({
-    'caregivers-poa-document-guid': fileInfo.data.attributes.guid,
-    'caregivers-poa-document-confirmation-code': fileInfo.data.id,
-  });
-
-  return {
-    guid: fileInfo.data.attributes.guid,
-    confirmationCode: fileInfo.data.id,
-    name: file.name,
-  };
-};
 
 const uploadPoaDocument = {
   uiSchema: {

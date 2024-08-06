@@ -160,7 +160,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -262,6 +263,14 @@ describe('VAOS Component: InPersonLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
@@ -306,6 +315,9 @@ describe('VAOS Component: InPersonLayout', () => {
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Primary care/i));
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -536,22 +548,10 @@ describe('VAOS Component: InPersonLayout', () => {
       ).to.be.ok;
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
-        ),
-      ).to.be.ok;
-      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      ).not.to.exist;
 
       expect(
         screen.getByRole('heading', {

@@ -38,27 +38,6 @@ export function getAppointmentInfoFromComments(comments, key) {
     }
     return data;
   }
-
-  if (key === 'contact') {
-    const phone = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('phone number:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-    const email = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('email:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    const transformedPhone = { system: 'phone', value: phone };
-    const transformedEmail = { system: 'email', value: email };
-
-    data.push(transformedPhone, transformedEmail);
-    return data;
-  }
   return data;
 }
 function getAppointmentType(appt) {
@@ -176,13 +155,18 @@ export function transformVAOSAppointment(appt) {
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
       duration: appt.minutesDuration,
-      providers: (providers || []).map(provider => ({
-        name: {
-          firstName: provider.name?.given,
-          lastName: provider.name?.family,
-        },
-        display: `${provider.name?.given} ${provider.name?.family}`,
-      })),
+      providers: (providers || [])
+        .map(provider => {
+          if (!provider.name) return null;
+          return {
+            name: {
+              firstName: provider.name?.given,
+              lastName: provider.name?.family,
+            },
+            display: `${provider.name?.given} ${provider.name?.family}`,
+          };
+        })
+        .filter(Boolean),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,
