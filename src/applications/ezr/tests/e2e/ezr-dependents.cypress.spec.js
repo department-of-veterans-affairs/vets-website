@@ -6,10 +6,12 @@ import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
 import { goToNextPage } from './helpers';
+
 import {
   DEPENDENT_VIEW_FIELDS,
   MOCK_ENROLLMENT_RESPONSE,
 } from '../../utils/constants';
+
 import {
   advanceFromDependentsToReview,
   advanceToDependents,
