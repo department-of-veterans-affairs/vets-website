@@ -1,9 +1,11 @@
 // import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from './submitTransformer';
 import { nameWording } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
@@ -34,7 +36,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/e2e/fixtures/data/test-data.json';
+import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -44,9 +46,11 @@ function fnp(formData) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  transformForSubmit,
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -90,7 +94,7 @@ const formConfig = {
         page1: {
           path: 'signer-type',
           title: 'Your information',
-          // initialData: mockData.data,
+          initialData: mockData.data,
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
           ...certifierRoleSchema,
         },

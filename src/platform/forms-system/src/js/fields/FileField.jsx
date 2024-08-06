@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaFileInputMultiple,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
@@ -232,10 +235,21 @@ const FileField = props => {
    * @listens
    */
   const onAddFile = async (event, index = null, password) => {
+    // TODO: figure out how to identify a file "remove" and act accordingly
     if (event.target?.files?.length) {
-      const currentFile = event.target.files[0];
-      const allFiles = props.formData || [];
       const addUiOptions = props.uiSchema['ui:options'];
+
+      // v3 multi-file always includes a `null` at the end of files array, so drop:
+      const tmpFiles = event.target.files.filter(el => el);
+
+      const tmpCurrentFile = addUiOptions.uswds
+        ? tmpFiles.slice(-1) // for v3 we need last item, not first
+        : tmpFiles[0];
+      const currentFile = tmpCurrentFile?.length
+        ? tmpCurrentFile[0] // v3 multi-upload returns a single-item list, so pull file from that
+        : tmpCurrentFile;
+      const allFiles = props.formData || [];
+
       // needed for FileField unit tests
       const { mockReadAndCheckFile } = uiOptions;
 
@@ -407,7 +421,19 @@ const FileField = props => {
 
   const uploadText = content[files.length > 0 ? 'uploadAnother' : 'upload'];
 
-  return (
+  return uiOptions.uswds && !formContext.reviewMode ? (
+    // Use v3 multi-file upload:
+    <VaFileInputMultiple
+      button-text="Upload your document"
+      onVaMultipleChange={e => {
+        debugger;
+        return onAddFile({ target: e.detail });
+      }}
+      accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+      errors={[]}
+      name="fileUpload"
+    />
+  ) : (
     <div
       className={
         formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
@@ -714,6 +740,18 @@ const FileField = props => {
               fileInputRef.current.value = '';
             }}
           />
+          {/* <VaFileInputMultiple
+            // ref={fileInputRef}
+            button-text="Upload your document"
+            // id={idSchema.$id}
+            // name={idSchema.$id}
+            onVaMultipleChange={e => {
+              return onAddFile({ target: e.detail });
+            }}
+            accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+            errors={[]}
+            // name="fileUpload"
+          /> */}
         </>
       )}
     </div>

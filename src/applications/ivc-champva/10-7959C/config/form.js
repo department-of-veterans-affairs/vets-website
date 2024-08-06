@@ -283,7 +283,7 @@ const formConfig = {
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
         },
-        primaryEOB: {
+        primaryEob: {
           path: 'insurance-eob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
