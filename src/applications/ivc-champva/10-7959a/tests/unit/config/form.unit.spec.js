@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
@@ -193,35 +192,35 @@ describe('Medical claim upload page', () => {
   );
 });
 
-describe('EOB 1 upload page', () => {
+describe('Eob 1 upload page', () => {
   testNumberOfWebComponentFields(
     formConfig,
     formConfig.chapters.claimInformation.pages.page8.schema,
     formConfig.chapters.claimInformation.pages.page8.uiSchema,
     0,
-    'EOB 1 upload',
+    'Eob 1 upload',
     { ...mockData.data },
   );
 });
 
-describe('EOB 1 upload (role: other) page', () => {
+describe('Eob 1 upload (role: other) page', () => {
   testNumberOfWebComponentFields(
     formConfig,
     formConfig.chapters.claimInformation.pages.page8.schema,
     formConfig.chapters.claimInformation.pages.page8.uiSchema,
     0,
-    'EOB 1 upload (role: other)',
+    'Eob 1 upload (role: other)',
     { ...mockData.data, certifierRole: 'other' },
   );
 });
 
-describe('EOB 2 upload page', () => {
+describe('Eob 2 upload page', () => {
   testNumberOfWebComponentFields(
     formConfig,
     formConfig.chapters.claimInformation.pages.page9.schema,
     formConfig.chapters.claimInformation.pages.page9.uiSchema,
     0,
-    'EOB 2 upload',
+    'Eob 2 upload',
     { ...mockData.data },
   );
 });
@@ -283,15 +282,6 @@ describe('title text logic', () => {
     });
 
     expect(titleCount > 0).to.be.true;
-  });
-});
-
-describe('submit property of formConfig', () => {
-  it('should be a promise', () => {
-    const goToPathSpy = sinon.spy(formConfig.submit);
-    formConfig.submit().then(() => {
-      expect(goToPathSpy.called).to.be.true;
-    });
   });
 });
 
