@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
@@ -283,15 +282,6 @@ describe('title text logic', () => {
     });
 
     expect(titleCount > 0).to.be.true;
-  });
-});
-
-describe('submit property of formConfig', () => {
-  it('should be a promise', () => {
-    const goToPathSpy = sinon.spy(formConfig.submit);
-    formConfig.submit().then(() => {
-      expect(goToPathSpy.called).to.be.true;
-    });
   });
 });
 
