@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import BenefitCard from '../components/BenefitCard';
+
+import '../sass/benefit-eligibility-questionnaire.scss';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -14,22 +17,10 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <p>
-          Based on your goals and experiences, we recommend exploring the
-          benefits listed below. You may be eligible for these benefits, but
-          please double-check the eligibility requirements before applying.
+          Based on your answers, you may be eligible for these benefits and
+          services. Learn more about each benefit. And check your eligibility
+          before you apply.
         </p>
-        <p>
-          You can filter and sort the recommended benefits. If you want to copy
-          the link to your personalized results or email the results to
-          yourself, select the “Share results” button.
-        </p>
-
-        <div className="vads-u-margin-y--2">
-          <va-alert-expandable
-            status="info"
-            trigger="Time-sensitive benefits"
-          />
-        </div>
 
         <va-button
           message-aria-describedby="Share your results"
@@ -37,18 +28,36 @@ export class ConfirmationPage extends React.Component {
           onClick={() => {}}
         />
 
-        <hr className="divider vads-u-margin-y--2" />
+        <div id="resultsContainer">
+          <div id="filtersSection">
+            <b>Filters</b>
+          </div>
 
-        <va-accordion>
-          <va-accordion-item
-            header="Recommended benefits and resources"
-            id="recommended"
-          />
-          <va-accordion-item
-            header="Show benefits that I may not qualify for"
-            id="show"
-          />
-        </va-accordion>
+          <div id="resultsSection">
+            <b>
+              Showing 1 result, filtered to show all results, sorted by
+              relevance
+            </b>
+
+            <div className="vads-u-margin-y--2">
+              <va-alert-expandable
+                status="info"
+                trigger="Time-sensitive benefits"
+              />
+            </div>
+
+            <div>
+              <BenefitCard />
+            </div>
+
+            <va-accordion>
+              <va-accordion-item
+                header="Show benefits that I may not qualify for"
+                id="show"
+              />
+            </va-accordion>
+          </div>
+        </div>
       </div>
     );
   }

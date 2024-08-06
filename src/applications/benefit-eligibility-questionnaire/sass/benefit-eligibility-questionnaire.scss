@@ -5,3 +5,21 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+#resultsContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+#filtersSection {
+    flex: 1 1 200px;
+    margin-right: 20px;
+    border-right: 2px solid var(--vads-color-gray-medium);
+    min-height: 200px;
+    text-align: left;
+}
+
+#resultsSection {
+    flex: 1 1 auto;
+}
