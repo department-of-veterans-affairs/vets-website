@@ -12,7 +12,7 @@ import {
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import PracticingInformationIntro from '../../components/05-practicing-information-chapter/PracticingInformationIntro';
+import ProfessionalAffiliationsIntro from '../../components/05-professional-affiliations-chapter/ProfessionalAffiliationsIntro';
 import { jurisdictionOptions } from '../../constants/jurisdictions';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
@@ -42,7 +42,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...descriptionUI(PracticingInformationIntro),
+    ...descriptionUI(ProfessionalAffiliationsIntro),
   },
   schema: {
     type: 'object',
@@ -97,6 +97,7 @@ const summaryPage = {
       {},
       {
         labelHeaderLevel: 'p',
+        hint: 'List each jurisdiction to which you are admitted.',
       },
     ),
   },
@@ -113,8 +114,8 @@ const jurisdictionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     jurisdictions: pageBuilder.introPage({
-      title: 'Practicing information',
-      path: 'practicing-information',
+      title: 'Professional affiliations',
+      path: 'professional-affiliations',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),

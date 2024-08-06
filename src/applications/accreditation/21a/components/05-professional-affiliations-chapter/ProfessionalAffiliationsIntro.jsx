@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PracticingInformationIntro = () => (
+const ProfessionalAffiliationsIntro = () => (
   <>
     <p>
       Over the next few pages, we will ask you to provide information about any
@@ -16,4 +16,4 @@ const PracticingInformationIntro = () => (
   </>
 );
 
-export default PracticingInformationIntro;
+export default ProfessionalAffiliationsIntro;

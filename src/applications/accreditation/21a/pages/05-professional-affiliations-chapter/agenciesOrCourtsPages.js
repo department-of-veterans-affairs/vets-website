@@ -14,8 +14,8 @@ import { formatReviewDate } from '../helpers/formatReviewDate';
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'agenciesOrCourts',
-  nounSingular: 'agency or court',
-  nounPlural: 'agencies or courts',
+  nounSingular: 'state or Federal agency or court',
+  nounPlural: 'state or Federal agencies or courts',
   required: false,
   isItemIncomplete: item =>
     !item?.name ||
@@ -69,6 +69,7 @@ const summaryPage = {
       },
       {
         labelHeaderLevel: 'p',
+        hint: 'List each agency or court to which you are admitted.',
       },
     ),
   },
@@ -85,13 +86,13 @@ const agenciesOrCourtsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     agenciesOrCourtsSummary: pageBuilder.summaryPage({
-      title: 'Review your state or federal agencies or courts',
+      title: 'Review your state or Federal agencies or courts',
       path: 'agencies-courts-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     agencyOrCourtPage: pageBuilder.itemPage({
-      title: 'State or federal agency or court',
+      title: 'State or Federal agency or court',
       path: 'agencies-courts/:index/agency-court',
       uiSchema: agencyOrCourtPage.uiSchema,
       schema: agencyOrCourtPage.schema,

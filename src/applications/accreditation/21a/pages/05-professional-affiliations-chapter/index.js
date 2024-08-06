@@ -3,7 +3,7 @@ import agenciesOrCourtsPages from './agenciesOrCourtsPages';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Practicing information',
+  title: 'Professional affiliations',
   pages: {
     ...jurisdictionsPages,
     ...agenciesOrCourtsPages,
