@@ -315,7 +315,7 @@ const ComposeForm = props => {
   if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
-    isDraft => {
+    () => {
       let messageValid = true;
       if (
         selectedRecipient === '0' ||
@@ -337,14 +337,14 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (!isDraft && isSignatureRequired && !electronicSignature) {
+      if (isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         messageValid = false;
       }
       if (signatureError !== '') {
         messageValid = false;
       }
-      if (!isDraft && isSignatureRequired && !checkboxMarked) {
+      if (isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         messageValid = false;
       }
