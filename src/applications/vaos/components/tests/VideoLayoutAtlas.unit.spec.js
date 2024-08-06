@@ -30,6 +30,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
@@ -313,11 +314,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           /You will use this appointment code to find your appointment using the computer provided at the site:/i,
         ),
       );
-      expect(
-        screen.container.querySelector(
-          'va-additional-info[trigger="How to prepare for your visit"]',
-        ),
-      ).to.be.ok;
 
       expect(
         screen.getByRole('heading', {
@@ -381,6 +377,30 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider/i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      expect(screen.getByText(/Get your device ready to join./i));
+      expect(
+        screen.container.querySelector(
+          'va-additional-info[trigger="How to setup your device"]',
+        ),
+      ).to.be.ok;
     });
   });
 
@@ -516,6 +536,12 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
         .ok;
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
       ).not.to.exist;
     });
   });
@@ -659,6 +685,30 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider/i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      expect(screen.getByText(/Get your device ready to join./i));
+      expect(
+        screen.container.querySelector(
+          'va-additional-info[trigger="How to setup your device"]',
+        ),
+      ).to.be.ok;
     });
   });
 });
