@@ -4,7 +4,7 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { download, isSuccess, list } = props;
+  const { onDownload, isSuccess, list, onPrint, onText } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +23,11 @@ const PrintDownload = props => {
     try {
       setMenuOpen(!menuOpen);
       setIsError(false);
-      await download(format);
+      if (format === DOWNLOAD_FORMAT.TXT && onText) {
+        onText();
+      } else {
+        await onDownload(format);
+      }
     } catch {
       setIsError(true);
     }
@@ -31,7 +35,11 @@ const PrintDownload = props => {
 
   const handlePrint = async option => {
     setMenuOpen(!menuOpen);
-    await download(option);
+    if (onPrint) {
+      onPrint();
+    } else {
+      await onDownload(option);
+    }
   };
 
   const closeMenu = e => {
@@ -197,7 +205,9 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
-  download: PropTypes.any,
   isSuccess: PropTypes.bool,
   list: PropTypes.any,
+  onDownload: PropTypes.any,
+  onPrint: PropTypes.func,
+  onText: PropTypes.func,
 };

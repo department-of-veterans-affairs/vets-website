@@ -4,6 +4,7 @@ import {
   buildAllergiesTXT,
   buildVAPrescriptionTXT,
   buildNonVAPrescriptionTXT,
+  convertHtmlToText,
 } from '../../util/txtConfigs';
 import prescriptions from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
@@ -125,5 +126,25 @@ describe('Non VA prescription Config', () => {
 
     const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
     expect(txt).to.include('Documented by: None noted');
+  });
+});
+
+// Add new test for the medication information page
+
+describe('Medication Information Config', () => {
+  it('should convert HTML to text (string) for TXT', () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = convertHtmlToText(htmlContent);
+    expect(txt).to.include('- Item 1');
+    expect(txt).to.include('- Item 2');
+    expect(txt).to.include('Test\n');
+  });
+
+  it('should convert HTML to text (array) for PDF', () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = convertHtmlToText(htmlContent, 'pdf');
+    expect(txt).to.be.a('array');
   });
 });

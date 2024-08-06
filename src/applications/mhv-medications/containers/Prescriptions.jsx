@@ -551,7 +551,7 @@ const Prescriptions = () => {
                       }`}
                     >
                       <PrintDownload
-                        download={handleFullListDownload}
+                        onDownload={handleFullListDownload}
                         isSuccess={
                           pdfTxtGenerateStatus.status ===
                           PDF_TXT_GENERATE_STATUS.Success
