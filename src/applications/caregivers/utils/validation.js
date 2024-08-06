@@ -2,7 +2,7 @@ import {
   isSsnUnique,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
-} from './helpers';
+} from './helpers/form-config';
 import { REQUIRED_ADDRESS_FIELDS } from './constants';
 import content from '../locales/en/content.json';
 

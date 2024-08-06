@@ -6,6 +6,9 @@ import { currency } from '../utils/page';
 
 const PaymentHistoryTable = ({ currentDebt }) => {
   const { paymentHistory } = currentDebt;
+  if (paymentHistory.length === 0) {
+    return null;
+  }
   return (
     <div className="vads-u-margin-y--4">
       <va-table table-title="Transaction history">
