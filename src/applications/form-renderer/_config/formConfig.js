@@ -181,3 +181,31 @@ export const formConfig2 = {
     },
   },
 };
+
+// This is a sample of the data structure produced by content-build.
+export const normalizedForm = {
+  id: 71160,
+  formId: '2121212',
+  title: 'Form with Two Steps',
+  ombNumber: '1212-1212',
+  chapters: [
+    {
+      id: 158253,
+      chapterTitle: 'First Step',
+      type: 'digital_form_name_and_date_of_bi',
+      pageTitle: 'Name and Date of Birth',
+      additionalFields: {
+        includeDateOfBirth: true,
+      },
+    },
+    {
+      id: 158254,
+      chapterTitle: 'Second Step',
+      type: 'digital_form_name_and_date_of_bi',
+      pageTitle: 'Name and Date of Birth',
+      additionalFields: {
+        includeDateOfBirth: false,
+      },
+    },
+  ],
+};
