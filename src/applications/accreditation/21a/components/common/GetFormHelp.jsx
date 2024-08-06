@@ -1,13 +1,13 @@
 import React from 'react';
 
 const GetFormHelp = () => (
-  <p>
-    <strong>If you have trouble using this online form,</strong> email VA
-    accreditation at{' '}
-    <a href="mailto:ogcaccreditationmailbox@va.gov">
-      ogcaccreditationmailbox@va.gov
-    </a>
-  </p>
+  <>
+    <p>
+      For questions about the accreditation process, visit the{' '}
+      <a href="https://www.va.gov/ogc/">OGC website.</a>
+    </p>
+    <p>If you have technical trouble using this online form, ______</p>
+  </>
 );
 
 export default GetFormHelp;

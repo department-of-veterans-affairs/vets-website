@@ -6,16 +6,16 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  descriptionUI,
   emailSchema,
   emailUI,
   fullNameSchema,
   fullNameUI,
   phoneSchema,
   phoneUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourCharacterReferencesDescription from '../../components/07-character-references-chapter/YourCharacterReferencesDescription';
+import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -39,7 +39,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Your character references', YourCharacterReferencesDescription),
+    ...descriptionUI(CharacterReferencesIntro),
   },
   schema: {
     type: 'object',
