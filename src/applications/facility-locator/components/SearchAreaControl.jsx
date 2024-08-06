@@ -37,13 +37,14 @@ const SearchAreaControl = ({
   return (
     <div id="search-area-control-container" className={containerClass()}>
       <va-button
-        uswds
+        uswds="true"
         id="search-area-control"
         className={buttonClass}
         text={buttonLabel()}
         disabled={!isEnabled}
         ariaLive="assertive"
         onClick={handleClick}
+        disable-analytics="true"
       />
     </div>
   );
