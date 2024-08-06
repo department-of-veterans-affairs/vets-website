@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list',
 };
 
 export const DefaultFolders = {
@@ -300,7 +301,7 @@ export const Attachments = {
   TOTAL_MAX_FILE_SIZE: 10000000,
 };
 
-export const ElectronicSignature = {
+export const ElectronicSignatureBox = {
   TITLE: 'Electronic signature',
   DESCRIPTION:
     'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',
@@ -387,6 +388,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

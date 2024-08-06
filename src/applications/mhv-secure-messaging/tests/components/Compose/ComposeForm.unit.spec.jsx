@@ -18,7 +18,12 @@ import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-team
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Paths, Prompts, ElectronicSignature } from '../../../util/constants';
+import {
+  Paths,
+  Prompts,
+  ElectronicSignatureBox,
+  ErrorMessages,
+} from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
@@ -234,8 +239,8 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
+      fireEvent.click(screen.getByTestId('send-button'));
       expect(sendMessageSpy.calledOnce).to.be.true;
     });
   });
@@ -856,7 +861,7 @@ describe('Compose form component', () => {
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays an alert Electronic Signature component if signature is required', async () => {
+  it('displays alerts in Electronic Signature component if signature and checkbox is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -870,7 +875,7 @@ describe('Compose form component', () => {
     selectVaSelect(screen.container, val);
 
     const electronicSignature = await screen.findByText(
-      ElectronicSignature.TITLE,
+      ElectronicSignatureBox.TITLE,
       {
         selector: 'h2',
       },
@@ -894,5 +899,17 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+
+    const checkboxSelector = `va-checkbox[label='${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }']`;
+    const checkbox = screen.container.querySelector(checkboxSelector);
+    const sendButton = screen.getByTestId('save-draft-button');
+
+    fireEvent.click(sendButton);
+    expect(checkbox).to.have.attribute(
+      'error',
+      `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+    );
   });
 });

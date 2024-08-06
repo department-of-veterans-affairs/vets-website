@@ -10,6 +10,7 @@ import {
   buildDateFormatter,
   getPhaseItemText,
   getTrackedItemDateFromStatus,
+  isAutomated5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -28,7 +29,7 @@ export default function RecentActivity({ claim }) {
 
   const is5103Notice = item => {
     return (
-      item.displayName === 'Automated 5103 Notice Response' ||
+      isAutomated5103Notice(item.displayName) ||
       item.displayName === '5103 Notice Response'
     );
   };

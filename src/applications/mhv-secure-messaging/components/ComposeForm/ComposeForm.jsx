@@ -39,7 +39,7 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
-import DigitalSignature from './DigitalSignature';
+import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
@@ -315,7 +315,7 @@ const ComposeForm = props => {
   if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
-    isDraft => {
+    () => {
       let messageValid = true;
       if (
         selectedRecipient === '0' ||
@@ -337,14 +337,14 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (!isDraft && isSignatureRequired && !electronicSignature) {
+      if (isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         messageValid = false;
       }
       if (signatureError !== '') {
         messageValid = false;
       }
-      if (!checkboxMarked) {
+      if (isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         messageValid = false;
       }
@@ -387,6 +387,8 @@ const ComposeForm = props => {
         } else if (attachments.length > 0) {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
         } else if (isSignatureRequired && electronicSignature !== '') {
+          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
+        } else if (isSignatureRequired && checkboxError !== '') {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
         }
 
@@ -826,11 +828,11 @@ const ComposeForm = props => {
               ))}
 
           {isSignatureRequired && (
-            <DigitalSignature
+            <ElectronicSignature
               nameError={signatureError}
               checkboxError={checkboxError}
               onInput={electronicSignatureHandler}
-              onChange={electronicCheckboxHandler}
+              onCheckboxCheck={electronicCheckboxHandler}
               checked={checkboxMarked}
             />
           )}

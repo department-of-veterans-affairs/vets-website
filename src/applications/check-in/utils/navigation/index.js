@@ -66,6 +66,7 @@ const URLS = Object.freeze({
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
   ARRIVED: 'arrived',
+  RESOURCES: 'what-to-bring',
 });
 
 export { updateFormPages, URLS };

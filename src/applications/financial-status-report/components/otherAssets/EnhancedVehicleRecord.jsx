@@ -134,7 +134,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             {
               label: `${labelText} vehicle`,
               onClick: updateFormData,
-              isSubmitting: true, // If this button submits a form
+              isSubmitting: 'prevent', // If this button submits a form
             },
           ]}
         />
@@ -155,7 +155,7 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: true, // If this button submits a form
+              isSubmitting: 'prevent', // If this button submits a form
             },
           ]}
         />
