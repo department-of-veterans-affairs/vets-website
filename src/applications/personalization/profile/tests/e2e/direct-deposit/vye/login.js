@@ -39,7 +39,6 @@ export const mockUser = {
           authBroker: 'iam',
         },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
-        inheritedProofVerified: false,
         claims: {
           appeals: true,
           ch33BankAccounts: true,
