@@ -9,6 +9,7 @@ const DebtCardsList = () => {
 
   return (
     <>
+      {/* TODO: Once transaction data is live, we need to remove this h2 and paragrpah. */}
       <h2
         id="currentDebts"
         className="vads-u-margin-top--4 vads-u-margin-bottom--2"

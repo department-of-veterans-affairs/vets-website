@@ -28,7 +28,10 @@ export const dateFormat = (timestamp, format = null) => {
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
-  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  let withoutTimezone = datetime;
+  if (typeof datetime === 'string' && datetime.includes('-')) {
+    withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  }
   return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
 };
 
@@ -189,6 +192,33 @@ export const extractContainedResource = (resource, referenceId) => {
       containedItem => containedItem.id === strippedRefId,
     );
     return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained
+          .filter(item => refArray.includes(item.id))
+          .filter(item => item.resourceType === resourceType)
+      : null;
+    return isArrayAndHasItems(returnRecord) ? returnRecord : null;
   }
   return null;
 };

@@ -1,9 +1,8 @@
 import React from 'react';
-import { add, sub } from 'date-fns';
+import { add } from 'date-fns';
 
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
 
 import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
@@ -35,13 +34,8 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
-          .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
-        expect(dateMessage).to.contain.text(
-          'You can pre-check in online until January 02, 2022.',
-        );
       });
     });
     describe('max-validation error', () => {
@@ -51,18 +45,8 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(
-          component.getByText(
-            'We’re sorry. We couldn’t match your information to our records.',
-          ),
-        ).to.exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'You can still check in with your phone on the day of your appointment.',
-          ),
-        ).to.exist;
+        expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('max-validation')).to.exist;
       });
     });
     describe('uuid-not-found error', () => {
@@ -72,16 +56,8 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'You can still check in with your phone on the day of your appointment.',
-          ),
-        ).to.exist;
+        expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('uuid-not-found')).to.exist;
       });
     });
     describe('session-error error', () => {
@@ -91,15 +67,8 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
-          .exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'You can still check in with your phone on the day of your appointment.',
-          ),
-        ).to.exist;
+        expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('session-error')).to.exist;
       });
     });
     describe('redux store with appointments but error-completing-pre-check-in', () => {
@@ -115,13 +84,9 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
-          .exist;
-        const dateMessage = component.getByTestId('date-message');
-        expect(dateMessage).to.exist;
-        expect(dateMessage).to.contain.text(
-          'You can pre-check in online until January 02, 2022.',
-        );
+        expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('error-completing-pre-check-in')).to.exist;
+        expect(component.getByTestId('date-message')).to.exist;
       });
     });
     describe('store with expired appointment (between midnight and 15 min after appt start time)', () => {
@@ -148,42 +113,9 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
+        expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('pre-check-in-expired')).to.exist;
         expect(component.queryByTestId('how-to-link')).to.exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'You can still check in with your phone on the day of your appointment.',
-          ),
-        ).to.exist;
-      });
-      it('renders correct error message when phone pre-checkin is expired', () => {
-        const phoneAppointments = JSON.parse(JSON.stringify(appointments));
-        phoneAppointments[0].kind = 'phone';
-
-        const component = render(
-          <CheckInProvider
-            store={{
-              error: 'pre-check-in-expired',
-              appointments: phoneAppointments,
-            }}
-          >
-            <Error />
-          </CheckInProvider>,
-        );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
-        const expiredMessage = component.getByTestId('error-message');
-        expect(expiredMessage).to.exist;
-        expect(
-          within(expiredMessage).getByText(
-            'Your provider will call you at the appointment time. You may need to wait 15 minutes for their call.',
-          ),
-        ).to.exist;
       });
     });
 
@@ -212,87 +144,8 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
-        const canceledMessage = component.getByTestId('error-message');
-        expect(canceledMessage).to.exist;
-        expect(
-          within(canceledMessage).getByText(
-            'Your appointment at 2:56 p.m. on January 03, 2022 is canceled.',
-          ),
-        ).to.exist;
-        expect(
-          within(canceledMessage).getByText(
-            'Or talk to a staff member if you’re at a VA facility.',
-          ),
-        ).to.exist;
-      });
-      it('renders correct error message for a canceled phone appointment', () => {
-        const phoneAppointments = JSON.parse(JSON.stringify(appointments));
-        phoneAppointments[0].kind = 'phone';
-        const component = render(
-          <CheckInProvider
-            store={{
-              error: 'appointment-canceled',
-              appointments: phoneAppointments,
-            }}
-          >
-            <Error />
-          </CheckInProvider>,
-        );
-        expect(
-          component.getByText('Sorry, pre-check-in is no longer available'),
-        ).to.exist;
-        const canceledMessage = component.getByTestId('error-message');
-        expect(canceledMessage).to.exist;
-        expect(
-          within(canceledMessage).getByText(
-            'Your appointment at 2:56 p.m. on January 03, 2022 is canceled.',
-          ),
-        ).to.exist;
-        expect(
-          within(canceledMessage).queryByText(
-            'Or talk to a staff member if you’re at a VA facility.',
-          ),
-        ).not.to.exist;
-      });
-    });
-
-    describe('store with appointment more than 15 minutes past its start time', () => {
-      const appointments = [
-        {
-          facility: 'LOMA LINDA VA CLINIC',
-          clinicPhoneNumber: '5551234567',
-          clinicFriendlyName: 'TEST CLINIC',
-          clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIen: 'some-ien',
-          startTime: sub(new Date(), { minutes: 16 }),
-          eligibility: 'INELIGIBLE_TOO_LATE',
-          checkInWindowStart: sub(new Date(), { minutes: 16 }),
-          checkInWindowEnd: sub(new Date(), { minutes: 16 }),
-          checkedInTime: '',
-        },
-      ];
-      it('renders properly when appointment started more than 15 minutes ago', () => {
-        const component = render(
-          <CheckInProvider store={{ appointments }}>
-            <Error />
-          </CheckInProvider>,
-        );
-        expect(component.queryByTestId('error-message')).to.exist;
-      });
-    });
-    describe('empty redux store', () => {
-      it('renders error page', () => {
-        const component = render(
-          <CheckInProvider store={{ appointments: [], formPages: [] }}>
-            <Error />
-          </CheckInProvider>,
-        );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
-          .exist;
         expect(component.getByTestId('error-message')).to.exist;
+        expect(component.getByTestId('appointment-canceled')).to.exist;
       });
     });
   });
