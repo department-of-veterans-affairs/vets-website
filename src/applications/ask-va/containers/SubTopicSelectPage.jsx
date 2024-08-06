@@ -72,8 +72,8 @@ const SubTopicSelectPage = props => {
         category: formData.selectCategory,
         topic: formData.selectTopic,
       })}
+      <h3 className="vads-u-margin-bottom--4">Subtopic</h3>
       <form className="rjsf">
-        <h3 className="vads-u-margin-bottom--4">Subtopic</h3>
         <VaRadio
           onVaValueChange={handleChange}
           className="vads-u-margin-top--neg3"

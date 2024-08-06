@@ -73,8 +73,8 @@ const CategorySelectPage = props => {
 
   return !error ? (
     <>
+      <h3>Category</h3>
       <form className="rjsf">
-        <h3>Category</h3>
         <VaSelect
           id={id}
           label="Select the category that best describes your question"
