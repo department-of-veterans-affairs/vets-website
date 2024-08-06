@@ -8,26 +8,21 @@ import { fetchDuplicateContactInfo, updateGlobalPhoneNumber } from '../actions';
 
 function CustomPhoneNumberField(props) {
   function handleChange(event) {
-    if (props?.showMebEnhancements08) {
-      props?.updateGlobalPhoneNumber(event);
-      if (event?.length > 9) {
-        props.fetchDuplicateContactInfo(props.duplicateEmail, [
-          { value: event, dupe: '' },
-        ]);
-      }
-
-      props?.setFormData({
-        ...props?.formData,
-        duplicatePhone: [{ value: '', dupe: '' }],
-        'view:phoneNumbers': {
-          ...props.formData['view:phoneNumbers'],
-          mobilePhoneNumber: {
-            ...props.formData['view:phoneNumbers'].mobilePhoneNumber,
-            phone: event,
-          },
-        },
-      });
+    // props?.updateGlobalPhoneNumber(event);
+    if (event?.length > 9) {
+      props.fetchDuplicateContactInfo(props.duplicateEmail, [
+        { value: event, dupe: '' },
+      ]);
     }
+
+    props?.setFormData({
+      ...props?.formData,
+      duplicatePhone: [{ value: '', dupe: '' }],
+      'view:phoneNumbers': {
+        ...props.formData['view:phoneNumbers'],
+        mobilePhoneNumber: event,
+      },
+    });
   }
 
   return (
@@ -44,17 +39,19 @@ function CustomPhoneNumberField(props) {
 CustomPhoneNumberField.propTypes = {
   fetchDuplicateContactInfo: PropTypes.func,
   updateGlobalEmail: PropTypes.func,
-  phoneNumber: PropTypes.string,
+  mobilePhone: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  mobilePhone: state?.form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-  duplicatePhone: state?.data?.duplicatePhone,
-  email: state?.form?.data?.email?.email,
-  duplicateEmail: state?.data?.duplicateEmail,
-  showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
-  formData: state?.form?.data,
-});
+const mapStateToProps = state => {
+  return {
+    mobilePhone: state?.form?.data?.mobilePhone,
+    duplicatePhone: state?.data?.duplicatePhone,
+    email: state?.form?.data?.email,
+    duplicateEmail: state?.data?.duplicateEmail,
+    showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
+    formData: state?.form?.data,
+  };
+};
 
 const mapDispatchToProps = {
   setFormData: setData,

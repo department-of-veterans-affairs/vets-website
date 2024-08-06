@@ -37,6 +37,8 @@ import directDeposit from '../pages/directDeposit';
 
 import { prefillTransformer } from '../helpers';
 import { transform5490Form } from '../utils/form-submit-transform';
+import CustomEmailField from '../components/CustomEmailField';
+import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -328,14 +330,14 @@ const formConfig = {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency?',
               ),
-              // 'ui:options': {
-              //   hideIf: formData => {
-              //     return formData?.highSchoolDiploma !== 'yes';
-              //   },
-              //   'ui:required': formData => {
-              //     return formData?.highSchoolDiploma === 'yes'
-              //   },
-              // },
+              'ui:options': {
+                hideIf: formData => {
+                  return formData?.highSchoolDiploma !== 'yes';
+                },
+                'ui:required': formData => {
+                  return formData?.highSchoolDiploma === 'yes';
+                },
+              },
             },
           },
           schema: {
@@ -520,10 +522,14 @@ const formConfig = {
                 </>
               ),
             },
-            mobilePhone: phoneUI('Mobile phone number'),
+            mobilePhone: {
+              ...phoneUI('Mobile phone number'),
+              'ui:widget': CustomPhoneNumberField,
+            },
             homePhone: phoneUI('Home phone number'),
             email: {
               ...emailUI('Email address'),
+              'ui:widget': CustomEmailField,
             },
             confirmEmail: {
               ...emailUI('Confirm email address'),
