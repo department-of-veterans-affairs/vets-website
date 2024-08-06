@@ -11,9 +11,10 @@ const CharacterReferencesIntro = () => (
     </p>
     <ul>
       <li>Full name</li>
-      <li>Addresses</li>
+      <li>Address</li>
+      <li>Primary phone number</li>
       <li>Email address</li>
-      <li>Current phone number</li>
+      <li>Your relationship to the reference</li>
     </ul>
     <p>
       You are encouraged to notify your character references that the Department
