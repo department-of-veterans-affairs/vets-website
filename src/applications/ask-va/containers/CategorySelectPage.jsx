@@ -86,7 +86,6 @@ const CategorySelectPage = props => {
           error={validationError}
           uswds
         >
-          <option value="">&nbsp;</option>
           {apiData.map(category => (
             <option
               key={category.id}
