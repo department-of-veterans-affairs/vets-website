@@ -246,7 +246,7 @@ const convertPathologyRecord = record => {
     date: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
+    sampleTested: specimen?.type?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
     results:
