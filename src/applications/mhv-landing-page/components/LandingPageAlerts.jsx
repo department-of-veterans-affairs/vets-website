@@ -27,7 +27,7 @@ const LandingPageAlerts = ({
     return <VerifyAndRegisterAlert cspId={signInService} />;
   }
 
-  if (!userVerified) {
+  if (!userVerified && !userHasMhvBasicAccount) {
     return (
       <IdentityNotVerified
         headline={unVerifiedHeadline}

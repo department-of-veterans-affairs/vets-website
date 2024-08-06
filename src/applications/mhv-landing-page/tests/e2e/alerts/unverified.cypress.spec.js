@@ -6,7 +6,7 @@ const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
 // ID.me is LandingPage.visitPage default for serviceProvider
 const verifyIdentityHeading =
-  'Verify your identity to use your ID.me account on My HealtheVet';
+  'Verify and register your account to access My HealtheVet';
 
 describe(appName, () => {
   describe('Display content based on identity verification', () => {
@@ -27,6 +27,12 @@ describe(appName, () => {
           showVerifyAndRegisterAlert: false,
         });
         cy.injectAxeThenAxeCheck();
+
+        // Log the page content
+        cy.log('Page Content:');
+        cy.get('body').then($body => {
+          cy.log($body.text());
+        });
 
         // Test that the unverified identity message is present
         cy.findByRole('heading', {
