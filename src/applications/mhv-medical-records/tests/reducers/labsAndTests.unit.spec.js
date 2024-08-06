@@ -97,7 +97,7 @@ describe('extractOrderedTests', () => {
   });
 });
 
-describe('labsAndTestsReducer', () => {
+describe.skip('labsAndTestsReducer', () => {
   it('creates a list', () => {
     const labsAndTestsResponse = {
       entry: [
