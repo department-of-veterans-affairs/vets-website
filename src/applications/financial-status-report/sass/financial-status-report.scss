@@ -352,10 +352,11 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::after,
     &::before {
-      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
-      font-weight: 900; /* Use 900 for solid icons */
-      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
       vertical-align: bottom;
+      display: inline-block;
+      background-size: 100% 100%;
     }
   }
 }
@@ -363,7 +364,8 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Back"] {
   &::part(button) {
     &::before {
-      content: "\f100";
+      content: "";
+      background: url('/img/sprite.svg#arrow_back') no-repeat;
       margin-right: 8px;
     }
   }
@@ -373,7 +375,8 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Continue to review page"] {
   &::part(button) {
     &::after {
-      content: "\f101";
+      content: "";
+      background: url('/img/sprite.svg#arrow_forward') no-repeat;
       margin-left: 8px;
     }
   }
