@@ -1,12 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { AuthApp } from '../containers/AuthApp';
 
 const oldWindow = global.window;
+
+const mockStore = {
+  dispatch: sinon.spy(),
+  subscribe: sinon.spy(),
+  getState: () => {},
+};
+
 const generateAuthApp = ({
   query = { auth: 'fail' },
   hasSession = false,
@@ -34,8 +42,12 @@ const generateAuthApp = ({
   if (returnUrl.length) {
     sessionStorage.setItem('authReturnUrl', returnUrl);
   }
-  const wrapper = shallow(<AuthApp {...props} />);
-  const instance = wrapper.instance();
+  const wrapper = mount(
+    <Provider store={mockStore}>
+      <AuthApp {...props} />
+    </Provider>,
+  );
+  const instance = wrapper.find(AuthApp).instance();
 
   return { props, wrapper, instance };
 };
@@ -123,7 +135,7 @@ describe('AuthApp', () => {
 
     expect(spy.called).to.be.true;
     expect(wrapper.state()).to.include({
-      code: '101',
+      errorCode: '101',
       hasError: true,
       loginType: 'idme',
     });
@@ -159,7 +171,7 @@ describe('AuthApp', () => {
 
     expect(spy.called).to.be.true;
     expect(wrapper.state()).to.include({
-      code: '202',
+      errorCode: '202',
       auth: 'fail',
       hasError: true,
     });
