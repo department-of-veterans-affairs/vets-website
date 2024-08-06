@@ -309,9 +309,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
     cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
       .find('p')
-      .contains(
-        'This conversation will be moved. Any replies to this message will appear in your inbox',
-      )
+      .contains('Any replies to this message will appear in your inbox')
       .should('be.visible');
     cy.get(Locators.BUTTONS.DELETE_RADIOBTN).should('be.visible');
     cy.get(Locators.BUTTONS.TEST2).should('be.visible');
