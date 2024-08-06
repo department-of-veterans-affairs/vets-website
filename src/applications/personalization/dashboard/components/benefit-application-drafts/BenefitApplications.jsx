@@ -46,7 +46,7 @@ const BenefitApplications = ({
     <div data-testid="dashboard-section-benefit-application-drafts">
       <h2>
         {isFormSubmissionStatusWork
-          ? 'Benefit applications and other forms'
+          ? 'Benefit applications and forms'
           : 'Benefit applications'}
       </h2>
       <ApplicationsInProgress
@@ -68,8 +68,11 @@ const mapStateToProps = state => {
 
   const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
 
+  const formsWithStatus = state.allFormsWithStatuses.forms || [];
+
   return {
     shouldGetESRStatus,
+    formsWithStatus,
   };
 };
 
