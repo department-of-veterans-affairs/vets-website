@@ -73,7 +73,7 @@ describe('Move button', () => {
 
     expect(
       screen.queryByText(
-        'This conversation will be moved. Any replies to this message will appear in your inbox',
+        'Any replies to this message will appear in your inbox',
       ),
     ).not.to.exist;
   });
@@ -83,10 +83,13 @@ describe('Move button', () => {
     fireEvent.click(await screen.getByTestId('move-button-text'));
     expect(
       screen.getByText(
-        'This conversation will be moved. Any replies to this message will appear in your inbox.',
+        'Any replies to this message will appear in your inbox.',
       ),
     ).to.exist;
     expect(screen.getByTestId('move-to-modal')).to.exist;
+
+    const selectFolderRadio = screen.getByTestId('select-folder-radio-group');
+    expect(selectFolderRadio).to.have.attribute('label', 'Select a folder');
 
     const listOfFolders = screen.queryAllByTestId(/radiobutton-*/);
 

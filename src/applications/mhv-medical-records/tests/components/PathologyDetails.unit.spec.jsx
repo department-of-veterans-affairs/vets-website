@@ -58,7 +58,7 @@ describe('Pathology details component', () => {
   });
 
   it('should display the lab results', () => {
-    const results = screen.getByText('Pathologist:SEETHA SURYAPRASAD', {
+    const results = screen.getByText('Brief Clinical History:', {
       exact: false,
       selector: 'p',
     });

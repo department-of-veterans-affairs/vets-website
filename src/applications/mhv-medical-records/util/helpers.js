@@ -197,6 +197,33 @@ export const extractContainedResource = (resource, referenceId) => {
 };
 
 /**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained
+          .filter(item => refArray.includes(item.id))
+          .filter(item => item.resourceType === resourceType)
+      : null;
+    return isArrayAndHasItems(returnRecord) ? returnRecord : null;
+  }
+  return null;
+};
+
+/**
  * Download a text file
  * @param {String} content text file content
  * @param {String} fileName name for the text file
