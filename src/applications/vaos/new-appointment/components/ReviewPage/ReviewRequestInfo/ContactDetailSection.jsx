@@ -34,10 +34,11 @@ function formatBestTimetoCall(bestTime) {
   return output.toLowerCase();
 }
 
-function handleClick(history, pageFlow) {
-  const { home, contactInfo } = pageFlow;
+function handleClick(history, home, contactInfo) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
       (contactInfo.url.endsWith('/') && contactInfo.url !== home.url)
@@ -110,7 +111,7 @@ export default function ContactDetailSection({ data }) {
   const formData = useSelector(getFormData);
   const flowType = useSelector(getFlowType);
   const history = useHistory();
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, contactInfo } = useSelector(getNewAppointmentFlow);
 
   return (
     <>
@@ -124,11 +125,11 @@ export default function ContactDetailSection({ data }) {
           </div>
           <div>
             <va-link
+              href={contactInfo.url}
               aria-label="Edit call back time"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, pageFlow)}
-              role="link"
+              onClick={handleClick(history, home, contactInfo)}
             />
           </div>
         </div>
