@@ -44,7 +44,7 @@ export default function ReviewPage({ changeCrumb }) {
 
   const { date1, vaFacility } = data;
   const dispatch = useDispatch();
-  const { root, contactInfo } = useSelector(getNewBookingFlow);
+  const { contactInfo } = useSelector(getNewBookingFlow);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -115,7 +115,7 @@ export default function ReviewPage({ changeCrumb }) {
             </div>
           </div>
           <va-link
-            href={`${root.url}/schedule/covid-vaccine/${contactInfo.url}`}
+            href={contactInfo.url}
             onClick={handleClick(history, contactInfo)}
             aria-label="Edit contact information"
             text="Edit"

@@ -21,7 +21,7 @@ function handleClick(history, home, ccLanguage) {
 
 export default function PreferredLanguageSection({ data }) {
   const history = useHistory();
-  const { home, root, ccLanguage } = useSelector(getNewAppointmentFlow);
+  const { home, ccLanguage } = useSelector(getNewAppointmentFlow);
 
   return (
     <div className="vads-l-grid-container vads-u-padding--0">
@@ -37,7 +37,7 @@ export default function PreferredLanguageSection({ data }) {
         </div>
         <div>
           <va-link
-            href={`${root.url}/schedule/community-request/${ccLanguage.url}`}
+            href={ccLanguage.url}
             onClick={handleClick(history, home, ccLanguage)}
             aria-label="Edit preferred language"
             text="Edit"
