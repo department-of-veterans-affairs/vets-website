@@ -2,23 +2,26 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import GetFormHelp from '../components/common/GetFormHelp';
+import manifest from '../manifest.json';
+import transformForSubmit from './submit-transformer';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import manifest from '../manifest.json';
+import GetFormHelp from '../components/common/GetFormHelp';
 import personalInformationChapter from '../pages/01-personal-information-chapter';
 import militaryServiceChapter from '../pages/02-military-service-chapter';
-import employmentInformationChapter from '../pages/03-employment-information-chapter';
+import employmentHistoryChapter from '../pages/03-employment-history-chapter';
 import educationHistoryChapter from '../pages/04-education-history-chapter';
 import lawPracticeInformationChapter from '../pages/05-law-practice-information-chapter';
 import backgroundInformationChapter from '../pages/06-background-information-chapter';
 import characterReferencesChapter from '../pages/07-character-references-chapter';
 
+/** @type {FormConfig} */
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,
   version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  transformForSubmit,
   submitUrl: `${
     environment.API_URL
   }/accredited_representative_portal/v0/form21a`,
@@ -32,6 +35,10 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: '',
   prefillEnabled: true,
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: !window.Cypress,
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -61,7 +68,7 @@ const formConfig = {
   chapters: {
     personalInformationChapter,
     militaryServiceChapter,
-    employmentInformationChapter,
+    employmentHistoryChapter,
     educationHistoryChapter,
     lawPracticeInformationChapter,
     backgroundInformationChapter,

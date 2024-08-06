@@ -126,6 +126,7 @@ describe('check-in experience', () => {
       app: 'preCheckIn',
       appointments: initAppointments,
       upcomingAppointments,
+      features: { check_in_experience_medication_review_content: true },
     };
     const preCheckInStoreWithPreCheckInIncomplete = {
       app: 'preCheckIn',
@@ -390,6 +391,17 @@ describe('check-in experience', () => {
           expect(getByRole('heading', { name: 'Where to attend', level: 2 })).to
             .exist;
         });
+        it('renders Prepare block', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('prepare-content')).to.exist;
+        });
       });
       describe('CVT pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
@@ -541,6 +553,19 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(queryByTestId('appointment-details--phone')).to.not.exist;
+        });
+      });
+      describe('Day-of check-in', () => {
+        it('Does not render Prepare block', () => {
+          const { queryByTestId } = render(
+            <CheckInProvider
+              store={dayOfCheckInStore}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(queryByTestId('prepare-content')).to.not.exist;
         });
       });
       describe('Day-of check-in eligible appointment', () => {

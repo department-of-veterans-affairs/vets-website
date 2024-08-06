@@ -352,7 +352,7 @@ export function selectIsCanceled(appointment) {
 }
 
 export function selectIsCommunityCare(appointment) {
-  return appointment.vaos.isCommunityCare;
+  return appointment?.vaos.isCommunityCare;
 }
 
 export function selectIsVideo(appointment) {
@@ -368,6 +368,8 @@ export function selectIsInPerson(appointment) {
 }
 
 export function selectPractitionerName(appointment) {
+  if (!appointment) return null;
+
   if (selectIsCommunityCare(appointment)) {
     // NOTE: appointment.communityCareProvider is populated for booked CC only
     const { providerName, name } = appointment.communityCareProvider || {
@@ -391,11 +393,15 @@ export function selectPractitionerName(appointment) {
   // layer. See the following link for details.
   //
   // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners } = appointment;
-  practitioners = practitioners.map(practitioner => {
-    const { name = { given: '', family: '' } } = practitioner;
-    return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
-  });
+  let { practitioners = [] } = appointment;
+  practitioners = practitioners
+    .map(practitioner => {
+      const { name } = practitioner;
+      if (name)
+        return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
+      return null;
+    })
+    .filter(Boolean);
 
   return practitioners.length > 0 ? practitioners[0] : '';
 }
@@ -675,6 +681,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const atlasConfirmationCode = selectAtlasConfirmationCode(appointment);
   const isCanceledAppointment = selectIsCanceled(appointment);
   const isUpcoming = appointment?.vaos?.isUpcomingAppointment;
+  const practitionerName = selectPractitionerName(appointment);
 
   return {
     appointment,
@@ -703,6 +710,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isPhone,
     locationId,
     phone,
+    practitionerName,
     providerAddress,
     showCancelButton: selectFeatureCancel(state),
     startDate,

@@ -393,6 +393,7 @@ class ReviewCollapsibleChapter extends React.Component {
               updatePage={() =>
                 this.handleEdit(page.pageKey, false, page.index)
               }
+              recalculateErrors={this.hasValidationError}
               pagePerItemIndex={page.index}
               schema={pageSchema}
               uiSchema={pageUiSchema}
@@ -418,6 +419,7 @@ class ReviewCollapsibleChapter extends React.Component {
             data={props.form.data}
             pagePerItemIndex={page.index}
             goToPath={this.goToPath}
+            recalculateErrors={this.hasValidationError}
           />
         </div>
       </React.Fragment>
