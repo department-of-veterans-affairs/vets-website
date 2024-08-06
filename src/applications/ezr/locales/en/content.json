@@ -61,7 +61,7 @@
   "military-service-other-exposure-description": "You selected that you think you may have been exposed to other toxins or hazards.",
   "military-service-other-exposure-description-2": "Enter any toxins or hazards you think you may have been exposed to",
   "military-service-other-exposure-description-2-hint": "If you\u2019re listing multiple toxins or hazards, list them without commas or any other special characters",
-  "military-service-other-exposure-error-message": "You entered a character that we can't accept. You can use only these characters: . , ! ?",
+  "military-service-other-exposure-error-message": "You entered a character that we can\u2019t accept. You can use only these characters: . , ! ?",
   "military-service-radiation-exposure-title-2": "Cleanup or response efforts",
   "military-service-radiation-exposure-description": "Did you take part in any of these clean up or response efforts while serving in any of these locations?",
   "military-service-supporting-documents-title": "Upload supporting documents",
