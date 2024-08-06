@@ -120,7 +120,7 @@ const PrintDownload = props => {
             dataDogActionNames.shared.PRINT_OR_DOWNLOAD_BUTTON
           }${list ? pageType.LIST : pageType.DETAILS}`}
           type="button"
-          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
+          className={`vads-u-padding-x--2 ${toggleMenuButtonClasses} print-download-btn-min-height`}
           onClick={() => setMenuOpen(!menuOpen)}
           data-testid="print-records-button"
           aria-expanded={menuOpen}
@@ -138,7 +138,7 @@ const PrintDownload = props => {
               data-dd-action-name={`${dataDogActionNames.shared.PRINT_THIS}${
                 list ? 'Page Of The List' : 'Page'
               } Option - ${list ? pageType.LIST : pageType.DETAILS}`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-0"
               type="button"
               data-testid="download-print-button"
@@ -154,7 +154,7 @@ const PrintDownload = props => {
                   dataDogActionNames.medicationsListPage
                     .PRINT_ALL_MEDICATIONS_OPTION
                 }
-                className="vads-u-padding-x--2"
+                className="vads-u-padding-x--2 print-download-btn-min-height"
                 id="printButton-1"
                 type="button"
                 data-testid="download-print-all-button"
@@ -171,7 +171,7 @@ const PrintDownload = props => {
               }${list ? 'List' : 'Page'} Option - ${
                 list ? pageType.LIST : pageType.DETAILS
               }`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-2"
               type="button"
               data-testid="download-pdf-button"
@@ -188,7 +188,7 @@ const PrintDownload = props => {
               }${list ? 'List' : 'Page'} Option - ${
                 list ? pageType.LIST : pageType.DETAILS
               }`}
-              className="vads-u-padding-x--2"
+              className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-3"
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}

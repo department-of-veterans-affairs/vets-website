@@ -7,6 +7,7 @@ import {
   selectConfirmedAppointmentData,
   selectIsAtlasVideo,
 } from '../../appointment-list/redux/selectors';
+import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
@@ -15,6 +16,7 @@ import DetailPageLayout, {
   When,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import VideoLink from '../VideoLink';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
@@ -23,7 +25,7 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import AddToCalendarButton from '../AddToCalendarButton';
-import NewTabAnchor from '../NewTabAnchor';
+import VideoInstructions from '../VideoInstructions';
 import State from '../State';
 
 export default function VideoLayout({ data: appointment }) {
@@ -44,6 +46,11 @@ export default function VideoLayout({ data: appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
+
+  const featureMedReviewInstructions = useSelector(
+    selectFeatureMedReviewInstructions,
+  );
+
   const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
   const isClinicVideo = isClinicVideoAppointment(appointment);
 
@@ -62,52 +69,6 @@ export default function VideoLayout({ data: appointment }) {
         !isPastAppointment && (
           <Section heading="How to join">
             <VideoLink appointment={appointment} />
-            <va-additional-info trigger="How to setup your device" uswds>
-              <div>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                  Before your appointment:
-                </h4>
-                <ul>
-                  <li>
-                    If you’re using an iPad or iPhone for your appointment,
-                    you’ll need to download the{' '}
-                    <NewTabAnchor href="https://itunes.apple.com/us/app/va-video-connect/id1224250949?mt=8">
-                      VA Video Connect iOS app
-                    </NewTabAnchor>{' '}
-                    beforehand. If you’re using any other device, you don’t need
-                    to download any software or app before your appointment.
-                  </li>
-                  <li>
-                    You’ll need to have access to a web camera and microphone.
-                    You can use an external camera and microphone if your device
-                    doesn’t have one.
-                  </li>
-                </ul>
-
-                <p>
-                  To connect to your Virtual Meeting Room at the appointment
-                  time, click the "Join session" button on this page or the link
-                  that's in your confirmation email.
-                </p>
-                <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                  To have the best possible video experience, we recommend you:
-                </h4>
-                <ul>
-                  <li>
-                    Connect to your video appointment from a quiet, private, and
-                    well-lighted location
-                  </li>
-                  <li>
-                    Check to ensure you have a strong Internet connection before
-                    your appointment
-                  </li>
-                  <li>
-                    Connect to your appointment using a Wi-Fi network if using
-                    your mobile phone, rather than your cellular data network
-                  </li>
-                </ul>
-              </div>
-            </va-additional-info>
           </Section>
         )}
       <When>
@@ -179,6 +140,30 @@ export default function VideoLayout({ data: appointment }) {
           />
         </Section>
       )}
+      {featureMedReviewInstructions &&
+        !isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <ul className="vads-u-margin-top--0">
+              <li>
+                Bring your insurance cards, a list of medications, and other
+                things to share with your provider
+                <br />
+                <a
+                  target="_self"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                >
+                  Find out what to bring to your appointment
+                </a>
+              </li>
+              <li>
+                Get your device ready to join.
+                <VideoInstructions />
+              </li>
+            </ul>
+          </Prepare>
+        )}
     </DetailPageLayout>
   );
 }

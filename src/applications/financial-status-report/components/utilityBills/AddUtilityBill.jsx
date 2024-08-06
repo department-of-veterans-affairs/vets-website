@@ -138,7 +138,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} utility bill`,
                 onClick: handlers.onUpdate,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

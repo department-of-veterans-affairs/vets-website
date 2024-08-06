@@ -16,6 +16,7 @@ describe('<ContestableIssues>', () => {
     review = false,
     submitted = false,
     setFormData = () => {},
+    testChange,
     loadedIssues,
     additionalIssues,
     additionalIssueChecked = false,
@@ -53,8 +54,8 @@ describe('<ContestableIssues>', () => {
         ],
       },
       setFormData,
+      testChange,
       contestableIssues: { issues },
-      showPart3: true,
       apiLoadStatus,
       value: [],
     };
@@ -88,34 +89,89 @@ describe('<ContestableIssues>', () => {
   });
 
   it('should call onChange when the checkbox is toggled', () => {
-    const onChange = sinon.spy();
-    const props = getProps({ onChange });
+    const testChange = sinon.spy();
+    const props = getProps({ testChange });
     const { container } = render(<ContestableIssues {...props} />);
-    $$('.form-checkbox', container).forEach((element, index) => {
-      onChange.reset();
 
-      const checkbox = $('input', container);
+    $$('.widget-checkbox-wrap', container).forEach(async (element, index) => {
+      testChange.reset();
+
+      const checkbox = $('input', element);
       // "Click" the option
-      fireEvent.click(checkbox);
+      await fireEvent.click(checkbox);
 
       // Check that it changed
-      expect(onChange.callCount).to.equal(1);
-      expect(onChange.firstCall.args[0][index]).to.eql({
-        ...props.formData.contestedIssues[index],
-        [SELECTED]: true,
-      });
+      expect(testChange.callCount).to.equal(1);
+      expect(testChange.firstCall.args[0]).to.eq(index);
+      expect(testChange.firstCall.args[1].target.checked).to.be.true;
 
-      // "Click" the option
-      fireEvent.click(checkbox);
+      // "Click" to uncheck the option
+      await fireEvent.click(checkbox);
 
       // Check that it changed back
-      expect(onChange.callCount).to.equal(2);
-      expect(onChange.secondCall.args[0][index]).to.eql({
-        ...props.formData.contestedIssues[index],
-        [SELECTED]: false,
-      });
+      expect(testChange.callCount).to.equal(2);
+      expect(testChange.secondCall.args[0]).to.eq(index);
+      expect(testChange.secondCall.args[1].target.checked).to.be.false;
     });
   });
+
+  it('should call set form data when an api loaded checkbox is toggled', () => {
+    const setFormDataSpy = sinon.spy();
+    const props = getProps({ setFormData: setFormDataSpy, testChange: null });
+    const { container } = render(<ContestableIssues {...props} />);
+
+    const checkbox = $('input', container);
+
+    // "Click" the option
+    fireEvent.click(checkbox);
+
+    // Check that it changed in the form data
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0].contestedIssues[0]).to.deep.equal({
+      ...props.formData.contestedIssues[0],
+      [SELECTED]: true,
+    });
+  });
+
+  it('should call set form data when an additional issue checkbox is toggled', () => {
+    const setFormDataSpy = sinon.spy();
+    const props = getProps({
+      loadedIssues: [],
+      setFormData: setFormDataSpy,
+      testChange: null,
+    });
+    const { container } = render(<ContestableIssues {...props} />);
+
+    const checkbox = $('input', container);
+
+    // "Click" the option
+    fireEvent.click(checkbox);
+
+    // Check that it changed in the form data
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0].additionalIssues[0]).to.deep.equal({
+      ...props.formData.additionalIssues[0],
+      [SELECTED]: true,
+    });
+  });
+
+  it('should show max selection error modal', async () => {
+    const props = getProps({
+      loadedIssues: new Array(100).fill({ [SELECTED]: true }),
+    });
+    const { container } = render(<ContestableIssues {...props} />);
+
+    const lastCheckbox = $$('input', container).slice(-1)[0];
+
+    // Click last checkbox
+    await fireEvent.click(lastCheckbox);
+
+    const errorModal = $('va-modal[visible]', container);
+    expect(errorModal).to.exist;
+
+    errorModal.__events.closeEvent();
+  });
+
   it('should not show an error on submission with one selection', () => {
     const props = getProps({ submitted: true, additionalIssueChecked: true });
     const { container } = render(<ContestableIssues {...props} />);
