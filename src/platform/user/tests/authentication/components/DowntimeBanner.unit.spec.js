@@ -4,6 +4,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 import environment from '~/platform/utilities/environment';
+import sinon from 'sinon';
 import { rest } from 'msw';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
@@ -51,12 +52,19 @@ const generateState = ({
       };
 };
 describe('DowntimeBanner', () => {
+  let sessionStorageStub;
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
   const apiURL = `${environment.API_URL}/v0${'/backend_statuses'}`;
   let server;
   before(() => {
+    sessionStorageStub = sinon.stub(global, 'sessionStorage').value({
+      getItem: sinon.stub().returns(null),
+      setItem: sinon.stub(),
+      clear: sinon.stub(),
+    });
+
     server = setupServer(
       rest.get(apiURL, (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(statuses));
@@ -67,17 +75,11 @@ describe('DowntimeBanner', () => {
   afterEach(() => {
     server.resetHandlers();
   });
-  after(() => server.close());
-  // it('should display banner if API is down', () => {
-  //   const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
-  //     initialState: generateState({ isApiDown: true }),
-  //   });
-  //   expect(
-  //     queryByText(
-  //       /You may have trouble signing in or using some tools or services/i,
-  //     ),
-  //   ).to.exist;
-  // });
+  after(() => {
+    server.close();
+    sessionStorageStub.restore();
+  });
+
   it('should NOT display banner if statuses are active', () => {
     server.use(
       rest.get(apiURL, (req, res, ctx) => {
