@@ -16,7 +16,7 @@ export default {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
       'ui:required': form => {
         const isClaimingBurialAllowance =
-          form['view:claimedBenefits'].burialAllowance;
+          form['view:claimedBenefits']?.burialAllowance;
         const serviceRequested =
           form.burialAllowanceRequested?.service === true;
         const locationIsVaMedicalCenter =
