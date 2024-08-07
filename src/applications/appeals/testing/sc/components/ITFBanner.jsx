@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   itfMessage,
@@ -58,9 +58,7 @@ const ITFBanner = props => {
       throw new Error(`Unexpected status prop in ITFBanner: ${props.status}`);
   }
 
-  setTimeout(() => {
-    focusElement('.itf-wrapper h2');
-  }, 100);
+  waitForRenderThenFocus('.itf-wrapper h2');
 
   return (
     <div className="itf-inner vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">

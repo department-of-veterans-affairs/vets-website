@@ -17,7 +17,7 @@ import { maskVafn } from '../../../shared/utils/data';
 
 const Confirmation = () => {
   useEffect(() => {
-    focusElement('h2');
+    focusElement('#main h2');
     scrollToTop('topScrollElement');
   });
   const { data } = testData;

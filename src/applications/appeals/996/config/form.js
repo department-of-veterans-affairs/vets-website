@@ -55,7 +55,6 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
 import {
-  focusRadioH3,
   focusH3,
   focusToggledHeader,
   focusOnAlert,
@@ -124,6 +123,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
+
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -145,7 +146,6 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
-          scrollAndFocusTarget: focusH3,
           // initialData,
         },
         homeless: {
@@ -168,7 +168,6 @@ const formConfig = {
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusH3,
           onContinue: focusOnAlert,
         },
         // v2 - add issue. Accessed from contestableIssues page only
@@ -182,7 +181,6 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
-          scrollAndFocusTarget: focusH3,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
@@ -193,7 +191,6 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -205,7 +202,6 @@ const formConfig = {
           initialData: {
             socOptIn: false,
           },
-          scrollAndFocusTarget: focusH3,
         },
         authorization: {
           title: 'Authorization',
@@ -213,14 +209,12 @@ const formConfig = {
           uiSchema: authorization.uiSchema,
           schema: authorization.schema,
           depends: showNewHlrContent,
-          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -247,7 +241,6 @@ const formConfig = {
           // new page choices: 'me' or 'rep'
           CustomPage: InformalConferenceContact,
           CustomPageReview: InformalConferenceContactReview,
-          scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {
           // changing path from v1, but this shouldn't matter since the
@@ -257,7 +250,6 @@ const formConfig = {
           depends: showConferenceRepPages,
           uiSchema: informalConferenceRepV2.uiSchema,
           schema: informalConferenceRepV2.schema,
-          scrollAndFocusTarget: focusH3,
         },
         conferenceTime: {
           path: 'informal-conference/conference-availability',
@@ -265,7 +257,6 @@ const formConfig = {
           depends: showConferenceVeteranPage,
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
-          scrollAndFocusTarget: focusH3,
         },
         conferenceTimeRep: {
           path: 'informal-conference/conference-rep-availability',
@@ -273,7 +264,6 @@ const formConfig = {
           depends: showConferenceRepPages,
           uiSchema: informalConferenceTimeRep.uiSchema,
           schema: informalConferenceTimeRep.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },
