@@ -2,7 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import {
+  isReactComponent,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   VaAccordion,
@@ -13,11 +16,7 @@ import {
   createPageListByChapter,
   getActiveChapters,
   getActiveExpandedPages,
-  getPageKeys,
-  getReviewPageOpenChapters,
-  getViewedPages,
 } from '~/platform/forms-system/exportsFile';
-import ReviewFieldTemplate from 'platform/forms-system/src/js/review/ReviewFieldTemplate';
 import { PropTypes } from 'prop-types';
 import GetFormHelp from './GetFormHelp';
 
@@ -54,27 +53,14 @@ export const ConfirmationPageView = props => {
 
   const form = useSelector(state => state.form);
   const formData = form.data;
-
-  const openChapters = useSelector(
-    state => getReviewPageOpenChapters(state) || {},
-  );
-  const viewedPages = useSelector(state => getViewedPages(state));
-
   const chapterNames = getActiveChapters(formConfig, formData);
   const pagesByChapter = createPageListByChapter(formConfig);
+
   const chapters = useSelector(state =>
     chapterNames.map(chapterName => {
       const pages = pagesByChapter[chapterName];
       const expandedPages = getActiveExpandedPages(pages, formData);
       const chapterFormConfig = formConfig.chapters[chapterName];
-      const open = openChapters[chapterName] || false;
-      const pageKeys = getPageKeys(pages, formData);
-
-      const hasErrors = form.formErrors?.errors?.some(err =>
-        pageKeys.includes(err.pageKey),
-      );
-      const hasUnviewedPages =
-        hasErrors || pageKeys.some(key => !viewedPages.has(key));
 
       return {
         expandedPages: expandedPages.map(
@@ -85,9 +71,6 @@ export const ConfirmationPageView = props => {
         ),
         formConfig: chapterFormConfig,
         name: chapterName,
-        open,
-        pageKeys,
-        hasUnviewedPages,
       };
     }),
   );
@@ -111,68 +94,97 @@ export const ConfirmationPageView = props => {
     return chapterTitle || '';
   };
 
-  const formContext = useSelector(state => state.formContext);
-  //   return (
-  //     <React.Fragment key={fullPageKey}>
-  //       <Element name={`${fullPageKey}${SCROLL_ELEMENT_SUFFIX}`} />
-  //       <div>
-  //         <page.CustomPageReview
-  //           key={`${page.pageKey}Review${page.index ?? ''}`}
-  //           editPage={() => handleEdit(page.pageKey, !editing, page.index)}
-  //           name={page.pageKey}
-  //           title={page.title}
-  //           data={form.data}
-  //           pagePerItemIndex={page.index}
-  //           goToPath={goToPath}
-  //         />
-  //       </div>
-  //     </React.Fragment>
-  //   );
+  const reviewEntry = (
+    description,
+    uiSchemaKey,
+    uiSchemaValue,
+    label,
+    data,
+  ) => {
+    if (!data) return null;
+
+    const textDescription =
+      typeof description === 'string' ? description : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchemaValue['ui:description']
+      : null;
+
+    return (
+      <li key={`review_${uiSchemaKey}_${uiSchemaValue}`}>
+        <div className="vads-u-color--gray">
+          {label}
+          {textDescription && <p>{textDescription}</p>}
+          {!textDescription && !DescriptionField && description}
+        </div>
+        {data && <div>{data}</div>}
+      </li>
+    );
+  };
+
+  // const removeNullValues = item => {
+  //   if (Array.isArray(item)) {
+  //     const filteredArray = item
+  //       .map(subItem => removeNullValues(subItem))
+  //       .flat(Infinity)
+  //       .filter(subItem => subItem !== null && subItem !== undefined);
+  //     return filteredArray.length > 0 ? filteredArray : null;
+  //   }
+
+  //   return item !== null && item !== undefined ? [item] : [];
   // };
 
-  // const getChapterContent = chapter => {
-  //   const { formConfig: chapterFormConfig, expandedPages, pageKeys } = chapter;
-  //   const ChapterDescription = chapterFormConfig.reviewDescription;
-  //   return (
-  //     <div data-testid="accordion-item-content">
-  //       {ChapterDescription && (
-  //         <ChapterDescription
-  //           viewedPages={viewedPages}
-  //           pageKeys={pageKeys}
-  //           formData={form.data}
-  //           t
-  //           push
-  //         />
-  //       )}
-  //       {expandedPages?.map(page => {
-  //         // const pageConfig = form.pages[page.pageKey];
-  //         // const editing = pageConfig.showPagePerItem ? pageConfig.editMode[page.index] : pageConfig.editMode;
+  const buildFields = chapter => {
+    return chapter.expandedPages.flatMap(page =>
+      Object.entries(page.uiSchema).map(([uiSchemaKey, uiSchemaValue]) => {
+        if (uiSchemaKey.startsWith('view:')) return null;
+        if (uiSchemaKey.startsWith('ui:')) return null;
 
-  //         /* const showCustomPage = editing ? !!pageConfig.CustomPage : !!pageConfig.CustomPageReview; */
+        let label = uiSchemaValue['ui:title'];
+        let description = uiSchemaValue['ui:description'];
+        const dataType = page.schema.properties[uiSchemaKey].type;
+        let data = formData[uiSchemaKey];
+        const ReviewField = uiSchemaValue['ui:reviewField'];
+        const ReviewWidget = uiSchemaValue['ui:reviewWidget'];
 
-  //         /* return showCustomPage ? getCustomPageContent(page, editing) : getSchemaformPageContent(page, editing); */
+        if (isReactComponent(ReviewField)) {
+          const reviewProps = { children: { props: { formData: data } } };
+          return <ReviewField {...reviewProps} />;
+        }
 
-  //         return getSchemaformPageContent(page, chapter, false);
-  //       }) ?? null}
-  //     </div>
-  //   );
-  // };
+        if (isReactComponent(ReviewWidget)) {
+          const reviewProps = { name: label, value: data };
+          data = <ReviewWidget {...reviewProps} />;
+        }
 
-  const buildCollection = chapter => {
-    return chapter.expandedPages.map(page => {
-      const obj = { uiSchema: null, schema: null };
+        if (dataType === 'object') {
+          return Object.entries(uiSchemaValue).map(([key, value]) => {
+            if (key.startsWith('view:')) return null;
+            if (key.startsWith('ui:')) return null;
 
-      Object.entries(page.uiSchema).forEach(([uiSchemaKey, uiSchemaValue]) => {
-        obj[uiSchemaKey].uiSchema = uiSchemaValue;
+            label = value['ui:title'];
+            description = value['ui:description'];
 
-        const schemaProperties = page.schema[uiSchemaKey]?.properties || {};
-        Object.entries(schemaProperties).forEach(([schemaKey, schemaValue]) => {
-          obj[schemaKey].schema = schemaValue;
-        });
-      });
+            return reviewEntry(description, key, value, label, data[key]);
+          });
+        }
 
-      return obj;
-    });
+        if (dataType === 'array') {
+          return (
+            <li key={uiSchemaKey}>
+              {uiSchemaKey}: {dataType}
+            </li>
+          );
+        }
+
+        return reviewEntry(
+          description,
+          uiSchemaKey,
+          uiSchemaValue,
+          label,
+          data,
+        );
+      }),
+    );
   };
 
   return (
@@ -204,25 +216,15 @@ export const ConfirmationPageView = props => {
             uswds
           >
             {chapters.map(chapter => {
-              const collection = buildCollection(chapter);
               const chapterTitle = getChapterTitle(chapter.formConfig);
-
+              const fields = buildFields(chapter);
               return (
-                <div key={`chapter_${chapter.name}`}>
-                  <h3>{chapterTitle}</h3>
-                  {collection.map(item => {
-                    return (
-                      <ReviewFieldTemplate
-                        key={`review_${item.uiSchema.length}_${
-                          item.schema.length
-                        }`}
-                        uiSchema={item.uiSchema}
-                        schema={item.schema}
-                        formContext={formContext}
-                      />
-                    );
-                  })}
-                </div>
+                fields.length > 0 && (
+                  <div key={`chapter_${chapter.name}`}>
+                    <h3>{chapterTitle}</h3>
+                    <ul style={{ listStyle: 'none' }}>{fields}</ul>
+                  </div>
+                )
               );
             })}
           </VaAccordionItem>
