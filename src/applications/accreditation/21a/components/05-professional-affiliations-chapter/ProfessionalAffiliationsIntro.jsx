@@ -11,7 +11,7 @@ const ProfessionalAffiliationsIntro = () => (
     <ul>
       <li>Name of jurisdiction, agency, or court</li>
       <li>Date of admission (month/year)</li>
-      <li>Membership/registration number</li>
+      <li>Membership or registration number</li>
     </ul>
   </>
 );

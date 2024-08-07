@@ -38,17 +38,17 @@ const BackgroundInformationIntro = () => (
     <p>
       Your responses must be updated as necessary prior to your accreditation.
       Failure to disclose the requested information may result in denial of
-      accreditation (
+      accreditation under{' '}
       <va-link
         href="https://www.law.cornell.edu/cfr/text/38/14.629"
         text="38 C.F.R. § 14.629"
-      />
-      ) or disciplinary proceedings (
+      />{' '}
+      or disciplinary proceedings under{' '}
       <va-link
         href="https://www.law.cornell.edu/cfr/text/38/14.633"
         text="38 C.F.R. § 14.633"
-      />
-      ) if you are already accredited.
+      />{' '}
+      if you are already accredited.
     </p>
   </>
 );
