@@ -47,15 +47,15 @@ const SearchItem = ({
   return (
     facilityData.data.length > 0 && (
       <>
-        <p ref={alertRef}>
+        <p ref={alertRef} className="vads-u-margin-bottom--0">
           {`Showing ${facilityData.data.length} results for `}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
-        <p>
+        <p className="vads-u-margin-top--1">
           The results are listed from nearest to farthest from your location.
         </p>
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-y--2 vads-u-width--100"
           label="Select VA health facility"
           onVaValueChange={handleChange}
           required
@@ -76,7 +76,7 @@ const SearchItem = ({
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={facilityData.meta.pagination.currentPage}
-          pages={5}
+          pages={facilityData.meta.pagination.totalPages}
           maxPageListLength={5}
           showLastPage
           uswds
