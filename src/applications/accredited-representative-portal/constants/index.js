@@ -8,11 +8,15 @@ export const SIGN_IN_URL = (() => {
   return url;
 })();
 
+// NOTE: given CI failures, this functions gets the client ID from sessionStorage or default to SIS.CLIENT_IDS.ARP
+const getClientId = () => {
+  const clientId = sessionStorage.getItem('ci');
+  return clientId !== null ? clientId : SIS.CLIENT_IDS.ARP;
+};
+
 export const SIGN_OUT_URL = (() => {
+  const sisClientId = getClientId();
   const url = new URL(SIS.API_URL({ endpoint: 'logout' }));
-  url.searchParams.set(
-    SIS.QUERY_PARAM_KEYS.CLIENT_ID,
-    sessionStorage.getItem('ci'),
-  );
+  url.searchParams.set(SIS.QUERY_PARAM_KEYS.CLIENT_ID, sisClientId);
   return url;
 })();
