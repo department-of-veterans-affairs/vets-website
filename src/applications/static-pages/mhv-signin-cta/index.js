@@ -28,18 +28,15 @@ export const MhvSigninCallToAction = ({
     return <UnverifiedAlert signInService={signInServiceName} />;
   }
 
-  let widgetContent;
-  if (noAlertContent) {
-    /* eslint-disable react/no-danger */
-    widgetContent = Array.from(noAlertContent).map((child, index) => (
-      <div
-        key={index}
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(child.innerHTML),
-        }}
-      />
-    ));
-  }
+  const widgetContent = Array.from(noAlertContent).map((child, index) => (
+    <div
+      key={index}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(child.innerHTML),
+      }}
+    />
+  ));
 
   return <div>{widgetContent}</div>;
 };
