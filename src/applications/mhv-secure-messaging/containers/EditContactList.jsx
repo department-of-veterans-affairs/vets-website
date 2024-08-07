@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -13,8 +13,10 @@ import {
   PageTitles,
   ParentComponent,
 } from '../util/constants';
+import { updateTriageTeamRecipients } from '../actions/recipients';
 
 const EditContactList = () => {
+  const dispatch = useDispatch();
   const [navigationError, setNavigationError] = useState(false);
   const [allTriageTeams, setAllTriageTeams] = useState([]);
 
@@ -75,6 +77,11 @@ const EditContactList = () => {
             : team,
       ),
     );
+  };
+
+  const onFormSubmit = e => {
+    e.preventDefault();
+    dispatch(updateTriageTeamRecipients(allTriageTeams));
   };
 
   return (
@@ -155,6 +162,7 @@ const EditContactList = () => {
               vads-u-margin-bottom--1
               small-screen:vads-u-margin-bottom--0
             "
+            onClick={onFormSubmit}
           />
           <va-button
             text="Cancel"
