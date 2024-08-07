@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import sinon from 'sinon';
+import { handleTokenRequest } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
@@ -209,5 +210,40 @@ describe('AuthApp', () => {
     );
 
     expect(queryByTestId('loading')).to.not.be.null;
+  });
+
+  describe('handleTokenRequest', () => {
+    it('Should call generateOAuthError', async () => {
+      const handleTokenSpy = sinon.spy();
+      await handleTokenRequest({
+        code: 'hello',
+        state: 'hhh',
+        generateOAuthError: handleTokenSpy,
+      });
+      expect(handleTokenSpy.called).to.be.true;
+    });
+    it('Should call generateOAuthError', async () => {
+      const handleTokenSpy = sinon.spy();
+      server.use(
+        rest.post(
+          'https://dev-api.va.gov/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=anything',
+          (req, res, ctx) => {
+            return res(
+              ctx.status(400),
+              ctx.json({ errors: [{ code: '201' }] }),
+            );
+          },
+        ),
+      );
+      localStorage.setItem('state', 'hhh');
+      localStorage.setItem('code_verifier', 'anything');
+      await handleTokenRequest({
+        code: 'hello',
+        state: 'hhh',
+        generateOAuthError: handleTokenSpy,
+        csp: 'logingov',
+      });
+      expect(handleTokenSpy.called).to.be.false;
+    });
   });
 });
