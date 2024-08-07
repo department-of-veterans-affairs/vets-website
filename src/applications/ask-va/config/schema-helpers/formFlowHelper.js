@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CHAPTER_2, CHAPTER_3 } from '../../constants';
+import { CHAPTER_2, CHAPTER_3, healthcareCategoryLabel } from '../../constants';
 
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
@@ -150,7 +150,7 @@ const ch3Pages = {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
-    depends: form => form.selectCategory === 'VA Health Care',
+    depends: form => form.selectCategory === healthcareCategoryLabel,
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -227,7 +227,7 @@ const ch3Pages = {
     schema: yourLocationOfResidencePage.schema,
     depends: form =>
       form.contactPreference !== 'U.S. mail' &&
-      form.selectCategory !== 'VA Health Care',
+      form.selectCategory !== healthcareCategoryLabel,
   },
   relationshipToVeteran: {
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
