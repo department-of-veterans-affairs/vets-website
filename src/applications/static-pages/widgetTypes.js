@@ -61,6 +61,7 @@ export default {
   MAINTENANCE_BANNER: 'maintenance-banner',
   MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',
+  MHV_SIGNIN_CTA: 'mhv-signin-cta',
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
   PENSION_APP_STATUS: 'pension-app-status',

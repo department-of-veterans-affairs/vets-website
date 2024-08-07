@@ -1,0 +1,34 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+/**
+ * Create the MHV Signin CTA widget on a page as needed.
+ * @param {*} store the React store
+ * @param {String} widgetType the widget type
+ */
+export default async function createMhvSigninCallToAction(store, widgetType) {
+  const widgets = Array.from(
+    document.querySelectorAll(`[data-widget-type="${widgetType}"]`),
+  );
+
+  if (widgets.length) {
+    const {
+      default: MhvSigninAlert,
+    } = await import(/* webpackChunkName: "mhv-signin-cta" */ 'applications/static-pages/mhv-signin-cta');
+
+    widgets.forEach(el => {
+      // Grab the content that will show if no alerts.
+      const origElement = el.cloneNode(true);
+      const widgetContent = origElement.getElementsByClassName(
+        'static-widget-content',
+      );
+      ReactDOM.render(
+        <Provider store={store}>
+          <MhvSigninAlert noAlertContent={widgetContent} />
+        </Provider>,
+        el,
+      );
+    });
+  }
+}
