@@ -2,7 +2,6 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { updateFormDataAddress } from '../../../address-schema';
 import { separationLabelArr, separationLabels } from './helpers';
 
 export const schema = {
@@ -49,9 +48,3 @@ export const uiSchema = {
     },
   },
 };
-
-export const updateFormData = (oldFormData, formData) =>
-  updateFormDataAddress(oldFormData, formData, [
-    // 'doesLiveWithSpouse',
-    // 'address',
-  ]);

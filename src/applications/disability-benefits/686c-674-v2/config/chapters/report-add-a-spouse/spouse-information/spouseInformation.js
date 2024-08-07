@@ -1,8 +1,9 @@
 import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle, certificateNotice } from '../../../helpers';
+import { certificateNotice } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -22,7 +23,7 @@ export const schema = {
 
 export const uiSchema = {
   spouseInformation: {
-    'ui:title': generateTitle('Spouse’s current legal name'),
+    ...titleUI('Spouse’s current legal name'),
     spouseLegalName: fullNameNoSuffixUI(title => `Spouse’s ${title}`),
   },
   'view:certificateNotice': {

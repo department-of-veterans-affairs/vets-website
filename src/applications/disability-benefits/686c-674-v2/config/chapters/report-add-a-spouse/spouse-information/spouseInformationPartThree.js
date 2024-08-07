@@ -3,9 +3,10 @@ import {
   vaFileNumberSchema,
   serviceNumberUI,
   serviceNumberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import NoHintReviewField from '../../../../components/CustomReviewFields';
-import { generateTitle, generateHelpText } from '../../../helpers';
+import { generateHelpText } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -22,7 +23,7 @@ export const schema = {
 
 export const uiSchema = {
   spouseInformation: {
-    'ui:title': generateTitle('Your spouse’s military service information'),
+    ...titleUI('Your spouse’s military service information'),
     vaFileNumber: {
       ...vaFileNumberUI('Spouse’s VA file number'),
       'ui:description': generateHelpText(

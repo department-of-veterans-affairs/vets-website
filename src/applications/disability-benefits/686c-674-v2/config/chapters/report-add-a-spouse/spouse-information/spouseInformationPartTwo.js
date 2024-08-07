@@ -5,8 +5,8 @@ import {
   dateOfBirthSchema,
   yesNoUI,
   yesNoSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../helpers';
 
 export const schema = {
   type: 'object',
@@ -24,7 +24,7 @@ export const schema = {
 
 export const uiSchema = {
   spouseInformation: {
-    'ui:title': generateTitle('Spouse’s identification information'),
+    ...titleUI('Spouse’s identification information'),
     ssn: {
       ...ssnUI('Spouse’s Social Security number'),
       'ui:required': () => true,

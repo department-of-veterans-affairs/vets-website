@@ -1,10 +1,8 @@
 import {
   addressUI,
   addressSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { updateFormDataAddress } from '../../../address-schema';
-import { generateTitle } from '../../../helpers';
-// import { currentMarriageInformation } from '..';
 
 export const schema = {
   type: 'object',
@@ -20,7 +18,7 @@ export const schema = {
 
 export const uiSchema = {
   doesLiveWithSpouse: {
-    'ui:title': generateTitle('Spouse’s address'),
+    ...titleUI('Spouse’s address'),
     address: {
       ...addressUI({
         labels: {
@@ -31,9 +29,3 @@ export const uiSchema = {
     },
   },
 };
-
-export const updateFormData = (oldFormData, formData) =>
-  updateFormDataAddress(oldFormData, formData, [
-    // 'doesLiveWithSpouse',
-    'address',
-  ]);

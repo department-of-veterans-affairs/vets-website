@@ -1,8 +1,8 @@
 import constants from 'vets-json-schema/dist/constants.json';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { generateTitle } from '../../../helpers';
 
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,
@@ -44,7 +44,7 @@ export const schema = {
 
 export const uiSchema = {
   currentMarriageInformation: {
-    'ui:title': generateTitle('Where did you get married?'),
+    ...titleUI('Where did you get married?'),
     marriedOutsideUsa: {
       'ui:title': 'I got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,

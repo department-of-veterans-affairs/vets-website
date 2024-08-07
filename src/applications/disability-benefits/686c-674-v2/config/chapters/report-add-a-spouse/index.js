@@ -8,6 +8,8 @@ import * as spouseInformation from './spouse-information/spouseInformation';
 import * as spouseInformationPartTwo from './spouse-information/spouseInformationPartTwo';
 import * as spouseInformationPartThree from './spouse-information/spouseInformationPartThree';
 import * as spouseMarriageHistory from './current-spouse-marriage-history/currentSpouseMarriageHistory';
+import * as spouseMarriageHistoryPartTwo from './current-spouse-marriage-history/currentSpouseMarriageHistoryPartTwo';
+import * as additionalQuestionsView from './current-spouse-marriage-history-details/additionalQuestionsView';
 import * as spouseMarriageHistoryDetails from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetails';
 import * as veteranMarriageHistory from './veteran-marriage-history/veteranMarriageHistory';
 import * as veteranMarriageHistoryDetails from './veteran-marriage-history-details/veteranMarriageHistoryDetails';
@@ -23,6 +25,8 @@ export {
   currentMarriageInformationPartFour,
   doesLiveWithSpouse,
   spouseMarriageHistory,
+  spouseMarriageHistoryPartTwo,
+  additionalQuestionsView,
   spouseMarriageHistoryDetails,
   veteranMarriageHistory,
   veteranMarriageHistoryDetails,
