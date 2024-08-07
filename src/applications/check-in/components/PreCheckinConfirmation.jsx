@@ -8,6 +8,7 @@ import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
 import HowToLink from './HowToLink';
+import PrepareContent from './PrepareContent';
 import Wrapper from './layout/Wrapper';
 
 import { makeSelectForm } from '../selectors';
@@ -55,6 +56,10 @@ const PreCheckinConfirmation = props => {
           appointments={appointments}
           page="confirmation"
           router={router}
+        />
+        <PrepareContent
+          router={router}
+          appointmentCount={appointments.length}
         />
         <HowToLink />
         <p className="vads-u-margin-bottom--4">

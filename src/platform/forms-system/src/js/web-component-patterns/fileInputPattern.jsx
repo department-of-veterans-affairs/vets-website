@@ -121,5 +121,11 @@ export const fileInputSchema = {
     size: {
       type: 'integer',
     },
+    warnings: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
   },
 };

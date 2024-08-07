@@ -417,7 +417,7 @@ const getCheckinableAppointments = appointments => {
 const convertAppointments = appointments => {
   return appointments.map(appointment => ({
     id: appointment.id,
-    facility: appointment.attributes.location,
+    facility: appointment.attributes.location, // This is going away. We will switch to use facilityName
     clinicPhoneNumber: null,
     clinicFriendlyName: appointment.attributes.friendlyName,
     clinicName: appointment.attributes.clinic,

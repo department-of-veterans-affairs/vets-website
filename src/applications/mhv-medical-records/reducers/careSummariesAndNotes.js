@@ -7,7 +7,11 @@ import {
   loadStates,
   dischargeSummarySortFields,
 } from '../util/constants';
-import { extractContainedResource, isArrayAndHasItems } from '../util/helpers';
+import {
+  extractContainedResource,
+  isArrayAndHasItems,
+  decodeBase64Report,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -90,11 +94,7 @@ export const extractLocation = record => {
 export const getNote = record => {
   if (isArrayAndHasItems(record.content)) {
     const contentItem = record.content.find(item => item.attachment);
-    if (contentItem && typeof contentItem.attachment?.data === 'string') {
-      return Buffer.from(contentItem.attachment.data, 'base64')
-        .toString('utf-8')
-        .replace(/\r\n|\r/g, '\n'); // Standardize line endings
-    }
+    return decodeBase64Report(contentItem?.attachment?.data);
   }
   return null;
 };

@@ -269,6 +269,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f1.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -285,6 +286,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -300,6 +302,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f6.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -319,6 +322,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page19.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {

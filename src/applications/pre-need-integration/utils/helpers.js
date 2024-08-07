@@ -1129,8 +1129,8 @@ export const selfServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1143,8 +1143,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1165,6 +1165,10 @@ export const selfServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1190,8 +1194,8 @@ export const preparerServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1204,8 +1208,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1226,6 +1230,10 @@ export const preparerServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

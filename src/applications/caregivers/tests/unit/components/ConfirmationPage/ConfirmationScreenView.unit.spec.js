@@ -36,15 +36,23 @@ describe('CG <ConfirmationScreenView>', () => {
 
   it('should render with default props', () => {
     const { mockStore, props } = getData({});
-    const { container } = subject({ mockStore, props });
+    const { container, getByText, getByTitle } = subject({ mockStore, props });
+
     const selectors = {
       veteranName: container.querySelector(
         '[data-testid="cg-veteran-fullname"]',
       ),
       download: container.querySelector('.caregiver-application--download'),
+      printDescription: getByText(
+        /You can print this confirmation page for your records. You can also download your completed application as a/,
+      ),
+      abbreviation: getByTitle('Portable Document Format'),
     };
     expect(selectors.veteranName).to.contain.text('John Marjorie Smith Sr.');
     expect(selectors.download).to.not.be.empty;
+    expect(selectors.printDescription).to.exist;
+    expect(selectors.abbreviation).to.exist;
+    expect(selectors.abbreviation).to.have.text('PDF');
   });
 
   it('should not render timestamp in `application information` section when not provided', () => {

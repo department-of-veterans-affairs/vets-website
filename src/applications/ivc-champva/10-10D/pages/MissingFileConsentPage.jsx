@@ -1,5 +1,5 @@
 import React from 'react';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview, {
   MissingFileConsentPagePropTypes,
 } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -15,8 +15,8 @@ export function MissingFileConsentPage(props) {
     heading: <></>,
     showMail: true,
     showConsent: true,
-    fileNameMap: { ...requiredFiles, ...optionalFiles },
-    requiredFiles,
+    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    requiredFiles: REQUIRED_FILES,
   });
   return <>{OverviewComp}</>;
 }
