@@ -263,12 +263,15 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
 
 // v2 Helpers
 
+// Changes Marine Corps discharge board to Navy for naming on results pages.
 export const determineBranchOfService = key =>
   key === RESPONSES.MARINE_CORPS ? RESPONSES.NAVY : key;
 
+// Determines old discharges
 export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
   differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
 
+// Determines the label used on the review page.
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
   const monthObj = options.months.find(
@@ -290,7 +293,7 @@ export const answerReviewLabel = (key, formValues) => {
 
       return `I was discharged in ${dischargeMonth} ${formValues[key]}.`;
     case SHORT_NAME_MAP.PREV_APPLICATION:
-      if (answer === RESPONSES.PREV_APPLICATION_1) {
+      if (answer === RESPONSES.YES) {
         return 'I have previously applied for a discharge upgrade for this period of service.';
       }
 
@@ -300,13 +303,13 @@ export const answerReviewLabel = (key, formValues) => {
       // at the end of the sentence
       return `I made my previous application ${answer.toLowerCase()}.`;
     case SHORT_NAME_MAP.COURT_MARTIAL:
-      if (answer === RESPONSES.COURT_MARTIAL_3) {
+      if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure if my discharge was the outcome of a general court-martial.`;
       }
 
       return answer;
     case SHORT_NAME_MAP.PREV_APPLICATION_TYPE:
-      if (answer === RESPONSES.PREV_APPLICATION_TYPE_4) {
+      if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure what kind of discharge upgrade application I previously made.`;
       }
 
@@ -318,33 +321,33 @@ export const answerReviewLabel = (key, formValues) => {
   }
 };
 
+// Determines board specific data based on form responses and returns an obj that is used on results pages.
 export const determineBoardObj = (formResponses, noDRB) => {
   if (!formResponses) {
     return null;
   }
 
   const prevAppType = [
-    RESPONSES.PREV_APPLICATION_TYPE_1,
-    RESPONSES.PREV_APPLICATION_TYPE_4,
+    RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
+    RESPONSES.NOT_SURE,
   ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]);
 
   const noPrevApp =
-    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] ===
-    RESPONSES.PREV_APPLICATION_2;
+    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] === RESPONSES.NO;
 
   const preAppDateBefore = [
-    RESPONSES.PREV_APPLICATION_YEAR_1A,
-    RESPONSES.PREV_APPLICATION_YEAR_1B,
-    RESPONSES.PREV_APPLICATION_YEAR_1C,
+    RESPONSES.PREV_APPLICATION_BEFORE_2014,
+    RESPONSES.PREV_APPLICATION_BEFORE_2011,
+    RESPONSES.PREV_APPLICATION_BEFORE_2017,
   ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR]);
 
   const courtMartial =
-    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_1;
+    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_YES;
 
   const transgender =
     formResponses[SHORT_NAME_MAP.REASON] === RESPONSES.REASON_5;
   const intention =
-    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_1;
+    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES;
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
   const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
 
@@ -392,9 +395,10 @@ export const determineBoardObj = (formResponses, noDRB) => {
   return boardObj;
 };
 
+// Determines form specific data based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
-  if (boardData?.abbr === 'DRB') {
+  if (['DRB', 'AFDRB'].includes(boardData?.abbr)) {
     return {
       num: 293,
       link:
@@ -407,6 +411,7 @@ export const determineFormData = formResponses => {
   };
 };
 
+// Determines if we should use AFRBA Portal and Link.
 export const determineAirForceAFRBAPortal = formResponses =>
   formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
   determineBoardObj(formResponses).abbr === 'BCMR' &&

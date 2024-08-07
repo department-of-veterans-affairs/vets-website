@@ -35,7 +35,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
           </p>
         );
       case RESPONSES.REASON_3:
-        if (dischargeType === RESPONSES.DISCHARGE_TYPE_2) {
+        if (dischargeType === RESPONSES.DISCHARGE_DISHONORABLE) {
           return (
             <p>
               Because you answered that your discharge was due to your sexual
@@ -50,7 +50,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             </p>
           );
         }
-        if (dischargeType === RESPONSES.DISCHARGE_TYPE_1) {
+        if (dischargeType === RESPONSES.DISCHARGE_HONORABLE) {
           return (
             <p>
               Many Veterans have received general or honorable discharges due to
@@ -90,7 +90,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
 
   const priorServiceStatement = () => {
     switch (formResponses[SHORT_NAME_MAP.PRIOR_SERVICE]) {
-      case RESPONSES.PRIOR_SERVICE_1:
+      case RESPONSES.PRIOR_SERVICE_PAPERWORK:
         return (
           <AlertMessage
             isVisible
@@ -117,7 +117,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             }
           />
         );
-      case RESPONSES.PRIOR_SERVICE_2:
+      case RESPONSES.PRIOR_SERVICE_NO_PAPERWORK:
         return (
           <AlertMessage
             isVisible

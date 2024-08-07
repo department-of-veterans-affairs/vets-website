@@ -25,15 +25,14 @@ const Warnings = ({ formResponses }) => {
         <AlertMessage
           content={venueWarning}
           isVisible={
-            prevAppType === RESPONSES.PREV_APPLICATION_TYPE_4 &&
-            reason !== RESPONSES.REASON_8
+            prevAppType === RESPONSES.NOT_SURE && reason !== RESPONSES.REASON_8
           }
           status="warning"
         />
         <AlertMessage
           content={upgradeVenueWarning}
           isVisible={
-            prevAppType === RESPONSES.PREV_APPLICATION_TYPE_4 &&
+            prevAppType === RESPONSES.NOT_SURE &&
             reason === RESPONSES.REASON_8 &&
             !oldDischarge
           }
@@ -61,8 +60,7 @@ const Warnings = ({ formResponses }) => {
       <AlertMessage
         content={alertContent}
         isVisible={
-          boardToSubmit.abbr === 'DRB' &&
-          RESPONSES.COURT_MARTIAL_3 === courtMartial
+          boardToSubmit.abbr === 'DRB' && RESPONSES.NOT_SURE === courtMartial
         }
         status="warning"
       />
@@ -90,8 +88,8 @@ const Warnings = ({ formResponses }) => {
         isVisible={
           reason === RESPONSES.REASON_8 &&
           [
-            RESPONSES.PREV_APPLICATION_TYPE_3A,
-            RESPONSES.PREV_APPLICATION_TYPE_3B,
+            RESPONSES.PREV_APPLICATION_BCMR,
+            RESPONSES.PREV_APPLICATION_BCNR,
           ].includes(prevAppType)
         }
         status="warning"
