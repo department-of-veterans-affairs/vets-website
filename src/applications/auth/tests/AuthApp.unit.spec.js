@@ -226,11 +226,11 @@ describe('AuthApp', () => {
       const handleTokenSpy = sinon.spy();
       server.use(
         rest.post(
-          'https://dev-api.va.gov/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=anything',
+          'https://dev-api.va.gov/v0/sign_in/token',
           (req, res, ctx) => {
             return res(
               ctx.status(400),
-              ctx.json({ errors: [{ code: '201' }] }),
+              ctx.json({ errors: 'Code is not valid' }),
             );
           },
         ),

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-// import localStorage from 'platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
 import {
