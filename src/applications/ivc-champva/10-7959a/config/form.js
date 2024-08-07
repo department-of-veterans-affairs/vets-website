@@ -1,9 +1,12 @@
-// import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from './submitTransformer';
 import { nameWording } from '../../shared/utilities';
+import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   certifierRoleSchema,
   certifierNameSchema,
@@ -23,10 +26,16 @@ import {
   eobUploadSchema,
   pharmacyClaimUploadSchema,
 } from '../chapters/claimInformation';
+import {
+  applicantNameDobSchema,
+  applicantMemberNumberSchema,
+  applicantAddressSchema,
+  applicantPhoneSchema,
+} from '../chapters/beneficiaryInformation';
 
-import { sponsorNameSchema } from '../chapters/sponsorInformation';
+import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -36,12 +45,14 @@ function fnp(formData) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  transformForSubmit,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submissionError: SubmissionError,
   formId: '10-7959A',
   saveInProgress: {
     messages: {
@@ -50,6 +61,18 @@ const formConfig = {
       expired:
         'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
       saved: 'Your CHAMPVA claim form application has been saved.',
+    },
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData?.certifierRole === 'applicant'
+          ? 'applicantName'
+          : 'certifierName',
     },
   },
   version: 0,
@@ -69,8 +92,8 @@ const formConfig = {
         page1: {
           path: 'signer-type',
           title: 'Your information',
+          // initialData: mockData.data,
           // Placeholder data so that we display "beneficiary" in title when `fnp` is used
-          initialData: { applicantName: { first: 'Beneficiary' } },
           ...certifierRoleSchema,
         },
         page1a: {
@@ -103,9 +126,62 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         page2: {
-          path: 'sponsor-information',
+          path: 'sponsor-info',
           title: 'Name',
           ...sponsorNameSchema,
+        },
+      },
+    },
+    beneficiaryInformation: {
+      title: 'Beneficiary information',
+      pages: {
+        page2a: {
+          path: 'beneficiary-info',
+          title: 'Beneficiary information',
+          ...applicantNameDobSchema,
+        },
+        page2b: {
+          path: 'beneficiary-identification-info',
+          title: formData => `${fnp(formData)} CHAMPVA member number`,
+          ...applicantMemberNumberSchema,
+        },
+        page2c: {
+          path: 'beneficiary-address',
+          title: formData => `${fnp(formData)} address`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            get('certifierRole', formData) !== 'applicant' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customTitle: `${fnp(props.data)} address`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${nameWording(
+                props.data,
+                false,
+                false,
+                true,
+              )} have the same address as you?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        page2d: {
+          path: 'beneficiary-mailing-address',
+          title: formData => `${fnp(formData)} mailing address`,
+          ...applicantAddressSchema,
+        },
+        page2e: {
+          path: 'beneficiary-contact-info',
+          title: formData => `${fnp(formData)} phone number`,
+          ...applicantPhoneSchema,
         },
       },
     },
@@ -141,7 +217,7 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimIsWorkRelated', formData),
+          depends: formData => get('claimType', formData) === 'medical',
           ...medicalClaimUploadSchema,
         },
         page8: {
@@ -165,7 +241,8 @@ const formConfig = {
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
-            get('policies', formData).length > 1,
+            get('policies', formData) &&
+            formData?.policies?.length > 1,
           ...eobUploadSchema(false),
         },
         page10: {

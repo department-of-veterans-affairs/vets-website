@@ -78,7 +78,7 @@ const testConfig = createTestConfig(
               'veteransFullName',
               data.veteransFullName,
             );
-            fillDateWebComponentPattern('sponsorDOB', data.sponsorDOB);
+            fillDateWebComponentPattern('sponsorDob', data.sponsorDob);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -133,8 +133,8 @@ const testConfig = createTestConfig(
                 data.applicants[i].applicantName,
               );
               fillDateWebComponentPattern(
-                `applicants_${i}_applicantDOB`,
-                data.applicants[i].applicantDOB,
+                `applicants_${i}_applicantDob`,
+                data.applicants[i].applicantDob,
               );
               // Add another if we're not out of applicants:
               if (i < numApps - 1)
@@ -269,6 +269,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f1.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -285,6 +286,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -300,6 +302,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      /*
       [ALL_PAGES.page18f6.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -319,6 +322,7 @@ const testConfig = createTestConfig(
           });
         });
       },
+      */
       [ALL_PAGES.page19.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {

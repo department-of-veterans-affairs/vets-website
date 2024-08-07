@@ -5,6 +5,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
+import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
@@ -70,6 +71,9 @@ describe('App', () => {
       initialState: {
         ...initialState,
         user: {
+          profile: {
+            loading: false,
+          },
           login: {
             currentlyLoggedIn: false,
           },
@@ -78,8 +82,7 @@ describe('App', () => {
       path: `/`,
       reducers: reducer,
     });
-
-    expect(window.location.replace.called).to.be.true;
+    waitFor(() => expect(window.location.replace.called).to.be.true);
   });
 
   it('feature flags are still loading', () => {
@@ -96,59 +99,9 @@ describe('App', () => {
     expect(screen.getByTestId('feature-flag-loading-indicator'));
   });
 
-  it('feature flag set to false', () => {
-    const customState = {
-      ...initialState,
-      featureToggles: {},
-    };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = false;
-
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      path: `/`,
-      reducers: reducer,
-    });
-    expect(
-      screen.queryByText(
-        'Communicate privately and securely with your VA health care team online.',
-      ),
-    ).to.be.null;
-    expect(screen.queryByText('Messages', { selector: 'h1', exact: true })).to
-      .be.null;
-    expect(window.location.replace.called).to.be.true;
-  });
-
-  it('feature flag set to true', () => {
-    const customState = {
-      featureToggles: {},
-      ...initialState,
-      ...noDowntime,
-    };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: customState,
-      reducers: reducer,
-      path: `/`,
-    });
-    expect(screen.getByText('Messages', { selector: 'h1', exact: true }));
-    expect(
-      screen.getByText(
-        'Communicate privately and securely with your VA health care team online.',
-      ),
-    );
-  });
-
   it('renders the global downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: true,
           isReady: true,
@@ -177,10 +130,6 @@ describe('App', () => {
   it('renders the downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -212,10 +161,6 @@ describe('App', () => {
   it('renders the downtime notification for multiple configured services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -247,10 +192,6 @@ describe('App', () => {
   it('renders the downtime notification for mixed services', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -282,10 +223,6 @@ describe('App', () => {
   it('does NOT render the downtime notification', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
         scheduledDowntime: {
           globalDowntime: null,
           isReady: true,
@@ -320,9 +257,6 @@ describe('App', () => {
       },
       ...noDowntime,
     };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     renderWithStoreAndRouter(<App />, {
       initialState: customState,
       reducers: reducer,
@@ -334,9 +268,6 @@ describe('App', () => {
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -352,9 +283,6 @@ describe('App', () => {
     customState.featureToggles[
       `${'mhv_secure_messaging_cerner_pilot'}`
     ] = false;
-    customState.featureToggles[
-      `${'mhv_secure_messaging_to_va_gov_release'}`
-    ] = true;
     const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
       initialState: customState,
       reducers: reducer,
@@ -367,13 +295,7 @@ describe('App', () => {
 
   it('displays Page Not Found component if bad url', () => {
     const screen = renderWithStoreAndRouter(<App />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_va_gov_release: true,
-        },
-        ...initialState,
-      },
+      initialState,
       reducers: reducer,
       path: `/sdfsdf`,
     });

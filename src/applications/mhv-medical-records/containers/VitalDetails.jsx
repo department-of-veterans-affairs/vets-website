@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,12 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { clearVitalDetails, getVitalDetails } from '../actions/vitals';
+import {
+  clearVitalDetails,
+  getVitalDetails,
+  getVitals,
+  reloadRecords,
+} from '../actions/vitals';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
@@ -31,6 +36,7 @@ import {
   pageTitles,
   ALERT_TYPE_ERROR,
   accessAlertTypes,
+  refreshExtractTypes,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -41,6 +47,8 @@ import {
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { useIsDetails } from '../hooks/useIsDetails';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import useListRefresh from '../hooks/useListRefresh';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -63,8 +71,50 @@ const VitalDetails = props => {
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const updatedRecordList = useSelector(
+    state => state.mr.allergies.updatedList,
+  );
+  const listState = useSelector(state => state.mr.vitals.listState);
+  const refresh = useSelector(state => state.mr.refresh);
+
+  const vitalsCurrentAsOf = useSelector(
+    state => state.mr.vitals.listCurrentAsOf,
+  );
+
+  useListRefresh({
+    listState,
+    listCurrentAsOf: vitalsCurrentAsOf,
+    refreshStatus: refresh.status,
+    extractType: refreshExtractTypes.VPR,
+    dispatchAction: getVitals,
+    dispatch,
+  });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useIsDetails(dispatch);
+
+  const updatedRecordType = useMemo(
+    () => {
+      const typeMap = {
+        'heart-rate': 'PULSE',
+        'breathing-rate': 'RESPIRATION',
+        'blood-oxygen-level': 'PULSE_OXIMETRY',
+      };
+      return typeMap[vitalType] || vitalType;
+    },
+    [vitalType],
+  );
 
   useEffect(
     () => {
@@ -133,7 +183,11 @@ const VitalDetails = props => {
     () => {
       if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth',
+        });
       }
     },
     [currentPage, records],
@@ -143,8 +197,8 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      if (vitalType) {
-        const formattedVitalType = macroCase(vitalType);
+      if (updatedRecordType) {
+        const formattedVitalType = macroCase(updatedRecordType);
         dispatch(getVitalDetails(formattedVitalType, vitalsList));
       }
     },
@@ -170,8 +224,7 @@ Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records
       .map(
-        vital =>
-          `${txtLine}\n\n
+        vital => `${txtLine}\n\n
 Date entered: ${vital.date}\n
 Details about this test\n
 Result: ${vital.measurement}\n
@@ -199,7 +252,18 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
-
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vitalsList) &&
+            Array.isArray(updatedRecordList) &&
+            vitalsList.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}

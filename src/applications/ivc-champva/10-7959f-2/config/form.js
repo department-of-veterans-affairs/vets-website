@@ -11,18 +11,22 @@ import {
   dateOfBirthSchema,
   addressUI,
   addressSchema,
-  phoneUI,
-  phoneSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../../shared/components/InternationalPhone';
+import PaymentSelectionUI from '../components/PaymentSelection';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -39,6 +43,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
     // messages: {
@@ -115,10 +120,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Mailing address',
-              "We'll send any important information about your application to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             ),
             messageAriaDescribedby:
-              "We'll send any important information about your application to this address.",
+              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
             veteranAddress: addressUI({
               required: {
                 state: () => true,
@@ -136,28 +141,104 @@ const formConfig = {
         },
       },
     },
+    physicalAddress: {
+      title: 'Home address',
+      pages: {
+        page4: {
+          path: 'same-as-mailing-address',
+          title: 'Home address ',
+          uiSchema: {
+            ...titleUI('Home address'),
+            sameMailingAddress: yesNoUI({
+              title: 'Is your home address the same as your mailing address?',
+              labels: {
+                Y: 'Yes',
+                N: 'No',
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['sameMailingAddress'],
+            properties: {
+              titleSchema,
+              sameMailingAddress: yesNoSchema,
+            },
+          },
+        },
+        page4a: {
+          path: 'home-address',
+          title: 'Home address ',
+          depends: formData => formData.sameMailingAddress === false,
+          uiSchema: {
+            ...titleUI(
+              `Home address`,
+              `Provide the address where you're living right now`,
+            ),
+            messageAriaDescribedby: `Provide the address where you're living right now.`,
+            physicalAddress: {
+              ...addressUI({
+                required: {
+                  state: () => true,
+                },
+              }),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              physicalAddress: addressSchema(),
+            },
+          },
+        },
+      },
+    },
     contactInformation: {
       title: 'Contact Information',
       pages: {
         page5: {
           path: 'contact-info',
-          title: "Veteran's contact information",
+          title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Please include this information so that we can contact you with questions or updates',
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
             ),
             messageAriaDescribedby:
-              'Please include this information so that we can contact you with questions or updates.',
-            veteranPhoneNumber: phoneUI(),
+              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+            veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
+            required: ['veteranPhoneNumber'],
             properties: {
               titleSchema,
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
+            },
+          },
+        },
+      },
+    },
+    paymentSelection: {
+      title: 'Payment Selection',
+      pages: {
+        page6: {
+          path: 'payment',
+          title: 'Payment Selection',
+          uiSchema: {
+            ...titleUI('Where to send the payment'),
+            sendPayment: PaymentSelectionUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sendPayment'],
+            properties: {
+              titleSchema,
+              sendPayment: yesNoSchema,
             },
           },
         },

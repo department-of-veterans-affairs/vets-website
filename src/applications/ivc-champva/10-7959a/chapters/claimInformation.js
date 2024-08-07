@@ -13,6 +13,12 @@ import { nameWording } from '../../shared/utilities';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
 
+// Wrap shared fileFieldCustom so we can pass the form-specific
+// list of required uploads (for use with MissingFileOverview)
+function FileFieldWrapped(props) {
+  return FileFieldCustom({ ...props, requiredFiles: [] });
+}
+
 const additionalNotesClaims = (
   <va-additional-info
     trigger="Additional notes regarding claims"
@@ -110,7 +116,7 @@ export const claimAutoSchema = {
 };
 
 export const medicalClaimUploadSchema = {
-  CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
+  CustomPage: FileFieldWrapped,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI('Upload supporting documents', ({ formData }) => (
@@ -146,16 +152,14 @@ export const medicalClaimUploadSchema = {
           &nbsp; You may need to ask your provider for a statement that has all
           of the information listed here. The statement must include all of this
           information in order for us to process this claim.
+          <br />
+          <br />
+          You can also submit any other documents you think may be relevant to
+          this claim.
         </p>
       </>
     )),
-    ...fileUploadBlurbCustom(
-      <li>
-        You can also upload any other documentation you believe is related to
-        your medical claim
-      </li>,
-      additionalNotesClaims,
-    ),
+    ...fileUploadBlurbCustom(null, additionalNotesClaims),
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -186,7 +190,7 @@ export const medicalClaimUploadSchema = {
 export const eobUploadSchema = isPrimary => {
   const keyName = isPrimary ? 'primaryEob' : 'secondaryEob';
   return {
-    CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
+    CustomPage: FileFieldWrapped,
     CustomPageReview: null,
     uiSchema: {
       ...titleUI(
@@ -197,8 +201,8 @@ export const eobUploadSchema = isPrimary => {
           }`;
         },
         ({ formData }) => {
-          const name = nameWording(formData, true, true, true);
-          const yourOrTheir = name === 'your' ? name : 'their';
+          const name = nameWording(formData, true, false, true);
+          const yourOrTheir = name.toLowerCase() === 'your' ? name : 'their';
           return (
             <>
               You’ll need to submit a copy of the explanation of benefits from{' '}
@@ -223,6 +227,10 @@ export const eobUploadSchema = isPrimary => {
                 &nbsp; An explanation of benefits is usually sent by mail or
                 email. Contact {name} insurance provider if you have more
                 questions about where to find this document.
+                <br />
+                <br />
+                You can also submit any other documents you think may be
+                relevant to this claim.
               </p>
             </>
           );
@@ -259,7 +267,7 @@ export const eobUploadSchema = isPrimary => {
 
 // TODO: Pharmacy upload page
 export const pharmacyClaimUploadSchema = {
-  CustomPage: props => FileFieldCustom({ ...props, requiredFiles: [] }),
+  CustomPage: FileFieldWrapped,
   CustomPageReview: null,
   uiSchema: {
     ...titleUI(
@@ -272,7 +280,7 @@ export const pharmacyClaimUploadSchema = {
           <b>Here’s what the document must include:</b>
         </p>
         <ul>
-          <li>Name, address, and phone number of the pharmacy</li>
+          <li>Name, address, and phone number of the pharmacy.</li>
           <li>Name, dosage, strength, and quantity of the medication.</li>
           <li>Cost of the medication and the copay amount.</li>
           <li>
@@ -287,16 +295,14 @@ export const pharmacyClaimUploadSchema = {
           &nbsp; The papers attached to the medication usually include this
           information. Or you can ask the pharmacy to print a document with this
           information.
+          <br />
+          <br />
+          You can also submit any other documents you think may be relevant to
+          this claim.
         </p>
       </>,
     ),
-    ...fileUploadBlurbCustom(
-      <li>
-        You can also upload any other documentation you believe is related to
-        your prescriptionu claim.
-      </li>,
-      additionalNotesClaims,
-    ),
+    ...fileUploadBlurbCustom(null, additionalNotesClaims),
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,

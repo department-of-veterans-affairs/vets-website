@@ -2,7 +2,9 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
+import PageFieldSummary from '../../../components/PageFieldSummary';
+// Temp remove for research-testing
+// import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
 import {
   CHAPTER_2,
   questionAboutDescriptions,
@@ -11,7 +13,8 @@ import {
 
 const questionAboutPage = {
   uiSchema: {
-    'ui:description': SignInMayBeRequired,
+    // 'ui:description': SignInMayBeRequired,
+    'ui:objectViewField': PageFieldSummary,
     questionAbout: {
       ...radioUI({
         title: CHAPTER_2.PAGE_1.TITLE,
@@ -26,7 +29,7 @@ const questionAboutPage = {
     type: 'object',
     required: ['questionAbout'],
     properties: {
-      questionAbout: radioSchema(Object.keys(questionAboutLabels)),
+      questionAbout: radioSchema(Object.values(questionAboutLabels)),
     },
   },
 };

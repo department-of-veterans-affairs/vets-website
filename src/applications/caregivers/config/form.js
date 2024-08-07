@@ -1,25 +1,24 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
-  submitTransform,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
-} from '../utils/helpers';
+} from '../utils/helpers/form-config';
+import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
 import PreSubmitInfo from '../components/PreSubmitInfo';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
+import { fullSchema } from '../utils/imports';
 import content from '../locales/en/content.json';
 import manifest from '../manifest.json';
-import fullSchema from './10-10CG-schema.json';
 
 // veteran pages
 import vetPersonalInfoPage from './chapters/veteran/personalInformation';
@@ -78,7 +77,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
-  transformForSubmit: submitTransform,
+  transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,

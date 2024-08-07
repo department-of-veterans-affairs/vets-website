@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list',
 };
 
 export const DefaultFolders = {
@@ -193,16 +194,6 @@ export const Errors = {
   },
 };
 
-export const Links = {
-  Link: {
-    CANNOT_REPLY: {
-      CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
-      TITLE: 'Start a new message',
-      TO: Paths.COMPOSE,
-    },
-  },
-};
-
 export const Prompts = {
   Attachment: {
     REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
@@ -229,7 +220,7 @@ export const Prompts = {
   Draft: {
     DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
     DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
     DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
     DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
   },
@@ -385,6 +376,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

@@ -4,7 +4,12 @@ import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format as dateFnsFormat, parseISO } from 'date-fns';
-import { EMPTY_FIELD, interpretationMap } from './constants';
+import {
+  EMPTY_FIELD,
+  interpretationMap,
+  refreshPhases,
+  VALID_REFRESH_DURATION,
+} from './constants';
 
 /**
  * @param {*} timestamp
@@ -23,7 +28,10 @@ export const dateFormat = (timestamp, format = null) => {
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
-  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  let withoutTimezone = datetime;
+  if (typeof datetime === 'string' && datetime.includes('-')) {
+    withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  }
   return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
 };
 
@@ -189,6 +197,34 @@ export const extractContainedResource = (resource, referenceId) => {
 };
 
 /**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained.find(
+          item =>
+            refArray.includes(item.id) && item.resourceType === resourceType,
+        )
+      : null;
+    return returnRecord || null;
+  }
+  return null;
+};
+
+/**
  * Download a text file
  * @param {String} content text file content
  * @param {String} fileName name for the text file
@@ -310,4 +346,74 @@ export const formatDate = str => {
     return dateFnsFormat(parseISO(str), 'MMMM, yyyy');
   }
   return formatDateLong(str);
+};
+
+/**
+ * Returns a date formatted into two parts -- a date portion and a time portion.
+ *
+ * @param {Date} date
+ */
+export const formatDateAndTime = date => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? 'p.m.' : 'a.m.';
+  const formattedHours = hours % 12 || 12; // Convert to 12-hour format
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const timePart = `${formattedHours}:${formattedMinutes} ${period} ET`;
+
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const datePart = date.toLocaleDateString('en-US', options);
+
+  return {
+    date: datePart,
+    time: timePart,
+  };
+};
+
+/**
+ * Determine whether the PHR refresh for a particular extract is stale, in progress, current, or failed.
+ *
+ * @param {*} retrievedDate the timestamp (in ms) that the refresh status was retrieved
+ * @param {*} phrStatus the list of PHR status extracts
+ * @param {*} extractType the extract for which to return the phase (e.g. 'VPR')
+ * @returns {string|null} the current refresh phase, or null if parameters are invalid.
+ */
+export const getStatusExtractPhase = (
+  retrievedDate,
+  phrStatus,
+  extractType,
+) => {
+  if (!retrievedDate || !phrStatus || !extractType) return null;
+  const extractStatus = phrStatus.find(
+    status => status.extract === extractType,
+  );
+  if (
+    !extractStatus?.lastRequested ||
+    !extractStatus?.lastCompleted ||
+    !extractStatus?.lastSuccessfulCompleted
+  ) {
+    return null;
+  }
+  if (retrievedDate - extractStatus.lastCompleted > VALID_REFRESH_DURATION) {
+    return refreshPhases.STALE;
+  }
+  if (extractStatus.lastCompleted < extractStatus.lastRequested) {
+    return refreshPhases.IN_PROGRESS;
+  }
+  if (
+    extractStatus.lastCompleted.getTime() !==
+    extractStatus.lastSuccessfulCompleted.getTime()
+  ) {
+    return refreshPhases.FAILED;
+  }
+  return refreshPhases.CURRENT;
+};
+
+export const decodeBase64Report = data => {
+  if (data && typeof data === 'string') {
+    return Buffer.from(data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };

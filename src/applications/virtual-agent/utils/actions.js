@@ -12,6 +12,7 @@ import {
   setRecentUtterances,
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
+import submitForm from './submitForm';
 
 const START_CONVERSATION = 'startConversation';
 const EVENT = 'event';
@@ -91,6 +92,7 @@ function resetUtterances(dispatch) {
 
 // define thunks for actions
 export const processActionConnectFulfilled = ({
+  action,
   dispatch,
   ...options
 }) => () => {
@@ -102,19 +104,26 @@ export const processActionConnectFulfilled = ({
 
   dispatch(startConversationActivity);
   dispatch(joinActivity);
+  return action;
 };
 
 export const processSendMessageActivity = ({ action }) => () => {
   _.assign(action.payload, { text: piiReplace(action.payload.text) });
   const outgoingActivityEvent = new Event('bot-outgoing-activity');
   window.dispatchEvent(outgoingActivityEvent);
+  return action;
 };
 
-export const processIncomingActivity = ({ action, dispatch }) => () => {
+export const processIncomingActivity = ({
+  action,
+  dispatch,
+  isComponentToggleOn,
+}) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
+  const isFormPostButton = data.value?.type === 'FormPostButton';
 
   if (isAtBeginningOfConversation) {
     setIsTrackingUtterances(true);
@@ -137,6 +146,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     }
   }
 
+  if (isComponentToggleOn && isFormPostButton) {
+    submitForm(data.value.url, data.value.body);
+  }
+
   const trackingUtterances = getIsTrackingUtterances();
   if (trackingUtterances) {
     sendWindowEventWithActionPayload('webchat-message-activity', action);
@@ -144,6 +157,7 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
 
   handleSkillEvent(action, 'Skill_Entry', true);
   handleSkillEvent(action, 'Skill_Exit', false);
+  return action;
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
@@ -159,4 +173,24 @@ export const processMicrophoneActivity = ({ action }) => () => {
       topic: isRxSkill ? 'prescriptions' : undefined,
     });
   }
+  return action;
+};
+
+export const processPostActivity = ({
+  action,
+  apiSession,
+  csrfToken,
+  apiURL,
+  userFirstName,
+  userUuid,
+}) => () => {
+  const updatedAction = action;
+  updatedAction.payload.activity.values = {
+    apiSession,
+    csrfToken,
+    apiURL,
+    userFirstName,
+    userUuid,
+  };
+  return updatedAction;
 };

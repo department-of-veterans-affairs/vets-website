@@ -7,17 +7,18 @@ const searchVAMedicalCenterPage = {
     'ui:title': FormElementTitle({
       title: 'Your VA health facility',
     }),
-    'ui:description':
-      'Search by city, postal code, or use your current location.',
     'ui:objectViewField': PageFieldSummary,
     vaMedicalCenter: {
-      'ui:title': ' ',
+      'ui:title': 'Search by city, postal code, or use your current location.',
       'ui:widget': MedicalFacilitySearch,
+      'ui:errorMessages': {
+        required: 'Please search for your health facility',
+      },
     },
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['vaMedicalCenter'],
     properties: {
       vaMedicalCenter: {
         type: 'string',

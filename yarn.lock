@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^42.2.2":
-  version "42.2.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-42.2.2.tgz#42c8d5f4e52962e43ba30dfa9b49fd03cfd83627"
-  integrity sha512-Exytx2eFnb/j7WeMti6hL/pCn/Ka0NZdkkXKtm29IbLFPm4oIjDdHWmhtBKuZnyaf5T7LT2PTL4cDlwYeaFAiQ==
+"@department-of-veterans-affairs/component-library@^44.0.0":
+  version "44.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-44.0.0.tgz#298610380a275034c8d47eae2c0ef0d2b8525c07"
+  integrity sha512-KHcHgWK8aWIjkMe09eeBwN54R00aZZiqYJ+xR2j9PTGkPkjR5rTqUn3PrnUoI3UdExE5tgMyYZWewJITgHcAQw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "10.0.2"
+    "@department-of-veterans-affairs/web-components" "12.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2884,10 +2884,10 @@
     "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.4.tgz#b635cc0912c4612033a4f76980d764519c4c4566"
-  integrity sha512-5XscE1JvbCdqt9GJT9kX6X6SDJehjJHKqrRd1E3xbpVSborcG6c2/RjfhJATFvfqTQaYG6eDnNngC/r6liJwzQ==
+"@department-of-veterans-affairs/css-library@^0.8.5":
+  version "0.8.5"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
+  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.8.0.tgz#078f11543acb0fa315115ed95d195b4cb2dd801d"
-  integrity sha512-w3g6qF8TiGDeepxHCY+jwq+qeEqJKdb3Rpw0e93hcekNliQliMcf1jVDpmkNysQUIrl163U+corwb1nMcpFaOA==
+"@department-of-veterans-affairs/generator-vets-website@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.1.tgz#27178dec50f23e77d72781b55714d58e5df9e83d"
+  integrity sha512-r/quv9+ObHcoL5veLyJtcMXqGtdmQOdYYQZaxsHZb0RHX6+gdkYUGnOIKseaoTm9SqvkmcUUlude8eu+wV+arQ==
   dependencies:
-    chalk "^4.1.0"
+    chalk "^5.1.0"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -2960,10 +2960,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@10.0.2":
-  version "10.0.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-10.0.2.tgz#3c266fbb80d8e25604bf4f1dc4c4237562a4af81"
-  integrity sha512-GGdqfk+LFrNlgjIE0hKI737JLHsrkXd5SS7J7l6Xac/42gcGI1TTVbYnAq9DTQI8dotJlzbag1Up8IkfhhpJ8w==
+"@department-of-veterans-affairs/web-components@12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-12.0.0.tgz#46595e952fa0a997e835f913c0bceefb02d7d2db"
+  integrity sha512-rbOTVeOuu1jQ0qrpeMfNzKvWERH8oNzK8NSzkGs6hgxuLMjLU89OQhSU/TvRJKq34fnn7xGgkaEMiTn3ekoxDg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
@@ -6912,6 +6912,11 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
+chalk@^5.1.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
+  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
+
 change-emitter@^0.1.2:
   version "0.1.6"
   resolved "https://registry.npmjs.org/change-emitter/-/change-emitter-0.1.6.tgz"
@@ -8191,6 +8196,11 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
+date-fns-tz@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.1.tgz#0a9b2099031c0d74120b45de9fd23192e48ea495"
+  integrity sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==
 
 date-fns@^2.24.0:
   version "2.24.0"
@@ -9831,6 +9841,13 @@ eslint-plugin-unicorn@^35.0.0:
     regexp-tree "^0.1.23"
     safe-regex "^2.1.1"
     semver "^7.3.5"
+
+eslint-plugin-you-dont-need-momentjs@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-you-dont-need-momentjs/-/eslint-plugin-you-dont-need-momentjs-1.6.0.tgz#c5209783e8a9fa772f8e3c4d4d4a03813d8f9a1e"
+  integrity sha512-u12WanwuAL5B6/Kx6AtMDI04OojkS/twDueDwBgxsnKLy33VM4npP7ZlU2o7pxD1z8LbzPP6Y6/e7cPf6ZhatQ==
+  dependencies:
+    kebab-case "^1.0.0"
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -13623,6 +13640,11 @@ kdbush@^3.0.0:
   resolved "https://registry.npmjs.org/kdbush/-/kdbush-3.0.0.tgz"
   integrity sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
 
+kebab-case@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/kebab-case/-/kebab-case-1.0.2.tgz#5eac97d5d220acf606d40e3c0ecfea21f1f9e1eb"
+  integrity sha512-7n6wXq4gNgBELfDCpzKc+mRrZFs7D+wgfF5WRFLNAr4DA/qtr9Js8uOAVAfHhuLMfAcQ0pRKqbpjx+TcJVdE1Q==
+
 keyboardevent-key-polyfill@^1.0.2:
   version "1.1.0"
   resolved "https://registry.npmjs.org/keyboardevent-key-polyfill/-/keyboardevent-key-polyfill-1.1.0.tgz"
@@ -14654,7 +14676,7 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
+minimist@1.1.x, minimist@1.2.5, minimist@^1.1.0, minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -21246,9 +21268,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e":
-  version "23.0.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7bbee674bfeef84f4ebd9d9e75490c09ee18f438":
+  version "24.2.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7bbee674bfeef84f4ebd9d9e75490c09ee18f438"
   dependencies:
     minimist "^1.2.3"
 

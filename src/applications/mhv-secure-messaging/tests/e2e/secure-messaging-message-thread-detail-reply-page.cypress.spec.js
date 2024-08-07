@@ -9,12 +9,11 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Reply Message Details Thread', () => {
   it('Axe Check Message Reply Details', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
     SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientMessageDetailsPage.loadMessageDetails(testMessage);
+    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
@@ -26,9 +25,9 @@ describe('Secure Messaging Reply Message Details Thread', () => {
       }']`,
     ).click({ waitforanimations: true, multiple: true });
     PatientReplyPage.verifyExpandedMessageDate(testMessage);
-    messageDetailsPage.verifyExpandedMessageId(testMessage);
-    messageDetailsPage.verifyExpandedMessageTo(testMessage);
-    messageDetailsPage.verifyUnexpandedMessageFrom(testMessage);
+    PatientMessageDetailsPage.verifyExpandedMessageId(testMessage);
+    PatientMessageDetailsPage.verifyExpandedMessageTo(testMessage);
+    PatientMessageDetailsPage.verifyUnexpandedMessageFrom(testMessage);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

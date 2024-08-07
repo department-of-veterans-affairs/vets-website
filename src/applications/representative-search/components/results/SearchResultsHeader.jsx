@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
@@ -16,6 +17,11 @@ export const SearchResultsHeader = props => {
     sortType,
     searchArea,
   } = query;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const reportFeatureEnabled = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeFlagResultsEnabled,
+  );
   const { totalEntries, currentPage, totalPages } = pagination;
   const noResultsFound = !searchResults || !searchResults?.length;
 
@@ -26,7 +32,7 @@ export const SearchResultsHeader = props => {
   }
 
   const repFormat = {
-    veteran_service_officer: 'Accredited Veterans Service Organization (VSO)',
+    veteran_service_officer: 'Accredited VSO Representative',
     attorney: 'Accredited attorney',
     claim_agents: 'Accredited claims agent',
   };
@@ -97,8 +103,11 @@ export const SearchResultsHeader = props => {
               </h3>
               <p>
                 Our search tool may show outdated contact information for some
-                accredited representatives. You can report outdated information
-                in your search results.
+                accredited representatives.{' '}
+                {reportFeatureEnabled
+                  ? `You can report outdated information
+                in your search results.`
+                  : null}
               </p>
             </va-alert>
           </div>

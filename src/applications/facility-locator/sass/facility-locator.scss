@@ -318,15 +318,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      .use-my-location-button {
-        width: 18px;
-        height: 18px;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        padding: 0 1.5em 0 0;
-      }
-
       #search-controls-bottom-row {
         @media (min-width: $small-desktop-screen) {
           display: flex;
@@ -608,4 +599,8 @@ canvas.mapboxgl-canvas:focus {
   outline: 2px solid rgb(249, 198, 66) !important;
   outline-offset: 2px !important;
   transition: none !important;
+}
+
+.success-icon {
+  color: var(--vads-color-success) !important;
 }

@@ -26,19 +26,30 @@ const directBookingEligibilityCriteria = require('./var/direct_booking_eligibili
 const generateMockSlots = require('./var/slots');
 
 // v2
-const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
+
+// To locally test appointment details null state behavior, comment out
+// the inclusion of confirmed.json and uncomment the inclusion of
+// confirmed_null_states.json
 const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+// To locally test appointment details null state behavior, comment out
+// the inclusion of requests.json and uncomment the inclusion of
+// requests_null_states.json.json
+const requestsV2 = require('./v2/requests.json');
+// const requestsV2 = require('./v2/requests_null_states.json.json');
 
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
+const basicReferralDetails = require('./wellHive/basicReferralDetails.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
 const driveTimes = require('./wellHive/driveTime.json');
 const patients = require('./wellHive/patients.json');
@@ -245,14 +256,34 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const tokens = req.body.reasonCode?.text.split('comments:');
+    let patientComments;
+    if (tokens) {
+      if (tokens.length > 1) [, patientComments] = tokens;
+      else [patientComments] = tokens;
+    }
+
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+        contact: {
+          telecom: [
+            {
+              type: 'phone',
+              value: '6195551234',
+            },
+            {
+              type: 'email',
+              value: 'myemail72585885@unattended.com',
+            },
+          ],
+        },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        patientComments,
       },
     };
     currentMockId += 1;
@@ -451,6 +482,18 @@ const responses = {
   },
 
   // WellHive api
+  'GET /vaos/v2/wellhive/referralDetails': (req, res) => {
+    return res.json({
+      data: basicReferralDetails.data,
+    });
+  },
+  'GET /vaos/v2/wellhive/referralDetails/:referralId': (req, res) => {
+    return res.json({
+      data: basicReferralDetails.data.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
+    });
+  },
   'GET /vaos/v2/wellhive/appointments': (req, res) => {
     return res.json({
       data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),

@@ -40,6 +40,15 @@ const MoveMessageToFolderBtn = props => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      if (folderInputError) {
+        focusOnErrorField();
+      }
+    },
+    [folderInputError],
+  );
+
   const openModal = () => {
     setIsMoveModalVisible(true);
   };
@@ -63,7 +72,6 @@ const MoveMessageToFolderBtn = props => {
       setFolderInputError(
         Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
       );
-      focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
         closeModal();
@@ -112,15 +120,12 @@ const MoveMessageToFolderBtn = props => {
         <VaModal
           id="move-to-modal"
           data-testid="move-to-modal"
-          modalTitle="Move to:"
+          modalTitle="Move conversation"
           onCloseEvent={closeModal}
           visible={isMoveModalVisible}
           data-dd-action-name="Move To Modal Closed"
         >
-          <p>
-            This conversation will be moved. Any replies to this message will
-            appear in your inbox.
-          </p>
+          <p>Any replies to this message will appear in your inbox.</p>
           <VaRadio
             className="form-radio-buttons"
             required
@@ -128,6 +133,8 @@ const MoveMessageToFolderBtn = props => {
             error={folderInputError}
             onVaValueChange={handleOnChangeFolder}
             data-dd-action-name="Select Move to Radio Button"
+            label="Select a folder"
+            data-testid="select-folder-radio-group"
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (

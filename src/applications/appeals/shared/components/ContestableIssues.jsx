@@ -98,11 +98,11 @@ const ContestableIssues = props => {
   useEffect(
     () => {
       if (showEditModeError) {
-        focusElement('va-alert[status="error"]');
+        focusElement(`va-alert[status="error"] h${onReviewPage ? 4 : 3}`);
         scrollTo('va-alert[status="error"]');
       }
     },
-    [showEditModeError, submitted],
+    [onReviewPage, showEditModeError, submitted],
   );
 
   if (onReviewPage && inReviewMode && items.length && !hasSelected) {
@@ -126,7 +126,7 @@ const ContestableIssues = props => {
       } else if (index < formData.contestedIssues.length) {
         // contestable issue check toggle
         const changedItems = set(
-          `contestedIssues[${index}].${SELECTED}`,
+          ['contestedIssues', index, SELECTED],
           checked,
           formData,
         );
@@ -195,7 +195,8 @@ const ContestableIssues = props => {
       options,
       showCheckbox,
       onReviewPage,
-      onChange: handlers.onChange,
+      // props.testChange for testing
+      onChange: props.testChange || handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
     };
 
@@ -282,6 +283,7 @@ ContestableIssues.propTypes = {
   id: PropTypes.string,
   options: PropTypes.shape({}),
   setFormData: PropTypes.func,
+  testChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

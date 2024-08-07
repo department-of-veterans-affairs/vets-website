@@ -239,36 +239,26 @@ va-accordion-item .service-history-details {
 	border-left-style: solid;
 	border-left-width: 10px;
 	box-sizing: border-box;
-	display: table;
+	display: flex;
+	align-items: flex-start; /* Align items to the startt */
 	padding: 1rem;
-	vertical-align: middle;
+	position: relative;
 	width: 100%;
 }
+
+.meb-alert va-icon {
+	margin-right: 1rem; /* Space between icon and text */
+	margin-top: -0.25rem; /* Adjust ro move the Icon higher */
+}
+
 .meb-alert--warning {
 	border-left-color: var(--vads-color-warning);
-}
-.meb-alert > i {
-	font-family: "Font Awesome 5 Free";
-	font-style: normal;
-	font-weight: 900;
-}
-.meb-alert--warning > i::before {
-	content: "";
-}
-.meb-alert--warning > i::before {
-	display: flex;
-	margin-right: 1rem;
 }
 .meb-list-label {
 	margin-top: 1.125rem;
 }
 .meb-alert_body {
-	display: table-cell;
 	margin: 0;
-	padding-left: 0px;
-	padding-right: 0px;
-	vertical-align: middle;
-	width: 100%;
 }
 
 [id="root_view:benefitSelection_benefitRelinquished-label"] {

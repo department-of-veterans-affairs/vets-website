@@ -35,8 +35,8 @@ export const noteTypes = {
 
 export const loincCodes = {
   // lab and test results
-  MICROBIOLOGY: '79381-0',
-  PATHOLOGY: '60567-5',
+  MICROBIOLOGY: '18725-2', // changed from '79381-0'
+  PATHOLOGY: '11526-1', // changed from '60567-5'
   EKG: '11524-6',
   RADIOLOGY: '18748-4',
   // care summaries and notes
@@ -54,6 +54,8 @@ export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
+  ORGANIZATION: 'Organization',
+  PRACTITIONER: 'Practitioner',
 };
 
 /**

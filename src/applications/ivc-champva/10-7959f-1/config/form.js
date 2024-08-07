@@ -19,11 +19,12 @@ import {
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import PrefilledAddress from '../helpers/prefilledAddress';
+import prefilledAddress from '../helpers/prefilledAddress';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import {
@@ -33,7 +34,8 @@ import {
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
-} from '../helpers/InternationalPhone';
+} from '../../shared/components/InternationalPhone';
+import PrefillCopy from '../helpers/PrefillCopy';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -53,6 +55,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     reviewPageTitle: 'Review and sign',
+    submitButtonText: 'Submit',
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -63,6 +66,7 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
+  submissionError: SubmissionError,
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {
@@ -99,10 +103,13 @@ const formConfig = {
             messageAriaDescribedby:
               'We use this information to verify other details.',
             'view:prefilledAddress': {
-              'ui:description': PrefilledAddress,
+              'ui:description': prefilledAddress,
             },
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            'view:PrefillCopy': {
+              'ui:description': PrefillCopy,
+            },
           },
           schema: {
             type: 'object',
@@ -115,6 +122,10 @@ const formConfig = {
               },
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
+              'view:PrefillCopy': {
+                type: 'object',
+                properties: {},
+              },
             },
           },
         },
@@ -186,7 +197,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Home address'),
             sameMailingAddress: yesNoUI({
-              title: 'Is your mailing address the same as your home address?',
+              title: 'Is your home address the same as your mailing address?',
               labels: {
                 Y: 'Yes',
                 N: 'No',

@@ -524,12 +524,27 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyPrimaryAlertfor5103Notice() {
-    cy.get('[data-testid="item-13"]').should('be.visible');
-    cy.get('[data-testid="item-13"]')
+  verifyPrimaryAlertfor5103Notice(isStandard = false) {
+    const testId = isStandard
+      ? '[data-testid="standard-5103-notice-alert"]'
+      : '[data-testid="item-13"]';
+    const url = isStandard
+      ? '/track-claims/your-claims/189685/5103-evidence-notice'
+      : '/track-claims/your-claims/189685/document-request/13';
+    cy.get(testId).should('be.visible');
+    if (isStandard) {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', '5103 Evidence Notice');
+    } else {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', 'Automated 5103 Notice Response');
+    }
+    cy.get(testId)
       .find('a')
       .should('contain', 'Details');
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('.alert-description > p')
       .first()
       .should(
@@ -541,13 +556,10 @@ class TrackClaimsPageV2 {
         'contain',
         'Upload the waiver attached to the letter if you’re finished adding evidence.',
       );
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('a')
       .click();
-    cy.url().should(
-      'contain',
-      '/track-claims/your-claims/189685/document-request/13',
-    );
+    cy.url().should('contain', url);
   }
 
   verifyDocRequestforDefaultPage(is5103Notice = false) {
@@ -566,8 +578,14 @@ class TrackClaimsPageV2 {
     cy.get('va-additional-info').should('be.visible');
   }
 
-  verifyDocRequestfor5103Notice() {
-    cy.get('#automated-5103-notice-page').should('be.visible');
+  verifyDocRequestfor5103Notice(isStandard = false) {
+    cy.get('#default-5103-notice-page').should('be.visible');
+    if (!isStandard) {
+      cy.get('[data-testid="due-date-information"]').should(
+        'contain',
+        'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
+      );
+    }
     cy.get('a.active-va-link').should('contain', 'Go to claim letters');
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
@@ -579,7 +597,7 @@ class TrackClaimsPageV2 {
       .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
-  verifyDocRequestBreadcrumbs(previousPageFiles = false) {
+  verifyDocRequestBreadcrumbs(previousPageFiles = false, is5103Notice = false) {
     cy.get('va-breadcrumbs').should('be.visible');
     cy.get('.usa-breadcrumb__list-item').should('have.length', 4);
     cy.get('.usa-breadcrumb__list > li:nth-child(1) a').should(
@@ -601,11 +619,17 @@ class TrackClaimsPageV2 {
         'Status of your compensation claim',
       );
     }
-
-    cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
-      'contain',
-      'Document request',
-    );
+    if (is5103Notice) {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        '5103 Evidence Notice',
+      );
+    } else {
+      cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
+        'contain',
+        'Request for Submit Buddy Statement(s)',
+      );
+    }
   }
 
   submitEvidenceWaiver() {
