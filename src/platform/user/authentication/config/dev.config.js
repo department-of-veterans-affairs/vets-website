@@ -101,10 +101,7 @@ export default {
       allowPostLogin: true,
       allowRedirect: false,
     },
-    oAuthOptions: {
-      ...arpWebOAuthOptions,
-      clientId: 'arp',
-    },
+    oAuthOptions: arpWebOAuthOptions,
     OAuthEnabled: true,
     requiresVerification: true,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
