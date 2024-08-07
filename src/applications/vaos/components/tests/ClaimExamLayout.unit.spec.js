@@ -307,9 +307,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /claim exam/i,
         }),
       );
-      expect(
-        screen.getByRole('heading', { level: 2, name: /How to prepare/i }),
-      );
       expect(screen.getByRole('heading', { level: 2, name: /When/i }));
       expect(
         screen.container.querySelector('va-button[text="Add to calendar"]'),

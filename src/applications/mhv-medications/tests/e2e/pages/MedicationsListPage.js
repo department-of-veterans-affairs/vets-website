@@ -658,6 +658,13 @@ class MedicationsListPage {
       .find('[href="tel:+17832721069"]')
       .should('contain', unknownPhoneNumber);
   };
+
+  verifyAllergiesAndReactionsLinkOnMedicationsListPage = () => {
+    cy.get('[data-testid="allergies-link"]').should(
+      'contain',
+      'Go to your allergies and reactions',
+    );
+  };
 }
 
 export default MedicationsListPage;
