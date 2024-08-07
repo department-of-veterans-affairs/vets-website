@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { countUnreadMessages } from './index';
+import { countUnreadMessages, toggleEnabled } from './index';
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
@@ -91,6 +91,23 @@ describe(manifest.appName, () => {
         });
         expect(count).to.equal(10);
       });
+    });
+  });
+
+  describe('utilities/data/toggleEnabled', () => {
+    it('returns true when the feature toggle is enabled', () => {
+      const result = toggleEnabled({ mhvFeatureName: true }, 'mhvFeatureName');
+      expect(result).to.eq(true);
+    });
+
+    it('returns false when the feature toggle is disabled', () => {
+      const result = toggleEnabled({ mhvFeatureName: false }, 'mhvFeatureName');
+      expect(result).to.eq(false);
+    });
+
+    it('returns false when the feature toggle is not present', () => {
+      const result = toggleEnabled({}, 'mhvFeatureName');
+      expect(result).to.eq(false);
     });
   });
 });
