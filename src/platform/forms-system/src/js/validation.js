@@ -437,7 +437,7 @@ export function validateCurrentOrPastMemorableDate(
     new Date().getFullYear(),
   );
   const { day, month, year } = parseISODate(dateString);
-  if (!day || !year || !day || !isValidCurrentOrPastDate(day, month, year)) {
+  if (!day || !month || !year || !isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
   }
 }

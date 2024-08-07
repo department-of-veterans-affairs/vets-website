@@ -3,7 +3,7 @@ import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
 
 /** @param {WebComponentFieldProps} props */
-export default function vaMemorableDateFieldMapping(props) {
+export default function vaDateCommonFieldMapping(props) {
   const {
     description,
     textDescription,
@@ -24,7 +24,6 @@ export default function vaMemorableDateFieldMapping(props) {
       typeof childrenProps.formData === 'undefined'
         ? ''
         : childrenProps.formData,
-    'month-select': uiOptions?.monthSelect ?? true,
     children: (
       <>
         {formDescriptionSlot}

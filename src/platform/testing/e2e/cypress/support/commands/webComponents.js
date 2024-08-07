@@ -106,22 +106,10 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   }
 });
 
-Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
-  if (dateString) {
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-date[name="${field}"]`)
-        : cy.wrap(field);
-
-    const [year, month, day] = dateString.split('-').map(
-      dateComponent =>
-        // eslint-disable-next-line no-restricted-globals
-        isFinite(dateComponent)
-          ? parseInt(dateComponent, 10).toString()
-          : dateComponent,
-    );
-
-    element.shadow().then(el => {
+function fillVaDateFields(year, month, day, monthYearOnly) {
+  cy.get('@currentElement')
+    .shadow()
+    .then(el => {
       cy.wrap(el)
         .find('va-select.select-month')
         .shadow()
@@ -140,6 +128,31 @@ Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
         .find('input')
         .type(year);
     });
+}
+
+Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
+  if (dateString) {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-date[name="${field}"]`)
+        : cy.wrap(field);
+    element.as('currentElement');
+
+    const [year, month, day] = dateString.split('-').map(
+      dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
+    );
+
+    if (isMonthYearOnly == null) {
+      element.invoke('attr', 'month-year-only').then(monthYearOnlyAttr => {
+        fillVaDateFields(year, month, day, monthYearOnlyAttr === 'true');
+      });
+    } else {
+      fillVaDateFields(year, month, day, isMonthYearOnly === 'true');
+    }
   }
 });
 

@@ -6,6 +6,11 @@
       "from": "1999-01-03",
       "to": "1999-01-03"
     },
+    "dateMonthYear": "1999-02",
+    "dateMonthYearRange": {
+      "from": "1999-01",
+      "to": "1999-01"
+    },
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",

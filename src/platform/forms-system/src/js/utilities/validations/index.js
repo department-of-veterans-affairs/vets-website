@@ -77,6 +77,11 @@ export function isValidCurrentOrPastYear(value) {
   return Number(value) >= minYear && Number(value) < moment().year() + 1;
 }
 
+export function isValidCurrentOrPastMonthYear(month, year) {
+  const momentDate = moment({ month: parseInt(month, 10) - 1, year });
+  return momentDate.isSameOrBefore(moment().endOf('month'), 'month');
+}
+
 export function isValidCurrentOrFutureMonthYear(month, year) {
   const momentDate = moment({ month: parseInt(month, 10) - 1, year });
   return momentDate.isSameOrAfter(moment(), 'month');
