@@ -40,15 +40,23 @@ const SearchItem = ({
     const facilityAddress = `${info.attributes.address.physical.city}, ${
       info.attributes.address.physical.state
     } ${facilityZip}`;
-    return `${facilityName},
-    ${facilityAddress}`;
+    return `${facilityName}, ${facilityAddress}`;
   };
 
+  const resultsPerPage = 10;
+  const currentPage = facilityData?.meta?.pagination?.currentPage || 1;
+  const totalEntries = facilityData?.meta?.pagination?.totalEntries || 0;
+
+  const startEntry = (currentPage - 1) * resultsPerPage + 1;
+  const endEntry = Math.min(currentPage * resultsPerPage, totalEntries);
+
+  const displayResults = `Showing ${startEntry}-${endEntry} of ${totalEntries} results for `;
+
   return (
-    facilityData.data.length > 0 && (
+    facilityData?.data?.length > 0 && (
       <>
         <p ref={alertRef} className="vads-u-margin-bottom--0">
-          {`Showing ${facilityData.data.length} results for `}
+          {displayResults}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
         <p className="vads-u-margin-top--1">
@@ -75,7 +83,7 @@ const SearchItem = ({
         </VaRadio>
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
-          page={facilityData.meta.pagination.currentPage}
+          page={currentPage}
           pages={facilityData.meta.pagination.totalPages}
           maxPageListLength={5}
           showLastPage
