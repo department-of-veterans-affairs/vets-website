@@ -10,7 +10,10 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { pdfDefaultStatusDefinition } from '../../util/constants';
+import {
+  pdfDefaultStatusDefinition,
+  DOWNLOAD_FORMAT,
+} from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -77,7 +80,7 @@ describe('Non VA prescription Config', () => {
 describe('Medication Information Config', () => {
   it('should create PDF config using HTML string', () => {
     const htmlContent = `<div><h2>Test</h2><ul><li>Item 1</li><li>Item 2</li></ul><h2>Test 2</h2><p>Paragraph</p></div>`;
-    const txt = convertHtmlForDownload(htmlContent, 'pdf');
+    const txt = convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
     const pdfData = buildMedicationInformationPDF(txt);
     expect(pdfData.sections.length).to.equal(2);
     expect(pdfData.sections[0].header).to.equal('Test');
