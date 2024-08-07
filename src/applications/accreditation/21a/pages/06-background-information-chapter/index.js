@@ -36,7 +36,7 @@ export default {
       question: 'Have you ever been convicted by a military court-martial?',
       description: HasBeenCourtMartialed,
     }),
-    courtMartialDetails: backgroundInformationDetailsPageSchema({
+    courtMartialedDetails: backgroundInformationDetailsPageSchema({
       title: 'Court martialed details',
       path: 'court-martialed-details',
       depends: formData => formData.courtMartialed,
