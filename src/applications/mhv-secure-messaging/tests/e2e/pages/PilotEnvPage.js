@@ -1,6 +1,8 @@
 import mockPilotMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mockFolders from '../fixtures/pilot-responses/folders-respose.json';
 import { Paths } from '../utils/constants';
+import mockThread from '../fixtures/thread-response.json';
+import mockSingleThread from '../fixtures/pilot-responses/single-message-thread-response.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -39,6 +41,38 @@ class PilotEnvPage {
         cy.stub(win, 'print');
       },
     });
+  };
+
+  loadSingleThread = (
+    mockMessages = mockPilotMessages,
+    testSingleThread = mockSingleThread,
+    sentDate = new Date(),
+    draftDate = mockThread.data[0].attributes.draftDate,
+  ) => {
+    this.singleThread = testSingleThread;
+    this.singleThread.data[0].attributes.sentDate = sentDate;
+    this.singleThread.data[0].attributes.draftDate = draftDate;
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread?full_body=true*`,
+      this.singleThread,
+    ).as('full-thread');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
+      { data: this.singleThread.data[0] },
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@full-thread', { requestTimeout: 20000 });
   };
 
   verifyUrl = url => {
