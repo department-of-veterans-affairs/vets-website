@@ -28,7 +28,6 @@ import {
   hasMhvBasicAccount,
   showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
 } from '../selectors';
-import UnregisteredAlert from './UnregisteredAlert';
 import manifest from '../manifest.json';
 
 const LandingPage = ({
