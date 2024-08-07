@@ -157,7 +157,8 @@
           "postalCode": "12345"
         },
         "phone": "3453453455",
-        "email": "person.name@testmail.com"
+        "email": "person.name@testmail.com",
+        "relationship": "Best friend"
       },
       {
         "fullName": {
@@ -176,7 +177,8 @@
           "postalCode": "67890"
         },
         "phone": "1234567890",
-        "email": "john.doe@example.com"
+        "email": "john.doe@example.com",
+        "relationship": "Current manager"
       },
       {
         "fullName": {
@@ -193,8 +195,11 @@
           "postalCode": "11223"
         },
         "phone": "0987654321",
-        "email": "jane.smith@example.com"
+        "email": "jane.smith@example.com",
+        "relationship": "Long time colleague"
       }
-    ]
+    ],
+    "supplementalStatement": "",
+    "personalStatement": "I want to help veterans."
   }
 }
