@@ -15,7 +15,7 @@ const LandingPageAlerts = ({
   userRegistered,
   userVerified,
 }) => {
-  if (userHasMhvBasicAccount && !userVerified) {
+  if (userHasMhvBasicAccount) {
     return <MhvBasicAccountAlert />;
   }
 
