@@ -42,8 +42,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     MockDate.reset();
   });
 
-  // Test failure: https://github.com/department-of-veterans-affairs/va.gov-team/issues/89798
-  it.skip('should render VA request details with a VAOS appointment', async () => {
+  it('should render VA request details with a VAOS appointment', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.proposed,
