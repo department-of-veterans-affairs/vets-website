@@ -23,7 +23,9 @@ const SECONDARY = 'otherRelationshipToVeteran';
 
 export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
-  const currentListItem = data?.applicants?.[pagePerItemIndex];
+  const currentListItem = data?.applicants
+    ? data.applicants?.[pagePerItemIndex]
+    : data; // data is a single item like in arrayBuilder pattern
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem, false);
 
@@ -157,7 +159,9 @@ export default function ApplicantRelationshipPage({
     [secondary]: undefined,
   };
   const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.[keyname] || relationshipStructure,
+    data?.applicants
+      ? data.applicants?.[pagePerItemIndex]?.[keyname]
+      : data?.[keyname] || relationshipStructure,
   );
   const [checkError, setCheckError] = useState(undefined);
   const [inputError, setInputError] = useState(undefined);
@@ -220,11 +224,11 @@ export default function ApplicantRelationshipPage({
     onGoForward: event => {
       event.preventDefault();
       if (!handlers.validate()) return;
-      const testVal = { ...data };
-      testVal.applicants[pagePerItemIndex][keyname] = checkValue;
-      setFormData(testVal);
+      // TODO: use data.applicants?
+      const v = { ...data, [keyname]: checkValue };
+      setFormData(v);
       if (onReviewPage) updatePage();
-      goForward(data);
+      goForward({ formData: v });
     },
   };
 

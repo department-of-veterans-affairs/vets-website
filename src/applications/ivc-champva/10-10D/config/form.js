@@ -28,6 +28,7 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
+import { applicantsPage } from '../pages/ApplicantArrayBuilder';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
@@ -192,6 +193,42 @@ const formConfig = {
   subTitle: 'Application for CHAMPVA benefits (VA Form 10-10d)',
   defaultDefinitions: {},
   chapters: {
+    applicantArrayBuilder: {
+      title: 'Applicants array builder',
+      pages: { ...applicantsPage },
+    },
+    uploadFiles: {
+      title: 'Upload files',
+      keepInPageOnReview: false,
+      pages: {
+        page23: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+        page24: {
+          path: 'consent-mail',
+          title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
+          CustomPage: MissingFileConsentPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+      },
+    },
     certifierInformation: {
       title: 'Signer information',
       pages: {
@@ -521,6 +558,7 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        /*
         page13: {
           title: 'Applicant information',
           path: 'applicant-info',
@@ -556,7 +594,88 @@ const formConfig = {
             applicantName: fullNameSchema,
             applicantDob: dateOfBirthSchema,
           }),
+        }
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          uiSchema: applicantMarriageCertUploadUiSchema,
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMarriageCertConfig.schema,
+            applicantMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
+          }),
         },
+        /*
+        page18f7: {
+          path: 'applicant-remarriage-upload/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} second marriage documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55'
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          uiSchema: applicantSecondMarriageCertUploadUiSchema,
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantMarriageCertConfig.schema,
+            applicantSecondMarriageCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
+          }),
+        },
+        // If applicant remarried after 55 but the second marriage is not viable,
+        // upload a certificate proving the marriage dissolved
+        page18f8: {
+          path: 'applicant-remarriage-separation-upload/:index',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} second marriage dissolution documents`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantRelationshipToSponsor.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'spouse' &&
+              get(
+                'applicantSponsorMarriageDetails.relationshipToVeteran',
+                formData?.applicants?.[index],
+              ) === 'marriedTillDeathRemarriedAfter55' &&
+              !get('remarriageIsViable', formData?.applicants?.[index])
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          uiSchema: applicantSecondMarriageDivorceCertUploadUiSchema,
+          schema: applicantListSchema([], {
+            titleSchema,
+            ...applicantSecondMarriageDivorceCertConfig.schema,
+            applicantSecondMarriageDivorceCert: fileWithMetadataSchema(
+              acceptableFiles.spouseCert,
+            ),
+          }),
+        },
+        */
+        /*
         page13a: {
           path: 'applicant-info-intro/:index',
           arrayPath: 'applicants',
@@ -726,28 +845,28 @@ const formConfig = {
             },
           }),
         },
-        page18: {
-          path: 'applicant-relationship/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
-          CustomPage: ApplicantRelationshipPage,
-          CustomPageReview: ApplicantRelationshipReviewPage,
-          schema: applicantListSchema([], {
-            applicantRelationshipToSponsor: {
-              type: 'object',
-              properties: {
-                relationshipToVeteran: { type: 'string' },
-                otherRelationshipToVeteran: { type: 'string' },
-              },
-            },
-          }),
-          uiSchema: {
-            applicants: {
-              items: {},
-            },
-          },
-        },
+        // page18: {
+        //   path: 'applicant-relationship/:index',
+        //   arrayPath: 'applicants',
+        //   showPagePerItem: true,
+        //   title: item => `${applicantWording(item)} relationship to sponsor`,
+        //   CustomPage: ApplicantRelationshipPage,
+        //   CustomPageReview: ApplicantRelationshipReviewPage,
+        //   schema: applicantListSchema([], {
+        //     applicantRelationshipToSponsor: {
+        //       type: 'object',
+        //       properties: {
+        //         relationshipToVeteran: { type: 'string' },
+        //         otherRelationshipToVeteran: { type: 'string' },
+        //       },
+        //     },
+        //   }),
+        //   uiSchema: {
+        //     applicants: {
+        //       items: {},
+        //     },
+        //   },
+        // },
         page18c: {
           path: 'applicant-relationship-child/:index',
           arrayPath: 'applicants',
@@ -1023,6 +1142,7 @@ const formConfig = {
           schema: remarriageDetailsSchema.schema,
         },
         */
+        /*
         // Marriage dates (sponsor living or dead) when applicant did not remarry
         page18f3: {
           path: 'applicant-marriage-date/:index',
@@ -1065,6 +1185,7 @@ const formConfig = {
           schema: marriageDatesSchema.separatedSchema,
         },
         */
+        /*
         page18f: {
           path: 'applicant-marriage-upload/:index',
           arrayPath: 'applicants',
@@ -1089,86 +1210,7 @@ const formConfig = {
                   ),
                 )) ||
                 !get('sponsorIsDeceased', formData)) */
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantMarriageCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
         /*
-        page18f7: {
-          path: 'applicant-remarriage-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} second marriage documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55'
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantSecondMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        // If applicant remarried after 55 but the second marriage is not viable,
-        // upload a certificate proving the marriage dissolved
-        page18f8: {
-          path: 'applicant-remarriage-separation-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} second marriage dissolution documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55' &&
-              !get('remarriageIsViable', formData?.applicants?.[index])
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageDivorceCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantSecondMarriageDivorceCertConfig.schema,
-            applicantSecondMarriageDivorceCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        */
         page19: {
           path: 'applicant-medicare/:index',
           arrayPath: 'applicants',
@@ -1386,40 +1428,41 @@ const formConfig = {
             ),
           }),
         },
+        */
       },
     },
-    uploadFiles: {
-      title: 'Upload files',
-      keepInPageOnReview: false,
-      pages: {
-        page23: {
-          path: 'supporting-files',
-          title: 'Upload your supporting files',
-          depends: formData => showFileOverviewPage(formData),
-          CustomPage: SupportingDocumentsPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
-        },
-        page24: {
-          path: 'consent-mail',
-          title: 'Upload your supporting files',
-          depends: formData => showFileOverviewPage(formData),
-          CustomPage: MissingFileConsentPage,
-          CustomPageReview: null,
-          uiSchema: {
-            'ui:options': {
-              keepInPageOnReview: false,
-            },
-          },
-          schema: blankSchema,
-        },
-      },
-    },
+    // uploadFiles: {
+    //   title: 'Upload files',
+    //   keepInPageOnReview: false,
+    //   pages: {
+    //     page23: {
+    //       path: 'supporting-files',
+    //       title: 'Upload your supporting files',
+    //       depends: formData => showFileOverviewPage(formData),
+    //       CustomPage: SupportingDocumentsPage,
+    //       CustomPageReview: null,
+    //       uiSchema: {
+    //         'ui:options': {
+    //           keepInPageOnReview: false,
+    //         },
+    //       },
+    //       schema: blankSchema,
+    //     },
+    //     page24: {
+    //       path: 'consent-mail',
+    //       title: 'Upload your supporting files',
+    //       depends: formData => showFileOverviewPage(formData),
+    //       CustomPage: MissingFileConsentPage,
+    //       CustomPageReview: null,
+    //       uiSchema: {
+    //         'ui:options': {
+    //           keepInPageOnReview: false,
+    //         },
+    //       },
+    //       schema: blankSchema,
+    //     },
+    //   },
+    // },
   },
 };
 

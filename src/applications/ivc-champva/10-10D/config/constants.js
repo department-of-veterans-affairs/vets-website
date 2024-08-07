@@ -37,6 +37,7 @@ export const REQUIRED_FILES = {
 /* Similar to the above, this provides a mapping of file keynames
   to presentable display names for the file review page. */
 export const OPTIONAL_FILES = {
+  medicalUpload: 'Some random garbage',
   applicantBirthCertOrSocialSecCard:
     'Birth Certificate or Social Security Card',
   applicantHelplessCert: 'VBA Rating (Helpless Child)',

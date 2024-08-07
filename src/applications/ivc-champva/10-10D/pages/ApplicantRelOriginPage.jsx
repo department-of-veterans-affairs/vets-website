@@ -6,7 +6,10 @@ import ApplicantRelationshipPage, {
 const KEYNAME = 'applicantRelationshipOrigin';
 
 function generateOptions({ data, pagePerItemIndex }) {
-  const bp = appRelBoilerplate({ data, pagePerItemIndex });
+  const bp = appRelBoilerplate({
+    data: { ...data, keyname: KEYNAME },
+    pagePerItemIndex,
+  });
   const customTitle = `${bp.applicant}’s dependent status`;
   const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const surv = data.sponsorIsDeceased ? 'surviving' : '';
