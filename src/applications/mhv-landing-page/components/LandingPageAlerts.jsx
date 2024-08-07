@@ -19,9 +19,7 @@ const LandingPageAlerts = ({
     return <MhvBasicAccountAlert />;
   }
 
-  if (
-    showsVerifyAndRegisterAlert
-  ) {
+  if (showsVerifyAndRegisterAlert) {
     return <VerifyAndRegisterAlert cspId={signInService} />;
   }
 
