@@ -127,6 +127,9 @@ export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
 
 export const DRB = 'DRB';
+export const BCMR = 'BCMR';
+export const BCNR = 'BCNR';
+export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',

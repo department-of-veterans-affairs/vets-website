@@ -2,7 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import { differenceInYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
-import { questionLabels, prevApplicationYearCutoff } from '../constants';
+import {
+  questionLabels,
+  prevApplicationYearCutoff,
+  BCMR,
+  BCNR,
+  DRB,
+  AFDRB,
+} from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
@@ -361,7 +368,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
 
   let boardObj = {
     name: 'Board for Correction of Naval Records (BCNR)',
-    abbr: 'BCNR',
+    abbr: BCNR,
   };
   if (
     [RESPONSES.ARMY, RESPONSES.AIR_FORCE, RESPONSES.COAST_GUARD].includes(
@@ -370,7 +377,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
   ) {
     boardObj = {
       name: 'Board for Correction of Military Records (BCMR)',
-      abbr: 'BCMR',
+      abbr: BCMR,
     };
   }
 
@@ -386,11 +393,11 @@ export const determineBoardObj = (formResponses, noDRB) => {
     if (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE) {
       return {
         name: 'Air Force Discharge Review Board (AFDRB)',
-        abbr: 'AFDRB',
+        abbr: AFDRB,
       };
     }
 
-    return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
+    return { name: 'Discharge Review Board (DRB)', abbr: DRB };
   }
 
   return boardObj;
@@ -399,7 +406,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
-  if (['DRB', 'AFDRB'].includes(boardData?.abbr)) {
+  if ([DRB, AFDRB].includes(boardData?.abbr)) {
     return {
       num: 293,
       link:
@@ -415,5 +422,5 @@ export const determineFormData = formResponses => {
 // Determines if we should use AFRBA Portal and Link.
 export const determineAirForceAFRBAPortal = formResponses =>
   formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
-  determineBoardObj(formResponses).abbr === 'BCMR' &&
+  determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
