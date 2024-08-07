@@ -48,14 +48,16 @@ const PrevApplicationYear = ({
 
   const prevApplicationOptions = () => {
     if (
-      [RESPONSES.REASON_1, RESPONSES.REASON_2].includes(formResponses.REASON)
+      [RESPONSES.REASON_PTSD, RESPONSES.REASON_TBI].includes(
+        formResponses.REASON,
+      )
     ) {
       return [PREV_APPLICATION_BEFORE_2014, PREV_APPLICATION_AFTER_2014];
     }
-    if (formResponses.REASON === RESPONSES.REASON_3) {
+    if (formResponses.REASON === RESPONSES.REASON_SEXUAL_ORIENTATION) {
       return [PREV_APPLICATION_BEFORE_2011, PREV_APPLICATION_AFTER_2011];
     }
-    if (formResponses.REASON === RESPONSES.REASON_4) {
+    if (formResponses.REASON === RESPONSES.REASON_SEXUAL_ASSAULT) {
       return [PREV_APPLICATION_BEFORE_2017, PREV_APPLICATION_AFTER_2017];
     }
     return [];

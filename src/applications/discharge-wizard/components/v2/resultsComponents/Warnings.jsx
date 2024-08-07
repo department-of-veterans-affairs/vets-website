@@ -6,7 +6,7 @@ import {
   determineOldDischarge,
   determineBoardObj,
 } from '../../../helpers';
-import { venueWarning, upgradeVenueWarning } from '../../../constants';
+import { venueWarning, upgradeVenueWarning, DRB } from '../../../constants';
 import {
   RESPONSES,
   SHORT_NAME_MAP,
@@ -25,7 +25,8 @@ const Warnings = ({ formResponses }) => {
         <AlertMessage
           content={venueWarning}
           isVisible={
-            prevAppType === RESPONSES.NOT_SURE && reason !== RESPONSES.REASON_8
+            prevAppType === RESPONSES.NOT_SURE &&
+            reason !== RESPONSES.REASON_DD215_UPDATE_TO_DD214
           }
           status="warning"
         />
@@ -33,7 +34,7 @@ const Warnings = ({ formResponses }) => {
           content={upgradeVenueWarning}
           isVisible={
             prevAppType === RESPONSES.NOT_SURE &&
-            reason === RESPONSES.REASON_8 &&
+            reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
             !oldDischarge
           }
           status="warning"
@@ -60,7 +61,7 @@ const Warnings = ({ formResponses }) => {
       <AlertMessage
         content={alertContent}
         isVisible={
-          boardToSubmit.abbr === 'DRB' && RESPONSES.NOT_SURE === courtMartial
+          boardToSubmit.abbr === DRB && RESPONSES.NOT_SURE === courtMartial
         }
         status="warning"
       />
@@ -86,7 +87,7 @@ const Warnings = ({ formResponses }) => {
       <AlertMessage
         content={alertContent}
         isVisible={
-          reason === RESPONSES.REASON_8 &&
+          reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
           [
             RESPONSES.PREV_APPLICATION_BCMR,
             RESPONSES.PREV_APPLICATION_BCNR,

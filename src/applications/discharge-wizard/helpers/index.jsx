@@ -263,15 +263,16 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
 
 // v2 Helpers
 
-// Changes Marine Corps discharge board to Navy for naming on results pages.
+// Changes Marine Corps discharge board to Navy for naming on results pages
+// since the Marine Corps does not have a discharge board.
 export const determineBranchOfService = key =>
   key === RESPONSES.MARINE_CORPS ? RESPONSES.NAVY : key;
 
-// Determines old discharges
+// Determines if a previous discharge occurred more than 15 years ago.
 export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
   differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
 
-// Determines the label used on the review page.
+// Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
   const monthObj = options.months.find(
@@ -345,7 +346,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
     formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_YES;
 
   const transgender =
-    formResponses[SHORT_NAME_MAP.REASON] === RESPONSES.REASON_5;
+    formResponses[SHORT_NAME_MAP.REASON] === RESPONSES.REASON_TRANSGENDER;
   const intention =
     formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES;
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
@@ -395,7 +396,7 @@ export const determineBoardObj = (formResponses, noDRB) => {
   return boardObj;
 };
 
-// Determines form specific data based on form responses.
+// Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);
   if (['DRB', 'AFDRB'].includes(boardData?.abbr)) {

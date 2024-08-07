@@ -41,20 +41,20 @@ export const RESPONSES = Object.freeze({
   AIR_FORCE: 'Air Force',
   COAST_GUARD: 'Coast Guard',
   MARINE_CORPS: 'Marine Corps',
-  REASON_1:
+  REASON_PTSD:
     'I suffered from undiagnosed, misdiagnosed, or untreated posttraumatic stress disorder (PTSD), or another mental health condition, during my service. I was discharged for reasons related to this condition.',
-  REASON_2:
+  REASON_TBI:
     'I suffered from an undiagnosed, misdiagnosed, or untreated traumatic brain injury (TBI) during my service. I was discharged for reasons related to this condition.',
-  REASON_3:
+  REASON_SEXUAL_ORIENTATION:
     'I was discharged due to my sexual orientation (including under the Don’t Ask, Don’t Tell policy).',
-  REASON_4:
+  REASON_SEXUAL_ASSAULT:
     'I experienced sexual assault or harassment during my service. I was discharged for reasons related to this experience.',
-  REASON_5:
+  REASON_TRANSGENDER:
     'I’m transgender, and my discharge shows my birth name instead of my current name.',
-  REASON_8:
+  REASON_DD215_UPDATE_TO_DD214:
     'I received a DD215 that shows my discharge upgrade or correction. But I want an updated DD214.',
-  REASON_6: 'My discharge paperwork has another kind of error.',
-  REASON_7:
+  REASON_ERROR: 'My discharge paperwork has another kind of error.',
+  REASON_UNJUST:
     'My discharge is unjust, and it isn’t related to any of the reasons listed here.',
   INTENTION_YES: `Yes, I want to change my name, discharge date, or something written in the "other remarks" section of my DD214. (This isn't common.)`,
   INTENTION_NO:
@@ -83,9 +83,9 @@ export const RESPONSES = Object.freeze({
   PREV_APPLICATION_AFTER_2011: 'After 2011',
   PREV_APPLICATION_BEFORE_2017: '2017 or earlier',
   PREV_APPLICATION_AFTER_2017: 'After 2017',
-  PRIOR_SERVICE_PAPERWORK:
+  PRIOR_SERVICE_PAPERWORK_YES:
     'Yes, I have paperwork for a discharge that’s honorable or under honorable conditions.',
-  PRIOR_SERVICE_NO_PAPERWORK:
+  PRIOR_SERVICE_PAPERWORK_NO:
     'Yes, I completed an earlier period of service. But I didn’t receive discharge paperwork from that period.',
   PRIOR_SERVICE_NO: 'No, I didn’t complete an earlier period of service.',
   FAILURE_TO_EXHAUST_BCMR_YES: `Yes, the BCMR denied my application due to "failure to exhaust other remedies."`,

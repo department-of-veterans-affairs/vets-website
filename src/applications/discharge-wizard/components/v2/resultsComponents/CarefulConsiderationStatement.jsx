@@ -13,7 +13,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
     const dischargeType = formResponses[SHORT_NAME_MAP.DISCHARGE_TYPE];
 
     switch (reason) {
-      case RESPONSES.REASON_1:
+      case RESPONSES.REASON_PTSD:
         return (
           <p>
             Because you answered that your discharge was related to
@@ -24,7 +24,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             or undocumented PTSD or mental health condition.
           </p>
         );
-      case RESPONSES.REASON_2:
+      case RESPONSES.REASON_TBI:
         return (
           <p>
             Because you answered that your discharge was related to a traumatic
@@ -34,7 +34,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             undiagnosed or undocumented TBI.
           </p>
         );
-      case RESPONSES.REASON_3:
+      case RESPONSES.REASON_SEXUAL_ORIENTATION:
         if (dischargeType === RESPONSES.DISCHARGE_DISHONORABLE) {
           return (
             <p>
@@ -61,7 +61,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
           );
         }
         return null;
-      case RESPONSES.REASON_4:
+      case RESPONSES.REASON_SEXUAL_ASSAULT:
         return (
           <p>
             Because you answered that your discharge was related to sexual
@@ -76,7 +76,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             argue that your discharge was unjust punishment for those events.
           </p>
         );
-      case RESPONSES.REASON_5:
+      case RESPONSES.REASON_TRANSGENDER:
         return (
           <p>
             This is a common request for transgender Veterans whose DD214 name
@@ -90,7 +90,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
 
   const priorServiceStatement = () => {
     switch (formResponses[SHORT_NAME_MAP.PRIOR_SERVICE]) {
-      case RESPONSES.PRIOR_SERVICE_PAPERWORK:
+      case RESPONSES.PRIOR_SERVICE_PAPERWORK_YES:
         return (
           <AlertMessage
             isVisible
@@ -117,7 +117,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             }
           />
         );
-      case RESPONSES.PRIOR_SERVICE_NO_PAPERWORK:
+      case RESPONSES.PRIOR_SERVICE_PAPERWORK_NO:
         return (
           <AlertMessage
             isVisible

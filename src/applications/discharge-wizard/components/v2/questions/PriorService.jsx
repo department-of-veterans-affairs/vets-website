@@ -22,8 +22,8 @@ const PriorService = ({
   const H1 = QUESTION_MAP[shortName];
   const priorService = formResponses[shortName];
   const {
-    PRIOR_SERVICE_PAPERWORK,
-    PRIOR_SERVICE_NO_PAPERWORK,
+    PRIOR_SERVICE_PAPERWORK_YES,
+    PRIOR_SERVICE_PAPERWORK_NO,
     PRIOR_SERVICE_NO,
   } = RESPONSES;
 
@@ -50,8 +50,8 @@ const PriorService = ({
       formValue={priorService}
       H1={H1}
       responses={[
-        PRIOR_SERVICE_PAPERWORK,
-        PRIOR_SERVICE_NO_PAPERWORK,
+        PRIOR_SERVICE_PAPERWORK_YES,
+        PRIOR_SERVICE_PAPERWORK_NO,
         PRIOR_SERVICE_NO,
       ]}
       router={router}
