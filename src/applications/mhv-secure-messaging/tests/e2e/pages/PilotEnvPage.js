@@ -1,6 +1,6 @@
 import mockPilotMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mockFolders from '../fixtures/pilot-responses/folders-respose.json';
-import { Paths } from '../utils/constants';
+import { Paths, Locators } from '../utils/constants';
 import mockThread from '../fixtures/thread-response.json';
 import mockSingleThread from '../fixtures/pilot-responses/single-message-thread-response.json';
 
@@ -75,8 +75,39 @@ class PilotEnvPage {
     cy.wait('@full-thread', { requestTimeout: 20000 });
   };
 
+  verifyMessageDetails = (date, index = 0) => {
+    cy.get(Locators.MSG_DATE).should(`contain`, date);
+    cy.get(Locators.FROM).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.senderName,
+    );
+    cy.get(Locators.TO).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.recipientName,
+    );
+    cy.get(Locators.MSG_ID).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.messageId,
+    );
+  };
+
   verifyUrl = url => {
     cy.url().should('contain', url);
+  };
+
+  verifyButtons = () => {
+    cy.get(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .and(`contain`, `Reply`);
+    cy.get(Locators.BUTTONS.PRINT)
+      .should('be.visible')
+      .and(`contain`, `Print`);
+    cy.get(`#move-button`)
+      .should('be.visible')
+      .and(`contain`, `Move`);
+    cy.get(`#trash-button`)
+      .should('be.visible')
+      .and(`contain`, `Trash`);
   };
 
   verifyThreadLength = thread => {
