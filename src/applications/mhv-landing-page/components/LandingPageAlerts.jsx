@@ -20,8 +20,6 @@ const LandingPageAlerts = ({
   }
 
   if (
-    (signInService === 'idme' || signInService === 'logingov') &&
-    !userVerified &&
     showsVerifyAndRegisterAlert
   ) {
     return <VerifyAndRegisterAlert cspId={signInService} />;
