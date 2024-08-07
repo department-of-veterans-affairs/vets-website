@@ -43,6 +43,7 @@ import {
 import {
   veteranInformation,
   veteranAddress,
+  veteranContactInformation,
 } from './chapters/veteran-information';
 import {
   stepchildren,
@@ -60,6 +61,7 @@ import {
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -85,12 +87,15 @@ export const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
-  version: 1,
+  version: migrations.length,
   migrations,
   prefillEnabled: true,
+  prefillTransformer,
+  verifyRequiredPrefill: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
+    requiredForPrefill: true,
     dependencies: [
       externalServices.bgs,
       externalServices.global,
@@ -100,9 +105,10 @@ export const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Start over to apply for declare or remove a dependent.',
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
     noAuth:
-      'Sign in again to continue your application for declare or remove a dependent.',
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',
@@ -142,16 +148,22 @@ export const formConfig = {
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-address',
-          title: 'Veteran Address',
+          title: 'Veteran address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-          updateFormData: veteranAddress.updateFormData,
+          // updateFormData: veteranAddress.updateFormData,
+        },
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },

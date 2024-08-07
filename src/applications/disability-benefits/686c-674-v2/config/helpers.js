@@ -195,3 +195,7 @@ export const PensionIncomeRemovalQuestionTitle = (
     <strong>pension</strong>.
   </p>
 );
+
+export const generateTitle = text => {
+  return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
+};

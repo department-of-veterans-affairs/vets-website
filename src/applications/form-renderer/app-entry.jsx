@@ -1,14 +1,14 @@
 import 'platform/polyfills';
 import './sass/form-renderer.scss';
 
+import React from 'react';
 import startApp from 'platform/startup';
-
-import routes from './routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import formLoadReducer from './reducers/form-load';
+import App from './containers/App';
 
 startApp({
   url: manifest.rootUrl,
-  reducer,
-  routes,
+  reducer: formLoadReducer,
+  component: <App />,
 });

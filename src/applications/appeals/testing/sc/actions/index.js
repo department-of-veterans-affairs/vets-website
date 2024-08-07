@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
 
@@ -65,26 +65,26 @@ export const ITF_CREATION_INITIATED = 'ITF_CREATION_INITIATED';
 export const ITF_CREATION_SUCCEEDED = 'ITF_CREATION_SUCCEEDED';
 export const ITF_CREATION_FAILED = 'ITF_CREATION_FAILED';
 
-export function fetchITF({ accountUuid, inProgressFormId }) {
+export function fetchITF(/* { accountUuid, inProgressFormId } */) {
   return dispatch => {
     dispatch({ type: ITF_FETCH_INITIATED });
     return apiRequest(ITF_API)
       .then(({ data }) => dispatch({ type: ITF_FETCH_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.withScope(scope => {
-          scope.setExtra('accountUuid', accountUuid);
-          scope.setExtra('inProgressFormId', inProgressFormId);
-          Sentry.captureMessage('itf_fetch_failed');
-        });
+        // Sentry.withScope(scope => {
+        //   scope.setExtra('accountUuid', accountUuid);
+        //   scope.setExtra('inProgressFormId', inProgressFormId);
+        //   Sentry.captureMessage('itf_fetch_failed');
+        // });
         dispatch({ type: ITF_FETCH_FAILED });
       });
   };
 }
 
 export function createITF({
-  accountUuid,
+  // accountUuid,
   benefitType = DEFAULT_BENEFIT_TYPE,
-  inProgressFormId,
+  // inProgressFormId,
 }) {
   return dispatch => {
     dispatch({ type: ITF_CREATION_INITIATED });
@@ -92,11 +92,11 @@ export function createITF({
     return apiRequest(`${ITF_API}/${benefitType}`, { method: 'POST' })
       .then(({ data }) => dispatch({ type: ITF_CREATION_SUCCEEDED, data }))
       .catch(() => {
-        Sentry.withScope(scope => {
-          scope.setExtra('accountUuid', accountUuid);
-          scope.setExtra('inProgressFormId', inProgressFormId);
-          Sentry.captureMessage('itf_creation_failed');
-        });
+        // Sentry.withScope(scope => {
+        //   scope.setExtra('accountUuid', accountUuid);
+        //   scope.setExtra('inProgressFormId', inProgressFormId);
+        //   Sentry.captureMessage('itf_creation_failed');
+        // });
         dispatch({ type: ITF_CREATION_FAILED });
       });
   };

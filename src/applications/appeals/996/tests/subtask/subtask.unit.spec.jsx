@@ -13,6 +13,8 @@ import SubTask, {
 import SubTaskContainer from '../../subtask/SubTaskContainer';
 import pages from '../../subtask/pages';
 
+import { subTitle } from '../../content/title';
+
 const mockStore = ({ data = {} } = {}) => {
   setStoredSubTask(data);
   return {
@@ -166,8 +168,6 @@ describe('the HLR Sub-task', () => {
 
     $('va-radio', container).__events.vaValueChange({ detail: { value: '' } });
     expect(setPageDataSpy.calledWith(''));
-    expect($('.schemaform-subtitle', container).textContent).to.contain(
-      'Decision Review Request:',
-    );
+    expect($('.schemaform-subtitle', container).textContent).to.eq(subTitle);
   });
 });

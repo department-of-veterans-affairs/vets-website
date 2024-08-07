@@ -3,6 +3,7 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
+  processPostActivity,
 } from './actions';
 
 const StartConvoAndTrackUtterances = {
@@ -22,8 +23,17 @@ const StartConvoAndTrackUtterances = {
       'WEB_CHAT/SET_DICTATE_STATE': processMicrophoneActivity(options),
     };
 
+    if (event.isRootBotToggleOn) {
+      processActionType['DIRECT_LINE/POST_ACTIVITY'] = processPostActivity(
+        options,
+      );
+    }
+
     const canProcessAction = processActionType[action.type];
-    if (canProcessAction) processActionType[action.type]();
+    if (canProcessAction) {
+      const response = processActionType[action.type]();
+      return next(response);
+    }
     return next(action);
   },
 };

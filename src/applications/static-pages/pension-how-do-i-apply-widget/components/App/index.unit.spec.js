@@ -119,7 +119,7 @@ describe('Pension Widget <App>', () => {
       props.toggleLoginModal(true);
 
       expect(dispatchSpy.calledOnce).to.be.true;
-      expect(dispatchSpy.calledWithExactly(toggleLoginModalAction(true))).to.be
+      expect(dispatchSpy.calledWithMatch(toggleLoginModalAction(true))).to.be
         .true;
     });
   });

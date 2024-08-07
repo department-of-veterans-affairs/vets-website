@@ -29,15 +29,15 @@ export default function transformForSubmit(formConfig, form) {
   });
   copyOfData.medicalUpload = medicalUpload;
 
-  const primaryEOB = copyOfData?.primaryEOB?.map(el => {
-    return { ...el, documentType: 'EOB' };
+  const primaryEob = copyOfData?.primaryEob?.map(el => {
+    return { ...el, documentType: 'Eob' };
   });
-  copyOfData.primaryEOB = primaryEOB;
+  copyOfData.primaryEob = primaryEob;
 
-  const secondaryEOB = copyOfData?.secondaryEOB?.map(el => {
-    return { ...el, documentType: 'EOB' };
+  const secondaryEob = copyOfData?.secondaryEob?.map(el => {
+    return { ...el, documentType: 'Eob' };
   });
-  copyOfData.secondaryEOB = secondaryEOB;
+  copyOfData.secondaryEob = secondaryEob;
   // ---
 
   // Date of signature
@@ -46,11 +46,13 @@ export default function transformForSubmit(formConfig, form) {
   // Compile files
   copyOfData.supportingDocs = [
     copyOfData.medicalUpload,
-    copyOfData.primaryEOB,
-    copyOfData.secondaryEOB,
+    copyOfData.primaryEob,
+    copyOfData.secondaryEob,
   ]
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
+
+  copyOfData.fileNumber = copyOfData.applicantMemberNumber;
 
   return JSON.stringify({
     ...copyOfData,

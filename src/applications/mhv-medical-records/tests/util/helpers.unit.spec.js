@@ -162,11 +162,11 @@ describe('extractContainedByResourceType', () => {
       'Practitioner',
       mockRecord.performer,
     );
-    const desired = [
-      mockRecord.contained.find(e => e.id === 'ex-MHV-practitioner-somebody'),
-    ];
+    const desired = mockRecord.contained.find(
+      e => e.id === 'ex-MHV-practitioner-somebody',
+    );
 
-    expect(result).to.eql(desired);
+    expect(result).to.deep.equal(desired);
   });
 
   it('should return null if resource does not contain the "contained" property', () => {

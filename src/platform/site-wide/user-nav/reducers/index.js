@@ -4,8 +4,6 @@ import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
-  TOGGLE_ACCOUNT_TRANSITION_MODAL,
-  TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
   UPDATE_ROUTE,
 } from '../actions';
 
@@ -13,8 +11,11 @@ const initialState = {
   route: {},
   showFormSignInModal: false,
   showLoginModal: false,
-  showAccountTransitionModal: false,
-  showAccountTransitionSuccessModal: false,
+  modalInformation: {
+    redirectLocation: '',
+    startingLocation: '',
+    trigger: '',
+  },
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -36,17 +37,20 @@ export default function userNavReducer(state = initialState, action) {
       return set('showFormSignInModal', action.isOpen, state);
 
     case TOGGLE_LOGIN_MODAL:
-      return set('showLoginModal', action.isOpen, state);
+      return {
+        ...state,
+        modalInformation: {
+          startingLocation: action?.startingLocation || '/',
+          redirectLocation:
+            action?.redirectLocation || action?.startingLocation,
+          trigger: action?.trigger,
+        },
+        showLoginModal: action.isOpen,
+      };
 
     case UPDATE_SEARCH_HELP_USER_MENU:
       closeAllMenus(state);
       return set(`utilitiesMenuIsOpen.${action.menu}`, action.isOpen, state);
-
-    case TOGGLE_ACCOUNT_TRANSITION_MODAL:
-      return set('showAccountTransitionModal', action.isOpen, state);
-
-    case TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL:
-      return set('showAccountTransitionSuccessModal', action.isOpen, state);
 
     case UPDATE_ROUTE:
       return set(

@@ -9,7 +9,7 @@ import {
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
-} from '../utils/helpers';
+} from '../utils/helpers/form-config';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';

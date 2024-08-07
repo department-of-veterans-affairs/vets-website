@@ -56,6 +56,13 @@ export class IntroductionPageUpdate extends React.Component {
           Equal to VA Form 22-1995 (Request for Change of Benefit, Program or
           Place of Training).
         </p>
+
+        <p>
+          {' '}
+          <span className="vads-u-font-weight--bold">Note: </span>
+          As of August 12, 2024, VA Form-22-1995 has been combined with form
+          22-5495 to better serve Veterans and their families.
+        </p>
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
           <h4>Follow the steps below to apply for education benefits.</h4>

@@ -21,6 +21,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMedicalEvidenceClarification = useToggleValue(
     TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
+  const pensionDocumentUploadUpdate = useToggleValue(
+    TOGGLE_NAMES.pensionDocumentUploadUpdate,
+  );
   const pensionModuleEnabled = useToggleValue(
     TOGGLE_NAMES.pensionModuleEnabled,
   );
@@ -52,6 +55,10 @@ export default function PensionEntry({ location, children }) {
           'showPensionEvidenceClarification',
           !!pensionMedicalEvidenceClarification,
         );
+        window.sessionStorage.setItem(
+          'showUploadDocuments',
+          !!pensionDocumentUploadUpdate,
+        );
       }
     },
     [
@@ -59,6 +66,7 @@ export default function PensionEntry({ location, children }) {
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
       pensionMedicalEvidenceClarification,
+      pensionDocumentUploadUpdate,
     ],
   );
 

@@ -47,7 +47,7 @@ import {
 } from '../utils/helpers';
 import { homelessPageTitle } from '../content/homeless';
 import NeedHelp from '../content/NeedHelp';
-import { formTitle, FormSubTitle } from '../content/title';
+import { formTitle, subTitle } from '../content/title';
 
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
@@ -114,7 +114,7 @@ const formConfig = {
   },
 
   title: formTitle,
-  subTitle: FormSubTitle,
+  subTitle,
   defaultDefinitions: {},
   preSubmitInfo,
   submissionError,

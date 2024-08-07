@@ -70,7 +70,7 @@ import fullSchema from './form-0995-schema.json';
 import { focusEvidence } from '../utils/focus';
 
 import submissionError from '../../../shared/content/submissionError';
-import GetFormHelp from '../../../shared/content/GetFormHelp';
+import NeedHelp from '../../../shared/content/NeedHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   focusAlertH3,
@@ -302,7 +302,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: NeedHelp,
 };
 
 export default formConfig;

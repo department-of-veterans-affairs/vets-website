@@ -11,11 +11,11 @@ import {
 import {
   createPayload,
   parseResponse,
-} from '../../../utils/helpers/form-config';
+} from '../../../utils/helpers/file-attachments';
+import { hideUploadWarningAlert } from '../../../utils/helpers/form-config';
 import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
 import SupportingDocumentDescription from '../../../components/FormDescriptions/SupportingDocumentDescription';
 import { emptySchema } from '../../../definitions/sharedSchema';
-import { hideUploadWarningAlert } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
 
 const uploadPoaDocument = {

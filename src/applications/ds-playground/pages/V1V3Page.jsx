@@ -716,7 +716,7 @@ export default function V1V3Page() {
                   paddingLeft: '2rem',
                 }}
               >
-                <div className="nav-header nav-header-schemaform">
+                <div className="nav-header">
                   <h2
                     className="vads-u-font-size--h4"
                     id="nav-form-header"

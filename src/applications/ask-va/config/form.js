@@ -43,6 +43,9 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 // Review Page
 import Footer from '../components/Footer';
 import ReviewPage from '../containers/ReviewPage';
+import CategorySelectPage from '../containers/CategorySelectPage';
+import TopicSelectPage from '../containers/TopicSelectPage';
+import SubTopicSelectPage from '../containers/SubTopicSelectPage';
 
 // const mockUser = {
 //   first: 'Mark',
@@ -106,19 +109,31 @@ const formConfig = {
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
-          uiSchema: selectCategoryPage.uiSchema,
+          CustomPage: CategorySelectPage,
+          CustomPageReview: null,
+          uiSchema: {
+            selectCategory: { 'ui:title': CHAPTER_1.PAGE_1.QUESTION_1 },
+          },
           schema: selectCategoryPage.schema,
         },
         selectTopic: {
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
-          uiSchema: selectTopicPage.uiSchema,
+          CustomPage: TopicSelectPage,
+          CustomPageReview: null,
+          uiSchema: {
+            selectTopic: { 'ui:title': CHAPTER_1.PAGE_2.QUESTION_1 },
+          },
           schema: selectTopicPage.schema,
         },
         selectSubtopic: {
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
-          uiSchema: selectSubtopicPage.uiSchema,
+          CustomPage: SubTopicSelectPage,
+          CustomPageReview: null,
+          uiSchema: {
+            selectTopic: { 'ui:title': CHAPTER_1.PAGE_3.QUESTION_1 },
+          },
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
         },

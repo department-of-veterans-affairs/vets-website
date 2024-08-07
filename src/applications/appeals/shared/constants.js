@@ -48,6 +48,9 @@ export const COVID_FAQ_URL =
 
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const PROFILE_URL = '/profile';
+export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
+export const MST_COORD_URL =
+  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
 
 export const REVIEW_AND_SUBMIT = '/review-and-submit';
 

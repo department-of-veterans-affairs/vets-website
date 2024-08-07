@@ -7,7 +7,7 @@ import contactsSingleNok from '@@profile/tests/fixtures/contacts-single-nok.json
 import { PROFILE_PATHS } from '@@profile/constants';
 import { loa3User72, nonVeteranUser } from '@@profile/mocks/endpoints/user';
 
-describe('Personal health care contacts -- feature enabled', () => {
+describe('Personal health care contacts', () => {
   beforeEach(() => {
     const otherEndpoints = [
       '/v0/profile/ch33_bank_accounts',

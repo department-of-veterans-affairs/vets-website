@@ -1,93 +1,130 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import {
-  createPayload,
-  parseResponse,
-  setPlannedClinics,
+  hideCaregiverRequiredAlert,
+  hideUploadWarningAlert,
+  primaryHasDifferentMailingAddress,
+  secondaryOneHasDifferentMailingAddress,
+  secondaryTwoHasDifferentMailingAddress,
 } from '../../../../utils/helpers/form-config';
 
-describe('CG `createPayload` method', () => {
-  let mockFile;
-  let formId;
-
-  beforeEach(() => {
-    mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
-    formId = '1234';
+describe('CG `hideCaregiverRequiredAlert` method', () => {
+  it('should return `true` when primary caregiver is defined', () => {
+    const formData = { 'view:hasPrimaryCaregiver': true };
+    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
   });
 
-  it('should create a FormData instance with form_id and file', () => {
-    const payload = createPayload(mockFile, formId);
-
-    expect(payload.get('form_id')).to.equal(formId);
-    expect(payload.get('attachment[file_data]')).to.equal(mockFile);
-    expect(payload.get('attachment[password]')).to.be.null;
+  it('should return `true` when secondary caregiver is defined', () => {
+    const formData = { 'view:hasSecondaryCaregiverOne': true };
+    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
   });
 
-  it('should append password to FormData if provided', () => {
-    const password = 'password';
-    const payload = createPayload(mockFile, formId, password);
-
-    expect(payload.get('form_id')).to.equal(formId);
-    expect(payload.get('attachment[file_data]')).to.equal(mockFile);
-    expect(payload.get('attachment[password]')).to.equal(password);
-  });
-});
-
-describe('CG `parseResponse` method', () => {
-  const response = {
-    data: {
-      attributes: {
-        guid: 'test-guid',
-      },
-      id: 'test-id',
-    },
-  };
-  let recordEventStub;
-  let mockFile;
-  let mockResult;
-
-  beforeEach(() => {
-    recordEventStub = sinon.stub(recordEventModule, 'default');
-    mockFile = new File(['test'], 'test.txt', { type: 'text/plain' });
-    mockResult = parseResponse(response, mockFile);
+  it('should return `true` when secondary caregiver is undefined', () => {
+    const formData = {
+      'view:hasPrimaryCaregiver': false,
+      'view:hasSecondaryCaregiverOne': undefined,
+    };
+    expect(hideCaregiverRequiredAlert(formData)).to.be.true;
   });
 
-  afterEach(() => {
-    recordEventStub.restore();
-  });
-
-  it('should return an object with the name, confirmation code and guid', () => {
-    expect(mockResult).to.deep.equal({
-      name: 'test.txt',
-      confirmationCode: 'test-id',
-      guid: 'test-guid',
-    });
-  });
-
-  it('should call the `recordEvent` helper to send event to Google Analytics', () => {
-    expect(
-      recordEventStub.calledWith({
-        'caregivers-poa-document-guid': 'test-guid',
-        'caregivers-poa-document-confirmation-code': 'test-id',
-      }),
-    ).to.be.true;
+  it('should return `false` when no caregiver is defined', () => {
+    const formData = {
+      'view:hasPrimaryCaregiver': false,
+      'view:hasSecondaryCaregiverOne': false,
+    };
+    expect(hideCaregiverRequiredAlert(formData)).to.be.false;
   });
 });
 
-describe('CG `setPlannedClinics` method', () => {
-  it('should set an empty array if no state is set', () => {
-    const result = setPlannedClinics({});
-    expect(result.enum).to.be.empty;
+describe('CG `hideUploadWarningAlert` method', () => {
+  it('should return `true` when file data contains an error message', () => {
+    const formData = {
+      signAsRepresentativeDocumentUpload: [
+        { name: 'test-name', guid: 'test-guid', errorMessage: 'test-error' },
+      ],
+    };
+    expect(hideUploadWarningAlert(formData)).to.be.true;
   });
 
-  it('should set an empty array if selected state does not have an available clinic', () => {
-    const result = setPlannedClinics({ 'view:plannedClinicState': 'AS' });
-    expect(result.enum).to.be.empty;
+  it('should return `false` when valid file data exists', () => {
+    const formData = {
+      signAsRepresentativeDocumentUpload: [
+        { name: 'test-name', guid: 'test-guid' },
+      ],
+    };
+    expect(hideUploadWarningAlert(formData)).to.be.false;
   });
 
-  it('should populate the array with clinics when available', () => {
-    const result = setPlannedClinics({ 'view:plannedClinicState': 'IN' });
-    expect(result.enum).to.not.be.empty;
+  it('should return `false` if upload array is empty', () => {
+    const formData = { signAsRepresentativeDocumentUpload: [] };
+    expect(hideUploadWarningAlert(formData)).to.be.false;
+  });
+});
+
+describe('CG `primaryHasDifferentMailingAddress` method', () => {
+  it('should return `false` when primary caregiver is not defined', () => {
+    const formData = { 'view:hasPrimaryCaregiver': false };
+    expect(primaryHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `false` when user indicates home & mailing addresses are the same', () => {
+    const formData = {
+      'view:hasPrimaryCaregiver': true,
+      'view:primaryHomeSameAsMailingAddress': true,
+    };
+    expect(primaryHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `true` when user indicates home & mailing addresses are different', () => {
+    const formData = {
+      'view:hasPrimaryCaregiver': true,
+      'view:primaryHomeSameAsMailingAddress': false,
+    };
+    expect(primaryHasDifferentMailingAddress(formData)).to.be.true;
+  });
+});
+
+describe('CG `secondaryOneHasDifferentMailingAddress` method', () => {
+  it('should return `false` when primary caregiver is not defined', () => {
+    const formData = { 'view:hasSecondaryCaregiverOne': false };
+    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `false` when user indicates home & mailing addresses are the same', () => {
+    const formData = {
+      'view:hasSecondaryCaregiverOne': true,
+      'view:secondaryOneHomeSameAsMailingAddress': true,
+    };
+    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `true` when user indicates home & mailing addresses are different', () => {
+    const formData = {
+      'view:hasSecondaryCaregiverOne': true,
+      'view:secondaryOneHomeSameAsMailingAddress': false,
+    };
+    expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.true;
+  });
+});
+
+describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
+  it('should return `false` when primary caregiver is not defined', () => {
+    const formData = { 'view:hasSecondaryCaregiverTwo': false };
+    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `false` when user indicates home & mailing addresses are the same', () => {
+    const formData = {
+      'view:hasSecondaryCaregiverTwo': true,
+      'view:secondaryTwoHomeSameAsMailingAddress': true,
+    };
+    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.false;
+  });
+
+  it('should return `true` when user indicates home & mailing addresses are different', () => {
+    const formData = {
+      'view:hasSecondaryCaregiverTwo': true,
+      'view:secondaryTwoHomeSameAsMailingAddress': false,
+    };
+    expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.true;
   });
 });

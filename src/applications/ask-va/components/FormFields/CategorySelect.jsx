@@ -75,7 +75,6 @@ const CategorySelect = props => {
         onVaSelect={handleChange}
         uswds
       >
-        <option value="">&nbsp;</option>
         {apiData.map(category => (
           <option
             key={category.id}

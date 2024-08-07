@@ -10,8 +10,8 @@ describe('Submit transformer', () => {
     expect(result.medicalUpload[0].documentType).to.equal(
       'itemized billing statement',
     );
-    expect(result.primaryEOB[0].documentType).to.equal('EOB');
-    expect(result.secondaryEOB[0].documentType).to.equal('EOB');
+    expect(result.primaryEob[0].documentType).to.equal('Eob');
+    expect(result.secondaryEob[0].documentType).to.equal('Eob');
   });
 
   it('should set primary contact name to false if not present', () => {
@@ -25,7 +25,7 @@ describe('Submit transformer', () => {
     expect(result.medicalUpload[0].documentType).to.equal(
       'itemized billing statement',
     );
-    expect(result.primaryEOB[0].documentType).to.equal('EOB');
-    expect(result.secondaryEOB[0].documentType).to.equal('EOB');
+    expect(result.primaryEob[0].documentType).to.equal('Eob');
+    expect(result.secondaryEob[0].documentType).to.equal('Eob');
   });
 });

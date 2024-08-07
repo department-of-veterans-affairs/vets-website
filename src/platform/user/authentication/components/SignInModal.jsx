@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/keep-react-modal */
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -25,7 +26,6 @@ export default class SignInModal extends React.Component {
         onClose={this.props.onClose}
         id="signin-signup-modal"
       >
-        {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
         <LoginContainer />
       </Modal>
     );

@@ -22,6 +22,12 @@ const messages = require('./secure-messaging/messages');
 const maintenanceWindows = require('./secure-messaging/endpoints/maintenance-windows');
 const allRecipients = require('./secure-messaging/allrecipients');
 
+const session = require('./medical-records/session');
+const status = require('./medical-records/status');
+const labsAndTests = require('./medical-records/labs-and-tests');
+const mhvRadiology = require('./medical-records/mhv-radiology');
+const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
@@ -79,6 +85,16 @@ const responses = {
   'POST /my_health/v1/messaging/messages': messages.single,
   'POST /my_health/v1/messaging/message_drafts': messages.saveNewDraft,
   'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
+
+  // medical records
+  'GET /my_health/v1/medical_records/session': session.error,
+  'GET /my_health/v1/medical_records/status': status.error,
+  'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
+  'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
+  'GET /my_health/v1/medical_records/radiology': mhvRadiology.all,
+  'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
+  'GET /my_health/v1/medical_records/clinical_notes/:id':
+    careSummariesAndNotes.single,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner

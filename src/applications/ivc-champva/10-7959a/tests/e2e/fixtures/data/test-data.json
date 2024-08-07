@@ -29,7 +29,7 @@
         "isEncrypted": false
       }
     ],
-    "primaryEOB": [
+    "primaryEob": [
       {
         "name": "Document1.png",
         "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b65",
@@ -37,7 +37,7 @@
         "isEncrypted": false
       }
     ],
-    "secondaryEOB": [
+    "secondaryEob": [
       {
         "name": "Document1.png",
         "confirmationCode": "3b4a6ba3-f6a0-4257-b383-b001e20c5b66",

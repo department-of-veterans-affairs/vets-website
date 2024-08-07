@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
   updateSharingStatus,
   clearSharingStatus,
 } from '../actions/sharing';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { pageTitles } from '../util/constants';
 
 const SettingsPage = () => {
@@ -20,6 +21,7 @@ const SettingsPage = () => {
   const statusError = useSelector(state => state.mr.sharing.statusError);
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showSharingModal, setShowSharingModal] = useState(false);
 
   useEffect(
     () => {
@@ -38,6 +40,7 @@ const SettingsPage = () => {
   );
 
   const handleUpdateSharing = currentOptInStatus => {
+    setShowSharingModal(false);
     dispatch(clearSharingStatus()).then(() => {
       dispatch(updateSharingStatus(!currentOptInStatus)).then(() => {
         setShowSuccessAlert(true);
@@ -63,11 +66,12 @@ const SettingsPage = () => {
             </p>
             <p>
               You can also {optInError ? 'opt in to' : 'opt out of'} sharing
-              your records by submitting a form to your VA health facility.
+              your records by submitting VA Form 10-10163 to your VA Health
+              facility.
             </p>
             <p>
-              <a href="/my-health/medical-records/settings">
-                Learn how to opt {optInError ? 'in' : 'out'} using a form
+              <a href="https://www.va.gov/resources/about-electronic-health-information-sharing-at-va/">
+                Learn how to opt {optInError ? 'in' : 'out'} by form
               </a>
             </p>
           </va-alert>
@@ -87,7 +91,7 @@ const SettingsPage = () => {
           </p>
           <p>
             If you’re still having trouble, call your VA health facility and ask
-            for the medical records office.
+            for the medical records Release of Information office.
           </p>
           <p>
             <a href="/find-locations/?facilityType=health">
@@ -128,8 +132,9 @@ const SettingsPage = () => {
         </va-alert>
         {isSharing ? (
           <p>
-            We automatically include you in this online sharing program. You can
-            opt out (ask us not to share your records) at any time.
+            We’ll share your electronic health information with participating
+            non-VA providers when they’re treating you. You can opt out (ask us
+            not to share your records) at any time.
           </p>
         ) : (
           <p>
@@ -139,14 +144,63 @@ const SettingsPage = () => {
           </p>
         )}
         <va-button
+          data-testid="open-opt-in-out-modal-button"
           text={isSharing ? 'Opt out' : 'Opt back in'}
-          onClick={() =>
-            // setShareStatus(formSelection);
-            // setOptedIn(!isSharing);
-            handleUpdateSharing(isSharing)
-          }
+          onClick={() => setShowSharingModal(true)}
         />
       </va-card>
+    );
+  };
+
+  const sharingModalContent = () => {
+    const title = `Opt ${
+      isSharing ? 'out of' : 'back in to'
+    } sharing your electronic health information?`;
+    return (
+      <VaModal
+        modalTitle={title}
+        onCloseEvent={() => setShowSharingModal(false)}
+        onPrimaryButtonClick={() => handleUpdateSharing(isSharing)}
+        onSecondaryButtonClick={() => setShowSharingModal(false)}
+        primaryButtonText={isSharing ? 'Yes, opt out' : 'Yes, opt in'}
+        secondaryButtonText={
+          isSharing ? "No, don't opt out" : "No, don't opt in"
+        }
+        visible
+      >
+        <p>Equal to VA Form 10-10163</p>
+        {isSharing ? (
+          <>
+            <p>
+              If you opt out, your providers may not get your health information
+              before treating you.
+            </p>
+            <p>
+              By opting out, you certify that you’re taking this action freely,
+              voluntarily, and without coercion. Your new sharing setting will
+              stay in effect, unless you opt back in. You can opt back in at any
+              time.
+            </p>
+            <p>
+              <strong>Note:</strong> We may still share your health information
+              with your non-VA providers in other ways, including by mail or
+              fax.
+            </p>
+          </>
+        ) : (
+          <>
+            <p>
+              If you opt back in, we’ll share your electronic health information
+              with participating non-VA providers when they’re treating you.
+            </p>
+            <p>
+              By opting in, you certify that you’re taking this action freely,
+              voluntarily, and without coercion. Your new sharing setting will
+              stay in effect, unless you opt out. You can opt out at any time.
+            </p>
+          </>
+        )}
+      </VaModal>
     );
   };
 
@@ -154,47 +208,61 @@ const SettingsPage = () => {
     <div className="settings vads-u-margin-bottom--5">
       <section>
         <h1>Medical records settings</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 va-introtext">
-          Review and update your medical records sharing and notification
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">
+          Learn how to manage your medical records sharing and notification
           settings.
         </p>
       </section>
       <section>
-        <h2>Manage your sharing settings</h2>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Manage your sharing settings
+        </h2>
         <p>
-          The Veterans Health Information Exchange program is a secure online
-          system that gives participating community care providers instant
-          access to your VA medical records.
+          We securely share your electronic health information with
+          participating non-VA health care providers and federal partners when
+          they’re treating you.
         </p>
         <p>
-          We share your records with your providers only when they’re treating
-          you. Ask your community care providers if they participate in this
-          program.
+          We automatically include you in electronic sharing. You can change
+          your sharing settings at any time.
         </p>
-        <h3>What we share through this program:</h3>
-        <ul>
-          <li>
-            All allergies, vaccines, medications, and health conditions in your
-            VA medical records
-          </li>
-          <li>
-            Recent lab and test results, vitals, and care summaries and notes
-            from VA providers
-          </li>
-          <li>List of your past and future appointments with VA providers</li>
-          <li>
-            Other information your providers may need, such as your emergency
-            contacts
-          </li>
-        </ul>
+
+        <div className="vads-u-margin-bottom--3">
+          <va-additional-info trigger="What your electronic health information includes">
+            <ul>
+              <li>
+                All allergies and reactions, vaccines, medications, and health
+                conditions in your VA medical records
+              </li>
+              <li>
+                Recent lab and test results, vitals, and care summaries and
+                notes from VA providers
+              </li>
+              <li>
+                List of your past and future appointments with VA providers
+              </li>
+              <li>
+                Other information your providers may need, such as your
+                emergency contacts
+              </li>
+            </ul>
+          </va-additional-info>
+        </div>
+        {showSharingModal && sharingModalContent()}
         {sharingCardContent()}
       </section>
       <section>
-        <h2>Manage notification settings</h2>
         <p>
-          You can sign up to get email notifications when you have new lab and
-          test results or images available. You can also opt out of email
-          notifications at any time.
+          <strong>Note:</strong> If you’ve recently submitted a PDF form to opt
+          out, or to opt back in, your request may be in process.
+        </p>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Manage your notification settings
+        </h2>
+        <p>
+          You can sign up to get email notifications when medical images you
+          requested are available. You can also opt out of email notifications
+          at any time.
         </p>
         <p>
           To review or update your notification settings, go to your profile

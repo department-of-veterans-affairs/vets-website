@@ -106,7 +106,7 @@ describe('hca IdentityPage', () => {
 
       fireEvent.click(selector);
       expect(dispatch.called).to.be.true;
-      expect(dispatch.calledWith(toggleLoginModal(true))).to.be.true;
+      expect(dispatch.calledWithMatch(toggleLoginModal(true))).to.be.true;
     });
   });
 

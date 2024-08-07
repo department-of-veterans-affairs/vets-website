@@ -8,7 +8,7 @@ import {
   MED_CENTERS_BY_STATE,
   STATE_LABELS,
 } from '../../../utils/constants';
-import { setPlannedClinics } from '../../../utils/helpers/form-config';
+import { setPlannedClinics } from '../../../utils/helpers/schema';
 import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
