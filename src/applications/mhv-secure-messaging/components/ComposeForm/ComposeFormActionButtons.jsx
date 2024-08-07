@@ -37,7 +37,7 @@ const ComposeFormActionButtons = ({
             vads-u-width--full
           `}
           data-testid={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
-          data-dd-action-name="Send Message"
+          data-dd-action-name="Send Message TEST"
           onClick={onSend}
         />
       )}
