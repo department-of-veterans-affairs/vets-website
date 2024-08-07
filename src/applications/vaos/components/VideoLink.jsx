@@ -30,7 +30,6 @@ export default function VideoLink({ appointment }) {
             href={url}
             className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-top--2"
             aria-describedby={`description-join-link-${appointment.id}`}
-            onClick={e => e.preventDefault()}
           >
             Join appointment
           </NewTabAnchor>
