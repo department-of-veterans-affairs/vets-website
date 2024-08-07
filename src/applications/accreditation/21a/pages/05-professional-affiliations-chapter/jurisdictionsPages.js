@@ -1,5 +1,6 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
@@ -9,7 +10,6 @@ import {
   selectUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import ProfessionalAffiliationsIntro from '../../components/05-professional-affiliations-chapter/ProfessionalAffiliationsIntro';
@@ -53,10 +53,12 @@ const introPage = {
 /** @returns {PageSchema} */
 const jurisdictionPage = {
   uiSchema: {
-    ...titleUI(
-      'Jurisdiction',
-      'List each jurisdiction to which you are admitted. You will be able to add additional jurisdictions on the next screen.',
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Jurisdiction',
+      description:
+        'List each jurisdiction to which you are admitted. You will be able to add additional jurisdictions on the next screen.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     jurisdiction: selectUI('Jurisdiction'),
     otherJurisdiction: textUI({
       title: 'Name of jurisdiction',

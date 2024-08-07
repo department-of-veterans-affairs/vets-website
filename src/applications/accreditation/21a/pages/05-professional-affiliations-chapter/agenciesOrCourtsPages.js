@@ -1,12 +1,12 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { formatReviewDate } from '../helpers/formatReviewDate';
@@ -33,10 +33,12 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const agencyOrCourtPage = {
   uiSchema: {
-    ...titleUI(
-      'State or Federal agency or court',
-      'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'State or Federal agency or court',
+      description:
+        'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     name: textUI('Name of agency/court'),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
