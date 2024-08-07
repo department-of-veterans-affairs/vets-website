@@ -28,12 +28,6 @@ describe(appName, () => {
         });
         cy.injectAxeThenAxeCheck();
 
-        // Log the page content
-        cy.log('Page Content:');
-        cy.get('body').then($body => {
-          cy.log($body.text());
-        });
-
         // Test that the unverified identity message is present
         cy.findByRole('heading', {
           name: verifyIdentityHeading,
