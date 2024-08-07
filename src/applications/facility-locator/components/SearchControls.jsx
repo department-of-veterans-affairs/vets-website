@@ -170,6 +170,7 @@ const SearchControls = props => {
               onClick={handleGeolocationButtonClick}
               type="button"
               className="use-my-location-link"
+              aria-describedby="street-city-state-zip-label"
             >
               <va-icon icon="near_me" size={3} />
               Use my location
