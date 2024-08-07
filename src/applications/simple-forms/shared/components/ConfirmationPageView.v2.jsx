@@ -121,68 +121,61 @@ export const ConfirmationPageView = props => {
     );
   };
 
-  // const removeNullValues = item => {
-  //   if (Array.isArray(item)) {
-  //     const filteredArray = item
-  //       .map(subItem => removeNullValues(subItem))
-  //       .flat(Infinity)
-  //       .filter(subItem => subItem !== null && subItem !== undefined);
-  //     return filteredArray.length > 0 ? filteredArray : null;
-  //   }
+  const fieldEntries = (key, value, data, schema) => {
+    if (key.startsWith('view:')) return null;
+    if (key.startsWith('ui:')) return null;
 
-  //   return item !== null && item !== undefined ? [item] : [];
-  // };
+    const label = value['ui:title'];
+    const description = value['ui:description'];
+
+    let refinedData = typeof data === 'object' ? data[key] : data;
+    const dataType = schema.properties[key].type;
+
+    const ReviewField = value['ui:reviewField'];
+    const ReviewWidget = value['ui:reviewWidget'];
+
+    if (isReactComponent(ReviewField)) {
+      const reviewProps = { children: { props: { formData: refinedData } } };
+      return <ReviewField {...reviewProps} />;
+    }
+
+    if (isReactComponent(ReviewWidget)) {
+      const reviewProps = { name: label, value: refinedData };
+      refinedData = <ReviewWidget {...reviewProps} />;
+    }
+
+    if (dataType === 'object') {
+      return Object.entries(value).flatMap(([objKey, objVal]) => {
+        return fieldEntries(
+          objKey,
+          objVal,
+          data[objKey],
+          schema.properties[key],
+        );
+      });
+    }
+
+    if (dataType === 'array') {
+      return data.map(dataPoint => {
+        return Object.entries(value.items).flatMap(([arrKey, arrVal]) => {
+          return fieldEntries(
+            arrKey,
+            arrVal,
+            dataPoint[arrKey],
+            schema.properties[key].items,
+          );
+        });
+      });
+    }
+
+    return reviewEntry(description, key, value, label, refinedData);
+  };
 
   const buildFields = chapter => {
     return chapter.expandedPages.flatMap(page =>
       Object.entries(page.uiSchema).map(([uiSchemaKey, uiSchemaValue]) => {
-        if (uiSchemaKey.startsWith('view:')) return null;
-        if (uiSchemaKey.startsWith('ui:')) return null;
-
-        let label = uiSchemaValue['ui:title'];
-        let description = uiSchemaValue['ui:description'];
-        const dataType = page.schema.properties[uiSchemaKey].type;
-        let data = formData[uiSchemaKey];
-        const ReviewField = uiSchemaValue['ui:reviewField'];
-        const ReviewWidget = uiSchemaValue['ui:reviewWidget'];
-
-        if (isReactComponent(ReviewField)) {
-          const reviewProps = { children: { props: { formData: data } } };
-          return <ReviewField {...reviewProps} />;
-        }
-
-        if (isReactComponent(ReviewWidget)) {
-          const reviewProps = { name: label, value: data };
-          data = <ReviewWidget {...reviewProps} />;
-        }
-
-        if (dataType === 'object') {
-          return Object.entries(uiSchemaValue).map(([key, value]) => {
-            if (key.startsWith('view:')) return null;
-            if (key.startsWith('ui:')) return null;
-
-            label = value['ui:title'];
-            description = value['ui:description'];
-
-            return reviewEntry(description, key, value, label, data[key]);
-          });
-        }
-
-        if (dataType === 'array') {
-          return (
-            <li key={uiSchemaKey}>
-              {uiSchemaKey}: {dataType}
-            </li>
-          );
-        }
-
-        return reviewEntry(
-          description,
-          uiSchemaKey,
-          uiSchemaValue,
-          label,
-          data,
-        );
+        const data = formData[uiSchemaKey];
+        return fieldEntries(uiSchemaKey, uiSchemaValue, data, page.schema);
       }),
     );
   };
