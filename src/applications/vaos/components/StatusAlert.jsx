@@ -52,11 +52,7 @@ export default function StatusAlert({ appointment, facility }) {
   ]);
   const { status } = appointment;
 
-  if (
-    featureAfterVisitSummary &&
-    featureAppointmentDetailsRedesign &&
-    APPOINTMENT_STATUS.proposed === status
-  ) {
+  if (APPOINTMENT_STATUS.proposed === status) {
     return (
       <InfoAlert backgroundOnly status={showConfirmMsg ? 'success' : 'info'}>
         <p>

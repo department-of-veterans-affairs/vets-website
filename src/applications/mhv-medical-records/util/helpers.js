@@ -214,11 +214,12 @@ export const extractContainedByRecourceType = (
       refArray.push(entry.reference.replace('#', '')),
     );
     const returnRecord = isArrayAndHasItems(record.contained)
-      ? record.contained
-          .filter(item => refArray.includes(item.id))
-          .filter(item => item.resourceType === resourceType)
+      ? record.contained.find(
+          item =>
+            refArray.includes(item.id) && item.resourceType === resourceType,
+        )
       : null;
-    return isArrayAndHasItems(returnRecord) ? returnRecord : null;
+    return returnRecord || null;
   }
   return null;
 };
@@ -406,4 +407,13 @@ export const getStatusExtractPhase = (
     return refreshPhases.FAILED;
   }
   return refreshPhases.CURRENT;
+};
+
+export const decodeBase64Report = data => {
+  if (data && typeof data === 'string') {
+    return Buffer.from(data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };

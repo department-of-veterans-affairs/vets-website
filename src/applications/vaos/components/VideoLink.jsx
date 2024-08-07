@@ -19,8 +19,6 @@ export default function VideoLink({ appointment }) {
         <>
           We'll add the link to join this appointment 30 minutes before your
           appointment time.
-          <br />
-          <br />
         </>
       )}
 
@@ -28,12 +26,10 @@ export default function VideoLink({ appointment }) {
         <>
           Join the video appointment using the link.
           <br />
-          <br />
           <NewTabAnchor
             href={url}
-            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--3"
+            className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-top--2"
             aria-describedby={`description-join-link-${appointment.id}`}
-            onClick={e => e.preventDefault()}
           >
             Join appointment
           </NewTabAnchor>

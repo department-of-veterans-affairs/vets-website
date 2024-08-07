@@ -1,34 +1,89 @@
-import recordEvent from 'platform/monitoring/record-event';
-import { MED_CENTERS_BY_STATE } from '../constants';
-
-export const createPayload = (file, formId, password) => {
-  const payload = new FormData();
-  payload.append('attachment[file_data]', file);
-  payload.append('form_id', formId);
-  payload.append('name', file.name);
-
-  // password for encrypted PDFs
-  if (password) {
-    payload.append('attachment[password]', password);
-  }
-
-  return payload;
+export const hasPrimaryCaregiver = formData => {
+  return formData['view:hasPrimaryCaregiver'] === true;
 };
 
-export const parseResponse = (fileInfo, file) => {
-  recordEvent({
-    'caregivers-poa-document-guid': fileInfo.data.attributes.guid,
-    'caregivers-poa-document-confirmation-code': fileInfo.data.id,
-  });
+export const hasSecondaryCaregiverOne = formData =>
+  formData['view:hasSecondaryCaregiverOne'] === true;
 
-  return {
-    guid: fileInfo.data.attributes.guid,
-    confirmationCode: fileInfo.data.id,
-    name: file.name,
+export const hasSecondaryCaregiverTwo = formData =>
+  formData['view:hasSecondaryCaregiverTwo'] === true;
+
+export const hideCaregiverRequiredAlert = formData => {
+  const hasPrimary = hasPrimaryCaregiver(formData);
+  const hasSecondary = hasSecondaryCaregiverOne(formData);
+  const isSecondaryOneUndefined =
+    formData['view:hasSecondaryCaregiverOne'] === undefined;
+  return hasPrimary || hasSecondary || isSecondaryOneUndefined;
+};
+
+export const hideUploadWarningAlert = formData => {
+  const { signAsRepresentativeDocumentUpload: upload } = formData;
+  const hasDocument = upload?.length;
+
+  if (!hasDocument) return false;
+
+  const { guid, name, errorMessage } = upload[0];
+  return !(guid && name && !errorMessage);
+};
+
+export const isSsnUnique = formData => {
+  const {
+    veteranSsnOrTin,
+    primarySsnOrTin,
+    secondaryOneSsnOrTin,
+    secondaryTwoSsnOrTin,
+  } = formData;
+
+  const checkIfPartyIsPresent = (comparator, data) => {
+    return comparator(formData) ? data : undefined;
   };
+
+  const presentPrimarySsn = checkIfPartyIsPresent(
+    hasPrimaryCaregiver,
+    primarySsnOrTin,
+  );
+
+  const presentSecondaryOneSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverOne,
+    secondaryOneSsnOrTin,
+  );
+
+  const presentSecondaryTwoSsn = checkIfPartyIsPresent(
+    hasSecondaryCaregiverTwo,
+    secondaryTwoSsnOrTin,
+  );
+
+  const allSSNs = [
+    veteranSsnOrTin,
+    presentPrimarySsn,
+    presentSecondaryOneSsn,
+    presentSecondaryTwoSsn,
+  ];
+
+  const allValidSSNs = allSSNs.filter(ssn => ssn !== undefined);
+
+  const checkIfArrayIsUnique = array => array.length === new Set(array).size;
+
+  return checkIfArrayIsUnique(allValidSSNs);
 };
 
-export const setPlannedClinics = formData => {
-  const state = formData['view:plannedClinicState'];
-  return { enum: MED_CENTERS_BY_STATE[state] || [] };
+export const primaryHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasPrimaryCaregiver(formData);
+  const hasDifferentMailingAddress =
+    formData['view:primaryHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
+};
+
+export const secondaryOneHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasSecondaryCaregiverOne(formData);
+  const hasDifferentMailingAddress =
+    formData['view:secondaryOneHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
+};
+
+export const secondaryTwoHasDifferentMailingAddress = formData => {
+  const hasCaregiver = hasSecondaryCaregiverTwo(formData);
+  const hasDifferentMailingAddress =
+    formData['view:secondaryTwoHomeSameAsMailingAddress'] === false;
+  return hasCaregiver && hasDifferentMailingAddress;
 };
