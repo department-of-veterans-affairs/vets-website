@@ -16,6 +16,8 @@ import ProfessionalAffiliationsIntro from '../../components/05-professional-affi
 import { jurisdictionOptions } from '../../constants/jurisdictions';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+const dependsOn = formData => formData.standingWithBar;
+
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'jurisdictions',
@@ -118,18 +120,21 @@ const jurisdictionsPages = arrayBuilderPages(
     jurisdictions: pageBuilder.introPage({
       title: 'Professional affiliations',
       path: 'professional-affiliations',
+      depends: formData => dependsOn(formData),
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
     jurisdictionsSummary: pageBuilder.summaryPage({
       title: 'Review your jurisdictions',
       path: 'jurisdictions-summary',
+      depends: formData => dependsOn(formData),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     jurisdictionPage: pageBuilder.itemPage({
       title: 'Jurisdiction',
       path: 'jurisdictions/:index/jurisdiction',
+      depends: formData => dependsOn(formData),
       uiSchema: jurisdictionPage.uiSchema,
       schema: jurisdictionPage.schema,
     }),
