@@ -21,6 +21,7 @@ import touData from '../touData';
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
   const isAuthenticatedWithIAM = useSelector(isAuthenticatedWithSSOe);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
@@ -57,6 +58,7 @@ export default function TermsOfUse() {
     const termsCode = termsCodeExists
       ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
       : '';
+    setIsDisabled(true);
 
     try {
       const response = await apiRequest(
@@ -71,11 +73,13 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
+          setIsDisabled(false);
           window.location = parseRedirectUrl(redirectUrl);
         }
 
         if (type === 'decline') {
           setShowDeclineModal(false);
+          setIsDisabled(false);
           declineAndLogout({
             termsCodeExists,
             shouldRedirectToMobile,
@@ -86,6 +90,7 @@ export default function TermsOfUse() {
     } catch (err) {
       if (type === 'decline') setShowDeclineModal(true);
       setError({ isError: true, message: errorMessages.network });
+      setIsDisabled(false);
     }
   };
 
@@ -194,6 +199,7 @@ export default function TermsOfUse() {
             setShowDeclineModal={setShowDeclineModal}
             isFullyAuthenticated={isFullyAuthenticated}
             isUnauthenticated={isUnauthenticated}
+            isDisabled={isDisabled}
           />
         </article>
         <VaModal

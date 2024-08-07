@@ -10,6 +10,7 @@ export default function TermsAcceptance({
   setShowDeclineModal,
   isFullyAuthenticated,
   isUnauthenticated,
+  isDisabled,
 }) {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
   const className = isUnauthenticated ? 'hidden' : '';
@@ -36,12 +37,14 @@ export default function TermsAcceptance({
               </va-alert>
             )}
             <va-button
+              disabled={isDisabled}
               data-testid="accept"
               text={acceptBtnText}
               onClick={() => handleTouClick('accept')}
               ariaLabel="Accept the VA online services terms of use"
             />
             <va-button
+              disabled={isDisabled}
               data-testid="decline"
               text="Decline"
               secondary
