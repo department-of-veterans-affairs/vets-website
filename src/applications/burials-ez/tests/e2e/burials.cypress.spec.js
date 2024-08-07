@@ -99,7 +99,9 @@ export const setup = ({ authenticated } = {}) => {
 export const pageHooks = cy => ({
   introduction: () => {
     // skip wizard
-    cy.findAllByText(/Start the Burial Benefits Application/i)
+    cy.findAllByText(
+      /Start the burial allowance and transportation benefits application/i,
+    )
       .first()
       .click();
   },
@@ -160,7 +162,7 @@ export const pageHooks = cy => ({
 const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
-    appName: 'Burials V2',
+    appName: 'Burials EZ',
     dataPrefix: 'data',
     dataDir: null,
     dataSets: [
