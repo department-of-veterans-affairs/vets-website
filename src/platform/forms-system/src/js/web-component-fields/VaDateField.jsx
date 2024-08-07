@@ -1,11 +1,11 @@
 import React from 'react';
-import { VaMemorableDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useVaDateCommon } from './useVaDateCommon';
 
 /**
  * @param {WebComponentFieldProps} props
  */
-export default function VaMemorableDateField(props) {
+export default function VaDateField(props) {
   const {
     mappedProps,
     formattedValue,
@@ -14,9 +14,9 @@ export default function VaMemorableDateField(props) {
   } = useVaDateCommon(props);
 
   return (
-    <VaMemorableDate
+    <VaDate
       {...mappedProps}
-      monthSelect={props.uiOptions?.monthSelect ?? true}
+      monthYearOnly={props.uiOptions?.monthYearOnly ?? false}
       onDateChange={onDateChange}
       onDateBlur={onDateBlur}
       value={formattedValue}
