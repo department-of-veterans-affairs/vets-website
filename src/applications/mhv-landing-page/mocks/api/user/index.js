@@ -71,7 +71,7 @@ const defaultUser = {
 };
 
 const generateUser = ({
-  serviceProvider = 'idme',
+  serviceName = 'idme',
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
@@ -91,7 +91,7 @@ const generateUser = ({
           ...defaultUser.data.attributes.profile,
           loa: { current: loa },
           sign_in: {
-            service_name: serviceProvider,
+            service_name: serviceName,
           },
         },
       },

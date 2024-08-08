@@ -49,7 +49,7 @@ const LandingPage = ({ data = {} }) => {
             showWelcomeMessage={showWelcomeMessage}
             showLearnMore={userRegistered}
           />
-          <Alerts userRegistered={userRegistered} userVerified={userVerified} />
+          <Alerts />
           {userRegistered && <CardLayout data={cards} />}
         </div>
         {userRegistered && (
