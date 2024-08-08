@@ -47,7 +47,6 @@
 .ts-footer-container,
 #ts-login-modal-container,
 #ts-modal-crisisline {
-  $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
   $font-path: "/fonts";
   $image-path: "~uswds/src/img";
   $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
@@ -56,10 +55,7 @@
   @import "~@department-of-veterans-affairs/formation/sass/core";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-  /*!
-   * Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com
-   * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
-   */
+
 
   $font-stack: "Source Sans Pro",
   "Helvetica Neue",
