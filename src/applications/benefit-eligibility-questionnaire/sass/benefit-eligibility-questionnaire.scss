@@ -5,3 +5,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+#root_characterOfDischarge-label .schemaform-required-span {
+  display: none;
+}
+
+#root_characterOfDischarge-label p .schemaform-required-span {
+  display: inline;
+}

@@ -261,7 +261,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyMessageDetails = (messageDetails = mockMessage) => {
-    cy.get(Locators.MESS_ID).should(
+    cy.get(Locators.MSG_ID).should(
       'contain',
       messageDetails.data.attributes.messageId,
     );
@@ -407,7 +407,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageTo = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="to"]')
+    cy.get(Locators.TO)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -416,7 +416,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageId = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-id"]')
+    cy.get(Locators.MSG_ID)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -425,7 +425,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
         'have.text',

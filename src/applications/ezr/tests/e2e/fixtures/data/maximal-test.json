@@ -155,6 +155,10 @@
       "gulfWarStartDate": "1990-09-XX",
       "gulfWarEndDate": "1991-01-XX"
     },
+    "view:toxicExposureDates": {
+      "toxicExposureStartDate": "1990-09-XX",
+      "toxicExposureEndDate": "1990-09-XX"
+    },
     "privacyAgreementAccepted": true
   }
 }

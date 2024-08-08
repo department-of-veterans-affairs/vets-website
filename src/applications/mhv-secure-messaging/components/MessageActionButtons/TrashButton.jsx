@@ -57,6 +57,7 @@ const TrashButton = props => {
     props.visible && (
       <>
         <button
+          id="trash-button"
           type="button"
           className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
           style={{ minWidth: '100px' }}

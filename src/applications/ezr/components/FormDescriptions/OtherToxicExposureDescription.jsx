@@ -8,8 +8,8 @@ const OtherToxicExposureDescription = (
         rel="noreferrer"
         href="https://www.publichealth.va.gov/exposures/index.asp"
       >
-        Learn more about exposures on our Public Health website (opens in new
-        tab)
+        Find more military exposure categories on our Public Health website
+        (opens in a new tab)
       </a>
     </div>
   </>

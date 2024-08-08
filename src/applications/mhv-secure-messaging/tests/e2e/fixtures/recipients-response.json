@@ -95,6 +95,18 @@
         "preferredTeam": true,
         "relationshipType": "PATIENT"
       }
+    },
+    {
+      "id": "3658299",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 3658299,
+        "name": "OH TG GROUP 002",
+        "stationNumber": "989",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT"
+      }
     }
   ],
   "meta": {

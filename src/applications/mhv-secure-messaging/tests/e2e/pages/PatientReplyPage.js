@@ -120,7 +120,7 @@ class PatientReplyPage {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
       cy.log('message index = 0');
-      cy.get(Locators.MES_DATE)
+      cy.get(Locators.MSG_DATE)
         .eq(messageIndex)
         .should(
           'have.text',
@@ -130,7 +130,7 @@ class PatientReplyPage {
           )}`,
         );
     } else {
-      cy.get(Locators.MES_DATE)
+      cy.get(Locators.MSG_DATE)
         .eq(messageIndex)
         .should(
           'have.text',

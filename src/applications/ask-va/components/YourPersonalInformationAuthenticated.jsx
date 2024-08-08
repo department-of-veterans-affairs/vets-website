@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-
+import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import prefillTransformer from '../config/prefill-transformer';
 
@@ -34,6 +34,7 @@ const PersonalAuthenticatedInformation = ({
   }
 
   useEffect(() => {
+    focusElement('h2');
     if (!formData.aboutYourself.first) {
       setFormData({
         ...prefillData.formData,
@@ -45,7 +46,7 @@ const PersonalAuthenticatedInformation = ({
     <>
       <div>
         <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-          <h3>Your personal information</h3>
+          <h2 className="vads-u-font-size--h3">Your personal information</h2>
           <p>This is the personal information we have on file for you.</p>
           <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-margin-top--4 vads-u-margin-bottom--4">
             <div className="vads-u-padding-left--1">

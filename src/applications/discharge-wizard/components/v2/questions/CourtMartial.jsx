@@ -21,7 +21,7 @@ const CourtMartial = ({
   const shortName = SHORT_NAME_MAP.COURT_MARTIAL;
   const H1 = QUESTION_MAP[shortName];
   const courtMartial = formResponses[shortName];
-  const { COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3 } = RESPONSES;
+  const { COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE } = RESPONSES;
 
   useEffect(
     () => {
@@ -45,7 +45,7 @@ const CourtMartial = ({
       formResponses={formResponses}
       formValue={courtMartial}
       H1={H1}
-      responses={[COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3]}
+      responses={[COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

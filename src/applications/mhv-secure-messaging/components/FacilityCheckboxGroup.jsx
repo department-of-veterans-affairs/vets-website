@@ -37,10 +37,7 @@ const FacilityCheckboxGroup = props => {
       >
         <VaCheckbox
           data-testid="contact-list-select-all-teams"
-          label={`Select all ${
-            multipleFacilities ? facilityName : 'care'
-          } teams`}
-          message-aria-describedby={`Select all ${
+          label={`Select all ${triageTeams.length} ${
             multipleFacilities ? facilityName : 'care'
           } teams`}
           checked={selectAll}
@@ -54,7 +51,6 @@ const FacilityCheckboxGroup = props => {
                 data-testid="contact-list-select-team"
                 key={team.triageTeamId}
                 label={team.name}
-                message-aria-describedby={`Select ${team.name}`}
                 checked={team.preferredTeam}
                 onVaChange={() => updatePreferredTeam(team.triageTeamId, null)}
               />

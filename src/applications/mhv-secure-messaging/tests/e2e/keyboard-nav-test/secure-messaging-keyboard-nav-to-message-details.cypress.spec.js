@@ -30,12 +30,12 @@ describe('Navigate to Message Details ', () => {
       .and('have.focus');
 
     cy.realPress('Tab');
-    cy.get(Locators.BUTTONS.BUTTON_MOVE)
+    cy.get(Locators.BUTTONS.MOVE)
       .should(`contain`, `Move`)
       .and('have.focus');
 
     cy.realPress('Tab');
-    cy.get(Locators.BUTTONS.BUTTON_TRASH)
+    cy.get(Locators.BUTTONS.TRASH)
       .should(`contain`, `Trash`)
       .and('have.focus');
 

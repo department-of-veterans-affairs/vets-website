@@ -22,10 +22,10 @@ const FailureToExhaust = ({
   const H1 = QUESTION_MAP[shortName];
   const failureToExhaust = formResponses[shortName];
   const {
-    FAILURE_TO_EXHAUST_1A,
-    FAILURE_TO_EXHAUST_2A,
-    FAILURE_TO_EXHAUST_1B,
-    FAILURE_TO_EXHAUST_2B,
+    FAILURE_TO_EXHAUST_BCMR_YES,
+    FAILURE_TO_EXHAUST_BCMR_NO,
+    FAILURE_TO_EXHAUST_BCNR_YES,
+    FAILURE_TO_EXHAUST_BCNR_NO,
   } = RESPONSES;
   const hint =
     'Note: "Failure to exhaust other remedies" often means you applied to the wrong board.';
@@ -36,9 +36,15 @@ const FailureToExhaust = ({
       formResponses.SERVICE_BRANCH,
     )
   ) {
-    failureToExhaustOptions = [FAILURE_TO_EXHAUST_1B, FAILURE_TO_EXHAUST_2B];
+    failureToExhaustOptions = [
+      FAILURE_TO_EXHAUST_BCNR_YES,
+      FAILURE_TO_EXHAUST_BCNR_NO,
+    ];
   } else {
-    failureToExhaustOptions = [FAILURE_TO_EXHAUST_1A, FAILURE_TO_EXHAUST_2A];
+    failureToExhaustOptions = [
+      FAILURE_TO_EXHAUST_BCMR_YES,
+      FAILURE_TO_EXHAUST_BCMR_NO,
+    ];
   }
 
   useEffect(

@@ -21,7 +21,7 @@ const Intention = ({
   const shortName = SHORT_NAME_MAP.INTENTION;
   const H1 = QUESTION_MAP[shortName];
   const intention = formResponses[shortName];
-  const { INTENTION_1, INTENTION_2 } = RESPONSES;
+  const { INTENTION_YES, INTENTION_NO } = RESPONSES;
 
   useEffect(
     () => {
@@ -45,7 +45,7 @@ const Intention = ({
       formResponses={formResponses}
       formValue={intention}
       H1={H1}
-      responses={[INTENTION_1, INTENTION_2]}
+      responses={[INTENTION_YES, INTENTION_NO]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

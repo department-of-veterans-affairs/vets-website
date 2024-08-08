@@ -59,6 +59,13 @@ const SubTopicSelectPage = props => {
     [loggedIn],
   );
 
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
+  );
+
   // render loading indicator while we fetch
   if (loading) {
     return (

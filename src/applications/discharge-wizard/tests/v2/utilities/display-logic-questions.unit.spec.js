@@ -6,9 +6,9 @@ const {
   ARMY,
   NAVY,
   AIR_FORCE,
-  COURT_MARTIAL_1,
-  COURT_MARTIAL_2,
-  COURT_MARTIAL_3,
+  COURT_MARTIAL_YES,
+  COURT_MARTIAL_NO,
+  NOT_SURE,
 } = RESPONSES;
 
 describe('utils: display logic for questions', () => {
@@ -18,8 +18,8 @@ describe('utils: display logic for questions', () => {
     );
     expect(
       responseMatchesRequired(
-        [COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3],
-        COURT_MARTIAL_1,
+        [COURT_MARTIAL_YES, COURT_MARTIAL_NO, NOT_SURE],
+        COURT_MARTIAL_YES,
       ),
     ).to.be.true;
 

@@ -1,6 +1,8 @@
 import mockPilotMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 import mockFolders from '../fixtures/pilot-responses/folders-respose.json';
-import { Paths } from '../utils/constants';
+import { Paths, Locators } from '../utils/constants';
+import mockThread from '../fixtures/thread-response.json';
+import mockSingleThread from '../fixtures/pilot-responses/single-message-thread-response.json';
 
 class PilotEnvPage {
   loadInboxMessages = (
@@ -41,8 +43,75 @@ class PilotEnvPage {
     });
   };
 
+  loadSingleThread = (
+    mockMessages = mockPilotMessages,
+    testSingleThread = mockSingleThread,
+    sentDate = new Date(),
+    draftDate = mockThread.data[0].attributes.draftDate,
+  ) => {
+    this.singleThread = testSingleThread;
+    this.singleThread.data[0].attributes.sentDate = sentDate;
+    this.singleThread.data[0].attributes.draftDate = draftDate;
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        mockMessages.data[0].attributes.messageId
+      }/thread?full_body=true*`,
+      this.singleThread,
+    ).as('full-thread');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${
+        this.singleThread.data[0].attributes.messageId
+      }`,
+      { data: this.singleThread.data[0] },
+    ).as('fist-message-in-thread');
+
+    cy.contains(mockMessages.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+    cy.wait('@full-thread', { requestTimeout: 20000 });
+  };
+
+  verifyHeader = text => {
+    cy.get(Locators.HEADER).should('contain.text', text);
+  };
+
+  verifyMessageDetails = (date, index = 0) => {
+    cy.get(Locators.MSG_DATE).should(`contain`, date);
+    cy.get(Locators.FROM).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.senderName,
+    );
+    cy.get(Locators.TO).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.recipientName,
+    );
+    cy.get(Locators.MSG_ID).should(
+      `contain`,
+      mockSingleThread.data[index].attributes.messageId,
+    );
+  };
+
   verifyUrl = url => {
     cy.url().should('contain', url);
+  };
+
+  verifyButtons = () => {
+    cy.get(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .and(`contain`, `Reply`);
+    cy.get(Locators.BUTTONS.PRINT)
+      .should('be.visible')
+      .and(`contain`, `Print`);
+    cy.get(`#move-button`)
+      .should('be.visible')
+      .and(`contain`, `Move`);
+    cy.get(`#trash-button`)
+      .should('be.visible')
+      .and(`contain`, `Trash`);
   };
 
   verifyThreadLength = thread => {

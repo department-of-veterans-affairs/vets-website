@@ -1,11 +1,6 @@
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import { focusByOrder, scrollTo } from 'platform/utilities/ui';
-import {
-  SUBTITLE_0779,
-  CHILD_CONTENT_0779,
-  ADD_CHILD_CONTENT_0779,
-  DOWNLOAD_URL_0779,
-} from '../config/constants';
+import { SUBTITLE_0779, DOWNLOAD_URL_0779 } from '../config/constants';
 
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
@@ -15,8 +10,6 @@ export const getFormNumber = (pathname = null) => {
 
 const formMappings = {
   '21-0779': {
-    additionalChildContent: ADD_CHILD_CONTENT_0779,
-    childContent: CHILD_CONTENT_0779,
     subTitle: SUBTITLE_0779,
     pdfDownloadUrl: DOWNLOAD_URL_0779,
   },
@@ -24,19 +17,14 @@ const formMappings = {
 
 export const getFormContent = (pathname = null) => {
   const formNumber = getFormNumber(pathname);
-  const {
-    subTitle = '',
-    childContent = null,
-    additionalChildContent = null,
-    ombInfo = {},
-  } = formMappings[formNumber] || {};
+  const { subTitle = '', ombInfo = {}, pdfDownloadUrl = '' } =
+    formMappings[formNumber] || {};
 
   return {
-    additionalChildContent,
-    childContent,
     formNumber,
     ombInfo,
     subTitle,
+    pdfDownloadUrl,
     title: `Upload VA Form ${formNumber}`,
   };
 };

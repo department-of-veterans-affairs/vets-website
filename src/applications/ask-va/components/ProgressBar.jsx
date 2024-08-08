@@ -67,7 +67,6 @@ const ProgressBar = ({ pathname }) => {
 
   useEffect(
     () => {
-      document.activeElement.blur();
       focusElement('.ava-progress-bar > h2');
       setViewedPages([...viewedPages, currentPath]);
 
