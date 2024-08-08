@@ -5,6 +5,9 @@ import {
   fullNameUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import manifest from '../manifest.json';
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 
 const selectSchemas = ({ pageTitle, additionalFields }) => {
   const schemas = {
@@ -49,10 +52,27 @@ const formatChapters = chapters => {
 };
 
 export const createFormConfig = ({ chapters, formId, title }) => {
+  const subTitle = `VA Form ${formId}`;
+
   return {
+    rootUrl: `${manifest.rootUrl}/${formId}`,
+    urlPrefix: `/${formId}/`,
+    trackingPrefix: `${formId}-`,
+    // eslint-disable-next-line no-console
+    submit: () => console.log(`Submitted ${subTitle}`),
+    introduction: IntroductionPage,
+    confirmation: ConfirmationPage,
     formId,
+    saveInProgress: {},
+    version: 0,
+    prefillEnabled: true,
+    savedFormMessages: {
+      notFound: `${subTitle} NOT FOUND`,
+      noAuth: `Please sign in again to continue ${subTitle}.`,
+    },
     title,
-    subTitle: `VA Form ${formId}`,
+    defaultDefinitions: {},
+    subTitle,
     chapters: formatChapters(chapters),
   };
 };

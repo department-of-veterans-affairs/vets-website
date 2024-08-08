@@ -3,6 +3,7 @@
 import { expect } from 'chai';
 import { normalizedForm } from '../../../_config/formConfig';
 import { createFormConfig } from '../../../utils/formConfig';
+import manifest from '../../../manifest.json';
 
 describe('createFormConfig', () => {
   let formConfig;
@@ -12,6 +13,9 @@ describe('createFormConfig', () => {
   });
 
   it('returns a properly formatted Form Config object', () => {
+    expect(formConfig.rootUrl).to.eq(`${manifest.rootUrl}/2121212`);
+    expect(formConfig.urlPrefix).to.eq(`/2121212/`);
+    expect(formConfig.trackingPrefix).to.eq('2121212-');
     expect(formConfig.title).to.eq('Form with Two Steps');
     expect(formConfig.formId).to.eq('2121212');
     expect(formConfig.subTitle).to.eq('VA Form 2121212');
