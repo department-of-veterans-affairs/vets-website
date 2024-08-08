@@ -2,10 +2,14 @@
 const fs = require('fs');
 const core = require('@actions/core');
 
-console.log(process.env.CHANGED_FILE_PATHS.split(' '));
-const files = process.env.CHANGED_FILE_PATHS.split(' ')
-  .slice(1, -1) // remove unnecessary characters
-  .split(',')
+const changedFiles = process.env.CHANGED_FILE_PATHS
+  ? process.env.CHANGED_FILE_PATHS.split(' ')
+  : [];
+
+console.log(changedFiles);
+const files = changedFiles
+  // .slice(1, -1) // remove unnecessary characters
+  // .split(',')
   .filter(file => fs.existsSync(file)); // remove files that don't exist
 
 const filteredJSFiles = files.filter(file => /.+\.jsx?$/.test(file)).join(' ');
