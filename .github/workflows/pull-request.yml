@@ -257,6 +257,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
