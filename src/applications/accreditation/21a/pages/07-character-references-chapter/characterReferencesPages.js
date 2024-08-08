@@ -83,7 +83,7 @@ const addressPage = {
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'References lives on a United States military base outside of the U.S.',
+          'Reference lives on a United States military base outside of the U.S.',
       },
       omit: ['street3'],
     }),

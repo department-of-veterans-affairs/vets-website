@@ -4,7 +4,7 @@ const CharacterReferencesIntro = () => (
   <>
     <p>
       Over the next few pages, we will ask you to list at least three (no more
-      than four) individuals who are not immediately family members and who have
+      than four) individuals who are not immediate family members and who have
       personal knowledge of your character and qualifications to serve as an
       attorney or claims agent. For each character reference, you will need to
       provide the following information:
