@@ -32,7 +32,7 @@ export default function AuthApp({ location }) {
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
   ] = useState({
-    auth: location?.query?.auth || 'fail',
+    auth: location?.query?.auth,
     errorCode: location?.query?.code || '',
     loginType: location?.query?.type || 'Login type not found',
     requestId:
