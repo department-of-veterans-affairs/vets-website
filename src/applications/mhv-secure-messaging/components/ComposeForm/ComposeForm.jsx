@@ -248,7 +248,10 @@ const ComposeForm = props => {
               );
             }, 1000);
           })
-          .catch(() => setSendMessageFlag(false));
+          .catch(
+            () => setSendMessageFlag(false),
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }),
+          );
       }
     },
     [sendMessageFlag, isSaving],
