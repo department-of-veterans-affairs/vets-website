@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
+import {
+  CSP_IDS,
+  SERVICE_PROVIDERS,
+} from '~/platform/user/authentication/constants';
 
 const AlertNotVerified = ({ cspId, recordEvent }) => {
   const serviceLabel = SERVICE_PROVIDERS[cspId].label;
@@ -30,6 +33,7 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
 };
 
 AlertNotVerified.defaultProps = {
+  cspId: CSP_IDS.ID_ME,
   recordEvent: recordEventFn,
 };
 

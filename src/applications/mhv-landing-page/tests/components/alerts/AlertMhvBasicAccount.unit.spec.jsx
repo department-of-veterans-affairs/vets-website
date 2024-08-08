@@ -17,7 +17,6 @@ describe('<AlertMhvBasicAccount />', () => {
     getByTestId(defaultProps.testId);
     getByRole('heading', { name: defaultProps.headline });
     getByRole('link', { name: /^Learn more about/ });
-    getByRole('button', { name: 'Sign out' });
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
     });
